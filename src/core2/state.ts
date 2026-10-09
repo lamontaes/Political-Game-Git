@@ -9,7 +9,6 @@ import type {
   CoreInput,
   CoreModule,
   CoreState,
-  DecisionResult,
   KnownFact,
   LogRecord,
   PersonInput,
@@ -55,6 +54,8 @@ export function createCore(
     households: new Map(),
     jobs: new Map(),
     organizations: new Map(),
+    publicOrganizations: new Map(),
+    publicOrganizationsByPlace: new Map(),
     relationships: new Map(),
     familyLinks: new Map(),
     memberships: new Map(),
@@ -70,6 +71,9 @@ export function createCore(
     logByPlace: new Map(),
     latestPublicViews: new Map(),
     actCounters: new Map(),
+    actCountersByMonth: new Map(),
+    actsByMonthKind: new Map(),
+    organizedTopicsByPerson: new Map(),
     eventIds: new Set(),
     calendarDates: new Set(input.calendarDates),
     focusPersonIds: new Set(input.focusPersonIds),
@@ -112,6 +116,25 @@ export function createCore(
     admitNumber(row.wageDailyMinor, "job pay", p("zero"));
     admitNumber(row.hoursDaily, "job hours", p("zero"));
     core.jobs.set(row.id, { ...row });
+  }
+  for (const row of input.publicOrganizations ?? []) {
+    if (core.publicOrganizations.has(row.id))
+      throw new Error(`Duplicate public organization: ${row.id}`);
+    if (
+      row.staff?.some(
+        (staff) =>
+          !core.people.has(staff.personId) ||
+          core.jobs.get(staff.jobId)?.personId !== staff.personId,
+      )
+    )
+      throw new Error(`Public staff is not a recorded worker: ${row.id}`);
+    core.publicOrganizations.set(row.id, {
+      ...row,
+      facts: { ...row.facts },
+      affordances: [...(row.affordances ?? [])],
+      staff: [...(row.staff ?? [])],
+    });
+    index(core.publicOrganizationsByPlace, row.placeId, row.id);
   }
   for (const row of input.familyLinks ?? []) {
     if (
@@ -193,6 +216,7 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
     lastContactDate: core.date,
     alive: true,
     actCount: p("zero"),
+    actsByKind: new Map(),
     affect: {
       at: core.date,
       mood: p("moodBaseline"),
@@ -333,7 +357,11 @@ export function coreAPI(core: CoreState): CoreAPI {
       index(core.relationshipsByPerson, otherId, id);
     },
     join(personId, organizationId, driveId) {
-      if (!core.people.has(personId) || !core.organizations.has(organizationId))
+      if (
+        !core.people.has(personId) ||
+        (!core.organizations.has(organizationId) &&
+          !core.publicOrganizations.has(organizationId))
+      )
         throw new Error("Membership endpoint is absent.");
       const id = `${personId}:${organizationId}`;
       if (core.memberships.has(id)) return;
@@ -343,6 +371,7 @@ export function coreAPI(core: CoreState): CoreAPI {
         organizationId,
         joinedAt: core.date,
         sourceDriveId: driveId,
+        status: "requested",
       });
       index(core.membershipsByPerson, personId, id);
     },
@@ -357,7 +386,16 @@ export function coreAPI(core: CoreState): CoreAPI {
       actor.lastChoice = offer.definition.id;
       actor.lastReason = reason.reasonKey;
       actor.actCount += p("one");
+      actor.actsByKind.set(
+        offer.definition.id,
+        (actor.actsByKind.get(offer.definition.id) ?? p("zero")) + p("one"),
+      );
       const month = date.slice(p("zero"), p("isoMonthCharacters"));
+      const totalKey = `${month}:${offer.definition.id}`;
+      core.actsByMonthKind.set(
+        totalKey,
+        (core.actsByMonthKind.get(totalKey) ?? p("zero")) + p("one"),
+      );
       const key = `${month}:${actorId}:${offer.definition.id}`;
       let count = core.actCounters.get(key);
       if (!count)
@@ -377,6 +415,7 @@ export function coreAPI(core: CoreState): CoreAPI {
       count.needContribution += reason.selectedReasons?.need ?? p("zero");
       count.goalContribution += reason.selectedReasons?.goal ?? p("zero");
       count.driveContribution += reason.selectedReasons?.drive ?? p("zero");
+      index(core.actCountersByMonth, month, key);
       if (
         core.observer ||
         core.focusPersonIds.has(actorId) ||
@@ -417,6 +456,17 @@ export function coreAPI(core: CoreState): CoreAPI {
         if (affectDate < actor.affect.at || affectDate > core.date)
           throw new Error("Affect must advance within the current date.");
       }
+      if (
+        changes.lastActDate !== undefined &&
+        (makeIsoDate(changes.lastActDate) < actor.lastActDate ||
+          changes.lastActDate > core.date)
+      )
+        throw new Error("Last act date must advance within the current date.");
+      if (
+        changes.jobId !== undefined &&
+        core.jobs.get(changes.jobId)?.personId !== personId
+      )
+        throw new Error("A person can only hold their own recorded job.");
       if (changes.tier !== undefined && changes.tier !== actor.tier) {
         core.peopleByTier.get(actor.tier)!.delete(personId);
         index(core.peopleByTier, changes.tier, personId);
@@ -434,6 +484,100 @@ export function coreAPI(core: CoreState): CoreAPI {
         row.id,
       );
     },
+    lookupPublicOrganization(personId, organizationId) {
+      const row = core.publicOrganizations.get(organizationId);
+      const actor = core.people.get(personId);
+      if (!row || !actor)
+        throw new Error(
+          "Public lookup requires a recorded person and institution.",
+        );
+      api.observe(personId, {
+        key: `organization:${row.id}:public`,
+        value: row.name,
+        learnedAt: core.date,
+        sourceId: row.id,
+        access: "public",
+      });
+      for (const [key, value] of Object.entries(row.facts ?? {}))
+        api.observe(personId, {
+          key: `organization:${row.id}:${key}`,
+          value,
+          learnedAt: core.date,
+          sourceId: row.id,
+          access: "public",
+        });
+      for (const staff of row.staff ?? []) {
+        const person = core.people.get(staff.personId)!;
+        api.observe(personId, {
+          key: `person:${person.id}:public-role`,
+          value: staff.title,
+          learnedAt: core.date,
+          sourceId: staff.jobId,
+          access: "public",
+        });
+        api.observe(personId, {
+          key: `person:${person.id}:name`,
+          value: `${person.givenName} ${person.familyName}`,
+          learnedAt: core.date,
+          sourceId: staff.jobId,
+          access: "public",
+        });
+      }
+    },
+    updateNeeds(personId, values) {
+      const actor = core.people.get(personId);
+      if (!actor) throw new Error("Need actor is absent.");
+      for (const [id, value] of Object.entries(values))
+        if (
+          !core.data.needs.some((row) => row.id === id) ||
+          !Number.isFinite(value) ||
+          value < p("zero")
+        )
+          throw new Error(`Invalid current need: ${id}`);
+      Object.assign(actor.needs, values);
+    },
+    updateGoal(personId, goal) {
+      const actor = core.people.get(personId);
+      if (
+        !actor ||
+        !Number.isFinite(goal.urgency) ||
+        goal.urgency < p("zero") ||
+        (goal.sourceDriveId && !actor.drives.has(goal.sourceDriveId))
+      )
+        throw new Error("Invalid actor goal.");
+      actor.goals.set(goal.id, { ...goal });
+    },
+    updateDrive(personId, drive) {
+      const actor = core.people.get(personId);
+      if (
+        !actor ||
+        !Number.isFinite(drive.strength) ||
+        drive.strength < p("zero") ||
+        !core.eventIds.has(drive.sourceEventId) ||
+        !api.knows(personId, `event:${drive.sourceEventId}:experienced`)
+      )
+        throw new Error(
+          "Drive requires a learned source event and a finite strength.",
+        );
+      actor.drives.set(drive.id, { ...drive });
+    },
+    markOrganized(personId, topic) {
+      if (!core.people.has(personId)) throw new Error("Organizer is absent.");
+      index(core.organizedTopicsByPerson, personId, topic);
+    },
+    requestCallback(event) {
+      const date = makeIsoDate(event.date);
+      if (
+        date < core.date ||
+        event.personIds.some(
+          (id) => !core.people.has(id) && !core.husks.has(id),
+        )
+      )
+        throw new Error(
+          "Callback requires current or future time and recorded people.",
+        );
+      core.pendingCallbacks.set(event.id, { ...event });
+    },
   };
   return api;
 }
@@ -444,6 +588,12 @@ export function applyCoreEvent(core: CoreState, event: CoreEventInput): void {
       "Events enter on the current date; future inputs use the calendar queue.",
     );
   if (core.eventIds.has(event.id)) return;
+  if (
+    [event.moodImpulse, event.stressImpulse].some(
+      (value) => value !== undefined && !Number.isFinite(value),
+    )
+  )
+    throw new Error("Event appraisal inputs must be finite.");
   for (const id of [...event.personIds, ...(event.witnessIds ?? [])])
     if (!core.people.has(id) && !core.husks.has(id))
       throw new Error(`Event names an absent person: ${id}`);
@@ -452,6 +602,13 @@ export function applyCoreEvent(core: CoreState, event: CoreEventInput): void {
   const api = coreAPI(core);
   for (const id of new Set([...(event.witnessIds ?? []), ...event.personIds])) {
     if (!core.people.has(id)) continue;
+    api.observe(id, {
+      key: `event:${event.id}:experienced`,
+      value: event.id,
+      learnedAt: event.date,
+      sourceId: event.id,
+      access: "perceived",
+    });
     for (const [key, value] of Object.entries(event.facts ?? {}))
       api.observe(id, {
         key,
@@ -461,6 +618,11 @@ export function applyCoreEvent(core: CoreState, event: CoreEventInput): void {
         access: "perceived",
       });
   }
+  const learnedBy = [
+    ...new Set([...(event.witnessIds ?? []), ...event.personIds]),
+  ].filter((id) => core.people.has(id));
+  for (const module of core.modules.values())
+    module.onEvent?.(api, event, learnedBy);
 }
 
 export function inspectPerson(
@@ -571,7 +733,8 @@ export function assertCoreIntegrity(core: CoreState): void {
     fail(
       core.membershipsByPerson.get(row.personId)?.has(id) === true &&
         core.people.has(row.personId) &&
-        core.organizations.has(row.organizationId),
+        (core.organizations.has(row.organizationId) ||
+          core.publicOrganizations.has(row.organizationId)),
       `membership:${id}`,
     );
   for (const [id, row] of core.durableLog) {

@@ -1,4 +1,5 @@
 /** P8 prototype boundary. No game screen or old-core clock imports this API. */
+import type { Parameter } from "./parameters";
 export type PersonId = string;
 export type PlaceId = string;
 export type IsoDate = string;
@@ -27,6 +28,7 @@ export interface Drive {
   topic: string;
   desiredChange: string;
   strength: number;
+  kind?: string;
 }
 
 export interface Goal {
@@ -83,6 +85,7 @@ export interface PersonState extends Omit<
   lastContactDate: IsoDate;
   alive: boolean;
   actCount: number;
+  actsByKind: Map<string, number>;
 }
 
 export interface JobInput {
@@ -93,6 +96,7 @@ export interface JobInput {
   wageDailyMinor: number;
   hoursDaily: number;
   source: Source;
+  occupationClassification?: string;
 }
 
 export interface OrganizationInput {
@@ -103,6 +107,24 @@ export interface OrganizationInput {
   topic?: string;
   liquidMinor: number;
   source: Source;
+  classification?: string;
+  governmentFacts?: Readonly<Record<string, string>>;
+}
+
+export interface PublicOrganization {
+  id: string;
+  placeId: PlaceId;
+  name: string;
+  kind: string;
+  source: Source;
+  affordances?: readonly string[];
+  facts?: Readonly<Record<string, string>>;
+  staff?: readonly {
+    personId: PersonId;
+    jobId: string;
+    title: string;
+    source: Source;
+  }[];
 }
 
 export interface HouseholdInput {
@@ -131,6 +153,10 @@ export interface ActionDefinition {
   effectParameter: string;
   targetKind: string;
   effect: string;
+  emotion?: {
+    moodMultiplierParameter: string;
+    stressMultiplierParameter: string;
+  };
   stopgapId?: string;
   prerequisites?: readonly { operation: string; argument?: string }[];
 }
@@ -209,6 +235,7 @@ export interface CoreInput {
   households: readonly HouseholdInput[];
   jobs: readonly JobInput[];
   organizations: readonly OrganizationInput[];
+  publicOrganizations?: readonly PublicOrganization[];
   playerId?: PersonId;
   focusPersonIds: readonly PersonId[];
   focusPlaceIds: readonly PlaceId[];
@@ -250,6 +277,7 @@ export interface Membership {
   organizationId: string;
   joinedAt: IsoDate;
   sourceDriveId?: string;
+  status: "requested" | "confirmed";
 }
 
 export interface CoreState {
@@ -263,6 +291,8 @@ export interface CoreState {
   households: Map<string, HouseholdInput>;
   jobs: Map<string, JobInput>;
   organizations: Map<string, OrganizationInput>;
+  publicOrganizations: Map<string, PublicOrganization>;
+  publicOrganizationsByPlace: Map<PlaceId, Set<string>>;
   relationships: Map<string, Relationship>;
   familyLinks: Map<string, NonNullable<CoreInput["familyLinks"]>[number]>;
   memberships: Map<string, Membership>;
@@ -281,6 +311,9 @@ export interface CoreState {
     { personId: PersonId; topic: string; view: string; reasonKey: string }
   >;
   actCounters: Map<string, ActCounter>;
+  actCountersByMonth: Map<string, Set<string>>;
+  actsByMonthKind: Map<string, number>;
+  organizedTopicsByPerson: Map<PersonId, Set<string>>;
   eventIds: Set<string>;
   calendarDates: Set<IsoDate>;
   focusPersonIds: Set<PersonId>;
@@ -320,7 +353,7 @@ export interface TierDefinition {
 
 export interface CoreData {
   version: string;
-  parameters: Readonly<Record<string, import("./parameters").Parameter>>;
+  parameters: Readonly<Record<string, Parameter>>;
   needs: readonly NeedDefinition[];
   actions: readonly ActionDefinition[];
   tiers: readonly TierDefinition[];
@@ -339,6 +372,7 @@ export interface CoreData {
     requiredFields: readonly string[];
     goalKind: string;
     driveKind: string;
+    conditions?: readonly { field: string; operation: string }[];
     stopgapId?: string;
   }[];
   appraisalTraits: readonly {
@@ -351,6 +385,11 @@ export interface CoreData {
 
 export interface CoreModule {
   id: string;
+  onEvent?: (
+    api: CoreAPI,
+    event: CoreEventInput,
+    learnedBy: readonly PersonId[],
+  ) => void;
   needEvaluators?: Readonly<
     Record<
       string,
@@ -431,8 +470,18 @@ export interface CoreAPI {
         | "alive"
         | "jobId"
         | "tier"
+        | "lastActDate"
       >
     >,
   ): void;
   addOrganization(input: OrganizationInput): void;
+  lookupPublicOrganization(personId: PersonId, organizationId: string): void;
+  updateNeeds(
+    personId: PersonId,
+    values: Readonly<Record<string, number>>,
+  ): void;
+  updateGoal(personId: PersonId, goal: Goal): void;
+  updateDrive(personId: PersonId, drive: Drive): void;
+  markOrganized(personId: PersonId, topic: string): void;
+  requestCallback(event: CoreEventInput): void;
 }

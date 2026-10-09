@@ -72,7 +72,24 @@ export interface DeepPastData {
   }[];
 }
 
-export const DEFAULT_DEEP_PAST_DATA = contentJson as DeepPastData;
+export const DEFAULT_DEEP_PAST_DATA: DeepPastData = {
+  ...contentJson,
+  eras: contentJson.eras.map((era) => {
+    const source = era.source;
+    if (source.tag !== "SOURCED" && source.tag !== "ESTIMATED")
+      throw new Error(`Invalid deep-past source tag: ${era.id}`);
+    return {
+      ...era,
+      facts: Object.fromEntries(
+        Object.entries(era.facts).filter((entry): entry is [string, string] => {
+          const [, value] = entry;
+          return value !== undefined;
+        }),
+      ),
+      source: { ...source, tag: source.tag },
+    };
+  }),
+};
 
 export interface DeepPastOptions {
   data?: DeepPastData;
@@ -101,10 +118,24 @@ export function buildDeepPast(
   const cutoff = opening < boundary ? opening : boundary;
   const institutions =
     options.institutions ?? (institutionsJson as LocalInstitutionsCorpus);
-  const gaps = new Set(input.gaps);
-  const reports = [...((input as ReportedInput).priorFactsSource ?? [])];
-  const reportKeys = new Set(
-    reports.map((row) => `${row.personId}:${row.field}`),
+  const gapPrefix = `Deep past ${data.version} `;
+  const gaps = new Set(input.gaps.filter((gap) => !gap.startsWith(gapPrefix)));
+  const activePersonIds = new Set(input.people.map((person) => person.id));
+  const ownedFields = new Set([
+    "birth",
+    "era-context",
+    data.schools.field,
+    data.work.field,
+    ...data.preservedFields.map((field) => field.field),
+  ]);
+  const reports = ((input as ReportedInput).priorFactsSource ?? []).filter(
+    (row) =>
+      !activePersonIds.has(row.personId) ||
+      (!ownedFields.has(row.field) &&
+        !row.field.startsWith(`${data.schools.field}:`)),
+  );
+  const reportIndexes = new Map(
+    reports.map((row, index) => [`${row.personId}:${row.field}`, index]),
   );
   const unresolved = new Map<string, number>();
   const institutionCache = new Map<string, readonly LocalInstitutionRow[]>();
@@ -112,10 +143,11 @@ export function buildDeepPast(
 
   const report = (row: DeepPastFieldSource): void => {
     const key = `${row.personId}:${row.field}`;
-    if (!reportKeys.has(key)) {
+    const index = reportIndexes.get(key);
+    if (index === undefined) {
+      reportIndexes.set(key, reports.length);
       reports.push(row);
-      reportKeys.add(key);
-    }
+    } else reports[index] = row;
     if (row.status === "unresolved")
       unresolved.set(
         row.field,
@@ -138,11 +170,10 @@ export function buildDeepPast(
     const group = place?.sourceGeoid
       ? institutions.places[place.sourceGeoid]
       : undefined;
-    const direct =
-      (
-        group as unknown as
-          Readonly<Record<string, readonly LocalInstitutionRow[]>> | undefined
-      )?.[column] ?? [];
+    const placeColumns: Readonly<
+      Record<string, readonly LocalInstitutionRow[] | undefined>
+    > = { ...group };
+    const direct = placeColumns[column] ?? [];
     const countyGeoids = county?.sourceGeoid
       ? [county.sourceGeoid]
       : place?.sourceGeoid
@@ -152,11 +183,10 @@ export function buildDeepPast(
       direct.map((row) => [`${row.sourceKey}:${row.sourceId}`, row]),
     );
     for (const geoid of countyGeoids) {
-      const countyRows =
-        (
-          institutions.counties[geoid] as
-            Readonly<Record<string, readonly LocalInstitutionRow[]>> | undefined
-        )?.[column] ?? [];
+      const countyColumns: Readonly<
+        Record<string, readonly LocalInstitutionRow[] | undefined>
+      > = { ...institutions.counties[geoid] };
+      const countyRows = countyColumns[column] ?? [];
       for (const row of countyRows)
         rows.set(`${row.sourceKey}:${row.sourceId}`, row);
     }
@@ -237,9 +267,12 @@ export function buildDeepPast(
     const existingSchools = original.filter((fact) =>
       hasPrefix(fact.kind, data.schools.establishedKindPrefixes),
     );
+    const suppliedSchools = existingSchools.filter(
+      (fact) => !fact.id.startsWith(prefix),
+    );
     let schoolGap =
       "No schooling cohort begins before the historical boundary.";
-    if (!existingSchools.length) {
+    if (!suppliedSchools.length) {
       const stageIds = new Set<string>();
       const kgYear = kindergartenYear(birth);
       for (const stage of data.schools.stages) {
@@ -252,17 +285,29 @@ export function buildDeepPast(
         const year = kgYear + offset;
         const date = onCalendar(year, "starts");
         if (date < birth || date >= cutoff) continue;
-        const locationFacts = original.filter(
+        if (ids.has(`${prefix}school:${stage.id}`)) continue;
+        const priorLocationFacts = original.filter(
           (fact) =>
             fact.date <= date &&
             hasPrefix(fact.kind, data.schools.locationKindPrefixes),
         );
+        const locationFacts = priorLocationFacts.filter(
+          (fact) =>
+            !fact.facts?.endedAt || makeIsoDate(fact.facts.endedAt) > date,
+        );
+        if (priorLocationFacts.length && !locationFacts.length) {
+          schoolGap =
+            "Established residence ended before this school cohort; no later address inferred.";
+          record(`${data.schools.field}:${stage.id}`, [], schoolGap);
+          continue;
+        }
         const missingLocation = locationFacts.some(
           (fact) => !fact.facts?.placeId,
         );
         if (missingLocation) {
           schoolGap =
             "Established residence history lacks a location key; no competing school place inferred.";
+          record(`${data.schools.field}:${stage.id}`, [], schoolGap);
           continue;
         }
         const located = locationFacts
@@ -283,6 +328,7 @@ export function buildDeepPast(
         if (!located && !birthplace && laterMobility) {
           schoolGap =
             "Known mobility does not establish the earlier school location; no current town backdated.";
+          record(`${data.schools.field}:${stage.id}`, [], schoolGap);
           continue;
         }
         const placeId =
@@ -340,15 +386,18 @@ export function buildDeepPast(
         });
       }
     }
+    const schoolRecords = [
+      ...existingSchools,
+      ...added.filter((fact) => fact.kind === data.schools.kind),
+    ];
     record(
       data.schools.field,
-      [
-        ...existingSchools,
-        ...added.filter((fact) => fact.kind === data.schools.kind),
-      ],
-      existingSchools.length
+      schoolRecords,
+      suppliedSchools.length
         ? "Preserved supplied schooling; no extra attendance path imposed."
-        : schoolGap,
+        : schoolRecords.length
+          ? "Estimated dated school cohorts; campus identity, attendance, and earlier locality remain source-limited proxies."
+          : schoolGap,
     );
 
     const job = person.jobId ? jobById.get(person.jobId) : undefined;
@@ -364,8 +413,10 @@ export function buildDeepPast(
             (fact.facts?.jobId === job.id || fact.id.startsWith(`${job.id}:`)),
         )
       : [];
-    if (job && !existingTenure.length && starts.length) {
-      const start = starts.at(-p("one"))!;
+    const unambiguousStart =
+      new Set(starts.map((fact) => fact.date)).size === p("one");
+    if (job && !existingTenure.length && unambiguousStart) {
+      const start = starts[p("zero")]!;
       add({
         id: `${prefix}job:${job.id}`,
         date: start.date,
@@ -392,7 +443,9 @@ export function buildDeepPast(
         ...existingTenure,
         ...added.filter((fact) => fact.kind === data.work.kind),
       ],
-      "Only a supplied start of the opening job supports tenure; no median assigned to a missing personal job history.",
+      starts.length && !unambiguousStart && !existingTenure.length
+        ? "Supplied opening-job start dates conflict; no date selected or tenure inferred."
+        : "Only a supplied start of the opening job supports tenure; no median assigned to a missing personal job history.",
     );
 
     for (const field of data.preservedFields) {
@@ -421,6 +474,7 @@ export function buildDeepPast(
           cohortRelation: "alive-on-context-date",
           birthDateSource: person.source.citation,
           knowledge: "not-inferred",
+          stopgapId: marker.id,
         },
       });
     }
@@ -449,7 +503,7 @@ export function buildDeepPast(
 
   for (const [field, count] of unresolved)
     gaps.add(
-      `Deep past ${field}: ${count} people retain an unresolved personal-history field; consult priorFactsSource for the constraint.`,
+      `${gapPrefix}${field}: ${count} people retain an unresolved personal-history field; consult priorFactsSource for the constraint.`,
     );
   const result: CoreInput & {
     priorFactsSource: readonly DeepPastFieldSource[];

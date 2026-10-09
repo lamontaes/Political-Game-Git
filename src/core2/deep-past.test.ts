@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  lifePlaces,
-  lifePlaceStateIdentities,
-} from "../simulation/life-places";
+import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { SeededRng } from "../simulation/rng";
 import {
   buildDeepPast,
@@ -10,12 +7,13 @@ import {
   type DeepPastFieldSource,
 } from "./deep-past";
 import { parameter as p } from "./parameters";
+import { realLocalities } from "./places";
 import type { CoreInput, PersonInput, Source } from "./types";
 
 const seed = "p8-deep-past-source-cohorts";
 const state = new SeededRng(seed).pick(lifePlaceStateIdentities());
 const place = new SeededRng(`${seed}:place`).pick(
-  lifePlaces().filter(
+  realLocalities().filter(
     (row) =>
       row.scope === "locality" &&
       row.stateJurisdictionKey === state.jurisdictionKey,
@@ -346,5 +344,103 @@ describe(`deep past, ${place.displayName}, ${state.name}, seed ${seed}`, () => {
         (row) => row.field === DEFAULT_DEEP_PAST_DATA.schools.field,
       )!.status,
     ).toBe("unresolved");
+  });
+
+  it("keeps expired residence ranges and conflicting job starts as explicit gaps", () => {
+    const before = input();
+    const adult = before.people[p("zero")]!;
+    const residence: PastFact = {
+      id: "known:ended-residence",
+      date: "1982-01-01",
+      kind: "residence:home",
+      summary: "Dated residence range",
+      source,
+      facts: { placeId: adult.placeId, endedAt: "1990-01-01" },
+    };
+    const competingStart: PastFact = {
+      id: "job:fixture:competing-start",
+      date: "2019-04-01",
+      kind: "work:started",
+      summary: "Competing supplied opening-job start",
+      source,
+      facts: { jobId: adult.jobId! },
+    };
+    const constrained = {
+      ...adult,
+      pastFacts: [...adult.pastFacts!, residence, competingStart],
+    };
+    const after = buildDeepPast({ ...before, people: [constrained] });
+    const result = after.people[p("zero")]!;
+    expect(
+      result.pastFacts!.some(
+        (fact) => fact.kind === DEFAULT_DEEP_PAST_DATA.work.kind,
+      ),
+    ).toBe(false);
+    const schools = result.pastFacts!.filter(
+      (fact) => fact.kind === DEFAULT_DEEP_PAST_DATA.schools.kind,
+    );
+    expect(schools.length).toBe(p("one"));
+    expect(schools.every((fact) => fact.date < residence.facts!.endedAt!)).toBe(
+      true,
+    );
+    const reports = (after as Reported).priorFactsSource!;
+    expect(
+      reports.find((row) => row.field === DEFAULT_DEEP_PAST_DATA.work.field)!
+        .reason,
+    ).toMatch(/start dates conflict/);
+    expect(
+      reports.some(
+        (row) =>
+          row.field.startsWith(`${DEFAULT_DEEP_PAST_DATA.schools.field}:`) &&
+          row.status === "unresolved" &&
+          row.reason.includes("residence ended"),
+      ),
+    ).toBe(true);
+    expect(buildDeepPast(after)).toEqual(after);
+  });
+
+  it("refreshes provenance and aggregate gaps after a new supplied personal record", () => {
+    const first = buildDeepPast(input());
+    const child = first.people.find((row) => row.id === "person:school-age")!;
+    const affiliation: PastFact = {
+      id: "clicked:dated-affiliation",
+      date: "2018-02-01",
+      kind: "faith:affiliation",
+      summary: "Supplied dated affiliation",
+      source,
+    };
+    const amended = {
+      ...child,
+      pastFacts: [...child.pastFacts!, affiliation],
+    };
+    const second = buildDeepPast({
+      ...first,
+      people: first.people.map((row) => (row.id === child.id ? amended : row)),
+    });
+    const reports = (second as Reported).priorFactsSource!;
+    const affiliationReport = reports.find(
+      (row) => row.personId === child.id && row.field === "faith",
+    )!;
+    expect(affiliationReport.status).toBe("preserved");
+    expect(affiliationReport.factIds).toEqual([affiliation.id]);
+    expect(affiliationReport.source).toBe(source);
+    const faithGaps = second.gaps.filter((gap) =>
+      gap.startsWith(`Deep past ${DEFAULT_DEEP_PAST_DATA.version} faith:`),
+    );
+    expect(faithGaps.length).toBe(p("one"));
+    const unresolvedCount = reports.filter(
+      (row) => row.field === "faith" && row.status === "unresolved",
+    ).length;
+    expect(faithGaps[p("zero")]).toContain(`faith: ${unresolvedCount} people`);
+    expect(buildDeepPast(second)).toEqual(second);
+  });
+
+  it("adapts heterogeneous era facts without undefined values or weakened source tags", () => {
+    for (const era of DEFAULT_DEEP_PAST_DATA.eras) {
+      expect(era.source.tag).toBe("SOURCED");
+      expect(
+        Object.values(era.facts).every((value) => typeof value === "string"),
+      ).toBe(true);
+    }
   });
 });

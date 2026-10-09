@@ -6,7 +6,9 @@ export interface Parameter {
   tag: "SOURCED" | "ESTIMATED" | "TUNABLE";
   citation: string;
   estimatedFrom?: string;
-  spread?: { low: number; high: number; unit: string; citation: string };
+  spread?:
+    | { low: number; high: number; unit: string; citation: string }
+    | { status: "unmeasured"; reason: string };
   stopgapId?: string;
 }
 

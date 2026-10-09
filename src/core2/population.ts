@@ -1,4 +1,5 @@
 import coreContent from "./data/content.json" with { type: "json" };
+import { realLocalities } from "./places";
 import {
   characterHistoryContextPersonId,
   createCharacterHistoryContextPeople,
@@ -22,7 +23,6 @@ import { createStableId, stableHash } from "../simulation/ids";
 import {
   lifePlaceByKey,
   lifePlaceByJurisdictionId,
-  lifePlaces,
   stateJurisdictionForKey,
   type LifePlace,
 } from "../simulation/life-places";
@@ -172,7 +172,7 @@ function selectedPlace(
   }
   let selected: LifePlace | undefined;
   let selectedHash: string | undefined;
-  for (const place of lifePlaces()) {
+  for (const place of realLocalities()) {
     if (place.scope !== "locality" || !place.sourceGeoid) continue;
     if (
       (placeReferencePopulation(place.sourceGeoid)?.value ?? p("zero")) <
@@ -474,6 +474,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     `Generated opening cohort at ${startedAt}; ${mix.basis} household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster or an exact 2021 population. Opening money is a household SCF reserve or labelled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills.`,
   );
   stopgap("SG-P8-opening-vintage");
+  stopgap("SG-P8-historical-start");
   const gaps = new Set<string>([
     `Opening vintage: ${startedAt} household/population estimates retain later source vintages; no reconstructed 2021 census or migration history.`,
     "Deep past: schools, faith, losses, earlier residences and earlier jobs are absent unless the canonical opening generator establishes them; no event inferred from a trait.",
@@ -538,6 +539,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     createCharacterHistoryContextPeople(seedWorld, inputs),
     plans,
   );
+  stopgap("SG-P8-authored-job-mix");
   const world = writeWithWorldIntegrityOnce(peopleWorld, () =>
     ensureTownEmployment(peopleWorld, town, null),
   );
@@ -590,6 +592,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       personId: relationship.personId,
       organizationId: relationship.organizationId,
       title: role.title,
+      occupationClassification: role.occupationClassification ?? undefined,
       hoursDaily,
       wageDailyMinor: Math.round(hourlyMinor * hoursDaily),
       source: estimatedSource(
@@ -616,6 +619,20 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         placeId: profile.locationJurisdictionId ?? town,
         name: profile.name,
         kind: "employer",
+        classification: profile.classification,
+        governmentFacts: profile.publicGovernmentIdentity
+          ? {
+              governmentKind: profile.publicGovernmentIdentity.kind,
+              governmentJurisdictionId:
+                profile.publicGovernmentIdentity.jurisdictionId,
+              ...("governmentKey" in profile.publicGovernmentIdentity
+                ? {
+                    governmentKey:
+                      profile.publicGovernmentIdentity.governmentKey,
+                  }
+                : {}),
+            }
+          : undefined,
         liquidMinor: Math.round(
           (((payByOrganization.get(organization.id) ?? p("zero")) *
             p("daysPerMeanYear")) /
@@ -804,7 +821,9 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         source,
         facts: {
           ...(fact.jurisdictionId ? { placeId: fact.jurisdictionId } : {}),
-          ...(fact.endedAt ? { endedAt: fact.endedAt } : {}),
+          ...("endedAt" in fact && fact.endedAt
+            ? { endedAt: fact.endedAt }
+            : {}),
         },
       })),
       ...(familyPast.get(id) ?? []),

@@ -1,0 +1,11 @@
+{
+  "version": "p8-measurement-v1",
+  "startedAt": "2021-01-01",
+  "preRunThrough": "2026-01-01",
+  "seed": "p8-real-life-cost-2026-10-09",
+  "source": {
+    "tag": "SOURCED",
+    "asOf": "2026-10-09",
+    "citation": "Owner P8 acceptance: January 2021 opening, one real locality and county, one normal year, and January 2021 through 2026 pre-run."
+  }
+}

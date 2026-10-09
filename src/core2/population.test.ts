@@ -17,6 +17,7 @@ import { PERSONALITY_TRAIT_REGISTRY } from "../simulation/personality-trait-regi
 import { createWorld } from "../simulation/world";
 import { parameter as p } from "./parameters";
 import { buildPopulation, POPULATION_VERSION } from "./population";
+import { realLocalities } from "./places";
 import type { CoreInput } from "./types";
 
 const seed = "p8-household-source-parity";
@@ -256,13 +257,13 @@ describe("real-place one-time population import", () => {
 
   it("shares one data route across every listed state and territory without inventing a missing county", () => {
     const statesWithLocalities = new Set(
-      lifePlaces()
+      realLocalities()
         .filter((place) => place.scope === "locality")
         .map((place) => place.stateJurisdictionKey),
     );
     for (const state of lifePlaceStateIdentities())
       expect(statesWithLocalities).toContain(state.jurisdictionKey);
-    const missingGeography = lifePlaces().find(
+    const missingGeography = realLocalities().find(
       (place) =>
         place.scope === "locality" &&
         place.context.jurisdiction.kind === "territory-place",

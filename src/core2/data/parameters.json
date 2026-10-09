@@ -86,10 +86,13 @@
   },
   "workingDaysPerWeek": {
     "value": 5,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Five weekdays out of the civil seven-day week for ordinary full-time job offers; individual work calendars remain a reported gap.",
-    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
-    "stopgapId": "SG-P8-param-workingDaysPerWeek"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-workingDaysPerWeek",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "wageMedianPercentile": {
     "value": 50,
@@ -113,10 +116,13 @@
   },
   "marriageReferenceAge": {
     "value": 24,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Prototype summarized adult partnership timing from the existing generated-household age bands; never a claim about a real person's wedding date.",
-    "citation": "Existing game town-residents household adults; Census historical median first-marriage ages vary by sex and cohort.",
-    "stopgapId": "SG-P8-param-marriageReferenceAge"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-marriageReferenceAge",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "censusPlaceGeoidLength": {
     "value": 7,
@@ -155,10 +161,13 @@
   },
   "memoryMiBBudget": {
     "value": 1024,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "A provisional prototype-process budget of one GiB within the P7 default-heap limit; measured RSS and heap reported separately.",
-    "citation": "00s P7 DIET requires default-heap typecheck memory under four GB. P8 does not specify a numeric memory cap.",
-    "stopgapId": "SG-P8-param-memoryMiBBudget"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-memoryMiBBudget",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "traitScale": {
     "value": 3,
@@ -182,171 +191,243 @@
   },
   "careHours": {
     "value": 0.5,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Prototype half-hour bounded family-care offer; not the ATUS population-average duration.",
-    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
-    "stopgapId": "SG-P8-param-careHours"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-careHours",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   },
   "civicHours": {
     "value": 1,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "ATUS organization/civic activity is aggregated across nonparticipants; one hour is a prototype offer duration, not an observed population average.",
-    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
-    "stopgapId": "SG-P8-param-civicHours"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-civicHours",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   },
   "stressBaseline": {
     "value": 0.25,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Prototype opening baseline on a normalized stress channel. No claim of a US population norm.",
-    "citation": "Cohen et al. (1983), Perceived Stress Scale, doi:10.2307/2136404; empirical calibration remains a gap.",
-    "stopgapId": "SG-P8-param-stressBaseline"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-stressBaseline",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "moodBaseline": {
     "value": 0,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Neutral signed prototype affect channel before any recorded event. PANAS uses separate positive and negative channels, so this is an approximation.",
-    "citation": "Watson et al. (1988), PANAS, doi:10.1037/0022-3514.54.6.1063.",
-    "stopgapId": "SG-P8-param-moodBaseline"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-moodBaseline",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "moodHalfLifeDays": {
     "value": 2,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Smooth analytic decay spanning hours to days; prototype estimate pending empirical decay calibration.",
-    "citation": "Kuppens et al. (2010), Feelings change: accounting for individual differences in the temporal dynamics of affect, doi:10.1037/a0020962. Half-lives below are prototype estimates, not estimates reported by this study.",
-    "stopgapId": "SG-P8-param-moodHalfLifeDays"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-moodHalfLifeDays",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   },
   "stressHalfLifeDays": {
     "value": 7,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Persistent stress can outlast transient affect; prototype estimate pending empirical decay calibration.",
-    "citation": "Kuppens et al. (2010), Feelings change: accounting for individual differences in the temporal dynamics of affect, doi:10.1037/a0020962. Half-lives below are prototype estimates, not estimates reported by this study.",
-    "stopgapId": "SG-P8-param-stressHalfLifeDays"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-stressHalfLifeDays",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   },
   "needWeight": {
     "value": 1,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Equal normalized utility of a fully unsatisfied need; explicit prototype assumption, not an empirical coefficient.",
-    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
-    "stopgapId": "SG-P8-param-needWeight"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-needWeight",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   },
   "goalWeight": {
     "value": 1,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Equal normalized utility of an active goal; explicit prototype assumption awaiting documented P9 replay calibration.",
-    "citation": "00s PACKAGES, P8 CORE, owner decision October 9, 2026.",
-    "stopgapId": "SG-P8-param-goalWeight"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-goalWeight",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   },
   "driveWeight": {
     "value": 1,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Equal normalized utility of an event-born drive; explicit prototype assumption awaiting documented P9 replay calibration.",
-    "citation": "00s PACKAGES, P8 CORE, owner decision October 9, 2026.",
-    "stopgapId": "SG-P8-param-driveWeight"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-driveWeight",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   },
   "traitWeight": {
     "value": 0.2,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "One-fifth normalized trait contribution from the existing direction table; magnitude remains uncalibrated.",
-    "citation": "data/content/trait-act-pulls.json; existing toward/away directions only.",
-    "stopgapId": "SG-P8-param-traitWeight"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-traitWeight",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   },
   "emotionWeight": {
     "value": 0.2,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "One-fifth normalized affect contribution; causal magnitude remains uncalibrated.",
-    "citation": "Kuppens et al. (2010), Feelings change: accounting for individual differences in the temporal dynamics of affect, doi:10.1037/a0020962. Half-lives below are prototype estimates, not estimates reported by this study.",
-    "stopgapId": "SG-P8-param-emotionWeight"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-emotionWeight",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   },
   "effortWeight": {
     "value": 0.2,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "One-fifth normalized time cost; causal magnitude remains uncalibrated.",
-    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
-    "stopgapId": "SG-P8-param-effortWeight"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-effortWeight",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   },
   "restEffect": {
     "value": 0.25,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Prototype recovery amount per available rest act; not a clinical estimate.",
-    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
-    "stopgapId": "SG-P8-param-restEffect"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-restEffect",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   },
   "contactEffect": {
     "value": 0.2,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Prototype change in company need per successful contact; no empirical causal size claimed.",
-    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
-    "stopgapId": "SG-P8-param-contactEffect"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-contactEffect",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   },
   "careEffect": {
     "value": 0.15,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Prototype relief from a completed care task; does not cure illness.",
-    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
-    "stopgapId": "SG-P8-param-careEffect"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-careEffect",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   },
   "civicEffect": {
     "value": 0.2,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Prototype progress per completed civic act; records approach only and never assumes a policy win.",
-    "citation": "00s PACKAGES, P8 CORE, owner decision October 9, 2026.",
-    "stopgapId": "SG-P8-param-civicEffect"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-civicEffect",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   },
   "companyHorizonDays": {
     "value": 7,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Prototype contact gap normalization; ATUS measures daily contact activity, not this decay constant.",
-    "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm",
-    "stopgapId": "SG-P8-param-companyHorizonDays"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-companyHorizonDays",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "moneyBufferDays": {
     "value": 30,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "One billing-cycle reserve against recorded living expenses; explicit opening estimate, not invented earned cash.",
-    "citation": "Existing game town-finances and monthly rent/pay records.",
-    "stopgapId": "SG-P8-param-moneyBufferDays"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-moneyBufferDays",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "organizationReserveMonths": {
     "value": 6,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Prototype opening employer liquid reserve from recorded wages, not a measured balance sheet.",
-    "citation": "Existing game town-business-books opening funds; missing exact capital is an estimate.",
-    "stopgapId": "SG-P8-param-organizationReserveMonths"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-organizationReserveMonths",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "eventMoodImpulse": {
     "value": -0.5,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Prototype loss appraisal; raw event impact varies continuously with actor traits and relationship strength.",
-    "citation": "Kuppens et al. (2010), Feelings change: accounting for individual differences in the temporal dynamics of affect, doi:10.1037/a0020962. Half-lives below are prototype estimates, not estimates reported by this study.",
-    "stopgapId": "SG-P8-param-eventMoodImpulse"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-eventMoodImpulse",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "eventStressImpulse": {
     "value": 0.5,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Prototype loss appraisal; raw event impact varies continuously with actor traits and relationship strength.",
-    "citation": "Kuppens et al. (2010), Feelings change: accounting for individual differences in the temporal dynamics of affect, doi:10.1037/a0020962. Half-lives below are prototype estimates, not estimates reported by this study.",
-    "stopgapId": "SG-P8-param-eventStressImpulse"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-eventStressImpulse",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "appraisalRelationshipWeight": {
     "value": 1,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Relationship continuity carries the full normalized event appraisal; explicit prototype assumption.",
-    "citation": "Kuppens et al. (2010), Feelings change: accounting for individual differences in the temporal dynamics of affect, doi:10.1037/a0020962. Half-lives below are prototype estimates, not estimates reported by this study.",
-    "stopgapId": "SG-P8-param-appraisalRelationshipWeight"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-appraisalRelationshipWeight",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "appraisalDistressTraitWeight": {
     "value": 0.5,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Concern for distress changes event appraisal continuously; half-scale magnitude remains uncalibrated.",
-    "citation": "data/content/trait-act-pulls.json; concern-for-distress direction.",
-    "stopgapId": "SG-P8-param-appraisalDistressTraitWeight"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-appraisalDistressTraitWeight",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "appraisalBroodingTraitWeight": {
     "value": 0.5,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Brooding changes ongoing appraisal continuously; half-scale magnitude remains uncalibrated.",
-    "citation": "data/content/trait-act-pulls.json; facet-brooding direction.",
-    "stopgapId": "SG-P8-param-appraisalBroodingTraitWeight"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-appraisalBroodingTraitWeight",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "emotionDurationMinHours": {
     "value": 0.5,
@@ -360,17 +441,23 @@
   },
   "relationInitial": {
     "value": 0.5,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Generated household kinship starts with positive continuity, not a recorded personal feeling.",
-    "citation": "Existing town-residents generated household relationship context.",
-    "stopgapId": "SG-P8-param-relationInitial"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-relationInitial",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "relationContactGain": {
     "value": 0.05,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Prototype continuity reinforcement per successful reciprocal contact.",
-    "citation": "Existing game relationship interactions; no empirical causal magnitude claimed.",
-    "stopgapId": "SG-P8-param-relationContactGain"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-param-relationContactGain",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "routineRetentionDays": {
     "value": 7,
@@ -386,16 +473,62 @@
   },
   "deepPastMiddleSchoolOffsetYears": {
     "value": 6,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Common K\u20135 / grades 6\u20138 / grades 9\u201312 stages used by existing school-calendar.ts; not a measured historical attendance date.",
-    "citation": "Existing canonical school-calendar.ts kindergarten/cohort calendar.",
-    "stopgapId": "SG-P8-deep-past"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-deep-past",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
   },
   "deepPastHighSchoolOffsetYears": {
     "value": 9,
-    "tag": "ESTIMATED",
-    "estimatedFrom": "Common K\u20135 / grades 6\u20138 / grades 9\u201312 stages used by existing school-calendar.ts; not a measured historical attendance date.",
-    "citation": "Existing canonical school-calendar.ts kindergarten/cohort calendar.",
-    "stopgapId": "SG-P8-deep-past"
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-deep-past",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    }
+  },
+  "warmupRuns": {
+    "value": 1,
+    "tag": "SOURCED",
+    "citation": "One discarded warmup before measurements."
+  },
+  "warmRuns": {
+    "value": 3,
+    "tag": "SOURCED",
+    "citation": "Owner October 9 speed work: median of three warm runs."
+  },
+  "yearSpanDays": {
+    "value": 365,
+    "tag": "SOURCED",
+    "citation": "P8 one simulated civil year measured from January 2021; actual UTC date endpoint."
+  },
+  "benchmarkAdultMinimumAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "Benchmark adult-employee selection criterion, not a law or an actor decision."
+  },
+  "bytesPerKiB": {
+    "value": 1024,
+    "tag": "SOURCED",
+    "citation": "IEC binary unit definition."
+  },
+  "metricRetentionMonths": {
+    "value": 12,
+    "tag": "SOURCED",
+    "citation": "Owner result-only records ruling; per-person monthly receipts retain the current measured year, aggregate totals remain."
+  },
+  "lookupHours": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "stopgapId": "SG-P8-civic-progress",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    }
   }
 }

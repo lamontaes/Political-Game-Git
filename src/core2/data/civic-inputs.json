@@ -1,0 +1,177 @@
+{
+  "version": "p8-civic-inputs-v1",
+  "stopgapId": "SG-P8-civic-inputs",
+  "directoryCitation": "Official institution identity index, data/research/places/local-institutions.json; compiled by scripts/source/local-institutions.ts from locked NCES CCD and IPEDS records. NCES CCD: https://nces.ed.gov/ccd/ ; IPEDS: https://nces.ed.gov/ipeds/ . Directory identity does not establish public room access, staffing, authority, a calendar, or an approved meeting.",
+  "directoryScopes": [
+    { "scope": "locality", "store": "places" },
+    { "scope": "county", "store": "counties" }
+  ],
+  "directoryColumns": [
+    "highSchools",
+    "districts",
+    "colleges",
+    "hospitals",
+    "banks",
+    "largeEmployers"
+  ],
+  "directoryRules": [
+    {
+      "id": "school-administration",
+      "sourceKinds": ["school-district"],
+      "kind": "office",
+      "affordances": ["known-office"],
+      "facts": {
+        "contactPurpose": "school-administration-inquiry",
+        "authority": "not-imported"
+      }
+    },
+    {
+      "id": "school-meeting-inquiry",
+      "sourceKinds": ["high-school"],
+      "kind": "meeting-place",
+      "affordances": ["public-meeting-place"],
+      "facts": {
+        "contactPurpose": "request-meeting-space",
+        "meetingAccess": "permission-not-established",
+        "meetingRoom": "not-established",
+        "meetingSchedule": "not-established"
+      }
+    },
+    {
+      "id": "campus-meeting-inquiry",
+      "sourceKinds": ["college"],
+      "kind": "meeting-place",
+      "affordances": ["public-meeting-place"],
+      "facts": {
+        "contactPurpose": "request-meeting-space",
+        "meetingAccess": "permission-not-established",
+        "meetingRoom": "not-established",
+        "meetingSchedule": "not-established",
+        "institutionPublicControl": "not-imported"
+      }
+    },
+    {
+      "id": "health-institution-inquiry",
+      "sourceKinds": ["hospital"],
+      "kind": "institution",
+      "affordances": ["institution-inquiry"],
+      "facts": {
+        "contactPurpose": "institution-inquiry",
+        "authority": "not-imported"
+      }
+    },
+    {
+      "id": "bank-institution-inquiry",
+      "sourceKinds": ["bank"],
+      "kind": "institution",
+      "affordances": ["institution-inquiry"],
+      "facts": {
+        "contactPurpose": "institution-inquiry",
+        "authority": "not-imported"
+      }
+    }
+  ],
+  "organizationRules": [
+    {
+      "id": "recorded-government-office",
+      "classifications": ["sector:local-government-office"],
+      "classificationPrefixes": [],
+      "kind": "office",
+      "affordances": ["known-office"],
+      "requiredGovernmentFacts": ["governmentKind", "governmentJurisdictionId"],
+      "facts": {
+        "contactPurpose": "government-office-inquiry",
+        "authority": "not-imported",
+        "officialApproval": "not-established"
+      }
+    },
+    {
+      "id": "recorded-association",
+      "classifications": [
+        "community:congregation",
+        "community:organizing-nonprofit"
+      ],
+      "classificationPrefixes": ["membership:"],
+      "kind": "association",
+      "affordances": ["known-group", "public-meeting-place"],
+      "requiredGovernmentFacts": [],
+      "facts": {
+        "contactPurpose": "association-contact-and-meeting-request",
+        "membership": "not-established",
+        "membershipAdmission": "not-established",
+        "meetingAccess": "permission-not-established",
+        "meetingRoom": "not-established",
+        "meetingSchedule": "not-established"
+      }
+    },
+    {
+      "id": "recorded-public-service-office",
+      "classifications": [
+        "service:police",
+        "service:fire",
+        "service:public-health",
+        "sector:state-government-office",
+        "sector:federal-government-office"
+      ],
+      "classificationPrefixes": [],
+      "kind": "office",
+      "affordances": ["known-office"],
+      "requiredGovernmentFacts": [],
+      "facts": {
+        "contactPurpose": "recorded-service-office-inquiry",
+        "authority": "not-imported",
+        "officialApproval": "not-established",
+        "legalEmployerIdentity": "not-imported"
+      }
+    }
+  ],
+  "staffRules": [
+    {
+      "id": "recorded-public-clerk",
+      "targetKinds": ["office"],
+      "occupations": ["profession:municipal-clerk", "profession:county-clerk"],
+      "titles": [],
+      "source": "Existing generated employment role and assignment; clerk title is not legal authority, availability, public approval, or personal acquaintance."
+    },
+    {
+      "id": "recorded-deputy-clerk",
+      "targetKinds": ["office"],
+      "occupations": ["occupation:office-clerk"],
+      "titles": ["Deputy county clerk"],
+      "source": "Existing county-office assignment plus recorded deputy title; a generic office clerk at another workplace is not a public official."
+    },
+    {
+      "id": "recorded-postal-clerk",
+      "targetKinds": ["office"],
+      "occupations": ["occupation:postal-clerk"],
+      "titles": ["Postal clerk"],
+      "source": "Existing generated postal-office job assignment; contact role only, with no local filing powers, availability, approval, or personal acquaintance inferred."
+    },
+    {
+      "id": "recorded-association-contact",
+      "targetKinds": ["association"],
+      "occupations": [
+        "profession:clergy",
+        "profession:community-organizer",
+        "profession:union-representative",
+        "profession:political-organizer"
+      ],
+      "titles": [],
+      "source": "Existing generated association employment assignment; public contact candidate only, with no membership admission or personal acquaintance inferred."
+    }
+  ],
+  "requiredAffordances": [
+    {
+      "id": "known-office",
+      "gap": "No sourced office target is available in the supplied place context; no government office or employee invented."
+    },
+    {
+      "id": "known-group",
+      "gap": "No recorded association target is available in the supplied place context; no generic civic group invented."
+    },
+    {
+      "id": "public-meeting-place",
+      "gap": "No named meeting-space inquiry target is available in the supplied place context; no community center, room, booking, permission, or meeting invented."
+    }
+  ]
+}
