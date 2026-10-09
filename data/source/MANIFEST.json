@@ -739,6 +739,35 @@
     {
       "artifacts": [
         {
+          "artifactId": "cms-hospital-general-information",
+          "sha256": "f874f09fef895a1ccf5bb7392dcbb2be05c9860339261b093fe00f0c1b013480",
+          "sliceOfParent": null,
+          "storage": "committed"
+        },
+        {
+          "artifactId": "cms-provider-of-services-2026-q2",
+          "sha256": "bcfb9c680f02fdc05a4c82b90e434ad96bb52ea0a1f04eb424bb3dad5a9ffe3d",
+          "sliceOfParent": null,
+          "storage": "cached-not-committed"
+        }
+      ],
+      "asOf": "2026-07-22",
+      "boundedSampleReason": "Medicare-certified hospitals only. Hospitals that do not participate in Medicare, and the hospitals a Hospital General Information release leaves out, are not here.",
+      "canonicalSha256": "5f2320a8971d73084c8048b1dd12f50d59106346575ab00ddc7786b3ac84ef50",
+      "compiler": {
+        "name": "hospitals",
+        "version": "1.0.0"
+      },
+      "corpusFileSha256": "5f2320a8971d73084c8048b1dd12f50d59106346575ab00ddc7786b3ac84ef50",
+      "corpusId": "hospitals",
+      "domain": "hospitals",
+      "isCompleteUniverse": false,
+      "recordCount": 5419,
+      "universeDescription": "Every hospital in the CMS Hospital General Information file, joined by CMS certification number to the Provider of Services file for certified beds and county FIPS."
+    },
+    {
+      "artifacts": [
+        {
           "artifactId": "hud-fy2025-fair-market-rents-xlsx",
           "sha256": "21217df7d8c5c2bd6633fe8d3deb460d7114712ac809fe1644235980240f2ab5",
           "sliceOfParent": null,

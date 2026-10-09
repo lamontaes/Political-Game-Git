@@ -1,0 +1,30 @@
+{
+  "asOf": "2026-07-22",
+  "canonicalSha256": "5f2320a8971d73084c8048b1dd12f50d59106346575ab00ddc7786b3ac84ef50",
+  "compiler": {
+    "name": "hospitals",
+    "version": "1.0.0"
+  },
+  "corpusId": "hospitals",
+  "coverage": {
+    "boundedSampleReason": "Medicare-certified hospitals only. Hospitals that do not participate in Medicare, and the hospitals a Hospital General Information release leaves out, are not here.",
+    "isCompleteUniverse": false,
+    "universeDescription": "Every hospital in the CMS Hospital General Information file, joined by CMS certification number to the Provider of Services file for certified beds and county FIPS."
+  },
+  "inputClass": "production",
+  "inputs": [
+    {
+      "artifactId": "cms-hospital-general-information",
+      "sha256": "f874f09fef895a1ccf5bb7392dcbb2be05c9860339261b093fe00f0c1b013480"
+    },
+    {
+      "artifactId": "cms-provider-of-services-2026-q2",
+      "sha256": "bcfb9c680f02fdc05a4c82b90e434ad96bb52ea0a1f04eb424bb3dad5a9ffe3d"
+    }
+  ],
+  "parser": {
+    "name": "cms-hospital-general-information-pos-join",
+    "version": "1.0.0"
+  },
+  "recordCount": 5419
+}

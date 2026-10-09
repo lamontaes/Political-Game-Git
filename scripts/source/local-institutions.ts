@@ -12,6 +12,10 @@ import { Readable } from "node:stream";
 import { createInflateRaw } from "node:zlib";
 import { resolve } from "node:path";
 import { NATIONAL_PLACES_ROWS } from "../../src/simulation/national-places.generated";
+import {
+  countyGeoidsForPlace,
+  knownCountyGeoids,
+} from "../../src/simulation/government-units";
 import { TERRITORY_PLACE_ROWS } from "../../src/simulation/territory-places";
 import { readShapefileArchive } from "../maps/shapefile";
 import {
@@ -23,6 +27,8 @@ import {
 } from "../../src/source/core/index";
 import type { ArtifactLock } from "../../src/source/core/index";
 import type {
+  HospitalRow,
+  HospitalTuple,
   InstitutionMatchMethod,
   LocalInstitutionRow,
   LocalInstitutionSet,
@@ -31,7 +37,16 @@ import type {
   SchoolTuple,
   StateInstitutionsFile,
 } from "../../src/simulation/local-institutions-data";
-import { SCHOOL_COLUMNS } from "../../src/simulation/local-institutions-data";
+import {
+  HOSPITAL_COLUMNS,
+  SCHOOL_COLUMNS,
+} from "../../src/simulation/local-institutions-data";
+import type { HospitalRecord } from "../../src/source/domains/hospitals/types";
+import {
+  HOSPITALS_AS_OF,
+  HOSPITAL_GENERAL_ARTIFACT,
+  HOSPITAL_POS_ARTIFACT,
+} from "../../src/source/domains/hospitals/acquisition";
 import {
   CCD_MEMBERSHIP_ARTIFACT,
   CCD_PRIOR_DIRECTORY_ARTIFACT,
@@ -380,6 +395,27 @@ const OPERATING_STATUSES: ReadonlySet<string> = new Set([
 type SchoolMatchMethod = InstitutionMatchMethod;
 
 /** One school as the CCD directory publishes it. */
+/**
+ * Lets a name match be checked against the record's own county: a place whose
+ * counties leave out the record's county is not where the record is.
+ */
+export interface CountyConsistency {
+  readonly countiesOfPlace: (placeGeoid: string) => readonly string[];
+  /** Only a county the place crosswalk knows can contradict a place. */
+  readonly isKnownCounty: (countyGeoid: string) => boolean;
+}
+
+const contradicts = (
+  consistency: CountyConsistency | undefined,
+  placeGeoid: string,
+  countyGeoid: string | null | undefined,
+): boolean => {
+  if (!consistency || !countyGeoid || !consistency.isKnownCounty(countyGeoid))
+    return false;
+  const counties = consistency.countiesOfPlace(placeGeoid);
+  return counties.length > 0 && !counties.includes(countyGeoid);
+};
+
 export interface PublicSchoolInput {
   readonly id: string;
   readonly name: string;
@@ -431,6 +467,8 @@ export interface PublicSchoolCompilation {
   readonly cityNameDisagreements: number;
   /** EDGE rows whose county lies in another state than the school's own. */
   readonly ignoredGeocodes: number;
+  /** Name matches set aside because the place lies in another county than the school. */
+  readonly countyContradictions: number;
 }
 
 /** Is the point inside the rings (even-odd, so holes and islands work)? */
@@ -539,6 +577,7 @@ export function compilePublicSchools(input: {
   readonly schools: readonly PublicSchoolInput[];
   readonly geocodes: ReadonlyMap<string, SchoolGeocode>;
   readonly membership: ReadonlyMap<string, number>;
+  readonly consistency?: CountyConsistency;
 }): PublicSchoolCompilation {
   const stateByFips = fipsPrefixStates(input.places, input.geocodes);
   const byName = new Map<string, LocalInstitutionPlaceInput[]>();
@@ -567,6 +606,7 @@ export function compilePublicSchools(input: {
   };
   let cityNameDisagreements = 0;
   let ignoredGeocodes = 0;
+  let countyContradictions = 0;
 
   interface Pending {
     readonly school: PublicSchoolInput;
@@ -625,6 +665,14 @@ export function compilePublicSchools(input: {
           matches = zipMatches;
           byZip = true;
         }
+      }
+      if (
+        matches.length === 1 &&
+        contradicts(input.consistency, matches[0]!.geoid, geocode?.countyGeoid)
+      ) {
+        // The name names a place in another county than the school's own.
+        countyContradictions += 1;
+        matches = [];
       }
       if (matches.length === 1) {
         geoid = matches[0]!.geoid;
@@ -711,6 +759,7 @@ export function compilePublicSchools(input: {
     matchMethods,
     cityNameDisagreements,
     ignoredGeocodes,
+    countyContradictions,
   };
 }
 
@@ -860,6 +909,196 @@ export function readPlaceShapes(): PlaceShape[] {
   );
 }
 
+/* ------------------------------------------------------------------ */
+/* Hospitals (CMS Hospital General Information + Provider of Services)  */
+/* ------------------------------------------------------------------ */
+
+/** One hospital as CMS publishes it, with its certified beds when the POS file has it. */
+export interface HospitalInput {
+  readonly ccn: string;
+  readonly name: string;
+  readonly city: string;
+  readonly state: string;
+  readonly zip: string;
+  readonly hospitalType: string;
+  /** Five-digit county GEOID from the POS file's FIPS codes, when it lists the hospital. */
+  readonly countyGeoid: string | null;
+  readonly beds: number | null;
+  /** A Census place GEOID, when the source carries one. */
+  readonly placeGeoid?: string;
+}
+
+export interface HospitalCompilation {
+  readonly places: Record<string, HospitalRow[]>;
+  readonly counties: Record<string, HospitalRow[]>;
+  readonly perState: Record<
+    string,
+    { readonly source: number; readonly kept: number }
+  >;
+  readonly dropped: Record<string, number>;
+  readonly matchMethods: Record<InstitutionMatchMethod, number>;
+  /** Name matches set aside because the place lies in another county than the hospital. */
+  readonly countyContradictions: number;
+}
+
+/**
+ * Match every CMS hospital to a place (city name within the state, ties broken
+ * by ZIP), falling back to the county the POS file gives it. Beds come from the
+ * POS file; a hospital it does not list gets the median of its state and type,
+ * marked estimated.
+ */
+export function compileHospitals(input: {
+  readonly places: readonly LocalInstitutionPlaceInput[];
+  readonly hospitals: readonly HospitalInput[];
+  readonly asOf: string;
+  readonly consistency?: CountyConsistency;
+}): HospitalCompilation {
+  const byName = new Map<string, LocalInstitutionPlaceInput[]>();
+  const placeIds = new Set<string>();
+  for (const place of input.places) {
+    placeIds.add(place.geoid);
+    const key = `${place.state}:${normalizeLocalName(place.name)}`;
+    const rows = byName.get(key) ?? [];
+    rows.push(place);
+    byName.set(key, rows);
+  }
+  const bedsByStateType = new Map<string, number[]>();
+  const bedsByType = new Map<string, number[]>();
+  for (const hospital of input.hospitals) {
+    if (hospital.beds === null) continue;
+    for (const [map, key] of [
+      [bedsByStateType, `${hospital.state}:${hospital.hospitalType}`],
+      [bedsByType, hospital.hospitalType],
+    ] as const) {
+      const list = map.get(key) ?? [];
+      list.push(hospital.beds);
+      map.set(key, list);
+    }
+  }
+
+  const places: Record<string, HospitalRow[]> = {};
+  const counties: Record<string, HospitalRow[]> = {};
+  let countyContradictions = 0;
+  const perState: Record<string, { source: number; kept: number }> = {};
+  const dropped: Record<string, number> = {};
+  const matchMethods: Record<InstitutionMatchMethod, number> = {
+    "place-code": 0,
+    "city-name": 0,
+    zip: 0,
+    "point-in-boundary": 0,
+    county: 0,
+  };
+  const ordered = [...input.hospitals].sort((a, b) =>
+    a.ccn.localeCompare(b.ccn),
+  );
+  for (const hospital of ordered) {
+    const tally = (perState[hospital.state] ??= { source: 0, kept: 0 });
+    tally.source += 1;
+    let geoid: string | null = null;
+    let method: InstitutionMatchMethod | null = null;
+    if (hospital.placeGeoid && placeIds.has(hospital.placeGeoid)) {
+      geoid = hospital.placeGeoid;
+      method = "place-code";
+    } else {
+      let matches =
+        byName.get(`${hospital.state}:${normalizeLocalName(hospital.city)}`) ??
+        [];
+      let byZip = false;
+      if (matches.length > 1) {
+        const zipMatches = matches.filter((place) =>
+          hospital.zip ? place.zipCodes?.includes(hospital.zip) : false,
+        );
+        if (zipMatches.length === 1) {
+          matches = zipMatches;
+          byZip = true;
+        }
+      }
+      if (
+        matches.length === 1 &&
+        contradicts(input.consistency, matches[0]!.geoid, hospital.countyGeoid)
+      ) {
+        countyContradictions += 1;
+        matches = [];
+      }
+      if (matches.length === 1) {
+        geoid = matches[0]!.geoid;
+        method = byZip ? "zip" : "city-name";
+      }
+    }
+    const geoidKind: "place" | "county" = geoid ? "place" : "county";
+    if (!geoid) {
+      if (hospital.countyGeoid && /^\d{5}$/.test(hospital.countyGeoid)) {
+        geoid = hospital.countyGeoid;
+        method = "county";
+      } else {
+        dropped["no place, no county"] =
+          (dropped["no place, no county"] ?? 0) + 1;
+        continue;
+      }
+    }
+    const pool =
+      bedsByStateType.get(`${hospital.state}:${hospital.hospitalType}`) ??
+      bedsByType.get(hospital.hospitalType) ??
+      [];
+    const row: HospitalRow = {
+      sourceKey: "CMS-HOSPITAL",
+      sourceId: hospital.ccn,
+      name: hospital.name,
+      kind: "hospital",
+      geoid,
+      geoidKind,
+      matchMethod: method!,
+      hospitalType: hospital.hospitalType,
+      beds: hospital.beds ?? (pool.length > 0 ? median(pool) : 0),
+      bedsBasis: hospital.beds === null ? "estimated" : "reported",
+      asOf: input.asOf,
+    };
+    const target = geoidKind === "place" ? places : counties;
+    (target[geoid] ??= []).push(row);
+    matchMethods[method!] += 1;
+    tally.kept += 1;
+  }
+  return {
+    places,
+    counties,
+    perState,
+    dropped,
+    matchMethods,
+    countyContradictions,
+  };
+}
+
+/** The compiled hospitals corpus, with a county GEOID for rows the POS file lacks. */
+export function readHospitalInputs(): HospitalInput[] {
+  const records = JSON.parse(
+    readFileSync(resolve(ROOT, "data/source/hospitals/corpus.json"), "utf8"),
+  ) as HospitalRecord[];
+  const counties = JSON.parse(
+    readFileSync(resolve(ROOT, "data/source/counties/corpus.json"), "utf8"),
+  ) as { geoid: string; displayName: string; stateUsps: string }[];
+  const countyByName = new Map<string, string[]>();
+  for (const county of counties) {
+    const key = `${county.stateUsps}:${normalizeLocalName(county.displayName)}`;
+    countyByName.set(key, [...(countyByName.get(key) ?? []), county.geoid]);
+  }
+  return records.map((record) => {
+    const named = countyByName.get(
+      `${record.state}:${normalizeLocalName(record.countyName)}`,
+    );
+    return {
+      ccn: record.ccn,
+      name: record.name,
+      city: record.city,
+      state: record.state,
+      zip: record.zip,
+      hospitalType: record.hospitalType,
+      countyGeoid:
+        record.countyGeoid ?? (named?.length === 1 ? named[0]! : null),
+      beds: record.certifiedBeds,
+    };
+  });
+}
+
 /** Split one CSV line, honoring quotes; the membership file has quoted names. */
 function splitCsvLine(line: string): string[] {
   const fields: string[] = [];
@@ -943,9 +1182,15 @@ export interface StateInstitutionFiles {
   readonly files: ReadonlyMap<string, string>;
   readonly report: {
     readonly schools: Omit<PublicSchoolCompilation, "places" | "counties">;
+    readonly hospitals: Omit<HospitalCompilation, "places" | "counties">;
     readonly statesWithNoSchools: readonly string[];
+    readonly statesWithNoHospitals: readonly string[];
     readonly priorDirectoryStates: readonly string[];
-    readonly inputs: readonly { artifactId: string; sha256: string }[];
+    readonly inputs: readonly {
+      domain: string;
+      artifactId: string;
+      sha256: string;
+    }[];
   };
 }
 
@@ -1010,9 +1255,19 @@ const schoolTuple = (row: PublicSchoolRow, asOfs: string[]): SchoolTuple => {
   ];
 };
 
+const hospitalTuple = (row: HospitalRow): HospitalTuple => [
+  row.sourceId,
+  row.name,
+  row.hospitalType,
+  row.matchMethod,
+  row.beds,
+  row.bedsBasis,
+];
+
 export function buildStateFiles(input: {
   readonly places: readonly LocalInstitutionPlaceInput[];
   readonly schools: PublicSchoolCompilation;
+  readonly hospitals: HospitalCompilation;
   readonly geocodes: ReadonlyMap<string, SchoolGeocode>;
 }): Map<string, StateInstitutionsFile> {
   const stateOf = stateLookup(input.places, input.geocodes);
@@ -1020,25 +1275,50 @@ export function buildStateFiles(input: {
     string,
     {
       asOfs: string[];
-      places: Record<string, SchoolTuple[]>;
-      counties: Record<string, SchoolTuple[]>;
+      schools: {
+        places: Record<string, SchoolTuple[]>;
+        counties: Record<string, SchoolTuple[]>;
+      };
+      hospitals: {
+        places: Record<string, HospitalTuple[]>;
+        counties: Record<string, HospitalTuple[]>;
+      };
     }
   >();
+  const stateFor = (geoid: string) => {
+    const usps = stateOf(geoid);
+    if (!usps) throw new Error(`No state for bucket ${geoid}.`);
+    let state = states.get(usps);
+    if (!state) {
+      state = {
+        asOfs: [AS_OF],
+        schools: { places: {}, counties: {} },
+        hospitals: { places: {}, counties: {} },
+      };
+      states.set(usps, state);
+    }
+    return { usps, state };
+  };
   for (const [bucket, key] of [
     [input.schools.places, "places"],
     [input.schools.counties, "counties"],
   ] as const) {
     for (const geoid of Object.keys(bucket).sort()) {
-      const usps = stateOf(geoid);
-      if (!usps) throw new Error(`No state for school bucket ${geoid}.`);
-      let state = states.get(usps);
-      if (!state) {
-        state = { asOfs: [AS_OF], places: {}, counties: {} };
-        states.set(usps, state);
-      }
-      state[key][geoid] = bucket[geoid]!.slice()
+      const { state } = stateFor(geoid);
+      state.schools[key][geoid] = bucket[geoid]!.slice()
         .sort((a, b) => a.sourceId.localeCompare(b.sourceId))
         .map((row) => schoolTuple(row, state.asOfs));
+    }
+  }
+  for (const [bucket, key] of [
+    [input.hospitals.places, "places"],
+    [input.hospitals.counties, "counties"],
+  ] as const) {
+    for (const geoid of Object.keys(bucket).sort()) {
+      const { state } = stateFor(geoid);
+      state.hospitals[key][geoid] = bucket[geoid]!.slice()
+        .sort((a, b) => a.sourceId.localeCompare(b.sourceId))
+        .map(hospitalTuple);
     }
   }
   const files = new Map<string, StateInstitutionsFile>();
@@ -1050,8 +1330,13 @@ export function buildStateFiles(input: {
         enrollmentYear: MEMBERSHIP_YEAR,
         asOfs: state.asOfs,
         columns: SCHOOL_COLUMNS,
-        places: state.places,
-        counties: state.counties,
+        ...state.schools,
+      },
+      hospitals: {
+        source: "CMS-HOSPITAL",
+        asOf: HOSPITALS_AS_OF,
+        columns: HOSPITAL_COLUMNS,
+        ...state.hospitals,
       },
     });
   }
@@ -1073,48 +1358,76 @@ export async function renderStateInstitutions(): Promise<StateInstitutionFiles> 
     })),
   ];
   const geocodes = readEdgeGeocodes();
+  const knownCounties = knownCountyGeoids();
   const directory = readCcdPublicSchools(geocodes);
+  const consistency: CountyConsistency = {
+    countiesOfPlace: countyGeoidsForPlace,
+    isKnownCounty: (geoid) => knownCounties.has(geoid),
+  };
   const schools = compilePublicSchools({
+    consistency,
     places,
     shapes: readPlaceShapes(),
     schools: directory.schools,
     geocodes,
     membership: await readMembershipTotals(),
   });
-  const built = buildStateFiles({ places, schools, geocodes });
+  const hospitals = compileHospitals({
+    consistency,
+    places,
+    hospitals: readHospitalInputs(),
+    asOf: HOSPITALS_AS_OF,
+  });
+  const built = buildStateFiles({ places, schools, hospitals, geocodes });
   const files = new Map<string, string>();
   for (const [usps, file] of [...built].sort(([a], [b]) => a.localeCompare(b)))
     files.set(usps, `${JSON.stringify(file)}\n`);
-  const lock = JSON.parse(
-    readFileSync(
-      resolve(ROOT, "data/source/education/artifact-lock.json"),
-      "utf8",
-    ),
-  ) as ArtifactLock;
-  const wanted = [
-    CCD_ID,
-    CCD_PRIOR_DIRECTORY_ARTIFACT,
-    EDGE_GEOCODE_ARTIFACT,
-    PLACE_BOUNDARY_ARTIFACT,
-    CCD_MEMBERSHIP_ARTIFACT,
-  ];
-  const inputs = wanted.map((artifactId) => ({
+  const lockOf = (domain: string) =>
+    JSON.parse(
+      readFileSync(
+        resolve(ROOT, `data/source/${domain}/artifact-lock.json`),
+        "utf8",
+      ),
+    ) as ArtifactLock;
+  const inputs = [
+    ...[
+      CCD_ID,
+      CCD_PRIOR_DIRECTORY_ARTIFACT,
+      EDGE_GEOCODE_ARTIFACT,
+      PLACE_BOUNDARY_ARTIFACT,
+      CCD_MEMBERSHIP_ARTIFACT,
+    ].map((artifactId) => ({ domain: "education", artifactId })),
+    ...[HOSPITAL_GENERAL_ARTIFACT, HOSPITAL_POS_ARTIFACT].map((artifactId) => ({
+      domain: "hospitals",
+      artifactId,
+    })),
+  ].map(({ domain, artifactId }) => ({
+    domain,
     artifactId,
-    sha256: lock.artifacts.find((a) => a.artifactId === artifactId)!.bytes
-      .sha256,
+    sha256: lockOf(domain).artifacts.find((a) => a.artifactId === artifactId)!
+      .bytes.sha256,
   }));
-  const { places: _places, counties: _counties, ...schoolReport } = schools;
-  void _places;
-  void _counties;
-  const withSchools = new Set(files.keys());
+  const { places: _sp, counties: _sc, ...schoolReport } = schools;
+  const { places: _hp, counties: _hc, ...hospitalReport } = hospitals;
+  void [_sp, _sc, _hp, _hc];
   const allStates = new Set(places.map((place) => place.state));
+  const missing = (kind: "schools" | "hospitals") =>
+    [...allStates]
+      .filter(
+        (state) =>
+          !built.has(state) ||
+          Object.keys(built.get(state)![kind].places).length +
+            Object.keys(built.get(state)![kind].counties).length ===
+            0,
+      )
+      .sort();
   return {
     files,
     report: {
       schools: schoolReport,
-      statesWithNoSchools: [...allStates]
-        .filter((state) => !withSchools.has(state))
-        .sort(),
+      hospitals: hospitalReport,
+      statesWithNoSchools: missing("schools"),
+      statesWithNoHospitals: missing("hospitals"),
       priorDirectoryStates: directory.priorDirectoryStates,
       inputs,
     },
@@ -1136,7 +1449,7 @@ function writeStateFiles(result: StateInstitutionFiles): void {
   }
   writeFileSync(
     STATE_MANIFEST,
-    `${JSON.stringify({ asOf: AS_OF, inputs: result.report.inputs, report: result.report.schools, statesWithNoSchools: result.report.statesWithNoSchools, priorDirectoryStates: result.report.priorDirectoryStates, files: manifestFiles }, null, 2)}\n`,
+    `${JSON.stringify({ asOf: AS_OF, inputs: result.report.inputs, report: { schools: result.report.schools, hospitals: result.report.hospitals }, statesWithNoSchools: result.report.statesWithNoSchools, statesWithNoHospitals: result.report.statesWithNoHospitals, priorDirectoryStates: result.report.priorDirectoryStates, files: manifestFiles }, null, 2)}\n`,
   );
 }
 
@@ -1174,7 +1487,7 @@ async function main(): Promise<void> {
     const result = await renderStateInstitutions();
     writeStateFiles(result);
     console.log(
-      `Wrote ${result.files.size} state files in ${STATE_DIR}; states with no schools: ${result.report.statesWithNoSchools.join(", ") || "none"}`,
+      `Wrote ${result.files.size} state files in ${STATE_DIR}; states with no schools: ${result.report.statesWithNoSchools.join(", ") || "none"}; with no hospitals: ${result.report.statesWithNoHospitals.join(", ") || "none"}`,
     );
   }
 }
@@ -1187,16 +1500,16 @@ async function main(): Promise<void> {
 function checkStateFiles(): void {
   if (!existsSync(STATE_MANIFEST)) return;
   const manifest = JSON.parse(readFileSync(STATE_MANIFEST, "utf8")) as {
-    inputs: { artifactId: string; sha256: string }[];
+    inputs: { domain: string; artifactId: string; sha256: string }[];
     files: Record<string, { bytes: number; sha256: string }>;
   };
-  const lock = JSON.parse(
-    readFileSync(
-      resolve(ROOT, "data/source/education/artifact-lock.json"),
-      "utf8",
-    ),
-  ) as ArtifactLock;
   for (const input of manifest.inputs) {
+    const lock = JSON.parse(
+      readFileSync(
+        resolve(ROOT, `data/source/${input.domain}/artifact-lock.json`),
+        "utf8",
+      ),
+    ) as ArtifactLock;
     const locked = lock.artifacts.find(
       (a) => a.artifactId === input.artifactId,
     );
