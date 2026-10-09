@@ -17,6 +17,8 @@ import { buildPopulation } from "../population";
 import { parameter } from "../parameters";
 import type { CoreInput, CoreState } from "../types";
 import { advanceCore, createLifeCore } from "../life";
+import { initialFocusPeople } from "../focus";
+import { DEFAULT_DATA } from "../data";
 import measurementData from "../data/measurement.json" with { type: "json" };
 
 type MeasureMode = "opening" | "year" | "pre-run";
@@ -105,11 +107,14 @@ interface WorldSummary {
     organizations: number;
     husks: number;
     durableRecords: number;
+    peopleByTier: Record<string, number>;
+    dailyCirclePeople: number;
   };
   allTimeActCount: number;
   allTimeActsByActionId: Record<string, number>;
   allTimeActsByMonth: Record<string, number>;
   allTimeActsByMonthActionId: Record<string, Record<string, number>>;
+  allTimeActKindTagsByMonth: Record<string, Record<string, number>>;
   actStatsHash: string;
   reasonContributionsRetained: {
     scope: "retained-month-window-only";
@@ -167,12 +172,17 @@ function deepFreeze<T>(value: T): T {
   return Object.freeze(value);
 }
 
-function traceSelection(input: CoreInput): {
+function traceSelection(
+  input: CoreInput,
+  mode: MeasureMode,
+): {
   input: CoreInput;
   playerId: string;
   countyId: string;
   focusPersonIds: string[];
   focusPlaceIds: string[];
+  visiblePlaceIds: string[];
+  tierScope: "normal-circle-daily-town-weekly" | "pre-run-full-county-daily";
 } {
   const jobByPerson = new Map(input.jobs.map((job) => [job.personId, job]));
   const peopleById = new Map(input.people.map((person) => [person.id, person]));
@@ -224,31 +234,32 @@ function traceSelection(input: CoreInput): {
   );
   if (!household)
     throw new Error(`Benchmark player has no household: ${player.id}`);
-  const focusPeople = new Set<string>([
-    player.id,
-    ...player.familyIds,
-    ...household.memberIds,
-    ...selected.knownCoworkers,
-  ]);
+  const focusPeople = initialFocusPeople({ ...input, playerId: player.id });
   for (const id of focusPeople) if (!peopleById.has(id)) focusPeople.delete(id);
   const focusPersonIds = [...focusPeople].sort();
   const countyId = player.countyId;
   if (!countyId)
     throw new Error(`Benchmark player has no county focus: ${player.id}`);
-  const focusPlaceIds = [countyId];
+  const focusPlaceIds = mode === "pre-run" ? [countyId] : [];
+  const visiblePlaceIds = [...new Set([player.placeId, countyId])].sort();
+  const tierScope =
+    mode === "pre-run"
+      ? ("pre-run-full-county-daily" as const)
+      : ("normal-circle-daily-town-weekly" as const);
   const traced: CoreInput = {
     ...input,
     gaps: [
       ...input.gaps,
       ...(selected.knownCoworkers.length === zero
         ? [
-            "The opening generator records no known coworkers for the selected player; coworker acquaintance and circle admission remain unmodeled.",
+            "The opening generator records no known coworkers for the selected player; actual coworkers are in the daily circle, but acquaintance knowledge is not invented.",
           ]
         : []),
     ],
     playerId: player.id,
     focusPersonIds,
     focusPlaceIds,
+    visiblePlaceIds,
   };
   return {
     input: deepFreeze(traced),
@@ -256,6 +267,8 @@ function traceSelection(input: CoreInput): {
     countyId,
     focusPersonIds,
     focusPlaceIds,
+    visiblePlaceIds,
+    tierScope,
   };
 }
 
@@ -612,6 +625,23 @@ function summarizeWorld(
 ): WorldSummary {
   const allTime = aggregateAllTimeActStats(core);
   const retainedReasons = aggregateRetainedReasonContributions(core);
+  const actionKinds = new Map(
+    core.data.actions.map((row) => [row.id, row.actKinds]),
+  );
+  const kindTagsByMonth: Record<string, Record<string, number>> = {};
+  for (const [month, actions] of Object.entries(allTime.byMonthActionId)) {
+    const kinds: Record<string, number> = {};
+    for (const [actionId, count] of Object.entries(actions)) {
+      const tags = actionKinds.get(actionId);
+      if (!tags) throw new Error(`Unregistered measured action: ${actionId}`);
+      for (const tag of tags) kinds[tag] = (kinds[tag] ?? zero) + count;
+    }
+    kindTagsByMonth[month] = Object.fromEntries(
+      Object.entries(kinds).sort(([left], [right]) =>
+        left.localeCompare(right),
+      ),
+    );
+  }
   if (reasonSummary.personMonthActionRows)
     assertMonthlyRowsMatchCore(core, reasonSummary.personMonthActionRows);
   const allPersonActs = [...core.people.values()].reduce(
@@ -635,11 +665,20 @@ function summarizeWorld(
       organizations: core.organizations.size,
       husks: core.husks.size,
       durableRecords: core.durableLog.size,
+      peopleByTier: Object.fromEntries(
+        [...core.peopleByTier]
+          .sort(([left], [right]) => left.localeCompare(right))
+          .map(([tier, ids]) => [tier, ids.size]),
+      ),
+      dailyCirclePeople: [...core.focusPersonIds].filter((id) =>
+        core.people.has(id),
+      ).length,
     },
     allTimeActCount: allTime.total,
     allTimeActsByActionId: allTime.byActionId,
     allTimeActsByMonth: allTime.byMonth,
     allTimeActsByMonthActionId: allTime.byMonthActionId,
+    allTimeActKindTagsByMonth: kindTagsByMonth,
     actStatsHash: createHash("sha256")
       .update(
         JSON.stringify({
@@ -735,11 +774,7 @@ async function runCore(
   const started = performance.now();
   const core = createLifeCore(input, { observer: false });
   const initialized = performance.now();
-  const advanceResult = advanceInMonthChunks(
-    core,
-    throughDate,
-    includeDetailedActStats,
-  );
+  const advanceResult = advanceInMonthChunks(core, throughDate, true);
   const advanceReceipt = advanceResult.receipt;
   const completed = performance.now();
   const after = memorySample();
@@ -752,11 +787,14 @@ async function runCore(
     throw new Error(
       `Life loop advanced ${advanceReceipt.simulatedDays} days; expected ${expectedDays} from ${input.startedAt} through ${throughDate}.`,
     );
-  const world = summarizeWorld(
-    core,
-    includeDetailedActStats,
-    advanceResult.reasonSummary,
-  );
+  const reasonSummary = { ...advanceResult.reasonSummary };
+  if (reasonSummary.personMonthActionRows)
+    assertMonthlyRowsMatchCore(core, reasonSummary.personMonthActionRows);
+  if (!includeDetailedActStats) {
+    delete reasonSummary.byPerson;
+    delete reasonSummary.personMonthActionRows;
+  }
+  const world = summarizeWorld(core, includeDetailedActStats, reasonSummary);
   if (world.allTimeActCount !== advanceReceipt.acts)
     throw new Error(
       `Life loop reported ${advanceReceipt.acts} acts; all-time person counts contain ${world.allTimeActCount}.`,
@@ -862,7 +900,7 @@ async function main(): Promise<void> {
     elapsedMilliseconds: civicCompleted - civicStarted,
   });
   const civicMemoryAfter = memorySample();
-  const traced = traceSelection(withCivicInputs);
+  const traced = traceSelection(withCivicInputs, mode);
   const inputSha256 = preparedInputHash(traced.input);
   const throughDate =
     mode === "year"
@@ -930,8 +968,15 @@ async function main(): Promise<void> {
     },
     preparedInputSha256: inputSha256,
     place: population.placeMetadata,
+    actionKindBindings: Object.fromEntries(
+      DEFAULT_DATA.actions.map((row) => [row.id, row.actKinds]),
+    ),
+    actKindCountScope:
+      "Actions can carry several kind tags. Kind counts overlap and must not be summed as distinct actions. The detailed person/month/action rows can be joined through actionKindBindings.",
     affectSampleScope:
       "Focus-circle state at opening and month boundaries, in latent model units; no PANAS/PSS score mapping and no added external stimulus.",
+    timerScope:
+      "Core initialization and complete clock advance include identical monthly counter capture, hashing, affect sampling, and progress in every warmup and measured run. World-summary validation, kind mapping, and final serialization are outside the timer; only the final measured receipt retains detailed rows.",
     memoryScope:
       "heapUsedMiB and rssMiB are before/after samples; processLifetimeMaxRssMiB is cumulative from process start and includes input building, warmups, and previous measured runs.",
     build: {
@@ -967,6 +1012,8 @@ async function main(): Promise<void> {
       countyId: traced.countyId,
       focusPersonCount: traced.focusPersonIds.length,
       focusPlaceIds: traced.focusPlaceIds,
+      visiblePlaceIds: traced.visiblePlaceIds,
+      tierScope: traced.tierScope,
       focusPersonIds: traced.focusPersonIds,
     },
     warmups,
@@ -985,6 +1032,10 @@ async function main(): Promise<void> {
     );
   mkdirSync(dirname(path), { recursive: true });
   writeFileSync(path, `${JSON.stringify(output, null, P("two"))}\n`);
+  progress("receipt-written", {
+    path,
+    memoryAfterSerialization: memorySample(),
+  });
   process.stdout.write(`P8 ${mode} receipt: ${path}\n`);
 }
 

@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import eventInputs from "./tooling/fixtures/event-inputs.json" with { type: "json" };
 
 import { affectAt, appraiseEvent } from "./emotion";
 import { P, parameter } from "./parameters";
@@ -9,7 +10,7 @@ const source: Source = {
   citation: "Authored emotion counterfactual fixture, not an empirical actor.",
   asOf: "2026-10-01",
   estimatedFrom:
-    "Recorded event input and the central prototype parameter table.",
+    "Explicit event stimulus is authored in the developer-only test fixture; model baselines remain parameterized.",
 };
 
 function affect(overrides: Partial<Affect> = {}): Affect {
@@ -38,8 +39,8 @@ function event(overrides: Partial<CoreEventInput> = {}): CoreEventInput {
     personIds: ["person:affected", "person:related"],
     placeId: "place:fixture",
     source,
-    moodImpulse: parameter("eventMoodImpulse"),
-    stressImpulse: parameter("eventStressImpulse"),
+    moodImpulse: eventInputs.events.affectStimulus.moodImpulse,
+    stressImpulse: eventInputs.events.affectStimulus.stressImpulse,
     ...overrides,
   };
 }

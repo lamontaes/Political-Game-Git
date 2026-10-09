@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import eventInputs from "./tooling/fixtures/event-inputs.json" with { type: "json" };
 import { DEFAULT_DATA, extendData } from "./data";
 import { advanceCore, availableActs, chooseAct, createLifeCore } from "./life";
 import { parameter as p } from "./parameters";
@@ -32,7 +33,7 @@ const source: Source = {
   citation:
     "Controlled small life-contract input, not observed people, cash, or a historical institution.",
   estimatedFrom:
-    "Authored identity, job, and public-directory records; values use the prototype's tagged parameter table.",
+    "Authored identity, job, and public-directory records; model parameters use the tagged table, while adverse-event impulses come from the developer-only synthetic test fixture.",
 };
 
 function person(id: string, overrides: Partial<PersonInput> = {}): PersonInput {
@@ -217,8 +218,8 @@ function adverse(core: CoreState, id = actorId): CoreEventInput {
     placeId: home,
     topic: "fixture:local-service-access",
     desiredChange: "Restore the recorded local service route",
-    moodImpulse: p("eventMoodImpulse"),
-    stressImpulse: p("eventStressImpulse"),
+    moodImpulse: eventInputs.events.affectStimulus.moodImpulse,
+    stressImpulse: eventInputs.events.affectStimulus.stressImpulse,
     facts: { "fixture:service-change": "Recorded service reduction" },
     source,
   };
@@ -361,14 +362,15 @@ describe("shared actor chooser and committed effects", () => {
     const calm = decide(p("moodBaseline"), p("stressBaseline"));
     const stressed = decide(
       p("moodBaseline"),
-      p("stressBaseline") + p("eventStressImpulse") * p("two"),
+      p("stressBaseline") +
+        eventInputs.events.affectStimulus.stressImpulse * p("two"),
     );
     const goodMood = decide(
-      -p("eventMoodImpulse") * p("two"),
+      -eventInputs.events.affectStimulus.moodImpulse * p("two"),
       p("stressBaseline"),
     );
     const lowMood = decide(
-      p("eventMoodImpulse") * p("two"),
+      eventInputs.events.affectStimulus.moodImpulse * p("two"),
       p("stressBaseline"),
     );
     expect(calm.selected!.definition.effect).toBe("paid-work");

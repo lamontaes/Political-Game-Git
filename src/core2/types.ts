@@ -238,7 +238,10 @@ export interface CoreInput {
   publicOrganizations?: readonly PublicOrganization[];
   playerId?: PersonId;
   focusPersonIds: readonly PersonId[];
+  /** Explicit full-detail places, including the county-daily pre-run. */
   focusPlaceIds: readonly PlaceId[];
+  /** Visible public records can be retained without making every resident daily. */
+  visiblePlaceIds?: readonly PlaceId[];
   calendarDates: readonly IsoDate[];
   gaps: readonly string[];
   priorFactsSource?: readonly {
@@ -318,6 +321,7 @@ export interface CoreState {
   calendarDates: Set<IsoDate>;
   focusPersonIds: Set<PersonId>;
   focusPlaceIds: Set<PlaceId>;
+  visiblePlaceIds: Set<PlaceId>;
   playerId?: PersonId;
   observer: boolean;
   sequence: number;

@@ -1,4 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
+import { createHash } from "node:crypto";
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -11,6 +12,7 @@ import {
   runTripwiresCli,
   type StopgapEntry,
 } from "./tripwires";
+import { auditCheckRangeCoverage } from "./calibration-guard";
 
 const temporaryRoots: string[] = [];
 
@@ -263,6 +265,158 @@ describe("P8 release tripwires", () => {
     ).toContain("parameter-estimate-stopgap");
   });
 
+  it("validates numeric spreads as source-backed bounds with no extra fields", () => {
+    const valid = fixtureRoot({
+      parameters: {
+        sourcedQuantity: {
+          value: 4,
+          tag: "SOURCED",
+          citation: "Fixture source.",
+          spread: {
+            low: 1,
+            high: 8,
+            unit: "fixture units",
+            citation: "Fixture range source.",
+          },
+        },
+      },
+    });
+    expect(auditCore2Tripwires(valid).diagnostics).toEqual([]);
+
+    const extraField = fixtureRoot({
+      parameters: {
+        sourcedQuantity: {
+          value: 4,
+          tag: "SOURCED",
+          citation: "Fixture source.",
+          spread: {
+            low: 1,
+            high: 8,
+            unit: "fixture units",
+            citation: "Fixture range source.",
+            note: "unverified",
+          },
+        },
+      },
+    });
+    expect(
+      auditCore2Tripwires(extraField).diagnostics.map((row) => row.code),
+    ).toContain("parameter-spread-shape");
+  });
+
+  it("validates generic target references separately from measured calibration", () => {
+    const targetId = "P9-FIXTURE-OUTCOME";
+    const root = fixtureRoot({
+      parameters: {
+        fixtureWeight: {
+          value: 0,
+          tag: "TUNABLE",
+          citation: "Fixture metadata, not an empirical estimate.",
+          spread: { status: "unmeasured", reason: "No bound in this fixture." },
+          checkRange: { ref: targetId },
+        },
+      },
+      calibrationCatalog: {
+        sourceRevision: "abcdef12",
+        p9SourceFiles: {
+          "data/life-replay/lives/fixture.json": "a".repeat(40),
+        },
+        targets: [
+          {
+            id: targetId,
+            revision: "abcdef12",
+            sourceFiles: {
+              "data/life-replay/lives/fixture.json": "a".repeat(40),
+            },
+            observations: [
+              {
+                lifeId: "fixture-life",
+                stepId: "fixture-result",
+                kind: "outcome",
+                dateWindow: { earliest: "2021-01-01", latest: "2021-01-01" },
+                sourceRefs: ["fixture-source"],
+                sources: [
+                  {
+                    id: "fixture-source",
+                    title: "Fixture source",
+                    publisher: "Fixture publisher",
+                    url: "https://example.invalid/fixture",
+                  },
+                ],
+                checks: [
+                  { metric: "fixture.status", expectedValue: "recorded" },
+                ],
+                ranges: [],
+              },
+            ],
+            testRoute: {
+              commandTemplate: null,
+              evaluationContract: "Fixture only; no real replay route.",
+            },
+            calibrationStatus: "blocked; fixture route is absent",
+          },
+        ],
+        parameterBindings: [
+          {
+            parameter: "fixtureWeight",
+            checkRange: { ref: targetId },
+            mappingStatus: "fixture contract only",
+          },
+        ],
+      },
+    });
+
+    const audit = auditCore2Tripwires(root);
+    expect(audit.calibration.blockers.map((row) => row.code)).toContain(
+      "calibration-target-route-missing",
+    );
+    expect(audit.calibration.targetReferenceCount).toBe(1);
+    expect(audit.calibration.empiricalCalibrationPass).toBe(false);
+    expect(audit.calibration.blockerCount).toBeGreaterThan(0);
+  });
+
+  it("rejects inline target facts and unregistered or missing checkRange refs", () => {
+    const catalog = {
+      sourceRevision: "abcdef12",
+      p9SourceFiles: { "data/life-replay/lives/fixture.json": "a".repeat(40) },
+      targets: [],
+      parameterBindings: [],
+    };
+    const extra = auditCheckRangeCoverage(
+      {
+        tune: {
+          value: 0,
+          tag: "TUNABLE",
+          citation: "Fixture.",
+          spread: { status: "unmeasured", reason: "No bound." },
+          checkRange: {
+            ref: "P9-NOT-REGISTERED",
+            expectedValue: "future fact",
+          },
+        },
+      },
+      catalog,
+    );
+    expect(extra.diagnostics.map((row) => row.code)).toContain(
+      "checkrange-shape",
+    );
+
+    const missing = auditCheckRangeCoverage(
+      {
+        tune: {
+          value: 0,
+          tag: "TUNABLE",
+          citation: "Fixture.",
+          spread: { status: "unmeasured", reason: "No bound." },
+        },
+      },
+      catalog,
+    );
+    expect(missing.diagnostics.map((row) => row.code)).toContain(
+      "checkrange-shape",
+    );
+  });
+
   it("allows resolved records but blocks release with plain explanations for every open one", () => {
     const resolved = stopgapEntry(
       "SG-P8-RESOLVED",
@@ -284,26 +438,50 @@ interface FixtureOptions {
   readonly dataFiles?: Readonly<Record<string, string>>;
   readonly stopgaps?: readonly StopgapEntry[];
   readonly parameters?: unknown;
+  readonly calibrationCatalog?: unknown;
 }
 
 function fixtureRoot(options: FixtureOptions = {}): string {
   const root = mkdtempSync(join(tmpdir(), "p8-core-tripwire-fixture-"));
   temporaryRoots.push(root);
+  const parameterTable = options.parameters ?? {
+    zero: { value: 0, tag: "SOURCED", citation: "Arithmetic fixture." },
+  };
+  const parameterSource = JSON.stringify(parameterTable, null, 2);
+  const defaultCatalog = {
+    sourceRevision: "abcdef12",
+    p9SourceFiles: {
+      "data/life-replay/lives/fixture.json": "a".repeat(40),
+    },
+    targets: [],
+    parameterBindings: [],
+  };
+  const suppliedCatalog = options.calibrationCatalog;
+  const catalogBase =
+    suppliedCatalog !== null &&
+    typeof suppliedCatalog === "object" &&
+    !Array.isArray(suppliedCatalog)
+      ? (suppliedCatalog as Record<string, unknown>)
+      : defaultCatalog;
+  const calibrationCatalog = {
+    ...catalogBase,
+    p8ParameterPreimage: {
+      path: "src/core2/data/parameters.json",
+      sha256: createHash("sha256")
+        .update(parameterSource, "utf8")
+        .digest("hex"),
+    },
+  };
   writeFixtureFile(
     root,
     "src/core2/data/stopgaps.json",
     JSON.stringify(options.stopgaps ?? [], null, 2),
   );
+  writeFixtureFile(root, "src/core2/data/parameters.json", parameterSource);
   writeFixtureFile(
     root,
-    "src/core2/data/parameters.json",
-    JSON.stringify(
-      options.parameters ?? {
-        zero: { value: 0, tag: "SOURCED", citation: "Arithmetic fixture." },
-      },
-      null,
-      2,
-    ),
+    "src/core2/tooling/calibration-targets.json",
+    JSON.stringify(calibrationCatalog, null, 2),
   );
   for (const [file, content] of Object.entries(options.sourceFiles ?? {})) {
     writeFixtureFile(root, file, content);

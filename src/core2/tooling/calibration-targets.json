@@ -1,0 +1,3071 @@
+{
+  "schema": "p8-calibration-targets-v3",
+  "classification": "developer-only target catalog; never import into P8 core or copy outcome values into CoreData/parameters",
+  "sourceRevision": "19f63909",
+  "p9SourceFiles": {
+    "data/life-replay/lives/alexandria-ocasio-cortez.json": "b7fea7f80194b25e5cf512db0cc1a132b5cc9ee7",
+    "data/life-replay/lives/lyndon-b-johnson.json": "d3aec793f0717c78cfedb4441a7c1cc1bea30b31",
+    "data/life-replay/lives/wes-moore.json": "6518b75bbae3a51a27e09c3822344369aba3a701",
+    "data/life-replay/parameters.json": "962baf32d1b76cfec806158a0269e9d033624fa8"
+  },
+  "p8ParameterPreimage": {
+    "path": "src/core2/data/parameters.json",
+    "sha256": "6f93f4913bcd988e984480275f21f9e04b564396c171a45536b5352730f2d8d5",
+    "meaning": "Current parameter table after adding generic references and removing six unread rows; these removals do not change numeric behavior."
+  },
+  "status": "26 active TUNABLE rows have generic outcome references. P9 source targets are developer-only. Ordinary replay remains pending; prior-history targets are structurally blocked until a genuine generated-history adapter/evaluator exists. No TUNABLE is promoted and no stopgap is resolved.",
+  "engineReferenceContract": "A parameter row may carry only checkRange: { ref: \"P9-GENERIC-TARGET-ID\" }. This is a developer-only target pointer and is never read by simulation code. Target references do not encode expected values, metrics, dates, biographies, citations, ranges, or source payloads in engine data, and do not resolve stopgaps.",
+  "supplementalEmpiricalTargetsNotReferencedByCheckRange": [
+    {
+      "id": "atus-primary-activity-time",
+      "title": "2025 U.S. ATUS primary activity time",
+      "kind": "external empirical observable",
+      "quantity": "Primary activity participation and duration by diary day",
+      "unit": "hours/person-day; participation percent; hours/participant-day (kept as separate denominators)",
+      "sample": {
+        "population": "U.S. civilian noninstitutionalized population ages 15+ represented by 2025 ATUS estimates",
+        "sampleSize": "Not stated in Table 1; obtain respondent-level microdata and design information for inference",
+        "window": "2025 diary day; published 2025 annual estimates"
+      },
+      "observations": [
+        {
+          "activity": "sleep",
+          "hoursPerPersonDay": 9.03,
+          "participationPercent": 99.9,
+          "hoursPerParticipantDay": 9.04
+        },
+        {
+          "activity": "socializing/communicating",
+          "hoursPerPersonDay": 0.58,
+          "participationPercent": 30.4,
+          "hoursPerParticipantDay": 1.92
+        },
+        {
+          "activity": "care of household members",
+          "hoursPerPersonDay": 0.49,
+          "participationPercent": 22.0,
+          "hoursPerParticipantDay": 2.23
+        },
+        {
+          "activity": "organizational/civic/religious activity",
+          "hoursPerPersonDay": 0.28,
+          "participationPercent": 13.6,
+          "hoursPerParticipantDay": 2.08
+        },
+        {
+          "activity": "volunteering",
+          "hoursPerPersonDay": 0.12,
+          "participationPercent": 5.3,
+          "hoursPerParticipantDay": 2.18
+        }
+      ],
+      "source": [
+        "U.S. Bureau of Labor Statistics, 2025 ATUS Table 1, https://www.bls.gov/news.release/atus.t01.htm",
+        "ATUS data and microdata entry, https://www.bls.gov/tus/"
+      ],
+      "testRoute": "Only after P8 has a complete mutually exclusive 24-hour calendar and maps diary primary-activity codes. Compare weighted participation and unconditional/conditional hours separately, with microdata-derived uncertainty and matched age/employment strata.",
+      "adapterGaps": [
+        "P8 has no ATUS respondent/sample adapter or output mapping."
+      ],
+      "engineGaps": [
+        "P8 explicitly selects one discretionary scored act per tier activation rather than a complete daily activity plan; current hours cannot be compared to primary-activity totals."
+      ],
+      "validFor": [
+        "careHours as a future population daily care-time target, with a scheduling map; civicHours as a future population civic-time target, with a scheduling map."
+      ],
+      "notValidFor": [
+        "A single action duration as a direct parameter bound; careEffect; utility weights; private/cognitive lookup time."
+      ],
+      "calibrationStatus": "pending; source outcomes are not coefficient bounds.",
+      "bindingStatus": "supplementary only; no current P8 parameter checkRange points here",
+      "routeStatus": "not currently executable against P8 output; instrument/data adapter and output bridge are missing, so this target must not be reported as passed",
+      "requiredTestRouteAfterImplementation": null
+    },
+    {
+      "id": "panas-affect-score",
+      "title": "PANAS observed positive and negative affect scores",
+      "kind": "external empirical observable",
+      "quantity": "Separate positive-affect and negative-affect 10-item scale sums; item range 1–5",
+      "unit": "scale points, each subscale 10–50",
+      "sample": {
+        "population": "Mostly undergraduate validation samples in Watson, Clark, and Tellegen (1988)",
+        "samples": [
+          {
+            "recall": "moment",
+            "n": 660
+          },
+          {
+            "recall": "today",
+            "n": 657
+          },
+          {
+            "recall": "general",
+            "n": 663
+          }
+        ]
+      },
+      "window": "Moment, today, and general recall windows are distinct; never pool them.",
+      "observations": [
+        {
+          "recall": "moment",
+          "positiveMean": 29.7,
+          "positiveSD": 7.9,
+          "negativeMean": 14.8,
+          "negativeSD": 5.4,
+          "n": 660
+        },
+        {
+          "recall": "today",
+          "positiveMean": 29.1,
+          "positiveSD": 8.3,
+          "negativeMean": 16.3,
+          "negativeSD": 6.4,
+          "n": 657
+        },
+        {
+          "recall": "general",
+          "positiveMean": 35.0,
+          "positiveSD": 6.4,
+          "negativeMean": 18.1,
+          "negativeSD": 5.9,
+          "n": 663
+        }
+      ],
+      "source": [
+        "Watson, Clark & Tellegen (1988), DOI:10.1037/0022-3514.54.6.1063; https://doi.org/10.1037/0022-3514.54.6.1063",
+        "Author paper: https://osf.io/wdvae/download"
+      ],
+      "testRoute": "After an instrument-valid bridge derives separate PA/NA item scores from source-matched observations and reproduces the requested recall window, compare sample distributions and moments in a matched population; no direct assignment of population means as each actor baseline.",
+      "adapterGaps": [
+        "No P9 LifeFile checkpoint records PANAS administration or item responses."
+      ],
+      "engineGaps": [
+        "P8 stores one signed mood signal rather than validated separate positive/negative affect and has no item-level observation bridge."
+      ],
+      "validFor": [
+        "Outcome-level affect observability research after a valid bridge."
+      ],
+      "notValidFor": [
+        "A direct numeric range for moodBaseline, restEffect, or appraisal weights."
+      ],
+      "calibrationStatus": "pending; no instrument-equivalent P8 output.",
+      "bindingStatus": "supplementary only; no current P8 parameter checkRange points here",
+      "routeStatus": "not currently executable against P8 output; instrument/data adapter and output bridge are missing, so this target must not be reported as passed",
+      "requiredTestRouteAfterImplementation": null
+    },
+    {
+      "id": "pss10-monthly-stress",
+      "title": "PSS-10 perceived stress score",
+      "kind": "external empirical observable",
+      "quantity": "Ten last-month items, each 0–4 with four reverse-scored; sum score",
+      "unit": "scale points, 0–40",
+      "sample": {
+        "population": "2009 U.S. survey probability sample",
+        "n": 2000,
+        "subgroups": [
+          {
+            "group": "men",
+            "n": 968,
+            "mean": 15.52,
+            "sd": 7.44
+          },
+          {
+            "group": "women",
+            "n": 1032,
+            "mean": 16.14,
+            "sd": 7.56
+          },
+          {
+            "group": "ages 25–34",
+            "n": 433,
+            "mean": 17.46,
+            "sd": 7.31
+          },
+          {
+            "group": "ages 65+",
+            "n": 222,
+            "mean": 11.09,
+            "sd": 6.77
+          },
+          {
+            "group": "household income <=$25,000 (2009 USD)",
+            "n": 313,
+            "mean": 17.77,
+            "sd": 7.6
+          },
+          {
+            "group": "household income >=$75,001 (2009 USD)",
+            "n": 711,
+            "mean": 14.74,
+            "sd": 6.88
+          }
+        ]
+      },
+      "window": "Last month; source administration/recall window is part of metric.",
+      "source": [
+        "Cohen & Janicki-Deverts (2012), DOI:10.1111/j.1559-1816.2012.00900.x; https://doi.org/10.1111/j.1559-1816.2012.00900.x",
+        "PSS scale guidance: https://www.cmu.edu/dietrich/psychology/stress-immunity-disease-lab/scales/"
+      ],
+      "testRoute": "After an instrument-valid last-month report bridge and demographically matched sample exist, compare distributions/subgroup summaries; retain the source warning that scores have no universal cutoff.",
+      "adapterGaps": ["P9 biographies do not contain PSS questionnaires."],
+      "engineGaps": [
+        "P8 stress is a latent instantaneous state; it does not generate the retrospective ten-item scale or a validated demographic sample."
+      ],
+      "validFor": [
+        "Outcome-level stress observability after a correct monthly instrument bridge."
+      ],
+      "notValidFor": [
+        "A direct bound on stressBaseline, stressHalfLifeDays, or stress appraisal weights."
+      ],
+      "calibrationStatus": "pending; PSS is not a raw state value.",
+      "bindingStatus": "supplementary only; no current P8 parameter checkRange points here",
+      "routeStatus": "not currently executable against P8 output; instrument/data adapter and output bridge are missing, so this target must not be reported as passed",
+      "requiredTestRouteAfterImplementation": null
+    },
+    {
+      "id": "microburst-affect-trajectory",
+      "title": "Event-aligned short-window affect reactivity trajectory",
+      "kind": "external empirical dynamic observable",
+      "quantity": "Repeated affect observations after an initial reported stressor; trajectory shape over one hour",
+      "unit": "observations at 15-minute intervals; trajectory response, not a universal coefficient",
+      "sample": {
+        "N": 248,
+        "observations": 1442,
+        "protocol": "15-minute prompts for one hour after initial stressor report",
+        "population": "Clinical/community sample described in the cited paper"
+      },
+      "window": "One hour following a reported stressor, with within-hour repeated observations.",
+      "observations": [
+        {
+          "reportedFinding": "Piecewise-linear trajectories with a steep early change followed by gradual change fit better than a single straight trajectory."
+        }
+      ],
+      "source": [
+        "The resolution of affective reactivity to stressful events, DOI:10.1037/emo0001598, https://doi.org/10.1037/emo0001598",
+        "Open full text: https://europepmc.org/articles/PMC12880575"
+      ],
+      "testRoute": "Obtain the study-level repeated measurements or a compatible open longitudinal event diary; map event onset/severity, continuing causes, and separate affect observations; fit impulse and recovery separately and validate on held-out people/events. The cited report is a design/trajectory target, not a reported general-population half-life number.",
+      "adapterGaps": [
+        "P9 event steps have no timestamped within-day affect reports or instrument samples."
+      ],
+      "engineGaps": [
+        "P8 uses date-only anchors and a single affine exponential decay; it cannot reproduce 15-minute piecewise trajectories or event-specific severity from current records."
+      ],
+      "validFor": [
+        "Future event response trajectory check for mood/stress impulses and decay after a time-resolution and observation model exists."
+      ],
+      "notValidFor": [
+        "A numerical exponential half-life or numeric impulse range based only on the paper abstract/trajectory result."
+      ],
+      "calibrationStatus": "pending; raw repeated target data and compatible observations required.",
+      "bindingStatus": "supplementary only; no current P8 parameter checkRange points here",
+      "routeStatus": "not currently executable against P8 output; instrument/data adapter and output bridge are missing, so this target must not be reported as passed",
+      "requiredTestRouteAfterImplementation": "Use raw event-aligned repeated measures with timestamps and fit/hold out people; the cited paper’s shape finding is not a numeric coefficient test."
+    }
+  ],
+  "parameterBindings": [
+    {
+      "parameter": "marriageReferenceAge",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 24,
+      "checkRange": {
+        "ref": "P9-GENERATED-PRIOR-PARTNERSHIP-TIMELINE"
+      },
+      "mappingStatus": "target-reference-present; blocked by generator/measurement applicability gap; not calibration",
+      "productionPathOrGap": "Used only by buildPopulation to backdate synthetic household partnerships; the P9 ReplayCore path must not build a synthetic town to represent a named LifeFile person.",
+      "proposal": "Keep open and unbound until a separately sourced population marriage-history target or a valid aggregate population calibration harness exists.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-param-marriageReferenceAge",
+      "reviewNote": "Structural reference only. The developer target catalog explains the source-linked observations, measurement gap, and non-applicability where relevant; no expected facts are injected into P8."
+    },
+    {
+      "parameter": "careHours",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.5,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Act eligibility/effort; current choice score and care-for-relative action path.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "civicHours",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 1,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Act eligibility/effort for civic action offers and current choice path.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "stressBaseline",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.25,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Initial affect state; affects need evaluation and ordinary choice scoring.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "moodBaseline",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Initial affect state; affects ordinary choice scoring.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "moodHalfLifeDays",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 2,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Date-based affect projection feeds subsequent needs and choice scores.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "stressHalfLifeDays",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 7,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Date-based stress projection feeds health/safety needs and choice scores.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "needWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 1,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Direct contribution to ordinary candidate action score.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "goalWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 1,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Direct contribution to ordinary candidate action score.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "driveWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 1,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Direct contribution to ordinary candidate action score.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "traitWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.2,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Direct contribution to ordinary candidate action score.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "emotionWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.2,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Direct contribution to ordinary candidate action score.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "effortWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.2,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Direct contribution to ordinary candidate action score.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "restEffect",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.25,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Rest consequence changes stress; later needs and choices use the updated state.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "careEffect",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.15,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Care consequence changes stress and family relationship state; later choices use updated state.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "companyHorizonDays",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 7,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Company-need evaluator changes need urgency and subsequent choice scores.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "moneyBufferDays",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 30,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Money-need evaluator changes need urgency and subsequent choice scores.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "organizationReserveMonths",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 6,
+      "checkRange": {
+        "ref": "P9-GENERATED-PRIOR-CASH-EDUCATION-TIMELINE"
+      },
+      "mappingStatus": "target-reference-present; blocked by generator/measurement applicability gap; not calibration",
+      "productionPathOrGap": "Used only by buildPopulation to assign opening liquid reserves; the P9 ReplayCore person initializer does not call that synthetic population builder.",
+      "proposal": "Keep open and unbound until an observed organization balance-sheet/runway sample and matching aggregate harness exist.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-param-organizationReserveMonths",
+      "reviewNote": "Structural reference only. The developer target catalog explains the source-linked observations, measurement gap, and non-applicability where relevant; no expected facts are injected into P8."
+    },
+    {
+      "parameter": "appraisalRelationshipWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 1,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Event appraisal changes subsequent affect and choice inputs.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "appraisalDistressTraitWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.5,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Event appraisal changes subsequent affect and choice inputs.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "appraisalBroodingTraitWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.5,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Event appraisal changes subsequent affect and choice inputs.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "relationInitial",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.5,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Initial relationship state can enter event appraisal/relationship-dependent behavior.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "relationContactGain",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.05,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Contact/care consequences update relationship state used by subsequent behavior.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "deepPastMiddleSchoolOffsetYears",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 6,
+      "checkRange": {
+        "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE"
+      },
+      "mappingStatus": "target-reference-present; blocked by generator/measurement applicability gap; not calibration",
+      "productionPathOrGap": "Used only by buildDeepPast for synthetic school-cohort records, not personal dated education outcomes in ReplayCore.",
+      "proposal": "Keep open and unbound until a source-matched age/stage cohort target and separate population/history evaluation route exist.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-deep-past",
+      "reviewNote": "Structural reference only. The developer target catalog explains the source-linked observations, measurement gap, and non-applicability where relevant; no expected facts are injected into P8."
+    },
+    {
+      "parameter": "deepPastHighSchoolOffsetYears",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 9,
+      "checkRange": {
+        "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE"
+      },
+      "mappingStatus": "target-reference-present; blocked by generator/measurement applicability gap; not calibration",
+      "productionPathOrGap": "Used only by buildDeepPast for synthetic school-cohort records, not personal dated education outcomes in ReplayCore.",
+      "proposal": "Keep open and unbound until a source-matched age/stage cohort target and separate population/history evaluation route exist.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "openStopgapId": "SG-P8-deep-past",
+      "reviewNote": "Structural reference only. The developer target catalog explains the source-linked observations, measurement gap, and non-applicability where relevant; no expected facts are injected into P8."
+    },
+    {
+      "parameter": "lookupHours",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.25,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "Public-directory lookup offer eligibility/effort and ordinary choice score.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    }
+  ],
+  "unreferencedRemovalReview": {
+    "note": "No deletion is included in the candidate patch; this is a separate owner decision, and current tag/stopgap status is preserved.",
+    "unusedCandidates": [
+      "workingDaysPerWeek",
+      "memoryMiBBudget",
+      "contactEffect",
+      "civicEffect",
+      "eventMoodImpulse",
+      "eventStressImpulse"
+    ],
+    "populationTargetsWithoutP9Route": [
+      "marriageReferenceAge",
+      "organizationReserveMonths",
+      "deepPastMiddleSchoolOffsetYears",
+      "deepPastHighSchoolOffsetYears"
+    ]
+  },
+  "targets": [
+    {
+      "id": "P9-OUTCOME-WHOLE-LIFE",
+      "kind": "joint end-to-end P9 replay outcome suite",
+      "scope": "developer-only target catalog; no fixture value or biography metadata enters P8 data or core parameters",
+      "revision": "19f63909",
+      "sample": {
+        "lifeFiles": [
+          "alexandria-ocasio-cortez",
+          "lyndon-b-johnson",
+          "wes-moore"
+        ],
+        "count": 3,
+        "selection": "purposive sourced public biographies; not a representative sample"
+      },
+      "observationCount": 44,
+      "quantity": "Sourced dated LifeFile checks and ranges across the documented life trajectories",
+      "units": "Per-step categorical metric values or explicitly sourced range metric units; see each observation. No coefficient units/bounds are inferred.",
+      "window": "Each observation has its original sourced earliest/latest date and precision.",
+      "sourceFiles": {
+        "data/life-replay/lives/alexandria-ocasio-cortez.json": "b7fea7f80194b25e5cf512db0cc1a132b5cc9ee7",
+        "data/life-replay/lives/lyndon-b-johnson.json": "d3aec793f0717c78cfedb4441a7c1cc1bea30b31",
+        "data/life-replay/lives/wes-moore.json": "6518b75bbae3a51a27e09c3822344369aba3a701",
+        "data/life-replay/parameters.json": "962baf32d1b76cfec806158a0269e9d033624fa8"
+      },
+      "observations": [
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "lifeFile": "data/life-replay/lives/alexandria-ocasio-cortez.json",
+          "stepId": "family-move",
+          "kind": "event",
+          "mechanism": "residence-move",
+          "dateWindow": {
+            "earliest": "1994-10-13",
+            "latest": "1995-10-12",
+            "precision": "age-interval",
+            "sourceRefs": ["aoc-faith", "aoc-museum"]
+          },
+          "sourceRefs": ["aoc-faith", "aoc-museum"],
+          "sources": [
+            {
+              "id": "aoc-faith",
+              "title": "AOC credits her Catholic faith for positions on health care, environment",
+              "publisher": "National Catholic Reporter",
+              "kind": "secondary",
+              "url": "https://www.ncronline.org/news/aoc-credits-her-catholic-faith-positions-health-care-environment"
+            },
+            {
+              "id": "aoc-museum",
+              "title": "Alexandria Ocasio-Cortez",
+              "publisher": "National Women’s History Museum",
+              "kind": "secondary",
+              "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "residence.placeKey",
+              "operator": "equals",
+              "expectedValue": "us/ny/yorktown-heights"
+            }
+          ],
+          "ranges": [],
+          "requires": []
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "lifeFile": "data/life-replay/lives/alexandria-ocasio-cortez.json",
+          "stepId": "high-school",
+          "kind": "outcome",
+          "mechanism": "education-completion",
+          "dateWindow": {
+            "earliest": "2007-01-01",
+            "latest": "2007-12-31",
+            "precision": "year",
+            "sourceRefs": ["aoc-house"]
+          },
+          "sourceRefs": ["aoc-house"],
+          "sources": [
+            {
+              "id": "aoc-house",
+              "title": "OCASIO-CORTEZ, Alexandria",
+              "publisher": "U.S. House of Representatives",
+              "kind": "primary",
+              "url": "https://history.house.gov/People/Detail/25769805196"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.credential",
+              "operator": "equals",
+              "expectedValue": "high-school"
+            }
+          ],
+          "ranges": [],
+          "requires": ["family-move"]
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "lifeFile": "data/life-replay/lives/alexandria-ocasio-cortez.json",
+          "stepId": "father-dies",
+          "kind": "event",
+          "mechanism": "family-loss",
+          "dateWindow": {
+            "earliest": "2008-01-01",
+            "latest": "2008-12-31",
+            "precision": "year",
+            "sourceRefs": ["aoc-about"]
+          },
+          "sourceRefs": ["aoc-about"],
+          "sources": [
+            {
+              "id": "aoc-about",
+              "title": "About Representative Ocasio-Cortez",
+              "publisher": "U.S. House of Representatives",
+              "kind": "primary",
+              "url": "https://ocasio-cortez.house.gov/about"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "family.father.alive",
+              "operator": "equals",
+              "expectedValue": false
+            }
+          ],
+          "ranges": [],
+          "requires": []
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "lifeFile": "data/life-replay/lives/alexandria-ocasio-cortez.json",
+          "stepId": "college-graduation",
+          "kind": "outcome",
+          "mechanism": "education-completion",
+          "dateWindow": {
+            "earliest": "2011-01-01",
+            "latest": "2011-12-31",
+            "precision": "year",
+            "sourceRefs": ["aoc-house"]
+          },
+          "sourceRefs": ["aoc-house"],
+          "sources": [
+            {
+              "id": "aoc-house",
+              "title": "OCASIO-CORTEZ, Alexandria",
+              "publisher": "U.S. House of Representatives",
+              "kind": "primary",
+              "url": "https://history.house.gov/People/Detail/25769805196"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.credential",
+              "operator": "equals",
+              "expectedValue": "bachelors"
+            }
+          ],
+          "ranges": [],
+          "requires": ["high-school"]
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "lifeFile": "data/life-replay/lives/alexandria-ocasio-cortez.json",
+          "stepId": "restaurant-work",
+          "kind": "decision",
+          "mechanism": "employment",
+          "dateWindow": {
+            "earliest": "2011-01-01",
+            "latest": "2018-06-25",
+            "precision": "interval",
+            "sourceRefs": ["aoc-about", "aoc-museum"]
+          },
+          "sourceRefs": ["aoc-about", "aoc-museum"],
+          "sources": [
+            {
+              "id": "aoc-about",
+              "title": "About Representative Ocasio-Cortez",
+              "publisher": "U.S. House of Representatives",
+              "kind": "primary",
+              "url": "https://ocasio-cortez.house.gov/about"
+            },
+            {
+              "id": "aoc-museum",
+              "title": "Alexandria Ocasio-Cortez",
+              "publisher": "National Women’s History Museum",
+              "kind": "secondary",
+              "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "employment.role",
+              "operator": "equals",
+              "expectedValue": "waitress-and-bartender"
+            }
+          ],
+          "ranges": [],
+          "requires": ["father-dies", "college-graduation"]
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "lifeFile": "data/life-replay/lives/alexandria-ocasio-cortez.json",
+          "stepId": "standing-rock",
+          "kind": "decision",
+          "mechanism": "cause-participation",
+          "dateWindow": {
+            "earliest": "2016-01-01",
+            "latest": "2016-12-31",
+            "precision": "year",
+            "sourceRefs": ["aoc-museum"]
+          },
+          "sourceRefs": ["aoc-museum"],
+          "sources": [
+            {
+              "id": "aoc-museum",
+              "title": "Alexandria Ocasio-Cortez",
+              "publisher": "National Women’s History Museum",
+              "kind": "secondary",
+              "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "participation.cause",
+              "operator": "equals",
+              "expectedValue": "community-protection"
+            }
+          ],
+          "ranges": [],
+          "requires": []
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "lifeFile": "data/life-replay/lives/alexandria-ocasio-cortez.json",
+          "stepId": "house-campaign",
+          "kind": "decision",
+          "mechanism": "candidacy",
+          "dateWindow": {
+            "earliest": "2017-01-01",
+            "latest": "2018-06-25",
+            "precision": "interval",
+            "sourceRefs": ["aoc-about", "aoc-museum"]
+          },
+          "sourceRefs": ["aoc-about", "aoc-museum"],
+          "sources": [
+            {
+              "id": "aoc-about",
+              "title": "About Representative Ocasio-Cortez",
+              "publisher": "U.S. House of Representatives",
+              "kind": "primary",
+              "url": "https://ocasio-cortez.house.gov/about"
+            },
+            {
+              "id": "aoc-museum",
+              "title": "Alexandria Ocasio-Cortez",
+              "publisher": "National Women’s History Museum",
+              "kind": "secondary",
+              "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "candidacy.office",
+              "operator": "equals",
+              "expectedValue": "us-house"
+            }
+          ],
+          "ranges": [],
+          "requires": ["restaurant-work", "standing-rock"]
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "lifeFile": "data/life-replay/lives/alexandria-ocasio-cortez.json",
+          "stepId": "primary-win",
+          "kind": "outcome",
+          "mechanism": "election-result",
+          "dateWindow": {
+            "earliest": "2018-06-26",
+            "latest": "2018-06-26",
+            "precision": "day",
+            "sourceRefs": ["aoc-museum"]
+          },
+          "sourceRefs": ["aoc-museum"],
+          "sources": [
+            {
+              "id": "aoc-museum",
+              "title": "Alexandria Ocasio-Cortez",
+              "publisher": "National Women’s History Museum",
+              "kind": "secondary",
+              "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "election.result",
+              "operator": "equals",
+              "expectedValue": "won"
+            }
+          ],
+          "ranges": [],
+          "requires": ["house-campaign"]
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "lifeFile": "data/life-replay/lives/alexandria-ocasio-cortez.json",
+          "stepId": "house-service",
+          "kind": "outcome",
+          "mechanism": "office-service",
+          "dateWindow": {
+            "earliest": "2019-01-03",
+            "latest": "2019-01-03",
+            "precision": "day",
+            "sourceRefs": ["aoc-house"]
+          },
+          "sourceRefs": ["aoc-house"],
+          "sources": [
+            {
+              "id": "aoc-house",
+              "title": "OCASIO-CORTEZ, Alexandria",
+              "publisher": "U.S. House of Representatives",
+              "kind": "primary",
+              "url": "https://history.house.gov/People/Detail/25769805196"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "office.kind",
+              "operator": "equals",
+              "expectedValue": "us-house"
+            }
+          ],
+          "ranges": [
+            {
+              "metric": "person.ageYears",
+              "minimumParameter": {
+                "targetParameterId": "house-minimum-age",
+                "value": 25,
+                "tag": "SOURCED",
+                "citation": "https://www.archives.gov/founding-docs/constitution-transcript",
+                "purpose": "Constitutional minimum age for U.S. House service."
+              }
+            }
+          ],
+          "requires": ["primary-win"]
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "lifeFile": "data/life-replay/lives/alexandria-ocasio-cortez.json",
+          "stepId": "green-new-deal",
+          "kind": "decision",
+          "mechanism": "legislative-proposal",
+          "dateWindow": {
+            "earliest": "2021-04-20",
+            "latest": "2021-04-20",
+            "precision": "day",
+            "sourceRefs": ["gnd-2021"]
+          },
+          "sourceRefs": ["gnd-2021"],
+          "sources": [
+            {
+              "id": "gnd-2021",
+              "title": "Senator Markey and Representative Ocasio-Cortez Reintroduce Green New Deal Resolution",
+              "publisher": "U.S. Senate",
+              "kind": "primary",
+              "url": "https://www.markey.senate.gov/news/press-releases/senator-markey-and-representative-ocasio-cortez-reintroduce-green-new-deal-resolution"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "legislation.form",
+              "operator": "equals",
+              "expectedValue": "resolution"
+            }
+          ],
+          "ranges": [],
+          "requires": ["house-service"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "family-move",
+          "kind": "event",
+          "mechanism": "residence-move",
+          "dateWindow": {
+            "earliest": "1913-09-01",
+            "latest": "1913-09-30",
+            "precision": "month",
+            "sourceRefs": ["lbj-boyhood"]
+          },
+          "sourceRefs": ["lbj-boyhood"],
+          "sources": [
+            {
+              "id": "lbj-boyhood",
+              "title": "Boyhood Home",
+              "publisher": "National Park Service",
+              "kind": "primary",
+              "url": "https://www.nps.gov/lyjo/learn/historyculture/boyhoodhome.htm"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "residence.placeKey",
+              "operator": "equals",
+              "expectedValue": "us/tx/johnson-city"
+            }
+          ],
+          "ranges": [],
+          "requires": []
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "high-school",
+          "kind": "outcome",
+          "mechanism": "education-completion",
+          "dateWindow": {
+            "earliest": "1924-05-24",
+            "latest": "1924-05-24",
+            "precision": "day",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.credential",
+              "operator": "equals",
+              "expectedValue": "high-school"
+            }
+          ],
+          "ranges": [],
+          "requires": ["family-move"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "college",
+          "kind": "decision",
+          "mechanism": "education-enrollment",
+          "dateWindow": {
+            "earliest": "1927-01-01",
+            "latest": "1927-12-31",
+            "precision": "year",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.enrolled",
+              "operator": "equals",
+              "expectedValue": true
+            }
+          ],
+          "ranges": [
+            {
+              "metric": "finance.educationLoanDollars",
+              "minimumParameter": {
+                "targetParameterId": "lbj-college-loan",
+                "value": 75,
+                "tag": "SOURCED",
+                "citation": "https://www.lbjlibrary.org/life-and-legacy/timeline",
+                "purpose": "Documented nominal 1927 dollar loan; not inflated into 2021 dollars."
+              },
+              "maximumParameter": {
+                "targetParameterId": "lbj-college-loan",
+                "value": 75,
+                "tag": "SOURCED",
+                "citation": "https://www.lbjlibrary.org/life-and-legacy/timeline",
+                "purpose": "Documented nominal 1927 dollar loan; not inflated into 2021 dollars."
+              }
+            }
+          ],
+          "requires": ["high-school"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "cotulla",
+          "kind": "decision",
+          "mechanism": "employment",
+          "dateWindow": {
+            "earliest": "1928-01-01",
+            "latest": "1929-12-31",
+            "precision": "interval",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "employment.role",
+              "operator": "equals",
+              "expectedValue": "teacher"
+            }
+          ],
+          "ranges": [],
+          "requires": ["college"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "college-degree",
+          "kind": "outcome",
+          "mechanism": "education-completion",
+          "dateWindow": {
+            "earliest": "1930-08-19",
+            "latest": "1930-08-19",
+            "precision": "day",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.credential",
+              "operator": "equals",
+              "expectedValue": "bachelors"
+            }
+          ],
+          "ranges": [],
+          "requires": ["cotulla"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "congressional-aide",
+          "kind": "decision",
+          "mechanism": "employment",
+          "dateWindow": {
+            "earliest": "1931-11-30",
+            "latest": "1931-11-30",
+            "precision": "day",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "employment.role",
+              "operator": "equals",
+              "expectedValue": "congressional-aide"
+            }
+          ],
+          "ranges": [],
+          "requires": ["college-degree"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "marriage",
+          "kind": "decision",
+          "mechanism": "partnership",
+          "dateWindow": {
+            "earliest": "1934-11-17",
+            "latest": "1934-11-17",
+            "precision": "day",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "partnership.status",
+              "operator": "equals",
+              "expectedValue": "married"
+            }
+          ],
+          "ranges": [],
+          "requires": []
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "nya-director",
+          "kind": "decision",
+          "mechanism": "public-appointment",
+          "dateWindow": {
+            "earliest": "1935-07-01",
+            "latest": "1935-07-31",
+            "precision": "month",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "employment.role",
+              "operator": "equals",
+              "expectedValue": "texas-director"
+            }
+          ],
+          "ranges": [],
+          "requires": ["congressional-aide"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "house-campaign",
+          "kind": "decision",
+          "mechanism": "candidacy",
+          "dateWindow": {
+            "earliest": "1937-01-01",
+            "latest": "1937-04-09",
+            "precision": "interval",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "candidacy.office",
+              "operator": "equals",
+              "expectedValue": "us-house"
+            }
+          ],
+          "ranges": [],
+          "requires": ["nya-director"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "house-win",
+          "kind": "outcome",
+          "mechanism": "election-result",
+          "dateWindow": {
+            "earliest": "1937-04-10",
+            "latest": "1937-04-10",
+            "precision": "day",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "election.result",
+              "operator": "equals",
+              "expectedValue": "won"
+            }
+          ],
+          "ranges": [],
+          "requires": ["house-campaign"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "active-duty",
+          "kind": "decision",
+          "mechanism": "military-service",
+          "dateWindow": {
+            "earliest": "1941-12-09",
+            "latest": "1941-12-09",
+            "precision": "day",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "military.service",
+              "operator": "equals",
+              "expectedValue": "us-navy"
+            }
+          ],
+          "ranges": [],
+          "requires": []
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "senate-win",
+          "kind": "outcome",
+          "mechanism": "election-result",
+          "dateWindow": {
+            "earliest": "1948-11-02",
+            "latest": "1948-11-02",
+            "precision": "day",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "election.result",
+              "operator": "equals",
+              "expectedValue": "won"
+            }
+          ],
+          "ranges": [],
+          "requires": ["house-win"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "majority-leader",
+          "kind": "outcome",
+          "mechanism": "chamber-leadership",
+          "dateWindow": {
+            "earliest": "1955-01-02",
+            "latest": "1955-01-02",
+            "precision": "day",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "leadership.role",
+              "operator": "equals",
+              "expectedValue": "majority-leader"
+            }
+          ],
+          "ranges": [],
+          "requires": ["senate-win"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "heart-attack",
+          "kind": "event",
+          "mechanism": "health-shock",
+          "dateWindow": {
+            "earliest": "1955-07-02",
+            "latest": "1955-07-02",
+            "precision": "day",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "health.condition",
+              "operator": "equals",
+              "expectedValue": "heart-attack"
+            }
+          ],
+          "ranges": [],
+          "requires": []
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "vice-president",
+          "kind": "outcome",
+          "mechanism": "election-result",
+          "dateWindow": {
+            "earliest": "1960-11-08",
+            "latest": "1960-11-08",
+            "precision": "day",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "election.result",
+              "operator": "equals",
+              "expectedValue": "won"
+            }
+          ],
+          "ranges": [],
+          "requires": ["majority-leader"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "presidential-succession",
+          "kind": "event",
+          "mechanism": "office-succession",
+          "dateWindow": {
+            "earliest": "1963-11-22",
+            "latest": "1963-11-22",
+            "precision": "day",
+            "sourceRefs": ["succession"]
+          },
+          "sourceRefs": ["succession"],
+          "sources": [
+            {
+              "id": "succession",
+              "title": "November 22, 1963",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/exhibitions/permanent/november-22-1963"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "office.kind",
+              "operator": "equals",
+              "expectedValue": "president"
+            }
+          ],
+          "ranges": [
+            {
+              "metric": "person.ageYears",
+              "minimumParameter": {
+                "targetParameterId": "president-minimum-age",
+                "value": 35,
+                "tag": "SOURCED",
+                "citation": "https://www.archives.gov/founding-docs/constitution-transcript",
+                "purpose": "Constitutional minimum age for presidential service."
+              }
+            }
+          ],
+          "requires": ["vice-president"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "civil-rights-signature",
+          "kind": "decision",
+          "mechanism": "law-signature",
+          "dateWindow": {
+            "earliest": "1964-07-02",
+            "latest": "1964-07-02",
+            "precision": "day",
+            "sourceRefs": ["civil-rights"]
+          },
+          "sourceRefs": ["civil-rights"],
+          "sources": [
+            {
+              "id": "civil-rights",
+              "title": "Civil Rights Act of 1964",
+              "publisher": "National Archives",
+              "kind": "primary",
+              "url": "https://www.archives.gov/milestone-documents/civil-rights-act"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "law.enacted",
+              "operator": "equals",
+              "expectedValue": "Civil Rights Act of 1964"
+            }
+          ],
+          "ranges": [],
+          "requires": ["presidential-succession"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "tonkin-request",
+          "kind": "decision",
+          "mechanism": "military-authorization-request",
+          "dateWindow": {
+            "earliest": "1964-08-04",
+            "latest": "1964-08-04",
+            "precision": "day",
+            "sourceRefs": ["tonkin"]
+          },
+          "sourceRefs": ["tonkin"],
+          "sources": [
+            {
+              "id": "tonkin",
+              "title": "Tonkin Gulf Resolution",
+              "publisher": "National Archives",
+              "kind": "primary",
+              "url": "https://www.archives.gov/milestone-documents/tonkin-gulf-resolution"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "military.authorizationRequested",
+              "operator": "equals",
+              "expectedValue": true
+            }
+          ],
+          "ranges": [],
+          "requires": ["presidential-succession"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "voting-rights-signature",
+          "kind": "decision",
+          "mechanism": "law-signature",
+          "dateWindow": {
+            "earliest": "1965-08-06",
+            "latest": "1965-08-06",
+            "precision": "day",
+            "sourceRefs": ["voting-rights"]
+          },
+          "sourceRefs": ["voting-rights"],
+          "sources": [
+            {
+              "id": "voting-rights",
+              "title": "Voting Rights Act of 1965",
+              "publisher": "National Archives",
+              "kind": "primary",
+              "url": "https://www.archives.gov/milestone-documents/voting-rights-act"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "law.enacted",
+              "operator": "equals",
+              "expectedValue": "Voting Rights Act of 1965"
+            }
+          ],
+          "ranges": [],
+          "requires": ["presidential-succession"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "decline-reelection",
+          "kind": "decision",
+          "mechanism": "reelection-decision",
+          "dateWindow": {
+            "earliest": "1968-03-31",
+            "latest": "1968-03-31",
+            "precision": "day",
+            "sourceRefs": ["withdrawal"]
+          },
+          "sourceRefs": ["withdrawal"],
+          "sources": [
+            {
+              "id": "withdrawal",
+              "title": "Address to the Nation, March 31, 1968",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://lbjlibrary.org/object/text/presidents-address-nation-03-31-1968"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "candidacy.seekingAnotherTerm",
+              "operator": "equals",
+              "expectedValue": false
+            }
+          ],
+          "ranges": [],
+          "requires": ["presidential-succession", "tonkin-request"]
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "father-dies",
+          "kind": "event",
+          "mechanism": "family-loss",
+          "dateWindow": {
+            "earliest": "1981-10-15",
+            "latest": "1982-10-14",
+            "precision": "age-interval",
+            "sourceRefs": ["moore-governor"]
+          },
+          "sourceRefs": ["moore-governor"],
+          "sources": [
+            {
+              "id": "moore-governor",
+              "title": "Governor Wes Moore",
+              "publisher": "Maryland Governor’s Office",
+              "kind": "primary",
+              "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "family.father.alive",
+              "operator": "equals",
+              "expectedValue": false
+            }
+          ],
+          "ranges": [],
+          "requires": []
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "move-to-grandparents",
+          "kind": "event",
+          "mechanism": "residence-move",
+          "dateWindow": {
+            "earliest": "1981-10-15",
+            "latest": "1992-10-14",
+            "precision": "interval",
+            "sourceRefs": ["moore-governor"]
+          },
+          "sourceRefs": ["moore-governor"],
+          "sources": [
+            {
+              "id": "moore-governor",
+              "title": "Governor Wes Moore",
+              "publisher": "Maryland Governor’s Office",
+              "kind": "primary",
+              "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "residence.placeKey",
+              "operator": "equals",
+              "expectedValue": "us/ny/bronx"
+            }
+          ],
+          "ranges": [],
+          "requires": ["father-dies"]
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "return-to-maryland",
+          "kind": "event",
+          "mechanism": "residence-move",
+          "dateWindow": {
+            "earliest": "1992-10-15",
+            "latest": "1993-10-14",
+            "precision": "age-interval",
+            "sourceRefs": ["moore-archives", "moore-launch"]
+          },
+          "sourceRefs": ["moore-archives", "moore-launch"],
+          "sources": [
+            {
+              "id": "moore-archives",
+              "title": "Wes Moore, Maryland Governor",
+              "publisher": "Maryland State Archives",
+              "kind": "primary",
+              "url": "https://msa.maryland.gov/msa/mdmanual/08conoff/gov/html/msa18374.html"
+            },
+            {
+              "id": "moore-launch",
+              "title": "Wes Moore launches campaign for Maryland governor",
+              "publisher": "Wes Moore campaign, republishing The Baltimore Sun",
+              "kind": "primary",
+              "url": "https://wesmoore.com/wes-moore-author-and-former-nonprofit-executive-launches-campaign-for-maryland-governor/"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "residence.placeKey",
+              "operator": "equals",
+              "expectedValue": "us/md/baltimore"
+            }
+          ],
+          "ranges": [],
+          "requires": ["move-to-grandparents"]
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "military-college",
+          "kind": "outcome",
+          "mechanism": "education-completion",
+          "dateWindow": {
+            "earliest": "1998-01-01",
+            "latest": "1998-12-31",
+            "precision": "year",
+            "sourceRefs": ["moore-archives"]
+          },
+          "sourceRefs": ["moore-archives"],
+          "sources": [
+            {
+              "id": "moore-archives",
+              "title": "Wes Moore, Maryland Governor",
+              "publisher": "Maryland State Archives",
+              "kind": "primary",
+              "url": "https://msa.maryland.gov/msa/mdmanual/08conoff/gov/html/msa18374.html"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.credential",
+              "operator": "equals",
+              "expectedValue": "associates"
+            }
+          ],
+          "ranges": [],
+          "requires": []
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "army-commission",
+          "kind": "decision",
+          "mechanism": "military-service",
+          "dateWindow": {
+            "earliest": "1998-01-01",
+            "latest": "1998-12-31",
+            "precision": "year",
+            "sourceRefs": ["moore-governor"]
+          },
+          "sourceRefs": ["moore-governor"],
+          "sources": [
+            {
+              "id": "moore-governor",
+              "title": "Governor Wes Moore",
+              "publisher": "Maryland Governor’s Office",
+              "kind": "primary",
+              "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "military.service",
+              "operator": "equals",
+              "expectedValue": "us-army"
+            }
+          ],
+          "ranges": [],
+          "requires": ["military-college"]
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "johns-hopkins",
+          "kind": "outcome",
+          "mechanism": "education-completion",
+          "dateWindow": {
+            "earliest": "2001-01-01",
+            "latest": "2001-12-31",
+            "precision": "year",
+            "sourceRefs": ["moore-archives"]
+          },
+          "sourceRefs": ["moore-archives"],
+          "sources": [
+            {
+              "id": "moore-archives",
+              "title": "Wes Moore, Maryland Governor",
+              "publisher": "Maryland State Archives",
+              "kind": "primary",
+              "url": "https://msa.maryland.gov/msa/mdmanual/08conoff/gov/html/msa18374.html"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.credential",
+              "operator": "equals",
+              "expectedValue": "bachelors"
+            }
+          ],
+          "ranges": [],
+          "requires": ["military-college"]
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "oxford",
+          "kind": "outcome",
+          "mechanism": "education-completion",
+          "dateWindow": {
+            "earliest": "2004-01-01",
+            "latest": "2004-12-31",
+            "precision": "year",
+            "sourceRefs": ["moore-archives"]
+          },
+          "sourceRefs": ["moore-archives"],
+          "sources": [
+            {
+              "id": "moore-archives",
+              "title": "Wes Moore, Maryland Governor",
+              "publisher": "Maryland State Archives",
+              "kind": "primary",
+              "url": "https://msa.maryland.gov/msa/mdmanual/08conoff/gov/html/msa18374.html"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.credential",
+              "operator": "equals",
+              "expectedValue": "masters"
+            }
+          ],
+          "ranges": [],
+          "requires": ["johns-hopkins"]
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "afghanistan",
+          "kind": "event",
+          "mechanism": "military-deployment",
+          "dateWindow": {
+            "earliest": "2005-01-01",
+            "latest": "2005-12-31",
+            "precision": "year",
+            "sourceRefs": ["moore-governor"]
+          },
+          "sourceRefs": ["moore-governor"],
+          "sources": [
+            {
+              "id": "moore-governor",
+              "title": "Governor Wes Moore",
+              "publisher": "Maryland Governor’s Office",
+              "kind": "primary",
+              "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "military.deployment",
+              "operator": "equals",
+              "expectedValue": "Afghanistan"
+            }
+          ],
+          "ranges": [],
+          "requires": ["army-commission"]
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "bridge-edu",
+          "kind": "decision",
+          "mechanism": "business-formation",
+          "dateWindow": {
+            "earliest": "2014-01-01",
+            "latest": "2014-12-31",
+            "precision": "year",
+            "sourceRefs": ["moore-archives"]
+          },
+          "sourceRefs": ["moore-archives"],
+          "sources": [
+            {
+              "id": "moore-archives",
+              "title": "Wes Moore, Maryland Governor",
+              "publisher": "Maryland State Archives",
+              "kind": "primary",
+              "url": "https://msa.maryland.gov/msa/mdmanual/08conoff/gov/html/msa18374.html"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "business.organization",
+              "operator": "equals",
+              "expectedValue": "BridgeEdU"
+            }
+          ],
+          "ranges": [],
+          "requires": ["johns-hopkins"]
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "robin-hood",
+          "kind": "decision",
+          "mechanism": "employment",
+          "dateWindow": {
+            "earliest": "2017-01-01",
+            "latest": "2017-12-31",
+            "precision": "year",
+            "sourceRefs": ["moore-archives"]
+          },
+          "sourceRefs": ["moore-archives"],
+          "sources": [
+            {
+              "id": "moore-archives",
+              "title": "Wes Moore, Maryland Governor",
+              "publisher": "Maryland State Archives",
+              "kind": "primary",
+              "url": "https://msa.maryland.gov/msa/mdmanual/08conoff/gov/html/msa18374.html"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "employment.role",
+              "operator": "equals",
+              "expectedValue": "chief-executive-officer"
+            }
+          ],
+          "ranges": [],
+          "requires": []
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "governor-campaign",
+          "kind": "decision",
+          "mechanism": "candidacy",
+          "dateWindow": {
+            "earliest": "2021-06-07",
+            "latest": "2021-06-07",
+            "precision": "day",
+            "sourceRefs": ["moore-launch"]
+          },
+          "sourceRefs": ["moore-launch"],
+          "sources": [
+            {
+              "id": "moore-launch",
+              "title": "Wes Moore launches campaign for Maryland governor",
+              "publisher": "Wes Moore campaign, republishing The Baltimore Sun",
+              "kind": "primary",
+              "url": "https://wesmoore.com/wes-moore-author-and-former-nonprofit-executive-launches-campaign-for-maryland-governor/"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "candidacy.office",
+              "operator": "equals",
+              "expectedValue": "governor"
+            }
+          ],
+          "ranges": [],
+          "requires": ["robin-hood"]
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "primary-win",
+          "kind": "outcome",
+          "mechanism": "election-result",
+          "dateWindow": {
+            "earliest": "2022-07-19",
+            "latest": "2022-07-19",
+            "precision": "day",
+            "sourceRefs": ["moore-primary"]
+          },
+          "sourceRefs": ["moore-primary"],
+          "sources": [
+            {
+              "id": "moore-primary",
+              "title": "Official 2022 Gubernatorial Primary Election Results",
+              "publisher": "Maryland State Board of Elections",
+              "kind": "primary",
+              "url": "https://elections.maryland.gov/elections/archive/2022/primary_results/gen_results_2022_1.html"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "election.result",
+              "operator": "equals",
+              "expectedValue": "won"
+            }
+          ],
+          "ranges": [
+            {
+              "metric": "election.voteSharePercent",
+              "minimumParameter": {
+                "targetParameterId": "moore-primary-2022",
+                "value": 32.41,
+                "tag": "SOURCED",
+                "citation": "https://elections.maryland.gov/elections/archive/2022/primary_results/gen_results_2022_1.html",
+                "purpose": "Documented primary vote percentage; evaluator target only."
+              },
+              "maximumParameter": {
+                "targetParameterId": "moore-primary-2022",
+                "value": 32.41,
+                "tag": "SOURCED",
+                "citation": "https://elections.maryland.gov/elections/archive/2022/primary_results/gen_results_2022_1.html",
+                "purpose": "Documented primary vote percentage; evaluator target only."
+              }
+            }
+          ],
+          "requires": ["governor-campaign"]
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "general-win",
+          "kind": "outcome",
+          "mechanism": "election-result",
+          "dateWindow": {
+            "earliest": "2022-11-08",
+            "latest": "2022-11-08",
+            "precision": "day",
+            "sourceRefs": ["moore-election"]
+          },
+          "sourceRefs": ["moore-election"],
+          "sources": [
+            {
+              "id": "moore-election",
+              "title": "Official 2022 Gubernatorial General Election Results",
+              "publisher": "Maryland State Board of Elections",
+              "kind": "primary",
+              "url": "https://elections.maryland.gov/elections/archive/2022/general_results/gen_results_2022_1.html"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "election.result",
+              "operator": "equals",
+              "expectedValue": "won"
+            }
+          ],
+          "ranges": [
+            {
+              "metric": "election.voteSharePercent",
+              "minimumParameter": {
+                "targetParameterId": "moore-general-2022",
+                "value": 64.53,
+                "tag": "SOURCED",
+                "citation": "https://elections.maryland.gov/elections/archive/2022/general_results/gen_results_2022_1.html",
+                "purpose": "Documented general vote percentage; evaluator target only."
+              },
+              "maximumParameter": {
+                "targetParameterId": "moore-general-2022",
+                "value": 64.53,
+                "tag": "SOURCED",
+                "citation": "https://elections.maryland.gov/elections/archive/2022/general_results/gen_results_2022_1.html",
+                "purpose": "Documented general vote percentage; evaluator target only."
+              }
+            }
+          ],
+          "requires": ["primary-win"]
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "governor-service",
+          "kind": "outcome",
+          "mechanism": "office-service",
+          "dateWindow": {
+            "earliest": "2023-01-18",
+            "latest": "2023-01-18",
+            "precision": "day",
+            "sourceRefs": ["moore-archives"]
+          },
+          "sourceRefs": ["moore-archives"],
+          "sources": [
+            {
+              "id": "moore-archives",
+              "title": "Wes Moore, Maryland Governor",
+              "publisher": "Maryland State Archives",
+              "kind": "primary",
+              "url": "https://msa.maryland.gov/msa/mdmanual/08conoff/gov/html/msa18374.html"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "office.kind",
+              "operator": "equals",
+              "expectedValue": "governor"
+            }
+          ],
+          "ranges": [],
+          "requires": ["general-win"]
+        }
+      ],
+      "testRoute": {
+        "existingExecutable": "P9 life-replay CLI and evaluator at scripts/life-replay/cli.ts and scripts/life-replay/evaluator.ts, revision 19f63909",
+        "commandTemplate": "npm run life:replay -- run --life data/life-replay/lives/{lifeId}.json --mode free --core {P8_REPLAY_ADAPTER_MODULE} --out /tmp/p8-calibration/{lifeId}.free.json",
+        "evaluation": "The run command writes a receipt and evaluation. Score only the 35 decision/outcome steps as model-result targets. For each such step require Evaluation step.reproduced=true, all checks matched, all ranges inside, chainBrokenBy empty, StepReceipt representation=full, and engine-origin observations with nonempty canonical recordIds. Nine event steps are sourced external inputs through ReplayCore.event; they are not predictive passes. Preserve their external provenance, and leave dependent results unmeasured if the evaluator cannot verify continuity through a source-backed event record. A forced selection, initialized fact, stored row without behavior, missing record, or placeholder cannot pass as a model outcome.",
+        "routeStatus": "The CLI/evaluator is executable, but no P8 module currently exports the required createReplayCore adapter. Running against the existing old-core adapter does not validate the new P8 engine. Until a real P8 adapter and mechanisms exist, result is blocked/unmeasured; do not convert missing output to success.",
+        "parameterInterpretation": "This suite is a joint end-to-end output target for the referenced in-use life parameters. It does not independently identify any single coefficient, supply a numeric range, or establish population realism. An outcome match is a replay check only.",
+        "eventInputRule": "The P9 runner submits each sourced event via ReplayCore.event. Never rewrite an input event as an engine-predicted outcome. For a requires chain to pass, the event must be represented through the contract’s actual source record path; if the current evaluator cannot verify it without relabeling the source, the dependent P9 outcome remains blocked/unmeasured.",
+        "implementationStatus": "blocked; P8 ReplayCore adapter and model outcome mechanisms are not implemented"
+      },
+      "adapterGaps": [
+        "P8 lacks a life-replay/v1 adapter mapping setup, source provenance, dated external conditions, checkpoints, and engine observations.",
+        "Named LifeFile identity, expected outcomes, citations, and target values must remain developer-only."
+      ],
+      "engineGaps": [
+        "P8 currently lacks multiple ordinary mechanisms in the target trajectories, including schooling completion, hiring/employment transitions, elections/candidacy, lawmaking, partnership formation, and some economic or civic consequences.",
+        "The current actor selector chooses one discretionary act per tier activation and is not a complete daily activity or causal history model."
+      ],
+      "calibrationStatus": "pending. This is a concrete executable replay evaluation route when the adapter exists, not a completed run or calibration.",
+      "timelineStepCount": 44,
+      "engineOutcomeStepCount": 35,
+      "externalEventInputCount": 9,
+      "engineOutcomeSteps": [
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "stepId": "high-school",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "stepId": "college-graduation",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "stepId": "restaurant-work",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "stepId": "standing-rock",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "stepId": "house-campaign",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "stepId": "primary-win",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "stepId": "house-service",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "stepId": "green-new-deal",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "high-school",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "college",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "cotulla",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "college-degree",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "congressional-aide",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "marriage",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "nya-director",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "house-campaign",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "house-win",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "active-duty",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "senate-win",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "majority-leader",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "vice-president",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "civil-rights-signature",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "tonkin-request",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "voting-rights-signature",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "decline-reelection",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "wes-moore",
+          "stepId": "military-college",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "wes-moore",
+          "stepId": "army-commission",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "wes-moore",
+          "stepId": "johns-hopkins",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "wes-moore",
+          "stepId": "oxford",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "wes-moore",
+          "stepId": "bridge-edu",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "wes-moore",
+          "stepId": "robin-hood",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "wes-moore",
+          "stepId": "governor-campaign",
+          "kind": "decision"
+        },
+        {
+          "lifeId": "wes-moore",
+          "stepId": "primary-win",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "wes-moore",
+          "stepId": "general-win",
+          "kind": "outcome"
+        },
+        {
+          "lifeId": "wes-moore",
+          "stepId": "governor-service",
+          "kind": "outcome"
+        }
+      ],
+      "externalEventInputs": [
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "stepId": "family-move",
+          "kind": "event",
+          "dateWindow": {
+            "earliest": "1994-10-13",
+            "latest": "1995-10-12",
+            "precision": "age-interval",
+            "sourceRefs": ["aoc-faith", "aoc-museum"]
+          }
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "stepId": "father-dies",
+          "kind": "event",
+          "dateWindow": {
+            "earliest": "2008-01-01",
+            "latest": "2008-12-31",
+            "precision": "year",
+            "sourceRefs": ["aoc-about"]
+          }
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "family-move",
+          "kind": "event",
+          "dateWindow": {
+            "earliest": "1913-09-01",
+            "latest": "1913-09-30",
+            "precision": "month",
+            "sourceRefs": ["lbj-boyhood"]
+          }
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "heart-attack",
+          "kind": "event",
+          "dateWindow": {
+            "earliest": "1955-07-02",
+            "latest": "1955-07-02",
+            "precision": "day",
+            "sourceRefs": ["lbj-timeline"]
+          }
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "stepId": "presidential-succession",
+          "kind": "event",
+          "dateWindow": {
+            "earliest": "1963-11-22",
+            "latest": "1963-11-22",
+            "precision": "day",
+            "sourceRefs": ["succession"]
+          }
+        },
+        {
+          "lifeId": "wes-moore",
+          "stepId": "father-dies",
+          "kind": "event",
+          "dateWindow": {
+            "earliest": "1981-10-15",
+            "latest": "1982-10-14",
+            "precision": "age-interval",
+            "sourceRefs": ["moore-governor"]
+          }
+        },
+        {
+          "lifeId": "wes-moore",
+          "stepId": "move-to-grandparents",
+          "kind": "event",
+          "dateWindow": {
+            "earliest": "1981-10-15",
+            "latest": "1992-10-14",
+            "precision": "interval",
+            "sourceRefs": ["moore-governor"]
+          }
+        },
+        {
+          "lifeId": "wes-moore",
+          "stepId": "return-to-maryland",
+          "kind": "event",
+          "dateWindow": {
+            "earliest": "1992-10-15",
+            "latest": "1993-10-14",
+            "precision": "age-interval",
+            "sourceRefs": ["moore-archives", "moore-launch"]
+          }
+        },
+        {
+          "lifeId": "wes-moore",
+          "stepId": "afghanistan",
+          "kind": "event",
+          "dateWindow": {
+            "earliest": "2005-01-01",
+            "latest": "2005-12-31",
+            "precision": "year",
+            "sourceRefs": ["moore-governor"]
+          }
+        }
+      ]
+    },
+    {
+      "id": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE",
+      "kind": "source-linked prior-history end-to-end comparison target",
+      "scope": "Developer-only candidate. Compare generated prior records against independently sourced P9 timeline checks; never preload future outcomes or expected facts into P8 input.",
+      "revision": "19f63909",
+      "sample": {
+        "lifeFiles": [
+          "alexandria-ocasio-cortez",
+          "lyndon-b-johnson",
+          "wes-moore"
+        ],
+        "count": 3,
+        "selection": "purposive sourced public biographies; not a representative sample"
+      },
+      "title": "Source-linked schooling and diploma timeline",
+      "quantity": "Dated high-school, college-enrollment, and credential-completion outcomes; the LBJ college step retains its sourced nominal education-loan range.",
+      "units": "P9 dated categorical checks and any sourced ranges retained from each original LifeFile step; no coefficient units or numerical bounds are inferred.",
+      "observations": [
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "lifeFile": "data/life-replay/lives/alexandria-ocasio-cortez.json",
+          "stepId": "high-school",
+          "kind": "outcome",
+          "mechanism": "education-completion",
+          "dateWindow": {
+            "earliest": "2007-01-01",
+            "latest": "2007-12-31",
+            "precision": "year",
+            "sourceRefs": ["aoc-house"]
+          },
+          "sourceRefs": ["aoc-house"],
+          "sources": [
+            {
+              "id": "aoc-house",
+              "title": "OCASIO-CORTEZ, Alexandria",
+              "publisher": "U.S. House of Representatives",
+              "kind": "primary",
+              "url": "https://history.house.gov/People/Detail/25769805196"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.credential",
+              "operator": "equals",
+              "expectedValue": "high-school"
+            }
+          ],
+          "ranges": [],
+          "requires": ["family-move"]
+        },
+        {
+          "lifeId": "alexandria-ocasio-cortez",
+          "lifeFile": "data/life-replay/lives/alexandria-ocasio-cortez.json",
+          "stepId": "college-graduation",
+          "kind": "outcome",
+          "mechanism": "education-completion",
+          "dateWindow": {
+            "earliest": "2011-01-01",
+            "latest": "2011-12-31",
+            "precision": "year",
+            "sourceRefs": ["aoc-house"]
+          },
+          "sourceRefs": ["aoc-house"],
+          "sources": [
+            {
+              "id": "aoc-house",
+              "title": "OCASIO-CORTEZ, Alexandria",
+              "publisher": "U.S. House of Representatives",
+              "kind": "primary",
+              "url": "https://history.house.gov/People/Detail/25769805196"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.credential",
+              "operator": "equals",
+              "expectedValue": "bachelors"
+            }
+          ],
+          "ranges": [],
+          "requires": ["high-school"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "high-school",
+          "kind": "outcome",
+          "mechanism": "education-completion",
+          "dateWindow": {
+            "earliest": "1924-05-24",
+            "latest": "1924-05-24",
+            "precision": "day",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.credential",
+              "operator": "equals",
+              "expectedValue": "high-school"
+            }
+          ],
+          "ranges": [],
+          "requires": ["family-move"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "college",
+          "kind": "decision",
+          "mechanism": "education-enrollment",
+          "dateWindow": {
+            "earliest": "1927-01-01",
+            "latest": "1927-12-31",
+            "precision": "year",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.enrolled",
+              "operator": "equals",
+              "expectedValue": true
+            }
+          ],
+          "ranges": [
+            {
+              "metric": "finance.educationLoanDollars",
+              "minimumParameter": {
+                "targetParameterId": "lbj-college-loan",
+                "value": 75,
+                "tag": "SOURCED",
+                "citation": "https://www.lbjlibrary.org/life-and-legacy/timeline",
+                "purpose": "Documented nominal 1927 dollar loan; not inflated into 2021 dollars."
+              },
+              "maximumParameter": {
+                "targetParameterId": "lbj-college-loan",
+                "value": 75,
+                "tag": "SOURCED",
+                "citation": "https://www.lbjlibrary.org/life-and-legacy/timeline",
+                "purpose": "Documented nominal 1927 dollar loan; not inflated into 2021 dollars."
+              }
+            }
+          ],
+          "requires": ["high-school"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "college-degree",
+          "kind": "outcome",
+          "mechanism": "education-completion",
+          "dateWindow": {
+            "earliest": "1930-08-19",
+            "latest": "1930-08-19",
+            "precision": "day",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.credential",
+              "operator": "equals",
+              "expectedValue": "bachelors"
+            }
+          ],
+          "ranges": [],
+          "requires": ["cotulla"]
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "military-college",
+          "kind": "outcome",
+          "mechanism": "education-completion",
+          "dateWindow": {
+            "earliest": "1998-01-01",
+            "latest": "1998-12-31",
+            "precision": "year",
+            "sourceRefs": ["moore-archives"]
+          },
+          "sourceRefs": ["moore-archives"],
+          "sources": [
+            {
+              "id": "moore-archives",
+              "title": "Wes Moore, Maryland Governor",
+              "publisher": "Maryland State Archives",
+              "kind": "primary",
+              "url": "https://msa.maryland.gov/msa/mdmanual/08conoff/gov/html/msa18374.html"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.credential",
+              "operator": "equals",
+              "expectedValue": "associates"
+            }
+          ],
+          "ranges": [],
+          "requires": []
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "johns-hopkins",
+          "kind": "outcome",
+          "mechanism": "education-completion",
+          "dateWindow": {
+            "earliest": "2001-01-01",
+            "latest": "2001-12-31",
+            "precision": "year",
+            "sourceRefs": ["moore-archives"]
+          },
+          "sourceRefs": ["moore-archives"],
+          "sources": [
+            {
+              "id": "moore-archives",
+              "title": "Wes Moore, Maryland Governor",
+              "publisher": "Maryland State Archives",
+              "kind": "primary",
+              "url": "https://msa.maryland.gov/msa/mdmanual/08conoff/gov/html/msa18374.html"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.credential",
+              "operator": "equals",
+              "expectedValue": "bachelors"
+            }
+          ],
+          "ranges": [],
+          "requires": ["military-college"]
+        },
+        {
+          "lifeId": "wes-moore",
+          "lifeFile": "data/life-replay/lives/wes-moore.json",
+          "stepId": "oxford",
+          "kind": "outcome",
+          "mechanism": "education-completion",
+          "dateWindow": {
+            "earliest": "2004-01-01",
+            "latest": "2004-12-31",
+            "precision": "year",
+            "sourceRefs": ["moore-archives"]
+          },
+          "sourceRefs": ["moore-archives"],
+          "sources": [
+            {
+              "id": "moore-archives",
+              "title": "Wes Moore, Maryland Governor",
+              "publisher": "Maryland State Archives",
+              "kind": "primary",
+              "url": "https://msa.maryland.gov/msa/mdmanual/08conoff/gov/html/msa18374.html"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.credential",
+              "operator": "equals",
+              "expectedValue": "masters"
+            }
+          ],
+          "ranges": [],
+          "requires": ["johns-hopkins"]
+        }
+      ],
+      "sourceFiles": {
+        "data/life-replay/lives/alexandria-ocasio-cortez.json": "b7fea7f80194b25e5cf512db0cc1a132b5cc9ee7",
+        "data/life-replay/lives/lyndon-b-johnson.json": "d3aec793f0717c78cfedb4441a7c1cc1bea30b31",
+        "data/life-replay/lives/wes-moore.json": "6518b75bbae3a51a27e09c3822344369aba3a701",
+        "data/life-replay/parameters.json": "962baf32d1b76cfec806158a0269e9d033624fa8"
+      },
+      "testRoute": {
+        "runner": "planned P8 generated-prior-history adapter and comparison evaluator; no executable route exists today",
+        "commandTemplate": null,
+        "evaluationContract": "A future evaluator must consume only sourced birth/place/history inputs, then compare independently generated canonical prior records with the dated target milestones in this developer catalog. It must not preload target outcomes or count P9 initialized facts as generated results. P9 evaluateLife labels pre-start outcomes checkpointPast/initialized and is not a generated-prior-history evaluator.",
+        "implementationStatus": "blocked; adapter, output receipt, and history comparison evaluator are absent",
+        "existingP9Runner": "The P9 life-replay/v1 CLI is available for later actual-life replay, but it does not provide this prior-history comparison route."
+      },
+      "parameterApplicability": {
+        "deepPastMiddleSchoolOffsetYears": {
+          "status": "candidate end-to-end chronology check only",
+          "testableQuestion": "Does the independently generated middle-school cohort record occur before the subject’s later sourced education milestones and retain attendance=cohort-estimate and qualification=not-inferred?",
+          "coefficientCalibration": "not identified by these outcomes; cohorts and diploma completion are different observables."
+        },
+        "deepPastHighSchoolOffsetYears": {
+          "status": "candidate end-to-end chronology check only",
+          "testableQuestion": "Does the independently generated high-school cohort record occur before the subject’s later sourced high-school/degree milestone, while remaining explicitly an estimate rather than personal attendance?",
+          "coefficientCalibration": "not identified by these outcomes; the P8 cohort offset is not the P9 credential date."
+        }
+      },
+      "adapterGaps": [
+        "The P9 targets provide exact source-linked education outcomes: aoc-house (U.S. House), lbj-timeline (LBJ Presidential Library), and moore-archives (Maryland State Archives).",
+        "P8 buildDeepPast derives school-cohort start dates from birth-calendar and place inputs, marks attendance=cohort-estimate and qualification=not-inferred, and does not generate personal diplomas.",
+        "A comparison must not turn the P9 diploma into an initial past fact or relabel an estimated cohort as attendance."
+      ],
+      "engineGaps": [
+        "No current P8 history replay adapter emits a receipt that can be compared with this target.",
+        "A target outcome can check an end-to-end generated record path; it cannot identify an individual coefficient or promote a TUNABLE tag."
+      ],
+      "calibrationStatus": "blocked; source-linked observations exist, but generated-record comparison is not implemented or measured."
+    },
+    {
+      "id": "P9-GENERATED-PRIOR-PARTNERSHIP-TIMELINE",
+      "kind": "source-linked prior-history end-to-end comparison target",
+      "scope": "Developer-only candidate. Compare generated prior records against independently sourced P9 timeline checks; never preload future outcomes or expected facts into P8 input.",
+      "revision": "19f63909",
+      "sample": {
+        "lifeFiles": [
+          "alexandria-ocasio-cortez",
+          "lyndon-b-johnson",
+          "wes-moore"
+        ],
+        "count": 3,
+        "selection": "purposive sourced public biographies; not a representative sample"
+      },
+      "title": "Source-linked prior partnership timeline",
+      "quantity": "The dated LBJ marriage outcome and its public source check.",
+      "units": "P9 dated categorical checks and any sourced ranges retained from each original LifeFile step; no coefficient units or numerical bounds are inferred.",
+      "observations": [
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "marriage",
+          "kind": "decision",
+          "mechanism": "partnership",
+          "dateWindow": {
+            "earliest": "1934-11-17",
+            "latest": "1934-11-17",
+            "precision": "day",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "partnership.status",
+              "operator": "equals",
+              "expectedValue": "married"
+            }
+          ],
+          "ranges": [],
+          "requires": []
+        }
+      ],
+      "sourceFiles": {
+        "data/life-replay/lives/alexandria-ocasio-cortez.json": "b7fea7f80194b25e5cf512db0cc1a132b5cc9ee7",
+        "data/life-replay/lives/lyndon-b-johnson.json": "d3aec793f0717c78cfedb4441a7c1cc1bea30b31",
+        "data/life-replay/lives/wes-moore.json": "6518b75bbae3a51a27e09c3822344369aba3a701",
+        "data/life-replay/parameters.json": "962baf32d1b76cfec806158a0269e9d033624fa8"
+      },
+      "testRoute": {
+        "runner": "planned P8 generated-prior-history adapter and comparison evaluator; no executable route exists today",
+        "commandTemplate": null,
+        "evaluationContract": "A future evaluator must consume only sourced birth/place/history inputs, then compare independently generated canonical prior records with the dated target milestones in this developer catalog. It must not preload target outcomes or count P9 initialized facts as generated results. P9 evaluateLife labels pre-start outcomes checkpointPast/initialized and is not a generated-prior-history evaluator.",
+        "implementationStatus": "blocked; adapter, output receipt, and history comparison evaluator are absent",
+        "existingP9Runner": "The P9 life-replay/v1 CLI is available for later actual-life replay, but it does not provide this prior-history comparison route."
+      },
+      "parameterApplicability": {
+        "marriageReferenceAge": {
+          "status": "not-applicable-to-current-generator-output",
+          "testableQuestion": "The cited 1934 marriage is a real individual outcome. Current marriageReferenceAge only backdates synthetic population couple households from adult ages; it does not generate LBJ’s partnership history or the individual marriage decision.",
+          "coefficientCalibration": "not valid; do not construct a synthetic town around a named LifeFile subject."
+        }
+      },
+      "adapterGaps": [
+        "The dated marriage observation is source-linked to lbj-timeline (LBJ Presidential Library).",
+        "P8 has no P9 adapter or privacy-safe population-level partnership history sample. The current population generator output is not an individual historic marriage record."
+      ],
+      "engineGaps": [
+        "No current P8 history replay adapter emits a receipt that can be compared with this target.",
+        "A target outcome can check an end-to-end generated record path; it cannot identify an individual coefficient or promote a TUNABLE tag."
+      ],
+      "calibrationStatus": "blocked; source-linked observations exist, but generated-record comparison is not implemented or measured."
+    },
+    {
+      "id": "P9-GENERATED-PRIOR-CASH-EDUCATION-TIMELINE",
+      "kind": "source-linked prior-history end-to-end comparison target",
+      "scope": "Developer-only candidate. Compare generated prior records against independently sourced P9 timeline checks; never preload future outcomes or expected facts into P8 input.",
+      "revision": "19f63909",
+      "sample": {
+        "lifeFiles": [
+          "alexandria-ocasio-cortez",
+          "lyndon-b-johnson",
+          "wes-moore"
+        ],
+        "count": 3,
+        "selection": "purposive sourced public biographies; not a representative sample"
+      },
+      "title": "Source-linked prior education-finance timeline",
+      "quantity": "LBJ’s 1927 college-enrollment loan range and subsequent Cotulla teaching employment recorded as funding college.",
+      "units": "P9 dated categorical checks and any sourced ranges retained from each original LifeFile step; no coefficient units or numerical bounds are inferred.",
+      "observations": [
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "college",
+          "kind": "decision",
+          "mechanism": "education-enrollment",
+          "dateWindow": {
+            "earliest": "1927-01-01",
+            "latest": "1927-12-31",
+            "precision": "year",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "education.enrolled",
+              "operator": "equals",
+              "expectedValue": true
+            }
+          ],
+          "ranges": [
+            {
+              "metric": "finance.educationLoanDollars",
+              "minimumParameter": {
+                "targetParameterId": "lbj-college-loan",
+                "value": 75,
+                "tag": "SOURCED",
+                "citation": "https://www.lbjlibrary.org/life-and-legacy/timeline",
+                "purpose": "Documented nominal 1927 dollar loan; not inflated into 2021 dollars."
+              },
+              "maximumParameter": {
+                "targetParameterId": "lbj-college-loan",
+                "value": 75,
+                "tag": "SOURCED",
+                "citation": "https://www.lbjlibrary.org/life-and-legacy/timeline",
+                "purpose": "Documented nominal 1927 dollar loan; not inflated into 2021 dollars."
+              }
+            }
+          ],
+          "requires": ["high-school"]
+        },
+        {
+          "lifeId": "lyndon-b-johnson",
+          "lifeFile": "data/life-replay/lives/lyndon-b-johnson.json",
+          "stepId": "cotulla",
+          "kind": "decision",
+          "mechanism": "employment",
+          "dateWindow": {
+            "earliest": "1928-01-01",
+            "latest": "1929-12-31",
+            "precision": "interval",
+            "sourceRefs": ["lbj-timeline"]
+          },
+          "sourceRefs": ["lbj-timeline"],
+          "sources": [
+            {
+              "id": "lbj-timeline",
+              "title": "A Full Life and Lasting Legacy",
+              "publisher": "LBJ Presidential Library",
+              "kind": "primary",
+              "url": "https://www.lbjlibrary.org/life-and-legacy/timeline"
+            }
+          ],
+          "checks": [
+            {
+              "metric": "employment.role",
+              "operator": "equals",
+              "expectedValue": "teacher"
+            }
+          ],
+          "ranges": [],
+          "requires": ["college"]
+        }
+      ],
+      "sourceFiles": {
+        "data/life-replay/lives/alexandria-ocasio-cortez.json": "b7fea7f80194b25e5cf512db0cc1a132b5cc9ee7",
+        "data/life-replay/lives/lyndon-b-johnson.json": "d3aec793f0717c78cfedb4441a7c1cc1bea30b31",
+        "data/life-replay/lives/wes-moore.json": "6518b75bbae3a51a27e09c3822344369aba3a701",
+        "data/life-replay/parameters.json": "962baf32d1b76cfec806158a0269e9d033624fa8"
+      },
+      "testRoute": {
+        "runner": "planned P8 generated-prior-history adapter and comparison evaluator; no executable route exists today",
+        "commandTemplate": null,
+        "evaluationContract": "A future evaluator must consume only sourced birth/place/history inputs, then compare independently generated canonical prior records with the dated target milestones in this developer catalog. It must not preload target outcomes or count P9 initialized facts as generated results. P9 evaluateLife labels pre-start outcomes checkpointPast/initialized and is not a generated-prior-history evaluator.",
+        "implementationStatus": "blocked; adapter, output receipt, and history comparison evaluator are absent",
+        "existingP9Runner": "The P9 life-replay/v1 CLI is available for later actual-life replay, but it does not provide this prior-history comparison route."
+      },
+      "parameterApplicability": {
+        "organizationReserveMonths": {
+          "status": "not-applicable-to-current-generator-output",
+          "testableQuestion": "The loan is an individual education-finance observation; organizationReserveMonths sets generated employer liquid cash from payroll. P9 has no sourced organization cash balance or reserve-duration observation.",
+          "coefficientCalibration": "not valid for this parameter; do not treat personal loan dollars as employer reserves."
+        }
+      },
+      "adapterGaps": [
+        "The LBJ college loan range and Cotulla teacher step are source-linked to lbj-timeline (LBJ Presidential Library); the $75 value is nominal 1927 dollars.",
+        "The LifeFiles contain no sourced organization balance-sheet, opening cash, or payroll-runway history. The personal education cash path cannot validate organization reserves."
+      ],
+      "engineGaps": [
+        "No current P8 history replay adapter emits a receipt that can be compared with this target.",
+        "A target outcome can check an end-to-end generated record path; it cannot identify an individual coefficient or promote a TUNABLE tag."
+      ],
+      "calibrationStatus": "blocked; source-linked observations exist, but generated-record comparison is not implemented or measured."
+    }
+  ],
+  "jointTargetRef": "P9-OUTCOME-WHOLE-LIFE",
+  "blockedBindings": [
+    {
+      "parameter": "marriageReferenceAge",
+      "ref": "P9-GENERATED-PRIOR-PARTNERSHIP-TIMELINE",
+      "reason": "Source target exists, but current synthetic population partnership output is not an individual P9 marriage record and no safe population-history evaluator exists."
+    },
+    {
+      "parameter": "organizationReserveMonths",
+      "ref": "P9-GENERATED-PRIOR-CASH-EDUCATION-TIMELINE",
+      "reason": "Source target is a personal student-loan/employment path, not employer cash. No matching sourced organization balance-sheet target exists."
+    },
+    {
+      "parameter": "deepPastMiddleSchoolOffsetYears",
+      "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE",
+      "reason": "Only an explicitly estimated cohort-date chronology check is possible; P9 credential outcomes do not identify attendance or the offset."
+    },
+    {
+      "parameter": "deepPastHighSchoolOffsetYears",
+      "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE",
+      "reason": "Only an explicitly estimated cohort-date chronology check is possible; P9 credential outcomes do not identify attendance or the offset."
+    }
+  ],
+  "deletedUnusedParameters": [
+    {
+      "parameter": "workingDaysPerWeek",
+      "formerStopgapId": "SG-P8-param-workingDaysPerWeek",
+      "cleanup": "Row and matching open stopgap removed; no production reader existed."
+    },
+    {
+      "parameter": "memoryMiBBudget",
+      "formerStopgapId": "SG-P8-param-memoryMiBBudget",
+      "cleanup": "Row and matching open stopgap removed; no production reader existed."
+    },
+    {
+      "parameter": "contactEffect",
+      "formerStopgapId": "SG-P8-param-contactEffect",
+      "cleanup": "Row and matching open stopgap removed; no production reader existed."
+    },
+    {
+      "parameter": "civicEffect",
+      "formerStopgapId": "SG-P8-param-civicEffect",
+      "cleanup": "Row and matching open stopgap removed; no production reader existed."
+    },
+    {
+      "parameter": "eventMoodImpulse",
+      "formerStopgapId": "SG-P8-param-eventMoodImpulse",
+      "cleanup": "Row and matching open stopgap removed; no production reader existed. Former test-only stimuli are retained only in src/core2/tooling/fixtures/event-inputs.json with synthetic developer-fixture provenance."
+    },
+    {
+      "parameter": "eventStressImpulse",
+      "formerStopgapId": "SG-P8-param-eventStressImpulse",
+      "cleanup": "Row and matching open stopgap removed; no production reader existed. Former test-only stimuli are retained only in src/core2/tooling/fixtures/event-inputs.json with synthetic developer-fixture provenance."
+    }
+  ],
+  "contentMetadataCleanup": {
+    "contact-known-person": "effectParameter now refers to the already-used relationContactGain key; handler behavior is unchanged because the contact handler reads relationContactGain directly.",
+    "join-association|organize-meeting|approach-office": "effectParameter now refers to neutral one; the current civic handlers do not read this field."
+  }
+}

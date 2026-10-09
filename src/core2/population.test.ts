@@ -63,7 +63,7 @@ describe("real-place one-time population import", () => {
     expect(
       opening.people.some((person) => person.familyIds.length > p("zero")),
     ).toBe(true);
-    expect(opening.people.every((person) => person.tier === "daily")).toBe(
+    expect(opening.people.every((person) => person.tier === "weekly")).toBe(
       true,
     );
   });

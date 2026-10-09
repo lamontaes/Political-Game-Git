@@ -10,6 +10,8 @@ export interface Parameter {
     | { low: number; high: number; unit: string; citation: string }
     | { status: "unmeasured"; reason: string };
   stopgapId?: string;
+  /** Developer-only calibration target; numeric lookup and snapshots ignore it. */
+  checkRange?: Readonly<{ ref: string }>;
 }
 
 export const PARAMETERS = rows as Readonly<Record<string, Parameter>>;

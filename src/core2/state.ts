@@ -2,6 +2,7 @@ import { makeIsoDate } from "../simulation/dates";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "./data";
 import { parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
+import { initialFocusPeople } from "./focus";
 import type {
   CoreAPI,
   CoreData,
@@ -76,8 +77,9 @@ export function createCore(
     organizedTopicsByPerson: new Map(),
     eventIds: new Set(),
     calendarDates: new Set(input.calendarDates),
-    focusPersonIds: new Set(input.focusPersonIds),
+    focusPersonIds: initialFocusPeople(input),
     focusPlaceIds: new Set(input.focusPlaceIds),
+    visiblePlaceIds: new Set(input.visiblePlaceIds ?? input.focusPlaceIds),
     playerId: input.playerId,
     observer: options.observer ?? false,
     sequence: p("zero"),
@@ -275,7 +277,7 @@ export function retainLog(core: CoreState, event: LogRecord): void {
     (id) => core.focusPersonIds.has(id) || id === core.playerId,
   );
   const publicRecord =
-    event.publicRecord && core.focusPlaceIds.has(event.placeId);
+    event.publicRecord && core.visiblePlaceIds.has(event.placeId);
   const news = event.news;
   if (!core.observer && !circle && !publicRecord && !news) return;
   if (core.durableLog.has(event.id)) return;
@@ -359,6 +361,8 @@ export function coreAPI(core: CoreState): CoreAPI {
       core.relationships.set(id, row);
       index(core.relationshipsByPerson, actorId, id);
       index(core.relationshipsByPerson, otherId, id);
+      if (actorId === core.playerId) core.focusPersonIds.add(otherId);
+      if (otherId === core.playerId) core.focusPersonIds.add(actorId);
     },
     join(personId, organizationId, driveId) {
       if (

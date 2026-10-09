@@ -78,7 +78,7 @@
       "goalKinds": ["connect"],
       "need": "company",
       "effortParameter": "socialHours",
-      "effectParameter": "contactEffect",
+      "effectParameter": "relationContactGain",
       "targetKind": "known-person",
       "effect": "contact",
       "stopgapId": "SG-P8-life-utility",
@@ -108,7 +108,7 @@
       "goalKinds": ["change-condition", "connect"],
       "need": "company",
       "effortParameter": "civicHours",
-      "effectParameter": "civicEffect",
+      "effectParameter": "one",
       "targetKind": "known-group",
       "effect": "join",
       "prerequisites": [
@@ -128,7 +128,7 @@
       "goalKinds": ["change-condition"],
       "need": "safety",
       "effortParameter": "civicHours",
-      "effectParameter": "civicEffect",
+      "effectParameter": "one",
       "targetKind": "public-meeting-place",
       "effect": "organize",
       "prerequisites": [
@@ -151,7 +151,7 @@
       "goalKinds": ["change-condition"],
       "need": "safety",
       "effortParameter": "civicHours",
-      "effectParameter": "civicEffect",
+      "effectParameter": "one",
       "targetKind": "known-office",
       "effect": "approach",
       "prerequisites": [
@@ -239,5 +239,5 @@
     }
   ],
   "openingVintageStopgap": "SG-P8-opening-vintage",
-  "openingTier": "daily"
+  "openingTier": "weekly"
 }

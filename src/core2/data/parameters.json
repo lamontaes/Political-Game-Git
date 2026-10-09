@@ -84,16 +84,6 @@
     "tag": "SOURCED",
     "citation": "Technical floating-point test precision; not a model coefficient."
   },
-  "workingDaysPerWeek": {
-    "value": 5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-workingDaysPerWeek",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    }
-  },
   "wageMedianPercentile": {
     "value": 50,
     "tag": "SOURCED",
@@ -122,6 +112,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-GENERATED-PRIOR-PARTNERSHIP-TIMELINE"
     }
   },
   "censusPlaceGeoidLength": {
@@ -159,16 +152,6 @@
     "tag": "SOURCED",
     "citation": "00s PACKAGES, P8 CORE, owner decision October 9, 2026."
   },
-  "memoryMiBBudget": {
-    "value": 1024,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-memoryMiBBudget",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    }
-  },
   "traitScale": {
     "value": 3,
     "tag": "SOURCED",
@@ -197,6 +180,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "civicHours": {
@@ -207,6 +193,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "stressBaseline": {
@@ -217,6 +206,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "moodBaseline": {
@@ -227,6 +219,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "moodHalfLifeDays": {
@@ -237,6 +232,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "stressHalfLifeDays": {
@@ -247,6 +245,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "needWeight": {
@@ -257,6 +258,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "goalWeight": {
@@ -267,6 +271,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "driveWeight": {
@@ -277,6 +284,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "traitWeight": {
@@ -287,6 +297,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "emotionWeight": {
@@ -297,6 +310,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "effortWeight": {
@@ -307,6 +323,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "restEffect": {
@@ -317,16 +336,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
-    }
-  },
-  "contactEffect": {
-    "value": 0.2,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-contactEffect",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "careEffect": {
@@ -337,16 +349,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
-    }
-  },
-  "civicEffect": {
-    "value": 0.2,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-civicEffect",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "companyHorizonDays": {
@@ -357,6 +362,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "moneyBufferDays": {
@@ -367,6 +375,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "organizationReserveMonths": {
@@ -377,26 +388,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    }
-  },
-  "eventMoodImpulse": {
-    "value": -0.5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-eventMoodImpulse",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    }
-  },
-  "eventStressImpulse": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-eventStressImpulse",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-GENERATED-PRIOR-CASH-EDUCATION-TIMELINE"
     }
   },
   "appraisalRelationshipWeight": {
@@ -407,6 +401,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "appraisalDistressTraitWeight": {
@@ -417,6 +414,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "appraisalBroodingTraitWeight": {
@@ -427,6 +427,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "emotionDurationMinHours": {
@@ -447,6 +450,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "relationContactGain": {
@@ -457,6 +463,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "routineRetentionDays": {
@@ -479,6 +488,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE"
     }
   },
   "deepPastHighSchoolOffsetYears": {
@@ -489,6 +501,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-GENERATED-PRIOR-SCHOOL-TIMELINE"
     }
   },
   "warmupRuns": {
@@ -529,6 +544,9 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   }
 }

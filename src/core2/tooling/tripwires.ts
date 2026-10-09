@@ -1,7 +1,12 @@
+import { createHash } from "node:crypto";
 import { readdirSync, readFileSync, existsSync } from "node:fs";
 import { dirname, join, relative, resolve, sep } from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import ts from "typescript";
+import {
+  auditCheckRangeCoverage,
+  type CalibrationBlocker,
+} from "./calibration-guard";
 import {
   assertReleaseReady as enforceReleaseReady,
   type StopgapEntry,
@@ -20,6 +25,13 @@ export interface TripwireDiagnostic {
 export interface TripwireAudit {
   readonly openStopgapCount: number;
   readonly diagnostics: readonly TripwireDiagnostic[];
+  readonly calibration: {
+    readonly structuralValid: boolean;
+    readonly targetReferenceCount: number;
+    readonly blockerCount: number;
+    readonly blockers: readonly CalibrationBlocker[];
+    readonly empiricalCalibrationPass: false;
+  };
 }
 
 interface SourceMarker {
@@ -99,6 +111,7 @@ const PARAMETER_ROW_FIELDS = new Set([
   "estimatedFrom",
   "spread",
   "stopgapId",
+  "checkRange",
 ]);
 
 /** Counts open rows in the array-form stopgap registry. */
@@ -189,11 +202,13 @@ export function auditCore2Tripwires(
 
   inspectMarkerLedger(markers, parsedRegistry.entries, diagnostics);
   inspectParameterTable(root, diagnostics);
+  const calibration = inspectCalibrationCatalog(root, diagnostics);
   return {
     openStopgapCount: parsedRegistry.entries.filter(
       (entry) => entry.status === "open",
     ).length,
     diagnostics,
+    calibration,
   };
 }
 
@@ -243,6 +258,13 @@ export function runTripwiresCli(
     // The audit below already reports a missing or unreadable registry.
   }
   reportOpenStopgapCount(registry, write);
+  write(
+    `Calibration references: ${audit.calibration.targetReferenceCount}; blockers: ${audit.calibration.blockerCount}; empirical pass: no.`,
+  );
+  for (const blocker of audit.calibration.blockers) {
+    const subject = blocker.parameter ?? blocker.target ?? "target";
+    write(`Calibration pending (${subject}): ${blocker.message}`);
+  }
   for (const diagnostic of audit.diagnostics) {
     const location = diagnostic.file
       ? `${diagnostic.file}${diagnostic.line === undefined ? "" : `:${diagnostic.line}`}: `
@@ -559,6 +581,68 @@ function inspectProductionSource(
   visit(sourceFile);
 }
 
+function inspectCalibrationCatalog(
+  root: string,
+  diagnostics: TripwireDiagnostic[],
+): TripwireAudit["calibration"] {
+  const parameterPath = join(root, "src", "core2", "data", "parameters.json");
+  const catalogPath = join(
+    root,
+    "src",
+    "core2",
+    "tooling",
+    "calibration-targets.json",
+  );
+  const parameterFile = relative(root, parameterPath).split(sep).join("/");
+  const catalogFile = relative(root, catalogPath).split(sep).join("/");
+  let parameters: unknown;
+  let catalog: unknown;
+  let parameterSourceSha256: string | undefined;
+  try {
+    const parameterSource = readFileSync(parameterPath, "utf8");
+    parameters = JSON.parse(parameterSource) as unknown;
+    parameterSourceSha256 = createHash("sha256")
+      .update(parameterSource, "utf8")
+      .digest("hex");
+  } catch (error) {
+    diagnostics.push({
+      code: "calibration-parameters-unreadable",
+      file: parameterFile,
+      message: `Could not read parameter references: ${errorMessage(error)}.`,
+    });
+  }
+  try {
+    catalog = JSON.parse(readFileSync(catalogPath, "utf8")) as unknown;
+  } catch (error) {
+    diagnostics.push({
+      code: "calibration-catalog-unreadable",
+      file: catalogFile,
+      message: `Could not read the developer-only calibration catalog: ${errorMessage(error)}.`,
+    });
+  }
+  const audit = auditCheckRangeCoverage(
+    parameters,
+    catalog,
+    parameterSourceSha256,
+  );
+  diagnostics.push(
+    ...audit.diagnostics.map((row) => ({
+      code: row.code,
+      file: row.file ?? catalogFile,
+      message: row.parameter
+        ? `${row.parameter}${row.target ? ` -> ${row.target}` : ""}: ${row.message}`
+        : row.message,
+    })),
+  );
+  return {
+    structuralValid: audit.structuralValid,
+    targetReferenceCount: audit.targetReferenceCount,
+    blockerCount: audit.blockers.length,
+    blockers: audit.blockers,
+    empiricalCalibrationPass: false,
+  };
+}
+
 function inspectParameterTable(
   root: string,
   diagnostics: TripwireDiagnostic[],
@@ -654,17 +738,52 @@ function inspectParameterTable(
       diagnostics.push({
         code: "parameter-tunable-spread",
         file,
-        message: `Tunable parameter ${name} needs a recorded spread.`,
+        message: `Tunable parameter ${name} needs a recorded spread or an explicit unmeasured reason.`,
       });
-    } else if (row.tag === "TUNABLE" && isRecord(row.spread)) {
-      for (const bound of ["low", "high"] as const) {
-        if (typeof row.spread[bound] === "number") {
-          allowedNumericPaths.add(`${jsonPath}.spread.${bound}`);
-        } else {
+    } else if (isRecord(row.spread)) {
+      if (row.tag === "TUNABLE" && row.spread.status === "unmeasured") {
+        const keys = Object.keys(row.spread);
+        if (
+          keys.length !== 2 ||
+          !keys.includes("status") ||
+          !keys.includes("reason") ||
+          typeof row.spread.reason !== "string" ||
+          row.spread.reason.trim() === ""
+        ) {
           diagnostics.push({
-            code: "parameter-tunable-bound",
+            code: "parameter-tunable-unmeasured-spread",
             file,
-            message: `Tunable parameter ${name} needs a numeric ${bound} spread bound.`,
+            message: `Unmeasured spread for ${name} must contain only status and a nonempty reason.`,
+          });
+        }
+      } else {
+        const low = row.spread.low;
+        const high = row.spread.high;
+        if (typeof low === "number" && Number.isFinite(low)) {
+          allowedNumericPaths.add(`${jsonPath}.spread.low`);
+        }
+        if (typeof high === "number" && Number.isFinite(high)) {
+          allowedNumericPaths.add(`${jsonPath}.spread.high`);
+        }
+        if (
+          Object.keys(row.spread).length !== 4 ||
+          !Object.keys(row.spread).every((field) =>
+            ["low", "high", "unit", "citation"].includes(field),
+          ) ||
+          typeof low !== "number" ||
+          !Number.isFinite(low) ||
+          typeof high !== "number" ||
+          !Number.isFinite(high) ||
+          low > high ||
+          typeof row.spread.unit !== "string" ||
+          row.spread.unit.trim() === "" ||
+          typeof row.spread.citation !== "string" ||
+          row.spread.citation.trim() === ""
+        ) {
+          diagnostics.push({
+            code: "parameter-spread-shape",
+            file,
+            message: `Numeric spread for ${name} needs finite ordered bounds, a unit, and a source citation.`,
           });
         }
       }
