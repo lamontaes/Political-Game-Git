@@ -1,90 +1,79 @@
 {
   "id": "batch-3",
-  "title": "Batch 3 to the owner's rules R1–R6 (11 items from 40 new lives)",
-  "at": "2026-10-09T04:51:08.028Z",
-  "head": "1650cabc6783886942de18e71d77339b235e7e1e",
+  "title": "Batch 3 to the owner's rules R1–R6 (8 items from 40 new lives)",
+  "at": "2026-10-09T04:57:35.634Z",
+  "head": "751f1be18c03175eb5c0279cbd457c962516ae4c",
   "builtOn": "main 1b73216d with #3908 at 64c7ce2f, #3909 at 0de492ee, #3843 at 76568bac and #3834 at f3fa0284 merged in",
   "status": "open",
   "rules": "R1–R6, data/english/grades/batch-2.json",
   "absent": [
     {
       "kind": "campaign door",
-      "reason": "The door-knocking screen shows a talk-or-decline choice and a result sentence written in code; no one at the door says anything yet."
+      "reason": "Only a candidate knocks on doors, and no new life starts as a candidate, so no life reached the doors."
     },
     {
       "kind": "court",
-      "reason": "The legal record shows only the sentence's term; a judge's reasons never reach a screen."
+      "reason": "The legal record shows only a sentence's term, worded in code (src/presentation/legal-record.ts:122); a judge's reasons never reach a screen."
     },
     {
       "kind": "council meeting",
-      "reason": "No new life starts with a meeting under way, and the meeting screen's lines are written in code."
+      "reason": "The meeting screen needs a meeting on the calendar (src/presentation/ordinary-meeting-scene.ts:21), and this tool does not schedule one."
     },
     {
       "kind": "conversation at home or with family",
-      "reason": "Of 40 new lives, 13 opened in a room with someone to talk to, all at work; none opened at home with anyone present."
+      "reason": "Of 39 new lives built, 13 opened in a room with someone to talk to, all at work; none opened at home with anyone present."
     },
     {
       "kind": "personality pair",
-      "reason": "9 rooms held two people to talk to, but 26 of the 26 people had no personality trait written down, so no room held two people of different temperaments."
+      "reason": "13 rooms held 26 people to talk to, 9 of the rooms two or more. 0 of the 26 people had a personality trait written down, so no room held two people of different temperaments."
     },
     {
       "kind": "news front page",
-      "reason": "None of 40 new lives had a story on the News front page yet."
+      "reason": "None of the 39 new lives built had a story on the News front page yet."
     }
   ],
   "lives": 40,
-  "failed": [
-    "batch3-oct9:14 Chalan Kanoa, Northern Mariana Islands: Historical cutoff predates the person's birth."
-  ],
+  "failed": [],
   "candidates": 158,
   "coverage": {
     "moment": {
-      "life story chapter": 2,
-      "journal entry (memory)": 1,
-      "conversation at work": 2,
+      "life story chapter": 1,
+      "conversation at work": 1,
       "first moment of a new life": 2,
       "a standing fact on News": 2,
-      "lie": 1,
-      "journal entry (event)": 1
+      "journal entry (memory)": 1,
+      "lie": 1
     },
     "screen": {
-      "Journal, the life told as a story": 2,
       "Journal": 2,
       "Conversation box": 2,
       "The first moment over the room (#3906)": 2,
-      "News, Around you": 2,
-      "Conversation box, after the Lie button": 1
+      "News, Around you": 2
     },
     "place": {
       "Magnolia Beach, Texas": 1,
-      "Las Cruces, New Mexico": 1,
       "Catonsville, Maryland": 1,
       "New Hope, Alabama": 1,
       "Bowling Green, Kentucky": 1,
+      "Las Cruces, New Mexico": 1,
       "Metter, Georgia": 1,
-      "Lawrence, Nebraska": 1,
       "West Loch Estate, Hawaii": 1,
-      "Salladasburg, Pennsylvania": 1,
-      "Anchorage, Alaska": 1,
-      "Naples, Illinois": 1
+      "Anchorage, Alaska": 1
     },
     "relationship": {
-      "(none)": 8,
-      "your coworker": 2,
+      "(none)": 6,
+      "your coworker": 1,
       "your mom": 1
     },
     "setup": {
       "story:long life": 1,
-      "journal:memory": 1,
-      "Say hello > Tell them you want to make some time for yourself > Talk about an earlier conversation": 1,
+      "work: Say hello > Tell them you want to make some time for yourself": 1,
       "first-moment:adult": 1,
       "news-form:Commission-manager form of government": 1,
+      "journal:memory": 1,
       "lie:challenge": 1,
-      "journal:event": 1,
       "first-moment:older": 1,
-      "story:short life": 1,
-      "news-form:Consolidated city-county government": 1,
-      "Say hello > Tell them you want to make some time for yourself > Ask what they would like to do": 1
+      "news-form:Consolidated city-county government": 1
     }
   },
   "items": [
@@ -92,7 +81,7 @@
       "i": 0,
       "id": "batch3-oct9:39:story:story:early",
       "moment": "life story chapter",
-      "screen": "Journal, the life told as a story",
+      "screen": "Journal",
       "place": "Magnolia Beach, Texas",
       "relationship": null,
       "setup": "story:long life",
@@ -116,34 +105,12 @@
     },
     {
       "i": 1,
-      "id": "batch3-oct9:16:journal:memory:memory_fcd98e199bce2aac",
-      "moment": "journal entry (memory)",
-      "screen": "Journal",
-      "place": "Las Cruces, New Mexico",
-      "relationship": null,
-      "setup": "journal:memory",
-      "calibrates": ["past tense", "second person", "what a record says"],
-      "situation": "Brooke O'Brien, 34, in Las Cruces, New Mexico on 2026-01-05. One entry in the Journal, from 1997-08-25.",
-      "text": "A household move changed the child's local routine.",
-      "parts": [],
-      "composer": "projectWorld39Journal in world39-journal.ts",
-      "harness": "The entry is picked by the seed.",
-      "seed": "batch3-oct9:16",
-      "axis": "journal entry (memory)",
-      "kind": "journal entry (memory)",
-      "prior": "",
-      "reply": "A household move changed the child's local routine.",
-      "part": null,
-      "choices": []
-    },
-    {
-      "i": 2,
       "id": "batch3-oct9:9:talk:person_ff8e83b6689f9eec",
       "moment": "conversation at work",
       "screen": "Conversation box",
       "place": "Catonsville, Maryland",
       "relationship": "your coworker",
-      "setup": "Say hello > Tell them you want to make some time for yourself > Talk about an earlier conversation",
+      "setup": "work: Say hello > Tell them you want to make some time for yourself",
       "calibrates": [
         "register",
         "relationship (your coworker)",
@@ -218,7 +185,7 @@
       ]
     },
     {
-      "i": 3,
+      "i": 2,
       "id": "batch3-oct9:35:first-moment",
       "moment": "first moment of a new life",
       "screen": "The first moment over the room (#3906)",
@@ -244,7 +211,7 @@
       "choices": []
     },
     {
-      "i": 4,
+      "i": 3,
       "id": "batch3-oct9:0:news-form",
       "moment": "a standing fact on News",
       "screen": "News, Around you",
@@ -266,10 +233,32 @@
       "choices": []
     },
     {
+      "i": 4,
+      "id": "batch3-oct9:16:journal:memory:memory_fcd98e199bce2aac",
+      "moment": "journal entry (memory)",
+      "screen": "Journal",
+      "place": "Las Cruces, New Mexico",
+      "relationship": null,
+      "setup": "journal:memory",
+      "calibrates": ["past tense", "second person", "what a record says"],
+      "situation": "Brooke O'Brien, 34, in Las Cruces, New Mexico on 2026-01-05. One entry in the Journal, from 1997-08-25.",
+      "text": "A household move changed the child's local routine.",
+      "parts": [],
+      "composer": "projectWorld39Journal in world39-journal.ts",
+      "harness": "The entry is picked by the seed.",
+      "seed": "batch3-oct9:16",
+      "axis": "journal entry (memory)",
+      "kind": "journal entry (memory)",
+      "prior": "",
+      "reply": "A household move changed the child's local routine.",
+      "part": null,
+      "choices": []
+    },
+    {
       "i": 5,
       "id": "batch3-oct9:22:lie:person_3287055f718136c4",
       "moment": "lie",
-      "screen": "Conversation box, after the Lie button",
+      "screen": "Conversation box",
       "place": "Metter, Georgia",
       "relationship": "your mom",
       "setup": "lie:challenge",
@@ -355,28 +344,6 @@
     },
     {
       "i": 6,
-      "id": "batch3-oct9:3:journal:event:event_24f86610123022f7",
-      "moment": "journal entry (event)",
-      "screen": "Journal",
-      "place": "Lawrence, Nebraska",
-      "relationship": null,
-      "setup": "journal:event",
-      "calibrates": ["past tense", "second person", "what a record says"],
-      "situation": "Joshua Cannon, 27, in Lawrence, Nebraska on 2026-01-05. One entry in the Journal, from 2008-03-19.",
-      "text": "At lunch you made room at the table for another kid.",
-      "parts": [],
-      "composer": "projectWorld39Journal in world39-journal.ts",
-      "harness": "The entry is picked by the seed.",
-      "seed": "batch3-oct9:3",
-      "axis": "journal entry (event)",
-      "kind": "journal entry (event)",
-      "prior": "",
-      "reply": "At lunch you made room at the table for another kid.",
-      "part": null,
-      "choices": []
-    },
-    {
-      "i": 7,
       "id": "batch3-oct9:20:first-moment",
       "moment": "first moment of a new life",
       "screen": "The first moment over the room (#3906)",
@@ -402,33 +369,7 @@
       "choices": []
     },
     {
-      "i": 8,
-      "id": "batch3-oct9:17:story:story:early",
-      "moment": "life story chapter",
-      "screen": "Journal, the life told as a story",
-      "place": "Salladasburg, Pennsylvania",
-      "relationship": null,
-      "setup": "story:short life",
-      "calibrates": ["narrative voice", "joining events", "age"],
-      "situation": "Gabriela Villegas, 19, in Salladasburg, Pennsylvania on 2026-01-05. The first chapter of the story the Journal tells, 2006–2024.",
-      "text": "I was born in Salladasburg, Pennsylvania. My mother was a campaign manager. I graduated from Hickory Ridge High School.",
-      "parts": [
-        "bank:life-story.birth.i-was-born-in-place",
-        "bank:life-story.family.my-mother-was-occupation",
-        "bank:life-story.school.i-graduated-from-school"
-      ],
-      "composer": "composeLifeStory in journal-story.ts (#3834)",
-      "harness": null,
-      "seed": "batch3-oct9:17",
-      "axis": "life story chapter",
-      "kind": "life story chapter",
-      "prior": "",
-      "reply": "I was born in Salladasburg, Pennsylvania. My mother was a campaign manager. I graduated from Hickory Ridge High School.",
-      "part": "bank:life-story.birth.i-was-born-in-place",
-      "choices": []
-    },
-    {
-      "i": 9,
+      "i": 7,
       "id": "batch3-oct9:1:news-form",
       "moment": "a standing fact on News",
       "screen": "News, Around you",
@@ -448,89 +389,6 @@
       "reply": "Consolidated city-county government",
       "part": "bank:government-form.consolidated.city-county-government",
       "choices": []
-    },
-    {
-      "i": 10,
-      "id": "batch3-oct9:24:talk:person_48454e19c5b3f298",
-      "moment": "conversation at work",
-      "screen": "Conversation box",
-      "place": "Naples, Illinois",
-      "relationship": "your coworker",
-      "setup": "Say hello > Tell them you want to make some time for yourself > Ask what they would like to do",
-      "calibrates": [
-        "register",
-        "relationship (your coworker)",
-        "temperament (no recorded temperament)",
-        "choices answering the last line"
-      ],
-      "situation": "Victoria Raymond, 30, in Naples, Illinois on 2026-01-05. At Scott County Feed and Grain, Victoria Raymond talks with Eddie Sullivan, your coworker; their recorded temperament: no recorded temperament.",
-      "exchange": [
-        {
-          "choice": "Say hello",
-          "said": "How are you doing?",
-          "saidParts": ["bank:talk-choice.greet-open.how-are-you-doing"],
-          "reply": "Hi, Victoria. How are you?",
-          "replyParts": [
-            "life-reply.first-greeting:core:core",
-            "life-reply.first-greeting:closer:ask-followup"
-          ],
-          "offered": [
-            "Say hello",
-            "Ask what they would like to do",
-            "Tell them you want to make some time for yourself",
-            "Talk about an earlier conversation"
-          ],
-          "eventId": "event_0d58bdce39b07038"
-        },
-        {
-          "choice": "Tell them you want to make some time for yourself",
-          "said": null,
-          "saidParts": [],
-          "reply": "Good luck with it.",
-          "replyParts": ["life-reply.tell-plain-plan:core:core"],
-          "offered": [
-            "Say hello",
-            "Ask what they would like to do",
-            "Talk about an earlier conversation"
-          ],
-          "eventId": "event_0d58b7ce39b06606"
-        },
-        {
-          "choice": "Ask what they would like to do",
-          "said": null,
-          "saidParts": [],
-          "reply": "We could try a new game. Would you like that?",
-          "replyParts": [
-            "life-reply.we-could-try-a-new-game-would:core:core",
-            "life-reply.we-could-try-a-new-game-would:reason:continuation"
-          ],
-          "offered": [
-            "Agree to try a new game together",
-            "Decline to try a new game together"
-          ],
-          "eventId": "event_0d553ece39ad6294"
-        }
-      ],
-      "parts": [
-        "bank:talk-choice.greet-open.how-are-you-doing",
-        "life-reply.first-greeting:core:core",
-        "life-reply.first-greeting:closer:ask-followup",
-        "life-reply.tell-plain-plan:core:core",
-        "life-reply.we-could-try-a-new-game-would:core:core",
-        "life-reply.we-could-try-a-new-game-would:reason:continuation"
-      ],
-      "composer": "projectLifeConversation and commitLifeConversation in life-conversation.ts; composeTalkChoice in talk-choice-english.ts",
-      "harness": "Each turn takes an offered choice not yet taken, counted from an offset that differs by life; a pair takes the same path.",
-      "seed": "batch3-oct9:24",
-      "axis": "conversation at work",
-      "kind": "conversation",
-      "prior": "You: How are you doing?\nYour coworker: Hi, Victoria. How are you?\nYou: Tell them you want to make some time for yourself\nYour coworker: Good luck with it.\nYou: Ask what they would like to do",
-      "reply": "Your coworker: We could try a new game. Would you like that?",
-      "part": "bank:talk-choice.greet-open.how-are-you-doing",
-      "choices": [
-        "Agree to try a new game together",
-        "Decline to try a new game together"
-      ]
     }
   ]
 }
