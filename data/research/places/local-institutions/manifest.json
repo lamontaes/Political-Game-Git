@@ -1,0 +1,706 @@
+{
+  "asOf": "2025-06-30",
+  "inputs": [
+    {
+      "artifactId": "ccd-2024-25-preliminary",
+      "sha256": "960a1e788a32677cc16399b62fdc7061a830b6d8b8b90b05b875fd50fad27cd1"
+    },
+    {
+      "artifactId": "ccd-2023-24-school-directory",
+      "sha256": "3910300771b1db27e0589d014451f95e3190ca71ab4dcabe06227224f58b4ecb"
+    },
+    {
+      "artifactId": "nces-edge-geocode-publicsch-2425",
+      "sha256": "9dc51ecd5cdf6e38bdb679f7ac95e2bf73ee3fb48718b8612cf830800cffb288"
+    },
+    {
+      "artifactId": "census-cb-2025-place-500k",
+      "sha256": "ce0e4019ecd4123d03d53aaa936eed0459b82e3e14b89a3dcd4d5e8b3308627d"
+    },
+    {
+      "artifactId": "ccd-2023-24-school-membership",
+      "sha256": "06bd50eede0c036e4c92b6464b69f192ff3b8f9f739b403c2b218a9f6ec3e239"
+    }
+  ],
+  "report": {
+    "perState": {
+      "AL": {
+        "source": 1538,
+        "kept": 1532,
+        "dropped": {
+          "not operating: Closed": 6
+        }
+      },
+      "AK": {
+        "source": 498,
+        "kept": 494,
+        "dropped": {
+          "not operating: Inactive": 4
+        }
+      },
+      "AZ": {
+        "source": 2633,
+        "kept": 2482,
+        "dropped": {
+          "not operating: Inactive": 140,
+          "not operating: Future": 5,
+          "not operating: Closed": 5,
+          "no place, no county": 1
+        }
+      },
+      "AR": {
+        "source": 1117,
+        "kept": 1106,
+        "dropped": {
+          "not operating: Closed": 11
+        }
+      },
+      "CA": {
+        "source": 10393,
+        "kept": 10305,
+        "dropped": {
+          "not operating: Future": 30,
+          "not operating: Closed": 56,
+          "not operating: Inactive": 2
+        }
+      },
+      "CO": {
+        "source": 1917,
+        "kept": 1900,
+        "dropped": {
+          "not operating: Closed": 17
+        }
+      },
+      "CT": {
+        "source": 1021,
+        "kept": 1007,
+        "dropped": {
+          "not operating: Future": 3,
+          "not operating: Closed": 11
+        }
+      },
+      "DE": {
+        "source": 238,
+        "kept": 235,
+        "dropped": {
+          "not operating: Future": 3
+        }
+      },
+      "DC": {
+        "source": 246,
+        "kept": 244,
+        "dropped": {
+          "not operating: Closed": 2
+        }
+      },
+      "MD": {
+        "source": 1415,
+        "kept": 1409,
+        "dropped": {
+          "not operating: Closed": 6
+        }
+      },
+      "FL": {
+        "source": 4312,
+        "kept": 4187,
+        "dropped": {
+          "not operating: Closed": 93,
+          "not operating: Future": 32
+        }
+      },
+      "IL": {
+        "source": 4439,
+        "kept": 4399,
+        "dropped": {
+          "not operating: Closed": 40
+        }
+      },
+      "GA": {
+        "source": 2349,
+        "kept": 2329,
+        "dropped": {
+          "not operating: Closed": 20
+        }
+      },
+      "HI": {
+        "source": 297,
+        "kept": 297,
+        "dropped": {}
+      },
+      "ID": {
+        "source": 819,
+        "kept": 797,
+        "dropped": {
+          "not operating: Inactive": 6,
+          "not operating: Closed": 13,
+          "not operating: Future": 3
+        }
+      },
+      "OR": {
+        "source": 1301,
+        "kept": 1293,
+        "dropped": {
+          "not operating: Closed": 8
+        }
+      },
+      "IN": {
+        "source": 1928,
+        "kept": 1918,
+        "dropped": {
+          "no place, no county": 1,
+          "not operating: Closed": 9
+        }
+      },
+      "IA": {
+        "source": 1336,
+        "kept": 1319,
+        "dropped": {
+          "not operating: Closed": 16,
+          "not operating: Future": 1
+        }
+      },
+      "KS": {
+        "source": 1356,
+        "kept": 1342,
+        "dropped": {
+          "not operating: Closed": 14
+        }
+      },
+      "KY": {
+        "source": 1559,
+        "kept": 1550,
+        "dropped": {
+          "not operating: Closed": 9
+        }
+      },
+      "LA": {
+        "source": 1330,
+        "kept": 1309,
+        "dropped": {
+          "not operating: Closed": 17,
+          "not operating: Inactive": 4
+        }
+      },
+      "ME": {
+        "source": 598,
+        "kept": 592,
+        "dropped": {
+          "not operating: Closed": 5,
+          "not operating: Future": 1
+        }
+      },
+      "MA": {
+        "source": 1844,
+        "kept": 1823,
+        "dropped": {
+          "not operating: Closed": 20,
+          "not operating: Future": 1
+        }
+      },
+      "MI": {
+        "source": 3508,
+        "kept": 3470,
+        "dropped": {
+          "not operating: Closed": 34,
+          "not operating: Inactive": 1,
+          "not operating: Future": 3
+        }
+      },
+      "MN": {
+        "source": 2860,
+        "kept": 2746,
+        "dropped": {
+          "not operating: Future": 35,
+          "not operating: Closed": 79
+        }
+      },
+      "MS": {
+        "source": 1050,
+        "kept": 1027,
+        "dropped": {
+          "not operating: Closed": 18,
+          "not operating: Future": 5
+        }
+      },
+      "MO": {
+        "source": 2488,
+        "kept": 2451,
+        "dropped": {
+          "not operating: Closed": 24,
+          "not operating: Future": 13
+        }
+      },
+      "MT": {
+        "source": 857,
+        "kept": 846,
+        "dropped": {
+          "not operating: Inactive": 5,
+          "not operating: Closed": 6
+        }
+      },
+      "NE": {
+        "source": 1116,
+        "kept": 1098,
+        "dropped": {
+          "not operating: Closed": 18
+        }
+      },
+      "NV": {
+        "source": 746,
+        "kept": 737,
+        "dropped": {
+          "not operating: Closed": 2,
+          "not operating: Future": 5,
+          "not operating: Inactive": 2
+        }
+      },
+      "NH": {
+        "source": 515,
+        "kept": 502,
+        "dropped": {
+          "not operating: Closed": 13
+        }
+      },
+      "NJ": {
+        "source": 2572,
+        "kept": 2555,
+        "dropped": {
+          "not operating: Closed": 16,
+          "not operating: Inactive": 1
+        }
+      },
+      "NM": {
+        "source": 927,
+        "kept": 920,
+        "dropped": {
+          "not operating: Closed": 7
+        }
+      },
+      "NY": {
+        "source": 4865,
+        "kept": 4810,
+        "dropped": {
+          "not operating: Closed": 33,
+          "not operating: Inactive": 22
+        }
+      },
+      "NC": {
+        "source": 2766,
+        "kept": 2707,
+        "dropped": {
+          "not operating: Closed": 30,
+          "not operating: Future": 27,
+          "not operating: Inactive": 2
+        }
+      },
+      "ND": {
+        "source": 540,
+        "kept": 525,
+        "dropped": {
+          "not operating: Future": 8,
+          "not operating: Closed": 7
+        }
+      },
+      "OH": {
+        "source": 3611,
+        "kept": 3543,
+        "dropped": {
+          "not operating: Inactive": 2,
+          "not operating: Closed": 66
+        }
+      },
+      "OK": {
+        "source": 1791,
+        "kept": 1784,
+        "dropped": {
+          "not operating: Closed": 7
+        }
+      },
+      "PA": {
+        "source": 2949,
+        "kept": 2932,
+        "dropped": {
+          "not operating: Inactive": 7,
+          "not operating: Closed": 10
+        }
+      },
+      "RI": {
+        "source": 315,
+        "kept": 312,
+        "dropped": {
+          "not operating: Future": 2,
+          "not operating: Inactive": 1
+        }
+      },
+      "SC": {
+        "source": 1290,
+        "kept": 1277,
+        "dropped": {
+          "not operating: Closed": 12,
+          "not operating: Future": 1
+        }
+      },
+      "SD": {
+        "source": 741,
+        "kept": 724,
+        "dropped": {
+          "not operating: Closed": 14,
+          "not operating: Inactive": 1,
+          "not operating: Future": 2
+        }
+      },
+      "TN": {
+        "source": 1928,
+        "kept": 1913,
+        "dropped": {
+          "not operating: Closed": 15
+        }
+      },
+      "TX": {
+        "source": 9774,
+        "kept": 9192,
+        "dropped": {
+          "not operating: Closed": 150,
+          "not operating: Inactive": 296,
+          "not operating: Future": 136
+        }
+      },
+      "UT": {
+        "source": 1120,
+        "kept": 1098,
+        "dropped": {
+          "not operating: Future": 12,
+          "not operating: Closed": 10
+        }
+      },
+      "VT": {
+        "source": 305,
+        "kept": 303,
+        "dropped": {
+          "not operating: Closed": 2
+        }
+      },
+      "VA": {
+        "source": 2159,
+        "kept": 2126,
+        "dropped": {
+          "not operating: Closed": 20,
+          "not operating: Future": 13
+        }
+      },
+      "WA": {
+        "source": 2574,
+        "kept": 2551,
+        "dropped": {
+          "not operating: Closed": 21,
+          "not operating: Future": 1,
+          "not operating: Inactive": 1
+        }
+      },
+      "WV": {
+        "source": 701,
+        "kept": 677,
+        "dropped": {
+          "not operating: Closed": 17,
+          "not operating: Future": 7
+        }
+      },
+      "WI": {
+        "source": 2232,
+        "kept": 2193,
+        "dropped": {
+          "not operating: Closed": 39
+        }
+      },
+      "WY": {
+        "source": 367,
+        "kept": 361,
+        "dropped": {
+          "not operating: Closed": 3,
+          "not operating: Inactive": 3
+        }
+      },
+      "AS": {
+        "source": 29,
+        "kept": 28,
+        "dropped": {
+          "not operating: Closed": 1
+        }
+      },
+      "GU": {
+        "source": 45,
+        "kept": 45,
+        "dropped": {}
+      },
+      "MP": {
+        "source": 35,
+        "kept": 35,
+        "dropped": {}
+      },
+      "PR": {
+        "source": 865,
+        "kept": 862,
+        "dropped": {
+          "not operating: Closed": 3
+        }
+      },
+      "VI": {
+        "source": 21,
+        "kept": 20,
+        "dropped": {
+          "not operating: Inactive": 1
+        }
+      }
+    },
+    "dropped": {
+      "not operating: Closed": 1055,
+      "not operating: Inactive": 501,
+      "not operating: Future": 349,
+      "no place, no county": 2
+    },
+    "unplaced": [
+      "180020202661",
+      "490090000491"
+    ],
+    "matchMethods": {
+      "place-code": 0,
+      "city-name": 90527,
+      "zip": 0,
+      "point-in-boundary": 5365,
+      "county": 4347
+    },
+    "cityNameDisagreements": 7150,
+    "ignoredGeocodes": 9
+  },
+  "statesWithNoSchools": [],
+  "priorDirectoryStates": [
+    "AK",
+    "RI"
+  ],
+  "files": {
+    "AK": {
+      "bytes": 50944,
+      "sha256": "3746e197cc92338cc49e1b9a0cf431821b4c8fa6c015e0d9cb65f2b7b8853575"
+    },
+    "AL": {
+      "bytes": 160492,
+      "sha256": "100d4b14c5d16ecf8a33229fbe6a6e33d5228033a04ca5da053becf8e2391d73"
+    },
+    "AR": {
+      "bytes": 117631,
+      "sha256": "7e341f70aa22d031be96bd5590e1ed1d310ff4e3643cf93e36ce81d9d2c0c69b"
+    },
+    "AS": {
+      "bytes": 3172,
+      "sha256": "a912c42896d42bf59c3d11c5cb9153309360b88e4a119e60459882882428bcf9"
+    },
+    "AZ": {
+      "bytes": 259991,
+      "sha256": "7174aa6d11cccf33e3198ae5026407ef977dfbf2b50555d1c1a7493d23b059b1"
+    },
+    "CA": {
+      "bytes": 1037686,
+      "sha256": "1e4456c0edefdf9682c957e403c2b26c4b43b7a22d5364980ebb9834e5717565"
+    },
+    "CO": {
+      "bytes": 199319,
+      "sha256": "5d9d0c0b52933585f1909e63344c1ee9aad60de666f8ff09f8aa7d927a25d809"
+    },
+    "CT": {
+      "bytes": 103820,
+      "sha256": "fb2f49360a9b8cc5983f7e42d9b985eb37bc7423c55bc6f54471c3310e5d7a94"
+    },
+    "DC": {
+      "bytes": 24860,
+      "sha256": "8b53e74e69853e676e7d7947e624bdc6531e67c02ad7b138ec64dcc15ebfd07a"
+    },
+    "DE": {
+      "bytes": 25410,
+      "sha256": "435ae12a297cdd07ed609ade53ce132543fbea264c65b678e5d5f0361b00b749"
+    },
+    "FL": {
+      "bytes": 443185,
+      "sha256": "5073d9ae86a004aa5df1c4337d1401341dfcd9377319934bdbc7ec6bb7149449"
+    },
+    "GA": {
+      "bytes": 246579,
+      "sha256": "f8a26eca06a01b3df0c35a601c380047018390ca8d5994198d47d3549d6aa507"
+    },
+    "GU": {
+      "bytes": 5241,
+      "sha256": "872e04d3804bce5cd5673556657491d7dcc20cdb6d3b2cd885531015a244ca93"
+    },
+    "HI": {
+      "bytes": 32970,
+      "sha256": "58b6cbd7c598ec0b7c8a5de10f5c7c4c23a515b2fe24f722b6aa3c9419e11b29"
+    },
+    "IA": {
+      "bytes": 140973,
+      "sha256": "45d554f1704c14bb4fbadec223d2c0c6ee1e0b704655e71e9788e2f00e06a715"
+    },
+    "ID": {
+      "bytes": 83520,
+      "sha256": "fdf4fd18695e205f41d0fc2084fb8cb3702d72059a056531fa36aede9418ceb2"
+    },
+    "IL": {
+      "bytes": 452673,
+      "sha256": "122477930a152c8cf3aad1cb147bf1d427233601aad904b20527928c64ef76f8"
+    },
+    "IN": {
+      "bytes": 207119,
+      "sha256": "dc9ac3f3fb420b0700ba7060f5dba6c7e2f05da4d20dadd8354333d9806c4d2b"
+    },
+    "KS": {
+      "bytes": 133579,
+      "sha256": "f352951ef3db708a475cadb6f4c63d93422eba84553a05f50b55ee296e0a9e06"
+    },
+    "KY": {
+      "bytes": 163316,
+      "sha256": "45a2fca6ff497411278b44dea8b3cfd9b5494291f6d10fc0f132d32b8afbfa50"
+    },
+    "LA": {
+      "bytes": 139413,
+      "sha256": "17ecf17b840deafb21c2e5756276a0db1f8c142f6071ff682ed8a71aa3a684a1"
+    },
+    "MA": {
+      "bytes": 182593,
+      "sha256": "4cdb2eaa14c5d40250aafc3240b99ed9b6231f26ffb37603f48e9d877b65a60a"
+    },
+    "MD": {
+      "bytes": 143950,
+      "sha256": "9c009da5f0d0a2bc7122aebf784e4e5c957b906757cbea81b916beb3ff9c413a"
+    },
+    "ME": {
+      "bytes": 61401,
+      "sha256": "ea8b8a2cf3e0429e0435447fde7c45b2e17c2ee34e4d83fba5a65e1eefee37cd"
+    },
+    "MI": {
+      "bytes": 359202,
+      "sha256": "285026d5a8860a24b46a3302342c049404f5572f6566d1e4a3ad3fac1eed0ae6"
+    },
+    "MN": {
+      "bytes": 280250,
+      "sha256": "5b40e7a438e3bea4fa8834d9955b8889b174191a2c885957ede8f3d0705bf7a0"
+    },
+    "MO": {
+      "bytes": 238270,
+      "sha256": "e398187ef7761e564e4f1d934b3b8b331d0cc033891e0da3999d72f8da409f99"
+    },
+    "MP": {
+      "bytes": 3781,
+      "sha256": "277e445761cd0f5d2495a01c03613f37cae9bc2f10c1caeafff207996ee35509"
+    },
+    "MS": {
+      "bytes": 106133,
+      "sha256": "175348c549d6b20d33c0a19d93a0db0600acc1c6bf97ccaccdc461904b061de6"
+    },
+    "MT": {
+      "bytes": 82556,
+      "sha256": "fe0998a488ea0ff10777f094545fdfad484bd0dbe1312cda59ad1bfc7c2fb9ec"
+    },
+    "NC": {
+      "bytes": 271093,
+      "sha256": "3a13338b74fd0b40b93b91ace719222ac56927a47341e6ced3faa0921914a168"
+    },
+    "ND": {
+      "bytes": 56142,
+      "sha256": "839b18630330d00490ea470fbbd24e17707e9dad817e9ad4e807f0960cfc4633"
+    },
+    "NE": {
+      "bytes": 115561,
+      "sha256": "8b98ac88d067b7039396e072542edac3a9ddc5e4a3e7b1960fd2836fed7b5378"
+    },
+    "NH": {
+      "bytes": 52693,
+      "sha256": "e45ad389a44f87e2e49e7a55bdb6dfad02c15be5aa715ec0da514a65e8f6366d"
+    },
+    "NJ": {
+      "bytes": 271500,
+      "sha256": "3419da77e13fac702b7d7b422713027f8c805604689c59fa024ad35a19f14c2b"
+    },
+    "NM": {
+      "bytes": 91469,
+      "sha256": "9cf015f2a84f962318fc01c92b4e05248d2c7be2204d8ac75229d796f0c0e1d3"
+    },
+    "NV": {
+      "bytes": 74512,
+      "sha256": "017c136c312e38688eb527a926e044bea8a7ccf0e1f1839ab805f65e970e9c63"
+    },
+    "NY": {
+      "bytes": 521447,
+      "sha256": "ce50fc0dbbe82cdd65fa7d8be3551c263de6e27b973f151f9e6ea6ed5873846c"
+    },
+    "OH": {
+      "bytes": 373402,
+      "sha256": "5f6097091548433c19343dcc60828940b64e8ae203803246012a4c9773a2751b"
+    },
+    "OK": {
+      "bytes": 166331,
+      "sha256": "65d6a11957f5411d20dc50271b9bf6fb7cc3d58f73263f8ec98c20cc6a90e4c9"
+    },
+    "OR": {
+      "bytes": 134460,
+      "sha256": "af297128ea6fe65c85d6f2a34a8e670c54a283f3d38b47604e379c20bf02e444"
+    },
+    "PA": {
+      "bytes": 289268,
+      "sha256": "0fed34278c1743a88b8299c3425a5e4d4cbfeb08dead3a139eb9ce641764a2b7"
+    },
+    "PR": {
+      "bytes": 85759,
+      "sha256": "394eb1cebb7f064a3cad50b8e3e2b2fe393d23487188b9ff84634bfad24a88ae"
+    },
+    "RI": {
+      "bytes": 31577,
+      "sha256": "51f9ff2fdf640dd247a37e8a5cdd9cad776fbbf09115d4c8296cfe4d805c8f7a"
+    },
+    "SC": {
+      "bytes": 129254,
+      "sha256": "935041177cf1c7d3e67840513173e3aa261737413d89bc512eff7944739cab9a"
+    },
+    "SD": {
+      "bytes": 77337,
+      "sha256": "c18c5578886374ca1b1ec8180ae8e44cab257ef2dfb8dbf6c03c0a5dffbcaa71"
+    },
+    "TN": {
+      "bytes": 198243,
+      "sha256": "2b3434800df9cd2c513d36fcffc84347b42d0aac2b43e61d819f3b5945a7b0db"
+    },
+    "TX": {
+      "bytes": 872330,
+      "sha256": "01cd090e67903492313b9bb3993000f9cbb8339ad600a46f634784e52c722558"
+    },
+    "UT": {
+      "bytes": 107493,
+      "sha256": "ac0e818ddd87dd34d29aea8871493a65e336a50a7f1005f48dcbb280933a333e"
+    },
+    "VA": {
+      "bytes": 217029,
+      "sha256": "df442c68b779e0085f0dc43d70e49353edaca11118d792758367392185a79a69"
+    },
+    "VI": {
+      "bytes": 2348,
+      "sha256": "1b79a4e2c7abd6dbab9c47eee4c0d65741572587ff90e4a7baa7c9fa57762ea4"
+    },
+    "VT": {
+      "bytes": 32737,
+      "sha256": "876a3f9e077915cfdde4b71807385861c10c0511ae28ce889e21b56969813c96"
+    },
+    "WA": {
+      "bytes": 260020,
+      "sha256": "9a42dd6de7d16e7052322cc07e653da0b64d9abf4264f4231dc73496998642c0"
+    },
+    "WI": {
+      "bytes": 218710,
+      "sha256": "e8027cfc6db61f6bfcf3e3d191489ff7ae0184120d709f5b501332bcc2edba40"
+    },
+    "WV": {
+      "bytes": 72360,
+      "sha256": "306259a4c73ab33bcb6840240c5fe30fad7aaf6902709935c9b38b5ffbcb5b5b"
+    },
+    "WY": {
+      "bytes": 36560,
+      "sha256": "73f513a373c1b27c9833077258606898256e9de173c1a1b28b21501d1c82a47a"
+    }
+  }
+}
