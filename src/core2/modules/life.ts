@@ -146,6 +146,7 @@ export const LIFE_MODULE: CoreModule = {
     "affect-load": (api, actor) =>
       positive(api, actor.affect.stress - actor.affect.mood) / p(api, "two"),
     "contact-gap": (api, actor, definition) => {
+      api.stopgap("SG-P8-household-shared-time-contact");
       const horizon = definition.parameters.horizon;
       if (!horizon) throw new Error("Company need requires a tagged horizon.");
       const elapsed = daysBetween(
@@ -164,10 +165,12 @@ export const LIFE_MODULE: CoreModule = {
       return [offer(api, actor, action, job.id)];
     },
     self: (api, actor, action) => [offer(api, actor, action, actor.id)],
-    "known-person": (api, actor, action) =>
-      [...actor.knownIds]
+    "known-person": (api, actor, action) => {
+      api.stopgap("SG-P8-school-acquaintance-contact-frequency");
+      return [...actor.knownIds]
         .filter((id) => api.state.people.get(id)?.alive)
-        .map((id) => offer(api, actor, action, id)),
+        .map((id) => offer(api, actor, action, id));
+    },
     family: (api, actor, action) =>
       [...actor.familyIds]
         .filter((id) => api.state.people.get(id)?.alive)
@@ -181,6 +184,7 @@ export const LIFE_MODULE: CoreModule = {
             zero(api)) > zero(api),
       ),
     "public-directory": (api, actor, action) => {
+      api.stopgap("SG-P8-directory-company-substitution");
       const out: ActOffer[] = [];
       for (const placeId of new Set([
         actor.placeId,
@@ -277,6 +281,7 @@ export const LIFE_MODULE: CoreModule = {
       api.emit(event);
     },
     organize: (api, actorId, chosen) => {
+      api.stopgap("SG-P8-grief-action-response");
       const actor = api.state.people.get(actorId)!;
       const drive = chosen.driveId
         ? actor.drives.get(chosen.driveId)
@@ -329,6 +334,7 @@ export const LIFE_MODULE: CoreModule = {
         api.state.data.appraisalTraits,
       );
       api.updatePerson(id, { affect: appraisal.affect });
+      api.publishEventAppraisal(appraisal);
       for (const situation of api.state.data.situations) {
         if (
           !situation.requiredFields.every((field) =>

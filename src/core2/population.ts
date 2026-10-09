@@ -482,6 +482,8 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   );
   stopgap("SG-P8-opening-vintage");
   stopgap("SG-P8-historical-start");
+  stopgap("SG-P8-family-network-coverage");
+  stopgap("SG-P8-person-trait-diversity");
   const gaps = new Set<string>([
     `Opening vintage: ${startedAt} household/population estimates retain later source vintages; no reconstructed 2021 census or migration history.`,
     "Deep past: schools, faith, losses, earlier residences and earlier jobs are absent unless the canonical opening generator establishes them; no event inferred from a trait.",
