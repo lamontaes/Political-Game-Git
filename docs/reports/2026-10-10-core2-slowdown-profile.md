@@ -115,6 +115,8 @@ Causes 1, 2 and 4 to 7 add to the 51.3 seconds under the routine. With cause 3 a
 3. **Make one replayed read cheap** (`directRead`, `finance-plan.ts:111`). Reject accessors once when recording, then compare with `Object.hasOwn` and a plain read. About 5 to 7 seconds. Confidence: medium.
 4. **Stop copying the day's full scored decision into every wage result** (`work-cash.ts:611`, `finance-plan.ts:1069`). `decision.scores` lists every offer scored that day (`src/core2/types.ts:334`), and it is copied, walked and cloned. Keep the selected offer, reason key and selected reasons, and return the frozen result instead of cloning it. About 8 seconds plus its garbage. Confidence: medium. I did not check whether any reader wants `decision.scores` from the stored result.
 
+5. **Pay on payday per pay period, not after every shift** (design change, suggested by OPUS CTO). The routine runs once per dated work result, so it runs at every shift. Settling wages once per pay period would cut the number of calls by roughly the number of shifts in a period. I did not measure this and did not check what else reads the per-shift result. Confidence: not assessed.
+
 These overlap, so their savings do not add. Fix 1 removes most of the reads that fixes 2 and 3 would make cheaper. Estimates for a 31-day run, from the 59 unprofiled added seconds (inferred, not measured):
 
 - Fixes 1 and 4 alone save about 30 profiled seconds plus a third of the garbage collection (3.1), 33 in all. Scaled to the unprofiled run (59 of 60.6), that is 32 seconds: about 55 seconds, 2.0 times BEFORE.
