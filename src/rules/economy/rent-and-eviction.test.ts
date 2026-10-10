@@ -1,0 +1,143 @@
+import { describe, expect, it } from "vitest";
+import { makeIsoDate } from "../../simulation/dates";
+import {
+  lifePlaceStateIdentities,
+  stateJurisdictionForKey,
+} from "../../simulation/life-places";
+import {
+  decideEvictionCase as legacyDecideEvictionCase,
+  publicHousingRentMinor as legacyPublicHousingRentMinor,
+  marketRentLevel,
+  marketRentMinor as legacyMarketRentMinor,
+  type EvictionCaseFacts as LegacyEvictionCaseFacts,
+} from "../../simulation/living-world/town-rent";
+import type { World } from "../../simulation/types";
+import {
+  decideEvictionOutcome,
+  householdMonthlyIncomeFromFacts,
+  marketRentMinorFromFacts,
+  publicHousingRentMinorFromFacts,
+  type EvictionDecisionFacts,
+} from "./rent-and-eviction";
+
+const facts: readonly EvictionDecisionFacts[] = [
+  {
+    monthsBehind: 3,
+    landlordPursues: false,
+    tenantAnswers: false,
+    lawyer: false,
+    planCarried: null,
+    judgeLean: 1,
+  },
+  {
+    monthsBehind: 3,
+    landlordPursues: true,
+    tenantAnswers: false,
+    lawyer: false,
+    planCarried: null,
+    judgeLean: -1,
+  },
+  {
+    monthsBehind: 4,
+    landlordPursues: true,
+    tenantAnswers: true,
+    lawyer: true,
+    planCarried: null,
+    judgeLean: 1,
+  },
+  {
+    monthsBehind: 5,
+    landlordPursues: true,
+    tenantAnswers: true,
+    lawyer: true,
+    planCarried: false,
+    judgeLean: -1,
+  },
+  {
+    monthsBehind: 5,
+    landlordPursues: true,
+    tenantAnswers: true,
+    lawyer: false,
+    planCarried: true,
+    judgeLean: 1,
+  },
+  {
+    monthsBehind: 2,
+    landlordPursues: true,
+    tenantAnswers: true,
+    lawyer: false,
+    planCarried: false,
+    judgeLean: -1,
+  },
+  {
+    monthsBehind: 3,
+    landlordPursues: true,
+    tenantAnswers: true,
+    lawyer: false,
+    planCarried: false,
+    judgeLean: -1,
+  },
+  {
+    monthsBehind: 1,
+    landlordPursues: true,
+    tenantAnswers: true,
+    lawyer: false,
+    planCarried: null,
+    judgeLean: 0,
+  },
+];
+
+describe("standalone housing rules", () => {
+  it.each(facts)("matches the legacy eviction disposition for %o", (row) => {
+    expect(decideEvictionOutcome(row)).toBe(
+      legacyDecideEvictionCase(row as LegacyEvictionCaseFacts).outcome,
+    );
+  });
+
+  it.each(lifePlaceStateIdentities())(
+    "matches the legacy rent result in $jurisdictionKey",
+    (identity) => {
+      const key = identity.jurisdictionKey;
+      const place = stateJurisdictionForKey(key)!;
+      const world = {
+        currentDate: makeIsoDate("2026-01-01"),
+        history: { legislativeMeasures: [], legislativeEnactments: [] },
+        macroEconomy: { months: [] },
+      } as unknown as World;
+      const date = world.currentDate;
+      const row = { rents: [1000, 1200, 1400, 1600, 1800] };
+      const level = marketRentLevel(world, place.id, date);
+      for (const bedrooms of [-1, 0, 2, 4, 6])
+        expect(
+          marketRentMinorFromFacts(row.rents, level, bedrooms),
+          `${key}, ${bedrooms} bedrooms`,
+        ).toBe(legacyMarketRentMinor(world, place.id, row, bedrooms, date));
+    },
+  );
+});
+
+describe("standalone public housing rent rule", () => {
+  it.each(lifePlaceStateIdentities())(
+    "matches public housing rent inputs for $jurisdictionKey",
+    (_place, index) => {
+      const memberIds = ["resident-a", "resident-b", "resident-c"];
+      const pay = new Map<string, number>([
+        [memberIds[0]!, 81_237.5 + index * 100],
+        [memberIds[2]!, 35_113.5 + index * 50],
+      ]);
+      const income = householdMonthlyIncomeFromFacts(memberIds, pay);
+      expect(income).toBe(
+        Math.round(81_237.5 + index * 100 + 35_113.5 + index * 50),
+      );
+      const fmr = 125_000 + index * 2_500;
+      expect(publicHousingRentMinorFromFacts(income, fmr)).toBe(
+        legacyPublicHousingRentMinor(income, fmr),
+      );
+    },
+  );
+
+  it("uses flat rent when income is missing and omits unknown member pay", () => {
+    expect(householdMonthlyIncomeFromFacts(["missing"], new Map())).toBeNull();
+    expect(publicHousingRentMinorFromFacts(null, 100_000)).toBe(80_000);
+  });
+});
