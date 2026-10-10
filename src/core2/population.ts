@@ -97,6 +97,17 @@ import {
   createWorld,
   writeWithWorldIntegrityOnce,
 } from "../simulation/world";
+import { DEFAULT_CORPUS_VERSION } from "../simulation/names-data";
+import { drawCanonicalNamedIdentity } from "../simulation/people";
+import { nameCorpusVersionForWorld } from "../simulation/place-name-corpus";
+import {
+  defaultPronounsForGender,
+  type GenderIdentityKey,
+} from "../simulation/person-identity";
+import { birthCohortGivenName } from "../simulation/given-name-cohorts";
+import { SeededRng } from "../simulation/rng";
+import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
+import { openingTemperaments } from "./opening-personality";
 import { PARAMETERS, parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type {
@@ -484,7 +495,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
   const source = estimatedSource(
     startedAt,
     `${HOUSEHOLD_MIX_META.source} ${TOWN_RESIDENTS_VERSION}; ${place.context.jurisdiction.provenance.source ?? "recorded locality identity"}; ${LIVING_COSTS_SOURCE}; ${TOWN_RENT_META.fairMarketRents}; Federal Reserve SCF 2022 Tables 1/6; src/simulation/people-upbringing.ts.`,
-    `Generated opening cohort at ${startedAt}; ${mix.basis} household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster or an exact 2021 population. Opening money is a household SCF reserve or labelled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills.`,
+    `Generated opening cohort at ${startedAt}; ${mix.basis} household mix held from ACS 2020–2024, identities from existing Gazetteer/territory provider. This is not an observed census roster or an exact 2021 population. Opening money is a household SCF reserve or labeled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills.`,
   );
   stopgap("SG-P8-opening-vintage");
   stopgap("SG-P8-historical-start");
@@ -863,8 +874,21 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
           "child",
         );
       }
-      for (const sibling of children)
-        if (sibling !== child) link(child, sibling);
+      for (const sibling of children) {
+        if (sibling === child) continue;
+        link(child, sibling);
+        const born = [
+          world.people[child]!.birthDate,
+          world.people[sibling]!.birthDate,
+        ].sort();
+        recordFamilyPast(
+          child,
+          sibling,
+          `${plan.stableKey}:sibling:${[child, sibling].sort().join(":")}`,
+          born[p("one")]!,
+          "sibling",
+        );
+      }
     }
     for (const id of plan.ids)
       knownByPerson.set(
@@ -1012,15 +1036,28 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     publicPayIdentities,
     { ownerIdByGovernmentKey: historicalCountyPayingOwnerIds },
   );
+  const family = openingFamilies({
+    seed: options.seed,
+    world,
+    town,
+    stateId: place.stateJurisdictionKey
+      ? stateJurisdictionForKey(place.stateJurisdictionKey)?.id
+      : undefined,
+    startedAt,
+    plans,
+    people,
+    source,
+  });
+  stopgap("SG-P15-kin-generation");
   return {
     seed: options.seed,
     startedAt,
-    people,
-    households,
+    people: family.people,
+    households: [...households, ...family.households],
     jobs,
     organizations: publicPay.organizations,
     workCommitments: publicPay.workCommitments,
-    familyLinks,
+    familyLinks: [...familyLinks, ...family.familyLinks],
     focusPersonIds: [],
     focusPlaceIds: [],
     visiblePlaceIds: [
@@ -1067,5 +1104,225 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       temporaryWorld:
         "Valid createWorld plus one person batch, one family-table batch and one canonical town employment batch; never advanced or returned.",
     },
+  };
+}
+
+interface OpeningFamilyInput {
+  seed: string;
+  world: World;
+  town: EntityId;
+  stateId?: string;
+  startedAt: WorldDate;
+  plans: readonly HouseholdPlan[];
+  people: readonly PersonInput[];
+  source: Source;
+}
+
+/**
+ * P15: every resident's kin outside the household as husk-tier people, and the
+ * five temperament dimensions spread to real norms for residents and kin alike.
+ */
+function openingFamilies(input: OpeningFamilyInput): {
+  people: PersonInput[];
+  households: HouseholdInput[];
+  familyLinks: FamilyLink[];
+} {
+  const { world, startedAt, source } = input;
+  const corpusVersion = nameCorpusVersionForWorld(world, input.town);
+  const kin = buildOpeningKin(
+    input.plans.map((plan) => ({
+      id: plan.id,
+      stableKey: plan.stableKey,
+      couple:
+        plan.skeleton.shape === "couple" ||
+        plan.skeleton.shape === "couple-with-children",
+      ...(plan.countyId ? { countyId: plan.countyId } : {}),
+      members: plan.ids.map((id, member) => ({
+        id,
+        role: plan.skeleton.members[member]!.role,
+        birthDate: world.people[id]!.birthDate,
+        ...(world.people[id]!.identity
+          ? { gender: world.people[id]!.identity!.gender }
+          : {}),
+        familyName: world.people[id]!.familyName,
+      })),
+    })),
+    {
+      seed: input.seed,
+      worldId: world.id,
+      startedAt,
+      townId: input.town,
+      ...(input.stateId ? { stateId: input.stateId } : {}),
+      name: ({ stableKey, gender, birthDate, familyName }) => {
+        const key = gender as GenderIdentityKey;
+        const named = drawCanonicalNamedIdentity(
+          new SeededRng(world.seed).fork(stableKey).fork("name"),
+          { gender: key, pronouns: defaultPronounsForGender(key) },
+          { corpusVersion },
+        );
+        const surname = familyName ?? named.familyName;
+        return {
+          familyName: surname,
+          givenName:
+            corpusVersion === DEFAULT_CORPUS_VERSION
+              ? birthCohortGivenName(world.seed, stableKey, {
+                  givenName: named.givenName,
+                  familyName: surname,
+                  birthDate: makeIsoDate(birthDate),
+                  gender: key,
+                })
+              : named.givenName,
+        };
+      },
+    },
+  );
+  const names = new Map<string, string>();
+  for (const person of input.people)
+    names.set(person.id, `${person.givenName} ${person.familyName}`);
+  for (const person of kin.people)
+    names.set(person.id, `${person.givenName} ${person.familyName}`);
+  const byPerson = new Map<string, typeof kin.relations>();
+  for (const row of kin.relations) {
+    const rows = byPerson.get(row.personId) ?? [];
+    rows.push(row);
+    byPerson.set(row.personId, rows);
+  }
+  const kinSource: Source = {
+    ...source,
+    citation: `${source.citation} ${OPENING_KIN.completedFertility.citation} ${OPENING_KIN.fertilityByAge.citation} ${OPENING_KIN.firstBirthAge.citation} SSA 2023 period life table.`,
+    estimatedFrom:
+      "Generated opening kin: who exists follows the life table and Census fertility by cohort and age; relatives outside the household are husk-tier records, not observed people.",
+  };
+  const familyFacts = (personId: string) => {
+    const relations = byPerson.get(personId) ?? [];
+    const pastFacts = relations.map((row) => ({
+      id: `${personId}:family:${row.otherId}`,
+      date: row.date,
+      kind: `family:${row.relation}`,
+      summary: `${names.get(row.otherId)} is recorded as this person's ${row.relation} in the generated opening family.`,
+      source: kinSource,
+    }));
+    const knownIdSources = Object.fromEntries(
+      relations.map((row) => [
+        row.otherId,
+        {
+          sourceFactId: `${personId}:family:${row.otherId}`,
+          learnedAt: row.date,
+        },
+      ]),
+    );
+    return {
+      ids: relations.map((row) => row.otherId),
+      pastFacts,
+      knownIdSources,
+    };
+  };
+  const residentTraits = new Map(
+    input.people.map((person) => [person.id, person.traits] as const),
+  );
+  const temperament = openingTemperaments(
+    [
+      ...input.people.map((person) => ({
+        id: person.id,
+        birthDate: person.birthDate,
+        ...(person.looks?.gender ? { gender: person.looks.gender } : {}),
+        parents: kin.parentsOf.get(person.id) ?? [],
+        upbringing: Object.fromEntries(
+          Object.entries(residentTraits.get(person.id) ?? {})
+            .filter(([key]) => key.startsWith(`${PEOPLE_MIND_VERSION}:`))
+            .map(([key, value]) => [
+              key.slice(PEOPLE_MIND_VERSION.length + p("one")),
+              value,
+            ]),
+        ),
+      })),
+      ...kin.people.map((person) => ({
+        id: person.id,
+        birthDate: person.birthDate,
+        gender: person.gender,
+        parents: kin.parentsOf.get(person.id) ?? [],
+      })),
+    ],
+    { seed: input.seed, startedAt },
+  );
+  const temperamentSource: Source = {
+    ...source,
+    citation: `${source.citation} ${OPENING_KIN.personality.citation} ${PARAMETERS.personalityHeritability!.citation}`,
+    estimatedFrom:
+      "Generated opening temperament: sourced facet age and sex differences, an inherited share from parents, a small upbringing shift and a person's own part, cut at the owner-accepted 10/20/40/20/10 spread.",
+  };
+  const withTemperament = (
+    id: string,
+    traits: Record<string, number>,
+    traitSources: Record<string, Source> | undefined,
+  ) => {
+    const core = temperament.get(id) ?? {};
+    return {
+      traits: { ...traits, ...core },
+      traitSources: {
+        ...(traitSources ?? {}),
+        ...Object.fromEntries(
+          Object.keys(core).map((key) => [key, temperamentSource]),
+        ),
+      },
+    };
+  };
+  const residents = input.people.map((person) => {
+    const facts = familyFacts(person.id);
+    return {
+      ...person,
+      ...withTemperament(person.id, person.traits, person.traitSources),
+      familyIds: [...new Set([...person.familyIds, ...facts.ids])].sort(),
+      knownIds: [...new Set([...person.knownIds, ...facts.ids])],
+      ...(facts.ids.length
+        ? {
+            knownIdSources: {
+              ...(person.knownIdSources ?? {}),
+              ...facts.knownIdSources,
+            },
+          }
+        : {}),
+      pastFacts: [...(person.pastFacts ?? []), ...facts.pastFacts],
+    };
+  });
+  const relatives: PersonInput[] = kin.people.map((person) => {
+    const facts = familyFacts(person.id);
+    const ids = [...new Set(facts.ids)];
+    return {
+      id: person.id,
+      givenName: person.givenName,
+      familyName: person.familyName,
+      birthDate: person.birthDate,
+      placeId: person.placeId,
+      ...(person.countyId ? { countyId: person.countyId } : {}),
+      householdId: person.householdId,
+      tier: OPENING_KIN.kinTier,
+      ...withTemperament(person.id, {}, undefined),
+      liquidMinor: p("zero"),
+      livingCostDailyMinor: p("zero"),
+      source: kinSource,
+      familyIds: [...ids].sort(),
+      knownIds: ids,
+      ...(ids.length ? { knownIdSources: facts.knownIdSources } : {}),
+      looks: {
+        gender: person.gender,
+        pronouns: defaultPronounsForGender(person.gender as GenderIdentityKey),
+      },
+      pastFacts: facts.pastFacts,
+    };
+  });
+  return {
+    people: [...residents, ...relatives],
+    households: kin.households.map((row) => ({
+      id: row.id,
+      placeId: row.placeId,
+      memberIds: row.memberIds,
+      source: kinSource,
+    })),
+    familyLinks: kin.parentChildLinks.map((row) => ({
+      id: row.id,
+      kind: "parent-child" as const,
+      personIds: [row.parentId, row.childId] as const,
+    })),
   };
 }

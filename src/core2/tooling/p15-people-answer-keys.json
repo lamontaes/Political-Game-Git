@@ -1,0 +1,47 @@
+{
+  "version": "p15-people-answer-keys-v1",
+  "kinlessness": {
+    "citation": "Margolis and Verdery (2017), Older Adults Without Close Kin in the United States, Journals of Gerontology Series B 72(4), Table 1: Health and Retirement Study 1998-2010, respondents 55 and older, percent with no living biological child, no living sibling, no living parent and no partner or spouse (the table's \"No partner or spouse\" row, since the game's couples include unmarried partners), by age group and sex.",
+    "bands": [
+      {
+        "band": "55-74",
+        "male": {
+          "noChild": 10.83,
+          "noSibling": 12.01,
+          "noParent": 71.08,
+          "noPartner": 20.01
+        },
+        "female": {
+          "noChild": 9.39,
+          "noSibling": 11.82,
+          "noParent": 71.82,
+          "noPartner": 37.41
+        }
+      },
+      {
+        "band": "75+",
+        "male": {
+          "noChild": 10.42,
+          "noSibling": 26.5,
+          "noParent": 99.26,
+          "noPartner": 30.59
+        },
+        "female": {
+          "noChild": 12.43,
+          "noSibling": 31.38,
+          "noParent": 99.43,
+          "noPartner": 70.62
+        }
+      }
+    ]
+  },
+  "nearKin": {
+    "citation": "Choi, Schoeni, Wiemers, Hotz and Seltzer (2020), Spatial Distance Between Parents and Adult Children in the United States, Journal of Marriage and Family 82(2), PSID 2013: adults with a living parent or adult child who live in a different household.",
+    "nearestWithin30Miles": 74.8,
+    "allWithin30Miles": 35.5,
+    "proxy": "The game places relatives by county, not by distance: a relative in the household's county stands in for one within 30 miles."
+  },
+  "householdShape": {
+    "citation": "U.S. Census Bureau, American Community Survey 2020-2024 tables B11001 and B11003 for the place, else its state, as read by src/simulation/household-mix.ts."
+  }
+}
