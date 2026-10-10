@@ -9,6 +9,7 @@ unchanged by these tools.
 
 - Golden path: `node --import tsx tests/golden-path/runner.mjs --output /tmp/golden-path.json`.
   Add `--nightly` for the longer deadline. `--commit` reproduces a failing draw.
+  Receipts also record the actual checked-out source revision.
 - Performance: `node --import tsx scripts/core2-guard/paired.mjs --base BASE --head HEAD --output /tmp/core2-paired.json`.
   Start with a clean registered checkout. The tool switches revisions
   sequentially, then restores the original branch or detached commit.
@@ -22,8 +23,12 @@ Accepted commands run first. Deadline expiration kills command descendants and
 marks commands not reached. Both string shell commands and argument arrays are
 supported; commands are trusted repository configuration.
 
-Each command receives `GOLDEN_PATH_SEED`, `GOLDEN_PATH_PLACE_KEY`,
-`GOLDEN_PATH_SPEC_ID`, and `GOLDEN_PATH_COMMIT`.
+Each command receives these environment bindings:
+
+- `GOLDEN_PATH_SEED`: reproducible generation seed.
+- `GOLDEN_PATH_PLACE_KEY`: recorded locality key.
+- `GOLDEN_PATH_SPEC_ID`: the registered spec ID.
+- `GOLDEN_PATH_COMMIT`: commit used to derive the seed.
 
 Registered tests must use those
 bindings to build their world. Selection hashes the tested commit and spec ID,
@@ -73,3 +78,21 @@ Main does not yet contain the core. Until it lands, proofs use the latest
 approved core branch and record its exact revision. Missing core dependencies
 fail explicitly. These tools do not provide a second engine or change core,
 director, or rule modules.
+
+## Measured handoff
+
+The [provisional contact proof](evidence/golden-path-proof.json) passed before
+the real producer break, went red with it, and passed after restoration. Each
+command fit the approved five-minute budget. This is detector evidence, not
+acceptance of the full meeting-people spec.
+
+The [performance proof](evidence/performance-proof.json) measured a ratio of
+1.990 against a limit of 1.20. The restored source patch and input hashes match
+the baseline. The existing Source-share budget fails in that drawn baseline:
+75.87 percent against 74.91 percent. That failure remains red independently of
+timing. The core owner must address it; this package changes no core budgets.
+The oversized-input fixture also failed the existing byte budget.
+
+The [missing-core check](evidence/missing-core.json) exited red and restored
+the checkout when main supplied no core. Roadmap commands remain unregistered.
+Both specs await separate Sonnet finishing; acceptance flags stay unchanged.
