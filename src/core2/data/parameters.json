@@ -177,7 +177,7 @@
     "tag": "ESTIMATED",
     "citation": "BLS American Time Use Survey 2025, Table 1: caring for and helping household members, 2.23 hours per day among people who did it that day (22.0% of people); https://www.bls.gov/news.release/atus.t01.htm",
     "estimatedFrom": "The ATUS average for people who gave care that day is used as the length of one act of caring for a relative, inside or outside the home; ATUS counts household members only, and an act stands for a day's caregiving, not one task (CTO, October 10, 2026).",
-    "stopgapId": "SG-P15-free-block-plan"
+    "stopgapId": "SG-P8-param-careHours"
   },
   "civicHours": {
     "value": 1,

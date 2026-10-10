@@ -33,12 +33,12 @@ import type {
   WeightedReason,
 } from "./types";
 
-const NEED_GOAL = "need:";
-
 export const FREE_BLOCK = {
   stopgapId: "SG-P15-free-block-plan",
   /** The effect whose act moves the date of last contact. */
   contactEffect: "contact",
+  /** The prefix of the goal each need carries (life.ts refreshNeeds). */
+  needGoalPrefix: "need:",
   /** Need evaluators that read the date of last contact. */
   contactEvaluators: ["contact-gap"] as readonly string[],
 } as const;
@@ -191,8 +191,8 @@ function candidates(
       goal = { otherGoal: zero, needGoals: [] };
       for (const entry of actor.goals.values()) {
         if (!definition.goalKinds.includes(entry.kind)) continue;
-        if (entry.id.startsWith(NEED_GOAL))
-          goal.needGoals.push(entry.id.slice(NEED_GOAL.length));
+        if (entry.id.startsWith(FREE_BLOCK.needGoalPrefix))
+          goal.needGoals.push(entry.id.slice(FREE_BLOCK.needGoalPrefix.length));
         else goal.otherGoal = Math.max(goal.otherGoal, entry.urgency);
       }
       goals.set(definition.id, goal);
