@@ -19,8 +19,12 @@ import { createOpeningFinance } from "../opening-finance";
 import type { OpeningEconomyBuild } from "../opening-economy";
 import type { FinanceInput } from "../finance-types";
 import { parameter as p } from "../parameters";
+import type { Parameter } from "../parameters";
+import openingInputBudgets from "./opening-input-budgets.json" with { type: "json" };
 import type { CoreInput } from "../types";
 import { hashMeasuredJson, writeMeasuredJson } from "./measured-json";
+import { censusOpeningInput, openingInputBudget } from "./opening-input-budget";
+import openingInputBudgetBaseline from "./opening-input-budget-baseline.json" with { type: "json" };
 import {
   economyObservables,
   type EconomyObservableSnapshot,
@@ -262,6 +266,7 @@ export async function main(): Promise<void> {
   const loadedAt = performance.now();
   let financeInput: FinanceInput | undefined,
     economyBuild: OpeningEconomyBuild | undefined;
+  let comparableBuildStartedAt: number | undefined;
   let runInput = prepared.input;
   if (args.mode === "economy") {
     if (p("warmupRuns") !== p("one") || p("warmRuns") !== p("one") + p("two"))
@@ -283,6 +288,7 @@ export async function main(): Promise<void> {
     deepFreeze(prepared.input);
     if (args.variant === "after") {
       const { buildOpeningEconomy } = await import("../opening-economy");
+      comparableBuildStartedAt = performance.now();
       economyBuild = buildOpeningEconomy(prepared.input);
       runInput = economyBuild.input;
       financeInput = runInput.finance;
@@ -302,6 +308,39 @@ export async function main(): Promise<void> {
   const boundAt = performance.now();
   const input = deepFreeze(runInput);
   const frozenAt = performance.now();
+  // Outside annual timers, before any large export or world initialization.
+  const inputSizeCensus = censusOpeningInput(input);
+  const inputSizeBudget = openingInputBudget(
+    inputSizeCensus,
+    openingInputBudgets as unknown as Readonly<Record<string, Parameter>>,
+  );
+  const budgetCheckedAt = performance.now();
+  const preparationComparison = {
+    beforeSeconds: openingInputBudgetBaseline.beforePreparationSeconds,
+    beforeSource: openingInputBudgetBaseline.source,
+    beforeReceiptRef: openingInputBudgetBaseline.beforeReceiptRef,
+    phaseDefinition: openingInputBudgetBaseline.phaseDefinition,
+    currentVariant: args.variant,
+    actualPreparationAndFinalFreezeSeconds:
+      (frozenAt - loadedAt) / p("millisecondsPerSecond"),
+    actualAfterBuildAndFinalFreezeSeconds:
+      comparableBuildStartedAt === undefined
+        ? null
+        : (frozenAt - comparableBuildStartedAt) / p("millisecondsPerSecond"),
+    broadCompositionSeconds: (boundAt - loadedAt) / p("millisecondsPerSecond"),
+    freezeSeconds: (frozenAt - boundAt) / p("millisecondsPerSecond"),
+    censusAndGuardSeconds:
+      (budgetCheckedAt - frozenAt) / p("millisecondsPerSecond"),
+  };
+  progress("opening-input-size-census", {
+    census: inputSizeCensus,
+    budget: inputSizeBudget,
+    preparationComparison,
+  });
+  if (!inputSizeBudget.passed)
+    throw new Error(
+      `Opening input size budget rejected before exports/world: ${inputSizeBudget.violations.join(" ")}`,
+    );
   const throughDate =
     args.throughDate ??
     addDays(makeIsoDate(input.startedAt), p("yearSpanDays"));
@@ -492,7 +531,10 @@ export async function main(): Promise<void> {
           }
         : {}),
     },
+    openingInputSize: { census: inputSizeCensus, budget: inputSizeBudget },
     preparation: {
+      comparison: preparationComparison,
+      censusAndGuardMilliseconds: budgetCheckedAt - frozenAt,
       loadingMilliseconds: loadedAt - preparationStarted,
       financeBindingMilliseconds: boundAt - loadedAt,
       freezeMilliseconds: frozenAt - boundAt,
