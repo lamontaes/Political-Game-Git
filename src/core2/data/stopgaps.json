@@ -1000,11 +1000,11 @@
     "kind": "estimated-behavior",
     "file": "src/core2/data/opening-kin.json",
     "line": 170,
-    "whatItFakes": "The five temperament dimensions are read from five NEO facets (gregariousness, excitement seeking, reversed compliance, dutifulness, reversed deliberation) with BLSA age curves and IPIP-NEO sex differences; the facet mapping is a prototype design pending a CTO decision.",
+    "whatItFakes": "The five temperament dimensions are read from five NEO facets (CTO-approved October 10, 2026) with BLSA age curves, IPIP-NEO sex differences and NEO-PI-R manual facet correlations; the A4 compliance age curve's quadratic term is held at zero because it is not legible in the source manuscript, and each dimension uses one facet rather than its own norms.",
     "why": "The owner's five dimensions have no published norms of their own; facet norms are the nearest sourced spread.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
-    "replacement": "An owner-approved mapping and full facet intercorrelation and age norms for each dimension.",
+    "replacement": "The A4 quadratic term from a legible copy of Terracciano and others (2005) Table 2, and norms measured on the five dimensions themselves.",
     "status": "open"
   },
   {

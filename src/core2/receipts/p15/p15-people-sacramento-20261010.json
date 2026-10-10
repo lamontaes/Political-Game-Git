@@ -4,7 +4,7 @@
   "place": "Sacramento, California",
   "placeId": "jurisdiction_747f3ae0bd287399",
   "startedAt": "2021-01-01",
-  "buildSeconds": 13.8,
+  "buildSeconds": 12.3,
   "residents": 10001,
   "relatives": 37973,
   "relativesInCounty": 20744,
@@ -239,14 +239,14 @@
   },
   "temperament": {
     "coreProfiles": {
-      "distinct": 2135,
-      "largest": 75,
-      "largestPercent": 0.7
+      "distinct": 2079,
+      "largest": 78,
+      "largestPercent": 0.8
     },
     "fullProfiles": {
-      "distinct": 5296,
-      "largest": 34,
-      "largestPercent": 0.3
+      "distinct": 5221,
+      "largest": 36,
+      "largestPercent": 0.4
     },
     "levelPercent": {
       "sociability": {
@@ -257,11 +257,11 @@
         "-1": 19.9
       },
       "risk": {
-        "0": 36.5,
+        "0": 36.6,
         "1": 22.2,
         "2": 14.5,
         "-2": 9.6,
-        "-1": 17.2
+        "-1": 17.1
       },
       "conflict": {
         "0": 38.2,
@@ -278,9 +278,9 @@
         "-1": 20.9
       },
       "deliberation": {
-        "0": 36.8,
-        "1": 21.2,
-        "2": 15,
+        "0": 36.9,
+        "1": 21,
+        "2": 15.2,
         "-2": 9.8,
         "-1": 17.1
       }

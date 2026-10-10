@@ -3282,29 +3282,29 @@
     }
   },
   "personalitySociabilityRiskCorrelation": {
-    "value": 0.3,
-    "tag": "TUNABLE",
-    "citation": "Correlation between the sociability and risk dimensions (both read from NEO Extraversion facets, gregariousness and excitement seeking); prototype choice pending the NEO-PI-R facet intercorrelation table.",
-    "stopgapId": "SG-P15-params-uncalibrated",
+    "value": 0.34,
+    "tag": "ESTIMATED",
+    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): E2 Gregariousness with E5 Excitement-Seeking, r = .34.",
+    "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
+    "stopgapId": "SG-P15-personality-mapping",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "low": 0.284,
+      "high": 0.394,
+      "unit": "correlation",
+      "citation": "Fisher-transformed 95% interval for the Costa and McCrae (1992) value with N = 1,000."
     }
   },
   "personalityReliabilityImpulseCorrelation": {
-    "value": -0.4,
-    "tag": "TUNABLE",
-    "citation": "Correlation between reliability (dutifulness) and the impulsive pole of deliberation (reversed cautiousness), both NEO Conscientiousness facets; prototype choice pending the NEO-PI-R facet intercorrelation table.",
-    "stopgapId": "SG-P15-params-uncalibrated",
+    "value": -0.45,
+    "tag": "ESTIMATED",
+    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): C3 Dutifulness with C6 Deliberation, r = .45; deliberation is reversed to impulsiveness here, so the value is -.45.",
+    "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
+    "stopgapId": "SG-P15-personality-mapping",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "low": -0.498,
+      "high": -0.399,
+      "unit": "correlation",
+      "citation": "Fisher-transformed 95% interval for the Costa and McCrae (1992) value with N = 1,000."
     }
   },
   "personalityReferenceAge": {
