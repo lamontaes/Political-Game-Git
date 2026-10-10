@@ -28,6 +28,11 @@ import type {
   CashJournalSourceSlot,
 } from "./journal-state";
 import { openingHistoricalCountyPlaceCoverage } from "./opening-public-owner";
+import {
+  openingCustomerQualificationHash,
+  openingCustomerQualificationKey,
+  openingCustomerQualificationRecord,
+} from "./opening-customer-qualification";
 import type { OpeningCustomerEvidenceRecord } from "./opening-customers";
 import type { OpeningCustomerOutsideMarket } from "./opening-customer-geography";
 import { registerModule } from "./state";
@@ -604,6 +609,57 @@ function customerAllocation(
     );
 }
 
+/** Original ReadGuard owns the actual provider, facts object and encoded record. */
+function customerQualification(
+  session: FinancePlanningSession,
+  value: unknown,
+  organizationId: string,
+  serviceKey: string,
+): Record<string, unknown> {
+  const claim = objectRecord(value, "provider qualification");
+  if (!("qualificationId" in claim)) return claim; // Preserve actual inline saved input.
+  if (
+    typeof claim.qualificationId !== "string" ||
+    !claim.qualificationId.trim() ||
+    typeof claim.qualificationHash !== "string" ||
+    !claim.qualificationHash.trim() ||
+    claim.organizationId !== organizationId ||
+    claim.serviceKey !== serviceKey ||
+    "jobIds" in claim ||
+    "providerRecordIds" in claim ||
+    "sources" in claim
+  )
+    throw new Error(
+      "Actual customer qualification reference contradicts its owning provider.",
+    );
+  const r = session.reads;
+  const owner = r.mapGet(
+    r.field(session.core, "organizations"),
+    organizationId,
+  );
+  if (!owner || r.field(owner, "id") !== organizationId)
+    throw new Error("Actual customer qualification provider is missing.");
+  const facts = r.field(owner, "governmentFacts");
+  const raw = facts
+    ? r.field(facts, openingCustomerQualificationKey(claim.qualificationId))
+    : undefined;
+  if (typeof raw !== "string")
+    throw new Error(
+      "Actual customer qualification registry record is missing.",
+    );
+  const record = openingCustomerQualificationRecord(JSON.parse(raw));
+  if (
+    record.qualificationId !== claim.qualificationId ||
+    record.organizationId !== organizationId ||
+    record.serviceKey !== serviceKey ||
+    openingCustomerQualificationHash(record) !== claim.qualificationHash
+  )
+    throw new Error(
+      "Actual customer qualification registry differs from its original complete witness.",
+    );
+  return record as unknown as Record<string, unknown>;
+}
+
 /** Exact actual seller, product scope, owned active job or saved provider, and Source. */
 function visitorProviderRecords(
   session: FinancePlanningSession,
@@ -644,7 +700,12 @@ function visitorProviderRecords(
     throw new Error(
       "Actual visitor agreement has no exact provider qualification.",
     );
-  const q = objectRecord(selected[session.zero], "provider qualification"),
+  const q = customerQualification(
+      session,
+      selected[session.zero],
+      payeeId,
+      serviceKey,
+    ),
     jobs = Array.isArray(q.jobIds) ? (q.jobIds as string[]) : [],
     providers = Array.isArray(q.providerRecordIds)
       ? (q.providerRecordIds as string[])
@@ -1300,7 +1361,12 @@ function procurementRecords(
     throw new Error(
       "Actual public agreement has no exact provider qualification.",
     );
-  const q = qualification[session.zero]!,
+  const q = customerQualification(
+      session,
+      qualification[session.zero],
+      payeeId,
+      String(c.serviceKey),
+    ),
     jobs = Array.isArray(q.jobIds) ? (q.jobIds as string[]) : [],
     providers = Array.isArray(q.providerRecordIds)
       ? (q.providerRecordIds as string[])
