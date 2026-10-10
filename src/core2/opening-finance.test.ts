@@ -14,6 +14,7 @@ import {
 } from "./opening-finance";
 import { parameter as p, PARAMETERS } from "./parameters";
 import { createOpeningPurchaseCalendar } from "./opening-purchase-calendar";
+import { buildOpeningCustomers } from "./opening-customers";
 import { coreAPI } from "./state";
 import type { CoreInput, Source } from "./types";
 
@@ -719,9 +720,13 @@ describe("estimated opening purchase calendar (controlled fixtures, no world evi
       expect(contract.periodMonths).toBe(p("openingFinancePeriodMonths"));
       expect(contract).not.toHaveProperty("endsAt");
       expect(contract.source.asOf).toBe(input.startedAt);
-      expect(contract.source.citation).toContain(calendar.source.citation);
+      expect(contract.source.citation).toContain(
+        "DATA openingPurchaseCalendar.source",
+      );
       expect(contract.source.estimatedFrom).toContain(
-        calendar.source.estimatedFrom,
+        contract.householdId
+          ? calendar.recurringHouseholdDueRule
+          : calendar.businessFirstDueRule,
       );
       expect(contract.source.estimatedFrom).toContain(calendar.stopgapId);
     }
@@ -1411,5 +1416,392 @@ describe("recorded household payday opening phase (source-only candidate fixture
       altered.households.map((home) => second.household(home).dueAt),
     );
     expect(first.business.dueAt).toBe(second.business.dueAt);
+  });
+});
+
+/** Controlled generated Source preservation and tamper regressions. */
+describe("fresh generated calendar Source references", () => {
+  it("retains full shared/owning provenance and exact dates/basis/original terms while compacting fresh rows", () => {
+    const original = fixture(),
+      calendarData = DEFAULT_OPENING_FINANCE_DATA.openingPurchaseCalendar,
+      sharedBefore = structuredClone(calendarData.source),
+      scheduleSource: Source = {
+        ...source,
+        citation: "Full owning schedule citation. ".repeat(p("minorPerDollar")),
+        estimatedFrom: "Independent actual schedule basis. ".repeat(
+          p("minorPerDollar"),
+        ),
+      },
+      paySource: Source = {
+        ...source,
+        citation: "Full owning pay citation. ".repeat(p("minorPerDollar")),
+      },
+      jobSource: Source = {
+        ...source,
+        citation: "Full owning job citation. ".repeat(p("minorPerDollar")),
+      },
+      awardSource: Source = {
+        ...source,
+        citation: "Full owning award citation. ".repeat(p("minorPerDollar")),
+      },
+      income: FinanceContractInput = {
+        id: "actual-compaction-income",
+        payerIds: ["bank"],
+        payeeId: "worker:bank",
+        kind: "income.retirement",
+        amountMinor: p("minorPerDollar"),
+        dueAt: "2021-01-21",
+        periodMonths: p("one"),
+        accruesArrears: false,
+        recipientIncome: {
+          personId: "worker:bank",
+          householdId: "household:bank",
+          kindId: "retirement",
+          sourceFactId: "actual-compaction-award",
+        },
+        source: awardSource,
+      },
+      supplied: FinanceContractInput = {
+        id: "actual-compaction-invoice",
+        householdId: "household:store",
+        payerIds: ["worker:store"],
+        payeeId: "kitchen",
+        kind: "household.fixture-invoice",
+        amountMinor: p("minorPerDollar"),
+        dueAt: "2021-01-23",
+        endsAt: "2021-07-23",
+        periodMonths: p("two"),
+        accruesArrears: false,
+        salesReceipt: true,
+        source: jobSource,
+      },
+      input: CoreInput = {
+        ...original,
+        people: original.people.map((person) =>
+          person.id === "worker:bank"
+            ? {
+                ...person,
+                jobId: undefined,
+                pastFacts: [
+                  {
+                    id: "actual-compaction-award",
+                    date: at,
+                    kind: "opening-income:retirement-award",
+                    summary:
+                      "Actual controlled award supplied before calendar generation.",
+                    source: awardSource,
+                    facts: {
+                      status: "in-payment",
+                      payerId: "bank",
+                      monthlyMinor: String(income.amountMinor),
+                      kindId: "retirement",
+                      householdId: person.householdId,
+                    },
+                  },
+                ],
+              }
+            : person,
+        ),
+        organizations: original.organizations.map((organization) =>
+          organization.id === "store"
+            ? {
+                ...organization,
+                classification: "enterprise:personal-services",
+              }
+            : organization,
+        ),
+        jobs: original.jobs.map((job) => ({
+          ...job,
+          source: jobSource,
+          ...(job.id === "job:store"
+            ? { occupationClassification: "service:barber" }
+            : {}),
+        })),
+        workCommitments: original
+          .workCommitments!.filter(
+            (commitment) => commitment.personId !== "worker:bank",
+          )
+          .map((commitment) => ({
+            ...commitment,
+            periodDays: p("daysPerWeek"),
+            slots: [
+              {
+                offsetDays:
+                  commitment.jobId === "job:kitchen"
+                    ? p("one") + p("two")
+                    : p("one"),
+                startMinute: p("zero"),
+                minutes: p("minutesPerHour"),
+              },
+            ],
+            scheduleSource,
+            paySource,
+          })),
+        finance: {
+          contracts: [income, supplied],
+          facilities: [],
+          businesses: [],
+          gaps: [],
+        },
+      },
+      before = structuredClone(input),
+      choices = createOpeningPurchaseCalendar(input, input.finance!.contracts),
+      finance = createOpeningFinance(input, options()),
+      customerOptions = {
+        geography: () => ({
+          jurisdictionKey: "fixture-source-key",
+          region: "national" as const,
+          source,
+          outsideMarkets: [],
+        }),
+        outsideMarkets: [],
+      },
+      customers = buildOpeningCustomers(input, customerOptions);
+    expect(calendarData.source).toEqual(sharedBefore);
+    expect(calendarData.source.citation).toContain(
+      "jpmc-institute-volatility-2-report.pdf",
+    );
+    expect(calendarData.source.estimatedFrom).toContain(
+      "one million Chase customers",
+    );
+    expect(calendarData.source.estimatedFrom).toContain(
+      "[next nominal, following nominal)",
+    );
+    expect(calendarData.source.generationPriorVintage).toContain(
+      "2012 through September 2015",
+    );
+    const customSource = {
+        ...calendarData.source,
+        citation:
+          "Actual custom calendar citation supplied by this controlled DATA fixture.",
+        estimatedFrom:
+          "Complete custom calendar rationale supplied with actual controlled rule DATA.",
+        generationPriorVintage:
+          "Actual custom calendar generation vintage, retained in Source fields.",
+      },
+      customData = { ...calendarData, source: customSource },
+      customChoice = createOpeningPurchaseCalendar(
+        input,
+        input.finance!.contracts,
+        customData,
+      ).business,
+      customFinance = createOpeningFinance(
+        input,
+        options({
+          data: {
+            ...DEFAULT_OPENING_FINANCE_DATA,
+            openingPurchaseCalendar: customData,
+          },
+        }),
+      ),
+      customBusiness = customFinance.contracts.filter(
+        (term) => term.kind === "business.sales-input",
+      );
+    expect(customChoice.source.citation).toBe(customSource.citation);
+    expect(customChoice.source.estimatedFrom).toContain(
+      customSource.estimatedFrom,
+    );
+    expect(customChoice.source.generationPriorVintage).toBe(
+      customSource.generationPriorVintage,
+    );
+    expect(customBusiness.length).toBeGreaterThan(p("zero"));
+    for (const term of customBusiness) {
+      expect(term.source.citation).toContain(customSource.citation);
+      expect(term.source.estimatedFrom).toContain(customSource.estimatedFrom);
+      expect(term.source.generationPriorVintage).toContain(
+        customSource.generationPriorVintage,
+      );
+      const baseline = finance.contracts.find((row) => row.id === term.id)!;
+      expect(term.dueAt).toBe(baseline.dueAt);
+      expect(term.amountMinor).toBe(baseline.amountMinor);
+      expect(term.periodMonths).toBe(baseline.periodMonths);
+      expect(term.endsAt).toBe(baseline.endsAt);
+      expect(term.settlementPhaseId).toBe(baseline.settlementPhaseId);
+    }
+    for (const [homeId, dueAt, basisIds] of [
+      ["household:store", "2021-01-02", ["job:store", "commitment:job:store"]],
+      [
+        "household:kitchen",
+        "2021-01-04",
+        ["job:kitchen", "commitment:job:kitchen"],
+      ],
+      ["household:bank", "2021-01-21", [income.id, "actual-compaction-award"]],
+    ] as const) {
+      const choice = choices.household(
+        input.households.find((home) => home.id === homeId)!,
+      );
+      expect(choice.dueAt).toBe(dueAt);
+      expect(choice.basisIds).toEqual(basisIds);
+      expect(choice.source.tag).toBe("ESTIMATED");
+      expect(choice.source.asOf).toBe(at);
+      expect(choice.source.citation).toContain(
+        "DATA openingPurchaseCalendar.source",
+      );
+      expect(choice.source.generationPriorVintage).toBe(
+        sharedBefore.generationPriorVintage,
+      );
+      expect(choice.source.estimatedFrom).toContain(
+        calendarData.householdFirstDueRule,
+      );
+      expect(choice.source.estimatedFrom).toContain(dueAt);
+      expect(choice.source.estimatedFrom!.length).toBeLessThan(
+        sharedBefore.estimatedFrom.length,
+      );
+      expect(choice.source.estimatedFrom).not.toContain(
+        sharedBefore.estimatedFrom,
+      );
+      expect(choice.source.estimatedFrom).not.toContain(
+        scheduleSource.citation,
+      );
+      expect(choice.source.estimatedFrom).not.toContain(paySource.citation);
+      expect(choice.source.estimatedFrom).not.toContain(awardSource.citation);
+      for (const terms of [
+        finance.contracts,
+        customers.input.finance!.contracts,
+      ]) {
+        const generated = terms.filter(
+          (term) =>
+            term.householdId === homeId && term.householdPurchaseCalendar,
+        );
+        expect(generated.length).toBeGreaterThan(p("zero"));
+        for (const term of generated) {
+          expect(term.dueAt).toBe(dueAt);
+          expect(term.householdPurchaseCalendar!.openingBasisIds).toEqual(
+            basisIds,
+          );
+          expect(term.householdPurchaseCalendar!.source).toEqual(choice.source);
+          expect(term.source.estimatedFrom).not.toContain(
+            sharedBefore.estimatedFrom,
+          );
+          expect(term.source.estimatedFrom).toContain(
+            calendarData.recurringHouseholdDueRule,
+          );
+          for (const id of basisIds)
+            expect(term.source.estimatedFrom).toContain(id);
+          expect(term.source.citation).toContain(
+            "DATA openingPurchaseCalendar.source",
+          );
+          expect(term.endsAt).toBeUndefined();
+          expect(term.periodMonths).toBe(p("one"));
+        }
+      }
+    }
+    for (const originalTerm of [income, supplied]) {
+      expect(
+        finance.contracts.find((term) => term.id === originalTerm.id),
+      ).toEqual(originalTerm);
+      expect(
+        customers.input.finance!.contracts.find(
+          (term) => term.id === originalTerm.id,
+        ),
+      ).toBe(originalTerm);
+      expect(originalTerm.settlementPhaseId).toBeUndefined();
+    }
+    expect(customers.input.jobs).toBe(input.jobs);
+    expect(customers.input.workCommitments).toBe(input.workCommitments);
+    expect(
+      customers.input.people.find((person) => person.id === "worker:bank")!
+        .pastFacts![p("zero")]!.source,
+    ).toEqual(awardSource);
+    expect(input.jobs.find((job) => job.id === "job:store")!.source).toEqual(
+      jobSource,
+    );
+    expect(input.workCommitments![p("zero")]!.scheduleSource).toEqual(
+      scheduleSource,
+    );
+    expect(input.workCommitments![p("zero")]!.paySource).toEqual(paySource);
+    expect(
+      buildOpeningCustomers(customers.input, customerOptions).input,
+    ).toEqual(customers.input);
+    const missing = createOpeningPurchaseCalendar(input, [supplied]).household(
+      input.households.find((home) => home.id === "household:bank")!,
+    );
+    expect(missing.dueAt).toBe("2021-02-01");
+    expect(missing.basisIds).toEqual([]);
+    expect(missing.gaps).toContain(
+      `${calendarData.missingIncomeGap}:household:bank`,
+    );
+    expect(missing.source.estimatedFrom).toContain("Missing income timing");
+    const endedPlan = customers.receipt.contractPlans.find(
+        (plan) =>
+          plan.serviceKey === "personal-care" &&
+          plan.buyerIds.includes("worker:store"),
+      )!,
+      endSource: Source = {
+        ...source,
+        citation: "Independent supplied service end citation",
+        estimatedFrom: "Full evidence for the owner's supplied exclusive end",
+        generationPriorVintage: "Actual supplied end record vintage",
+      },
+      actualEnd = {
+        id: endedPlan.agreementId,
+        endsAt: "2021-08-01",
+        basisRecordIds: ["actual-signed-service-end"],
+        source: endSource,
+      },
+      ended = buildOpeningCustomers(input, {
+        ...customerOptions,
+        agreementEndsById: { [actualEnd.id]: actualEnd },
+      }),
+      endedContract = ended.input.finance!.contracts.find(
+        (term) => term.id === endedPlan.contractId,
+      )!;
+    expect(endedContract.endsAt).toBe(actualEnd.endsAt);
+    expect(endedContract.source.citation).toContain(endSource.citation);
+    expect(endedContract.source.estimatedFrom).toContain(
+      endSource.estimatedFrom,
+    );
+    expect(endedContract.source.generationPriorVintage).toContain(
+      endSource.generationPriorVintage,
+    );
+    expect(
+      JSON.parse(
+        ended.input.placeMetadata![`openingCustomers.end:${actualEnd.id}`]!,
+      ),
+    ).toEqual(actualEnd);
+    expect(buildOpeningCustomers(ended.input, customerOptions).input).toEqual(
+      ended.input,
+    );
+    const target = customers.input.finance!.contracts.find(
+      (term) =>
+        term.householdId === "household:store" &&
+        term.householdPurchaseCalendar,
+    )!;
+    for (const field of [
+      "citation",
+      "estimatedFrom",
+      "generationPriorVintage",
+    ] as const) {
+      const changed: CoreInput = {
+          ...customers.input,
+          finance: {
+            ...customers.input.finance!,
+            contracts: customers.input.finance!.contracts.map((term) =>
+              term.id === target.id
+                ? {
+                    ...term,
+                    householdPurchaseCalendar: {
+                      ...term.householdPurchaseCalendar!,
+                      source: {
+                        ...term.householdPurchaseCalendar!.source,
+                        [field]: `Tampered marker-only ${field}`,
+                      },
+                    },
+                  }
+                : term,
+            ),
+          },
+        },
+        changedBefore = structuredClone(changed);
+      expect(
+        changed.finance!.contracts.find((term) => term.id === target.id)!
+          .source,
+      ).toEqual(target.source);
+      expect(() => buildOpeningCustomers(changed, customerOptions)).toThrow(
+        /Conflicting opening customer contract/,
+      );
+      expect(changed).toEqual(changedBefore);
+    }
+    expect(input).toEqual(before);
   });
 });
