@@ -2,9 +2,12 @@
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
-## 2026-10-10
+## 2026-10-10 — bench
 
 - **CODEX-BENCH (M0-bench), WIP on #3940.** The CTO approved the build/check contract. Seeded opening, resident inspection, the 16 GB Codespace configuration and golden-path/world panel shell are published; no playable step is demonstrated. Four synthetic place-selection checks, syntax checks and JSON/HTML parsing pass; generated-world acceptance and local dependency gates are not run. The restarted cloud still cannot connect to its configured proxy on port 8080, so source-branch integration and dependency acquisition remain blocked. Choice, earliest-stop and trace API requests are routed to SOL-1258 and the director owner; time controls remain disabled. Next: restore cloud access, integrate the approved source heads and play the five specs with the finisher. No pass flags changed.
+
+## 2026-10-10
+
 - **OPUS-PEOPLE (M0-people), parts 1 to 4 in review.**
   - What changes for the player: every resident of a generated town has relatives, a temperament, and an age and home that follow the place's records. Whether each relative is alive follows the life table for their own birth year. Homes now include grown children and groups of three or more housemates. Children attend real public schools from the P12 data, and employed residents know their coworkers. Closeness grows with time together and fades without it. Only people with a cause look up offices, meeting places and groups, and they stop once they know one.
   - Measured in the town of the P10 proof seed (Sacramento): adults by age are within 1.3 points of the city's ACS in every band. Children attend 132 elementary and 55 high schools, where before the town shared one per stage. 1,742 of 1,752 employed residents know 6.6 coworkers each. 31 days simulate in 86.7 s, against 87.1 s for part 2. The kin test seed draws Stanwood, Washington, which now matches its state's ACS on older adults' living arrangements.
