@@ -13,7 +13,8 @@ import { buildDeepPast } from "../deep-past";
 import { advanceCore, createLifeCore } from "../life";
 import { OPENING_KIN } from "../opening-kin";
 import { buildPopulation } from "../population";
-import type { CoreState, PersonState } from "../types";
+import { resolveOperation } from "../state";
+import type { CoreModule, CoreState, PersonState } from "../types";
 import research from "../../../data/research/people/contact-frequency-by-tie.json" with { type: "json" };
 
 const ADULT_AGE = 18;
@@ -113,24 +114,46 @@ if (process.argv[1]?.endsWith("p15-closeness-receipt.ts")) {
 
   const contacts = new Map<string, number>();
   const byActor = new Map<string, Map<string, number>>();
-  advanceCore(core, addDays(makeIsoDate(core.date), days), {
-    controller: (decision) => {
-      const chosen = decision.selected;
-      if (!chosen || !adultIds.has(decision.actorId)) return undefined;
-      if (
-        chosen.definition.effect !== "contact" &&
-        chosen.definition.effect !== "care"
-      )
-        return undefined;
-      const actor = core.people.get(decision.actorId)!;
-      const tie = tieOf(core, actor, chosen.targetId);
-      contacts.set(tie, (contacts.get(tie) ?? 0) + 1);
-      const mine = byActor.get(actor.id) ?? new Map<string, number>();
-      mine.set(chosen.targetId, (mine.get(chosen.targetId) ?? 0) + 1);
-      byActor.set(actor.id, mine);
-      return undefined;
-    },
-  });
+  const actsByEffect = new Map<string, number>();
+  // Part 2b: one activation can run several acts and plan more for later
+  // dates, so every act that happens is counted at its effect, not at the
+  // activation's pick.
+  const counted = new Set(["contact", "care"]);
+  const counter: CoreModule = {
+    id: "p15-closeness-receipt-counter",
+    effectHandlers: Object.fromEntries(
+      core.data.actions.map((action) => {
+        const original = resolveOperation(
+          core,
+          "effectHandlers",
+          action.effect,
+        )!;
+        return [
+          action.effect,
+          (api, actorId, chosen, ...rest) => {
+            actsByEffect.set(
+              chosen.definition.effect,
+              (actsByEffect.get(chosen.definition.effect) ?? 0) + 1,
+            );
+            if (
+              adultIds.has(actorId) &&
+              counted.has(chosen.definition.effect)
+            ) {
+              const actor = core.people.get(actorId)!;
+              const tie = tieOf(core, actor, chosen.targetId);
+              contacts.set(tie, (contacts.get(tie) ?? 0) + 1);
+              const mine = byActor.get(actor.id) ?? new Map<string, number>();
+              mine.set(chosen.targetId, (mine.get(chosen.targetId) ?? 0) + 1);
+              byActor.set(actor.id, mine);
+            }
+            return original(api, actorId, chosen, ...rest);
+          },
+        ] as const;
+      }),
+    ) as CoreModule["effectHandlers"],
+  };
+  core.modules = new Map([[counter.id, counter], ...core.modules]);
+  advanceCore(core, addDays(makeIsoDate(core.date), days));
   const simulated = clock();
 
   // Contacts per adult per year with each kind of tie, against GSS visits.
@@ -182,6 +205,15 @@ if (process.argv[1]?.endsWith("p15-closeness-receipt.ts")) {
     closenessAfter: closenessByTie(core),
     contactRates,
     mostContactsWithOnePerson: summary(repeat),
+    // Every act that happened, by effect, per resident per day.
+    actsPerResidentDay: Object.fromEntries(
+      [...actsByEffect]
+        .sort(([a], [b]) => a.localeCompare(b))
+        .map(([effect, count]) => [
+          effect,
+          Number((count / residents.length / days).toFixed(3)),
+        ]),
+    ),
     answerKeys: {
       gss: research.sources.find((row) => row.id === "gss-social-evening"),
       hall: research.sources.find(
