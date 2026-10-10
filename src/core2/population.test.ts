@@ -118,13 +118,25 @@ describe("real-place one-time population import", () => {
           characterHistoryContextPersonId(context, input.stableKey),
         ),
       );
+      // P15: households with children keep the generator's people exactly;
+      // adults of other households are re-aged by partnership (same surname).
+      const reAged = !skeleton.members.some(
+        (member) => member.role === "child",
+      );
       for (const input of inputs) {
         const person = byId.get(
           characterHistoryContextPersonId(context, input.stableKey),
         )!;
-        expect([person.givenName, person.familyName, person.birthDate]).toEqual(
-          [input.givenName, input.familyName, input.birthDate],
-        );
+        expect(person.familyName).toBe(input.familyName);
+        if (!reAged)
+          expect([person.givenName, person.birthDate]).toEqual([
+            input.givenName,
+            input.birthDate,
+          ]);
+        else
+          expect(
+            ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(startedAt)),
+          ).toBeGreaterThanOrEqual(18);
       }
       if (checkedShapes.has(skeleton.shape)) continue;
       checkedShapes.add(skeleton.shape);

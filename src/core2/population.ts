@@ -105,8 +105,14 @@ import {
   type GenderIdentityKey,
 } from "../simulation/person-identity";
 import { birthCohortGivenName } from "../simulation/given-name-cohorts";
+import {
+  inventedPersonAgeBounds,
+  inventedPersonBirthDate,
+  type InventedPersonRole,
+} from "../simulation/invented-person-age";
 import { SeededRng } from "../simulation/rng";
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
+import { partnerAgedHousehold, partnershipGeo } from "./opening-partnership";
 import { openingTemperaments } from "./opening-personality";
 import { PARAMETERS, parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
@@ -530,8 +536,46 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     inputs.length < minimumPeople;
     index += p("one")
   ) {
-    const skeleton = townHouseholdSkeleton(seedWorld, town, index);
-    const householdPeople = townHouseholdPeople(seedWorld, town, index);
+    // P15: adults of households without children are re-aged by sex and
+    // their chance of having a partner now (opening-partnership.ts).
+    const { skeleton, people: householdPeople } = partnerAgedHousehold({
+      seed: options.seed,
+      geo: partnershipGeo(lifePlaceByJurisdictionId(town)?.sourceGeoid),
+      skeleton: townHouseholdSkeleton(seedWorld, town, index),
+      people: townHouseholdPeople(seedWorld, town, index),
+      bounds: (role) => inventedPersonAgeBounds(role as InventedPersonRole),
+      rebirth: (person, age) => {
+        const birthDate = inventedPersonBirthDate(
+          new SeededRng(seedWorld.seed).fork(`${person.stableKey}:p15-birth`),
+          {
+            role: "household-member",
+            referenceDate: startedAt,
+            age,
+            placement: "drawn-exact",
+          },
+        );
+        const gender = person.identity?.gender as GenderIdentityKey | undefined;
+        return {
+          ...person,
+          birthDate,
+          ...(gender &&
+          nameCorpusVersionForWorld(seedWorld, town) === DEFAULT_CORPUS_VERSION
+            ? {
+                givenName: birthCohortGivenName(
+                  seedWorld.seed,
+                  person.stableKey,
+                  {
+                    givenName: person.givenName,
+                    familyName: person.familyName,
+                    birthDate,
+                    gender,
+                  },
+                ),
+              }
+            : {}),
+        };
+      },
+    });
     const stableKey = `${TOWN_RESIDENTS_VERSION}:${town}:household:${index}`;
     const county = [...counties].sort((left, right) => {
       const gap = (row: CountyContext) =>
