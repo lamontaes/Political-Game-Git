@@ -94,7 +94,7 @@ Codex builds; a separate Claude session finishes (Opus for judgment calls, Sonne
 - A versioned save format, so updates don't break saves.
 - Every stopgap cleared or turned into a sourced or marked estimate.
 - In-game bug reports and crash logs.
-- Legal check: real living politicians, data and photo licenses.
+- Legal check: confirm no real politicians appear (officeholders are fictional, owner ruling Sept 26), plus real places, schools and institutions, data licenses, and photo and art licenses. Started Oct 10.
 - Steam page, trailer, early-access FAQ, minimum specs, price.
 - The old core deleted.
 
@@ -107,7 +107,17 @@ Codex builds; a separate Claude session finishes (Opus for judgment calls, Sonne
 - **Art in parallel:** modular people, poses, backgrounds.
 - **Specialist roles:** speed, placeholder clearing, docs.
 
-## Open for the owner
+## Early-access scope calls (owner, Oct 10)
 
-- Whether the press is in early access or right after it, decided at a weekly reschedule after M3.
-- Whether to start the legal check now. The CTO recommends now.
+- **Press:** basic news in early access (local outlets report results, laws and big events, plus word of mouth); reporters, editors, owners and investigations right after.
+- **Speeches** at any moment are in early access; **movements** come after.
+- **Constituent cases:** in early access, simple.
+- **Corruption:** basic in early access (bribes and favors from people's own traits and money, leaving records that surface later); investigations and prosecutions after.
+- **At early access these run in the world only, and become playable after:** party posts, ballot measures and recalls, and school board seats.
+- **Successors:** the basic handoff is in early access (a save can always continue); inheriting a movement comes after.
+- **Courts** come after early access.
+- **The legal check** started on Oct 10.
+
+## Specs and packages
+
+Exact specs for every milestone, each with its test, are in `docs/roadmap/features.json` (failing until proven). Build packages are in `docs/packages/`. The progress file is `docs/roadmap/PROGRESS.md`.

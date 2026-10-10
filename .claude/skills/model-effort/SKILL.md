@@ -1,24 +1,33 @@
 ---
 name: model-effort
 description: >
-  Use when starting any session, subagent or package. Codex builds; a separate
-  Claude session finishes (Opus for judgment calls, Sonnet for agreed designs).
-  State the model and effort for every session.
+  Use when starting any session, subagent or package. Codex builds at medium
+  (high only with a stated reason); a separate Claude session finishes (Sonnet
+  high for agreed designs and checks, Opus high only for judgment calls).
+  Balance usage and effectiveness, leaning toward thrift.
 ---
 
 # Who builds, who finishes, and at what effort (owner, Oct 10, 2026)
 
-- **Codex (GPT-6.1 Sol) builds** the bulk: modules, ports, data and tests on
-  draft PRs, from a package spec. It is relatively cheap, so it does the long
-  building runs.
-- **A separate Claude session finishes:** Opus for judgment calls (design
-  tradeoffs, architecture, ambiguous scope, risk), Sonnet for implementing or
-  checking an already agreed design. The finisher never grades its own build.
-- **Effort:** high for package-sized judgment work and for finishing core
-  changes; medium for agreed, mechanical work. Every package states its model
-  and effort.
-- **One package per session.** Start a fresh session for the next package
-  instead of running one session for days.
+The owner pays for every session. Balance usage against effectiveness:
+normally lean toward saving usage (about 60–65% thrift, 35–40% raw power);
+near or right after a usage reset, about even or tilted toward effectiveness.
+Not the cheapest possible, never the top level by default, and state the
+reason in the package.
+
+- **Codex (GPT-6.1 Sol) builds** modules, ports, data and tests on draft PRs.
+  Default effort: **medium**. Use **high** only for core architecture, money
+  conservation or rules every port depends on, and say so. Use extra-high only
+  after high failed at a named task.
+- **A separate Claude session finishes.** **Sonnet at high** checks agreed
+  designs, tests and tooling, and plays features in the bench. **Opus at
+  high** is for judgment calls: core design, people modeling, disputed
+  results. **Max** only after high failed at a named task. Medium for small,
+  clear fixes.
+- **Helpers:** none by default; at most two for Codex and three for Claude,
+  only when the work splits cleanly. Each is bounded and read-only unless the
+  package says otherwise.
+- **One package per session.** Start fresh for the next package.
 
 ## Check your own work
 

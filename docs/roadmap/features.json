@@ -1,0 +1,128 @@
+{
+  "_about": "Owner-approved specs for the road to early access (docs/ROADMAP.md). Each spec stays passes:false until its test passes in a place drawn at random from all 56 AND the finisher has played it in the test bench. Sessions may change only 'passes' (with evidence in the PR). They may never edit 'test'. The CTO adds 'command' once a spec's automated test exists. M1 to M7 specs are added here when the owner approves them.",
+  "milestones": {
+    "M0": "Foundation and the test bench (owner-approved Oct 10, 2026)"
+  },
+  "features": [
+    {
+      "id": "M0-01",
+      "milestone": "M0",
+      "title": "The bench opens in a Codespace",
+      "golden_path": "1",
+      "package": "M0-bench",
+      "test": "Three different seeds give three different places in three different states or territories; each builds without error; and every resident on the list exists in the core's records.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M0-02",
+      "milestone": "M0",
+      "title": "Play anyone",
+      "golden_path": "1",
+      "package": "M0-bench",
+      "test": "Over 7 days, every act on the chosen person's record came from a choice made on screen, other residents' lives continue, and choosing an option nobody offered is impossible.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M0-03",
+      "milestone": "M0",
+      "title": "Time: Day, Week, Calendar, and skip until something needs you",
+      "golden_path": "1",
+      "package": "M0-bench",
+      "test": "A skip from a random date stops exactly at the earliest of: a moment over the 0.50 interrupt line, a fixed commitment, or an offer with a deadline; it says which one; nothing was skipped past.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M0-04",
+      "milestone": "M0",
+      "title": "Click anything, see why",
+      "golden_path": "1",
+      "package": "M0-bench",
+      "test": "20 randomly sampled items on screen each open a 'why' with scores and record ids that exist in the core; none is made up for display.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M0-05",
+      "milestone": "M0",
+      "title": "The golden path and world panel",
+      "golden_path": "1",
+      "package": "M0-bench",
+      "test": "For a fresh life, steps 1-2 show reachable, steps 3-11 show the specific missing module, and the world pieces show 'not in the new core yet' until M1 lands.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M0-06",
+      "milestone": "M0",
+      "title": "Step 1: a life at 18",
+      "golden_path": "1",
+      "package": "M0-people",
+      "test": "In a random place, the 18-year-old's parents and siblings follow the kin rules; schools are real schools from the place data (real naming patterns where none exists); every fact shown has a record behind it.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M0-07",
+      "milestone": "M0",
+      "title": "Step 2: meeting people",
+      "golden_path": "2",
+      "package": "M0-people",
+      "test": "Over 91 days in a random place: the player gains new acquaintances through real encounters, at least one grows closer, and visits to parents and siblings fall inside the survey ranges (GSS, ATUS); over years, circle turnover matches a sourced study.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M0-08",
+      "milestone": "M0",
+      "title": "Money that works for a year",
+      "golden_path": "core",
+      "package": "M0-core",
+      "test": "A full year in a random place: under 10% of businesses close; sales pay more than half of all wages; every dollar balances; outside money is reported next to real public spending and Social Security per resident; national conditions flat and labeled until M1.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M0-09",
+      "milestone": "M0",
+      "title": "The four core pieces",
+      "golden_path": "core",
+      "package": "M0-core",
+      "test": "Module state, accounts with one balanced writer, the institution calendar and voter groups each have their own contract tests; the speed budget holds; the first two M1 ports build on them without patching the core.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M0-10",
+      "milestone": "M0",
+      "title": "The golden-path test suite runs on every change",
+      "golden_path": "studio",
+      "package": "M0-guard",
+      "test": "A deliberately broken step-2 change turns the check red, and the suite fits its time budget.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M0-11",
+      "milestone": "M0",
+      "title": "Speed and memory guard",
+      "golden_path": "studio",
+      "package": "M0-guard",
+      "test": "A change that makes a year more than 20% slower than its base fails the check, and the report names the slowest steps.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M0-12",
+      "milestone": "M0",
+      "title": "Feature list and progress file",
+      "golden_path": "studio",
+      "package": "CTO",
+      "test": "A fresh session can read docs/roadmap/features.json and docs/roadmap/PROGRESS.md, pick the top unfinished feature and start without asking anyone what's next.",
+      "command": null,
+      "passes": false
+    }
+  ]
+}
