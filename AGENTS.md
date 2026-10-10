@@ -25,6 +25,7 @@ Every package names its model and effort with a one-line reason. Balance usage a
 - **Claude finishes with Sonnet at high** for agreed designs, test and tooling checks, and playing features in the bench, where careful checking matters. **Opus at high** only for judgment-heavy finishing: core design, modeling people, or a disputed result. **Max** only after high has failed at a named task. Medium is fine for small, clear fixes.
 - **Helpers:** none by default. At most two for Codex (the repository setting) and three for Claude, and only when the work splits cleanly: independent research, reading many files, or a fresh-context review. Each gets a clear objective, an output format, allowed paths and tools, and is read-only unless the package says otherwise.
 - **One package per session**, then a fresh session. Stop and report instead of escalating when a package keeps failing.
+- **Track what each choice costs.** Every hand-off records the model and effort, how long it took, usage if visible, and how many times the finisher sent it back (and why). The CTO keeps `docs/roadmap/model-log.md` and adjusts defaults from it: a cheaper, faster setup that needs a few more send-backs is fine (owner, Oct 10).
 
 ## How every session works
 
