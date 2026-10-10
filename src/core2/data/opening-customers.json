@@ -1,0 +1,596 @@
+{
+  "version": "p8-opening-customer-builder-v1",
+  "sourceAvailableBy": "2025-12-31",
+  "generationPriorVintage": "CEX calendar 2024; Census finance 2022 and population 2023; SCF 2022 nominal",
+  "periodMonthsParameter": "openingCustomerPeriodMonths",
+  "agreementLeadDaysParameter": "openingCustomerAgreementLeadDays",
+  "sizeTopCodeParameter": "openingCustomerSizeTopCode",
+  "settlementPhaseIds": {
+    "householdPurchases": "household-purchases",
+    "publicProcurement": "business-procurement",
+    "outsidePurchases": "household-purchases"
+  },
+  "parents": {
+    "personalCare": {
+      "nationalParameter": "openingCustomerPersonalCareNationalAnnualUsd",
+      "regionalParameters": {
+        "national": "openingCustomerPersonalCareNationalAnnualUsd",
+        "northeast": "openingCustomerPersonalCareNortheastAnnualUsd",
+        "midwest": "openingCustomerPersonalCareMidwestAnnualUsd",
+        "south": "openingCustomerPersonalCareSouthAnnualUsd",
+        "west": "openingCustomerPersonalCareWestAnnualUsd"
+      },
+      "sizeParameters": {
+        "1": "openingCustomerPersonalCareSize1AnnualUsd",
+        "2": "openingCustomerPersonalCareSize2AnnualUsd",
+        "3": "openingCustomerPersonalCareSize3AnnualUsd",
+        "4": "openingCustomerPersonalCareSize4AnnualUsd",
+        "5plus": "openingCustomerPersonalCareSize5plusAnnualUsd"
+      }
+    },
+    "otherHouseholdExpenses": {
+      "nationalParameter": "openingCustomerOtherHouseholdExpensesNationalAnnualUsd",
+      "regionalParameters": {
+        "national": "openingCustomerOtherHouseholdExpensesNationalAnnualUsd",
+        "northeast": "openingCustomerOtherHouseholdExpensesNortheastAnnualUsd",
+        "midwest": "openingCustomerOtherHouseholdExpensesMidwestAnnualUsd",
+        "south": "openingCustomerOtherHouseholdExpensesSouthAnnualUsd",
+        "west": "openingCustomerOtherHouseholdExpensesWestAnnualUsd"
+      },
+      "sizeParameters": {
+        "1": "openingCustomerOtherHouseholdExpensesSize1AnnualUsd",
+        "2": "openingCustomerOtherHouseholdExpensesSize2AnnualUsd",
+        "3": "openingCustomerOtherHouseholdExpensesSize3AnnualUsd",
+        "4": "openingCustomerOtherHouseholdExpensesSize4AnnualUsd",
+        "5plus": "openingCustomerOtherHouseholdExpensesSize5plusAnnualUsd"
+      }
+    },
+    "feesAdmissions": {
+      "nationalParameter": "openingCustomerFeesAdmissionsNationalAnnualUsd",
+      "regionalParameters": {
+        "national": "openingCustomerFeesAdmissionsNationalAnnualUsd",
+        "northeast": "openingCustomerFeesAdmissionsNortheastAnnualUsd",
+        "midwest": "openingCustomerFeesAdmissionsMidwestAnnualUsd",
+        "south": "openingCustomerFeesAdmissionsSouthAnnualUsd",
+        "west": "openingCustomerFeesAdmissionsWestAnnualUsd"
+      },
+      "sizeParameters": {
+        "1": "openingCustomerFeesAdmissionsSize1AnnualUsd",
+        "2": "openingCustomerFeesAdmissionsSize2AnnualUsd",
+        "3": "openingCustomerFeesAdmissionsSize3AnnualUsd",
+        "4": "openingCustomerFeesAdmissionsSize4AnnualUsd",
+        "5plus": "openingCustomerFeesAdmissionsSize5plusAnnualUsd"
+      }
+    },
+    "miscellaneous": {
+      "nationalParameter": "openingCustomerMiscellaneousNationalAnnualUsd",
+      "regionalParameters": {
+        "national": "openingCustomerMiscellaneousNationalAnnualUsd",
+        "northeast": "openingCustomerMiscellaneousNortheastAnnualUsd",
+        "midwest": "openingCustomerMiscellaneousMidwestAnnualUsd",
+        "south": "openingCustomerMiscellaneousSouthAnnualUsd",
+        "west": "openingCustomerMiscellaneousWestAnnualUsd"
+      },
+      "sizeParameters": {
+        "1": "openingCustomerMiscellaneousSize1AnnualUsd",
+        "2": "openingCustomerMiscellaneousSize2AnnualUsd",
+        "3": "openingCustomerMiscellaneousSize3AnnualUsd",
+        "4": "openingCustomerMiscellaneousSize4AnnualUsd",
+        "5plus": "openingCustomerMiscellaneousSize5plusAnnualUsd"
+      }
+    },
+    "telephone": {
+      "nationalParameter": "openingCustomerTelephoneNationalAnnualUsd",
+      "regionalParameters": {
+        "national": "openingCustomerTelephoneNationalAnnualUsd",
+        "northeast": "openingCustomerTelephoneNortheastAnnualUsd",
+        "midwest": "openingCustomerTelephoneMidwestAnnualUsd",
+        "south": "openingCustomerTelephoneSouthAnnualUsd",
+        "west": "openingCustomerTelephoneWestAnnualUsd"
+      },
+      "sizeParameters": {
+        "1": "openingCustomerTelephoneSize1AnnualUsd",
+        "2": "openingCustomerTelephoneSize2AnnualUsd",
+        "3": "openingCustomerTelephoneSize3AnnualUsd",
+        "4": "openingCustomerTelephoneSize4AnnualUsd",
+        "5plus": "openingCustomerTelephoneSize5plusAnnualUsd"
+      }
+    },
+    "medicalServices": {
+      "nationalParameter": "openingCustomerMedicalServicesNationalAnnualUsd",
+      "regionalParameters": {
+        "national": "openingCustomerMedicalServicesNationalAnnualUsd",
+        "northeast": "openingCustomerMedicalServicesNortheastAnnualUsd",
+        "midwest": "openingCustomerMedicalServicesMidwestAnnualUsd",
+        "south": "openingCustomerMedicalServicesSouthAnnualUsd",
+        "west": "openingCustomerMedicalServicesWestAnnualUsd"
+      },
+      "sizeParameters": {
+        "1": "openingCustomerMedicalServicesSize1AnnualUsd",
+        "2": "openingCustomerMedicalServicesSize2AnnualUsd",
+        "3": "openingCustomerMedicalServicesSize3AnnualUsd",
+        "4": "openingCustomerMedicalServicesSize4AnnualUsd",
+        "5plus": "openingCustomerMedicalServicesSize5plusAnnualUsd"
+      }
+    }
+  },
+  "householdServices": [
+    {
+      "key": "personal-care",
+      "label": "Personal care services",
+      "contractKind": "household.customer.personal-care",
+      "componentAnnualParameter": "openingCustomerPersonalCareAnnualNationalUsd",
+      "parentKey": "personalCare",
+      "supplierClassifications": ["enterprise:personal-services"],
+      "supplierOccupations": ["service:barber", "service:hairstylist"],
+      "exclusiveRecordedKinds": ["household.customer.personal-care"],
+      "stopgapId": "SG-P8-opening-customer-generation",
+      "citation": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, cell B4217; Personal-care service component only; no personal-care product inventory is inferred. National component shares within region/size parent categories and initial counterparties are ESTIMATED, not measured individual choices or bills."
+    },
+    {
+      "key": "housekeeping",
+      "label": "Housekeeping services",
+      "contractKind": "household.customer.housekeeping",
+      "componentAnnualParameter": "openingCustomerHousekeepingAnnualNationalUsd",
+      "parentKey": "otherHouseholdExpenses",
+      "supplierClassifications": ["enterprise:building-services"],
+      "supplierOccupations": ["occupation:janitor", "occupation:housekeeper"],
+      "exclusiveRecordedKinds": ["household.customer.housekeeping"],
+      "stopgapId": "SG-P8-opening-customer-generation",
+      "citation": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, cell B1771; Housekeeping service component only; no delivered cleaning work is claimed. National component shares within region/size parent categories and initial counterparties are ESTIMATED, not measured individual choices or bills."
+    },
+    {
+      "key": "lawn-care",
+      "label": "Gardening and lawn care services",
+      "contractKind": "household.customer.lawn-care",
+      "componentAnnualParameter": "openingCustomerLawnCareAnnualNationalUsd",
+      "parentKey": "otherHouseholdExpenses",
+      "supplierClassifications": ["enterprise:building-services"],
+      "supplierOccupations": ["occupation:landscaper"],
+      "exclusiveRecordedKinds": ["household.customer.lawn-care"],
+      "stopgapId": "SG-P8-opening-customer-generation",
+      "citation": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, cell B1777; Lawn-care service component only; no household land tenure or completed landscaping is inferred. National component shares within region/size parent categories and initial counterparties are ESTIMATED, not measured individual choices or bills."
+    },
+    {
+      "key": "participant-sports",
+      "label": "Participant-sports fees",
+      "contractKind": "household.customer.participant-sports",
+      "componentAnnualParameter": "openingCustomerParticipantSportsAnnualNationalUsd",
+      "parentKey": "feesAdmissions",
+      "supplierClassifications": ["enterprise:recreation"],
+      "supplierOccupations": [
+        "occupation:fitness-trainer",
+        "occupation:recreation-attendant"
+      ],
+      "exclusiveRecordedKinds": ["household.customer.participant-sports"],
+      "stopgapId": "SG-P8-opening-customer-generation",
+      "citation": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, cell B3552; Participant-sports fee component only. Movies, concerts, products, club dues and all entertainment are excluded. National component shares within region/size parent categories and initial counterparties are ESTIMATED, not measured individual choices or bills."
+    },
+    {
+      "key": "legal-services",
+      "label": "Legal fees",
+      "contractKind": "household.customer.legal-services",
+      "componentAnnualParameter": "openingCustomerLegalServicesAnnualNationalUsd",
+      "parentKey": "miscellaneous",
+      "supplierClassifications": [
+        "enterprise:professional-services",
+        "enterprise:legal-services"
+      ],
+      "supplierOccupations": [
+        "profession:lawyer",
+        "profession:attorney",
+        "profession:legal-assistant"
+      ],
+      "exclusiveRecordedKinds": [
+        "household.customer.legal-services",
+        "household.miscellaneous"
+      ],
+      "stopgapId": "SG-P8-opening-customer-generation",
+      "citation": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, cell B4394; Requires an actual currently owned legal occupation or recorded provider scope. Broad professional classification alone is insufficient. National component shares within region/size parent categories and initial counterparties are ESTIMATED, not measured individual choices or bills."
+    },
+    {
+      "key": "accounting-services",
+      "label": "Accounting fees",
+      "contractKind": "household.customer.accounting-services",
+      "componentAnnualParameter": "openingCustomerAccountingServicesAnnualNationalUsd",
+      "parentKey": "miscellaneous",
+      "supplierClassifications": [
+        "enterprise:professional-services",
+        "enterprise:accounting-services"
+      ],
+      "supplierOccupations": [
+        "profession:accountant",
+        "profession:accountant-auditor"
+      ],
+      "exclusiveRecordedKinds": [
+        "household.customer.accounting-services",
+        "household.miscellaneous"
+      ],
+      "stopgapId": "SG-P8-opening-customer-generation",
+      "citation": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, cell B4424; Requires an actual currently owned accountant occupation or recorded provider scope. National component shares within region/size parent categories and initial counterparties are ESTIMATED, not measured individual choices or bills."
+    },
+    {
+      "key": "residential-telephone",
+      "label": "Residential telephone including VOIP",
+      "contractKind": "household.customer.residential-telephone",
+      "componentAnnualParameter": "openingCustomerResidentialTelephoneAnnualNationalUsd",
+      "parentKey": "telephone",
+      "supplierClassifications": ["enterprise:telecommunications"],
+      "supplierOccupations": [
+        "trade:telecom-technician",
+        "occupation:customer-service"
+      ],
+      "exclusiveRecordedKinds": ["household.customer.residential-telephone"],
+      "stopgapId": "SG-P8-opening-customer-generation",
+      "citation": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, cell B1602; Landline/VOIP component only. Wireless service, Internet access and phone-device sales are excluded. National component shares within region/size parent categories and initial counterparties are ESTIMATED, not measured individual choices or bills."
+    },
+    {
+      "key": "clinic-professional-services",
+      "label": "Nonphysician medical services outside the home",
+      "contractKind": "household.customer.clinic-professional-services",
+      "componentAnnualParameter": "openingCustomerClinicProfessionalServicesAnnualNationalUsd",
+      "parentKey": "medicalServices",
+      "supplierClassifications": ["service:clinic"],
+      "supplierOccupations": [
+        "profession:registered-nurse",
+        "occupation:medical-assistant",
+        "profession:practical-nurse"
+      ],
+      "exclusiveRecordedKinds": [
+        "household.customer.clinic-professional-services"
+      ],
+      "stopgapId": "SG-P8-opening-customer-generation",
+      "citation": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, cell B3413; Nonphysician clinical service component only. Drugs, dental/eye services, hospital rooms, nursing-home residence and insurance reimbursements are excluded. National component shares within region/size parent categories and initial counterparties are ESTIMATED, not measured individual choices or bills."
+    }
+  ],
+  "publicPurchases": {
+    "contractKind": "public.customer.custodial-services",
+    "buyerClassifications": [
+      "sector:local-government-office",
+      "service:county-government"
+    ],
+    "governmentKinds": ["local-government"],
+    "supplierClassifications": ["enterprise:building-services"],
+    "supplierOccupations": ["occupation:janitor", "occupation:housekeeper"],
+    "cleaningBudgetShareParameter": "openingCustomerPublicCleaningBudgetShare",
+    "authorityCoverageParameter": "openingCustomerLocalAuthorityBudgetCoverage",
+    "priorsByJurisdictionKey": {
+      "US": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US",
+        "populationParameter": "openingCustomerPopulation2023_US",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-AK": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_AK",
+        "populationParameter": "openingCustomerPopulation2023_US_AK",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-AL": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_AL",
+        "populationParameter": "openingCustomerPopulation2023_US_AL",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-AR": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_AR",
+        "populationParameter": "openingCustomerPopulation2023_US_AR",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-AZ": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_AZ",
+        "populationParameter": "openingCustomerPopulation2023_US_AZ",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-CA": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_CA",
+        "populationParameter": "openingCustomerPopulation2023_US_CA",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-CO": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_CO",
+        "populationParameter": "openingCustomerPopulation2023_US_CO",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-CT": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_CT",
+        "populationParameter": "openingCustomerPopulation2023_US_CT",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-DC": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_DC",
+        "populationParameter": "openingCustomerPopulation2023_US_DC",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-DE": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_DE",
+        "populationParameter": "openingCustomerPopulation2023_US_DE",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-FL": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_FL",
+        "populationParameter": "openingCustomerPopulation2023_US_FL",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-GA": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_GA",
+        "populationParameter": "openingCustomerPopulation2023_US_GA",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-HI": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_HI",
+        "populationParameter": "openingCustomerPopulation2023_US_HI",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-IA": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_IA",
+        "populationParameter": "openingCustomerPopulation2023_US_IA",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-ID": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_ID",
+        "populationParameter": "openingCustomerPopulation2023_US_ID",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-IL": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_IL",
+        "populationParameter": "openingCustomerPopulation2023_US_IL",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-IN": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_IN",
+        "populationParameter": "openingCustomerPopulation2023_US_IN",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-KS": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_KS",
+        "populationParameter": "openingCustomerPopulation2023_US_KS",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-KY": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_KY",
+        "populationParameter": "openingCustomerPopulation2023_US_KY",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-LA": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_LA",
+        "populationParameter": "openingCustomerPopulation2023_US_LA",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-MA": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_MA",
+        "populationParameter": "openingCustomerPopulation2023_US_MA",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-MD": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_MD",
+        "populationParameter": "openingCustomerPopulation2023_US_MD",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-ME": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_ME",
+        "populationParameter": "openingCustomerPopulation2023_US_ME",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-MI": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_MI",
+        "populationParameter": "openingCustomerPopulation2023_US_MI",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-MN": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_MN",
+        "populationParameter": "openingCustomerPopulation2023_US_MN",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-MO": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_MO",
+        "populationParameter": "openingCustomerPopulation2023_US_MO",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-MS": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_MS",
+        "populationParameter": "openingCustomerPopulation2023_US_MS",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-MT": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_MT",
+        "populationParameter": "openingCustomerPopulation2023_US_MT",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-NC": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_NC",
+        "populationParameter": "openingCustomerPopulation2023_US_NC",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-ND": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_ND",
+        "populationParameter": "openingCustomerPopulation2023_US_ND",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-NE": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_NE",
+        "populationParameter": "openingCustomerPopulation2023_US_NE",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-NH": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_NH",
+        "populationParameter": "openingCustomerPopulation2023_US_NH",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-NJ": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_NJ",
+        "populationParameter": "openingCustomerPopulation2023_US_NJ",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-NM": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_NM",
+        "populationParameter": "openingCustomerPopulation2023_US_NM",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-NV": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_NV",
+        "populationParameter": "openingCustomerPopulation2023_US_NV",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-NY": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_NY",
+        "populationParameter": "openingCustomerPopulation2023_US_NY",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-OH": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_OH",
+        "populationParameter": "openingCustomerPopulation2023_US_OH",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-OK": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_OK",
+        "populationParameter": "openingCustomerPopulation2023_US_OK",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-OR": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_OR",
+        "populationParameter": "openingCustomerPopulation2023_US_OR",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-PA": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_PA",
+        "populationParameter": "openingCustomerPopulation2023_US_PA",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-RI": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_RI",
+        "populationParameter": "openingCustomerPopulation2023_US_RI",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-SC": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_SC",
+        "populationParameter": "openingCustomerPopulation2023_US_SC",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-SD": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_SD",
+        "populationParameter": "openingCustomerPopulation2023_US_SD",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-TN": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_TN",
+        "populationParameter": "openingCustomerPopulation2023_US_TN",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-TX": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_TX",
+        "populationParameter": "openingCustomerPopulation2023_US_TX",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-UT": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_UT",
+        "populationParameter": "openingCustomerPopulation2023_US_UT",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-VA": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_VA",
+        "populationParameter": "openingCustomerPopulation2023_US_VA",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-VT": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_VT",
+        "populationParameter": "openingCustomerPopulation2023_US_VT",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-WA": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_WA",
+        "populationParameter": "openingCustomerPopulation2023_US_WA",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-WI": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_WI",
+        "populationParameter": "openingCustomerPopulation2023_US_WI",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-WV": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_WV",
+        "populationParameter": "openingCustomerPopulation2023_US_WV",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      },
+      "US-WY": {
+        "annualBuildingTotalParameter": "openingCustomerLocalBuildingTotalUsd_US_WY",
+        "populationParameter": "openingCustomerPopulation2023_US_WY",
+        "citation": "https://www2.census.gov/programs-surveys/gov-finances/tables/2022/22slsstab1.xlsx, local general-public-buildings spending; BEA regional CAINC1 line 2, 2023 (data/source/bea-regional); 2022 is not in the repository, so per-resident values divide fiscal 2022 dollars by 2023 residents"
+      }
+    },
+    "fallbackPriorKey": "US",
+    "stopgapId": "SG-P8-opening-customer-public-procurement",
+    "practiceCitation": "FAR 37.101 service-contract definition identifies maintenance/housekeeping services. This federal public-practice example does not enact local law. Generated opening local authority and appropriation are explicitly ESTIMATED. https://www.acquisition.gov/far/37.101"
+  },
+  "outsideHouseholds": {
+    "contractKind": "outside.customer.visitor-lodging",
+    "supplierClassifications": ["enterprise:lodging"],
+    "supplierOccupations": ["occupation:hotel-clerk", "occupation:housekeeper"],
+    "countPerMarketParameter": "openingCustomerOutsideHouseholdCountPerMarket",
+    "incomePriorUsdParameter": "openingCustomerOutsideHouseholdIncomePriorUsd",
+    "annualLodgingUsdParameter": "openingCustomerOutsideLodgingAnnualUsd",
+    "stopgapId": "SG-P8-opening-customer-outside-households",
+    "citation": "SCF 2022 family income is context only; https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, B1401 supplies an estimated standing lodging amount. Census actual shared-county place/population records establish geography only. Independent saved identity and visit-agreement records establish the modeled payer and due scope, not measured visit demand or wealth.",
+    "openingFundingRole": "zero-stock-dated-obligation-flow; SCF wealth is not an opening stock, recurring income or payment authority",
+    "identityScope": "Default IDs are distinct ESTIMATED synthetic edge identities; only an explicitly supplied actual owner/identity mapping deduplicates families across edges."
+  },
+  "stopgapIds": [
+    "SG-P8-opening-customer-generation",
+    "SG-P8-opening-customer-public-procurement",
+    "SG-P8-opening-customer-outside-households",
+    "SG-P8-opening-public-owner-history",
+    "SG-P8-opening-public-owner-coverage",
+    "SG-P8-public-payroll-due-flow",
+    "SG-P8-outside-product-demand-crosswalk",
+    "SG-P8-customer-due-calendar-renewal"
+  ],
+  "remainingUnsupported": [
+    "Gasoline or drug/medical-product sales without recorded product-compatible suppliers; no general store becomes a gas station/pharmacy.",
+    "Hospital insurer/Medicare/Medicaid purchases, nursing-home residence bills and private-school tuition without recorded provider/beneficiary/enrollment scope.",
+    "Manufacturing, agriculture, quarry, construction and trucking external demand without product scope and independently funded buyer needs.",
+    "Tax/aid income, firm financing, loan/capital receipts and public institution funding remain owned by other producers.",
+    "Default outside-market Census county join covers the 50 states and D.C.; caller-supplied actual geographic visit records support other places through the same rule. Missing joins are disclosed, with household services using labeled national priors.",
+    "Insurance and realty purchases without actual insured risk/policy or property/customer agreement, product scope, price and qualifications. No payroll projection becomes an invoice. SG-P8-outside-product-demand-crosswalk remains open for every unqualified business class."
+  ],
+  "externalInflowKinds": {
+    "publicProcurement": "external.public-procurement",
+    "outsidePurchases": "external.customer.visitor-lodging"
+  },
+  "customerCalendarRole": "Fresh household components use the actual owned work or recipient-income calendar, with a sourced explicit fallback only when no wage/income calendar is admitted. Public and visitor modeled agreements retain their own explicit next-period-month dates. Actual supplied terms and ends are preserved; statistical source years imply no expiry.",
+  "unsupportedExternalDemandByClassification": {
+    "enterprise:transportation": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual shipper/customer, origin/destination and freight service/order, carrier qualification, due freight price/quantity and delivery/payment basis. CFS shipment value is not a carrier invoice or a freight-service price."
+    },
+    "enterprise:agriculture": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual crop/livestock/product and producer scope, qualified buyer/market and dated quantity/price. General agricultural classification is not proof of a product, harvest or demand."
+    },
+    "enterprise:construction": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual project/property/client, construction agreement, stage/retainer/progress terms and dated payable. No generic county public works award follows from the firm name."
+    },
+    "enterprise:insurance": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual policy/client and licensed service/provider role, commission or service-fee terms and date. Agency/broker fees must stay distinct from insurer premium pools and risk claims."
+    },
+    "enterprise:real-estate": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual property/client/transaction and broker service with commission/fee amount and due event. A realty service receipt is not property capital or a household rent bill."
+    },
+    "enterprise:manufacturing": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual produced commodity/product scope, qualified plant/provider, independent buyer need/order and due quantity/price. Payroll-derived projected demand supplies no order or payer authority."
+    },
+    "service:nursing-home": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual resident/beneficiary and care agreement, qualified provider/service interval, real private/program payer and dated terms. No Medicare/Medicaid or universal public payer is inferred."
+    },
+    "enterprise:mining": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual mineral/aggregate product and buyer order, qualified supplier, dated quantity and price. Commodity flow categories require an explicit product crosswalk."
+    },
+    "service:private-school": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual pupil/enrollment and school/provider, tuition period and due amount, real guardian/scholarship payer. Private enrollment is not generated public-school payroll authority."
+    }
+  }
+}

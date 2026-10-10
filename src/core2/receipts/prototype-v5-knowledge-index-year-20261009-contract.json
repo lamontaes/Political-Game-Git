@@ -1,0 +1,36 @@
+{
+  "schema": "p8-v5-knowledge-index-year-archive-contract-v1",
+  "status": "source-only; no after capture consumed; not executed",
+  "preparedInputSha256": "cfc12509315da95074085260412d3ee6c1c61786fe6b2fd9f65bebbbe3a73f3c",
+  "beforeComparison": {
+    "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-comparison.json",
+    "sha256": "2e44c181526c7f7671ae0271608db0d0cb4bc72ca60ccd85e06234fff98b5322"
+  },
+  "beforeSourceManifest": {
+    "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-source-manifest.json",
+    "sha256": "01200f94610346bcf1bf1e3480c4a2dd83e3d151b0372f838b0cd84767b8e3af"
+  },
+  "declaredChanges": [
+    {
+      "path": "src/core2/state.ts",
+      "beforeSnapshot": "/tmp/p8-public-knowledge-index-v2/base/src/core2/state.ts",
+      "beforeBytes": 32190,
+      "beforeSha256": "47869675170e3bbd103bc1c2faa4f50e4cc37b17dfdc2970c1b07e3baf110dcf",
+      "afterBytes": 33690,
+      "afterSha256": "83b6de7a5c715486add9033bea51cdf08b656ff279996c0d5e7c41f6e5a96f17",
+      "afterPinScope": "Formatted live source at source-only staging; any later byte change requires a new explicit declaration"
+    },
+    {
+      "path": "src/core2/modules/life.ts",
+      "beforeSnapshot": "/tmp/p8-public-knowledge-index-v2/base/src/core2/modules/life.ts",
+      "beforeBytes": 12122,
+      "beforeSha256": "3cfd03ae435a83bb7869afb7e44e54c0d45205300a85b8f06c8fac346fdb2a72",
+      "afterBytes": 12251,
+      "afterSha256": "4f93c1a07f327bef3b1faab73ddfe30e02963ed470a9bf6dbb96918f4369686c",
+      "afterPinScope": "Formatted live source at source-only staging; any later byte change requires a new explicit declaration"
+    }
+  ],
+  "resultScope": "Exact canonical captured-result parity only; no full-state digest is supplied by the normal measurement producer",
+  "afterOutcomes": null,
+  "gateScope": "No candidate gate pass is inferred; root may retain its separate observed focused gates"
+}

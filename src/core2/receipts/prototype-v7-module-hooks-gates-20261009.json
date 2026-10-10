@@ -1,0 +1,47 @@
+{
+  "addedStopgaps": 0,
+  "openStopgaps": 47,
+  "apiVersion": "core2-api-v7",
+  "schemaVersion": "core2-schema-v7",
+  "testFiles": 5,
+  "tests": 102,
+  "annualWorldRun": false,
+  "newSpeedMeasurement": false,
+  "checks": [
+    {
+      "label": "types",
+      "exitCode": 0,
+      "path": "/workspace/p8-benchmark-artifacts/p8-hooks-v7-gates-20261009/p8-hooks-v7-typecheck-20261009.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "tests",
+      "exitCode": 0,
+      "path": "/workspace/p8-benchmark-artifacts/p8-hooks-v7-gates-20261009/p8-hooks-v7-focused-tests-20261009.log",
+      "bytes": 565,
+      "sha256": "64daeeea60c02c04e2096e6173595fd4cc96294c7e85c3bff3e20b6411b30689"
+    },
+    {
+      "label": "lint",
+      "exitCode": 0,
+      "path": "/workspace/p8-benchmark-artifacts/p8-hooks-v7-gates-20261009/p8-hooks-v7-eslint-20261009.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "sourceGuards",
+      "exitCode": 0,
+      "path": "/workspace/p8-benchmark-artifacts/p8-hooks-v7-gates-20261009/p8-hooks-v7-source-guards-20261009.log",
+      "bytes": 14069,
+      "sha256": "61f9a3521ed331892b29d77135f84581fe480dff03e1fd6e17e329e4f8bb5564"
+    },
+    {
+      "label": "formatWrite",
+      "exitCode": 0,
+      "path": "/workspace/p8-benchmark-artifacts/p8-hooks-v7-gates-20261009/p8-hooks-v7-format-20261009.log",
+      "bytes": 312,
+      "sha256": "429dd6992551aa5f775c370f149c91869df020cf57d66da5465ab2f1796106b1"
+    }
+  ]
+}

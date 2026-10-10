@@ -1,0 +1,78 @@
+{
+  "schema": "p8-knowledge-index-root-observed-gates-v1",
+  "sourceFiles": [
+    {
+      "path": "src/core2/state.ts",
+      "sha256": "83b6de7a5c715486add9033bea51cdf08b656ff279996c0d5e7c41f6e5a96f17"
+    },
+    {
+      "path": "src/core2/modules/life.ts",
+      "sha256": "4f93c1a07f327bef3b1faab73ddfe30e02963ed470a9bf6dbb96918f4369686c"
+    },
+    {
+      "path": "src/core2/public-knowledge-index.test.ts",
+      "sha256": "563aef3188ea31b5ad75e4ed857d15c90684abd64019d93df335c242cc2fd447"
+    }
+  ],
+  "focusedTests": {
+    "passed": 88,
+    "testFiles": 6,
+    "config": "src/core2/tooling/vitest.config.ts",
+    "fullWorldRun": false
+  },
+  "checks": [
+    {
+      "label": "startup-failure",
+      "original": "/tmp/p8-knowledge-index-tests.log",
+      "rootObservedExitCode": 1,
+      "rawBytes": 3272,
+      "rawSha256": "f86141fa851b4ea4a9e56b72a8a68f25af0644e446dadd6ff2a0cc30e02a5515",
+      "archive": "src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-startup-failure.log.gz",
+      "gzipSha256": "c1b9077137988e1434cc4bf7828d37a334fc78e58bc62b933aade076efd6cf4d",
+      "gzipRoundTripVerified": true
+    },
+    {
+      "label": "focused-tests",
+      "original": "/tmp/p8-knowledge-index-tests-isolated.log",
+      "rootObservedExitCode": 0,
+      "rawBytes": 1215,
+      "rawSha256": "fe0dcdf7eb1d714b352ebc6de8b506f194fa8b2e8de342d011f9c558f553ec63",
+      "archive": "src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-focused-tests.log.gz",
+      "gzipSha256": "a6b57ab8493ef1a8af74706ac7c612a29354b72e17ecefa8d2d4eb7c0e9c6b64",
+      "gzipRoundTripVerified": true
+    },
+    {
+      "label": "typecheck",
+      "original": "/tmp/p8-knowledge-index-typecheck.log",
+      "rootObservedExitCode": 0,
+      "rawBytes": 481,
+      "rawSha256": "eac432b5834884d4059c6230cffbe22f94b65f9c5bf26bf87ad7ae9b5f3c9319",
+      "archive": "src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-typecheck.log.gz",
+      "gzipSha256": "43753b1631d0506dbcb23043766f784fd1684ce72e2a269549ec9d90fe844e72",
+      "gzipRoundTripVerified": true
+    },
+    {
+      "label": "style",
+      "original": "/tmp/p8-knowledge-index-style.log",
+      "rootObservedExitCode": 0,
+      "rawBytes": 463,
+      "rawSha256": "0e4db03fbef1665d50df2a63d8d1df3ddd2cdceb70faf8f4fcbb5a4fccc1e1e9",
+      "archive": "src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-style.log.gz",
+      "gzipSha256": "f3fd75430d5c22cfc2020c937d8e5a59db07dd9d46ea367eb01b7836a9adf63d",
+      "gzipRoundTripVerified": true
+    },
+    {
+      "label": "guards",
+      "original": "/tmp/p8-knowledge-index-guards.log",
+      "rootObservedExitCode": 0,
+      "rawBytes": 11795,
+      "rawSha256": "7e8baf5392d0d21a3387b613d84adfd63e5ade8058ba7b6351e984cafd1ba290",
+      "archive": "src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-guards.log.gz",
+      "gzipSha256": "499ecabc60c540dcc5953927f2176b84c64dc67f9e2bb211e3e5503633cb6ed6",
+      "gzipRoundTripVerified": true
+    }
+  ],
+  "openStopgaps": 40,
+  "stopgapsAddedByKnowledgeIndex": 0,
+  "scope": "Root-observed exit declarations with exact archived complete logs. Initial desktop-config startup failure preserved; isolated configuration used for actual passing six-file run. This is not empirical calibration, year budget, isolated memory or release readiness."
+}

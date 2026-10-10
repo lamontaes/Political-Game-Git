@@ -1,0 +1,83 @@
+{
+  "version": "p8-opening-retirement-income-v2-outside-flow",
+  "stopgapId": "SG-P8-opening-retirement-income",
+  "settlementPhaseId": "income",
+  "incomeKindId": "retirement",
+  "contractKindTemplate": "income.{kindId}",
+  "contractIdPrefix": "opening-retirement-income",
+  "payerIdPrefix": "opening-retirement-payer",
+  "coverageIdPrefix": "opening-retirement-coverage",
+  "claimIdPrefix": "opening-retirement-claim",
+  "awardIdPrefix": "opening-retirement-award",
+  "contextKinds": ["school:cohort-estimate"],
+  "contextStage": "high",
+  "contextTrait": "people-mind-v1:reliability",
+  "coverageKinds": ["retirement:covered-work", "opening-income:covered-work"],
+  "claimKinds": ["retirement:claim", "opening-income:retirement-claim"],
+  "awardKinds": ["retirement:award", "opening-income:retirement-award"],
+  "recordedMonthlyAwardKinds": [
+    "retirement:award",
+    "opening-income:retirement-award",
+    "income:monthly-award"
+  ],
+  "recordedStandingBasis": "standing-entitlement",
+  "recordedPaymentMedium": "cash",
+  "generatedCoverageKind": "opening-income:covered-work",
+  "generatedClaimKind": "opening-income:retirement-claim",
+  "generatedAwardKind": "opening-income:retirement-award",
+  "coveredStatus": "covered",
+  "claimStatus": "qualified",
+  "awardStatus": "in-payment",
+  "payer": {
+    "nameTemplate": "{placeName} retirement-income paying account",
+    "kind": "public-institution",
+    "classification": "sector:modeled-retirement-income-account",
+    "identityBasis": "Modeled local disbursement view for represented saved awards, with zero prepaid stock. It is not an observed local Treasury account, appropriation or plan-membership record; the genuine due flow must be admitted by the owning finance provider."
+  },
+  "parameters": {
+    "careerStartAgeYears": "openingRetirementCareerStartAgeYears",
+    "schoolContextYears": "openingRetirementSchoolContextYears",
+    "claimAgeYears": "openingRetirementClaimAgeYears",
+    "claimTraitPullYears": "openingRetirementClaimTraitPullYears",
+    "coveredFraction": "openingRetirementCoveredFraction",
+    "coveredTraitPull": "openingRetirementCoveredTraitPull",
+    "minimumCoveredMonths": "openingRetirementMinimumCoveredMonths",
+    "benefitMonthlyMinor": "openingRetirementBenefitMonthlyMinor",
+    "benefitReferenceCoveredMonths": "openingRetirementBenefitReferenceCoveredMonths",
+    "benefitFactorMinimum": "openingRetirementBenefitFactorMinimum",
+    "benefitFactorMaximum": "openingRetirementBenefitFactorMaximum",
+    "payerReserveMonths": "openingRetirementPayerReserveMonths",
+    "periodMonths": "openingRetirementPeriodMonths"
+  },
+  "labels": {
+    "coverage": "Generated summarized covered-work history",
+    "claim": "Generated opening retirement claim",
+    "award": "Recorded opening monthly retirement income"
+  },
+  "citation": "Fictional pre-start covered-work/claim/award generation remains estimated from saved birth, household, school/cohort and canonical trait context. SSA 2021 COLA factsheet, linked by the October 13, 2020 announcement, gives an estimated average retired-worker monthly amount payable in January 2021 of $1,543 after COLA (https://www.ssa.gov/news/en/cola/factsheets/2021.html). This is a source-reported average estimate, not an observed individual benefit, actual legal entitlement, cash stock or jurisdiction appropriation. New modeled local paying accounts start at zero; dated outside payments require kernel admission. The first bill on the first day of the following month and subsequent fixed-day monthly successors are an explicitly estimated calendar prior, not the sourced SSA insured-worker cycling/holiday calendar.",
+  "generationPriorVintage": "SSA estimated January 2021 average payable, released with the October 13, 2020 COLA announcement; current canonical person/location context remains a modeled opening proxy.",
+  "placeCitation": "Canonical accepted LifePlace record from src/simulation/life-places.ts; recent locality/jurisdiction identities are opening location proxies, not proof of historical public funding authority.",
+  "reasons": {
+    "generated": "Generated coherent covered-work and claim context supports the explicitly modeled opening award; no historical earnings or contemporaneous legal entitlement is claimed.",
+    "recorded": "Preserved the saved monthly award and bound its actual finite payer; no second award or opening stock was created.",
+    "tooEarly": "The model claim date is not before opening; no future claim or award was seeded.",
+    "currentWork": "Current owned work is preserved; concurrent retirement-income and earnings rules are not modeled by this producer.",
+    "missingContext": "Birth date alone supplies no covered-work or retirement context; no income was awarded.",
+    "missingPlace": "No actual named place record resolves this retirement context; no payer label or account was invented.",
+    "insufficientCoverage": "Recorded or generated covered-work context does not meet the model qualification; no award was added.",
+    "inactiveClaim": "A saved claim or award is not in payment; generated history cannot override it.",
+    "missingPayer": "The saved award has no admitted actual payer account; its private fact is preserved without a phantom payment route.",
+    "generationDisabled": "Past generation was disabled and no qualified saved award/context supplies an income route."
+  },
+  "gaps": [
+    "opening-income:fictional-covered-career-claim-and-award-priors-not-observed-individual-history",
+    "opening-income:contemporaneous-2021-eligibility-law-covered-credits-and-indexed-earnings-not-reconstructed",
+    "opening-income:claim-cohort-trait-and-benefit-scaling-priors-uncalibrated",
+    "opening-income:concurrent-work-earnings-test-and-restriction-mechanics-not-implemented",
+    "opening-income:later-vintage-means-not-individual-dispersion-or-actor-knowledge",
+    "opening-income:commuter-benefit-property-and-external-customer-routes-separate",
+    "Individual indexed earnings, credits, actual SSA eligibility/insured-worker linkage and territory/plan crosswalk remain estimated; a source average cannot establish an individual award.",
+    "Current fixed-calendar monthly due terms are modeled. Actual SSA payment cycling uses the insured worker birth date and exceptions; January 3, 2021 cycle-one payments were paid December 31, 2020 and must not be paid again after opening.",
+    "New generated local disbursement accounts carry no prepaid award reserve; genuine incoming flow and current source admission remain a root finance/journal requirement."
+  ]
+}
