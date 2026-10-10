@@ -516,3 +516,111 @@ describe("read-only authoritative finance observables", () => {
     );
   });
 });
+
+// SOURCE_ONLY additions: no generated-world, public appropriation or calibration claim.
+describe("firm sales and other actual transfer observables", () => {
+  it("distinguishes canonical purchase sales, supplied institution funding and a genuine finite credit draw without observer writes", () => {
+    const saleId = "fixture-purchase-budget",
+      fundingId = "fixture-supplied-institution-funding";
+    const saleMinor = p("two") * p("minorPerDollar"),
+      fundingMinor = p("minorPerDollar");
+    const input = fixtureInput({
+      withBooks: true,
+      withFinance: true,
+      withCredit: true,
+      employerCash: p("zero"),
+      workerCash: saleMinor,
+    });
+    // Both incoming terms are actually supplied dated obligations. The
+    // existing employer obligation remains the genuine finite-credit cause.
+    input.organizations.find((row) => row.id === supplier)!.kind =
+      "public-institution";
+    input.finance!.contracts = [
+      ...input.finance!.contracts.map((row) =>
+        row.id === saleId ? { ...row, salesReceipt: true } : row,
+      ),
+      {
+        id: fundingId,
+        payerIds: [supplier],
+        payeeId: employer,
+        kind: "fixture-supplied-institution-funding",
+        amountMinor: fundingMinor,
+        dueAt: opening,
+        periodMonths: p("one"),
+        accruesArrears: false,
+        salesReceipt: false,
+        source: {
+          ...source,
+          citation: `${source.citation} Explicit supplied non-sales institution funding term using finite existing payer cash, not an observed appropriation or generated public demand.`,
+        },
+      },
+    ];
+    const inputBefore = structuredClone(input);
+    const core = createCore(input, { data, modules: [LIFE_MODULE] }),
+      api = coreAPI(core);
+    const openingRows = allRows(core),
+      before = financeObservables(core);
+    expect(allRows(core)).toBe(openingRows);
+    expect(before.firmTotals.receivedMinor).toBe(p("zero"));
+    expect(before.firmTotals.salesReceivedMinor).toBe(p("zero"));
+
+    const draw = api.drawCredit(
+      facilityId,
+      saleMinor,
+      data.finance!.reasons.borrowing,
+      "fixture-operating-obligation",
+    );
+    expect(draw.transferredMinor).toBe(saleMinor);
+    const drawnRows = allRows(core),
+      drawn = financeObservables(core);
+    expect(allRows(core)).toBe(drawnRows);
+    expect(drawn.firmTotals.receivedMinor).toBe(p("zero"));
+    expect(drawn.firmTotals.salesReceivedMinor).toBe(p("zero"));
+    expect(drawn.debt.borrowedMinor).toBe(draw.transferredMinor);
+    expect(drawn.debt.principalMinor).toBe(draw.transferredMinor);
+
+    const sale = api.settleFinanceContract(saleId);
+    expect(sale.paidMinor).toBe(saleMinor);
+    const saleRows = allRows(core),
+      afterSale = financeObservables(core);
+    expect(allRows(core)).toBe(saleRows);
+    expect(afterSale.firmTotals.receivedMinor).toBe(sale.paidMinor);
+    expect(afterSale.firmTotals.salesReceivedMinor).toBe(sale.paidMinor);
+    const funding = api.settleFinanceContract(fundingId);
+    expect(funding.paidMinor).toBe(fundingMinor);
+    const paidRows = allRows(core),
+      report = financeObservables(core);
+    expect(allRows(core)).toBe(paidRows);
+    const firm = report.firms.find((row) => row.organizationId === employer)!;
+    const book = core.finance.businesses.get(employer)!;
+    expect(firm.receivedMinor).toBe(sale.paidMinor + funding.paidMinor);
+    expect(firm.salesReceivedMinor).toBe(sale.paidMinor);
+    expect(firm.salesReceivedMinor).toBe(book.salesReceivedMinor);
+    expect(firm.receivedMinor).toBe(book.receivedMinor);
+    expect(report.firmTotals.receivedMinor).toBe(firm.receivedMinor);
+    expect(report.firmTotals.salesReceivedMinor).toBe(firm.salesReceivedMinor);
+    expect(report.debt.borrowedMinor).toBe(draw.transferredMinor);
+    expect(report.debt.principalMinor).toBe(draw.transferredMinor);
+    expect(report.cash.totalLiquidMinor).toBe(before.cash.totalLiquidMinor);
+    expect(input).toEqual(inputBefore);
+    report.firms.find(
+      (row) => row.organizationId === employer,
+    )!.salesReceivedMinor = p("zero");
+    report.firmTotals.salesReceivedMinor = p("zero");
+    expect(core.finance.businesses.get(employer)!.salesReceivedMinor).toBe(
+      sale.paidMinor,
+    );
+    expect(allRows(core)).toBe(paidRows);
+  });
+
+  it("rejects an impossible sales subtotal above all received transfers without changing the retained graph", () => {
+    const core = fixture({ withBooks: true });
+    const book = core.finance.businesses.get(employer)!;
+    book.salesReceivedMinor = book.receivedMinor + p("one");
+    const before = allRows(core);
+    expect(() => financeObservables(core)).toThrow(
+      "Firm sales receipts exceed actual received transfers.",
+    );
+    expect(allRows(core)).toBe(before);
+  });
+});

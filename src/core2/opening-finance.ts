@@ -1,4 +1,14 @@
+import {
+  defaultGeneratedHouseholdCatalogs,
+  defaultGeneratedHouseholdCalendarData,
+  generatedHouseholdSourceBasis,
+  compactGeneratedHouseholdSource,
+  mayCompactGeneratedHouseholdSources,
+  resolveGeneratedHouseholdSource,
+  type GeneratedHouseholdSourceOwners,
+} from "./generated-household-source";
 import { createHouseholdPurchaseCalendarMarker } from "./household-purchase-calendar";
+import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualification";
 import { makeIsoDate } from "../simulation/dates";
 import {
   lifePlaceByJurisdictionId,
@@ -102,6 +112,9 @@ export function createOpeningFinance(
   const booksOptions = options.books ?? {};
   const bookData = booksOptions.data ?? DEFAULT_BUSINESS_BOOKS_DATA;
   const registry = booksOptions.parameters ?? PARAMETERS;
+  const compactDefaultHouseholdSources =
+    defaultGeneratedHouseholdCatalogs("category", data, registry, bookData) &&
+    defaultGeneratedHouseholdCalendarData(data.openingPurchaseCalendar);
   const p = (key: string) => parameter(key, registry);
   const zero = p("zero"),
     one = p("one");
@@ -261,14 +274,134 @@ export function createOpeningFinance(
       "opening-finance:facility-input-has-no-opening-principal-or-existing-interest-arrears-field",
     );
 
+  const recordedContractOwners = unique(
+    [...(input.finance?.contracts ?? []), ...(options.recordedContracts ?? [])],
+    "contract",
+  );
+  // Optional compact provenance is checked against original owning rows before
+  // preserved household kinds can skip generation. This index is built once,
+  // only when an actual recorded Source declares the typed generated basis.
+  let generatedSourceOwners: GeneratedHouseholdSourceOwners | undefined;
+  const activeGeneratedSourceIds = new Set<string>();
+  const validatedGeneratedSourceIds = new Set<string>();
+  const validateRecordedGeneratedSource = (contract: FinanceContractInput) => {
+    const basis = contract.source.generatedHouseholdBasis;
+    if (basis === undefined || validatedGeneratedSourceIds.has(contract.id))
+      return;
+    if (activeGeneratedSourceIds.has(contract.id))
+      throw new Error(
+        `Cyclic generated household calendar Source: ${contract.id}`,
+      );
+    if (
+      Array.isArray(basis?.calendarBasisIds) &&
+      basis.calendarBasisIds.includes(contract.id)
+    )
+      throw new Error(
+        `Generated household Source cannot use its own contract as calendar evidence: ${contract.id}`,
+      );
+    activeGeneratedSourceIds.add(contract.id);
+    try {
+      if (!generatedSourceOwners) {
+        const calendarRecords = new Map<
+          string,
+          { householdId: string; sources: readonly Source[] }
+        >();
+        const seenRecordIds = new Set<string>();
+        const addRecord = (
+          id: string,
+          householdId: string | undefined,
+          sources: readonly Source[],
+        ) => {
+          if (seenRecordIds.has(id)) {
+            // Ambiguous IDs remain absent even if a third matching row exists.
+            calendarRecords.delete(id);
+            return;
+          }
+          seenRecordIds.add(id);
+          if (householdId) calendarRecords.set(id, { householdId, sources });
+        };
+        for (const job of jobs.values())
+          addRecord(job.id, people.get(job.personId)?.householdId, [
+            job.source,
+          ]);
+        for (const row of input.workCommitments ?? [])
+          addRecord(row.id, people.get(row.personId)?.householdId, [
+            row.scheduleSource,
+            row.paySource,
+          ]);
+        for (const person of people.values())
+          for (const fact of person.pastFacts ?? [])
+            addRecord(fact.id, person.householdId, [fact.source]);
+        for (const row of [
+          ...(input.finance?.contracts ?? []),
+          ...(options.recordedContracts ?? []),
+        ])
+          addRecord(
+            row.id,
+            row.householdId ?? row.recipientIncome?.householdId,
+            [row.source],
+          );
+        generatedSourceOwners = {
+          households,
+          calendarRecords,
+          parameters: registry,
+        };
+      }
+      // Derived calendar Sources must resolve through their genuine original
+      // contract owner; successful rows are checked once, with active cycles denied.
+      for (const id of basis.calendarBasisIds) {
+        const record = generatedSourceOwners.calendarRecords.get(id);
+        if (
+          !record?.sources.some(
+            (source) => source.generatedHouseholdBasis !== undefined,
+          )
+        )
+          continue;
+        const owner = recordedContractOwners.get(id);
+        if (
+          !owner ||
+          record.sources.length !== one ||
+          record.sources[zero] !== owner.source
+        )
+          throw new Error(
+            `Generated calendar Source lacks its actual recorded contract owner: ${id}`,
+          );
+        validateRecordedGeneratedSource(owner);
+      }
+      const resolved = resolveGeneratedHouseholdSource(
+        contract.source,
+        generatedSourceOwners,
+      );
+      if (
+        basis.householdId !== contract.householdId ||
+        resolved.catalogRow.contractKind !== contract.kind
+      )
+        throw new Error(
+          `Generated household Source basis differs from its actual contract household or kind: ${contract.id}`,
+        );
+      const marker = contract.householdPurchaseCalendar;
+      if (
+        !marker ||
+        marker.householdId !== basis.householdId ||
+        marker.firstNominalDueAt !== basis.calendarDueAt ||
+        contract.dueAt !== basis.calendarDueAt ||
+        !Array.isArray(marker.openingBasisIds) ||
+        marker.openingBasisIds.length !== basis.calendarBasisIds.length ||
+        marker.openingBasisIds.some(
+          (id, index) => id !== basis.calendarBasisIds[index],
+        )
+      )
+        throw new Error(
+          `Generated household Source differs from its original calendar marker or due date: ${contract.id}`,
+        );
+      validatedGeneratedSourceIds.add(contract.id);
+    } finally {
+      activeGeneratedSourceIds.delete(contract.id);
+    }
+  };
+
   const contracts: FinanceContractInput[] = [
-    ...unique(
-      [
-        ...(input.finance?.contracts ?? []),
-        ...(options.recordedContracts ?? []),
-      ],
-      "contract",
-    ).values(),
+    ...recordedContractOwners.values(),
   ].map((contract) => {
     if (!contract.kind)
       throw new Error(`Recorded contract kind is missing: ${contract.id}`);
@@ -321,6 +454,7 @@ export function createOpeningFinance(
       throw new Error(
         `Interest terms are owned by the recorded facility writer, not a second opening contract: ${contract.id}`,
       );
+    validateRecordedGeneratedSource(contract);
     return {
       ...contract,
       payerIds: [...contract.payerIds],
@@ -553,7 +687,9 @@ export function createOpeningFinance(
     if (
       data.excludedOrganizationKinds.includes(organization.kind) ||
       (organization.governmentFacts &&
-        Object.keys(organization.governmentFacts).length)
+        Object.keys(organization.governmentFacts).some(
+          (key) => !key.startsWith(OPENING_CUSTOMER_QUALIFICATION_PREFIX),
+        ))
     ) {
       if (existingBooks.has(organization.id))
         throw new Error(
@@ -988,19 +1124,53 @@ export function createOpeningFinance(
           accruesArrears: false,
           salesReceipt: true,
           marketAdjusted: data.marketAdjustedHouseholdBudgets,
-          source: {
-            tag: "ESTIMATED",
-            asOf: startedAt,
-            generationPriorVintage: `${cexGenerationPriorVintage}; ${householdCalendar.source.generationPriorVintage}`,
-            citation: `${household.source.citation} ${LIVING_COSTS_SOURCE} ${Object.values(
-              LIVING_COSTS_CATEGORY_SOURCES,
-            )
-              .map((row) => row.url)
-              .join(
-                " ",
-              )} ${crosswalk.citation} Calendar Source: DATA openingPurchaseCalendar.source.`,
-            estimatedFrom: `Later-vintage CEX household-size/region category prior (${basket.sizeColumn}, ${basket.region}); capped by existing assigned livingCostDailyMinor after supplied terms. Opening standing counterparties use actual local classified firms weighted by projected payroll capacity, not observed customer choices. ${basket.uncertainty} ${data.stopgapIds.join(", ")} Calendar marker ${openingPurchaseCalendar.recurringHouseholdDueRule}; household ${household.id}; basis ${householdCalendar.basisIds.join(", ") || "none; missing income timing"}; result ${householdCalendar.dueAt}. ${openingPurchaseCalendar.stopgapId}${householdCalendar.gaps.includes(`${openingPurchaseCalendar.missingIncomeGap}:${household.id}`) ? ` Missing income timing: explicit calendar-only fallback; ${openingPurchaseCalendar.missingIncomeGap}:${household.id}.` : ""}`,
-          },
+          source:
+            compactDefaultHouseholdSources &&
+            mayCompactGeneratedHouseholdSources([
+              contractById.get(
+                JSON.stringify([
+                  "opening-household-purchase",
+                  household.id,
+                  budget.id,
+                  share.id,
+                ]),
+              )?.source,
+            ])
+              ? compactGeneratedHouseholdSource(
+                  generatedHouseholdSourceBasis({
+                    domain: "category",
+                    household,
+                    key: budget.id,
+                    region: basket.region,
+                    sizeColumn: basket.sizeColumn,
+                    parameterRefs: [
+                      data.periodMonthsParameter,
+                      "daysPerMeanYear",
+                      "monthsPerYear",
+                      "minorPerDollar",
+                    ],
+                    calendarDueAt: householdCalendar.dueAt,
+                    calendarBasisIds: householdCalendar.basisIds,
+                    missingIncome: householdCalendar.gaps.includes(
+                      `${openingPurchaseCalendar.missingIncomeGap}:${household.id}`,
+                    ),
+                  }),
+                  startedAt,
+                  `${cexGenerationPriorVintage}; ${householdCalendar.source.generationPriorVintage}`,
+                )
+              : {
+                  tag: "ESTIMATED",
+                  asOf: startedAt,
+                  generationPriorVintage: `${cexGenerationPriorVintage}; ${householdCalendar.source.generationPriorVintage}`,
+                  citation: `${household.source.citation} ${LIVING_COSTS_SOURCE} ${Object.values(
+                    LIVING_COSTS_CATEGORY_SOURCES,
+                  )
+                    .map((row) => row.url)
+                    .join(
+                      " ",
+                    )} ${crosswalk.citation} Calendar Source: DATA openingPurchaseCalendar.source.`,
+                  estimatedFrom: `Later-vintage CEX household-size/region category prior (${basket.sizeColumn}, ${basket.region}); capped by existing assigned livingCostDailyMinor after supplied terms. Opening standing counterparties use actual local classified firms weighted by projected payroll capacity, not observed customer choices. ${basket.uncertainty} ${data.stopgapIds.join(", ")} Calendar marker ${openingPurchaseCalendar.recurringHouseholdDueRule}; household ${household.id}; basis ${householdCalendar.basisIds.join(", ") || "none; missing income timing"}; result ${householdCalendar.dueAt}. ${openingPurchaseCalendar.stopgapId}${householdCalendar.gaps.includes(`${openingPurchaseCalendar.missingIncomeGap}:${household.id}`) ? ` Missing income timing: explicit calendar-only fallback; ${openingPurchaseCalendar.missingIncomeGap}:${household.id}.` : ""}`,
+                },
         });
         boundMonthly += share.amount;
       }

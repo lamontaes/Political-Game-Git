@@ -88,6 +88,7 @@ export interface FinanceObservableSnapshot {
     kindId: string;
     liquidMinor: number;
     receivedMinor: number;
+    salesReceivedMinor: number;
     operatingPaidMinor: number;
     wagesRequestedMinor: number;
     wagesPaidMinor: number;
@@ -98,6 +99,7 @@ export interface FinanceObservableSnapshot {
   firmTotals: {
     bookedOrganizations: number;
     receivedMinor: number;
+    salesReceivedMinor: number;
     operatingPaidMinor: number;
     wagesRequestedMinor: number;
     wagesPaidMinor: number;
@@ -548,11 +550,21 @@ export function financeObservables(
         minor(book.wagesUnpaidMinor, "firm unpaid wages")
       )
         throw new Error("Firm wage totals do not reconcile.");
+      const received = minor(book.receivedMinor, "actual firm receipts"),
+        salesReceived = minor(
+          book.salesReceivedMinor,
+          "actual firm sales receipts",
+        );
+      if (salesReceived > received)
+        throw new Error(
+          "Firm sales receipts exceed actual received transfers.",
+        );
       return {
         organizationId: id,
         kindId: book.kindId,
         liquidMinor: organization.liquidMinor,
-        receivedMinor: minor(book.receivedMinor, "actual firm receipts"),
+        receivedMinor: received,
+        salesReceivedMinor: salesReceived,
         operatingPaidMinor: minor(
           book.operatingPaidMinor,
           "actual operating payments",
@@ -569,6 +581,7 @@ export function financeObservables(
   const firmTotals = {
     bookedOrganizations: firms.length,
     receivedMinor: zero,
+    salesReceivedMinor: zero,
     operatingPaidMinor: zero,
     wagesRequestedMinor: zero,
     wagesPaidMinor: zero,
@@ -577,6 +590,7 @@ export function financeObservables(
   for (const row of firms)
     for (const key of [
       "receivedMinor",
+      "salesReceivedMinor",
       "operatingPaidMinor",
       "wagesRequestedMinor",
       "wagesPaidMinor",
