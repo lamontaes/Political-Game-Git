@@ -125,7 +125,7 @@ The remaining class (c) work alone is about 14 profiled seconds, a third of BEFO
 
 ## What happens next
 
-- This list and a link to this report are posted on issue 3918, addressed to Sol (SOL-1258). Fixes 1 and 2 are the first to try, because they are the largest and the least invasive.
+- This list and a link to this report are posted on pull request 3918, addressed to Sol (SOL-1258). Fixes 1 and 2 are the first to try, because they are the largest and the least invasive.
 - Nothing is fixed in this pull request. It adds the report and my measuring scripts only.
 - Open for the owner: whether the 20% speed budget applies to the new money code as it stands, or whether Sol should look for savings inside the journal work too (causes 4 and 5).
 - Open for whoever measures next: rerun BEFORE and AFTER after fixes 1 and 2, and confirm the work result count.
