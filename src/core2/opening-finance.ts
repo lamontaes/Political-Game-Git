@@ -998,8 +998,8 @@ export function createOpeningFinance(
               .map((row) => row.url)
               .join(
                 " ",
-              )} ${crosswalk.citation} ${householdCalendar.source.citation}`,
-            estimatedFrom: `Later-vintage CEX household-size/region category prior (${basket.sizeColumn}, ${basket.region}); capped by existing assigned livingCostDailyMinor after supplied terms. Opening standing counterparties use actual local classified firms weighted by projected payroll capacity, not observed customer choices. ${basket.uncertainty} ${data.stopgapIds.join(", ")} ${householdCalendar.source.estimatedFrom}`,
+              )} ${crosswalk.citation} Calendar Source: DATA openingPurchaseCalendar.source.`,
+            estimatedFrom: `Later-vintage CEX household-size/region category prior (${basket.sizeColumn}, ${basket.region}); capped by existing assigned livingCostDailyMinor after supplied terms. Opening standing counterparties use actual local classified firms weighted by projected payroll capacity, not observed customer choices. ${basket.uncertainty} ${data.stopgapIds.join(", ")} Calendar marker ${openingPurchaseCalendar.recurringHouseholdDueRule}; household ${household.id}; basis ${householdCalendar.basisIds.join(", ") || "none; missing income timing"}; result ${householdCalendar.dueAt}. ${openingPurchaseCalendar.stopgapId}${householdCalendar.gaps.includes(`${openingPurchaseCalendar.missingIncomeGap}:${household.id}`) ? ` Missing income timing: explicit calendar-only fallback; ${openingPurchaseCalendar.missingIncomeGap}:${household.id}.` : ""}`,
           },
         });
         boundMonthly += share.amount;
@@ -1112,7 +1112,7 @@ export function createOpeningFinance(
               .filter(Boolean)
               .join("; "),
             citation: `${business.source.citation} ${rule.citation} ${purchaseCalendar.business.source.citation}`,
-            estimatedFrom: `Reference input-cost/revenue ratio from source sales-sensitive cost fraction ${kind.salesCostShareParameter}; suppressed-cost estimated flag is ${String(kind.salesCostEstimated)}. At settlement the ratio is applied only to the frozen pool of actual received sales since the prior cutoff. Only actual mapped non-self local suppliers are bound. No actual delivery, invoice, payment, or supplier capacity observation is asserted. ${rule.stopgapId} ${purchaseCalendar.business.source.estimatedFrom}`,
+            estimatedFrom: `Reference input-cost/revenue ratio from source sales-sensitive cost fraction ${kind.salesCostShareParameter}; suppressed-cost estimated flag is ${String(kind.salesCostEstimated)}. At settlement the ratio is applied only to the frozen pool of actual received sales since the prior cutoff. Only actual mapped non-self local suppliers are bound. No actual delivery, invoice, payment, or supplier capacity observation is asserted. ${rule.stopgapId} Calendar rule ${openingPurchaseCalendar.businessFirstDueRule}; result ${dueAt}; DATA openingPurchaseCalendar.source. ${openingPurchaseCalendar.stopgapId} ${openingPurchaseCalendar.source.estimatedFrom === DEFAULT_OPENING_FINANCE_DATA.openingPurchaseCalendar.source.estimatedFrom ? "" : purchaseCalendar.business.source.estimatedFrom}`,
           },
         };
         appendContract(contract);

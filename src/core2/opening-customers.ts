@@ -1,5 +1,16 @@
 import { addDays, isoDateFromParts, makeIsoDate } from "../simulation/dates";
 import { stableHash } from "../simulation/ids";
+import {
+  OPENING_CUSTOMER_QUALIFICATION_PREFIX,
+  openingCustomerQualificationKey,
+  openingCustomerQualificationRecord,
+  openingCustomerQualificationReference,
+  type OpeningCustomerAgreementQualification,
+  type OpeningCustomerQualificationPlanReference,
+  type OpeningCustomerQualificationRecord,
+  type OpeningCustomerProviderQualification,
+} from "./opening-customer-qualification";
+export type { OpeningCustomerProviderQualification } from "./opening-customer-qualification";
 import type { LivingCostsRegion } from "../simulation/living-costs-data";
 import type { FinanceContractInput, FinanceInput } from "./finance-types";
 import financePolicyDataJson from "./data/finance.json" with { type: "json" };
@@ -120,19 +131,6 @@ export interface RecordedCustomerProvider {
   organizationId: string;
   serviceKeys: readonly string[];
   source: Source;
-}
-
-export interface OpeningCustomerProviderQualification {
-  organizationId: string;
-  serviceKey: string;
-  jobIds: readonly string[];
-  providerRecordIds: readonly string[];
-  sources: readonly {
-    recordId: string;
-    kind: "job" | "recorded-provider";
-    occupationClassification?: string;
-    source: Source;
-  }[];
 }
 
 export interface OpeningCustomerOutsideBuyerIdentity {
@@ -281,6 +279,13 @@ export interface OpeningCustomerBuildReceipt {
   /** Only records used in a positive bound seller share, also saved in input metadata. */
   providerRecords: readonly RecordedCustomerProvider[];
   evidence: readonly OpeningCustomerEvidenceRecord[];
+  /** One complete record per used canonical provider/service; plans and agreements use refs. */
+  providerQualifications: readonly OpeningCustomerQualificationRecord[];
+  /** Actual legacy inline witnesses remain on their owning agreements. */
+  inlineProviderQualifications: readonly {
+    agreementId: string;
+    qualifications: readonly OpeningCustomerProviderQualification[];
+  }[];
   contractPlans: readonly {
     contractId: string;
     agreementId: string;
@@ -289,7 +294,7 @@ export interface OpeningCustomerBuildReceipt {
     serviceKey: string;
     monthlyBudgetMinor: number;
     parameterRefs: readonly string[];
-    providerQualification: OpeningCustomerProviderQualification;
+    providerQualification: OpeningCustomerQualificationPlanReference;
     source: Source;
   }[];
   householdBudgets: readonly {
@@ -795,6 +800,213 @@ export function buildOpeningCustomers(
     string,
     OpeningCustomerProviderQualification
   >();
+  // Preflight the actual provider-owned registry once. Frozen witnesses are
+  // never recomputed from a changed current staff roster during enrichment.
+  const qualificationRecords = new Map<
+    string,
+    OpeningCustomerQualificationRecord
+  >();
+  const qualificationReferences = new Map<
+    string,
+    ReturnType<typeof openingCustomerQualificationReference>
+  >();
+  const referenceFor = (record: OpeningCustomerQualificationRecord) => {
+    let ref = qualificationReferences.get(record.qualificationId);
+    if (!ref) {
+      ref = openingCustomerQualificationReference(record);
+      qualificationReferences.set(record.qualificationId, ref);
+    }
+    return ref;
+  };
+  const qualificationIds = new Set<string>();
+  const jobsById = index(input.jobs, "qualification job");
+  const checkQualification = (q: OpeningCustomerProviderQualification) => {
+    openingCustomerQualificationRecord({
+      qualificationId: "inline-shape-check",
+      ...q,
+    });
+    for (const basis of q.sources) {
+      sourceValid(basis.source, basis.recordId);
+      if (basis.kind === "job") {
+        const actual = jobsById.get(basis.recordId);
+        if (
+          !actual ||
+          actual.organizationId !== q.organizationId ||
+          actual.occupationClassification !== basis.occupationClassification ||
+          canonical(actual.source) !== canonical(basis.source)
+        )
+          throw new Error(
+            `Conflicting saved customer qualification job: ${basis.recordId}`,
+          );
+      } else {
+        const actual = providerRecords.get(basis.recordId);
+        if (
+          !actual ||
+          actual.organizationId !== q.organizationId ||
+          !actual.serviceKeys.includes(q.serviceKey) ||
+          canonical(actual.source) !== canonical(basis.source)
+        )
+          throw new Error(
+            `Conflicting opening customer past fact: saved provider qualification ${basis.recordId}`,
+          );
+      }
+    }
+  };
+  for (const owner of organizations.values()) {
+    for (const [key, raw] of Object.entries(owner.governmentFacts ?? {})) {
+      if (!key.startsWith(OPENING_CUSTOMER_QUALIFICATION_PREFIX)) continue;
+      let record: OpeningCustomerQualificationRecord;
+      try {
+        record = openingCustomerQualificationRecord(JSON.parse(raw));
+      } catch {
+        throw new Error(
+          `Invalid saved customer qualification registry: ${owner.id}/${key}`,
+        );
+      }
+      const scope = canonical([record.organizationId, record.serviceKey]);
+      if (
+        record.organizationId !== owner.id ||
+        key !== openingCustomerQualificationKey(record.qualificationId) ||
+        qualificationIds.has(record.qualificationId) ||
+        qualificationRecords.has(scope)
+      )
+        throw new Error(
+          `Conflicting saved customer qualification registry: ${owner.id}/${key}`,
+        );
+      checkQualification(record);
+      qualificationIds.add(record.qualificationId);
+      qualificationRecords.set(scope, record);
+    }
+  }
+  const savedAgreementQualifications = new Map<
+    string,
+    readonly OpeningCustomerAgreementQualification[]
+  >();
+  const inlineScopes = new Map<string, OpeningCustomerProviderQualification>();
+  const rememberAgreement = (id: string, value: unknown) => {
+    if (!Array.isArray(value))
+      throw new Error(`Invalid saved customer qualifications: ${id}`);
+    const rows = value as OpeningCustomerAgreementQualification[];
+    const prior = savedAgreementQualifications.get(id);
+    if (prior && canonical(prior) !== canonical(rows))
+      throw new Error(`Conflicting saved customer qualifications: ${id}`);
+    const scopes = new Set<string>();
+    for (const q of rows) {
+      if (!q || !organizations.has(q.organizationId) || !q.serviceKey?.trim())
+        throw new Error(`Invalid saved customer qualifications: ${id}`);
+      const scope = canonical([q.organizationId, q.serviceKey]);
+      if (scopes.has(scope))
+        throw new Error(`Duplicate saved customer qualification: ${id}`);
+      scopes.add(scope);
+      if ("qualificationId" in q) {
+        const record = qualificationRecords.get(scope);
+        if (!record || canonical(referenceFor(record)) !== canonical(q))
+          throw new Error(
+            `Conflicting saved customer qualification reference: ${id}`,
+          );
+      } else {
+        checkQualification(q);
+        inlineScopes.set(scope, q);
+      }
+    }
+    savedAgreementQualifications.set(id, rows);
+  };
+  // Preserve the complete original inline rows on each actual owning agreement.
+  for (const person of input.people)
+    for (const fact of person.pastFacts ?? [])
+      if (
+        fact.kind === "household-service-agreement" &&
+        fact.facts?.providerQualifications !== undefined
+      ) {
+        try {
+          rememberAgreement(
+            fact.id,
+            JSON.parse(fact.facts.providerQualifications),
+          );
+        } catch (error) {
+          throw new Error(`Invalid saved customer qualifications: ${fact.id}`, {
+            cause: error,
+          });
+        }
+      }
+  for (const owner of input.organizations)
+    for (const [key, raw] of Object.entries(owner.governmentFacts ?? {}))
+      if (key.startsWith("openingCustomers.agreement:")) {
+        const record = JSON.parse(raw) as {
+          id: string;
+          providerQualifications: unknown;
+        };
+        rememberAgreement(record.id, record.providerQualifications);
+      }
+  for (const [key, raw] of Object.entries(input.placeMetadata ?? {}))
+    if (key.startsWith("openingCustomers.evidence:")) {
+      // Preserve the established domain boundary for malformed saved evidence.
+      try {
+        const record = JSON.parse(raw) as OpeningCustomerEvidenceRecord;
+        if (
+          record.kind === "outside-visit-budget" &&
+          record.facts.providerQualifications !== undefined
+        )
+          rememberAgreement(
+            record.id,
+            JSON.parse(record.facts.providerQualifications),
+          );
+      } catch (error) {
+        throw new Error(`Invalid saved opening customer metadata: ${key}`, {
+          cause: error,
+        });
+      }
+    }
+  const usedQualificationRecords = new Map<
+    string,
+    OpeningCustomerQualificationRecord
+  >();
+  const usedInlineQualifications = new Map<
+    string,
+    OpeningCustomerProviderQualification[]
+  >();
+  const qualificationFor = (
+    q: OpeningCustomerAgreementQualification,
+  ): OpeningCustomerProviderQualification =>
+    "qualificationId" in q
+      ? qualificationRecords.get(canonical([q.organizationId, q.serviceKey]))!
+      : q;
+  const saveQualification = (q: OpeningCustomerProviderQualification) => {
+    const scope = canonical([q.organizationId, q.serviceKey]);
+    let record = qualificationRecords.get(scope);
+    if (!record) {
+      const qualificationId = stableHash(
+        canonical([
+          data.version,
+          "provider-qualification",
+          q.organizationId,
+          q.serviceKey,
+        ]),
+      );
+      if (qualificationIds.has(qualificationId))
+        throw new Error(
+          `Duplicate customer qualification ID: ${qualificationId}`,
+        );
+      record = openingCustomerQualificationRecord({ qualificationId, ...q });
+      const owner = organizations.get(q.organizationId)!;
+      const key = openingCustomerQualificationKey(qualificationId);
+      if (owner.governmentFacts?.[key] !== undefined)
+        throw new Error(
+          `Conflicting customer qualification registration: ${qualificationId}`,
+        );
+      organizations.set(owner.id, {
+        ...owner,
+        governmentFacts: Object.freeze({
+          ...owner.governmentFacts,
+          [key]: canonical(record),
+        }),
+      });
+      qualificationIds.add(qualificationId);
+      qualificationRecords.set(scope, record);
+    }
+    usedQualificationRecords.set(record.qualificationId, record);
+    return referenceFor(record);
+  };
   const supplierIndex = new Map<string, OrganizationInput[]>();
   for (const organization of organizations.values()) {
     const key = canonical([organization.placeId, organization.classification]);
@@ -814,6 +1026,28 @@ export function buildOpeningCustomers(
         canonical([placeId, classification]),
       ) ?? []) {
         if (!candidate.name.trim()) continue;
+        const frozen =
+          qualificationRecords.get(canonical([candidate.id, serviceKey])) ??
+          inlineScopes.get(canonical([candidate.id, serviceKey]));
+        if (frozen) {
+          if (
+            frozen.sources.some(
+              (basis) =>
+                basis.kind === "job" &&
+                !occupations.includes(basis.occupationClassification!),
+            )
+          )
+            throw new Error(
+              `Saved customer qualification has another product scope: ${candidate.id}/${serviceKey}`,
+            );
+          sourceValid(candidate.source, candidate.id);
+          providerQualifications.set(
+            canonical([candidate.id, serviceKey]),
+            frozen,
+          );
+          found.set(candidate.id, candidate);
+          continue;
+        }
         const jobs = (ownedOccupationJobs.get(candidate.id) ?? [])
           .filter((job) => occupations.includes(job.occupationClassification!))
           .sort((left, right) => left.id.localeCompare(right.id));
@@ -1087,7 +1321,7 @@ export function buildOpeningCustomers(
       args.firstDueSource,
     );
     const { end } = calendar;
-    const source: Source = {
+    const fullSource: Source = {
       ...args.source,
       tag: "ESTIMATED",
       asOf: at,
@@ -1110,6 +1344,16 @@ export function buildOpeningCustomers(
         .filter(Boolean)
         .join(" "),
     };
+    // Generated household Sources and markers are reconstructed independently
+    // from actual current calendar inputs, never from the saved marker Source.
+    const source: Source =
+      args.householdCalendar && !calendar.actualSuppliedDate && !end.endsAt
+        ? {
+            ...fullSource,
+            citation: `${args.source.citation} Calendar Source: DATA openingPurchaseCalendar.source.`,
+            estimatedFrom: `${args.source.estimatedFrom} Calendar marker ${DEFAULT_OPENING_PURCHASE_CALENDAR_DATA.recurringHouseholdDueRule}; household ${args.householdId}; basis ${canonical(args.householdCalendar.basisIds)}; result ${calendar.firstDueAt}. ${DEFAULT_OPENING_PURCHASE_CALENDAR_DATA.stopgapId}`,
+          }
+        : fullSource;
     const contractAmountsMinor: Record<string, number> = {};
     const contractSourceMap: Record<string, Source> = {};
     const contractTermsById: Record<
@@ -1127,15 +1371,24 @@ export function buildOpeningCustomers(
     > = {};
     const contractIds: string[] = [];
     const addedIds: string[] = [];
-    const qualifications: OpeningCustomerProviderQualification[] = [];
+    const qualifications: OpeningCustomerAgreementQualification[] = [];
     for (const share of apportion(
       args.budgetMonthlyMinor,
       args.sellerRows.map((row) => ({ id: row.id, weight: one })),
     )) {
       if (share.amount <= zero) continue;
-      const qualification = providerQualifications.get(
-        canonical([share.id, args.serviceKey]),
+      const savedRows = savedAgreementQualifications.get(args.agreementId);
+      const saved = savedRows?.find(
+        (q) =>
+          q.organizationId === share.id && q.serviceKey === args.serviceKey,
       );
+      if (savedRows && !saved)
+        throw new Error(
+          `Saved customer agreement omitted its provider: ${args.agreementId}/${share.id}`,
+        );
+      const qualification = saved
+        ? qualificationFor(saved)
+        : providerQualifications.get(canonical([share.id, args.serviceKey]));
       if (!qualification)
         throw new Error(
           `Missing actual customer product qualification: ${share.id}/${args.serviceKey}`,
@@ -1149,7 +1402,25 @@ export function buildOpeningCustomers(
         appendMetadata(`${providerMetadataPrefix}${id}`, record);
         usedProviderRecords.set(id, record);
       }
-      qualifications.push(qualification);
+      const agreementQualification = saved ?? saveQualification(qualification);
+      qualifications.push(agreementQualification);
+      let planQualification: OpeningCustomerQualificationPlanReference;
+      if ("qualificationId" in agreementQualification) {
+        const record = qualificationRecords.get(
+          canonical([share.id, args.serviceKey]),
+        )!;
+        usedQualificationRecords.set(record.qualificationId, record);
+        planQualification = agreementQualification;
+      } else {
+        const rows = usedInlineQualifications.get(args.agreementId) ?? [];
+        rows.push(agreementQualification);
+        usedInlineQualifications.set(args.agreementId, rows);
+        planQualification = {
+          agreementId: args.agreementId,
+          organizationId: share.id,
+          serviceKey: args.serviceKey,
+        };
+      }
       const contract: OpeningCustomerContract = {
         id: `${args.agreementId}:contract:${share.id}`,
         ...(args.householdId ? { householdId: args.householdId } : {}),
@@ -1216,7 +1487,7 @@ export function buildOpeningCustomers(
         serviceKey: args.serviceKey,
         monthlyBudgetMinor: share.amount,
         parameterRefs: args.parameterRefs,
-        providerQualification: qualification,
+        providerQualification: planQualification,
         source: contract.source,
       });
     }
@@ -1234,18 +1505,21 @@ export function buildOpeningCustomers(
     };
   };
   const qualificationBasisIds = (
-    rows: readonly OpeningCustomerProviderQualification[],
+    rows: readonly OpeningCustomerAgreementQualification[],
   ) =>
     [
       ...new Set(
-        rows.flatMap((row) => [...row.jobIds, ...row.providerRecordIds]),
+        rows.flatMap((row) => {
+          const full = qualificationFor(row);
+          return [...full.jobIds, ...full.providerRecordIds];
+        }),
       ),
     ].sort();
   const qualificationSellerIds = (
-    rows: readonly OpeningCustomerProviderQualification[],
+    rows: readonly OpeningCustomerAgreementQualification[],
   ) => rows.map((row) => row.organizationId);
   const qualificationFacts = (
-    rows: readonly OpeningCustomerProviderQualification[],
+    rows: readonly OpeningCustomerAgreementQualification[],
   ) => ({
     providerQualifications: canonical(rows),
   });
@@ -2575,6 +2849,12 @@ export function buildOpeningCustomers(
         left.id.localeCompare(right.id),
       ),
       evidence,
+      providerQualifications: [...usedQualificationRecords.values()].sort(
+        (a, b) => a.qualificationId.localeCompare(b.qualificationId),
+      ),
+      inlineProviderQualifications: [...usedInlineQualifications].map(
+        ([agreementId, qualifications]) => ({ agreementId, qualifications }),
+      ),
       contractPlans: plans,
       householdBudgets,
       publicBudgets,
