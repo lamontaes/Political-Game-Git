@@ -16,6 +16,7 @@ import {
 import { recordedRoomPresence } from "../presentation/recorded-room-presence";
 import type { ConversationAddressee } from "../presentation/run-b-conversation";
 import type { ConversationSubjectKey } from "../presentation/run-b-conversation-progress";
+import { LieButton } from "./LieButton";
 import { PersonPortrait } from "./PersonPortrait";
 
 export const FAREWELL_INTENT = "leave";
@@ -122,20 +123,24 @@ export function SceneConversation({
             </p>
           </div>
         ) : null}
-        <div className="pg-talk-choices">
-          {life.intents
-            .filter((option) => !dropped.includes(option.key))
-            .map((option) => (
-              <button
-                key={option.key}
-                type="button"
-                className="pg-talk-choice"
-                data-testid="life-talk-choice"
-                onClick={() => speak(option.key as LifeTalkIntent)}
-              >
-                {option.label}
-              </button>
-            ))}
+        <div className="pg-reply-row">
+          {/* Ordinary talk offers no lie yet; the button keeps its place. */}
+          <LieButton available={false} active={false} onToggle={() => {}} />
+          <div className="pg-talk-choices">
+            {life.intents
+              .filter((option) => !dropped.includes(option.key))
+              .map((option) => (
+                <button
+                  key={option.key}
+                  type="button"
+                  className="pg-talk-choice"
+                  data-testid="life-talk-choice"
+                  onClick={() => speak(option.key as LifeTalkIntent)}
+                >
+                  {option.label}
+                </button>
+              ))}
+          </div>
         </div>
         <div className="pg-talk-controls">
           <button type="button" onClick={onBack}>
@@ -159,8 +164,12 @@ export function SceneConversation({
       </section>
     );
   const turn = history === null ? turns.at(-1) : turns[history];
+  // A lie here is a recorded denial; with none offered the Lie button rests.
+  const canLie = scene.replies.some(
+    (reply) => reply.primitive === "deny-record",
+  );
   const choices = scene.replies.filter((reply) =>
-    lying
+    lying && canLie
       ? reply.primitive === "deny-record" || reply.primitive === "depart"
       : reply.primitive !== "deny-record",
   );
@@ -214,11 +223,6 @@ export function SceneConversation({
             ))}
         </div>
         <strong>{personName(world.people[scene.addresseePersonId]!)}</strong>
-        <ConversationScales
-          available
-          active={lying}
-          onToggle={() => setLying((value) => !value)}
-        />
       </div>
       {turn ? (
         <div data-testid="talk-exchange">
@@ -245,23 +249,26 @@ export function SceneConversation({
           ))
       )}
       {history === null ? (
-        <div className="pg-talk-choices">
-          {choices.map((reply) => (
-            <button
-              key={reply.key}
-              type="button"
-              className="pg-talk-choice"
-              data-testid="scene-record-reply"
-              data-source-event={reply.sourceEventId}
-              onClick={() => say(reply.key)}
-            >
-              {reply.line.text}
-            </button>
-          ))}
-          {lying &&
-          !choices.some((reply) => reply.primitive === "deny-record") ? (
-            <p data-problem="no-fact-to-deny" />
-          ) : null}
+        <div className="pg-reply-row">
+          <LieButton
+            available={canLie}
+            active={lying}
+            onToggle={() => setLying((value) => !value)}
+          />
+          <div className="pg-talk-choices">
+            {choices.map((reply) => (
+              <button
+                key={reply.key}
+                type="button"
+                className="pg-talk-choice"
+                data-testid="scene-record-reply"
+                data-source-event={reply.sourceEventId}
+                onClick={() => say(reply.key)}
+              >
+                {reply.line.text}
+              </button>
+            ))}
+          </div>
         </div>
       ) : null}
       {failure ? <p role="status">{failure}</p> : null}
@@ -304,38 +311,6 @@ export function SceneConversation({
         </button>
       </div>
     </section>
-  );
-}
-
-/** Lie stays present; selection changes wording, never listener knowledge. */
-export function ConversationScales({
-  active,
-  onToggle,
-}: {
-  readonly available: boolean;
-  readonly active: boolean;
-  readonly onToggle: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      className="pg-talk-lie-toggle"
-      data-testid="talk-lie-toggle"
-      aria-label="Show knowingly false replies"
-      aria-pressed={active}
-      title="Show knowingly false replies"
-      onClick={onToggle}
-    >
-      <img
-        src={
-          active ? "/ui/kit12/scales-tipped.svg" : "/ui/kit12/scales-level.svg"
-        }
-        width={34}
-        height={34}
-        alt=""
-        aria-hidden="true"
-      />
-    </button>
   );
 }
 

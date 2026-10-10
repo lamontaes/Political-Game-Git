@@ -48,7 +48,6 @@
   align-items: center;
   gap: 0.35rem 0.6rem;
   padding-bottom: 0.3rem;
-  padding-right: 44px;
   border-bottom: 1px solid rgb(194 155 72 / 30%);
 }
 
@@ -241,49 +240,8 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
   color: var(--text-strong);
 }
 
-/* Selected kit12 scales: the control changes offered replies, never a turn. */
 .pg-talk-replies {
   display: block;
-}
-
-.pg-talk .pg-talk-lie-toggle {
-  position: absolute;
-  right: 8px;
-  top: 8px;
-  width: 44px;
-  height: 44px;
-  min-height: 0;
-  display: grid;
-  place-items: center;
-  padding: 0;
-  border: 0;
-  border-radius: 50%;
-  background: transparent;
-  box-shadow: none;
-  cursor: pointer;
-}
-
-.pg-talk-lie-toggle img {
-  width: 34px;
-  height: 34px;
-  transition: filter 0.25s ease;
-}
-
-.pg-talk .pg-talk-lie-toggle[aria-pressed="true"] {
-  background: radial-gradient(circle, rgb(214 88 64 / 25%), transparent 72%);
-}
-
-.pg-talk-lie-toggle[aria-pressed="true"] img {
-  filter: drop-shadow(0 0 3px rgb(255 120 90 / 95%))
-    drop-shadow(0 0 8px rgb(214 88 64 / 70%));
-}
-
-.pg-talk .pg-talk-lie-toggle:disabled {
-  cursor: default;
-}
-
-.pg-talk-lie-toggle:disabled img {
-  opacity: 0.28;
 }
 
 .pg-talk-choices {
@@ -525,12 +483,6 @@ button.pg-talk-face:focus-visible .person-portrait-mark {
 
 .pg-talk-choice[data-lying="true"] .pg-talk-choice-number {
   color: #e39a89;
-}
-
-.pg-talk-lie-toggle:hover:not(:disabled):not([aria-pressed="true"]) img,
-.pg-talk-lie-toggle:focus-visible:not(:disabled):not([aria-pressed="true"])
-  img {
-  filter: drop-shadow(0 0 4px rgb(255 255 255 / 70%));
 }
 
 .pg-talk .pg-talk-choice[data-lying="true"]:hover:not(:disabled),
