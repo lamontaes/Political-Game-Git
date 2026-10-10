@@ -28,6 +28,7 @@ import type {
   CoreState,
   DecisionReason,
   IsoDate,
+  NeedDefinition,
   PersonState,
   Relationship,
   WeightedReason,
@@ -98,6 +99,39 @@ function freeHours(
 
 interface Projection {
   lastContactDate: IsoDate;
+  /** Needs whose value moves with the days since the last contact. */
+  moving?: NeedDefinition[];
+}
+
+function evaluator(core: CoreState, definition: NeedDefinition) {
+  const evaluate = resolveOperation(
+    core,
+    "needEvaluators",
+    definition.evaluator,
+  );
+  if (!evaluate)
+    throw new Error(`Unregistered need evaluator: ${definition.evaluator}`);
+  return evaluate;
+}
+
+/**
+ * Needs whose value moves with the days since the last contact: those that
+ * read differently for a contact today and for one at the person's birth.
+ */
+function movingNeeds(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+): NeedDefinition[] {
+  const recent = { ...actor, lastContactDate: api.state.date };
+  const distant = { ...actor, lastContactDate: actor.birthDate };
+  return api.state.data.needs.filter((definition) => {
+    const evaluate = evaluator(api.state, definition);
+    const today = actor.needs[definition.id];
+    return (
+      evaluate(api, recent, definition) !== today ||
+      evaluate(api, distant, definition) !== today
+    );
+  });
 }
 
 function needsOn(
@@ -106,10 +140,11 @@ function needsOn(
   projection: Projection,
   day: number,
 ): Record<string, number> {
-  const core = api.state;
   if (day === api.parameter("zero")) return actor.needs;
   // Need evaluators read the current date; the last contact moves back by the
-  // days ahead so the gap since it is the gap on the planned date.
+  // days ahead so the gap since it is the gap on the planned date. Needs that
+  // do not read the last contact keep today's value.
+  projection.moving ??= movingNeeds(api, actor);
   const view = {
     ...actor,
     lastContactDate: addDays(
@@ -117,17 +152,13 @@ function needsOn(
       -day,
     ) as IsoDate,
   };
-  const values: Record<string, number> = {};
-  for (const definition of core.data.needs) {
-    const evaluate = resolveOperation(
-      core,
-      "needEvaluators",
-      definition.evaluator,
+  const values: Record<string, number> = { ...actor.needs };
+  for (const definition of projection.moving)
+    values[definition.id] = evaluator(api.state, definition)(
+      api,
+      view,
+      definition,
     );
-    if (!evaluate)
-      throw new Error(`Unregistered need evaluator: ${definition.evaluator}`);
-    values[definition.id] = evaluate(api, view, definition);
-  }
   return values;
 }
 
