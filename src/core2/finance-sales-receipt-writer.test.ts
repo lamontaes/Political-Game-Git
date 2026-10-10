@@ -306,7 +306,7 @@ describe("receipt-linked procurement through the conserving API", () => {
     expect(world.finance.contracts.get(routeA)!.dueAt).toBe(february);
     const committed = snapshot(world);
     expect(() => api.settleFinanceContract(routeA)).toThrow(
-      /not due|already settled/,
+      "Actual standing finance terms are not currently due.",
     );
     expect(snapshot(world)).toBe(committed);
     advanceDate(world, february);
