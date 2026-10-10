@@ -1,0 +1,43 @@
+{
+  "head": "3d9a9d83 (P10 with SOL-1258's 7fd9ac31 merged)",
+  "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/drives-proof.ts --timing-only <base|drives> --days 31",
+  "days": 31,
+  "method": "One process at a time in one cloud container, alternating base and drives, two runs each; no other work ran.",
+  "runs": [
+    {
+      "mode": "base",
+      "seconds": 77.175598854,
+      "peakRssMiB": 1758.85546875,
+      "place": "Sacramento, California",
+      "seed": "p10-drives-proof-2026-10-09",
+      "order": 1
+    },
+    {
+      "mode": "drives",
+      "seconds": 79.96157151499999,
+      "peakRssMiB": 2731.76171875,
+      "place": "Sacramento, California",
+      "seed": "p10-drives-proof-2026-10-09",
+      "order": 2
+    },
+    {
+      "mode": "base",
+      "seconds": 77.624249636,
+      "peakRssMiB": 2958.140625,
+      "place": "Sacramento, California",
+      "seed": "p10-drives-proof-2026-10-09",
+      "order": 3
+    },
+    {
+      "mode": "drives",
+      "seconds": 75.706274718,
+      "peakRssMiB": 2249.82421875,
+      "place": "Sacramento, California",
+      "seed": "p10-drives-proof-2026-10-09",
+      "order": 4
+    }
+  ],
+  "baseMeanSeconds": 77.4,
+  "drivesMeanSeconds": 77.83,
+  "addedPercent": 0.56
+}
