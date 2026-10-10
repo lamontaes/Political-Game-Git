@@ -145,8 +145,9 @@ interface HouseholdPlan {
   inputs: readonly CharacterHistoryContextPersonInput[];
   ids: readonly EntityId[];
   countyId?: EntityId;
-  /** P15: the member who is the first adult's grown child (opening-partnership.ts). */
-  grownChild?: number;
+  /** P15: members who are grown children of `grownChildParents` (opening-partnership.ts). */
+  grownChildren?: readonly number[];
+  grownChildParents?: readonly number[];
 }
 
 /** Each [child, parent] member pair of a household: children under 18 with every adult, and a grown child with their parent. */
@@ -159,8 +160,9 @@ function parentChildMembers(plan: HouseholdPlan): [number, number][] {
       ? adults.map((parent) => [child, parent] as [number, number])
       : [],
   );
-  if (plan.grownChild !== undefined)
-    pairs.push([plan.grownChild, adults[p("zero")]!]);
+  for (const child of plan.grownChildren ?? [])
+    for (const parent of plan.grownChildParents ?? [])
+      pairs.push([child, parent]);
   return pairs;
 }
 
@@ -338,7 +340,7 @@ function withFamilyContext(
         residenceRole: "primary",
         kind:
           plan.skeleton.members[member]!.role === "child" ||
-          member === plan.grownChild
+          plan.grownChildren?.includes(member)
             ? "resident:child"
             : plan.skeleton.shape === "housemates"
               ? "resident:roommate"
@@ -553,13 +555,14 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     const {
       skeleton,
       people: householdPeople,
-      grownChild,
+      grownChildren,
+      grownChildParents,
     } = partnerAgedHousehold({
       seed: options.seed,
       geo: partnershipGeo(lifePlaceByJurisdictionId(town)?.sourceGeoid),
       skeleton: townHouseholdSkeleton(seedWorld, town, index),
       people: townHouseholdPeople(seedWorld, town, index),
-      rebirth: (person, age) => {
+      rebirth: (person, age, sex) => {
         const birthDate = inventedPersonBirthDate(
           new SeededRng(seedWorld.seed).fork(`${person.stableKey}:p15-birth`),
           {
@@ -569,25 +572,74 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
             placement: "drawn-exact",
           },
         );
-        const gender = person.identity?.gender as GenderIdentityKey | undefined;
+        // A sex drawn with age brings its own pronouns and first name.
+        const identity =
+          sex && sex !== person.identity?.gender
+            ? { gender: sex, pronouns: defaultPronounsForGender(sex) }
+            : person.identity;
+        const corpusVersion = nameCorpusVersionForWorld(seedWorld, town);
+        const drawnName =
+          identity === person.identity || !identity
+            ? person.givenName
+            : drawCanonicalNamedIdentity(
+                new SeededRng(seedWorld.seed)
+                  .fork(`${person.stableKey}:p15-sex`)
+                  .fork("name"),
+                identity,
+                { corpusVersion },
+              ).givenName;
+        const gender = identity?.gender as GenderIdentityKey | undefined;
         return {
           ...person,
           birthDate,
-          ...(gender &&
-          nameCorpusVersionForWorld(seedWorld, town) === DEFAULT_CORPUS_VERSION
-            ? {
-                givenName: birthCohortGivenName(
-                  seedWorld.seed,
-                  person.stableKey,
-                  {
-                    givenName: person.givenName,
-                    familyName: person.familyName,
-                    birthDate,
-                    gender,
-                  },
-                ),
-              }
-            : {}),
+          ...(identity ? { identity } : {}),
+          givenName:
+            gender && corpusVersion === DEFAULT_CORPUS_VERSION
+              ? birthCohortGivenName(seedWorld.seed, person.stableKey, {
+                  givenName: drawnName,
+                  familyName: person.familyName,
+                  birthDate,
+                  gender,
+                })
+              : drawnName,
+        };
+      },
+      addPerson: (key, sex, age, familyName) => {
+        const identity = {
+          gender: sex,
+          pronouns: defaultPronounsForGender(sex),
+        };
+        const corpusVersion = nameCorpusVersionForWorld(seedWorld, town);
+        const named = drawCanonicalNamedIdentity(
+          new SeededRng(seedWorld.seed).fork(key).fork("name"),
+          identity,
+          { corpusVersion },
+        );
+        const birthDate = inventedPersonBirthDate(
+          new SeededRng(seedWorld.seed).fork(`${key}:p15-birth`),
+          {
+            role: "household-member",
+            referenceDate: startedAt,
+            age,
+            placement: "drawn-exact",
+          },
+        );
+        const surname = familyName ?? named.familyName;
+        return {
+          stableKey: key,
+          givenName:
+            corpusVersion === DEFAULT_CORPUS_VERSION
+              ? birthCohortGivenName(seedWorld.seed, key, {
+                  givenName: named.givenName,
+                  familyName: surname,
+                  birthDate,
+                  gender: sex,
+                })
+              : named.givenName,
+          familyName: surname,
+          identity,
+          birthDate,
+          homeJurisdictionId: town,
         };
       },
     });
@@ -617,7 +669,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         characterHistoryContextPersonId(seedWorld, person.stableKey),
       ),
       ...(county ? { countyId: county.place.context.jurisdiction.id } : {}),
-      ...(grownChild === undefined ? {} : { grownChild }),
+      ...(grownChildren.length ? { grownChildren, grownChildParents } : {}),
     });
     inputs.push(...householdPeople);
   }
@@ -935,8 +987,13 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         "child",
       );
     }
-    for (const child of children) {
-      for (const sibling of children) {
+    // Children at home, minors and grown, are each other's siblings.
+    const siblings = [
+      ...children,
+      ...(plan.grownChildren ?? []).map((member) => plan.ids[member]!),
+    ];
+    for (const child of siblings) {
+      for (const sibling of siblings) {
         if (sibling === child) continue;
         link(child, sibling);
         const born = [
@@ -1205,10 +1262,9 @@ function openingFamilies(input: OpeningFamilyInput): {
       members: plan.ids.map((id, member) => ({
         id,
         // A grown child at home is their parent's child in the kin model.
-        role:
-          member === plan.grownChild
-            ? ("child" as const)
-            : plan.skeleton.members[member]!.role,
+        role: plan.grownChildren?.includes(member)
+          ? ("child" as const)
+          : plan.skeleton.members[member]!.role,
         birthDate: world.people[id]!.birthDate,
         ...(world.people[id]!.identity
           ? { gender: world.people[id]!.identity!.gender }
@@ -1262,7 +1318,7 @@ function openingFamilies(input: OpeningFamilyInput): {
   }
   const kinSource: Source = {
     ...source,
-    citation: `${source.citation} ${OPENING_KIN.completedFertility.citation} ${OPENING_KIN.fertilityByAge.citation} ${OPENING_KIN.firstBirthAge.citation} SSA 2023 period life table.`,
+    citation: `${source.citation} ${OPENING_KIN.completedFertility.citation} ${OPENING_KIN.fertilityByAge.citation} ${OPENING_KIN.firstBirthAge.citation} SSA cohort life tables by birth year (Actuarial Study No. 120).`,
     estimatedFrom:
       "Generated opening kin: who exists follows the life table and Census fertility by cohort and age; relatives outside the household are husk-tier records, not observed people.",
   };

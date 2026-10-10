@@ -82,6 +82,11 @@ describe("opening household ages", () => {
       skeleton: { index, shape, members },
       people: genders.map((gender, n) => person(`h${index}:p${n}`, gender)),
       rebirth: (row, years) => ({ ...row, birthDate: `${2021 - years}-01-01` }),
+      addPerson: (key, sex, years, familyName) => ({
+        ...person(key, sex),
+        familyName: familyName ?? `Family ${key}`,
+        birthDate: `${2021 - years}-01-01`,
+      }),
     });
   const range = Array.from({ length: 600 }, (_, i) => i);
 
@@ -136,8 +141,8 @@ describe("opening household ages", () => {
         i,
       ),
     );
-    const related = housemates.filter((row) => row.grownChild === 1);
-    const unrelated = housemates.filter((row) => row.grownChild === undefined);
+    const related = housemates.filter((row) => row.grownChildren.includes(1));
+    const unrelated = housemates.filter((row) => !row.grownChildren.length);
     expect(related.length).toBeGreaterThan(0);
     expect(unrelated.length).toBeGreaterThan(0);
     // Housemates older than the old 40-year cap.
