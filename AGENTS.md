@@ -17,6 +17,15 @@ A political and government RPG with a full life simulation underneath. Every Cla
 - **One writer per area.** Stack branches on the core; never push to another session's branch. Claim a task on the GitHub Project before starting it.
 - **Helpers.** A helper needs an independently useful bounded output and explicit path/tool ownership; no recursive delegation or duplicate full-repo review. Preserve configured concurrency limits. Model effort is proportional to the actual task (see `model-effort`).
 
+## Models, effort and helpers (owner, Oct 10: mind the usage)
+
+Every package names its model and effort with a one-line reason. Balance usage against effectiveness: normally lean toward saving usage (about 60–65% thrift, 35–40% raw power); near or right after a usage reset, about even, or tilted toward effectiveness. Not the cheapest possible, and nothing runs at the top level just because it's available.
+
+- **Codex builds at medium** by default (OpenAI's recommended default for coding). **High** only when the package says why: core architecture, money conservation, or rules every port depends on. **Extra-high only after high has failed** at a named task.
+- **Claude finishes with Sonnet at high** for agreed designs, test and tooling checks, and playing features in the bench, where careful checking matters. **Opus at high** only for judgment-heavy finishing: core design, modeling people, or a disputed result. **Max** only after high has failed at a named task. Medium is fine for small, clear fixes.
+- **Helpers:** none by default. At most two for Codex (the repository setting) and three for Claude, and only when the work splits cleanly: independent research, reading many files, or a fresh-context review. Each gets a clear objective, an output format, allowed paths and tools, and is read-only unless the package says otherwise.
+- **One package per session**, then a fresh session. Stop and report instead of escalating when a package keeps failing.
+
 ## How every session works
 
 1. **Start:** read the package, the roadmap's progress file and the git log; run the test bench and confirm the game still works before changing anything.
