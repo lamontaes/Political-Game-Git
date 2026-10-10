@@ -97,7 +97,8 @@ function input(contracts: FinanceContractInput[], cash = 60): CoreInput {
             date: "2020-01-01",
             kind: "retirement:award",
             summary: "Recorded qualified monthly award",
-            source,
+            // This controlled award must retain evidence available on its own date.
+            source: { ...source, asOf: "2020-01-01" },
             facts: {
               status: "in-payment",
               payerId: payer,
@@ -169,6 +170,46 @@ describe("qualified actual income and ordered finite cash settlement", () => {
     expect(core.finance.paidIncomeByPlaceMonth.get(`2021-02:${place}`)).toBe(
       100,
     );
+  });
+
+  it("rejects a Source later than its actual award date before any settlement effects", () => {
+    const core = createCore(input([awardContract()]));
+    core.organizations.get(payer)!.liquidMinor = 100; // Controlled fixture stock.
+    core.date = due;
+    const fact = core.people
+      .get(resident)!
+      .pastFacts!.find((row) => row.id === "fixture:award")!;
+    fact.source = { ...fact.source, asOf: "2020-01-02" };
+    const snapshot = () =>
+      structuredClone({
+        people: core.people,
+        organizations: core.organizations,
+        finance: core.finance,
+        journal: {
+          accounts: core.cashJournal.accounts,
+          accountsByOwner: core.cashJournal.accountsByOwner,
+          accountCountByOwner: core.cashJournal.accountCountByOwner,
+          residualAccountByOwner: core.cashJournal.residualAccountByOwner,
+          externalFlowsByOwner: core.cashJournal.externalFlowsByOwner,
+          nextSequence: core.cashJournal.nextSequence,
+          totals: core.cashJournal.totals,
+          totalsByOwner: core.cashJournal.totalsByOwner,
+          totalsByAccount: core.cashJournal.totalsByAccount,
+          latestByOwner: core.cashJournal.latestByOwner,
+          latestByAccount: core.cashJournal.latestByAccount,
+          detailedReceipts: core.cashJournal.detailedReceipts,
+          detailedByOwner: core.cashJournal.detailedByOwner,
+          requiredBySource: core.cashJournal.requiredBySource,
+        },
+      });
+    const before = snapshot();
+    expect(() => coreAPI(core).settleFinanceContract("m:income")).toThrow(
+      /Finance cash source is undated or unavailable/,
+    );
+    expect(snapshot()).toEqual(before);
+    expect(core.finance.contracts.get("m:income")!.dueAt).toBe(due);
+    expect(core.finance.paidIncomeByPlaceMonth.size).toBe(0);
+    expect(core.finance.paidIncomeByPlaceMonthKind.size).toBe(0);
   });
 
   it("admits a generic monthly award only with recorded cash standing-entitlement basis", () => {
@@ -362,7 +403,7 @@ describe("qualified actual income and ordered finite cash settlement", () => {
     expect(core.finance.salesPendingBudgetByContract.has(term.id)).toBe(false);
     expect(core.organizations.get(contributor)?.liquidMinor).toBe(200);
     expect(() => coreAPI(core).settleFinanceContract(term.id)).toThrow(
-      /ended|retired/,
+      "Actual standing finance terms are not currently due.",
     );
     expect(() => coreAPI(core).retireFinanceBudget(term.id)).not.toThrow();
   });

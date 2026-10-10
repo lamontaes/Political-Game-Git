@@ -2,28 +2,40 @@
 
 Before: Measured, the opening input occupied 3,247.9 million bytes and took 75.35 seconds to build and freeze. The preserved finance year closed 23 of 27 employers and remains rejected.
 
-After: Measured, the same opening input occupies 752.4 million bytes and took 12.23 seconds to build and freeze. Opening financial terms, cash, roster counts and complete supplier qualifications match. Finance still occupies 254.1 million bytes. Further evidence sharing and an enforced size budget precede the pending annual run.
+After: Measured, the same opening input occupies 732.5 million bytes and took 20.80 seconds to build and freeze. Financial terms, cash, roster counts and complete supplier qualifications match. The pending year must establish annual speed and financial outcomes.
 
 ## What is measured
 
-Measured: The opening contains 10,002 people, 3,955 households, 1,433 jobs and 68,140 standing contracts. The repair changes repeated evidence; it preserves the exact contract terms and all nine complete supplier qualification sets. Opening cash remains 2,776,644,905 minor units, with zero added cash. [Paired opening census](receipts/prototype-v9-money-repair-wip-20261010.json#L208)
+Measured: The opening contains 10,002 people, 3,955 households, 1,433 jobs and 68,140 standing contracts. Opening cash remains 2,776,644,905 minor units, with zero added cash. Every checked opening invariant matches both preceding measurements. [Current opening census](receipts/prototype-v9-opening-census-after-20261010.json#L1338)
 
-Measured: Encoded qualification strings fell from 1,918.6 million bytes to 4.9 million bytes. Finance fell from 719.3 million bytes to 254.1 million bytes. Its structured Source objects still occupy 200.3 million bytes. Preparation timing describes one observation per variant and advances no game days. [Size and timing comparison](receipts/prototype-v9-money-repair-wip-20261010.json#L208)
+Measured: Encoded qualification strings fell from 1,918.6 million bytes to 4.9 million bytes. Finance fell from 719.3 million bytes to 227.1 million bytes. Preparation timing describes one observation per variant and advances no game days. [Paired size and preparation evidence](receipts/prototype-v9-money-repair-wip-20261010.json#L262)
 
-Measured: The eight affected test files passed 595 of 597 checks. After the two shortened calendar explanations were restored, the affected file passed all 39 checks. Strict types, lint, formatting and no-dice checks passed. These checks establish accounting and provenance boundaries; they supply no annual outcome. [Executed gate history](receipts/prototype-v9-money-repair-wip-20261010.json#L47)
+Measured: The current census is 73,230.42 bytes per resident. Its declared conservative Source share is 69.9142%. This measure includes Sources inside encoded records and differs from the earlier direct-only share. [Registered byte census](receipts/prototype-v9-opening-census-after-20261010.json#L990)
 
-Inferred: Each actual provider now keeps its complete qualification once. Household agreements refer to that record. The cash validator still checks the original jobs and Sources, and its final immutable preflight remains last. Supplied financial terms remain preserved. [Qualification lookup and original guard](finance-cash.ts)
+Measured: Finance passed all 41 checks and capital passed all 54 checks. Customer and Source-module checks passed all 164 cases. The observer passed 14 cases; the input counter passed 11. Earlier failures remain recorded as failures. [Executed gate history](receipts/prototype-v9-money-repair-wip-20261010.json#L47)
 
-Inferred: Complete supplied-end evidence remains preserved on its original saved record and in the generated contract's Source. [Supplied-end construction](opening-customers.ts#L1186)
+Measured: Strict types, lint, formatting, and no-dice checks passed for the 15 affected TypeScript files before the final budget-runner change. The earlier lint failure remains recorded. [Source-check evidence](receipts/prototype-v9-money-repair-wip-20261010.json#L1708)
+
+## What the code changes
+
+Inferred: Each provider retains each complete service qualification once. [Provider qualification owner](opening-customers.ts#L985)
+
+Inferred: Default household contracts retain a short evidence reference that resolves against their actual household, catalog, parameters and calendars. Supplied evidence remains complete. These references supply provenance rather than payment authority. [Household evidence resolution](generated-household-source.ts#L262)
+
+Inferred: Private qualification metadata no longer makes a private firm count as a government institution. Genuine government evidence still excludes institutional books from the private route. The valid no-income calendar chain rebuilds; self-references and cycles reject. [Opening finance admission](opening-finance.ts#L686)
+
+Inferred: The measurement guard limits input size to 80,554 bytes per resident and a 74.9142% declared conservative Source share. Those ceilings add chosen engineering margins of 10% and five percentage points to this opening measurement. The guard prints the census and rejects oversized inputs before exports or world initialization. [Technical input limits](tooling/opening-input-budgets.json#L2)
+
+Inferred: The observer reports the existing actual customer-sales counter separately from other transfers and credit. It does not infer which fungible dollars funded payroll. [Finance observation](tooling/finance-observables.ts#L550)
 
 ## What remains
 
-Pending: Compact the remaining repeated default-generated evidence, enforce registered input-size budgets, then complete one warmup and three measured years. Judge closures below 10% and receipts paying most wages. Nine unsupported product classifications remain declared gaps; the year still uses flat national conditions. [Current limitations](receipts/prototype-v9-money-repair-wip-20261010.json#L126)
+Pending: Complete one warmup and three measured years. Judge closures below 10% and actual customer sales covering most paid wages. Nine unsupported product classifications remain declared gaps; the year uses flat national conditions. [Current limitations](receipts/prototype-v9-money-repair-wip-20261010.json#L183)
 
 Measured in the preserved annual baseline: The median was 96.47 days per minute without finance and 124.51 with rejected finance outcomes. No new annual days per minute has been measured. The target remains one game year under two minutes. [Preserved annual baseline](receipts/prototype-v9-money-repair-wip-20261010.json#L14)
 
-Pending: All 81 gaps remain open. The order remains judged year, four shared interfaces, PEOPLE, RENEWAL, SPEED. This is an isolated draft prototype. [Scope and status](receipts/prototype-v9-money-repair-wip-20261010.json#L144)
+Pending: All 81 gaps remain open. The order is green checks, the measured slowdown repair, the judged year, four shared interfaces, RENEWAL and SPEED. P16 owns profiling; P15 owns PEOPLE on separate stacked branches. [Current CTO order](https://github.com/lamontaes/Political-Game-Git/pull/3918#issuecomment-6099430286)
 
 ## Method
 
-The paired census used the same immutable original roster in the cloud. It counted compact JSON bytes without writing another giant export. The interrupted annual preparation produced no warmup or simulated days. Earlier failed checks remain recorded. The buffered exporter is not accepted as the input-shape repair. No world ran on the owner's Mac.
+The census used the same immutable original roster in the cloud. Two byte counters agreed without writing another giant input export. Startup build and final freeze are timed separately from the year. The technical margins are chosen limits; no spread across opening worlds has been measured. No world ran on the owner's Mac.

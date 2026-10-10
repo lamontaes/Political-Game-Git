@@ -1,3 +1,4 @@
+import { readGeneratedHouseholdSourceBasis } from "./generated-household-source";
 /** Actual finance source adapters. Arithmetic stays in the read-only planner. */
 import { makeIsoDate } from "../simulation/dates";
 import { cashJournalParameters } from "./cash-host";
@@ -91,6 +92,9 @@ function source(
     vintage = r.field(value, "generationPriorVintage");
   if (estimatedFrom !== undefined) result.estimatedFrom = estimatedFrom;
   if (vintage !== undefined) result.generationPriorVintage = vintage;
+  const generatedBasis = readGeneratedHouseholdSourceBasis(r, value);
+  if (generatedBasis !== undefined)
+    result.generatedHouseholdBasis = generatedBasis;
   if (
     !["SOURCED", "ESTIMATED"].includes(result.tag) ||
     !result.citation?.trim() ||

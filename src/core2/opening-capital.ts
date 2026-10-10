@@ -13,6 +13,7 @@ import {
   type BusinessBooksOptions,
 } from "./business-books";
 import dataJson from "./data/opening-capital.json" with { type: "json" };
+import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualification";
 import { plannedWorkMinutesBetween } from "./modules/work";
 import { parameter, PARAMETERS, type Parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
@@ -384,7 +385,9 @@ export function createOpeningEmployerCapital(
     if (
       data.excludedOrganizationKinds.includes(organization.kind) ||
       (organization.governmentFacts &&
-        Object.keys(organization.governmentFacts).length) ||
+        Object.keys(organization.governmentFacts).some(
+          (key) => !key.startsWith(OPENING_CUSTOMER_QUALIFICATION_PREFIX),
+        )) ||
       !classification.kind
     ) {
       // Explicit unfunded fresh model state, never an observed zero balance.
