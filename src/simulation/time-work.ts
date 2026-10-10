@@ -1,4 +1,5 @@
 import { recordStoryMoments } from "./story/moments";
+import { scheduleStoryScenes } from "./story/scheduling";
 import { applyLawConsequences } from "./enacted-law-effects";
 import { settleJobPay } from "./job-market";
 import { applyEnactedCourtSizes } from "./governing/court-size-law";
@@ -1142,13 +1143,17 @@ export function advanceWorldMinutes(
     );
     // When time moved, the story director reads what was written since its
     // last reading (story/moments.ts): the moments of people's lives, scored
-    // once. When it did not, the World comes back as it went in.
+    // once, then schedules the ones that become scenes (story/scheduling.ts).
+    // When it did not, the World comes back as it went in.
     return compareSimulationMoments(
       advanced.currentMoment,
       scheduledWorld.currentMoment,
     ) === 0
       ? advanced
-      : recordStoryMoments(advanced);
+      : scheduleStoryScenes(
+          recordStoryMoments(advanced),
+          advanced.history.nextSequence,
+        );
   }, scheduledWorld);
 }
 

@@ -162,7 +162,7 @@ describe("a reach-out in a seeded week", () => {
         momentId: reached.id,
         playerPersonId: mateo,
       }),
-    ).toEqual({ kind: "unbound", reason: "Already bound" });
+    ).toEqual({ kind: "unbound", reason: "Already bound", coverage: null });
   });
 
   it("opens with the request the record already is, and offers his role's moves", () => {
@@ -319,7 +319,7 @@ describe("a reach-out in a seeded week", () => {
     expect(view.room.physicallyPresentPersonIds).toHaveLength(3);
   });
 
-  it("leaves a situation unbound when the player is not in it or a fill is not built", () => {
+  it("leaves a situation unbound when the type is not opened or the records cannot fill a role", () => {
     const introduced = momentOf(
       week,
       mateo,
@@ -335,18 +335,32 @@ describe("a reach-out in a seeded week", () => {
       kind: "unbound",
       reason:
         "reach-out is not opened by relationship:contact:introduced:maintained",
+      coverage: null,
     });
+    // His first job's employer has nobody leading it on record, so its first
+    // day has no authority to fill, and the coverage log says which role.
+    const hired = momentOf(week, mateo, "job-started");
+    expect(
+      bindSituation(week, {
+        typeKey: "first-day",
+        momentId: hired.id,
+        playerPersonId: mateo,
+      }),
+    ).toEqual({
+      kind: "unbound",
+      reason: "first-day authority: no authority on record for this moment",
+      coverage: "role-unbound",
+    });
+    // A school's first day takes its authority from the people the school
+    // employs.
     const started = momentOf(week, mateo, "school-started");
     expect(
       bindSituation(week, {
         typeKey: "first-day",
         momentId: started.id,
         playerPersonId: mateo,
-      }),
-    ).toEqual({
-      kind: "unbound",
-      reason: "first-day authority: the authority fill is not built",
-    });
+      }).kind,
+    ).toBe("bound");
   });
 
   it("drops the favor family's 'long time' line when no contact is on record", () => {

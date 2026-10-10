@@ -2,6 +2,10 @@ import { initializePersonCitizenship } from "./citizenship-creation";
 import { assertStoryMomentIntegrity, storyMoments } from "./story/moments";
 import { assertStoryPeopleIntegrity, storyPeople } from "./story-people-store";
 import { assertStoryThreadIntegrity, storyThreadStates } from "./story/threads";
+import {
+  assertStoryCoverageIntegrity,
+  storyCoverage,
+} from "./story/scheduling";
 import { assertPersonCitizenshipIntegrity } from "./citizenship";
 import { assertWorkPayCoverageIntegrity } from "./pay-coverage-query";
 import { assertEarnedLawPayIntegrity } from "./earned-law-pay-integrity";
@@ -2128,6 +2132,7 @@ function validateHistoryIntegrity(
         ...childhoodRecordEntries(world),
         ...storyMoments(world),
         ...(history.storyIntakeMarks ?? []),
+        ...storyCoverage(world),
         ...storyPeople(world),
         ...storyThreadStates(world),
         ...(history.districtResidenceIntervals ?? []),
@@ -2339,6 +2344,8 @@ function validateHistoryIntegrity(
   for (const mark of world.history.storyIntakeMarks ?? [])
     assertUniqueId(ids, mark.id);
   assertStoryMomentIntegrity(world);
+  for (const row of storyCoverage(world)) assertUniqueId(ids, row.id);
+  assertStoryCoverageIntegrity(world);
   // A story person's id is the one they keep once written out, so it is
   // checked against the other story people, not against every id.
   assertStoryPeopleIntegrity(world);

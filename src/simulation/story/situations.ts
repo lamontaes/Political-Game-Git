@@ -71,6 +71,12 @@ export interface SituationRole {
   readonly moves: readonly string[];
   /** The act kinds the role wants, so the decision can weigh them. */
   readonly wants: readonly string[];
+  /**
+   * How a person in this role carries themselves: a key from the data's
+   * `bearings`, read by the scene's staging and the English engine's mood
+   * condition. Every present role has one.
+   */
+  readonly bearing?: string;
 }
 
 export interface SituationCause {
@@ -107,7 +113,19 @@ interface TypesTable {
   readonly standingPulls: Readonly<
     Record<RelationshipDimension, readonly string[]>
   >;
+  readonly bearings: Readonly<Record<string, string>>;
+  readonly scheduling: StoryScheduling;
   readonly types: readonly SituationType[];
+}
+
+/** When situations become scenes (part 4): calibration, owner-adjustable. */
+export interface StoryScheduling {
+  /** About how many scenes a year a life carries, by band of childhood agency or `adult`. */
+  readonly paces: Readonly<Record<string, number>>;
+  /** How far back a moment's rank among the life's moments reaches. */
+  readonly trailingDays: number;
+  /** How many days a scene stays open from the date its timing sets, by timing. */
+  readonly openDays: Readonly<Record<string, number>>;
 }
 
 const TYPES_TABLE = typesData as unknown as TypesTable;
@@ -118,6 +136,7 @@ const MOVES_TABLE = movesData as unknown as {
 };
 
 export const SITUATION_TYPES: readonly SituationType[] = TYPES_TABLE.types;
+export const STORY_SCHEDULING: StoryScheduling = TYPES_TABLE.scheduling;
 export const STORY_MOVES: readonly StoryMove[] = MOVES_TABLE.moves;
 /** The moves every present role always has: four replies are always open. */
 export const ALWAYS_OPEN_MOVES: readonly string[] = MOVES_TABLE.always;
@@ -129,6 +148,7 @@ export function situationVocabulary() {
     settings: new Set(Object.keys(TYPES_TABLE.settings)),
     timings: new Set(Object.keys(TYPES_TABLE.timings)),
     awaiting: new Set(Object.keys(TYPES_TABLE.awaitingRecords)),
+    bearings: new Set(Object.keys(TYPES_TABLE.bearings)),
     standingPulls: TYPES_TABLE.standingPulls,
   };
 }

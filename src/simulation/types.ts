@@ -107,6 +107,7 @@ export type EntityKind =
   | "childhood-entry"
   | "story-moment"
   | "story-intake"
+  | "story-coverage"
   | "story-thread-state"
   | "judicial-philosophy"
   | "judicial-professional-qualification"
@@ -4765,6 +4766,35 @@ export interface StoryIntakeMark {
   readonly throughSequence: number;
 }
 
+/**
+ * Why a moment that matters did not become a scene for a reason inside the
+ * story director (part 7). Never shown to a player.
+ */
+export type StoryCoverageReason =
+  /** No situation type is opened by the moment's kind. */
+  | "no-type"
+  /** A type matched, but a required role has no record to fill it. */
+  | "role-unbound"
+  /** No real setting could be resolved from the records. */
+  | "no-place";
+
+/** One moment the library could not stage, with the reason (part 7). */
+export interface StoryCoverageRecord {
+  readonly id: EntityId;
+  readonly stableKey: string;
+  readonly sequence: number;
+  readonly recordedAt: IsoDate;
+  readonly momentId: EntityId;
+  readonly personId: EntityId;
+  readonly kindKey: string;
+  readonly salience: number;
+  readonly reason: StoryCoverageReason;
+  /** The type it was tried for, when one matched. */
+  readonly typeKey: string | null;
+  /** Developer detail: which role or setting the records could not fill. */
+  readonly detail: string;
+}
+
 /** How a thread changed (story director, part 2). */
 export type StoryThreadTurn =
   "started" | "grew" | "soured" | "turned" | "faded" | "renewed" | "closed";
@@ -4823,6 +4853,8 @@ export interface HistoryStore {
   readonly storyPeople?: readonly StoryPersonRecord[];
   /** The story director's reading positions, one per intake that read anything. */
   readonly storyIntakeMarks?: readonly StoryIntakeMark[];
+  /** Moments that matter but could not be staged, read with `storyCoverage`. */
+  readonly storyCoverage?: readonly StoryCoverageRecord[];
   /** Changes in people's threads to one another, read with `storyThreadStatesOf`. */
   readonly storyThreadStates?: readonly StoryThreadStateRecord[];
   readonly permitApplications?: readonly PermitApplicationRecord[];

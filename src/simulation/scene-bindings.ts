@@ -69,6 +69,40 @@ export interface SceneBinding {
   readonly date: IsoDate | null;
   /** After this date the situation is past and no longer offered. */
   readonly expiresAt: IsoDate;
+  /**
+   * What the presentation layer needs to stage the scene without inventing
+   * anything (story director, part 4). Written by the situation family.
+   */
+  readonly staging?: SceneStaging;
+}
+
+/** Where a scene happens and who is in it, read from the records. */
+export interface SceneStaging {
+  /** The setting the records resolved: home, school, workplace, phone, venue... */
+  readonly setting: string;
+  /** The record the place was read from, when there is one. */
+  readonly placeRecordId: EntityId | null;
+  /** Everyone the records put in the scene, each in their role. */
+  readonly people: readonly SceneStagedPerson[];
+}
+
+export interface SceneStagedPerson {
+  readonly personId: EntityId;
+  readonly typeKey: string;
+  readonly role: string;
+  /** Before a choice, the act kinds the role's wants lean toward. */
+  readonly acts: readonly string[];
+  /** The role's bearing, the mood key the English engine reads too. */
+  readonly mood: string;
+  /** Their recorded standing toward the person they face, line by line. */
+  readonly standing: readonly SceneStagedStanding[];
+}
+
+export interface SceneStagedStanding {
+  readonly towardPersonId: EntityId;
+  readonly dimension: string;
+  readonly band: string;
+  readonly adverse: boolean;
 }
 
 export interface BoundScene {
