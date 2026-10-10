@@ -7,9 +7,13 @@
  * person chooses whom to contact, each candidate's pull is the hours of time
  * together their tie has lost since they last met, so close ties that are
  * fading draw contact first and distant relatives draw less.
+ *
+ * Part 4: after a death, relatives grieve (grief.ts); grief pulls toward rest
+ * and family and holds back organizing as it fades.
  */
 import { daysBetween, makeIsoDate } from "../../simulation/dates";
 import { CLOSENESS, hoursLost, openingClosenessHours } from "../closeness";
+import { GRIEF, griefToday, recordDeath } from "../grief";
 import { OPENING_KIN } from "../opening-kin";
 import type { ActOffer, CoreAPI, CoreModule, Relationship } from "../types";
 import { offer } from "./life";
@@ -83,6 +87,9 @@ export const PEOPLE_MODULE: CoreModule = {
   onDay: (api) => {
     shareHomeTime(api);
   },
+  // Part 4: a death reaches the relatives who learn of it as grief.
+  eventKinds: GRIEF.deathEventKinds,
+  onEvent: (api, event, learnedBy) => recordDeath(api, event, learnedBy),
   offerProviders: {
     // P15 part 4: looking something up serves a cause's need to know where
     // to go next: an office to approach (one with staff), a place to meet or
@@ -131,6 +138,16 @@ export const PEOPLE_MODULE: CoreModule = {
     },
   },
   reasonProviders: {
+    // Grief pulls toward rest and toward family, and holds back organizing;
+    // a visit to someone outside the family draws no pull from it.
+    grief: (api, actor, offer) => {
+      const { grief, sourceIds } = griefToday(api, actor);
+      if (grief <= api.parameter("zero")) return undefined;
+      const target = api.state.people.get(offer.targetId);
+      if (target && target.id !== actor.id && !actor.familyIds.has(target.id))
+        return undefined;
+      return { value: grief, sourceIds };
+    },
     "tie-fading": (api, actor, offer) => {
       const id = [actor.id, offer.targetId].sort().join(":");
       const row = api.state.relationships.get(id);

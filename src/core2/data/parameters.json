@@ -3331,5 +3331,68 @@
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
+  },
+  "griefResilientShare": {
+    "value": 0.459,
+    "tag": "ESTIMATED",
+    "citation": "Bonanno, Wortman, Lehman et al. (2002), Journal of Personality and Social Psychology 83(5):1150-1164, Results: of 205 widowed adults followed at 6 and 18 months, 94 (45.9%) showed the resilient pattern.",
+    "estimatedFrom": "Taken as the share whose grief has fallen to little by 6 months after a death. The study measured widowed adults aged about 72; the game applies it to every relative's loss (owner ruling, October 10, 2026).",
+    "stopgapId": "SG-P15-grief-line"
+  },
+  "griefChronicShare": {
+    "value": 0.156,
+    "tag": "ESTIMATED",
+    "citation": "Bonanno, Wortman, Lehman et al. (2002), Journal of Personality and Social Psychology 83(5):1150-1164, Results: of 205 widowed adults followed at 6 and 18 months, 32 (15.6%) showed chronic grief.",
+    "estimatedFrom": "Taken as the share whose grief is still above little at 18 months. The 7.8% with chronic depression began depressed before the loss and are not counted here.",
+    "stopgapId": "SG-P15-grief-line"
+  },
+  "griefEarlyCheckMonths": {
+    "value": 6,
+    "tag": "SOURCED",
+    "citation": "Bonanno, Wortman, Lehman et al. (2002), Journal of Personality and Social Psychology 83(5):1150-1164, Results: of 205 widowed adults followed at 6 and 18 months: the first follow-up, 6 months after the loss."
+  },
+  "griefLateCheckMonths": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "Bonanno, Wortman, Lehman et al. (2002), Journal of Personality and Social Psychology 83(5):1150-1164, Results: of 205 widowed adults followed at 6 and 18 months: the second follow-up, 18 months after the loss."
+  },
+  "griefLittleFraction": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Share of the grief at a death that counts as little grief when the resilience spread is solved from Bonanno et al. (2002); the study classified people by depression and grief scores, not by a share of starting grief, so this is a modeling choice.",
+    "stopgapId": "SG-P15-grief-line",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified; Bonanno et al. (2002) classify grief patterns by scores, not by this quantity."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "griefPullWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Pull of grief toward rest and contact with family, per unit of grief; no direct source.",
+    "stopgapId": "SG-P15-grief-line",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified; Bonanno et al. (2002) classify grief patterns by scores, not by this quantity."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "griefHoldWeight": {
+    "value": -1,
+    "tag": "TUNABLE",
+    "citation": "Hold of grief on organizing, per unit of grief (negative: grief makes organizing less attractive); no direct source. CTO REVIEW 11: grief first pulls toward withdrawal and family.",
+    "stopgapId": "SG-P15-grief-line",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified; Bonanno et al. (2002) classify grief patterns by scores, not by this quantity."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
   }
 }

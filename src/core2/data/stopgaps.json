@@ -339,7 +339,7 @@
     "id": "SG-P8-civic-progress",
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/content.json",
-    "line": 127,
+    "line": 141,
     "whatItFakes": "Prototype civic availability and organization/approach consequences, rather than complete procedures.",
     "why": "Isolated measured prototype; incomplete mechanics cannot ship as finished behavior.",
     "addedBy": "SOL-1258",
@@ -821,11 +821,11 @@
     "file": "src/core2/modules/life.ts",
     "line": 297,
     "whatItFakes": "Stress-derived safety utility favors organizing immediately after acute bereavement without a grief response favoring withdrawal and family.",
-    "why": "P10 reports a widow organized on the day her husband died; CTO REVIEW 11 requires grief to first pull toward withdrawal and family.",
+    "why": "P10 reports a widow organized on the day her husband died; CTO REVIEW 11 requires grief to first pull toward withdrawal and family. Resolved by P15 part 4 (OPUS-PEOPLE, 2026-10-10): a death gives each relative grief that pulls toward rest and contact with family and holds back organizing, fading by their own resilience line (src/core2/grief.ts); registered as SG-P15-grief-line.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "A source-qualified evolving bereavement state and choice contributions that preserve variation, family context and actual later cause formation.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P8-shared-past-history",
@@ -1065,6 +1065,18 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
     "replacement": "Workgroups from occupation and establishment records (BLS OEWS staffing patterns by industry) and a measured number of coworkers known, with time worked together adding to closeness on the shifts both attend.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-grief-line",
+    "kind": "behavior-model-gap",
+    "file": "src/core2/data/content.json",
+    "line": 79,
+    "whatItFakes": "Grief starts at the closeness to the person who died and halves every personal half-life; the half-life spread is solved from two Bonanno et al. (2002) pattern shares with 'little grief' set at a quarter of the starting grief (TUNABLE). Grief pulls toward rest and contact with family and holds back organizing with tunable weights. Losses are kept in memory, not in a save.",
+    "why": "Owner's ruling, October 10, 2026 (CTO on #3942): a personal resilience line, calibrated to about 46% with little grief by 6 months and 15.6% still grieving at 18 months; P10 reported a widow organizing on the day her husband died.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-10",
+    "replacement": "A grief measure matched to a bereavement instrument (for example the grief items Bonanno et al. used), choice weights checked against observed behavior after a loss, and losses saved with the world.",
     "status": "open"
   }
 ]
