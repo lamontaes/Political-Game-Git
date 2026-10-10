@@ -1,3 +1,4 @@
+import { composeWorldTimeHandlers } from "../../src/simulation/campaigns";
 import {
   createNewGameWorld,
   DEFAULT_NEW_GAME_SETUP,
@@ -274,39 +275,44 @@ export function addSuppliedLegislativeSeat(
       ],
     },
   };
+  // The test's result handler is listed first so it decides the contest; every
+  // other item that falls due in the 28 days (a promised answer, a quarterly
+  // review) runs on the handler a passed day uses.
   world = advanceWorld(
     world,
     28,
-    createFutureTransitionHandlerRegistry([
-      [
-        "election:contest-resolution",
-        (atDate) => {
-          let resolved = resolveElectionContest(atDate, {
-            contestId: contest.id,
-            winnerPersonId: personId,
-            tallies: contest.candidatePersonIds.map((candidatePersonId) => ({
-              candidatePersonId,
-              votes: candidatePersonId === personId ? 2 : 1,
-              voteShare: candidatePersonId === personId ? 2 / 3 : 1 / 3,
-            })),
-            provenance: {
-              method: "authored",
-              sourceEntityIds: [],
-              note: "Explicit fictional recorded ballots; no outcome model invoked.",
-            },
-          });
-          resolved = supplyWonReceipt(resolved, campaign);
-          return {
-            world: resolved,
-            status: "resolved",
-            reasonKey: null,
-            context: "Supplied fictional result fixture.",
-            outcomeEventId: electionContestResult(resolved, contest.id)!
-              .outcomeEventId,
-          };
-        },
-      ],
-    ]),
+    composeWorldTimeHandlers(
+      createFutureTransitionHandlerRegistry([
+        [
+          "election:contest-resolution",
+          (atDate) => {
+            let resolved = resolveElectionContest(atDate, {
+              contestId: contest.id,
+              winnerPersonId: personId,
+              tallies: contest.candidatePersonIds.map((candidatePersonId) => ({
+                candidatePersonId,
+                votes: candidatePersonId === personId ? 2 : 1,
+                voteShare: candidatePersonId === personId ? 2 / 3 : 1 / 3,
+              })),
+              provenance: {
+                method: "authored",
+                sourceEntityIds: [],
+                note: "Explicit fictional recorded ballots; no outcome model invoked.",
+              },
+            });
+            resolved = supplyWonReceipt(resolved, campaign);
+            return {
+              world: resolved,
+              status: "resolved",
+              reasonKey: null,
+              context: "Supplied fictional result fixture.",
+              outcomeEventId: electionContestResult(resolved, contest.id)!
+                .outcomeEventId,
+            };
+          },
+        ],
+      ]),
+    ),
   );
   const result = electionContestResult(world, contest.id)!;
   for (const relationshipId of [
