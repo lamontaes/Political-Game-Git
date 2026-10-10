@@ -74,7 +74,10 @@
   "organizationRules": [
     {
       "id": "recorded-government-office",
-      "classifications": ["sector:local-government-office"],
+      "classifications": [
+        "sector:local-government-office",
+        "service:county-government"
+      ],
       "classificationPrefixes": [],
       "kind": "office",
       "affordances": ["known-office"],

@@ -411,27 +411,21 @@
           "key": "[\"organization_29bc269608f354c4\",\"accounting-services\"]",
           "sha256": "9ee822e11f1f8b0be67684ff8e0036e1c162569cfc1c595e3764893f297d86ea",
           "bytes": 1086,
-          "jobIds": [
-            "work-relationship_2f11d884cfe99635"
-          ],
+          "jobIds": ["work-relationship_2f11d884cfe99635"],
           "providerRecordIds": []
         },
         {
           "key": "[\"organization_29bc279608f35677\",\"legal-services\"]",
           "sha256": "d3aececf1204692067289cc178ff020e76163e75f7e70f4efd1b98972785d052",
           "bytes": 1077,
-          "jobIds": [
-            "work-relationship_b3ca297dca3bd5db"
-          ],
+          "jobIds": ["work-relationship_b3ca297dca3bd5db"],
           "providerRecordIds": []
         },
         {
           "key": "[\"organization_570dd52ac59a0647\",\"personal-care\"]",
           "sha256": "a21c5e0413bff1c422abe8f3fc20c100c6b43d26483ee66fe6b8394a384d9d02",
           "bytes": 1078,
-          "jobIds": [
-            "work-relationship_ee2a4be37398b312"
-          ],
+          "jobIds": ["work-relationship_ee2a4be37398b312"],
           "providerRecordIds": []
         },
         {
@@ -1291,27 +1285,21 @@
           "key": "[\"organization_29bc269608f354c4\",\"accounting-services\"]",
           "sha256": "9ee822e11f1f8b0be67684ff8e0036e1c162569cfc1c595e3764893f297d86ea",
           "bytes": 1086,
-          "jobIds": [
-            "work-relationship_2f11d884cfe99635"
-          ],
+          "jobIds": ["work-relationship_2f11d884cfe99635"],
           "providerRecordIds": []
         },
         {
           "key": "[\"organization_29bc279608f35677\",\"legal-services\"]",
           "sha256": "d3aececf1204692067289cc178ff020e76163e75f7e70f4efd1b98972785d052",
           "bytes": 1077,
-          "jobIds": [
-            "work-relationship_b3ca297dca3bd5db"
-          ],
+          "jobIds": ["work-relationship_b3ca297dca3bd5db"],
           "providerRecordIds": []
         },
         {
           "key": "[\"organization_570dd52ac59a0647\",\"personal-care\"]",
           "sha256": "a21c5e0413bff1c422abe8f3fc20c100c6b43d26483ee66fe6b8394a384d9d02",
           "bytes": 1078,
-          "jobIds": [
-            "work-relationship_ee2a4be37398b312"
-          ],
+          "jobIds": ["work-relationship_ee2a4be37398b312"],
           "providerRecordIds": []
         },
         {
@@ -1691,11 +1679,7 @@
           "elapsedSeconds": 3.544884204864502
         },
         {
-          "command": [
-            "npm",
-            "run",
-            "zero-dice"
-          ],
+          "command": ["npm", "run", "zero-dice"],
           "exitCode": 0,
           "elapsedSeconds": 3.589869499206543
         }
@@ -1745,11 +1729,7 @@
           "sha256": "76162e465989f3f070a9de8db711fbf358e53b74d09ce1bbdb57c727e4c4a16d"
         },
         {
-          "command": [
-            "npx",
-            "eslint",
-            "src/core2/tooling/finance-measure.ts"
-          ],
+          "command": ["npx", "eslint", "src/core2/tooling/finance-measure.ts"],
           "exitCode": 0,
           "log": "/workspace/p8-benchmark-artifacts/p8-source-guard-20261010-0516-1.log",
           "sha256": "76162e465989f3f070a9de8db711fbf358e53b74d09ce1bbdb57c727e4c4a16d"
@@ -1768,11 +1748,7 @@
           "sha256": "773cff305e1e384801ea09129135096bc71e0b5f6fa6c8fd66938c0de01cafbe"
         },
         {
-          "command": [
-            "npm",
-            "run",
-            "zero-dice"
-          ],
+          "command": ["npm", "run", "zero-dice"],
           "exitCode": 0,
           "log": "/workspace/p8-benchmark-artifacts/p8-source-guard-20261010-0516-3.log",
           "sha256": "29493b5418ee37857f14e618395ea4aa821264a7cad3a4386d8010cd90d95df6"
