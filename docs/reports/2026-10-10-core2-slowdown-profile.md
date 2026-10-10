@@ -1,6 +1,6 @@
 # The new wage code makes a game year about three times slower
 
-A game year now takes roughly 1,000 seconds instead of 324 (a full-year timing by the OPUS-DRIVES session, on issue 3922). One routine causes nearly all of it: the one that pays wages through the cash journal. On the same Sacramento town, 31 simulated days take about 28 seconds with the old money code and 87 with the new, and building the town takes the same time in both. The routine runs about 1,000 times a day and mostly re-reads and re-copies records it has just checked. Even with that fixed, the remaining journal work probably still exceeds the 20% speed budget. The owner decides whether the budget applies to it.
+A game year now takes roughly 1,000 seconds instead of 324, from the full-year timing done earlier today. One routine causes nearly all of it: the one that pays wages through the cash journal. On the same Sacramento town, 31 simulated days take about 28 seconds with the old money code and 87 with the new, and building the town takes the same time in both. The routine mostly re-reads and re-copies records it has just checked. Owner decision: the 20% speed budget (no year more than 1.2 times main) probably cannot be met even after those fixes, so decide whether it applies to the new money code.
 
 ## What was compared
 
@@ -32,8 +32,8 @@ AFTER + P8 is AFTER with Sol's newest branch merged in (P8 at `32569a5f`). It ta
 | Simulating the first day only (`--days 1`), seconds | 0.51 | 1.85 |
 | Peak memory over 31 days, MiB (noisy across runs) | 2,331 | 2,491 |
 
-- The town builds in 6 to 8 seconds in every run, with no pattern between versions. The slowdown is per day, not per build: the first day alone is already 3.6 times slower.
-- Cross-check: 59 added seconds over 31,176 work results is 1.9 milliseconds each. A year is about 367,000 work results (1,006 a day), which predicts roughly 700 added seconds. OPUS-DRIVES measured 636 and 833 added seconds on its two runs.
+- The town builds in 6.3 to 8.2 seconds in every run, with no pattern between versions. The slowdown is per day, not per build: the first day alone is already 3.6 times slower.
+- Cross-check against the full-year timing (OPUS-DRIVES, the session that ran it, commented on issue 3922 at 05:57 UTC on October 10): 59 added seconds over 31,176 work results is 1.9 milliseconds each. A year is about 367,000 work results (1,006 a day), which predicts roughly 700 added seconds. OPUS-DRIVES measured 636 and 833 added seconds on its two runs.
 - Drives are off, so the donation change that came with the merge (`payDonation`, `src/core2/modules/drives.ts:954`) never ran. It appears in neither profile.
 
 ## Where the time goes
@@ -70,13 +70,13 @@ A work result is one dated work segment settled with its wages, and the counter 
 
 | Count | Value | Per call |
 |---|---:|---:|
-| Calls to `settleWorkResultJournal` | 31,176 | |
+| Calls to `settleWorkResultJournal` | 31,176 (1,006 a day) | |
 | Read-log replays (`verify`) | 280,626 | 9.0 |
 | Recorded reads re-checked | 115.4 million | about 3,700 (the 2-day trace below counts 3,817; early days differ) |
 | `detach` calls (deep copy and freeze) | 5.42 million | 174 |
 | `payload` walks | 3.10 million | 100 |
 
-The routine records every read it makes into two logs, then replays each log many times. Traced on a 2-day run (1,209 calls):
+The routine records every read it makes into two logs, then replays each log many times. Traced on a 2-day run (1,209 calls, 605 a day; the 31-day average is 1,006 a day and I did not trace why the first days are lower):
 
 | Log | Recorded reads per call | Replays | Where the replays happen |
 |---|---:|---:|---|
@@ -90,15 +90,13 @@ The largest sources of the main log's 625 reads, per call, are in `captureWorkCo
 
 ## The causes, ranked by share of the 60.6 added seconds
 
-This table uses inclusive time: a cause counts the function and everything it calls inside the routine. The hot-spot table above uses self time, so its rows do not sum to these figures (for example `verify` 13.5 plus `directRead` 7.4 self, against 19.2 inclusive, because part of `directRead` is called from outside `verify`).
-
-Classes: (a) a scan where an index belongs; (b) repeated copying, freezing or validation on the hot path; (c) legitimate new work the money repair needs; (d) other.
+Self time counts only a function's own lines; inclusive time also counts what it calls. This table uses inclusive time, so its rows do not match the self-time hot-spot table. Cause 1 is the inclusive time of `verify`: 19.2 seconds, which contains about 5.7 seconds of `directRead` called from `verify`. The rest of `directRead`'s 7.4 seconds is called from recording and copying, which is in causes 2 and 6.
 
 | Rank | Cause | Seconds | Share | Class | Basis |
 |---|---|---:|---:|---|---|
 | 1 | Replaying the read logs nine times per call (`verify`, `directRead`) | 19.2 | 32% | b | measured |
 | 2 | Recording every field of every record the call touches (`payload`, `field`, `mapGet`) | 10.4 | 17% | b | measured |
-| 3 | Garbage collection from the read records, descriptors and copies in causes 1, 2, 5 and 6 | 9.2 | 15% | b | share inferred |
+| 3 | Garbage collection from the read records, descriptors and copies made in causes 1, 2, 6 and 7 | 9.2 | 15% | b | share inferred |
 | 4 | Posting the journal entry and checking it (`journal-state.ts`, `journal.ts`: `postCashJournal`, `checkMetadata`, `projectCashJournal`, `copyResolved`) | 7.5 | 12% | c | measured seconds, class inferred |
 | 5 | Call plumbing: planning the payment, building source references, admitting the selected act (`prepareWorkFinancePlan`, `sourceReferences`, `admitSelectedCashAct`, `captureWorkContext` checks) | 6.5 | 11% | c | measured seconds, class inferred |
 | 6 | Deep copy and freeze of the result (`detach`) | 5.0 | 8% | b | measured |
@@ -106,28 +104,28 @@ Classes: (a) a scan where an index belongs; (b) repeated copying, freezing or va
 
 Causes 1, 2 and 4 to 7 add to the 51.3 seconds under the routine. With cause 3 and the +0.1 seconds elsewhere they add to 60.6.
 
-- Class (a) was not found. No scanning function appears in the top 40 by self or total time in either profile (appendix), and this route builds no finance contracts, per SOL-1258's note on the package. (profile part measured; the no-contracts part is from SOL-1258's note)
-- Class (b) is causes 1, 2, 3, 6 and 7: about 47 seconds, 77% of the gap.
-- Class (c) is causes 4 and 5: about 14 seconds, 23%. I call it new work because the money repair posts a balanced journal entry for each work result; I did not test whether parts of it could be cheaper.
+- Class (a) was not found. No scanning function appears in the top 40 by self or total time in either profile (appendix), and this route builds no finance contracts, per Sol's (SOL-1258) note in the P16 assignment. (The profile part is measured; the no-contracts part comes from that note.)
+- Class (b) is causes 1, 2, 6 and 7 (37.3 seconds, 62%) plus the garbage collection in cause 3 (9.2 seconds, 15%): about 47 seconds, 77% of the gap.
+- Class (c) is causes 4 and 5: about 14 seconds, 23%. Their own garbage is inside cause 3 and cannot be separated, so 14 seconds is a floor. I call it new work because the money repair posts a balanced journal entry for each work result; I did not test whether parts of it could be cheaper.
 
 ### Proposed fixes
 
 1. **Record only the fields the logic reads** (`src/core2/work-cash.ts:195` to `:220`). Replace each whole-record walk with the specific reads the code uses, or one revision read per record. This cuts the main log's 625 reads per call toward 150, about three quarters. Applied to causes 1 and 2 (29.6 seconds) that is up to about 22 seconds, assuming cost follows read count (inferred), and it shrinks garbage collection too. Confidence: medium. Sol must check whether each whole-record walk guards something the code relies on.
-2. **Drop the five replays inside `seal`** (`finance-plan.ts:895`, `:616`, `:617`, `:304`, `:1074`). They run back to back with no world-changing code between them, and the preflight replay at the first journal lookup checks the same reads moments later. This removes 2,221 of the 3,817 read checks per call, 58% of cause 1, about 11 seconds. Confidence: high on the count; medium on safety, which is Sol's contract to confirm.
+2. **Drop the five replays inside `seal`** (`finance-plan.ts:895`, `:616`, `:617`, `:304`, `:1074`). They run back to back with no world-changing code between them, and the preflight replay at the first journal lookup checks the same reads moments later. This removes 2,221 of the 3,817 read checks per call, 58% of cause 1, about 11 seconds. Confidence: high on the count; medium on safety, which Sol must confirm.
 3. **Make one replayed read cheap** (`directRead`, `finance-plan.ts:111`). Reject accessors once when recording, then compare with `Object.hasOwn` and a plain read. About 5 to 7 seconds. Confidence: medium.
 4. **Stop copying the day's full scored decision into every wage result** (`work-cash.ts:611`, `finance-plan.ts:1069`). `decision.scores` lists every offer scored that day (`src/core2/types.ts:334`), and it is copied, walked and cloned. Keep the selected offer, reason key and selected reasons, and return the frozen result instead of cloning it. About 8 seconds plus its garbage. Confidence: medium. I did not check whether any reader wants `decision.scores` from the stored result.
 
 These overlap, so their savings do not add. Fix 1 removes most of the reads that fixes 2 and 3 would make cheaper. Estimates for a 31-day run, from the 59 unprofiled added seconds (inferred, not measured):
 
-- Fixes 1 and 4 alone save about 30 profiled seconds plus roughly a third of the garbage collection, about 33 of 60.6 (54%). That brings the run from 87 to about 55 seconds, 2.0 times BEFORE.
-- Adding fixes 2 and 3 on the remaining reads might save 3 to 5 more seconds, about 50 seconds, 1.8 times BEFORE.
-- The ceiling, if causes 1, 2, 6 and 7 vanished entirely, is about 46 seconds, 1.7 times BEFORE.
+- Fixes 1 and 4 alone save about 30 profiled seconds plus a third of the garbage collection (3.1), 33 in all. Scaled to the unprofiled run (59 of 60.6), that is 32 seconds: about 55 seconds, 2.0 times BEFORE.
+- Adding fixes 2 and 3 on the reads that remain might save 3 to 5 more profiled seconds, so 50 to 52 seconds, 1.8 to 1.9 times BEFORE.
+- The ceiling, if causes 1, 2, 6 and 7 vanished and half the garbage collection went with them (37.3 plus 4.6, scaled to 41 seconds), is about 46 seconds, 1.7 times BEFORE. With no garbage collection saved it is about 50 seconds.
 
 The remaining class (c) work alone is about 14 profiled seconds, a third of BEFORE's 42, so a result inside the 20% budget is unlikely from these four fixes alone.
 
 ## What happens next
 
-- This list and a link to this report are posted for Sol (SOL-1258) on issue 3918. Fixes 1 and 2 are the first to try, because they are the largest and the least invasive.
+- This list and a link to this report are posted on issue 3918, addressed to Sol (SOL-1258). Fixes 1 and 2 are the first to try, because they are the largest and the least invasive.
 - Nothing is fixed in this pull request. It adds the report and my measuring scripts only.
 - Open for the owner: whether the 20% speed budget applies to the new money code as it stands, or whether Sol should look for savings inside the journal work too (causes 4 and 5).
 - Open for whoever measures next: rerun BEFORE and AFTER after fixes 1 and 2, and confirm the work result count.
