@@ -13,6 +13,8 @@ import reference from "./data/opening-employer-cash-reference.json" with { type:
 import originalContext from "../../data/research/money/opening-employer-cash-buffers.json" with { type: "json" };
 import { PARAMETERS, parameter as p, type Parameter } from "./parameters";
 import { buildPopulation } from "./population";
+import { buildOpeningCustomers } from "./opening-customers";
+import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualification";
 import { createCore } from "./state";
 import type { CoreInput, Source, WorkCommitmentInput } from "./types";
 
@@ -1074,5 +1076,94 @@ describe("fresh sourced private-employer opening stocks (source-only fixtures)",
       openingEmployerCashBufferAtQuantile("source:unbound", 0.5),
     ).toThrow();
     expect(input).toEqual(before);
+  });
+});
+
+// Product-metadata admission uses a genuine recorded payroll calendar here.
+// The no-income calendar-chain fixture remains in opening-finance.test.ts.
+describe("qualified private-owner opening capital", () => {
+  it("preserves the complete private estimate for actual qualification metadata and still excludes genuine government evidence", () => {
+    const original = fixture();
+    const input: CoreInput = {
+      ...original,
+      organizations: original.organizations.map((row) => ({
+        ...row,
+        classification: "enterprise:personal-services",
+        name: "Controlled qualified service employer",
+      })),
+      jobs: original.jobs.map((row) => ({
+        ...row,
+        occupationClassification: "service:barber",
+      })),
+    };
+    const inputBefore = structuredClone(input);
+    const customers = buildOpeningCustomers(
+      { ...input, finance: createOpeningFinance(input) },
+      {
+        geography: () => ({
+          jurisdictionKey: "controlled-qualified-private",
+          region: "national",
+          source,
+          outsideMarkets: [],
+        }),
+        outsideMarkets: [],
+      },
+    );
+    expect(input).toEqual(inputBefore);
+    const owner = customers.input.organizations.find(
+      (row) => row.id === input.organizations[0]!.id,
+    )!;
+    const keys = Object.keys(owner.governmentFacts ?? {});
+    expect(keys.length).toBeGreaterThan(0);
+    expect(
+      keys.every((key) =>
+        key.startsWith(OPENING_CUSTOMER_QUALIFICATION_PREFIX),
+      ),
+    ).toBe(true);
+    const before = structuredClone(customers.input),
+      freshIds = new Set([owner.id]);
+    const qualified = createOpeningEmployerCapital(customers.input, freshIds);
+    const withoutQualification: CoreInput = {
+      ...customers.input,
+      organizations: customers.input.organizations.map((row) =>
+        row.id === owner.id ? { ...row, governmentFacts: undefined } : row,
+      ),
+    };
+    const ordinary = createOpeningEmployerCapital(
+      withoutQualification,
+      freshIds,
+    );
+    expect(qualified.estimates).toEqual(ordinary.estimates);
+    expect(qualified.gaps).toEqual(ordinary.gaps);
+    expect(
+      qualified.estimates.find((row) => row.organizationId === owner.id)!
+        .status,
+    ).toBe("estimated-private-buffer");
+    const governmentOwner: CoreInput = {
+      ...customers.input,
+      organizations: customers.input.organizations.map((row) =>
+        row.id === owner.id
+          ? {
+              ...row,
+              governmentFacts: {
+                ...row.governmentFacts,
+                governmentKind: "municipality",
+              },
+            }
+          : row,
+      ),
+    };
+    expect(
+      createOpeningEmployerCapital(governmentOwner, freshIds).estimates.find(
+        (row) => row.organizationId === owner.id,
+      ),
+    ).toMatchObject({
+      status: "modeled-zero-funded-opening-pending-dated-funding",
+      liquidMinor: p("zero"),
+    });
+    expect(() => createOpeningFinance(governmentOwner)).toThrow(
+      `Recorded institutional books require their own finance route: ${owner.id}`,
+    );
+    expect(customers.input).toEqual(before);
   });
 });
