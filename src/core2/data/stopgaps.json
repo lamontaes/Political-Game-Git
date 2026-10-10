@@ -831,7 +831,7 @@
     "id": "SG-P8-shared-past-history",
     "kind": "shared-past-generation-gap",
     "file": "src/core2/deep-past.ts",
-    "line": 121,
+    "line": 131,
     "whatItFakes": "Historical acquaintances are seeded for the player alone and carry no dated shared moments keyed to both people. Other residents have no generated acquaintance history for a reunion to read.",
     "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player’s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here.",
     "addedBy": "SOL-1258",
@@ -1041,6 +1041,18 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
     "replacement": "Travel time between the two people's places once relatives carry a place, from Census Gazetteer place centroids, with visits falling with travel time as measured in a contact-by-distance study.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-school-assignment",
+    "kind": "estimated-behavior",
+    "file": "src/core2/data/opening-schools.json",
+    "line": 1,
+    "whatItFakes": "Each child's school is a seeded pick among the place's public schools teaching their entry grade (else the county's), weighted by students per grade and shared by children who live together. Attendance boundaries, chosen public schools (19% of students in NCES 2016), private schools and homeschooling are not modeled, and the 2023-24 directory stands in for the schools of earlier decades.",
+    "why": "No attendance boundary or historical school directory is in the repository; P12 supplies each public school's place, grades and enrollment.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-10",
+    "replacement": "NCES EDGE school attendance boundaries (SABS) with the household's location, private school (PSS) and homeschool shares by state, and historical CCD directories for each cohort's years.",
     "status": "open"
   }
 ]

@@ -3,14 +3,10 @@ import {
   buildOpeningPeerContacts,
   DEFAULT_OPENING_PEER_DATA,
 } from "./opening-peer-network";
-import institutionsJson from "../../data/research/places/local-institutions.json" with { type: "json" };
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import schoolsJson from "./data/opening-schools.json" with { type: "json" };
+import { ageOnDate, daysBetween, makeIsoDate } from "../simulation/dates";
 import { countyGeoidsForPlace } from "../simulation/government-units";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
-import type {
-  LocalInstitutionRow,
-  LocalInstitutionsCorpus,
-} from "../simulation/local-institutions-data";
 import { SeededRng } from "../simulation/rng";
 import { kindergartenYear, onCalendar } from "../simulation/school-calendar";
 import { SCHOOL_NAMES_V3 } from "../simulation/school-names";
@@ -22,6 +18,20 @@ import type { CoreInput, PersonInput, Source } from "./types";
 
 type PriorFact = NonNullable<PersonInput["pastFacts"]>[number] & {
   facts?: Readonly<Record<string, string>>;
+};
+
+type SchoolRow = readonly [
+  id: string,
+  name: string,
+  lowestGrade: string,
+  highestGrade: string,
+  enrollment: number,
+];
+const SCHOOLS = schoolsJson as unknown as {
+  stopgapId: string;
+  asOf: string;
+  citation: string;
+  byGeoid: Readonly<Record<string, readonly SchoolRow[]>>;
 };
 
 export interface DeepPastFieldSource {
@@ -46,13 +56,14 @@ export interface DeepPastData {
     locationKindPrefixes: readonly string[];
     birthplaceKinds: readonly string[];
     source: string;
+    /** Grade codes before grade 1, as the CCD writes them. */
+    gradesBeforeFirst: Readonly<Record<string, number>>;
     stages: readonly {
       id: string;
       label: string;
       nameSuffix: string;
       startOffsetParameter: string;
-      institutionColumn: string;
-      namedCampus: boolean;
+      entryGrade: string;
     }[];
   };
   work: {
@@ -99,7 +110,6 @@ export const DEFAULT_DEEP_PAST_DATA: DeepPastData = {
 export interface DeepPastOptions {
   data?: DeepPastData;
   parameters?: Readonly<Record<string, Parameter>>;
-  institutions?: LocalInstitutionsCorpus;
 }
 
 type ReportedInput = CoreInput & {
@@ -122,8 +132,6 @@ export function buildDeepPast(
   const opening = makeIsoDate(input.startedAt);
   const boundary = makeIsoDate(data.throughExclusive);
   const cutoff = opening < boundary ? opening : boundary;
-  const institutions =
-    options.institutions ?? (institutionsJson as LocalInstitutionsCorpus);
   const gapPrefix = `Deep past ${data.version} `;
   const gaps = new Set(input.gaps.filter((gap) => !gap.startsWith(gapPrefix)));
   const activePersonIds = new Set(input.people.map((person) => person.id));
@@ -144,7 +152,7 @@ export function buildDeepPast(
     reports.map((row, index) => [`${row.personId}:${row.field}`, index]),
   );
   const unresolved = new Map<string, number>();
-  const institutionCache = new Map<string, readonly LocalInstitutionRow[]>();
+  const schoolCache = new Map<string, readonly SchoolRow[]>();
   const jobById = new Map(input.jobs.map((job) => [job.id, job]));
 
   const report = (row: DeepPastFieldSource): void => {
@@ -161,44 +169,66 @@ export function buildDeepPast(
       );
   };
 
-  const localRows = (
+  const grade = (code: string): number | undefined =>
+    data.schools.gradesBeforeFirst[code] ??
+    (/^\d+$/.test(code) ? Number(code) : undefined);
+  // P15 part 3: the public schools of the place teaching this grade, else of
+  // its county or counties (NCES CCD by P12).
+  const schoolRows = (
     placeId: string,
     countyId: string | undefined,
-    column: string,
-  ): readonly LocalInstitutionRow[] => {
-    const key = `${placeId}:${countyId ?? ""}:${column}`;
-    const cached = institutionCache.get(key);
+    entryGrade: string,
+  ): readonly SchoolRow[] => {
+    const key = `${placeId}:${countyId ?? ""}:${entryGrade}`;
+    const cached = schoolCache.get(key);
     if (cached) return cached;
+    const entry = grade(entryGrade)!;
     const place = lifePlaceByJurisdictionId(placeId as EntityId);
     const county = countyId
       ? lifePlaceByJurisdictionId(countyId as EntityId)
       : null;
-    const group = place?.sourceGeoid
-      ? institutions.places[place.sourceGeoid]
-      : undefined;
-    const placeColumns: Readonly<
-      Record<string, readonly LocalInstitutionRow[] | undefined>
-    > = { ...group };
-    const direct = placeColumns[column] ?? [];
+    const teaching = (geoids: readonly string[]) =>
+      geoids.flatMap((geoid) =>
+        (SCHOOLS.byGeoid[geoid] ?? []).filter((row) => {
+          const low = grade(row[2]);
+          const high = grade(row[3]);
+          return (
+            low !== undefined &&
+            high !== undefined &&
+            low <= entry &&
+            entry <= high
+          );
+        }),
+      );
     const countyGeoids = county?.sourceGeoid
       ? [county.sourceGeoid]
       : place?.sourceGeoid
         ? countyGeoidsForPlace(place.sourceGeoid)
         : [];
-    const rows = new Map(
-      direct.map((row) => [`${row.sourceKey}:${row.sourceId}`, row]),
-    );
-    for (const geoid of countyGeoids) {
-      const countyColumns: Readonly<
-        Record<string, readonly LocalInstitutionRow[] | undefined>
-      > = { ...institutions.counties[geoid] };
-      const countyRows = countyColumns[column] ?? [];
-      for (const row of countyRows)
-        rows.set(`${row.sourceKey}:${row.sourceId}`, row);
-    }
-    const result = [...rows.values()];
-    institutionCache.set(key, result);
+    const own = place?.sourceGeoid ? teaching([place.sourceGeoid]) : [];
+    const result = own.length ? own : teaching(countyGeoids);
+    schoolCache.set(key, result);
     return result;
+  };
+  // Children who live together share a campus, adults each had their own;
+  // each school counts by its students per grade.
+  const schoolFor = (
+    rows: readonly SchoolRow[],
+    key: string,
+  ): SchoolRow | undefined => {
+    const weights = rows.map((row) => {
+      const grades = grade(row[3])! - grade(row[2])! + p("one");
+      return Math.max(row[4], p("zero")) / grades;
+    });
+    const total = weights.reduce((sum, value) => sum + value, p("zero"));
+    const rng = new SeededRng(input.seed).fork(key);
+    if (!(total > p("zero"))) return rows.length ? rng.pick(rows) : undefined;
+    let point = rng.next() * total;
+    for (let i = p("zero"); i < rows.length; i += p("one")) {
+      point -= weights[i]!;
+      if (point < p("zero")) return rows[i];
+    }
+    return rows.at(-p("one"));
   };
 
   const people = input.people.map((person): PersonInput => {
@@ -345,19 +375,21 @@ export function buildDeepPast(
           located?.facts?.countyId ??
           birthplace?.facts?.countyId ??
           (placeId === person.placeId ? person.countyId : undefined);
+        stopgap(SCHOOLS.stopgapId);
         const rng = new SeededRng(input.seed).fork(
           `${data.version}:${placeId}:${stage.id}:school-identity`,
         );
-        const choices = localRows(placeId, countyId, stage.institutionColumn);
-        const institution = choices.length ? rng.pick(choices) : undefined;
+        const school = schoolFor(
+          schoolRows(placeId, countyId, stage.entryGrade),
+          `${data.version}:${ageOnDate(birth, opening) < p("benchmarkAdultMinimumAge") ? person.householdId : person.id}:${placeId}:${stage.id}:campus`,
+        );
         const schoolName =
-          stage.namedCampus && institution
-            ? institution.name
-            : `${rng.pick(SCHOOL_NAMES_V3.features)} ${stage.nameSuffix}`;
+          school?.[p("one")] ??
+          `${rng.pick(SCHOOL_NAMES_V3.features)} ${stage.nameSuffix}`;
         const source: Source = {
           tag: "ESTIMATED",
           asOf: input.startedAt,
-          citation: `${data.schools.source}${institution ? ` ${institution.sourceKey}:${institution.sourceId}, ${institution.name}, directory as of ${institution.asOf}.` : " No indexed campus identity; generated landscape name."}`,
+          citation: `${data.schools.source}${school ? ` ${SCHOOLS.citation} NCES-CCD:${school[p("zero")]}, ${school[p("one")]}.` : " No public school teaching this grade is recorded for the place or its county; generated landscape name."}`,
           estimatedFrom: `Birth cohort calendar; ${located ? "recorded residence" : birthplace ? "recorded birthplace used as a schooling-location proxy" : "opening locality used as a schooling-location proxy"}. Historical attendance and historical name/existence are not verified; no qualification or graduation inferred.`,
         };
         add({
@@ -372,19 +404,16 @@ export function buildDeepPast(
             placeId,
             schoolName,
             ...(countyId ? { countyId } : {}),
-            ...(institution
+            ...(school
               ? {
-                  institutionSourceId: institution.sourceId,
-                  institutionSourceKey: institution.sourceKey,
-                  institutionName: institution.name,
-                  institutionKind: institution.kind,
-                  directoryAsOf: institution.asOf,
+                  institutionSourceId: school[p("zero")],
+                  institutionSourceKey: "NCES-CCD",
+                  institutionName: school[p("one")],
+                  institutionKind: stage.id,
+                  directoryAsOf: SCHOOLS.asOf,
                 }
               : {}),
-            campusIdentity:
-              stage.namedCampus && institution
-                ? "historical-name-proxy"
-                : "generated",
+            campusIdentity: school ? "historical-name-proxy" : "generated",
             attendance: "cohort-estimate",
             qualification: "not-inferred",
             stopgapId: marker.id,

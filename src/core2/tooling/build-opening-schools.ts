@@ -1,0 +1,51 @@
+/**
+ * P15 part 3: builds src/core2/data/opening-schools.json, the only school
+ * fields the deep past reads (id, name, lowest and highest grade, enrollment),
+ * from the merged P12 state files (data/research/places/local-institutions/
+ * <USPS>.json, NCES Common Core of Data). Tooling only; reruns reproduce it.
+ *
+ *   npx tsx src/core2/tooling/build-opening-schools.ts
+ */
+import { createHash } from "node:crypto";
+import { readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
+import type { StateInstitutionsFile } from "../../simulation/local-institutions-data";
+
+const DIRECTORY = "data/research/places/local-institutions";
+const OUT = "src/core2/data/opening-schools.json";
+
+const manifest = readFileSync(join(DIRECTORY, "manifest.json"));
+const byGeoid: Record<string, [string, string, string, string, number][]> = {};
+let schools = 0;
+let year = "";
+let asOf = "";
+for (const file of readdirSync(DIRECTORY).sort()) {
+  if (!file.endsWith(".json") || file === "manifest.json") continue;
+  const state = JSON.parse(
+    readFileSync(join(DIRECTORY, file), "utf8"),
+  ) as StateInstitutionsFile;
+  year = state.schools.enrollmentYear;
+  asOf = state.schools.asOfs.join(", ");
+  for (const buckets of [state.schools.places, state.schools.counties])
+    for (const [geoid, rows] of Object.entries(buckets)) {
+      const out = (byGeoid[geoid] ??= []);
+      for (const row of rows) {
+        out.push([row[0], row[1], row[4], row[5], row[6]]);
+        schools += 1;
+      }
+    }
+}
+const sha = createHash("sha256").update(manifest).digest("hex");
+writeFileSync(
+  OUT,
+  `${JSON.stringify({
+    version: "p15-opening-schools-v1",
+    stopgapId: "SG-P15-school-assignment",
+    asOf,
+    citation: `NCES Common Core of Data public school directory and ${year} membership, as matched to places and counties by P12 (${DIRECTORY}/<USPS>.json, manifest sha256 ${sha}, directory as of ${asOf}). Public schools only.`,
+    columns: ["id", "name", "lowestGrade", "highestGrade", "enrollment"],
+    schools,
+    byGeoid,
+  })}\n`,
+);
+console.log(`${schools} schools in ${Object.keys(byGeoid).length} places and counties`);
