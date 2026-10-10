@@ -1,11 +1,10 @@
 /** Local CoreAPI writers for the work/time boundary. No per-act global integrity pass. */
 import { addDays, makeIsoDate } from "../simulation/dates";
-import { prepareWorkFinance } from "./finance-state";
+import { settleWorkResultJournal } from "./work-cash";
 import {
   activityAgeId,
   commitmentCalendar,
   discretionaryHours,
-  isWorkFocus,
   plannedWorkMinutesOnDate,
   workWeekStart,
 } from "./modules/work";
@@ -21,6 +20,9 @@ import type {
 
 export function emptyWorkRuntime(): WorkRuntime {
   return {
+    cashActSelections: new Map(),
+    cashSources: new Map(),
+    latestLegacyCashResultByPerson: new Map(),
     commitments: new Map(),
     commitmentsByPerson: new Map(),
     byPeriodResidue: new Map(),
@@ -154,19 +156,25 @@ export function admitWorkCommitment(
   });
 }
 
-/** Admit everything before transferring; paidMinor always comes from the real transfer return. */
-export function settleWorkResult(
+/** Existing substantive calendar, owned-job, time, pay and shared-score assertions. */
+export function validateDatedWorkResult(
   core: CoreState,
   api: CoreAPI,
   input: WorkResultInput,
-): WorkResult {
+): void {
   const p = api.parameter;
   const row = core.work.commitments.get(input.commitmentId);
   const actor = core.people.get(input.personId);
+  const job = core.jobs.get(input.jobId);
   const previous = core.work.lastResultByJob.get(input.jobId);
   if (
     !row ||
     !actor?.alive ||
+    !job ||
+    job.id !== input.jobId ||
+    job.personId !== input.personId ||
+    job.organizationId !== input.organizationId ||
+    (job.endsAt !== undefined && makeIsoDate(job.endsAt) <= core.date) ||
     row.jobId !== input.jobId ||
     row.personId !== input.personId ||
     row.organizationId !== input.organizationId ||
@@ -223,128 +231,14 @@ export function settleWorkResult(
     throw new Error(
       "Work result requires its actual shared-score attendance decision.",
     );
-  const balances = core.organizations.get(row.organizationId)!;
-  const finance = prepareWorkFinance(
-    core,
-    api,
-    row.organizationId,
-    actor.id,
-    input.requestedMinor,
-    input.id,
-  );
-  const expectedPaid = finance.expectedPaidMinor;
-  const previousTotals = core.work.totalsByJob.get(row.jobId);
-  const zero = p("zero"),
-    one = p("one");
-  const totals = {
-    plannedMinutes: (previousTotals?.plannedMinutes ?? zero) + planned,
-    attendedMinutes:
-      (previousTotals?.attendedMinutes ?? zero) + input.attendedMinutes,
-    requestedMinor:
-      (previousTotals?.requestedMinor ?? zero) + input.requestedMinor,
-    paidMinor: (previousTotals?.paidMinor ?? zero) + expectedPaid,
-    workedDays: (previousTotals?.workedDays ?? zero) + (attended ? one : zero),
-    missedDays: (previousTotals?.missedDays ?? zero) + (absent ? one : zero),
-  };
-  if (
-    !Number.isSafeInteger(totals.requestedMinor) ||
-    !Number.isSafeInteger(totals.paidMinor)
-  )
-    throw new Error("Work totals overflow minor units.");
-  // Resolve subsequent calendar/activity parameters while this writer is still read-only.
-  const week = workWeekStart(core.date, api),
-    key = `${week}:${row.jobId}`;
-  activityAgeId(api, actor.id);
-  const detailed = isWorkFocus(api, actor);
-  api.validateAct(actor.id, decision.selected!, core.date, decision);
-  if (detailed && !core.knowledgeByPerson.has(actor.id))
-    throw new Error("Missing watched worker knowledge index.");
-  finance.commitFunding();
-  const payerCashBeforeMinor = balances.liquidMinor,
-    payeeCashBeforeMinor = actor.liquidMinor;
-  const paidMinor = api.transfer(
-    row.organizationId,
-    actor.id,
-    input.requestedMinor,
-  );
-  const sourceActId = api.recordAct(
-    actor.id,
-    decision.selected!,
-    core.date,
-    decision,
-  );
-  const full: WorkResult = {
-    ...input,
-    paidMinor,
-    sourceActId,
-    shortfallMinor: input.requestedMinor - paidMinor,
-    payerCashBeforeMinor,
-    payerCashAfterMinor: balances.liquidMinor,
-    payeeCashBeforeMinor,
-    payeeCashAfterMinor: actor.liquidMinor,
-    jobSource: { ...core.jobs.get(row.jobId)!.source },
-    paySource: { ...row.paySource },
-    employerOpeningFundsSource: { ...balances.source },
-    source: {
-      tag: "SOURCED",
-      asOf: core.date,
-      citation:
-        "Actual prototype owned-job attendance decision, dated occupied minutes and transfer return; schedule/pay estimates are retained on the commitment.",
-    },
-  };
-  const quiet = { ...full, decision: undefined };
-  finance.record(full);
-  core.work.lastResultByJob.set(row.jobId, detailed ? full : quiet);
-  if (detailed) core.work.detailedResults.set(full.id, full);
-  core.work.totalsByJob.set(row.jobId, totals);
-  const time = core.work.timeByPerson.get(actor.id);
-  core.work.timeByPerson.set(actor.id, {
-    date: core.date,
-    workMinutes:
-      (time?.date === core.date ? time.workMinutes : zero) +
-      input.attendedMinutes,
-    discretionaryMinutes:
-      time?.date === core.date ? time.discretionaryMinutes : zero,
-  });
-  const rollup = core.work.rollups.get(key) ?? {
-    weekStartedAt: week,
-    jobId: row.jobId,
-    personId: actor.id,
-    plannedDays: zero,
-    workedDays: zero,
-    missedDays: zero,
-    plannedMinutes: zero,
-    attendedMinutes: zero,
-    requestedMinor: zero,
-    paidMinor: zero,
-    latestReasonKey: input.reasonKey,
-  };
-  rollup.plannedDays += one;
-  rollup.workedDays += attended ? one : zero;
-  rollup.missedDays += absent ? one : zero;
-  rollup.plannedMinutes += planned;
-  rollup.attendedMinutes += input.attendedMinutes;
-  rollup.requestedMinor += input.requestedMinor;
-  rollup.paidMinor += paidMinor;
-  rollup.latestReasonKey = input.reasonKey;
-  core.work.rollups.set(key, rollup);
-  indexed(core.work.rollupsByWeek, week, key);
-  if (detailed)
-    api.observe(actor.id, {
-      key: `job:${row.jobId}:latest-work-result`,
-      value: JSON.stringify({
-        date: core.date,
-        plannedMinutes: planned,
-        attendedMinutes: input.attendedMinutes,
-        requestedMinor: input.requestedMinor,
-        paidMinor,
-        reasonKey: input.reasonKey,
-      }),
-      learnedAt: core.date,
-      sourceId: row.id,
-      access: "self",
-    });
-  return full;
+}
+
+export function settleWorkResult(
+  core: CoreState,
+  api: CoreAPI,
+  input: WorkResultInput,
+): WorkResult {
+  return settleWorkResultJournal(core, api, input);
 }
 
 export function recordActivityTime(

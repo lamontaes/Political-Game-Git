@@ -8,8 +8,8 @@ import { PARAMETERS } from "./parameters";
 import type { CoreData } from "./types";
 import type { FinancePolicyData } from "./finance-types";
 
-export const CORE_API_VERSION = "core2-api-v8";
-export const CORE_SCHEMA_VERSION = "core2-schema-v8";
+export const CORE_API_VERSION = "core2-api-v9";
+export const CORE_SCHEMA_VERSION = "core2-schema-v9";
 
 export const DEFAULT_DATA: CoreData = {
   ...content,

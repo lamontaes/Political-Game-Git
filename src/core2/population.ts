@@ -1,4 +1,10 @@
 import { openingEmploymentFromRecordedRoles } from "./opening-employment";
+import { createOpeningEmployerCapital } from "./opening-capital";
+import { openingHistoricalCountyOwnerFacts } from "./opening-public-owner";
+import {
+  prepareOpeningPublicPayAuthorities,
+  type OpeningPublicEmployerIdentity,
+} from "./opening-public-pay";
 import { canonicalOpeningSchedules } from "./opening-work";
 import { openingWorkCommitments } from "./modules/work";
 import coreContent from "./data/content.json" with { type: "json" };
@@ -668,45 +674,77 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     gaps.add(
       "Opening employment uses national CPS age priors with tunable missing-county scaling; no sourced local or territorial employment rate is claimed.",
     );
-  const payByOrganization = new Map<string, number>();
-  for (const job of jobs)
-    payByOrganization.set(
-      job.organizationId,
-      (payByOrganization.get(job.organizationId) ?? p("zero")) +
-        job.wageDailyMinor,
-    );
+  const publicPayIdentities: OpeningPublicEmployerIdentity[] = [];
+  const historicalCountyPayingOwnerIds: Record<string, string> = {};
   const organizations: OrganizationInput[] = world.history.organizations.map(
     (organization) => {
       const profile = organizationProfileAt(world, organization.id)!;
+      const publicOwner = openingHistoricalCountyOwnerFacts({
+        organizationId: organization.id,
+        organizationStableKey: organization.stableKey,
+        worldId: world.id,
+        name: profile.name,
+        classification: profile.classification,
+        placeId: profile.locationJurisdictionId ?? town,
+        startedAt,
+      });
+      for (const gap of publicOwner.gaps) gaps.add(gap);
+      if (publicOwner.governmentFacts && publicOwner.identitySource) {
+        const governmentKey = publicOwner.governmentFacts.governmentKey!;
+        const priorOwnerId = historicalCountyPayingOwnerIds[governmentKey];
+        if (priorOwnerId !== undefined && priorOwnerId !== organization.id)
+          throw new Error(
+            `Ambiguous actual historical county account: ${governmentKey}`,
+          );
+        historicalCountyPayingOwnerIds[governmentKey] = organization.id;
+        publicPayIdentities.push({
+          organizationId: organization.id,
+          identity: {
+            kind: "local-government",
+            governmentKey: publicOwner.governmentFacts.governmentKey!,
+            jurisdictionId: publicOwner.governmentFacts
+              .governmentJurisdictionId! as EntityId,
+          },
+          basisRecordIds: [
+            publicOwner.governmentFacts["openingPublicOwner.recordId"]!,
+          ],
+          source: publicOwner.identitySource,
+        });
+      } else if (profile.publicGovernmentIdentity) {
+        publicPayIdentities.push({
+          organizationId: organization.id,
+          identity: profile.publicGovernmentIdentity,
+          basisRecordIds: [profile.id],
+          source: {
+            ...employmentSource,
+            citation: `${employmentSource.citation} Actual saved organization profile ${profile.id}, effective ${profile.effectiveAt}; government identity is an owner link, not appropriation.`,
+          },
+        });
+      }
       return {
         id: organization.id,
         placeId: profile.locationJurisdictionId ?? town,
         name: profile.name,
         kind: "employer",
         classification: profile.classification,
-        governmentFacts: profile.publicGovernmentIdentity
-          ? {
-              governmentKind: profile.publicGovernmentIdentity.kind,
-              governmentJurisdictionId:
-                profile.publicGovernmentIdentity.jurisdictionId,
-              ...("governmentKey" in profile.publicGovernmentIdentity
-                ? {
-                    governmentKey:
-                      profile.publicGovernmentIdentity.governmentKey,
-                  }
-                : {}),
-            }
-          : undefined,
-        liquidMinor: Math.round(
-          (((payByOrganization.get(organization.id) ?? p("zero")) *
-            p("daysPerMeanYear")) /
-            p("monthsPerYear")) *
-            p("organizationReserveMonths"),
-        ),
-        source: {
-          ...employmentSource,
-          estimatedFrom: `${employmentSource.estimatedFrom} Opening liquid reserve is the registered number of months of generated payroll, not an observed balance sheet.`,
-        },
+        governmentFacts:
+          publicOwner.governmentFacts ??
+          (profile.publicGovernmentIdentity
+            ? {
+                governmentKind: profile.publicGovernmentIdentity.kind,
+                governmentJurisdictionId:
+                  profile.publicGovernmentIdentity.jurisdictionId,
+                ...("governmentKey" in profile.publicGovernmentIdentity
+                  ? {
+                      governmentKey:
+                        profile.publicGovernmentIdentity.governmentKey,
+                    }
+                  : {}),
+              }
+            : undefined),
+        // Fresh opening stocks are bound after the actual schedule plans below.
+        liquidMinor: p("zero"),
+        source: employmentSource,
       };
     },
   );
@@ -939,28 +977,49 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       pastFacts,
     };
   });
+  const plannedCommitments = openingWorkCommitments(
+    jobs,
+    organizations,
+    startedAt,
+    undefined,
+    undefined,
+    canonicalOpeningSchedules(
+      world,
+      jobs,
+      openingAllocation.templateJobIdByJob,
+    ),
+  );
+  const openingCapital = createOpeningEmployerCapital(
+    {
+      seed: options.seed,
+      startedAt,
+      people,
+      jobs,
+      organizations,
+      workCommitments: plannedCommitments,
+    },
+    new Set(organizations.map((organization) => organization.id)),
+  );
+  const publicPay = prepareOpeningPublicPayAuthorities(
+    {
+      startedAt,
+      people,
+      jobs,
+      organizations: openingCapital.organizations,
+      workCommitments:
+        options.scheduledWork === false ? [] : plannedCommitments,
+    },
+    publicPayIdentities,
+    { ownerIdByGovernmentKey: historicalCountyPayingOwnerIds },
+  );
   return {
     seed: options.seed,
     startedAt,
     people,
     households,
     jobs,
-    organizations,
-    workCommitments:
-      options.scheduledWork === false
-        ? []
-        : openingWorkCommitments(
-            jobs,
-            organizations,
-            startedAt,
-            undefined,
-            undefined,
-            canonicalOpeningSchedules(
-              world,
-              jobs,
-              openingAllocation.templateJobIdByJob,
-            ),
-          ),
+    organizations: publicPay.organizations,
+    workCommitments: publicPay.workCommitments,
     familyLinks,
     focusPersonIds: [],
     focusPlaceIds: [],
@@ -969,9 +1028,22 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       ...counties.map((county) => county.place.context.jurisdiction.id),
     ],
     calendarDates: [],
-    gaps: [...gaps],
+    gaps: [...gaps, ...openingCapital.gaps, ...publicPay.gaps],
     placeMetadata: {
       openingEmploymentReceipt: JSON.stringify(openingAllocation.receipt),
+      openingPublicPayReceipt: JSON.stringify({
+        status: "MODELED_ZERO_STOCK_DUE_FLOW_LINKS_ONLY",
+        authorities: publicPay.authorities,
+        outsideOwnerIds: publicPay.outsideOwnerIds,
+        gaps: publicPay.gaps,
+      }),
+      openingEmployerCashReceipt: JSON.stringify({
+        estimates: openingCapital.estimates,
+        scheduleBasis:
+          options.scheduledWork === false
+            ? "Generated opening plans used for stock estimation; runtime work commitments disabled."
+            : "Returned recorded opening work commitments; no future attendance or payment assumed.",
+      }),
       placeKey: place.key,
       placeName: place.displayName,
       countyNames: counties

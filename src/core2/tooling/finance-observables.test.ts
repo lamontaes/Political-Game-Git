@@ -115,6 +115,7 @@ function fixtureInput(options: Options = {}): CoreInput {
           dueAt: opening,
           periodMonths: p("one"),
           accruesArrears: true,
+          ...(options.withCredit ? { creditFacilityId: facilityId } : {}),
           source,
         },
       ]
@@ -247,13 +248,17 @@ describe("read-only authoritative finance observables", () => {
   });
 
   it("counts only authoritative cash, excludes forecasts and debt, and reads an actual finite credit draw", () => {
-    const core = fixture({ withBooks: true, withCredit: true });
+    const core = fixture({
+      withBooks: true,
+      withCredit: true,
+      withFinance: true,
+    });
     const before = financeObservables(core);
     const draw = coreAPI(core).drawCredit(
       facilityId,
       p("minorPerDollar"),
-      "fixture-explicit-draw",
-      "fixture-draw-source",
+      data.finance!.reasons.borrowing,
+      "fixture-operating-obligation",
     );
     const after = financeObservables(core);
     expect(draw.transferredMinor).toBe(p("minorPerDollar"));
