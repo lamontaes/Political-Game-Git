@@ -15,6 +15,8 @@ import {
 } from "../../simulation/household-mix";
 import { PEOPLE_MIND_VERSION } from "../../simulation/people-trait-definitions";
 import { OPENING_KIN } from "../opening-kin";
+import { OPENING_PARTNERSHIP, partnershipGeo } from "../opening-partnership";
+import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
 import { buildPopulation } from "../population";
 import type { EntityId } from "../../simulation/types";
 import type { CoreInput, PersonInput } from "../types";
@@ -100,6 +102,35 @@ export function peopleReceipt(input: CoreInput, buildSeconds: number) {
       ),
       gamePercent: percent(shapes.get(shape) ?? 0, residentHouseholds.length),
     })),
+  };
+
+  // Adult age structure against the place's ACS sex by age (B01001).
+  const geo = partnershipGeo(
+    lifePlaceByJurisdictionId(town as EntityId)?.sourceGeoid,
+  );
+  const acsAdults = (low: number, high: number) =>
+    OPENING_PARTNERSHIP.populationBands.reduce((sum, band, i) => {
+      const start = Number(band.split(/[-+]/)[0]);
+      return start >= low && start < high
+        ? sum + geo.rows.population.female[i]! + geo.rows.population.male[i]!
+        : sum;
+    }, 0);
+  const adultsAll = residents.filter((person) => age(person) >= ADULT_AGE);
+  const acsTotal = acsAdults(ADULT_AGE, Infinity);
+  const ageStructure = {
+    citation: OPENING_PARTNERSHIP.citation,
+    acsGeography: geo.key,
+    rows: BANDS.filter(([band]) => band !== "0-17").map(
+      ([band, low, high]) => ({
+        band,
+        acsPercentOfAdults: percent(acsAdults(low, high), acsTotal),
+        gamePercentOfAdults: percent(
+          adultsAll.filter((person) => age(person) >= low && age(person) < high)
+            .length,
+          adultsAll.length,
+        ),
+      }),
+    ),
   };
 
   // Kin by age band, and kinlessness against HRS.
@@ -258,6 +289,7 @@ export function peopleReceipt(input: CoreInput, buildSeconds: number) {
     relativesInCounty: kin.filter((person) => person.countyId !== undefined)
       .length,
     householdShape,
+    ageStructure,
     kinByAge: { citation: keys.kinlessness.citation, bands },
     nearKin,
     temperament: {

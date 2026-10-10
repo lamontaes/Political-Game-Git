@@ -19,11 +19,14 @@ import { ageOnDate, isoDateFromParts, makeIsoDate } from "../simulation/dates";
 import { createStableId } from "../simulation/ids";
 import { generatePersonIdentity } from "../simulation/person-identity";
 import { SeededRng } from "../simulation/rng";
+import partnershipJson from "./data/opening-partnership.json" with { type: "json" };
 import { parameter as p } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type { IsoDate, PersonId } from "./types";
 
 export const OPENING_KIN = kinJson;
+// The NSFG marriage-survival points live with the partnership chain.
+const OPENING_PARTNERSHIP = partnershipJson;
 export type KinRelation =
   (typeof OPENING_KIN.relations)[keyof typeof OPENING_KIN.relations];
 
@@ -169,7 +172,7 @@ function moveHazard(
 
 /** Chance the parents' marriage is still intact this many years after it began (NSFG). */
 function marriageIntact(years: number): number {
-  const points = OPENING_KIN.firstMarriageIntact.points;
+  const points = OPENING_PARTNERSHIP.marriageIntact.points;
   if (years >= points[points.length - p("one")]!.years)
     return points[points.length - p("one")]!.intact;
   for (let i = p("one"); i < points.length; i += p("one")) {
