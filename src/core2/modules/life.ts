@@ -123,7 +123,7 @@ export const LIFE_MODULE: CoreModule = {
             const row = api.state.work.commitments.get(id)!;
             return (
               row.jobId === actor.jobId &&
-              (row.endsAt === undefined || row.endsAt > api.state.date)
+              (row.endsAt === undefined || row.endsAt >= api.state.date)
             );
           },
         ),
@@ -226,15 +226,19 @@ export const LIFE_MODULE: CoreModule = {
     },
   },
   effectHandlers: {
-    "paid-work": (api, actorId, chosen, _date, days) => {
-      const job = api.state.jobs.get(chosen.targetId);
-      if (!job || job.personId !== actorId)
-        throw new Error("Work requires an owned recorded job.");
-      api.transfer(
-        job.organizationId,
-        actorId,
-        Math.round(job.wageDailyMinor * days),
-      );
+    "paid-work": (api, actorId, chosen, date, days, decision) => {
+      const result = api.settleLegacyWorkResult({
+        personId: actorId,
+        offer: chosen,
+        date,
+        days,
+        decision,
+      });
+      return {
+        recordedActId: result.sourceActId,
+        recordedActivity: true,
+        recordedLastActDate: true,
+      };
     },
     recover: (api, actorId, chosen) => {
       const actor = api.state.people.get(actorId)!;

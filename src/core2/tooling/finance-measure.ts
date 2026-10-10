@@ -8,8 +8,6 @@ import {
   readFileSync,
   readSync,
   statSync,
-  writeFileSync,
-  writeSync,
 } from "node:fs";
 import { dirname, relative, resolve, sep } from "node:path";
 import { performance } from "node:perf_hooks";
@@ -22,6 +20,7 @@ import type { OpeningEconomyBuild } from "../opening-economy";
 import type { FinanceInput } from "../finance-types";
 import { parameter as p } from "../parameters";
 import type { CoreInput } from "../types";
+import { hashMeasuredJson, writeMeasuredJson } from "./measured-json";
 import {
   economyObservables,
   type EconomyObservableSnapshot,
@@ -101,61 +100,6 @@ function argumentsForRun(args: readonly string[]) {
   };
 }
 
-/** Export the actual admitted input without building one additional giant JSON string. */
-function writeMeasuredJson(path: string, value: unknown) {
-  const fd = openSync(path, "wx"),
-    hash = createHash("sha256");
-  let bytes = p("zero");
-  const write = (text: string) => {
-    const data = Buffer.from(text, "utf8");
-    let offset = p("zero");
-    while (offset < data.length) {
-      const written = writeSync(fd, data, offset, data.length - offset);
-      if (written <= p("zero"))
-        throw new Error("Measured JSON export did not write its bytes.");
-      offset += written;
-    }
-    hash.update(data);
-    bytes += data.length;
-    if (!Number.isSafeInteger(bytes))
-      throw new Error("Measured JSON export byte count overflows.");
-  };
-  const encode = (row: unknown, depth: number): void => {
-    if (Array.isArray(row)) {
-      write("[");
-      for (let index = p("zero"); index < row.length; index += p("one")) {
-        if (index > p("zero")) write(",");
-        encode(row[index], depth + p("one"));
-      }
-      write("]");
-    } else if (row && typeof row === "object" && depth <= p("one")) {
-      write("{");
-      const entries = Object.entries(row).filter(
-        ([, entry]) => entry !== undefined,
-      );
-      for (let index = p("zero"); index < entries.length; index += p("one")) {
-        if (index > p("zero")) write(",");
-        const [key, entry] = entries[index]!;
-        write(`${JSON.stringify(key)}:`);
-        encode(entry, depth + p("one"));
-      }
-      write("}");
-    } else {
-      const text = JSON.stringify(row);
-      if (text === undefined)
-        throw new Error("Measured JSON requires a JSON-compatible value.");
-      write(text);
-    }
-  };
-  try {
-    encode(value, p("zero"));
-    write("\n");
-  } finally {
-    closeSync(fd);
-  }
-  return { path, sha256: hash.digest("hex"), bytes };
-}
-
 function fileIdentity(path: string) {
   const fd = openSync(path, "r"),
     hash = createHash("sha256"),
@@ -175,13 +119,16 @@ function fileIdentity(path: string) {
 }
 
 function economyRuntimeDependencies() {
-  // New direct runtime DATA beyond sourceHash's existing place/dates/CEX list.
+  // County owner validation reads these runtime identity/geography dependencies.
+  const root = resolve(dirname(fileURLToPath(import.meta.url)), "../../../");
   return [
-    resolve(
-      dirname(fileURLToPath(import.meta.url)),
-      "../../simulation/place-county-relations.generated.ts",
-    ),
-  ].map(fileIdentity);
+    "src/simulation/government-units.ts",
+    "src/simulation/government-units.generated.ts",
+    "src/simulation/place-county-relations.generated.ts",
+    "src/simulation/national-counties.generated.ts",
+    "data/research/local-government/county-governing-bodies.json",
+    "data/research/money/place-population-acs-2024.json",
+  ].map((path) => fileIdentity(resolve(root, path)));
 }
 
 function loadPreparedInput(path: string): {
@@ -213,12 +160,17 @@ function runOne(
   const initialized = performance.now();
   const captured = advanceInMonthChunks(core, throughDate, true, (world) => {
     const snapshot = financeObservables(world);
+    const opening = snapshots[p("zero")];
     if (
-      snapshots.length > p("zero") &&
-      snapshot.cash.totalLiquidMinor !==
-        snapshots[p("zero")]!.cash.totalLiquidMinor
+      opening &&
+      BigInt(snapshot.cash.totalLiquidMinor) +
+        BigInt(snapshot.cash.externalFlows.netMinor) !==
+        BigInt(opening.cash.totalLiquidMinor) +
+          BigInt(opening.cash.externalFlows.netMinor)
     )
-      throw new Error("Monthly snapshots do not conserve actual liquid cash.");
+      throw new Error(
+        "Monthly cash and actual outside flows do not reconcile.",
+      );
     snapshots.push(snapshot);
     if (originalEconomyInput) {
       const economy = economyObservables(world, originalEconomyInput);
@@ -246,7 +198,7 @@ function runOne(
   }
   const world = summarizeWorld(core, retainDetails, reasonSummary, input);
   if (
-    !world.work.money.closedMoneyConserved ||
+    !world.work.money.cashAndExternalFlowsConserved ||
     world.work.money.latestCashReceiptFailures !== p("zero")
   )
     throw new Error(
@@ -271,18 +223,10 @@ function runOne(
     decisions: captured.receipt.decisions,
     acts: captured.receipt.acts,
     actStatsHash: world.actStatsHash,
-    workStatsHash: createHash("sha256")
-      .update(JSON.stringify(world.work))
-      .digest("hex"),
-    financeStatsHash: createHash("sha256")
-      .update(JSON.stringify(snapshots))
-      .digest("hex"),
+    workStatsHash: hashMeasuredJson(world.work),
+    financeStatsHash: hashMeasuredJson(snapshots),
     ...(originalEconomyInput
-      ? {
-          economyStatsHash: createHash("sha256")
-            .update(JSON.stringify(economySnapshots))
-            .digest("hex"),
-        }
+      ? { economyStatsHash: hashMeasuredJson(economySnapshots) }
       : {}),
     memory: {
       before,
@@ -292,6 +236,7 @@ function runOne(
     },
     financeTotals: {
       totalLiquidMinor: finance.cash.totalLiquidMinor,
+      externalFlows: finance.cash.externalFlows,
       requestedWagesMinor: finance.wages.requestedMinor,
       paidWagesMinor: finance.wages.paidMinor,
       unpaidWagesMinor: finance.wages.unpaidMinor,
@@ -367,15 +312,13 @@ export async function main(): Promise<void> {
     throw new Error(
       "Opening-economy runs require the registered full-year calendar window.",
     );
-  const financeBytes = financeInput ? JSON.stringify(financeInput) : undefined;
-  const financeInputHash = financeBytes
-    ? createHash("sha256").update(financeBytes).digest("hex")
-    : null;
   mkdirSync(dirname(args.outputPath), { recursive: true });
-  if (financeBytes)
-    writeFileSync(`${args.outputPath}.finance-input.json`, financeBytes, {
-      flag: "wx",
-    });
+  const financeInputExport = financeInput
+    ? writeMeasuredJson(`${args.outputPath}.finance-input.json`, financeInput, {
+        trailingNewline: false,
+      })
+    : undefined;
+  const financeInputHash = financeInputExport?.sha256 ?? null;
   const economyInputExport =
     args.mode === "economy"
       ? writeMeasuredJson(`${args.outputPath}.economy-input.json`, input)
@@ -471,7 +414,7 @@ export async function main(): Promise<void> {
     JSON.stringify(economyDependenciesAfter)
   )
     throw new Error(
-      "Opening-economy geography DATA changed during the measurement.",
+      "Opening-economy runtime dependencies changed during the measurement.",
     );
   for (const artifact of [economyInputExport, openingEconomyReceiptExport]) {
     if (
@@ -499,6 +442,8 @@ export async function main(): Promise<void> {
       schemaVersion: CORE_SCHEMA_VERSION,
     },
     variant: args.variant,
+    nationalConditions:
+      "flat national conditions, no national economy module yet",
     ...(args.mode === "economy"
       ? {
           mode: args.mode,
@@ -517,7 +462,7 @@ export async function main(): Promise<void> {
             addedOpeningAccounts:
               economyBuild?.receipt.addedOpeningAccounts ?? [],
             comparison:
-              "Economy before binds the existing opening-finance producer. Economy after adds qualified retirement records, bounded retirement funding and compatible customer budgets once to the same original prepared roster. Added finite account stocks are separately disclosed; outcomes may differ.",
+              "Economy before binds opening finance to the prepared roster. Economy after adds qualified retirement records, genuine outside obligations paid when due, and compatible customer budgets once. All added opening stocks are separately disclosed; outside owners hold zero cash. Results may differ.",
             originalJobAndScheduleIdentityPreserved: true,
           },
         }
@@ -534,9 +479,7 @@ export async function main(): Promise<void> {
       sha256: prepared.sha256,
       bytes: prepared.bytes,
       financeInputSha256: financeInputHash,
-      financeInputExport: financeBytes
-        ? `${args.outputPath}.finance-input.json`
-        : null,
+      financeInputExport: financeInputExport?.path ?? null,
     },
     sourceHash: {
       beforeBuild: sourceBefore,
@@ -572,7 +515,7 @@ export async function main(): Promise<void> {
         : "Warmup and earlier measured runs retain timing, hashes and scalar totals only. Full world and monthly finance snapshots are retained only for the final measured run.",
     comparisonScope:
       args.mode === "economy"
-        ? "Same original prepared input, original account stocks, actor identities, jobs, commitments and frozen source. Before has existing opening finance; after adds income/funding/customer records and separately disclosed independent finite account stocks. Repeated-run hashes check deterministic results within each variant; no cross-variant equality or realism calibration is claimed."
+        ? "Same original prepared input, original account stocks, actor identities, jobs, commitments and frozen source. Before has existing opening finance; after adds qualified income and customer agreements, with genuine outside obligations paid when due. Added accounts and opening stocks are separately disclosed; outside owners hold zero cash. Repeated-run hashes check deterministic results within each variant; no cross-variant equality or realism calibration is claimed."
         : "Same base roster and same source; after attaches estimated standing counterparties without changing original cash, jobs, families or people. Outcomes intentionally may differ across variants. Hashes check repeated runs within each variant, not whole-world equivalence.",
     warmupCount: p("warmupRuns"),
     measuredCount: p("warmRuns"),
@@ -595,11 +538,10 @@ export async function main(): Promise<void> {
           p("yearSecondsBudget") * p("millisecondsPerSecond"),
     },
   };
-  writeFileSync(
-    args.outputPath,
-    `${JSON.stringify(receipt, null, p("two"))}\n`,
-    { flag: "wx" },
-  );
+  writeMeasuredJson(args.outputPath, receipt, {
+    pretty: true,
+    trailingNewline: true,
+  });
   progress("receipt-written", { path: args.outputPath, ...receipt.aggregate });
 }
 

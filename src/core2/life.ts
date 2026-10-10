@@ -51,8 +51,10 @@ export function createLifeCore(
         : { ...(options.data ?? DEFAULT_DATA), work: undefined },
       modules: [
         LIFE_MODULE,
-        ...(input.finance ? [FINANCE_MODULE] : []),
+        // Modeled within-day order: actual work pay arrives before purchase budgets.
+        // Firms use their recorded working capital, not future customer receipts.
         ...(scheduledWork ? [WORK_MODULE] : []),
+        ...(input.finance ? [FINANCE_MODULE] : []),
         ...(options.modules ?? []),
       ],
     },
@@ -166,7 +168,7 @@ export function availableActs(
           const row = core.work.commitments.get(id)!;
           return (
             row.jobId === actor.jobId &&
-            (row.endsAt === undefined || row.endsAt > core.date)
+            (row.endsAt === undefined || row.endsAt >= core.date)
           );
         })
       )
@@ -231,6 +233,7 @@ function activate(
     }
   }
   const chosen = decision.selected;
+  let recordedLastActDate = false;
   if (chosen) {
     const effect = resolveOperation(
       core,
@@ -242,11 +245,15 @@ function activate(
         `Unregistered effect operation: ${chosen.definition.effect}`,
       );
     if (chosen.definition.stopgapId) api.stopgap(chosen.definition.stopgapId);
-    effect(api, personId, chosen, core.date, days);
-    api.recordAct(personId, chosen, core.date, decision);
-    recordDiscretionaryActivity(api, personId, chosen);
+    const result = effect(api, personId, chosen, core.date, days, decision);
+    if (!result?.recordedActId)
+      api.recordAct(personId, chosen, core.date, decision);
+    if (!result?.recordedActivity)
+      recordDiscretionaryActivity(api, personId, chosen);
+    recordedLastActDate = result?.recordedLastActDate === true;
   }
-  api.updatePerson(personId, { lastActDate: core.date });
+  if (!recordedLastActDate)
+    api.updatePerson(personId, { lastActDate: core.date });
   return chosen !== undefined;
 }
 
