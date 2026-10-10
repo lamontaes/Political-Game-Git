@@ -166,6 +166,72 @@ describe(`civic inputs, ${place.displayName}, ${state.name}, seed ${seed}`, () =
     expect(enrichCivicInputs(after)).toEqual(after);
   });
 
+  it("maps the actual recorded county office and rejects missing owner identity", () => {
+    const owner = opening.organizations.find(
+      (row) => row.classification === "service:county-government",
+    );
+    expect(owner).toBeDefined();
+    expect(owner!.governmentFacts).toMatchObject({
+      governmentKind: "local-government",
+      governmentJurisdictionId: owner!.placeId,
+    });
+    const ownedClerks = opening.jobs.filter(
+      (job) =>
+        job.organizationId === owner!.id &&
+        job.occupationClassification === "profession:county-clerk",
+    );
+    expect(ownedClerks.length).toBeGreaterThan(p("zero"));
+    const fixture: CoreInput = {
+      ...opening,
+      organizations: [owner!],
+      jobs: ownedClerks,
+      publicOrganizations: [],
+    };
+    const after = enrichCivicInputs(fixture, { directory: emptyDirectory() });
+    const target = after.publicOrganizations!.find(
+      (row) => row.id === owner!.id,
+    );
+    expect(target).toMatchObject({
+      id: owner!.id,
+      name: owner!.name,
+      placeId: owner!.placeId,
+      kind: "office",
+      facts: owner!.governmentFacts,
+    });
+    for (const job of ownedClerks)
+      expect(target!.staff!.find((row) => row.jobId === job.id)).toEqual({
+        personId: job.personId,
+        jobId: job.id,
+        title: job.title,
+        source: job.source,
+      });
+    const missingIdentity = enrichCivicInputs(
+      {
+        ...fixture,
+        organizations: [{ ...owner!, governmentFacts: undefined }],
+      },
+      { directory: emptyDirectory() },
+    );
+    expect(missingIdentity.publicOrganizations).toEqual([]);
+    expect(
+      missingIdentity.gaps.some(
+        (gap) =>
+          gap.includes(owner!.id) &&
+          gap.includes("lacks recorded government facts"),
+      ),
+    ).toBe(true);
+    const privateClassification = enrichCivicInputs(
+      {
+        ...fixture,
+        organizations: [
+          { ...owner!, classification: "enterprise:ordinary-business" },
+        ],
+      },
+      { directory: emptyDirectory() },
+    );
+    expect(privateClassification.publicOrganizations).toEqual([]);
+  });
+
   it("reveals public target facts only through requested lookup, without creating acquaintance or outcomes", () => {
     const after = enrichCivicInputs(opening);
     expect(after.publicOrganizations!.length).toBeGreaterThan(p("zero"));
