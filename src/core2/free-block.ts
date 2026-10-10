@@ -28,7 +28,6 @@ import type {
   CoreState,
   DecisionReason,
   IsoDate,
-  NeedDefinition,
   PersonState,
   Relationship,
   WeightedReason,
@@ -40,6 +39,8 @@ export const FREE_BLOCK = {
   stopgapId: "SG-P15-free-block-plan",
   /** The effect whose act moves the date of last contact. */
   contactEffect: "contact",
+  /** Need evaluators that read the date of last contact. */
+  contactEvaluators: ["contact-gap"] as readonly string[],
 } as const;
 
 export interface PlannedAct {
@@ -99,39 +100,6 @@ function freeHours(
 
 interface Projection {
   lastContactDate: IsoDate;
-  /** Needs whose value moves with the days since the last contact. */
-  moving?: NeedDefinition[];
-}
-
-function evaluator(core: CoreState, definition: NeedDefinition) {
-  const evaluate = resolveOperation(
-    core,
-    "needEvaluators",
-    definition.evaluator,
-  );
-  if (!evaluate)
-    throw new Error(`Unregistered need evaluator: ${definition.evaluator}`);
-  return evaluate;
-}
-
-/**
- * Needs whose value moves with the days since the last contact: those that
- * read differently for a contact today and for one at the person's birth.
- */
-function movingNeeds(
-  api: CoreAPI,
-  actor: Readonly<PersonState>,
-): NeedDefinition[] {
-  const recent = { ...actor, lastContactDate: api.state.date };
-  const distant = { ...actor, lastContactDate: actor.birthDate };
-  return api.state.data.needs.filter((definition) => {
-    const evaluate = evaluator(api.state, definition);
-    const today = actor.needs[definition.id];
-    return (
-      evaluate(api, recent, definition) !== today ||
-      evaluate(api, distant, definition) !== today
-    );
-  });
 }
 
 function needsOn(
@@ -142,23 +110,25 @@ function needsOn(
 ): Record<string, number> {
   if (day === api.parameter("zero")) return actor.needs;
   // Need evaluators read the current date; the last contact moves back by the
-  // days ahead so the gap since it is the gap on the planned date. Needs that
-  // do not read the last contact keep today's value.
-  projection.moving ??= movingNeeds(api, actor);
-  const view = {
-    ...actor,
-    lastContactDate: addDays(
-      makeIsoDate(projection.lastContactDate),
-      -day,
-    ) as IsoDate,
-  };
+  // days ahead so the gap since it is the gap on the planned date. Needs whose
+  // evaluator does not read the last contact keep today's value.
+  const view: PersonState = Object.create(actor);
+  view.lastContactDate = addDays(
+    makeIsoDate(projection.lastContactDate),
+    -day,
+  ) as IsoDate;
   const values: Record<string, number> = { ...actor.needs };
-  for (const definition of projection.moving)
-    values[definition.id] = evaluator(api.state, definition)(
-      api,
-      view,
-      definition,
+  for (const definition of api.state.data.needs) {
+    if (!FREE_BLOCK.contactEvaluators.includes(definition.evaluator)) continue;
+    const evaluate = resolveOperation(
+      api.state,
+      "needEvaluators",
+      definition.evaluator,
     );
+    if (!evaluate)
+      throw new Error(`Unregistered need evaluator: ${definition.evaluator}`);
+    values[definition.id] = evaluate(api, view, definition);
+  }
   return values;
 }
 

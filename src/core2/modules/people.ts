@@ -89,22 +89,30 @@ function shareHomeTime(api: CoreAPI): void {
  * still needs: a newborn needs full care, and the need falls with age to none
  * at the age ATUS counts household children to.
  */
+const dependentsCache = new WeakMap<
+  Readonly<PersonState>,
+  { date: string; rows: { id: string; need: number }[] }
+>();
+
 function dependents(
   api: CoreAPI,
   actor: Readonly<PersonState>,
 ): { id: string; need: number }[] {
+  const cached = dependentsCache.get(actor);
+  if (cached?.date === api.state.date) return cached.rows;
   const p = (key: string) => api.parameter(key);
-  const out: { id: string; need: number }[] = [];
+  const rows: { id: string; need: number }[] = [];
+  const today = makeIsoDate(api.state.date);
   for (const id of actor.familyIds) {
     const other = api.state.people.get(id);
     if (!other?.alive || other.householdId !== actor.householdId) continue;
     const years =
-      daysBetween(makeIsoDate(other.birthDate), makeIsoDate(api.state.date)) /
-      p("daysPerMeanYear");
+      daysBetween(makeIsoDate(other.birthDate), today) / p("daysPerMeanYear");
     const need = p("one") - years / p("householdChildAgeYears");
-    if (need > p("zero")) out.push({ id, need });
+    if (need > p("zero")) rows.push({ id, need });
   }
-  return out;
+  dependentsCache.set(actor, { date: api.state.date, rows });
+  return rows;
 }
 
 export const PEOPLE_MODULE: CoreModule = {
