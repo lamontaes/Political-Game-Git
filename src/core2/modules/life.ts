@@ -16,7 +16,8 @@ const p = (api: CoreAPI, key: string) => api.parameter(key);
 const zero = (api: CoreAPI) => p(api, "zero");
 const positive = (api: CoreAPI, value: number) => Math.max(zero(api), value);
 
-function offer(
+/** Shared offer builder; P15 people offers reuse it so drive selection stays identical. */
+export function offer(
   api: CoreAPI,
   actor: Readonly<PersonState>,
   action: ActionDefinition,

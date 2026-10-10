@@ -448,8 +448,10 @@ describe("shared actor chooser and committed effects", () => {
     expect(
       initial.some(
         (offer) =>
-          offer.definition.targetKind === "known-person" &&
-          offer.targetId === relative,
+          // P15: the contact act reads people through "contact-candidate".
+          ["known-person", "contact-candidate"].includes(
+            offer.definition.targetKind,
+          ) && offer.targetId === relative,
       ),
     ).toBe(true);
     expect(
