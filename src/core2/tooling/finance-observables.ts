@@ -4,6 +4,7 @@ import { parameter } from "../parameters";
 import type { FinanceTotals } from "../finance-types";
 import type { CoreState, Source, WorkCommitmentInput } from "../types";
 import { WORK_OBSERVABLE_CONFIG } from "./work-observables";
+import { externalFlowObservables } from "./external-flow-observables";
 
 export interface FinanceAgeSnapshot {
   ageId: string;
@@ -34,6 +35,7 @@ export interface FinanceObservableSnapshot {
     peopleLiquidMinor: number;
     organizationLiquidMinor: number;
     totalLiquidMinor: number;
+    externalFlows: ReturnType<typeof externalFlowObservables>;
     conservationStatus: string;
   };
   wages: {
@@ -863,7 +865,8 @@ export function financeObservables(
         "total authoritative liquid cash",
       ),
       conservationStatus:
-        "Single-date stock only; compare with the same opening accounts or prior snapshot. Debt, forecasts and book subtotals are not liquid cash.",
+        "Single-date stock plus cumulative outside-owner flows; compare stock plus outside net flow with the same opening accounts or prior snapshot. Debt, forecasts and book subtotals are not liquid cash.",
+      externalFlows: externalFlowObservables(core),
     },
     wages,
     employment: {

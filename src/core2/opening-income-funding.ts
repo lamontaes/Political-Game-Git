@@ -16,11 +16,22 @@ import {
 } from "./opening-income";
 import type { OrganizationInput, Source } from "./types";
 
-/** Funding is not a recipient income payment, purchase, loan or asset-to-cash conversion. */
+/** Producer linkage only; the root finance provider admits each genuine due source. */
+export interface OpeningRetirementExternalInflow {
+  kind: string;
+  /** Organization owner ID; the journal provider resolves the actual account. */
+  ownerId: string;
+  incomeContractIds: readonly string[];
+  sourceAwardIds: readonly string[];
+  source: Source;
+}
+
+/** An outside payment is a flow; this descriptor creates no cash or authority. */
 export interface OpeningRetirementFundingContract extends OpeningIncomeContract {
   salesReceipt: boolean;
-  /** Exclusive end; root's finite-budget writer stops indexing later bills. */
-  endsAt: string;
+  /** Only an actual supplied income-term end; no invented annual cutoff. */
+  endsAt?: string;
+  externalInflow: OpeningRetirementExternalInflow;
 }
 
 export interface OpeningRetirementFundingData {
@@ -34,16 +45,18 @@ export interface OpeningRetirementFundingData {
   contributorNameTemplate: string;
   contributorKind: string;
   contributorClassification: string;
+  externalFlow: {
+    kind: string;
+    ownerSubject: string;
+    openingCashBasis: string;
+    identityCitation: string;
+    identityAsOf: string;
+    identityVintage: string;
+  };
   contributorKinds: readonly string[];
   eligiblePayerClassifications: readonly string[];
   incomeKindIds: readonly string[];
-  parameters: {
-    envelopeShare: string;
-    openingLiquidShare: string;
-    nationalAnnualOutlayMinor: string;
-    periodMonths: string;
-    windowMonths: string;
-  };
+  parameters: { periodMonths: string };
   flowEvidence: {
     publisher: string;
     title: string;
@@ -51,6 +64,8 @@ export interface OpeningRetirementFundingData {
     sourceFile: string;
     sourceField: string;
     sourceVintage: string;
+    publishedAt: string;
+    financialKind: string;
     scope: string;
   };
   citation: string;
@@ -66,7 +81,7 @@ export interface OpeningRetirementFundingOptions {
   parameters?: Readonly<Record<string, Parameter>>;
   /** Actual already resolved external place. Default uses the canonical seat lookup. */
   contributorPlace?: OpeningIncomePlace;
-  /** Existing finite records; unused supplied records are not appended. */
+  /** Existing zero-cash outside-flow owners; unused records are not appended. */
   recordedContributors?: readonly OrganizationInput[];
   contributorIdByPayer?: Readonly<Record<string, string>>;
 }
@@ -79,14 +94,14 @@ export interface OpeningRetirementFundingBuild {
       retirementPayerId: string;
       personIds: readonly string[];
       sourceAwardIds: readonly string[];
+      incomeContractIds: readonly string[];
       savedCoveredMonthsByPerson: Readonly<Record<string, number>>;
       nominalRecipientMonthlyMinor: number;
-      annualEnvelopeMinor: number;
       contributorId: string;
       contractId: string;
       monthlyFundingMinor: number;
       dueAt: string;
-      endsAt: string;
+      endsAt?: string;
     }[];
     ignoredIncomeContractIds: readonly string[];
     addedContractIds: readonly string[];
@@ -97,15 +112,20 @@ export interface OpeningRetirementFundingBuild {
       added: boolean;
       openingLiquidMinor: number;
       source: Source;
+      accountingBasis: "external-net-flow";
     }[];
+    externalFlow: {
+      kind: string;
+      ownerId?: string;
+      openingStockMinor: number;
+      accountingBasis: "external-net-flow";
+      kernelAdmission: "PENDING";
+    };
     originalPeopleCashMinor: number;
     originalOrganizationCashMinor: number;
     addedOpeningLiquidMinor: number;
-    nominalAnnualAwardsMinor: number;
-    boundedAnnualEnvelopeMinor: number;
-    allocatedAnnualEnvelopeMinor: number;
-    scheduledFundingMinor: number;
-    unallocatedRoundingMinor: number;
+    nominalMonthlyAwardsMinor: number;
+    scheduledMonthlyFundingMinor: number;
     parameterKeys: readonly string[];
     flowEvidence: OpeningRetirementFundingData["flowEvidence"];
     gaps: readonly string[];
@@ -124,7 +144,7 @@ function canonical(value: unknown): string | undefined {
   return JSON.stringify(value);
 }
 
-/** Pure one-time WHO/terms admission. Only the canonical finance writer later moves cash. */
+/** Pure WHO/terms producer. Incoming flow and balanced posting remain root obligations. */
 export function buildOpeningRetirementFunding(
   input: OpeningIncomeInput,
   options: OpeningRetirementFundingOptions = {},
@@ -166,19 +186,22 @@ export function buildOpeningRetirementFunding(
     one <= zero ||
     !Number.isSafeInteger(months) ||
     months <= one ||
-    value.windowMonths !== months ||
-    value.periodMonths !== one ||
-    value.envelopeShare! < zero ||
-    value.envelopeShare! > one ||
-    value.openingLiquidShare! < zero ||
-    value.openingLiquidShare! > one
+    value.periodMonths !== one
   )
-    throw new Error(
-      "Invalid bounded annual retirement funding units or allocation prior.",
-    );
-  minor(value.nationalAnnualOutlayMinor!, "published annual source cap");
-  if (value.nationalAnnualOutlayMinor! <= zero)
-    throw new Error("Missing positive public funding-flow context.");
+    throw new Error("Invalid monthly outside retirement funding cadence.");
+  if (
+    data.flowEvidence.financialKind !== "ANNUAL_EXPENDITURE_FLOW" ||
+    makeIsoDate(data.flowEvidence.sourceVintage) > opening ||
+    !data.flowEvidence.url.trim() ||
+    !data.externalFlow.kind.trim() ||
+    !data.externalFlow.ownerSubject.trim() ||
+    data.externalFlow.openingCashBasis !== "zero-opening-flow-boundary" ||
+    makeIsoDate(data.externalFlow.identityAsOf) > opening ||
+    !data.externalFlow.identityCitation.trim()
+  )
+    throw new Error("Outside retirement flow requires dated typed evidence.");
+  // Later publication is retrospective research, never opening actor knowledge.
+  makeIsoDate(data.flowEvidence.publishedAt);
   const unique = <T extends { id: string }>(
     rows: readonly T[],
     label: string,
@@ -250,6 +273,9 @@ export function buildOpeningRetirementFunding(
     personIds: Set<string>;
     awardIds: Set<string>;
     coveredMonths: Record<string, number>;
+    incomeContractIds: Set<string>;
+    scheduleKey: string;
+    incomeEndsAt?: string;
   };
   const groups = new Map<string, Group>(),
     seenAwards = new Set<string>(),
@@ -381,20 +407,32 @@ export function buildOpeningRetirementFunding(
         "Retirement income term has no admitted future due window.",
       );
     minor(contract.amountMinor, contract.id);
-    const group: Group = groups.get(payer.id) ?? {
+    const scheduleKey = JSON.stringify([
+      payer.id,
+      at,
+      contract.periodMonths,
+      contract.endsAt ?? null,
+    ]);
+    const group: Group = groups.get(scheduleKey) ?? {
       payer,
       monthlyMinor: zero,
       dueAt: at,
       personIds: new Set<string>(),
       awardIds: new Set<string>(),
       coveredMonths: {},
+      incomeContractIds: new Set<string>(),
+      scheduleKey,
+      ...(contract.endsAt === undefined
+        ? {}
+        : { incomeEndsAt: makeIsoDate(contract.endsAt) }),
     };
     group.monthlyMinor = sum(
       group.monthlyMinor,
       contract.amountMinor,
       "saved monthly awards",
     );
-    if (at < group.dueAt) group.dueAt = at;
+    // Keep exact schedules separate; a later award cannot be funded early.
+    group.incomeContractIds.add(contract.id);
     group.personIds.add(person.id);
     group.awardIds.add(award.id);
     if (covered)
@@ -402,33 +440,22 @@ export function buildOpeningRetirementFunding(
         Number(covered.facts!.coveredMonths),
         "saved covered months",
       );
-    groups.set(payer.id, group);
+    groups.set(scheduleKey, group);
   }
   const orderedGroups = [...groups.values()].sort((a, b) =>
-    a.payer.id.localeCompare(b.payer.id),
+    a.scheduleKey.localeCompare(b.scheduleKey),
   );
-  const nominalAnnual = orderedGroups.reduce(
+  const nominalMonthly = orderedGroups.reduce(
     (total, group) =>
-      sum(
-        total,
-        minor(group.monthlyMinor * value.windowMonths!, "annual award plan"),
-        "combined annual award plan",
-      ),
+      sum(total, group.monthlyMinor, "saved monthly award terms"),
     zero,
-  );
-  const boundedAnnual = Math.min(
-    minor(
-      Math.floor(nominalAnnual * value.envelopeShare!),
-      "authored annual envelope",
-    ),
-    value.nationalAnnualOutlayMinor!,
   );
   const generatedSource = (detail: string): Source => ({
     tag: "ESTIMATED",
     asOf: opening,
     citation: data.citation,
     estimatedFrom: `${detail} ${marker.whatItFakes}`,
-    generationPriorVintage: data.flowEvidence.sourceVintage,
+    generationPriorVintage: `Actual saved income/award source terms and ${data.externalFlow.identityVintage}; annual program spending is research context only and does not size this payment.`,
   });
   const id = (prefix: string, payerId: string) =>
     `${prefix}:${stableHash(JSON.stringify([data.version, input.seed, opening, payerId]))}`;
@@ -455,88 +482,106 @@ export function buildOpeningRetirementFunding(
       );
     return externalPlace;
   };
+  const explicitOwnerIds = new Set(
+    orderedGroups
+      .filter((group) => group.monthlyMinor > zero)
+      .map((group) => options.contributorIdByPayer?.[group.payer.id])
+      .filter((ownerId): ownerId is string => ownerId !== undefined),
+  );
+  if (explicitOwnerIds.size > one)
+    throw new Error(
+      "Outside retirement funding uses one shared owner per world.",
+    );
+  const explicitSharedOwnerId = [...explicitOwnerIds].at(zero);
+  if (
+    explicitSharedOwnerId !== undefined &&
+    (!explicitSharedOwnerId.trim() || !accounts.has(explicitSharedOwnerId))
+  )
+    throw new Error("Recorded outside-flow owner is absent.");
+  const sharedOwnerId =
+    explicitSharedOwnerId ??
+    id(data.contributorIdPrefix, data.externalFlow.ownerSubject);
   const resultGroups: OpeningRetirementFundingBuild["receipt"]["groups"][number][] =
     [];
   const addedContracts: string[] = [],
     usedContributors = new Set<string>();
-  let allocatedAnnual = zero,
-    scheduledFunding = zero;
+  let scheduledMonthly = zero;
   for (const group of orderedGroups) {
     if (group.monthlyMinor === zero) continue;
-    const annual = minor(
-      group.monthlyMinor * value.windowMonths!,
-      "group annual awards",
-    );
-    const envelope = minor(
-      Number((BigInt(boundedAnnual) * BigInt(annual)) / BigInt(nominalAnnual)),
-      "group annual envelope",
-    );
-    const monthly = minor(
-      Math.floor(envelope / value.windowMonths!),
-      "monthly funding terms",
-    );
-    const endsAt = calendarAfterMonths(group.dueAt, value.windowMonths!);
+    const monthly = group.monthlyMinor;
+    // Only source-owned income terms determine amount and duration.
+    // No national annual flow, allocation share or year-survival window changes either.
     calendarAfterMonths(group.dueAt, value.periodMonths!);
-    const contributorId =
-      options.contributorIdByPayer?.[group.payer.id] ??
-      id(data.contributorIdPrefix, group.payer.id);
+    const contributorId = sharedOwnerId;
     let contributor = accounts.get(contributorId);
-    if (options.contributorIdByPayer?.[group.payer.id] && !contributor)
-      throw new Error("Recorded funding contributor is absent.");
-    if (!options.contributorIdByPayer?.[group.payer.id]) {
-      const at = resolveExternalPlace();
-      const stock = minor(
-        Math.floor(envelope * value.openingLiquidShare!),
-        "new contributor opening liquid allocation",
-      );
-      const proposed: OrganizationInput = {
-        id: contributorId,
-        placeId: at.id,
-        name: data.contributorNameTemplate
-          .replace("{publisher}", data.flowEvidence.publisher)
-          .replace("{payerName}", group.payer.name),
-        kind: data.contributorKind,
-        classification: data.contributorClassification,
-        liquidMinor: stock,
-        source: generatedSource(
-          `Finite new cash allocation ${stock} minor units from annual saved-award envelope ${envelope}; opening liquid share ${value.openingLiquidShare}. This is an authored allocation, not national reserve assets turned into cash. The payer's existing cash remains separately preserved.`,
-        ),
-        governmentFacts: {
-          retirementFundingVersion: data.version,
-          retirementPayerId: group.payer.id,
-          annualEnvelopeMinor: String(envelope),
-          openingLiquidShare: String(value.openingLiquidShare),
-          fundingStartsAt: group.dueAt,
-          fundingEndsAt: endsAt,
-          sourceAwardDigest: stableHash(
-            JSON.stringify([...group.awardIds].sort()),
-          ),
-          publicFlowSourceFile: data.flowEvidence.sourceFile,
-          publicFlowSourceField: data.flowEvidence.sourceField,
-          identityBasis: data.identityBasis,
-          stopgapId: marker.id,
-        },
-      };
+    const at = resolveExternalPlace();
+    const outsideFlow: Source = {
+      tag: "ESTIMATED",
+      asOf: opening,
+      citation: data.externalFlow.identityCitation,
+      estimatedFrom:
+        "One modeled outside-payment owner per world. Zero cash is an accounting boundary, not observed Treasury liquidity. Its genuine due terms and referenced awards must be resolved by the owning finance provider. National cash, annual outlays, securities and tax forecasts supply no opening stock. Individual eligibility and allocation remain estimated.",
+      generationPriorVintage: data.externalFlow.identityVintage,
+    };
+    // The root-owned OrganizationInput seam adds outsideFlow?: Source.
+    // This local intersection keeps the producer candidate against the exact API8 preimage.
+    const proposed: OrganizationInput & { outsideFlow: Source } = {
+      id: contributorId,
+      placeId: at.id,
+      name: data.contributorNameTemplate,
+      kind: data.contributorKind,
+      classification: data.contributorClassification,
+      liquidMinor: zero,
+      source: outsideFlow,
+      outsideFlow,
+      governmentFacts: {
+        retirementFundingVersion: data.version,
+        externalFlowKind: data.externalFlow.kind,
+        externalFlowOwnerSubject: data.externalFlow.ownerSubject,
+        openingCashBasis: data.externalFlow.openingCashBasis,
+        identityBasis: data.identityBasis,
+        stopgapId: marker.id,
+      },
+    };
+    if (explicitSharedOwnerId === undefined) {
       if (contributor && canonical(contributor) !== canonical(proposed))
         throw new Error(
-          `Conflicting generated contributor ID: ${contributorId}`,
+          `Conflicting generated outside-flow owner ID: ${contributorId}`,
         );
       contributor ??= proposed;
       accounts.set(contributorId, contributor);
     }
+    const ownerFlow = (
+      contributor as (OrganizationInput & { outsideFlow?: Source }) | undefined
+    )?.outsideFlow;
     if (
       !contributor ||
+      !ownerFlow ||
       contributor.id === group.payer.id ||
       people.has(contributor.id) ||
       operatingAccounts.has(contributor.id) ||
-      !data.contributorKinds.includes(contributor.kind)
+      !data.contributorKinds.includes(contributor.kind) ||
+      contributor.classification !== data.contributorClassification ||
+      contributor.liquidMinor !== zero ||
+      contributor.governmentFacts?.externalFlowKind !==
+        data.externalFlow.kind ||
+      contributor.governmentFacts.externalFlowOwnerSubject !==
+        data.externalFlow.ownerSubject ||
+      contributor.governmentFacts.openingCashBasis !==
+        data.externalFlow.openingCashBasis
     )
       throw new Error(
-        "Funding needs an actual distinct nonoperating public contributor account.",
+        "Outside funding requires one actual zero-cash nonoperating outside-flow owner.",
       );
     source(contributor.source, contributor.id);
-    minor(contributor.liquidMinor, contributor.id);
-    const contractId = id(data.contractIdPrefix, group.payer.id);
+    source(ownerFlow, `${contributor.id}:outsideFlow`);
+    usedContributors.add(contributor.id);
+    const contractId = id(data.contractIdPrefix, group.scheduleKey);
+    const incomeContractIds = [...group.incomeContractIds].sort();
+    const sourceAwardIds = [...group.awardIds].sort();
+    const contractSource = generatedSource(
+      `Saved due schedule ${group.dueAt}, payer ${group.payer.id}, income contracts ${incomeContractIds.join(", ")} and awards ${sourceAwardIds.join(", ")} support exact dated modeled obligations. National expenditure is research context only; it supplies no stock, allocation, cap or invented end.`,
+    );
     const contract: OpeningRetirementFundingContract = {
       id: contractId,
       payerIds: [contributor.id],
@@ -544,16 +589,23 @@ export function buildOpeningRetirementFunding(
       kind: data.contractKind,
       amountMinor: monthly,
       dueAt: group.dueAt,
-      endsAt,
+      ...(group.incomeEndsAt === undefined
+        ? {}
+        : { endsAt: group.incomeEndsAt }),
       periodMonths: value.periodMonths!,
       accruesArrears: false,
       marketAdjusted: false,
       salesReceiptBudget: false,
       salesReceipt: false,
       settlementPhaseId: data.settlementPhaseId,
-      source: generatedSource(
-        `Saved eligible award/person portfolio ${[...group.awardIds].sort().join(", ")} bounds a one-year nominal funding envelope. Published flow is contextual and a global upper cap; portfolio allocation and liquidity are authored, not observed 2021 appropriation or tax receipts.`,
-      ),
+      source: contractSource,
+      externalInflow: {
+        kind: data.externalFlow.kind,
+        ownerId: contributor.id,
+        incomeContractIds,
+        sourceAwardIds,
+        source: contractSource,
+      },
     };
     const prior = contracts.get(contractId);
     if (prior && canonical(prior) !== canonical(contract))
@@ -564,29 +616,25 @@ export function buildOpeningRetirementFunding(
       contracts.set(contractId, contract);
       addedContracts.push(contractId);
     }
-    usedContributors.add(contributor.id);
-    allocatedAnnual = sum(
-      allocatedAnnual,
-      envelope,
-      "allocated annual funding envelope",
-    );
-    scheduledFunding = sum(
-      scheduledFunding,
-      monthly * value.windowMonths!,
-      "scheduled annual funding terms",
+    scheduledMonthly = sum(
+      scheduledMonthly,
+      monthly,
+      "exact scheduled monthly funding terms",
     );
     resultGroups.push({
       retirementPayerId: group.payer.id,
       personIds: [...group.personIds].sort(),
-      sourceAwardIds: [...group.awardIds].sort(),
+      sourceAwardIds,
+      incomeContractIds,
       savedCoveredMonthsByPerson: group.coveredMonths,
       nominalRecipientMonthlyMinor: group.monthlyMinor,
-      annualEnvelopeMinor: envelope,
       contributorId: contributor.id,
       contractId,
       monthlyFundingMinor: monthly,
       dueAt: group.dueAt,
-      endsAt,
+      ...(group.incomeEndsAt === undefined
+        ? {}
+        : { endsAt: group.incomeEndsAt }),
     });
   }
   const extra = [...usedContributors]
@@ -595,7 +643,7 @@ export function buildOpeningRetirementFunding(
     .map((key) => accounts.get(key)!);
   const addedCash = extra.reduce(
     (total, row) =>
-      sum(total, row.liquidMinor, "disclosed new contributor stocks"),
+      sum(total, row.liquidMinor, "outside-flow opening cash (must stay zero)"),
     zero,
   );
   sum(
@@ -639,16 +687,21 @@ export function buildOpeningRetirementFunding(
           added: !organizations.has(key),
           openingLiquidMinor: row.liquidMinor,
           source: row.source,
+          accountingBasis: "external-net-flow" as const,
         };
       }),
+      externalFlow: {
+        kind: data.externalFlow.kind,
+        ...(usedContributors.size ? { ownerId: sharedOwnerId } : {}),
+        openingStockMinor: zero,
+        accountingBasis: "external-net-flow",
+        kernelAdmission: "PENDING",
+      },
       originalPeopleCashMinor: originalPeopleCash,
       originalOrganizationCashMinor: originalOrganizationCash,
       addedOpeningLiquidMinor: addedCash,
-      nominalAnnualAwardsMinor: nominalAnnual,
-      boundedAnnualEnvelopeMinor: boundedAnnual,
-      allocatedAnnualEnvelopeMinor: allocatedAnnual,
-      scheduledFundingMinor: scheduledFunding,
-      unallocatedRoundingMinor: boundedAnnual - allocatedAnnual,
+      nominalMonthlyAwardsMinor: nominalMonthly,
+      scheduledMonthlyFundingMinor: scheduledMonthly,
       parameterKeys: Object.values(data.parameters),
       flowEvidence: data.flowEvidence,
       gaps: data.gaps,

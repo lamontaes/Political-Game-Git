@@ -10,7 +10,7 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "ce93c7f6eb9f82f1ab1627bcbd0141edb37a9e36108eb0b1d50ef0b9f98b65d5",
+    "sha256": "7704c1eddb7a2abc7b1c8e14775616b638dd9bf58e167e66857831065794336c",
     "meaning": "Exact central parameter table including business-book aggregate priors, the unmeasured opening cadence and a sourced reporting definition. No fitted coefficient or passed calibration is claimed."
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
@@ -85,8 +85,8 @@
       "id": "panas-affect-score",
       "title": "PANAS observed positive and negative affect scores",
       "kind": "external empirical observable",
-      "quantity": "Separate positive-affect and negative-affect 10-item scale sums; item range 1–5",
-      "unit": "scale points, each subscale 10–50",
+      "quantity": "Separate positive-affect and negative-affect 10-item scale sums; item range 1\u20135",
+      "unit": "scale points, each subscale 10\u201350",
       "sample": {
         "population": "Mostly undergraduate validation samples in Watson, Clark, and Tellegen (1988)",
         "samples": [
@@ -157,8 +157,8 @@
       "id": "pss10-monthly-stress",
       "title": "PSS-10 perceived stress score",
       "kind": "external empirical observable",
-      "quantity": "Ten last-month items, each 0–4 with four reverse-scored; sum score",
-      "unit": "scale points, 0–40",
+      "quantity": "Ten last-month items, each 0\u20134 with four reverse-scored; sum score",
+      "unit": "scale points, 0\u201340",
       "sample": {
         "population": "2009 U.S. survey probability sample",
         "n": 2000,
@@ -176,7 +176,7 @@
             "sd": 7.56
           },
           {
-            "group": "ages 25–34",
+            "group": "ages 25\u201334",
             "n": 433,
             "mean": 17.46,
             "sd": 7.31
@@ -260,7 +260,7 @@
       "calibrationStatus": "pending; raw repeated target data and compatible observations required.",
       "bindingStatus": "supplementary only; no current P8 parameter checkRange points here",
       "routeStatus": "not currently executable against P8 output; instrument/data adapter and output bridge are missing, so this target must not be reported as passed",
-      "requiredTestRouteAfterImplementation": "Use raw event-aligned repeated measures with timestamps and fit/hold out people; the cited paper’s shape finding is not a numeric coefficient test."
+      "requiredTestRouteAfterImplementation": "Use raw event-aligned repeated measures with timestamps and fit/hold out people; the cited paper\u2019s shape finding is not a numeric coefficient test."
     },
     {
       "id": "opening-school-peer-network",
@@ -275,7 +275,316 @@
       ],
       "status": "proposed; not source-retrieved or calibrated",
       "sourceLimitation": "NCES CCD local-institutions data supports recent identity context only. Existing school-calendar proxies and public biography timeline checks supply no empirical social-network or class-size bound.",
-      "acceptanceLimitation": "The owner often20–60 ordinary-circle requirement is an acceptance observation to examine, not a forced generator minimum or fabricated empirical spread."
+      "acceptanceLimitation": "The owner often20\u201360 ordinary-circle requirement is an acceptance observation to examine, not a forced generator minimum or fabricated empirical spread."
+    },
+    {
+      "id": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS",
+      "kind": "external empirical observable",
+      "revision": "jpmci-september-2016-original-pdf-e4ddf6731fd32b23-normalized-figures-5-7-v1",
+      "scope": "Developer-only observed cohort check range for ESTIMATED opening private-employer priors. No external observation or range is read by the opening cash calculator.",
+      "sources": [
+        {
+          "id": "jpmci-cash-is-king-2016",
+          "title": "Cash Is King: Flows, Balances, and Buffer Days, September 2016",
+          "publisher": "JPMorgan Chase Institute",
+          "url": "https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf"
+        }
+      ],
+      "sourceFiles": {
+        "src/core2/data/opening-employer-cash-reference.json": "cbc4f26a3ebfa9d098e2dd44614bb1315c322a1199b20c7c284c7c68a3abd8af",
+        "data/research/money/opening-employer-cash-buffers.json": "d6a20e11c0db0532146704c429070bf1da5b6f66b1beec4efc1f62981910f198"
+      },
+      "observations": [
+        {
+          "quantity": "all-small-businesses cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in all-small-businesses; overall means all twelve selected industries",
+          "observedValue": 27,
+          "observedCounts": {
+            "percentile25": 13,
+            "median": 27,
+            "percentile75": 62
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysAll",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "restaurants cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in restaurants; overall means all twelve selected industries",
+          "observedValue": 16,
+          "observedCounts": {
+            "percentile25": 9,
+            "median": 16,
+            "percentile75": 31
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysRestaurants",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "repair-and-maintenance cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in repair-and-maintenance; overall means all twelve selected industries",
+          "observedValue": 18,
+          "observedCounts": {
+            "percentile25": 9,
+            "median": 18,
+            "percentile75": 40
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysRepair",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "retail cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in retail; overall means all twelve selected industries",
+          "observedValue": 19,
+          "observedCounts": {
+            "percentile25": 10,
+            "median": 19,
+            "percentile75": 45
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysRetail",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "construction cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in construction; overall means all twelve selected industries",
+          "observedValue": 20,
+          "observedCounts": {
+            "percentile25": 11,
+            "median": 20,
+            "percentile75": 44
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysConstruction",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "personal-services cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in personal-services; overall means all twelve selected industries",
+          "observedValue": 21,
+          "observedCounts": {
+            "percentile25": 11,
+            "median": 21,
+            "percentile75": 45
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysPersonalServices",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "wholesalers cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in wholesalers; overall means all twelve selected industries",
+          "observedValue": 23,
+          "observedCounts": {
+            "percentile25": 11,
+            "median": 23,
+            "percentile75": 52
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysWholesale",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "metal-and-machinery cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in metal-and-machinery; overall means all twelve selected industries",
+          "observedValue": 28,
+          "observedCounts": {
+            "percentile25": 13,
+            "median": 28,
+            "percentile75": 62
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysMetalMachinery",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "health-care-services cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in health-care-services; overall means all twelve selected industries",
+          "observedValue": 30,
+          "observedCounts": {
+            "percentile25": 14,
+            "median": 30,
+            "percentile75": 67
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysHealthCare",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "high-tech-manufacturing cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in high-tech-manufacturing; overall means all twelve selected industries",
+          "observedValue": 32,
+          "observedCounts": {
+            "percentile25": 15,
+            "median": 32,
+            "percentile75": 71
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysHighTechManufacturing",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "other-professional-services cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in other-professional-services; overall means all twelve selected industries",
+          "observedValue": 33,
+          "observedCounts": {
+            "percentile25": 15,
+            "median": 33,
+            "percentile75": 72
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysProfessionalServices",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "high-tech-services cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in high-tech-services; overall means all twelve selected industries",
+          "observedValue": 33,
+          "observedCounts": {
+            "percentile25": 15,
+            "median": 33,
+            "percentile75": 77
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysHighTechServices",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "real-estate cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in real-estate; overall means all twelve selected industries",
+          "observedValue": 47,
+          "observedCounts": {
+            "percentile25": 21,
+            "median": 47,
+            "percentile75": 107
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysRealEstate",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        }
+      ],
+      "checkRange": {
+        "quantity": "Observed source-cohort 25th\u201375th percentiles, separated by industry",
+        "unit": "cash buffer days",
+        "location": "src/core2/data/opening-employer-cash-reference.json observations[].observedCounts.percentile25 / percentile75",
+        "meaning": "Real empirical interquartile check range. Do not force every simulated employer inside it or use it as a survival condition; half of the source cohort is outside its interquartile range."
+      },
+      "testRoute": {
+        "implementationStatus": "planned",
+        "routeStatus": "blocked; no matched ALL-cash-debit/average-balance small-business cohort adapter or evaluator executed",
+        "commandTemplate": "Root-owned fresh population capture plus independently saved balance and ALL-debit windows; cohort/denominator audit before any quantile comparison",
+        "evaluationContract": "Compare actual saved average firm cash balances divided by actual average ALL daily cash debits within a matched cohort/window; report payroll, purchases, taxes, debt service, capex and owner draws coverage separately. Generated opening cash divided by the same sizing projection is a formula identity and cannot count as calibration. Report industry distributions separately and never tune stocks to future closures or payroll survival."
+      },
+      "parameterApplicability": "JPMC observes average bank-account balances divided by ALL cash debits in a selected, metropolitan Chase sample, including employer and nonemployer businesses. Payroll plus IRS accounting nonwage costs is an unmeasured cash-debit proxy: accounting costs can include noncash depreciation and omit tax, capital expenditure, debt service, owner draws and other debits. Generated legal form, total firm size, banking coverage, 2021/local/territorial applicability and the source of the owner capital are unobserved. No owner contribution, appropriation, lending transaction, refill, future deficit or survival guarantee is established.",
+      "calibrationStatus": "blocked and unmeasured; source observations are verified, the generated-firm crosswalk and independent cash-debit denominator are not calibrated",
+      "bindingStatus": "supplemental empirical target for ESTIMATED spread; not a TUNABLE checkRange binding. Existing guard and parameterBindings remain unchanged.",
+      "requiredTestRouteAfterImplementation": null
     }
   ],
   "parameterBindings": [
@@ -1009,6 +1318,14 @@
       },
       "mappingStatus": "applicability-blocked; no valid parameter-specific calibration",
       "reviewNote": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
+    },
+    {
+      "parameter": "openingEmployerCashBufferTailSpan",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD"
+      },
+      "mappingStatus": "applicability-blocked; observed cohort quartiles do not identify a tail-span coefficient or generated-firm denominator crosswalk",
+      "reviewNote": "Real independently pinned JPMC cohort q25/median/q75 anchors provide contextual distribution evidence. Uniform startup ranks, interpolation, tails, legal form/vintage/location and scheduled-payroll/accounting-cost-to-ALL-debit mapping remain unmeasured. No full CDF, coefficient interval or survival-based stock tuning is justified."
     }
   ],
   "unreferencedRemovalReview": {
@@ -1078,7 +1395,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1213,7 +1530,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1245,7 +1562,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1284,7 +1601,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1316,7 +1633,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -2092,7 +2409,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor’s Office",
+              "publisher": "Maryland Governor\u2019s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -2124,7 +2441,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor’s Office",
+              "publisher": "Maryland Governor\u2019s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -2227,7 +2544,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor’s Office",
+              "publisher": "Maryland Governor\u2019s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -2323,7 +2640,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor’s Office",
+              "publisher": "Maryland Governor\u2019s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -2573,7 +2890,7 @@
         "evaluation": "The run command writes a receipt and evaluation. Score only the 35 decision/outcome steps as model-result targets. For each such step require Evaluation step.reproduced=true, all checks matched, all ranges inside, chainBrokenBy empty, StepReceipt representation=full, and engine-origin observations with nonempty canonical recordIds. Nine event steps are sourced external inputs through ReplayCore.event; they are not predictive passes. Preserve their external provenance, and leave dependent results unmeasured if the evaluator cannot verify continuity through a source-backed event record. A forced selection, initialized fact, stored row without behavior, missing record, or placeholder cannot pass as a model outcome.",
         "routeStatus": "The CLI/evaluator is executable, but no P8 module currently exports the required createReplayCore adapter. Running against the existing old-core adapter does not validate the new P8 engine. Until a real P8 adapter and mechanisms exist, result is blocked/unmeasured; do not convert missing output to success.",
         "parameterInterpretation": "This suite is a joint end-to-end output target for the referenced in-use life parameters. It does not independently identify any single coefficient, supply a numeric range, or establish population realism. An outcome match is a replay check only.",
-        "eventInputRule": "The P9 runner submits each sourced event via ReplayCore.event. Never rewrite an input event as an engine-predicted outcome. For a requires chain to pass, the event must be represented through the contract’s actual source record path; if the current evaluator cannot verify it without relabeling the source, the dependent P9 outcome remains blocked/unmeasured.",
+        "eventInputRule": "The P9 runner submits each sourced event via ReplayCore.event. Never rewrite an input event as an engine-predicted outcome. For a requires chain to pass, the event must be represented through the contract\u2019s actual source record path; if the current evaluator cannot verify it without relabeling the source, the dependent P9 outcome remains blocked/unmeasured.",
         "implementationStatus": "blocked; P8 ReplayCore adapter and model outcome mechanisms are not implemented"
       },
       "adapterGaps": [
@@ -3176,12 +3493,12 @@
       "parameterApplicability": {
         "deepPastMiddleSchoolOffsetYears": {
           "status": "candidate end-to-end chronology check only",
-          "testableQuestion": "Does the independently generated middle-school cohort record occur before the subject’s later sourced education milestones and retain attendance=cohort-estimate and qualification=not-inferred?",
+          "testableQuestion": "Does the independently generated middle-school cohort record occur before the subject\u2019s later sourced education milestones and retain attendance=cohort-estimate and qualification=not-inferred?",
           "coefficientCalibration": "not identified by these outcomes; cohorts and diploma completion are different observables."
         },
         "deepPastHighSchoolOffsetYears": {
           "status": "candidate end-to-end chronology check only",
-          "testableQuestion": "Does the independently generated high-school cohort record occur before the subject’s later sourced high-school/degree milestone, while remaining explicitly an estimate rather than personal attendance?",
+          "testableQuestion": "Does the independently generated high-school cohort record occur before the subject\u2019s later sourced high-school/degree milestone, while remaining explicitly an estimate rather than personal attendance?",
           "coefficientCalibration": "not identified by these outcomes; the P8 cohort offset is not the P9 credential date."
         },
         "openingPeerGroupSize": {
@@ -3268,7 +3585,7 @@
       "parameterApplicability": {
         "marriageReferenceAge": {
           "status": "not-applicable-to-current-generator-output",
-          "testableQuestion": "The cited 1934 marriage is a real individual outcome. Current marriageReferenceAge only backdates synthetic population couple households from adult ages; it does not generate LBJ’s partnership history or the individual marriage decision.",
+          "testableQuestion": "The cited 1934 marriage is a real individual outcome. Current marriageReferenceAge only backdates synthetic population couple households from adult ages; it does not generate LBJ\u2019s partnership history or the individual marriage decision.",
           "coefficientCalibration": "not valid; do not construct a synthetic town around a named LifeFile subject."
         }
       },
@@ -3297,7 +3614,7 @@
         "selection": "purposive sourced public biographies; not a representative sample"
       },
       "title": "Source-linked prior education-finance timeline",
-      "quantity": "LBJ’s 1927 college-enrollment loan range and subsequent Cotulla teaching employment recorded as funding college.",
+      "quantity": "LBJ\u2019s 1927 college-enrollment loan range and subsequent Cotulla teaching employment recorded as funding college.",
       "units": "P9 dated categorical checks and any sourced ranges retained from each original LifeFile step; no coefficient units or numerical bounds are inferred.",
       "observations": [
         {
@@ -3434,7 +3751,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "ce93c7f6eb9f82f1ab1627bcbd0141edb37a9e36108eb0b1d50ef0b9f98b65d5"
+        "src/core2/data/parameters.json": "7704c1eddb7a2abc7b1c8e14775616b638dd9bf58e167e66857831065794336c"
       },
       "observations": [
         {
@@ -5799,6 +6116,315 @@
       },
       "parameterApplicability": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed.",
       "calibrationStatus": "blocked and unmeasured; contextual source observations do not identify individual crosswalks or these coefficients."
+    },
+    {
+      "id": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD",
+      "kind": "external empirical observable",
+      "revision": "jpmci-september-2016-original-pdf-e4ddf6731fd32b23-normalized-figures-5-7-v1",
+      "scope": "Developer-only independently sourced contextual distribution target for the genuinely unmeasured opening cash-buffer tail-span TUNABLE. Actual JPMC quartiles supply empirical cohort evidence, never a coefficient interval, observed extrema, full CDF, local individual crosswalk or survival objective.",
+      "sources": [
+        {
+          "id": "jpmci-cash-is-king-2016",
+          "title": "Cash Is King: Flows, Balances, and Buffer Days, September 2016",
+          "publisher": "JPMorgan Chase Institute",
+          "url": "https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf"
+        }
+      ],
+      "sourceFiles": {
+        "src/core2/data/opening-employer-cash-reference.json": "cbc4f26a3ebfa9d098e2dd44614bb1315c322a1199b20c7c284c7c68a3abd8af",
+        "data/research/money/opening-employer-cash-buffers.json": "d6a20e11c0db0532146704c429070bf1da5b6f66b1beec4efc1f62981910f198"
+      },
+      "observations": [
+        {
+          "quantity": "all-small-businesses cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in all-small-businesses; overall means all twelve selected industries",
+          "observedValue": 27,
+          "observedCounts": {
+            "percentile25": 13,
+            "median": 27,
+            "percentile75": 62
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysAll",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "restaurants cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in restaurants; overall means all twelve selected industries",
+          "observedValue": 16,
+          "observedCounts": {
+            "percentile25": 9,
+            "median": 16,
+            "percentile75": 31
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysRestaurants",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "repair-and-maintenance cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in repair-and-maintenance; overall means all twelve selected industries",
+          "observedValue": 18,
+          "observedCounts": {
+            "percentile25": 9,
+            "median": 18,
+            "percentile75": 40
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysRepair",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "retail cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in retail; overall means all twelve selected industries",
+          "observedValue": 19,
+          "observedCounts": {
+            "percentile25": 10,
+            "median": 19,
+            "percentile75": 45
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysRetail",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "construction cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in construction; overall means all twelve selected industries",
+          "observedValue": 20,
+          "observedCounts": {
+            "percentile25": 11,
+            "median": 20,
+            "percentile75": 44
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysConstruction",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "personal-services cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in personal-services; overall means all twelve selected industries",
+          "observedValue": 21,
+          "observedCounts": {
+            "percentile25": 11,
+            "median": 21,
+            "percentile75": 45
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysPersonalServices",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "wholesalers cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in wholesalers; overall means all twelve selected industries",
+          "observedValue": 23,
+          "observedCounts": {
+            "percentile25": 11,
+            "median": 23,
+            "percentile75": 52
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysWholesale",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "metal-and-machinery cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in metal-and-machinery; overall means all twelve selected industries",
+          "observedValue": 28,
+          "observedCounts": {
+            "percentile25": 13,
+            "median": 28,
+            "percentile75": 62
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysMetalMachinery",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "health-care-services cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in health-care-services; overall means all twelve selected industries",
+          "observedValue": 30,
+          "observedCounts": {
+            "percentile25": 14,
+            "median": 30,
+            "percentile75": 67
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysHealthCare",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "high-tech-manufacturing cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in high-tech-manufacturing; overall means all twelve selected industries",
+          "observedValue": 32,
+          "observedCounts": {
+            "percentile25": 15,
+            "median": 32,
+            "percentile75": 71
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysHighTechManufacturing",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "other-professional-services cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in other-professional-services; overall means all twelve selected industries",
+          "observedValue": 33,
+          "observedCounts": {
+            "percentile25": 15,
+            "median": 33,
+            "percentile75": 72
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysProfessionalServices",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "high-tech-services cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in high-tech-services; overall means all twelve selected industries",
+          "observedValue": 33,
+          "observedCounts": {
+            "percentile25": 15,
+            "median": 33,
+            "percentile75": 77
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysHighTechServices",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        },
+        {
+          "quantity": "real-estate cash buffer days: observed median and interquartile range",
+          "unit": "cash buffer days",
+          "cohort": "Selected operating Chase businesses in real-estate; overall means all twelve selected industries",
+          "observedValue": 47,
+          "observedCounts": {
+            "percentile25": 21,
+            "median": 47,
+            "percentile75": 107
+          },
+          "dateWindow": {
+            "earliest": "2015-02-01",
+            "latest": "2015-10-31",
+            "precision": "nine calendar months"
+          },
+          "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
+          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
+          "estimatedParameterRef": "openingEmployerCashBufferDaysRealEstate",
+          "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
+        }
+      ],
+      "checkRange": {
+        "quantity": "Observed source-cohort 25th\u201375th percentiles, separated by industry",
+        "unit": "cash buffer days",
+        "location": "src/core2/data/opening-employer-cash-reference.json observations[].observedCounts.percentile25 / percentile75",
+        "meaning": "Real empirical interquartile check range. Do not force every simulated employer inside it or use it as a survival condition; half of the source cohort is outside its interquartile range."
+      },
+      "testRoute": {
+        "implementationStatus": "planned",
+        "routeStatus": "blocked; no matched ALL-cash-debit/average-balance small-business cohort adapter or evaluator executed",
+        "commandTemplate": "Root-owned fresh population capture plus independently saved balance and ALL-debit windows; cohort/denominator audit before any quantile comparison",
+        "evaluationContract": "Compare actual saved average firm cash balances divided by actual average ALL daily cash debits within a matched cohort/window; report payroll, purchases, taxes, debt service, capex and owner draws coverage separately. Generated opening cash divided by the same sizing projection is a formula identity and cannot count as calibration. Report industry distributions separately and never tune stocks to future closures or payroll survival."
+      },
+      "parameterApplicability": "JPMC observes average bank-account balances divided by ALL cash debits in a selected, metropolitan Chase sample, including employer and nonemployer businesses. Payroll plus IRS accounting nonwage costs is an unmeasured cash-debit proxy: accounting costs can include noncash depreciation and omit tax, capital expenditure, debt service, owner draws and other debits. Generated legal form, total firm size, banking coverage, 2021/local/territorial applicability and the source of the owner capital are unobserved. No owner contribution, appropriation, lending transaction, refill, future deficit or survival guarantee is established. The TUNABLE is an explicit distribution-shape assumption. Source IQRs do not identify its range; no measured tail-span coefficient interval is claimed.",
+      "calibrationStatus": "blocked and unmeasured; actual published anchors are pinned, but startup-rank, interpolation, tail-span and individual/denominator crosswalk applicability remains unmeasured",
+      "bindingStatus": "Real open TUNABLE binding; applicability-blocked. No matched cash-debit/balance adapter, distribution evaluator or coefficient identification has been executed.",
+      "requiredTestRouteAfterImplementation": null
     }
   ],
   "jointTargetRef": "P9-OUTCOME-WHOLE-LIFE",
@@ -5947,6 +6573,11 @@
       "parameter": "openingCustomerOutsideHouseholdCountPerMarket",
       "ref": "EMPIRICAL-OPENING-CUSTOMER-BUDGET-CALIBRATION",
       "reason": "Applicability-blocked: CEX aggregate annual consumer-unit means and standard errors are not individual budget dispersion, invoice cadence, agreement timing or outside-family trip counts. Public construction and SCF stock priors likewise do not identify these three model parameters. No matched generated-world or coefficient calibration has been executed."
+    },
+    {
+      "parameter": "openingEmployerCashBufferTailSpan",
+      "ref": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD",
+      "reason": "Real independently pinned JPMC cohort q25/median/q75 anchors provide contextual distribution evidence. Uniform startup ranks, interpolation, tails, legal form/vintage/location and scheduled-payroll/accounting-cost-to-ALL-debit mapping remain unmeasured. No full CDF, coefficient interval or survival-based stock tuning is justified."
     }
   ],
   "deletedUnusedParameters": [
@@ -5988,9 +6619,11 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
-    "src/core2/data/parameters.json": "ce93c7f6eb9f82f1ab1627bcbd0141edb37a9e36108eb0b1d50ef0b9f98b65d5",
+    "src/core2/data/parameters.json": "7704c1eddb7a2abc7b1c8e14775616b638dd9bf58e167e66857831065794336c",
     "data/research/money/public-programs-2026.json": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193",
     "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac",
-    "data/research/money/opening-customer-cex-2024.json": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b"
+    "data/research/money/opening-customer-cex-2024.json": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b",
+    "src/core2/data/opening-employer-cash-reference.json": "cbc4f26a3ebfa9d098e2dd44614bb1315c322a1199b20c7c284c7c68a3abd8af",
+    "data/research/money/opening-employer-cash-buffers.json": "d6a20e11c0db0532146704c429070bf1da5b6f66b1beec4efc1f62981910f198"
   }
 }

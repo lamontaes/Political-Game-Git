@@ -1,7 +1,24 @@
 /** P8 prototype boundary. No game screen or old-core clock imports this API. */
+import type { CashActSelection } from "./act-cash";
+import type {
+  LegacyWorkCashInput,
+  LegacyWorkCashResult,
+  WorkCashSourceState,
+} from "./work-cash";
 import type { Parameter } from "./parameters";
 import type { EventAppraisal } from "./emotion";
 import type { BusinessBooksData } from "./business-books";
+import type {
+  CashAccountSnapshot,
+  CashJournalInput,
+  CashJournalProjection,
+  CashJournalSourceRef,
+} from "./journal";
+import type {
+  CashJournalRuntime,
+  CashJournalSourceSlot,
+  CashJournalSourceCompletion,
+} from "./journal-state";
 import type {
   BusinessBooksInput,
   CreditFacilityInput,
@@ -122,7 +139,35 @@ export interface JobInput {
   endsAt?: IsoDate;
 }
 
+export interface PublicPayAuthorityInput {
+  id: string;
+  ownerId: string;
+  governmentKey: string;
+  jurisdictionId: string;
+  workCommitmentIds: readonly string[];
+  basisRecordIds: readonly string[];
+  source: Source;
+}
+
+/** The work owner records this occurrence from actual attendance and pay terms. */
+export interface PublicWorkPayDue {
+  kind: string;
+  id: string;
+  date: IsoDate;
+  authorityId: string;
+  ownerId: string;
+  organizationId: string;
+  commitmentId: string;
+  jobId: string;
+  personId: string;
+  amountMinor: number;
+  source: Source;
+}
+
 export interface OrganizationInput {
+  /** An outside payer records actual due flows; it holds no modeled opening cash. */
+  outsideFlow?: Source;
+  publicPayAuthority?: PublicPayAuthorityInput;
   id: string;
   placeId: PlaceId;
   name: string;
@@ -216,6 +261,12 @@ export type CoreEventListener = (
   event: CoreEventInput,
   learnedBy: readonly PersonId[],
 ) => void;
+
+/** Module-owned indexed lookup; public journal callers supply only a source reference. */
+export type ModuleCashJournalSourceProvider = (
+  api: CoreAPI,
+  reference: Readonly<CashJournalSourceRef>,
+) => CashJournalSourceSlot | undefined;
 
 /** One learned person's actual appraisal, after its affect was applied once. */
 export type CoreEventAppraisalListener = (
@@ -332,6 +383,7 @@ export interface WorkScheduleSlot {
   minutes: number;
 }
 export interface WorkCommitmentInput {
+  publicPayAuthorityId?: string;
   id: string;
   jobId: string;
   personId: PersonId;
@@ -370,6 +422,7 @@ export interface WorkResult {
   jobSource: Source;
   paySource: Source;
   employerOpeningFundsSource: Source;
+  publicPayDue?: PublicWorkPayDue;
   payRemainderMinor: number;
   reasonKey: string;
   decision?: DecisionResult;
@@ -387,6 +440,7 @@ export type WorkResultInput = Omit<
   | "jobSource"
   | "paySource"
   | "employerOpeningFundsSource"
+  | "publicPayDue"
 >;
 
 export interface WorkRollup {
@@ -418,6 +472,10 @@ export interface ActivityTimeTotal {
   source: Source;
 }
 export interface WorkRuntime {
+  /** Only current or player-visible canonical cash sources and selected acts. */
+  cashActSelections: Map<string, CashActSelection>;
+  cashSources: Map<string, WorkCashSourceState>;
+  latestLegacyCashResultByPerson: Map<PersonId, LegacyWorkCashResult>;
   commitments: Map<string, WorkCommitmentInput>;
   commitmentsByPerson: Map<PersonId, Set<string>>;
   /** Period then residue indexes only jobs with an intersecting date segment. */
@@ -436,6 +494,14 @@ export interface WorkRuntime {
 }
 export interface WorkData {
   version: string;
+  journalSourceKinds: {
+    result: string;
+    commitment: string;
+    publicPayDue: string;
+    publicPayAuthority: string;
+  };
+  publicPayDueIdPrefix: string;
+  publicPayDueCitation: string;
   stopgapId: string;
   fallbackPatternId: string;
   patterns: readonly {
@@ -536,6 +602,7 @@ export interface CoreState {
   jobs: Map<string, JobInput>;
   work: WorkRuntime;
   finance: FinanceRuntime;
+  cashJournal: CashJournalRuntime;
   organizations: Map<string, OrganizationInput>;
   publicOrganizations: Map<string, PublicOrganization>;
   publicOrganizationsByPlace: Map<PlaceId, Set<string>>;
@@ -607,6 +674,9 @@ export interface TierDefinition {
 
 export interface CoreData {
   version: string;
+  workCashModuleId: string;
+  cashActSourceKind: string;
+  legacyWorkJournalSourceKind: string;
   work?: WorkData;
   businessBooks?: BusinessBooksData;
   finance?: FinancePolicyData;
@@ -643,6 +713,10 @@ export interface CoreData {
 export interface CoreModule {
   id: string;
   reasonProviders?: Readonly<Record<string, ReasonProvider>>;
+  /** Open named kinds resolve actual canonical payment/reclassification records. */
+  journalSourceProviders?: Readonly<
+    Record<string, ModuleCashJournalSourceProvider>
+  >;
   /** Explicit '*' subscribes to every kind; no implicit broadcast subscription. */
   eventKinds?: readonly string[];
   /** Chronological indexed commitments precede remaining-time discretionary acts. */
@@ -697,7 +771,12 @@ export interface CoreModule {
         offer: ActOffer,
         date: IsoDate,
         days: number,
-      ) => void
+        decision: DecisionResult,
+      ) => void | {
+        recordedActId: string;
+        recordedActivity?: true;
+        recordedLastActDate?: true;
+      }
     >
   >;
   eligibilityRules?: Readonly<
@@ -720,7 +799,12 @@ export interface CoreAPI {
   parameter(key: string): number;
   observe(personId: PersonId, fact: KnownFact): void;
   knows(personId: PersonId, key: string): KnownFact | undefined;
-  transfer(payerId: string, payeeId: string, minor: number): number;
+  postJournal(input: CashJournalInput): CashJournalProjection;
+  completeJournalSource(
+    reference: CashJournalSourceRef,
+  ): CashJournalSourceCompletion;
+  registerCashAccount(input: CashAccountSnapshot): void;
+  releaseJournalSource(reference: CashJournalSourceRef): void;
   addFinanceContract(input: FinanceContractInput): void;
   addFinanceCondition(input: FinanceConditionInput): void;
   addCreditFacility(input: CreditFacilityInput): void;
@@ -750,6 +834,7 @@ export interface CoreAPI {
   finishFinanceDay(): void;
   addWorkCommitment(input: WorkCommitmentInput): void;
   settleWorkResult(input: WorkResultInput): WorkResult;
+  settleLegacyWorkResult(input: LegacyWorkCashInput): LegacyWorkCashResult;
   recordActivityTime(
     personId: PersonId,
     category: string,

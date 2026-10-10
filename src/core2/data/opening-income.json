@@ -1,5 +1,5 @@
 {
-  "version": "p8-opening-retirement-income-v1",
+  "version": "p8-opening-retirement-income-v2-outside-flow",
   "stopgapId": "SG-P8-opening-retirement-income",
   "settlementPhaseId": "income",
   "incomeKindId": "retirement",
@@ -32,7 +32,7 @@
     "nameTemplate": "{placeName} retirement-income paying account",
     "kind": "public-institution",
     "classification": "sector:modeled-retirement-income-account",
-    "identityBasis": "Generated opening retirement paying account for represented residents; not a claim of real treasury ownership, appropriation, plan membership or verified historical existence."
+    "identityBasis": "Modeled local disbursement view for represented saved awards, with zero prepaid stock. It is not an observed local Treasury account, appropriation or plan-membership record; the genuine due flow must be admitted by the owning finance provider."
   },
   "parameters": {
     "careerStartAgeYears": "openingRetirementCareerStartAgeYears",
@@ -54,8 +54,8 @@
     "claim": "Generated opening retirement claim",
     "award": "Recorded opening monthly retirement income"
   },
-  "citation": "Authorized fictional pre-start WHO/PAST generation from the saved birth date, household, high-school cohort or sourced canonical reliability context and absence of a current owned job. Public-programs-2026.json preserves an official SSA snippet average of $2,015/month before the January 2026 COLA; it supplies an amount prior only. It does not verify individual earnings, 2021 eligibility, a historical employer roster, claim timing or a public funding account.",
-  "generationPriorVintage": "Later-vintage SSA 2026 factsheet snippet and canonical generated household/trait/school context; modeled pre-start records, not observed 2021 awards.",
+  "citation": "Fictional pre-start covered-work/claim/award generation remains estimated from saved birth, household, school/cohort and canonical trait context. SSA 2021 COLA factsheet, linked by the October 13, 2020 announcement, gives an estimated average retired-worker monthly amount payable in January 2021 of $1,543 after COLA (https://www.ssa.gov/news/en/cola/factsheets/2021.html). This is a source-reported average estimate, not an observed individual benefit, actual legal entitlement, cash stock or jurisdiction appropriation. New modeled local paying accounts start at zero; dated outside payments require kernel admission. The first bill on the first day of the following month and subsequent fixed-day monthly successors are an explicitly estimated calendar prior, not the sourced SSA insured-worker cycling/holiday calendar.",
+  "generationPriorVintage": "SSA estimated January 2021 average payable, released with the October 13, 2020 COLA announcement; current canonical person/location context remains a modeled opening proxy.",
   "placeCitation": "Canonical accepted LifePlace record from src/simulation/life-places.ts; recent locality/jurisdiction identities are opening location proxies, not proof of historical public funding authority.",
   "reasons": {
     "generated": "Generated coherent covered-work and claim context supports the explicitly modeled opening award; no historical earnings or contemporaneous legal entitlement is claimed.",
@@ -73,9 +73,11 @@
     "opening-income:fictional-covered-career-claim-and-award-priors-not-observed-individual-history",
     "opening-income:contemporaneous-2021-eligibility-law-covered-credits-and-indexed-earnings-not-reconstructed",
     "opening-income:claim-cohort-trait-and-benefit-scaling-priors-uncalibrated",
-    "opening-income:finite-opening-payer-stock-no-tax-contribution-or-refill-producer",
     "opening-income:concurrent-work-earnings-test-and-restriction-mechanics-not-implemented",
     "opening-income:later-vintage-means-not-individual-dispersion-or-actor-knowledge",
-    "opening-income:commuter-benefit-property-and-external-customer-routes-separate"
+    "opening-income:commuter-benefit-property-and-external-customer-routes-separate",
+    "Individual indexed earnings, credits, actual SSA eligibility/insured-worker linkage and territory/plan crosswalk remain estimated; a source average cannot establish an individual award.",
+    "Current fixed-calendar monthly due terms are modeled. Actual SSA payment cycling uses the insured worker birth date and exceptions; January 3, 2021 cycle-one payments were paid December 31, 2020 and must not be paid again after opening.",
+    "New generated local disbursement accounts carry no prepaid award reserve; genuine incoming flow and current source admission remain a root finance/journal requirement."
   ]
 }
