@@ -205,6 +205,7 @@
         ]
       },
       "arrangements": {
+        "adults": [1061356, 1892737, 928542],
         "livesAlone": [22568, 90234, 109136],
         "unpartnered": [238761, 261492, 176301],
         "nonrelatives": [16762, 21364, 7123],
@@ -258,6 +259,7 @@
         ]
       },
       "arrangements": {
+        "adults": [165530, 263239, 106211],
         "livesAlone": [2722, 12176, 9326],
         "unpartnered": [26913, 31503, 14823],
         "nonrelatives": [3658, 3129, 486],
@@ -313,6 +315,7 @@
         ]
       },
       "arrangements": {
+        "adults": [1696532, 2677985, 1459213],
         "livesAlone": [7722, 32138, 42023],
         "unpartnered": [110736, 98934, 72508],
         "nonrelatives": [7465, 7091, 3557],
@@ -366,6 +369,7 @@
         ]
       },
       "arrangements": {
+        "adults": [640198, 1121319, 545548],
         "livesAlone": [12534, 61757, 70798],
         "unpartnered": [129393, 158351, 106088],
         "nonrelatives": [9244, 9590, 3687],
@@ -421,6 +425,7 @@
         ]
       },
       "arrangements": {
+        "adults": [8936419, 14872480, 6333225],
         "livesAlone": [15962, 72330, 97483],
         "unpartnered": [281822, 268530, 183256],
         "nonrelatives": [28090, 40672, 18595],
@@ -476,6 +481,7 @@
         ]
       },
       "arrangements": {
+        "adults": [1414457, 2253785, 954669],
         "livesAlone": [8226, 33367, 38357],
         "unpartnered": [72528, 71213, 58160],
         "nonrelatives": [8660, 6687, 4294],
@@ -529,6 +535,7 @@
         ]
       },
       "arrangements": {
+        "adults": [741537, 1405423, 692430],
         "livesAlone": [3900, 15053, 20637],
         "unpartnered": [55072, 46616, 36009],
         "nonrelatives": [5472, 5084, 2402],
@@ -582,6 +589,7 @@
         ]
       },
       "arrangements": {
+        "adults": [203870, 387645, 223362],
         "livesAlone": [1395, 5629, 8992],
         "unpartnered": [21757, 21437, 14901],
         "nonrelatives": [626, 3052, 307],
@@ -635,6 +643,7 @@
         ]
       },
       "arrangements": {
+        "adults": [196240, 253189, 85839],
         "livesAlone": [54969, 65087, 34869],
         "unpartnered": [136723, 124644, 55789],
         "nonrelatives": [32323, 10132, 3225],
@@ -690,6 +699,7 @@
         ]
       },
       "arrangements": {
+        "adults": [4613044, 8820292, 4970413],
         "livesAlone": [15123, 72618, 99416],
         "unpartnered": [227270, 241445, 178596],
         "nonrelatives": [20842, 23131, 11073],
@@ -745,6 +755,7 @@
         ]
       },
       "arrangements": {
+        "adults": [2451062, 4226773, 1722477],
         "livesAlone": [24918, 104423, 123925],
         "unpartnered": [344857, 341389, 223878],
         "nonrelatives": [21346, 26634, 10849],
@@ -798,6 +809,7 @@
         ]
       },
       "arrangements": {
+        "adults": [276891, 529652, 305515],
         "livesAlone": [1279, 6980, 8340],
         "unpartnered": [21977, 28647, 18077],
         "nonrelatives": [4961, 4585, 3770],
@@ -851,6 +863,7 @@
         ]
       },
       "arrangements": {
+        "adults": [428408, 712399, 343984],
         "livesAlone": [4081, 17543, 26435],
         "unpartnered": [65566, 54841, 41459],
         "nonrelatives": [8193, 6932, 1635],
@@ -906,6 +919,7 @@
         ]
       },
       "arrangements": {
+        "adults": [2770725, 4759194, 2198631],
         "livesAlone": [21380, 64814, 88781],
         "unpartnered": [154811, 145993, 122042],
         "nonrelatives": [10406, 10579, 5692],
@@ -961,6 +975,7 @@
         ]
       },
       "arrangements": {
+        "adults": [1495813, 2495819, 1177865],
         "livesAlone": [20894, 71396, 93180],
         "unpartnered": [196202, 175946, 133953],
         "nonrelatives": [14421, 12059, 4200],
@@ -1014,6 +1029,7 @@
         ]
       },
       "arrangements": {
+        "adults": [676620, 1154367, 584343],
         "livesAlone": [18143, 46750, 64632],
         "unpartnered": [91360, 95530, 80670],
         "nonrelatives": [7906, 6516, 2589],
@@ -1067,6 +1083,7 @@
         ]
       },
       "arrangements": {
+        "adults": [639203, 1045856, 513579],
         "livesAlone": [10796, 32873, 45187],
         "unpartnered": [60021, 67336, 58922],
         "nonrelatives": [5182, 3920, 2017],
@@ -1122,6 +1139,7 @@
         ]
       },
       "arrangements": {
+        "adults": [964295, 1685754, 799826],
         "livesAlone": [17340, 75396, 88448],
         "unpartnered": [172071, 198695, 135182],
         "nonrelatives": [11209, 15538, 4735],
@@ -1177,6 +1195,7 @@
         ]
       },
       "arrangements": {
+        "adults": [951816, 1665669, 795036],
         "livesAlone": [12638, 58146, 62001],
         "unpartnered": [134765, 149715, 95945],
         "nonrelatives": [12366, 8405, 3445],
@@ -1230,6 +1249,7 @@
         ]
       },
       "arrangements": {
+        "adults": [258200, 541413, 318884],
         "livesAlone": [10835, 35983, 48340],
         "unpartnered": [74922, 87376, 67304],
         "nonrelatives": [9673, 8930, 3571],
@@ -1285,6 +1305,7 @@
         ]
       },
       "arrangements": {
+        "adults": [1270372, 2424804, 1072108],
         "livesAlone": [6465, 27233, 36434],
         "unpartnered": [103979, 94569, 70604],
         "nonrelatives": [7896, 8275, 5266],
@@ -1340,6 +1361,7 @@
         ]
       },
       "arrangements": {
+        "adults": [1533352, 2704839, 1291338],
         "livesAlone": [3458, 18706, 24427],
         "unpartnered": [67989, 56355, 40279],
         "nonrelatives": [6338, 7111, 1952],
@@ -1395,6 +1417,7 @@
         ]
       },
       "arrangements": {
+        "adults": [2169437, 3716910, 1936823],
         "livesAlone": [27294, 103446, 136215],
         "unpartnered": [259454, 252609, 197016],
         "nonrelatives": [20323, 18363, 9010],
@@ -1450,6 +1473,7 @@
         ]
       },
       "arrangements": {
+        "adults": [1205549, 2143801, 1015203],
         "livesAlone": [22806, 60995, 78543],
         "unpartnered": [145341, 134407, 105063],
         "nonrelatives": [13912, 11089, 4907],
@@ -1503,6 +1527,7 @@
         ]
       },
       "arrangements": {
+        "adults": [597609, 1073565, 513641],
         "livesAlone": [17101, 69909, 79091],
         "unpartnered": [179793, 214934, 127571],
         "nonrelatives": [8470, 12716, 5022],
@@ -1558,6 +1583,7 @@
         ]
       },
       "arrangements": {
+        "adults": [1313551, 2277001, 1128599],
         "livesAlone": [18294, 72580, 94556],
         "unpartnered": [173689, 186407, 142731],
         "nonrelatives": [13646, 14441, 7459],
@@ -1611,6 +1637,7 @@
         ]
       },
       "arrangements": {
+        "adults": [231859, 413336, 233541],
         "livesAlone": [3703, 20641, 26312],
         "unpartnered": [48399, 55628, 42620],
         "nonrelatives": [6388, 5484, 3268],
@@ -1664,6 +1691,7 @@
         ]
       },
       "arrangements": {
+        "adults": [435369, 708448, 335289],
         "livesAlone": [9921, 19817, 33474],
         "unpartnered": [42624, 38437, 39583],
         "nonrelatives": [4569, 2040, 861],
@@ -1717,6 +1745,7 @@
         ]
       },
       "arrangements": {
+        "adults": [719080, 1256142, 568811],
         "livesAlone": [1970, 8140, 8978],
         "unpartnered": [18626, 23971, 17395],
         "nonrelatives": [2171, 3937, 2041],
@@ -1770,6 +1799,7 @@
         ]
       },
       "arrangements": {
+        "adults": [274190, 553374, 291709],
         "livesAlone": [5077, 19726, 29000],
         "unpartnered": [67573, 60258, 45430],
         "nonrelatives": [7233, 6882, 3544],
@@ -1825,6 +1855,7 @@
         ]
       },
       "arrangements": {
+        "adults": [1959039, 3671965, 1661855],
         "livesAlone": [3098, 15541, 23172],
         "unpartnered": [67807, 47935, 39060],
         "nonrelatives": [3308, 3580, 1178],
@@ -1878,6 +1909,7 @@
         ]
       },
       "arrangements": {
+        "adults": [455941, 766897, 421545],
         "livesAlone": [4516, 22282, 29463],
         "unpartnered": [71931, 71326, 49856],
         "nonrelatives": [4668, 4329, 1872],
@@ -1933,6 +1965,7 @@
         ]
       },
       "arrangements": {
+        "adults": [4240973, 7388835, 3609444],
         "livesAlone": [27385, 99703, 137692],
         "unpartnered": [234452, 231088, 192338],
         "nonrelatives": [19295, 18769, 8405],
@@ -1988,6 +2021,7 @@
         ]
       },
       "arrangements": {
+        "adults": [2356142, 4126008, 1932185],
         "livesAlone": [36773, 146321, 186958],
         "unpartnered": [398263, 406011, 293730],
         "nonrelatives": [30387, 28361, 12225],
@@ -2041,6 +2075,7 @@
         ]
       },
       "arrangements": {
+        "adults": [182966, 271893, 132905],
         "livesAlone": [6587, 13523, 15160],
         "unpartnered": [19030, 23395, 18233],
         "nonrelatives": [994, 869, 340],
@@ -2096,6 +2131,7 @@
         ]
       },
       "arrangements": {
+        "adults": [2481244, 4348266, 2191097],
         "livesAlone": [24663, 98811, 132320],
         "unpartnered": [272265, 256054, 201031],
         "nonrelatives": [19360, 16867, 8155],
@@ -2149,6 +2185,7 @@
         ]
       },
       "arrangements": {
+        "adults": [887498, 1460752, 668019],
         "livesAlone": [13764, 52614, 66477],
         "unpartnered": [151489, 155790, 106563],
         "nonrelatives": [12692, 11816, 4562],
@@ -2204,6 +2241,7 @@
         ]
       },
       "arrangements": {
+        "adults": [906378, 1614818, 822798],
         "livesAlone": [4888, 25618, 44253],
         "unpartnered": [79672, 81466, 74432],
         "nonrelatives": [9264, 11132, 6555],
@@ -2259,6 +2297,7 @@
         ]
       },
       "arrangements": {
+        "adults": [2600393, 4855705, 2563328],
         "livesAlone": [25960, 110289, 156271],
         "unpartnered": [302066, 279655, 236582],
         "nonrelatives": [20519, 18973, 12911],
@@ -2312,6 +2351,7 @@
         ]
       },
       "arrangements": {
+        "adults": [234324, 419558, 211539],
         "livesAlone": [512, 2801, 3946],
         "unpartnered": [11824, 10320, 7015],
         "nonrelatives": [1436, 496, 0],
@@ -2367,6 +2407,7 @@
         ]
       },
       "arrangements": {
+        "adults": [1105501, 2026649, 1058134],
         "livesAlone": [16338, 77443, 85470],
         "unpartnered": [201526, 223442, 138718],
         "nonrelatives": [13765, 11907, 4927],
@@ -2420,6 +2461,7 @@
         ]
       },
       "arrangements": {
+        "adults": [186813, 323717, 165063],
         "livesAlone": [5875, 15534, 19106],
         "unpartnered": [32828, 32589, 26018],
         "nonrelatives": [2774, 1061, 733],
@@ -2475,6 +2517,7 @@
         ]
       },
       "arrangements": {
+        "adults": [1572059, 2692877, 1237813],
         "livesAlone": [19762, 96876, 117498],
         "unpartnered": [256726, 268762, 189015],
         "nonrelatives": [20493, 21315, 7594],
@@ -2530,6 +2573,7 @@
         ]
       },
       "arrangements": {
+        "adults": [7277984, 11496371, 4247193],
         "livesAlone": [41015, 157704, 197185],
         "unpartnered": [609678, 550568, 348044],
         "nonrelatives": [43360, 43946, 15076],
@@ -2583,6 +2627,7 @@
         ]
       },
       "arrangements": {
+        "adults": [912336, 1177625, 426668],
         "livesAlone": [2762, 9350, 12043],
         "unpartnered": [43173, 30280, 18822],
         "nonrelatives": [6603, 2191, 645],
@@ -2636,6 +2681,7 @@
         ]
       },
       "arrangements": {
+        "adults": [120167, 248267, 143466],
         "livesAlone": [5283, 20951, 23502],
         "unpartnered": [36540, 42528, 33238],
         "nonrelatives": [3733, 4269, 2476],
@@ -2691,6 +2737,7 @@
         ]
       },
       "arrangements": {
+        "adults": [1841574, 3347567, 1514994],
         "livesAlone": [18078, 83052, 121217],
         "unpartnered": [211818, 232294, 190029],
         "nonrelatives": [18351, 19843, 10437],
@@ -2746,6 +2793,7 @@
         ]
       },
       "arrangements": {
+        "adults": [1805376, 3004210, 1342476],
         "livesAlone": [7809, 42313, 58919],
         "unpartnered": [128649, 125260, 100897],
         "nonrelatives": [14521, 13423, 7325],
@@ -2799,6 +2847,7 @@
         ]
       },
       "arrangements": {
+        "adults": [341152, 653737, 376238],
         "livesAlone": [7347, 41218, 56991],
         "unpartnered": [87870, 109937, 86441],
         "nonrelatives": [8185, 6917, 2555],
@@ -2854,6 +2903,7 @@
         ]
       },
       "arrangements": {
+        "adults": [1238160, 2215645, 1130247],
         "livesAlone": [23456, 80179, 101372],
         "unpartnered": [173484, 170848, 133705],
         "nonrelatives": [15415, 12010, 4449],
@@ -2907,6 +2957,7 @@
         ]
       },
       "arrangements": {
+        "adults": [119545, 215194, 114459],
         "livesAlone": [1178, 9424, 11714],
         "unpartnered": [13409, 19543, 15536],
         "nonrelatives": [2929, 945, 592],
@@ -2961,6 +3012,7 @@
         ]
       },
       "arrangements": {
+        "adults": [699535, 1215183, 770335],
         "livesAlone": [1449, 10174, 14109],
         "unpartnered": [36008, 47517, 30722],
         "nonrelatives": [191, 0, 1473],
@@ -3016,6 +3068,7 @@
         ]
       },
       "arrangements": {
+        "adults": [73158149, 126363766, 59418120],
         "livesAlone": [7169843, 15351588, 15784869],
         "unpartnered": [47327679, 42638207, 25843815],
         "nonrelatives": [7046063, 4076180, 1348188],
@@ -3069,6 +3122,7 @@
         ]
       },
       "arrangements": {
+        "adults": [50714, 65049, 35996],
         "livesAlone": [10173, 13857, 13550],
         "unpartnered": [36949, 40536, 23562],
         "nonrelatives": [6639, 3772, 795],
@@ -3120,6 +3174,7 @@
         ]
       },
       "arrangements": {
+        "adults": [15234, 25853, 13575],
         "livesAlone": [1817, 3837, 4723],
         "unpartnered": [10896, 9619, 6402],
         "nonrelatives": [701, 813, 233],
@@ -3173,6 +3228,7 @@
         ]
       },
       "arrangements": {
+        "adults": [46277, 67553, 34660],
         "livesAlone": [7732, 12984, 11161],
         "unpartnered": [36720, 36017, 18011],
         "nonrelatives": [4242, 2137, 393],
@@ -3226,6 +3282,7 @@
         ]
       },
       "arrangements": {
+        "adults": [70659, 106651, 37661],
         "livesAlone": [6921, 13269, 9462],
         "unpartnered": [37819, 35651, 15322],
         "nonrelatives": [6360, 4545, 1306],
@@ -3279,6 +3336,7 @@
         ]
       },
       "arrangements": {
+        "adults": [66682, 94546, 36192],
         "livesAlone": [6807, 8216, 8119],
         "unpartnered": [47063, 36402, 16549],
         "nonrelatives": [5014, 4559, 1588],
@@ -3332,6 +3390,7 @@
         ]
       },
       "arrangements": {
+        "adults": [128116, 180233, 87327],
         "livesAlone": [13171, 19772, 22095],
         "unpartnered": [76377, 57089, 36926],
         "nonrelatives": [13574, 8298, 1850],
@@ -3385,6 +3444,7 @@
         ]
       },
       "arrangements": {
+        "adults": [431892, 621404, 211025],
         "livesAlone": [42716, 79406, 56932],
         "unpartnered": [283286, 240677, 99246],
         "nonrelatives": [43346, 27558, 5368],
@@ -3438,6 +3498,7 @@
         ]
       },
       "arrangements": {
+        "adults": [162452, 174139, 89376],
         "livesAlone": [19837, 30865, 30161],
         "unpartnered": [104619, 71334, 45007],
         "nonrelatives": [24366, 4488, 2003],
@@ -3491,6 +3552,7 @@
         ]
       },
       "arrangements": {
+        "adults": [90834, 127947, 44965],
         "livesAlone": [4800, 7334, 8100],
         "unpartnered": [66476, 43962, 21616],
         "nonrelatives": [11466, 6995, 820],
@@ -3544,6 +3606,7 @@
         ]
       },
       "arrangements": {
+        "adults": [105342, 140860, 49839],
         "livesAlone": [5677, 9689, 9689],
         "unpartnered": [67270, 46284, 23648],
         "nonrelatives": [4932, 2896, 543],
@@ -3597,6 +3660,7 @@
         ]
       },
       "arrangements": {
+        "adults": [59408, 107597, 40791],
         "livesAlone": [2749, 7277, 6572],
         "unpartnered": [44504, 33052, 20644],
         "nonrelatives": [4364, 3313, 1541],
@@ -3650,6 +3714,7 @@
         ]
       },
       "arrangements": {
+        "adults": [44409, 99032, 32749],
         "livesAlone": [3085, 7115, 4538],
         "unpartnered": [27732, 26327, 14048],
         "nonrelatives": [4502, 3773, 350],
@@ -3703,6 +3768,7 @@
         ]
       },
       "arrangements": {
+        "adults": [138824, 189129, 68482],
         "livesAlone": [7734, 19168, 16281],
         "unpartnered": [96194, 76212, 36871],
         "nonrelatives": [10238, 10242, 1461],
@@ -3756,6 +3822,7 @@
         ]
       },
       "arrangements": {
+        "adults": [36808, 71220, 27935],
         "livesAlone": [1321, 3284, 4180],
         "unpartnered": [31065, 33059, 15273],
         "nonrelatives": [1978, 5186, 1225],
@@ -3809,6 +3876,7 @@
         ]
       },
       "arrangements": {
+        "adults": [110993, 177892, 60788],
         "livesAlone": [10915, 24827, 16886],
         "unpartnered": [82442, 73496, 33719],
         "nonrelatives": [17962, 8299, 1377],
@@ -3862,6 +3930,7 @@
         ]
       },
       "arrangements": {
+        "adults": [996218, 1494624, 558838],
         "livesAlone": [123283, 207150, 141292],
         "unpartnered": [751826, 650298, 299530],
         "nonrelatives": [149132, 95760, 26239],
@@ -3915,6 +3984,7 @@
         ]
       },
       "arrangements": {
+        "adults": [62954, 78733, 20296],
         "livesAlone": [479, 2990, 3238],
         "unpartnered": [54425, 30662, 11702],
         "nonrelatives": [6142, 3218, 1104],
@@ -3968,6 +4038,7 @@
         ]
       },
       "arrangements": {
+        "adults": [107757, 178915, 71088],
         "livesAlone": [15545, 33608, 20702],
         "unpartnered": [77344, 84606, 36911],
         "nonrelatives": [14488, 15163, 1831],
@@ -4021,6 +4092,7 @@
         ]
       },
       "arrangements": {
+        "adults": [35417, 68321, 33240],
         "livesAlone": [1526, 5391, 7810],
         "unpartnered": [23685, 24427, 14765],
         "nonrelatives": [4071, 4395, 1472],
@@ -4074,6 +4146,7 @@
         ]
       },
       "arrangements": {
+        "adults": [51211, 73080, 27390],
         "livesAlone": [978, 5098, 3683],
         "unpartnered": [41847, 30978, 12239],
         "nonrelatives": [4473, 4528, 2014],
@@ -4127,6 +4200,7 @@
         ]
       },
       "arrangements": {
+        "adults": [82909, 120373, 37511],
         "livesAlone": [3950, 9815, 9941],
         "unpartnered": [64540, 47186, 20504],
         "nonrelatives": [9460, 6065, 1730],
@@ -4180,6 +4254,7 @@
         ]
       },
       "arrangements": {
+        "adults": [131245, 203025, 75804],
         "livesAlone": [12717, 28733, 21908],
         "unpartnered": [89834, 85447, 44256],
         "nonrelatives": [16081, 9847, 3820],
@@ -4233,6 +4308,7 @@
         ]
       },
       "arrangements": {
+        "adults": [62470, 74357, 23461],
         "livesAlone": [1679, 4739, 5723],
         "unpartnered": [45721, 30120, 13891],
         "nonrelatives": [3822, 2451, 522],
@@ -4286,6 +4362,7 @@
         ]
       },
       "arrangements": {
+        "adults": [375032, 514291, 209711],
         "livesAlone": [36775, 70166, 49469],
         "unpartnered": [241804, 194231, 99767],
         "nonrelatives": [79664, 21224, 7481],
@@ -4339,6 +4416,7 @@
         ]
       },
       "arrangements": {
+        "adults": [212231, 331574, 142675],
         "livesAlone": [37928, 69768, 43442],
         "unpartnered": [145116, 151193, 80821],
         "nonrelatives": [53295, 24774, 7194],
@@ -4392,6 +4470,7 @@
         ]
       },
       "arrangements": {
+        "adults": [247686, 393574, 151099],
         "livesAlone": [15654, 29890, 25901],
         "unpartnered": [185044, 140146, 76392],
         "nonrelatives": [34745, 23892, 6561],
@@ -4445,6 +4524,7 @@
         ]
       },
       "arrangements": {
+        "adults": [82662, 117287, 38535],
         "livesAlone": [2217, 5864, 4197],
         "unpartnered": [68952, 51513, 21135],
         "nonrelatives": [9625, 11221, 2044],
@@ -4498,6 +4578,7 @@
         ]
       },
       "arrangements": {
+        "adults": [85772, 115061, 38597],
         "livesAlone": [4084, 8163, 10126],
         "unpartnered": [69403, 44585, 23771],
         "nonrelatives": [5101, 5040, 1259],
@@ -4551,6 +4632,7 @@
         ]
       },
       "arrangements": {
+        "adults": [105305, 150479, 53026],
         "livesAlone": [8999, 18380, 13135],
         "unpartnered": [68165, 56934, 23285],
         "nonrelatives": [11353, 9453, 1628],
@@ -4604,6 +4686,7 @@
         ]
       },
       "arrangements": {
+        "adults": [125298, 173271, 76271],
         "livesAlone": [17361, 24300, 20905],
         "unpartnered": [59893, 54317, 31162],
         "nonrelatives": [10496, 5590, 1440],
@@ -4657,6 +4740,7 @@
         ]
       },
       "arrangements": {
+        "adults": [222218, 273451, 91156],
         "livesAlone": [52442, 57178, 34394],
         "unpartnered": [134822, 101172, 48379],
         "nonrelatives": [36904, 11902, 3467],
@@ -4710,6 +4794,7 @@
         ]
       },
       "arrangements": {
+        "adults": [196240, 253189, 85839],
         "livesAlone": [54969, 65087, 34869],
         "unpartnered": [136723, 124644, 55789],
         "nonrelatives": [32323, 10132, 3225],
@@ -4763,6 +4848,7 @@
         ]
       },
       "arrangements": {
+        "adults": [39008, 78583, 33714],
         "livesAlone": [5606, 13239, 11020],
         "unpartnered": [29171, 35373, 18228],
         "nonrelatives": [5363, 5634, 2034],
@@ -4816,6 +4902,7 @@
         ]
       },
       "arrangements": {
+        "adults": [49031, 99990, 47460],
         "livesAlone": [907, 4357, 9008],
         "unpartnered": [35608, 42778, 28348],
         "nonrelatives": [2932, 6772, 3128],
@@ -4869,6 +4956,7 @@
         ]
       },
       "arrangements": {
+        "adults": [240665, 374194, 151471],
         "livesAlone": [31347, 53795, 40154],
         "unpartnered": [154090, 146009, 67280],
         "nonrelatives": [16723, 13494, 3319],
@@ -4922,6 +5010,7 @@
         ]
       },
       "arrangements": {
+        "adults": [128399, 194868, 75494],
         "livesAlone": [19574, 27831, 22645],
         "unpartnered": [87823, 88548, 45194],
         "nonrelatives": [14110, 9230, 2046],
@@ -4975,6 +5064,7 @@
         ]
       },
       "arrangements": {
+        "adults": [92564, 130603, 35055],
         "livesAlone": [10663, 22021, 10903],
         "unpartnered": [52372, 51495, 20914],
         "nonrelatives": [9239, 4236, 1367],
@@ -5028,6 +5118,7 @@
         ]
       },
       "arrangements": {
+        "adults": [44591, 100465, 60227],
         "livesAlone": [734, 7260, 11215],
         "unpartnered": [31855, 30579, 24329],
         "nonrelatives": [3426, 3342, 2946],
@@ -5081,6 +5172,7 @@
         ]
       },
       "arrangements": {
+        "adults": [55469, 107825, 55384],
         "livesAlone": [11944, 20833, 18862],
         "unpartnered": [35805, 47074, 28396],
         "nonrelatives": [4849, 5274, 2190],
@@ -5134,6 +5226,7 @@
         ]
       },
       "arrangements": {
+        "adults": [108855, 153475, 54862],
         "livesAlone": [22435, 24959, 17844],
         "unpartnered": [75503, 60817, 28866],
         "nonrelatives": [20142, 9112, 1245],
@@ -5187,6 +5280,7 @@
         ]
       },
       "arrangements": {
+        "adults": [156043, 181929, 64568],
         "livesAlone": [2680, 6590, 5264],
         "unpartnered": [18078, 19092, 9953],
         "nonrelatives": [1664, 1307, 525],
@@ -5240,6 +5334,7 @@
         ]
       },
       "arrangements": {
+        "adults": [49722, 68590, 30422],
         "livesAlone": [5871, 11537, 8889],
         "unpartnered": [35048, 37716, 17452],
         "nonrelatives": [2607, 3255, 884],
@@ -5293,6 +5388,7 @@
         ]
       },
       "arrangements": {
+        "adults": [45229, 69859, 30688],
         "livesAlone": [4818, 13849, 10636],
         "unpartnered": [29572, 34714, 16428],
         "nonrelatives": [5514, 3259, 366],
@@ -5346,6 +5442,7 @@
         ]
       },
       "arrangements": {
+        "adults": [71846, 128899, 76018],
         "livesAlone": [10077, 18234, 19860],
         "unpartnered": [52950, 56855, 37822],
         "nonrelatives": [12016, 7317, 2557],
@@ -5399,6 +5496,7 @@
         ]
       },
       "arrangements": {
+        "adults": [57723, 91224, 41860],
         "livesAlone": [7197, 16138, 14253],
         "unpartnered": [33502, 33280, 20678],
         "nonrelatives": [10734, 3879, 1379],
@@ -5452,6 +5550,7 @@
         ]
       },
       "arrangements": {
+        "adults": [782066, 1004718, 376058],
         "livesAlone": [150728, 194735, 125160],
         "unpartnered": [554750, 471130, 213434],
         "nonrelatives": [102848, 42736, 11566],
@@ -5505,6 +5604,7 @@
         ]
       },
       "arrangements": {
+        "adults": [66296, 92790, 42104],
         "livesAlone": [7611, 16300, 15500],
         "unpartnered": [40661, 37907, 20445],
         "nonrelatives": [6705, 2826, 563],
@@ -5558,6 +5658,7 @@
         ]
       },
       "arrangements": {
+        "adults": [225939, 313470, 118187],
         "livesAlone": [35825, 53579, 38573],
         "unpartnered": [139238, 128326, 59515],
         "nonrelatives": [17147, 11488, 1725],
@@ -5611,6 +5712,7 @@
         ]
       },
       "arrangements": {
+        "adults": [100021, 137997, 63272],
         "livesAlone": [13951, 23226, 20148],
         "unpartnered": [61628, 52192, 28510],
         "nonrelatives": [9696, 3898, 865],
@@ -5664,6 +5766,7 @@
         ]
       },
       "arrangements": {
+        "adults": [86120, 113010, 49011],
         "livesAlone": [15161, 19941, 14972],
         "unpartnered": [52209, 38453, 21700],
         "nonrelatives": [14190, 2358, 840],
@@ -5717,6 +5820,7 @@
         ]
       },
       "arrangements": {
+        "adults": [147603, 233946, 106912],
         "livesAlone": [17638, 40310, 40662],
         "unpartnered": [96690, 105892, 58643],
         "nonrelatives": [13373, 10233, 2954],
@@ -5770,6 +5874,7 @@
         ]
       },
       "arrangements": {
+        "adults": [71422, 137610, 66364],
         "livesAlone": [10281, 37086, 23015],
         "unpartnered": [55369, 76447, 38083],
         "nonrelatives": [11305, 3940, 1205],
@@ -5823,6 +5928,7 @@
         ]
       },
       "arrangements": {
+        "adults": [136116, 205113, 88517],
         "livesAlone": [27768, 49289, 38877],
         "unpartnered": [91836, 111618, 57965],
         "nonrelatives": [12284, 9516, 2654],
@@ -5876,6 +5982,7 @@
         ]
       },
       "arrangements": {
+        "adults": [213859, 220989, 91940],
         "livesAlone": [32837, 47992, 33108],
         "unpartnered": [153485, 111320, 52240],
         "nonrelatives": [64602, 12050, 3159],
@@ -5929,6 +6036,7 @@
         ]
       },
       "arrangements": {
+        "adults": [52008, 74624, 31896],
         "livesAlone": [4532, 12229, 10734],
         "unpartnered": [36798, 33192, 17423],
         "nonrelatives": [10194, 5056, 1059],
@@ -5982,6 +6090,7 @@
         ]
       },
       "arrangements": {
+        "adults": [154854, 224349, 101243],
         "livesAlone": [21461, 56722, 37797],
         "unpartnered": [126830, 147354, 71410],
         "nonrelatives": [9523, 9738, 2586],
@@ -6035,6 +6144,7 @@
         ]
       },
       "arrangements": {
+        "adults": [127969, 150293, 48786],
         "livesAlone": [29355, 38238, 19903],
         "unpartnered": [86073, 66996, 25302],
         "nonrelatives": [31884, 6353, 1536],
@@ -6088,6 +6198,7 @@
         ]
       },
       "arrangements": {
+        "adults": [80479, 105570, 38484],
         "livesAlone": [12997, 21572, 14670],
         "unpartnered": [53258, 47968, 20375],
         "nonrelatives": [11642, 4580, 1214],
@@ -6141,6 +6252,7 @@
         ]
       },
       "arrangements": {
+        "adults": [130320, 186442, 72072],
         "livesAlone": [20595, 35349, 27519],
         "unpartnered": [78251, 74604, 38540],
         "nonrelatives": [11842, 6824, 984],
@@ -6194,6 +6306,7 @@
         ]
       },
       "arrangements": {
+        "adults": [70530, 104097, 44852],
         "livesAlone": [18871, 30500, 20813],
         "unpartnered": [40651, 47655, 27648],
         "nonrelatives": [6137, 2838, 866],
@@ -6247,6 +6360,7 @@
         ]
       },
       "arrangements": {
+        "adults": [52298, 52779, 27811],
         "livesAlone": [8950, 12037, 11052],
         "unpartnered": [29515, 23875, 13944],
         "nonrelatives": [8219, 3635, 449],
@@ -6300,6 +6414,7 @@
         ]
       },
       "arrangements": {
+        "adults": [79488, 97943, 45082],
         "livesAlone": [14431, 15913, 12103],
         "unpartnered": [45246, 28847, 16935],
         "nonrelatives": [14277, 2107, 907],
@@ -6353,6 +6468,7 @@
         ]
       },
       "arrangements": {
+        "adults": [121726, 165073, 73242],
         "livesAlone": [18599, 26380, 25358],
         "unpartnered": [69146, 59734, 35376],
         "nonrelatives": [10026, 4411, 1331],
@@ -6406,6 +6522,7 @@
         ]
       },
       "arrangements": {
+        "adults": [67408, 141560, 73614],
         "livesAlone": [6608, 18756, 16942],
         "unpartnered": [50082, 48884, 30674],
         "nonrelatives": [9346, 4052, 2922],
@@ -6459,6 +6576,7 @@
         ]
       },
       "arrangements": {
+        "adults": [150546, 258071, 111032],
         "livesAlone": [9418, 33929, 29311],
         "unpartnered": [102627, 109970, 57491],
         "nonrelatives": [13121, 17144, 4376],
@@ -6512,6 +6630,7 @@
         ]
       },
       "arrangements": {
+        "adults": [78499, 105525, 35939],
         "livesAlone": [3343, 9744, 7266],
         "unpartnered": [53151, 42253, 17793],
         "nonrelatives": [6140, 4971, 1128],
@@ -6565,6 +6684,7 @@
         ]
       },
       "arrangements": {
+        "adults": [41225, 73820, 30880],
         "livesAlone": [4283, 13655, 8998],
         "unpartnered": [29876, 36704, 16881],
         "nonrelatives": [3904, 7055, 1703],
@@ -6618,6 +6738,7 @@
         ]
       },
       "arrangements": {
+        "adults": [74844, 97987, 45182],
         "livesAlone": [10542, 13775, 15582],
         "unpartnered": [44381, 33540, 21373],
         "nonrelatives": [11767, 4673, 1222],
@@ -6671,6 +6792,7 @@
         ]
       },
       "arrangements": {
+        "adults": [52291, 68543, 25160],
         "livesAlone": [3146, 6631, 5403],
         "unpartnered": [38908, 32946, 15056],
         "nonrelatives": [2358, 2930, 698],
@@ -6724,6 +6846,7 @@
         ]
       },
       "arrangements": {
+        "adults": [99724, 109627, 34693],
         "livesAlone": [15694, 18996, 9004],
         "unpartnered": [61631, 45549, 19706],
         "nonrelatives": [18876, 5661, 753],
@@ -6777,6 +6900,7 @@
         ]
       },
       "arrangements": {
+        "adults": [75101, 114956, 31653],
         "livesAlone": [4217, 18279, 10321],
         "unpartnered": [58033, 62804, 22224],
         "nonrelatives": [3412, 8047, 1551],
@@ -6830,6 +6954,7 @@
         ]
       },
       "arrangements": {
+        "adults": [129801, 208361, 104064],
         "livesAlone": [16846, 39372, 34723],
         "unpartnered": [83767, 93454, 52550],
         "nonrelatives": [13026, 10882, 2426],
@@ -6883,6 +7008,7 @@
         ]
       },
       "arrangements": {
+        "adults": [76272, 91631, 40772],
         "livesAlone": [12337, 19235, 14651],
         "unpartnered": [55265, 45140, 23806],
         "nonrelatives": [10525, 4538, 1239],
@@ -6938,6 +7064,7 @@
         ]
       },
       "arrangements": {
+        "adults": [2015356, 3153280, 1432768],
         "livesAlone": [242500, 492705, 425904],
         "unpartnered": [1504162, 1511487, 817140],
         "nonrelatives": [301232, 175065, 50641],
@@ -6991,6 +7118,7 @@
         ]
       },
       "arrangements": {
+        "adults": [58541, 71513, 27584],
         "livesAlone": [10430, 22056, 12188],
         "unpartnered": [40735, 44076, 17537],
         "nonrelatives": [8890, 4510, 1198],
@@ -7044,6 +7172,7 @@
         ]
       },
       "arrangements": {
+        "adults": [45386, 82682, 41504],
         "livesAlone": [4763, 11817, 10384],
         "unpartnered": [34991, 35964, 21493],
         "nonrelatives": [1551, 2593, 1322],
@@ -7097,6 +7226,7 @@
         ]
       },
       "arrangements": {
+        "adults": [256267, 351710, 108091],
         "livesAlone": [45266, 61650, 28126],
         "unpartnered": [171561, 142279, 52071],
         "nonrelatives": [35441, 9987, 1293],
@@ -7150,6 +7280,7 @@
         ]
       },
       "arrangements": {
+        "adults": [55242, 61569, 27460],
         "livesAlone": [8162, 12925, 9581],
         "unpartnered": [31513, 30060, 15255],
         "nonrelatives": [3142, 1399, 499],
@@ -7203,6 +7334,7 @@
         ]
       },
       "arrangements": {
+        "adults": [74250, 104703, 45526],
         "livesAlone": [13631, 17546, 17119],
         "unpartnered": [50889, 41585, 24744],
         "nonrelatives": [10654, 4501, 720],
@@ -7256,6 +7388,7 @@
         ]
       },
       "arrangements": {
+        "adults": [144708, 178069, 60814],
         "livesAlone": [23808, 35761, 20795],
         "unpartnered": [83455, 73228, 28395],
         "nonrelatives": [20459, 5210, 1617],
@@ -7309,6 +7442,7 @@
         ]
       },
       "arrangements": {
+        "adults": [56544, 91526, 39118],
         "livesAlone": [10357, 16301, 14337],
         "unpartnered": [35712, 30751, 18902],
         "nonrelatives": [4007, 1233, 692],
@@ -7362,6 +7496,7 @@
         ]
       },
       "arrangements": {
+        "adults": [95514, 100336, 38781],
         "livesAlone": [23064, 26033, 17060],
         "unpartnered": [67020, 50290, 23119],
         "nonrelatives": [18254, 2835, 390],
@@ -7415,6 +7550,7 @@
         ]
       },
       "arrangements": {
+        "adults": [88561, 131986, 59760],
         "livesAlone": [16970, 40387, 25895],
         "unpartnered": [65651, 81950, 39718],
         "nonrelatives": [7606, 7428, 2586],
@@ -7468,6 +7604,7 @@
         ]
       },
       "arrangements": {
+        "adults": [265394, 328961, 106384],
         "livesAlone": [45900, 64091, 35902],
         "unpartnered": [167311, 148925, 56493],
         "nonrelatives": [40759, 13018, 3896],
@@ -7521,6 +7658,7 @@
         ]
       },
       "arrangements": {
+        "adults": [65871, 91755, 42304],
         "livesAlone": [8237, 20406, 16045],
         "unpartnered": [42490, 48406, 22581],
         "nonrelatives": [8101, 3231, 907],
@@ -7570,6 +7708,7 @@
         ]
       },
       "arrangements": {
+        "adults": [21638, 27772, 10583],
         "livesAlone": [2700, 4817, 3772],
         "unpartnered": [11908, 13580, 5539],
         "nonrelatives": [1193, 847, 352],
@@ -7623,6 +7762,7 @@
         ]
       },
       "arrangements": {
+        "adults": [173678, 256804, 96778],
         "livesAlone": [24598, 39265, 30394],
         "unpartnered": [98493, 93694, 46641],
         "nonrelatives": [12622, 6108, 2190],
@@ -7676,6 +7816,7 @@
         ]
       },
       "arrangements": {
+        "adults": [100951, 145010, 62971],
         "livesAlone": [14913, 27480, 22051],
         "unpartnered": [62866, 62483, 32711],
         "nonrelatives": [9827, 6160, 1411],
@@ -7729,6 +7870,7 @@
         ]
       },
       "arrangements": {
+        "adults": [160058, 270536, 88442],
         "livesAlone": [31953, 53039, 30015],
         "unpartnered": [101054, 101242, 44185],
         "nonrelatives": [30978, 17078, 2937],
@@ -7782,6 +7924,7 @@
         ]
       },
       "arrangements": {
+        "adults": [412713, 555567, 233841],
         "livesAlone": [77369, 112154, 90919],
         "unpartnered": [279352, 280766, 145637],
         "nonrelatives": [46618, 22124, 6167],
@@ -7835,6 +7978,7 @@
         ]
       },
       "arrangements": {
+        "adults": [91102, 94985, 52758],
         "livesAlone": [20936, 22900, 22265],
         "unpartnered": [57343, 42408, 31300],
         "nonrelatives": [17295, 3081, 1331],
@@ -7888,6 +8032,7 @@
         ]
       },
       "arrangements": {
+        "adults": [60691, 65534, 25647],
         "livesAlone": [10882, 14553, 10820],
         "unpartnered": [38269, 28441, 15969],
         "nonrelatives": [10721, 1724, 1663],
@@ -7941,6 +8086,7 @@
         ]
       },
       "arrangements": {
+        "adults": [147365, 205191, 92201],
         "livesAlone": [25707, 40284, 33752],
         "unpartnered": [110117, 108085, 57878],
         "nonrelatives": [11421, 5087, 2207],
@@ -7994,6 +8140,7 @@
         ]
       },
       "arrangements": {
+        "adults": [197591, 252477, 88113],
         "livesAlone": [43963, 50322, 28840],
         "unpartnered": [107445, 93443, 42044],
         "nonrelatives": [23348, 8153, 1516],
@@ -8047,6 +8194,7 @@
         ]
       },
       "arrangements": {
+        "adults": [45885, 67921, 31565],
         "livesAlone": [4737, 5626, 5547],
         "unpartnered": [20878, 15267, 8408],
         "nonrelatives": [1021, 1275, 478],
@@ -8100,6 +8248,7 @@
         ]
       },
       "arrangements": {
+        "adults": [102009, 144866, 52823],
         "livesAlone": [2674, 5550, 5385],
         "unpartnered": [20889, 16951, 9586],
         "nonrelatives": [2226, 970, 312],
@@ -8153,6 +8302,7 @@
         ]
       },
       "arrangements": {
+        "adults": [310066, 382374, 102922],
         "livesAlone": [3221, 5856, 7909],
         "unpartnered": [24413, 19762, 12883],
         "nonrelatives": [2941, 3439, 238],
@@ -8206,6 +8356,7 @@
         ]
       },
       "arrangements": {
+        "adults": [49828, 61899, 25842],
         "livesAlone": [2757, 5414, 6054],
         "unpartnered": [34185, 20589, 12844],
         "nonrelatives": [1366, 798, 379],
@@ -8259,6 +8410,7 @@
         ]
       },
       "arrangements": {
+        "adults": [70256, 115297, 50853],
         "livesAlone": [5262, 12668, 12891],
         "unpartnered": [43712, 42348, 23819],
         "nonrelatives": [5910, 3438, 1654],
@@ -8312,6 +8464,7 @@
         ]
       },
       "arrangements": {
+        "adults": [382876, 461789, 152315],
         "livesAlone": [70593, 84955, 47937],
         "unpartnered": [265828, 204415, 83661],
         "nonrelatives": [42489, 20354, 4179],
@@ -8365,6 +8518,7 @@
         ]
       },
       "arrangements": {
+        "adults": [168108, 239910, 100494],
         "livesAlone": [14446, 29895, 21840],
         "unpartnered": [116413, 108415, 49051],
         "nonrelatives": [6180, 3854, 2157],
@@ -8418,6 +8572,7 @@
         ]
       },
       "arrangements": {
+        "adults": [266009, 362075, 109340],
         "livesAlone": [30437, 45603, 29172],
         "unpartnered": [170700, 132340, 54468],
         "nonrelatives": [16313, 11762, 3464],
@@ -8471,6 +8626,7 @@
         ]
       },
       "arrangements": {
+        "adults": [47348, 83070, 25108],
         "livesAlone": [3582, 7020, 4667],
         "unpartnered": [36704, 32883, 12157],
         "nonrelatives": [2121, 4168, 123],
@@ -8524,6 +8680,7 @@
         ]
       },
       "arrangements": {
+        "adults": [644761, 847078, 286499],
         "livesAlone": [110829, 141749, 83468],
         "unpartnered": [442632, 378928, 151332],
         "nonrelatives": [52745, 30636, 10043],
@@ -8577,6 +8734,7 @@
         ]
       },
       "arrangements": {
+        "adults": [75552, 91771, 22099],
         "livesAlone": [7070, 11157, 5208],
         "unpartnered": [49381, 35236, 10727],
         "nonrelatives": [10030, 3736, 513],
@@ -8630,6 +8788,7 @@
         ]
       },
       "arrangements": {
+        "adults": [67432, 86248, 25781],
         "livesAlone": [3662, 6038, 5585],
         "unpartnered": [50960, 28548, 13564],
         "nonrelatives": [3253, 1111, 185],
@@ -8683,6 +8842,7 @@
         ]
       },
       "arrangements": {
+        "adults": [82418, 81982, 35942],
         "livesAlone": [15533, 12201, 9726],
         "unpartnered": [56091, 30902, 15800],
         "nonrelatives": [19057, 1706, 99],
@@ -8736,6 +8896,7 @@
         ]
       },
       "arrangements": {
+        "adults": [391370, 547109, 201669],
         "livesAlone": [52275, 68303, 52309],
         "unpartnered": [265582, 231784, 103541],
         "nonrelatives": [32276, 20960, 4840],
@@ -8789,6 +8950,7 @@
         ]
       },
       "arrangements": {
+        "adults": [73774, 91742, 28766],
         "livesAlone": [1981, 6337, 5898],
         "unpartnered": [13067, 16761, 9236],
         "nonrelatives": [297, 1914, 290],
@@ -8842,6 +9004,7 @@
         ]
       },
       "arrangements": {
+        "adults": [45181, 63399, 26148],
         "livesAlone": [5425, 11850, 10074],
         "unpartnered": [29696, 32210, 13408],
         "nonrelatives": [5530, 3122, 34],
@@ -8895,6 +9058,7 @@
         ]
       },
       "arrangements": {
+        "adults": [60332, 74291, 31380],
         "livesAlone": [11965, 13405, 11765],
         "unpartnered": [40787, 40202, 17982],
         "nonrelatives": [6130, 3587, 1438],
@@ -8948,6 +9112,7 @@
         ]
       },
       "arrangements": {
+        "adults": [100097, 173980, 76439],
         "livesAlone": [9829, 19904, 19106],
         "unpartnered": [58960, 59871, 33185],
         "nonrelatives": [9462, 6704, 1863],
@@ -9001,6 +9166,7 @@
         ]
       },
       "arrangements": {
+        "adults": [258031, 294051, 94617],
         "livesAlone": [69796, 68135, 32615],
         "unpartnered": [150371, 106472, 47241],
         "nonrelatives": [46062, 12538, 3143],
@@ -9054,6 +9220,7 @@
         ]
       },
       "arrangements": {
+        "adults": [53625, 82804, 38978],
         "livesAlone": [5950, 13498, 13433],
         "unpartnered": [29202, 31749, 20133],
         "nonrelatives": [7777, 3536, 1535],
@@ -9107,6 +9274,7 @@
         ]
       },
       "arrangements": {
+        "adults": [54402, 84019, 34217],
         "livesAlone": [6407, 14598, 9394],
         "unpartnered": [32638, 35097, 15847],
         "nonrelatives": [5000, 4089, 1524],
@@ -9160,6 +9328,7 @@
         ]
       },
       "arrangements": {
+        "adults": [47604, 75585, 36947],
         "livesAlone": [4054, 12260, 11221],
         "unpartnered": [27365, 29653, 16627],
         "nonrelatives": [5095, 5400, 702],
@@ -9213,6 +9382,7 @@
         ]
       },
       "arrangements": {
+        "adults": [150283, 188545, 69662],
         "livesAlone": [27113, 39712, 27019],
         "unpartnered": [105786, 97114, 42891],
         "nonrelatives": [15989, 6800, 2417],
@@ -9266,6 +9436,7 @@
         ]
       },
       "arrangements": {
+        "adults": [40269, 56594, 40508],
         "livesAlone": [2713, 7436, 12828],
         "unpartnered": [31147, 28042, 22700],
         "nonrelatives": [469, 665, 815],
@@ -9319,6 +9490,7 @@
         ]
       },
       "arrangements": {
+        "adults": [69519, 112769, 80035],
         "livesAlone": [7893, 23410, 29103],
         "unpartnered": [56994, 65977, 51924],
         "nonrelatives": [2323, 1490, 2503],

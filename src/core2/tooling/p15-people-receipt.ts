@@ -133,6 +133,31 @@ export function peopleReceipt(input: CoreInput, buildSeconds: number) {
     ),
   };
 
+  // The answer key for partnership: adults with no spouse or unmarried
+  // partner at home, against the place's own ACS (B09021, both sexes).
+  const partnerAtHome = {
+    citation: `ACS 2024 1-year B09021 for ${geo.key}: adults of the band who are neither a householder living with a spouse or unmarried partner nor that spouse or partner (${OPENING_PARTNERSHIP.citation.split(".")[0]}).`,
+    rows: OPENING_PARTNERSHIP.arrangementBands.map((label, i) => {
+      const [low, high] = label.split(/[-+]/);
+      const from = Number(low);
+      const to = high ? Number(high) : undefined;
+      const people = residents.filter(
+        (person) =>
+          age(person) >= from && (to === undefined || age(person) <= to),
+      );
+      const unpartnered = people.filter(
+        (person) => !relationCounts(person).get("partner"),
+      ).length;
+      const row = geo.rows.arrangements;
+      return {
+        band: label,
+        people: people.length,
+        gameNoPartnerPercent: percent(unpartnered, people.length),
+        acsNoPartnerPercent: percent(row.unpartnered[i]!, row.adults[i]!),
+      };
+    }),
+  };
+
   // Kin by age band, and kinlessness against HRS.
   const bands = BANDS.map(([band, low, high]) => {
     const people = residents.filter(
@@ -310,6 +335,7 @@ export function peopleReceipt(input: CoreInput, buildSeconds: number) {
       .length,
     householdShape,
     ageStructure,
+    partnerAtHome,
     kinByAge: {
       citation: keys.kinlessness.citation,
       acsNoSpousePresent: `Adults of the band who are not married with their spouse present, ACS 2024 1-year B12002 for ${geo.key} (${OPENING_PARTNERSHIP.citation.split(".")[0]}); the game's couples are all marriages.`,
