@@ -13,7 +13,7 @@ A package is what a session is given to build or finish one piece of the roadmap
 
 ## Rules that apply to every package
 
-- Before building, write the contract back (what you'll build, how it's checked), and wait for the finisher to agree.
+- Before building, write the contract back (what you'll build, how it's checked) in the PR body, then start right away. Wait for approval only when changing the package's scope, owned paths or a test; the CTO reviews contracts at check-ins.
 - Register every shortcut as a stopgap; never edit a spec's test, only its passing status.
 - One package per session. When it's done, the next package gets a fresh session.
 - Never push to another session's branch. Never merge your own PR.
