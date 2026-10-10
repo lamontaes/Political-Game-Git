@@ -7,6 +7,7 @@
     "node": ">=22.13.0"
   },
   "scripts": {
+    "bench": "node scripts/storage/cli.mjs run test -- node --max-old-space-size=8192 --import tsx src/bench/server.ts",
     "dev": "vite",
     "build": "node scripts/storage/cli.mjs run build -- npm run build:steps",
     "build:steps": "npm run typecheck && npm run export:state-voting-context && node scripts/clean-build.mjs && vite build && node scripts/prepare-sites-build.mjs && node scripts/stamp-client-provenance.mjs",
