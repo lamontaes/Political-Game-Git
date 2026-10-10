@@ -3318,5 +3318,18 @@
     "citation": "U.S. Census Bureau, CPS 2023 ASEC, America's Families and Living Arrangements: 2023, Table FG3: the age-difference rows are 2-3, 4-5, 6-9, 10-14 and 15-19 years, and the last rows are open (husband or wife 20 or more years older).",
     "estimatedFrom": "Each open row is spread over five whole years, the width of the two rows next to it (10-14 and 15-19 years), so 20 or more years reads as 20 to 24. The open rows hold 1.2% of married couples.",
     "stopgapId": "SG-P15-partnership-model"
+  },
+  "openingCoworkerGroupSize": {
+    "value": 8,
+    "tag": "TUNABLE",
+    "citation": "Largest generated workgroup of residents at one employer whose members know each other by name; prototype choice pending a US source on how many coworkers people know. A survey of 3,000 full-time US workers (Olivet Nazarene University, 2019) found five friends at work on average, a lower bound on coworkers known by name.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No US source on the number of coworkers known by name was found; friends at work (about five on average) bound it from below."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
   }
 }

@@ -2,6 +2,7 @@ import { OPENING_KIN } from "./opening-kin";
 import {
   buildOpeningPeerContacts,
   DEFAULT_OPENING_PEER_DATA,
+  type OpeningPeerData,
 } from "./opening-peer-network";
 import schoolsJson from "./data/opening-schools.json" with { type: "json" };
 import { ageOnDate, daysBetween, makeIsoDate } from "../simulation/dates";
@@ -14,6 +15,7 @@ import type { EntityId } from "../simulation/types";
 import contentJson from "./data/deep-past.json" with { type: "json" };
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
+import coworkerJson from "./data/opening-coworkers.json" with { type: "json" };
 import type { CoreInput, PersonInput, Source } from "./types";
 
 type PriorFact = NonNullable<PersonInput["pastFacts"]>[number] & {
@@ -32,7 +34,11 @@ const SCHOOLS = schoolsJson as unknown as {
   asOf: string;
   citation: string;
   byGeoid: Readonly<Record<string, readonly SchoolRow[]>>;
+  placesByCounty: Readonly<Record<string, readonly string[]>>;
+  bucketsByState: Readonly<Record<string, readonly string[]>>;
 };
+
+const OPENING_COWORKER_DATA = coworkerJson as OpeningPeerData;
 
 export interface DeepPastFieldSource {
   personId: string;
@@ -173,7 +179,7 @@ export function buildDeepPast(
     data.schools.gradesBeforeFirst[code] ??
     (/^\d+$/.test(code) ? Number(code) : undefined);
   // P15 part 3: the public schools of the place teaching this grade, else of
-  // its county or counties (NCES CCD by P12).
+  // its county or counties and the places in them (NCES CCD by P12).
   const schoolRows = (
     placeId: string,
     countyId: string | undefined,
@@ -205,8 +211,27 @@ export function buildDeepPast(
       : place?.sourceGeoid
         ? countyGeoidsForPlace(place.sourceGeoid)
         : [];
-    const own = place?.sourceGeoid ? teaching([place.sourceGeoid]) : [];
-    const result = own.length ? own : teaching(countyGeoids);
+    // Territory places are keyed by name in the school files.
+    const placeKey = place?.sourceGeoid ?? place?.key;
+    const own = placeKey ? teaching([placeKey]) : [];
+    const near = own.length
+      ? own
+      : teaching([
+          ...countyGeoids,
+          ...countyGeoids.flatMap(
+            (county) => SCHOOLS.placesByCounty[county] ?? [],
+          ),
+        ]);
+    // A place the county geography does not cover (territories, Puerto
+    // Rico) reads its whole state or territory.
+    const state = place?.stateJurisdictionKey?.split("-").at(-p("one"));
+    const covered =
+      !!place?.sourceGeoid &&
+      countyGeoidsForPlace(place.sourceGeoid).length > p("zero");
+    const result =
+      near.length || covered || !state
+        ? near
+        : teaching(SCHOOLS.bucketsByState[state] ?? []);
     schoolCache.set(key, result);
     return result;
   };
@@ -541,22 +566,41 @@ export function buildDeepPast(
       `${gapPrefix}${field}: ${count} people retain an unresolved personal-history field; consult priorFactsSource for the constraint.`,
     );
   // P15: every resident gets remembered acquaintances from their own school
-  // context, by the same rule the benchmark player had.
-  const withPast: CoreInput = {
+  // context, by the same rule the benchmark player had, and knows the
+  // coworkers of their workgroup since the later of their start dates.
+  const circles = [DEFAULT_OPENING_PEER_DATA, OPENING_COWORKER_DATA];
+  const residentIds = people
+    .filter((person) => person.tier !== OPENING_KIN.kinTier)
+    .map((person) => person.id);
+  let withPast: CoreInput = {
     ...input,
     people,
-    // The circle step appends its own gap; keep it last on every rebuild.
-    gaps: [...gaps].filter((gap) => gap !== DEFAULT_OPENING_PEER_DATA.scopeGap),
+    // The circle steps append their own gaps; keep them last on every rebuild.
+    gaps: [...gaps].filter(
+      (gap) => !circles.some((circle) => circle.scopeGap === gap),
+    ),
   };
+  // A coworker's context is their opening job: employer and title come from
+  // the job record the work:opening fact belongs to.
+  const jobContext = (
+    person: PersonInput,
+    fact: PriorFact,
+  ): Readonly<Record<string, string>> | undefined => {
+    const job = person.jobId ? jobById.get(person.jobId) : undefined;
+    return job && fact.id.startsWith(`${job.id}:`)
+      ? { organizationId: job.organizationId, title: job.title }
+      : undefined;
+  };
+  for (const circle of circles)
+    withPast = buildOpeningPeerContacts(withPast, {
+      personIds: residentIds,
+      data: circle,
+      ...(circle === OPENING_COWORKER_DATA
+        ? { contextValues: jobContext }
+        : {}),
+    }).input;
   const result: CoreInput & {
     priorFactsSource: readonly DeepPastFieldSource[];
-  } = {
-    ...buildOpeningPeerContacts(withPast, {
-      personIds: people
-        .filter((person) => person.tier !== OPENING_KIN.kinTier)
-        .map((person) => person.id),
-    }).input,
-    priorFactsSource: reports,
-  };
+  } = { ...withPast, priorFactsSource: reports };
   return result;
 }

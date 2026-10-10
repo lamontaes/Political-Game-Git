@@ -9,6 +9,7 @@
 import { createHash } from "node:crypto";
 import { readdirSync, readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
+import { countyGeoidsForPlace } from "../../simulation/government-units";
 import type { StateInstitutionsFile } from "../../simulation/local-institutions-data";
 
 const DIRECTORY = "data/research/places/local-institutions";
@@ -16,6 +17,7 @@ const OUT = "src/core2/data/opening-schools.json";
 
 const manifest = readFileSync(join(DIRECTORY, "manifest.json"));
 const byGeoid: Record<string, [string, string, string, string, number][]> = {};
+const bucketsByState: Record<string, string[]> = {};
 let schools = 0;
 let year = "";
 let asOf = "";
@@ -28,6 +30,7 @@ for (const file of readdirSync(DIRECTORY).sort()) {
   asOf = state.schools.asOfs.join(", ");
   for (const buckets of [state.schools.places, state.schools.counties])
     for (const [geoid, rows] of Object.entries(buckets)) {
+      (bucketsByState[state.state] ??= []).push(geoid);
       const out = (byGeoid[geoid] ??= []);
       for (const row of rows) {
         out.push([row[0], row[1], row[4], row[5], row[6]]);
@@ -35,6 +38,12 @@ for (const file of readdirSync(DIRECTORY).sort()) {
       }
     }
 }
+// Places with schools in each county, so a place with none reads its county's.
+const placesByCounty: Record<string, string[]> = {};
+for (const geoid of Object.keys(byGeoid).sort())
+  if (geoid.length === 7)
+    for (const county of countyGeoidsForPlace(geoid))
+      (placesByCounty[county] ??= []).push(geoid);
 const sha = createHash("sha256").update(manifest).digest("hex");
 writeFileSync(
   OUT,
@@ -46,6 +55,10 @@ writeFileSync(
     columns: ["id", "name", "lowestGrade", "highestGrade", "enrollment"],
     schools,
     byGeoid,
+    placesByCounty,
+    bucketsByState,
   })}\n`,
 );
-console.log(`${schools} schools in ${Object.keys(byGeoid).length} places and counties`);
+console.log(
+  `${schools} schools in ${Object.keys(byGeoid).length} places and counties`,
+);
