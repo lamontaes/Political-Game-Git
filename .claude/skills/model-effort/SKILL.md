@@ -1,22 +1,27 @@
 ---
 name: model-effort
 description: >
-  Use when starting any session or subagent. Pick the lowest model and effort
-  level that can do the work — Sonnet Medium for agreed designs, Opus Medium
-  for judgment calls — and escalate only if it fails.
+  Use when starting any session, subagent or package. Codex builds; a separate
+  Claude session finishes (Opus for judgment calls, Sonnet for agreed designs).
+  State the model and effort for every session.
 ---
 
-# Lowest model/effort that works
+# Who builds, who finishes, and at what effort (owner, Oct 10, 2026)
 
-Every session or delegated task gets a model and an effort level chosen for
-the actual work: Sonnet at Medium effort for implementing an already-agreed
-design, Opus at Medium (not High) effort for genuine judgment calls — design
-tradeoffs, ambiguous scope, risk calls. Default to Medium. Go up a tier only
-after the lower one actually fails at the task, not preemptively because the
-task sounds important.
+- **Codex (GPT-6.1 Sol) builds** the bulk: modules, ports, data and tests on
+  draft PRs, from a package spec. It is relatively cheap, so it does the long
+  building runs.
+- **A separate Claude session finishes:** Opus for judgment calls (design
+  tradeoffs, architecture, ambiguous scope, risk), Sonnet for implementing or
+  checking an already agreed design. The finisher never grades its own build.
+- **Effort:** high for package-sized judgment work and for finishing core
+  changes; medium for agreed, mechanical work. Every package states its model
+  and effort.
+- **One package per session.** Start a fresh session for the next package
+  instead of running one session for days.
 
 ## Check your own work
 
-Before requesting a model or effort bump, name the specific way the lower
-tier failed — wrong output, missed requirement, timeout. If you can't name a
-concrete failure, you don't have grounds to escalate yet.
+Before asking for a bigger model or more effort, name the specific way the
+current one failed: wrong output, a missed requirement, a timeout. Without a
+concrete failure there are no grounds to escalate.
