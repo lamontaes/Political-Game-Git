@@ -30,9 +30,21 @@ import {
   publishEventAppraisal,
   notifyRelationshipChange,
 } from "./module-notifications";
+import {
+  emptyCashJournalRuntime,
+  postCashJournal,
+  completeCashJournalSource,
+  registerCashAccount as admitCashAccountMetadata,
+  registerCashJournalSourceProviders,
+  releaseCashJournalSource,
+} from "./journal-state";
+import { cashJournalHost } from "./cash-host";
+import { settleLegacyWorkResultJournal } from "./work-cash";
+import { admitPublicPayAuthority } from "./public-work-pay";
+import type { CashJournalSourceRef } from "./journal";
 import { makeIsoDate } from "../simulation/dates";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "./data";
-import { parameter } from "./parameters";
+import { parameter, parameterValues } from "./parameters";
 import { stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
 import type {
@@ -51,6 +63,7 @@ import type {
   PersonState,
   Relationship,
   RelationshipMeasureChange,
+  Source,
 } from "./types";
 
 function index<K>(map: Map<K, Set<string>>, key: K, id: string): void {
@@ -67,6 +80,22 @@ function admitNumber(value: number, field: string, zero: number): void {
 function admitCash(value: number, field: string, zero: number): void {
   if (!Number.isSafeInteger(value) || value < zero)
     throw new Error(`Invalid integer minor units: ${field}.`);
+}
+
+/** Source-derived metadata identity; undefined allocation is the owner's one residual. */
+function admitOwnerCashAccount(
+  core: CoreState,
+  owner: { id: string; source: Source },
+): void {
+  admitCashAccountMetadata(core.cashJournal, cashJournalHost(core), {
+    id: "cash:" + owner.id + ":residual",
+    ownerId: owner.id,
+    name: owner.id,
+    source: owner.source,
+    ...(core.organizations.get(owner.id)?.outsideFlow
+      ? { outsideFlow: true as const }
+      : {}),
+  });
 }
 
 function assertKnownIdSources(
@@ -145,6 +174,9 @@ export function createCore(
     jobs: new Map(),
     work: emptyWorkRuntime(),
     finance: emptyFinanceRuntime(date),
+    cashJournal: emptyCashJournalRuntime(
+      Object.freeze(parameterValues(data.parameters)),
+    ),
     organizations: new Map(),
     publicOrganizations: new Map(),
     publicOrganizationsByPlace: new Map(),
@@ -361,6 +393,14 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
     drives: new Map(),
   };
   core.people.set(row.id, actor);
+  try {
+    admitOwnerCashAccount(core, actor);
+  } catch (error) {
+    // Account admission performs all validation before its own first metadata write.
+    // Keep a failed new person out of every person/place/tier/knowledge index.
+    core.people.delete(row.id);
+    throw error;
+  }
   index(core.peopleByPlace, row.placeId, row.id);
   if (row.countyId) index(core.peopleByPlace, row.countyId, row.id);
   index(core.peopleByTier, row.tier, row.id);
@@ -378,12 +418,26 @@ export function registerModule(core: CoreState, module: CoreModule): void {
     );
   if (module.eventKinds && !module.onEvent)
     throw new Error("Event-kind subscriptions require a handler.");
+  if (module.onEvent)
+    preflightEventSubscription(
+      core,
+      `module:${module.id}`,
+      module.eventKinds!,
+      module.onEvent,
+    );
   preflightModuleNotifications(core, module);
   for (const [name, provider] of Object.entries(module.reasonProviders ?? {})) {
     if (!name.trim() || typeof provider !== "function")
       throw new Error("Invalid reason provider.");
     if (core.reasonProviders.has(name))
       throw new Error(`Duplicate reason provider: ${name}`);
+  }
+  const journalProviders = Object.entries(module.journalSourceProviders ?? {});
+  for (const [kind, provider] of journalProviders) {
+    if (!kind.trim() || kind !== kind.trim() || typeof provider !== "function")
+      throw new Error("Invalid journal source provider.");
+    if (core.cashJournal.sourceProviders.has(kind))
+      throw new Error(`Duplicate journal source provider: ${kind}`);
   }
   for (const category of [
     "needEvaluators",
@@ -396,6 +450,18 @@ export function registerModule(core: CoreState, module: CoreModule): void {
         throw new Error(`Duplicate engine operation: ${category}:${name}`);
     }
   }
+  // Every module/subscription/reason/operation/journal key is valid before installation.
+  // Capture the canonical cached API, not a copied state or a caller-provided facade.
+  const api = coreAPI(core);
+  registerCashJournalSourceProviders(
+    core.cashJournal,
+    Object.fromEntries(
+      journalProviders.map(([kind, provider]) => [
+        kind,
+        (reference: Readonly<CashJournalSourceRef>) => provider(api, reference),
+      ]),
+    ),
+  );
   if (module.onEvent)
     subscribeEvents(
       core,
@@ -409,12 +475,12 @@ export function registerModule(core: CoreState, module: CoreModule): void {
     core.reasonProviders.set(name, provider);
 }
 
-function subscribeEvents(
+function preflightEventSubscription(
   core: CoreState,
   id: string,
   kinds: readonly string[],
   listener: CoreEventListener,
-): () => void {
+): void {
   if (
     !id.trim() ||
     typeof listener !== "function" ||
@@ -424,6 +490,15 @@ function subscribeEvents(
     throw new Error("Invalid event subscription.");
   if (core.eventSubscribers.has(id))
     throw new Error(`Duplicate event subscriber: ${id}`);
+}
+
+function subscribeEvents(
+  core: CoreState,
+  id: string,
+  kinds: readonly string[],
+  listener: CoreEventListener,
+): () => void {
+  preflightEventSubscription(core, id, kinds, listener);
   const uniqueKinds = new Set(kinds);
   let active = true;
   core.eventSubscribers.set(id, listener);
@@ -574,6 +649,7 @@ export function coreAPI(core: CoreState): CoreAPI {
     if (row?.stopgapId) stopgap(row.stopgapId, core);
     return parameter(key, core.data.parameters);
   };
+  const journalHost = cashJournalHost(core);
   const api: CoreAPI = {
     version: core.apiVersion,
     state: core,
@@ -590,20 +666,21 @@ export function coreAPI(core: CoreState): CoreAPI {
       known.set(fact.key, { ...fact });
     },
     knows: (personId, key) => core.knowledgeByPerson.get(personId)?.get(key),
-    transfer(payerId, payeeId, minor) {
-      if (!Number.isSafeInteger(minor) || minor < p("zero"))
-        throw new Error("Transfers require nonnegative integer minor units.");
-      if (payerId === payeeId)
-        throw new Error("Transfers require distinct endpoints.");
-      const payer = core.people.get(payerId) ?? core.organizations.get(payerId);
-      const payee = core.people.get(payeeId) ?? core.organizations.get(payeeId);
-      if (!payer || !payee) throw new Error("Transfer endpoint is absent.");
-      const paid = Math.min(minor, payer.liquidMinor);
-      if (!Number.isSafeInteger(payee.liquidMinor + paid))
-        throw new Error("Transfer overflows minor units.");
-      payer.liquidMinor -= paid;
-      payee.liquidMinor += paid;
-      return paid;
+    postJournal(input) {
+      return postCashJournal(core.cashJournal, journalHost, input);
+    },
+    completeJournalSource(reference) {
+      return completeCashJournalSource(
+        core.cashJournal,
+        journalHost,
+        reference,
+      );
+    },
+    registerCashAccount(input) {
+      admitCashAccountMetadata(core.cashJournal, journalHost, input);
+    },
+    releaseJournalSource(reference) {
+      releaseCashJournalSource(core.cashJournal, reference);
     },
     addWorkCommitment(row) {
       admitWorkCommitment(core, api, row);
@@ -646,6 +723,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     settleWorkResult(row) {
       return settleWorkResult(core, api, row);
+    },
+    settleLegacyWorkResult(row) {
+      return settleLegacyWorkResultJournal(core, api, row);
     },
     recordActivityTime(personId, category, minutes, source) {
       recordActivityTime(core, api, personId, category, minutes, source);
@@ -864,7 +944,24 @@ export function coreAPI(core: CoreState): CoreAPI {
       )
         throw new Error(`Duplicate organization: ${row.id}`);
       admitCash(row.liquidMinor, "organization cash", p("zero"));
-      core.organizations.set(row.id, { ...row });
+      const admitted = {
+        ...row,
+        ...(row.publicPayAuthority
+          ? {
+              publicPayAuthority: admitPublicPayAuthority(
+                row.publicPayAuthority,
+                core.date,
+              ),
+            }
+          : {}),
+      };
+      core.organizations.set(row.id, admitted);
+      try {
+        admitOwnerCashAccount(core, admitted);
+      } catch (error) {
+        core.organizations.delete(row.id);
+        throw error;
+      }
       index(
         core.organizationsByPlaceKind,
         `${row.placeId}:${row.kind}`,

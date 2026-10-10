@@ -1,4 +1,5 @@
-import { isoDateFromParts, makeIsoDate } from "../simulation/dates";
+import { createHouseholdPurchaseCalendarMarker } from "./household-purchase-calendar";
+import { makeIsoDate } from "../simulation/dates";
 import {
   lifePlaceByJurisdictionId,
   lifePlaceByKey,
@@ -26,6 +27,10 @@ import type {
   FinanceInput,
 } from "./finance-types";
 import { parameter, PARAMETERS } from "./parameters";
+import {
+  createOpeningPurchaseCalendar,
+  type OpeningPurchaseCalendarData,
+} from "./opening-purchase-calendar";
 import { stopgap } from "./stopgaps";
 import type {
   CoreInput,
@@ -38,6 +43,7 @@ export interface OpeningFinanceData {
   version: string;
   periodMonthsParameter: string;
   cadenceStopgap: { stopgapId: string };
+  openingPurchaseCalendar: OpeningPurchaseCalendarData;
   marketAdjustedHouseholdBudgets: boolean;
   excludedOrganizationKinds: readonly string[];
   stopgapIds: readonly string[];
@@ -169,13 +175,7 @@ export function createOpeningFinance(
     throw new Error(
       "Opening finance requires a positive whole calendar-month period.",
     );
-  const [yearText, monthText] = startedAt.split("-");
-  const nextMonthIndex = Number(monthText) - one + periodMonths;
-  const dueAt = isoDateFromParts(
-    Number(yearText) + Math.floor(nextMonthIndex / p("monthsPerYear")),
-    (nextMonthIndex % p("monthsPerYear")) + one,
-    one,
-  );
+  const openingPurchaseCalendar = data.openingPurchaseCalendar;
 
   const conditions = [
     ...unique(
@@ -327,6 +327,19 @@ export function createOpeningFinance(
       source: { ...contract.source },
     };
   });
+  // Index only actual supplied terms, before any generated purchase can anchor itself.
+  if (!openingPurchaseCalendar)
+    throw new Error(
+      "Opening purchases require a registered, sourced estimated first-due rule.",
+    );
+  const purchaseCalendar = createOpeningPurchaseCalendar(
+    input,
+    contracts,
+    openingPurchaseCalendar,
+    registry,
+  );
+  const dueAt = purchaseCalendar.business.dueAt;
+  for (const gap of purchaseCalendar.business.gaps) gaps.add(gap);
   const contractIds = new Set(contracts.map((row) => row.id));
   const contractById = new Map(contracts.map((row) => [row.id, row]));
   const appendContract = (contract: FinanceContractInput) => {
@@ -878,6 +891,8 @@ export function createOpeningFinance(
   for (const row of data.categories) stopgap(row.stopgapId);
 
   for (const household of households.values()) {
+    const householdCalendar = purchaseCalendar.household(household);
+    for (const gap of householdCalendar.gaps) gaps.add(gap);
     const members = household.memberIds.map((id) => people.get(id)!);
     const payers = members.filter((row) => row.livingCostDailyMinor > zero);
     if (!members.length || !payers.length) {
@@ -963,7 +978,12 @@ export function createOpeningFinance(
           payeeId: share.id,
           kind: crosswalk.contractKind,
           amountMinor: share.amount * periodMonths,
-          dueAt,
+          householdPurchaseCalendar: createHouseholdPurchaseCalendarMarker(
+            household.id,
+            householdCalendar,
+            openingPurchaseCalendar,
+          ),
+          dueAt: householdCalendar.dueAt,
           periodMonths,
           accruesArrears: false,
           salesReceipt: true,
@@ -971,13 +991,15 @@ export function createOpeningFinance(
           source: {
             tag: "ESTIMATED",
             asOf: startedAt,
-            generationPriorVintage: cexGenerationPriorVintage,
+            generationPriorVintage: `${cexGenerationPriorVintage}; ${householdCalendar.source.generationPriorVintage}`,
             citation: `${household.source.citation} ${LIVING_COSTS_SOURCE} ${Object.values(
               LIVING_COSTS_CATEGORY_SOURCES,
             )
               .map((row) => row.url)
-              .join(" ")} ${crosswalk.citation}`,
-            estimatedFrom: `Later-vintage CEX household-size/region category prior (${basket.sizeColumn}, ${basket.region}); capped by existing assigned livingCostDailyMinor after supplied terms. Opening standing counterparties use actual local classified firms weighted by projected payroll capacity, not observed customer choices. ${basket.uncertainty} ${data.stopgapIds.join(", ")}`,
+              .join(
+                " ",
+              )} ${crosswalk.citation} Calendar Source: DATA openingPurchaseCalendar.source.`,
+            estimatedFrom: `Later-vintage CEX household-size/region category prior (${basket.sizeColumn}, ${basket.region}); capped by existing assigned livingCostDailyMinor after supplied terms. Opening standing counterparties use actual local classified firms weighted by projected payroll capacity, not observed customer choices. ${basket.uncertainty} ${data.stopgapIds.join(", ")} Calendar marker ${openingPurchaseCalendar.recurringHouseholdDueRule}; household ${household.id}; basis ${householdCalendar.basisIds.join(", ") || "none; missing income timing"}; result ${householdCalendar.dueAt}. ${openingPurchaseCalendar.stopgapId}${householdCalendar.gaps.includes(`${openingPurchaseCalendar.missingIncomeGap}:${household.id}`) ? ` Missing income timing: explicit calendar-only fallback; ${openingPurchaseCalendar.missingIncomeGap}:${household.id}.` : ""}`,
           },
         });
         boundMonthly += share.amount;
@@ -1083,14 +1105,14 @@ export function createOpeningFinance(
           source: {
             tag: "ESTIMATED",
             asOf: startedAt,
-            ...(business.source.generationPriorVintage
-              ? {
-                  generationPriorVintage:
-                    business.source.generationPriorVintage,
-                }
-              : {}),
-            citation: `${business.source.citation} ${rule.citation}`,
-            estimatedFrom: `Reference input-cost/revenue ratio from source sales-sensitive cost fraction ${kind.salesCostShareParameter}; suppressed-cost estimated flag is ${String(kind.salesCostEstimated)}. At settlement the ratio is applied only to the frozen pool of actual received sales since the prior cutoff. Only actual mapped non-self local suppliers are bound. No actual delivery, invoice, payment, or supplier capacity observation is asserted. ${rule.stopgapId}`,
+            generationPriorVintage: [
+              business.source.generationPriorVintage,
+              purchaseCalendar.business.source.generationPriorVintage,
+            ]
+              .filter(Boolean)
+              .join("; "),
+            citation: `${business.source.citation} ${rule.citation} ${purchaseCalendar.business.source.citation}`,
+            estimatedFrom: `Reference input-cost/revenue ratio from source sales-sensitive cost fraction ${kind.salesCostShareParameter}; suppressed-cost estimated flag is ${String(kind.salesCostEstimated)}. At settlement the ratio is applied only to the frozen pool of actual received sales since the prior cutoff. Only actual mapped non-self local suppliers are bound. No actual delivery, invoice, payment, or supplier capacity observation is asserted. ${rule.stopgapId} Calendar rule ${openingPurchaseCalendar.businessFirstDueRule}; result ${dueAt}; DATA openingPurchaseCalendar.source. ${openingPurchaseCalendar.stopgapId} ${openingPurchaseCalendar.source.estimatedFrom === DEFAULT_OPENING_FINANCE_DATA.openingPurchaseCalendar.source.estimatedFrom ? "" : purchaseCalendar.business.source.estimatedFrom}`,
           },
         };
         appendContract(contract);

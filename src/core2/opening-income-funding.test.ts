@@ -11,6 +11,7 @@ import {
   buildOpeningRetirementFunding,
   DEFAULT_OPENING_RETIREMENT_FUNDING_DATA as data,
   type OpeningRetirementFundingBuild,
+  type OpeningRetirementFundingContract,
   type OpeningRetirementFundingOptions,
 } from "./opening-income-funding";
 import { PARAMETERS, parameter as p, type Parameter } from "./parameters";
@@ -29,7 +30,7 @@ const source: Source = {
   tag: "ESTIMATED",
   asOf: startedAt,
   citation:
-    "Small authored finite-funding boundary fixture, not observed public accounts or actual 2021 awards.",
+    "Small authored due-flow boundary fixture, not observed public accounts or actual 2021 awards.",
   estimatedFrom:
     "Fixture identities, dated school context and original cash records.",
 };
@@ -175,26 +176,42 @@ function registry(
   return { ...PARAMETERS, [key]: { ...PARAMETERS[key]!, value } };
 }
 
+/** REVIEW15 invariant: local stock plus signed outside net flow stays constant. */
 function cash(core: CoreState): number {
-  return [...core.people.values(), ...core.organizations.values()].reduce(
-    (sum, row) => sum + row.liquidMinor,
-    p("zero"),
+  const stock = [
+    ...core.people.values(),
+    ...core.organizations.values(),
+  ].reduce((sum, row) => sum + row.liquidMinor, p("zero"));
+  return [...core.cashJournal.externalFlowsByOwner.values()].reduce(
+    (sum, row) => sum + row.netMinor,
+    stock,
   );
 }
 
-function recordedContributor(liquidMinor: number): OrganizationInput {
+function outsideNet(core: CoreState, ownerId: string): number {
+  return core.cashJournal.externalFlowsByOwner.get(ownerId)!.netMinor;
+}
+
+function recordedContributor(): OrganizationInput & { outsideFlow: Source } {
   return {
     id: "organization:recorded-contributor",
     placeId: external.id,
-    name: "Recorded finite public contribution account",
+    name: "Recorded outside retirement payment flow",
     kind: "government",
-    liquidMinor,
+    classification: data.contributorClassification,
+    liquidMinor: p("zero"),
     source,
+    outsideFlow: source,
+    governmentFacts: {
+      externalFlowKind: data.externalFlow.kind,
+      externalFlowOwnerSubject: data.externalFlow.ownerSubject,
+      openingCashBasis: data.externalFlow.openingCashBasis,
+    },
   };
 }
 
-describe("finite source-qualified opening retirement funding", () => {
-  it("derives its bounded envelope from saved award records and adds named finite external accounts without changing original WHO/PAST/work", () => {
+describe("source-qualified due retirement flows with zero opening stock", () => {
+  it("links exact saved obligations to one zero-stock outside owner without changing original WHO/PAST/work", () => {
     const input = incomeFixture();
     const snapshot = structuredClone(input);
     const result = build(input);
@@ -231,30 +248,22 @@ describe("finite source-qualified opening retirement funding", () => {
     expect(group.savedCoveredMonthsByPerson[retiredId]).toBeGreaterThanOrEqual(
       p(DEFAULT_OPENING_INCOME_DATA.parameters.minimumCoveredMonths),
     );
-    expect(result.receipt.nominalAnnualAwardsMinor).toBe(
-      income.amountMinor * p("monthsPerYear"),
+    expect(result.receipt.nominalMonthlyAwardsMinor).toBe(income.amountMinor);
+    expect(result.receipt.scheduledMonthlyFundingMinor).toBe(
+      result.receipt.nominalMonthlyAwardsMinor,
     );
-    expect(result.receipt.boundedAnnualEnvelopeMinor).toBeLessThanOrEqual(
-      result.receipt.nominalAnnualAwardsMinor,
-    );
-    expect(result.receipt.boundedAnnualEnvelopeMinor).toBeLessThanOrEqual(
-      p(data.parameters.nationalAnnualOutlayMinor),
-    );
+    expect(group.incomeContractIds).toEqual([income.id]);
     const contributor = result.receipt.contributorAccounts[p("zero")]!;
-    expect(contributor.name).toContain(data.flowEvidence.publisher);
+    expect(contributor.name).toBe(data.contributorNameTemplate);
     expect(contributor.placeId).toBe(external.id);
     expect(contributor.source.tag).toBe("ESTIMATED");
     expect(contributor.source.generationPriorVintage).toBe(
-      data.flowEvidence.sourceVintage,
+      data.externalFlow.identityVintage,
     );
     expect(contributor.source.estimatedFrom).toContain(
-      "not national reserve assets turned into cash",
+      "supply no opening stock",
     );
-    expect(contributor.openingLiquidMinor).toBe(
-      Math.floor(
-        group.annualEnvelopeMinor * p(data.parameters.openingLiquidShare),
-      ),
-    );
+    expect(contributor.openingLiquidMinor).toBe(p("zero"));
     const term = result.input.finance!.contracts.find(
       (row) => row.id === group.contractId,
     )!;
@@ -269,10 +278,15 @@ describe("finite source-qualified opening retirement funding", () => {
     expect(term.accruesArrears).toBe(false);
     expect(term.settlementPhaseId).toBe(data.settlementPhaseId);
     expect(term.dueAt).toBe(income.dueAt);
-    expect(term.endsAt).toBe("2022-02-01");
+    expect(Object.hasOwn(term, "endsAt")).toBe(false);
+    const inflow = (term as OpeningRetirementFundingContract).externalInflow;
+    expect(inflow.ownerId).toBe(contributor.id);
+    expect(inflow.sourceAwardIds).toEqual(group.sourceAwardIds);
+    expect(inflow.incomeContractIds).toEqual(group.incomeContractIds);
+    expect(inflow.source).toBe(term.source);
   });
 
-  it("discloses every new stock once and keeps the existing retirement payer buffer separate", () => {
+  it("adds no retirement cash stock and preserves every original account exactly", () => {
     const input = incomeFixture();
     const result = build(input);
     const originalCash =
@@ -363,7 +377,11 @@ describe("finite source-qualified opening retirement funding", () => {
       contributorBefore,
     );
     expect(funding.payments[p("zero")]!.payerAfterMinor).toBe(
-      contributorBefore - funding.paidMinor,
+      contributorBefore,
+    );
+    expect(outsideNet(core, group.contributorId)).toBe(-funding.paidMinor);
+    expect(core.organizations.get(group.contributorId)!.liquidMinor).toBe(
+      p("zero"),
     );
     expect(funding.payeeBeforeMinor).toBe(payerBefore);
     expect(funding.payeeAfterMinor).toBe(payerBefore + funding.paidMinor);
@@ -392,31 +410,31 @@ describe("finite source-qualified opening retirement funding", () => {
     expect(cash(core)).toBe(total);
   });
 
-  it("allows partial then exhausted funding without inventing cash, refilling the contributor or creating debt", () => {
-    const liquidShare = (p("one") + 0.5) / p("monthsPerYear");
-    const result = build(incomeFixture(), {
-      parameters: registry(data.parameters.openingLiquidShare, liquidShare),
-    });
+  it("pays every genuine due obligation through signed outside flows while keeping outside stock zero", () => {
+    const result = build();
     const group = result.receipt.groups[p("zero")]!;
+    const income = result.input.finance!.contracts.find(
+      (row) => row.recipientIncome,
+    )!;
     const core = createCore(result.input, { modules: [] }),
-      api = coreAPI(core),
-      total = cash(core);
-    const openingStock = core.organizations.get(
-      group.contributorId,
-    )!.liquidMinor;
-    advanceDate(core, "2021-02-01");
-    const first = api.settleFinanceContract(group.contractId);
-    advanceDate(core, "2021-03-01");
-    const second = api.settleFinanceContract(group.contractId);
-    advanceDate(core, "2021-04-01");
-    const third = api.settleFinanceContract(group.contractId);
-    expect(first.paidMinor).toBe(group.monthlyFundingMinor);
-    expect(second.paidMinor).toBe(openingStock - first.paidMinor);
-    expect(second.paidMinor).toBeGreaterThan(p("zero"));
-    expect(second.unfundedMinor).toBe(second.requestedMinor - second.paidMinor);
-    expect(third.paidMinor).toBe(p("zero"));
-    expect(third.unfundedMinor).toBe(third.requestedMinor);
-    for (const receipt of [first, second, third]) {
+      api = coreAPI(core);
+    const total = cash(core);
+    const receipts = [];
+    for (const at of ["2021-02-01", "2021-03-01", "2021-04-01"]) {
+      advanceDate(core, at);
+      receipts.push(api.settleFinanceContract(group.contractId));
+      api.settleFinanceContract(income.id);
+    }
+    const [first, second, third] = receipts;
+    expect(first!.paidMinor).toBe(group.monthlyFundingMinor);
+    expect(second!.paidMinor).toBe(group.monthlyFundingMinor);
+    expect(second!.paidMinor).toBeGreaterThan(p("zero"));
+    expect(second!.unfundedMinor).toBe(
+      second!.requestedMinor - second!.paidMinor,
+    );
+    expect(third!.paidMinor).toBe(group.monthlyFundingMinor);
+    expect(third!.unfundedMinor).toBe(p("zero"));
+    for (const receipt of receipts) {
       expect(receipt.arrearsMinor).toBe(p("zero"));
       expect(receipt.creditReceiptId).toBeUndefined();
     }
@@ -427,7 +445,18 @@ describe("finite source-qualified opening retirement funding", () => {
       p("zero"),
     );
     expect(cash(core)).toBe(total);
-    expect(core.finance.paidIncomeByPlaceMonth.size).toBe(p("zero"));
+    expect(core.finance.paidIncomeByPlaceMonth.size).toBe(receipts.length);
+    expect(outsideNet(core, group.contributorId)).toBe(
+      -receipts.reduce((sum, receipt) => sum + receipt.paidMinor, p("zero")),
+    );
+    expect(
+      Object.hasOwn(
+        result.input.finance!.contracts.find(
+          (row) => row.id === group.contractId,
+        )!,
+        "endsAt",
+      ),
+    ).toBe(false);
   });
 
   it("settles the DATA funding phase before recipient income when a supplied original retirement account starts with no cash", () => {
@@ -563,13 +592,13 @@ describe("finite source-qualified opening retirement funding", () => {
     }
   });
 
-  it("discloses a supplied new finite contributor once, ignores unused accounts and rejects same-day payment replay", () => {
+  it("discloses a supplied zero-stock outside owner once, ignores unused rows and rejects same-day flow replay", () => {
     const input = incomeFixture();
     const payerId = input.finance!.contracts.find((row) => row.recipientIncome)!
       .payerIds[p("zero")]!;
-    const contributor = recordedContributor(101);
+    const contributor = recordedContributor();
     const unused = {
-      ...recordedContributor(303),
+      ...recordedContributor(),
       id: "organization:unused-contributor",
       name: "Unused recorded account",
     };
@@ -592,7 +621,8 @@ describe("finite source-qualified opening retirement funding", () => {
       total = cash(core);
     advanceDate(core, group.dueAt);
     const first = api.settleFinanceContract(group.contractId);
-    expect(first.paidMinor).toBe(contributor.liquidMinor);
+    expect(first.paidMinor).toBe(group.monthlyFundingMinor);
+    expect(outsideNet(core, contributor.id)).toBe(-first.paidMinor);
     const payerAfter = core.organizations.get(payerId)!.liquidMinor;
     expect(() => api.settleFinanceContract(group.contractId)).toThrow();
     expect(core.organizations.get(payerId)!.liquidMinor).toBe(payerAfter);
@@ -600,14 +630,14 @@ describe("finite source-qualified opening retirement funding", () => {
     expect(cash(core)).toBe(total);
   });
 
-  it("uses an existing finite contributor once across distinct payer portfolios, respecting its shared cash limit", () => {
+  it("deduplicates one existing zero-stock outside owner across distinct due payer portfolios", () => {
     const input = incomeFixture(
       rawFixture([
         person(retiredId),
         person("person:other-place", "place:other"),
       ]),
     );
-    const contributor = recordedContributor(100);
+    const contributor = recordedContributor();
     input.organizations = [...input.organizations, contributor];
     const payerIds = input.finance!.contracts.map(
       (row) => row.payerIds[p("zero")]!,
@@ -621,69 +651,96 @@ describe("finite source-qualified opening retirement funding", () => {
     expect(result.receipt.contributorAccounts).toHaveLength(p("one"));
     expect(result.receipt.addedOpeningLiquidMinor).toBe(p("zero"));
     const core = createCore(result.input, { modules: [] }),
-      api = coreAPI(core),
-      total = cash(core);
+      api = coreAPI(core);
+    const total = cash(core);
     advanceDate(core, "2021-02-01");
     const receipts = result.receipt.groups.map((row) =>
       api.settleFinanceContract(row.contractId),
     );
-    expect(
-      receipts.reduce((sum, receipt) => sum + receipt.paidMinor, p("zero")),
-    ).toBe(contributor.liquidMinor);
+    const paid = receipts.reduce(
+      (sum, receipt) => sum + receipt.paidMinor,
+      p("zero"),
+    );
+    expect(paid).toBe(result.receipt.nominalMonthlyAwardsMinor);
     expect(core.organizations.get(contributor.id)!.liquidMinor).toBe(p("zero"));
-    expect(receipts[p("one")]!.paidMinor).toBe(p("zero"));
+    expect(receipts[p("one")]!.paidMinor).toBe(
+      receipts[p("one")]!.requestedMinor,
+    );
     expect(cash(core)).toBe(total);
+    expect(outsideNet(core, contributor.id)).toBe(-paid);
+    expect(
+      new Set(result.receipt.groups.map((row) => row.contributorId)).size,
+    ).toBe(p("one"));
   });
 
-  it("ends its one-year funding terms and removes future due work without refilling or expiring debt", () => {
+  it("continues genuine due funding beyond one year without an invented end or prepaid stock", () => {
     const result = build();
     const group = result.receipt.groups[p("zero")]!;
+    const income = result.input.finance!.contracts.find(
+      (row) => row.recipientIncome,
+    )!;
     const core = createCore(result.input, { modules: [] }),
-      api = coreAPI(core),
-      total = cash(core);
+      api = coreAPI(core);
+    const total = cash(core);
     const [year, month, day] = group.dueAt.split("-").map(Number);
     let paid = p("zero");
     for (
       let offset = p("zero");
-      offset < p("monthsPerYear");
+      offset <= p("monthsPerYear");
       offset += p("one")
     ) {
-      const monthIndex = month! - p("one") + offset;
+      const index = month! - p("one") + offset;
       advanceDate(
         core,
         isoDateFromParts(
-          year! + Math.floor(monthIndex / p("monthsPerYear")),
-          (monthIndex % p("monthsPerYear")) + p("one"),
+          year! + Math.floor(index / p("monthsPerYear")),
+          (index % p("monthsPerYear")) + p("one"),
           day!,
         ),
       );
       const receipt = api.settleFinanceContract(group.contractId);
       paid += receipt.paidMinor;
+      api.settleFinanceContract(income.id);
       expect(receipt.arrearsMinor).toBe(p("zero"));
+      expect(receipt.paidMinor).toBe(group.monthlyFundingMinor);
     }
-    expect(paid).toBe(group.monthlyFundingMinor * p("monthsPerYear"));
+    expect(paid).toBe(
+      group.monthlyFundingMinor * (p("monthsPerYear") + p("one")),
+    );
     expect(
       [...core.finance.contractsDueAt.values()].some((ids) =>
         ids.has(group.contractId),
       ),
-    ).toBe(false);
-    advanceDate(core, group.endsAt);
-    expect(() => api.settleFinanceContract(group.contractId)).toThrow();
+    ).toBe(true);
+    expect(
+      core.finance.contracts.get(group.contractId)!.endsAt,
+    ).toBeUndefined();
     expect(cash(core)).toBe(total);
     expect(core.finance.contracts.has(group.contractId)).toBe(true);
+    expect(core.organizations.get(group.contributorId)!.liquidMinor).toBe(
+      p("zero"),
+    );
+    expect(outsideNet(core, group.contributorId)).toBe(-paid);
   });
 
-  it("caps the combined represented portfolios once, allocates integer budgets deterministically and never copies a full national flow into each place", () => {
+  it("sizes each flow from exact saved terms and ignores historical annual-flow and capital parameters", () => {
     const input = incomeFixture(
       rawFixture([
         person(retiredId),
         person("person:other-place", "place:other"),
       ]),
     );
-    const parameters = registry(
-      data.parameters.nationalAnnualOutlayMinor,
-      10_001,
-    );
+    const parameters = {
+      ...registry("openingRetirementFundingPublicAnnualOutlayMinor", p("one")),
+      openingRetirementFundingEnvelopeShare: {
+        ...PARAMETERS.openingRetirementFundingEnvelopeShare!,
+        value: p("zero"),
+      },
+      openingRetirementFundingLiquidShare: {
+        ...PARAMETERS.openingRetirementFundingLiquidShare!,
+        value: p("one"),
+      },
+    };
     const first = build(input, { parameters });
     const reversed = build(
       {
@@ -697,24 +754,27 @@ describe("finite source-qualified opening retirement funding", () => {
       },
       { parameters },
     );
-    expect(first.receipt.boundedAnnualEnvelopeMinor).toBe(10_001);
-    expect(first.receipt.allocatedAnnualEnvelopeMinor).toBeLessThanOrEqual(
-      first.receipt.boundedAnnualEnvelopeMinor,
+    const due = input.finance!.contracts.reduce(
+      (sum, row) => sum + row.amountMinor,
+      p("zero"),
     );
-    expect(first.receipt.scheduledFundingMinor).toBeLessThanOrEqual(
-      first.receipt.allocatedAnnualEnvelopeMinor,
-    );
-    expect(first.receipt.addedOpeningLiquidMinor).toBe(
-      first.receipt.allocatedAnnualEnvelopeMinor,
-    );
-    expect(first.receipt.unallocatedRoundingMinor).toBe(
-      first.receipt.boundedAnnualEnvelopeMinor -
-        first.receipt.allocatedAnnualEnvelopeMinor,
-    );
+    expect(first.receipt.nominalMonthlyAwardsMinor).toBe(due);
+    expect(first.receipt.scheduledMonthlyFundingMinor).toBe(due);
+    expect(
+      first.receipt.groups.reduce(
+        (sum, row) => sum + row.monthlyFundingMinor,
+        p("zero"),
+      ),
+    ).toBe(due);
+    expect(first.receipt.addedOpeningLiquidMinor).toBe(p("zero"));
+    expect(
+      first.receipt.groups.every((row) => !Object.hasOwn(row, "endsAt")),
+    ).toBe(true);
     expect(reversed.receipt.groups).toEqual(first.receipt.groups);
     expect(reversed.receipt.contributorAccounts).toEqual(
       first.receipt.contributorAccounts,
     );
+    expect(first.receipt.parameterKeys).toEqual([data.parameters.periodMonths]);
   });
 
   it("leaves birth-only/young inputs quiet and refuses to rescue an operating employer posing as a retirement payer", () => {
@@ -817,7 +877,7 @@ describe("finite source-qualified opening retirement funding", () => {
       ),
     };
     expect(() => build(badContributor)).toThrow(
-      /Conflicting generated contributor ID/,
+      /Conflicting generated outside-flow owner ID/,
     );
     const badContract = {
       ...first.input,
@@ -833,14 +893,17 @@ describe("finite source-qualified opening retirement funding", () => {
     );
   });
 
-  it("rejects unsafe totals, invalid liquidity and upper-calendar funding admission atomically", () => {
+  it("rejects unsafe totals, wrong flow evidence and upper-calendar due admission atomically", () => {
     const input = incomeFixture();
     const snapshot = structuredClone(input);
     expect(() =>
       build(input, {
-        parameters: registry(data.parameters.openingLiquidShare, 1.1),
+        data: {
+          ...data,
+          flowEvidence: { ...data.flowEvidence, financialKind: "CASH_STOCK" },
+        },
       }),
-    ).toThrow(/allocation prior/);
+    ).toThrow(/dated typed evidence/);
     expect(input).toEqual(snapshot);
     const overflow = {
       ...input,
@@ -857,12 +920,177 @@ describe("finite source-qualified opening retirement funding", () => {
         ...input.finance!,
         contracts: input.finance!.contracts.map((row) => ({
           ...row,
-          dueAt: "9999-02-01",
+          dueAt: "9999-12-01",
         })),
       },
     };
     const farSnapshot = structuredClone(farFuture);
     expect(() => build(farFuture)).toThrow();
     expect(farFuture).toEqual(farSnapshot);
+  });
+  it("keeps one payer's distinct due schedules separate and refuses early outside funding", () => {
+    const opening = incomeFixture(
+      rawFixture([person(retiredId), person("person:later-schedule", home.id)]),
+    );
+    const input = {
+      ...opening,
+      finance: {
+        ...opening.finance!,
+        contracts: opening.finance!.contracts.map((row) =>
+          row.recipientIncome?.personId === "person:later-schedule"
+            ? { ...row, dueAt: "2021-02-10" }
+            : row,
+        ),
+      },
+    };
+    const result = build(input);
+    const first = result.receipt.groups.find(
+      (row) => row.dueAt === "2021-02-01",
+    )!;
+    const later = result.receipt.groups.find(
+      (row) => row.dueAt === "2021-02-10",
+    )!;
+    expect(result.receipt.groups).toHaveLength(2);
+    expect(result.receipt.contributorAccounts).toHaveLength(p("one"));
+    expect(first.retirementPayerId).toBe(later.retirementPayerId);
+    expect(first.incomeContractIds).not.toEqual(later.incomeContractIds);
+    for (const group of result.receipt.groups) {
+      const matched = input.finance.contracts.filter((row) =>
+        group.incomeContractIds.includes(row.id),
+      );
+      expect(group.monthlyFundingMinor).toBe(
+        matched.reduce((sum, row) => sum + row.amountMinor, p("zero")),
+      );
+      expect(matched.every((row) => row.dueAt === group.dueAt)).toBe(true);
+    }
+    const core = createCore(result.input, { modules: [] }),
+      api = coreAPI(core);
+    advanceDate(core, first.dueAt);
+    const before = cash(core),
+      netBefore = outsideNet(core, later.contributorId);
+    expect(() => api.settleFinanceContract(later.contractId)).toThrow();
+    expect(cash(core)).toBe(before);
+    expect(outsideNet(core, later.contributorId)).toBe(netBefore);
+    expect(core.organizations.get(first.retirementPayerId)!.liquidMinor).toBe(
+      p("zero"),
+    );
+    const paid = api.settleFinanceContract(first.contractId);
+    expect(paid.paidMinor).toBe(first.monthlyFundingMinor);
+    expect(
+      core.finance.contracts.get(later.contractId)!.lastSettledAt,
+    ).toBeUndefined();
+    expect(cash(core)).toBe(before);
+  });
+
+  it("copies only actual income ends and keeps another same-date award continuing", () => {
+    const opening = incomeFixture(
+      rawFixture([person(retiredId), person("person:continuing", home.id)]),
+    );
+    const input = {
+      ...opening,
+      finance: {
+        ...opening.finance!,
+        contracts: opening.finance!.contracts.map((row) =>
+          row.recipientIncome?.personId === retiredId
+            ? { ...row, endsAt: "2021-03-01" }
+            : row,
+        ),
+      },
+    };
+    const result = build(input);
+    const ended = result.receipt.groups.find((row) => row.endsAt)!;
+    const continuing = result.receipt.groups.find((row) => !row.endsAt)!;
+    expect(result.receipt.groups).toHaveLength(2);
+    expect(ended.endsAt).toBe("2021-03-01");
+    expect(Object.hasOwn(continuing, "endsAt")).toBe(false);
+    expect(ended.retirementPayerId).toBe(continuing.retirementPayerId);
+    const core = createCore(result.input, { modules: [] }),
+      api = coreAPI(core);
+    const total = cash(core);
+    advanceDate(core, "2021-02-01");
+    for (const group of result.receipt.groups)
+      api.settleFinanceContract(group.contractId);
+    for (const row of input.finance.contracts)
+      api.settleFinanceContract(row.id);
+    advanceDate(core, "2021-03-01");
+    const netBefore = outsideNet(core, ended.contributorId);
+    expect(() => api.settleFinanceContract(ended.contractId)).toThrow();
+    expect(outsideNet(core, ended.contributorId)).toBe(netBefore);
+    const paid = api.settleFinanceContract(continuing.contractId);
+    expect(paid.paidMinor).toBe(continuing.monthlyFundingMinor);
+    expect(core.organizations.get(continuing.contributorId)!.liquidMinor).toBe(
+      p("zero"),
+    );
+    expect(cash(core)).toBe(total);
+  });
+
+  it("does not copy national cash or outgo into default outside stock across multiple payers", () => {
+    const input = incomeFixture(
+      rawFixture([
+        person(retiredId),
+        person("person:another-payer", "place:other"),
+      ]),
+    );
+    const result = build(input);
+    expect(result.receipt.groups).toHaveLength(2);
+    expect(result.receipt.contributorAccounts).toHaveLength(p("one"));
+    expect(
+      result.receipt.contributorAccounts[p("zero")]!.openingLiquidMinor,
+    ).toBe(p("zero"));
+    expect(result.receipt.addedOpeningLiquidMinor).toBe(p("zero"));
+    expect(result.receipt.externalFlow.openingStockMinor).toBe(p("zero"));
+    expect(
+      result.receipt.groups.every(
+        (row) => row.monthlyFundingMinor === row.nominalRecipientMonthlyMinor,
+      ),
+    ).toBe(true);
+    expect(
+      new Set(result.receipt.groups.map((row) => row.contributorId)).size,
+    ).toBe(p("one"));
+    expect(build(result.input).input).toEqual(result.input);
+  });
+
+  it("rejects stock-loaded or future-sourced outside owners before returning any enrichment", () => {
+    const input = incomeFixture();
+    const payerId = input.finance!.contracts[p("zero")]!.payerIds[p("zero")]!;
+    for (const bad of [
+      { ...recordedContributor(), liquidMinor: p("one") },
+      {
+        ...recordedContributor(),
+        outsideFlow: { ...source, asOf: "2021-01-02" },
+      },
+      { ...recordedContributor(), governmentFacts: {} },
+    ]) {
+      const snapshot = structuredClone(input);
+      expect(() =>
+        build(input, {
+          recordedContributors: [bad],
+          contributorIdByPayer: { [payerId]: bad.id },
+        }),
+      ).toThrow();
+      expect(input).toEqual(snapshot);
+    }
+    const doubled = incomeFixture(
+      rawFixture([
+        person(retiredId),
+        person("person:another-payer", "place:other"),
+      ]),
+    );
+    const owners = [
+      recordedContributor(),
+      { ...recordedContributor(), id: "organization:second-outside" },
+    ];
+    const ids = doubled.finance!.contracts.map(
+      (row) => row.payerIds[p("zero")]!,
+    );
+    expect(() =>
+      build(doubled, {
+        recordedContributors: owners,
+        contributorIdByPayer: {
+          [ids[p("zero")]!]: owners[p("zero")]!.id,
+          [ids[p("one")]!]: owners[p("one")]!.id,
+        },
+      }),
+    ).toThrow(/one shared owner/);
   });
 });

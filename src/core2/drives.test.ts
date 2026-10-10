@@ -368,6 +368,44 @@ describe("P10 drives and causes", () => {
     expect(heard.every((row) => row.ruleId === "cause-shared")).toBe(true);
   });
 
+  it("a donation moves the donor's money to the group through the cash journal", () => {
+    const core = bereavedCore();
+    const api = coreAPI(core);
+    const definition = DEFAULT_DRIVES_DATA.actions.find(
+      (row) => row.id === "donate-to-cause",
+    )!;
+    const donor = core.people.get(carerId)!;
+    const group = core.organizations.get(office)!;
+    const donorBefore = donor.liquidMinor,
+      groupBefore = group.liquidMinor,
+      sequenceBefore = core.cashJournal.nextSequence;
+    const amount = Math.round(
+      donor.livingCostDailyMinor * p(definition.effectParameter!),
+    );
+    // The carer's own decision formed this drive from the death; the gift serves it.
+    const drive = drivesReport(core).drives.find(
+      (row) => row.personId === carerId,
+    )!;
+    const donate = createDrivesModule().effectHandlers!.donate!;
+    donate(
+      api,
+      carerId,
+      {
+        definition,
+        targetId: office,
+        driveId: drive.id,
+        availableHours: p("workHours"),
+      },
+      core.date,
+      p("one"),
+      undefined as never,
+    );
+    expect(amount).toBeGreaterThan(p("zero"));
+    expect(donor.liquidMinor).toBe(donorBefore - amount);
+    expect(group.liquidMinor).toBe(groupBefore + amount);
+    expect(core.cashJournal.nextSequence).toBe(sequenceBefore + p("one"));
+  });
+
   it("a new drive kind and response arrive as data rows only", () => {
     const data: DrivesData = {
       ...DEFAULT_DRIVES_DATA,

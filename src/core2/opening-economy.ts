@@ -72,17 +72,19 @@ export function buildOpeningEconomy(
   options: OpeningEconomyOptions = {},
 ) {
   const originalCashMinor = cash(input);
-  // Existing prepared finance wins. The CLI freezes the supplied original before
-  // calling any producer; the composer never rebuilds population or deep past.
-  const withFinance: CoreInput = input.finance
-    ? input
-    : {
-        ...input,
-        finance: createOpeningFinance(input, options.finance),
-      };
-  const income = buildOpeningRetirementIncome(withFinance, options.income);
+  // Resolve actual recorded/generated retirement awards and their admitted terms
+  // before fresh purchase generation queries household income calendars.
+  const income = buildOpeningRetirementIncome(input, options.income);
   const funding = buildOpeningRetirementFunding(income.input, options.funding);
-  const customers = buildOpeningCustomers(funding.input, options.customers);
+  // Existing prepared finance still wins. Test ORIGINAL input.finance because the
+  // income producer supplies its own finance container even for a fresh population.
+  const withFinance: CoreInput = input.finance
+    ? funding.input
+    : {
+        ...funding.input,
+        finance: createOpeningFinance(funding.input, options.finance),
+      };
+  const customers = buildOpeningCustomers(withFinance, options.customers);
   const addedCashMinor =
     income.receipt.addedOpeningLiquidMinor +
     funding.receipt.addedOpeningLiquidMinor +
@@ -199,7 +201,9 @@ export function buildOpeningEconomy(
         account.source.citation,
       nonoverlapBasis:
         stock?.nonoverlapBasis ??
-        `One new finite ${stage} account ${id}, absent from the original account roster; existing person and organization cash is preserved separately.`,
+        (account.outsideFlow
+          ? `One canonical zero-stock ${stage} outside owner ${id}, absent from the original roster. Only source-owned dated obligations may produce outside net flow; no stock, income calendar or pool is copied per seller.`
+          : `One new finite ${stage} account ${id}, absent from the original account roster; existing person and organization cash is preserved separately.`),
       ...(stock ? { sourceStockRecordId: stock.stockSourceRecordId } : {}),
       source: account.source,
     };
@@ -211,6 +215,15 @@ export function buildOpeningEconomy(
     if (row.added) disclose(row.id, "funding", row.openingLiquidMinor);
   for (const row of customers.receipt.newStocks)
     disclose(row.cashEntityId, "customers", row.liquidMinor, row);
+  for (const id of customers.receipt.newOrganizationIds) {
+    if (accounts.has(id)) continue;
+    const account = organizations.get(id);
+    if (!account || !account.outsideFlow || account.liquidMinor !== p("zero"))
+      throw new Error(
+        `New customer outside owner must disclose zero opening stock: ${id}`,
+      );
+    disclose(id, "customers", p("zero"));
+  }
   const addedOpeningAccounts = [...accounts.values()].sort((left, right) =>
     left.id.localeCompare(right.id),
   );
@@ -256,9 +269,9 @@ export function buildOpeningEconomy(
       schema: "p8-opening-economy-records-v1",
       status: "OPENING_RECORDS_ONLY_NO_RUNTIME_SETTLEMENT",
       producerOrder: [
-        "opening-finance",
         "opening-income",
         "opening-income-funding",
+        "opening-finance",
         "opening-customers",
       ],
       originalCashMinor,

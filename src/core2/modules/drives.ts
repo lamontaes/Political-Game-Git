@@ -6,6 +6,8 @@ import { extendData } from "../data";
 import { appraiseEvent } from "../emotion";
 import { parameter, parameterValues } from "../parameters";
 import { discretionaryHours } from "./work";
+import type { CashJournalPosting, ResolvedCashJournalSource } from "../journal";
+import type { CashJournalPostedMarker } from "../journal-state";
 import type {
   ActOffer,
   ActionDefinition,
@@ -48,6 +50,7 @@ export interface DrivesData {
   version: string;
   stopgapId: string;
   causeGroupKind: string;
+  donationJournalSourceKind: string;
   volunteerAffordances: readonly string[];
   eventKinds: Readonly<Record<EventKindKey, string>>;
   civicActEvents: readonly { eventKind: string; actionId: string }[];
@@ -193,6 +196,13 @@ interface DrivesRuntime {
   decisions: FormationTrace[];
   /** Today's scored choice for each drive holder, matched against the act recorded. */
   predicted: Map<PersonId, PredictedChoice>;
+  /** Canonical donation records the cash journal resolves through this module's provider. */
+  donations: Map<string, DonationRecord>;
+}
+
+interface DonationRecord {
+  resolved: ResolvedCashJournalSource;
+  marker: CashJournalPostedMarker;
 }
 
 interface PredictedChoice {
@@ -221,6 +231,7 @@ function runtimeFor(state: Readonly<CoreState>): DrivesRuntime {
       perceived: zero,
       decisions: [],
       predicted: new Map(),
+      donations: new Map(),
     };
     runtimes.set(state, row);
   }
@@ -940,6 +951,51 @@ function actEvent(
   };
 }
 
+/** Eligibility already proved the donor can pay the whole gift, so the gift is paid in full. */
+function payDonation(
+  api: CoreAPI,
+  data: DrivesData,
+  donorId: PersonId,
+  groupId: string,
+  amount: number,
+): number {
+  const state = core(api),
+    journal = state.cashJournal;
+  const from = journal.residualAccountByOwner.get(donorId),
+    to = journal.residualAccountByOwner.get(groupId);
+  if (!from || !to) throw new Error("Donation requires both cash accounts.");
+  const id = `donation:${donorId}:${groupId}:${state.date}`;
+  const postings: CashJournalPosting[] = [
+    { id: `${id}:from`, accountId: from, deltaMinor: -amount },
+    { id: `${id}:to`, accountId: to, deltaMinor: amount },
+  ];
+  runtimeFor(api.state).donations.set(id, {
+    resolved: {
+      kind: data.donationJournalSourceKind,
+      id,
+      date: state.date,
+      source: {
+        tag: "ESTIMATED",
+        citation: "P10 donation chosen by the shared chooser from a held drive",
+        asOf: state.date,
+        estimatedFrom: data.stopgapId,
+      },
+      expectedPostings: postings,
+      requiredRelatedRefs: [],
+      relatedRecords: [],
+    },
+    marker: {},
+  });
+  api.postJournal({
+    id: `journal:${state.date}:${journal.nextSequence}`,
+    date: state.date,
+    expectedSequence: journal.nextSequence,
+    sourceRef: { kind: data.donationJournalSourceKind, id },
+    postings,
+  });
+  return amount;
+}
+
 function founderOf(api: CoreAPI, groupId: string) {
   return runtimeFor(api.state).groupFounder.get(groupId);
 }
@@ -949,6 +1005,19 @@ export function createDrivesModule(
 ): CoreModule {
   return {
     id: "core2-drives-p10-v1",
+    // A donation is paid through the cash journal from this module's own canonical record.
+    journalSourceProviders: {
+      [data.donationJournalSourceKind]: (api, reference) => {
+        const row = runtimeFor(api.state).donations.get(reference.id);
+        return (
+          row && {
+            resolved: row.resolved,
+            marker: row.marker,
+            retainFull: false,
+          }
+        );
+      },
+    },
     // Only the events a rule answers or a drive act emits reach this module.
     eventKinds: [
       ...new Set([
@@ -1248,7 +1317,7 @@ export function createDrivesModule(
           actor.livingCostDailyMinor *
             api.parameter(offer.definition.effectParameter),
         );
-        const paid = api.transfer(actorId, offer.targetId, amount);
+        const paid = payDonation(api, data, actorId, offer.targetId, amount);
         api.emit(
           actEvent(
             api,

@@ -2,6 +2,7 @@
   "version": "p10-drives-v1",
   "stopgapId": "SG-P10-response-model",
   "causeGroupKind": "cause-group",
+  "donationJournalSourceKind": "drive-donation",
   "volunteerAffordances": ["known-group"],
   "eventKinds": {
     "formed": "drive.formed",

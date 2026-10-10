@@ -894,9 +894,14 @@ describe("controller boundary and data extension", () => {
     expect(chosen.decision!.selectedReasons!.trait).toBeGreaterThan(p("zero"));
     expect(actor.liquidMinor).toBe(core.jobs.get(actor.jobId!)!.wageDailyMinor);
     expect(money(core)).toBe(openingMoney);
-    expect(core.modules.size).toBe(p("two"));
+    expect(core.modules.size).toBe(p("two") + p("two"));
     expect([...core.modules.keys()].sort()).toEqual(
-      [LIFE_MODULE.id, WORK_MODULE.id].sort(),
+      [
+        LIFE_MODULE.id,
+        WORK_MODULE.id,
+        core.data.workCashModuleId,
+        core.data.finance!.cashJournal.moduleId,
+      ].sort(),
     );
     assertCoreIntegrity(core);
   });
