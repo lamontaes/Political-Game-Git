@@ -33,7 +33,7 @@ AFTER + P8 is AFTER with Sol's newest branch merged in (P8 at `32569a5f`). It ta
 | Peak memory over 31 days, MiB (noisy across runs) | 2,331 | 2,491 |
 
 - The town builds in 6 to 8 seconds in every run, with no pattern between versions. The slowdown is per day, not per build: the first day alone is already 3.6 times slower.
-- Cross-check: 59 added seconds over 31,176 paychecks is 1.9 milliseconds each. A year is about 367,000 paychecks (1,006 a day), which predicts roughly 700 added seconds. OPUS-DRIVES measured 636 and 833 added seconds on its two runs.
+- Cross-check: 59 added seconds over 31,176 work results is 1.9 milliseconds each. A year is about 367,000 work results (1,006 a day), which predicts roughly 700 added seconds. OPUS-DRIVES measured 636 and 833 added seconds on its two runs.
 - Drives are off, so the donation change that came with the merge (`payDonation`, `src/core2/modules/drives.ts:954`) never ran. It appears in neither profile.
 
 ## Where the time goes
@@ -64,9 +64,9 @@ Profiled run, 31 days, one profile per version. The profiler adds overhead: 42.4
 
 The full top 40 by self time and by total time, with BEFORE beside AFTER, is in the appendix.
 
-### What each paycheck does (counted in a scratch copy, 31 days)
+### What each work result does (counted in a scratch copy, 31 days)
 
-The counter counts calls to the new routine, one per dated work result. It does not say how many workers were paid.
+A work result is one dated work segment settled with its wages, and the counter counts one per call. It does not say how many workers were paid.
 
 | Count | Value | Per call |
 |---|---:|---:|
@@ -80,8 +80,8 @@ The routine records every read it makes into two logs, then replays each log man
 
 | Log | Recorded reads per call | Replays | Where the replays happen |
 |---|---:|---:|---|
-| Main log (what the paycheck read) | about 625 | 5 | `finance-plan.ts:895`, `:616`, `:304`, then two more in the preflight at `:952` |
-| New-payload log (what the paycheck wrote) | about 173 | 4 | `finance-plan.ts:617`, `:1074`, then two more in the preflight at `:953` |
+| Main log (what the work result read) | about 625 | 5 | `finance-plan.ts:895`, `:616`, `:304`, then two more in the preflight at `:952` |
+| New-payload log (what the work result wrote) | about 173 | 4 | `finance-plan.ts:617`, `:1074`, then two more in the preflight at `:953` |
 
 - The first three replays of the main log and the first two of the payload log run back to back inside `FinancePlanningSession.seal` (`finance-plan.ts:1067`). Nothing changes the world between them.
 - The preflight replays happen twice because posting the journal entry asks the work provider for its source twice, once at `journal-state.ts:1183` and once at `:1425`. The provider ends each lookup with the preflight (`work-cash.ts:531`).
@@ -89,6 +89,8 @@ The routine records every read it makes into two logs, then replays each log man
 The largest sources of the main log's 625 reads, per call, are in `captureWorkContext` (`src/core2/work-cash.ts:177`), which records every field of several whole records. The commitment row at line 195 costs 133 field reads and 32 key reads. The work input at line 200 costs 53, and it includes the day's full scored decision. The age rows at line 220 cost 31. Together that is about 250 of the 625. The rest are many smaller reads (parameters, account and owner lookups, act admission) that I did not itemize. The payload log's 173 reads come from the result being written (`finance-plan.ts:1070`, `work-cash.ts:596` and the composer's `#next`, `finance-plan.ts:475`).
 
 ## The causes, ranked by share of the 60.6 added seconds
+
+This table uses inclusive time: a cause counts the function and everything it calls inside the routine. The hot-spot table above uses self time, so its rows do not sum to these figures (for example `verify` 13.5 plus `directRead` 7.4 self, against 19.2 inclusive, because part of `directRead` is called from outside `verify`).
 
 Classes: (a) a scan where an index belongs; (b) repeated copying, freezing or validation on the hot path; (c) legitimate new work the money repair needs; (d) other.
 
@@ -104,9 +106,9 @@ Classes: (a) a scan where an index belongs; (b) repeated copying, freezing or va
 
 Causes 1, 2 and 4 to 7 add to the 51.3 seconds under the routine. With cause 3 and the +0.1 seconds elsewhere they add to 60.6.
 
-- Class (a) was not found. No scanning function appears in the top 40 by self or total time in either profile (appendix), and this route builds no finance contracts, per SOL-1258's note on the package. (measured)
+- Class (a) was not found. No scanning function appears in the top 40 by self or total time in either profile (appendix), and this route builds no finance contracts, per SOL-1258's note on the package. (profile part measured; the no-contracts part is from SOL-1258's note)
 - Class (b) is causes 1, 2, 3, 6 and 7: about 47 seconds, 77% of the gap.
-- Class (c) is causes 4 and 5: about 14 seconds, 23%. I call it new work because the money repair posts a balanced journal entry for each paycheck; I did not test whether parts of it could be cheaper.
+- Class (c) is causes 4 and 5: about 14 seconds, 23%. I call it new work because the money repair posts a balanced journal entry for each work result; I did not test whether parts of it could be cheaper.
 
 ### Proposed fixes
 
@@ -115,19 +117,25 @@ Causes 1, 2 and 4 to 7 add to the 51.3 seconds under the routine. With cause 3 a
 3. **Make one replayed read cheap** (`directRead`, `finance-plan.ts:111`). Reject accessors once when recording, then compare with `Object.hasOwn` and a plain read. About 5 to 7 seconds. Confidence: medium.
 4. **Stop copying the day's full scored decision into every wage result** (`work-cash.ts:611`, `finance-plan.ts:1069`). `decision.scores` lists every offer scored that day (`src/core2/types.ts:334`), and it is copied, walked and cloned. Keep the selected offer, reason key and selected reasons, and return the frozen result instead of cloning it. About 8 seconds plus its garbage. Confidence: medium. I did not check whether any reader wants `decision.scores` from the stored result.
 
-These overlap, so their savings do not add. Fix 1 removes most of the reads that fixes 2 and 3 would make cheaper. Taking causes 1, 2, 6 and 7 together (37 profiled seconds) plus about half of the garbage collection (4.6) as recoverable, is 41.6 of the 60.6 added profiled seconds, 69%. Applied to the 59 unprofiled added seconds, a 31-day run would drop from about 87 seconds to about 46, or 1.7 times BEFORE. That is an estimate, not a measurement. The remaining class (c) work alone is about 14 profiled seconds, a third of BEFORE's 42, so a result inside the 20% budget is unlikely from these four fixes alone.
+These overlap, so their savings do not add. Fix 1 removes most of the reads that fixes 2 and 3 would make cheaper. Estimates for a 31-day run, from the 59 unprofiled added seconds (inferred, not measured):
+
+- Fixes 1 and 4 alone save about 30 profiled seconds plus roughly a third of the garbage collection, about 33 of 60.6 (54%). That brings the run from 87 to about 55 seconds, 2.0 times BEFORE.
+- Adding fixes 2 and 3 on the remaining reads might save 3 to 5 more seconds, about 50 seconds, 1.8 times BEFORE.
+- The ceiling, if causes 1, 2, 6 and 7 vanished entirely, is about 46 seconds, 1.7 times BEFORE.
+
+The remaining class (c) work alone is about 14 profiled seconds, a third of BEFORE's 42, so a result inside the 20% budget is unlikely from these four fixes alone.
 
 ## What happens next
 
 - This list and a link to this report are posted for Sol (SOL-1258) on issue 3918. Fixes 1 and 2 are the first to try, because they are the largest and the least invasive.
 - Nothing is fixed in this pull request. It adds the report and my measuring scripts only.
 - Open for the owner: whether the 20% speed budget applies to the new money code as it stands, or whether Sol should look for savings inside the journal work too (causes 4 and 5).
-- Open for whoever measures next: rerun BEFORE and AFTER after fixes 1 and 2, and confirm the paycheck count.
+- Open for whoever measures next: rerun BEFORE and AFTER after fixes 1 and 2, and confirm the work result count.
 
 ## What I did not check
 
-- The BEFORE paycheck count. I assumed the old code settled the same 31,176 paychecks. The per-call cost before and after (0.024 and 1.65 milliseconds, profiled) rests on that. The unprofiled 3.1 times does not.
-- Whether the changed order of the work and finance modules, or the end-date change in `availableActs` (`life.ts:171`), adds paychecks. The life-loop self times match, so the effect is small.
+- The BEFORE work result count. I assumed the old code settled the same 31,176 work results. The per-call cost before and after (0.024 and 1.65 milliseconds, profiled) rests on that. The unprofiled 3.1 times does not.
+- Whether the changed order of the work and finance modules, or the end-date change in `availableActs` (`life.ts:171`), adds work results. The life-loop self times match, so the effect is small.
 - A 92-day run, and any town other than Sacramento. The routine has no place-specific logic, but I ran no other place.
 
 ## Method
