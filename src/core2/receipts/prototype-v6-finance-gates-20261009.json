@@ -1,0 +1,341 @@
+{
+  "schema": "p8-finance-controlled-gates-v1",
+  "apiVersion": "core2-api-v6",
+  "schemaVersion": "core2-schema-v6",
+  "measuredOrdinaryFinanceYear": false,
+  "performanceClaim": null,
+  "gateCounts": {
+    "testFiles": 13,
+    "testsPassed": 206
+  },
+  "sourceScope": "src/core2 TypeScript and JSON; test TypeScript and proof receipts excluded; exact direct dependency scope is recorded by annual runner",
+  "sourceSha256": "dc7779f11ccc462a66797dc98d17f807346e2efea93a0844740e8600c93f01d6",
+  "sourceFiles": [
+    {
+      "path": "src/core2/business-books.ts",
+      "bytes": 18983,
+      "sha256": "60e46a83e503fa89e40560c843c8d576251b39b8f1f103ef0c175f395449e066"
+    },
+    {
+      "path": "src/core2/calendar.ts",
+      "bytes": 4840,
+      "sha256": "fceb544acc19638254861b7149b3535543e3a1b8ce352a7644806b42ffc94322"
+    },
+    {
+      "path": "src/core2/choice.ts",
+      "bytes": 4401,
+      "sha256": "b6e9c7daf66b4df3d6dadbb3f24275fcdef3314220399e16da948783c82d4bfb"
+    },
+    {
+      "path": "src/core2/civic-inputs.ts",
+      "bytes": 12199,
+      "sha256": "5c87ca961b2bf19326c0caeb947441f69b42c8d7b500856c9506f382e777c27c"
+    },
+    {
+      "path": "src/core2/data.ts",
+      "bytes": 2461,
+      "sha256": "31423153b2bfe1f26953121ac846b1754fdd74f52b3fb394fd71e31c7aeda0bb"
+    },
+    {
+      "path": "src/core2/data/business-books.json",
+      "bytes": 21862,
+      "sha256": "d809459a1c36583dd1268303de67fdd9164822b003258d0dae2d14f4e1a9c37f"
+    },
+    {
+      "path": "src/core2/data/civic-inputs.json",
+      "bytes": 6226,
+      "sha256": "c510e201628e5896a5b840b561cd2a96e2a998f9b21257f896609e19d0ed7bf3"
+    },
+    {
+      "path": "src/core2/data/content.json",
+      "bytes": 6270,
+      "sha256": "d999586197322f63b8077412fde89d33cb715b140dd18878eb5214de662b7cb3"
+    },
+    {
+      "path": "src/core2/data/deep-past.json",
+      "bytes": 5560,
+      "sha256": "a33a94a0f976d3a740845937defebf382eedc19092d2d2ae11cf036ef6426055"
+    },
+    {
+      "path": "src/core2/data/finance.json",
+      "bytes": 882,
+      "sha256": "a4fe454d179949e200c1de77a64ae38488abbce759e76a7badd1539a73f5e1ca"
+    },
+    {
+      "path": "src/core2/data/measurement.json",
+      "bytes": 355,
+      "sha256": "831a9f185f7dc01df56929ff3475ce75026c541012a656a4d2f0d12532746062"
+    },
+    {
+      "path": "src/core2/data/opening-employment.json",
+      "bytes": 6813,
+      "sha256": "0044dba987aa94956da09c156f9f052d94011854b8eaf097c390247126cf54e8"
+    },
+    {
+      "path": "src/core2/data/opening-finance.json",
+      "bytes": 3813,
+      "sha256": "7c7726991b5a933043a210de8f713380365a8da33c3c44d7e688cd90042275a8"
+    },
+    {
+      "path": "src/core2/data/opening-peer-network.json",
+      "bytes": 2401,
+      "sha256": "74d135c650d27d5cb1119fdcce4a97f4b79782e67d06ad964f1dd94f3ea42266"
+    },
+    {
+      "path": "src/core2/data/parameters.json",
+      "bytes": 84309,
+      "sha256": "ecbb6ba57d78d794c55151bf1b08057071446234fbec81ff2d96fadd3876abe4"
+    },
+    {
+      "path": "src/core2/data/resident-employment.json",
+      "bytes": 25008,
+      "sha256": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0"
+    },
+    {
+      "path": "src/core2/data/stopgaps.json",
+      "bytes": 32640,
+      "sha256": "3299c715b67daf555af9a2c9872726ee5c46344c717e5ba9af73dd0150f5af52"
+    },
+    {
+      "path": "src/core2/data/time-use-reference.json",
+      "bytes": 11518,
+      "sha256": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437"
+    },
+    {
+      "path": "src/core2/data/work.json",
+      "bytes": 13396,
+      "sha256": "908e55072882b8f0787882a9b96f333f5b12ceae7675f93ef6237308c3820931"
+    },
+    {
+      "path": "src/core2/deep-past.ts",
+      "bytes": 18121,
+      "sha256": "0b958e3c1c9e091ec4fe05f3fa517235f9fabc030d1f2e3ad7b667832c942736"
+    },
+    {
+      "path": "src/core2/emotion.ts",
+      "bytes": 7422,
+      "sha256": "47c35783ad328ed9ae9561a008ef157331e3b22af7b185eca6f74e7dc4a6ddd4"
+    },
+    {
+      "path": "src/core2/finance-state.ts",
+      "bytes": 38988,
+      "sha256": "756e2d0a7070c884d2dd13ea77f925e21ee676e9650c203bad4aced958e45bd0"
+    },
+    {
+      "path": "src/core2/finance-types.ts",
+      "bytes": 5627,
+      "sha256": "5c72cd0b3d345c190c01b2a5a3566441ad79fe13baf9b934666fd72fb2be8bde"
+    },
+    {
+      "path": "src/core2/focus.ts",
+      "bytes": 883,
+      "sha256": "b99fd64890366761df2aa8583a8a3c5b9dcd403a3d721aba8006e5b24b72de27"
+    },
+    {
+      "path": "src/core2/life.ts",
+      "bytes": 10770,
+      "sha256": "ecd5e55650ac792154f668f53462ba719ad06afbe2f0bf98e754adb5cf998372"
+    },
+    {
+      "path": "src/core2/modules/finance.ts",
+      "bytes": 1322,
+      "sha256": "fdb386a406e8806b63e339e47648db4025076ef300f16ee7e6977fca3efc0a31"
+    },
+    {
+      "path": "src/core2/modules/life.ts",
+      "bytes": 12429,
+      "sha256": "f0566cc5f066fe50477e7d2750fe24a63b46cc1a23f0e18c537bcd8b186ec4d4"
+    },
+    {
+      "path": "src/core2/modules/work.ts",
+      "bytes": 16809,
+      "sha256": "feba291192d3f099b1d27f1a209d76999468b821237a7e87b59af252fa631295"
+    },
+    {
+      "path": "src/core2/opening-employment.ts",
+      "bytes": 20776,
+      "sha256": "6ef46f4876476b3c86713fe0d0f14cbd04350709046617b21d47fcb293d1ddeb"
+    },
+    {
+      "path": "src/core2/opening-finance.ts",
+      "bytes": 41663,
+      "sha256": "78b238c8ac2aed4196dd492f4e533569dc732a272d8edecc8ded489421459ae5"
+    },
+    {
+      "path": "src/core2/opening-peer-network.ts",
+      "bytes": 14082,
+      "sha256": "8f7e0ef02e1a94ec408c336794538760ea50aecf788298146cf2c4bf576bc310"
+    },
+    {
+      "path": "src/core2/opening-work.ts",
+      "bytes": 3756,
+      "sha256": "e3c5e0c4b7ccf6ccc7b4364f93d7b3b9f6a0817e33553d27d530ea1375113a66"
+    },
+    {
+      "path": "src/core2/parameters.ts",
+      "bytes": 1665,
+      "sha256": "d4c49c737c9165b8dc95fec7b1416f75c46324b09a3d680bd01ba0a84e9f9fc8"
+    },
+    {
+      "path": "src/core2/places.ts",
+      "bytes": 630,
+      "sha256": "80ccbeb5921aa2c1319168d60adb8fe6348233f6d1c82d05de96c39defb295f4"
+    },
+    {
+      "path": "src/core2/population.ts",
+      "bytes": 35059,
+      "sha256": "b3d10f803ebd40eca6d8878934e7f8da7f99188104e8adb798ac099f68733e46"
+    },
+    {
+      "path": "src/core2/state.ts",
+      "bytes": 35549,
+      "sha256": "600260b1fbf2267452b298b1a86f0bede467120947e0fa34b2f15d2109425d3c"
+    },
+    {
+      "path": "src/core2/stopgaps.ts",
+      "bytes": 1411,
+      "sha256": "53d072c140c0508cd452e5fcddf6d4fc51acfe364cd64ae080487b160450192e"
+    },
+    {
+      "path": "src/core2/tooling/calibration-guard.ts",
+      "bytes": 28050,
+      "sha256": "3fdabcfc21b297bdbab68de029e6ed06eeeea2c98aec0deca2f5d086b2300149"
+    },
+    {
+      "path": "src/core2/tooling/calibration-targets.json",
+      "bytes": 247568,
+      "sha256": "a79e82a2ea313446458bc41e794800e1a685f95ce12bac837ec8baac65884781"
+    },
+    {
+      "path": "src/core2/tooling/finance-measure.ts",
+      "bytes": 13074,
+      "sha256": "da52bad4dc8c18bdbf544c90832bc354fc8512fe611b29620c0315e198cbc55d"
+    },
+    {
+      "path": "src/core2/tooling/finance-observables.ts",
+      "bytes": 33588,
+      "sha256": "5b1dd9f9174038fbf24037999b6739f68cd3fdedd1a8a8dea182a277f7c38342"
+    },
+    {
+      "path": "src/core2/tooling/fixtures/event-inputs.json",
+      "bytes": 614,
+      "sha256": "34dedb7d0cb1727229b8222909e481466a4d958b02cc3decda82f0c11581603d"
+    },
+    {
+      "path": "src/core2/tooling/measure.ts",
+      "bytes": 42934,
+      "sha256": "5feca901e493d8f67c997e302effb8c57ed2bfd57f8d9ccdf74361e82cfd90e2"
+    },
+    {
+      "path": "src/core2/tooling/tripwires.ts",
+      "bytes": 39654,
+      "sha256": "27b78389aa3e0c1796724fb3cada978bfdb4ff5f35a8d6cb48b1b38082a737ac"
+    },
+    {
+      "path": "src/core2/tooling/tsconfig.json",
+      "bytes": 219,
+      "sha256": "0de414471df377a5d2606ee7d47c831efddc42b81c4b44b6a15e7da871fb6e15"
+    },
+    {
+      "path": "src/core2/tooling/vitest.config.ts",
+      "bytes": 470,
+      "sha256": "4c05ef8a0d06fc0f33088536d66ec3d049dab8bfdbef3436eac96f39324dd021"
+    },
+    {
+      "path": "src/core2/tooling/work-observables.json",
+      "bytes": 3800,
+      "sha256": "0054220e5f980f631292843615303ccad40d8132247b9bc309005846e1574593"
+    },
+    {
+      "path": "src/core2/tooling/work-observables.ts",
+      "bytes": 13419,
+      "sha256": "d0f0a42f2fe835f9f7938c823308610e2e6dc93868d4c0498aca39dcd4ba0316"
+    },
+    {
+      "path": "src/core2/types.ts",
+      "bytes": 18809,
+      "sha256": "712e312b7569e15bc3cad0a615e2b47aa9e91d6a6e07defce5bec6cbfdf556ad"
+    },
+    {
+      "path": "src/core2/work-state.ts",
+      "bytes": 13785,
+      "sha256": "cb4a233d300c54497b9ae1fe581cd381abee6fefe838c0910f65f4cf1b63e513"
+    }
+  ],
+  "openStopgapCount": 47,
+  "addedStopgapCount": 7,
+  "calibrationStatus": "unmeasured; open stopgaps block release",
+  "publicationState": "held draft; not READY",
+  "logs": [
+    {
+      "check": "affectedTests",
+      "exitCode": 0,
+      "sourceLog": "/tmp/p8-finance-v6-final-affected-tests-isolated-20261009-1600.log",
+      "archive": "src/core2/receipts/prototype-v6-finance-gate-affectedTests-20261009.log.gz",
+      "uncompressedBytes": 571,
+      "uncompressedSha256": "139c614adc53debc440101d2990f87b9a278d8458bc4798def975c8375eb51a7",
+      "gzipSha256": "0513dcd261bb82fdb6cf312b6b5c0ceccc6735a9e53a176194dee247eb58a458",
+      "roundtripVerified": true
+    },
+    {
+      "check": "defaultViteStartupFailure",
+      "exitCode": 1,
+      "sourceLog": "/tmp/p8-finance-v6-final-affected-tests-20261009-1559.log",
+      "archive": "src/core2/receipts/prototype-v6-finance-gate-defaultViteStartupFailure-20261009.log.gz",
+      "uncompressedBytes": 2457,
+      "uncompressedSha256": "2d040f709ab3a179b02d10ad0be75b9d4d1aabac6af842191ec8620dd72f4797",
+      "gzipSha256": "33f45d200135d8ef0c6e4cb563492bd7b5f1c936cd7bbda632ee7a3eb7eee47f",
+      "roundtripVerified": true
+    },
+    {
+      "check": "strictTypes",
+      "exitCode": 0,
+      "sourceLog": "/tmp/p8-finance-v6-final-typecheck-repaired-20261009-1540.log",
+      "archive": "src/core2/receipts/prototype-v6-finance-gate-strictTypes-20261009.log.gz",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec",
+      "roundtripVerified": true
+    },
+    {
+      "check": "strictTypesInitialBrandFailure",
+      "exitCode": 2,
+      "sourceLog": "/tmp/p8-finance-v6-final-typecheck-20261009-1537.log",
+      "archive": "src/core2/receipts/prototype-v6-finance-gate-strictTypesInitialBrandFailure-20261009.log.gz",
+      "uncompressedBytes": 220,
+      "uncompressedSha256": "bf4c4a40a556c8cd40b9065d884afdd4f22f2915e4653de445d2ff9bd440399e",
+      "gzipSha256": "bf4f4191b99d444970b63dabd59dc1bcaa89ee194f84daee2cbadb617bd372e6",
+      "roundtripVerified": true
+    },
+    {
+      "check": "eslint",
+      "exitCode": 0,
+      "sourceLog": "/tmp/p8-finance-v6-final-eslint-20261009-1543.log",
+      "archive": "src/core2/receipts/prototype-v6-finance-gate-eslint-20261009.log.gz",
+      "uncompressedBytes": 0,
+      "uncompressedSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "gzipSha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec",
+      "roundtripVerified": true
+    },
+    {
+      "check": "sourceGuards",
+      "exitCode": 0,
+      "sourceLog": "/tmp/p8-finance-v6-final-source-guards-20261009-1545.log",
+      "archive": "src/core2/receipts/prototype-v6-finance-gate-sourceGuards-20261009.log.gz",
+      "uncompressedBytes": 13922,
+      "uncompressedSha256": "4e3bdb4c791e29194f6477f879eb4dd645207ccc8a24b51886c4c23545cf197f",
+      "gzipSha256": "bacf510ee11c1ee3257bd9b2c4fb2dbfc8e45c51163f6293e6bf3b75a82fcaa2",
+      "roundtripVerified": true
+    },
+    {
+      "check": "format",
+      "exitCode": 0,
+      "sourceLog": "/tmp/p8-finance-v6-final-format-check-20261009-1548.log",
+      "archive": "src/core2/receipts/prototype-v6-finance-gate-format-20261009.log.gz",
+      "uncompressedBytes": 66,
+      "uncompressedSha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "gzipSha256": "710c63d8d40d5688a62c3b08053dd1971c4e4ee87b2297f3f20c2540d22cd94e",
+      "roundtripVerified": true
+    }
+  ]
+}
