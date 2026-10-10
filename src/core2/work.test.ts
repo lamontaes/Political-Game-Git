@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_DATA } from "./data";
-import { advanceCore, createLifeCore, chooseAct } from "./life";
+import { advanceDate } from "./calendar";
+import { ensureWorkCashModule } from "./work-cash";
+import { ensureFinanceCashModule } from "./finance-cash";
+import { advanceCore, createLifeCore, chooseAct, availableActs } from "./life";
 import { coreAPI } from "./state";
 import { parameter as p } from "./parameters";
 import { plannedWorkMinutesBetween, runScheduledWork } from "./modules/work";
@@ -8,7 +11,12 @@ import {
   residentEmploymentRate,
   DEFAULT_RESIDENT_EMPLOYMENT,
 } from "./opening-employment";
-import type { CoreInput, Source, WorkCommitmentInput } from "./types";
+import type {
+  CoreInput,
+  CoreState,
+  Source,
+  WorkCommitmentInput,
+} from "./types";
 
 const startedAt = "2021-01-01",
   nextDay = "2021-01-02";
@@ -93,6 +101,28 @@ function fixture(): CoreInput {
     calendarDates: [],
     gaps: [],
   };
+}
+
+function cashWorkSnapshot(core: CoreState) {
+  return structuredClone({
+    people: core.people,
+    jobs: core.jobs,
+    organizations: core.organizations,
+    work: core.work,
+    finance: core.finance,
+    knowledge: core.knowledgeByPerson,
+    durableLog: core.durableLog,
+    logByPerson: core.logByPerson,
+    logByKind: core.logByKind,
+    logByPlace: core.logByPlace,
+    actCounters: core.actCounters,
+    actCountersByMonth: core.actCountersByMonth,
+    actsByMonthKind: core.actsByMonthKind,
+    journal: {
+      ...core.cashJournal,
+      sourceProviders: [...core.cashJournal.sourceProviders.keys()],
+    },
+  });
 }
 
 describe("recorded opening work boundary", () => {
@@ -275,4 +305,110 @@ describe("recorded opening work boundary", () => {
     ).toBe(true);
     expect(core.work.lastResultByJob.size).toBe(p("zero"));
   });
+});
+
+describe("actual owned-job cash admission", () => {
+  for (const zeroAttendance of [false, true]) {
+    it.each(["worker", "employer", "ended"] as const)(
+      `rejects a changed current job %s before cash and all work consequences (${zeroAttendance ? "absence" : "attendance"})`,
+      (change) => {
+        const core = createLifeCore(fixture()),
+          api = coreAPI(core);
+        if (zeroAttendance)
+          api.updatePerson("worker-a", {
+            affect: {
+              ...core.people.get("worker-a")!.affect,
+              stress: p("percent"),
+              stressBaseline: p("percent"),
+            },
+          });
+        advanceDate(core, nextDay);
+        ensureWorkCashModule(core);
+        ensureFinanceCashModule(core);
+        let before: ReturnType<typeof cashWorkSnapshot> | undefined;
+        expect(() =>
+          runScheduledWork(
+            api,
+            (id, offers, context) => {
+              const decision = chooseAct(core, id, offers, context);
+              expect(id).toBe("worker-a");
+              expect(decision.selected!.definition.effect).toBe(
+                zeroAttendance
+                  ? core.data.work!.absenceAction.effect
+                  : core.data.work!.attendanceAction.effect,
+              );
+              const job = core.jobs.get("job:worker-a")!;
+              if (change === "worker") job.personId = "worker-b";
+              else if (change === "employer")
+                job.organizationId = "changed-actual-employer";
+              else job.endsAt = nextDay;
+              before = cashWorkSnapshot(core);
+              return decision;
+            },
+            () => undefined,
+          ),
+        ).toThrow("Invalid or duplicate dated work result");
+        expect(before).toBeDefined();
+        expect(cashWorkSnapshot(core)).toEqual(before);
+        expect(core.work.cashSources.size).toBe(p("zero"));
+        expect(core.work.cashActSelections.size).toBe(p("zero"));
+      },
+    );
+  }
+
+  it.each([false, true])(
+    "uses the final inclusive scheduled date once and rejects duplicate legacy pay (%s absence)",
+    (zeroAttendance) => {
+      const opening = fixture();
+      opening.workCommitments = opening.workCommitments!.map((row) => ({
+        ...row,
+        endsAt: nextDay,
+      }));
+      const core = createLifeCore(opening),
+        api = coreAPI(core);
+      if (zeroAttendance)
+        api.updatePerson("worker-a", {
+          affect: {
+            ...core.people.get("worker-a")!.affect,
+            stress: p("percent"),
+            stressBaseline: p("percent"),
+          },
+        });
+      advanceCore(core, nextDay);
+      const worker = core.people.get("worker-a")!,
+        result = core.work.lastResultByJob.get(worker.jobId!)!;
+      expect(result.date).toBe(nextDay);
+      expect(result.attendedMinutes).toBe(
+        zeroAttendance ? p("zero") : p("minutesPerHour"),
+      );
+      expect(
+        availableActs(core, worker.id).some(
+          (offer) => offer.definition.effect === "paid-work",
+        ),
+      ).toBe(false);
+      const definition = core.data.actions.find(
+        (row) => row.effect === "paid-work",
+      )!;
+      const offer = {
+        definition,
+        targetId: worker.jobId!,
+        availableHours: p("hoursPerDay"),
+      };
+      const decision = chooseAct(core, worker.id, [offer]);
+      expect(decision.selected).toBe(offer);
+      const before = cashWorkSnapshot(core);
+      expect(() =>
+        api.settleLegacyWorkResult({
+          personId: worker.id,
+          offer,
+          decision,
+          date: core.date,
+          days: p("one"),
+        }),
+      ).toThrow("scheduled job");
+      expect(cashWorkSnapshot(core)).toEqual(before);
+      expect(core.people.get(worker.id)!.actCount).toBe(p("one"));
+      expect(core.work.cashActSelections.has(result.sourceActId)).toBe(true);
+    },
+  );
 });

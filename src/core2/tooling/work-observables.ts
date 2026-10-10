@@ -9,6 +9,7 @@ import reference from "../data/time-use-reference.json" with { type: "json" };
 import configJson from "./work-observables.json" with { type: "json" };
 import { parameter, PARAMETERS, type Parameter } from "../parameters";
 import type { CoreInput, CoreState } from "../types";
+import { externalFlowObservables } from "./external-flow-observables";
 
 export interface ExposureAgeRow {
   id: string;
@@ -317,10 +318,17 @@ export function summarizeWorkObservables(
     ...core.people.values(),
     ...core.organizations.values(),
   ].reduce((sum, row) => sum + row.liquidMinor, zero);
+  const externalFlows = externalFlowObservables(core);
+  const cashAndExternalFlowsDeltaMinor = Number(
+    BigInt(currentCashMinor) -
+      BigInt(openingCashMinor) +
+      BigInt(externalFlows.netMinor),
+  );
   if (
     ![
       openingCashMinor,
       currentCashMinor,
+      cashAndExternalFlowsDeltaMinor,
       requestedMinor,
       paidMinor,
       requestedMinor - paidMinor,
@@ -328,13 +336,21 @@ export function summarizeWorkObservables(
   )
     throw new Error("Measured money totals overflow minor units.");
   let latestCashReceiptFailures = zero;
-  for (const row of core.work.lastResultByJob.values())
+  for (const row of core.work.lastResultByJob.values()) {
+    const directOutside = row.publicPayDue?.ownerId === row.organizationId;
+    const payerValid = directOutside
+      ? row.payerCashBeforeMinor === zero &&
+        row.payerCashAfterMinor === zero &&
+        row.publicPayDue!.amountMinor === row.paidMinor &&
+        core.organizations.get(row.organizationId)?.outsideFlow !== undefined
+      : row.payerCashBeforeMinor - row.payerCashAfterMinor === row.paidMinor;
     if (
-      row.payerCashBeforeMinor - row.payerCashAfterMinor !== row.paidMinor ||
+      !payerValid ||
       row.payeeCashAfterMinor - row.payeeCashBeforeMinor !== row.paidMinor ||
       row.requestedMinor - row.paidMinor !== row.shortfallMinor
     )
       latestCashReceiptFailures += one;
+  }
   return {
     schema: config.version,
     enabled: core.data.work !== undefined,
@@ -359,6 +375,9 @@ export function summarizeWorkObservables(
       currentCashMinor,
       closedMoneyDeltaMinor: currentCashMinor - openingCashMinor,
       closedMoneyConserved: currentCashMinor === openingCashMinor,
+      externalFlows,
+      cashAndExternalFlowsDeltaMinor,
+      cashAndExternalFlowsConserved: cashAndExternalFlowsDeltaMinor === zero,
       latestCashReceiptFailures,
       scope:
         "Actual liquid minor units across initialized residents and organizations; original opening sources are estimates. Requested minus paid is arithmetic unpaid amount, not a manufactured event or legal arrears determination.",

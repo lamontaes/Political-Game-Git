@@ -66,5 +66,96 @@
         }
       }
     }
-  ]
+  ],
+  "cashJournal": {
+    "moduleId": "core2-finance-cash-v1",
+    "sourceKinds": {
+      "contract": "finance.contract-settlement",
+      "credit": "finance.credit-transfer"
+    },
+    "relatedKinds": {
+      "terms": "finance.standing-terms",
+      "facility": "finance.facility-terms",
+      "award": "finance.recipient-award",
+      "procurement": "finance.procurement-budget",
+      "authority": "finance.procurement-authority",
+      "appropriation": "finance.procurement-appropriation",
+      "agreement": "finance.procurement-agreement",
+      "job": "finance.provider-job",
+      "provider": "finance.provider-record",
+      "identity": "finance.customer-identity",
+      "visit": "finance.customer-visit-agreement",
+      "market": "finance.customer-market",
+      "customerBudget": "finance.customer-owner-budget"
+    },
+    "financeReceiptPrefix": "finance:",
+    "creditReceiptPrefix": "credit:",
+    "interestContractPrefix": "finance-interest:",
+    "externalInflowKinds": [
+      "external.retirement-income",
+      "external.public-procurement",
+      "external.customer.visitor-lodging"
+    ],
+    "externalInflowContracts": [
+      {
+        "inflowKind": "external.retirement-income",
+        "contractKind": "funding.retirement-contribution",
+        "phaseId": "funding",
+        "validation": "retirement"
+      },
+      {
+        "inflowKind": "external.public-procurement",
+        "contractKind": "public.customer.custodial-services",
+        "phaseId": "business-procurement",
+        "validation": "public-procurement"
+      },
+      {
+        "inflowKind": "external.customer.visitor-lodging",
+        "contractKind": "outside.customer.visitor-lodging",
+        "phaseId": "household-purchases",
+        "validation": "visitor-lodging"
+      },
+      {
+        "inflowKind": "external.public-procurement",
+        "contractKind": "public.customer.custodial-services",
+        "phaseId": "standing-services",
+        "validation": "public-procurement"
+      },
+      {
+        "inflowKind": "external.customer.visitor-lodging",
+        "contractKind": "outside.customer.visitor-lodging",
+        "phaseId": "standing-services",
+        "validation": "visitor-lodging"
+      }
+    ],
+    "procurement": [
+      {
+        "contractKind": "public.customer.custodial-services",
+        "agreementContractSeparator": ":contract:",
+        "authorityFieldPrefix": "openingCustomers.authority:",
+        "appropriationFieldPrefix": "openingCustomers.appropriation:",
+        "agreementFieldPrefix": "openingCustomers.agreement:",
+        "serviceKey": "public-custodial",
+        "supplierOccupations": ["occupation:janitor", "occupation:housekeeper"],
+        "providerMetadataPrefix": "openingCustomers.provider:",
+        "supplierClassifications": ["enterprise:building-services"]
+      }
+    ],
+    "standaloneDrawRequestPrefix": "finance-standalone-draw:",
+    "visitorLodging": {
+      "identityMetadataPrefix": "openingCustomers.evidence:",
+      "visitMetadataPrefix": "openingCustomers.evidence:",
+      "marketMetadataPrefix": "openingCustomers.market:",
+      "identityKind": "outside-household-identity",
+      "visitKind": "outside-visit-budget",
+      "serviceKey": "visitor-lodging",
+      "supplierClassifications": ["enterprise:lodging"],
+      "supplierOccupations": [
+        "occupation:hotel-clerk",
+        "occupation:housekeeper"
+      ],
+      "providerMetadataPrefix": "openingCustomers.provider:",
+      "ownerBudgetMetadataPrefix": "openingCustomers.outsideBudget:"
+    }
+  }
 }

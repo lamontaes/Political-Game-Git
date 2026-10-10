@@ -225,5 +225,8 @@
     }
   ],
   "openingVintageStopgap": "SG-P8-opening-vintage",
-  "openingTier": "weekly"
+  "openingTier": "weekly",
+  "cashActSourceKind": "life.selected-act",
+  "legacyWorkJournalSourceKind": "life.legacy-work-result",
+  "workCashModuleId": "core2-work-cash"
 }

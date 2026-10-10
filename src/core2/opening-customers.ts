@@ -2,6 +2,8 @@ import { addDays, isoDateFromParts, makeIsoDate } from "../simulation/dates";
 import { stableHash } from "../simulation/ids";
 import type { LivingCostsRegion } from "../simulation/living-costs-data";
 import type { FinanceContractInput, FinanceInput } from "./finance-types";
+import financePolicyDataJson from "./data/finance.json" with { type: "json" };
+import { createHouseholdPurchaseCalendarMarker } from "./household-purchase-calendar";
 import {
   createOpeningCustomerGeographyProvider,
   type OpeningCustomerGeographyProvider,
@@ -9,6 +11,15 @@ import {
   type OpeningCustomerPlaceContext,
 } from "./opening-customer-geography";
 import { parameter, PARAMETERS, type Parameter } from "./parameters";
+import {
+  createOpeningPurchaseCalendar,
+  DEFAULT_OPENING_PURCHASE_CALENDAR_DATA,
+  type OpeningPurchaseCalendarChoice,
+} from "./opening-purchase-calendar";
+import {
+  OPENING_COUNTY_BUYER_CLASSIFICATION,
+  openingHistoricalCountyPurchaseCoverage,
+} from "./opening-public-owner";
 import customerDataJson from "./data/opening-customers.json" with { type: "json" };
 import type {
   CoreInput,
@@ -34,6 +45,7 @@ export interface OpeningCustomerData {
   version: string;
   sourceAvailableBy: string;
   generationPriorVintage: string;
+  externalInflowKinds: { publicProcurement: string; outsidePurchases: string };
   periodMonthsParameter: string;
   agreementLeadDaysParameter: string;
   sizeTopCodeParameter: string;
@@ -80,16 +92,22 @@ export interface OpeningCustomerData {
     supplierClassifications: readonly string[];
     supplierOccupations: readonly string[];
     countPerMarketParameter: string;
-    liquidUsdParameter: string;
     incomePriorUsdParameter: string;
     annualLodgingUsdParameter: string;
-    stockSourceRecordId: string;
-    stockCoverage: string;
     stopgapId: string;
     citation: string;
   };
   stopgapIds: readonly string[];
   remainingUnsupported: readonly string[];
+  unsupportedExternalDemandByClassification: Readonly<
+    Record<
+      string,
+      {
+        stopgapId: string;
+        missingSourceInputs: string;
+      }
+    >
+  >;
 }
 
 export const DEFAULT_OPENING_CUSTOMER_DATA =
@@ -117,6 +135,71 @@ export interface OpeningCustomerProviderQualification {
   }[];
 }
 
+export interface OpeningCustomerOutsideBuyerIdentity {
+  /** The actual supplied modeled identity, reused across explicitly linked edges. */
+  organization: OrganizationInput;
+  identity: OpeningCustomerEvidenceRecord;
+}
+
+export interface OpeningCustomerOutsideBudgetRecord {
+  id: string;
+  ownerId: string;
+  identityRecordId: string;
+  monthlyBudgetMinor: number;
+  preservedMonthlyTermsMinor: number;
+  preservedContractIds: readonly string[];
+  preservedContractSourceMap: Readonly<Record<string, Source>>;
+  preservedContractTermsById: Readonly<
+    Record<
+      string,
+      {
+        payerIds: readonly string[];
+        payeeId: string;
+        kind: string;
+        amountMinor: number;
+        firstDueAt: string;
+        periodMonths: number;
+        endsAt?: string;
+        settlementPhaseId?: string;
+      }
+    >
+  >;
+  marketIds: readonly string[];
+  marketMonthlyAmountsMinor: Readonly<Record<string, number>>;
+  parameterRefs: readonly string[];
+  source: Source;
+}
+
+export interface OpeningCustomerAgreementDate {
+  id: string;
+  dueAt: string;
+  basisRecordIds: readonly string[];
+  source: Source;
+}
+
+export interface OpeningCustomerAgreementEnd {
+  id: string;
+  endsAt: string;
+  basisRecordIds: readonly string[];
+  source: Source;
+}
+
+type CustomerExternalInflow =
+  | {
+      kind: string;
+      ownerId: string;
+      authorityRecordId: string;
+      appropriationRecordId: string;
+      agreementRecordId: string;
+    }
+  | {
+      kind: string;
+      ownerId: string;
+      identityRecordId: string;
+      visitAgreementRecordId: string;
+      marketId: string;
+    };
+
 export interface OpeningCustomerOptions {
   data?: OpeningCustomerData;
   parameters?: Readonly<Record<string, Parameter>>;
@@ -124,6 +207,14 @@ export interface OpeningCustomerOptions {
   /** Accepted geography/visit records; same admission path in every jurisdiction. */
   outsideMarkets?: readonly OpeningCustomerOutsideMarket[];
   providerRecords?: readonly RecordedCustomerProvider[];
+  /** An explicit actual owner/identity mapping; no name or origin deduplication. */
+  outsideBuyerIdentityByMarketId?: Readonly<
+    Record<string, OpeningCustomerOutsideBuyerIdentity>
+  >;
+  /** Only actual supplied agreement ends; source-year statistics imply no expiry. */
+  agreementEndsById?: Readonly<Record<string, OpeningCustomerAgreementEnd>>;
+  /** Actual supplied first due terms; a statistical vintage cannot choose a date. */
+  agreementDatesById?: Readonly<Record<string, OpeningCustomerAgreementDate>>;
   /** Initial fictional identity options, not future behavior or customer selection rolls. */
   canonicalFamilyNames?: readonly string[];
   /** A recorded account designation can override the stable office-account convention. */
@@ -219,6 +310,15 @@ export interface OpeningCustomerBuildReceipt {
     boundMonthlyMinor: number;
     buyerIds: readonly string[];
     parameterRefs: readonly string[];
+    originalRepresentedResidentCount?: number;
+    sourceUnverifiedResidentCount?: number;
+    ownerCoverage?: readonly {
+      governmentKey: string;
+      representedResidentCount: number;
+      basisRecordIds: readonly string[];
+      identitySource: Source;
+      coverageSource: Source;
+    }[];
   }[];
   parameterRefs: readonly string[];
   stopgapIds: readonly string[];
@@ -293,7 +393,7 @@ export function buildOpeningCustomers(
     );
   if (periodMonths > monthsPerYear || monthsPerYear % periodMonths !== zero)
     throw new Error(
-      "A finite source-year customer budget requires a cadence that divides the registered year.",
+      "Opening customer cadence must divide the registered calendar year; that unit convention is not an agreement expiry.",
     );
   const priorAt = addDays(at, -leadDays);
   const [yearText, monthText] = at.split("-");
@@ -301,12 +401,6 @@ export function buildOpeningCustomers(
   const dueAt = isoDateFromParts(
     Number(yearText) + Math.floor(nextMonth / monthsPerYear),
     (nextMonth % monthsPerYear) + one,
-    one,
-  );
-  const exclusiveEndMonth = nextMonth + monthsPerYear;
-  const endsAt = isoDateFromParts(
-    Number(yearText) + Math.floor(exclusiveEndMonth / monthsPerYear),
-    (exclusiveEndMonth % monthsPerYear) + one,
     one,
   );
   const minor = (value: number, field: string) => {
@@ -350,8 +444,251 @@ export function buildOpeningCustomers(
   const contracts = [...originalContracts] as OpeningCustomerContract[];
   const contractById = index(contracts, "customer contract");
   const ownedPrefix = `${data.version}:`;
+  const savedGeneratedVisitorIds = new Set<string>();
+  // Canonical supplied buyer IDs do not carry the builder prefix. Recover
+  // generated ownership only from the persisted buyer/visit linkage and exact
+  // original terms/full Sources. An outside descriptor alone owns nothing.
+  for (const [key, raw] of Object.entries(input.placeMetadata ?? {})) {
+    const prefix = "openingCustomers.marketBuyer:";
+    if (!key.startsWith(prefix)) continue;
+    const marketId = key.slice(prefix.length);
+    const read = <T>(value: string | undefined, field: string): T => {
+      if (value === undefined)
+        throw new Error(`Missing saved generated customer record: ${field}`);
+      try {
+        return JSON.parse(value) as T;
+      } catch {
+        throw new Error(`Invalid saved generated customer record: ${field}`);
+      }
+    };
+    const mapping = read<{
+      ownerId: string;
+      identityRecordId?: string;
+      visitAgreementRecordId?: string;
+      suppliedContractIds?: readonly string[];
+      contractSourceMap?: Readonly<Record<string, Source>>;
+      contractTermsById?: Readonly<Record<string, unknown>>;
+    }>(raw, key);
+    if (!marketId || !mapping || !mapping.ownerId?.trim())
+      throw new Error(`Invalid saved generated customer buyer link: ${key}`);
+    if (mapping.suppliedContractIds !== undefined) {
+      const ids = mapping.suppliedContractIds,
+        sources = mapping.contractSourceMap,
+        terms = mapping.contractTermsById;
+      if (
+        !Array.isArray(ids) ||
+        !ids.length ||
+        ids.some((id) => typeof id !== "string" || !id.trim()) ||
+        new Set(ids).size !== ids.length ||
+        !sources ||
+        !terms ||
+        canonical(Object.keys(sources).sort()) !== canonical([...ids].sort()) ||
+        canonical(Object.keys(terms).sort()) !== canonical([...ids].sort())
+      )
+        throw new Error(`Conflicting saved supplied customer maps: ${key}`);
+      for (const id of ids) {
+        const contract = contractById.get(id),
+          claim = contract?.externalInflow;
+        sourceValid(sources[id]!, id);
+        if (
+          !contract ||
+          !claim ||
+          !("marketId" in claim) ||
+          contract.kind !== data.outsideHouseholds.contractKind ||
+          canonical(contract.payerIds) !== canonical([mapping.ownerId]) ||
+          claim.kind !== data.externalInflowKinds.outsidePurchases ||
+          claim.ownerId !== mapping.ownerId ||
+          claim.marketId !== marketId ||
+          canonical(sources[id]) !== canonical(contract.source) ||
+          canonical(terms[id]) !==
+            canonical({
+              payerIds: [...contract.payerIds],
+              payeeId: contract.payeeId,
+              kind: contract.kind,
+              amountMinor: contract.amountMinor,
+              firstDueAt: contract.dueAt,
+              periodMonths: contract.periodMonths,
+              ...(contract.endsAt === undefined
+                ? {}
+                : { endsAt: contract.endsAt }),
+              ...(contract.settlementPhaseId === undefined
+                ? {}
+                : { settlementPhaseId: contract.settlementPhaseId }),
+            })
+        )
+          throw new Error(
+            `Conflicting supplied opening customer contract: ${id}`,
+          );
+      }
+      // These are independently supplied terms, never generated ownership.
+      continue;
+    }
+    if (
+      !mapping.identityRecordId?.trim() ||
+      !mapping.visitAgreementRecordId?.trim()
+    )
+      throw new Error(`Invalid saved generated customer buyer link: ${key}`);
+    const visitKey = `openingCustomers.evidence:${mapping.visitAgreementRecordId}`;
+    const visitRaw = input.placeMetadata?.[visitKey];
+    if (visitRaw === undefined) {
+      // A recorded zero-share market has a buyer link and no contract/visit.
+      // An actual positive saved obligation cannot lose its agreement Source.
+      if (
+        originalContracts.some(
+          (row) =>
+            row.id.startsWith(`${mapping.visitAgreementRecordId}:contract:`) ||
+            (row.externalInflow?.kind ===
+              data.externalInflowKinds.outsidePurchases &&
+              "marketId" in row.externalInflow &&
+              row.externalInflow.marketId === marketId),
+        )
+      )
+        throw new Error(`Missing saved generated customer record: ${visitKey}`);
+      continue;
+    }
+    const visit = read<OpeningCustomerEvidenceRecord>(visitRaw, visitKey);
+    if (
+      !visit ||
+      visit.id !== mapping.visitAgreementRecordId ||
+      visit.kind !== "outside-visit-budget" ||
+      canonical(visit.subjectIds) !== canonical([mapping.ownerId]) ||
+      visit.facts?.marketId !== marketId ||
+      visit.facts.identityRecordId !== mapping.identityRecordId
+    )
+      throw new Error(
+        `Conflicting saved generated customer linkage: ${visitKey}`,
+      );
+    sourceValid(visit.source, visitKey);
+    const ids = read<string[]>(
+        visit.facts.contractIds,
+        `${visitKey}:contractIds`,
+      ),
+      sources = read<Record<string, Source>>(
+        visit.facts.contractSourceMap,
+        `${visitKey}:contractSourceMap`,
+      ),
+      terms = read<Record<string, unknown>>(
+        visit.facts.contractTermsById,
+        `${visitKey}:contractTermsById`,
+      );
+    if (
+      !Array.isArray(ids) ||
+      !ids.length ||
+      ids.some((id) => typeof id !== "string" || !id.trim()) ||
+      new Set(ids).size !== ids.length ||
+      !sources ||
+      !terms ||
+      canonical(Object.keys(sources).sort()) !== canonical([...ids].sort()) ||
+      canonical(Object.keys(terms).sort()) !== canonical([...ids].sort())
+    )
+      throw new Error(`Conflicting saved generated customer maps: ${visitKey}`);
+    for (const id of ids) {
+      const contract = contractById.get(id),
+        claim = contract?.externalInflow;
+      if (!contract || !claim || !("marketId" in claim))
+        throw new Error(`Missing original generated customer contract: ${id}`);
+      sourceValid(sources[id]!, id);
+      if (
+        savedGeneratedVisitorIds.has(id) ||
+        id !== `${visit.id}:contract:${contract.payeeId}` ||
+        contract.kind !== data.outsideHouseholds.contractKind ||
+        canonical(contract.payerIds) !== canonical([mapping.ownerId]) ||
+        claim.kind !== data.externalInflowKinds.outsidePurchases ||
+        claim.ownerId !== mapping.ownerId ||
+        claim.identityRecordId !== mapping.identityRecordId ||
+        claim.visitAgreementRecordId !== visit.id ||
+        claim.marketId !== marketId ||
+        canonical(sources[id]) !== canonical(contract.source) ||
+        canonical(claim.source) !== canonical(contract.source) ||
+        canonical(terms[id]) !==
+          canonical({
+            payerIds: [...contract.payerIds],
+            payeeId: contract.payeeId,
+            kind: contract.kind,
+            amountMinor: contract.amountMinor,
+            firstDueAt: contract.dueAt,
+            periodMonths: contract.periodMonths,
+            ...(contract.endsAt === undefined
+              ? {}
+              : { endsAt: contract.endsAt }),
+            ...(contract.settlementPhaseId === undefined
+              ? {}
+              : { settlementPhaseId: contract.settlementPhaseId }),
+          })
+      )
+        throw new Error(`Conflicting opening customer contract: ${id}`);
+      savedGeneratedVisitorIds.add(id);
+    }
+  }
+  for (const [key, raw] of Object.entries(input.placeMetadata ?? {})) {
+    if (!key.startsWith("openingCustomers.evidence:")) continue;
+    let ids: string[];
+    try {
+      const record = JSON.parse(raw) as OpeningCustomerEvidenceRecord;
+      if (
+        record.kind !== "outside-visit-budget" ||
+        record.facts?.visitPurpose !==
+          "fictional-opening-regional-personal-visit"
+      )
+        continue;
+      ids = JSON.parse(record.facts.contractIds!) as string[];
+    } catch {
+      throw new Error(`Invalid saved opening customer metadata: ${key}`);
+    }
+    if (
+      !Array.isArray(ids) ||
+      ids.some((id) => !savedGeneratedVisitorIds.has(id))
+    )
+      throw new Error(`Missing saved generated customer buyer linkage: ${key}`);
+  }
   const owned = (contract: FinanceContractInput) =>
-    contract.id.startsWith(ownedPrefix);
+    contract.kind === data.outsideHouseholds.contractKind
+      ? savedGeneratedVisitorIds.has(contract.id)
+      : contract.id.startsWith(ownedPrefix);
+  // Build one calendar from the actual owned work/income and original terms.
+  // A rebuilding producer does not treat its own generated component as a
+  // newly observed payment or expense calendar.
+  const calendarHouseholdIds = new Set(
+    input.households
+      .filter((household) =>
+        household.memberIds.some((id) => {
+          const person = people.get(id);
+          return (
+            person &&
+            person.livingCostDailyMinor > zero &&
+            makeIsoDate(person.birthDate) <= priorAt
+          );
+        }),
+      )
+      .map((household) => household.id),
+  );
+  const calendarPeople = input.people.filter((person) =>
+    calendarHouseholdIds.has(person.householdId),
+  );
+  const calendarPersonIds = new Set(calendarPeople.map((person) => person.id));
+  const purchaseCalendar = createOpeningPurchaseCalendar(
+    {
+      ...input,
+      households: input.households.filter((household) =>
+        calendarHouseholdIds.has(household.id),
+      ),
+      people: calendarPeople,
+      workCommitments: input.workCommitments?.filter((row) =>
+        calendarPersonIds.has(row.personId),
+      ),
+    },
+    originalContracts.filter(
+      (contract) =>
+        !owned(contract) &&
+        (contract.householdId
+          ? calendarHouseholdIds.has(contract.householdId)
+          : contract.recipientIncome
+            ? calendarHouseholdIds.has(contract.recipientIncome.householdId)
+            : false),
+    ),
+    DEFAULT_OPENING_PURCHASE_CALENDAR_DATA,
+    registry,
+  );
   const existingOriginalCashMinor = sum(
     [
       ...input.people.map((person) => person.liquidMinor),
@@ -516,6 +853,16 @@ export function buildOpeningCustomers(
     );
   };
   const gaps = new Set<string>();
+  for (const organization of input.organizations) {
+    const missing =
+      data.unsupportedExternalDemandByClassification[
+        organization.classification ?? ""
+      ];
+    if (missing)
+      gaps.add(
+        `opening-customers:missing-source-owned-product-buyer-price-qualification:${organization.id}:${organization.classification}:${missing.stopgapId}`,
+      );
+  }
   if (makeIsoDate(data.sourceAvailableBy) > at)
     gaps.add(
       "opening-customers:later-statistical-vintages-are-generation-priors-not-date-available-actor-facts",
@@ -547,6 +894,92 @@ export function buildOpeningCustomers(
     newPlaceMetadataKeys.push(key);
     return true;
   };
+  const agreementCalendar = (
+    agreementId: string,
+    defaultDueAt: string,
+    defaultSource?: Source,
+  ) => {
+    const read = <T>(key: string): T | undefined => {
+      if (placeMetadata[key] === undefined) return undefined;
+      try {
+        return JSON.parse(placeMetadata[key]) as T;
+      } catch {
+        throw new Error(`Invalid saved customer calendar record: ${key}`);
+      }
+    };
+    const dateKey = `openingCustomers.date:${agreementId}`;
+    const dateRecord =
+      options.agreementDatesById?.[agreementId] ??
+      read<OpeningCustomerAgreementDate>(dateKey);
+    const endKey = `openingCustomers.end:${agreementId}`;
+    const endRecord =
+      options.agreementEndsById?.[agreementId] ??
+      read<OpeningCustomerAgreementEnd>(endKey);
+    const validBasis = (ids: readonly string[]) =>
+      Array.isArray(ids) &&
+      ids.length > zero &&
+      ids.every((id) => typeof id === "string" && !!id.trim()) &&
+      new Set(ids).size === ids.length;
+    const sources: Source[] = [];
+    const basisRecordIds: string[] = [];
+    const firstDueAt = makeIsoDate(dateRecord?.dueAt ?? defaultDueAt);
+    if (dateRecord) {
+      sourceValid(dateRecord.source, agreementId);
+      if (
+        dateRecord.id !== agreementId ||
+        !validBasis(dateRecord.basisRecordIds) ||
+        firstDueAt < at
+      )
+        throw new Error(
+          `Invalid actual customer agreement date: ${agreementId}`,
+        );
+      appendMetadata(dateKey, dateRecord);
+      sources.push(dateRecord.source);
+      basisRecordIds.push(...dateRecord.basisRecordIds);
+    } else {
+      sources.push(
+        defaultSource ?? {
+          tag: "ESTIMATED",
+          asOf: at,
+          citation:
+            "Explicit nonhousehold first-next-period-month opening agreement convention. SG-P8-customer-due-calendar-renewal",
+          estimatedFrom:
+            "The public/visitor opening agreement has its own modeled first due date. Annual expenditure statistics do not observe an invoice day, actual payment, legal appropriation, expiry or renewal.",
+        },
+      );
+    }
+    const end: { endsAt?: string } = {};
+    if (endRecord) {
+      sourceValid(endRecord.source, agreementId);
+      if (
+        endRecord.id !== agreementId ||
+        !validBasis(endRecord.basisRecordIds) ||
+        makeIsoDate(endRecord.endsAt) <= firstDueAt
+      )
+        throw new Error(
+          `Invalid actual customer agreement end: ${agreementId}`,
+        );
+      appendMetadata(endKey, endRecord);
+      sources.push(endRecord.source);
+      basisRecordIds.push(...endRecord.basisRecordIds);
+      end.endsAt = makeIsoDate(endRecord.endsAt);
+    }
+    return {
+      firstDueAt,
+      end,
+      sources,
+      basisRecordIds: [...new Set(basisRecordIds)].sort(),
+      actualSuppliedDate: dateRecord !== undefined,
+    };
+  };
+  const savedRecord = <T>(key: string): T | undefined => {
+    if (placeMetadata[key] === undefined) return undefined;
+    try {
+      return JSON.parse(placeMetadata[key]) as T;
+    } catch {
+      throw new Error(`Invalid saved opening customer metadata: ${key}`);
+    }
+  };
   const preservedBuilderContractIds: string[] = [];
   const evidence: OpeningCustomerEvidenceRecord[] = [];
   const newStocks: OpeningCustomerStockRecord[] = [];
@@ -561,7 +994,7 @@ export function buildOpeningCustomers(
     asOf: priorAt,
     generationPriorVintage: data.generationPriorVintage,
     citation,
-    estimatedFrom: `${description} Opening plans and fictional recorded terms only; no paid receipt, delivery, actual historical bill, survival target, or observed individual demand is implied.`,
+    estimatedFrom: `${description} Opening plans and fictional recorded terms only; no paid receipt, delivery, actual historical bill, survival target, or observed individual demand is implied. Each due date retains its own calendar evidence; a source year is no agreement end.`,
   });
   const appendContract = (contract: OpeningCustomerContract) => {
     const existing = contractById.get(contract.id);
@@ -643,7 +1076,55 @@ export function buildOpeningCustomers(
     source: Source;
     parameterRefs: readonly string[];
     phase: string;
+    externalInflow?: CustomerExternalInflow;
+    firstDueAt?: string;
+    firstDueSource?: Source;
+    householdCalendar?: OpeningPurchaseCalendarChoice;
   }) => {
+    const calendar = agreementCalendar(
+      args.agreementId,
+      args.firstDueAt ?? dueAt,
+      args.firstDueSource,
+    );
+    const { end } = calendar;
+    const source: Source = {
+      ...args.source,
+      tag: "ESTIMATED",
+      asOf: at,
+      generationPriorVintage:
+        [
+          args.source.generationPriorVintage,
+          ...calendar.sources.map((row) => row.generationPriorVintage),
+        ]
+          .filter(Boolean)
+          .join("; ") || undefined,
+      citation: [
+        args.source.citation,
+        ...calendar.sources.map((row) => row.citation),
+      ].join(" "),
+      estimatedFrom: [
+        args.source.estimatedFrom,
+        ...calendar.sources.map((row) => row.estimatedFrom),
+        `Calendar basis records: ${canonical(calendar.basisRecordIds)}.`,
+      ]
+        .filter(Boolean)
+        .join(" "),
+    };
+    const contractAmountsMinor: Record<string, number> = {};
+    const contractSourceMap: Record<string, Source> = {};
+    const contractTermsById: Record<
+      string,
+      {
+        payerIds: readonly string[];
+        payeeId: string;
+        kind: string;
+        amountMinor: number;
+        firstDueAt: string;
+        periodMonths: number;
+        endsAt?: string;
+        settlementPhaseId?: string;
+      }
+    > = {};
     const contractIds: string[] = [];
     const addedIds: string[] = [];
     const qualifications: OpeningCustomerProviderQualification[] = [];
@@ -679,18 +1160,51 @@ export function buildOpeningCustomers(
           [share.amount * periodMonths],
           "customer cadence amount",
         ),
-        dueAt,
+        dueAt: calendar.firstDueAt,
         periodMonths,
-        endsAt,
+        ...end,
         accruesArrears: false,
         marketAdjusted: false,
         salesReceipt: true,
         salesReceiptBudget: false,
         settlementPhaseId: args.phase,
         source: {
-          ...args.source,
-          citation: `${args.source.citation} Prior agreement ${args.agreementId}; seller ${share.id}.`,
+          ...source,
+          citation: `${source.citation} Prior agreement ${args.agreementId}; seller ${share.id}.`,
         },
+      };
+      if (
+        args.householdId &&
+        args.householdCalendar &&
+        !calendar.actualSuppliedDate
+      )
+        contract.householdPurchaseCalendar =
+          createHouseholdPurchaseCalendarMarker(
+            args.householdId,
+            args.householdCalendar,
+            DEFAULT_OPENING_PURCHASE_CALENDAR_DATA,
+          );
+      if (args.externalInflow)
+        contract.externalInflow = {
+          ...args.externalInflow,
+          source: contract.source,
+        };
+      contractAmountsMinor[contract.id] = contract.amountMinor;
+      // Full standing Sources and original terms are keyed by actual contract
+      // IDs. A provider/job Source is independent product evidence, never a
+      // substitute for a contract's Source after dueAt advances in a save.
+      contractSourceMap[contract.id] = { ...contract.source };
+      contractTermsById[contract.id] = {
+        payerIds: [...contract.payerIds],
+        payeeId: contract.payeeId,
+        kind: contract.kind,
+        amountMinor: contract.amountMinor,
+        firstDueAt: contract.dueAt,
+        periodMonths: contract.periodMonths,
+        ...(contract.endsAt === undefined ? {} : { endsAt: contract.endsAt }),
+        ...(contract.settlementPhaseId === undefined
+          ? {}
+          : { settlementPhaseId: contract.settlementPhaseId }),
       };
       contractIds.push(contract.id);
       if (appendContract(contract)) addedIds.push(contract.id);
@@ -706,7 +1220,18 @@ export function buildOpeningCustomers(
         source: contract.source,
       });
     }
-    return { contractIds, addedIds, qualifications };
+    return {
+      contractIds,
+      contractAmountsMinor,
+      contractSourceMap,
+      contractTermsById,
+      addedIds,
+      qualifications,
+      end,
+      source,
+      firstDueAt: calendar.firstDueAt,
+      calendarBasisIds: calendar.basisRecordIds,
+    };
   };
   const qualificationBasisIds = (
     rows: readonly OpeningCustomerProviderQualification[],
@@ -792,6 +1317,8 @@ export function buildOpeningCustomers(
       );
       continue;
     }
+    const householdCalendar = purchaseCalendar.household(household);
+    for (const gap of householdCalendar.gaps) gaps.add(gap);
     const priorTerms = householdTerms.get(household.id) ?? [];
     const existingOtherMonthly = priorTerms
       .filter((row) => !owned(row))
@@ -886,7 +1413,7 @@ export function buildOpeningCustomers(
         continue;
       }
       const agreementId = `${ownedPrefix}household:${household.id}:${service.key}`;
-      const source = generatedSource(
+      let source = generatedSource(
         service.citation,
         `${service.label} CEX component with ${sizeKey}/${region} parent scaling, original household envelope cap, and equal recorded opening vendor shares. ${service.stopgapId}`,
       );
@@ -901,16 +1428,22 @@ export function buildOpeningCustomers(
         source,
         parameterRefs: need.refs,
         phase: data.settlementPhaseIds.householdPurchases,
+        firstDueAt: householdCalendar.dueAt,
+        firstDueSource: householdCalendar.source,
+        householdCalendar,
       });
+      source = boundTerms.source;
       const record: OpeningCustomerEvidenceRecord = {
         id: agreementId,
         kind: "household-service-agreement",
-        occurredAt: priorAt,
+        occurredAt: at,
         subjectIds: payers.map((person) => person.id),
         counterpartyIds: qualificationSellerIds(boundTerms.qualifications),
         placeId: household.placeId,
         basisRecordIds: [
           household.id,
+          ...boundTerms.calendarBasisIds,
+          ...householdCalendar.basisIds,
           ...need.refs,
           ...qualificationBasisIds(boundTerms.qualifications),
         ],
@@ -923,8 +1456,10 @@ export function buildOpeningCustomers(
             qualificationSellerIds(boundTerms.qualifications),
           ),
           contractIds: canonical(boundTerms.contractIds),
-          effectiveFrom: dueAt,
-          endsAt,
+          contractAmountsMinor: canonical(boundTerms.contractAmountsMinor),
+          periodMonths: String(periodMonths),
+          effectiveFrom: boundTerms.firstDueAt,
+          ...boundTerms.end,
           status: "fictional-recorded-opening-budget-not-delivery",
         },
         source,
@@ -950,9 +1485,16 @@ export function buildOpeningCustomers(
       (residentsByPlace.get(person.placeId) ?? zero) + one,
     );
   const publicRule = data.publicPurchases;
+  interface PublicAccountGroup {
+    accounts: OrganizationInput[];
+    representedResidentCount: number;
+    basisRecordIds: readonly string[];
+    identitySource?: Source;
+    coverageSource?: Source;
+  }
   const governmentAccountsByPlace = new Map<
     string,
-    Map<string, OrganizationInput[]>
+    Map<string, PublicAccountGroup>
   >();
   for (const organization of input.organizations) {
     if (
@@ -973,13 +1515,45 @@ export function buildOpeningCustomers(
       );
       continue;
     }
-    const groups =
-      governmentAccountsByPlace.get(organization.placeId) ??
-      new Map<string, OrganizationInput[]>();
-    const rows = groups.get(facts.governmentKey) ?? [];
-    rows.push(organization);
-    groups.set(facts.governmentKey, rows);
-    governmentAccountsByPlace.set(organization.placeId, groups);
+    const coverage =
+      organization.classification === OPENING_COUNTY_BUYER_CLASSIFICATION
+        ? openingHistoricalCountyPurchaseCoverage(organization, input)
+        : {
+            rows: [
+              {
+                placeId: organization.placeId,
+                representedResidentCount:
+                  residentsByPlace.get(organization.placeId) ?? zero,
+                basisRecordIds: [] as readonly string[],
+                identitySource: undefined,
+                coverageSource: undefined,
+              },
+            ],
+            gaps: [] as readonly string[],
+          };
+    for (const gap of coverage.gaps) gaps.add(gap);
+    for (const row of coverage.rows) {
+      const groups =
+        governmentAccountsByPlace.get(row.placeId) ??
+        new Map<string, PublicAccountGroup>();
+      const group = groups.get(facts.governmentKey);
+      if (group) {
+        if (group.representedResidentCount !== row.representedResidentCount)
+          throw new Error(
+            `Conflicting represented public owner coverage: ${facts.governmentKey}/${row.placeId}`,
+          );
+        group.accounts.push(organization);
+      } else {
+        groups.set(facts.governmentKey, {
+          accounts: [organization],
+          representedResidentCount: row.representedResidentCount,
+          basisRecordIds: row.basisRecordIds,
+          identitySource: row.identitySource,
+          coverageSource: row.coverageSource,
+        });
+      }
+      governmentAccountsByPlace.set(row.placeId, groups);
+    }
   }
   const cleaningShare = p(publicRule.cleaningBudgetShareParameter),
     authorityCoverage = p(publicRule.authorityCoverageParameter);
@@ -1032,6 +1606,23 @@ export function buildOpeningCustomers(
         monthsPerYear,
     );
     minor(monthlyPool, "public custodial own-budget pool");
+    // One place pool remains finite when multiple governments serve it. Missing
+    // recorded resident/owner coverage is left unbound, never reassigned.
+    const coveredResidentCount = Math.min(
+      residentCount,
+      [...groups.values()].reduce(
+        (sum, group) => sum + group.representedResidentCount,
+        zero,
+      ),
+    );
+    const coveredMonthlyPool = Math.floor(
+      monthlyPool * (coveredResidentCount / residentCount),
+    );
+    minor(coveredMonthlyPool, "source-qualified public place pool");
+    if (coveredResidentCount < residentCount)
+      gaps.add(
+        `opening-customers:public-owner-coverage-partly-unverified:${placeId}`,
+      );
     const sellerRows = suppliers(
       placeId,
       publicRule.supplierClassifications,
@@ -1041,17 +1632,50 @@ export function buildOpeningCustomers(
     let bound = zero;
     const selectedBuyers: string[] = [];
     for (const share of apportion(
-      monthlyPool,
-      [...groups.keys()].map((id) => ({ id, weight: one })),
+      coveredMonthlyPool,
+      [...groups.entries()].map(([id, group]) => ({
+        id,
+        weight: group.representedResidentCount,
+      })),
     )) {
-      const accounts = [...groups.get(share.id)!].sort((left, right) =>
+      const group = groups.get(share.id)!;
+      const accounts = [...group.accounts].sort((left, right) =>
         left.id.localeCompare(right.id),
       );
-      const specifiedId = options.publicBuyerIdByGovernmentKey?.[share.id];
+      const linkedOwnerIds = [
+        ...new Set(
+          accounts
+            .map(
+              (row) =>
+                (
+                  row as OrganizationInput & {
+                    publicPayAuthority?: { ownerId: string };
+                  }
+                ).publicPayAuthority?.ownerId,
+            )
+            .filter((id): id is string => id !== undefined),
+        ),
+      ];
+      if (linkedOwnerIds.length > one)
+        throw new Error(
+          `Conflicting canonical public paying owners: ${share.id}`,
+        );
+      const specifiedId =
+        options.publicBuyerIdByGovernmentKey?.[share.id] ??
+        linkedOwnerIds[zero];
+      if (linkedOwnerIds.length && specifiedId !== linkedOwnerIds[zero])
+        throw new Error(
+          `Public buyer conflicts with canonical government paying owner: ${share.id}`,
+        );
       const buyer = specifiedId
-        ? accounts.find((row) => row.id === specifiedId)
+        ? organizations.get(specifiedId)
         : accounts[zero];
-      if (!buyer)
+      if (
+        !buyer ||
+        buyer.governmentFacts?.governmentKey !== share.id ||
+        buyer.governmentFacts.governmentJurisdictionId !==
+          accounts[zero]?.governmentFacts?.governmentJurisdictionId
+      )
         throw new Error(
           `Public customer account designation does not match owner: ${share.id}`,
         );
@@ -1062,8 +1686,8 @@ export function buildOpeningCustomers(
           (contract) =>
             !owned(contract) &&
             contract.kind === publicRule.contractKind &&
-            contract.payerIds.some((id) =>
-              accounts.some((row) => row.id === id),
+            contract.payerIds.some(
+              (id) => id === buyer.id || accounts.some((row) => row.id === id),
             ),
         )
       ) {
@@ -1081,9 +1705,17 @@ export function buildOpeningCustomers(
       const authorityId = `${ownedPrefix}public-authority:${share.id}:${placeId}`;
       const appropriationId = `${ownedPrefix}public-appropriation:${share.id}:${placeId}`;
       const agreementId = `${ownedPrefix}public-agreement:${share.id}:${placeId}`;
-      const source = generatedSource(
-        `${buyer.source.citation} ${prior.citation} ${publicRule.practiceCitation}`,
-        `A source-qualified fictional prior authorization and appropriation by ${buyer.name}. Census public-building expenditure/population context and separately registered custodial/coverage fractions; existing buyer cash only. ${publicRule.stopgapId}`,
+      let source = generatedSource(
+        [
+          buyer.source.citation,
+          group.identitySource?.citation,
+          group.coverageSource?.citation,
+          prior.citation,
+          publicRule.practiceCitation,
+        ]
+          .filter((citation) => citation !== undefined)
+          .join(" "),
+        `A source-qualified fictional prior authorization and appropriation by ${buyer.name}. Census public-building expenditure/population context and separately registered custodial/coverage fractions. A linked zero-stock outside owner pays only the actual admitted due obligation; an unlinked recorded buyer retains its actual stock constraint. No historical enacted appropriation is claimed. ${publicRule.stopgapId}`,
       );
       const boundTerms = bindBudget({
         buyerIds: [buyer.id],
@@ -1095,7 +1727,26 @@ export function buildOpeningCustomers(
         source,
         parameterRefs: refs,
         phase: data.settlementPhaseIds.publicProcurement,
+        ...(buyer.outsideFlow
+          ? {
+              externalInflow: {
+                kind: data.externalInflowKinds.publicProcurement,
+                ownerId: buyer.id,
+                authorityRecordId: authorityId,
+                appropriationRecordId: appropriationId,
+                agreementRecordId: agreementId,
+              },
+            }
+          : {}),
       });
+      source = boundTerms.source;
+      if (buyer.outsideFlow) {
+        sourceValid(buyer.outsideFlow, buyer.id);
+        if (buyer.liquidMinor !== zero)
+          throw new Error(
+            `Public outside buyer must keep zero stock: ${buyer.id}`,
+          );
+      }
       const facts = {
         authority: canonical({
           id: authorityId,
@@ -1103,22 +1754,38 @@ export function buildOpeningCustomers(
           governmentKey: share.id,
           jurisdictionId: buyer.governmentFacts!.governmentJurisdictionId,
           scope: "bounded-opening-custodial-procurement",
-          effectiveFrom: dueAt,
-          endsAt,
+          effectiveFrom: boundTerms.firstDueAt,
+          ...boundTerms.end,
           source,
         }),
         appropriation: canonical({
           id: appropriationId,
           authorityId,
           buyerAccountId: buyer.id,
+          governmentKey: share.id,
+          jurisdictionId: buyer.governmentFacts!.governmentJurisdictionId,
+          ...(group.identitySource && group.coverageSource
+            ? {
+                ownerCoverage: {
+                  governmentKey: share.id,
+                  jurisdictionId:
+                    buyer.governmentFacts!.governmentJurisdictionId,
+                  representedResidentCount: group.representedResidentCount,
+                  basisRecordIds: [...group.basisRecordIds],
+                  identitySource: { ...group.identitySource },
+                  coverageSource: { ...group.coverageSource },
+                },
+              }
+            : {}),
           approvedAnnualMinor: share.amount * monthsPerYear,
+          annualFigureRole: "estimated-annualized-rate-not-a-finite-cap",
           monthlyBudgetMinor: share.amount,
           coveredPlaceId: placeId,
-          coveredOriginalResidentCount: residentCount,
+          coveredOriginalResidentCount: group.representedResidentCount,
           sourcePriorKey: selectedKey,
           parameterRefs: refs,
-          effectiveFrom: dueAt,
-          endsAt,
+          effectiveFrom: boundTerms.firstDueAt,
+          ...boundTerms.end,
           source,
         }),
         agreement: canonical({
@@ -1127,17 +1794,23 @@ export function buildOpeningCustomers(
           appropriationId,
           buyerAccountId: buyer.id,
           supplierIds: qualificationSellerIds(boundTerms.qualifications),
+          contractIds: boundTerms.contractIds,
+          contractAmountsMinor: boundTerms.contractAmountsMinor,
+          contractSourceMap: boundTerms.contractSourceMap,
+          contractTermsById: boundTerms.contractTermsById,
+          periodMonths,
           serviceKey: "public-custodial",
           providerQualifications: boundTerms.qualifications,
           basisRecordIds: [
             authorityId,
             appropriationId,
             ...refs,
+            ...group.basisRecordIds,
             ...qualificationBasisIds(boundTerms.qualifications),
           ],
           status: "standing-budget-not-delivery",
-          effectiveFrom: dueAt,
-          endsAt,
+          effectiveFrom: boundTerms.firstDueAt,
+          ...boundTerms.end,
           source,
         }),
       };
@@ -1169,8 +1842,8 @@ export function buildOpeningCustomers(
               governmentKey: share.id,
               issuerId: buyer.id,
               scope: "fictional-opening-custodial-authority",
-              effectiveFrom: dueAt,
-              endsAt,
+              effectiveFrom: boundTerms.firstDueAt,
+              ...boundTerms.end,
             },
           ],
           [
@@ -1179,9 +1852,10 @@ export function buildOpeningCustomers(
             {
               authorityId,
               approvedAnnualMinor: String(share.amount * monthsPerYear),
+              annualFigureRole: "estimated-annualized-rate-not-a-finite-cap",
               buyerAccountId: buyer.id,
-              effectiveFrom: dueAt,
-              endsAt,
+              effectiveFrom: boundTerms.firstDueAt,
+              ...boundTerms.end,
             },
           ],
           [
@@ -1192,22 +1866,31 @@ export function buildOpeningCustomers(
               appropriationId,
               serviceKey: "public-custodial",
               monthlyBudgetMinor: String(share.amount),
-              effectiveFrom: dueAt,
-              endsAt,
+              contractIds: canonical(boundTerms.contractIds),
+              contractAmountsMinor: canonical(boundTerms.contractAmountsMinor),
+              contractSourceMap: canonical(boundTerms.contractSourceMap),
+              contractTermsById: canonical(boundTerms.contractTermsById),
+              periodMonths: String(periodMonths),
+              effectiveFrom: boundTerms.firstDueAt,
+              ...boundTerms.end,
             },
           ],
         ] as const)
           evidence.push({
             id,
             kind,
-            occurredAt: priorAt,
+            occurredAt: at,
             subjectIds: [buyer.id],
             counterpartyIds: qualificationSellerIds(boundTerms.qualifications),
             placeId,
             basisRecordIds:
               kind === "public-service-agreement"
-                ? [...refs, ...qualificationBasisIds(boundTerms.qualifications)]
-                : refs,
+                ? [
+                    ...refs,
+                    ...group.basisRecordIds,
+                    ...qualificationBasisIds(boundTerms.qualifications),
+                  ]
+                : [...refs, ...group.basisRecordIds],
             facts: {
               ...recordFacts,
               ...(kind === "public-service-agreement"
@@ -1221,17 +1904,53 @@ export function buildOpeningCustomers(
     }
     publicBudgets.push({
       placeId,
-      coveredOriginalResidentCount: residentCount,
+      coveredOriginalResidentCount: coveredResidentCount,
       sourcePriorKey: selectedKey,
       monthlyCustodialPoolMinor: monthlyPool,
       boundMonthlyMinor: bound,
       buyerIds: selectedBuyers,
       parameterRefs: refs,
+      ...([...groups.values()].some((group) => group.identitySource)
+        ? {
+            originalRepresentedResidentCount: residentCount,
+            sourceUnverifiedResidentCount: residentCount - coveredResidentCount,
+            ownerCoverage: [...groups.entries()]
+              .filter(
+                ([, group]) => group.identitySource && group.coverageSource,
+              )
+              .map(([governmentKey, group]) => ({
+                governmentKey,
+                representedResidentCount: group.representedResidentCount,
+                basisRecordIds: group.basisRecordIds,
+                identitySource: group.identitySource!,
+                coverageSource: group.coverageSource!,
+              })),
+          }
+        : {}),
     });
   }
   const marketsById = new Map<string, OpeningCustomerOutsideMarket>();
   const marketIdsByGeography = new Map<string, string>();
-  const suppliedMarkets = options.outsideMarkets;
+  const savedMarkets: OpeningCustomerOutsideMarket[] = [];
+  for (const [key, value] of Object.entries(input.placeMetadata ?? {})) {
+    if (!key.startsWith("openingCustomers.market:")) continue;
+    let market: OpeningCustomerOutsideMarket;
+    try {
+      market = JSON.parse(value) as OpeningCustomerOutsideMarket;
+    } catch {
+      throw new Error(`Invalid saved opening customer market: ${key}`);
+    }
+    if (key !== `openingCustomers.market:${market.id}`)
+      throw new Error(`Conflicting saved opening customer market ID: ${key}`);
+    savedMarkets.push(market);
+  }
+  // Empty transient options do not erase admitted market facts/obligations.
+  // Nonempty replacements still undergo alias, account and owning-map checks.
+  const suppliedMarkets = options.outsideMarkets?.length
+    ? options.outsideMarkets
+    : savedMarkets.length
+      ? savedMarkets
+      : options.outsideMarkets;
   const placeIds = new Set(
     input.households.map((household) => household.placeId),
   );
@@ -1254,6 +1973,7 @@ export function buildOpeningCustomers(
     marketIdsByGeography.set(geographicIdentity, market.id);
     marketsById.set(market.id, market);
   }
+  const identityRecordIdByOutsideOwner = new Map<string, string>();
   const outsideRule = data.outsideHouseholds;
   const outsideCount = p(outsideRule.countPerMarketParameter);
   if (
@@ -1275,6 +1995,112 @@ export function buildOpeningCustomers(
   const originalResidentPlaces = new Set(
     input.people.map((person) => person.placeId),
   );
+  const outsideOwnerForMarket = (market: OpeningCustomerOutsideMarket) =>
+    options.outsideBuyerIdentityByMarketId?.[market.id]?.organization.id ??
+    savedRecord<{ ownerId: string }>(
+      `openingCustomers.marketBuyer:${market.id}`,
+    )?.ownerId ??
+    `${ownedPrefix}outside-household:${stableHash(canonical([market.originPlaceId, market.destinationPlaceId]))}`;
+  const qualifiedMarketsByOutsideOwner = new Map<
+    string,
+    OpeningCustomerOutsideMarket[]
+  >();
+  for (const market of marketsById.values()) {
+    if (
+      outsideCount === zero ||
+      originalResidentPlaces.has(market.originPlaceId) ||
+      (!familyNames.length &&
+        !options.outsideBuyerIdentityByMarketId?.[market.id] &&
+        input.placeMetadata?.[`openingCustomers.marketBuyer:${market.id}`] ===
+          undefined) ||
+      !suppliers(
+        market.destinationPlaceId,
+        outsideRule.supplierClassifications,
+        outsideRule.supplierOccupations,
+        "visitor-lodging",
+      ).length
+    )
+      continue;
+    const ownerId = outsideOwnerForMarket(market);
+    const rows = qualifiedMarketsByOutsideOwner.get(ownerId) ?? [];
+    rows.push(market);
+    qualifiedMarketsByOutsideOwner.set(ownerId, rows);
+  }
+  type OutsideAllocation = {
+    monthlyBudgetMinor: number;
+    preservedMonthlyTermsMinor: number;
+    preservedContracts: readonly FinanceContractInput[];
+    preservedMarketIds: ReadonlySet<string>;
+    marketIds: readonly string[];
+    marketMonthlyAmountsMinor: Readonly<Record<string, number>>;
+  };
+  const outsideAllocations = new Map<string, OutsideAllocation>();
+  if (qualifiedMarketsByOutsideOwner.size) {
+    const monthlyBudgetMinor = Math.round(
+      (p(outsideRule.annualLodgingUsdParameter) * p("minorPerDollar")) /
+        monthsPerYear,
+    );
+    minor(monthlyBudgetMinor, "one outside-family lodging envelope");
+    for (const [ownerId, markets] of qualifiedMarketsByOutsideOwner) {
+      const preservedContracts = originalContracts
+        .filter((row) => {
+          const claim = row.externalInflow as
+            CustomerExternalInflow | undefined;
+          return (
+            !owned(row) &&
+            row.kind === outsideRule.contractKind &&
+            row.payerIds.length === one &&
+            row.payerIds[zero] === ownerId &&
+            claim !== undefined &&
+            claim.ownerId === ownerId &&
+            "marketId" in claim
+          );
+        })
+        .sort((left, right) =>
+          left.id < right.id ? -one : left.id > right.id ? one : zero,
+        );
+      const preservedMarketIds = new Set(
+        preservedContracts.map(
+          (row) =>
+            (
+              row.externalInflow as Extract<
+                CustomerExternalInflow,
+                { marketId: string }
+              >
+            ).marketId,
+        ),
+      );
+      const preservedMonthlyTermsMinor = preservedContracts.reduce(
+        (total, row) => total + row.amountMinor / row.periodMonths,
+        zero,
+      );
+      if (preservedMonthlyTermsMinor > monthlyBudgetMinor)
+        gaps.add(
+          `opening-customers:recorded-outside-terms-exceed-estimated-envelope:${ownerId}`,
+        );
+      const modeledMarketIds = markets
+        .filter((row) => !preservedMarketIds.has(row.id))
+        .map((row) => row.id)
+        .sort();
+      const marketMonthlyAmountsMinor = Object.fromEntries(
+        apportion(
+          Math.max(
+            zero,
+            Math.floor(monthlyBudgetMinor - preservedMonthlyTermsMinor),
+          ),
+          modeledMarketIds.map((id) => ({ id, weight: one })),
+        ).map((row) => [row.id, row.amount]),
+      );
+      outsideAllocations.set(ownerId, {
+        monthlyBudgetMinor,
+        preservedMonthlyTermsMinor,
+        preservedContracts,
+        preservedMarketIds,
+        marketIds: modeledMarketIds,
+        marketMonthlyAmountsMinor,
+      });
+    }
+  }
   for (const market of [...marketsById.values()].sort((left, right) =>
     left.id.localeCompare(right.id),
   )) {
@@ -1295,7 +2121,7 @@ export function buildOpeningCustomers(
       );
     if (originalResidentPlaces.has(market.originPlaceId)) {
       gaps.add(
-        `opening-customers:outside-stock-would-overlap-admitted-residence:${market.id}`,
+        `opening-customers:outside-owner-would-overlap-admitted-residence:${market.id}`,
       );
       continue;
     }
@@ -1305,96 +2131,260 @@ export function buildOpeningCustomers(
       outsideRule.supplierOccupations,
       "visitor-lodging",
     );
-    if (!sellerRows.length || !familyNames.length || outsideCount === zero) {
+    if (
+      !sellerRows.length ||
+      (!familyNames.length &&
+        !options.outsideBuyerIdentityByMarketId?.[market.id] &&
+        input.placeMetadata?.[`openingCustomers.marketBuyer:${market.id}`] ===
+          undefined) ||
+      outsideCount === zero
+    ) {
       gaps.add(
         `opening-customers:outside-visit-budget-needs-compatible-lodging-and-named-family:${market.id}`,
       );
       continue;
     }
-    // Market labels and additional geography citations cannot create another
-    // family stock for the same origin/destination pair, including re-enrichment.
-    const buyerId = `${ownedPrefix}outside-household:${stableHash(
+    const allocationOwnerId = outsideOwnerForMarket(market),
+      allocation = outsideAllocations.get(allocationOwnerId)!;
+    // A supplied standing term also needs its admitted geography saved when
+    // transient market options disappear; its own terms remain untouched.
+    appendMetadata(`openingCustomers.market:${market.id}`, {
+      ...market,
+      basisRecordIds: [...market.basisRecordIds],
+      source: { ...market.source },
+    });
+    if (allocation.preservedMarketIds.has(market.id)) {
+      const actual = allocation.preservedContracts.filter((row) => {
+        const claim = row.externalInflow;
+        return claim && "marketId" in claim && claim.marketId === market.id;
+      });
+      appendMetadata(`openingCustomers.marketBuyer:${market.id}`, {
+        ownerId: allocationOwnerId,
+        suppliedContractIds: actual.map((row) => row.id).sort(),
+        contractSourceMap: Object.fromEntries(
+          actual.map((row) => [row.id, { ...row.source }]),
+        ),
+        contractTermsById: Object.fromEntries(
+          actual.map((row) => [
+            row.id,
+            {
+              payerIds: [...row.payerIds],
+              payeeId: row.payeeId,
+              kind: row.kind,
+              amountMinor: row.amountMinor,
+              firstDueAt: row.dueAt,
+              periodMonths: row.periodMonths,
+              ...(row.endsAt === undefined ? {} : { endsAt: row.endsAt }),
+              ...(row.settlementPhaseId === undefined
+                ? {}
+                : { settlementPhaseId: row.settlementPhaseId }),
+            },
+          ]),
+        ),
+      });
+      gaps.add(
+        `opening-customers:preserved-recorded-outside-visitor-terms:${market.id}`,
+      );
+      continue;
+    }
+    const monthlyBudget =
+      allocation.marketMonthlyAmountsMinor[market.id] ?? zero;
+    const mappingKey = `openingCustomers.marketBuyer:${market.id}`;
+    const savedMapping = savedRecord<{
+      ownerId: string;
+      identityRecordId: string;
+      visitAgreementRecordId: string;
+    }>(mappingKey);
+    const suppliedIdentity =
+      options.outsideBuyerIdentityByMarketId?.[market.id];
+    const defaultBuyerId = `${ownedPrefix}outside-household:${stableHash(
       canonical([market.originPlaceId, market.destinationPlaceId]),
     )}`;
-    const identityId = `${buyerId}:identity`,
-      visitId = `${buyerId}:visit-budget`;
-    const stock = Math.round(
-      p(outsideRule.liquidUsdParameter) * p("minorPerDollar"),
-    );
-    minor(stock, buyerId);
-    const source = generatedSource(
+    const buyerId =
+      suppliedIdentity?.organization.id ??
+      savedMapping?.ownerId ??
+      defaultBuyerId;
+    const identityId =
+      suppliedIdentity?.identity.id ??
+      savedMapping?.identityRecordId ??
+      `${buyerId}:identity`;
+    const visitId =
+      savedMapping?.visitAgreementRecordId ??
+      (suppliedIdentity
+        ? `${buyerId}:visit-budget:${stableHash(market.id)}`
+        : `${buyerId}:visit-budget`);
+    const defaultSource = generatedSource(
       `${market.source.citation} ${outsideRule.citation}`,
-      `The ${familyNames[zero]} family is a fictional transaction-account holding outside family at ${market.originPlaceName}. One SCF family pool; a CEX out-of-town lodging reserve follows a fictional pre-start regional personal-visit context. Middle-quintile SCF income is context only, never cash. ${outsideRule.stopgapId}`,
+      `A distinct synthetic ${familyNames[zero]} outside-family identity for this origin/destination edge is ESTIMATED, not evidence that similarly named families or repeated origins are one actual household. CEX out-of-town lodging supplies a separately estimated standing payment amount; geography establishes no actual visit, booking or stock. SCF income is context only. ${outsideRule.stopgapId}`,
     );
-    const organization: OrganizationInput = {
+    const defaultOrganization: OrganizationInput = {
       id: buyerId,
       placeId: market.originPlaceId,
       name: `${familyNames[zero]} household (${market.originPlaceName})`,
       kind: "outside-customer-household",
       classification: "customer:outside-household",
-      liquidMinor: stock,
+      liquidMinor: zero,
+      outsideFlow: {
+        ...defaultSource,
+        citation: `${defaultSource.citation} Identity ${identityId}; dated source-owned outside obligations only.`,
+      },
       source: {
-        ...source,
-        citation: `${source.citation} Identity ${identityId}; stock ${outsideRule.stockSourceRecordId}; visit budget ${visitId}.`,
+        ...defaultSource,
+        citation: `${defaultSource.citation} Identity ${identityId}; no modeled opening stock.`,
       },
     };
     const existing = organizations.get(buyerId);
+    const organization =
+      suppliedIdentity?.organization ??
+      (savedMapping ? existing : defaultOrganization);
+    if (
+      !organization ||
+      organization.id !== buyerId ||
+      organization.placeId !== market.originPlaceId ||
+      organization.kind !== "outside-customer-household" ||
+      organization.classification !== "customer:outside-household" ||
+      organization.liquidMinor !== zero ||
+      !organization.outsideFlow
+    )
+      throw new Error(
+        `Outside identity must resolve actual zero-stock flow owner: ${market.id}`,
+      );
+    sourceValid(organization.source, buyerId);
+    sourceValid(organization.outsideFlow, buyerId);
     if (existing && canonical(existing) !== canonical(organization))
       throw new Error(`Conflicting outside customer account: ${buyerId}`);
     if (!existing) {
       if (people.has(buyerId))
         throw new Error(`Outside customer ID collides with person: ${buyerId}`);
-      organizations.set(buyerId, organization);
+      organizations.set(buyerId, {
+        ...organization,
+        source: { ...organization.source },
+        outsideFlow: { ...organization.outsideFlow },
+      });
       newOrganizationIds.push(buyerId);
     }
-    const stockRecord: OpeningCustomerStockRecord = {
-      cashEntityId: buyerId,
-      openedAt: priorAt,
-      liquidMinor: stock,
-      stockSourceRecordId: outsideRule.stockSourceRecordId,
-      economicCoverage: outsideRule.stockCoverage,
-      nonoverlapBasis: `Origin ${market.originPlaceId} is outside every original admitted resident place. One pool for ${buyerId}; no per-member account or existing employer capital.`,
-      source: organization.source,
-    };
-    appendMetadata(`openingCustomers.stock:${buyerId}`, stockRecord);
-    if (!existing) newStocks.push(stockRecord);
-    const identityRecord: OpeningCustomerEvidenceRecord = {
-      id: identityId,
-      kind: "outside-household-identity",
-      occurredAt: priorAt,
-      subjectIds: [buyerId],
-      counterpartyIds: [],
-      placeId: market.originPlaceId,
-      basisRecordIds: [
-        ...market.basisRecordIds,
-        outsideRule.stockSourceRecordId,
-      ],
-      facts: {
-        economicUnit: "one-outside-family",
-        transactionAccountHolder: "generated-opening-prior",
-        liquidMinor: String(stock),
-        annualIncomeGenerationPriorUsd: String(
-          p(outsideRule.incomePriorUsdParameter),
-        ),
-        recurringIncomeCredit: "none",
-        representation: "organization-shaped-family-cash-pool-not-an-employer",
-      },
-      source: organization.source,
-    };
+    const identityKey = `openingCustomers.evidence:${identityId}`;
+    const savedIdentity =
+      savedRecord<OpeningCustomerEvidenceRecord>(identityKey);
+    const identityRecord: OpeningCustomerEvidenceRecord =
+      suppliedIdentity?.identity ??
+        savedIdentity ?? {
+          id: identityId,
+          kind: "outside-household-identity",
+          occurredAt: priorAt,
+          subjectIds: [buyerId],
+          counterpartyIds: [],
+          placeId: market.originPlaceId,
+          basisRecordIds: [...market.basisRecordIds],
+          facts: {
+            economicUnit: "one-outside-family",
+            identityStatus: "distinct-synthetic-estimated-edge-identity",
+            liquidMinor: String(zero),
+            annualIncomeGenerationPriorUsd: String(
+              p(outsideRule.incomePriorUsdParameter),
+            ),
+            paymentFunding: "dated-source-owned-obligation-only",
+            representation:
+              "zero-stock-outside-family-obligation-payer-not-an-employer",
+          },
+          source: organization.source,
+        };
+    sourceValid(identityRecord.source, identityId);
+    const priorIdentityId = identityRecordIdByOutsideOwner.get(buyerId);
+    if (priorIdentityId !== undefined && priorIdentityId !== identityId)
+      throw new Error(`Ambiguous canonical outside buyer identity: ${buyerId}`);
+    identityRecordIdByOutsideOwner.set(buyerId, identityId);
     if (
-      appendMetadata(`openingCustomers.evidence:${identityId}`, identityRecord)
+      identityRecord.id !== identityId ||
+      identityRecord.kind !== "outside-household-identity" ||
+      identityRecord.placeId !== market.originPlaceId ||
+      canonical(identityRecord.subjectIds) !== canonical([buyerId]) ||
+      !Array.isArray(identityRecord.counterpartyIds) ||
+      identityRecord.counterpartyIds.length !== zero ||
+      (identityRecord.facts.liquidMinor !== undefined &&
+        Number(identityRecord.facts.liquidMinor) !== zero) ||
+      !identityRecord.basisRecordIds.length ||
+      identityRecord.basisRecordIds.some((id) => !id.trim()) ||
+      new Set(identityRecord.basisRecordIds).size !==
+        identityRecord.basisRecordIds.length ||
+      canonical(identityRecord.source) !== canonical(organization.source) ||
+      makeIsoDate(identityRecord.occurredAt) > at ||
+      makeIsoDate(identityRecord.source.asOf) >
+        makeIsoDate(identityRecord.occurredAt)
     )
+      throw new Error(
+        `Outside buyer identity record does not match actual owner: ${identityId}`,
+      );
+    if (appendMetadata(identityKey, identityRecord))
       evidence.push(identityRecord);
+    appendMetadata(mappingKey, {
+      ownerId: buyerId,
+      identityRecordId: identityId,
+      visitAgreementRecordId: visitId,
+    });
+    const ownerBudgetRecordId = `${buyerId}:lodging-envelope`;
+    const preservedContractSourceMap: Record<string, Source> = {};
+    const preservedContractTermsById: Record<
+      string,
+      OpeningCustomerOutsideBudgetRecord["preservedContractTermsById"][string]
+    > = {};
+    for (const row of allocation.preservedContracts) {
+      preservedContractSourceMap[row.id] = { ...row.source };
+      preservedContractTermsById[row.id] = {
+        payerIds: [...row.payerIds],
+        payeeId: row.payeeId,
+        kind: row.kind,
+        amountMinor: row.amountMinor,
+        firstDueAt: row.dueAt,
+        periodMonths: row.periodMonths,
+        ...(row.endsAt === undefined ? {} : { endsAt: row.endsAt }),
+        settlementPhaseId:
+          row.settlementPhaseId ??
+          (row.recipientIncome
+            ? financePolicyDataJson.defaultPhases.income
+            : row.householdId
+              ? financePolicyDataJson.defaultPhases.household
+              : row.salesReceiptBudget
+                ? financePolicyDataJson.defaultPhases.procurement
+                : financePolicyDataJson.defaultPhases.other),
+      };
+    }
+    const ownerBudget: OpeningCustomerOutsideBudgetRecord = {
+      id: ownerBudgetRecordId,
+      ownerId: buyerId,
+      identityRecordId: identityId,
+      monthlyBudgetMinor: allocation.monthlyBudgetMinor,
+      preservedMonthlyTermsMinor: allocation.preservedMonthlyTermsMinor,
+      preservedContractIds: allocation.preservedContracts
+        .map((row) => row.id)
+        .sort(),
+      preservedContractSourceMap,
+      preservedContractTermsById,
+      marketIds: [...allocation.marketIds],
+      marketMonthlyAmountsMinor: { ...allocation.marketMonthlyAmountsMinor },
+      parameterRefs: [outsideRule.annualLodgingUsdParameter],
+      source: {
+        ...generatedSource(
+          `${identityRecord.source.citation} ${outsideRule.citation}`,
+          `One fixed CEX lodging envelope for canonical owner ${buyerId}, divided among its explicitly admitted qualified market edges and actual providers. Existing actually linked supplied visitor terms constrain only the remaining estimated envelope; actual terms are preserved even when above the prior. No family amount is reset per market or seller. ${outsideRule.stopgapId}`,
+        ),
+        asOf: at,
+      },
+    };
+    appendMetadata(`openingCustomers.outsideBudget:${buyerId}`, ownerBudget);
+    if (monthlyBudget <= zero) {
+      gaps.add(`opening-customers:outside-visit-envelope-unbound:${market.id}`);
+      continue;
+    }
+    let source = generatedSource(
+      `${market.source.citation} ${outsideRule.citation} ${identityRecord.source.citation}`,
+      `The actual saved outside identity ${identityId}, market ${market.id}, and owner envelope ${ownerBudgetRecordId} link this estimated standing lodging share. One owner amount is apportioned across its explicitly admitted qualified edges and suppliers, never reset per firm. Payment is due-source-sized outside flow, never SCF wealth or prepaid capital. No delivery is claimed. ${outsideRule.stopgapId}`,
+    );
     const refs = [
-      outsideRule.liquidUsdParameter,
       outsideRule.incomePriorUsdParameter,
       outsideRule.annualLodgingUsdParameter,
       outsideRule.countPerMarketParameter,
     ];
-    const monthlyBudget = Math.round(
-      (p(outsideRule.annualLodgingUsdParameter) * p("minorPerDollar")) /
-        monthsPerYear,
-    );
     const boundTerms = bindBudget({
       buyerIds: [buyerId],
       sellerRows,
@@ -1405,29 +2395,45 @@ export function buildOpeningCustomers(
       source,
       parameterRefs: refs,
       phase: data.settlementPhaseIds.outsidePurchases,
+      externalInflow: {
+        kind: data.externalInflowKinds.outsidePurchases,
+        ownerId: buyerId,
+        identityRecordId: identityId,
+        visitAgreementRecordId: visitId,
+        marketId: market.id,
+      },
     });
+    source = boundTerms.source;
     const visitRecord: OpeningCustomerEvidenceRecord = {
       id: visitId,
       kind: "outside-visit-budget",
-      occurredAt: priorAt,
+      occurredAt: at,
       subjectIds: [buyerId],
       counterpartyIds: qualificationSellerIds(boundTerms.qualifications),
       placeId: market.destinationPlaceId,
       basisRecordIds: [
         ...market.basisRecordIds,
         identityId,
+        ownerBudgetRecordId,
         ...qualificationBasisIds(boundTerms.qualifications),
       ],
       facts: {
         ...qualificationFacts(boundTerms.qualifications),
+        identityRecordId: identityId,
+        ownerBudgetRecordId,
+        marketId: market.id,
         originPlaceId: market.originPlaceId,
         destinationPlaceId: market.destinationPlaceId,
         visitPurpose: "fictional-opening-regional-personal-visit",
         serviceKey: "visitor-lodging",
         monthlyBudgetMinor: String(monthlyBudget),
         contractIds: canonical(boundTerms.contractIds),
-        effectiveFrom: dueAt,
-        endsAt,
+        contractAmountsMinor: canonical(boundTerms.contractAmountsMinor),
+        contractSourceMap: canonical(boundTerms.contractSourceMap),
+        contractTermsById: canonical(boundTerms.contractTermsById),
+        periodMonths: String(periodMonths),
+        effectiveFrom: boundTerms.firstDueAt,
+        ...boundTerms.end,
         deliveryStatus: "no-booking-or-stay-delivery-claimed",
       },
       source,
@@ -1453,6 +2459,9 @@ export function buildOpeningCustomers(
         `Existing opening customer contract no longer resolves under these inputs: ${contract.id}`,
       );
   gaps.add(
+    "opening-customers:nonhousehold-first-next-period-month-agreement-calendar-estimated:SG-P8-customer-due-calendar-renewal",
+  );
+  gaps.add(
     "opening-customers:standing-budgets-are-not-ongoing-consumer-choices-or-delivery-records",
   );
   gaps.add(
@@ -1460,7 +2469,7 @@ export function buildOpeningCustomers(
   );
   const addedCashMinor = sum(
     newStocks.map((row) => row.liquidMinor),
-    "added independent outside-family stocks",
+    "outside-flow producers add no opening cash",
   );
   const finance: FinanceInput = {
     ...(input.finance ?? {

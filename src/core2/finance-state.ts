@@ -1,6 +1,11 @@
+import { validateHouseholdPurchaseCalendarAdmission } from "./household-purchase-calendar";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import { makeIsoDate } from "../simulation/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
+import {
+  settleFinanceContractJournal,
+  transferFinanceCreditJournal,
+} from "./finance-cash";
 import {
   DEFAULT_BUSINESS_BOOKS_DATA,
   projectBusinessPrice,
@@ -19,12 +24,15 @@ import type {
   FinanceInput,
   SalesReceiptBudgetPool,
   SalesReceiptPendingBudget,
-  FinanceTotals,
 } from "./finance-types";
-import type { CoreAPI, CoreState, Source, WorkResult } from "./types";
+import type { CoreAPI, CoreState, Source } from "./types";
 
 export function emptyFinanceRuntime(at: string): FinanceRuntime {
   return {
+    cashSources: new Map(),
+    cashLatestContractSource: new Map(),
+    cashLatestCreditSource: new Map(),
+    cashRequiredReceipts: new Map(),
     creditRequestsAt: at,
     creditRequestIds: new Set(),
     contracts: new Map(),
@@ -237,36 +245,6 @@ function validateRecipientIncome(
   }
 }
 
-function residentIncomeProjection(
-  core: CoreState,
-  api: CoreAPI,
-  personId: string,
-  kindId: string,
-  paid: number,
-) {
-  const person = core.people.get(personId),
-    home = person ? core.households.get(person.householdId) : undefined;
-  if (!person || !home || !home.memberIds.includes(personId))
-    throw new Error(
-      "Actual income requires the recipient's recorded household residence.",
-    );
-  const month = core.date.slice(
-    api.parameter("zero"),
-    api.parameter("isoMonthCharacters"),
-  );
-  const key = `${month}:${home.placeId}`,
-    kindKey = `${key}:${kindId}`;
-  const total =
-    (core.finance.paidIncomeByPlaceMonth.get(key) ?? api.parameter("zero")) +
-    paid;
-  const byKind =
-    (core.finance.paidIncomeByPlaceMonthKind.get(kindKey) ??
-      api.parameter("zero")) + paid;
-  minor(api, total, "actual resident paid income");
-  minor(api, byKind, "actual resident paid income by kind");
-  return { key, kindKey, total, byKind };
-}
-
 /** Calendar months preserve the original billing day across short months. */
 export function financeNextDate(
   api: CoreAPI,
@@ -299,73 +277,6 @@ function account(core: CoreState, api: CoreAPI, id: string) {
     throw new Error(`Finance endpoint is absent or ambiguous: ${id}`);
   minor(api, row.liquidMinor, `cash:${id}`);
   return row;
-}
-
-/** Complete batch admission precedes every cash change, even with a shared lender. */
-class CashBatch {
-  private readonly rows = new Map<
-    string,
-    { row: { liquidMinor: number }; before: number; after: number }
-  >();
-  constructor(
-    private readonly core: CoreState,
-    private readonly api: CoreAPI,
-  ) {}
-  cash(id: string): number {
-    let entry = this.rows.get(id);
-    if (!entry) {
-      const row = account(this.core, this.api, id);
-      entry = { row, before: row.liquidMinor, after: row.liquidMinor };
-      this.rows.set(id, entry);
-    }
-    return entry.after;
-  }
-  move(payerId: string, payeeId: string, requested: number): number {
-    minor(this.api, requested, "requested transfer");
-    if (payerId === payeeId)
-      throw new Error("Finance requires distinct payment endpoints.");
-    const paid = Math.min(requested, this.cash(payerId)),
-      receiving = this.cash(payeeId) + paid;
-    minor(this.api, receiving, "receiving balance");
-    this.rows.get(payerId)!.after -= paid;
-    this.rows.get(payeeId)!.after = receiving;
-    return paid;
-  }
-  commit(): void {
-    for (const entry of this.rows.values())
-      if (entry.row.liquidMinor !== entry.before)
-        throw new Error("Finance cash changed after batch admission.");
-    for (const entry of this.rows.values()) entry.row.liquidMinor = entry.after;
-  }
-}
-
-function emptyTotals(api: CoreAPI): FinanceTotals {
-  const zero = api.parameter("zero");
-  return {
-    requestedMinor: zero,
-    paidMinor: zero,
-    unfundedMinor: zero,
-    borrowedMinor: zero,
-    repaidMinor: zero,
-  };
-}
-
-function totalsAfter(
-  api: CoreAPI,
-  kind: string,
-  changes: Partial<FinanceTotals>,
-  stagedPrevious?: FinanceTotals,
-): FinanceTotals {
-  const previous =
-    stagedPrevious ??
-    api.state.finance.totalsByKind.get(kind) ??
-    emptyTotals(api);
-  const result = { ...previous };
-  for (const key of Object.keys(changes) as (keyof FinanceTotals)[]) {
-    result[key] += changes[key]!;
-    minor(api, result[key], `total:${kind}:${key}`);
-  }
-  return result;
 }
 
 function actualSource(api: CoreAPI, citation: string): Source {
@@ -531,6 +442,10 @@ export function admitFinanceContract(
   input: FinanceContractInput,
   openingBook?: BusinessBooksInput,
 ): void {
+  const householdPurchaseCalendar = validateHouseholdPurchaseCalendarAdmission(
+    input,
+    core.date,
+  );
   policy(api);
   financeSettlementPhase(api, input);
   validateRecipientIncome(core, api, input);
@@ -611,6 +526,23 @@ export function admitFinanceContract(
     api.stopgap(policy(api).salesReceiptBudgetStopgapId);
   const row = {
     ...input,
+    ...(householdPurchaseCalendar
+      ? {
+          householdPurchaseCalendar,
+          nominalDueAt: householdPurchaseCalendar.firstNominalDueAt,
+          householdPurchaseCalendarBasis: {
+            nominalDueAt: householdPurchaseCalendar.firstNominalDueAt,
+            effectiveDueAt: dueAt,
+            mode: "opening" as const,
+            references: householdPurchaseCalendar.openingBasisIds.map((id) => ({
+              id,
+              kind: "opening-basis" as const,
+              source: { ...householdPurchaseCalendar.source },
+            })),
+            source: { ...householdPurchaseCalendar.source },
+          },
+        }
+      : {}),
     ...(input.recipientIncome
       ? { recipientIncome: { ...input.recipientIncome } }
       : {}),
@@ -972,108 +904,6 @@ function admittedFacility(core: CoreState, api: CoreAPI, id: string) {
 }
 
 /** Dated principal exposure accrues once, before any draw, repayment or bill. */
-function accruedInterest(core: CoreState, api: CoreAPI, id: string): number {
-  const row = admittedFacility(core, api, id),
-    data = policy(api);
-  const elapsed = daysBetween(
-    makeIsoDate(row.lastAccruedAt),
-    makeIsoDate(core.date),
-  );
-  const rate = api.parameter(row.annualInterestParameter);
-  const days = api.parameter(
-    row.interestDayCountParameter ?? data.interestDayCountParameter,
-  );
-  amount(api, elapsed, "elapsed interest days");
-  amount(api, rate, "annual interest rate");
-  amount(api, row.unbilledInterestMinor, "already accrued interest");
-  if (!Number.isFinite(days) || days <= api.parameter("zero"))
-    throw new Error("Invalid interest day count.");
-  const accrued =
-    row.unbilledInterestMinor + (row.principalMinor * elapsed * rate) / days;
-  amount(api, accrued, "accrued interest");
-  return accrued;
-}
-
-function stageCredit(
-  core: CoreState,
-  api: CoreAPI,
-  cash: CashBatch,
-  facilityId: string,
-  requested: number,
-  reasonKey: string,
-  sourceId: string,
-  repayment = false,
-  stagedTotals?: FinanceTotals,
-) {
-  const row = admittedFacility(core, api, facilityId),
-    zero = api.parameter("zero");
-  const accrued = accruedInterest(core, api, facilityId);
-  minor(api, requested, "credit request");
-  if (!reasonKey || !sourceId)
-    throw new Error("Credit requires a reason and dated request identity.");
-  const id = `credit:${core.date}:${facilityId}:${repayment ? "repay" : "draw"}:${sourceId}`;
-  if (
-    core.finance.creditRequestsAt === core.date &&
-    core.finance.creditRequestIds.has(id)
-  )
-    throw new Error("Duplicate credit request.");
-  const borrowerBeforeMinor = cash.cash(row.borrowerId),
-    lenderBeforeMinor = cash.cash(row.lenderId);
-  const bounded = repayment
-    ? Math.min(requested, row.principalMinor)
-    : row.active
-      ? Math.min(requested, Math.max(zero, row.limitMinor - row.principalMinor))
-      : zero;
-  const transferredMinor = repayment
-    ? cash.move(row.borrowerId, row.lenderId, bounded)
-    : cash.move(row.lenderId, row.borrowerId, bounded);
-  const principalAfterMinor =
-    row.principalMinor + (repayment ? -transferredMinor : transferredMinor);
-  minor(api, principalAfterMinor, "principal after transfer");
-  const receipt: CreditReceipt = {
-    id,
-    facilityId,
-    date: core.date,
-    reasonKey,
-    requestedMinor: requested,
-    transferredMinor,
-    principalBeforeMinor: row.principalMinor,
-    principalAfterMinor,
-    borrowerBeforeMinor,
-    borrowerAfterMinor: cash.cash(row.borrowerId),
-    lenderBeforeMinor,
-    lenderAfterMinor: cash.cash(row.lenderId),
-    source: actualSource(
-      api,
-      "Actual conserving prototype loan transfer under separately sourced standing facility terms; no inferred approval or new cash.",
-    ),
-  };
-  const totals = totalsAfter(
-    api,
-    "credit",
-    repayment
-      ? { repaidMinor: transferredMinor }
-      : { borrowedMinor: transferredMinor },
-    stagedTotals,
-  );
-  return {
-    receipt,
-    totals,
-    commit() {
-      row.unbilledInterestMinor = accrued;
-      row.lastAccruedAt = core.date;
-      row.principalMinor = principalAfterMinor;
-      if (core.finance.creditRequestsAt !== core.date) {
-        core.finance.creditRequestsAt = core.date;
-        core.finance.creditRequestIds.clear();
-      }
-      core.finance.creditRequestIds.add(id);
-      core.finance.latestCreditByFacility.set(facilityId, receipt);
-      core.finance.totalsByKind.set("credit", totals);
-    },
-  };
-}
-
 export function transferCredit(
   core: CoreState,
   api: CoreAPI,
@@ -1084,20 +914,15 @@ export function transferCredit(
   repayment = false,
 ): CreditReceipt {
   policy(api);
-  const cash = new CashBatch(core, api),
-    staged = stageCredit(
-      core,
-      api,
-      cash,
-      facilityId,
-      requested,
-      reasonKey,
-      sourceId,
-      repayment,
-    );
-  cash.commit();
-  staged.commit();
-  return staged.receipt;
+  return transferFinanceCreditJournal(
+    core,
+    api,
+    facilityId,
+    requested,
+    reasonKey,
+    sourceId,
+    repayment,
+  );
 }
 
 export function settleFinanceContract(
@@ -1105,312 +930,8 @@ export function settleFinanceContract(
   api: CoreAPI,
   id: string,
 ): FinanceReceipt {
-  const data = policy(api),
-    row = core.finance.contracts.get(id),
-    p = api.parameter;
-  if (
-    !row ||
-    row.endedAt ||
-    row.dueAt > core.date ||
-    row.lastSettledAt === core.date
-  )
-    throw new Error(
-      "Finance contract is absent, retired, not due or already settled.",
-    );
-  currentSource(row.source, core.date);
-  if (row.endsAt && core.date >= row.endsAt)
-    throw new Error("Finite finance budget has ended.");
-  const next = financeNextDate(
-    api,
-    row.dueAt,
-    row.periodMonths,
-    row.billingDay,
-  );
-  if (next <= core.date)
-    throw new Error(
-      "Finance bills must settle chronologically, without skipped periods.",
-    );
-  const cash = new CashBatch(core, api),
-    before = cash.cash(row.payeeId);
-  for (const payer of row.payerIds) cash.cash(payer);
-  let base = row.amountMinor,
-    interestRemainder: number | undefined;
-  const payerBook = core.finance.businesses.get(row.payerIds[p("zero")]!);
-  const operating = payerBook?.costContractIds.includes(id) ?? false;
-  const interest = row.interestFacilityId
-    ? admittedFacility(core, api, row.interestFacilityId)
-    : undefined;
-  let salesBudget: SalesReceiptBudgetPool | undefined;
-  let salesBudgetBasis: SalesReceiptPendingBudget | undefined;
-  if (interest) {
-    const exact =
-      accruedInterest(core, api, interest.id) + interest.interestRemainderMinor;
-    amount(api, exact, "interest terms");
-    base = Math.floor(exact);
-    interestRemainder = exact - base;
-  } else if (row.salesReceiptBudget) {
-    salesBudget = core.finance.salesBudgetPoolsByPayer.get(
-      row.payerIds[p("zero")]!,
-    );
-    const request = salesBudget?.requestedByContract.get(row.id);
-    salesBudgetBasis = salesBudget?.basisByContract.get(row.id);
-    const pending = core.finance.salesPendingBudgetByContract.get(row.id);
-    if (
-      !operating ||
-      salesBudget?.date !== core.date ||
-      request === undefined ||
-      !salesBudgetBasis ||
-      (pending?.amountMinor ?? p("zero")) !== request ||
-      salesBudgetBasis.amountMinor !== request ||
-      salesBudgetBasis.payerId !== row.payerIds[p("zero")]
-    )
-      throw new Error(
-        "Receipt-linked procurement requires its validated frozen dated buyer pool.",
-      );
-    base = request;
-  } else if (row.marketAdjusted) {
-    const book = core.finance.businesses.get(row.payeeId);
-    if (book && book.anchorAnnualDemandMinor > p("zero"))
-      base = Math.floor(
-        (base * book.annualDemandMinor) / book.anchorAnnualDemandMinor,
-      );
-  }
-  minor(api, base, "current due amount");
-  minor(api, row.arrearsMinor, "prior arrears");
-  const requested = base + (row.accruesArrears ? row.arrearsMinor : p("zero"));
-  minor(api, requested, "due including arrears");
-  const receiptId = `finance:${core.date}:${row.id}`;
-  let credit: ReturnType<typeof stageCredit> | undefined;
-  if (!interest && row.creditFacilityId) {
-    const payer = row.payerIds[p("zero")]!;
-    const deficiency = Math.max(p("zero"), requested - cash.cash(payer));
-    if (deficiency > p("zero"))
-      credit = stageCredit(
-        core,
-        api,
-        cash,
-        row.creditFacilityId,
-        deficiency,
-        data.reasons.borrowing,
-        receiptId,
-      );
-  }
-  let remaining = requested;
-  const payments = row.payerIds.map((payerId) => {
-    const payerBeforeMinor = cash.cash(payerId),
-      requestedMinor = remaining;
-    const paidMinor = cash.move(payerId, row.payeeId, remaining);
-    remaining -= paidMinor;
-    return {
-      payerId,
-      requestedMinor,
-      paidMinor,
-      payerBeforeMinor,
-      payerAfterMinor: cash.cash(payerId),
-    };
-  });
-  const paid = requested - remaining,
-    arrears = row.accruesArrears ? remaining : p("zero");
-  const income = row.recipientIncome
-    ? residentIncomeProjection(
-        core,
-        api,
-        row.recipientIncome.personId,
-        row.recipientIncome.kindId,
-        paid,
-      )
-    : undefined;
-  const totals = totalsAfter(api, row.kind, {
-    requestedMinor: requested,
-    paidMinor: paid,
-    unfundedMinor: remaining,
-  });
-  const payeeBook = core.finance.businesses.get(row.payeeId);
-  if (payeeBook) minor(api, payeeBook.receivedMinor + paid, "firm receipts");
-  if (payeeBook && row.salesReceipt)
-    minor(api, payeeBook.salesReceivedMinor + paid, "firm sales receipts");
-  if (payerBook && operating)
-    minor(api, payerBook.operatingPaidMinor + paid, "firm operating payments");
-  const receipt: FinanceReceipt = {
-    id: receiptId,
-    contractId: id,
-    date: core.date,
-    kind: row.kind,
-    payeeId: row.payeeId,
-    requestedMinor: requested,
-    paidMinor: paid,
-    unfundedMinor: remaining,
-    arrearsMinor: arrears,
-    payments,
-    payeeBeforeMinor: before,
-    payeeAfterMinor: cash.cash(row.payeeId),
-    creditReceiptId: credit?.receipt.id,
-    ...(salesBudget
-      ? {
-          salesBudget: {
-            payerId: salesBudget.payerId,
-            previousReceivedMinor: salesBudget.previousReceivedMinor,
-            receivedThroughMinor: salesBudget.receivedThroughMinor,
-            receiptsMinor: salesBudget.receiptsMinor,
-            routeCostShare: salesBudget.routeCostShare,
-            allocatedMinor: salesBudget.allocatedMinor,
-            allocatedForContractMinor: salesBudget.allocatedByContract.get(
-              row.id,
-            )!,
-            pendingBeforeMinor: salesBudget.pendingBeforeByContract.get(
-              row.id,
-            )!,
-            consumedBudgetMinor: salesBudgetBasis!.amountMinor,
-            budgetFirstAllocatedAt: salesBudgetBasis!.firstAllocatedAt,
-            budgetPreviousReceivedMinor:
-              salesBudgetBasis!.previousReceivedMinor,
-            budgetReceivedThroughMinor: salesBudgetBasis!.receivedThroughMinor,
-          },
-        }
-      : {}),
-    source: actualSource(
-      api,
-      "Actual funded prototype standing-contract settlement; unpaid purchase budgets do not become debts. Separate terms retain their estimate/source provenance.",
-    ),
-  };
-  cash.commit();
-  credit?.commit();
-  row.arrearsMinor = arrears;
-  row.lastSettledAt = core.date;
-  // A due purchasing allowance is consumed even if actual cash cannot fill it.
-  if (salesBudget) core.finance.salesPendingBudgetByContract.delete(row.id);
-  if (arrears > p("zero")) row.firstUnpaidAt ??= core.date;
-  else delete row.firstUnpaidAt;
-  removeIndex(core.finance.contractsDueAt, row.dueAt, row.id);
-  row.dueAt = next;
-  if (!row.endsAt || next < row.endsAt)
-    financeIndex(core.finance.contractsDueAt, next, row.id);
-  if (interest) {
-    interest.interestArrearsMinor = arrears;
-    interest.interestRemainderMinor = interestRemainder!;
-    interest.unbilledInterestMinor = p("zero");
-    interest.lastAccruedAt = core.date;
-    interest.lastInterestAt = core.date;
-    core.finance.repaymentDueFacilityIds.add(interest.id);
-  }
-  if (payeeBook) payeeBook.receivedMinor += paid;
-  if (payeeBook && row.salesReceipt) payeeBook.salesReceivedMinor += paid;
-  if (payerBook && operating) payerBook.operatingPaidMinor += paid;
-  core.finance.totalsByKind.set(row.kind, totals);
-  core.finance.latestReceiptsByContract.set(id, receipt);
-  if (income) {
-    core.finance.paidIncomeByPlaceMonth.set(income.key, income.total);
-    core.finance.paidIncomeByPlaceMonthKind.set(income.kindKey, income.byKind);
-  }
-  if (row.accruesArrears && remaining > p("zero"))
-    for (const payerId of row.payerIds)
-      if (core.finance.businesses.has(payerId))
-        core.finance.unfundedBusinessReceipts.set(payerId, {
-          date: core.date,
-          id: receipt.id,
-        });
-  if (
-    core.observer ||
-    row.payerIds.some(
-      (payer) => core.focusPersonIds.has(payer) || core.playerId === payer,
-    ) ||
-    core.focusPersonIds.has(row.payeeId) ||
-    core.playerId === row.payeeId
-  )
-    core.finance.detailedReceipts.set(receipt.id, receipt);
-  return receipt;
-}
-
-/** Coupled wage admission is read-only until the original work writer commits. */
-export function prepareWorkFinance(
-  core: CoreState,
-  api: CoreAPI,
-  organizationId: string,
-  personId: string,
-  requested: number,
-  receiptId: string,
-) {
-  const book = core.finance.businesses.get(organizationId),
-    data = core.data.finance,
-    p = api.parameter;
-  const cash = new CashBatch(core, api);
-  const credits: ReturnType<typeof stageCredit>[] = [];
-  let deficiency = Math.max(p("zero"), requested - cash.cash(organizationId));
-  let creditTotals = core.finance.totalsByKind.get("credit");
-  const facilityIds = [
-    ...(core.finance.facilitiesByBorrower.get(organizationId) ?? []),
-  ].sort((a, b) => {
-    const rank = (id: string) =>
-      id === book?.creditFacilityId ? p("zero") : p("one");
-    return rank(a) - rank(b) || a.localeCompare(b);
-  });
-  if (!book?.closedAt && deficiency > p("zero"))
-    for (const id of facilityIds) {
-      if (deficiency <= p("zero")) break;
-      if (!data)
-        throw new Error("Recorded employer credit requires finance policy.");
-      const credit = stageCredit(
-        core,
-        api,
-        cash,
-        id,
-        deficiency,
-        data.reasons.borrowing,
-        receiptId,
-        false,
-        creditTotals,
-      );
-      deficiency -= credit.receipt.transferredMinor;
-      creditTotals = credit.totals;
-      credits.push(credit);
-    }
-  const available = cash.cash(organizationId),
-    expectedPaid = Math.min(requested, available);
-  // Validate the wage endpoint without committing it in this batch; work remains its sole payer.
-  minor(api, cash.cash(personId) + expectedPaid, "worker receiving balance");
-  const bookTotals = book
-    ? {
-        requested: book.wagesRequestedMinor + requested,
-        paid: book.wagesPaidMinor + expectedPaid,
-        unpaid: book.wagesUnpaidMinor + requested - expectedPaid,
-      }
-    : undefined;
-  if (bookTotals)
-    for (const [key, value] of Object.entries(bookTotals))
-      minor(api, value, `business wages:${key}`);
-  const incomeKind = core.data.finance?.wageIncomeKindId;
-  const income = incomeKind
-    ? residentIncomeProjection(core, api, personId, incomeKind, expectedPaid)
-    : undefined;
-  return {
-    availableCashMinor: available,
-    expectedPaidMinor: expectedPaid,
-    commitFunding() {
-      cash.commit();
-      for (const credit of credits) credit.commit();
-    },
-    record(receipt: WorkResult) {
-      if (receipt.id !== receiptId || receipt.paidMinor !== expectedPaid)
-        throw new Error("Work finance receipt differs from admitted payment.");
-      if (book && bookTotals) {
-        book.wagesRequestedMinor = bookTotals.requested;
-        book.wagesPaidMinor = bookTotals.paid;
-        book.wagesUnpaidMinor = bookTotals.unpaid;
-      }
-      if (book && receipt.shortfallMinor > p("zero"))
-        core.finance.unfundedBusinessReceipts.set(organizationId, {
-          date: core.date,
-          id: receipt.id,
-        });
-      if (income) {
-        core.finance.paidIncomeByPlaceMonth.set(income.key, income.total);
-        core.finance.paidIncomeByPlaceMonthKind.set(
-          income.kindKey,
-          income.byKind,
-        );
-      }
-    },
-  };
+  policy(api);
+  return settleFinanceContractJournal(core, api, id);
 }
 
 export function reviewBusiness(

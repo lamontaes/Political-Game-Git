@@ -245,7 +245,10 @@
   ],
   "publicPurchases": {
     "contractKind": "public.customer.custodial-services",
-    "buyerClassifications": ["sector:local-government-office"],
+    "buyerClassifications": [
+      "sector:local-government-office",
+      "service:county-government"
+    ],
     "governmentKinds": ["local-government"],
     "supplierClassifications": ["enterprise:building-services"],
     "supplierOccupations": ["occupation:janitor", "occupation:housekeeper"],
@@ -522,24 +525,72 @@
     "supplierClassifications": ["enterprise:lodging"],
     "supplierOccupations": ["occupation:hotel-clerk", "occupation:housekeeper"],
     "countPerMarketParameter": "openingCustomerOutsideHouseholdCountPerMarket",
-    "liquidUsdParameter": "openingCustomerOutsideHouseholdLiquidUsd",
     "incomePriorUsdParameter": "openingCustomerOutsideHouseholdIncomePriorUsd",
     "annualLodgingUsdParameter": "openingCustomerOutsideLodgingAnnualUsd",
-    "stockSourceRecordId": "scf-2022-family-transaction-accounts-middle-quintile",
-    "stockCoverage": "One independent outside family transaction-account pool. No duplicate member balances, recurring outside income, lender deposits or seller cash.",
     "stopgapId": "SG-P8-opening-customer-outside-households",
-    "citation": "SCF 2022 family transaction-account and income priors; https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, B1401; Census actual shared-county place/population records establish geography only. A fictional pre-start regional visit budget establishes WHO/PAST, not measured visit demand."
+    "citation": "SCF 2022 family income is context only; https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx, B1401 supplies an estimated standing lodging amount. Census actual shared-county place/population records establish geography only. Independent saved identity and visit-agreement records establish the modeled payer and due scope, not measured visit demand or wealth.",
+    "openingFundingRole": "zero-stock-dated-obligation-flow; SCF wealth is not an opening stock, recurring income or payment authority",
+    "identityScope": "Default IDs are distinct ESTIMATED synthetic edge identities; only an explicitly supplied actual owner/identity mapping deduplicates families across edges."
   },
   "stopgapIds": [
     "SG-P8-opening-customer-generation",
     "SG-P8-opening-customer-public-procurement",
-    "SG-P8-opening-customer-outside-households"
+    "SG-P8-opening-customer-outside-households",
+    "SG-P8-opening-public-owner-history",
+    "SG-P8-opening-public-owner-coverage",
+    "SG-P8-public-payroll-due-flow",
+    "SG-P8-outside-product-demand-crosswalk",
+    "SG-P8-customer-due-calendar-renewal"
   ],
   "remainingUnsupported": [
     "Gasoline or drug/medical-product sales without recorded product-compatible suppliers; no general store becomes a gas station/pharmacy.",
     "Hospital insurer/Medicare/Medicaid purchases, nursing-home residence bills and private-school tuition without recorded provider/beneficiary/enrollment scope.",
     "Manufacturing, agriculture, quarry, construction and trucking external demand without product scope and independently funded buyer needs.",
     "Tax/aid income, firm financing, loan/capital receipts and public institution funding remain owned by other producers.",
-    "Default outside-market Census county join covers the 50 states and D.C.; caller-supplied actual geographic visit records support other places through the same rule. Missing joins are disclosed, with household services using labeled national priors."
-  ]
+    "Default outside-market Census county join covers the 50 states and D.C.; caller-supplied actual geographic visit records support other places through the same rule. Missing joins are disclosed, with household services using labeled national priors.",
+    "Insurance and realty purchases without actual insured risk/policy or property/customer agreement, product scope, price and qualifications. No payroll projection becomes an invoice. SG-P8-outside-product-demand-crosswalk remains open for every unqualified business class."
+  ],
+  "externalInflowKinds": {
+    "publicProcurement": "external.public-procurement",
+    "outsidePurchases": "external.customer.visitor-lodging"
+  },
+  "customerCalendarRole": "Fresh household components use the actual owned work or recipient-income calendar, with a sourced explicit fallback only when no wage/income calendar is admitted. Public and visitor modeled agreements retain their own explicit next-period-month dates. Actual supplied terms and ends are preserved; statistical source years imply no expiry.",
+  "unsupportedExternalDemandByClassification": {
+    "enterprise:transportation": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual shipper/customer, origin/destination and freight service/order, carrier qualification, due freight price/quantity and delivery/payment basis. CFS shipment value is not a carrier invoice or a freight-service price."
+    },
+    "enterprise:agriculture": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual crop/livestock/product and producer scope, qualified buyer/market and dated quantity/price. General agricultural classification is not proof of a product, harvest or demand."
+    },
+    "enterprise:construction": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual project/property/client, construction agreement, stage/retainer/progress terms and dated payable. No generic county public works award follows from the firm name."
+    },
+    "enterprise:insurance": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual policy/client and licensed service/provider role, commission or service-fee terms and date. Agency/broker fees must stay distinct from insurer premium pools and risk claims."
+    },
+    "enterprise:real-estate": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual property/client/transaction and broker service with commission/fee amount and due event. A realty service receipt is not property capital or a household rent bill."
+    },
+    "enterprise:manufacturing": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual produced commodity/product scope, qualified plant/provider, independent buyer need/order and due quantity/price. Payroll-derived projected demand supplies no order or payer authority."
+    },
+    "service:nursing-home": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual resident/beneficiary and care agreement, qualified provider/service interval, real private/program payer and dated terms. No Medicare/Medicaid or universal public payer is inferred."
+    },
+    "enterprise:mining": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual mineral/aggregate product and buyer order, qualified supplier, dated quantity and price. Commodity flow categories require an explicit product crosswalk."
+    },
+    "service:private-school": {
+      "stopgapId": "SG-P8-outside-product-demand-crosswalk",
+      "missingSourceInputs": "Actual pupil/enrollment and school/provider, tuition period and due amount, real guardian/scholarship payer. Private enrollment is not generated public-school payroll authority."
+    }
+  }
 }
