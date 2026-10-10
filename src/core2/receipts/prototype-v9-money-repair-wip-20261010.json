@@ -1,0 +1,181 @@
+{
+  "schema": "p8-money-repair-wip-v9",
+  "status": "WORK_IN_PROGRESS_NOT_READY_NOT_ACCEPTED",
+  "createdAtUtc": "2026-10-10T01:00:16.295203+00:00",
+  "baseLocalCommit": "718142239291f85a153c301f3c46485e6bcd4e65",
+  "coreVersions": {
+    "api": "core2-api-v9",
+    "schema": "core2-schema-v9"
+  },
+  "openStopgapCount": 81,
+  "newAnnualResult": null,
+  "newAnnualDaysPerMinute": null,
+  "annualConditions": "flat national conditions, no national economy module yet",
+  "preservedAnnualBaseline": {
+    "evidence": "src/core2/receipts/prototype-v6-finance-year-audit-20261009.json",
+    "withoutFinanceMedianDaysPerMinute": 96.469205738,
+    "rejectedFinanceMedianDaysPerMinute": 124.510561475,
+    "rejectedFinanceClosures": 23,
+    "rejectedFinanceBookedEmployers": 27,
+    "rejectedFinanceEndedJobs": 1264,
+    "targetYearSecondsExclusive": 120
+  },
+  "freshOpening": {
+    "evidencePath": "/workspace/p8-benchmark-artifacts/p8-opening-due-flows-v9-20261010-0037.json",
+    "evidenceSha256": "f581484395bb87d9ac6e6396f37d6668a06855715475dcd05ec00962ee9938c7",
+    "seed": "p8-real-life-cost-2026-10-09",
+    "startedAt": "2021-01-01",
+    "place": {
+      "placeKey": "4840342",
+      "placeName": "La Homa, Texas",
+      "countyNames": "Hidalgo County, Texas"
+    },
+    "populationCounts": {
+      "people": 10002,
+      "households": 3955,
+      "jobs": 1433,
+      "organizations": 39
+    },
+    "focusPeople": 57,
+    "populationMilliseconds": 9519.626983,
+    "coreInitializeMilliseconds": 1296.7988600000026,
+    "simulatedDays": 0,
+    "preparedInputSha256": "99d6dff64f93f2ce8a00d24df33af52a8c02484e5289ec752e1a07124c6142c8",
+    "sourceHashAtFactory": "d934b246644bdd848c59f59467a30fcb141bcde61d6c1102b23131329e354eb8",
+    "limitation": "Opening includes no simulated days and is not an annual speed proof."
+  },
+  "executedGates": [
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-money-repair-v9-interim-gate-20261010-0045.json",
+      "sha256": "4a81df5d5dd512c35f5b3b820363fa88de64574592a6859800fa721b4ce60319",
+      "startTime": 1791593126422,
+      "totalTests": 665,
+      "passedTests": 658,
+      "failedTests": 7,
+      "success": false,
+      "scope": "Earlier combined admission before the final repairs; seven failures remain historical evidence, not a current pass."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-county-standing-coverage-v1-gate-20261010-0100.json",
+      "sha256": "262da0f437cb3226d58fc11fc3f04fdd0bff359109658b9cc67b3153abef2e78",
+      "startTime": 1791593597072,
+      "totalTests": 60,
+      "passedTests": 60,
+      "failedTests": 0,
+      "success": true,
+      "scope": "County original coverage and public pay, including later person admissions; conditional technical proof, not a full-year result."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-calendar-capital-fixture-repair-20261010-0059.json",
+      "sha256": "92b49283b24c8ba94caff10b049b9728196d490954809db4b77dff9e6a21fe11",
+      "startTime": 1791593942279,
+      "totalTests": 78,
+      "passedTests": 78,
+      "failedTests": 0,
+      "success": true,
+      "scope": "Household recurrence and employer capital after two stale fixture repairs; existing assertions retained, conditional technical proof."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-money-repair-v9-final-gate-20261010-0113.json",
+      "sha256": "52ce5e197c7d62c93e44938e4df157225a0a22912cce60ba775b7f933545b177",
+      "startTime": 1791594798133,
+      "totalTests": 870,
+      "passedTests": 869,
+      "failedTests": 1,
+      "success": false,
+      "scope": "Combined 23 affected suites. All 50 supplied-invoice cases and 26 standing-county cases passed. Its sole malformed saved-data error case was repaired and is covered by the subsequent 191/191 gate; this historical result is not relabeled."
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-money-repair-v9-final-boundary-gate-20261010-0125.json",
+      "sha256": "3ca371a2e9b5ae11c68f0effa50c725acb80988d26e3b8c8ac3ff1a82188fd8f",
+      "startTime": 1791595505327,
+      "totalTests": 191,
+      "passedTests": 191,
+      "failedTests": 0,
+      "success": true,
+      "scope": "Latest three affected suites after the sole malformed saved-customer parse repair and real marker registration; all existing assertions retained."
+    }
+  ],
+  "inferredImplementation": {
+    "cash": "Cash writes use the atomic journal; supplied raw optional terms remain unchanged. Outside owners start with zero cash and require current source-owned obligations.",
+    "employerCapital": "Fresh private stocks use identity-keyed spread through JPMC observed quartile/median buffer anchors and recorded planned outflow proxies. Individual stocks and endpoints remain estimated.",
+    "householdDates": "Fresh generated monthly purchases keep nominal billing cadence and use an owned wage or qualified benefit opportunity only when eligible within the next billing period. Otherwise they keep the nominal date with an explicit estimated missing-income basis.",
+    "countyStandingCoverage": "Standing public obligations validate saved original count and geography without rebudgeting after later population changes.",
+    "limits": [
+      "Calendar renewal does not retroactively move an already indexed occurrence after an unexpected intervening job change.",
+      "Nine unsupported product classifications remain declared demand gaps; no buyers or deficit funding are invented.",
+      "Public and outside payments remain stopgaps for public-budget and national modules.",
+      "Latest affected customer, historical-owner and standing-county suites passed 191/191 after the sole malformed saved-customer boundary repair. Historical combined gate remains recorded as 869/870, not relabeled."
+    ]
+  },
+  "next": [
+    "Complete the repaired full-year measurement and judge closures, wage funding and speed before interface implementation.",
+    "Measure a full year with one warmup and three measured runs; judge closures and wage funding.",
+    "Then complete the four remaining approved interfaces (module state, accounts/postJournal, module calendar, cohorts), PEOPLE, RENEWAL and SPEED in the binding CTO order."
+  ],
+  "publication": "Draft checkpoint only; no merge, READY or game integration.",
+  "bindingOrderEvidence": {
+    "document": "00q CODEX LOG",
+    "documentId": "1DpVG1S39-SY7ZrJ38_3HEnd7QxYBqcaVFs-D5nh7k-M",
+    "entry": "OPUS CTO REVIEW 16, October 9, 2026, 7:01 p.m.; reaffirmed 7:11 p.m.",
+    "order": "money repair and judged full year, four remaining interfaces before PEOPLE, then PEOPLE, RENEWAL, SPEED"
+  },
+  "structuralAudit": {
+    "path": "/workspace/p8-benchmark-artifacts/p8-tripwire-v9-streaming-20261010-0151.json",
+    "sha256": "f19a656d5779afca9acde6fe873c35880c767c41ac07f1617526b2b36ef5ec58",
+    "openStopgaps": 81,
+    "diagnostics": 0,
+    "calibrationReferences": 61,
+    "pendingCalibrationBlockers": 110,
+    "empiricalCalibrationPass": false
+  },
+  "sourceChecks": {
+    "path": "/workspace/p8-benchmark-artifacts/p8-money-repair-v9-final-source-checks-20261010-0129.json",
+    "strictTypesExitCode": 0,
+    "eslintExitCode": 0,
+    "zeroDiceExitCode": 0,
+    "formatting": "69 owned source/check paths formatted successfully; no unowned receipt admitted."
+  },
+  "annualAttempts": [
+    {
+      "log": "/workspace/p8-benchmark-artifacts/p8-money-repair-v9-economy-year-after-20261010-0131.log",
+      "sha256": "042a7275087586e5fa418b598c90e82be40bb2a95a5947bb65dd5547b4a0122d",
+      "exitCode": 1,
+      "failure": "RangeError: Invalid string length",
+      "stage": "Finance input export preparation: aggregate JSON.stringify at finance-measure.ts:379:44. No warmup began and no annual run completed.",
+      "completedAnnualRuns": 0,
+      "measuredAnnualDaysPerMinute": null,
+      "diagnostic": {
+        "log": "/workspace/p8-benchmark-artifacts/p8-money-v9-preparation-stack-20261010-0136.log",
+        "sha256": "cc711b0a9d9c3070649bca59de4255e456c8b143c735298ed5d4884eb81c3be0",
+        "exitCode": 1,
+        "stackLocation": "src/core2/tooling/finance-measure.ts:379:44",
+        "purpose": "Repeat only preparation to locate the failure; not an annual run or rate."
+      }
+    }
+  ],
+  "exportToolingRepair": {
+    "scope": "Measurement exports and hashes only. Plain records and arrays stream through bounded chunks; no simulation handler, run count, timing window or outcome rule changed.",
+    "gate": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-measured-json-stream-final-gate-20261010-0149.json",
+      "sha256": "b1cbe6f986b71f2fe7c7385cded1b5894ff3c2096e4afb3aed109c23b3c1d670",
+      "totalTests": 2,
+      "passedTests": 2,
+      "failedTests": 0,
+      "success": true
+    },
+    "sourceChecks": {
+      "path": "/workspace/p8-benchmark-artifacts/p8-measured-json-stream-final-checks-20261010-0149.json",
+      "sha256": "1ed47ebf600cee280d189165228c2e6f9fbba74ddce11ad7c8479a5ae91a83b9",
+      "formatExitCode": 0,
+      "strictTypesExitCode": 0,
+      "eslintExitCode": 0,
+      "zeroDiceExitCode": 0
+    },
+    "limits": [
+      "The above-string-limit regression streams to an incremental hash sink. File byte/hash oracles use smaller values; it is not an annual measurement.",
+      "The output buffer is one MiB; additional memory includes the largest scalar token, object keys and recursion depth. This is not a universal one-MiB memory bound.",
+      "Finance input bytes remain compact with no newline. Other export newline conventions and final two-space receipt formatting are preserved."
+    ]
+  }
+}

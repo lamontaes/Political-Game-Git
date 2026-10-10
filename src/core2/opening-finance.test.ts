@@ -5,12 +5,16 @@ import type {
   CreditFacilityInput,
   FinanceContractInput,
 } from "./finance-types";
+import { advanceCore, createLifeCore } from "./life";
+import { financeNextDate } from "./finance-state";
 import {
   createOpeningFinance,
   DEFAULT_OPENING_FINANCE_DATA,
   type OpeningFinanceOptions,
 } from "./opening-finance";
-import { parameter as p } from "./parameters";
+import { parameter as p, PARAMETERS } from "./parameters";
+import { createOpeningPurchaseCalendar } from "./opening-purchase-calendar";
+import { coreAPI } from "./state";
 import type { CoreInput, Source } from "./types";
 
 const at = "2021-01-01";
@@ -137,7 +141,7 @@ describe("opening finance bindings (fixtures only, no settlement writer)", () =>
     for (const contract of result.contracts) {
       expect(contract.amountMinor).toBeGreaterThan(p("zero"));
       expect(Number.isSafeInteger(contract.amountMinor)).toBe(true);
-      expect(contract.dueAt).toBe("2021-02-01");
+      expect(contract.dueAt).toBe("2021-01-02");
       expect(contract.accruesArrears).toBe(false);
       expect(contract.source.tag).toBe("ESTIMATED");
       expect(
@@ -606,7 +610,7 @@ describe("opening finance bindings (fixtures only, no settlement writer)", () =>
     ).toBe(false);
   });
 
-  it("retains supplied category budgets without generating a duplicate component and rolls a December opening into January", () => {
+  it("retains supplied category budgets without generating a duplicate component and starts a December opening on its next advanced day", () => {
     const input = fixture(),
       supplied: FinanceContractInput = {
         id: "known-food-budget",
@@ -636,7 +640,7 @@ describe("opening finance bindings (fixtures only, no settlement writer)", () =>
       options(),
     );
     expect(new Set(december.contracts.map((row) => row.dueAt))).toEqual(
-      new Set(["2022-01-01"]),
+      new Set(["2021-12-16"]),
     );
   });
 
@@ -691,5 +695,721 @@ describe("opening finance bindings (fixtures only, no settlement writer)", () =>
     expect(again.businesses).toEqual(first.businesses);
     expect(again.facilities).toEqual(first.facilities);
     expect(enriched).toEqual(before);
+  });
+});
+
+describe("estimated opening purchase calendar (controlled fixtures, no world evidence)", () => {
+  it("gives fresh household and business budgets a positive within-January date with explicit estimated provenance and no source-year end", () => {
+    const input = fixture(),
+      before = structuredClone(input),
+      result = createOpeningFinance(input, options()),
+      calendar = DEFAULT_OPENING_FINANCE_DATA.openingPurchaseCalendar;
+    expect(calendar.householdFirstDueRule).toBe(
+      "first-recorded-income-calendar-date-after-opening",
+    );
+    expect(calendar.source.tag).toBe("ESTIMATED");
+    expect(result.contracts.some((row) => row.householdId)).toBe(true);
+    expect(
+      result.contracts.some((row) => row.kind === "business.sales-input"),
+    ).toBe(true);
+    expect(result.gaps).toContain(calendar.stopgapId);
+    for (const contract of result.contracts) {
+      expect(contract.dueAt).toBe("2021-01-02");
+      expect(contract.amountMinor).toBeGreaterThan(p("zero"));
+      expect(contract.periodMonths).toBe(p("openingFinancePeriodMonths"));
+      expect(contract).not.toHaveProperty("endsAt");
+      expect(contract.source.asOf).toBe(input.startedAt);
+      expect(contract.source.citation).toContain(calendar.source.citation);
+      expect(contract.source.estimatedFrom).toContain(
+        calendar.source.estimatedFrom,
+      );
+      expect(contract.source.estimatedFrom).toContain(calendar.stopgapId);
+    }
+    expect(input).toEqual(before);
+  });
+
+  it("settles actual finite-cash household purchases on the first advanced January day exactly once", () => {
+    const input = fixture(),
+      finance = createOpeningFinance(input, options()),
+      core = createLifeCore({ ...input, finance }, { scheduledWork: false }),
+      totalCash = () =>
+        [...core.people.values(), ...core.organizations.values()].reduce(
+          (sum, row) => sum + row.liquidMinor,
+          p("zero"),
+        ),
+      beforeMinor = totalCash();
+    expect(core.date).toBe(at);
+    expect(core.finance.latestReceiptsByContract.size).toBe(p("zero"));
+    const firstAdvance = advanceCore(core, "2021-01-02");
+    const householdReceipts = finance.contracts
+      .filter((row) => row.householdId !== undefined)
+      .map((row) => core.finance.latestReceiptsByContract.get(row.id)!);
+    expect(firstAdvance.simulatedDays).toBe(p("one"));
+    expect(firstAdvance.decisions).toBe(p("zero"));
+    expect(householdReceipts.length).toBeGreaterThan(p("zero"));
+    expect(
+      householdReceipts.reduce((sum, row) => sum + row.paidMinor, p("zero")),
+    ).toBeGreaterThan(p("zero"));
+    for (const receipt of householdReceipts) {
+      expect(receipt.date).toBe("2021-01-02");
+      const term = core.finance.contracts.get(receipt.contractId)!;
+      expect(term.firstDueAt).toBe("2021-01-02");
+      expect(term.dueAt).toBe("2021-02-02");
+      expect(term.lastSettledAt).toBe("2021-01-02");
+      expect(term.arrearsMinor).toBe(p("zero"));
+    }
+    expect(totalCash()).toBe(beforeMinor);
+    const settled = structuredClone([...core.finance.latestReceiptsByContract]);
+    advanceCore(core, "2021-01-03");
+    expect([...core.finance.latestReceiptsByContract]).toEqual(settled);
+    expect(totalCash()).toBe(beforeMinor);
+  });
+
+  it("preserves a supplied future budget's actual due, end, amount, cadence, billing day and Source", () => {
+    const input = fixture(),
+      supplied: FinanceContractInput = {
+        id: "recorded-future-food-term",
+        householdId: "household:store",
+        payerIds: ["worker:store"],
+        payeeId: "kitchen",
+        kind: "household.food",
+        amountMinor: p("minorPerDollar"),
+        dueAt: "2021-02-19",
+        endsAt: "2021-11-19",
+        periodMonths: p("two"),
+        accruesArrears: false,
+        salesReceipt: true,
+        source,
+      },
+      finance = createOpeningFinance(
+        input,
+        options({ recordedContracts: [supplied] }),
+      ),
+      core = createLifeCore({ ...input, finance }, { scheduledWork: false }),
+      term = core.finance.contracts.get(supplied.id)!;
+    expect(finance.contracts.find((row) => row.id === supplied.id)).toEqual(
+      supplied,
+    );
+    expect(term.firstDueAt).toBe(supplied.dueAt);
+    expect(term.endsAt).toBe(supplied.endsAt);
+    expect(term.billingDay).toBe(new Date(supplied.dueAt).getUTCDate());
+    expect(
+      financeNextDate(
+        coreAPI(core),
+        term.dueAt,
+        term.periodMonths,
+        term.billingDay,
+      ),
+    ).toBe("2021-04-19");
+    advanceCore(core, "2021-01-02");
+    expect(term.dueAt).toBe(supplied.dueAt);
+    expect(term.lastSettledAt).toBeUndefined();
+    expect(core.finance.latestReceiptsByContract.has(supplied.id)).toBe(false);
+    expect(term.source).toEqual(supplied.source);
+    expect(term.source.estimatedFrom).not.toContain(
+      "opening purchase-calendar",
+    );
+  });
+
+  it.each([
+    ["2021-12-31", "2022-01-01"],
+    ["2024-02-28", "2024-02-29"],
+    ["2024-02-29", "2024-03-01"],
+  ])(
+    "uses the exact next calendar day for %s without generating a statistical-year expiry",
+    (startedAt, dueAt) => {
+      const input = { ...fixture(), startedAt },
+        before = structuredClone(input),
+        result = createOpeningFinance(input, options());
+      expect(result.contracts.length).toBeGreaterThan(p("zero"));
+      expect(new Set(result.contracts.map((row) => row.dueAt))).toEqual(
+        new Set([dueAt]),
+      );
+      expect(result.contracts.every((row) => row.endsAt === undefined)).toBe(
+        true,
+      );
+      expect(input).toEqual(before);
+    },
+  );
+
+  it("retains the generated first-due billing day through a short month and returns to the original day", () => {
+    const input = { ...fixture(), startedAt: "2021-01-30" },
+      finance = createOpeningFinance(input, options()),
+      core = createLifeCore({ ...input, finance }, { scheduledWork: false }),
+      api = coreAPI(core),
+      term = [...core.finance.contracts.values()][p("zero")]!;
+    expect(term.firstDueAt).toBe("2021-01-31");
+    expect(term.billingDay).toBe(new Date(term.firstDueAt).getUTCDate());
+    const february = financeNextDate(
+      api,
+      term.firstDueAt,
+      term.periodMonths,
+      term.billingDay,
+    );
+    expect(february).toBe("2021-02-28");
+    expect(
+      financeNextDate(api, february, term.periodMonths, term.billingDay),
+    ).toBe("2021-03-31");
+  });
+
+  it("keeps the existing multi-month amount and cadence while the generated first due remains the next day", () => {
+    const input = fixture(),
+      monthly = createOpeningFinance(input, options()),
+      periodMonths = p("two"),
+      registry = {
+        ...PARAMETERS,
+        openingFinancePeriodMonths: {
+          ...PARAMETERS.openingFinancePeriodMonths!,
+          value: periodMonths,
+        },
+      },
+      multiple = createOpeningFinance(
+        input,
+        options({ books: { parameters: registry } }),
+      );
+    expect(multiple.contracts.map((row) => row.id)).toEqual(
+      monthly.contracts.map((row) => row.id),
+    );
+    for (const term of multiple.contracts) {
+      const prior = monthly.contracts.find((row) => row.id === term.id)!;
+      expect(term.dueAt).toBe("2021-01-02");
+      expect(term.periodMonths).toBe(periodMonths);
+      expect(term.amountMinor).toBe(
+        (prior.amountMinor * periodMonths) / prior.periodMonths,
+      );
+      expect(term.payerIds).toEqual(prior.payerIds);
+      expect(term.payeeId).toBe(prior.payeeId);
+      expect(term.accruesArrears).toBe(prior.accruesArrears);
+    }
+  });
+
+  it("rejects missing, unsupported, unregistered or falsely sourced opening calendar metadata before altering input", () => {
+    const input = fixture(),
+      before = structuredClone(input),
+      calendar = DEFAULT_OPENING_FINANCE_DATA.openingPurchaseCalendar;
+    for (const change of [
+      { householdFirstDueRule: "first-next-period-month" },
+      { source: { ...calendar.source, tag: "SOURCED" } },
+      { source: { ...calendar.source, citation: "" } },
+      { source: { ...calendar.source, estimatedFrom: "" } },
+    ]) {
+      expect(() =>
+        createOpeningFinance(
+          input,
+          options({
+            data: {
+              ...DEFAULT_OPENING_FINANCE_DATA,
+              openingPurchaseCalendar: { ...calendar, ...change },
+            },
+          }),
+        ),
+      ).toThrow(/estimated first-due rule/);
+    }
+    expect(() =>
+      createOpeningFinance(
+        input,
+        options({
+          data: {
+            ...DEFAULT_OPENING_FINANCE_DATA,
+            openingPurchaseCalendar: undefined as unknown as typeof calendar,
+          },
+        }),
+      ),
+    ).toThrow(/estimated first-due rule/);
+    expect(() =>
+      createOpeningFinance(
+        input,
+        options({
+          data: {
+            ...DEFAULT_OPENING_FINANCE_DATA,
+            openingPurchaseCalendar: {
+              ...calendar,
+              stopgapId: "SG-P8-unregistered-calendar-fixture",
+            },
+          },
+        }),
+      ),
+    ).toThrow(/stopgap/i);
+    expect(input).toEqual(before);
+  });
+
+  it("rejects a substituted delay in the exact simulation unit instead of sizing the due date from it", () => {
+    const input = fixture(),
+      before = structuredClone(input);
+    for (const value of [p("zero"), p("two")]) {
+      expect(() =>
+        createOpeningFinance(
+          input,
+          options({
+            books: {
+              parameters: { ...PARAMETERS, one: { ...PARAMETERS.one!, value } },
+            },
+          }),
+        ),
+      ).toThrow(/exact one-day simulation step/);
+    }
+    expect(input).toEqual(before);
+  });
+});
+
+describe("recorded household payday opening phase (source-only candidate fixtures)", () => {
+  const forHousehold = (
+    finance: ReturnType<typeof createOpeningFinance>,
+    id: string,
+  ) => finance.contracts.filter((row) => row.householdId === id);
+  const scheduled = (
+    input: CoreInput,
+    jobId: string,
+    offsetDays: number,
+    anchorDate = at,
+  ) => ({
+    ...input,
+    workCommitments: input.workCommitments!.map((row) =>
+      row.jobId === jobId
+        ? {
+            ...row,
+            periodDays: p("daysPerWeek"),
+            anchorDate,
+            slots: [
+              {
+                offsetDays,
+                startMinute: p("zero"),
+                minutes: p("minutesPerHour"),
+              },
+            ],
+            expectedWeeklyMinutes: p("minutesPerHour"),
+          }
+        : row,
+    ),
+  });
+  const noWage = (input: CoreInput, personId = "worker:store"): CoreInput => ({
+    ...input,
+    people: input.people.map((person) =>
+      person.id === personId ? { ...person, jobId: undefined } : person,
+    ),
+    workCommitments: input.workCommitments?.filter(
+      (commitment) => commitment.personId !== personId,
+    ),
+  });
+  const awarded = (
+    input: CoreInput,
+    dueAt: string,
+  ): { input: CoreInput; income: FinanceContractInput } => {
+    const awardId = "calendar-fixture:actual-cash-award",
+      personId = "worker:store",
+      householdId = "household:store",
+      income: FinanceContractInput = {
+        id: "calendar-fixture:actual-income-terms",
+        payerIds: ["bank"],
+        payeeId: personId,
+        kind: "income.retirement",
+        amountMinor: p("minorPerDollar"),
+        dueAt,
+        periodMonths: p("one"),
+        accruesArrears: false,
+        recipientIncome: {
+          personId,
+          householdId,
+          kindId: "retirement",
+          sourceFactId: awardId,
+        },
+        source,
+      };
+    return {
+      input: {
+        ...noWage(input),
+        people: noWage(input).people.map((person) =>
+          person.id === personId
+            ? {
+                ...person,
+                pastFacts: [
+                  {
+                    id: awardId,
+                    date: at,
+                    kind: "income:monthly-award",
+                    summary:
+                      "Controlled recorded cash entitlement; this fixture supplies it explicitly.",
+                    source,
+                    facts: {
+                      status: "in-payment",
+                      basis: "standing-entitlement",
+                      paymentMedium: "cash",
+                      payerId: "bank",
+                      monthlyMinor: String(income.amountMinor),
+                      kindId: "retirement",
+                      householdId,
+                    },
+                  },
+                ],
+              }
+            : person,
+        ),
+      },
+      income,
+    };
+  };
+
+  it("uses different actual employer anchors without synchronizing all household or business dates", () => {
+    const input = scheduled(
+        scheduled(fixture(), "job:store", p("zero"), "2021-01-04"),
+        "job:kitchen",
+        p("zero"),
+        "2021-01-06",
+      ),
+      before = structuredClone(input),
+      finance = createOpeningFinance(input, options());
+    expect(
+      new Set(forHousehold(finance, "household:store").map((row) => row.dueAt)),
+    ).toEqual(new Set(["2021-01-04"]));
+    expect(
+      new Set(
+        forHousehold(finance, "household:kitchen").map((row) => row.dueAt),
+      ),
+    ).toEqual(new Set(["2021-01-06"]));
+    expect(
+      finance.contracts
+        .filter((row) => !row.householdId)
+        .every((row) => row.dueAt === "2021-01-02"),
+    ).toBe(true);
+    expect(
+      forHousehold(finance, "household:store").every((row) =>
+        row.source.estimatedFrom?.includes("commitment:job:store"),
+      ),
+    ).toBe(true);
+    expect(input).toEqual(before);
+  });
+
+  it("changes opening phase alone while preserving every generated monthly amount, participant and period", () => {
+    const input = fixture(),
+      // Hold the recorded annual plans fixed so changing a schedule does not
+      // independently change the financial projection's supplier weights.
+      fixedOptions = options({
+        recordedAnnualPay: input.jobs.map((job) => ({
+          jobId: job.id,
+          annualMinor: Math.round(job.wageDailyMinor * p("daysPerMeanYear")),
+          source,
+        })),
+      }),
+      baseline = createOpeningFinance(input, fixedOptions),
+      changed = createOpeningFinance(
+        scheduled(input, "job:store", p("zero"), "2021-01-04"),
+        fixedOptions,
+      );
+    expect(changed.contracts.map((row) => row.id)).toEqual(
+      baseline.contracts.map((row) => row.id),
+    );
+    for (const row of changed.contracts) {
+      const prior = baseline.contracts.find((term) => term.id === row.id)!;
+      expect([
+        row.amountMinor,
+        row.periodMonths,
+        row.payerIds,
+        row.payeeId,
+        row.accruesArrears,
+        row.endsAt,
+      ]).toEqual([
+        prior.amountMinor,
+        prior.periodMonths,
+        prior.payerIds,
+        prior.payeeId,
+        prior.accruesArrears,
+        prior.endsAt,
+      ]);
+    }
+  });
+
+  it("uses actual dated cash-benefit or pension terms only for the no-wage household and leaves those terms intact", () => {
+    const recorded = awarded(fixture(), "2021-01-19"),
+      before = structuredClone(recorded),
+      finance = createOpeningFinance(
+        recorded.input,
+        options({ recordedContracts: [recorded.income] }),
+      );
+    expect(
+      new Set(forHousehold(finance, "household:store").map((row) => row.dueAt)),
+    ).toEqual(new Set([recorded.income.dueAt]));
+    expect(
+      finance.contracts.find((row) => row.id === recorded.income.id),
+    ).toEqual(recorded.income);
+    expect(
+      forHousehold(finance, "household:store").every((row) =>
+        row.source.estimatedFrom?.includes(
+          recorded.income.recipientIncome!.sourceFactId,
+        ),
+      ),
+    ).toBe(true);
+    expect(finance.gaps).not.toContain(
+      `${DEFAULT_OPENING_FINANCE_DATA.openingPurchaseCalendar.missingIncomeGap}:household:store`,
+    );
+    expect(recorded).toEqual(before);
+  });
+
+  it("preserves a supplied future award calendar without inventing an earlier January entitlement", () => {
+    const recorded = awarded(fixture(), "2021-02-19"),
+      finance = createOpeningFinance(
+        recorded.input,
+        options({ recordedContracts: [recorded.income] }),
+      );
+    expect(
+      forHousehold(finance, "household:store").every(
+        (row) => row.dueAt === "2021-02-19",
+      ),
+    ).toBe(true);
+    expect(finance.contracts.filter((row) => row.recipientIncome)).toEqual([
+      recorded.income,
+    ]);
+  });
+
+  it("uses an existing expense date as a declared fallback, never converting it to income", () => {
+    const input = noWage(fixture()),
+      expense: FinanceContractInput = {
+        id: "calendar-fixture:recorded-expense",
+        householdId: "household:store",
+        payerIds: ["worker:store"],
+        payeeId: "kitchen",
+        kind: "household.food",
+        amountMinor: p("minorPerDollar"),
+        dueAt: "2021-01-23",
+        endsAt: "2021-12-23",
+        periodMonths: p("two"),
+        accruesArrears: false,
+        source,
+      },
+      finance = createOpeningFinance(
+        input,
+        options({ recordedContracts: [expense] }),
+      );
+    expect(finance.contracts.find((row) => row.id === expense.id)).toEqual(
+      expense,
+    );
+    expect(
+      forHousehold(finance, "household:store").every(
+        (row) => row.dueAt === expense.dueAt,
+      ),
+    ).toBe(true);
+    expect(finance.gaps).toContain(
+      `${DEFAULT_OPENING_FINANCE_DATA.openingPurchaseCalendar.missingIncomeGap}:household:store`,
+    );
+    expect(
+      finance.contracts.some(
+        (row) => row.recipientIncome?.personId === "worker:store",
+      ),
+    ).toBe(false);
+  });
+
+  it("declares missing income timing and a calendar-only fallback without manufacturing a job, award or balance", () => {
+    const input = noWage(fixture()),
+      before = structuredClone(input),
+      finance = createOpeningFinance(input, options()),
+      householdTerms = forHousehold(finance, "household:store");
+    expect(householdTerms.length).toBeGreaterThan(p("zero"));
+    expect(householdTerms.every((row) => row.dueAt === "2021-02-01")).toBe(
+      true,
+    );
+    expect(
+      householdTerms.every((row) =>
+        row.source.estimatedFrom?.includes("explicit calendar-only fallback"),
+      ),
+    ).toBe(true);
+    expect(finance.gaps).toContain(
+      `${DEFAULT_OPENING_FINANCE_DATA.openingPurchaseCalendar.missingIncomeGap}:household:store`,
+    );
+    expect(finance.contracts.some((row) => row.recipientIncome)).toBe(false);
+    expect(input).toEqual(before);
+  });
+
+  it("does not infer income timing from retirement age, title, liquid stock or unowned historical jobs", () => {
+    const input = noWage(fixture()),
+      altered = {
+        ...input,
+        people: input.people.map((person) =>
+          person.id === "worker:store"
+            ? {
+                ...person,
+                birthDate: "1930-01-01",
+                liquidMinor: person.liquidMinor * p("two"),
+              }
+            : person,
+        ),
+        jobs: input.jobs.map((job) =>
+          job.id === "job:store" ? { ...job, title: "Retired pensioner" } : job,
+        ),
+      },
+      before = structuredClone(altered),
+      finance = createOpeningFinance(altered, options());
+    expect(
+      forHousehold(finance, "household:store").every(
+        (row) => row.dueAt === "2021-02-01",
+      ),
+    ).toBe(true);
+    expect(finance.contracts.some((row) => row.recipientIncome)).toBe(false);
+    expect(altered).toEqual(before);
+  });
+
+  it("keeps the purchase billing day across short months after selecting the actual January 31 work date", () => {
+    const input = scheduled(
+        { ...fixture(), startedAt: "2021-01-30" },
+        "job:store",
+        p("zero"),
+        "2021-01-31",
+      ),
+      finance = createOpeningFinance(input, options()),
+      core = createLifeCore({ ...input, finance }, { scheduledWork: false }),
+      term = [...core.finance.contracts.values()].find(
+        (row) => row.householdId === "household:store",
+      )!,
+      api = coreAPI(core),
+      february = financeNextDate(
+        api,
+        term.dueAt,
+        term.periodMonths,
+        term.billingDay,
+      );
+    expect(term.firstDueAt).toBe("2021-01-31");
+    expect(february).toBe("2021-02-28");
+    expect(
+      financeNextDate(api, february, term.periodMonths, term.billingDay),
+    ).toBe("2021-03-31");
+  });
+
+  it("uses the actual overnight spill date while respecting an exclusive supplied job end", () => {
+    const input = fixture(),
+      overnight: CoreInput = {
+        ...input,
+        workCommitments: input.workCommitments!.map((row) =>
+          row.jobId === "job:store"
+            ? {
+                ...row,
+                periodDays: p("daysPerWeek"),
+                slots: [
+                  {
+                    offsetDays: p("zero"),
+                    startMinute:
+                      p("hoursPerDay") * p("minutesPerHour") -
+                      p("minutesPerHour"),
+                    minutes: p("two") * p("minutesPerHour"),
+                  },
+                ],
+                expectedWeeklyMinutes: p("two") * p("minutesPerHour"),
+              }
+            : row,
+        ),
+      },
+      selected = createOpeningPurchaseCalendar(overnight, []).household(
+        overnight.households.find((row) => row.id === "household:store")!,
+      ),
+      ended = {
+        ...overnight,
+        jobs: overnight.jobs.map((job) =>
+          job.id === "job:store" ? { ...job, endsAt: "2021-01-02" } : job,
+        ),
+      },
+      fallback = createOpeningPurchaseCalendar(ended, []).household(
+        ended.households.find((row) => row.id === "household:store")!,
+      );
+    expect(selected.dueAt).toBe("2021-01-02");
+    expect(selected.basisIds).toContain("commitment:job:store");
+    expect(fallback.dueAt).toBe("2021-02-01");
+    expect(fallback.basisIds).not.toContain("commitment:job:store");
+  });
+
+  it("respects a supplied future commitment start rather than inventing pay before its saved calendar begins", () => {
+    const input = fixture(),
+      future = {
+        ...input,
+        workCommitments: input.workCommitments!.map((row) =>
+          row.jobId === "job:store"
+            ? {
+                ...row,
+                startsAt: "2021-02-03",
+                anchorDate: "2021-02-03",
+                periodDays: p("daysPerWeek"),
+              }
+            : row,
+        ),
+      },
+      choice = createOpeningPurchaseCalendar(future, []).household(
+        future.households.find((row) => row.id === "household:store")!,
+      );
+    expect(choice.dueAt).toBe("2021-02-03");
+    expect(choice.source.asOf).toBe(at);
+    expect(choice.source.estimatedFrom).toContain(
+      "predicts neither attendance nor a paycheck",
+    );
+  });
+
+  it("does not treat a retirement label without an actual dated qualified award as an income calendar", () => {
+    const recorded = awarded(fixture(), "2021-01-19"),
+      withoutAward = {
+        ...recorded.input,
+        people: recorded.input.people.map((person) => ({
+          ...person,
+          pastFacts: [],
+        })),
+      },
+      before = structuredClone(withoutAward);
+    expect(() =>
+      createOpeningPurchaseCalendar(withoutAward, [recorded.income]),
+    ).toThrow(/actual dated qualified income award/);
+    expect(withoutAward).toEqual(before);
+  });
+
+  it("rejects future source knowledge and contradictory award amounts before any generated binding", () => {
+    const recorded = awarded(fixture(), "2021-01-19"),
+      future = {
+        ...recorded.income,
+        source: { ...source, asOf: "2021-01-02" },
+      },
+      contradictory = {
+        ...recorded.income,
+        amountMinor: recorded.income.amountMinor + p("one"),
+      },
+      before = structuredClone(recorded.input);
+    expect(() =>
+      createOpeningPurchaseCalendar(recorded.input, [future]),
+    ).toThrow(/available dated source/);
+    expect(() =>
+      createOpeningPurchaseCalendar(recorded.input, [contradictory]),
+    ).toThrow(/actual dated qualified income award/);
+    expect(recorded.input).toEqual(before);
+  });
+
+  it("rejects a malformed or mismatched owned work calendar without fabricating another schedule", () => {
+    const input = fixture(),
+      before = structuredClone(input);
+    for (const override of [
+      { periodDays: p("zero") },
+      { organizationId: "missing-employer" },
+      { paySource: { ...source, asOf: "2021-01-02" } },
+    ]) {
+      const changed = {
+        ...input,
+        workCommitments: input.workCommitments!.map((row) =>
+          row.jobId === "job:store" ? { ...row, ...override } : row,
+        ),
+      };
+      expect(() => createOpeningPurchaseCalendar(changed, [])).toThrow(
+        /actual opening work calendar|owned job and employer|available dated source/,
+      );
+    }
+    expect(input).toEqual(before);
+  });
+
+  it("has no seed, future simulated income, deficit or requested horizon input to the date convention", () => {
+    const input = scheduled(fixture(), "job:store", p("zero"), "2021-01-04"),
+      altered = {
+        ...input,
+        seed: "different-world-identity",
+        organizations: input.organizations.map((row) => ({
+          ...row,
+          liquidMinor: p("zero"),
+        })),
+      },
+      first = createOpeningPurchaseCalendar(input, []),
+      second = createOpeningPurchaseCalendar(altered, []);
+    expect(input.households.map((home) => first.household(home).dueAt)).toEqual(
+      altered.households.map((home) => second.household(home).dueAt),
+    );
+    expect(first.business.dueAt).toBe(second.business.dueAt);
   });
 });

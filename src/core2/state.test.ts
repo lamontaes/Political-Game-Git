@@ -10,6 +10,7 @@ import {
   registerModule,
   resolveOperation,
 } from "./state";
+import type { CashJournalPosting, ResolvedCashJournalSource } from "./journal";
 import type {
   ActOffer,
   CoreEventInput,
@@ -193,7 +194,85 @@ function mutableSnapshot(core: CoreState) {
     actCounters: core.actCounters,
     eventIds: core.eventIds,
     sequence: core.sequence,
+    cashJournal: {
+      ...core.cashJournal,
+      sourceProviders: [...core.cashJournal.sourceProviders.keys()],
+    },
   });
+}
+
+/** Technical boundary fixture with actual registered owners and canonical current terms.
+ * It supplies no ordinary-game payment authority or generated-world evidence. */
+function journalBoundary(core: CoreState) {
+  const api = coreAPI(core),
+    kind = "fixture:writer-cash-boundary";
+  const current = new Map<
+    string,
+    ResolvedCashJournalSource & { payerId: string; payeeId: string }
+  >();
+  registerModule(core, {
+    id: "module:writer-cash-boundary",
+    journalSourceProviders: {
+      [kind]: (_api, reference) => {
+        const row = current.get(reference.id);
+        if (!row || row.kind !== reference.kind) return undefined;
+        for (const id of [row.payerId, row.payeeId]) {
+          if (
+            (!core.people.has(id) && !core.organizations.has(id)) ||
+            !core.cashJournal.residualAccountByOwner.has(id)
+          )
+            throw new Error("Actual journal fixture endpoint is absent.");
+        }
+        return { resolved: row, marker: row, metadata: [], retainFull: false };
+      },
+    },
+  });
+  return (payerId: string, payeeId: string, requested: number): number => {
+    const valid = Number.isSafeInteger(requested) && requested >= p("zero");
+    const payer = core.people.get(payerId) ?? core.organizations.get(payerId);
+    const actual = valid
+      ? Math.min(requested, payer?.liquidMinor ?? p("zero"))
+      : p("one");
+    const id = `fixture:cash-terms:${current.size}`;
+    const lines = (amount: number): CashJournalPosting[] => [
+      {
+        id: id + ":out",
+        accountId:
+          core.cashJournal.residualAccountByOwner.get(payerId) ??
+          "fixture:absent-payer",
+        deltaMinor: -amount,
+      },
+      {
+        id: id + ":in",
+        accountId:
+          core.cashJournal.residualAccountByOwner.get(payeeId) ??
+          "fixture:absent-payee",
+        deltaMinor: amount,
+      },
+    ];
+    const row = {
+      kind,
+      id,
+      date: core.date,
+      source,
+      payerId,
+      payeeId,
+      expectedPostings: actual > p("zero") ? lines(actual) : [],
+      requiredRelatedRefs: [],
+      relatedRecords: [],
+    };
+    current.set(id, row);
+    if (actual === p("zero")) api.completeJournalSource({ kind, id });
+    else
+      api.postJournal({
+        id: `journal:${core.date}:${core.cashJournal.nextSequence}`,
+        date: core.date,
+        expectedSequence: core.cashJournal.nextSequence,
+        sourceRef: { kind, id },
+        postings: valid ? row.expectedPostings : lines(requested),
+      });
+    return actual;
+  };
 }
 
 function totalMoney(core: CoreState): number {
@@ -259,17 +338,17 @@ function promotedPerson(overrides: Partial<PersonInput> = {}): PersonInput {
 describe("P8 mutable writer money boundaries", () => {
   it("conserves money across employers and people and returns actual partial payments", () => {
     const core = createCore(input());
-    const api = coreAPI(core);
+    const pay = journalBoundary(core);
     const total = totalMoney(core);
-    expect(api.transfer(employer, player, 300)).toBe(300);
+    expect(pay(employer, player, 300)).toBe(300);
     expect(core.organizations.get(employer)!.liquidMinor).toBe(4_700);
     expect(core.people.get(player)!.liquidMinor).toBe(800);
     expect(totalMoney(core)).toBe(total);
-    expect(api.transfer(player, circle, 1_000)).toBe(800);
+    expect(pay(player, circle, 1_000)).toBe(800);
     expect(core.people.get(player)!.liquidMinor).toBe(p("zero"));
     expect(core.people.get(circle)!.liquidMinor).toBe(1_300);
     expect(totalMoney(core)).toBe(total);
-    expect(api.transfer(player, employer, p("one"))).toBe(p("zero"));
+    expect(pay(player, employer, p("one"))).toBe(p("zero"));
     expect(totalMoney(core)).toBe(total);
     expect(() => assertCoreIntegrity(core)).not.toThrow();
   });
@@ -281,11 +360,12 @@ describe("P8 mutable writer money boundaries", () => {
     Number.POSITIVE_INFINITY,
     Number.MAX_SAFE_INTEGER + p("one"),
   ])(
-    "rejects invalid minor-unit transfer %s without a partial write",
+    "rejects invalid minor units or postings contrary to current terms %s without a partial write",
     (amount) => {
       const core = createCore(input());
+      const pay = journalBoundary(core);
       const before = mutableSnapshot(core);
-      expect(() => coreAPI(core).transfer(employer, player, amount)).toThrow();
+      expect(() => pay(employer, player, amount)).toThrow();
       expect(mutableSnapshot(core)).toEqual(before);
     },
   );
@@ -294,13 +374,12 @@ describe("P8 mutable writer money boundaries", () => {
     ["absent-payer", player],
     [employer, "absent-payee"],
   ])(
-    "requires both transfer endpoints, even for a zero transfer",
+    "requires both actual source endpoints, even for a zero-cash completion",
     (payerId, payeeId) => {
       const core = createCore(input());
+      const pay = journalBoundary(core);
       const before = mutableSnapshot(core);
-      expect(() => coreAPI(core).transfer(payerId, payeeId, p("zero"))).toThrow(
-        "endpoint",
-      );
+      expect(() => pay(payerId, payeeId, p("zero"))).toThrow("endpoint");
       expect(mutableSnapshot(core)).toEqual(before);
     },
   );
@@ -313,9 +392,10 @@ describe("P8 mutable writer money boundaries", () => {
         : row,
     );
     const core = createCore(rows);
+    const pay = journalBoundary(core);
     const before = mutableSnapshot(core);
-    expect(() => coreAPI(core).transfer(player, employer, p("one"))).toThrow(
-      "overflow",
+    expect(() => pay(player, employer, p("one"))).toThrow(
+      "Invalid nonnegative integer journal amount: owner after",
     );
     expect(mutableSnapshot(core)).toEqual(before);
   });

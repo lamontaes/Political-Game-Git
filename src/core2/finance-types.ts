@@ -1,4 +1,32 @@
 import type { IsoDate, PersonId, Source, WorkResult } from "./types";
+import type { CashJournalSourceRef } from "./journal";
+import type { CashJournalPostedMarker } from "./journal-state";
+
+export interface HouseholdPurchaseCalendarInput {
+  ruleId: string;
+  stopgapId: string;
+  householdId: string;
+  firstNominalDueAt: IsoDate;
+  openingBasisIds: readonly string[];
+  source: Source;
+}
+export interface HouseholdPurchaseCalendarBasis {
+  nominalDueAt: IsoDate;
+  effectiveDueAt: IsoDate;
+  mode: "opening" | "work" | "recipient-income" | "missing-income";
+  references: readonly {
+    id: string;
+    kind:
+      | "opening-basis"
+      | "job"
+      | "commitment"
+      | "income-contract"
+      | "income-award";
+    source: Source;
+    paySource?: Source;
+  }[];
+  source: Source;
+}
 
 /** Standing terms describe obligations or a budget; they never supply cash. */
 export interface FinanceContractInput {
@@ -29,10 +57,15 @@ export interface FinanceContractInput {
     kindId: string;
     sourceFactId: string;
   };
+  externalInflow?: FinanceExternalInflow;
+  /** Generated household phase only; real supplied invoice dates omit this marker. */
+  householdPurchaseCalendar?: HouseholdPurchaseCalendarInput;
   source: Source;
 }
 
 export interface FinanceContractState extends FinanceContractInput {
+  nominalDueAt?: IsoDate;
+  householdPurchaseCalendarBasis?: HouseholdPurchaseCalendarBasis;
   /** Original admission date; dueAt advances and cannot define source validity. */
   firstDueAt: IsoDate;
   billingDay: number;
@@ -125,6 +158,8 @@ export interface FinancePayment {
 }
 
 export interface FinanceReceipt {
+  householdPurchaseCalendarBasis?: HouseholdPurchaseCalendarBasis;
+  nextHouseholdPurchaseCalendarBasis?: HouseholdPurchaseCalendarBasis;
   id: string;
   contractId: string;
   date: IsoDate;
@@ -219,7 +254,7 @@ export interface SalesReceiptBudgetPool extends SalesReceiptBudgetAllocation {
   pendingBeforeByContract: ReadonlyMap<string, number>;
 }
 
-export interface FinanceRuntime {
+export interface FinanceRuntime extends FinanceCashRuntimeFields {
   creditRequestsAt: IsoDate;
   creditRequestIds: Set<string>;
   contracts: Map<string, FinanceContractState>;
@@ -252,6 +287,7 @@ export interface FinanceRuntime {
 }
 
 export interface FinancePolicyData {
+  cashJournal: FinanceCashPolicy;
   version: string;
   reviewPeriodMonthsParameter: string;
   interestDayCountParameter: string;
@@ -280,3 +316,127 @@ export interface FinancePolicyData {
   }[];
   gaps: { conditions: string; income: string };
 }
+
+/** Owning adapters enforce the exact supported descriptor shape before access. */
+export interface FinanceExternalInflow {
+  kind: string;
+  ownerId: string;
+  source: Source;
+  incomeContractIds?: readonly string[];
+  sourceAwardIds?: readonly string[];
+  authorityRecordId?: string;
+  appropriationRecordId?: string;
+  agreementRecordId?: string;
+  identityRecordId?: string;
+  visitAgreementRecordId?: string;
+  marketId?: string;
+}
+export interface FinanceRetirementExternalInflow extends FinanceExternalInflow {
+  incomeContractIds: readonly string[];
+  sourceAwardIds: readonly string[];
+}
+export interface FinancePublicProcurementExternalInflow extends FinanceExternalInflow {
+  kind: "external.public-procurement";
+  authorityRecordId: string;
+  appropriationRecordId: string;
+  agreementRecordId: string;
+}
+export interface FinanceVisitorLodgingExternalInflow extends FinanceExternalInflow {
+  kind: "external.customer.visitor-lodging";
+  identityRecordId: string;
+  visitAgreementRecordId: string;
+  marketId: string;
+}
+/** Immutable original agreement terms; advancing sibling dueAt changes no allocation. */
+export interface FinanceCustomerOriginalTerms {
+  payerIds: readonly string[];
+  payeeId: string;
+  kind: string;
+  amountMinor: number;
+  firstDueAt: IsoDate;
+  periodMonths: number;
+  endsAt?: IsoDate;
+  settlementPhaseId: string;
+}
+/** Add externalInflow?: FinanceExternalInflow to FinanceContractInput. */
+export interface FinanceCashCreditRequest {
+  facilityId: string;
+  requestedMinor: number;
+  reasonKey: string;
+  triggerId: string;
+  repayment: boolean;
+}
+export interface FinanceCashSourceState extends CashJournalPostedMarker {
+  id: string;
+  kind: string;
+  date: IsoDate;
+  mode: "contract" | "credit" | "composite-credit";
+  contractId?: string;
+  facilityId?: string;
+  trigger: CashJournalSourceRef;
+  request?: Readonly<FinanceCashCreditRequest>;
+  /** Bounded related occurrences in this one actual payment, never an ID history. */
+  creditIds: readonly string[];
+}
+/** Add these maps to FinanceRuntime and initialize them in emptyFinanceRuntime. */
+export interface FinanceCashRuntimeFields {
+  cashSources: Map<string, FinanceCashSourceState>;
+  cashLatestContractSource: Map<string, string>;
+  cashLatestCreditSource: Map<string, string>;
+  /** Only canonical current/open statement payloads needed before release. */
+  cashRequiredReceipts: Map<string, FinanceReceipt | CreditReceipt>;
+}
+export interface FinanceCashPolicy {
+  moduleId: string;
+  sourceKinds: { contract: string; credit: string };
+  relatedKinds: {
+    terms: string;
+    facility: string;
+    award: string;
+    procurement: string;
+    authority: string;
+    appropriation: string;
+    agreement: string;
+    job: string;
+    provider: string;
+    identity: string;
+    visit: string;
+    market: string;
+    customerBudget: string;
+  };
+  financeReceiptPrefix: string;
+  creditReceiptPrefix: string;
+  interestContractPrefix: string;
+  standaloneDrawRequestPrefix: string;
+  externalInflowKinds: readonly string[];
+  externalInflowContracts: readonly {
+    inflowKind: string;
+    contractKind: string;
+    phaseId: string;
+    validation: "retirement" | "public-procurement" | "visitor-lodging";
+  }[];
+  visitorLodging: {
+    identityMetadataPrefix: string;
+    visitMetadataPrefix: string;
+    marketMetadataPrefix: string;
+    ownerBudgetMetadataPrefix: string;
+    identityKind: string;
+    visitKind: string;
+    serviceKey: string;
+    supplierClassifications: readonly string[];
+    supplierOccupations: readonly string[];
+    providerMetadataPrefix: string;
+  };
+  procurement: readonly {
+    contractKind: string;
+    agreementContractSeparator: string;
+    authorityFieldPrefix: string;
+    appropriationFieldPrefix: string;
+    agreementFieldPrefix: string;
+    serviceKey: string;
+    supplierClassifications: readonly string[];
+    supplierOccupations: readonly string[];
+    providerMetadataPrefix: string;
+  }[];
+}
+/** Add cashJournal: FinanceCashPolicy to FinancePolicyData. */

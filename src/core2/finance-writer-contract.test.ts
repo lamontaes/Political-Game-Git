@@ -14,7 +14,12 @@ import {
   extendData,
 } from "./data";
 import financePolicy from "./data/finance.json" with { type: "json" };
+import {
+  ensureFinanceCashModule,
+  transferFinanceCreditJournal,
+} from "./finance-cash";
 import { chooseAct } from "./life";
+import { ensureWorkCashModule } from "./work-cash";
 import { LIFE_MODULE } from "./modules/life";
 import { FINANCE_MODULE } from "./modules/finance";
 import {
@@ -33,9 +38,11 @@ import type {
   BusinessBooksInput,
   CreditFacilityInput,
   EmployerClosure,
+  FinanceCashSourceState,
   FinanceContractInput,
 } from "./finance-types";
 import type {
+  CoreAPI,
   CoreInput,
   CoreState,
   PersonInput,
@@ -259,9 +266,78 @@ function input(options: FixtureOptions = {}): CoreInput {
 }
 
 function fixture(options: FixtureOptions = {}): CoreState {
-  return createCore(input(options), {
+  const core = createCore(input(options), {
     data: fixtureData,
     modules: [LIFE_MODULE],
+  });
+  // Namespace registration is fixture setup, before exact failed-writer snapshots.
+  ensureFinanceCashModule(core);
+  return core;
+}
+
+/** A genuine current admitted obligation; the string alone grants no draw authority. */
+function addDrawObligation(
+  api: CoreAPI,
+  id: string,
+  amountMinor: number,
+  line = facilityId,
+): string {
+  api.addFinanceContract(
+    contract({
+      id,
+      amountMinor,
+      creditFacilityId: line,
+      dueAt: api.state.date,
+    }),
+  );
+  return id;
+}
+
+/** Allocate existing fixture stock through the real journal; create no new cash. */
+function reserveFixtureCash(
+  api: CoreAPI,
+  ownerId: string,
+  fundId: string,
+  amount: number,
+): void {
+  const core = api.state as CoreState,
+    kind = "fixture.existing-cash-reservation",
+    id = "fixture:recorded-existing-cash-reservation",
+    from = core.cashJournal.residualAccountByOwner.get(ownerId)!;
+  const postings = [
+    { id: id + ":out", accountId: from, deltaMinor: -amount },
+    { id: id + ":in", accountId: fundId, deltaMinor: amount },
+  ];
+  const canonical: { postedJournalSequence?: number; completedAt?: string } =
+    {};
+  registerModule(core, {
+    id: "fixture-existing-cash-reservation",
+    journalSourceProviders: {
+      [kind]: (_api, reference) =>
+        reference.id === id
+          ? {
+              resolved: {
+                kind,
+                id,
+                date: core.date,
+                source,
+                expectedPostings: postings,
+                requiredRelatedRefs: [],
+                relatedRecords: [],
+              },
+              marker: canonical,
+              metadata: [],
+              retainFull: false,
+            }
+          : undefined,
+    },
+  });
+  api.postJournal({
+    id: `journal:${core.date}:${core.cashJournal.nextSequence}`,
+    date: core.date,
+    expectedSequence: core.cashJournal.nextSequence,
+    sourceRef: { kind, id },
+    postings,
   });
 }
 
@@ -361,8 +437,8 @@ function assertClosureHistory(core: CoreState, closure: EmployerClosure): void {
 describe("conserving finance API/schema-v6 writer seam", () => {
   it("admits optional finance input and shares one versioned facade across callers", () => {
     const core = fixture();
-    expect(CORE_API_VERSION).toBe("core2-api-v8");
-    expect(CORE_SCHEMA_VERSION).toBe("core2-schema-v8");
+    expect(CORE_API_VERSION).toBe("core2-api-v9");
+    expect(CORE_SCHEMA_VERSION).toBe("core2-schema-v9");
     expect(coreAPI(core)).toBe(coreAPI(core));
     expect(coreAPI(core).version).toBe(core.apiVersion);
     expect(core.apiVersion).toBe(CORE_API_VERSION);
@@ -524,11 +600,16 @@ describe("conserving finance API/schema-v6 writer seam", () => {
     const core = fixture({ includeCredit: true });
     const api = coreAPI(core);
     const total = cash(core);
+    const drawCause = addDrawObligation(
+      api,
+      "contract:fixture-recorded-draw-obligation",
+      100,
+    );
     const loan = api.drawCredit(
       facilityId,
       100,
       financePolicy.reasons.borrowing,
-      "fixture:recorded-draw-request",
+      drawCause,
     );
     expect(loan).toMatchObject({
       facilityId,
@@ -544,11 +625,15 @@ describe("conserving finance API/schema-v6 writer seam", () => {
     });
     expect(core.finance.facilities.get(facilityId)!.principalMinor).toBe(40);
     expect(cash(core)).toBe(total);
+    advanceDate(core, "2021-02-01");
+    const interest = api.settleFinanceContract(
+      `finance-interest:${facilityId}`,
+    );
     const payment = api.repayCredit(
       facilityId,
       100,
       financePolicy.reasons.repayment,
-      "fixture:recorded-repayment-request",
+      interest.id,
     );
     expect(payment.transferredMinor).toBe(40);
     expect(payment.principalBeforeMinor).toBe(40);
@@ -564,6 +649,25 @@ describe("conserving finance API/schema-v6 writer seam", () => {
       lenderCash: 100,
     });
     const api = coreAPI(core);
+    // Real reserved funds make residual spendable cash zero without adding money.
+    api.registerCashAccount({
+      id: "account:fixture-reserved-borrower-cash",
+      ownerId: employer,
+      name: "Explicit reserved fixture fund",
+      allocatedMinor: p("zero"),
+      source,
+    });
+    reserveFixtureCash(
+      api,
+      employer,
+      "account:fixture-reserved-borrower-cash",
+      Number.MAX_SAFE_INTEGER - 20,
+    );
+    const drawCause = addDrawObligation(
+      api,
+      "contract:fixture-overflow-draw-obligation",
+      50,
+    );
     for (const requested of [
       -p("one"),
       p("one") / p("two"),
@@ -576,7 +680,7 @@ describe("conserving finance API/schema-v6 writer seam", () => {
           facilityId,
           requested,
           financePolicy.reasons.borrowing,
-          "fixture:invalid-draw-request",
+          drawCause,
         ),
       ).toThrow();
       expect(snapshot(core)).toBe(before);
@@ -587,7 +691,7 @@ describe("conserving finance API/schema-v6 writer seam", () => {
         "absent-facility",
         p("one"),
         financePolicy.reasons.borrowing,
-        "fixture:missing-facility-request",
+        drawCause,
       ),
     ).toThrow();
     expect(snapshot(core)).toBe(before);
@@ -632,19 +736,24 @@ describe("conserving finance API/schema-v6 writer seam", () => {
     const core = fixture({ includeCredit: true, lenderCash: 200 });
     const api = coreAPI(core);
     const total = cash(core);
-    api.drawCredit(
-      facilityId,
-      30,
-      financePolicy.reasons.borrowing,
-      "fixture:one-dated-cause",
+    const firstCause = addDrawObligation(
+      api,
+      "contract:fixture-first-dated-obligation",
+      100,
     );
+    const secondCause = addDrawObligation(
+      api,
+      "contract:fixture-second-dated-obligation",
+      130,
+    );
+    api.drawCredit(facilityId, 30, financePolicy.reasons.borrowing, firstCause);
     const beforeReplay = snapshot(core);
     expect(() =>
       api.drawCredit(
         facilityId,
         30,
         financePolicy.reasons.borrowing,
-        "fixture:one-dated-cause",
+        firstCause,
       ),
     ).toThrow();
     expect(snapshot(core)).toBe(beforeReplay);
@@ -652,7 +761,7 @@ describe("conserving finance API/schema-v6 writer seam", () => {
       facilityId,
       100,
       financePolicy.reasons.borrowing,
-      "fixture:different-dated-cause",
+      secondCause,
     );
     expect(second.transferredMinor).toBe(70);
     expect(second.principalAfterMinor).toBe(100);
@@ -680,33 +789,51 @@ describe("conserving finance API/schema-v6 writer seam", () => {
       facility({ limitMinor: 1_000, annualInterestParameter: rateParameter }),
     );
     const total = cash(core);
+    const drawCause = addDrawObligation(
+      api,
+      "contract:fixture-dated-exposure-obligation",
+      1_000,
+    );
+    const interimInterestId = "contract:fixture-january-11-interest-statement";
+    api.addFinanceContract(
+      contract({
+        id: interimInterestId,
+        kind: financePolicy.kinds.interest,
+        payerIds: [employer],
+        payeeId: lender,
+        amountMinor: p("zero"),
+        dueAt: "2021-01-11",
+        interestFacilityId: facilityId,
+      }),
+    );
     api.drawCredit(
       facilityId,
       1_000,
       financePolicy.reasons.borrowing,
-      "fixture:opening-dated-principal",
+      drawCause,
     );
     advanceDate(core, "2021-01-11");
+    const interimInterest = api.settleFinanceContract(interimInterestId);
+    expect(interimInterest.requestedMinor).toBe(13);
+    expect(interimInterest.paidMinor).toBe(13);
     api.repayCredit(
       facilityId,
       500,
       financePolicy.reasons.repayment,
-      "fixture:day-ten-principal-change",
+      interimInterest.id,
     );
     expect(core.finance.facilities.get(facilityId)!.principalMinor).toBe(500);
     advanceDate(core, "2021-01-21");
-    api.drawCredit(
-      facilityId,
-      500,
-      financePolicy.reasons.borrowing,
-      "fixture:day-twenty-principal-change",
-    );
+    api.drawCredit(facilityId, 500, financePolicy.reasons.borrowing, drawCause);
     advanceDate(core, "2021-02-01");
     const receipt = api.settleFinanceContract(`finance-interest:${facilityId}`);
     // Ten days at 1,000, ten at 500, then eleven at 1,000, at 50% ACT/365:
     // 13,000 / 365 = 35.616438... minor units; a whole-month proxy is 41.666...
-    expect(receipt.requestedMinor).toBe(35);
-    expect(receipt.paidMinor).toBe(35);
+    // The interim statement already billed/paid 13; preserve total exposure, not a double bill.
+    expect(interimInterest.requestedMinor + receipt.requestedMinor).toBe(35);
+    expect(interimInterest.paidMinor + receipt.paidMinor).toBe(35);
+    expect(receipt.requestedMinor).toBe(22);
+    expect(receipt.paidMinor).toBe(22);
     expect(
       core.finance.facilities.get(facilityId)!.interestRemainderMinor,
     ).toBeCloseTo(
@@ -939,6 +1066,7 @@ describe("conserving finance API/schema-v6 writer seam", () => {
       workerCash: Number.MAX_SAFE_INTEGER - 20,
       onlyWorkerCommitment: true,
     });
+    ensureWorkCashModule(core);
     const before = snapshot(core);
     expect(() => freeWork(core)).toThrow();
     expect(snapshot(core)).toBe(before);
@@ -949,6 +1077,8 @@ describe("conserving finance API/schema-v6 writer seam", () => {
       input({ includeCredit: true, onlyWorkerCommitment: true }),
       { data: { ...fixtureData, parameters }, modules: [LIFE_MODULE] },
     );
+    ensureFinanceCashModule(missingActParameter);
+    ensureWorkCashModule(missingActParameter);
     const beforeAct = snapshot(missingActParameter);
     expect(() => freeWork(missingActParameter)).toThrow(
       "Untagged numeric parameter: isoMonthCharacters",
@@ -1064,17 +1194,28 @@ describe("shared funding and retained finance obligations", () => {
     );
     const api = coreAPI(core);
     const total = cash(core);
+    const firstCause = addDrawObligation(
+      api,
+      "contract:fixture-first-line-due-obligation",
+      100,
+    );
+    const secondCause = addDrawObligation(
+      api,
+      "contract:fixture-second-line-due-obligation",
+      200,
+      secondLine,
+    );
     api.drawCredit(
       facilityId,
       100,
       financePolicy.reasons.borrowing,
-      "fixture:first-recorded-principal",
+      firstCause,
     );
     api.drawCredit(
       secondLine,
       100,
       financePolicy.reasons.borrowing,
-      "fixture:second-recorded-principal",
+      secondCause,
     );
     advanceDate(core, "2021-02-01");
     api.settleFinanceContract(`finance-interest:${facilityId}`);
@@ -1115,15 +1256,27 @@ describe("shared funding and retained finance obligations", () => {
         ...opening,
         finance: {
           ...opening.finance!,
-          contracts: [contract({ amountMinor: 200 })],
+          contracts: [
+            contract({ amountMinor: 200, creditFacilityId: facilityId }),
+          ],
         },
       },
       { data, modules: [LIFE_MODULE, FINANCE_MODULE] },
     );
     const api = coreAPI(core);
     const total = cash(core);
-    api.drawCredit(facilityId, 100, financePolicy.reasons.borrowing, costId);
+    const standalone = api.drawCredit(
+      facilityId,
+      100,
+      financePolicy.reasons.borrowing,
+      costId,
+    );
+    expect(core.finance.cashSources.get(standalone.id)?.trigger).toEqual({
+      kind: financePolicy.cashJournal.relatedKinds.terms,
+      id: costId,
+    });
     const unfunded = api.settleFinanceContract(costId);
+    expect(unfunded.creditReceiptId).not.toBe(standalone.id);
     expect(unfunded).toMatchObject({
       requestedMinor: 200,
       paidMinor: 100,
@@ -1251,5 +1404,89 @@ describe("shared funding and retained finance obligations", () => {
     );
     expect(cash(late)).toBe(total);
     expect(cash(control)).toBe(total);
+  });
+});
+
+/** UNEXECUTED source-only correction cases; these are controlled records, not real-world loan authority. */
+describe("standalone current credit request and actual cause", () => {
+  function rejectChangedLink(
+    mutate: (marker: FinanceCashSourceState, otherCause: string) => () => void,
+  ): void {
+    const core = fixture({ includeCredit: true, lenderCash: 100 }),
+      api = coreAPI(core);
+    const cause = addDrawObligation(
+      api,
+      "contract:fixture-current-request-cause",
+      100,
+    );
+    const otherCause = addDrawObligation(
+      api,
+      "contract:fixture-another-genuine-current-cause",
+      100,
+    );
+    const before = snapshot(core);
+    const guard: CoreAPI = {
+      ...api,
+      postJournal(input) {
+        const provider = core.cashJournal.sourceProviders.get(
+          input.sourceRef.kind,
+        )!;
+        let calls = p("zero"),
+          restore: (() => void) | undefined;
+        core.cashJournal.sourceProviders.set(
+          input.sourceRef.kind,
+          (reference) => {
+            const slot = provider(reference);
+            calls += p("one");
+            if (calls === p("one"))
+              restore = mutate(
+                core.finance.cashSources.get(input.sourceRef.id)!,
+                otherCause,
+              );
+            return slot;
+          },
+        );
+        try {
+          return api.postJournal(input);
+        } finally {
+          restore?.();
+          core.cashJournal.sourceProviders.set(input.sourceRef.kind, provider);
+        }
+      },
+    };
+    expect(() =>
+      transferFinanceCreditJournal(
+        core,
+        guard,
+        facilityId,
+        50,
+        financePolicy.reasons.borrowing,
+        cause,
+      ),
+    ).toThrow(/standing obligation/);
+    expect(snapshot(core)).toBe(before);
+  }
+
+  it("rechecks the admitted request's actual current standing cause on the second lookup", () => {
+    rejectChangedLink((marker, otherCause) => {
+      const original = marker.trigger;
+      marker.trigger = { kind: original.kind, id: otherCause };
+      return () => {
+        marker.trigger = original;
+      };
+    });
+  });
+
+  it("rechecks the actual standalone request ID against its current cause on the second lookup", () => {
+    rejectChangedLink((marker, otherCause) => {
+      const original = marker.request!;
+      marker.request = Object.freeze({
+        ...original,
+        triggerId: `${financePolicy.cashJournal.standaloneDrawRequestPrefix}${marker.date}:${marker.facilityId!}:${otherCause}`,
+      });
+      return () => {
+        marker.request = original;
+      };
+    });
   });
 });

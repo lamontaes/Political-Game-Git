@@ -81,6 +81,7 @@ export interface OpeningIncomeData {
     benefitReferenceCoveredMonths: string;
     benefitFactorMinimum: string;
     benefitFactorMaximum: string;
+    /** Deprecated compatibility key; new payers have no prepaid stock. */
     payerReserveMonths: string;
     periodMonths: string;
   };
@@ -504,13 +505,12 @@ export function buildOpeningRetirementIncome(
       evidence.stopgapId !== marker.id
     )
       throw new Error(`Conflicting generated payer ID: ${payer.id}`);
-    const stockBasis = Number(evidence.stockBasisMonthlyMinor),
-      reserve = Number(evidence.stockReserveMonths);
-    minor(stockBasis, "saved payer stock basis");
+    const stockBasis = Number(evidence.stockBasisMonthlyMinor);
+    minor(stockBasis, "saved monthly award terms");
     if (
-      !Number.isFinite(reserve) ||
-      reserve < zero ||
-      payer.liquidMinor !== Math.floor(stockBasis * reserve)
+      evidence.openingCashBasis !== "zero-prepaid-external-flow" ||
+      evidence.stockReserveMonths !== String(zero) ||
+      payer.liquidMinor !== zero
     )
       throw new Error(`Conflicting generated payer opening stock: ${payer.id}`);
     makeIsoDate(evidence.startedAt ?? "");
@@ -778,10 +778,9 @@ export function buildOpeningRetirementIncome(
   for (const [payerId, pool] of generatedPayers) {
     if (people.has(payerId))
       throw new Error(`Generated payer collides with person: ${payerId}`);
-    const liquidMinor = minor(
-      Math.floor(pool.monthlyMinor * values.payerReserveMonths!),
-      "new payer opening stock",
-    );
+    // This local disbursement view has no prepaid award reserve.
+    // Only the root external-flow writer may admit a genuine dated payment.
+    const liquidMinor = zero;
     allPayers.set(payerId, {
       id: payerId,
       placeId: pool.place.id,
@@ -791,7 +790,7 @@ export function buildOpeningRetirementIncome(
       liquidMinor,
       source: priorSource(
         opening,
-        `Finite opening cash prior from current modeled monthly awards ${pool.monthlyMinor} minor units and reserve months ${values.payerReserveMonths}; independent of firms, their cash, costs, forecasts, deficits and future survival.`,
+        `Zero prepaid stock for this modeled local disbursement view, independent of firms and their opening capital. Saved monthly award terms are ${pool.monthlyMinor} minor units; they are obligations, not cash. Only a source-qualified dated incoming payment may fund them.`,
       ),
       governmentFacts: {
         openingIncomeVersion: data.version,
@@ -799,7 +798,8 @@ export function buildOpeningRetirementIncome(
         startedAt: pool.earliestAwardAt,
         identityBasis: data.payer.identityBasis,
         stockBasisMonthlyMinor: String(pool.monthlyMinor),
-        stockReserveMonths: String(values.payerReserveMonths),
+        stockReserveMonths: String(zero),
+        openingCashBasis: "zero-prepaid-external-flow",
         stopgapId: marker.id,
       },
     });
