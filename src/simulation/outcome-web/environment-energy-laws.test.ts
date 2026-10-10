@@ -15,6 +15,7 @@ import {
   outcomeLinkStatus,
 } from ".";
 import { PLACE_OUTCOME_BASES } from "./place-outcome-store";
+import { expectTerritoriesEstimated } from "../../../tests/fixtures/territory-estimates";
 
 /*
  * Three environment and energy laws act on a place's own measures.
@@ -147,15 +148,16 @@ describe("environment and energy laws", () => {
     const emissions = PLACE_OUTCOME_BASES["env.emissions"]!.places;
     const litter = PLACE_OUTCOME_BASES["env.litter"]!.places;
     const particulates = PLACE_OUTCOME_BASES["env.particulates"]!.places;
-    expect(Object.keys(price)).toHaveLength(51);
-    expect(Object.keys(emissions)).toHaveLength(51);
+    expectTerritoriesEstimated(
+      PLACE_OUTCOME_BASES["energy.electricity-price"]!,
+    );
+    expectTerritoriesEstimated(PLACE_OUTCOME_BASES["env.emissions"]!);
     expect(Object.keys(litter)).toHaveLength(56);
     expect(Object.keys(particulates)).toHaveLength(56);
     for (const territory of ["US-AS", "US-GU", "US-MP", "US-PR", "US-VI"])
       expect(particulates[territory]).toBe(7.9);
-    // The territories are outside EIA's state series: unknown, never zero.
-    expect(price).not.toHaveProperty("US-PR");
-    expect(emissions).not.toHaveProperty("US-GU");
+    // The territories are outside EIA's state series: a marked estimate from
+    // the average, never unknown and never zero.
     expect(price["US-HI"]).toBe(38);
     expect(price["US-ND"]).toBe(7.93);
     expect(emissions["US-WY"]).toBe(85.2);

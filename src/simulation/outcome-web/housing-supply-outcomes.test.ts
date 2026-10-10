@@ -16,6 +16,7 @@ import {
   outcomeLinkStatus,
 } from ".";
 import { PLACE_OUTCOME_BASES } from "./place-outcome-store";
+import { expectTerritoriesEstimated } from "../../../tests/fixtures/territory-estimates";
 
 /*
  * Housing outcomes the world now computes for each state, D.C. and Puerto
@@ -142,10 +143,13 @@ function flipMoves(
 describe("housing outcomes a housing law moves", () => {
   it("starts each outcome at the Census Bureau's 2024 figure, and its links act", () => {
     const bases = (measure: string) => PLACE_OUTCOME_BASES[measure]!.places;
-    expect(Object.keys(bases("housing.rental-supply"))).toHaveLength(52);
+    for (const measure of [
+      "housing.rental-supply",
+      "housing.renter-moves",
+      "housing.new-large-buildings",
+    ])
+      expectTerritoriesEstimated(PLACE_OUTCOME_BASES[measure]!);
     expect(bases("housing.rental-supply")["US-DC"]).toBe(59.1);
-    expect(Object.keys(bases("housing.renter-moves"))).toHaveLength(51);
-    expect(Object.keys(bases("housing.new-large-buildings"))).toHaveLength(52);
     for (const measure of [
       "housing.rental-supply",
       "housing.renter-moves",
