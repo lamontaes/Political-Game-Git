@@ -7,11 +7,21 @@
  * person chooses whom to contact, each candidate's pull is the hours of time
  * together their tie has lost since they last met, so close ties that are
  * fading draw contact first and distant relatives draw less.
+ *
+ * Part 2b: caring for a relative answers the needs of children at home, so a
+ * person cares when they have a child to care for and the need is met for
+ * the day once they have.
  */
 import { daysBetween, makeIsoDate } from "../../simulation/dates";
 import { CLOSENESS, hoursLost, openingClosenessHours } from "../closeness";
 import { OPENING_KIN } from "../opening-kin";
-import type { ActOffer, CoreAPI, CoreModule, Relationship } from "../types";
+import type {
+  ActOffer,
+  CoreAPI,
+  CoreModule,
+  PersonState,
+  Relationship,
+} from "../types";
 import { offer } from "./life";
 
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
@@ -74,12 +84,48 @@ function shareHomeTime(api: CoreAPI): void {
   }
 }
 
+/**
+ * P15 part 2b: relatives at home who are children, with how much care each
+ * still needs: a newborn needs full care, and the need falls with age to none
+ * at the age ATUS counts household children to.
+ */
+function dependents(
+  api: CoreAPI,
+  actor: Readonly<PersonState>,
+): { id: string; need: number }[] {
+  const p = (key: string) => api.parameter(key);
+  const out: { id: string; need: number }[] = [];
+  for (const id of actor.familyIds) {
+    const other = api.state.people.get(id);
+    if (!other?.alive || other.householdId !== actor.householdId) continue;
+    const years =
+      daysBetween(makeIsoDate(other.birthDate), makeIsoDate(api.state.date)) /
+      p("daysPerMeanYear");
+    const need = p("one") - years / p("householdChildAgeYears");
+    if (need > p("zero")) out.push({ id, need });
+  }
+  return out;
+}
+
 export const PEOPLE_MODULE: CoreModule = {
   id: PEOPLE_MODULE_ID,
   onDay: (api) => {
     shareHomeTime(api);
   },
+  needEvaluators: {
+    // The children at home need care each day; the act meets it for the day.
+    "dependent-care": (api, actor) =>
+      Math.min(
+        api.parameter("one"),
+        dependents(api, actor).reduce(
+          (sum, row) => sum + row.need,
+          api.parameter("zero"),
+        ),
+      ),
+  },
   offerProviders: {
+    "dependent-at-home": (api, actor, action) =>
+      dependents(api, actor).map((row) => offer(api, actor, action, row.id)),
     // Everyone the person knows and has a tie with, plus one person they know
     // without a tie yet. Untied offers all score alike and the chooser breaks
     // ties by the lowest key, so the lowest-id untied person stands for them all.

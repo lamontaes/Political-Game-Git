@@ -10,7 +10,7 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "4a0f554e0368d29394f652410af8597f4ed53eab60bc03781c2718c9ff535fb6",
+    "sha256": "e4e4750fd629ff47969b4aad6646fe057ff0dca9cc16ca8124ab1e02e15b1486",
     "meaning": "Exact central parameter table including business-book aggregate priors, the unmeasured opening cadence and a sourced reporting definition. No fitted coefficient or passed calibration is claimed."
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
@@ -602,19 +602,6 @@
       "calibrated": false,
       "openStopgapId": "SG-P8-param-marriageReferenceAge",
       "reviewNote": "Structural reference only. The developer target catalog explains the source-linked observations, measurement gap, and non-applicability where relevant; no expected facts are injected into P8."
-    },
-    {
-      "parameter": "careHours",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.5,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "Act eligibility/effort; current choice score and care-for-relative action path.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
     },
     {
       "parameter": "civicHours",
@@ -3933,7 +3920,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "4a0f554e0368d29394f652410af8597f4ed53eab60bc03781c2718c9ff535fb6"
+        "src/core2/data/parameters.json": "e4e4750fd629ff47969b4aad6646fe057ff0dca9cc16ca8124ab1e02e15b1486"
       },
       "observations": [
         {
@@ -6801,7 +6788,7 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
-    "src/core2/data/parameters.json": "4a0f554e0368d29394f652410af8597f4ed53eab60bc03781c2718c9ff535fb6",
+    "src/core2/data/parameters.json": "e4e4750fd629ff47969b4aad6646fe057ff0dca9cc16ca8124ab1e02e15b1486",
     "data/research/money/public-programs-2026.json": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193",
     "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac",
     "data/research/money/opening-customer-cex-2024.json": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b",

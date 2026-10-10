@@ -173,17 +173,11 @@
     "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm"
   },
   "careHours": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-careHours",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    "value": 2.23,
+    "tag": "ESTIMATED",
+    "citation": "BLS American Time Use Survey 2025, Table 1: caring for and helping household members, 2.23 hours per day among people who did it that day (22.0% of people); https://www.bls.gov/news.release/atus.t01.htm",
+    "estimatedFrom": "The ATUS average for people who gave care that day is used as the length of one act of caring for a relative, inside or outside the home; ATUS counts household members only, and an act stands for a day's caregiving, not one task (CTO, October 10, 2026).",
+    "stopgapId": "SG-P15-free-block-plan"
   },
   "civicHours": {
     "value": 1,
@@ -3318,5 +3312,10 @@
     "citation": "U.S. Census Bureau, CPS 2023 ASEC, America's Families and Living Arrangements: 2023, Table FG3: the age-difference rows are 2-3, 4-5, 6-9, 10-14 and 15-19 years, and the last rows are open (husband or wife 20 or more years older).",
     "estimatedFrom": "Each open row is spread over five whole years, the width of the two rows next to it (10-14 and 15-19 years), so 20 or more years reads as 20 to 24. The open rows hold 1.2% of married couples.",
     "stopgapId": "SG-P15-partnership-model"
+  },
+  "householdChildAgeYears": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey: household children are those under 18 (ATUS glossary, 'household children'); https://www.bls.gov/tus/glossary.htm"
   }
 }
