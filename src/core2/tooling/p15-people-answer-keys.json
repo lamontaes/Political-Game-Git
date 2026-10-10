@@ -43,5 +43,11 @@
   },
   "householdShape": {
     "citation": "U.S. Census Bureau, American Community Survey 2020-2024 tables B11001 and B11003 for the place, else its state, as read by src/simulation/household-mix.ts."
+  },
+  "networkTurnover": {
+    "citation": "Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80 (Dutch panel, 1,007 adults aged 18-65, 604 re-interviewed seven years later): 48% of the discussion partners and practical helpers named at the start were still in the network seven years later, and 30% held the same position (figures as reported in the Utrecht University release of May 27, 2009, ScienceDaily 090527111907; the 2014 article is paywalled and no kin/non-kin split was found in the sources read). The game's share of ties still above their opening closeness after seven years is compared with it in a seven-year run.",
+    "retainedAfterSevenYearsPercent": 48,
+    "samePositionAfterSevenYearsPercent": 30,
+    "kinSplit": null
   }
 }

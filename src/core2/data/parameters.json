@@ -468,6 +468,121 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "closenessHoursAtHalf": {
+    "value": 90,
+    "tag": "TUNABLE",
+    "citation": "Hours of time together at which closeness reaches half of full closeness; closeness is hours / (hours + this value), so it grows toward full closeness and never reaches it.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "low": 80,
+      "high": 100,
+      "unit": "hours together",
+      "citation": "Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4): 80 to 100 hours to become a friend, combined across both studies; roughly 50 hours to a casual friend and more than 200 to a close friend."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "closenessKinHalfLifeDays": {
+    "value": 1095,
+    "tag": "TUNABLE",
+    "citation": "Half-life of time together between relatives without contact, 36 months, as the P15 package and the P13 director use it. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life. Calibration check: Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80 (Dutch panel, 1,007 adults aged 18-65, 604 re-interviewed seven years later): 48% of the discussion partners and practical helpers named at the start were still in the network seven years later, and 30% held the same position (figures as reported in the Utrecht University release of May 27, 2009, ScienceDaily 090527111907; the 2014 article is paywalled and no kin/non-kin split was found in the sources read). The game's share of ties still above their opening closeness after seven years is compared with it in a seven-year run.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study reports a half-life for closeness without contact; Roberts and Dunbar (2015) report direction only (kin b = 0.27, friends b = -0.62 over 18 months)."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "closenessOtherHalfLifeDays": {
+    "value": 548,
+    "tag": "TUNABLE",
+    "citation": "Half-life of time together between people who are not relatives without contact, 18 months, as the P15 package and the P13 director use it. Calibration check: Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80 (Dutch panel, 1,007 adults aged 18-65, 604 re-interviewed seven years later): 48% of the discussion partners and practical helpers named at the start were still in the network seven years later, and 30% held the same position (figures as reported in the Utrecht University release of May 27, 2009, ScienceDaily 090527111907; the 2014 article is paywalled and no kin/non-kin split was found in the sources read). The game's share of ties still above their opening closeness after seven years is compared with it in a seven-year run.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study reports a half-life for closeness without contact; Roberts and Dunbar (2015) report that friendships decline faster than kinship."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "householdFamilyMinutesPerDay": {
+    "value": 243,
+    "tag": "SOURCED",
+    "citation": "Kannan and Veazie (2022), SSM Population Health 21:101331, American Time Use Survey 2019: average minutes per day in the presence of household family members, respondents 15 and older."
+  },
+  "householdOtherMinutesPerDay": {
+    "value": 43,
+    "tag": "TUNABLE",
+    "citation": "Minutes per day a housemate who is not family spends in another housemate's presence; ATUS 2019 reports 43 minutes per day with all 'others' (roommates, neighbors, acquaintances, coworkers and clients) together, used here as the housemate figure.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "ATUS does not separate roommates from neighbors, acquaintances, coworkers and clients."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "schoolDaysPerYear": {
+    "value": 180,
+    "tag": "SOURCED",
+    "citation": "NCES Schools and Staffing Survey 2007-08, public school data file, average number of days in the school year (sass0708_035_s1s): 180."
+  },
+  "schoolHoursPerDay": {
+    "value": 6.64,
+    "tag": "SOURCED",
+    "citation": "NCES Schools and Staffing Survey 2007-08, public school data file, average hours in the school day (sass0708_035_s1s): 6.64."
+  },
+  "schoolHoursFriendshipWeight": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Share of an hour at school that counts as an hour of time together toward friendship. Hall (2019): hours spent working or at school together count less than time socializing.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Hall (2019) reports that work and school hours count less, not by how much."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "farKinContactShare": {
+    "value": 0.39,
+    "tag": "ESTIMATED",
+    "citation": "Visits to a relative living elsewhere in the state, as a share of visits to one living in the same county; Pew 2005: 22% of adults with a parent in a different town see or talk to that parent daily, against 56% in the same town (0.39).",
+    "estimatedFrom": "Pew Research Center (2005), daily contact with a parent by whether the parent lives in the same town (56%) or a different town (22%): 22/56 = 0.39, applied to visits to any relative elsewhere in the state. Pew counts calls with visits and compares towns, not counties; the CTO accepted it until relatives carry a place (October 10, 2026).",
+    "stopgapId": "SG-P15-distance-by-place"
+  },
+  "extendedKinVisitShare": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Visits to one grandparent, grandchild, aunt, uncle, niece, nephew or a child's other parent, as a share of the GSS frequency of a social evening with any relative.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The GSS asks about relatives as a group; no source gives visits per extended relative."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "tieMissingWeightPerHour": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Pull toward contacting a person for each hour of time together the tie has lost since the last contact. Chosen in a sweep of a 600-resident generated Stanwood, Washington town (56 days, seed p15-opening-kin), where higher values added little contact and crowded out other acts. Checked in a 10,001-resident Sacramento town over 91 days (seed p10-drives-proof-2026-10-09): adults made 47.4 visits a year to relatives outside their home, about 91 hours against 170 in ATUS 2019 (28 minutes a day, Kannan and Veazie 2022), and visited each parent 2.5 times as often as each sibling against 1.37 in the GSS. One discretionary act per activation caps the total.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No source measures how strongly a fading tie pulls a person to make contact."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
   "routineRetentionDays": {
     "value": 7,
     "tag": "SOURCED",
@@ -3070,16 +3185,14 @@
       "ref": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD"
     }
   },
-  "kinNearCountyShare": {
-    "value": 0.55,
+  "kinMoveAwayShare": {
+    "value": 0.35,
     "tag": "TUNABLE",
-    "citation": "Share of a resident's relatives who live in the household's county rather than elsewhere in the state; tuned so the share of adults whose nearest parent or adult child lives nearby, and whose every such relative does, fall between the PSID 2013 figures.",
+    "citation": "Share of moves out of the county (ACS 2024 B07401, by state and age) that take a person away from their family, rather than to a nearby county or back home. One value cannot reach both PSID 2013 figures (74.8% nearest parent or grown child within 30 miles, 35.5% all of them). In a generated Sacramento town of 3,000 (seed p10-drives-proof-2026-10-09, with later-life re-aging), 0.3 gives 71.1% and 42.4%, and 0.35 gives 67.1% and 37.5%; 0.35 has the smaller combined miss.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
-      "low": 0.355,
-      "high": 0.748,
-      "unit": "share of relatives living near",
-      "citation": "Choi, Schoeni, Wiemers, Hotz and Seltzer (2020), Spatial Distance Between Parents and Adult Children in the United States, Journal of Marriage and Family 82(2), PSID 2013: 74.8% of adults with a living parent or adult child have the nearest within 30 miles; 35.5% have all of them within 30 miles."
+      "status": "unmeasured",
+      "reason": "No source splits moves out of the county into moves away from family and short or return moves; PSID reports only the resulting distances (74.8% have the nearest parent or grown child within 30 miles, 35.5% all of them)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"

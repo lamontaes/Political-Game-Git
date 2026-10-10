@@ -1,3 +1,8 @@
+import { OPENING_KIN } from "./opening-kin";
+import {
+  buildOpeningPeerContacts,
+  DEFAULT_OPENING_PEER_DATA,
+} from "./opening-peer-network";
 import institutionsJson from "../../data/research/places/local-institutions.json" with { type: "json" };
 import { daysBetween, makeIsoDate } from "../simulation/dates";
 import { countyGeoidsForPlace } from "../simulation/government-units";
@@ -506,12 +511,22 @@ export function buildDeepPast(
     gaps.add(
       `${gapPrefix}${field}: ${count} people retain an unresolved personal-history field; consult priorFactsSource for the constraint.`,
     );
+  // P15: every resident gets remembered acquaintances from their own school
+  // context, by the same rule the benchmark player had.
+  const withPast: CoreInput = {
+    ...input,
+    people,
+    // The circle step appends its own gap; keep it last on every rebuild.
+    gaps: [...gaps].filter((gap) => gap !== DEFAULT_OPENING_PEER_DATA.scopeGap),
+  };
   const result: CoreInput & {
     priorFactsSource: readonly DeepPastFieldSource[];
   } = {
-    ...input,
-    people,
-    gaps: [...gaps],
+    ...buildOpeningPeerContacts(withPast, {
+      personIds: people
+        .filter((person) => person.tier !== OPENING_KIN.kinTier)
+        .map((person) => person.id),
+    }).input,
     priorFactsSource: reports,
   };
   return result;

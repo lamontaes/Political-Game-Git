@@ -2,6 +2,7 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { stableHash } from "../simulation/ids";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
+import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
 import { buildPopulation } from "./population";
 import { parameter as p } from "./parameters";
@@ -171,6 +172,7 @@ describe("kin structure from one household", () => {
     townId: "town",
     countyId: "county",
     stateId: "state",
+    departurePerYearByAge: moverRates.national.departurePerYearByAge,
     name: ({ familyName }: { familyName: string | null }) => ({
       givenName: "Given",
       familyName: familyName ?? "Drawn",

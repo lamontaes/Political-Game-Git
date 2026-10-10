@@ -107,6 +107,7 @@ import {
 import { birthCohortGivenName } from "../simulation/given-name-cohorts";
 import { inventedPersonBirthDate } from "../simulation/invented-person-age";
 import { SeededRng } from "../simulation/rng";
+import moverRates from "../../data/research/migration/mover-rates-acs-2024.json" with { type: "json" };
 import { buildOpeningKin, OPENING_KIN } from "./opening-kin";
 import { partnerAgedHousehold, partnershipGeo } from "./opening-partnership";
 import { openingTemperaments } from "./opening-personality";
@@ -1104,6 +1105,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     stateId: place.stateJurisdictionKey
       ? stateJurisdictionForKey(place.stateJurisdictionKey)?.id
       : undefined,
+    stateKey: place.stateJurisdictionKey ?? undefined,
     startedAt,
     plans,
     people,
@@ -1173,6 +1175,8 @@ interface OpeningFamilyInput {
   world: World;
   town: EntityId;
   stateId?: string;
+  /** The state's USPS jurisdiction key ("US-CA"), for its ACS leaving rates. */
+  stateKey?: string;
   startedAt: WorldDate;
   plans: readonly HouseholdPlan[];
   people: readonly PersonInput[];
@@ -1218,6 +1222,10 @@ function openingFamilies(input: OpeningFamilyInput): {
       startedAt,
       townId: input.town,
       ...(input.stateId ? { stateId: input.stateId } : {}),
+      departurePerYearByAge: (
+        moverRates.places[input.stateKey as keyof typeof moverRates.places] ??
+        moverRates.national
+      ).departurePerYearByAge,
       name: ({ stableKey, gender, birthDate, familyName }) => {
         const key = gender as GenderIdentityKey;
         const named = drawCanonicalNamedIdentity(
