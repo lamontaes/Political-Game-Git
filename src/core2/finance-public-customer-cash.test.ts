@@ -1,5 +1,10 @@
 /** All cases UNEXECUTED by the source-only author. Synthetic edge proof only. */
 import { describe, expect, it } from "vitest";
+import {
+  openingCustomerQualificationKey,
+  openingCustomerQualificationReference,
+  type OpeningCustomerQualificationRecord,
+} from "./opening-customer-qualification";
 import { DEFAULT_DATA } from "./data";
 import financePolicy from "./data/finance.json" with { type: "json" };
 import {
@@ -1397,3 +1402,328 @@ for (const domain of ["public", "visitor"] as const) {
     });
   });
 }
+
+function canonicalFixture(domain: Domain): ReturnType<typeof buildFixture> {
+  const original = buildFixture(domain),
+    input = structuredClone(original.input);
+  const owner = input.organizations.find((row) => row.id === ownerId)!;
+  const agreementKey = `${publicRule.agreementFieldPrefix}${destination}`;
+  const publicAgreement =
+    domain === "public"
+      ? JSON.parse(owner.governmentFacts![agreementKey]!)
+      : undefined;
+  const visitKey = `${visitorRule.visitMetadataPrefix}${visitId}`;
+  const visit =
+    domain === "visitor"
+      ? JSON.parse(input.placeMetadata![visitKey]!)
+      : undefined;
+  const quals =
+    domain === "public"
+      ? publicAgreement.providerQualifications
+      : JSON.parse(visit.facts.providerQualifications);
+  const refs = quals.map((q: RecordRow, index: number) => {
+    const qualificationId = `opaque-fixture-qualification-${domain}-${index}`;
+    const record = {
+      qualificationId,
+      ...q,
+    } as unknown as OpeningCustomerQualificationRecord;
+    const provider = input.organizations.find(
+      (row) => row.id === record.organizationId,
+    )!;
+    provider.governmentFacts = {
+      ...provider.governmentFacts,
+      [openingCustomerQualificationKey(qualificationId)]:
+        JSON.stringify(record),
+    };
+    return openingCustomerQualificationReference(record);
+  });
+  if (domain === "public") {
+    publicAgreement.providerQualifications = refs;
+    owner.governmentFacts = {
+      ...owner.governmentFacts,
+      [agreementKey]: JSON.stringify(publicAgreement),
+    };
+  } else {
+    visit.facts.providerQualifications = JSON.stringify(refs);
+    input.placeMetadata = {
+      ...input.placeMetadata,
+      [visitKey]: JSON.stringify(visit),
+    };
+  }
+  const core = createCore(input, { data: DEFAULT_DATA, observer: true });
+  ensureFinanceCashModule(core);
+  return { core, input, ids: original.ids };
+}
+function changeRegistry(
+  core: CoreState,
+  change: (row: RecordRow) => void,
+): void {
+  const owner = core.organizations.get(sellers[p("zero")]!)!;
+  const key = Object.keys(owner.governmentFacts!).find((row) =>
+    row.startsWith("openingCustomers.qualification:"),
+  )!;
+  const record = JSON.parse(owner.governmentFacts![key]!) as RecordRow;
+  change(record);
+  owner.governmentFacts = {
+    ...owner.governmentFacts,
+    [key]: JSON.stringify(record),
+  };
+}
+function changeRef(
+  core: CoreState,
+  domain: Domain,
+  change: (row: RecordRow) => void,
+): void {
+  if (domain === "public")
+    updatePublic(core, "agreement", (row) =>
+      change((row.providerQualifications as RecordRow[])[p("zero")]!),
+    );
+  else
+    updateVisit(core, (row) => {
+      const facts = row.facts as Record<string, string>,
+        refs = JSON.parse(facts.providerQualifications!) as RecordRow[];
+      change(refs[p("zero")]!);
+      facts.providerQualifications = JSON.stringify(refs);
+    });
+}
+
+describe.each(["public", "visitor"] as const)(
+  "canonical complete qualification: %s (UNEXECUTED source-only)",
+  (domain) => {
+    it("pays genuine complete references while retaining each original inline fixture", () => {
+      for (const make of [buildFixture, canonicalFixture]) {
+        const { core, ids, input } = make(domain),
+          originalTerms = structuredClone(input.finance!.contracts);
+        expect(
+          coreAPI(core).settleFinanceContract(ids[p("zero")]!).paidMinor,
+        ).toBe(60);
+        expect(
+          coreAPI(core).settleFinanceContract(ids[p("one")]!).paidMinor,
+        ).toBe(40);
+        expect(input.finance!.contracts).toEqual(originalTerms);
+      }
+    });
+    for (const [name, mutate] of [
+      [
+        "record owner",
+        (core: CoreState) =>
+          changeRegistry(core, (row) => {
+            row.organizationId = sellers[p("one")]!;
+          }),
+      ],
+      [
+        "record service",
+        (core: CoreState) =>
+          changeRegistry(core, (row) => {
+            row.serviceKey = "unrelated-product";
+          }),
+      ],
+      [
+        "record ID",
+        (core: CoreState) =>
+          changeRegistry(core, (row) => {
+            row.qualificationId = "other-opaque-id";
+          }),
+      ],
+      [
+        "full Source",
+        (core: CoreState) =>
+          changeRegistry(core, (row) => {
+            (
+              (row.sources as RecordRow[])[p("zero")]!.source as Source
+            ).estimatedFrom = "Changed full Source while citation remains same";
+          }),
+      ],
+      [
+        "changed full Source with matching representation hash",
+        (core: CoreState) => {
+          changeRegistry(core, (row) => {
+            (
+              (row.sources as RecordRow[])[p("zero")]!.source as Source
+            ).estimatedFrom = "Changed actual full Source claim";
+          });
+          const owner = core.organizations.get(sellers[p("zero")]!)!,
+            key = Object.keys(owner.governmentFacts!).find((row) =>
+              row.startsWith("openingCustomers.qualification:"),
+            )!;
+          const record = JSON.parse(
+            owner.governmentFacts![key]!,
+          ) as OpeningCustomerQualificationRecord;
+          changeRef(core, domain, (row) => {
+            Object.assign(row, openingCustomerQualificationReference(record));
+          });
+        },
+      ],
+      [
+        "reference hash",
+        (core: CoreState) =>
+          changeRef(core, domain, (row) => {
+            row.qualificationHash = "wrong-digest";
+          }),
+      ],
+      [
+        "reference owner",
+        (core: CoreState) =>
+          changeRef(core, domain, (row) => {
+            row.organizationId = sellers[p("one")]!;
+          }),
+      ],
+      [
+        "reference service",
+        (core: CoreState) =>
+          changeRef(core, domain, (row) => {
+            row.serviceKey = "unrelated-product";
+          }),
+      ],
+      [
+        "missing registry",
+        (core: CoreState) => {
+          const owner = core.organizations.get(sellers[p("zero")]!)!;
+          owner.governmentFacts = {};
+        },
+      ],
+      [
+        "staff membership",
+        (core: CoreState) => {
+          core.people.get(personId)!.jobId = undefined;
+        },
+      ],
+    ] as const) {
+      it(`rejects ${name} before preparation with no financial writes`, () => {
+        const { core, ids } = canonicalFixture(domain);
+        mutate(core);
+        const before = financial(core);
+        expect(() =>
+          coreAPI(core).settleFinanceContract(ids[p("zero")]!),
+        ).toThrow();
+        expect(financial(core)).toBe(before);
+      });
+      for (const when of ["after-first", "before-second"] as const)
+        it(`rejects ${name} ${when} original provider lookup with no financial writes`, () => {
+          const { core, ids } = canonicalFixture(domain),
+            api = coreAPI(core);
+          let before = financial(core);
+          const wrapped = lookupTamper(
+            core,
+            api,
+            () => {
+              mutate(core);
+              before = financial(core);
+            },
+            when,
+          );
+          expect(() =>
+            settleFinanceContractJournal(core, wrapped, ids[p("zero")]!),
+          ).toThrow();
+          expect(financial(core)).toBe(before);
+        });
+    }
+    it("checks every saved staff job and forbids pruning a now invalid second staff basis", () => {
+      const original = canonicalFixture(domain),
+        input = structuredClone(original.input);
+      const secondPersonId = "person:second-original-product-worker",
+        secondJobId = "job:second-original-product";
+      input.people = [
+        ...input.people,
+        {
+          ...input.people[p("zero")]!,
+          id: secondPersonId,
+          jobId: secondJobId,
+          householdId: "household:second-original-worker",
+        },
+      ];
+      input.households = [
+        ...input.households,
+        {
+          ...input.households[p("zero")]!,
+          id: "household:second-original-worker",
+          memberIds: [secondPersonId],
+        },
+      ];
+      input.jobs = [
+        ...input.jobs,
+        {
+          ...input.jobs[p("zero")]!,
+          id: secondJobId,
+          personId: secondPersonId,
+          source: {
+            ...source,
+            estimatedFrom: "Complete second owning product Source",
+          },
+        },
+      ];
+      const provider = input.organizations.find(
+        (row) => row.id === sellers[p("zero")]!,
+      )!;
+      const key = Object.keys(provider.governmentFacts!).find((row) =>
+        row.startsWith("openingCustomers.qualification:"),
+      )!;
+      const record = JSON.parse(
+        provider.governmentFacts![key]!,
+      ) as OpeningCustomerQualificationRecord;
+      const complete: OpeningCustomerQualificationRecord = {
+        ...record,
+        jobIds: [...record.jobIds, secondJobId],
+        sources: [
+          ...record.sources,
+          {
+            recordId: secondJobId,
+            kind: "job",
+            occupationClassification: input.jobs.at(-p("one"))!
+              .occupationClassification,
+            source: input.jobs.at(-p("one"))!.source,
+          },
+        ],
+      };
+      provider.governmentFacts = {
+        ...provider.governmentFacts,
+        [key]: JSON.stringify(complete),
+      };
+      const ref = openingCustomerQualificationReference(complete);
+      if (domain === "public") {
+        const owner = input.organizations.find((row) => row.id === ownerId)!,
+          agreementKey = `${publicRule.agreementFieldPrefix}${destination}`;
+        const agreement = JSON.parse(owner.governmentFacts![agreementKey]!);
+        agreement.providerQualifications[p("zero")] = ref;
+        agreement.basisRecordIds = [jobId, secondJobId, providerId];
+        owner.governmentFacts = {
+          ...owner.governmentFacts,
+          [agreementKey]: JSON.stringify(agreement),
+        };
+      } else {
+        const visitKey = `${visitorRule.visitMetadataPrefix}${visitId}`,
+          visit = JSON.parse(input.placeMetadata![visitKey]!);
+        const refs = JSON.parse(visit.facts.providerQualifications);
+        refs[p("zero")] = ref;
+        visit.facts.providerQualifications = JSON.stringify(refs);
+        visit.basisRecordIds.push(secondJobId);
+        input.placeMetadata = {
+          ...input.placeMetadata,
+          [visitKey]: JSON.stringify(visit),
+        };
+      }
+      const good = createCore(input, { data: DEFAULT_DATA, observer: true });
+      ensureFinanceCashModule(good);
+      expect(
+        coreAPI(good).settleFinanceContract(original.ids[p("zero")]!).paidMinor,
+      ).toBe(60);
+      for (const prune of [false, true]) {
+        const core = createCore(input, { data: DEFAULT_DATA, observer: true });
+        ensureFinanceCashModule(core);
+        core.people.get(secondPersonId)!.jobId = undefined;
+        if (prune)
+          changeRegistry(core, (row) => {
+            row.jobIds = [jobId];
+            row.sources = (row.sources as RecordRow[]).filter(
+              (basis) => basis.recordId === jobId,
+            );
+          });
+        const before = financial(core);
+        expect(() =>
+          coreAPI(core).settleFinanceContract(original.ids[p("zero")]!),
+        ).toThrow();
+        expect(financial(core)).toBe(before);
+      }
+    });
+  },
+);
