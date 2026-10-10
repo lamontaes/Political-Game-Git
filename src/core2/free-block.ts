@@ -99,7 +99,28 @@ function freeHours(
 }
 
 interface Projection {
-  lastContactDate: IsoDate;
+  /** Days from today to the last contact (negative in the past). */
+  contactDay: number;
+}
+
+const dates = new WeakMap<
+  CoreState,
+  { today: string; byDay: Map<number, IsoDate> }
+>();
+
+/** The date a number of days from today, shared by everyone planning today. */
+function dateAt(core: CoreState, day: number): IsoDate {
+  let row = dates.get(core);
+  if (row?.today !== core.date) {
+    row = { today: core.date, byDay: new Map() };
+    dates.set(core, row);
+  }
+  let date = row.byDay.get(day);
+  if (date === undefined) {
+    date = addDays(makeIsoDate(core.date), day) as IsoDate;
+    row.byDay.set(day, date);
+  }
+  return date;
 }
 
 function needsOn(
@@ -113,11 +134,8 @@ function needsOn(
   // days ahead so the gap since it is the gap on the planned date. Needs whose
   // evaluator does not read the last contact keep today's value.
   const view: PersonState = Object.create(actor);
-  view.lastContactDate = addDays(
-    makeIsoDate(projection.lastContactDate),
-    -day,
-  ) as IsoDate;
-  const values: Record<string, number> = { ...actor.needs };
+  view.lastContactDate = dateAt(api.state, projection.contactDay - day);
+  const values: Record<string, number> = Object.create(actor.needs);
   for (const definition of api.state.data.needs) {
     if (!FREE_BLOCK.contactEvaluators.includes(definition.evaluator)) continue;
     const evaluate = resolveOperation(
@@ -255,13 +273,29 @@ export function planFreeTime(
     effortWeight = p("effortWeight");
   api.stopgap(FREE_BLOCK.stopgapId);
   const today: PlannedAct[] = [];
-  const projection: Projection = { lastContactDate: actor.lastContactDate };
+  const projection: Projection = {
+    contactDay: -daysBetween(
+      makeIsoDate(actor.lastContactDate),
+      makeIsoDate(core.date),
+    ),
+  };
   const pool = candidates(api, actor, scored);
   const scores = new Float64Array(pool.length);
+  const byNeed = new Map<string, number[]>();
+  pool.forEach((candidate, index) => {
+    const rows = byNeed.get(candidate.need);
+    if (rows) rows.push(index);
+    else byNeed.set(candidate.need, [index]);
+  });
+  const better = (index: number, than: number) =>
+    than < zero ||
+    scores[index]! > scores[than]! ||
+    (scores[index] === scores[than] &&
+      pool[index]!.row.key < pool[than]!.row.key);
   const visit = (candidate: Candidate, day: number, date: IsoDate) => {
     if (candidate.row.offer.definition.effect !== FREE_BLOCK.contactEffect)
       return;
-    projection.lastContactDate = date;
+    projection.contactDay = day;
     const target = candidate.row.offer.targetId;
     for (const other of pool) {
       if (!other.tie || other.row.offer.targetId !== target) continue;
@@ -281,7 +315,7 @@ export function planFreeTime(
   for (const row of scored)
     available = Math.min(available, row.offer.availableHours);
   for (let day = zero; day < days; day += one) {
-    const date = addDays(makeIsoDate(core.date), day) as IsoDate;
+    const date = dateAt(core, day);
     let hours = day === zero ? available : freeHours(api, actor, date);
     const needs = needsOn(api, actor, projection, day);
     const used = new Set<string>();
@@ -292,6 +326,8 @@ export function planFreeTime(
       if (picked) visit(picked, day, date);
     }
     const effortHours = hours;
+    // Each need's best act that fits the hours, from one pass.
+    const winners = new Map<string, number>();
     for (let index = zero; index < pool.length; index += one) {
       const candidate = pool[index]!;
       let goal = candidate.otherGoal;
@@ -305,26 +341,35 @@ export function planFreeTime(
         (effortHours > zero
           ? (-candidate.effortHours / effortHours) * effortWeight
           : zero);
+      if (
+        scores[index]! > zero &&
+        !used.has(candidate.need) &&
+        candidate.effortHours <= hours &&
+        better(index, winners.get(candidate.need) ?? -one)
+      )
+        winners.set(candidate.need, index);
     }
     for (;;) {
+      // The best act overall is the best of the needs' best acts.
       let best = -one;
-      for (let index = zero; index < pool.length; index += one) {
-        const candidate = pool[index]!;
-        if (
-          scores[index]! <= zero ||
-          used.has(candidate.need) ||
-          candidate.effortHours > hours
-        )
-          continue;
-        if (
-          best < zero ||
-          scores[index]! > scores[best]! ||
-          (scores[index] === scores[best] &&
-            candidate.row.key < pool[best]!.row.key)
-        )
+      for (const [need, index] of winners)
+        if (!used.has(need) && index >= zero && better(index, best))
           best = index;
-      }
       if (best < zero) break;
+      if (pool[best]!.effortHours > hours) {
+        // Earlier acts took the hours it needed; take that need's next best.
+        const need = pool[best]!.need;
+        let next = -one;
+        for (const index of byNeed.get(need)!)
+          if (
+            scores[index]! > zero &&
+            pool[index]!.effortHours <= hours &&
+            better(index, next)
+          )
+            next = index;
+        winners.set(need, next);
+        continue;
+      }
       const candidate = pool[best]!;
       used.add(candidate.need);
       hours -= candidate.effortHours;
