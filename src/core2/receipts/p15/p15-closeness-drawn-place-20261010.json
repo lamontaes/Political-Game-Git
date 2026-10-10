@@ -1,0 +1,235 @@
+{
+  "version": "p15-closeness-v1",
+  "seed": "p15-opening-kin",
+  "place": "Stanwood, Washington",
+  "startedAt": "2021-01-01",
+  "days": 91,
+  "residents": 3003,
+  "adults": 2052,
+  "people": 13387,
+  "relationships": 27054,
+  "circle": {
+    "residentsWithAcquaintances": 2686,
+    "meanAcquaintances": 15.8
+  },
+  "openingCloseness": {
+    "aunt-or-uncle": {
+      "pairs": 2738,
+      "mean": 0.406,
+      "p10": 0.351,
+      "median": 0.351,
+      "p90": 0.581
+    },
+    "child": {
+      "pairs": 2163,
+      "mean": 0.79,
+      "p10": 0.646,
+      "median": 0.824,
+      "p90": 0.962
+    },
+    "grandchild": {
+      "pairs": 2415,
+      "mean": 0.447,
+      "p10": 0.351,
+      "median": 0.351,
+      "p90": 0.581
+    },
+    "grandparent": {
+      "pairs": 2362,
+      "mean": 0.461,
+      "p10": 0.351,
+      "median": 0.351,
+      "p90": 0.581
+    },
+    "household family": {
+      "pairs": 2647,
+      "mean": 0.986,
+      "p10": 0.986,
+      "median": 0.986,
+      "p90": 0.986
+    },
+    "other-parent": {
+      "pairs": 435,
+      "mean": 0.471,
+      "p10": 0.351,
+      "median": 0.581,
+      "p90": 0.581
+    },
+    "parent": {
+      "pairs": 2612,
+      "mean": 0.813,
+      "p10": 0.65,
+      "median": 0.832,
+      "p90": 0.953
+    },
+    "sibling": {
+      "pairs": 4597,
+      "mean": 0.69,
+      "p10": 0.571,
+      "median": 0.606,
+      "p90": 0.918
+    }
+  },
+  "closenessAfter": {
+    "acquaintance": {
+      "pairs": 7,
+      "mean": 0.021,
+      "p10": 0.021,
+      "median": 0.021,
+      "p90": 0.021
+    },
+    "aunt-or-uncle": {
+      "pairs": 2738,
+      "mean": 0.395,
+      "p10": 0.338,
+      "median": 0.338,
+      "p90": 0.574
+    },
+    "child": {
+      "pairs": 2163,
+      "mean": 0.783,
+      "p10": 0.635,
+      "median": 0.817,
+      "p90": 0.96
+    },
+    "grandchild": {
+      "pairs": 2415,
+      "mean": 0.435,
+      "p10": 0.338,
+      "median": 0.338,
+      "p90": 0.571
+    },
+    "grandparent": {
+      "pairs": 2362,
+      "mean": 0.452,
+      "p10": 0.338,
+      "median": 0.347,
+      "p90": 0.582
+    },
+    "household family": {
+      "pairs": 2647,
+      "mean": 0.986,
+      "p10": 0.986,
+      "median": 0.986,
+      "p90": 0.986
+    },
+    "housemate": {
+      "pairs": 167,
+      "mean": 0.863,
+      "p10": 0.863,
+      "median": 0.863,
+      "p90": 0.863
+    },
+    "other-parent": {
+      "pairs": 435,
+      "mean": 0.464,
+      "p10": 0.338,
+      "median": 0.567,
+      "p90": 0.582
+    },
+    "parent": {
+      "pairs": 2612,
+      "mean": 0.807,
+      "p10": 0.64,
+      "median": 0.827,
+      "p90": 0.95
+    },
+    "sibling": {
+      "pairs": 4597,
+      "mean": 0.681,
+      "p10": 0.557,
+      "median": 0.595,
+      "p90": 0.914
+    }
+  },
+  "contactRates": {
+    "acquaintance": {
+      "contacts": 7,
+      "perAdultPerYear": 0.01,
+      "perTiePerYear": 0,
+      "ties": 35424
+    },
+    "child": {
+      "contacts": 7706,
+      "perAdultPerYear": 15.07,
+      "perTiePerYear": 14.3,
+      "ties": 2163
+    },
+    "grandchild": {
+      "contacts": 798,
+      "perAdultPerYear": 1.56,
+      "perTiePerYear": 1.33,
+      "ties": 2415
+    },
+    "parent": {
+      "contacts": 9111,
+      "perAdultPerYear": 17.82,
+      "perTiePerYear": 14,
+      "ties": 2612
+    },
+    "sibling": {
+      "contacts": 5493,
+      "perAdultPerYear": 10.74,
+      "perTiePerYear": 5.3,
+      "ties": 4163
+    }
+  },
+  "mostContactsWithOnePerson": {
+    "pairs": 2052,
+    "mean": 5.357,
+    "p10": 2,
+    "median": 5,
+    "p90": 9
+  },
+  "answerKeys": {
+    "gss": {
+      "id": "gss-social-evening",
+      "citation": "General Social Survey 1972-2024 Cumulative Datafile, Release 3, SDA codebook (sda.berkeley.edu/sdaweb/docs/gss24rel3/DOC/hcbk0040.htm): \"How often do you spend a social evening with ...\", pooled over the years asked, percent of valid answers.",
+      "categories": [
+        "almost daily",
+        "once or twice a week (several times a week for parents and siblings)",
+        "several times a month",
+        "about once a month",
+        "several times a year",
+        "about once a year",
+        "never"
+      ],
+      "rows": {
+        "parents": {
+          "percent": [6.2, 14.3, 10, 9.9, 13.1, 8.1, 9.1],
+          "noSuchPeople": 29.1,
+          "variable": "SOCPARS"
+        },
+        "siblings": {
+          "percent": [5.3, 13.1, 12, 13.3, 21.9, 15.3, 9.9],
+          "noSuchPeople": 9.2,
+          "variable": "SOCSIBS"
+        },
+        "relatives": {
+          "percent": [9.8, 25.3, 18.3, 16.3, 18.5, 7.2, 4.6],
+          "variable": "SOCREL"
+        },
+        "neighbors": {
+          "percent": [5.3, 16.9, 11.4, 14.4, 12.8, 9.6, 29.7],
+          "variable": "SOCOMMUN"
+        },
+        "friends": {
+          "percent": [3, 17.7, 20, 21.8, 19.3, 7.8, 10.5],
+          "variable": "SOCFREND"
+        }
+      },
+      "limits": "A social evening, not any meeting; not restricted to relatives living elsewhere; pooled years."
+    },
+    "hall": {
+      "id": "hall-2019-friendship-hours",
+      "citation": "Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4), doi:10.1177/0265407518761225; University of Kansas release, March 6, 2018.",
+      "findings": "Roughly 50 hours from acquaintance to casual friend, 90 hours to friend and more than 200 hours to close friend; combined across both studies 40-60, 80-100 and more than 200 hours. Hours spent working together count less than time socializing.",
+      "limits": "Release figures; the article's coefficients were not read."
+    }
+  },
+  "seconds": {
+    "build": 4,
+    "createWithDeepPast": 2.7,
+    "simulate": 69.5
+  }
+}
