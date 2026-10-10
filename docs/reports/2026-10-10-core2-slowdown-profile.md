@@ -1,6 +1,6 @@
 # The new wage code makes a game year about three times slower
 
-A game year now takes roughly 1,000 seconds instead of 324, from the full-year timing done earlier today. One routine causes nearly all of it: the one that pays wages through the cash journal. On the same Sacramento town, 31 simulated days take about 28 seconds with the old money code and 87 with the new, and building the town takes the same time in both. The routine mostly re-reads and re-copies records it has just checked. Owner decision: the 20% speed budget (no year more than 1.2 times main) probably cannot be met even after those fixes, so decide whether it applies to the new money code.
+A game year now takes roughly 1,000 seconds instead of 324, from the full-year timing done earlier today. One routine causes nearly all of it: the one that pays wages through the cash journal. On the same Sacramento town, 31 simulated days take about 28 seconds with the old money code and 87 with the new, and building the town takes the same time in both. The routine mostly re-reads and re-copies records it has just checked. Owner decision: the 20% speed budget (no year more than 1.2 times main) probably cannot be met even after the four code fixes proposed below, so decide whether it applies to the new money code.
 
 ## What was compared
 
@@ -33,7 +33,7 @@ AFTER + P8 is AFTER with Sol's newest branch merged in (P8 at `32569a5f`). It ta
 | Peak memory over 31 days, MiB (noisy across runs)                           |       2,331 |       2,491 |
 
 - The town builds in 6.3 to 8.2 seconds in every run, with no pattern between versions. The slowdown is per day, not per build: the first day alone is already 3.6 times slower.
-- Cross-check against the full-year timing (OPUS-DRIVES, the session that ran it, commented on issue 3922 at 05:57 UTC on October 10): 59 added seconds over 31,176 work results is 1.9 milliseconds each. A year is about 367,000 work results (1,006 a day), which predicts roughly 700 added seconds. OPUS-DRIVES measured 636 and 833 added seconds on its two runs.
+- Cross-check against the full-year timing (OPUS-DRIVES, the session that ran it, commented on issue 3922 at 05:57 UTC on October 10): 59 added seconds over 31,176 work results is 1.9 milliseconds each. A year is about 367,000 work results (1,006 a day), which predicts roughly 700 added seconds. OPUS-DRIVES measured a year at 324 seconds before and at 960 and 1,157 seconds after, which is 636 and 833 added seconds.
 - Drives are off, so the donation change that came with the merge (`payDonation`, `src/core2/modules/drives.ts:954`) never ran. It appears in neither profile.
 
 ## Where the time goes
@@ -76,7 +76,7 @@ A work result is one dated work segment settled with its wages, and the counter 
 | `detach` calls (deep copy and freeze) |         5.42 million |                                                                 174 |
 | `payload` walks                       |         3.10 million |                                                                 100 |
 
-The routine records every read it makes into two logs, then replays each log many times. Traced on a 2-day run (1,209 calls, 605 a day; the 31-day average is 1,006 a day and I did not trace why the first days are lower):
+The routine records every read it makes into two logs, then replays each log many times. The preflight is the last replay of both logs, run at the end of every journal lookup by the work provider, to confirm the world did not change while the entry was being posted. Traced on a 2-day run (1,209 calls, 605 a day; the 31-day average is 1,006 a day and I did not trace why the first days are lower):
 
 | Log                                          | Recorded reads per call | Replays | Where the replays happen                                                        |
 | -------------------------------------------- | ----------------------: | ------: | ------------------------------------------------------------------------------- |
@@ -91,6 +91,8 @@ The largest sources of the main log's 625 reads, per call, are in `captureWorkCo
 ## The causes, ranked by share of the 60.6 added seconds
 
 Self time counts only a function's own lines; inclusive time also counts what it calls. This table uses inclusive time, so its rows do not match the self-time hot-spot table. Cause 1 is the inclusive time of `verify`: 19.2 seconds, which contains about 5.7 seconds of `directRead` called from `verify`. The rest of `directRead`'s 7.4 seconds is called from recording and copying, which is in causes 2 and 6.
+
+Classes: (a) a scan where an index belongs; (b) repeated copying, freezing or validation on the hot path; (c) new work the money repair needs; (d) other.
 
 | Rank | Cause                                                                                                                                                                                           | Seconds | Share | Class | Basis                            |
 | ---- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------: | ----: | ----- | -------------------------------- |
