@@ -13,7 +13,7 @@ unchanged by these tools.
 - Performance: `node --import tsx scripts/core2-guard/paired.mjs --base BASE --head HEAD --output /tmp/core2-paired.json`.
   Start with a clean registered checkout. The tool switches revisions
   sequentially, then restores the original branch or detached commit.
-- Detector tests: `node --import tsx --test tests/golden-path/runner.test.mjs scripts/core2-guard/compare.test.mjs`.
+- Detector tests: `node --import tsx --test tests/golden-path/runner.node-test.mjs scripts/core2-guard/compare.node-test.mjs`.
   Run heavy commands through the repository storage wrapper in the cloud.
 
 An accepted command failure, timeout, or missing command is red. Goal failures
