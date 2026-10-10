@@ -14,7 +14,10 @@
       <button id="build" type="submit">Generate town</button>
     </form>
     <p id="status" role="status" aria-live="polite"></p>
-    <pre id="provenance"></pre>
+    <details>
+      <summary>Opening records and integration heads</summary>
+      <pre id="provenance"></pre>
+    </details>
     <label>Resident search <input id="search" type="search" /></label>
     <table>
       <thead>
@@ -45,8 +48,14 @@
     </p>
     <h2>Golden path — integration acceptance pending</h2>
     <ol>
-      <li>Turn 18 — reachability check pending people integration</li>
-      <li>Meet people — reachability check pending people integration</li>
+      <li>
+        Turn 18 — reachability check pending; inspect resident birth-date
+        records
+      </li>
+      <li>
+        Meet people — reachability check pending; inspect the resident's contact
+        offers
+      </li>
       <li>
         File for office where that place files: clerk, registrar or board of
         elections — not in the new core yet; missing filing office and rules
