@@ -1,3 +1,4 @@
+import "./opening-state-figures.css";
 import { useEffect, useState } from "react";
 import { GameSelect } from "./controls/GameSelect";
 import {

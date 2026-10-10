@@ -106,15 +106,6 @@ for (const [file, symbols] of [
     "src/player/TitleScreen.tsx",
     ["PLAYTEST65_WHITE_HOUSE_LAYOUT.assetId", "candidateEstablishingPlate"],
   ],
-  [
-    "src/player/WorldOrientationPanel.tsx",
-    [
-      "PLAYTEST65_WHITE_HOUSE_LAYOUT.assetId",
-      "OPENING_REGIONAL_CANDIDATES",
-      "openingHomeRegionPreviews",
-      "candidateEstablishingPlate",
-    ],
-  ],
 ] as const) {
   const text = source(file);
   if (symbols.some((symbol) => !text.includes(symbol)))

@@ -1,7 +1,7 @@
 import { expect, test } from "./fixtures";
 import { fillCreator, enterLife } from "./support/creator";
 
-test("Calais normal start, combined introduction and return-to-title preserve the life", async ({
+test("Calais normal start, the cinematic opening and return-to-title preserve the life", async ({
   page,
 }, info) => {
   test.setTimeout(180_000);
@@ -35,41 +35,36 @@ test("Calais normal start, combined introduction and return-to-title preserve th
     path: info.outputPath("calais-male-creator-853.png"),
   });
   await begin.click();
-  await expect(page.getByTestId("world-orientation")).toBeVisible({
-    timeout: 90_000,
-  });
-  await expect(
-    page.locator('.pg-opening-officials [data-figure-status="ready"]'),
-  ).toHaveCount(2);
-  const camera = page.locator(".pg-white-house-presentation .pg-scene-camera");
-  // The cards hold still: no camera drift, so no motion control either.
-  await expect(camera).toHaveCSS("animation-name", "none");
+  const intro = page.getByTestId("world-orientation");
+  await expect(intro).toBeVisible({ timeout: 90_000 });
+  // The opening is cinematic: it fills the window between black letterbox
+  // bars, opaque, not a card over the room, and the picture holds still.
+  const layer = await intro.boundingBox();
+  expect(layer).toEqual({ x: 0, y: 0, width: 853, height: 650 });
+  await expect(intro).toHaveCSS("background-color", "rgb(0, 0, 0)");
+  await expect(intro).toHaveAttribute("data-step", "country");
   await expect(
     page.getByRole("button", { name: "Pause motion", exact: true }),
   ).toHaveCount(0);
-  // The introduction fills the window and is opaque, not a card over the room.
-  const layer = await page.getByTestId("world-orientation").boundingBox();
-  expect(layer).toEqual({ x: 0, y: 0, width: 853, height: 650 });
-  await expect(page.getByTestId("world-orientation")).toHaveCSS(
-    "background-color",
-    "rgb(241, 234, 221)",
-  );
+  // The President and Vice President carry plaques.
+  await expect(page.getByTestId("opening-plaque")).toHaveCount(2);
   await page.screenshot({
-    path: info.outputPath("calais-two-officials-853.png"),
+    path: info.outputPath("calais-country-853.png"),
   });
-  const openingDate = await page
-    .locator(".pg-scene-chapter:not([aria-hidden]) .pg-orientation-kicker")
-    .textContent();
-  await page.getByTestId("orientation-next").focus();
-  await page.keyboard.press("Enter");
-  await expect(page.getByTestId("orientation-step-state")).toBeVisible();
+  // Every number is in the Ledger, closed until asked for.
+  const ledger = page.getByTestId("opening-ledger-toggle");
+  await expect(ledger).toHaveAttribute("aria-expanded", "false");
+  await expect(page.getByTestId("opening-ledger")).toHaveCount(0);
+  await ledger.click();
   await expect(page.getByTestId("opening-state-population")).toBeVisible();
   await expect(page.getByTestId("opening-state-voting")).toBeVisible();
+  await ledger.click();
+  await expect(page.getByTestId("opening-ledger")).toHaveCount(0);
+  await page.getByTestId("orientation-next").focus();
+  await page.keyboard.press("Enter");
+  await expect(intro).toHaveAttribute("data-step", "representatives");
   await expect(
     page.locator('.pg-scene-chapter[data-stage="leaving"]'),
-  ).toHaveCount(0);
-  await expect(
-    page.getByRole("button", { name: "Population", exact: true }),
   ).toHaveCount(0);
   for (const viewport of [
     { width: 853, height: 650 },
@@ -78,31 +73,26 @@ test("Calais normal start, combined introduction and return-to-title preserve th
     await page.setViewportSize(viewport);
     await expect(page.getByTestId("orientation-next")).toBeInViewport();
     await page.screenshot({
-      path: info.outputPath(`calais-state-${viewport.width}.png`),
+      path: info.outputPath(`calais-representatives-${viewport.width}.png`),
     });
   }
   await page.getByTestId("orientation-back").click();
   await expect(
     page.locator('.pg-scene-chapter[data-stage="leaving"]'),
   ).toHaveCount(0);
-  expect(
-    await page
-      .locator(".pg-scene-chapter:not([aria-hidden]) .pg-orientation-kicker")
-      .textContent(),
-  ).toBe(openingDate);
-  // Rapid changes coalesce to the last requested chapter. A canceled image
+  await expect(intro).toHaveAttribute("data-step", "country");
+  // Rapid changes coalesce to the last requested cut. A canceled image
   // decode cannot reveal an earlier target or leave duplicate active groups.
   await page.getByTestId("orientation-next").click();
   await page.getByTestId("orientation-next").click();
   await page.getByTestId("orientation-back").click();
   await expect(
     page.locator('.pg-scene-chapter[data-stage="current"]'),
-  ).toHaveAttribute("data-chapter", "state");
+  ).toHaveAttribute("data-chapter", "representatives");
   await expect(page.locator(".pg-scene-chapter")).toHaveCount(1);
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.getByTestId("orientation-back").click();
   await expect(page.locator(".pg-scene-chapter")).toHaveCount(1);
-  await expect(camera).toHaveCSS("animation-name", "none");
   await page.emulateMedia({ reducedMotion: "no-preference" });
   await enterLife(page);
   // Same event sent by the installed host; ordinary game buttons own the answer.

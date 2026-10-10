@@ -248,7 +248,9 @@ describe("the pose chooser", () => {
       expect(chooseBodyPose({ activity: "speaking", seated: true, seed })).toBe(
         "seated-leaning",
       );
-      expect(["seated-writing", "seated-reading"]).toContain(
+      // At a desk, a person works: writing, or on the phone (owner playtest,
+      // October 8, 2026: the governor was reading, not at work).
+      expect(["seated-writing", "seated-phone"]).toContain(
         chooseBodyPose({ activity: "desk", seated: true, seed }),
       );
       expect(["seated-legs-crossed", "seated-phone"]).toContain(
@@ -402,7 +404,7 @@ describe("the pose chooser", () => {
           }),
         ),
       ),
-    ).toEqual(new Set(["seated-writing", "seated-reading"]));
+    ).toEqual(new Set(["seated-writing", "seated-phone"]));
     // A seated man waiting crosses an ankle over his knee where a woman
     // crosses her legs.
     expect(

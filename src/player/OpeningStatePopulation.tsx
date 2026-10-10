@@ -1,3 +1,4 @@
+import "./opening-state-figures.css";
 import { useEffect, useState } from "react";
 import { isTerritoryUsps } from "../simulation/state-reference";
 import { districtIdentityCatalog } from "../districts/catalog";

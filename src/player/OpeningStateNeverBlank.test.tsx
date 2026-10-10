@@ -21,26 +21,19 @@ describe("the opening's state card is never blank or stuck loading", () => {
     expect(ALL_56).toHaveLength(56);
   });
 
-  it("keeps every jurisdiction's state information readable on the glass panel", () => {
+  it("keeps the state figures readable on the Ledger's glass panel", () => {
     const css = readFileSync(
-      new URL("./world-orientation.css", import.meta.url),
+      new URL("./opening-state-figures.css", import.meta.url),
       "utf8",
     );
     expect(css).toMatch(
-      /\.pg-regional-state-information\s*\{[^}]*color:\s*var\(--text-strong\)/s,
+      /\.pg-state-population-value\s*\{[^}]*color:\s*var\(--text-strong\)/s,
     );
     expect(css).toMatch(
       /\.pg-state-population-caption\s*\{[^}]*color:\s*var\(--text-2\)/s,
     );
     expect(css).toMatch(
       /\.pg-state-voting-table-wrap table\s*\{[^}]*font-size:\s*0\.9rem/s,
-    );
-    expect(css).toMatch(/\.pg-orientation-person\s*\{[^}]*color:\s*#32291b/s);
-    expect(css).toMatch(
-      /\.pg-orientation-panel\s*>\s*\.pg-orientation-reading\s*\{[^}]*overflow-y:\s*auto/s,
-    );
-    expect(css).not.toMatch(
-      /\.pg-regional-state-information\s*\{[^}]*color:\s*#[0-9a-f]{3,8}/i,
     );
   });
 

@@ -1,3 +1,4 @@
+import "./scene-chapter-transition.css";
 import {
   useEffect,
   useLayoutEffect,

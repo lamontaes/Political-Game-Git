@@ -233,6 +233,23 @@ export function spotFigure(
   };
 }
 
+/**
+ * The top of a placed person's head, in percent of the picture, from the
+ * head of the drawing they were posed in: a seated person's head sits lower
+ * in the same figure box than a standing person's.
+ */
+export function figureHeadTopPercent(person: BackdropPerson): number {
+  const body = posedPieces(
+    PEOPLE_PACK.presentations[person.engine.presentation],
+    person.engine,
+    peoplePackFileAvailable,
+  ).body;
+  return (
+    person.topPercent +
+    (person.heightPercent * body.anchors.top) / PEOPLE_PACK.canvas.height
+  );
+}
+
 /** The draw order of a spot: its own, or its foot line when unmarked. */
 export function spotDepth(spot: StagingSpot): number {
   return spot.depth ?? spot.y;
@@ -343,6 +360,12 @@ export function placeBackdropPeople(
     readonly faceRoom?: boolean;
     /** Include the controlled person when the recorded scene names them present. */
     readonly includeViewer?: boolean;
+    /**
+     * The scene's people with a named role take the nearest of the seats
+     * marked for it first, in the order the scene lists them (a cut to the
+     * player's own members of Congress finds them in the front rows).
+     */
+    readonly nearestFirst?: boolean;
   } = {},
 ): BackdropPeople {
   const stage = backdropStaging(place);
@@ -430,6 +453,12 @@ export function placeBackdropPeople(
   const sceneCounterJob = (personId: EntityId) =>
     roleByPerson.get(personId) === "staff-behind-counter" ||
     counterJob(shiftByPerson.get(personId)?.title ?? "");
+  const byNearest = [...usable].sort((a, b) => spotDepth(b) - spotDepth(a));
+  /** The role the scene itself gives a person, other than an open seat. */
+  const declaredRole = (personId: EntityId) => {
+    const role = roleByPerson.get(personId);
+    return role && role !== "general" ? role : undefined;
+  };
   const sceneIds = [...presentIds].sort(
     (a, b) => Number(sceneCounterJob(b)) - Number(sceneCounterJob(a)),
   );
@@ -461,6 +490,16 @@ export function placeBackdropPeople(
         ? take(
             usable.filter(
               (spot) => isCounterSpot(spot) && eligible(spot, personId),
+            ),
+          )
+        : undefined) ??
+      // A named role takes the seats marked for it before any open seat (a
+      // member of a chamber, a member's desk before the presiding chair).
+      (declaredRole(personId)
+        ? take(
+            (options.nearestFirst ? byNearest : usable).filter(
+              (spot) =>
+                spot.pose !== "podium" && spot.role === declaredRole(personId),
             ),
           )
         : undefined) ??
@@ -590,12 +629,17 @@ export function placeBackdropPeople(
     let spot = assignedSpot;
     let fit = tryAt(spot);
     if (!fit) {
+      // Another spot must accept the role the scene gave them, as their own
+      // did: a member of a chamber is not moved into the gallery.
       const alternatives = usable
         .filter(
           (candidate) =>
             !taken.has(candidate) &&
             candidate.pose !== "podium" &&
-            slotAcceptsRole(candidate.role ?? "general"),
+            slotAcceptsRole(
+              candidate.role ?? "general",
+              declaredRole(worker.personId),
+            ),
         )
         .sort(
           (a, b) =>

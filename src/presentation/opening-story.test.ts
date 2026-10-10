@@ -3,8 +3,7 @@ import { describe, expect, it } from "vitest";
 import { drawRandomPlace } from "../../tests/support/random-place";
 import { ageOnDate } from "../simulation";
 
-import { stateNameForUsps } from "../player/useWorldOrientation";
-import { orientationBackdrop } from "../player/WorldOrientationPanel";
+import { stateNameForUsps } from "./state-name";
 import { projectWorldOrientation } from "./living-world-orientation";
 import { DEFAULT_NEW_GAME_SETUP } from "./new-game";
 import { generateOpeningLife, prepareOpeningLife } from "./opening-life";
@@ -77,41 +76,6 @@ describe("In the year 2026", () => {
           expect.objectContaining(publication),
         );
     }
-  });
-});
-
-describe("Congress in the opening", () => {
-  // Owner playtest, October 8, 2026: Congress showed twice, once as the
-  // year's Senate floor with its senators and party counts, and again as its
-  // own stop. Only the Congress stop stands on a chamber of Congress.
-  it("stands on a floor of Congress at one stop only", () => {
-    const sources = {
-      whiteHouse: null,
-      regionalPlate: null,
-      regionScene: null,
-      homeStateUsps: "KS",
-      homePlaces: ["suburban-house"],
-    };
-    const floors = [
-      "year",
-      "executive",
-      "state",
-      "legislature",
-      "congress",
-      "parents",
-      "your-life",
-    ].filter((key) => {
-      const backdrop = orientationBackdrop(key, sources);
-      return (
-        backdrop.kind === "place" &&
-        /^us-(senate|house)-floor$/.test(backdrop.place)
-      );
-    });
-    expect(floors).toEqual(["congress"]);
-    expect(orientationBackdrop("year", sources)).toMatchObject({
-      kind: "place",
-      place: "us-capitol-exterior",
-    });
   });
 });
 

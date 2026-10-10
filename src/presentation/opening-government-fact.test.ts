@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { stateNameForUsps } from "../player/useWorldOrientation";
+import { stateNameForUsps } from "./state-name";
 import {
   lifePlaceStateIdentities,
   searchLifePlaces,

@@ -88,29 +88,17 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   await expect(page.getByTestId("world-orientation")).toBeVisible({
     timeout: 90_000,
   });
-  // The opening begins with the year (Sept. 28), then the White House.
-  await expect(page.getByTestId("orientation-step-year")).toBeVisible();
-  await page.getByTestId("orientation-next").click();
-  await expect(page.getByTestId("orientation-step-executive")).toContainText(
-    "White House",
-  );
-  await expect(page.getByTestId("opening-establishing-plate")).toBeVisible();
-  await expect(
-    page.locator('.pg-opening-president [data-material-group-state="loading"]'),
-  ).toHaveCount(0, { timeout: 60_000 });
-  await expect(
-    page.locator('.pg-opening-president [data-figure-status="ready"]'),
-  ).toBeVisible();
-  await page.screenshot({ path: info.outputPath("white-house.png") });
+  // The opening begins with the country: the President giving the address,
+  // the Vice President with them, each named on a plaque.
+  const intro = page.getByTestId("world-orientation");
+  await expect(intro).toHaveAttribute("data-step", "country");
+  await expect(page.getByTestId("orientation-place-backdrop")).toBeVisible();
+  await page.screenshot({ path: info.outputPath("country.png") });
   await expect(page.getByTestId("scene-place-nameplate")).toHaveCount(0);
-  await expect(page.locator(".pg-opening-official-labels")).toHaveCount(0);
   const president = page
-    .locator('button[data-testid^="opening-official-"]')
-    .first();
-  const presidentId = (await president.getAttribute("data-testid"))!.replace(
-    "opening-official-",
-    "",
-  );
+    .getByTestId("opening-plaque")
+    .filter({ has: page.locator("span", { hasText: /^President of / }) });
+  const presidentId = (await president.getAttribute("data-person-id"))!;
   await president.click();
   await expect(page.getByTestId("quick-dossier")).toHaveAttribute(
     "data-person-id",
@@ -124,17 +112,13 @@ test("PLAYTEST65 creator, opening, map and movable Calendar preserve the life", 
   await page.getByTestId("dossier-pin").click();
   await page.screenshot({ path: info.outputPath("person-record.png") });
   await page.getByTestId("quick-dossier-close").click();
-  const openingDate = page.locator(
-    ".pg-scene-chapter:not([aria-hidden]) .pg-orientation-kicker",
-  );
-  const before = await openingDate.textContent();
   await page.getByTestId("orientation-next").click();
-  await expect(page.getByTestId("orientation-step-state")).toBeVisible();
+  await expect(intro).toHaveAttribute("data-step", "representatives");
   await page.getByTestId("orientation-next").click();
-  await expect(page.getByTestId("orientation-step-congress")).toBeVisible();
+  await expect(intro).toHaveAttribute("data-step", "state");
   await page.getByTestId("orientation-back").click();
   await page.getByTestId("orientation-back").click();
-  await expect(openingDate).toHaveText(before!);
+  await expect(intro).toHaveAttribute("data-step", "country");
   await enterLife(page);
 
   await openShellMenu(page);

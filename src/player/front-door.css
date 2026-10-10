@@ -713,3 +713,11 @@
 .creator-search-entry input::-webkit-search-cancel-button {
   -webkit-appearance: none;
 }
+
+/* The title screen's establishing picture fills its stage. */
+.pg-title-establishing {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 65% center;
+}

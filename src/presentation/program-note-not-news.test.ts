@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
 import { drawRandomPlace } from "../../tests/support/random-place";
-import { stateNameForUsps } from "../player/useWorldOrientation";
+import { stateNameForUsps } from "./state-name";
 import type { LifePlace } from "../simulation/life-places";
 import {
   isProgramBookkeepingPublication,

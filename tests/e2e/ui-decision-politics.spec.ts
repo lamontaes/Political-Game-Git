@@ -77,7 +77,7 @@ async function startPoliticsTestLife(
 async function enterPoliticsLife(page: Page): Promise<void> {
   const intro = page.getByTestId("world-orientation");
   await expect(intro).toBeVisible({ timeout: 90_000 });
-  await expect(page.getByTestId("orientation-step-year")).toBeVisible();
+  await expect(intro).toHaveAttribute("data-step", "country");
   await page.getByTestId("orientation-skip").click();
   await expect(intro).toBeHidden();
   await expect(page.getByTestId("play-screen")).toBeVisible();

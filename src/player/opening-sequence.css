@@ -1,0 +1,254 @@
+/*
+ * The opening (owner approval, October 8, 2026, revised 11:14 p.m.) is
+ * cinematic: the stop's place fills the frame between black letterbox bars,
+ * and the President's address runs as subtitles in the bottom bar.
+ */
+.pg-opener {
+  --pg-letterbox-top: max(3.75rem, 9vh);
+  --pg-letterbox-bottom: max(7.5rem, 15vh);
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  overflow: hidden;
+  background: #000;
+  color: var(--text-strong);
+  --pg-scene-chapter-ground: #000;
+}
+
+/* A docked room panel narrows its children; the opening is the whole screen. */
+.life-shell .scene-backdrop-content[data-dock] > .pg-opener {
+  position: fixed;
+  inset: 0;
+  max-width: none;
+  margin: 0;
+  transform: none;
+}
+
+/* The place is framed between the bars, so everyone in it is seen whole. */
+.pg-opener .pg-scene-chapters {
+  position: absolute;
+  inset: var(--pg-letterbox-top) 0 var(--pg-letterbox-bottom);
+}
+
+.pg-opener-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+
+/* The play screen's own framing, so the measured spots land on the floor. */
+.pg-opener-backdrop {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 50% 62%;
+}
+
+/* Plaques name who matters; the rest of the room is not listed beside them. */
+.pg-opener-stage > [data-testid="scene-place-overflow"] {
+  display: none !important;
+}
+
+.pg-opener-plaques {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.pg-opener-plaque {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  max-width: 14rem;
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--brass);
+  border-radius: 2px;
+  background: rgb(22 22 24 / 90%);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 40%);
+  color: var(--text-strong);
+  font-family: var(--ui);
+  line-height: 1.2;
+  text-align: center;
+  transform: translate(-50%, calc(-100% - 6px));
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+/* Someone seen behind furniture carries the plaque on its front edge. */
+.pg-opener-plaque[data-anchor="below"] {
+  transform: translate(-50%, 6px);
+}
+
+.pg-opener-plaque strong {
+  color: var(--gold);
+  font-family: var(--name);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.pg-opener-plaque span {
+  color: var(--text-2);
+  font-size: 0.72rem;
+}
+
+.pg-opener-bar {
+  position: absolute;
+  right: 0;
+  left: 0;
+  z-index: 3;
+  box-sizing: border-box;
+  background: #000;
+}
+
+.pg-opener-bar[data-bar="top"] {
+  top: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--pg-letterbox-top);
+  padding: 0 1rem;
+}
+
+/* The words run centered across the frame; the controls keep to the right. */
+.pg-opener-bar[data-bar="bottom"] {
+  bottom: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 52rem) minmax(0, 1fr);
+  align-items: center;
+  gap: 1rem;
+  height: var(--pg-letterbox-bottom);
+  padding: 0 1.25rem;
+}
+
+.pg-opener-progress {
+  width: min(16rem, 40vw);
+}
+
+.pg-opener-ledger {
+  position: absolute;
+  top: calc(var(--pg-letterbox-top) + 0.5rem);
+  right: 1rem;
+  z-index: 3;
+  display: flex;
+  box-sizing: border-box;
+  width: min(24rem, calc(100% - 2rem));
+  max-height: calc(
+    100% - var(--pg-letterbox-top) - var(--pg-letterbox-bottom) - 1rem
+  );
+  font-family: var(--ui);
+}
+
+/*
+ * The body scrolls inside the frame, so the corners stay on the border, and
+ * it is inset past the 54-pixel corner pieces so they cover no words.
+ */
+.pg-opener-ledger-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 2.1rem 1.75rem 2rem;
+}
+
+/*
+ * The corner pieces are the approved Kit 13 sheet's own pixels (Kit 13:
+ * brass corner ornaments on the panel). Each is cut from the sheet's frame
+ * outline inward (the outline is at sheet x 55 and 1564, y 48), so no room
+ * pixels from the sheet come with it, and masked to the gold ornament so the
+ * sheet's panel fill does not show as a square. Its outline row sits on the
+ * panel's border; the lower pair is the upper pair turned over.
+ */
+.pg-opener-corners > span {
+  position: absolute;
+  width: 54px;
+  height: 54px;
+  background-image: url("/ui/kit13/approved-controls-sheet.png");
+  background-repeat: no-repeat;
+  background-size: 1622px 969px;
+  pointer-events: none;
+}
+
+.pg-opener-corners :is([data-corner="top-left"], [data-corner="bottom-left"]) {
+  left: -1px;
+  background-position: -55px -48px;
+  mask-image: linear-gradient(
+    to bottom right,
+    #000 calc(50% - 0.5px),
+    transparent calc(50% + 0.5px)
+  );
+}
+
+.pg-opener-corners
+  :is([data-corner="top-right"], [data-corner="bottom-right"]) {
+  right: -1px;
+  background-position: -1511px -48px;
+  mask-image: linear-gradient(
+    to bottom left,
+    #000 calc(50% - 0.5px),
+    transparent calc(50% + 0.5px)
+  );
+}
+
+.pg-opener-corners :is([data-corner="top-left"], [data-corner="top-right"]) {
+  top: -1px;
+}
+
+.pg-opener-corners
+  :is([data-corner="bottom-left"], [data-corner="bottom-right"]) {
+  bottom: -1px;
+  transform: scaleY(-1);
+}
+
+.pg-opener-ledger dl {
+  margin: 0 0 0.75rem;
+}
+
+.pg-opener-ledger dl > div {
+  padding: 0.35rem 0;
+  border-bottom: 1px solid rgb(156 131 80 / 30%);
+}
+
+.pg-opener-ledger dt {
+  color: var(--text-2);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pg-opener-ledger dd {
+  margin: 0.1rem 0 0;
+}
+
+.pg-opener-subtitle {
+  grid-column: 2;
+  margin: 0;
+  color: #f4efe6;
+  font-family: var(--speech);
+  font-size: clamp(1.05rem, 1.7vw, 1.4rem);
+  line-height: 1.45;
+  text-align: center;
+}
+
+.pg-opener-actions {
+  grid-column: 3;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+}
+
+@media (max-width: 720px) {
+  .pg-opener-bar[data-bar="bottom"] {
+    grid-template-columns: minmax(0, 1fr);
+    align-content: center;
+    gap: 0.6rem;
+  }
+
+  .pg-opener-subtitle,
+  .pg-opener-actions {
+    grid-column: 1;
+  }
+}

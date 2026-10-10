@@ -12,7 +12,6 @@ import { projectLivingSceneOpening } from "./living-scene-facts";
 import { introPlacementTrace } from "./intro-placement-trace";
 import { SeededRng } from "../simulation/rng";
 import { projectOpeningFamily } from "./opening-story";
-import { orientationBackdrop } from "../player/WorldOrientationPanel";
 import {
   lifePlaceStateIdentities,
   searchLifePlaces,
@@ -51,30 +50,6 @@ const cases = [
     place: unincorporatedPlace("team8-opening-1-c"),
   },
 ];
-
-it("the family stands in its home picture, never a regional plate", () => {
-  const sources = {
-    whiteHouse: null,
-    regionScene: null,
-    homeStateUsps: "AZ",
-    regionalPlate: {
-      regionKey: "sonoran-desert",
-      displayName: "Sonoran Desert",
-      url: "/assets/env_regional_sonoran_desert_v1.png",
-      width: 2208,
-      height: 1584,
-      matchedBy: "state",
-      sceneKind: "open-landscape" as const,
-      alternatives: [],
-    },
-  };
-  // OW-17: the family is one composition in its own home; a regional plate
-  // is never a second backdrop for it.
-  expect(orientationBackdrop("parents", sources)).toEqual({ kind: "neutral" });
-  expect(
-    orientationBackdrop("parents", { ...sources, homePlaces: ["rowhouse"] }),
-  ).toMatchObject({ kind: "place", place: "rowhouse" });
-});
 
 describe("recorded representatives on the opening legislature card", () => {
   for (const { seed, place } of cases)
