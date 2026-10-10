@@ -177,13 +177,13 @@ describe("PLAYTEST34 line-level time and family speech", () => {
     expect(offered.person.relationship).toBe("your mom");
     expect(offered.proposal!.terms.activity).toBe("new-game");
     expect(offered.transcript.at(-1)!.reply).toContain("try a new game");
-    const explained = line(
+    // An open invitation is answered yes or no (owner rule R3).
+    const agreed = line(
       deserializeWorld(serializeWorld(proposed)),
       personId,
       mom,
-      "explain",
+      "acceptProposal",
     );
-    const agreed = line(explained, personId, mom, "acceptProposal");
     const agreement = projectLifeConversation(agreed, personId, mom)!;
     expect(agreement.proposal!.request.id).toBe(offered.proposal!.request.id);
     expect(agreement.proposal!.status).toBe("accepted");
@@ -193,7 +193,7 @@ describe("PLAYTEST34 line-level time and family speech", () => {
     expect(agreed.currentMoment).toEqual(world.currentMoment);
     let saved = deserializeWorld(serializeWorld(agreed));
     for (let n = 0; n < 10; n++)
-      saved = line(saved, personId, mom, n % 2 ? "remember" : "acknowledge");
+      saved = line(saved, personId, mom, n % 2 ? "remember" : "greet");
     expect(saved.currentMoment).toEqual(world.currentMoment);
     const performed = line(saved, personId, mom, "spendTime");
     expect(
@@ -301,17 +301,18 @@ describe("PLAYTEST34 line-level time and family speech", () => {
     });
     const activityId = scheduled.history.scheduledActivities.at(-1)!.id;
     let world = scheduled;
+    // Ten lines, each a choice the game still offers (owner rules R1 to R3).
     for (const intent of [
       "greet",
-      "scene",
-      "activity",
-      "explain",
-      "share",
-      "acknowledge",
       "remember",
       "greet",
-      "activity",
-      "explain",
+      "remember",
+      "greet",
+      "remember",
+      "greet",
+      "remember",
+      "greet",
+      "remember",
     ])
       world = line(world, personId, other, intent);
     expect(world.currentMoment).toEqual(initial.currentMoment);
@@ -326,7 +327,7 @@ describe("PLAYTEST34 line-level time and family speech", () => {
     );
     projectAdultLife(world, personId);
     expect(serializeWorld(world)).toBe(snapshot);
-    world = line(world, personId, other, "leave");
+    // Leaving is the screen's control and writes nothing (rule R2).
     expect(scheduledActivityState(world, activityId).status).toBe("scheduled");
     const loaded = deserializeWorld(serializeWorld(world));
     const performed = performScheduledActivity(

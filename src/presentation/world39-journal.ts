@@ -594,20 +594,15 @@ const AGREEMENT: Readonly<Record<string, string>> = {
 /** What the speaker did, in the past tense, for each fixed talk intent. */
 const SPOKEN_PAST: Readonly<Record<string, (name: string) => string>> = {
   greet: (name) => `You said hello to ${name}.`,
-  scene: (name) =>
-    `You talked with ${name} about what was happening around you.`,
   activity: (name) => `You asked ${name} what they would like to do.`,
   explain: (name) => `You asked ${name} why.`,
-  share: (name) => `You asked ${name} if you could tell them something.`,
   matter: (name) => `You mentioned something in the news to ${name}.`,
   remember: (name) => `You talked with ${name} about an earlier conversation.`,
-  acknowledge: (name) => `You let ${name} know you had heard.`,
   leave: (name) => `You said goodbye to ${name}.`,
   spendTime: (name) => `You spent half an hour with ${name}.`,
   acceptProposal: (name) => `You agreed to ${name}'s suggestion.`,
   declineProposal: (name) => `You declined ${name}'s suggestion.`,
   cancelProposal: (name) => `You canceled your plans with ${name}.`,
-  nothing: (name) => `You told ${name} it could wait.`,
 };
 
 /**

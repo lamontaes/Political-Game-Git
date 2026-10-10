@@ -85,7 +85,7 @@ describe("talking to somebody", () => {
       ).length;
 
       let world = say(start, playerPersonId, parentId, "greet");
-      world = say(world, playerPersonId, parentId, "scene");
+      world = say(world, playerPersonId, parentId, "remember");
       world = say(world, playerPersonId, parentId, "greet");
 
       const added = relationshipHistory(world, playerPersonId, parentId).slice(

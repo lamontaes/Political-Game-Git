@@ -278,7 +278,7 @@ describe("GUARDIAN12 — guardian and known-person conversation entry", () => {
       turnOrdinal: view.turnOrdinal,
       addressee: id!,
       audibility: "normal",
-      intent: "share",
+      intent: "greet",
     }).world;
     const saved = serializeWorld(after);
     const restored = deserializeWorld(saved);

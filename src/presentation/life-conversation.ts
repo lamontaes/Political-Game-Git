@@ -84,20 +84,16 @@ import type {
 /** Ordinary spoken exchanges use the global event/knowledge history. */
 export const LIFE_TALK_INTENTS = {
   greet: "Say hello",
-  scene: "Talk about what is happening here",
   activity: "Ask what they would like to do",
   explain: "Ask why",
-  share: "Ask if you can tell them something",
   matter: "Mention something in the news",
   officials: "Ask what they think of the people in office",
   remember: "Talk about an earlier conversation",
-  acknowledge: "Let them know you heard",
   leave: "Say goodbye",
   spendTime: "Spend half an hour together",
   acceptProposal: "Agree to their suggestion",
   declineProposal: "Decline their suggestion",
   cancelProposal: "Cancel your plans together",
-  nothing: "Say it can wait",
 } as const;
 /**
  * A fixed intent, or telling them one particular thing from the player's own
@@ -220,7 +216,11 @@ export function projectLifeConversation(
         reply: event.context.immediateReaction!,
       })),
     };
-  const intents: LifeTalkIntent[] = ["greet", "scene", "activity", "share"];
+  // Every choice names something real (owner rule R1, October 8, 2026):
+  // there is no "talk about what is happening here" or "ask if you can tell
+  // them something", and leaving is the screen's own control, not a line
+  // (rule R2).
+  const intents: LifeTalkIntent[] = ["greet", "activity"];
   intents.push(...running.topics.map((topic) => topic.key));
   // A current public or known matter the player could actually raise; the
   // counterpart's answer depends on what their own records say they know.
@@ -234,21 +234,13 @@ export function projectLifeConversation(
       strongestLivedOutcomeView(world, personId) !== null)
   )
     intents.push("officials");
-  // Having asked to tell them something and been told to go ahead, the
-  // player can tell them something real from their own life, or say it can
-  // wait. Nothing is offered that the world does not hold.
-  const invited =
-    previousIntent === "share" &&
-    !previous?.tags.includes("life.answer:private");
-  const topics = invited ? tellableTopics(world, playerPersonId, personId) : [];
-  if (invited)
-    intents.push(
-      ...topics.map((topic) => topic.key as LifeTalkIntent),
-      "nothing",
-    );
-  if (["activity", "share"].includes(previousIntent ?? ""))
-    intents.push("explain");
-  if (history.length > 0) intents.push("remember", "acknowledge");
+  // Something real from the player's own life, each named by what it is.
+  // Nothing is offered that the world does not hold, and whether the other
+  // person listens is theirs to decide (life-talk-topics.ts).
+  const topics = tellableTopics(world, playerPersonId, personId);
+  intents.push(...topics.map((topic) => topic.key as LifeTalkIntent));
+  if (previousIntent === "activity") intents.push("explain");
+  if (history.length > 0) intents.push("remember");
   const currentSceneId = currentLifeTalkScene(world, playerPersonId)!.eventId;
   const proposal = currentTalkProposal(
     world,
@@ -256,8 +248,9 @@ export function projectLifeConversation(
     personId,
     currentSceneId,
   );
+  // An open invitation is answered yes or no (rule R3).
   if (proposal?.status === "proposed")
-    intents.push("acceptProposal", "declineProposal");
+    intents.splice(0, intents.length, "acceptProposal", "declineProposal");
   if (proposal?.status === "accepted") intents.push("cancelProposal");
   if (
     !history.some(
@@ -268,7 +261,6 @@ export function projectLifeConversation(
     proposal?.status === "accepted"
   )
     intents.push("spendTime");
-  intents.push("leave");
   return {
     context,
     person: describePersonContext(world, playerPersonId, personId)!,
@@ -383,11 +375,6 @@ function replyFor(
     "your parent",
     "your guardian",
   ].includes(relation ?? "");
-  const approach = latestPersonalityTendency(
-    world,
-    personId,
-    LIFE_MIND_IDS.conversation,
-  )?.expressionKey;
   const leisure = activityPreference(world, personId);
   const proposal = currentTalkProposal(
     world,
@@ -406,9 +393,6 @@ function replyFor(
             sourceRecordIds: [proposal.request.id],
           },
         });
-  const privatePerson =
-    latestPersonalValue(world, personId, LIFE_MIND_IDS.privacy)?.orientation ===
-    "embraces";
   if (isRunningIntent(intent))
     throw new Error(
       "A step of the talk about running is answered by answerRunning.",
@@ -422,11 +406,6 @@ function replyFor(
     return worded({ text: answer.reply, parts: answer.parts });
   }
   switch (intent) {
-    case "scene": {
-      // The only established topic is the scene's saved premise, not a new
-      // worry or a fabricated past exchange attributed to this person.
-      return say("what-would-you-like-to-do");
-    }
     case "spendTime":
       return proposal
         ? say("time-spent-on-proposal", {
@@ -477,20 +456,11 @@ function replyFor(
       return child
         ? say("can-we-play-a-game-we-both")
         : say("how-about-a-game-we-both-know");
-    case "share":
-      if (parent && youngPlayer) return say("of-course-what-do-you-want-to");
-      if (privatePerson)
-        return child
-          ? say("not-right-now-can-we-talk-about")
-          : say("id-rather-keep-that-to-myself-for");
-      if (approach === "ask") return say("sure-what-did-you-want-to-talk");
-      if (approach === "listen") return say("im-listening-go-ahead");
-      return say("yes-tell-me-whats-on-your-mind");
     case "explain":
-      if (previous?.tags.includes("life.talk:share"))
-        return previous.tags.includes("life.answer:private")
-          ? say("im-not-ready-to-talk-about-it")
-          : say("i-said-yes-because-i-want-to");
+      // Asked why they turned the player down, they answer from what was
+      // recorded then, even once the need for privacy has passed.
+      if (previous?.tags.includes("life.answer:private"))
+        return say("im-not-ready-to-talk-about-it");
       return previous?.tags.includes("life.answer:explore")
         ? say("i-want-to-try-something-i-havent")
         : previous?.tags.includes("life.answer:company")
@@ -549,11 +519,8 @@ function replyFor(
         : speechRememberedLine(world, personId, playerPersonId);
       if (speech) return worded(speech);
       const remembered =
-        history.find(
-          (event) =>
-            event.tags.includes("life.talk:activity") ||
-            event.tags.includes("life.talk:share"),
-        ) ?? previous;
+        history.find((event) => event.tags.includes("life.talk:activity")) ??
+        previous;
       return remembered
         ? say("remembered-words", {
             quote: {
@@ -563,14 +530,8 @@ function replyFor(
           })
         : say("we-havent-talked-about-that");
     }
-    case "acknowledge":
-      return say("thanks-for-hearing-me-out");
     case "leave":
       return say("see-you");
-    case "nothing":
-      return parent && youngPlayer
-        ? say("all-right-you-can-tell-me-whenever")
-        : say("all-right-another-time-then");
   }
 }
 
@@ -731,7 +692,9 @@ export function commitLifeConversation(
         ? "company-accepted"
         : "company-declined"
       : input.intent === "activity"
-        ? leisure
+        ? newOffer
+          ? leisure
+          : "private"
         : input.intent === "matter" && view.matter
           ? `matter-${matterAwareness(world, input.personId, view.matter.eventId)}`
           : told

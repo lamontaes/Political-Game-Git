@@ -110,7 +110,9 @@ describe("telling somebody something", () => {
       }
       expect(found).not.toBeNull();
       const { playerPersonId, listener } = found!;
-      let world = say(found!.world, playerPersonId, listener, "share");
+      // What the player could tell is offered directly, each named by what
+      // it is (owner rule R1), with no "Ask if you can tell them something".
+      let world = found!.world;
       const view = projectLifeConversation(world, playerPersonId, listener)!;
       const tell = view.intents.find((option) =>
         option.key.startsWith(TELL_PREFIX),
@@ -119,10 +121,12 @@ describe("telling somebody something", () => {
       expect(tell!.label).toMatch(
         /^Tell them about .+ (at school|at home|in the neighborhood)/,
       );
-      // There is always a way out that is not a dead end.
-      expect(view.intents.some((option) => option.key === "nothing")).toBe(
-        true,
-      );
+      // Leaving is the screen's own control (rule R2), so no choice names
+      // nothing and none says goodbye.
+      for (const ruledOut of ["share", "nothing", "leave"])
+        expect(view.intents.map((option) => option.key)).not.toContain(
+          ruledOut,
+        );
 
       const topic = tellableTopics(world, playerPersonId, listener).find(
         (entry) => entry.key === tell!.key,
@@ -163,7 +167,7 @@ describe("telling somebody something", () => {
   );
 
   it(
-    "lets the player say it can wait, with no dead end",
+    "offers no line for putting it off, since leaving is the screen's control",
     { timeout: 900_000 },
     () => {
       const game = createNewGameWorld({ ...setup, seed: "tell-nothing" });
@@ -172,14 +176,14 @@ describe("telling somebody something", () => {
       const listener = scene.presentPersonIds.find(
         (id) => id !== game.playerPersonId,
       )!;
-      let world = say(world0, game.playerPersonId, listener, "share");
-      world = say(world, game.playerPersonId, listener, "nothing");
-      const reply = projectLifeConversation(
+      const world = say(world0, game.playerPersonId, listener, "greet");
+      const keys = projectLifeConversation(
         world,
         game.playerPersonId,
         listener,
-      )!.transcript.at(-1)!.reply;
-      expect(reply).toMatch(/whenever you like|Another time/);
+      )!.intents.map((option) => option.key);
+      for (const ruledOut of ["share", "nothing", "leave"])
+        expect(keys).not.toContain(ruledOut);
     },
   );
 });
