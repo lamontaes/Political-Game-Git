@@ -15,6 +15,8 @@ import { createDirector, type Director } from "../director/ledger";
 import { createLifeCore, availableActs } from "../core2/life";
 import type { CoreState } from "../core2/types";
 import { selectBenchPlace } from "./place-selection.mjs";
+import { benchProgress } from "./progress";
+import { playerApiReadiness } from "./api-readiness";
 
 // This is a reference to engine-owned state, not a parallel state or writer.
 let core: CoreState | undefined;
@@ -55,6 +57,22 @@ const server = createServer(async (request, response) => {
       const content = await readFile(new URL(asset.file, import.meta.url));
       response.writeHead(200, { "Content-Type": asset.type });
       response.end(content);
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/capabilities") {
+      send(200, playerApiReadiness());
+      return;
+    }
+    if (
+      (request.method === "POST" &&
+        ["/api/advance", "/api/resume"].includes(url.pathname)) ||
+      (request.method === "GET" && url.pathname === "/api/trace")
+    ) {
+      send(409, {
+        error:
+          "Core player hooks are not wired. No time advanced and no answer was submitted.",
+        ...playerApiReadiness(),
+      });
       return;
     }
     if (request.method === "POST" && url.pathname === "/api/build") {
@@ -126,6 +144,7 @@ const server = createServer(async (request, response) => {
           residentReferencesChecked: residents.length,
           peopleInCore: next.people.size,
           modules: [...next.modules.keys()],
+          progress: benchProgress(next, place.context.jurisdiction.id),
           sourceHeads: JSON.parse(
             await readFile(
               new URL("integration-heads.json", import.meta.url),
@@ -152,6 +171,12 @@ const server = createServer(async (request, response) => {
         job: person.jobId ? current.jobs.get(person.jobId) : undefined,
         offers: availableActs(current, id),
         director: director?.ledger.people.get(id),
+        relationships: [...(current.relationshipsByPerson.get(id) ?? [])]
+          .map((recordId) => current.relationships.get(recordId))
+          .filter((record) => record !== undefined),
+        payments: [...(current.cashJournal.detailedByOwner.get(id) ?? [])]
+          .map((recordId) => current.cashJournal.detailedReceipts.get(recordId))
+          .filter((record) => record !== undefined),
         records: [...(current.logByPerson.get(id) ?? [])]
           .map((recordId) => current.durableLog.get(recordId))
           .filter((record) => record !== undefined),

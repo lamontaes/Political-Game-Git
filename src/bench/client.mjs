@@ -3,6 +3,7 @@ const element = (id) => document.getElementById(id);
 const status = element("status");
 let residents = [];
 let visibleCount = 100; // Engineering page size, not simulation calibration.
+let inspectionRequest = 0;
 
 async function request(path, options) {
   const response = await fetch(path, options);
@@ -11,19 +12,107 @@ async function request(path, options) {
   return value;
 }
 
-function recordDetails(label, record) {
+function recordDetails(label, record, traceId) {
   const details = document.createElement("details");
   const summary = document.createElement("summary");
   summary.textContent = label;
   const pre = document.createElement("pre");
   pre.textContent = JSON.stringify(record, null, 2);
   details.append(summary, pre);
+  if (traceId) {
+    const select = document.createElement("button");
+    select.type = "button";
+    select.textContent = "Select trace record";
+    select.addEventListener("click", () => {
+      element("trace-record-id").value = traceId;
+      element("trace-status").textContent =
+        `Record ${traceId}: saved-trace resolver pending. The raw record is shown below.`;
+      element("trace-detail").replaceChildren(
+        recordDetails(`Raw record: ${traceId}`, record),
+      );
+    });
+    details.append(select);
+  }
   return details;
 }
 
+function renderProgress(progress) {
+  element("golden-path").dataset.placeId = progress.placeId;
+  element("golden-path").replaceChildren();
+  element("world-pieces").replaceChildren();
+  for (const row of progress.steps) {
+    const tr = document.createElement("tr");
+    tr.dataset.step = row.step;
+    for (const text of [`${row.step}. ${row.label}`, row.status]) {
+      const td = document.createElement("td");
+      td.textContent = text;
+      tr.append(td);
+    }
+    const evidence = document.createElement("td");
+    if (row.evidence) {
+      const inspectRoute = document.createElement("button");
+      inspectRoute.type = "button";
+      inspectRoute.textContent = `Inspect resident ${row.evidence.personId}`;
+      inspectRoute.addEventListener("click", () =>
+        inspect(row.evidence.personId),
+      );
+      evidence.append(
+        inspectRoute,
+        recordDetails("Reachability records", row.evidence),
+      );
+    } else evidence.textContent = row.missingModule;
+    tr.append(evidence);
+    element("golden-path").append(tr);
+  }
+  for (const row of progress.world) {
+    const tr = document.createElement("tr");
+    for (const text of [row.label, row.status, row.missingModule]) {
+      const td = document.createElement("td");
+      td.textContent = text;
+      tr.append(td);
+    }
+    element("world-pieces").append(tr);
+  }
+  element("path-basis").textContent =
+    `Core date: ${progress.date}; place: ${progress.placeId}. ${progress.basis}`;
+  element("world-status").textContent =
+    `World running: ${progress.worldRunning}. Installed modules: ${progress.installedModules.join(", ")}.`;
+  element("furthest-step").textContent =
+    `Furthest reached step: ${progress.furthestReachedStep ?? "none demonstrated"}.`;
+}
+
+function renderChoices(value) {
+  element("chosen-resident").textContent =
+    `Resident: ${value.person.givenName} ${value.person.familyName} (${value.person.id}). Current offers are previews; no unanswered choice is active.`;
+  element("choice-options").replaceChildren();
+  for (const offer of value.offers) {
+    const label = document.createElement("label");
+    const input = document.createElement("input");
+    input.type = "radio";
+    input.name = "offered-choice";
+    input.value = `${offer.definition.id}:${offer.targetId}`;
+    label.append(
+      input,
+      document.createTextNode(
+        `${input.value}; duration: ${offer.effortHours ?? "not provided"} hours`,
+      ),
+    );
+    const line = document.createElement("div");
+    line.append(label);
+    element("choice-options").append(line);
+  }
+}
+
 async function inspect(id) {
+  const requestId = ++inspectionRequest;
   try {
     const value = await request(`/api/resident?id=${encodeURIComponent(id)}`);
+    if (requestId !== inspectionRequest) return;
+    renderChoices(value);
+    element("trace-detail").replaceChildren();
+    element("trace-record-id").value = "";
+    element("trace-status").textContent =
+      "Saved-trace resolver pending; raw records remain inspectable.";
     element("detail").replaceChildren(
       recordDetails(`Person: ${value.person.id}`, value.person),
       recordDetails(`Household: ${value.person.householdId}`, value.household),
@@ -38,12 +127,24 @@ async function inspect(id) {
       );
     for (const record of value.records)
       element("detail").append(
-        recordDetails(`Saved core record: ${record.id}`, record),
+        recordDetails(`Saved core record: ${record.id}`, record, record.id),
+      );
+    for (const record of value.relationships)
+      element("detail").append(
+        recordDetails(`Relationship snapshot: ${record.id}`, record, record.id),
+      );
+    for (const record of value.payments)
+      element("detail").append(
+        recordDetails(`Saved payment: ${record.id}`, record, record.id),
       );
     if (value.director) {
       for (const moment of value.director.moments)
         element("detail").append(
-          recordDetails(`Saved director moment: ${moment.id}`, moment),
+          recordDetails(
+            `Saved director moment: ${moment.id}`,
+            moment,
+            moment.id,
+          ),
         );
       element("detail").append(
         recordDetails("Director ledger", value.director),
@@ -51,6 +152,7 @@ async function inspect(id) {
     }
     status.textContent = `Core date: ${value.date}. Read-only inspection.`;
   } catch (error) {
+    if (requestId !== inspectionRequest) return;
     status.textContent = error.message;
   }
 }
@@ -111,8 +213,20 @@ element("opening").addEventListener("submit", async (event) => {
     });
     const value = await request(`/api/build?${query}`, { method: "POST" });
     residents = value.residents;
+    ++inspectionRequest;
     visibleCount = 100;
     element("detail").replaceChildren();
+    element("choice-options").replaceChildren();
+    element("chosen-resident").textContent =
+      "Choose a resident to inspect current offers.";
+    element("trace-detail").replaceChildren();
+    element("trace-record-id").value = "";
+    element("trace-status").textContent =
+      "Saved-trace resolver pending; raw records remain inspectable.";
+    renderProgress(value.progress);
+    element("calendar").value = value.date;
+    element("stop-status").textContent =
+      `Core date: ${value.date}. No time has advanced.`;
     const provenance = { ...value };
     delete provenance.residents;
     element("provenance").textContent = JSON.stringify(provenance, null, 2);
@@ -127,3 +241,14 @@ element("opening").addEventListener("submit", async (event) => {
 newSeed().catch((error) => {
   status.textContent = error.message;
 });
+request("/api/capabilities")
+  .then((value) => {
+    const missing = Object.entries(value.implementation)
+      .filter(([, present]) => !present)
+      .map(([name]) => name);
+    element("api-status").textContent =
+      `${value.contract}: ${value.status}. Missing exports: ${missing.join(", ") || "none"}. Source: #3918.`;
+  })
+  .catch((error) => {
+    element("api-status").textContent = error.message;
+  });

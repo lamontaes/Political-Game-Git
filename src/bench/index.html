@@ -38,61 +38,62 @@
       reason/source resolver is pending on #3918; raw records do not certify a
       why trace.
     </p>
-    <h2>Time — API request pending</h2>
-    <button disabled>Day</button><button disabled>Week</button>
-    <label>Calendar <input type="date" disabled /></label>
-    <button disabled>Skip until needed</button>
-    <p>
-      Controller pause/resume and earliest-stop APIs are required. No time
-      advances in this WIP.
+    <h2>Choices — awaiting the core pause/resume hook</h2>
+    <p id="chosen-resident">Choose a resident to inspect current offers.</p>
+    <fieldset id="choices" disabled>
+      <legend>Offered choices (preview only)</legend>
+      <div id="choice-options"></div>
+      <button id="submit-choice" type="button">Submit offered choice</button>
+    </fieldset>
+    <h2>Time — API implementation pending</h2>
+    <button id="day" type="button" disabled>Day</button>
+    <button id="week" type="button" disabled>Week</button>
+    <label>Calendar <input id="calendar" type="date" disabled /></label>
+    <button id="calendar-go" type="button" disabled>Go to date</button>
+    <button id="skip" type="button" disabled>Skip until needed</button>
+    <p id="stop-status" role="status">No core time has advanced.</p>
+    <p id="api-status">
+      Choice, earliest-stop/resume and saved-trace implementations are pending
+      on #3918.
     </p>
-    <h2>Golden path — integration acceptance pending</h2>
-    <ol>
-      <li>
-        Turn 18 — reachability check pending; inspect resident birth-date
-        records
-      </li>
-      <li>
-        Meet people — reachability check pending; inspect the resident's contact
-        offers
-      </li>
-      <li>
-        File for office where that place files: clerk, registrar or board of
-        elections — not in the new core yet; missing filing office and rules
-        module
-      </li>
-      <li>Campaign — not in the new core yet; missing campaign module</li>
-      <li>Win or lose — not in the new core yet; missing election module</li>
-      <li>
-        Propose an ordinance — not in the new core yet; missing governing module
-      </li>
-      <li>Negotiate — not in the new core yet; missing legislature module</li>
-      <li>
-        Pass or fail — not in the new core yet; missing legislature module
-      </li>
-      <li>
-        Town changes — not in the new core yet; missing law effects module
-      </li>
-      <li>
-        People bring it up — not in the new core yet; missing story and English
-        integration
-      </li>
-      <li>
-        Next election uses the record — not in the new core yet; missing
-        election record integration
-      </li>
-    </ol>
-    <p>
-      Furthest reached step: none demonstrated. A reached step requires record
-      evidence with the world running.
+    <h2>Saved trace</h2>
+    <label>Record ID <input id="trace-record-id" /></label>
+    <button id="resolve-trace" type="button" disabled>
+      Resolve saved trace
+    </button>
+    <p id="trace-status">
+      Saved-trace resolver pending; raw records remain inspectable.
     </p>
-    <h2>World pieces</h2>
-    <ul>
-      <li>National economy: not in the new core yet</li>
-      <li>State government: not in the new core yet</li>
-      <li>Federal government: not in the new core yet</li>
-      <li>Other places: not in the new core yet</li>
-    </ul>
+    <div id="trace-detail"></div>
+    <section aria-labelledby="path-heading">
+      <h2 id="path-heading">Golden path and world panel</h2>
+      <p id="path-basis">
+        Generate a town to read its opening reachability records.
+      </p>
+      <table>
+        <thead>
+          <tr>
+            <th>Step</th>
+            <th>Status</th>
+            <th>Record evidence or missing module</th>
+          </tr>
+        </thead>
+        <tbody id="golden-path"></tbody>
+      </table>
+      <p id="furthest-step">Furthest reached step: none demonstrated.</p>
+      <h3>World pieces</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>World piece</th>
+            <th>Status</th>
+            <th>Missing module</th>
+          </tr>
+        </thead>
+        <tbody id="world-pieces"></tbody>
+      </table>
+      <p id="world-status">No running world has been demonstrated.</p>
+    </section>
     <script type="module" src="/client.mjs"></script>
   </body>
 </html>

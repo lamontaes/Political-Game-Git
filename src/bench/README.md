@@ -49,9 +49,23 @@ SOL-1258 posted the `core2-part1b-v1` contract on
 source still has the synchronous Controller and date-only advancement, so the
 bench does not emulate the proposed hooks.
 
-Time controls stay disabled until these APIs exist. Raw record inspection is not
-the 20-item M0-04 score/source proof. Golden-path reachability is not certified;
-no step is marked reached, and no feature pass flag is changed.
+The golden-path/world panel projects opening records with `benchProgress`.
+Steps 1–2 identify an actual 18-year-old in the selected town, that person's
+household and birth record, a current contact offer and its recorded target.
+The panel's route buttons inspect those records; they do not play an act.
+Steps 3–11 name their missing modules. All four M1 world pieces remain
+"not in the new core yet," even if opening data contains government offices or
+relatives in other places. No step is reached without played records and the
+world running. M0-01 and M0-05 are ready for the independent finisher's check;
+no feature pass flag is changed.
+
+Prepared controls show current offered action/target IDs and the core's duration,
+without treating previews as pending choices. Time and submission controls remain
+disabled. Relationship snapshots, saved payments and director moments can select
+a trace record for later resolution. `/api/capabilities` reports the proposed
+contract and installed exports. Advance, resume and trace requests return 409
+without invoking the engine while the adapter is absent. This is not the M0-02
+seven-day proof, M0-03 stop proof or M0-04 twenty-item trace proof.
 
 Technical values: 16 GB comes from M0-bench; port 3000 is the forwarded development
 port; 100 is the browser's page size; 1024 test seeds exercise coverage. These
