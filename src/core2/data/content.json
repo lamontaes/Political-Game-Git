@@ -85,7 +85,15 @@
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "negativeOne"
-      }
+      },
+      "reasonBindings": [
+        {
+          "id": "tie-fading",
+          "provider": "tie-fading",
+          "weightParameter": "tieMissingWeightPerHour",
+          "stopgapId": "SG-P15-closeness-model"
+        }
+      ]
     },
     {
       "id": "care-for-relative",

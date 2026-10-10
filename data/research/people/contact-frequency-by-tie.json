@@ -1,0 +1,80 @@
+{
+  "id": "contact-frequency-by-tie",
+  "addedBy": "OPUS-PEOPLE",
+  "addedAt": "2026-10-10",
+  "purpose": "Answer keys and inputs for P15 part 2: how often US adults spend time in person with each kind of tie, how many hours make a friend, and how closeness fades without contact. Real rates check totals; they never pick one person's contact.",
+  "sources": [
+    {
+      "id": "gss-social-evening",
+      "citation": "General Social Survey 1972-2024 Cumulative Datafile, Release 3, SDA codebook (sda.berkeley.edu/sdaweb/docs/gss24rel3/DOC/hcbk0040.htm): \"How often do you spend a social evening with ...\", pooled over the years asked, percent of valid answers.",
+      "categories": [
+        "almost daily",
+        "once or twice a week (several times a week for parents and siblings)",
+        "several times a month",
+        "about once a month",
+        "several times a year",
+        "about once a year",
+        "never"
+      ],
+      "rows": {
+        "parents": {
+          "percent": [6.2, 14.3, 10.0, 9.9, 13.1, 8.1, 9.1],
+          "noSuchPeople": 29.1,
+          "variable": "SOCPARS"
+        },
+        "siblings": {
+          "percent": [5.3, 13.1, 12.0, 13.3, 21.9, 15.3, 9.9],
+          "noSuchPeople": 9.2,
+          "variable": "SOCSIBS"
+        },
+        "relatives": {
+          "percent": [9.8, 25.3, 18.3, 16.3, 18.5, 7.2, 4.6],
+          "variable": "SOCREL"
+        },
+        "neighbors": {
+          "percent": [5.3, 16.9, 11.4, 14.4, 12.8, 9.6, 29.7],
+          "variable": "SOCOMMUN"
+        },
+        "friends": {
+          "percent": [3.0, 17.7, 20.0, 21.8, 19.3, 7.8, 10.5],
+          "variable": "SOCFREND"
+        }
+      },
+      "limits": "A social evening, not any meeting; not restricted to relatives living elsewhere; pooled years."
+    },
+    {
+      "id": "atus-companionship",
+      "citation": "Kannan and Veazie (2022), US trends in social isolation, social engagement, and companionship, SSM Population Health 21:101331, using the American Time Use Survey 2003-2020 (219,368 respondents 15 and older): average minutes per day in the presence of each group.",
+      "minutesPerDay": {
+        "householdFamily": { "2003": 262, "2019": 243, "2020": 252 },
+        "nonHouseholdFamily": { "2003": 35, "2019": 28, "2020": 22 },
+        "friends": { "2003": 60, "2019": 34, "2020": 20 },
+        "others": { "2003": 54, "2019": 43, "2020": 34 },
+        "alone": { "2003": 285, "2019": 309, "2020": 333 }
+      },
+      "limits": "Not asked for sleep, grooming or work. 'Others' includes roommates, neighbors, acquaintances, coworkers and clients."
+    },
+    {
+      "id": "hall-2019-friendship-hours",
+      "citation": "Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4), doi:10.1177/0265407518761225; University of Kansas release, March 6, 2018.",
+      "findings": "Roughly 50 hours from acquaintance to casual friend, 90 hours to friend and more than 200 hours to close friend; combined across both studies 40-60, 80-100 and more than 200 hours. Hours spent working together count less than time socializing.",
+      "limits": "Release figures; the article's coefficients were not read."
+    },
+    {
+      "id": "roberts-dunbar-2015",
+      "citation": "Roberts and Dunbar (2015), Managing relationship decay, Human Nature 26(4):426-450.",
+      "findings": "25 students followed for 18 months across leaving school: emotional closeness to kin rose (b = 0.27) while closeness to friends fell (b = -0.62); 70.3% of inner-layer kin stayed inner-layer against 48.6% of friends. Contact frequency held women's friendships; shared activity held men's.",
+      "limits": "The paper reports no half-life. The 18- and 36-month half-lives in P15 come from the P13 director, not this paper."
+    },
+    {
+      "id": "pew-2024-young-adults-parents",
+      "citation": "Pew Research Center (January 25, 2024), Young adults' relationship with their parents, adults 18 to 34 about the parent they communicate with most, excluding a parent they live with.",
+      "findings": "22% see that parent in person at least a few times a week; 35% a few times a month or once a month; 42% less than once a month, including 6% never."
+    },
+    {
+      "id": "pew-2005-distance",
+      "citation": "Pew Research Center (February 21, 2006), Families drawn together by communication revolution, 2005 survey.",
+      "findings": "56% of adults whose parent lives in the same town see or talk to that parent every day, against 22% when the parent lives in a different town (any contact, phone included)."
+    }
+  ]
+}

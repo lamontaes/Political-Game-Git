@@ -1,0 +1,47 @@
+{
+  "version": "p15-closeness-v1",
+  "stopgapId": "SG-P15-closeness-model",
+  "familyKind": "family",
+  "householdKind": "contact",
+  "visitsPerYearByCategory": {
+    "citation": "Stand-in visit counts for the GSS answer categories, an assumption registered with SG-P15-closeness-model: almost daily as five a week, once or twice (or several times) a week as two a week, several times a month as two and a half a month, about once a month as twelve a year, several times a year as four, about once a year as one, never as none.",
+    "values": [260, 104, 30, 12, 4, 1, 0]
+  },
+  "gss": {
+    "citation": "General Social Survey 1972-2024 Cumulative Datafile, Release 3 (SDA codebook): how often the respondent spends a social evening with parents (SOCPARS), a brother or sister (SOCSIBS) or relatives (SOCREL); percent of all valid answers, pooled years. The rest of each parents and siblings row is \"no such people\" (29.1% and 9.2%); means are taken over the seven listed categories only.",
+    "rows": {
+      "parents": [6.2, 14.3, 10.0, 9.9, 13.1, 8.1, 9.1],
+      "siblings": [5.3, 13.1, 12.0, 13.3, 21.9, 15.3, 9.9],
+      "relatives": [9.8, 25.3, 18.3, 16.3, 18.5, 7.2, 4.6]
+    }
+  },
+  "tieRows": {
+    "parent": {
+      "row": "parents",
+      "extended": false,
+      "sharedChildhood": "parent"
+    },
+    "child": {
+      "row": "parents",
+      "extended": false,
+      "sharedChildhood": "child"
+    },
+    "sibling": {
+      "row": "siblings",
+      "extended": false,
+      "sharedChildhood": "sibling"
+    },
+    "grandparent": { "row": "relatives", "extended": true },
+    "grandchild": { "row": "relatives", "extended": true },
+    "aunt-or-uncle": { "row": "relatives", "extended": true },
+    "niece-or-nephew": { "row": "relatives", "extended": true },
+    "other-parent": { "row": "relatives", "extended": true }
+  },
+  "familyFactPrefix": "family:",
+  "kinFactMarker": ":family:",
+  "gaps": [
+    "Opening closeness uses the average visit rate for the tie, not each pair's own history of visits.",
+    "Relatives outside the town make no decisions, so they never start contact themselves.",
+    "Old classmates have no opening closeness until someone makes contact; time at school is counted only for classmates still in school together (part 3)."
+  ]
+}
