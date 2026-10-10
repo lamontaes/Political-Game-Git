@@ -1,3 +1,4 @@
+/* global process, console */
 import { readFileSync } from "node:fs";
 const [file, rootName] = process.argv.slice(2);
 const prof = JSON.parse(readFileSync(file, "utf8"));

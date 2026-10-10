@@ -1,3 +1,4 @@
+/* global process, console */
 // Usage: node summarize.mjs <file.cpuprofile> [topN] -> JSON {totalMs, self:[], total:[]}
 // Self time from sample deltas; total time = inclusive time per unique function (recursion counted once per sample).
 import { readFileSync } from "node:fs";

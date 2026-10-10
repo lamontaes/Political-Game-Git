@@ -1,4 +1,5 @@
-import { readFileSync, readdirSync, statSync } from "node:fs";
+/* global console */
+import { readFileSync } from "node:fs";
 import { execSync } from "node:child_process";
 const root = "/home/user/wt-after/";
 const load = (v) => JSON.parse(readFileSync(`sum-${v}.json`, "utf8"));
@@ -20,7 +21,9 @@ function loc(key) {
             `grep -nE "(function ${esc}\\b|^\\s+(async |static |get |set )?${esc}\\s*[<(]|(const|let) ${esc}\\b)" ${root}${file} | head -1 | cut -d: -f1`,
             { encoding: "utf8" },
           ).trim();
-        } catch {}
+        } catch {
+          // no matching definition: the table shows the name without a line
+        }
       }
       out = `${name} \`${file}${line ? ":" + line : ""}\``;
     } else out = `${name} (${file.replace(/:\d+$/, "")})`;

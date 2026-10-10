@@ -1,3 +1,4 @@
+/* global process, console */
 // Usage: node tree.mjs file depth rootFnName  -> inclusive-time tree (merged by function name) under all nodes named rootFnName
 import { readFileSync } from "node:fs";
 const [file, depthArg, rootName, minArg] = process.argv.slice(2);
