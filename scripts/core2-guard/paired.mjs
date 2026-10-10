@@ -162,7 +162,7 @@ export async function paired({ base, head, output }) {
   writeFileSync(output, JSON.stringify(result, null, 2) + "\n");
   const summary = result.error
     ? `## Core guard: ERROR\n\n${result.error.slice(0, 1000)}\n`
-    : `## Core guard: ${result.passed ? "PASS" : "SLOWDOWN"}\n\nBase ${result.baseMillisecondsPerDay.toFixed(2)} ms/day; head ${result.headMillisecondsPerDay.toFixed(2)} ms/day; ratio ${result.ratio.toFixed(3)} (limit ${result.maximumRatio}).\n\nPeak RSS: base ${result.peakRssMiB.base.toFixed(1)} MiB; head ${result.peakRssMiB.head.toFixed(1)} MiB.\n\nSeed ${result.seed}; place ${result.placeKey}.\n\nSlowest sampled head functions (profiles include opening and month):\n\n` +
+    : `## Core guard: ${result.passed ? "PASS" : result.speedPassed ? "INPUT BUDGET FAILURE" : "SLOWDOWN"}\n\nBase ${result.baseMillisecondsPerDay.toFixed(2)} ms/day; head ${result.headMillisecondsPerDay.toFixed(2)} ms/day; ratio ${result.ratio.toFixed(3)} (limit ${result.maximumRatio}). Opening-input budgets: ${result.openingBudgetPassed ? "passed" : "FAILED"}.\n\nPeak RSS: base ${result.peakRssMiB.base.toFixed(1)} MiB; head ${result.peakRssMiB.head.toFixed(1)} MiB.\n\nSeed ${result.seed}; place ${result.placeKey}.\n\nSlowest sampled head functions (profiles include opening and month):\n\n` +
       profiles.head.self
         .map((row) => `- ${row.name}: ${row.ms} ms (${row.pct}%)`)
         .join("\n") +

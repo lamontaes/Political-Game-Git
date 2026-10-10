@@ -91,9 +91,11 @@ try {
     source.slice(0, opening + 1) + injection + source.slice(opening + 1),
   );
   const head = await group("deliberately-slow");
+  const baseline = compare(base, base);
+  assert.equal(baseline.speedPassed, true);
   const comparison = compare(base, head);
   assert.equal(
-    comparison.passed,
+    comparison.speedPassed,
     false,
     "Computational slowdown was not detected",
   );
@@ -136,6 +138,7 @@ try {
     mutation:
       "Temporary CPU loop at the real advanceCore boundary, removed after measurement",
     injectedMilliseconds: delay,
+    baseline,
     comparison,
     base,
     deliberatelySlow: head,

@@ -1,3 +1,4 @@
+import { createHash } from "node:crypto";
 /* global process, console */
 import { readFileSync, writeFileSync } from "node:fs";
 import { resolve } from "node:path";
@@ -99,8 +100,6 @@ export async function runMonth({ seed, placeKey, output }) {
   const census = censusOpeningInput(input),
     budget = openingInputBudget(census, registry),
     inputHash = hashMeasuredJson(input);
-  if (!budget.passed)
-    throw new Error(`Opening-input guard: ${budget.violations.join("; ")}`);
   const initStarted = performance.now(),
     core = createLifeCore(input),
     initializeMilliseconds = performance.now() - initStarted;
@@ -117,6 +116,13 @@ export async function runMonth({ seed, placeKey, output }) {
     revision: execFileSync("git", ["rev-parse", "HEAD"], {
       encoding: "utf8",
     }).trim(),
+    sourcePatchSha256: createHash("sha256")
+      .update(
+        execFileSync("git", ["diff", "HEAD", "--", "src/core2"], {
+          encoding: "utf8",
+        }),
+      )
+      .digest("hex"),
     seed,
     placeKey,
     place,

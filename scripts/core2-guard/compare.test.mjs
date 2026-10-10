@@ -36,12 +36,24 @@ test("unmatched worlds, hosts and revisions cannot produce green comparisons", (
   changed[1].revision = "other";
   assert.throws(() => compare(changed, rows([10, 10, 10])));
 });
-test("incomplete, invalid and oversized inputs fail closed", () => {
+test("incomplete or invalid receipts fail closed", () => {
   assert.throws(() => compare(rows([10]), rows([10, 10, 10])));
   for (const extra of [
     { millisecondsPerDay: NaN },
     { peakRssMiB: 0 },
-    { opening: { budget: { passed: false } } },
+    { opening: { budget: {} } },
   ])
     assert.throws(() => compare(rows([10, 10, 10]), rows([10, 10, 10], extra)));
+});
+
+test("input-budget failure stays red independently of timing", () => {
+  const result = compare(
+    rows([10, 10, 10]),
+    rows([10, 10, 10], {
+      opening: { budget: { passed: false, violations: ["oversized fixture"] } },
+    }),
+  );
+  assert.equal(result.passed, false);
+  assert.equal(result.speedPassed, true);
+  assert.equal(result.openingBudgetPassed, false);
 });

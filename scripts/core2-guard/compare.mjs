@@ -17,7 +17,7 @@ export function compare(base, head) {
       !row.placeKey ||
       !row.inputHash ||
       row.days !== policies.monthDays ||
-      !row.opening?.budget?.passed ||
+      typeof row.opening?.budget?.passed !== "boolean" ||
       !Number.isFinite(row.millisecondsPerDay) ||
       row.millisecondsPerDay <= 0 ||
       !Number.isFinite(row.peakRssMiB) ||
@@ -38,14 +38,24 @@ export function compare(base, head) {
     }
   }
   for (const group of [base, head])
-    if (group.some((row) => row.revision !== group[0].revision))
+    if (
+      group.some(
+        (row) =>
+          row.revision !== group[0].revision ||
+          row.sourcePatchSha256 !== group[0].sourcePatchSha256,
+      )
+    )
       throw new Error("Revision changed inside measured group");
   const baseMs = median(base.map((row) => row.millisecondsPerDay)),
     headMs = median(head.map((row) => row.millisecondsPerDay)),
     ratio = headMs / baseMs;
   return {
     schema: "core2-paired-v1",
-    passed: ratio <= policies.maximumRatio,
+    passed:
+      ratio <= policies.maximumRatio &&
+      rows.every((row) => row.opening.budget.passed),
+    speedPassed: ratio <= policies.maximumRatio,
+    openingBudgetPassed: rows.every((row) => row.opening.budget.passed),
     baseRevision: base[0].revision,
     headRevision: head[0].revision,
     seed: base[0].seed,
