@@ -224,7 +224,7 @@ export function createOpeningPurchaseCalendar(
     add(wageByHousehold, person.householdId, {
       dueAt,
       ids: [job.id, row.id],
-      detail: `First eligible dated segment of actual owned commitment ${row.id}, job ${job.id}, employer ${job.organizationId}; anchor ${row.anchorDate}, periodDays ${row.periodDays}, startsAt ${row.startsAt}${row.endsAt ? `, actual commitment end ${row.endsAt}` : ""}${jobEnd ? `, exclusive actual job end ${jobEnd}` : ""}. Recorded schedule: ${row.scheduleSource.citation}; pay terms: ${row.paySource.citation}. The current work writer pays actual attended scheduled dates; this opening phase convention predicts neither attendance nor a paycheck and creates no weekly/biweekly payroll system.`,
+      detail: `Owned work basis ${job.id}, ${row.id}; schedule/pay Sources remain on those records. This predicts neither attendance nor a paycheck.`,
     });
   }
   const incomePolicy: Pick<FinancePolicyData, "recipientIncomeKinds"> =
@@ -299,7 +299,7 @@ export function createOpeningPurchaseCalendar(
         add(incomeByHousehold, home.id, {
           dueAt: firstOpportunity,
           ids: [row.id, fact.id],
-          detail: `Actual admitted recipient-income calendar ${row.id}, recipient ${person.id}, kind ${term.kindId}, dated award ${fact.id}, recorded dueAt ${dueAt}, periodMonths ${row.periodMonths}${end ? `, exclusive actual end ${end}` : ""}. Award source: ${fact.source.citation}. No benefit eligibility, award, payer or payment is invented; only already recorded compatible cash-income terms can anchor this estimate.`,
+          detail: `Qualified income basis ${row.id}, ${fact.id}; entitlement and award Sources remain on those records. Payment is not predicted.`,
         });
     } else if (row.householdId && row.amountMinor > zero) {
       const home = households.get(row.householdId);
@@ -317,7 +317,7 @@ export function createOpeningPurchaseCalendar(
       add(expenseByHousehold, home.id, {
         dueAt: firstOpportunity,
         ids: [row.id],
-        detail: `No admitted wage or recipient-income calendar is available. Existing owned household expense ${row.id}, recorded dueAt ${dueAt}, supplies an explicitly estimated purchase phase; its actual due, end, amount and cadence are unchanged. This expense is not income or an award. Expense source: ${row.source.citation}.`,
+        detail: `Owned expense basis ${row.id}; no admitted wage or recipient-income calendar. The expense is not income.`,
       });
     }
   }
@@ -333,8 +333,12 @@ export function createOpeningPurchaseCalendar(
       tag: "ESTIMATED",
       asOf: startedAt,
       generationPriorVintage: data.source.generationPriorVintage,
-      citation: data.source.citation,
-      estimatedFrom: `${data.source.estimatedFrom} ${detail} Opening calendar basis IDs: ${basisIds.length ? basisIds.join(", ") : "none; explicit calendar-only fallback"}. ${data.stopgapId}${missingIncome ? ` ${data.missingIncomeGap}:${householdId}` : ""}`,
+      citation:
+        data.source.citation ===
+        DEFAULT_OPENING_PURCHASE_CALENDAR_DATA.source.citation
+          ? "JPMorgan Chase Institute, Farrell and Greig (2016), Paychecks, Paydays, and the Online Platform Economy; full citation and rationale: DATA openingPurchaseCalendar.source."
+          : data.source.citation,
+      estimatedFrom: `${data.source.estimatedFrom === DEFAULT_OPENING_PURCHASE_CALENDAR_DATA.source.estimatedFrom ? "" : `${data.source.estimatedFrom} `}DATA openingPurchaseCalendar.source; rule ${householdId ? data.householdFirstDueRule : data.businessFirstDueRule}${missingIncome ? ` / ${data.noIncomeFallbackRule}` : ""}; result ${dueAt}. ${detail} Basis IDs: ${basisIds.length ? basisIds.join(", ") : "none"}. ${data.stopgapId}${missingIncome ? ` Missing income timing: ${data.missingIncomeGap}:${householdId}.` : ""}`,
     },
     gaps: [
       data.stopgapId,
@@ -364,7 +368,7 @@ export function createOpeningPurchaseCalendar(
         ? choice(first.dueAt, first.detail, first.ids, !hasIncome, home.id)
         : choice(
             fallbackAt,
-            "No admitted wage, recipient-income or dated expense calendar exists. The explicit B0 fallback uses the first day of the next actual calendar month as a monthly budget convention. The cited study motivates pay/payment alignment but does not observe this household's invoice or fallback date; missing income timing remains open. No job, income, award or source-year expiry is fabricated.",
+            "No admitted work, recipient-income or expense calendar; explicit calendar-only fallback to the first next month (B0). Missing income timing remains open; no pay or award is invented.",
             [],
             true,
             home.id,
@@ -391,7 +395,7 @@ export function createOpeningPurchaseCalendar(
     },
     business: choice(
       firstAdvancedAt,
-      "Separate estimated fresh business purchase-budget calendar: startedAt plus the existing exact one-day simulation step where no actual invoice supplies a date. Household payday calendars do not select business invoices. No deficit, closure, survival forecast or future payroll enters this convention; supplied actual invoices and ends remain unchanged.",
+      "Fresh business calendar only; no actual invoice is supplied. Household income calendars do not select business dues.",
       [],
       false,
     ),
