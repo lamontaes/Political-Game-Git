@@ -486,7 +486,7 @@
   "closenessKinHalfLifeDays": {
     "value": 1095,
     "tag": "TUNABLE",
-    "citation": "Half-life of time together between relatives without contact, 36 months, as the P15 package and the P13 director use it. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life.",
+    "citation": "Half-life of time together between relatives without contact, 36 months, as the P15 package and the P13 director use it. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life. Calibration check: Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80 (Dutch panel, 1,007 adults aged 18-65, 604 re-interviewed seven years later): 48% of the discussion partners and practical helpers named at the start were still in the network seven years later, and 30% held the same position (figures as reported in the Utrecht University release of May 27, 2009, ScienceDaily 090527111907; the 2014 article is paywalled and no kin/non-kin split was found in the sources read). The game's share of ties still above their opening closeness after seven years is compared with it in a seven-year run.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -499,7 +499,7 @@
   "closenessOtherHalfLifeDays": {
     "value": 548,
     "tag": "TUNABLE",
-    "citation": "Half-life of time together between people who are not relatives without contact, 18 months, as the P15 package and the P13 director use it.",
+    "citation": "Half-life of time together between people who are not relatives without contact, 18 months, as the P15 package and the P13 director use it. Calibration check: Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80 (Dutch panel, 1,007 adults aged 18-65, 604 re-interviewed seven years later): 48% of the discussion partners and practical helpers named at the start were still in the network seven years later, and 30% held the same position (figures as reported in the Utrecht University release of May 27, 2009, ScienceDaily 090527111907; the 2014 article is paywalled and no kin/non-kin split was found in the sources read). The game's share of ties still above their opening closeness after seven years is compared with it in a seven-year run.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -552,16 +552,10 @@
   },
   "farKinContactShare": {
     "value": 0.39,
-    "tag": "TUNABLE",
+    "tag": "ESTIMATED",
     "citation": "Visits to a relative living elsewhere in the state, as a share of visits to one living in the same county; Pew 2005: 22% of adults with a parent in a different town see or talk to that parent daily, against 56% in the same town (0.39).",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Pew's figures count calls with visits and compare towns, not counties."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    "estimatedFrom": "Pew Research Center (2005), daily contact with a parent by whether the parent lives in the same town (56%) or a different town (22%): 22/56 = 0.39, applied to visits to any relative elsewhere in the state. Pew counts calls with visits and compares towns, not counties; the CTO accepted it until relatives carry a place (October 10, 2026).",
+    "stopgapId": "SG-P15-distance-by-place"
   },
   "extendedKinVisitShare": {
     "value": 0.25,

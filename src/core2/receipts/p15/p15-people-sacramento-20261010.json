@@ -4,10 +4,10 @@
   "place": "Sacramento, California",
   "placeId": "jurisdiction_747f3ae0bd287399",
   "startedAt": "2021-01-01",
-  "buildSeconds": 14.2,
+  "buildSeconds": 15.1,
   "residents": 10001,
-  "relatives": 37782,
-  "relativesInCounty": 19186,
+  "relatives": 36792,
+  "relativesInCounty": 17879,
   "householdShape": {
     "citation": "U.S. Census Bureau, American Community Survey 2020-2024 tables B11001 and B11003 for the place, else its state, as read by src/simulation/household-mix.ts.",
     "basis": "place",
@@ -42,33 +42,34 @@
     ]
   },
   "ageStructure": {
-    "citation": "U.S. Census Bureau, American Community Survey 2024 1-year estimates, table-based summary files: B01001 Sex by Age (acsdt1y2024-b01001.dat, sha256 84db6a3a8eda54d882b9a5e6a5bb48864fcbb573a262127ed026ae5fb6d6953e) B09021 Living Arrangements of Adults 18 Years and Over by Age (acsdt1y2024-b09021.dat, sha256 119600befd0d8b0b82a8d74b4e9091069f724d0a7bc2301b6152ad2b103befa8) and B12002 Sex by Marital Status by Age for the Population 15 Years and Over (acsdt1y2024-b12002.dat, sha256 8c7ee43d1c9d88adc247603319d1fb51044a082f4f547b1ce47f44a91b2d27e2). Rows for the nation (US), each state and Puerto Rico (two-digit FIPS) and each place the 1-year survey covers (seven-digit place GEOID) that the game seats. Places outside the 1-year survey read their state; Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands read the nation, ESTIMATED FROM AVERAGE (SG-P15-partnership-model).",
+    "citation": "U.S. Census Bureau, American Community Survey 2024 1-year estimates, table-based summary files: B01001 Sex by Age (acsdt1y2024-b01001.dat, sha256 84db6a3a8eda54d882b9a5e6a5bb48864fcbb573a262127ed026ae5fb6d6953e) B09021 Living Arrangements of Adults 18 Years and Over by Age (acsdt1y2024-b09021.dat, sha256 119600befd0d8b0b82a8d74b4e9091069f724d0a7bc2301b6152ad2b103befa8), B11001 Household Type (acsdt1y2024-b11001.dat, sha256 5bd77eb910b50fa49a17c050bed3f7009f738f18cd509cc55b260a12655250c7), B11003 Family Type by Presence and Age of Own Children Under 18 Years (acsdt1y2024-b11003.dat, sha256 5fea309b6407cd04477349b11817309460e7f4d14043c0aea52970e462561131) and B12002 Sex by Marital Status by Age for the Population 15 Years and Over (acsdt1y2024-b12002.dat, sha256 8c7ee43d1c9d88adc247603319d1fb51044a082f4f547b1ce47f44a91b2d27e2). Rows for the nation (US), each state and Puerto Rico (two-digit FIPS) and each place the 1-year survey covers (seven-digit place GEOID) that the game seats. Places outside the 1-year survey read their state; Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands read the nation, ESTIMATED FROM AVERAGE (SG-P15-partnership-model).",
     "acsGeography": "0664000",
     "rows": [
       {
         "band": "18-34",
         "acsPercentOfAdults": 32.4,
-        "gamePercentOfAdults": 38.8
+        "gamePercentOfAdults": 28.2
       },
       {
         "band": "35-54",
         "acsPercentOfAdults": 35.7,
-        "gamePercentOfAdults": 35.9
+        "gamePercentOfAdults": 39.5
       },
       {
         "band": "55-74",
         "acsPercentOfAdults": 24.4,
-        "gamePercentOfAdults": 20.5
+        "gamePercentOfAdults": 25.6
       },
       {
         "band": "75+",
         "acsPercentOfAdults": 7.5,
-        "gamePercentOfAdults": 4.7
+        "gamePercentOfAdults": 6.8
       }
     ]
   },
   "kinByAge": {
     "citation": "Margolis and Verdery (2017), Older Adults Without Close Kin in the United States, Journals of Gerontology Series B 72(4), Table 1: Health and Retirement Study 1998-2010, respondents 55 and older, percent with no living biological child, no living sibling, no living parent and no partner or spouse (the table's \"No partner or spouse\" row, since the game's couples include unmarried partners), by age group and sex.",
+    "acsNoSpousePresent": "Adults of the band who are not married with their spouse present, ACS 2024 1-year B12002 for 0664000 (U); the game's couples are all marriages.",
     "bands": [
       {
         "band": "0-17",
@@ -76,85 +77,85 @@
           "people": 2428,
           "anyFamilyPercent": 100,
           "noParentPercent": 0,
-          "noSiblingPercent": 11.8,
+          "noSiblingPercent": 10.9,
           "noChildPercent": 100,
           "noPartnerPercent": 100,
           "perPerson": {
             "parents": 1.63,
-            "siblings": 1.71,
+            "siblings": 1.78,
             "children": 0,
             "grandchildren": 0,
-            "familyLinks": 9.35
+            "familyLinks": 9.38
           }
         }
       },
       {
         "band": "18-34",
         "all": {
-          "people": 2937,
+          "people": 2133,
           "anyFamilyPercent": 100,
           "noParentPercent": 0.3,
-          "noSiblingPercent": 10.8,
-          "noChildPercent": 55.2,
-          "noPartnerPercent": 74.7,
+          "noSiblingPercent": 13.1,
+          "noChildPercent": 62.2,
+          "noPartnerPercent": 69,
           "perPerson": {
-            "parents": 1.84,
-            "siblings": 1.86,
-            "children": 0.86,
+            "parents": 1.67,
+            "siblings": 1.72,
+            "children": 0.73,
             "grandchildren": 0,
-            "familyLinks": 4.81
+            "familyLinks": 5.28
           }
         }
       },
       {
         "band": "35-54",
         "all": {
-          "people": 2721,
+          "people": 2988,
           "anyFamilyPercent": 100,
-          "noParentPercent": 6.2,
-          "noSiblingPercent": 10.3,
-          "noChildPercent": 13,
-          "noPartnerPercent": 44.7,
+          "noParentPercent": 6.9,
+          "noSiblingPercent": 10.9,
+          "noChildPercent": 13.9,
+          "noPartnerPercent": 47.7,
           "perPerson": {
-            "parents": 1.54,
-            "siblings": 1.88,
-            "children": 2.03,
-            "grandchildren": 0.19,
-            "familyLinks": 6.18
+            "parents": 1.5,
+            "siblings": 1.91,
+            "children": 2.06,
+            "grandchildren": 0.24,
+            "familyLinks": 6.31
           }
         }
       },
       {
         "band": "55-74",
         "all": {
-          "people": 1556,
-          "anyFamilyPercent": 99.7,
-          "noParentPercent": 58.5,
-          "noSiblingPercent": 6.4,
-          "noChildPercent": 20.1,
-          "noPartnerPercent": 25.8,
+          "people": 1935,
+          "anyFamilyPercent": 99.8,
+          "noParentPercent": 56.6,
+          "noSiblingPercent": 6.5,
+          "noChildPercent": 16.7,
+          "noPartnerPercent": 41.2,
           "perPerson": {
-            "parents": 0.53,
-            "siblings": 2.53,
-            "children": 1.83,
-            "grandchildren": 3.12,
-            "familyLinks": 8.76
+            "parents": 0.55,
+            "siblings": 2.49,
+            "children": 1.91,
+            "grandchildren": 2.74,
+            "familyLinks": 8.29
           }
         },
         "male": {
           "game": {
-            "people": 748,
-            "anyFamilyPercent": 99.5,
-            "noParentPercent": 58.8,
-            "noSiblingPercent": 6.8,
-            "noChildPercent": 21,
-            "noPartnerPercent": 22.7,
+            "people": 936,
+            "anyFamilyPercent": 99.7,
+            "noParentPercent": 56.8,
+            "noSiblingPercent": 6.9,
+            "noChildPercent": 17.2,
+            "noPartnerPercent": 37.6,
             "perPerson": {
-              "parents": 0.51,
-              "siblings": 2.59,
-              "children": 1.82,
-              "grandchildren": 2.98,
-              "familyLinks": 8.66
+              "parents": 0.54,
+              "siblings": 2.5,
+              "children": 1.91,
+              "grandchildren": 2.51,
+              "familyLinks": 8.08
             }
           },
           "hrs": {
@@ -162,22 +163,23 @@
             "noSibling": 12.01,
             "noParent": 71.08,
             "noPartner": 20.01
-          }
+          },
+          "acsNoSpousePresentPercent": 45.3
         },
         "female": {
           "game": {
-            "people": 791,
+            "people": 974,
             "anyFamilyPercent": 99.9,
-            "noParentPercent": 57.9,
-            "noSiblingPercent": 5.9,
-            "noChildPercent": 19.2,
-            "noPartnerPercent": 28.8,
+            "noParentPercent": 56.4,
+            "noSiblingPercent": 6.2,
+            "noChildPercent": 16.2,
+            "noPartnerPercent": 44.5,
             "perPerson": {
-              "parents": 0.55,
-              "siblings": 2.49,
-              "children": 1.85,
-              "grandchildren": 3.28,
-              "familyLinks": 8.88
+              "parents": 0.56,
+              "siblings": 2.48,
+              "children": 1.93,
+              "grandchildren": 2.98,
+              "familyLinks": 8.52
             }
           },
           "hrs": {
@@ -185,40 +187,41 @@
             "noSibling": 11.82,
             "noParent": 71.82,
             "noPartner": 37.41
-          }
+          },
+          "acsNoSpousePresentPercent": 59.7
         }
       },
       {
         "band": "75+",
         "all": {
-          "people": 359,
-          "anyFamilyPercent": 99.4,
-          "noParentPercent": 96.9,
-          "noSiblingPercent": 14.5,
-          "noChildPercent": 13.4,
-          "noPartnerPercent": 46.2,
+          "people": 517,
+          "anyFamilyPercent": 97.9,
+          "noParentPercent": 98.5,
+          "noSiblingPercent": 24.8,
+          "noChildPercent": 12.4,
+          "noPartnerPercent": 55.1,
           "perPerson": {
-            "parents": 0.03,
-            "siblings": 1.83,
-            "children": 2.45,
-            "grandchildren": 4.48,
-            "familyLinks": 9.32
+            "parents": 0.02,
+            "siblings": 1.58,
+            "children": 2.38,
+            "grandchildren": 4.36,
+            "familyLinks": 8.79
           }
         },
         "male": {
           "game": {
-            "people": 150,
-            "anyFamilyPercent": 99.3,
-            "noParentPercent": 96.7,
-            "noSiblingPercent": 17.3,
-            "noChildPercent": 14,
-            "noPartnerPercent": 37.3,
+            "people": 238,
+            "anyFamilyPercent": 97.9,
+            "noParentPercent": 98.7,
+            "noSiblingPercent": 28.6,
+            "noChildPercent": 13.9,
+            "noPartnerPercent": 45.8,
             "perPerson": {
-              "parents": 0.03,
-              "siblings": 1.67,
-              "children": 2.27,
-              "grandchildren": 4.33,
-              "familyLinks": 8.93
+              "parents": 0.01,
+              "siblings": 1.56,
+              "children": 2.28,
+              "grandchildren": 4.32,
+              "familyLinks": 8.72
             }
           },
           "hrs": {
@@ -226,22 +229,23 @@
             "noSibling": 26.5,
             "noParent": 99.26,
             "noPartner": 30.59
-          }
+          },
+          "acsNoSpousePresentPercent": 46.2
         },
         "female": {
           "game": {
-            "people": 206,
-            "anyFamilyPercent": 99.5,
-            "noParentPercent": 97.1,
-            "noSiblingPercent": 12.6,
-            "noChildPercent": 13.1,
-            "noPartnerPercent": 52.4,
+            "people": 273,
+            "anyFamilyPercent": 97.8,
+            "noParentPercent": 98.2,
+            "noSiblingPercent": 22,
+            "noChildPercent": 11.4,
+            "noPartnerPercent": 62.6,
             "perPerson": {
-              "parents": 0.03,
-              "siblings": 1.91,
-              "children": 2.57,
-              "grandchildren": 4.61,
-              "familyLinks": 9.59
+              "parents": 0.02,
+              "siblings": 1.59,
+              "children": 2.47,
+              "grandchildren": 4.44,
+              "familyLinks": 8.9
             }
           },
           "hrs": {
@@ -249,7 +253,8 @@
             "noSibling": 31.38,
             "noParent": 99.43,
             "noPartner": 70.62
-          }
+          },
+          "acsNoSpousePresentPercent": 75
         }
       }
     ]
@@ -257,58 +262,58 @@
   "nearKin": {
     "citation": "Choi, Schoeni, Wiemers, Hotz and Seltzer (2020), Spatial Distance Between Parents and Adult Children in the United States, Journal of Marriage and Family 82(2), PSID 2013: adults with a living parent or adult child who live in a different household.",
     "proxy": "The game places relatives by county, not by distance: a relative in the household's county stands in for one within 30 miles.",
-    "adultsWithParentOrAdultChildElsewhere": 7230,
-    "nearestNearPercent": 73.1,
-    "allNearPercent": 50.3,
+    "adultsWithParentOrAdultChildElsewhere": 7095,
+    "nearestNearPercent": 73.6,
+    "allNearPercent": 46.8,
     "psidNearestWithin30Miles": 74.8,
     "psidAllWithin30Miles": 35.5
   },
   "temperament": {
     "coreProfiles": {
-      "distinct": 2094,
-      "largest": 73,
-      "largestPercent": 0.7
+      "distinct": 2081,
+      "largest": 83,
+      "largestPercent": 0.8
     },
     "fullProfiles": {
-      "distinct": 5253,
-      "largest": 30,
-      "largestPercent": 0.3
+      "distinct": 5296,
+      "largest": 36,
+      "largestPercent": 0.4
     },
     "levelPercent": {
       "sociability": {
-        "0": 39.1,
-        "1": 20.4,
+        "0": 39.2,
+        "1": 20.3,
         "2": 10.6,
-        "-2": 10.1,
-        "-1": 19.8
+        "-2": 9.9,
+        "-1": 20
       },
       "risk": {
-        "0": 36.7,
-        "1": 21.9,
-        "2": 14.6,
-        "-2": 9.1,
-        "-1": 17.7
+        "0": 36.8,
+        "1": 21.3,
+        "2": 13.6,
+        "-2": 10.1,
+        "-1": 18.2
       },
       "conflict": {
-        "0": 38,
-        "1": 19.8,
-        "2": 11.4,
-        "-2": 10.4,
-        "-1": 20.4
+        "0": 38.1,
+        "1": 19.5,
+        "2": 10.7,
+        "-2": 11.1,
+        "-1": 20.6
       },
       "reliability": {
-        "0": 38.2,
-        "1": 19.1,
-        "2": 10.2,
-        "-2": 12.1,
-        "-1": 20.4
+        "0": 37.8,
+        "1": 20.2,
+        "2": 10.6,
+        "-2": 11.5,
+        "-1": 19.8
       },
       "deliberation": {
         "0": 36.2,
-        "1": 21.5,
-        "2": 15.2,
-        "-2": 9.6,
-        "-1": 17.4
+        "1": 20.1,
+        "2": 14.2,
+        "-2": 11,
+        "-1": 18.5
       }
     }
   }

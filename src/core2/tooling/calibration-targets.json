@@ -10,7 +10,7 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "9f9e6f5aeec0c55f6709da361dc3689da3056ce03eb5e7d9744ce1a04980d2f3",
+    "sha256": "4a0f554e0368d29394f652410af8597f4ed53eab60bc03781c2718c9ff535fb6",
     "meaning": "Exact central parameter table including business-book aggregate priors, the unmeasured opening cadence and a sourced reporting definition. No fitted coefficient or passed calibration is claimed."
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
@@ -1429,7 +1429,7 @@
       "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
       "calibrationRange": null,
       "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted. Named check: Mollenhorst, Volker and Flap (2014), 48% of named network members still present after seven years; needs a seven-year run (P15 part 5)."
     },
     {
       "parameter": "closenessOtherHalfLifeDays",
@@ -1442,7 +1442,7 @@
       "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
       "calibrationRange": null,
       "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted. Named check: Mollenhorst, Volker and Flap (2014), 48% of named network members still present after seven years; needs a seven-year run (P15 part 5)."
     },
     {
       "parameter": "householdOtherMinutesPerDay",
@@ -1461,19 +1461,6 @@
       "parameter": "schoolHoursFriendshipWeight",
       "tag": "TUNABLE",
       "currentValueForTraceabilityOnly": 0.25,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "farKinContactShare",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.39,
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
       },
@@ -3946,7 +3933,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "9f9e6f5aeec0c55f6709da361dc3689da3056ce03eb5e7d9744ce1a04980d2f3"
+        "src/core2/data/parameters.json": "4a0f554e0368d29394f652410af8597f4ed53eab60bc03781c2718c9ff535fb6"
       },
       "observations": [
         {
@@ -6814,7 +6801,7 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
-    "src/core2/data/parameters.json": "9f9e6f5aeec0c55f6709da361dc3689da3056ce03eb5e7d9744ce1a04980d2f3",
+    "src/core2/data/parameters.json": "4a0f554e0368d29394f652410af8597f4ed53eab60bc03781c2718c9ff535fb6",
     "data/research/money/public-programs-2026.json": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193",
     "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac",
     "data/research/money/opening-customer-cex-2024.json": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b",

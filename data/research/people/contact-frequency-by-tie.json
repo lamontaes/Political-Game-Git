@@ -46,11 +46,31 @@
       "id": "atus-companionship",
       "citation": "Kannan and Veazie (2022), US trends in social isolation, social engagement, and companionship, SSM Population Health 21:101331, using the American Time Use Survey 2003-2020 (219,368 respondents 15 and older): average minutes per day in the presence of each group.",
       "minutesPerDay": {
-        "householdFamily": { "2003": 262, "2019": 243, "2020": 252 },
-        "nonHouseholdFamily": { "2003": 35, "2019": 28, "2020": 22 },
-        "friends": { "2003": 60, "2019": 34, "2020": 20 },
-        "others": { "2003": 54, "2019": 43, "2020": 34 },
-        "alone": { "2003": 285, "2019": 309, "2020": 333 }
+        "householdFamily": {
+          "2003": 262,
+          "2019": 243,
+          "2020": 252
+        },
+        "nonHouseholdFamily": {
+          "2003": 35,
+          "2019": 28,
+          "2020": 22
+        },
+        "friends": {
+          "2003": 60,
+          "2019": 34,
+          "2020": 20
+        },
+        "others": {
+          "2003": 54,
+          "2019": 43,
+          "2020": 34
+        },
+        "alone": {
+          "2003": 285,
+          "2019": 309,
+          "2020": 333
+        }
       },
       "limits": "Not asked for sleep, grooming or work. 'Others' includes roommates, neighbors, acquaintances, coworkers and clients."
     },
@@ -75,6 +95,12 @@
       "id": "pew-2005-distance",
       "citation": "Pew Research Center (February 21, 2006), Families drawn together by communication revolution, 2005 survey.",
       "findings": "56% of adults whose parent lives in the same town see or talk to that parent every day, against 22% when the parent lives in a different town (any contact, phone included)."
+    },
+    {
+      "id": "mollenhorst-network-turnover",
+      "citation": "Mollenhorst, G., Volker, B. and Flap, H. (2014), Changes in personal relationships: How social contexts affect the emergence and discontinuation of relationships, Social Networks 37, 65-80, doi 10.1016/j.socnet.2013.12.003; figures from the Utrecht University release of May 27, 2009 (ScienceDaily 090527111907).",
+      "findings": "Of 1,007 Dutch adults aged 18 to 65, 604 were re-interviewed seven years later. Network size barely changed, but only 48% of the discussion partners and practical helpers were still in the network, and 30% held the same position. A lack of meeting opportunities is a main reason ties end. No kin/non-kin retention split was found in the sources read; the 2014 article is paywalled.",
+      "use": "Calibration check for the closeness half-lives (closenessKinHalfLifeDays, closenessOtherHalfLifeDays) in a seven-year run."
     }
   ]
 }
