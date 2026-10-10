@@ -189,9 +189,9 @@ export function buildDeepPast(
       : null;
     const teaching = (geoids: readonly string[]) =>
       geoids.flatMap((geoid) =>
-        (SCHOOLS.byGeoid[geoid] ?? []).filter((row) => {
-          const low = grade(row[2]);
-          const high = grade(row[3]);
+        (SCHOOLS.byGeoid[geoid] ?? []).filter(([, , lowest, highest]) => {
+          const low = grade(lowest);
+          const high = grade(highest);
           return (
             low !== undefined &&
             high !== undefined &&
@@ -216,9 +216,9 @@ export function buildDeepPast(
     rows: readonly SchoolRow[],
     key: string,
   ): SchoolRow | undefined => {
-    const weights = rows.map((row) => {
-      const grades = grade(row[3])! - grade(row[2])! + p("one");
-      return Math.max(row[4], p("zero")) / grades;
+    const weights = rows.map(([, , lowest, highest, enrollment]) => {
+      const grades = grade(highest)! - grade(lowest)! + p("one");
+      return Math.max(enrollment, p("zero")) / grades;
     });
     const total = weights.reduce((sum, value) => sum + value, p("zero"));
     const rng = new SeededRng(input.seed).fork(key);
