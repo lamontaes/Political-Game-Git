@@ -408,13 +408,14 @@ export function buildDeepPast(
           schoolRows(placeId, countyId, stage.entryGrade),
           `${data.version}:${ageOnDate(birth, opening) < p("benchmarkAdultMinimumAge") ? person.householdId : person.id}:${placeId}:${stage.id}:campus`,
         );
+        const [campusId, campusName] = school ?? [];
         const schoolName =
-          school?.[p("one")] ??
+          campusName ??
           `${rng.pick(SCHOOL_NAMES_V3.features)} ${stage.nameSuffix}`;
         const source: Source = {
           tag: "ESTIMATED",
           asOf: input.startedAt,
-          citation: `${data.schools.source}${school ? ` ${SCHOOLS.citation} NCES-CCD:${school[p("zero")]}, ${school[p("one")]}.` : " No public school teaching this grade is recorded for the place or its county; generated landscape name."}`,
+          citation: `${data.schools.source}${school ? ` ${SCHOOLS.citation} NCES-CCD:${campusId}, ${campusName}.` : " No public school teaching this grade is recorded for the place or its county; generated landscape name."}`,
           estimatedFrom: `Birth cohort calendar; ${located ? "recorded residence" : birthplace ? "recorded birthplace used as a schooling-location proxy" : "opening locality used as a schooling-location proxy"}. Historical attendance and historical name/existence are not verified; no qualification or graduation inferred.`,
         };
         add({
@@ -431,9 +432,9 @@ export function buildDeepPast(
             ...(countyId ? { countyId } : {}),
             ...(school
               ? {
-                  institutionSourceId: school[p("zero")],
+                  institutionSourceId: campusId!,
                   institutionSourceKey: "NCES-CCD",
-                  institutionName: school[p("one")],
+                  institutionName: campusName!,
                   institutionKind: stage.id,
                   directoryAsOf: SCHOOLS.asOf,
                 }
