@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>M0 developer bench</title>
+  </head>
+  <body>
+    <h1>M0 developer bench — WIP</h1>
+    <form id="opening">
+      <label>Seed <input id="seed" required /></label>
+      <button id="random" type="button">New seed</button>
+      <label>Opening date <input id="date" type="date" required /></label>
+      <button id="build" type="submit">Generate town</button>
+    </form>
+    <p id="status" role="status" aria-live="polite"></p>
+    <pre id="provenance"></pre>
+    <label>Resident search <input id="search" type="search" /></label>
+    <table>
+      <thead><tr><th>Name</th><th>Age</th><th>Household</th><th>Job</th></tr></thead>
+      <tbody id="residents"></tbody>
+    </table>
+    <button id="more" type="button" hidden>More residents</button>
+    <h2>Resident records and offers</h2>
+    <div id="detail"></div>
+    <h2>Time — API request pending</h2>
+    <button disabled>Day</button><button disabled>Week</button>
+    <label>Calendar <input type="date" disabled /></label>
+    <button disabled>Skip until needed</button>
+    <p>Controller pause/resume and earliest-stop APIs are required. No time advances in this WIP.</p>
+    <h2>Golden path — integration acceptance pending</h2>
+    <ol>
+      <li>Turn 18</li><li>Meet people</li>
+      <li>File for office — filing office and rules module</li>
+      <li>Campaign — campaign module</li><li>Win or lose — election module</li>
+      <li>Propose an ordinance — governing module</li>
+      <li>Negotiate — legislature module</li><li>Pass or fail — legislature module</li>
+      <li>Town changes — law effects module</li>
+      <li>People bring it up — story and English integration</li>
+      <li>Next election uses the record — election record integration</li>
+    </ol>
+    <h2>World pieces</h2>
+    <ul>
+      <li>National economy: not in the new core yet</li>
+      <li>State government: not in the new core yet</li>
+      <li>Federal government: not in the new core yet</li>
+      <li>Other places: not in the new core yet</li>
+    </ul>
+    <script type="module" src="/client.mjs"></script>
+  </body>
+</html>
