@@ -4,10 +4,10 @@
   "place": "Sacramento, California",
   "placeId": "jurisdiction_747f3ae0bd287399",
   "startedAt": "2021-01-01",
-  "buildSeconds": 14,
+  "buildSeconds": 14.2,
   "residents": 10001,
   "relatives": 37782,
-  "relativesInCounty": 20855,
+  "relativesInCounty": 19186,
   "householdShape": {
     "citation": "U.S. Census Bureau, American Community Survey 2020-2024 tables B11001 and B11003 for the place, else its state, as read by src/simulation/household-mix.ts.",
     "basis": "place",
@@ -258,8 +258,8 @@
     "citation": "Choi, Schoeni, Wiemers, Hotz and Seltzer (2020), Spatial Distance Between Parents and Adult Children in the United States, Journal of Marriage and Family 82(2), PSID 2013: adults with a living parent or adult child who live in a different household.",
     "proxy": "The game places relatives by county, not by distance: a relative in the household's county stands in for one within 30 miles.",
     "adultsWithParentOrAdultChildElsewhere": 7230,
-    "nearestNearPercent": 64.4,
-    "allNearPercent": 44.1,
+    "nearestNearPercent": 73.1,
+    "allNearPercent": 50.3,
     "psidNearestWithin30Miles": 74.8,
     "psidAllWithin30Miles": 35.5
   },

@@ -1,0 +1,221 @@
+{
+  "id": "person_8ea797b7b9473442",
+  "name": "Patricia Hughes",
+  "age": 74,
+  "acts": {
+    "public-lookup": 3,
+    "contact": 10
+  },
+  "ties": [
+    {
+      "name": "Lauren Hughes",
+      "id": "person_7d310cdedcaf32a8",
+      "relation": "sibling",
+      "age": 80,
+      "near": false,
+      "opening": 0.571,
+      "after": 0.557,
+      "contacts": []
+    },
+    {
+      "name": "Mary Hughes",
+      "id": "person_7d310fdedcaf37c1",
+      "relation": "sibling",
+      "age": 77,
+      "near": false,
+      "opening": 0.571,
+      "after": 0.561,
+      "contacts": ["2021-03-26"]
+    },
+    {
+      "name": "Joseph Hughes",
+      "id": "person_7d3111dedcaf3b27",
+      "relation": "sibling",
+      "age": 71,
+      "near": true,
+      "opening": 0.774,
+      "after": 0.77,
+      "contacts": [
+        "2021-01-15",
+        "2021-01-29",
+        "2021-02-12",
+        "2021-02-26",
+        "2021-03-19",
+        "2021-04-02"
+      ]
+    },
+    {
+      "name": "Lisa Hughes",
+      "id": "person_bf6defc043d263ac",
+      "relation": "child",
+      "age": 53,
+      "near": false,
+      "opening": 0.648,
+      "after": 0.638,
+      "contacts": ["2021-03-12"]
+    },
+    {
+      "name": "Wyatt Gray",
+      "id": "person_fab184c8ef05bf4f",
+      "relation": "grandchild",
+      "age": 32,
+      "near": false,
+      "opening": 0.351,
+      "after": 0.338,
+      "contacts": []
+    },
+    {
+      "name": "Ezra Gray",
+      "id": "person_fab185c8ef05c102",
+      "relation": "grandchild",
+      "age": 29,
+      "near": false,
+      "opening": 0.351,
+      "after": 0.338,
+      "contacts": []
+    },
+    {
+      "name": "Miles Gray",
+      "id": "person_fab186c8ef05c2b5",
+      "relation": "grandchild",
+      "age": 26,
+      "near": false,
+      "opening": 0.351,
+      "after": 0.338,
+      "contacts": []
+    },
+    {
+      "name": "Amanda Gray",
+      "id": "person_fab17fc8ef05b6d0",
+      "relation": "grandchild",
+      "age": 23,
+      "near": false,
+      "opening": 0.351,
+      "after": 0.338,
+      "contacts": []
+    },
+    {
+      "name": "Jasper Gray",
+      "id": "person_fab180c8ef05b883",
+      "relation": "grandchild",
+      "age": 20,
+      "near": false,
+      "opening": 0.351,
+      "after": 0.338,
+      "contacts": []
+    },
+    {
+      "name": "Nicole Hughes",
+      "id": "person_bf6df2c043d268c5",
+      "relation": "child",
+      "age": 50,
+      "near": false,
+      "opening": 0.65,
+      "after": 0.64,
+      "contacts": ["2021-03-05"]
+    },
+    {
+      "name": "Kelly Spence",
+      "id": "person_a89607771cc0783c",
+      "relation": "grandchild",
+      "age": 29,
+      "near": false,
+      "opening": 0.351,
+      "after": 0.338,
+      "contacts": []
+    },
+    {
+      "name": "Mason Spence",
+      "id": "person_a8960a771cc07d55",
+      "relation": "grandchild",
+      "age": 26,
+      "near": false,
+      "opening": 0.351,
+      "after": 0.338,
+      "contacts": []
+    },
+    {
+      "name": "Jade Hughes",
+      "id": "person_bf6df1c043d26712",
+      "relation": "child",
+      "age": 47,
+      "near": false,
+      "opening": 0.654,
+      "after": 0.644,
+      "contacts": ["2021-02-19"]
+    },
+    {
+      "name": "Alexander Powell",
+      "id": "person_3750855ea899d849",
+      "relation": "grandchild",
+      "age": 25,
+      "near": false,
+      "opening": 0.351,
+      "after": 0.338,
+      "contacts": []
+    },
+    {
+      "name": "Julia Powell",
+      "id": "person_3750825ea899d330",
+      "relation": "grandchild",
+      "age": 22,
+      "near": false,
+      "opening": 0.351,
+      "after": 0.338,
+      "contacts": []
+    }
+  ],
+  "acquaintances": 17,
+  "contacts": [
+    {
+      "date": "2021-01-15",
+      "target": "person_7d3111dedcaf3b27",
+      "effect": "contact"
+    },
+    {
+      "date": "2021-01-29",
+      "target": "person_7d3111dedcaf3b27",
+      "effect": "contact"
+    },
+    {
+      "date": "2021-02-12",
+      "target": "person_7d3111dedcaf3b27",
+      "effect": "contact"
+    },
+    {
+      "date": "2021-02-19",
+      "target": "person_bf6df1c043d26712",
+      "effect": "contact"
+    },
+    {
+      "date": "2021-02-26",
+      "target": "person_7d3111dedcaf3b27",
+      "effect": "contact"
+    },
+    {
+      "date": "2021-03-05",
+      "target": "person_bf6df2c043d268c5",
+      "effect": "contact"
+    },
+    {
+      "date": "2021-03-12",
+      "target": "person_bf6defc043d263ac",
+      "effect": "contact"
+    },
+    {
+      "date": "2021-03-19",
+      "target": "person_7d3111dedcaf3b27",
+      "effect": "contact"
+    },
+    {
+      "date": "2021-03-26",
+      "target": "person_7d310fdedcaf37c1",
+      "effect": "contact"
+    },
+    {
+      "date": "2021-04-02",
+      "target": "person_7d3111dedcaf3b27",
+      "effect": "contact"
+    }
+  ]
+}

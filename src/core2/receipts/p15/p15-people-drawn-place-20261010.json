@@ -4,10 +4,10 @@
   "place": "Stanwood, Washington",
   "placeId": "jurisdiction_470d2437c0041c5e",
   "startedAt": "2021-01-01",
-  "buildSeconds": 4.3,
+  "buildSeconds": 3.9,
   "residents": 3003,
   "relatives": 10384,
-  "relativesInCounty": 5722,
+  "relativesInCounty": 4042,
   "householdShape": {
     "citation": "U.S. Census Bureau, American Community Survey 2020-2024 tables B11001 and B11003 for the place, else its state, as read by src/simulation/household-mix.ts.",
     "basis": "place",
@@ -258,8 +258,8 @@
     "citation": "Choi, Schoeni, Wiemers, Hotz and Seltzer (2020), Spatial Distance Between Parents and Adult Children in the United States, Journal of Marriage and Family 82(2), PSID 2013: adults with a living parent or adult child who live in a different household.",
     "proxy": "The game places relatives by county, not by distance: a relative in the household's county stands in for one within 30 miles.",
     "adultsWithParentOrAdultChildElsewhere": 1940,
-    "nearestNearPercent": 64.7,
-    "allNearPercent": 42.1,
+    "nearestNearPercent": 64.4,
+    "allNearPercent": 38.8,
     "psidNearestWithin30Miles": 74.8,
     "psidAllWithin30Miles": 35.5
   },
