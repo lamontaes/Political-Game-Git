@@ -147,7 +147,9 @@ export function economyObservables(
         `Original economy job identity is absent or changed: ${original.id}`,
       );
     const totals = core.work.totalsByJob.get(original.id),
-      latest = core.work.lastResultByJob.get(original.id);
+      latest = core.work.lastResultByJob.get(original.id),
+      attendance = core.work.lastAttendanceByJob.get(original.id),
+      payroll = core.work.latestPayrollByJob.get(original.id);
     return {
       id: current.id,
       personId: current.personId,
@@ -167,6 +169,20 @@ export function economyObservables(
             shortfallMinor: latest.shortfallMinor,
           }
         : null,
+      latestAttendanceResult: attendance
+        ? {
+            id: attendance.id,
+            date: attendance.date,
+            sourceActId: attendance.sourceActId,
+            reasonKey: attendance.reasonKey,
+            plannedMinutes: attendance.plannedMinutes,
+            attendedMinutes: attendance.attendedMinutes,
+            earnedMinor: attendance.earnedMinor,
+            payrollCalendarId: attendance.payrollCalendarId,
+            earnedPayPeriodId: attendance.earnedPayPeriodId,
+          }
+        : null,
+      latestPayrollReceipt: payroll ? structuredClone(payroll) : null,
     };
   });
   const incomeLedger = (values: ReadonlyMap<string, number>) =>

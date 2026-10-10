@@ -9,7 +9,12 @@ import {
   discretionaryHours,
   recordDiscretionaryActivity,
   catchUpScheduledWork,
+  openingWorkCommitments,
 } from "./modules/work";
+import {
+  openingWorkPayrollCalendars,
+  OPENING_PAYROLL_CALENDAR_STOPGAP,
+} from "./opening-payroll-calendar";
 import { LIFE_MODULE } from "./modules/life";
 import { FINANCE_MODULE } from "./modules/finance";
 import { parameter, parameterValues } from "./parameters";
@@ -42,25 +47,60 @@ export function createLifeCore(
   } = {},
 ): CoreState {
   const { scheduledWork = true, ...coreOptions } = options;
-  const core = createCore(
-    scheduledWork ? input : { ...input, workCommitments: [] },
-    {
-      ...coreOptions,
-      data: scheduledWork
-        ? options.data
-        : { ...(options.data ?? DEFAULT_DATA), work: undefined },
-      modules: [
-        LIFE_MODULE,
-        // Modeled within-day order: actual work pay arrives before purchase budgets.
-        // Firms use their recorded working capital, not future customer receipts.
-        ...(scheduledWork ? [WORK_MODULE] : []),
-        ...(input.finance ? [FINANCE_MODULE] : []),
-        ...(options.modules ?? []),
-      ],
-    },
+  const data = options.data ?? DEFAULT_DATA;
+  const primaryJobByPerson = new Map(
+    input.people.map((person) => [person.id, person.jobId]),
   );
+  const payroll =
+    scheduledWork && data.work
+      ? openingWorkPayrollCalendars(
+          {
+            ...input,
+            workCommitments:
+              input.workCommitments ??
+              openingWorkCommitments(
+                input.jobs.filter(
+                  (job) =>
+                    primaryJobByPerson.get(job.personId) === job.id &&
+                    (job.endsAt === undefined || job.endsAt > input.startedAt),
+                ),
+                input.organizations,
+                input.startedAt,
+                data.work,
+                data.parameters,
+              ),
+          },
+          { parameters: data.parameters },
+        )
+      : undefined;
+  const preparedInput = scheduledWork
+    ? payroll
+      ? {
+          ...input,
+          workCommitments: payroll.workCommitments,
+          workPayrollCalendars: payroll.calendars,
+          gaps: [...input.gaps, ...payroll.gaps],
+        }
+      : input
+    : { ...input, workCommitments: [], workPayrollCalendars: [] };
+  const core = createCore(preparedInput, {
+    ...coreOptions,
+    data: scheduledWork
+      ? options.data
+      : { ...(options.data ?? DEFAULT_DATA), work: undefined },
+    modules: [
+      LIFE_MODULE,
+      // Attendance accrues wages; recorded payday cash precedes purchase budgets.
+      // Firms use their recorded working capital, not future customer receipts.
+      ...(scheduledWork ? [WORK_MODULE] : []),
+      ...(input.finance ? [FINANCE_MODULE] : []),
+      ...(options.modules ?? []),
+    ],
+  });
+  if (payroll?.estimates.length)
+    coreAPI(core).stopgap(OPENING_PAYROLL_CALENDAR_STOPGAP);
   core.gaps.add(
-    "Recorded work is scored and settled on its scheduled dates; remaining time admits one discretionary scored act per tier activation. Sleep reserve and shift placement remain tunable; education, care, consumption and a complete diary are not modeled.",
+    "Recorded work is scored and earned on its scheduled dates; cash settles on separately recorded employer paydays. Remaining time admits one discretionary scored act per tier activation. Sleep reserve, shift placement and opening pay-calendar conventions remain tunable; education, care, consumption and a complete diary are not modeled.",
   );
   core.gaps.add(
     "Business receipts and standing purchases cover recorded counterparties only; missing suppliers, public budgets, hiring, nonwage income, demography, elections and law effects prevent realism claims.",

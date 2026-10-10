@@ -20,6 +20,19 @@ import type {
 
 export function emptyWorkRuntime(): WorkRuntime {
   return {
+    payrollCalendars: new Map(),
+    payrollCalendarByCommitment: new Map(),
+    payrollCalendarByJob: new Map(),
+    payrollLedgerByCommitment: new Map(),
+    earnedPayPeriods: new Map(),
+    earnedPayPeriodByCommitmentIndex: new Map(),
+    payrollPeriodsByDue: new Map(),
+    payrollArrearsByDue: new Map(),
+    payrollCashSources: new Map(),
+    latestPayrollByJob: new Map(),
+    detailedPayroll: new Map(),
+    lastAttendanceByJob: new Map(),
+    detailedAttendance: new Map(),
     cashActSelections: new Map(),
     cashSources: new Map(),
     latestLegacyCashResultByPerson: new Map(),

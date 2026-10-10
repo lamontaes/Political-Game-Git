@@ -184,6 +184,16 @@ function captureWorkContext(
     work = r.field(core, "work"),
     data = r.field(r.field(core, "data"), "work");
   if (!data) throw new Error("Recorded work requires its actual work data.");
+  const calendarClaims = r.field(work, "payrollCalendarByCommitment"),
+    commitmentId = r.field(input, "commitmentId"),
+    enrolled = r.mapGet(r.field(work, "commitments"), commitmentId);
+  if (
+    r.mapHas(calendarClaims, commitmentId) ||
+    (enrolled && r.field(enrolled, "payrollCalendarId") !== undefined)
+  )
+    throw new Error(
+      "An accrued commitment cannot also receive per-shift cash.",
+    );
   const row = r.mapGet(r.field(work, "commitments"), input.commitmentId),
     actor = r.mapGet(r.field(core, "people"), input.personId),
     job = r.mapGet(r.field(core, "jobs"), input.jobId),
@@ -893,6 +903,28 @@ export function settleLegacyWorkResultJournal(
       "Legacy pay requires its actual current owned job, selected work and positive elapsed days.",
     );
   r.payload(job, s.zero, s.one);
+  const ownedWork = r.field(core, "work"),
+    payrollByJob = r.field(ownedWork, "payrollCalendarByJob"),
+    ownedCommitments = r.mapGet(
+      r.field(ownedWork, "commitmentsByPerson"),
+      r.field(actor, "id"),
+    );
+  if (
+    r.mapHas(payrollByJob, r.field(job, "id")) ||
+    (ownedCommitments &&
+      r.members(ownedCommitments).some((id) => {
+        const row = r.mapGet(r.field(ownedWork, "commitments"), id);
+        if (!row)
+          throw new Error("Legacy work's actual commitment index is stale.");
+        return (
+          r.field(row, "jobId") === r.field(job, "id") &&
+          r.field(row, "payrollCalendarId") !== undefined
+        );
+      }))
+  )
+    throw new Error(
+      "An accrual-enrolled job cannot also receive calendar-average legacy cash.",
+    );
   const work = r.field(core, "work"),
     latest = r.field(work, "latestLegacyCashResultByPerson"),
     prior = m.mapGet(latest, actor.id),

@@ -1600,14 +1600,14 @@
   "openingRetirementSchoolContextYears": {
     "value": 4,
     "tag": "ESTIMATED",
-    "citation": "Existing shared school-calendar common high-school grades 9\u201312. Four modeled years bound a possible post-cohort career start; a cohort record does not grant graduation or employment.",
+    "citation": "Existing shared school-calendar common high-school grades 9–12. Four modeled years bound a possible post-cohort career start; a cohort record does not grant graduation or employment.",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "stopgapId": "SG-P8-opening-retirement-income"
   },
   "openingRetirementClaimAgeYears": {
     "value": 66,
     "tag": "TUNABLE",
-    "citation": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943\u20131954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
+    "citation": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943–1954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "spread": {
       "status": "unmeasured",
@@ -2248,13 +2248,13 @@
   "openingCustomerOutsideHouseholdLiquidUsd": {
     "value": 7400,
     "tag": "SOURCED",
-    "citation": "Federal Reserve SCF 2022 historical nominal tables, transaction-account holding families in income percentiles 40\u201359.9, median $7,400. data/research/money/scf-transaction-accounts-2022.json; https://www.federalreserve.gov/econres/files/scf2022_tables_public_nominal_historical.xlsx. One family pool, never per member. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "citation": "Federal Reserve SCF 2022 historical nominal tables, transaction-account holding families in income percentiles 40–59.9, median $7,400. data/research/money/scf-transaction-accounts-2022.json; https://www.federalreserve.gov/econres/files/scf2022_tables_public_nominal_historical.xlsx. One family pool, never per member. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-outside-households"
   },
   "openingCustomerOutsideHouseholdIncomePriorUsd": {
     "value": 70259,
     "tag": "SOURCED",
-    "citation": "SCF 2022 nominal median family income, income percentiles 40\u201359.9, $70,259; independent generation context only. It is not a recurring cash credit. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "citation": "SCF 2022 nominal median family income, income percentiles 40–59.9, $70,259; independent generation context only. It is not a recurring cash credit. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-outside-households"
   },
   "openingCustomerOutsideLodgingAnnualUsd": {
@@ -2891,11 +2891,11 @@
     "value": 27,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 all-small-businesses cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 all-small-businesses cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 13,
       "high": 62,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2904,11 +2904,11 @@
     "value": 16,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 restaurants cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 restaurants cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 9,
       "high": 31,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2917,11 +2917,11 @@
     "value": 18,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 repair-and-maintenance cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 repair-and-maintenance cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 9,
       "high": 40,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2930,11 +2930,11 @@
     "value": 19,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 retail cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 retail cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 10,
       "high": 45,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2943,11 +2943,11 @@
     "value": 20,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 construction cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 construction cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 11,
       "high": 44,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2956,11 +2956,11 @@
     "value": 21,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 personal-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 personal-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 11,
       "high": 45,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2969,11 +2969,11 @@
     "value": 23,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 wholesalers cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 wholesalers cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 11,
       "high": 52,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2982,11 +2982,11 @@
     "value": 28,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 metal-and-machinery cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 metal-and-machinery cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 13,
       "high": 62,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2995,11 +2995,11 @@
     "value": 30,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 health-care-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 health-care-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 14,
       "high": 67,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3008,11 +3008,11 @@
     "value": 32,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 high-tech-manufacturing cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 high-tech-manufacturing cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 15,
       "high": 71,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3021,11 +3021,11 @@
     "value": 33,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 other-professional-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 other-professional-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 15,
       "high": 72,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3034,11 +3034,11 @@
     "value": 33,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 high-tech-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 high-tech-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 15,
       "high": 77,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3047,11 +3047,11 @@
     "value": 47,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 real-estate cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 real-estate cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 21,
       "high": 107,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3059,7 +3059,7 @@
   "openingEmployerCashBufferTailSpan": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "CTO REVIEW15, October 9, 2026: explicitly estimated per-firm opening WHO cash-buffer spread through real JPMC q25/median/q75 anchors. Tail span of one adjacent quartile interval is an authored assumption, not measured by JPMorgan Chase Institute, Cash Is King, September 2016, Figures 5\u20137; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7.",
+    "citation": "CTO REVIEW15, October 9, 2026: explicitly estimated per-firm opening WHO cash-buffer spread through real JPMC q25/median/q75 anchors. Tail span of one adjacent quartile interval is an authored assumption, not measured by JPMorgan Chase Institute, Cash Is King, September 2016, Figures 5–7; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7.",
     "estimatedFrom": "One openly unmeasured tail-span coefficient for a continuous piecewise-linear opening-state quantile curve. Uniform identity-keyed startup ranks, interpolation, endpoints and the generated-firm crosswalk remain unmeasured. Never chooses later actor decisions, refills cash or sizes stock to future survival.",
     "spread": {
       "status": "unmeasured",
@@ -3068,6 +3068,324 @@
     "stopgapId": "SG-P8-opening-private-cash-buffer-spread",
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD"
+    }
+  },
+  "openingPayrollBlsAllPrivateWeeklyWeight": {
+    "value": 32.4,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, all-private: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsAllPrivateBiweeklyWeight": {
+    "value": 36.5,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, all-private: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsAllPrivateSemimonthlyWeight": {
+    "value": 19.8,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, all-private: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsAllPrivateMonthlyWeight": {
+    "value": 11.3,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, all-private: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsNaturalResourcesAndMiningWeeklyWeight": {
+    "value": 44.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, natural-resources-and-mining: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsNaturalResourcesAndMiningBiweeklyWeight": {
+    "value": 25.5,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, natural-resources-and-mining: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsNaturalResourcesAndMiningSemimonthlyWeight": {
+    "value": 19.1,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, natural-resources-and-mining: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsNaturalResourcesAndMiningMonthlyWeight": {
+    "value": 11.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, natural-resources-and-mining: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsConstructionWeeklyWeight": {
+    "value": 70.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, construction: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsConstructionBiweeklyWeight": {
+    "value": 18.3,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, construction: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsConstructionSemimonthlyWeight": {
+    "value": 5.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, construction: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsConstructionMonthlyWeight": {
+    "value": 5.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, construction: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsManufacturingWeeklyWeight": {
+    "value": 50.8,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, manufacturing: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsManufacturingBiweeklyWeight": {
+    "value": 35.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, manufacturing: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsManufacturingSemimonthlyWeight": {
+    "value": 9.5,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, manufacturing: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsManufacturingMonthlyWeight": {
+    "value": 3.8,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, manufacturing: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsTradeTransportationAndUtilitiesWeeklyWeight": {
+    "value": 36.1,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, trade-transportation-and-utilities: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsTradeTransportationAndUtilitiesBiweeklyWeight": {
+    "value": 37.3,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, trade-transportation-and-utilities: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsTradeTransportationAndUtilitiesSemimonthlyWeight": {
+    "value": 16.4,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, trade-transportation-and-utilities: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsTradeTransportationAndUtilitiesMonthlyWeight": {
+    "value": 10.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, trade-transportation-and-utilities: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsInformationWeeklyWeight": {
+    "value": 10.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, information: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsInformationBiweeklyWeight": {
+    "value": 43.7,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, information: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsInformationSemimonthlyWeight": {
+    "value": 35.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, information: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsInformationMonthlyWeight": {
+    "value": 10.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, information: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsFinancialActivitiesWeeklyWeight": {
+    "value": 18.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, financial-activities: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsFinancialActivitiesBiweeklyWeight": {
+    "value": 33.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, financial-activities: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsFinancialActivitiesSemimonthlyWeight": {
+    "value": 30.5,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, financial-activities: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsFinancialActivitiesMonthlyWeight": {
+    "value": 17.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, financial-activities: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsProfessionalAndBusinessServicesWeeklyWeight": {
+    "value": 20.4,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsProfessionalAndBusinessServicesBiweeklyWeight": {
+    "value": 36.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsProfessionalAndBusinessServicesSemimonthlyWeight": {
+    "value": 28.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsProfessionalAndBusinessServicesMonthlyWeight": {
+    "value": 15.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsEducationAndHealthServicesWeeklyWeight": {
+    "value": 12.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, education-and-health-services: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsEducationAndHealthServicesBiweeklyWeight": {
+    "value": 52.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, education-and-health-services: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsEducationAndHealthServicesSemimonthlyWeight": {
+    "value": 22.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, education-and-health-services: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsEducationAndHealthServicesMonthlyWeight": {
+    "value": 11.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, education-and-health-services: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsLeisureAndHospitalityWeeklyWeight": {
+    "value": 28.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, leisure-and-hospitality: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsLeisureAndHospitalityBiweeklyWeight": {
+    "value": 46.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, leisure-and-hospitality: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsLeisureAndHospitalitySemimonthlyWeight": {
+    "value": 17.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, leisure-and-hospitality: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsLeisureAndHospitalityMonthlyWeight": {
+    "value": 7.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, leisure-and-hospitality: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsOtherServicesWeeklyWeight": {
+    "value": 42.5,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, other-services: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsOtherServicesBiweeklyWeight": {
+    "value": 28.4,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, other-services: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsOtherServicesSemimonthlyWeight": {
+    "value": 17.1,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, other-services: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsOtherServicesMonthlyWeight": {
+    "value": 12.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, other-services: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollPrivatePhaseSpanFraction": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Uniform opening WHO phase across one recorded cycle is unmeasured. Stable employer identity is not a future action draw.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Uniform opening WHO phase across one recorded cycle is unmeasured. Stable employer identity is not a future action draw. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+    }
+  },
+  "openingPayrollPeriodEndLagDays": {
+    "value": 5,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Five calendar days from inclusive period end is an authored opening convention. BLS gives no individual lag; county actual lag is a distinct example, not this private or education lag.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Five calendar days from inclusive period end is an authored opening convention. BLS gives no individual lag; county actual lag is a distinct example, not this private or education lag. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+    }
+  },
+  "openingPayrollMonthlyBoundaryDay": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "First calendar day boundary is an authored month phase, not a measured employer term.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "First calendar day boundary is an authored month phase, not a measured employer term. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+    }
+  },
+  "openingPayrollSemimonthlyFirstBoundaryDay": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "First of two civil-month boundaries is an authored convention, not measured by BLS.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "First of two civil-month boundaries is an authored convention, not measured by BLS. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+    }
+  },
+  "openingPayrollSemimonthlySecondBoundaryDay": {
+    "value": 16,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Sixteenth as the second civil-month boundary is an authored convention. Periods are real calendar half-months, never fixed fifteen days.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sixteenth as the second civil-month boundary is an authored convention. Periods are real calendar half-months, never fixed fifteen days. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+    }
+  },
+  "openingPayrollEducationBiweeklyWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+    }
+  },
+  "openingPayrollEducationMonthlyWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
     }
   }
 }

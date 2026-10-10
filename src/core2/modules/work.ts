@@ -1,5 +1,5 @@
 /** Opening terms and chronological scheduled work; no legacy World or tick. */
-import workJson from "../data/work.json" with { type: "json" };
+import { DEFAULT_WORK_DATA } from "../work-data";
 import {
   addDays,
   ageOnDate,
@@ -7,6 +7,7 @@ import {
   makeIsoDate,
 } from "../../simulation/dates";
 import { parameter, PARAMETERS } from "../parameters";
+import { runWorkPayrollDay } from "../work-payroll-dispatch";
 import type { Parameter } from "../parameters";
 import type {
   ActOffer,
@@ -23,13 +24,7 @@ import type {
   WorkScheduleSlot,
 } from "../types";
 
-export const DEFAULT_WORK_DATA: WorkData = {
-  ...workJson,
-  patterns: workJson.patterns.map((row) => ({
-    ...row,
-    source: { ...row.source, tag: "ESTIMATED" as const },
-  })),
-};
+export { DEFAULT_WORK_DATA } from "../work-data";
 
 const remainder = (value: number, period: number) =>
   ((value % period) + period) % period;
@@ -347,7 +342,7 @@ export function runScheduledWork(
       job?.personId !== actor.id
     )
       continue;
-    const previous = api.state.work.lastResultByJob.get(row.jobId);
+    const previous = api.state.work.lastAttendanceByJob.get(row.jobId);
     if (previous?.date === api.state.date) continue;
     const planned = plannedWorkMinutesOnDate(api, row);
     if (planned <= p("zero")) continue;
@@ -396,7 +391,7 @@ export function runScheduledWork(
       plannedMinutes: planned,
       attendedMinutes: attended,
       absentMinutes: planned - attended,
-      requestedMinor: requested,
+      earnedMinor: requested,
       payRemainderMinor: carry,
       reasonKey: decision.reasonKey,
       decision,
@@ -404,14 +399,14 @@ export function runScheduledWork(
         tag: "SOURCED" as const,
         asOf: api.state.date,
         citation:
-          "Actual prototype owned-job attendance decision, occupied minutes and transfer return; fictional schedule/pay inputs carry their separate source estimates.",
+          "Actual prototype owned-job attendance decision, occupied minutes and earned pay; cash follows the separately recorded employer payday. Fictional schedule/pay inputs retain their own source estimates.",
       },
     };
-    const committed = api.settleWorkResult(result);
+    const committed = api.recordWorkAttendance(result);
     decisions += p("one");
     acts += p("one");
     for (const module of api.state.modules.values())
-      module.onWorkResult?.(api, committed);
+      module.onWorkAttendance?.(api, committed);
     // No financial-pressure event or civic drive is synthesized by this module.
   }
   return { decisions, acts };
@@ -501,5 +496,9 @@ export function activityAgeId(api: CoreAPI, personId: string): string {
 
 export const WORK_MODULE: CoreModule = {
   id: "core2-recorded-work-v1",
-  onDay: runScheduledWork,
+  onDay(api, decide, refresh) {
+    const attendance = runScheduledWork(api, decide, refresh);
+    runWorkPayrollDay(api);
+    return attendance;
+  },
 };

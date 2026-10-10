@@ -11,6 +11,27 @@ import type {
 } from "./types";
 const traitScores = new WeakMap<PersonState, Map<string, number>>();
 
+/** Preserve existing utility cache across the light writer's shallow canonical actor replacement. */
+export function carryTraitScores(
+  previous: PersonState,
+  next: PersonState,
+): void {
+  const before = Object.getOwnPropertyDescriptor(previous, "traits"),
+    after = Object.getOwnPropertyDescriptor(next, "traits");
+  if (
+    !before ||
+    !after ||
+    !("value" in before) ||
+    !("value" in after) ||
+    before.value !== after.value
+  )
+    throw new Error(
+      "Trait cache transfer requires the exact unchanged traits reference.",
+    );
+  const scores = traitScores.get(previous);
+  if (scores) traitScores.set(next, scores);
+}
+
 function traitScore(
   core: CoreState,
   actor: PersonState,

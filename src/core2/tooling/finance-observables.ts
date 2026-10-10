@@ -5,6 +5,7 @@ import type { FinanceTotals } from "../finance-types";
 import type { CoreState, Source, WorkCommitmentInput } from "../types";
 import { WORK_OBSERVABLE_CONFIG } from "./work-observables";
 import { externalFlowObservables } from "./external-flow-observables";
+import { payrollStockObservables } from "./payroll-observables";
 
 export interface FinanceAgeSnapshot {
   ageId: string;
@@ -44,6 +45,12 @@ export interface FinanceObservableSnapshot {
     requestedMinor: number;
     paidMinor: number;
     unpaidMinor: number;
+    earnedMinor: number;
+    dueRecognizedMinor: number;
+    accruedMinor: number;
+    arrearsMinor: number;
+    legacyUnpaidMinor: number;
+    retainedPayrollLedgers: number;
     plannedMinutes: number;
     attendedMinutes: number;
     attendedDatedSegments: number;
@@ -152,6 +159,8 @@ export interface FinanceObservableSnapshot {
   };
   receipts: {
     latestWorkResults: number;
+    latestAttendanceResults: number;
+    latestPayrollReceipts: number;
     latestFinanceReceipts: number;
     latestCreditReceipts: number;
     detailedFinanceReceipts: number;
@@ -168,7 +177,7 @@ export interface FinanceObservableSnapshot {
     cause: {
       id: string;
       date: string;
-      kind: "work-result" | "finance-receipt";
+      kind: "work-result" | "work-payroll" | "finance-receipt";
       requestedMinor: number;
       paidMinor: number;
       unfundedMinor: number;
@@ -176,6 +185,9 @@ export interface FinanceObservableSnapshot {
       jobId: string | null;
       contractId: string | null;
       stillLatestInOwnIndex: boolean;
+      calendarId?: string;
+      componentCommitmentIds?: readonly string[];
+      componentJobIds?: readonly string[];
       source: Source;
     };
     source: Source;
@@ -487,9 +499,11 @@ export function financeObservables(
           age.holdersWithCompleteRecordedSchedules
         : null;
 
+  const payrollStocks = payrollStockObservables(core);
   const wages = {
     scheduledWorkEnabled: core.data.work !== undefined,
     retainedJobsWithCumulativeResults: core.work.totalsByJob.size,
+    ...payrollStocks,
     requestedMinor: zero,
     paidMinor: zero,
     unpaidMinor: zero,
@@ -497,7 +511,7 @@ export function financeObservables(
     attendedMinutes: zero,
     attendedDatedSegments: zero,
     absentDatedSegments: zero,
-    unit: "Cumulative actual dated work segments, not completed shifts or usual weekly hours; requested minus paid is unpaid arithmetic, not a legal arrears determination.",
+    unit: "Cumulative actual dated work segments. Requested means earned; earned minus paid includes not-yet-due accrual and actual arrears. Due recognized counts original amounts once; retries do not create new earnings or obligations.",
   };
   for (const [id, total] of core.work.totalsByJob) {
     if (!core.jobs.has(id))
@@ -534,6 +548,13 @@ export function financeObservables(
     );
   }
   wages.unpaidMinor = wages.requestedMinor - wages.paidMinor;
+  if (
+    wages.requestedMinor !== payrollStocks.earnedMinor ||
+    wages.paidMinor !== payrollStocks.paidMinor
+  )
+    throw new Error(
+      "Work wages disagree with the actual earned and paid payroll stocks.",
+    );
 
   const firms = [...core.finance.businesses]
     .sort(([a], [b]) => a.localeCompare(b))
@@ -801,7 +822,9 @@ export function financeObservables(
       const requested = minor(cause.requestedMinor, "closure requested amount"),
         paid = minor(cause.paidMinor, "closure paid amount");
       const isWork = "jobId" in cause;
-      const unfunded = isWork ? cause.shortfallMinor : cause.unfundedMinor;
+      const isPayroll = "calendarId" in cause;
+      const unfunded =
+        isWork || isPayroll ? cause.shortfallMinor : cause.unfundedMinor;
       if (
         minor(unfunded, "closure unfunded amount") <= zero ||
         requested - paid !== unfunded
@@ -810,14 +833,70 @@ export function financeObservables(
           "Closure cause is not an actual positive unpaid obligation.",
         );
       if (
-        isWork
-          ? cause.organizationId !== id || !cause.sourceActId
+        isWork || isPayroll
+          ? cause.organizationId !== id || (!isPayroll && !cause.sourceActId)
           : !core.finance.contracts.get(cause.contractId)?.accruesArrears ||
             !cause.payments.some((payment) => payment.payerId === id)
       )
         throw new Error(
           "Closure cause does not belong to this employer obligation.",
         );
+      if (isPayroll) {
+        const canonical = core.work.payrollCashSources.get(cause.id),
+          actual = canonical?.result;
+        if (
+          !canonical ||
+          !actual ||
+          canonical.id !== cause.id ||
+          canonical.date !== cause.date ||
+          (canonical.postedJournalSequence === undefined &&
+            canonical.completedAt === undefined) ||
+          actual.id !== cause.id ||
+          actual.calendarId !== cause.calendarId ||
+          actual.personId !== cause.personId ||
+          actual.organizationId !== id ||
+          (cause.group === true
+            ? canonical.group !== true ||
+              actual.group !== true ||
+              cause.components.length !== actual.components.length ||
+              cause.components.some((component, index) => {
+                const original = actual.components[index],
+                  state = canonical.componentStates[index];
+                return (
+                  !original ||
+                  !state ||
+                  state.result !== original ||
+                  component.groupReceiptId !== cause.id ||
+                  component.commitmentId !== original.commitmentId ||
+                  component.jobId !== original.jobId ||
+                  component.personId !== cause.personId ||
+                  component.organizationId !== id ||
+                  component.calendarId !== cause.calendarId ||
+                  component.id !== cause.id ||
+                  component.date !== cause.date ||
+                  component.requestedMinor !== original.requestedMinor ||
+                  component.paidMinor !== original.paidMinor ||
+                  component.shortfallMinor !== original.shortfallMinor ||
+                  component.newlyDueMinor !== original.newlyDueMinor ||
+                  component.arrearsBeforeMinor !==
+                    original.arrearsBeforeMinor ||
+                  component.arrearsAfterMinor !== original.arrearsAfterMinor
+                );
+              })
+            : actual.group === true ||
+              actual.commitmentId !== cause.commitmentId ||
+              actual.jobId !== cause.jobId) ||
+          actual.requestedMinor !== requested ||
+          actual.paidMinor !== paid ||
+          actual.shortfallMinor !== unfunded ||
+          actual.newlyDueMinor !== cause.newlyDueMinor ||
+          actual.arrearsBeforeMinor !== cause.arrearsBeforeMinor ||
+          actual.arrearsAfterMinor !== cause.arrearsAfterMinor
+        )
+          throw new Error(
+            "Payroll closure lost its actual completed conserving source and original amounts.",
+          );
+      }
       for (const jobId of row.endedJobIds) {
         const job = core.jobs.get(jobId);
         if (
@@ -840,19 +919,40 @@ export function financeObservables(
         cause: {
           id: cause.id,
           date: cause.date,
-          kind: isWork
-            ? ("work-result" as const)
-            : ("finance-receipt" as const),
+          kind: isPayroll
+            ? ("work-payroll" as const)
+            : isWork
+              ? ("work-result" as const)
+              : ("finance-receipt" as const),
           requestedMinor: requested,
           paidMinor: paid,
           unfundedMinor: unfunded,
-          sourceActId: isWork ? cause.sourceActId : null,
-          jobId: isWork ? cause.jobId : null,
-          contractId: isWork ? null : cause.contractId,
-          stillLatestInOwnIndex: isWork
-            ? core.work.lastResultByJob.get(cause.jobId)?.id === cause.id
-            : core.finance.latestReceiptsByContract.get(cause.contractId)
-                ?.id === cause.id,
+          sourceActId: isWork && !isPayroll ? cause.sourceActId : null,
+          jobId: isWork ? (cause.jobId ?? null) : null,
+          contractId: isWork || isPayroll ? null : cause.contractId,
+          ...(isPayroll && cause.group === true
+            ? {
+                calendarId: cause.calendarId,
+                componentCommitmentIds: cause.components.map(
+                  (component) => component.commitmentId,
+                ),
+                componentJobIds: cause.components.map(
+                  (component) => component.jobId,
+                ),
+              }
+            : {}),
+          stillLatestInOwnIndex: isPayroll
+            ? cause.group === true
+              ? cause.components.every(
+                  (component) =>
+                    core.work.latestPayrollByJob.get(component.jobId)?.id ===
+                    cause.id,
+                )
+              : core.work.latestPayrollByJob.get(cause.jobId)?.id === cause.id
+            : isWork
+              ? core.work.lastResultByJob.get(cause.jobId)?.id === cause.id
+              : core.finance.latestReceiptsByContract.get(cause.contractId)
+                  ?.id === cause.id,
           source: source(cause.source),
         },
         source: source(row.source),
@@ -946,6 +1046,8 @@ export function financeObservables(
     },
     receipts: {
       latestWorkResults: core.work.lastResultByJob.size,
+      latestAttendanceResults: core.work.lastAttendanceByJob.size,
+      latestPayrollReceipts: core.work.latestPayrollByJob.size,
       latestFinanceReceipts: core.finance.latestReceiptsByContract.size,
       latestCreditReceipts: core.finance.latestCreditByFacility.size,
       detailedFinanceReceipts: core.finance.detailedReceipts.size,

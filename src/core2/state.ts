@@ -6,6 +6,12 @@ import {
   recordDiscretionaryTime,
 } from "./work-state";
 import {
+  admitWorkAttendanceOwner,
+  admitWorkPayrollCalendar,
+  recordWorkAttendance,
+} from "./work-attendance";
+import { settleWorkPayrollAndNotify } from "./work-payroll-dispatch";
+import {
   emptyFinanceRuntime,
   financeIndex,
   admitFinanceContract,
@@ -220,6 +226,7 @@ export function createCore(
     relationshipSubscribers: new Map(),
     relationshipSubscribersByKind: new Map(),
   };
+  admitWorkAttendanceOwner(core);
   for (const tier of data.tiers) core.peopleByTier.set(tier.id, new Set());
   for (const row of input.households) {
     if (core.households.has(row.id))
@@ -255,6 +262,8 @@ export function createCore(
     financeIndex(core.finance.jobsByOrganization, row.organizationId, row.id);
   }
   for (const row of input.workCommitments ?? []) api.addWorkCommitment(row);
+  for (const row of input.workPayrollCalendars ?? [])
+    api.addWorkPayrollCalendar(row);
   const openingFinanceBooks = preflightOpeningSalesBudgets(
     core,
     api,
@@ -720,6 +729,15 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     finishFinanceDay() {
       finishFinanceDay(core, api);
+    },
+    addWorkPayrollCalendar(row) {
+      admitWorkPayrollCalendar(core, api, row);
+    },
+    recordWorkAttendance(row) {
+      return recordWorkAttendance(core, api, row);
+    },
+    settleWorkPayroll(id) {
+      return settleWorkPayrollAndNotify(core, api, id);
     },
     settleWorkResult(row) {
       return settleWorkResult(core, api, row);
