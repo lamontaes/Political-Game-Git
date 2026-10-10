@@ -15,6 +15,10 @@ import type { ActOffer, CoreAPI, CoreModule, Relationship } from "../types";
 import { offer } from "./life";
 
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
+const LOOKUP = {
+  officeAffordance: "known-office",
+  affordances: ["known-office", "public-meeting-place", "known-group"],
+} as const;
 
 const seeded = new WeakSet<object>();
 
@@ -80,6 +84,36 @@ export const PEOPLE_MODULE: CoreModule = {
     shareHomeTime(api);
   },
   offerProviders: {
+    // P15 part 4: looking something up serves a cause's need to know where
+    // to go next: an office to approach (one with staff), a place to meet or
+    // a group to join. A person with a cause is offered the institutions of
+    // each kind they know none of in their town and county; once they know
+    // one of a kind, look-ups of that kind stop pulling.
+    "office-directory": (api, actor, action) => {
+      if (!actor.drives.size) return [];
+      const unknown = new Map<string, string[]>();
+      const known = new Set<string>();
+      for (const placeId of new Set([
+        actor.placeId,
+        ...(actor.countyId ? [actor.countyId] : []),
+      ]))
+        for (const id of api.state.publicOrganizationsByPlace.get(placeId) ??
+          []) {
+          const row = api.state.publicOrganizations.get(id)!;
+          for (const kind of LOOKUP.affordances) {
+            if (!row.affordances?.includes(kind)) continue;
+            if (kind === LOOKUP.officeAffordance && !row.staff?.length)
+              continue;
+            if (api.knows(actor.id, `organization:${id}:public`))
+              known.add(kind);
+            else unknown.set(kind, [...(unknown.get(kind) ?? []), id]);
+          }
+        }
+      const ids = new Set<string>();
+      for (const [kind, rows] of unknown)
+        if (!known.has(kind)) for (const id of rows) ids.add(id);
+      return [...ids].map((id) => offer(api, actor, action, id));
+    },
     // Everyone the person knows and has a tie with, plus one person they know
     // without a tie yet. Untied offers all score alike and the chooser breaks
     // ties by the lowest key, so the lowest-id untied person stands for them all.

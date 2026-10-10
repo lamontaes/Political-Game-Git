@@ -179,17 +179,22 @@
     {
       "id": "look-up-local-institution",
       "actKinds": ["engage", "follow-rules"],
-      "goalKinds": ["change-condition", "connect"],
-      "need": "company",
+      "goalKinds": ["change-condition"],
+      "need": "safety",
       "effortParameter": "lookupHours",
       "effectParameter": "one",
-      "targetKind": "public-directory",
+      "targetKind": "office-directory",
       "effect": "public-lookup",
       "stopgapId": "SG-P8-civic-progress",
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
-      }
+      },
+      "prerequisites": [
+        {
+          "operation": "has-drive"
+        }
+      ]
     }
   ],
   "tiers": [

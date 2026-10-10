@@ -809,11 +809,11 @@
     "file": "src/core2/modules/life.ts",
     "line": 195,
     "whatItFakes": "A directory lookup satisfies company utility and can crowd out acting on a cause despite a relevant office already being known.",
-    "why": "P10 reports 339 of 595 drive acts were lookups and no cause holder approached an office. CTO approves suppressing repeated lookups once a relevant office is known.",
+    "why": "P10 reports 339 of 595 drive acts were lookups and no cause holder approached an office. CTO approves suppressing repeated lookups once a relevant office is known. Resolved by P15 part 4 (OPUS-PEOPLE, 2026-10-10): the look-up act answers a cause's need to know where to go, is offered only to people with a cause, and offers only the offices (with staff), meeting places and groups of a kind they know none of (office-directory in src/core2/modules/people.ts); company comes from people.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Knowledge-qualified directory offers and utility tied to actual information needs, with end-to-end ordinary cause/action evidence.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-P8-grief-action-response",
