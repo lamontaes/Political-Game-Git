@@ -579,7 +579,7 @@
   "tieMissingWeightPerHour": {
     "value": 0.1,
     "tag": "TUNABLE",
-    "citation": "Pull toward contacting a person for each hour of time together the tie has lost since the last contact. Set by a sweep in a generated Stanwood, Washington town (600 residents, 56 days; seed p15-opening-kin): at 0.1 adults spend about 124 hours a year with relatives outside their home against 170 in ATUS 2019 (28 minutes a day, Kannan and Veazie 2022), and visit a parent 1.1 times as often as a sibling against 1.37 in the GSS. Higher values add little contact and crowd out other acts.",
+    "citation": "Pull toward contacting a person for each hour of time together the tie has lost since the last contact. Chosen in a sweep of a 600-resident generated Stanwood, Washington town (56 days, seed p15-opening-kin), where higher values added little contact and crowded out other acts. Checked in a 10,001-resident Sacramento town over 91 days (seed p10-drives-proof-2026-10-09): adults made 47.4 visits a year to relatives outside their home, about 91 hours against 170 in ATUS 2019 (28 minutes a day, Kannan and Veazie 2022), and visited each parent 2.5 times as often as each sibling against 1.37 in the GSS. One discretionary act per activation caps the total.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
