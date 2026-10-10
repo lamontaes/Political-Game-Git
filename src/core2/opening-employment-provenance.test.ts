@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import { lifePlaceStateIdentities } from "../simulation/life-places";
 import { stableHash } from "../simulation/ids";
 import { buildPopulation } from "./population";
+import { OPENING_KIN } from "./opening-kin";
 import { realLocalities } from "./places";
 import { parameter as p } from "./parameters";
 import openingData from "./data/opening-employment.json" with { type: "json" };
@@ -139,9 +140,9 @@ describe("opening-only employment source and preservation", () => {
       });
       seen.add(state.jurisdictionKey);
       expect(
-        input.people.every(
-          (person) => person.placeId === place.context.jurisdiction.id,
-        ),
+        input.people
+          .filter((person) => person.tier !== OPENING_KIN.kinTier)
+          .every((person) => person.placeId === place.context.jurisdiction.id),
       ).toBe(true);
       const receipt: OpeningEmploymentAllocation["receipt"] = JSON.parse(
         input.placeMetadata!.openingEmploymentReceipt!,

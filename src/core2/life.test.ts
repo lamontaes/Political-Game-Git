@@ -5,6 +5,7 @@ import { advanceCore, availableActs, chooseAct, createLifeCore } from "./life";
 import { parameter as p } from "./parameters";
 import { assertCoreIntegrity, coreAPI } from "./state";
 import { LIFE_MODULE } from "./modules/life";
+import { PEOPLE_MODULE_ID } from "./modules/people";
 import { WORK_MODULE } from "./modules/work";
 import type {
   ActionDefinition,
@@ -447,8 +448,10 @@ describe("shared actor chooser and committed effects", () => {
     expect(
       initial.some(
         (offer) =>
-          offer.definition.targetKind === "known-person" &&
-          offer.targetId === relative,
+          // P15: the contact act reads people through "contact-candidate".
+          ["known-person", "contact-candidate"].includes(
+            offer.definition.targetKind,
+          ) && offer.targetId === relative,
       ),
     ).toBe(true);
     expect(
@@ -876,9 +879,9 @@ describe("controller boundary and data extension", () => {
       { data },
     );
     const openingMoney = money(core);
-    expect(core.modules.size).toBe(p("two"));
+    expect(core.modules.size).toBe(p("two") + p("one"));
     expect([...core.modules.keys()].sort()).toEqual(
-      [LIFE_MODULE.id, WORK_MODULE.id].sort(),
+      [LIFE_MODULE.id, PEOPLE_MODULE_ID, WORK_MODULE.id].sort(),
     );
     advanceCore(core, nextDay);
     const actor = core.people.get(actorId)!;
@@ -894,10 +897,11 @@ describe("controller boundary and data extension", () => {
     expect(chosen.decision!.selectedReasons!.trait).toBeGreaterThan(p("zero"));
     expect(actor.liquidMinor).toBe(core.jobs.get(actor.jobId!)!.wageDailyMinor);
     expect(money(core)).toBe(openingMoney);
-    expect(core.modules.size).toBe(p("two") + p("two"));
+    expect(core.modules.size).toBe(p("two") + p("two") + p("one"));
     expect([...core.modules.keys()].sort()).toEqual(
       [
         LIFE_MODULE.id,
+        PEOPLE_MODULE_ID,
         WORK_MODULE.id,
         core.data.workCashModuleId,
         core.data.finance!.cashJournal.moduleId,

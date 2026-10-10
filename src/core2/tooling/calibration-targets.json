@@ -85,8 +85,8 @@
       "id": "panas-affect-score",
       "title": "PANAS observed positive and negative affect scores",
       "kind": "external empirical observable",
-      "quantity": "Separate positive-affect and negative-affect 10-item scale sums; item range 1\u20135",
-      "unit": "scale points, each subscale 10\u201350",
+      "quantity": "Separate positive-affect and negative-affect 10-item scale sums; item range 1–5",
+      "unit": "scale points, each subscale 10–50",
       "sample": {
         "population": "Mostly undergraduate validation samples in Watson, Clark, and Tellegen (1988)",
         "samples": [
@@ -157,8 +157,8 @@
       "id": "pss10-monthly-stress",
       "title": "PSS-10 perceived stress score",
       "kind": "external empirical observable",
-      "quantity": "Ten last-month items, each 0\u20134 with four reverse-scored; sum score",
-      "unit": "scale points, 0\u201340",
+      "quantity": "Ten last-month items, each 0–4 with four reverse-scored; sum score",
+      "unit": "scale points, 0–40",
       "sample": {
         "population": "2009 U.S. survey probability sample",
         "n": 2000,
@@ -176,7 +176,7 @@
             "sd": 7.56
           },
           {
-            "group": "ages 25\u201334",
+            "group": "ages 25–34",
             "n": 433,
             "mean": 17.46,
             "sd": 7.31
@@ -260,7 +260,7 @@
       "calibrationStatus": "pending; raw repeated target data and compatible observations required.",
       "bindingStatus": "supplementary only; no current P8 parameter checkRange points here",
       "routeStatus": "not currently executable against P8 output; instrument/data adapter and output bridge are missing, so this target must not be reported as passed",
-      "requiredTestRouteAfterImplementation": "Use raw event-aligned repeated measures with timestamps and fit/hold out people; the cited paper\u2019s shape finding is not a numeric coefficient test."
+      "requiredTestRouteAfterImplementation": "Use raw event-aligned repeated measures with timestamps and fit/hold out people; the cited paper’s shape finding is not a numeric coefficient test."
     },
     {
       "id": "opening-school-peer-network",
@@ -275,7 +275,7 @@
       ],
       "status": "proposed; not source-retrieved or calibrated",
       "sourceLimitation": "NCES CCD local-institutions data supports recent identity context only. Existing school-calendar proxies and public biography timeline checks supply no empirical social-network or class-size bound.",
-      "acceptanceLimitation": "The owner often20\u201360 ordinary-circle requirement is an acceptance observation to examine, not a forced generator minimum or fabricated empirical spread."
+      "acceptanceLimitation": "The owner often20–60 ordinary-circle requirement is an acceptance observation to examine, not a forced generator minimum or fabricated empirical spread."
     },
     {
       "id": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS",
@@ -570,7 +570,7 @@
         }
       ],
       "checkRange": {
-        "quantity": "Observed source-cohort 25th\u201375th percentiles, separated by industry",
+        "quantity": "Observed source-cohort 25th–75th percentiles, separated by industry",
         "unit": "cash buffer days",
         "location": "src/core2/data/opening-employer-cash-reference.json observations[].observedCounts.percentile25 / percentile75",
         "meaning": "Real empirical interquartile check range. Do not force every simulated employer inside it or use it as a survival condition; half of the source cohort is outside its interquartile range."
@@ -1794,6 +1794,201 @@
       "calibrationRange": null,
       "calibrated": false,
       "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "kinInterbirthYears",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 3,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "kinFirstBirthAgeSdYears",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 4,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "kinPaternalAgeGapYears",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 2.5,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "kinMaleFertilityAgeShiftYears",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 2,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "personalityUpbringingShift",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.15,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "personalityReferenceAge",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 40,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "closenessHoursAtHalf",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 90,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "closenessKinHalfLifeDays",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 1095,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted. Named check: Mollenhorst, Volker and Flap (2014), 48% of named network members still present after seven years; needs a seven-year run (P15 part 5)."
+    },
+    {
+      "parameter": "closenessOtherHalfLifeDays",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 548,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted. Named check: Mollenhorst, Volker and Flap (2014), 48% of named network members still present after seven years; needs a seven-year run (P15 part 5)."
+    },
+    {
+      "parameter": "householdOtherMinutesPerDay",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 43,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "schoolHoursFriendshipWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.25,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "extendedKinVisitShare",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.25,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "tieMissingWeightPerHour",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.1,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "kinMoveAwayShare",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.35,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "openingCoworkerGroupSize",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 8,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
     }
   ],
   "unreferencedRemovalReview": {
@@ -1863,7 +2058,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1998,7 +2193,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -2030,7 +2225,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -2069,7 +2264,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -2101,7 +2296,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -2877,7 +3072,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor\u2019s Office",
+              "publisher": "Maryland Governor’s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -2909,7 +3104,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor\u2019s Office",
+              "publisher": "Maryland Governor’s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -3012,7 +3207,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor\u2019s Office",
+              "publisher": "Maryland Governor’s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -3108,7 +3303,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor\u2019s Office",
+              "publisher": "Maryland Governor’s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -3358,7 +3553,7 @@
         "evaluation": "The run command writes a receipt and evaluation. Score only the 35 decision/outcome steps as model-result targets. For each such step require Evaluation step.reproduced=true, all checks matched, all ranges inside, chainBrokenBy empty, StepReceipt representation=full, and engine-origin observations with nonempty canonical recordIds. Nine event steps are sourced external inputs through ReplayCore.event; they are not predictive passes. Preserve their external provenance, and leave dependent results unmeasured if the evaluator cannot verify continuity through a source-backed event record. A forced selection, initialized fact, stored row without behavior, missing record, or placeholder cannot pass as a model outcome.",
         "routeStatus": "The CLI/evaluator is executable, but no P8 module currently exports the required createReplayCore adapter. Running against the existing old-core adapter does not validate the new P8 engine. Until a real P8 adapter and mechanisms exist, result is blocked/unmeasured; do not convert missing output to success.",
         "parameterInterpretation": "This suite is a joint end-to-end output target for the referenced in-use life parameters. It does not independently identify any single coefficient, supply a numeric range, or establish population realism. An outcome match is a replay check only.",
-        "eventInputRule": "The P9 runner submits each sourced event via ReplayCore.event. Never rewrite an input event as an engine-predicted outcome. For a requires chain to pass, the event must be represented through the contract\u2019s actual source record path; if the current evaluator cannot verify it without relabeling the source, the dependent P9 outcome remains blocked/unmeasured.",
+        "eventInputRule": "The P9 runner submits each sourced event via ReplayCore.event. Never rewrite an input event as an engine-predicted outcome. For a requires chain to pass, the event must be represented through the contract’s actual source record path; if the current evaluator cannot verify it without relabeling the source, the dependent P9 outcome remains blocked/unmeasured.",
         "implementationStatus": "blocked; P8 ReplayCore adapter and model outcome mechanisms are not implemented"
       },
       "adapterGaps": [
@@ -3961,12 +4156,12 @@
       "parameterApplicability": {
         "deepPastMiddleSchoolOffsetYears": {
           "status": "candidate end-to-end chronology check only",
-          "testableQuestion": "Does the independently generated middle-school cohort record occur before the subject\u2019s later sourced education milestones and retain attendance=cohort-estimate and qualification=not-inferred?",
+          "testableQuestion": "Does the independently generated middle-school cohort record occur before the subject’s later sourced education milestones and retain attendance=cohort-estimate and qualification=not-inferred?",
           "coefficientCalibration": "not identified by these outcomes; cohorts and diploma completion are different observables."
         },
         "deepPastHighSchoolOffsetYears": {
           "status": "candidate end-to-end chronology check only",
-          "testableQuestion": "Does the independently generated high-school cohort record occur before the subject\u2019s later sourced high-school/degree milestone, while remaining explicitly an estimate rather than personal attendance?",
+          "testableQuestion": "Does the independently generated high-school cohort record occur before the subject’s later sourced high-school/degree milestone, while remaining explicitly an estimate rather than personal attendance?",
           "coefficientCalibration": "not identified by these outcomes; the P8 cohort offset is not the P9 credential date."
         },
         "openingPeerGroupSize": {
@@ -4053,7 +4248,7 @@
       "parameterApplicability": {
         "marriageReferenceAge": {
           "status": "not-applicable-to-current-generator-output",
-          "testableQuestion": "The cited 1934 marriage is a real individual outcome. Current marriageReferenceAge only backdates synthetic population couple households from adult ages; it does not generate LBJ\u2019s partnership history or the individual marriage decision.",
+          "testableQuestion": "The cited 1934 marriage is a real individual outcome. Current marriageReferenceAge only backdates synthetic population couple households from adult ages; it does not generate LBJ’s partnership history or the individual marriage decision.",
           "coefficientCalibration": "not valid; do not construct a synthetic town around a named LifeFile subject."
         }
       },
@@ -4082,7 +4277,7 @@
         "selection": "purposive sourced public biographies; not a representative sample"
       },
       "title": "Source-linked prior education-finance timeline",
-      "quantity": "LBJ\u2019s 1927 college-enrollment loan range and subsequent Cotulla teaching employment recorded as funding college.",
+      "quantity": "LBJ’s 1927 college-enrollment loan range and subsequent Cotulla teaching employment recorded as funding college.",
       "units": "P9 dated categorical checks and any sourced ranges retained from each original LifeFile step; no coefficient units or numerical bounds are inferred.",
       "observations": [
         {
@@ -6878,7 +7073,7 @@
         }
       ],
       "checkRange": {
-        "quantity": "Observed source-cohort 25th\u201375th percentiles, separated by industry",
+        "quantity": "Observed source-cohort 25th–75th percentiles, separated by industry",
         "unit": "cash buffer days",
         "location": "src/core2/data/opening-employer-cash-reference.json observations[].observedCounts.percentile25 / percentile75",
         "meaning": "Real empirical interquartile check range. Do not force every simulated employer inside it or use it as a survival condition; half of the source cohort is outside its interquartile range."
