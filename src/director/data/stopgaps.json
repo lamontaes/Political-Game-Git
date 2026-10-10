@@ -1,11 +1,11 @@
 [
   {
     "id": "SG-P13-param-directorMomentFloor",
-    "kind": "uncalibrated-tunable",
+    "kind": "estimated-parameter",
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "The smallest change stored as a moment.",
-    "why": "A starting value is required; it awaits an owner answer or a calibration against real life-event rankings.",
+    "why": "Owner answer 1 approved the stress scale row as an estimate; its check range is a plausible yearly count of stored moments.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
@@ -17,7 +17,7 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "The impact at which a moment takes over the screen.",
-    "why": "A starting value is required; it awaits an owner answer or a calibration against real life-event rankings.",
+    "why": "Owner ruling on answer 2 set the marriage anchor; it stays tunable against play.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
@@ -129,6 +129,30 @@
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "Producers in the core's conversation and favor modules, listed in producedBy.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P13-param-directorAnniversaryHalfDays",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How fast an anniversary's weight falls away from the date.",
+    "why": "A starting value is required; the owner approved the shape, not the width.",
+    "addedBy": "OPUS-DIRECTOR",
+    "addedAt": "2026-10-09",
+    "replacement": "A calibration against when people recall shared events.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P13-past-fact-estimates",
+    "kind": "estimated-parameter",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "Impacts for recorded past facts, read from stress-scale rows rather than measured changes.",
+    "why": "The new core's recorded past holds dated facts, not the changes they caused.",
+    "addedBy": "OPUS-DIRECTOR",
+    "addedAt": "2026-10-09",
+    "replacement": "Past moments measured from replayed lives once the life-replay harness runs on the new core.",
     "status": "open"
   }
 ]

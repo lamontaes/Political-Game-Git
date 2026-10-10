@@ -316,10 +316,13 @@ export function createDirector(
       if (id === personId) continue;
       const other = core.people.get(id);
       ensureThread(book, id, kin.get(id) ?? [], home.has(id));
-      const family = actor.familyIds.has(id) || kin.has(id);
-      // Relatives knew each other no later than the younger one's birth; a
-      // housemate with no family record is known only from the opening.
-      if (other && family)
+      // Blood relatives knew each other no later than the younger one's birth.
+      // A partner or housemate is known no later than the opening; the
+      // records do not say when partners met.
+      const blood = (kin.get(id) ?? []).some(
+        (relation) => relation !== "partner",
+      );
+      if (other && blood)
         knewFact(
           book,
           id,
@@ -356,13 +359,20 @@ export function createDirector(
       thread.closeness = row.level;
       thread.lastContact = row.lastContactDate;
     }
-    // Public eras the person lived through are background, not personal moments.
-    for (const fact of actor.pastFacts ?? [])
+    // The recorded past (owner answer 5): public eras are background for
+    // everyone who lived through them, and a personal moment only where the
+    // record says the era hit this person; personal facts are moments with an
+    // impact estimated from the stress scale. Facts dated at or after the
+    // opening describe the life as play starts and score nothing.
+    const past = [...(actor.pastFacts ?? [])]
+      .filter((fact) => fact.date < core.startedAt)
+      .sort((a, b) => a.date.localeCompare(b.date) || a.id.localeCompare(b.id));
+    for (const fact of past) {
       if (
         data.backdropPastFactPrefixes.some((prefix) =>
           fact.kind.startsWith(prefix),
         )
-      )
+      ) {
         book.backdrop.push({
           id: `${personId}:past:${fact.id}`,
           personId,
@@ -371,7 +381,130 @@ export function createDirector(
           kind: fact.kind,
           reach: "past",
         });
+        for (const hit of data.pastEraHits) {
+          const value = fact.facts?.[hit.factKey];
+          if (value === undefined || data.pastNotRecordedValues.includes(value))
+            continue;
+          storePastMoment(
+            book,
+            fact,
+            `${fact.kind}:${hit.factKey}`,
+            hit.parameter,
+            [],
+          );
+        }
+        continue;
+      }
+      const row = data.pastFactMoments.find((entry) =>
+        fact.kind.startsWith(entry.kindPrefix),
+      );
+      if (!row) continue;
+      const related = [...kin]
+        .filter(([otherId, relations]) => {
+          const other = core.people.get(otherId);
+          if (row.counterpart === "partner")
+            return relations.includes("partner");
+          if (row.counterpart === "child-born-that-day")
+            return (
+              relations.includes("child") && other?.birthDate === fact.date
+            );
+          return false;
+        })
+        .map(([otherId]) => otherId);
+      storePastMoment(
+        book,
+        fact,
+        fact.kind,
+        row.parameter,
+        related.length === one ? related : [],
+      );
+    }
     snapshots.set(personId, snapshot(core, actor));
+  }
+
+  /** A moment scored from the recorded past: journal material, never a scene. */
+  function storePastMoment(
+    book: PersonLedger,
+    fact: { id: string; date: IsoDate },
+    kind: string,
+    parameter: string,
+    counterpartIds: PersonId[],
+  ): void {
+    const impact = param(parameter);
+    const moment: Moment = {
+      id: `${book.personId}:${fact.date}:past:${fact.id}:${kind}`,
+      personId: book.personId,
+      date: fact.date,
+      label: `past:${kind}`,
+      causeId: fact.id,
+      causeKind: kind,
+      counterpartIds,
+      impact,
+      channels: [
+        {
+          channel: "past",
+          raw: one,
+          scale: impact,
+          traitWeight: one,
+          traits: [],
+          contribution: impact,
+        },
+      ],
+      hindsight: impact,
+      hindsightAt: fact.date,
+      past: true,
+      echoes: [],
+    };
+    book.moments.push(moment);
+    book.momentsById.set(moment.id, moment);
+    for (const otherId of counterpartIds) {
+      const list = book.momentsByOther.get(otherId) ?? [];
+      list.push(moment.id);
+      book.momentsByOther.set(otherId, list);
+      ensureThread(book, otherId).momentIds.push(moment.id);
+      // A dated record naming both people moves their first-known date back to it.
+      const knew = book.keptFacts.get(
+        `knew-each-other:${[book.personId, otherId].sort().join(":")}`,
+      );
+      if (knew && fact.date < knew.since) {
+        knew.since = fact.date;
+        knew.sinceBasis = "recorded";
+        knew.sourceId = fact.id;
+      }
+    }
+    book.schedule.push({
+      momentId: moment.id,
+      date: moment.date,
+      outcome: "journal-line",
+      mode: "before-opening",
+      stopsSkip: false,
+      rank: zero,
+      pace: zero,
+      bindings: [],
+    });
+  }
+
+  /** How strongly a date sits on a broad event's anniversary: highest on the date, halving every few days, no cut-off. */
+  function anniversaryWeight(eventDate: IsoDate, date: IsoDate): number {
+    const [year, month, day] = eventDate.split("-").map(Number) as [
+      number,
+      number,
+      number,
+    ];
+    const now = Number(date.slice(zero, date.indexOf("-")));
+    let nearest = Number.POSITIVE_INFINITY;
+    for (const target of [now - one, now, now + one]) {
+      if (target <= year) continue;
+      const anniversary = new Date(Date.UTC(target, month - one, day))
+        .toISOString()
+        .slice(zero, eventDate.length);
+      nearest = Math.min(
+        nearest,
+        Math.abs(daysBetween(makeIsoDate(anniversary), makeIsoDate(date))),
+      );
+    }
+    if (!Number.isFinite(nearest)) return zero;
+    return Math.pow(P.two, -nearest / param("directorAnniversaryHalfDays"));
   }
 
   function fadingOf(thread: Thread, book: PersonLedger, date: IsoDate): number {
@@ -779,6 +912,28 @@ export function createDirector(
             impact,
           ),
         );
+      }
+      // An anniversary: a broad event that hit both people links back, most
+      // strongly near its date (owner answer 7). It never stages a scene.
+      for (const shared of pairHistory(book, otherId)) {
+        if (!shared.broadEventId || shared.id === moment.id) continue;
+        const event = ledger.broadEvents.get(shared.broadEventId);
+        // Within half a year of the event it is still recent, not an anniversary.
+        const recent =
+          !event ||
+          daysBetween(makeIsoDate(event.date), makeIsoDate(date)) <
+            coreParam(core, "yearSpanDays") / P.two;
+        const weight = recent ? zero : anniversaryWeight(event.date, date);
+        if (weight > zero)
+          moment.echoes.push(
+            link(
+              shared.id,
+              "moment",
+              otherId,
+              "anniversary",
+              shared.hindsight * weight,
+            ),
+          );
       }
       if (row.renewals.has(otherId)) {
         const best = pairHistory(book, otherId)

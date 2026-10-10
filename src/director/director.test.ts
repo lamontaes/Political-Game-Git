@@ -378,6 +378,11 @@ describe("story director on the new core", () => {
       .get("person:worker")!
       .threads.get("person:spouse")!;
     expect(thread.kin).toEqual(["partner"]);
+    expect(
+      director.ledger.people
+        .get("person:worker")!
+        .keptFacts.get("knew-each-other:person:spouse:person:worker"),
+    ).toMatchObject({ since: startedAt, sinceBasis: "opening" });
     expect(thread.tie).toBeCloseTo(0.5 + 0.3, 6);
     const later = "2022-07-01";
     expect(
@@ -511,14 +516,15 @@ describe("story director on the new core", () => {
     expect(folded("visit", "canvass-visit")).toBe(true);
   });
 
-  it("schedules a job loss as news the household waits to hear, and as a journal line while skipping", () => {
+  it("lets a sole earner's job loss take over the screen as news for the household, and stop a skip", () => {
     const { director } = run("place:director-fixture", true);
     const worker = director.ledger.people.get("person:worker")!;
     const spouse = director.ledger.people.get("person:spouse")!;
     const entry = worker.schedule.find((row) =>
       row.momentId.endsWith("fixture-closed:2021-01-10"),
     )!;
-    expect(entry).toMatchObject({ outcome: "scene-waiting", rank: 1, pace: 4 });
+    // 0.509 ends the household's only pay: at the owner's line of 0.50 it takes over.
+    expect(entry).toMatchObject({ outcome: "scene-now", rank: 1, pace: 4 });
     const news = entry.bindings.find((row) => row.typeKey === "news-arrives")!;
     expect(news.roles).toEqual([
       { role: "bearer", personIds: ["person:worker"], bearing: "solemn" },
@@ -529,7 +535,12 @@ describe("story director on the new core", () => {
       kind: "home",
       recordId: "household:worker",
     });
-    const heard = spouse.schedule[0]!.bindings.find(
+    const spouseEntry = spouse.schedule.find(
+      (row) => row.mode !== "before-opening",
+    )!;
+    // The spouse's share of the same loss, 0.431, waits.
+    expect(spouseEntry.outcome).toBe("scene-waiting");
+    const heard = spouseEntry.bindings.find(
       (row) => row.typeKey === "news-arrives",
     )!;
     expect(heard.roles.find((row) => row.role === "bearer")!.personIds).toEqual(
@@ -545,8 +556,10 @@ describe("story director on the new core", () => {
     skipped.setMode("skipping");
     advanceCore(core, "2021-01-15");
     expect(
-      skipped.ledger.people.get("person:worker")!.schedule[0],
-    ).toMatchObject({ outcome: "journal-line", stopsSkip: false });
+      skipped.ledger.people
+        .get("person:worker")!
+        .schedule.find((row) => row.mode !== "before-opening"),
+    ).toMatchObject({ outcome: "scene-now", stopsSkip: true });
   });
 
   it("lets a death take over the screen, stop a skip, and log a moment no type stages", () => {
@@ -578,7 +591,9 @@ describe("story director on the new core", () => {
     director.start(core);
     director.setMode("skipping");
     advanceCore(core, "2021-01-04");
-    const [news, death] = director.ledger.people.get("person:worker")!.schedule;
+    const [news, death] = director.ledger.people
+      .get("person:worker")!
+      .schedule.filter((row) => row.mode !== "before-opening");
     expect(news).toMatchObject({
       outcome: "journal-line",
       coverage: { reason: "no-type", label: "feeling:event:fixture.news" },
@@ -669,6 +684,159 @@ describe("story director on the new core", () => {
     ).toEqual(["renewed", "grew"]);
     const entry = worker.schedule.find((row) => row.momentId === back.id)!;
     expect(entry.bindings.map((row) => row.typeKey)).toContain("reunion");
+  });
+
+  it("scores the recorded past: personal facts are moments, an era only where it hit", () => {
+    const place = "place:director-fixture";
+    const base = town(place);
+    const withPast = (row: PersonInput): PersonInput =>
+      row.id !== "person:worker"
+        ? row
+        : {
+            ...row,
+            pastFacts: [
+              ...(row.pastFacts ?? []),
+              {
+                id: "fact:worker:era-hit",
+                date: "2008-12-01",
+                kind: "era:public-context",
+                summary: "Public economic context",
+                source,
+                facts: { personalJobLoss: "recorded" },
+              },
+              {
+                id: "fact:worker:partner",
+                date: "1994-01-01",
+                kind: "family:partner",
+                summary: "Partner",
+                source,
+              },
+              {
+                id: "fact:worker:opening-job",
+                date: startedAt,
+                kind: "work:opening",
+                summary: "Opening job",
+                source,
+              },
+            ],
+          };
+    const director = createDirector({ watch: ["person:worker"] });
+    const core = createLifeCore(
+      { ...base, people: base.people.map(withPast) },
+      { scheduledWork: false, modules: [director.module] },
+    );
+    director.start(core);
+    const worker = director.ledger.people.get("person:worker")!;
+    expect(
+      worker.moments.map((row) => [
+        row.date,
+        row.label,
+        row.impact,
+        row.counterpartIds,
+      ]),
+    ).toEqual([
+      ["1984-08-27", "past:school:cohort-estimate", 0.26, []],
+      ["1994-01-01", "past:family:partner", 0.5, ["person:spouse"]],
+      ["2008-12-01", "past:era:public-context:personalJobLoss", 0.47, []],
+    ]);
+    // The 1994 partnership record moves the pair's first-known date back.
+    expect(
+      worker.keptFacts.get("knew-each-other:person:spouse:person:worker"),
+    ).toMatchObject({ since: "1994-01-01", sinceBasis: "recorded" });
+    // The unhit era is background only; the opening job describes the start.
+    expect(worker.backdrop.map((row) => row.sourceId)).toEqual([
+      "fact:worker:era",
+      "fact:worker:era-hit",
+    ]);
+    expect(worker.schedule.map((row) => row.outcome)).toEqual([
+      "journal-line",
+      "journal-line",
+      "journal-line",
+    ]);
+  });
+
+  it("links a later moment back to a shared closure most strongly on its anniversary", () => {
+    const place = "place:director-fixture";
+    const base = town(place);
+    const input: CoreInput = {
+      ...base,
+      people: base.people.map((row) =>
+        row.id === "person:worker" || row.id === "person:classmate"
+          ? {
+              ...row,
+              tier: "calendar",
+              ...(row.id === "person:classmate"
+                ? { jobId: "job:classmate", traits: { [risk]: 0 } }
+                : {}),
+            }
+          : row,
+      ),
+      jobs: [
+        ...base.jobs,
+        { ...base.jobs[0]!, id: "job:classmate", personId: "person:classmate" },
+      ],
+    };
+    const news = (
+      api: Parameters<NonNullable<CoreModule["onAfterDay"]>>[0],
+      id: string,
+    ) =>
+      api.emit({
+        id,
+        date: api.state.date,
+        kind: "fixture.news",
+        personIds: ["person:classmate"],
+        witnessIds: ["person:worker"],
+        placeId: place,
+        moodImpulse: -0.2,
+        stressImpulse: 0.2,
+        source,
+      });
+    const world: CoreModule = {
+      id: "fixture-anniversary",
+      onAfterDay(api) {
+        if (api.state.date === "2021-01-10") {
+          for (const id of ["job:worker", "job:classmate"]) {
+            const job = api.state.jobs.get(id)!;
+            (job as { endsAt?: string }).endsAt = api.state.date;
+            delete (api.state.people.get(job.personId) as { jobId?: string })
+              .jobId;
+          }
+          api.emit({
+            id: "fixture-closed:2021-01-10",
+            date: api.state.date,
+            kind: "organization.closed",
+            personIds: ["person:classmate", "person:worker"],
+            placeId: place,
+            publicRecord: true,
+            source,
+          });
+        }
+        if (api.state.date === "2021-03-01") news(api, "news:soon");
+        if (api.state.date === "2021-10-10") news(api, "news:far");
+        if (api.state.date === "2022-01-11") news(api, "news:near");
+      },
+    };
+    const director = createDirector({
+      watch: ["person:worker", "person:classmate"],
+    });
+    const core = createLifeCore(input, {
+      scheduledWork: false,
+      modules: [world, director.module],
+    });
+    director.start(core);
+    advanceCore(core, "2022-01-12");
+    const worker = director.ledger.people.get("person:worker")!;
+    const loss = worker.moments.find((row) => row.causeKind === "job-ended")!;
+    const strength = (causeId: string) =>
+      worker.moments
+        .find((row) => row.causeId === causeId)!
+        .echoes.find((row) => row.reason === "anniversary")?.strength;
+    expect(strength("news:soon")).toBeUndefined();
+    expect(strength("news:near")).toBeCloseTo(
+      loss.hindsight * 2 ** (-1 / 7),
+      6,
+    );
+    expect(strength("news:far")!).toBeLessThan(strength("news:near")! / 1000);
   });
 
   it("paces scenes by age band", () => {

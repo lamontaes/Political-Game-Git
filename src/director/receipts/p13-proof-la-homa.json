@@ -1,6 +1,6 @@
 {
   "schema": "p13-proof-summary-v1",
-  "note": "Summary of cloud runs of the story director on the new core. Full receipts stay outside the repository. Runs used pool/P13-4 with the drives package (pool/P10-part-1 at 3561aa3d) merged locally for the run only; the core is pool/P8-part-1 at 17548340.",
+  "note": "Summary of cloud runs of the story director on the new core. Full receipts stay outside the repository. The one-year run used pool/P13-5 with the owner's answers, core pool/P8-part-1 at 8108737d (API 7), and the drives package pool/P10-part-1 at 24e74bb3 merged locally for the run only. The three-year survey is from the earlier head (core 17548340, drives 3561aa3d, interrupt line 0.63, no recorded-past moments) and is kept for its callback and re-entry counts.",
   "seed": "p8-real-life-cost-2026-10-09",
   "place": "La Homa, Texas",
   "input": "src/core2/tooling/measure.ts --mode opening prepared input (10,002 people)",
@@ -8,55 +8,60 @@
     "startedAt": "2021-01-01",
     "through": "2022-01-01",
     "watched": 10002,
-    "seconds": 203.607749468,
+    "seconds": 214.77586585900002,
     "memory": {
       "before": {
-        "heapMiB": 1552.3172988891602,
-        "rssMiB": 1922.55078125
+        "heapMiB": 1551.0452194213867,
+        "rssMiB": 1950.03515625
       },
       "after": {
-        "heapMiB": 2730.881805419922,
-        "rssMiB": 4288.484375
+        "heapMiB": 2785.4037857055664,
+        "rssMiB": 5254.70703125
       }
     },
     "cohort": {
       "people": 10002,
-      "peopleWithMoments": 3149,
-      "moments": 3603,
+      "peopleWithMoments": 9241,
+      "moments": 36833,
       "labels": {
+        "past:school:cohort-estimate": 23928,
+        "past:family:partner": 4056,
+        "past:family:child": 5135,
         "money:job-ended": 3303,
-        "feeling:event:health.serious-illness": 138,
-        "feeling:event:life.death": 66,
-        "health:died": 68,
-        "feeling:event:cause.shared": 21,
-        "cause:drive:cause": 6,
-        "cause:event:cause.shared": 1
+        "feeling:event:health.serious-illness": 139,
+        "feeling:event:life.death": 62,
+        "feeling:event:cause.shared": 14,
+        "health:died": 63,
+        "cause:drive:cause": 5,
+        "past:work:tenure-summary": 64,
+        "past:work:opening": 64
       },
       "echoReasons": {
-        "same-pair-channel": 67
+        "same-pair-channel": 62,
+        "anniversary": 10
       },
       "outcomes": {
-        "scene-waiting": 3245,
-        "scene-now": 132,
-        "journal-line": 226
+        "journal-line": 33460,
+        "scene-now": 1096,
+        "scene-waiting": 2277
       },
       "coverage": {
-        "no-type:feeling:event:health.serious-illness": 70,
-        "no-type:health:died": 68,
-        "role-unbound:money:job-ended": 59,
-        "no-type:feeling:event:cause.shared": 21,
-        "no-type:cause:drive:cause": 6,
-        "no-type:cause:event:cause.shared": 1
+        "no-type:feeling:event:health.serious-illness": 69,
+        "no-type:feeling:event:cause.shared": 14,
+        "no-type:health:died": 63,
+        "no-type:cause:drive:cause": 5,
+        "role-unbound:money:job-ended": 58
       },
       "boundTypes": {
-        "news-arrives": 3294,
-        "visit": 68,
-        "funeral": 66
+        "news-arrives": 3283,
+        "visit": 70,
+        "funeral": 62
       },
       "renewedTurns": 40
     },
     "directorStopgapHits": [
       "SG-P13-appraisal-recompute",
+      "SG-P13-param-directorAnniversaryHalfDays",
       "SG-P13-param-directorHalfLives",
       "SG-P13-param-directorInterruptImpact",
       "SG-P13-param-directorMomentFloor",
@@ -65,9 +70,10 @@
       "SG-P13-param-directorTies",
       "SG-P13-param-directorWeightMoneyRisk",
       "SG-P13-param-directorWeightTieSociability",
+      "SG-P13-past-fact-estimates",
       "SG-P13-tie-day-order"
     ],
-    "openDirectorStopgaps": 11
+    "openDirectorStopgaps": 13
   },
   "threeYears": {
     "startedAt": "2021-01-01",
@@ -201,6 +207,22 @@
         "heapDeltaMiB": 2341.836669921875,
         "rssMiB": 4325.0859375
       }
+    ],
+    "withDrivesApi7": [
+      {
+        "mode": "base",
+        "watched": 1,
+        "seconds": 91.807493546,
+        "heapDeltaMiB": 2615.614646911621,
+        "rssMiB": 4583.921875
+      },
+      {
+        "mode": "director",
+        "watched": 2,
+        "seconds": 88.211254597,
+        "heapDeltaMiB": 2626.2196884155273,
+        "rssMiB": 4612.8125
+      }
     ]
   },
   "lives": [
@@ -251,6 +273,174 @@
           "broadEventId": "employer-closed:2021-03-14:organization_54db2ecf100046fc",
           "placeId": "jurisdiction_47f8dde9eac44f56",
           "echoes": []
+        },
+        {
+          "id": "person_045c087d10f034e4:1994-01-01:past:partnership_26f2a5cc4964eaa4:past:person_045c087d10f034e4:family:partner",
+          "personId": "person_045c087d10f034e4",
+          "date": "1994-01-01",
+          "label": "past:family:partner",
+          "causeId": "partnership_26f2a5cc4964eaa4:past:person_045c087d10f034e4",
+          "causeKind": "family:partner",
+          "counterpartIds": ["person_045c097d10f03697"],
+          "impact": 0.5,
+          "channels": [
+            {
+              "channel": "past",
+              "raw": 1,
+              "scale": 0.5,
+              "traitWeight": 1,
+              "traits": [],
+              "contribution": 0.5
+            }
+          ],
+          "hindsight": 0.5,
+          "hindsightAt": "1994-01-01",
+          "past": true,
+          "echoes": []
+        },
+        {
+          "id": "person_045c087d10f034e4:2006-10-15:past:kinship_65f90b52d4a644e4:past:person_045c087d10f034e4:family:child",
+          "personId": "person_045c087d10f034e4",
+          "date": "2006-10-15",
+          "label": "past:family:child",
+          "causeId": "kinship_65f90b52d4a644e4:past:person_045c087d10f034e4",
+          "causeKind": "family:child",
+          "counterpartIds": ["person_045c047d10f02e18"],
+          "impact": 0.39,
+          "channels": [
+            {
+              "channel": "past",
+              "raw": 1,
+              "scale": 0.39,
+              "traitWeight": 1,
+              "traits": [],
+              "contribution": 0.39
+            }
+          ],
+          "hindsight": 0.39,
+          "hindsightAt": "2006-10-15",
+          "past": true,
+          "echoes": []
+        },
+        {
+          "id": "person_045c087d10f034e4:2007-11-13:past:kinship_81057c52e4457415:past:person_045c087d10f034e4:family:child",
+          "personId": "person_045c087d10f034e4",
+          "date": "2007-11-13",
+          "label": "past:family:child",
+          "causeId": "kinship_81057c52e4457415:past:person_045c087d10f034e4",
+          "causeKind": "family:child",
+          "counterpartIds": ["person_045c0b7d10f039fd"],
+          "impact": 0.39,
+          "channels": [
+            {
+              "channel": "past",
+              "raw": 1,
+              "scale": 0.39,
+              "traitWeight": 1,
+              "traits": [],
+              "contribution": 0.39
+            }
+          ],
+          "hindsight": 0.39,
+          "hindsightAt": "2007-11-13",
+          "past": true,
+          "echoes": []
+        },
+        {
+          "id": "person_045c087d10f034e4:2010-09-27:past:kinship_77fcd952df0c9cee:past:person_045c087d10f034e4:family:child",
+          "personId": "person_045c087d10f034e4",
+          "date": "2010-09-27",
+          "label": "past:family:child",
+          "causeId": "kinship_77fcd952df0c9cee:past:person_045c087d10f034e4",
+          "causeKind": "family:child",
+          "counterpartIds": ["person_045c0a7d10f0384a"],
+          "impact": 0.39,
+          "channels": [
+            {
+              "channel": "past",
+              "raw": 1,
+              "scale": 0.39,
+              "traitWeight": 1,
+              "traits": [],
+              "contribution": 0.39
+            }
+          ],
+          "hindsight": 0.39,
+          "hindsightAt": "2010-09-27",
+          "past": true,
+          "echoes": []
+        },
+        {
+          "id": "person_045c087d10f034e4:1975-08-25:past:person_045c087d10f034e4:p8-deep-past-v1:school:elementary:school:cohort-estimate",
+          "personId": "person_045c087d10f034e4",
+          "date": "1975-08-25",
+          "label": "past:school:cohort-estimate",
+          "causeId": "person_045c087d10f034e4:p8-deep-past-v1:school:elementary",
+          "causeKind": "school:cohort-estimate",
+          "counterpartIds": [],
+          "impact": 0.26,
+          "channels": [
+            {
+              "channel": "past",
+              "raw": 1,
+              "scale": 0.26,
+              "traitWeight": 1,
+              "traits": [],
+              "contribution": 0.26
+            }
+          ],
+          "hindsight": 0.26,
+          "hindsightAt": "1975-08-25",
+          "past": true,
+          "echoes": []
+        },
+        {
+          "id": "person_045c087d10f034e4:1981-08-24:past:person_045c087d10f034e4:p8-deep-past-v1:school:middle:school:cohort-estimate",
+          "personId": "person_045c087d10f034e4",
+          "date": "1981-08-24",
+          "label": "past:school:cohort-estimate",
+          "causeId": "person_045c087d10f034e4:p8-deep-past-v1:school:middle",
+          "causeKind": "school:cohort-estimate",
+          "counterpartIds": [],
+          "impact": 0.26,
+          "channels": [
+            {
+              "channel": "past",
+              "raw": 1,
+              "scale": 0.26,
+              "traitWeight": 1,
+              "traits": [],
+              "contribution": 0.26
+            }
+          ],
+          "hindsight": 0.26,
+          "hindsightAt": "1981-08-24",
+          "past": true,
+          "echoes": []
+        },
+        {
+          "id": "person_045c087d10f034e4:1984-08-27:past:person_045c087d10f034e4:p8-deep-past-v1:school:high:school:cohort-estimate",
+          "personId": "person_045c087d10f034e4",
+          "date": "1984-08-27",
+          "label": "past:school:cohort-estimate",
+          "causeId": "person_045c087d10f034e4:p8-deep-past-v1:school:high",
+          "causeKind": "school:cohort-estimate",
+          "counterpartIds": [],
+          "impact": 0.26,
+          "channels": [
+            {
+              "channel": "past",
+              "raw": 1,
+              "scale": 0.26,
+              "traitWeight": 1,
+              "traits": [],
+              "contribution": 0.26
+            }
+          ],
+          "hindsight": 0.26,
+          "hindsightAt": "1984-08-27",
+          "past": true,
+          "echoes": []
         }
       ],
       "belowFloor": {
@@ -259,19 +449,6 @@
       },
       "threads": [
         {
-          "otherId": "person_045c047d10f02e18",
-          "name": "Ava Harrell",
-          "kin": ["child"],
-          "sharedHome": true,
-          "tie": 0.8,
-          "closeness": 0.5020605775352338,
-          "lastContact": "2021-12-27",
-          "importanceAtEnd": 1.3091666666666666,
-          "fadingAtEnd": 0,
-          "turns": [],
-          "moments": 0
-        },
-        {
           "otherId": "person_045c097d10f03697",
           "name": "Peter Harrell",
           "kin": ["partner"],
@@ -279,10 +456,23 @@
           "tie": 0.8,
           "closeness": 0.46211715726000974,
           "lastContact": "2021-01-01",
-          "importanceAtEnd": 1.3091666666666666,
+          "importanceAtEnd": 1.8091666666666668,
           "fadingAtEnd": 0,
           "turns": [],
-          "moments": 0
+          "moments": 1
+        },
+        {
+          "otherId": "person_045c047d10f02e18",
+          "name": "Ava Harrell",
+          "kin": ["child"],
+          "sharedHome": true,
+          "tie": 0.8,
+          "closeness": 0.5020605775352338,
+          "lastContact": "2021-12-27",
+          "importanceAtEnd": 1.6991666666666667,
+          "fadingAtEnd": 0,
+          "turns": [],
+          "moments": 1
         },
         {
           "otherId": "person_045c0a7d10f0384a",
@@ -292,10 +482,10 @@
           "tie": 0.8,
           "closeness": 0.46211715726000974,
           "lastContact": "2021-01-01",
-          "importanceAtEnd": 1.3091666666666666,
+          "importanceAtEnd": 1.6991666666666667,
           "fadingAtEnd": 0,
           "turns": [],
-          "moments": 0
+          "moments": 1
         },
         {
           "otherId": "person_045c0b7d10f039fd",
@@ -305,10 +495,10 @@
           "tie": 0.8,
           "closeness": 0.46211715726000974,
           "lastContact": "2021-01-01",
-          "importanceAtEnd": 1.3091666666666666,
+          "importanceAtEnd": 1.6991666666666667,
           "fadingAtEnd": 0,
           "turns": [],
-          "moments": 0
+          "moments": 1
         },
         {
           "otherId": "person_0a8d993f8b4ccbc6",
@@ -406,9 +596,9 @@
           "kind": "knew-each-other",
           "holderId": "person_045c087d10f034e4",
           "otherId": "person_045c097d10f03697",
-          "since": "1969-12-20",
-          "sinceBasis": "no-later-than-birth",
-          "sourceId": "family:person_045c087d10f034e4:person_045c097d10f03697"
+          "since": "1994-01-01",
+          "sinceBasis": "recorded",
+          "sourceId": "partnership_26f2a5cc4964eaa4:past:person_045c087d10f034e4"
         },
         {
           "id": "knew-each-other:person_045c087d10f034e4:person_045c0a7d10f0384a",
@@ -616,18 +806,18 @@
           "reach": "place"
         },
         {
-          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-10:organization_45c235457eb76716",
-          "personId": "person_045c087d10f034e4",
-          "date": "2021-07-10",
-          "sourceId": "employer-closed:2021-07-10:organization_45c235457eb76716",
-          "kind": "organization.closed",
-          "reach": "place"
-        },
-        {
           "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-15:organization_fc15dccb2eec4bd7",
           "personId": "person_045c087d10f034e4",
           "date": "2021-07-15",
           "sourceId": "employer-closed:2021-07-15:organization_fc15dccb2eec4bd7",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_045c087d10f034e4:broad:employer-closed:2021-07-17:organization_45c235457eb76716",
+          "personId": "person_045c087d10f034e4",
+          "date": "2021-07-17",
+          "sourceId": "employer-closed:2021-07-17:organization_45c235457eb76716",
           "kind": "organization.closed",
           "reach": "place"
         },
@@ -642,9 +832,79 @@
       ],
       "schedule": [
         {
+          "momentId": "person_045c087d10f034e4:1975-08-25:past:person_045c087d10f034e4:p8-deep-past-v1:school:elementary:school:cohort-estimate",
+          "date": "1975-08-25",
+          "outcome": "journal-line",
+          "mode": "before-opening",
+          "stopsSkip": false,
+          "rank": 0,
+          "pace": 0,
+          "bindings": []
+        },
+        {
+          "momentId": "person_045c087d10f034e4:1981-08-24:past:person_045c087d10f034e4:p8-deep-past-v1:school:middle:school:cohort-estimate",
+          "date": "1981-08-24",
+          "outcome": "journal-line",
+          "mode": "before-opening",
+          "stopsSkip": false,
+          "rank": 0,
+          "pace": 0,
+          "bindings": []
+        },
+        {
+          "momentId": "person_045c087d10f034e4:1984-08-27:past:person_045c087d10f034e4:p8-deep-past-v1:school:high:school:cohort-estimate",
+          "date": "1984-08-27",
+          "outcome": "journal-line",
+          "mode": "before-opening",
+          "stopsSkip": false,
+          "rank": 0,
+          "pace": 0,
+          "bindings": []
+        },
+        {
+          "momentId": "person_045c087d10f034e4:1994-01-01:past:partnership_26f2a5cc4964eaa4:past:person_045c087d10f034e4:family:partner",
+          "date": "1994-01-01",
+          "outcome": "journal-line",
+          "mode": "before-opening",
+          "stopsSkip": false,
+          "rank": 0,
+          "pace": 0,
+          "bindings": []
+        },
+        {
+          "momentId": "person_045c087d10f034e4:2006-10-15:past:kinship_65f90b52d4a644e4:past:person_045c087d10f034e4:family:child",
+          "date": "2006-10-15",
+          "outcome": "journal-line",
+          "mode": "before-opening",
+          "stopsSkip": false,
+          "rank": 0,
+          "pace": 0,
+          "bindings": []
+        },
+        {
+          "momentId": "person_045c087d10f034e4:2007-11-13:past:kinship_81057c52e4457415:past:person_045c087d10f034e4:family:child",
+          "date": "2007-11-13",
+          "outcome": "journal-line",
+          "mode": "before-opening",
+          "stopsSkip": false,
+          "rank": 0,
+          "pace": 0,
+          "bindings": []
+        },
+        {
+          "momentId": "person_045c087d10f034e4:2010-09-27:past:kinship_77fcd952df0c9cee:past:person_045c087d10f034e4:family:child",
+          "date": "2010-09-27",
+          "outcome": "journal-line",
+          "mode": "before-opening",
+          "stopsSkip": false,
+          "rank": 0,
+          "pace": 0,
+          "bindings": []
+        },
+        {
           "momentId": "person_045c087d10f034e4:2021-03-14:employer-closed:2021-03-14:organization_54db2ecf100046fc",
           "date": "2021-03-14",
-          "outcome": "scene-waiting",
+          "outcome": "scene-now",
           "mode": "live",
           "stopsSkip": false,
           "rank": 1,
@@ -688,10 +948,10 @@
         {
           "date": "2021-01-01",
           "threads": {
-            "person_045c047d10f02e18": 0.8,
-            "person_045c097d10f03697": 0.8,
-            "person_045c0a7d10f0384a": 0.8,
-            "person_045c0b7d10f039fd": 0.8,
+            "person_045c097d10f03697": 1.3,
+            "person_045c047d10f02e18": 1.19,
+            "person_045c0a7d10f0384a": 1.19,
+            "person_045c0b7d10f039fd": 1.19,
             "person_0a8d993f8b4ccbc6": 0,
             "person_1856fc2be313d557": 0,
             "person_1cd70c31145e3dc4": 0,
@@ -701,10 +961,10 @@
         {
           "date": "2021-02-01",
           "threads": {
-            "person_045c047d10f02e18": 0.8,
-            "person_045c097d10f03697": 0.8,
-            "person_045c0a7d10f0384a": 0.8,
-            "person_045c0b7d10f039fd": 0.8,
+            "person_045c097d10f03697": 1.3,
+            "person_045c047d10f02e18": 1.19,
+            "person_045c0a7d10f0384a": 1.19,
+            "person_045c0b7d10f039fd": 1.19,
             "person_0a8d993f8b4ccbc6": 0,
             "person_1856fc2be313d557": 0,
             "person_1cd70c31145e3dc4": 0,
@@ -714,10 +974,10 @@
         {
           "date": "2021-03-01",
           "threads": {
-            "person_045c047d10f02e18": 0.8,
-            "person_045c097d10f03697": 0.8,
-            "person_045c0a7d10f0384a": 0.8,
-            "person_045c0b7d10f039fd": 0.8,
+            "person_045c097d10f03697": 1.3,
+            "person_045c047d10f02e18": 1.19,
+            "person_045c0a7d10f0384a": 1.19,
+            "person_045c0b7d10f039fd": 1.19,
             "person_0a8d993f8b4ccbc6": 0,
             "person_1856fc2be313d557": 0,
             "person_1cd70c31145e3dc4": 0,
@@ -727,10 +987,10 @@
         {
           "date": "2021-04-01",
           "threads": {
-            "person_045c047d10f02e18": 1.3091666666666666,
-            "person_045c097d10f03697": 1.3091666666666666,
-            "person_045c0a7d10f0384a": 1.3091666666666666,
-            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_045c097d10f03697": 1.8091666666666668,
+            "person_045c047d10f02e18": 1.6991666666666667,
+            "person_045c0a7d10f0384a": 1.6991666666666667,
+            "person_045c0b7d10f039fd": 1.6991666666666667,
             "person_0a8d993f8b4ccbc6": 0,
             "person_1856fc2be313d557": 0,
             "person_1cd70c31145e3dc4": 0,
@@ -740,10 +1000,10 @@
         {
           "date": "2021-05-01",
           "threads": {
-            "person_045c047d10f02e18": 1.3091666666666666,
-            "person_045c097d10f03697": 1.3091666666666666,
-            "person_045c0a7d10f0384a": 1.3091666666666666,
-            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_045c097d10f03697": 1.8091666666666668,
+            "person_045c047d10f02e18": 1.6991666666666667,
+            "person_045c0a7d10f0384a": 1.6991666666666667,
+            "person_045c0b7d10f039fd": 1.6991666666666667,
             "person_0a8d993f8b4ccbc6": 0,
             "person_1856fc2be313d557": 0,
             "person_1cd70c31145e3dc4": 0,
@@ -753,10 +1013,10 @@
         {
           "date": "2021-06-01",
           "threads": {
-            "person_045c047d10f02e18": 1.3091666666666666,
-            "person_045c097d10f03697": 1.3091666666666666,
-            "person_045c0a7d10f0384a": 1.3091666666666666,
-            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_045c097d10f03697": 1.8091666666666668,
+            "person_045c047d10f02e18": 1.6991666666666667,
+            "person_045c0a7d10f0384a": 1.6991666666666667,
+            "person_045c0b7d10f039fd": 1.6991666666666667,
             "person_0a8d993f8b4ccbc6": 0,
             "person_1856fc2be313d557": 0,
             "person_1cd70c31145e3dc4": 0,
@@ -766,10 +1026,10 @@
         {
           "date": "2021-07-01",
           "threads": {
-            "person_045c047d10f02e18": 1.3091666666666666,
-            "person_045c097d10f03697": 1.3091666666666666,
-            "person_045c0a7d10f0384a": 1.3091666666666666,
-            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_045c097d10f03697": 1.8091666666666668,
+            "person_045c047d10f02e18": 1.6991666666666667,
+            "person_045c0a7d10f0384a": 1.6991666666666667,
+            "person_045c0b7d10f039fd": 1.6991666666666667,
             "person_0a8d993f8b4ccbc6": 0,
             "person_1856fc2be313d557": 0,
             "person_1cd70c31145e3dc4": 0,
@@ -779,10 +1039,10 @@
         {
           "date": "2021-08-01",
           "threads": {
-            "person_045c047d10f02e18": 1.3091666666666666,
-            "person_045c097d10f03697": 1.3091666666666666,
-            "person_045c0a7d10f0384a": 1.3091666666666666,
-            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_045c097d10f03697": 1.8091666666666668,
+            "person_045c047d10f02e18": 1.6991666666666667,
+            "person_045c0a7d10f0384a": 1.6991666666666667,
+            "person_045c0b7d10f039fd": 1.6991666666666667,
             "person_0a8d993f8b4ccbc6": 0,
             "person_1856fc2be313d557": 0,
             "person_1cd70c31145e3dc4": 0,
@@ -792,10 +1052,10 @@
         {
           "date": "2021-09-01",
           "threads": {
-            "person_045c047d10f02e18": 1.3091666666666666,
-            "person_045c097d10f03697": 1.3091666666666666,
-            "person_045c0a7d10f0384a": 1.3091666666666666,
-            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_045c097d10f03697": 1.8091666666666668,
+            "person_045c047d10f02e18": 1.6991666666666667,
+            "person_045c0a7d10f0384a": 1.6991666666666667,
+            "person_045c0b7d10f039fd": 1.6991666666666667,
             "person_0a8d993f8b4ccbc6": 0,
             "person_1856fc2be313d557": 0,
             "person_1cd70c31145e3dc4": 0,
@@ -805,10 +1065,10 @@
         {
           "date": "2021-10-01",
           "threads": {
-            "person_045c047d10f02e18": 1.3091666666666666,
-            "person_045c097d10f03697": 1.3091666666666666,
-            "person_045c0a7d10f0384a": 1.3091666666666666,
-            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_045c097d10f03697": 1.8091666666666668,
+            "person_045c047d10f02e18": 1.6991666666666667,
+            "person_045c0a7d10f0384a": 1.6991666666666667,
+            "person_045c0b7d10f039fd": 1.6991666666666667,
             "person_0a8d993f8b4ccbc6": 0,
             "person_1856fc2be313d557": 0,
             "person_1cd70c31145e3dc4": 0,
@@ -818,10 +1078,10 @@
         {
           "date": "2021-11-01",
           "threads": {
-            "person_045c047d10f02e18": 1.3091666666666666,
-            "person_045c097d10f03697": 1.3091666666666666,
-            "person_045c0a7d10f0384a": 1.3091666666666666,
-            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_045c097d10f03697": 1.8091666666666668,
+            "person_045c047d10f02e18": 1.6991666666666667,
+            "person_045c0a7d10f0384a": 1.6991666666666667,
+            "person_045c0b7d10f039fd": 1.6991666666666667,
             "person_0a8d993f8b4ccbc6": 0,
             "person_1856fc2be313d557": 0,
             "person_1cd70c31145e3dc4": 0,
@@ -831,10 +1091,10 @@
         {
           "date": "2021-12-01",
           "threads": {
-            "person_045c047d10f02e18": 1.3091666666666666,
-            "person_045c097d10f03697": 1.3091666666666666,
-            "person_045c0a7d10f0384a": 1.3091666666666666,
-            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_045c097d10f03697": 1.8091666666666668,
+            "person_045c047d10f02e18": 1.6991666666666667,
+            "person_045c0a7d10f0384a": 1.6991666666666667,
+            "person_045c0b7d10f039fd": 1.6991666666666667,
             "person_0a8d993f8b4ccbc6": 0,
             "person_1856fc2be313d557": 0,
             "person_1cd70c31145e3dc4": 0,
@@ -844,10 +1104,10 @@
         {
           "date": "2022-01-01",
           "threads": {
-            "person_045c047d10f02e18": 1.3091666666666666,
-            "person_045c097d10f03697": 1.3091666666666666,
-            "person_045c0a7d10f0384a": 1.3091666666666666,
-            "person_045c0b7d10f039fd": 1.3091666666666666,
+            "person_045c097d10f03697": 1.8091666666666668,
+            "person_045c047d10f02e18": 1.6991666666666667,
+            "person_045c0a7d10f0384a": 1.6991666666666667,
+            "person_045c0b7d10f039fd": 1.6991666666666667,
             "person_0a8d993f8b4ccbc6": 0,
             "person_1856fc2be313d557": 0,
             "person_1cd70c31145e3dc4": 0,
@@ -895,7 +1155,7 @@
               "contribution": 0.9211338090738062
             }
           ],
-          "hindsight": 3.099122790958465,
+          "hindsight": 3.559689695495368,
           "hindsightAt": "2021-02-01",
           "placeId": "jurisdiction_47f8dde9eac44f56",
           "echoes": [
@@ -904,7 +1164,7 @@
               "earlierKind": "moment",
               "otherId": "person_9bb4ccdcf13f05ce",
               "reason": "same-pair-channel",
-              "strength": 1.5718722707388
+              "strength": 1.893538045336002
             }
           ]
         },
@@ -927,9 +1187,105 @@
               "contribution": 0.6433315491944043
             }
           ],
-          "hindsight": 2.1644667111455944,
+          "hindsight": 2.4861324857427967,
           "hindsightAt": "2021-02-01",
           "placeId": "jurisdiction_47f8dde9eac44f56",
+          "echoes": []
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:1990-01-01:past:partnership_cdd06c128738b602:past:person_9bb4cddcf13f0781:family:partner",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "1990-01-01",
+          "label": "past:family:partner",
+          "causeId": "partnership_cdd06c128738b602:past:person_9bb4cddcf13f0781",
+          "causeKind": "family:partner",
+          "counterpartIds": ["person_9bb4ccdcf13f05ce"],
+          "impact": 0.5,
+          "channels": [
+            {
+              "channel": "past",
+              "raw": 1,
+              "scale": 0.5,
+              "traitWeight": 1,
+              "traits": [],
+              "contribution": 0.5
+            }
+          ],
+          "hindsight": 1.9322326791341053,
+          "hindsightAt": "2021-02-01",
+          "past": true,
+          "echoes": []
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:1968-08-26:past:person_9bb4cddcf13f0781:p8-deep-past-v1:school:elementary:school:cohort-estimate",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "1968-08-26",
+          "label": "past:school:cohort-estimate",
+          "causeId": "person_9bb4cddcf13f0781:p8-deep-past-v1:school:elementary",
+          "causeKind": "school:cohort-estimate",
+          "counterpartIds": [],
+          "impact": 0.26,
+          "channels": [
+            {
+              "channel": "past",
+              "raw": 1,
+              "scale": 0.26,
+              "traitWeight": 1,
+              "traits": [],
+              "contribution": 0.26
+            }
+          ],
+          "hindsight": 0.26,
+          "hindsightAt": "1968-08-26",
+          "past": true,
+          "echoes": []
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:1974-08-26:past:person_9bb4cddcf13f0781:p8-deep-past-v1:school:middle:school:cohort-estimate",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "1974-08-26",
+          "label": "past:school:cohort-estimate",
+          "causeId": "person_9bb4cddcf13f0781:p8-deep-past-v1:school:middle",
+          "causeKind": "school:cohort-estimate",
+          "counterpartIds": [],
+          "impact": 0.26,
+          "channels": [
+            {
+              "channel": "past",
+              "raw": 1,
+              "scale": 0.26,
+              "traitWeight": 1,
+              "traits": [],
+              "contribution": 0.26
+            }
+          ],
+          "hindsight": 0.26,
+          "hindsightAt": "1974-08-26",
+          "past": true,
+          "echoes": []
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:1977-08-29:past:person_9bb4cddcf13f0781:p8-deep-past-v1:school:high:school:cohort-estimate",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "1977-08-29",
+          "label": "past:school:cohort-estimate",
+          "causeId": "person_9bb4cddcf13f0781:p8-deep-past-v1:school:high",
+          "causeKind": "school:cohort-estimate",
+          "counterpartIds": [],
+          "impact": 0.26,
+          "channels": [
+            {
+              "channel": "past",
+              "raw": 1,
+              "scale": 0.26,
+              "traitWeight": 1,
+              "traits": [],
+              "contribution": 0.26
+            }
+          ],
+          "hindsight": 0.26,
+          "hindsightAt": "1977-08-29",
+          "past": true,
           "echoes": []
         }
       ],
@@ -943,7 +1299,7 @@
           "tie": 0.8,
           "closeness": 0.46211715726000974,
           "lastContact": "2021-01-01",
-          "importanceAtEnd": 2.3644653582682107,
+          "importanceAtEnd": 2.8644653582682107,
           "fadingAtEnd": 0,
           "turns": [
             {
@@ -953,7 +1309,7 @@
               "closeness": 0.46211715726000974
             }
           ],
-          "moments": 2
+          "moments": 3
         }
       ],
       "keptFacts": [
@@ -962,9 +1318,9 @@
           "kind": "knew-each-other",
           "holderId": "person_9bb4cddcf13f0781",
           "otherId": "person_9bb4ccdcf13f05ce",
-          "since": "1965-03-16",
-          "sinceBasis": "no-later-than-birth",
-          "sourceId": "family:person_9bb4cddcf13f0781:person_9bb4ccdcf13f05ce"
+          "since": "1990-01-01",
+          "sinceBasis": "recorded",
+          "sourceId": "partnership_cdd06c128738b602:past:person_9bb4cddcf13f0781"
         }
       ],
       "backdrop": [
@@ -1145,18 +1501,18 @@
           "reach": "place"
         },
         {
-          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-10:organization_45c235457eb76716",
-          "personId": "person_9bb4cddcf13f0781",
-          "date": "2021-07-10",
-          "sourceId": "employer-closed:2021-07-10:organization_45c235457eb76716",
-          "kind": "organization.closed",
-          "reach": "place"
-        },
-        {
           "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-15:organization_fc15dccb2eec4bd7",
           "personId": "person_9bb4cddcf13f0781",
           "date": "2021-07-15",
           "sourceId": "employer-closed:2021-07-15:organization_fc15dccb2eec4bd7",
+          "kind": "organization.closed",
+          "reach": "place"
+        },
+        {
+          "id": "person_9bb4cddcf13f0781:broad:employer-closed:2021-07-17:organization_45c235457eb76716",
+          "personId": "person_9bb4cddcf13f0781",
+          "date": "2021-07-17",
+          "sourceId": "employer-closed:2021-07-17:organization_45c235457eb76716",
           "kind": "organization.closed",
           "reach": "place"
         },
@@ -1170,6 +1526,46 @@
         }
       ],
       "schedule": [
+        {
+          "momentId": "person_9bb4cddcf13f0781:1968-08-26:past:person_9bb4cddcf13f0781:p8-deep-past-v1:school:elementary:school:cohort-estimate",
+          "date": "1968-08-26",
+          "outcome": "journal-line",
+          "mode": "before-opening",
+          "stopsSkip": false,
+          "rank": 0,
+          "pace": 0,
+          "bindings": []
+        },
+        {
+          "momentId": "person_9bb4cddcf13f0781:1974-08-26:past:person_9bb4cddcf13f0781:p8-deep-past-v1:school:middle:school:cohort-estimate",
+          "date": "1974-08-26",
+          "outcome": "journal-line",
+          "mode": "before-opening",
+          "stopsSkip": false,
+          "rank": 0,
+          "pace": 0,
+          "bindings": []
+        },
+        {
+          "momentId": "person_9bb4cddcf13f0781:1977-08-29:past:person_9bb4cddcf13f0781:p8-deep-past-v1:school:high:school:cohort-estimate",
+          "date": "1977-08-29",
+          "outcome": "journal-line",
+          "mode": "before-opening",
+          "stopsSkip": false,
+          "rank": 0,
+          "pace": 0,
+          "bindings": []
+        },
+        {
+          "momentId": "person_9bb4cddcf13f0781:1990-01-01:past:partnership_cdd06c128738b602:past:person_9bb4cddcf13f0781:family:partner",
+          "date": "1990-01-01",
+          "outcome": "journal-line",
+          "mode": "before-opening",
+          "stopsSkip": false,
+          "rank": 0,
+          "pace": 0,
+          "bindings": []
+        },
         {
           "momentId": "person_9bb4cddcf13f0781:2021-01-02:health.serious-illness:person_9bb4ccdcf13f05ce:2021-01-02",
           "date": "2021-01-02",
@@ -1249,79 +1645,79 @@
         {
           "date": "2021-01-01",
           "threads": {
-            "person_9bb4ccdcf13f05ce": 0.8
+            "person_9bb4ccdcf13f05ce": 1.3
           }
         },
         {
           "date": "2021-02-01",
           "threads": {
-            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+            "person_9bb4ccdcf13f05ce": 2.8644653582682107
           }
         },
         {
           "date": "2021-03-01",
           "threads": {
-            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+            "person_9bb4ccdcf13f05ce": 2.8644653582682107
           }
         },
         {
           "date": "2021-04-01",
           "threads": {
-            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+            "person_9bb4ccdcf13f05ce": 2.8644653582682107
           }
         },
         {
           "date": "2021-05-01",
           "threads": {
-            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+            "person_9bb4ccdcf13f05ce": 2.8644653582682107
           }
         },
         {
           "date": "2021-06-01",
           "threads": {
-            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+            "person_9bb4ccdcf13f05ce": 2.8644653582682107
           }
         },
         {
           "date": "2021-07-01",
           "threads": {
-            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+            "person_9bb4ccdcf13f05ce": 2.8644653582682107
           }
         },
         {
           "date": "2021-08-01",
           "threads": {
-            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+            "person_9bb4ccdcf13f05ce": 2.8644653582682107
           }
         },
         {
           "date": "2021-09-01",
           "threads": {
-            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+            "person_9bb4ccdcf13f05ce": 2.8644653582682107
           }
         },
         {
           "date": "2021-10-01",
           "threads": {
-            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+            "person_9bb4ccdcf13f05ce": 2.8644653582682107
           }
         },
         {
           "date": "2021-11-01",
           "threads": {
-            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+            "person_9bb4ccdcf13f05ce": 2.8644653582682107
           }
         },
         {
           "date": "2021-12-01",
           "threads": {
-            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+            "person_9bb4ccdcf13f05ce": 2.8644653582682107
           }
         },
         {
           "date": "2022-01-01",
           "threads": {
-            "person_9bb4ccdcf13f05ce": 2.3644653582682107
+            "person_9bb4ccdcf13f05ce": 2.8644653582682107
           }
         }
       ],
