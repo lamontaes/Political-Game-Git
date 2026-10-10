@@ -1,3 +1,7 @@
+import {
+  compactGeneratedHouseholdSource,
+  resolveGeneratedHouseholdSourceFromInput,
+} from "./generated-household-source";
 import { describe, expect, it } from "vitest";
 import { estimatedMonthlyHouseholdLivingCosts } from "../simulation/living-costs-data";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "./business-books";
@@ -15,6 +19,7 @@ import {
 import { parameter as p, PARAMETERS } from "./parameters";
 import { createOpeningPurchaseCalendar } from "./opening-purchase-calendar";
 import { buildOpeningCustomers } from "./opening-customers";
+import { OPENING_CUSTOMER_QUALIFICATION_PREFIX } from "./opening-customer-qualification";
 import { coreAPI } from "./state";
 import type { CoreInput, Source } from "./types";
 
@@ -1803,5 +1808,343 @@ describe("fresh generated calendar Source references", () => {
       expect(changed).toEqual(changedBefore);
     }
     expect(input).toEqual(before);
+  });
+});
+
+describe("fresh default generated household Source basis", () => {
+  it("keeps actual supplied terms and custom full provenance, while independently rebuilding compact default contracts", () => {
+    const input = fixture(),
+      before = JSON.stringify(input);
+    const fresh = createOpeningFinance(input);
+    const householdTerms = fresh.contracts.filter((row) => row.householdId);
+    expect(householdTerms.length).toBeGreaterThan(0);
+    const resolvedActual = resolveGeneratedHouseholdSourceFromInput(
+      householdTerms[0]!.source,
+      input,
+    );
+    expect(resolvedActual.householdSource).toBe(
+      input.households.find((row) => row.id === householdTerms[0]!.householdId)!
+        .source,
+    );
+    expect(
+      householdTerms.every(
+        (row) =>
+          row.source.generatedHouseholdBasis?.schema ===
+          "p8-hh-source-basis/v1",
+      ),
+    ).toBe(true);
+    expect(createOpeningFinance({ ...input, finance: fresh })).toEqual(fresh);
+    const customData = structuredClone(DEFAULT_OPENING_FINANCE_DATA);
+    customData.categories[0]!.citation =
+      "Exact actual custom complete crosswalk citation";
+    const custom = createOpeningFinance(input, { data: customData });
+    expect(
+      custom.contracts
+        .filter((row) => row.householdId)
+        .every((row) => row.source.generatedHouseholdBasis === undefined),
+    ).toBe(true);
+    const supplied = structuredClone(householdTerms[0]!);
+    supplied.id = "actual-original-recorded-term";
+    supplied.source = {
+      tag: "SOURCED",
+      asOf: input.startedAt,
+      citation: "Actual original supplied full Source",
+      estimatedFrom: "Original supplied rationale",
+      generationPriorVintage: "actual original vintage",
+    };
+    supplied.endsAt = "2022-01-01";
+    const original = createOpeningFinance({
+      ...input,
+      finance: {
+        ...fresh,
+        contracts: [
+          ...fresh.contracts.filter((row) => !row.householdId),
+          supplied,
+        ],
+      },
+    });
+    expect(original.contracts.find((row) => row.id === supplied.id)).toEqual(
+      supplied,
+    );
+    // This target is the untouched fresh generated term, independent of the
+    // separately supplied original above; the Source claim must be admitted.
+    const freshTarget = householdTerms[0]!;
+    expect(freshTarget.id).not.toBe(supplied.id);
+    const tampered = structuredClone(fresh);
+    const changedTarget = tampered.contracts.find(
+      (row) => row.id === freshTarget.id,
+    )!;
+    expect(changedTarget.source.generatedHouseholdBasis).toBeDefined();
+    changedTarget.source.generatedHouseholdBasis!.ownerSourceDigest =
+      "changed-original-owner-ref";
+    expect(() =>
+      createOpeningFinance({ ...input, finance: tampered }),
+    ).toThrow();
+    const tamperedBefore = structuredClone(tampered);
+    expect(() => createOpeningFinance({ ...input, finance: tampered })).toThrow(
+      /exact typed basis/,
+    );
+    expect(tampered).toEqual(tamperedBefore);
+
+    // Refresh the compact representation as well: its own digest/text cannot
+    // stand in for the independently retained actual household Source.
+    const coordinated = structuredClone(fresh);
+    const coordinatedTarget = coordinated.contracts.find(
+      (row) => row.id === freshTarget.id,
+    )!;
+    coordinatedTarget.source = compactGeneratedHouseholdSource(
+      {
+        ...coordinatedTarget.source.generatedHouseholdBasis!,
+        ownerSourceDigest: "changed-original-owner-ref",
+      },
+      coordinatedTarget.source.asOf,
+      coordinatedTarget.source.generationPriorVintage,
+    );
+    const coordinatedBefore = structuredClone(coordinated);
+    expect(() =>
+      createOpeningFinance({ ...input, finance: coordinated }),
+    ).toThrow(/actual full owner Source/);
+    expect(coordinated).toEqual(coordinatedBefore);
+
+    const changedOwner: CoreInput = {
+      ...input,
+      finance: fresh,
+      households: input.households.map((household) =>
+        household.id === freshTarget.householdId
+          ? {
+              ...household,
+              source: {
+                ...household.source,
+                estimatedFrom: "Changed actual full household provenance",
+              },
+            }
+          : household,
+      ),
+    };
+    const changedOwnerBefore = structuredClone(changedOwner);
+    expect(() => createOpeningFinance(changedOwner)).toThrow(
+      /actual full owner Source/,
+    );
+    expect(changedOwner).toEqual(changedOwnerBefore);
+
+    // Another valid compact Source resolves to a real different household,
+    // but cannot relabel the original contract's actual household participants.
+    const otherHouseholdTerm = householdTerms.find(
+      (row) => row.householdId !== freshTarget.householdId,
+    )!;
+    const wrongScope = structuredClone(fresh);
+    wrongScope.contracts.find((row) => row.id === freshTarget.id)!.source =
+      structuredClone(otherHouseholdTerm.source);
+    const wrongScopeBefore = structuredClone(wrongScope);
+    expect(() =>
+      createOpeningFinance({ ...input, finance: wrongScope }),
+    ).toThrow(/actual contract household or kind/);
+    expect(wrongScope).toEqual(wrongScopeBefore);
+
+    const circular = structuredClone(fresh);
+    const circularTarget = circular.contracts.find(
+      (row) => row.id === freshTarget.id,
+    )!;
+    circularTarget.source = compactGeneratedHouseholdSource(
+      {
+        ...circularTarget.source.generatedHouseholdBasis!,
+        calendarBasisIds: [circularTarget.id],
+      },
+      circularTarget.source.asOf,
+      circularTarget.source.generationPriorVintage,
+    );
+    circularTarget.householdPurchaseCalendar!.openingBasisIds = [
+      circularTarget.id,
+    ];
+    const circularBefore = structuredClone(circular);
+    expect(() => createOpeningFinance({ ...input, finance: circular })).toThrow(
+      /own contract as calendar evidence/,
+    );
+    expect(circular).toEqual(circularBefore);
+
+    // Coherent Source-only and marker-only rewrites must disagree with the
+    // independently saved original ordered calendar basis, despite valid IDs.
+    const ids = freshTarget.source.generatedHouseholdBasis!.calendarBasisIds;
+    expect(ids.length).toBeGreaterThan(1);
+    for (const field of [
+      "source-ids",
+      "marker-ids",
+      "source-date",
+      "marker-date",
+      "actual-due",
+    ] as const) {
+      const changed = structuredClone(fresh);
+      const changedTarget = changed.contracts.find(
+        (row) => row.id === freshTarget.id,
+      )!;
+      if (field === "source-ids" || field === "source-date") {
+        changedTarget.source = compactGeneratedHouseholdSource(
+          {
+            ...changedTarget.source.generatedHouseholdBasis!,
+            ...(field === "source-ids"
+              ? { calendarBasisIds: [...ids].reverse() }
+              : { calendarDueAt: "2021-02-01" }),
+          },
+          changedTarget.source.asOf,
+          changedTarget.source.generationPriorVintage,
+        );
+        expect(changedTarget.householdPurchaseCalendar).toEqual(
+          freshTarget.householdPurchaseCalendar,
+        );
+      } else if (field === "marker-ids") {
+        changedTarget.householdPurchaseCalendar!.openingBasisIds = [
+          ...ids,
+        ].reverse();
+        expect(changedTarget.source).toEqual(freshTarget.source);
+      } else if (field === "marker-date") {
+        changedTarget.householdPurchaseCalendar!.firstNominalDueAt =
+          "2021-02-01";
+        expect(changedTarget.source).toEqual(freshTarget.source);
+      } else changedTarget.dueAt = "2021-02-01";
+      const changedBefore = structuredClone(changed);
+      expect(() =>
+        createOpeningFinance({ ...input, finance: changed }),
+      ).toThrow(/original calendar marker or due date/);
+      expect(changed).toEqual(changedBefore);
+    }
+
+    // A compact Source never replaces the existing actual participant check.
+    const missingPayee = structuredClone(fresh);
+    missingPayee.contracts.find((row) => row.id === freshTarget.id)!.payeeId =
+      "absent-actual-payee";
+    expect(() =>
+      createOpeningFinance({ ...input, finance: missingPayee }),
+    ).toThrow(/existing distinct cash participants/);
+    expect(JSON.stringify(input)).toBe(before);
+  });
+
+  it("keeps a genuine no-income category-to-service calendar chain and rejects a coordinated cycle without changing terms", () => {
+    const original = fixture();
+    const input: CoreInput = {
+      ...original,
+      workCommitments: [],
+      organizations: original.organizations.map((row) =>
+        row.id === "store"
+          ? { ...row, classification: "enterprise:personal-services" }
+          : row,
+      ),
+      jobs: original.jobs.map((row) =>
+        row.id === "job:store"
+          ? { ...row, occupationClassification: "service:barber" }
+          : row,
+      ),
+    };
+    const finance = createOpeningFinance(input);
+    const category = finance.contracts
+      .filter(
+        (row) =>
+          row.householdId === "household:store" &&
+          row.source.generatedHouseholdBasis,
+      )
+      .sort((left, right) => left.amountMinor - right.amountMinor)[0]!;
+    expect(category.source.generatedHouseholdBasis!.calendarBasisIds).toEqual(
+      [],
+    );
+    expect(category.source.generatedHouseholdBasis!.missingIncome).toBe(true);
+    const seeded: CoreInput = {
+      ...input,
+      finance: {
+        ...finance,
+        contracts: [
+          ...finance.contracts.filter((row) => !row.householdId),
+          category,
+        ],
+      },
+    };
+    const seededBefore = structuredClone(seeded);
+    const customers = buildOpeningCustomers(seeded, {
+      geography: () => ({
+        jurisdictionKey: "controlled-no-income-chain",
+        region: "national",
+        source,
+        outsideMarkets: [],
+      }),
+      outsideMarkets: [],
+    });
+    expect(seeded).toEqual(seededBefore);
+    const service = customers.input.finance!.contracts.find(
+      (row) =>
+        row.householdId === category.householdId &&
+        row.source.generatedHouseholdBasis?.domain === "service",
+    )!;
+    expect(service).toBeDefined();
+    expect(service.source.generatedHouseholdBasis!.calendarBasisIds).toEqual([
+      category.id,
+    ]);
+    expect(service.householdPurchaseCalendar!.openingBasisIds).toEqual([
+      category.id,
+    ]);
+    expect(service.dueAt).toBe(category.dueAt);
+    const qualifiedOwner = customers.input.organizations.find(
+      (row) => row.id === "store",
+    )!;
+    const qualificationKeys = Object.keys(qualifiedOwner.governmentFacts ?? {});
+    expect(qualificationKeys.length).toBeGreaterThan(0);
+    expect(
+      qualificationKeys.every((key) =>
+        key.startsWith(OPENING_CUSTOMER_QUALIFICATION_PREFIX),
+      ),
+    ).toBe(true);
+    const before = structuredClone(customers.input);
+    // Genuine government evidence keeps the institution exclusion even when
+    // exactly the same owning product qualification is also present.
+    const governmentOwner: CoreInput = {
+      ...customers.input,
+      organizations: customers.input.organizations.map((row) =>
+        row.id === qualifiedOwner.id
+          ? {
+              ...row,
+              governmentFacts: {
+                ...row.governmentFacts,
+                governmentKind: "municipality",
+              },
+            }
+          : row,
+      ),
+    };
+    expect(() => createOpeningFinance(governmentOwner)).toThrow(
+      `Recorded institutional books require their own finance route: ${qualifiedOwner.id}`,
+    );
+    expect(customers.input).toEqual(before);
+    const rebuilt = createOpeningFinance(customers.input);
+    expect(rebuilt.contracts.find((row) => row.id === category.id)).toEqual(
+      category,
+    );
+    expect(rebuilt.contracts.find((row) => row.id === service.id)).toEqual(
+      service,
+    );
+    expect(customers.input).toEqual(before);
+
+    // Source plus marker coherently reverse the genuine one-way edge. Neither
+    // original owner, dates, cash amounts nor product qualifications change.
+    const cycle = structuredClone(customers.input);
+    const cycleCategory = cycle.finance!.contracts.find(
+      (row) => row.id === category.id,
+    )!;
+    cycleCategory.source = compactGeneratedHouseholdSource(
+      {
+        ...cycleCategory.source.generatedHouseholdBasis!,
+        calendarBasisIds: [service.id],
+      },
+      cycleCategory.source.asOf,
+      cycleCategory.source.generationPriorVintage,
+    );
+    cycleCategory.householdPurchaseCalendar!.openingBasisIds = [service.id];
+    expect(
+      cycle.finance!.contracts.find((row) => row.id === service.id),
+    ).toEqual(service);
+    expect(cycleCategory.dueAt).toBe(category.dueAt);
+    expect(cycleCategory.amountMinor).toBe(category.amountMinor);
+    const cycleBefore = structuredClone(cycle);
+    expect(() => createOpeningFinance(cycle)).toThrow(
+      /Cyclic generated household calendar Source/,
+    );
+    expect(cycle).toEqual(cycleBefore);
+    expect(customers.input).toEqual(before);
   });
 });

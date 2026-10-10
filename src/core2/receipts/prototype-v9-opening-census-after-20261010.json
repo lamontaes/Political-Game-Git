@@ -1,0 +1,1760 @@
+{
+  "schema": "p8-opening-input-size-audit-v4",
+  "scope": "Exact compact UTF-8 JSON sizes of the actual buildOpeningEconomy result; no simulation or annual result. Sources embedded in providerQualifications strings are attributed separately from structured Source objects.",
+  "originalInput": {
+    "path": "/workspace/p8-benchmark-artifacts/p8-opening-due-flows-v9-20261010-0037-prepared.json",
+    "bytes": 376958400,
+    "sha256": "99d6dff64f93f2ce8a00d24df33af52a8c02484e5289ec752e1a07124c6142c8",
+    "summary": {
+      "bytes": 376958400,
+      "sourceObjects": 229589,
+      "sourceBytes": 285913088,
+      "qualificationStrings": 0,
+      "qualificationStringBytes": 0
+    },
+    "recordKinds": {
+      "seed": {
+        "bytes": 30,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "startedAt": {
+        "bytes": 12,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "people": {
+        "records": 10002,
+        "bytes": 300535211,
+        "sourceObjects": 180378,
+        "sourceBytes": 244722099,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "households": {
+        "records": 3955,
+        "bytes": 4677788,
+        "sourceObjects": 3955,
+        "sourceBytes": 4014325,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "jobs": {
+        "records": 1433,
+        "bytes": 3572162,
+        "sourceObjects": 1433,
+        "sourceBytes": 3161410,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "organizations": {
+        "records": 39,
+        "bytes": 170575,
+        "sourceObjects": 41,
+        "sourceBytes": 159362,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "workCommitments": {
+        "records": 1433,
+        "bytes": 6487227,
+        "sourceObjects": 2866,
+        "sourceBytes": 4460932,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "familyLinks": {
+        "records": 7288,
+        "bytes": 886985,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "focusPersonIds": {
+        "records": 57,
+        "bytes": 1483,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "focusPlaceIds": {
+        "records": 0,
+        "bytes": 2,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "visiblePlaceIds": {
+        "records": 2,
+        "bytes": 65,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "calendarDates": {
+        "records": 0,
+        "bytes": 2,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "gaps": {
+        "records": 95,
+        "bytes": 11142,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "placeMetadata": {
+        "bytes": 284631,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "priorFactsSource": {
+        "records": 110022,
+        "bytes": 60313403,
+        "sourceObjects": 40907,
+        "sourceBytes": 29383846,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "publicOrganizations": {
+        "records": 7,
+        "bytes": 17401,
+        "sourceObjects": 9,
+        "sourceBytes": 11114,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "playerId": {
+        "bytes": 25,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      }
+    }
+  },
+  "source": {
+    "scope": "src/core2 TypeScript and JSON; test TypeScript and proof receipts excluded",
+    "dependencyNote": "Direct runtime dependencies dates, IDs, place lookup, retained CEX category data, act kinds and trait pulls are hashed separately. Remaining generation and transitive code/data outside src/core2 are not hashed here and must remain frozen by the owner; the prepared traced CoreInput has a separate SHA-256.",
+    "sha256": "49008cafdc063a15753c281eac36d4607b929719de730c2b264fc39975357b85",
+    "fileCount": 83,
+    "files": [
+      {
+        "path": "src/core2/act-cash.ts",
+        "bytes": 7461,
+        "sha256": "b36104f8de41912d1fa6c738bc816a7758bea0285859dabdeca49cc2d9b79b80"
+      },
+      {
+        "path": "src/core2/business-books.ts",
+        "bytes": 18983,
+        "sha256": "60e46a83e503fa89e40560c843c8d576251b39b8f1f103ef0c175f395449e066"
+      },
+      {
+        "path": "src/core2/calendar.ts",
+        "bytes": 4840,
+        "sha256": "fceb544acc19638254861b7149b3535543e3a1b8ce352a7644806b42ffc94322"
+      },
+      {
+        "path": "src/core2/cash-host.ts",
+        "bytes": 699,
+        "sha256": "0a6cd39eb98c4e4bea432ff7968b5a55734645ec7ccad732b335ce9dad65d89f"
+      },
+      {
+        "path": "src/core2/choice.ts",
+        "bytes": 6405,
+        "sha256": "41630fe0110189c54addd21b8448ee369a2eb8d0fb3c7b12232864a88639e0d8"
+      },
+      {
+        "path": "src/core2/civic-inputs.ts",
+        "bytes": 12199,
+        "sha256": "5c87ca961b2bf19326c0caeb947441f69b42c8d7b500856c9506f382e777c27c"
+      },
+      {
+        "path": "src/core2/data.ts",
+        "bytes": 2549,
+        "sha256": "fc9f0f071527ae77083fee2a2f24a976fc0a7b9b8a47ba62ba287bdcea3f9d32"
+      },
+      {
+        "path": "src/core2/data/business-books.json",
+        "bytes": 21862,
+        "sha256": "d809459a1c36583dd1268303de67fdd9164822b003258d0dae2d14f4e1a9c37f"
+      },
+      {
+        "path": "src/core2/data/civic-inputs.json",
+        "bytes": 6226,
+        "sha256": "c510e201628e5896a5b840b561cd2a96e2a998f9b21257f896609e19d0ed7bf3"
+      },
+      {
+        "path": "src/core2/data/content.json",
+        "bytes": 6078,
+        "sha256": "3826d9fd15790848ff09beb7e0a098a097967889291f462168ef43fbbd2cf618"
+      },
+      {
+        "path": "src/core2/data/deep-past.json",
+        "bytes": 5560,
+        "sha256": "a33a94a0f976d3a740845937defebf382eedc19092d2d2ae11cf036ef6426055"
+      },
+      {
+        "path": "src/core2/data/finance.json",
+        "bytes": 5606,
+        "sha256": "518a53717e0cc96df64fe0db5336195d87e79571e4ad1cf45ca81924f0ade410"
+      },
+      {
+        "path": "src/core2/data/measurement.json",
+        "bytes": 355,
+        "sha256": "831a9f185f7dc01df56929ff3475ce75026c541012a656a4d2f0d12532746062"
+      },
+      {
+        "path": "src/core2/data/opening-capital.json",
+        "bytes": 5169,
+        "sha256": "127239d1cdb93488a0dff9e0d1d059113be3f412ea1cc40b7d501e664e4550b7"
+      },
+      {
+        "path": "src/core2/data/opening-customers.json",
+        "bytes": 45760,
+        "sha256": "4fcd07908a7c0645c5aeb1a0850c1dbacb0c830bad0484990615cb428d7edb63"
+      },
+      {
+        "path": "src/core2/data/opening-employer-cash-reference.json",
+        "bytes": 14149,
+        "sha256": "cbc4f26a3ebfa9d098e2dd44614bb1315c322a1199b20c7c284c7c68a3abd8af"
+      },
+      {
+        "path": "src/core2/data/opening-employment.json",
+        "bytes": 6813,
+        "sha256": "0044dba987aa94956da09c156f9f052d94011854b8eaf097c390247126cf54e8"
+      },
+      {
+        "path": "src/core2/data/opening-finance.json",
+        "bytes": 7014,
+        "sha256": "a2db7b09a540092025e7817f9a6f8d2913e3b18a68c8b9dc183276faafdbe779"
+      },
+      {
+        "path": "src/core2/data/opening-income-funding.json",
+        "bytes": 5553,
+        "sha256": "36c6fa7b386ab20028b4f4754dcf61586cecaf7962d0448aa708a125f9ca74da"
+      },
+      {
+        "path": "src/core2/data/opening-income.json",
+        "bytes": 6580,
+        "sha256": "2493e7564768de23ac2260001073fee990e3afa718d01b97f2ebf4647c7de6f9"
+      },
+      {
+        "path": "src/core2/data/opening-peer-network.json",
+        "bytes": 2401,
+        "sha256": "74d135c650d27d5cb1119fdcce4a97f4b79782e67d06ad964f1dd94f3ea42266"
+      },
+      {
+        "path": "src/core2/data/opening-public-owners-2017.json",
+        "bytes": 559693,
+        "sha256": "9606cdbeb7937b8ed720a8367b84ba446a2ce2de9c2e1b1a9272a3a758a4e6e2"
+      },
+      {
+        "path": "src/core2/data/parameters.json",
+        "bytes": 224845,
+        "sha256": "7704c1eddb7a2abc7b1c8e14775616b638dd9bf58e167e66857831065794336c"
+      },
+      {
+        "path": "src/core2/data/research/retirement-opening-2021.json",
+        "bytes": 18158,
+        "sha256": "f60981175cdb855e45fe3c0f9207d0bd16efb755ae8161b80465dd6f697d9847"
+      },
+      {
+        "path": "src/core2/data/resident-employment.json",
+        "bytes": 25008,
+        "sha256": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0"
+      },
+      {
+        "path": "src/core2/data/stopgaps.json",
+        "bytes": 63879,
+        "sha256": "021ddb97f0de823db5c0f16a86afef5b805bec86144181a61b05eb505136b73e"
+      },
+      {
+        "path": "src/core2/data/time-use-reference.json",
+        "bytes": 11518,
+        "sha256": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437"
+      },
+      {
+        "path": "src/core2/data/work.json",
+        "bytes": 13891,
+        "sha256": "81e417ec22ae7c424f04756bb444feb1451eef145fec203e96ae968e26d17086"
+      },
+      {
+        "path": "src/core2/deep-past.ts",
+        "bytes": 18161,
+        "sha256": "a30d347dbdbb66f41d9b3605927b5b451aff580026c00113453e5f64af473d29"
+      },
+      {
+        "path": "src/core2/emotion.ts",
+        "bytes": 7422,
+        "sha256": "47c35783ad328ed9ae9561a008ef157331e3b22af7b185eca6f74e7dc4a6ddd4"
+      },
+      {
+        "path": "src/core2/finance-cash.ts",
+        "bytes": 94086,
+        "sha256": "535747a3b7017ecce92f7332b01ec9bfce46a8eb71b25885ecfc4fd4e81e5fdf"
+      },
+      {
+        "path": "src/core2/finance-plan.ts",
+        "bytes": 60013,
+        "sha256": "9e1b3d6110e97095e8a3a0f5b76ec0adbeb6feaa9091135c43362c744046153c"
+      },
+      {
+        "path": "src/core2/finance-sales-budgets.ts",
+        "bytes": 4711,
+        "sha256": "e8d67bd89b1345383acf24c53af3305acee772e3e7f4b14064274dea964d05fc"
+      },
+      {
+        "path": "src/core2/finance-state.ts",
+        "bytes": 44192,
+        "sha256": "869a76ae5ddbdf7fcfa7904471dd19d98347f4f67a56ab9d3ddc4f3075c921dc"
+      },
+      {
+        "path": "src/core2/finance-types.ts",
+        "bytes": 13780,
+        "sha256": "c65554d893056d7e399be8f83fa20664bcec0391bb3e19121855f181ccb9b231"
+      },
+      {
+        "path": "src/core2/focus.ts",
+        "bytes": 883,
+        "sha256": "b99fd64890366761df2aa8583a8a3c5b9dcd403a3d721aba8006e5b24b72de27"
+      },
+      {
+        "path": "src/core2/generated-household-source.ts",
+        "bytes": 17008,
+        "sha256": "d106d775b70ea12aca32855601d8a18289db14af8625f0597aadcdf723e29856"
+      },
+      {
+        "path": "src/core2/household-purchase-calendar.ts",
+        "bytes": 21848,
+        "sha256": "f8c42d229392adfa25ab95ce4196a72e84f1612912a9d1bf133160f07224dfab"
+      },
+      {
+        "path": "src/core2/journal-state.ts",
+        "bytes": 64689,
+        "sha256": "9731ea37387be76d09d6e6d0d8408b987fcc5dc0b32c91036f93615329c807e8"
+      },
+      {
+        "path": "src/core2/journal.ts",
+        "bytes": 16346,
+        "sha256": "46d2c3776336dcb401aa48bd3bb528159b5aeaa9c5d8e1807fe84e71c8afe907"
+      },
+      {
+        "path": "src/core2/life.ts",
+        "bytes": 11165,
+        "sha256": "7bf8f9869ba0fabccc2aa5a9e73e15d835f3a9b6afcd4ff6f59906f88b1037cd"
+      },
+      {
+        "path": "src/core2/module-notifications.ts",
+        "bytes": 8833,
+        "sha256": "7f1ee77e8cf76dd4a3e5c5b7807ee85db4c471d98d74867d4b16fa1813f43ab2"
+      },
+      {
+        "path": "src/core2/modules/finance.ts",
+        "bytes": 1632,
+        "sha256": "f297be0b94b712de56c11335b3f6988f2353ba4161fbdd62492a189636857661"
+      },
+      {
+        "path": "src/core2/modules/life.ts",
+        "bytes": 13114,
+        "sha256": "adb40aaf2efb3dad775aea0e88fa88444e5e8b01cdfa39d8190b52d1e8ad5233"
+      },
+      {
+        "path": "src/core2/modules/work.ts",
+        "bytes": 16695,
+        "sha256": "de34e289cbc683ef5fe9352a79364680f89deed1d0957b679e86c7673000a9a7"
+      },
+      {
+        "path": "src/core2/opening-capital.ts",
+        "bytes": 22233,
+        "sha256": "8c432ca39b41686ea0d7f3c4d29ce56e93dee00fd9a157fa2d01861bb36bc6b5"
+      },
+      {
+        "path": "src/core2/opening-customer-geography.ts",
+        "bytes": 5898,
+        "sha256": "c761132a2fa0e97525367547665035ce890d98c8e8f9ab0782708437d3c9013b"
+      },
+      {
+        "path": "src/core2/opening-customer-qualification.ts",
+        "bytes": 3782,
+        "sha256": "a3b38f563b3189b5d34dc051334832020a59e2f37bb8c59522c55bce2f3edcb8"
+      },
+      {
+        "path": "src/core2/opening-customers.ts",
+        "bytes": 109520,
+        "sha256": "1e44efa9fd74a47b1fff8c2f83c4496a47124e81bc3122fcbf8a7c93ea36dbc5"
+      },
+      {
+        "path": "src/core2/opening-economy.ts",
+        "bytes": 11635,
+        "sha256": "a03b936ec21687fd52efbb2c32234ff67eee6e3e4263d10ad7fae7f873df2a6e"
+      },
+      {
+        "path": "src/core2/opening-employment.ts",
+        "bytes": 20776,
+        "sha256": "6ef46f4876476b3c86713fe0d0f14cbd04350709046617b21d47fcb293d1ddeb"
+      },
+      {
+        "path": "src/core2/opening-finance.ts",
+        "bytes": 50849,
+        "sha256": "cf134408017cfb32d5b58a3b7260b16d5e5be930b97f62ea37134c0cb6eb3f0a"
+      },
+      {
+        "path": "src/core2/opening-income-funding.ts",
+        "bytes": 26202,
+        "sha256": "1b95d4af1c39716bcce325886ba6182658d48617edab0e4a4739333b29a6c680"
+      },
+      {
+        "path": "src/core2/opening-income.ts",
+        "bytes": 34576,
+        "sha256": "3d0530c6546f97f36c9546a32e83185dac6a32ca876abb1c9bb33265b25c67e5"
+      },
+      {
+        "path": "src/core2/opening-peer-network.ts",
+        "bytes": 14082,
+        "sha256": "8f7e0ef02e1a94ec408c336794538760ea50aecf788298146cf2c4bf576bc310"
+      },
+      {
+        "path": "src/core2/opening-public-owner.ts",
+        "bytes": 14431,
+        "sha256": "abbba1604fc151b013af19eed8016b451e2d6213d81a065a555808ca8246d5a7"
+      },
+      {
+        "path": "src/core2/opening-public-pay.ts",
+        "bytes": 11966,
+        "sha256": "872554572ed131b44a53f04ac3074af5721ba6764d8bb46ae8f344eafd74b9f8"
+      },
+      {
+        "path": "src/core2/opening-purchase-calendar.ts",
+        "bytes": 15983,
+        "sha256": "6e778a7179ca03a9c46ce0b4f8b7c9982c6471de70ede78b930f0fd6588a97cb"
+      },
+      {
+        "path": "src/core2/opening-work.ts",
+        "bytes": 3756,
+        "sha256": "e3c5e0c4b7ccf6ccc7b4364f93d7b3b9f6a0817e33553d27d530ea1375113a66"
+      },
+      {
+        "path": "src/core2/parameters.ts",
+        "bytes": 1665,
+        "sha256": "d4c49c737c9165b8dc95fec7b1416f75c46324b09a3d680bd01ba0a84e9f9fc8"
+      },
+      {
+        "path": "src/core2/places.ts",
+        "bytes": 630,
+        "sha256": "80ccbeb5921aa2c1319168d60adb8fe6348233f6d1c82d05de96c39defb295f4"
+      },
+      {
+        "path": "src/core2/population.ts",
+        "bytes": 38182,
+        "sha256": "848727c9807b967e6302cb0c8e68ea140741a47c29f1a9793ecc8c3140d6c80b"
+      },
+      {
+        "path": "src/core2/public-work-pay.ts",
+        "bytes": 7630,
+        "sha256": "1a50e8b9a2ea7e54fcac2367de5a2f29717a5788be1a3d4177177a7c3f734edb"
+      },
+      {
+        "path": "src/core2/state.ts",
+        "bytes": 43464,
+        "sha256": "4823101dcfff0b23078dbd8d538052f5efb7262a82dc833e686ee66971ca74fd"
+      },
+      {
+        "path": "src/core2/stopgaps.ts",
+        "bytes": 1411,
+        "sha256": "53d072c140c0508cd452e5fcddf6d4fc51acfe364cd64ae080487b160450192e"
+      },
+      {
+        "path": "src/core2/tooling/calibration-guard.ts",
+        "bytes": 28050,
+        "sha256": "3fdabcfc21b297bdbab68de029e6ed06eeeea2c98aec0deca2f5d086b2300149"
+      },
+      {
+        "path": "src/core2/tooling/calibration-targets.json",
+        "bytes": 305749,
+        "sha256": "35adc549797f6385b161d9e256304913fa14b0044a209f2012de91be950e5b77"
+      },
+      {
+        "path": "src/core2/tooling/economy-observables.ts",
+        "bytes": 9610,
+        "sha256": "37a624a72586ab3f854bbe981aefb99a49a6e6e25b81b7b9aa6d4a804511edb5"
+      },
+      {
+        "path": "src/core2/tooling/external-flow-observables.ts",
+        "bytes": 2429,
+        "sha256": "c48c158398a119b92a0d211af698169b2383e56a81569bebfec2d6e4551cf872"
+      },
+      {
+        "path": "src/core2/tooling/finance-measure.ts",
+        "bytes": 21792,
+        "sha256": "947ca76f0ab34babcdbf408caca45d1d8b944790a4fe7412ce98213591bee1a9"
+      },
+      {
+        "path": "src/core2/tooling/finance-observables.ts",
+        "bytes": 34287,
+        "sha256": "8d8a8a621be37049c2685f2795d48a40d85525f05ba91337fb18ed8dd5c73750"
+      },
+      {
+        "path": "src/core2/tooling/fixtures/event-inputs.json",
+        "bytes": 614,
+        "sha256": "34dedb7d0cb1727229b8222909e481466a4d958b02cc3decda82f0c11581603d"
+      },
+      {
+        "path": "src/core2/tooling/measure.ts",
+        "bytes": 42934,
+        "sha256": "5feca901e493d8f67c997e302effb8c57ed2bfd57f8d9ccdf74361e82cfd90e2"
+      },
+      {
+        "path": "src/core2/tooling/measured-json.ts",
+        "bytes": 4607,
+        "sha256": "7d18be588f7a71196a545c51586a03e2496cd3dd4f024f05e647dc72d8900d11"
+      },
+      {
+        "path": "src/core2/tooling/opening-input-budget.ts",
+        "bytes": 13963,
+        "sha256": "ba53ead1d92cd0e0891f34d1804b2a0c23defdf3d393554b61b49d44562bfad6"
+      },
+      {
+        "path": "src/core2/tooling/tripwires.ts",
+        "bytes": 39654,
+        "sha256": "27b78389aa3e0c1796724fb3cada978bfdb4ff5f35a8d6cb48b1b38082a737ac"
+      },
+      {
+        "path": "src/core2/tooling/tsconfig.json",
+        "bytes": 219,
+        "sha256": "0de414471df377a5d2606ee7d47c831efddc42b81c4b44b6a15e7da871fb6e15"
+      },
+      {
+        "path": "src/core2/tooling/vitest.config.ts",
+        "bytes": 470,
+        "sha256": "4c05ef8a0d06fc0f33088536d66ec3d049dab8bfdbef3436eac96f39324dd021"
+      },
+      {
+        "path": "src/core2/tooling/work-observables.json",
+        "bytes": 3800,
+        "sha256": "0054220e5f980f631292843615303ccad40d8132247b9bc309005846e1574593"
+      },
+      {
+        "path": "src/core2/tooling/work-observables.ts",
+        "bytes": 14242,
+        "sha256": "2c83abf5dd13c96c0b0a346097c1fe987aa075034870453030001d5d019dc329"
+      },
+      {
+        "path": "src/core2/types.ts",
+        "bytes": 25355,
+        "sha256": "5b2d4a2bf3731dfcc7f6eb4e8bc097cb472d6c73b013e9e6fa5e45747831ddd9"
+      },
+      {
+        "path": "src/core2/work-cash.ts",
+        "bytes": 31260,
+        "sha256": "a8cb69273eea23ff73a5913ac55b331caeb3a85ed064d5b40833cd6fc81691cb"
+      },
+      {
+        "path": "src/core2/work-state.ts",
+        "bytes": 10049,
+        "sha256": "f2b351a921587fe154f89965389318c68a5e1068220b6e304daf05093b4a7a33"
+      }
+    ],
+    "directRuntimeDependencies": [
+      {
+        "path": "src/simulation/dates.ts",
+        "bytes": 16421,
+        "sha256": "7afdaff38e743db6bc4dc2d291d35754c96d9e08521f6e16b98e52ea274271b5"
+      },
+      {
+        "path": "src/simulation/ids.ts",
+        "bytes": 3498,
+        "sha256": "e9c919828acda71cb07f94dee820739c7b9c878ed13623d50c1b6778589f4cb6"
+      },
+      {
+        "path": "src/simulation/life-places.ts",
+        "bytes": 37798,
+        "sha256": "dd111b9d37d9ed4964469607f922e78877b76b1253fce82d6b13724b28145ec7"
+      },
+      {
+        "path": "src/simulation/living-costs-data.ts",
+        "bytes": 5924,
+        "sha256": "e6afa01fb6aca498d9b4cfeaad80b2bd918d8d3454f1f64998ce1b17e1a2710f"
+      },
+      {
+        "path": "src/simulation/living-costs-category-data.ts",
+        "bytes": 20167,
+        "sha256": "7f841963c47d289d5434019cab3f259f06526b23c9f5932fb57fa7f5884cc9a6"
+      },
+      {
+        "path": "data/content/act-kinds.json",
+        "bytes": 1734,
+        "sha256": "d46fdbb77526b86d8e479af28ecd158a5452cf993a76628946d79fa4db9870ef"
+      },
+      {
+        "path": "data/content/trait-act-pulls.json",
+        "bytes": 17203,
+        "sha256": "495f74c371ccffd3e2637fc7393186d6a1987b2e9466f2b48920e45712938fb9"
+      }
+    ]
+  },
+  "buildSeconds": 20.804735099,
+  "result": {
+    "summary": {
+      "bytes": 732450615,
+      "sourceObjects": 395372,
+      "sourceBytes": 511194274,
+      "qualificationStrings": 27685,
+      "qualificationStringBytes": 4904200
+    },
+    "recordKinds": {
+      "seed": {
+        "bytes": 30,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "startedAt": {
+        "bytes": 12,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "people": {
+        "records": 10002,
+        "bytes": 427951262,
+        "sourceObjects": 210751,
+        "sourceBytes": 296641701,
+        "qualificationStrings": 27685,
+        "qualificationStringBytes": 4904200
+      },
+      "households": {
+        "records": 3955,
+        "bytes": 4677788,
+        "sourceObjects": 3955,
+        "sourceBytes": 4014325,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "jobs": {
+        "records": 1433,
+        "bytes": 3572162,
+        "sourceObjects": 1433,
+        "sourceBytes": 3161410,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "organizations": {
+        "records": 42,
+        "bytes": 966915,
+        "sourceObjects": 46,
+        "sourceBytes": 167019,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "workCommitments": {
+        "records": 1433,
+        "bytes": 6487227,
+        "sourceObjects": 2866,
+        "sourceBytes": 4460932,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "familyLinks": {
+        "records": 7288,
+        "bytes": 886985,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "focusPersonIds": {
+        "records": 57,
+        "bytes": 1483,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "focusPlaceIds": {
+        "records": 0,
+        "bytes": 2,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "visiblePlaceIds": {
+        "records": 2,
+        "bytes": 65,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "calendarDates": {
+        "records": 0,
+        "bytes": 2,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "gaps": {
+        "records": 2280,
+        "bytes": 216268,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "placeMetadata": {
+        "bytes": 300802,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "priorFactsSource": {
+        "records": 110022,
+        "bytes": 60313403,
+        "sourceObjects": 40907,
+        "sourceBytes": 29383846,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "publicOrganizations": {
+        "records": 7,
+        "bytes": 17401,
+        "sourceObjects": 9,
+        "sourceBytes": 11114,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "playerId": {
+        "bytes": 25,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "finance": {
+        "bytes": 227058516,
+        "sourceObjects": 135405,
+        "sourceBytes": 173353927,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      }
+    },
+    "financeRecordKinds": {
+      "contracts": {
+        "records": 68140,
+        "bytes": 226677908,
+        "sourceObjects": 135378,
+        "sourceBytes": 173194791,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "facilities": {
+        "records": 0,
+        "bytes": 2,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "businesses": {
+        "records": 27,
+        "bytes": 167784,
+        "sourceObjects": 27,
+        "sourceBytes": 159136,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "conditions": {
+        "records": 0,
+        "bytes": 2,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "gaps": {
+        "records": 2268,
+        "bytes": 212756,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      }
+    },
+    "customerReceiptRecordKinds": {
+      "version": {
+        "bytes": 32,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "status": {
+        "bytes": 44,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "originalCashMinor": {
+        "bytes": 10,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "addedCashMinor": {
+        "bytes": 1,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "enrichedCashMinor": {
+        "bytes": 10,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "preservation": {
+        "bytes": 134834626,
+        "sourceObjects": 84303,
+        "sourceBytes": 101915518,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "newOrganizationIds": {
+        "records": 1,
+        "bytes": 69,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "newPastFactIds": {
+        "records": 27685,
+        "bytes": 2384866,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "newPlaceMetadataKeys": {
+        "records": 5,
+        "bytes": 439,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "newContractIds": {
+        "records": 27687,
+        "bytes": 3464835,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "preservedBuilderContractIds": {
+        "records": 0,
+        "bytes": 2,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "newStocks": {
+        "records": 0,
+        "bytes": 2,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "providerRecords": {
+        "records": 0,
+        "bytes": 2,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "evidence": {
+        "records": 27690,
+        "bytes": 116698465,
+        "sourceObjects": 27690,
+        "sourceBytes": 47229429,
+        "qualificationStrings": 27687,
+        "qualificationStringBytes": 4904555
+      },
+      "providerQualifications": {
+        "records": 9,
+        "bytes": 749393,
+        "sourceObjects": 314,
+        "sourceBytes": 697337,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "inlineProviderQualifications": {
+        "records": 0,
+        "bytes": 2,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "contractPlans": {
+        "records": 27687,
+        "bytes": 73265067,
+        "sourceObjects": 27687,
+        "sourceBytes": 51072190,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "householdBudgets": {
+        "records": 3955,
+        "bytes": 1139998,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "publicBudgets": {
+        "records": 1,
+        "bytes": 3505,
+        "sourceObjects": 2,
+        "sourceBytes": 2807,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "parameterRefs": {
+        "records": 65,
+        "bytes": 2855,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "stopgapIds": {
+        "records": 8,
+        "bytes": 311,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "gaps": {
+        "records": 2171,
+        "bytes": 202802,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      },
+      "unsupported": {
+        "records": 6,
+        "bytes": 1082,
+        "sourceObjects": 0,
+        "sourceBytes": 0,
+        "qualificationStrings": 0,
+        "qualificationStringBytes": 0
+      }
+    },
+    "producerReceiptSummary": {
+      "bytes": 336151646,
+      "sourceObjects": 140001,
+      "sourceBytes": 200925188,
+      "qualificationStrings": 27687,
+      "qualificationStringBytes": 4904555
+    }
+  },
+  "registeredCensus": {
+    "definition": "Exact standard compact JSON UTF-8 bytes; no trailing newline; repeated aliases counted per occurrence.",
+    "sourceDefinition": "direct nonoverlapping compact Source objects plus escaped-layer compact inner Source objects in canonical encoded JSON; all noncanonical encoded JSON object/array records use separately reported physical-token upper bounds, including records with unknown or discarded Source content",
+    "residents": 10002,
+    "bytes": 732450615,
+    "bytesPerResident": 73230.41541691661,
+    "directSourceBytes": 511194274,
+    "canonicalEncodedSourceBytes": 892679,
+    "noncanonicalEncodedRecordUpperBoundBytes": 0,
+    "sourceOccurrences": 395739,
+    "exactSourceByteShare": 0.6991419523895137,
+    "declaredConservativeSourceByteShare": 0.6991419523895137,
+    "sections": {
+      "seed": {
+        "bytes": 30,
+        "directSourceBytes": 0,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 0
+      },
+      "startedAt": {
+        "bytes": 12,
+        "directSourceBytes": 0,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 0
+      },
+      "people": {
+        "bytes": 427951262,
+        "directSourceBytes": 296641701,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 210751
+      },
+      "households": {
+        "bytes": 4677788,
+        "directSourceBytes": 4014325,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 3955
+      },
+      "jobs": {
+        "bytes": 3572162,
+        "directSourceBytes": 3161410,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 1433
+      },
+      "organizations": {
+        "bytes": 966915,
+        "directSourceBytes": 167019,
+        "encodedSourceBytes": 723711,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 368
+      },
+      "workCommitments": {
+        "bytes": 6487227,
+        "directSourceBytes": 4460932,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 2866
+      },
+      "familyLinks": {
+        "bytes": 886985,
+        "directSourceBytes": 0,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 0
+      },
+      "focusPersonIds": {
+        "bytes": 1483,
+        "directSourceBytes": 0,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 0
+      },
+      "focusPlaceIds": {
+        "bytes": 2,
+        "directSourceBytes": 0,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 0
+      },
+      "visiblePlaceIds": {
+        "bytes": 65,
+        "directSourceBytes": 0,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 0
+      },
+      "calendarDates": {
+        "bytes": 2,
+        "directSourceBytes": 0,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 0
+      },
+      "gaps": {
+        "bytes": 216268,
+        "directSourceBytes": 0,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 0
+      },
+      "placeMetadata": {
+        "bytes": 300802,
+        "directSourceBytes": 0,
+        "encodedSourceBytes": 168968,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 45
+      },
+      "priorFactsSource": {
+        "bytes": 60313403,
+        "directSourceBytes": 29383846,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 40907
+      },
+      "publicOrganizations": {
+        "bytes": 17401,
+        "directSourceBytes": 11114,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 9
+      },
+      "playerId": {
+        "bytes": 25,
+        "directSourceBytes": 0,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 0
+      },
+      "finance": {
+        "bytes": 227058516,
+        "directSourceBytes": 173353927,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 135405
+      }
+    },
+    "contractKinds": {
+      "income.retirement": {
+        "bytes": 2058112,
+        "directSourceBytes": 1589504,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 896,
+        "rows": 896,
+        "dueDates": {
+          "2021-02-01": 896
+        }
+      },
+      "funding.retirement-contribution": {
+        "bytes": 239841,
+        "directSourceBytes": 159520,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 2,
+        "rows": 1,
+        "dueDates": {
+          "2021-02-01": 1
+        }
+      },
+      "household.food": {
+        "bytes": 72034366,
+        "directSourceBytes": 55218228,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 47460,
+        "rows": 23730,
+        "dueDates": {
+          "2021-02-01": 16086,
+          "2021-01-04": 4692,
+          "2021-01-02": 2250,
+          "2021-01-05": 498,
+          "2021-01-06": 204
+        }
+      },
+      "household.apparelAndServices": {
+        "bytes": 36675927,
+        "directSourceBytes": 27941334,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 23730,
+        "rows": 11865,
+        "dueDates": {
+          "2021-02-01": 8043,
+          "2021-01-04": 2346,
+          "2021-01-02": 1125,
+          "2021-01-05": 249,
+          "2021-01-06": 102
+        }
+      },
+      "household.maintenanceAndRepairs": {
+        "bytes": 12272769,
+        "directSourceBytes": 9337508,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 7910,
+        "rows": 3955,
+        "dueDates": {
+          "2021-02-01": 2681,
+          "2021-01-04": 782,
+          "2021-01-02": 375,
+          "2021-01-05": 83,
+          "2021-01-06": 34
+        }
+      },
+      "business.sales-input": {
+        "bytes": 49424,
+        "directSourceBytes": 47082,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 6,
+        "rows": 6,
+        "dueDates": {
+          "2021-01-02": 6
+        }
+      },
+      "household.customer.personal-care": {
+        "bytes": 14666192,
+        "directSourceBytes": 11199569,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 7910,
+        "rows": 3955,
+        "dueDates": {
+          "2021-02-01": 2681,
+          "2021-01-04": 782,
+          "2021-01-02": 375,
+          "2021-01-05": 83,
+          "2021-01-06": 34
+        }
+      },
+      "household.customer.housekeeping": {
+        "bytes": 14765067,
+        "directSourceBytes": 11306354,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 7910,
+        "rows": 3955,
+        "dueDates": {
+          "2021-02-01": 2681,
+          "2021-01-04": 782,
+          "2021-01-02": 375,
+          "2021-01-05": 83,
+          "2021-01-06": 34
+        }
+      },
+      "household.customer.lawn-care": {
+        "bytes": 14689922,
+        "directSourceBytes": 11254939,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 7910,
+        "rows": 3955,
+        "dueDates": {
+          "2021-02-01": 2681,
+          "2021-01-04": 782,
+          "2021-01-02": 375,
+          "2021-01-05": 83,
+          "2021-01-06": 34
+        }
+      },
+      "household.customer.participant-sports": {
+        "bytes": 14805451,
+        "directSourceBytes": 11302399,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 7910,
+        "rows": 3955,
+        "dueDates": {
+          "2021-02-01": 2681,
+          "2021-01-04": 782,
+          "2021-01-02": 375,
+          "2021-01-05": 83,
+          "2021-01-06": 34
+        }
+      },
+      "household.customer.legal-services": {
+        "bytes": 14701787,
+        "directSourceBytes": 11227254,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 7910,
+        "rows": 3955,
+        "dueDates": {
+          "2021-02-01": 2681,
+          "2021-01-04": 782,
+          "2021-01-02": 375,
+          "2021-01-05": 83,
+          "2021-01-06": 34
+        }
+      },
+      "household.customer.accounting-services": {
+        "bytes": 14817551,
+        "directSourceBytes": 11306354,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 7910,
+        "rows": 3955,
+        "dueDates": {
+          "2021-02-01": 2681,
+          "2021-01-04": 782,
+          "2021-01-02": 375,
+          "2021-01-05": 83,
+          "2021-01-06": 34
+        }
+      },
+      "household.customer.residential-telephone": {
+        "bytes": 14817316,
+        "directSourceBytes": 11290534,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 7910,
+        "rows": 3955,
+        "dueDates": {
+          "2021-02-01": 2681,
+          "2021-01-04": 782,
+          "2021-01-02": 375,
+          "2021-01-05": 83,
+          "2021-01-06": 34
+        }
+      },
+      "public.customer.custodial-services": {
+        "bytes": 9318,
+        "directSourceBytes": 8382,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 2,
+        "rows": 1,
+        "dueDates": {
+          "2021-02-01": 1
+        }
+      },
+      "outside.customer.visitor-lodging": {
+        "bytes": 6724,
+        "directSourceBytes": 5830,
+        "encodedSourceBytes": 0,
+        "noncanonicalEncodedRecordUpperBoundBytes": 0,
+        "sourceOccurrences": 2,
+        "rows": 1,
+        "dueDates": {
+          "2021-02-01": 1
+        }
+      }
+    }
+  },
+  "invariants": {
+    "contractTermsWithoutGeneratedSourceSha256": "3327a4851312f423e8c6049d05c0496ed028fa8d62749d79dc1b2fed05a522f9",
+    "originalCashMinor": 2776644905,
+    "addedCashMinor": 0,
+    "enrichedCashMinor": 2776644905,
+    "people": 10002,
+    "households": 3955,
+    "jobs": 1433,
+    "workCommitments": 1433,
+    "financeContracts": 68140,
+    "contractsByKind": {
+      "income.retirement": 896,
+      "funding.retirement-contribution": 1,
+      "household.food": 23730,
+      "household.apparelAndServices": 11865,
+      "household.maintenanceAndRepairs": 3955,
+      "business.sales-input": 6,
+      "household.customer.personal-care": 3955,
+      "household.customer.housekeeping": 3955,
+      "household.customer.lawn-care": 3955,
+      "household.customer.participant-sports": 3955,
+      "household.customer.legal-services": 3955,
+      "household.customer.accounting-services": 3955,
+      "household.customer.residential-telephone": 3955,
+      "public.customer.custodial-services": 1,
+      "outside.customer.visitor-lodging": 1
+    },
+    "completeProviderQualifications": [
+      {
+        "key": "[\"organization_044a892fcca65a23\",\"residential-telephone\"]",
+        "sha256": "63e60b443a43c12ec01d9c355cc5a2132f5de24453cce082186860238cb8a9f6",
+        "bytes": 80964,
+        "jobIds": [
+          "work-relationship_028ff5fd45bbd17f",
+          "work-relationship_074e6866c5ea6440",
+          "work-relationship_14677949bf8aad33",
+          "work-relationship_19ed46098f7bf122",
+          "work-relationship_24f8ddc6a4a2544f",
+          "work-relationship_28a4c9fc92803cab",
+          "work-relationship_2ac6cdf27f62832d",
+          "work-relationship_327c098d647cde68",
+          "work-relationship_3b7c17045220ad66",
+          "work-relationship_3d278e43a2669f46",
+          "work-relationship_474508dfcbd2cd9c",
+          "work-relationship_4b47c3133b49c4d9",
+          "work-relationship_6185e12a73774921",
+          "work-relationship_68085da877e7a85e",
+          "work-relationship_6a568bcc519c756e",
+          "work-relationship_7f4dbbdb31c43af9",
+          "work-relationship_853522388c36318a",
+          "work-relationship_8817439f522066a0",
+          "work-relationship_95d7cb98e00f443b",
+          "work-relationship_98098d6fe8169b19",
+          "work-relationship_981e06184e9c8a97",
+          "work-relationship_998dcb03a8acad1d",
+          "work-relationship_9da13e569259d5a5",
+          "work-relationship_a49b15c00db40878",
+          "work-relationship_af464f557e30ac88",
+          "work-relationship_b6b534e734161efd",
+          "work-relationship_bfb15c893258b281",
+          "work-relationship_c39ccc0c01c249dc",
+          "work-relationship_d0b7f6cec16a2664",
+          "work-relationship_db014994ae931f47",
+          "work-relationship_db45c953d077712c",
+          "work-relationship_e6b182cdb6cbc7c0",
+          "work-relationship_f1bd77134cb29158",
+          "work-relationship_f6793b3a0749950a"
+        ],
+        "providerRecordIds": []
+      },
+      {
+        "key": "[\"organization_29bc269608f354c4\",\"accounting-services\"]",
+        "sha256": "9ee822e11f1f8b0be67684ff8e0036e1c162569cfc1c595e3764893f297d86ea",
+        "bytes": 1086,
+        "jobIds": [
+          "work-relationship_2f11d884cfe99635"
+        ],
+        "providerRecordIds": []
+      },
+      {
+        "key": "[\"organization_29bc279608f35677\",\"legal-services\"]",
+        "sha256": "d3aececf1204692067289cc178ff020e76163e75f7e70f4efd1b98972785d052",
+        "bytes": 1077,
+        "jobIds": [
+          "work-relationship_b3ca297dca3bd5db"
+        ],
+        "providerRecordIds": []
+      },
+      {
+        "key": "[\"organization_570dd52ac59a0647\",\"personal-care\"]",
+        "sha256": "a21c5e0413bff1c422abe8f3fc20c100c6b43d26483ee66fe6b8394a384d9d02",
+        "bytes": 1078,
+        "jobIds": [
+          "work-relationship_ee2a4be37398b312"
+        ],
+        "providerRecordIds": []
+      },
+      {
+        "key": "[\"organization_dd65ae2f5e07164e\",\"housekeeping\"]",
+        "sha256": "15d9fcbfc311c20de69fdd6d4bbfe55eac67e3783451281a1e9c76d672ac7fce",
+        "bytes": 196428,
+        "jobIds": [
+          "work-relationship_0004341d62be0900",
+          "work-relationship_0176cf26ff20bac7",
+          "work-relationship_018f07775566ce14",
+          "work-relationship_0ac609f37abe1802",
+          "work-relationship_0eb0d697402605c9",
+          "work-relationship_130ac884251b8803",
+          "work-relationship_13ba7c5880fdc963",
+          "work-relationship_149b0292a542a247",
+          "work-relationship_15bb327c0449a58d",
+          "work-relationship_15dd7b797c099db8",
+          "work-relationship_18f50ee6d5abe41c",
+          "work-relationship_1e0b3f13069d6563",
+          "work-relationship_229f0794c562dbd2",
+          "work-relationship_2535992a452490bf",
+          "work-relationship_2bbb0fb613f9fe10",
+          "work-relationship_2d47ff48cbab1e4c",
+          "work-relationship_306f82d23401c243",
+          "work-relationship_34159afca2a02a10",
+          "work-relationship_343f1df360d283a9",
+          "work-relationship_34a05040fc0ff323",
+          "work-relationship_34da208a3e5abeee",
+          "work-relationship_37a9a4c653010199",
+          "work-relationship_38d2b439bef9a86e",
+          "work-relationship_4af78222701442fa",
+          "work-relationship_505987be1746e0fe",
+          "work-relationship_543e99ddc10e99a5",
+          "work-relationship_570690aaf28e6588",
+          "work-relationship_584913276516f933",
+          "work-relationship_59e206b59d145fbe",
+          "work-relationship_5b74c3fbb90e8a9a",
+          "work-relationship_5b75417bd24f50ba",
+          "work-relationship_62ab8b4a9e79db07",
+          "work-relationship_62bfd1f128ceae43",
+          "work-relationship_6317cfde6ed2d3ce",
+          "work-relationship_633a49e23af9991c",
+          "work-relationship_672bd734a25ae596",
+          "work-relationship_6b602bd5f09b2a73",
+          "work-relationship_741d595e6fff366e",
+          "work-relationship_7433d6a61201d323",
+          "work-relationship_74ec94306a730081",
+          "work-relationship_7749f92165967a5c",
+          "work-relationship_7b7f6e2e59fe294f",
+          "work-relationship_7e3c4cff2218cc2c",
+          "work-relationship_821a7a2cc12fa5aa",
+          "work-relationship_82763e0f650dfba0",
+          "work-relationship_8667dee31b2528dd",
+          "work-relationship_86cbe6cc10499978",
+          "work-relationship_87844709dab21590",
+          "work-relationship_8c1a62db1ccf60b0",
+          "work-relationship_952c4365117c19d1",
+          "work-relationship_9b879dc83a154407",
+          "work-relationship_9b88e6f9c5bb4f2c",
+          "work-relationship_9b980086c99f4990",
+          "work-relationship_a4153578a0d55fae",
+          "work-relationship_a9e2a9baf7f9edc9",
+          "work-relationship_aa50457bb30ada9d",
+          "work-relationship_adc35f7d1b1716ce",
+          "work-relationship_afc459b560adcbad",
+          "work-relationship_b8032386edf406db",
+          "work-relationship_b932c3676b139a6f",
+          "work-relationship_b949c7eddab1560b",
+          "work-relationship_b975d3bf7e64d0b8",
+          "work-relationship_bd64a600e3d609ad",
+          "work-relationship_befb9a66fc1a3762",
+          "work-relationship_c108c310ddd584a6",
+          "work-relationship_c55d8e6ce5656836",
+          "work-relationship_c5894624f84b902d",
+          "work-relationship_c98cc223792802ae",
+          "work-relationship_cb5f01ebbb37699b",
+          "work-relationship_ccb613e34fce4475",
+          "work-relationship_d0ea8d8e4eec8d11",
+          "work-relationship_d452cf51896e3ba0",
+          "work-relationship_da569bc99f7bc6cc",
+          "work-relationship_e01e1d6c4881e775",
+          "work-relationship_e08ac27171020880",
+          "work-relationship_e39e37b2ccaef4fe",
+          "work-relationship_ea7e9f3be1c8ebcb",
+          "work-relationship_f2a2362bef33bf3e",
+          "work-relationship_f740a726eb047adc",
+          "work-relationship_f93497eb24b67a79",
+          "work-relationship_fab0254ad857fd9e",
+          "work-relationship_fc5f0c83bd79eba0"
+        ],
+        "providerRecordIds": []
+      },
+      {
+        "key": "[\"organization_dd65ae2f5e07164e\",\"lawn-care\"]",
+        "sha256": "5338b60735b58753b73222373cde12c0846055eb6f65c433faa2a7fe47e22dbc",
+        "bytes": 130343,
+        "jobIds": [
+          "work-relationship_07e28509ce24be7a",
+          "work-relationship_0d401a4df7979c41",
+          "work-relationship_14a2dbce2157ee65",
+          "work-relationship_23f25f6e737332f3",
+          "work-relationship_2fe76dc66c6add4f",
+          "work-relationship_300977050c69eb7c",
+          "work-relationship_3f3f06027ade24c0",
+          "work-relationship_4734b6f157223f1b",
+          "work-relationship_479713e31ef38583",
+          "work-relationship_4a1c797365726485",
+          "work-relationship_4a778ba00dd1dbb8",
+          "work-relationship_4c0b02963e9eeb22",
+          "work-relationship_518f9cdb2ce41543",
+          "work-relationship_5cc3b30bf549deb1",
+          "work-relationship_5d37be3f7bdab035",
+          "work-relationship_6259ee1188d64fde",
+          "work-relationship_6569e8937397f655",
+          "work-relationship_6679f74f241b7176",
+          "work-relationship_67d1fbcb0ba48533",
+          "work-relationship_704cd421c29c1759",
+          "work-relationship_72ede5448ef1933b",
+          "work-relationship_7afa5eb41ac2a71f",
+          "work-relationship_7d8d6d7309ae9805",
+          "work-relationship_9653bdd41b1bf30e",
+          "work-relationship_9954068285708058",
+          "work-relationship_9b1d34ce84675f50",
+          "work-relationship_9b3732860dbccf03",
+          "work-relationship_9ced00960faa4d3b",
+          "work-relationship_a1747cc0865839fa",
+          "work-relationship_a2267bd357f2219b",
+          "work-relationship_a35a20e12b711b1e",
+          "work-relationship_a55636b1f4e9b4f4",
+          "work-relationship_a86142bd8b848d3d",
+          "work-relationship_a9c99c5b992f7635",
+          "work-relationship_b1de3eac8109d4eb",
+          "work-relationship_b239702db551c36a",
+          "work-relationship_b3eecf177844005c",
+          "work-relationship_b463f23fcd159330",
+          "work-relationship_b62ee76f83b3ccdc",
+          "work-relationship_b88db3a615585a5f",
+          "work-relationship_c01eed29d7d0b070",
+          "work-relationship_c16b5a93f3efa52c",
+          "work-relationship_c4bd0e55d8c97a6f",
+          "work-relationship_c8b860b7301aa7cd",
+          "work-relationship_ced35dd3726d68c9",
+          "work-relationship_cf3673027d98d66f",
+          "work-relationship_d1c8ddb56e1944b1",
+          "work-relationship_db39edef8e95644a",
+          "work-relationship_dd15ca1ec584d971",
+          "work-relationship_e05163cbac6e1132",
+          "work-relationship_e5c7f6bd68f20af2",
+          "work-relationship_ee35cb5b3e702ea9",
+          "work-relationship_f02cc1ecdfdb34b8",
+          "work-relationship_feae1d38f1ac4371"
+        ],
+        "providerRecordIds": []
+      },
+      {
+        "key": "[\"organization_dd65ae2f5e07164e\",\"public-custodial\"]",
+        "sha256": "5c85186d344a5575484c00233d05892c9dba7449fa6a70de7216da52f9a99a08",
+        "bytes": 196432,
+        "jobIds": [
+          "work-relationship_0004341d62be0900",
+          "work-relationship_0176cf26ff20bac7",
+          "work-relationship_018f07775566ce14",
+          "work-relationship_0ac609f37abe1802",
+          "work-relationship_0eb0d697402605c9",
+          "work-relationship_130ac884251b8803",
+          "work-relationship_13ba7c5880fdc963",
+          "work-relationship_149b0292a542a247",
+          "work-relationship_15bb327c0449a58d",
+          "work-relationship_15dd7b797c099db8",
+          "work-relationship_18f50ee6d5abe41c",
+          "work-relationship_1e0b3f13069d6563",
+          "work-relationship_229f0794c562dbd2",
+          "work-relationship_2535992a452490bf",
+          "work-relationship_2bbb0fb613f9fe10",
+          "work-relationship_2d47ff48cbab1e4c",
+          "work-relationship_306f82d23401c243",
+          "work-relationship_34159afca2a02a10",
+          "work-relationship_343f1df360d283a9",
+          "work-relationship_34a05040fc0ff323",
+          "work-relationship_34da208a3e5abeee",
+          "work-relationship_37a9a4c653010199",
+          "work-relationship_38d2b439bef9a86e",
+          "work-relationship_4af78222701442fa",
+          "work-relationship_505987be1746e0fe",
+          "work-relationship_543e99ddc10e99a5",
+          "work-relationship_570690aaf28e6588",
+          "work-relationship_584913276516f933",
+          "work-relationship_59e206b59d145fbe",
+          "work-relationship_5b74c3fbb90e8a9a",
+          "work-relationship_5b75417bd24f50ba",
+          "work-relationship_62ab8b4a9e79db07",
+          "work-relationship_62bfd1f128ceae43",
+          "work-relationship_6317cfde6ed2d3ce",
+          "work-relationship_633a49e23af9991c",
+          "work-relationship_672bd734a25ae596",
+          "work-relationship_6b602bd5f09b2a73",
+          "work-relationship_741d595e6fff366e",
+          "work-relationship_7433d6a61201d323",
+          "work-relationship_74ec94306a730081",
+          "work-relationship_7749f92165967a5c",
+          "work-relationship_7b7f6e2e59fe294f",
+          "work-relationship_7e3c4cff2218cc2c",
+          "work-relationship_821a7a2cc12fa5aa",
+          "work-relationship_82763e0f650dfba0",
+          "work-relationship_8667dee31b2528dd",
+          "work-relationship_86cbe6cc10499978",
+          "work-relationship_87844709dab21590",
+          "work-relationship_8c1a62db1ccf60b0",
+          "work-relationship_952c4365117c19d1",
+          "work-relationship_9b879dc83a154407",
+          "work-relationship_9b88e6f9c5bb4f2c",
+          "work-relationship_9b980086c99f4990",
+          "work-relationship_a4153578a0d55fae",
+          "work-relationship_a9e2a9baf7f9edc9",
+          "work-relationship_aa50457bb30ada9d",
+          "work-relationship_adc35f7d1b1716ce",
+          "work-relationship_afc459b560adcbad",
+          "work-relationship_b8032386edf406db",
+          "work-relationship_b932c3676b139a6f",
+          "work-relationship_b949c7eddab1560b",
+          "work-relationship_b975d3bf7e64d0b8",
+          "work-relationship_bd64a600e3d609ad",
+          "work-relationship_befb9a66fc1a3762",
+          "work-relationship_c108c310ddd584a6",
+          "work-relationship_c55d8e6ce5656836",
+          "work-relationship_c5894624f84b902d",
+          "work-relationship_c98cc223792802ae",
+          "work-relationship_cb5f01ebbb37699b",
+          "work-relationship_ccb613e34fce4475",
+          "work-relationship_d0ea8d8e4eec8d11",
+          "work-relationship_d452cf51896e3ba0",
+          "work-relationship_da569bc99f7bc6cc",
+          "work-relationship_e01e1d6c4881e775",
+          "work-relationship_e08ac27171020880",
+          "work-relationship_e39e37b2ccaef4fe",
+          "work-relationship_ea7e9f3be1c8ebcb",
+          "work-relationship_f2a2362bef33bf3e",
+          "work-relationship_f740a726eb047adc",
+          "work-relationship_f93497eb24b67a79",
+          "work-relationship_fab0254ad857fd9e",
+          "work-relationship_fc5f0c83bd79eba0"
+        ],
+        "providerRecordIds": []
+      },
+      {
+        "key": "[\"organization_efbc8a3bc0e3156f\",\"participant-sports\"]",
+        "sha256": "67a5f18bf9b68e1af3ca856e106a9823d90c08192870ac4d38a5cb90037d81f0",
+        "bytes": 67569,
+        "jobIds": [
+          "work-relationship_0e54a7f5fcda6f72",
+          "work-relationship_35ac378aa1c8eac0",
+          "work-relationship_39e87bce0bace2f1",
+          "work-relationship_3f7f931fc23a140c",
+          "work-relationship_420f6c49b4aa2615",
+          "work-relationship_42e5c2f1958cc282",
+          "work-relationship_48b889918990342a",
+          "work-relationship_5e24fa9c2d24ada7",
+          "work-relationship_63d55f2007a05bb5",
+          "work-relationship_650a430749cb6a50",
+          "work-relationship_652675231d703b36",
+          "work-relationship_6bb8467e02fb14ba",
+          "work-relationship_6c2a6fdfa1a6b15b",
+          "work-relationship_73340b06a333a354",
+          "work-relationship_73a6773a04c932e7",
+          "work-relationship_85a864f5ed400f36",
+          "work-relationship_917174c681ac562a",
+          "work-relationship_97ab810033213640",
+          "work-relationship_98a758c5271dd071",
+          "work-relationship_a080faa39e242b2e",
+          "work-relationship_b7604440637f7893",
+          "work-relationship_bcc2ef80d38f5869",
+          "work-relationship_c0d2263390581c0c",
+          "work-relationship_c16c301c84898db5",
+          "work-relationship_c3297eb4e3d4d5c8",
+          "work-relationship_c4a0bd88d58abe62",
+          "work-relationship_ed0aef898e522753",
+          "work-relationship_ef34efc0e984be1e"
+        ],
+        "providerRecordIds": []
+      },
+      {
+        "key": "[\"organization_f7da0df2eb4d1f5e\",\"visitor-lodging\"]",
+        "sha256": "28a4517c2f5511dfc1527c53f816c927635e8803d6097c8b78288ce8390f3b0c",
+        "bytes": 74073,
+        "jobIds": [
+          "work-relationship_0062706e9ce947c3",
+          "work-relationship_05b7263b4c1a89b8",
+          "work-relationship_0e1289d2b9115084",
+          "work-relationship_0e92245ef5cc0933",
+          "work-relationship_0ebe3874dbf1d30c",
+          "work-relationship_1063afd1119c56b6",
+          "work-relationship_1f2296457b2ec54d",
+          "work-relationship_2103e21226896f61",
+          "work-relationship_394d1611869b3234",
+          "work-relationship_403c9e5cf262a8be",
+          "work-relationship_41015cdd9c46887f",
+          "work-relationship_4bb7c9cb24fb6f3d",
+          "work-relationship_58b5936457946ccd",
+          "work-relationship_73abddeb68a11939",
+          "work-relationship_7b2b66d320fc253d",
+          "work-relationship_8fc85b9e3ed0fab0",
+          "work-relationship_991b95d07ef287bc",
+          "work-relationship_9b2fc733e08b9160",
+          "work-relationship_a1f05c4f348869f8",
+          "work-relationship_b1d9e333f1ec7252",
+          "work-relationship_b5b35d3740acc322",
+          "work-relationship_b8e0065756d81640",
+          "work-relationship_bb9170d90aa7fafe",
+          "work-relationship_bc66bece47c797ff",
+          "work-relationship_dcccd8627dd56b28",
+          "work-relationship_ec152a1d41cdf2b5",
+          "work-relationship_f17df762b6289a02",
+          "work-relationship_f1c7c43846612f2e",
+          "work-relationship_f314ddedd787ad67",
+          "work-relationship_f4d859b1e28bd16a",
+          "work-relationship_fddb4958c46a4c18"
+        ],
+        "providerRecordIds": []
+      }
+    ]
+  },
+  "elapsedSeconds": 70.033615906,
+  "memory": {
+    "heapUsedMiB": 1782.294937133789,
+    "rssMiB": 3054.140625,
+    "processLifetimeMaxRssMiB": 3864.70703125
+  }
+}
