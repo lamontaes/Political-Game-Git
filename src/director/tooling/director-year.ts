@@ -171,6 +171,7 @@ function lifeSummary(core: CoreState, director: Director, id: string) {
     threads,
     keptFacts: [...book.keptFacts.values()],
     backdrop: book.backdrop,
+    schedule: book.schedule,
   };
 }
 
@@ -242,6 +243,28 @@ async function main() {
       .flatMap((book) => book.moments)
       .filter((moment) => moment.echoes.length)
       .slice(0, 50),
+    outcomes: books
+      .flatMap((book) => book.schedule)
+      .reduce<Record<string, number>>((sum, entry) => {
+        const key = `${entry.outcome}${entry.stopsSkip ? ":stops-skip" : ""}`;
+        sum[key] = (sum[key] ?? 0) + 1;
+        return sum;
+      }, {}),
+    coverage: books
+      .flatMap((book) => book.schedule)
+      .filter((entry) => entry.coverage)
+      .reduce<Record<string, number>>((sum, entry) => {
+        const key = `${entry.coverage!.reason}:${entry.coverage!.label}`;
+        sum[key] = (sum[key] ?? 0) + 1;
+        return sum;
+      }, {}),
+    boundTypes: books
+      .flatMap((book) => book.schedule)
+      .flatMap((entry) => entry.bindings)
+      .reduce<Record<string, number>>((sum, binding) => {
+        sum[binding.typeKey] = (sum[binding.typeKey] ?? 0) + 1;
+        return sum;
+      }, {}),
     renewedTurns: books.reduce(
       (sum, book) =>
         sum +

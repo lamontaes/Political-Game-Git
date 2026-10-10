@@ -21,6 +21,7 @@ import type {
   WorkResult,
 } from "../core2/types";
 import directorJson from "./data/director.json" with { type: "json" };
+import { scheduleMoment } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
 import type {
   BackdropEntry,
@@ -66,6 +67,7 @@ interface Change {
   counterparts: Set<PersonId>;
   raw: Map<string, number>;
   broadEventId?: string;
+  placeId?: string;
   renewal?: { otherId: PersonId };
 }
 
@@ -76,6 +78,8 @@ export interface Director {
   start(core: Readonly<CoreState>): void;
   /** Begin watching another person, such as someone the player clicks into. */
   watch(core: Readonly<CoreState>, personId: PersonId): void;
+  /** "live" or "skipping": while skipping, waiting scenes become journal lines. */
+  setMode(mode: "live" | "skipping"): void;
   /** A thread's importance on a date: the tie plus faded moment impacts. Pure. */
   importance(personId: PersonId, otherId: PersonId, date: IsoDate): number;
   /** How far a thread has faded on a date, from 0 to 1. Pure. */
@@ -96,6 +100,7 @@ export function createDirector(
   const pending = new Map<PersonId, Pending>();
   const initial = [...options.watch];
   let started = false;
+  let mode: "live" | "skipping" = "live";
 
   const param = (key: string): number => {
     const row = data.parameters[key];
@@ -295,6 +300,7 @@ export function createDirector(
       keptFacts: new Map(),
       keptFactsByOther: new Map(),
       backdrop: [],
+      schedule: [],
       belowFloor: new Map(),
       quietDays: zero,
       observedDays: zero,
@@ -660,6 +666,10 @@ export function createDirector(
         book.belowFloor.set(label, (book.belowFloor.get(label) ?? zero) + one);
         continue;
       }
+      const placeId = today.events.find(
+        (entry) => entry.event.id === row.causeId,
+      )?.event.placeId;
+      if (placeId) row.placeId = placeId;
       storeMoment(core, book, row, label, impact, contributions);
     }
     if (!scored) book.quietDays += one;
@@ -689,6 +699,7 @@ export function createDirector(
       hindsight: impact,
       hindsightAt: date,
       ...(row.broadEventId ? { broadEventId: row.broadEventId } : {}),
+      ...(row.placeId ? { placeId: row.placeId } : {}),
       echoes: [],
     };
     const strongest = contributions[zero]?.channel;
@@ -757,6 +768,12 @@ export function createDirector(
         });
       rescoreHindsight(book, otherId, date);
     }
+    book.schedule.push(
+      scheduleMoment(core, book, moment, {
+        mode,
+        interruptImpact: param("directorInterruptImpact"),
+      }),
+    );
   }
 
   function link(
@@ -944,6 +961,9 @@ export function createDirector(
           "Start the story director before watching more people.",
         );
       beginWatching(core, personId);
+    },
+    setMode(next) {
+      mode = next;
     },
     importance(personId, otherId, date) {
       const book = ledger.people.get(personId);

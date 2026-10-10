@@ -4,6 +4,7 @@
  */
 import type { Parameter } from "../core2/parameters";
 import type { IsoDate, PersonId } from "../core2/types";
+import type { ScheduleEntry } from "./scheduling";
 
 export interface ChannelRow {
   id: string;
@@ -71,6 +72,8 @@ export interface Moment {
   hindsight: number;
   hindsightAt: IsoDate;
   broadEventId?: string;
+  /** The place the causing event names, when an event caused it. */
+  placeId?: string;
   echoes: CallbackLink[];
 }
 
@@ -143,6 +146,8 @@ export interface PersonLedger {
   backdrop: BackdropEntry[];
   /** Changes that moved the person but stayed under the floor, by label. */
   belowFloor: Map<string, number>;
+  /** One outcome per stored moment: scene now, scene waiting or journal line. */
+  schedule: ScheduleEntry[];
   /** Days on which nothing scored, and days observed. */
   quietDays: number;
   observedDays: number;
