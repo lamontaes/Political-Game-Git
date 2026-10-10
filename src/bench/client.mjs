@@ -1,3 +1,4 @@
+/* global document, fetch, URLSearchParams */
 const element = (id) => document.getElementById(id);
 const status = element("status");
 let residents = [];
@@ -28,13 +29,26 @@ async function inspect(id) {
       recordDetails(`Household: ${value.person.householdId}`, value.household),
     );
     if (value.job)
-      element("detail").append(recordDetails(`Job: ${value.job.id}`, value.job));
+      element("detail").append(
+        recordDetails(`Job: ${value.job.id}`, value.job),
+      );
     for (const offer of value.offers)
       element("detail").append(
         recordDetails(`Offer: ${offer.definition.id}:${offer.targetId}`, offer),
       );
     for (const record of value.records)
-      element("detail").append(recordDetails(`Why / record: ${record.id}`, record));
+      element("detail").append(
+        recordDetails(`Saved core record: ${record.id}`, record),
+      );
+    if (value.director) {
+      for (const moment of value.director.moments)
+        element("detail").append(
+          recordDetails(`Saved director moment: ${moment.id}`, moment),
+        );
+      element("detail").append(
+        recordDetails("Director ledger", value.director),
+      );
+    }
     status.textContent = `Core date: ${value.date}. Read-only inspection.`;
   } catch (error) {
     status.textContent = error.message;
@@ -82,7 +96,9 @@ async function newSeed() {
 }
 
 element("random").addEventListener("click", () =>
-  newSeed().catch((error) => { status.textContent = error.message; }),
+  newSeed().catch((error) => {
+    status.textContent = error.message;
+  }),
 );
 element("opening").addEventListener("submit", async (event) => {
   event.preventDefault();
@@ -97,7 +113,8 @@ element("opening").addEventListener("submit", async (event) => {
     residents = value.residents;
     visibleCount = 100;
     element("detail").replaceChildren();
-    const { residents: _roster, ...provenance } = value;
+    const provenance = { ...value };
+    delete provenance.residents;
     element("provenance").textContent = JSON.stringify(provenance, null, 2);
     renderResidents();
     status.textContent = `${residents.length} residents. Core date: ${value.date}.`;
@@ -107,4 +124,6 @@ element("opening").addEventListener("submit", async (event) => {
     element("build").disabled = false;
   }
 });
-newSeed().catch((error) => { status.textContent = error.message; });
+newSeed().catch((error) => {
+  status.textContent = error.message;
+});
