@@ -14,7 +14,7 @@ concurrency:
 jobs:
   golden-path:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 35 # policies.json goldenJobMinutes; includes dependency setup
     steps:
       - uses: actions/checkout@v4
         with:
@@ -64,7 +64,7 @@ jobs:
     needs: core-changes
     if: needs.core-changes.outputs.changed == 'true'
     runs-on: ubuntu-latest
-    timeout-minutes: 50
+    timeout-minutes: 50 # policies.json performanceJobMinutes; includes dependency setup
     steps:
       - uses: actions/checkout@v4
         with:

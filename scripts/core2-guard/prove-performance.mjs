@@ -42,7 +42,7 @@ const execute = async (command) => {
 };
 const monthCommand = (receiptPath, extra = []) => [
   process.execPath,
-  "--max-old-space-size=8192",
+  `--max-old-space-size=${policies.nodeHeapMiB}`,
   ...extra,
   "--import",
   "tsx",
@@ -99,6 +99,7 @@ try {
     false,
     "Computational slowdown was not detected",
   );
+  console.log("Profiling the slowed clock outside the timing comparison");
   const profileDirectory = resolve(directory, "profile");
   mkdirSync(profileDirectory);
   await execute(
@@ -120,9 +121,12 @@ try {
     ).output,
   );
   writeFileSync("src/core2/life.ts", source);
+  console.log("Measuring the restored ordinary clock");
   const restoredPath = resolve(directory, "restored.json");
   await execute(monthCommand(restoredPath));
   const restored = JSON.parse(readFileSync(restoredPath, "utf8"));
+  assert.equal(restored.sourcePatchSha256, base[0].sourcePatchSha256);
+  assert.equal(restored.inputHash, base[0].inputHash);
   const budgetProof = await execute([
     process.execPath,
     "--import",

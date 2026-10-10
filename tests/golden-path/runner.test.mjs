@@ -1,4 +1,5 @@
 /* global process, setTimeout */
+import { Buffer } from "node:buffer";
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { mkdtempSync, readFileSync, existsSync } from "node:fs";
@@ -106,4 +107,25 @@ test("bad registry and command startup fail explicitly", async () => {
   });
   assert.equal(result.code, null);
   assert.ok(result.error);
+});
+
+test("failure logs retain bounded bytes and successful output stays out of receipts", async () => {
+  const result = await runCommand(
+    [
+      process.execPath,
+      "-e",
+      "process.stdout.write('x'.repeat(200000));process.exit(1)",
+    ],
+    { cwd: process.cwd(), milliseconds: 1000 },
+  );
+  assert.ok(Buffer.byteLength(result.output) <= 65536);
+  assert.equal(result.code, 1);
+  const receipt = await suite([
+    spec("quiet-success", true, [
+      process.execPath,
+      "-e",
+      "console.log('world-output')",
+    ]),
+  ]);
+  assert.equal(receipt.results[0].output, "");
 });

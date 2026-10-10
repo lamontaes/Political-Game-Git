@@ -1,4 +1,5 @@
 /* global process, setTimeout, clearTimeout */
+import { Buffer } from "node:buffer";
 import { spawn } from "node:child_process";
 import { performance } from "node:perf_hooks";
 import policies from "./policies.json" with { type: "json" };
@@ -14,7 +15,7 @@ export function runCommand(command, { cwd, env = {}, milliseconds }) {
     });
   return new Promise((resolve) => {
     const started = performance.now();
-    let output = "",
+    let output = Buffer.alloc(0),
       timedOut = false,
       settled = false;
     const child =
@@ -33,7 +34,9 @@ export function runCommand(command, { cwd, env = {}, milliseconds }) {
             stdio: ["ignore", "pipe", "pipe"],
           });
     const capture = (chunk) => {
-      output = (output + chunk.toString()).slice(-policies.logBytes);
+      output = Buffer.concat([output, Buffer.from(chunk)]).subarray(
+        -policies.logBytes,
+      );
     };
     child.stdout.on("data", capture);
     child.stderr.on("data", capture);
@@ -53,7 +56,7 @@ export function runCommand(command, { cwd, env = {}, milliseconds }) {
         code,
         timedOut,
         milliseconds: performance.now() - started,
-        output,
+        output: output.toString("utf8"),
         ...(error ? { error: String(error) } : {}),
       });
     };

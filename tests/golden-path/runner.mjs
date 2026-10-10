@@ -125,6 +125,9 @@ export async function main() {
     drawPlace,
     budget: policies[`${mode}Milliseconds`],
   });
+  receipt.sourceRevision = execFileSync("git", ["rev-parse", "HEAD"], {
+    encoding: "utf8",
+  }).trim();
   const text = summary(receipt);
   process.stdout.write(text);
   if (process.env.GITHUB_STEP_SUMMARY)

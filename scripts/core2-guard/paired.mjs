@@ -89,7 +89,7 @@ export async function paired({ base, head, output }) {
         );
         await execute([
           process.execPath,
-          "--max-old-space-size=8192",
+          `--max-old-space-size=${policies.nodeHeapMiB}`,
           "--import",
           "tsx",
           resolve(directory, "month.mjs"),
@@ -112,7 +112,7 @@ export async function paired({ base, head, output }) {
       mkdirSync(profileDir);
       await execute([
         process.execPath,
-        "--max-old-space-size=8192",
+        `--max-old-space-size=${policies.nodeHeapMiB}`,
         "--cpu-prof",
         `--cpu-prof-dir=${profileDir}`,
         "--cpu-prof-name=month.cpuprofile",

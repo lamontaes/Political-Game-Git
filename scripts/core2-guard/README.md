@@ -23,7 +23,9 @@ marks commands not reached. Both string shell commands and argument arrays are
 supported; commands are trusted repository configuration.
 
 Each command receives `GOLDEN_PATH_SEED`, `GOLDEN_PATH_PLACE_KEY`,
-`GOLDEN_PATH_SPEC_ID`, and `GOLDEN_PATH_COMMIT`. Registered tests must use those
+`GOLDEN_PATH_SPEC_ID`, and `GOLDEN_PATH_COMMIT`.
+
+Registered tests must use those
 bindings to build their world. Selection hashes the tested commit and spec ID,
 draws from all 56 jurisdiction identities, then draws a recorded locality.
 Receipts include the full seed, place, command, exit status, time, and bounded
@@ -34,13 +36,17 @@ One warmup and three independent measured processes run per revision, one
 process at a time. The same seed, place, opening-input hash, settings, host,
 and month horizon must match; incomparable runs fail explicitly. Median
 simulation milliseconds per day determine the ratio. Initialization and opening
-phases are reported separately. A ratio above 1.20 is red. The relative year
+phases are reported separately. A ratio above 1.20 is red. A failed opening-input budget is also red,
+independently of timing. Valid measurements still report both components when
+the baseline already exceeds an input budget. The relative year
 estimate uses the matched month; it is not a full-year two-minute proof.
 
 Peak RSS includes the whole process. The core's existing opening-input byte
 and Source-share budgets are enforced directly. No new RSS ceiling is invented.
 Separate CPU profiles reuse the existing summarizer and name slowest functions;
 profiled timings never enter the comparison. Profiles include opening and month.
+The tsx profiler reports transpiled line numbers; function names and source
+file paths identify the hot code.
 
 The PR deadline is five minutes; nightly is thirty minutes; paired measurements
 have forty-five minutes. The tagged policy table links to

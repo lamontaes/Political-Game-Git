@@ -28,7 +28,7 @@ for (const name of [
   copyFileSync(resolve("scripts/core2-guard", name), resolve(directory, name));
 const command = [
   process.execPath,
-  "--max-old-space-size=8192",
+  `--max-old-space-size=${policies.nodeHeapMiB}`,
   "--import",
   "tsx",
   resolve(directory, "provisional-step2.mjs"),
