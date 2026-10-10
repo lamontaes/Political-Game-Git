@@ -11,6 +11,7 @@ import {
   catchUpScheduledWork,
 } from "./modules/work";
 import { LIFE_MODULE } from "./modules/life";
+import { PEOPLE_MODULE } from "./modules/people";
 import { FINANCE_MODULE } from "./modules/finance";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
@@ -51,6 +52,7 @@ export function createLifeCore(
         : { ...(options.data ?? DEFAULT_DATA), work: undefined },
       modules: [
         LIFE_MODULE,
+        PEOPLE_MODULE,
         // Modeled within-day order: actual work pay arrives before purchase budgets.
         // Firms use their recorded working capital, not future customer receipts.
         ...(scheduledWork ? [WORK_MODULE] : []),
