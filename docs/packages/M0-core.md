@@ -13,6 +13,16 @@
 3. Apply the report's fixes A to D: record only the fields the logic reads; drop the back-to-back read-log replays inside `seal`; make one replayed read cheap; keep only the selected offer and reasons in a work result instead of all of `decision.scores`, and return the frozen result instead of cloning it.
 4. Re-time 31 days of the same seeded drives-proof route (seed `p10-drives-proof-2026-10-09`) against `cb6cf69d`, one warmup and three measured runs each, one process at a time on the same machine. Report both. A change may not make a year more than 20% slower than its base.
 
+## Part 1b: player-facing core hooks for the test bench (medium)
+
+Added Oct 10 at the bench's request (#3940). Do this right after Part 1; the judged year's long runs can start in parallel.
+
+1. **A resumable choice boundary** (M0-02): the core pauses at the controlled person's due choice (discretionary and committed acts), hands the offers to the client, and resumes with the answer. Scheduled work never chooses for the player; an unanswered offer waits.
+2. **An earliest-stop and resume contract** (M0-03): before advancing, the core reports the earliest of the player's fixed commitments, offers with deadlines, and module-registered stop points (the director registers its interrupts here), with exact action durations. Advance stops there and says why.
+3. **A trace resolver** (M0-04): given a record id (a choice, a relationship change, a payment), return its saved reasons, scores and source record ids, or say plainly that none was saved.
+
+Keep them small and versioned in the interface, and post the API in the PR so CODEX-BENCH can build on it.
+
 ## Part 2: the judged money year (medium)
 
 Run a full year in a randomly drawn place (and the existing benchmark place for comparison), three measured runs. It passes M0-08 when:
