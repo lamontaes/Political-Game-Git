@@ -1,74 +1,69 @@
-# Proposed golden-path and performance checks
+# Golden-path regressions and core performance
 
-The proposed checks protect golden-path steps that the finisher has accepted and
-detect slower core changes. This commit records the contract for CTO approval.
-No runner, workflow, performance measurement, or deliberate-failure proof has
-been implemented yet.
+The checks report accepted regressions and slower core changes. Unaccepted
+features remain visible as goals. The CTO approved the contract and deadlines;
+the separate finisher owns acceptance. Game behavior and roadmap tests are
+unchanged by these tools.
 
-## M0-10: golden-path regressions
+## Run and read the checks
 
-After approval, build one runner in `tests/golden-path/` that reads the approved
-feature list without changing its tests, commands, or passing flags. The CTO owns
-command registration; the finisher owns acceptance.
+- Golden path: `node --import tsx tests/golden-path/runner.mjs --output /tmp/golden-path.json`.
+  Add `--nightly` for the longer deadline. `--commit` reproduces a failing draw.
+- Performance: `node --import tsx scripts/core2-guard/paired.mjs --base BASE --head HEAD --output /tmp/core2-paired.json`.
+  Start with a clean registered checkout. The tool switches revisions
+  sequentially, then restores the original branch or detached commit.
+- Detector tests: `node --import tsx --test tests/golden-path/runner.test.mjs scripts/core2-guard/compare.test.mjs`.
+  Run heavy commands through the repository storage wrapper in the cloud.
 
-- Derive a reproducible seed from the tested commit and spec ID. Draw a state or
-  territory from the full 56-place corpus, then a locality from its records.
-  Record the commit, seed, place, command, exit status, and duration.
-- Run accepted specs first. A failing or timed-out accepted test makes the check
-  red. An accepted spec with no command also makes it red.
-- Report unaccepted specs as goals, including missing commands and tests not
-  reached before the deadline. A passing goal does not change its acceptance.
-- Propose an overall five-minute PR budget and thirty-minute nightly budget.
-  Kill timed-out command trees. Never replace an approved test with a shorter,
-  weaker assertion to fit a budget.
-- Wire short PR and longer nightly checks into GitHub Actions. Keep artifacts
-  small: a result table and reproduction instructions, without world snapshots.
+An accepted command failure, timeout, or missing command is red. Goal failures
+are nonblocking and never flip acceptance flags. Zero registered commands is
+reported explicitly; it does not mean the game passed its roadmap tests.
+Accepted commands run first. Deadline expiration kills command descendants and
+marks commands not reached. Both string shell commands and argument arrays are
+supported; commands are trusted repository configuration.
 
-Proof: use the registered step-2 command in a reproducibly drawn place. Apply a
-temporary broken variant, confirm that an accepted step turns the check red,
-restore it, and repeat successfully. Detector fixtures also cover goal failures,
-missing commands, deadlines, and reproducible selection. Fixtures do not prove
-that the game's meeting behavior works.
+Each command receives `GOLDEN_PATH_SEED`, `GOLDEN_PATH_PLACE_KEY`,
+`GOLDEN_PATH_SPEC_ID`, and `GOLDEN_PATH_COMMIT`. Registered tests must use those
+bindings to build their world. Selection hashes the tested commit and spec ID,
+draws from all 56 jurisdiction identities, then draws a recorded locality.
+Receipts include the full seed, place, command, exit status, time, and bounded
+failure output. The runner never writes the feature registry.
 
-## M0-11: speed and memory
+The performance guard runs only for PRs touching the core, and nightly.
+One warmup and three independent measured processes run per revision, one
+process at a time. The same seed, place, opening-input hash, settings, host,
+and month horizon must match; incomparable runs fail explicitly. Median
+simulation milliseconds per day determine the ratio. Initialization and opening
+phases are reported separately. A ratio above 1.20 is red. The relative year
+estimate uses the matched month; it is not a full-year two-minute proof.
 
-After approval, build the guard in `scripts/core2-guard/`, outside game modules.
-For core changes, compare the actual base and head on the same cloud runner with
-one process at a time. Use the core's public generators and clock for a matched
-seeded month; add no second engine or game behavior.
+Peak RSS includes the whole process. The core's existing opening-input byte
+and Source-share budgets are enforced directly. No new RSS ceiling is invented.
+Separate CPU profiles reuse the existing summarizer and name slowest functions;
+profiled timings never enter the comparison. Profiles include opening and month.
 
-- Measure one warmup and three independent measured runs per revision. Compare
-  median simulation milliseconds per game day. Initialization is reported
-  separately. A relative year estimate comes from the identical month window;
-  it is not evidence that a complete year meets the two-minute target.
-- Require matching seed, place, horizon, opening-input hash, and measurement
-  settings. Invalid or incomparable receipts fail explicitly.
-- Fail when head exceeds 120% of base. Report process peak RSS and enforce the
-  existing opening-input byte and Source-share budgets from the core, rather
-  than inventing a new memory ceiling.
-- Reuse the existing CPU-profile summarizer to name the slowest functions and
-  their source locations. Profiled runs stay outside the timing comparison.
-- Propose a forty-five-minute performance-job deadline. Reuse the same
-  registered checkout for sequential revision measurements; no repository
-  copies. Store compact summaries, not copied worlds or heap dumps.
+The PR deadline is five minutes; nightly is thirty minutes; paired measurements
+have forty-five minutes. The tagged policy table links to
+[CTO approval](https://github.com/lamontaes/Political-Game-Git/pull/3941#issuecomment-6102566030).
+GitHub summaries are short; artifacts contain compact receipts, not worlds.
 
-Proof: introduce a temporary computational slowdown in the measured step,
-confirm that it exceeds the allowed ratio and exits red, restore it, and show
-the ordinary result. A fabricated timing receipt cannot count as this proof.
-Also check the opening-input guard with a deliberately oversized fixture.
+## Deliberate-failure proofs
 
-## Dependencies and ownership
+`prove-golden.mjs CORE_REVISION /tmp/contact-proof.json` runs an explicitly
+provisional step-2 detector overlay. It uses existing contact and relationship
+boundary tests plus an opening in the drawn place. A temporary contact-producer
+break must turn the suite red; restoring it must pass. This does not register
+or accept the full 91-day and multi-year M0-07 test. The CTO registers that test
+when the people package supplies it.
 
-Main currently has no `src/core2`, bench command, or registered feature test
-commands. The core is on `pool/P8-part-1`. Its existing measurement command runs
-an opening, a year, or the pre-run; the historical drives-proof command used by
-the profile scripts is absent from that core branch.
+`prove-performance.mjs CORE_REVISION /tmp/speed-proof.json` measures the core,
+introduces real CPU work at its clock boundary, measures again, and requires
+red. It removes the temporary break, runs the ordinary clock again, and checks
+the real opening-input guard with an oversized fixture. Both proof tools
+require a clean checkout and restore the original source and branch in finally.
+Neither temporary break is committed.
 
-Before the game-level failure proofs, the CTO must register the step-2 command
-and provide a core revision to test. A guard wrapper can use the public core
-APIs for the month without editing `src/core2`, `src/director`, or `src/rules`.
-Missing benchmark dependencies remain explicit failures, never green results.
-
-The proposed budgets are engineering policies pending CTO approval. When built,
-numeric policies belong in a tagged parameter table. Both specs remain
-unaccepted until the separate Sonnet finisher verifies the package.
+Main does not yet contain the core. Until it lands, proofs use the latest
+approved core branch and record its exact revision. Missing core dependencies
+fail explicitly. These tools do not provide a second engine or change core,
+director, or rule modules.
