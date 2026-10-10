@@ -1,6 +1,6 @@
 # The new wage code makes a game year about three times slower
 
-A game year now takes roughly 1,000 seconds instead of 324, from the full-year timing done earlier today. One routine causes nearly all of it: the one that pays wages through the cash journal. On the same Sacramento town, 31 simulated days take about 28 seconds with the old money code and 87 with the new, and building the town takes the same time in both. The routine mostly re-reads and re-copies records it has just checked. Owner decision: the 20% speed budget (no year more than 1.2 times main) probably cannot be met even after the four code fixes proposed below, so decide whether it applies to the new money code.
+A game year now takes roughly 1,000 seconds instead of 324. One routine causes nearly all of it: the one that pays wages through the cash journal. On the same Sacramento town, 31 simulated days take about 28 seconds with the old money code and 87 with the new, and building the town takes the same time in both. The routine mostly re-reads and re-copies records it has just checked. Owner decision: the 20% speed budget (no year over 1.2 times main) probably cannot be met even with the four code fixes below. Decide whether it applies, and whether wages may be paid once per pay period instead of after every shift.
 
 ## What was compared
 
@@ -26,14 +26,14 @@ Seconds to simulate 31 days, from the script's own printout. Unprofiled.
 
 AFTER + P8 is AFTER with Sol's newest branch merged in (P8 at `32569a5f`). It takes 85.4 seconds, within the run-to-run spread of AFTER, so Sol's newest changes do not remove the slowdown.
 
-| Separate piece                                                              |      BEFORE |       AFTER |
-| --------------------------------------------------------------------------- | ----------: | ----------: |
-| Building the town, seconds (two runs each: the warm-up and the one-day run) | 8.2 and 6.3 | 8.0 and 6.8 |
-| Simulating the first day only (`--days 1`), seconds                         |        0.51 |        1.85 |
-| Peak memory over 31 days, MiB (noisy across runs)                           |       2,331 |       2,491 |
+| Separate piece                                                                            |      BEFORE |       AFTER |
+| ----------------------------------------------------------------------------------------- | ----------: | ----------: |
+| Building the town, seconds (warm-up and one-day run; five-run averages in the note below) | 8.2 and 6.3 | 8.0 and 6.8 |
+| Simulating the first day only (`--days 1`), seconds                                       |        0.51 |        1.85 |
+| Peak memory over 31 days, MiB (noisy across runs)                                         |       2,331 |       2,491 |
 
-- The town builds in 6.3 to 8.2 seconds in every run, with no pattern between versions. The slowdown is per day, not per build: the first day alone is already 3.6 times slower.
-- Cross-check against the full-year timing (OPUS-DRIVES, the session that ran it, commented on issue 3922 at 05:57 UTC on October 10): 59 added seconds over 31,176 work results is 1.9 milliseconds each. A year is about 367,000 work results (1,006 a day), which predicts roughly 700 added seconds. OPUS-DRIVES measured a year at 324 seconds before and at 960 and 1,157 seconds after, which is 636 and 833 added seconds.
+- Across five runs of each version (warm-up, two measured, the profiled run and the one-day run) the town built in 6.3 to 8.2 seconds: BEFORE averaged 6.9 and AFTER 7.3, with no pattern between versions. The slowdown is per day, not per build: the first day alone is already 3.6 times slower.
+- Cross-check against the full-year timing (OPUS-DRIVES, the session that ran it, commented on issue 3922 at 05:57 UTC on October 10): 59 added seconds over 31,176 work results (a work result is one dated work segment settled with its wages) is 1.9 milliseconds each. A year is about 367,000 work results (1,006 a day), which predicts roughly 700 added seconds (inferred: an extrapolation from 31 days). OPUS-DRIVES measured a year at 324 seconds before and at 960 and 1,157 seconds after, which is 636 and 833 added seconds.
 - Drives are off, so the donation change that came with the merge (`payDonation`, `src/core2/modules/drives.ts:954`) never ran. It appears in neither profile.
 
 ## Where the time goes
@@ -106,7 +106,7 @@ Classes: (a) a scan where an index belongs; (b) repeated copying, freezing or va
 
 Causes 1, 2 and 4 to 7 add to the 51.3 seconds under the routine. With cause 3 and the +0.1 seconds elsewhere they add to 60.6.
 
-- Class (a) was not found. No scanning function appears in the top 40 by self or total time in either profile (appendix), and this route builds no finance contracts, per Sol's (SOL-1258) note in the P16 assignment. (The profile part is measured; the no-contracts part comes from that note.)
+- Class (a) was not found. No scanning function appears in the top 40 by self or total time in either profile (appendix), and this route builds no finance contracts, per Sol's (SOL-1258) note in the assignment for this report (package P16). (The profile part is measured; the no-contracts part comes from that note.)
 - Class (b) is causes 1, 2, 6 and 7 (37.3 seconds, 62%) plus the garbage collection in cause 3 (9.2 seconds, 15%): about 47 seconds, 77% of the gap.
 - Class (c) is causes 4 and 5: about 14 seconds, 23%. Their own garbage is inside cause 3 and cannot be separated, so 14 seconds is a floor. I call it new work because the money repair posts a balanced journal entry for each work result; I did not test whether parts of it could be cheaper.
 
@@ -132,6 +132,7 @@ The remaining class (c) work alone is about 14 profiled seconds, a third of BEFO
 - This list and a link to this report are posted on pull request 3918, addressed to Sol (SOL-1258). Fixes 1 and 2 are the first to try, because they are the largest and the least invasive.
 - Nothing is fixed in this pull request. It adds the report and my measuring scripts only.
 - Open for the owner: whether the 20% speed budget applies to the new money code as it stands, or whether Sol should look for savings inside the journal work too (causes 4 and 5).
+- Open for the owner: whether wages may be paid once per pay period instead of after every shift (fix 5). It changes the game's pay timing, and I did not test it.
 - Open for whoever measures next: rerun BEFORE and AFTER after fixes 1 and 2, and confirm the work result count.
 
 ## What I did not check
