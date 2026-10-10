@@ -135,6 +135,9 @@ export function peopleReceipt(input: CoreInput, buildSeconds: number) {
 
   // The answer key for partnership: adults with no spouse or unmarried
   // partner at home, against the place's own ACS (B09021, both sexes).
+  const residentsById = new Map(
+    residents.map((person) => [person.id, person] as const),
+  );
   const partnerAtHome = {
     citation: `ACS 2024 1-year B09021 for ${geo.key}: adults of the band who are neither a householder living with a spouse or unmarried partner nor that spouse or partner (${OPENING_PARTNERSHIP.citation.split(".")[0]}).`,
     rows: OPENING_PARTNERSHIP.arrangementBands.map((label, i) => {
@@ -149,11 +152,26 @@ export function peopleReceipt(input: CoreInput, buildSeconds: number) {
         (person) => !relationCounts(person).get("partner"),
       ).length;
       const row = geo.rows.arrangements;
+      // A grown child at home: a resident parent shares their household.
+      const atHome = people.filter((person) =>
+        (input.familyLinks ?? []).some(
+          (link) =>
+            link.kind === "parent-child" &&
+            link.personIds[1] === person.id &&
+            residentsById.get(link.personIds[0])?.householdId ===
+              person.householdId,
+        ),
+      ).length;
       return {
         band: label,
         people: people.length,
         gameNoPartnerPercent: percent(unpartnered, people.length),
         acsNoPartnerPercent: percent(row.unpartnered[i]!, row.adults[i]!),
+        gameInParentHomePercent: percent(atHome, people.length),
+        acsChildOfHouseholderPercent: percent(
+          row.childOfHouseholder[i]!,
+          row.adults[i]!,
+        ),
       };
     }),
   };

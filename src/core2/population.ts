@@ -144,8 +144,9 @@ interface HouseholdPlan {
   inputs: readonly CharacterHistoryContextPersonInput[];
   ids: readonly EntityId[];
   countyId?: EntityId;
-  /** P15: the member who is the first adult's grown child (opening-partnership.ts). */
-  grownChild?: number;
+  /** P15: members who are grown children of `grownChildParents` (opening-partnership.ts). */
+  grownChildren?: readonly number[];
+  grownChildParents?: readonly number[];
 }
 
 /** Each [child, parent] member pair of a household: children under 18 with every adult, and a grown child with their parent. */
@@ -158,8 +159,9 @@ function parentChildMembers(plan: HouseholdPlan): [number, number][] {
       ? adults.map((parent) => [child, parent] as [number, number])
       : [],
   );
-  if (plan.grownChild !== undefined)
-    pairs.push([plan.grownChild, adults[p("zero")]!]);
+  for (const child of plan.grownChildren ?? [])
+    for (const parent of plan.grownChildParents ?? [])
+      pairs.push([child, parent]);
   return pairs;
 }
 
@@ -337,7 +339,7 @@ function withFamilyContext(
         residenceRole: "primary",
         kind:
           plan.skeleton.members[member]!.role === "child" ||
-          member === plan.grownChild
+          plan.grownChildren?.includes(member)
             ? "resident:child"
             : plan.skeleton.shape === "housemates"
               ? "resident:roommate"
@@ -552,7 +554,8 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     const {
       skeleton,
       people: householdPeople,
-      grownChild,
+      grownChildren,
+      grownChildParents,
     } = partnerAgedHousehold({
       seed: options.seed,
       geo: partnershipGeo(lifePlaceByJurisdictionId(town)?.sourceGeoid),
@@ -600,6 +603,44 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
               : drawnName,
         };
       },
+      addPerson: (key, sex, age, familyName) => {
+        const identity = {
+          gender: sex,
+          pronouns: defaultPronounsForGender(sex),
+        };
+        const corpusVersion = nameCorpusVersionForWorld(seedWorld, town);
+        const named = drawCanonicalNamedIdentity(
+          new SeededRng(seedWorld.seed).fork(key).fork("name"),
+          identity,
+          { corpusVersion },
+        );
+        const birthDate = inventedPersonBirthDate(
+          new SeededRng(seedWorld.seed).fork(`${key}:p15-birth`),
+          {
+            role: "household-member",
+            referenceDate: startedAt,
+            age,
+            placement: "drawn-exact",
+          },
+        );
+        const surname = familyName ?? named.familyName;
+        return {
+          stableKey: key,
+          givenName:
+            corpusVersion === DEFAULT_CORPUS_VERSION
+              ? birthCohortGivenName(seedWorld.seed, key, {
+                  givenName: named.givenName,
+                  familyName: surname,
+                  birthDate,
+                  gender: sex,
+                })
+              : named.givenName,
+          familyName: surname,
+          identity,
+          birthDate,
+          homeJurisdictionId: town,
+        };
+      },
     });
     const stableKey = `${TOWN_RESIDENTS_VERSION}:${town}:household:${index}`;
     const county = [...counties].sort((left, right) => {
@@ -627,7 +668,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         characterHistoryContextPersonId(seedWorld, person.stableKey),
       ),
       ...(county ? { countyId: county.place.context.jurisdiction.id } : {}),
-      ...(grownChild === undefined ? {} : { grownChild }),
+      ...(grownChildren.length ? { grownChildren, grownChildParents } : {}),
     });
     inputs.push(...householdPeople);
   }
@@ -945,8 +986,13 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
         "child",
       );
     }
-    for (const child of children) {
-      for (const sibling of children) {
+    // Children at home, minors and grown, are each other's siblings.
+    const siblings = [
+      ...children,
+      ...(plan.grownChildren ?? []).map((member) => plan.ids[member]!),
+    ];
+    for (const child of siblings) {
+      for (const sibling of siblings) {
         if (sibling === child) continue;
         link(child, sibling);
         const born = [
@@ -1212,10 +1258,9 @@ function openingFamilies(input: OpeningFamilyInput): {
       members: plan.ids.map((id, member) => ({
         id,
         // A grown child at home is their parent's child in the kin model.
-        role:
-          member === plan.grownChild
-            ? ("child" as const)
-            : plan.skeleton.members[member]!.role,
+        role: plan.grownChildren?.includes(member)
+          ? ("child" as const)
+          : plan.skeleton.members[member]!.role,
         birthDate: world.people[id]!.birthDate,
         ...(world.people[id]!.identity
           ? { gender: world.people[id]!.identity!.gender }

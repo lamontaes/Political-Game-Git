@@ -1,7 +1,7 @@
 {
   "version": "p15-opening-partnership-v1",
   "stopgapId": "SG-P15-partnership-model",
-  "citation": "U.S. Census Bureau, American Community Survey 2024 1-year estimates, table-based summary files: B01001 Sex by Age (acsdt1y2024-b01001.dat, sha256 84db6a3a8eda54d882b9a5e6a5bb48864fcbb573a262127ed026ae5fb6d6953e) B09021 Living Arrangements of Adults 18 Years and Over by Age (acsdt1y2024-b09021.dat, sha256 119600befd0d8b0b82a8d74b4e9091069f724d0a7bc2301b6152ad2b103befa8), B11001 Household Type (acsdt1y2024-b11001.dat, sha256 5bd77eb910b50fa49a17c050bed3f7009f738f18cd509cc55b260a12655250c7), B11003 Family Type by Presence and Age of Own Children Under 18 Years (acsdt1y2024-b11003.dat, sha256 5fea309b6407cd04477349b11817309460e7f4d14043c0aea52970e462561131) and B12002 Sex by Marital Status by Age for the Population 15 Years and Over (acsdt1y2024-b12002.dat, sha256 8c7ee43d1c9d88adc247603319d1fb51044a082f4f547b1ce47f44a91b2d27e2). Rows for the nation (US), each state and Puerto Rico (two-digit FIPS) and each place the 1-year survey covers (seven-digit place GEOID) that the game seats. Places outside the 1-year survey read their state; Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands read the nation, ESTIMATED FROM AVERAGE (SG-P15-partnership-model).",
+  "citation": "U.S. Census Bureau, American Community Survey 2024 1-year estimates, table-based summary files: B01001 Sex by Age (acsdt1y2024-b01001.dat, sha256 84db6a3a8eda54d882b9a5e6a5bb48864fcbb573a262127ed026ae5fb6d6953e) B09021 Living Arrangements of Adults 18 Years and Over by Age (acsdt1y2024-b09021.dat, sha256 119600befd0d8b0b82a8d74b4e9091069f724d0a7bc2301b6152ad2b103befa8), B11001 Household Type (acsdt1y2024-b11001.dat, sha256 5bd77eb910b50fa49a17c050bed3f7009f738f18cd509cc55b260a12655250c7), B11003 Family Type by Presence and Age of Own Children Under 18 Years (acsdt1y2024-b11003.dat, sha256 5fea309b6407cd04477349b11817309460e7f4d14043c0aea52970e462561131), B11016 Household Type by Household Size (acsdt1y2024-b11016.dat, sha256 faffded524b44007c4105ce59c1d369cd0a998ea0784bd8d9477371d2e6ab26a) and B12002 Sex by Marital Status by Age for the Population 15 Years and Over (acsdt1y2024-b12002.dat, sha256 8c7ee43d1c9d88adc247603319d1fb51044a082f4f547b1ce47f44a91b2d27e2). Rows for the nation (US), each state and Puerto Rico (two-digit FIPS) and each place the 1-year survey covers (seven-digit place GEOID) that the game seats. Places outside the 1-year survey read their state; Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands read the nation, ESTIMATED FROM AVERAGE (SG-P15-partnership-model).",
   "nationalKey": "US",
   "oldestAge": 100,
   "firstMarriageAge": 15,
@@ -206,15 +206,16 @@
       },
       "arrangements": {
         "adults": [1061356, 1892737, 928542],
-        "livesAlone": [22568, 90234, 109136],
-        "unpartnered": [238761, 261492, 176301],
-        "nonrelatives": [16762, 21364, 7123],
+        "livesAlone": [108222, 250816, 263471],
+        "unpartnered": [692989, 674011, 420440],
+        "nonrelatives": [92600, 49339, 17914],
         "childOfHouseholder": [337593, 120588, 4324],
         "otherRelatives": [154574, 253268, 134731]
       },
       "households": {
         "otherFamilyNoChildren": 202358,
-        "nonfamilyShared": 108614
+        "nonfamilyShared": 108614,
+        "nonfamilyBySize": [89792, 11316, 5498, 1844, 110, 54]
       }
     },
     "02": {
@@ -260,15 +261,16 @@
       },
       "arrangements": {
         "adults": [165530, 263239, 106211],
-        "livesAlone": [2722, 12176, 9326],
-        "unpartnered": [26913, 31503, 14823],
-        "nonrelatives": [3658, 3129, 486],
+        "livesAlone": [17788, 32937, 26367],
+        "unpartnered": [91695, 85776, 41627],
+        "nonrelatives": [14045, 9376, 2820],
         "childOfHouseholder": [43306, 12188, 229],
         "otherRelatives": [16556, 31275, 12211]
       },
       "households": {
         "otherFamilyNoChildren": 17875,
-        "nonfamilyShared": 20159
+        "nonfamilyShared": 20159,
+        "nonfamilyBySize": [17166, 2110, 630, 229, 0, 24]
       }
     },
     "04": {
@@ -316,15 +318,16 @@
       },
       "arrangements": {
         "adults": [1696532, 2677985, 1459213],
-        "livesAlone": [7722, 32138, 42023],
-        "unpartnered": [110736, 98934, 72508],
-        "nonrelatives": [7465, 7091, 3557],
+        "livesAlone": [156064, 304115, 360264],
+        "unpartnered": [1085532, 898365, 578583],
+        "nonrelatives": [178184, 95382, 35530],
         "childOfHouseholder": [521611, 131868, 3329],
         "otherRelatives": [229673, 367000, 179460]
       },
       "households": {
         "otherFamilyNoChildren": 293533,
-        "nonfamilyShared": 251053
+        "nonfamilyShared": 251053,
+        "nonfamilyBySize": [210708, 24141, 10912, 3020, 1496, 776]
       }
     },
     "05": {
@@ -370,15 +373,16 @@
       },
       "arrangements": {
         "adults": [640198, 1121319, 545548],
-        "livesAlone": [12534, 61757, 70798],
-        "unpartnered": [129393, 158351, 106088],
-        "nonrelatives": [9244, 9590, 3687],
+        "livesAlone": [61553, 152978, 155374],
+        "unpartnered": [355992, 382633, 232658],
+        "nonrelatives": [49839, 28620, 8463],
         "childOfHouseholder": [161911, 53146, 1418],
         "otherRelatives": [82689, 147889, 67403]
       },
       "households": {
         "otherFamilyNoChildren": 107768,
-        "nonfamilyShared": 69777
+        "nonfamilyShared": 69777,
+        "nonfamilyBySize": [57842, 7503, 3779, 181, 178, 294]
       }
     },
     "06": {
@@ -426,15 +430,16 @@
       },
       "arrangements": {
         "adults": [8936419, 14872480, 6333225],
-        "livesAlone": [15962, 72330, 97483],
-        "unpartnered": [281822, 268530, 183256],
-        "nonrelatives": [28090, 40672, 18595],
+        "livesAlone": [603697, 1393229, 1401504],
+        "unpartnered": [6482705, 5312700, 2991749],
+        "nonrelatives": [1022439, 695512, 239026],
         "childOfHouseholder": [3494269, 879672, 25297],
         "otherRelatives": [1362300, 2344287, 1325922]
       },
       "households": {
         "otherFamilyNoChildren": 1568331,
-        "nonfamilyShared": 1101263
+        "nonfamilyShared": 1101263,
+        "nonfamilyBySize": [863829, 140201, 62185, 20465, 7752, 6831]
       }
     },
     "08": {
@@ -482,15 +487,16 @@
       },
       "arrangements": {
         "adults": [1414457, 2253785, 954669],
-        "livesAlone": [8226, 33367, 38357],
-        "unpartnered": [72528, 71213, 58160],
-        "nonrelatives": [8660, 6687, 4294],
+        "livesAlone": [169550, 282951, 256729],
+        "unpartnered": [803119, 668539, 380496],
+        "nonrelatives": [181199, 80206, 20131],
         "childOfHouseholder": [322421, 65483, 2137],
         "otherRelatives": [129949, 239899, 101499]
       },
       "households": {
         "otherFamilyNoChildren": 173910,
-        "nonfamilyShared": 242341
+        "nonfamilyShared": 242341,
+        "nonfamilyBySize": [201266, 26899, 11564, 2329, 28, 255]
       }
     },
     "09": {
@@ -536,15 +542,16 @@
       },
       "arrangements": {
         "adults": [741537, 1405423, 692430],
-        "livesAlone": [3900, 15053, 20637],
-        "unpartnered": [55072, 46616, 36009],
-        "nonrelatives": [5472, 5084, 2402],
+        "livesAlone": [62512, 173073, 199408],
+        "unpartnered": [510990, 471402, 314623],
+        "nonrelatives": [56711, 40076, 16889],
         "childOfHouseholder": [305942, 64981, 2673],
         "otherRelatives": [85825, 193272, 95653]
       },
       "households": {
         "otherFamilyNoChildren": 140891,
-        "nonfamilyShared": 95974
+        "nonfamilyShared": 95974,
+        "nonfamilyBySize": [83058, 8376, 2605, 1183, 489, 263]
       }
     },
     "10": {
@@ -590,15 +597,16 @@
       },
       "arrangements": {
         "adults": [203870, 387645, 223362],
-        "livesAlone": [1395, 5629, 8992],
-        "unpartnered": [21757, 21437, 14901],
-        "nonrelatives": [626, 3052, 307],
+        "livesAlone": [13124, 44064, 55793],
+        "unpartnered": [133979, 138399, 91135],
+        "nonrelatives": [17470, 12614, 4448],
         "childOfHouseholder": [75414, 27209, 358],
         "otherRelatives": [27971, 54512, 30536]
       },
       "households": {
         "otherFamilyNoChildren": 40093,
-        "nonfamilyShared": 27924
+        "nonfamilyShared": 27924,
+        "nonfamilyBySize": [22968, 2840, 1639, 253, 224, 0]
       }
     },
     "11": {
@@ -652,7 +660,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 27181,
-        "nonfamilyShared": 37521
+        "nonfamilyShared": 37521,
+        "nonfamilyBySize": [32259, 3307, 1083, 369, 220, 283]
       }
     },
     "12": {
@@ -700,15 +709,16 @@
       },
       "arrangements": {
         "adults": [4613044, 8820292, 4970413],
-        "livesAlone": [15123, 72618, 99416],
-        "unpartnered": [227270, 241445, 178596],
-        "nonrelatives": [20842, 23131, 11073],
+        "livesAlone": [378389, 975639, 1206715],
+        "unpartnered": [3170002, 3153004, 2120508],
+        "nonrelatives": [441239, 347267, 131197],
         "childOfHouseholder": [1690372, 520241, 16276],
         "otherRelatives": [660002, 1309857, 766320]
       },
       "households": {
         "otherFamilyNoChildren": 949070,
-        "nonfamilyShared": 656542
+        "nonfamilyShared": 656542,
+        "nonfamilyBySize": [561929, 59641, 23772, 6860, 2197, 2143]
       }
     },
     "13": {
@@ -756,15 +766,16 @@
       },
       "arrangements": {
         "adults": [2451062, 4226773, 1722477],
-        "livesAlone": [24918, 104423, 123925],
-        "unpartnered": [344857, 341389, 223878],
-        "nonrelatives": [21346, 26634, 10849],
+        "livesAlone": [225495, 516117, 428720],
+        "unpartnered": [1658726, 1526385, 766144],
+        "nonrelatives": [218361, 134188, 38250],
         "childOfHouseholder": [842563, 228323, 6169],
         "otherRelatives": [372307, 647757, 293005]
       },
       "households": {
         "otherFamilyNoChildren": 440290,
-        "nonfamilyShared": 256445
+        "nonfamilyShared": 256445,
+        "nonfamilyBySize": [214948, 28116, 9067, 3447, 368, 499]
       }
     },
     "15": {
@@ -810,15 +821,16 @@
       },
       "arrangements": {
         "adults": [276891, 529652, 305515],
-        "livesAlone": [1279, 6980, 8340],
-        "unpartnered": [21977, 28647, 18077],
-        "nonrelatives": [4961, 4585, 3770],
+        "livesAlone": [20224, 47859, 59864],
+        "unpartnered": [198398, 215388, 140794],
+        "nonrelatives": [40349, 32682, 14957],
         "childOfHouseholder": [92215, 50289, 1968],
         "otherRelatives": [45610, 84558, 64005]
       },
       "households": {
         "otherFamilyNoChildren": 51707,
-        "nonfamilyShared": 33495
+        "nonfamilyShared": 33495,
+        "nonfamilyBySize": [27531, 2768, 1318, 965, 291, 622]
       }
     },
     "16": {
@@ -864,15 +876,16 @@
       },
       "arrangements": {
         "adults": [428408, 712399, 343984],
-        "livesAlone": [4081, 17543, 26435],
-        "unpartnered": [65566, 54841, 41459],
-        "nonrelatives": [8193, 6932, 1635],
+        "livesAlone": [27242, 71076, 81941],
+        "unpartnered": [231894, 198621, 124894],
+        "nonrelatives": [50324, 26891, 6357],
         "childOfHouseholder": [108999, 27542, 807],
         "otherRelatives": [45329, 73112, 35789]
       },
       "households": {
         "otherFamilyNoChildren": 45827,
-        "nonfamilyShared": 58472
+        "nonfamilyShared": 58472,
+        "nonfamilyBySize": [46628, 6944, 3373, 1043, 470, 14]
       }
     },
     "17": {
@@ -920,15 +933,16 @@
       },
       "arrangements": {
         "adults": [2770725, 4759194, 2198631],
-        "livesAlone": [21380, 64814, 88781],
-        "unpartnered": [154811, 145993, 122042],
-        "nonrelatives": [10406, 10579, 5692],
+        "livesAlone": [338691, 643462, 635570],
+        "unpartnered": [1865804, 1594530, 971115],
+        "nonrelatives": [231678, 124483, 37352],
         "childOfHouseholder": [971360, 211311, 7015],
         "otherRelatives": [324075, 615274, 291178]
       },
       "households": {
         "otherFamilyNoChildren": 456204,
-        "nonfamilyShared": 347884
+        "nonfamilyShared": 347884,
+        "nonfamilyBySize": [297386, 33017, 12169, 2870, 847, 1595]
       }
     },
     "18": {
@@ -976,15 +990,16 @@
       },
       "arrangements": {
         "adults": [1495813, 2495819, 1177865],
-        "livesAlone": [20894, 71396, 93180],
-        "unpartnered": [196202, 175946, 133953],
-        "nonrelatives": [14421, 12059, 4200],
+        "livesAlone": [156807, 322422, 349105],
+        "unpartnered": [881562, 785087, 504056],
+        "nonrelatives": [116770, 60712, 15800],
         "childOfHouseholder": [424732, 109400, 3226],
         "otherRelatives": [183253, 292553, 135925]
       },
       "households": {
         "otherFamilyNoChildren": 224505,
-        "nonfamilyShared": 180426
+        "nonfamilyShared": 180426,
+        "nonfamilyBySize": [156296, 16227, 5252, 2095, 417, 139]
       }
     },
     "19": {
@@ -1030,15 +1045,16 @@
       },
       "arrangements": {
         "adults": [676620, 1154367, 584343],
-        "livesAlone": [18143, 46750, 64632],
-        "unpartnered": [91360, 95530, 80670],
-        "nonrelatives": [7906, 6516, 2589],
+        "livesAlone": [87686, 155792, 169236],
+        "unpartnered": [377636, 328327, 219979],
+        "nonrelatives": [76169, 24248, 9956],
         "childOfHouseholder": [146310, 35489, 1177],
         "otherRelatives": [67471, 112798, 39610]
       },
       "households": {
         "otherFamilyNoChildren": 75499,
-        "nonfamilyShared": 97785
+        "nonfamilyShared": 97785,
+        "nonfamilyBySize": [82476, 8628, 4492, 1436, 328, 425]
       }
     },
     "20": {
@@ -1084,15 +1100,16 @@
       },
       "arrangements": {
         "adults": [639203, 1045856, 513579],
-        "livesAlone": [10796, 32873, 45187],
-        "unpartnered": [60021, 67336, 58922],
-        "nonrelatives": [5182, 3920, 2017],
+        "livesAlone": [79473, 134884, 147120],
+        "unpartnered": [349481, 300957, 200697],
+        "nonrelatives": [60185, 21878, 8998],
         "childOfHouseholder": [149036, 36950, 756],
         "otherRelatives": [60787, 107245, 43823]
       },
       "households": {
         "otherFamilyNoChildren": 79661,
-        "nonfamilyShared": 84073
+        "nonfamilyShared": 84073,
+        "nonfamilyBySize": [70997, 7419, 4988, 477, 81, 111]
       }
     },
     "21": {
@@ -1140,15 +1157,16 @@
       },
       "arrangements": {
         "adults": [964295, 1685754, 799826],
-        "livesAlone": [17340, 75396, 88448],
-        "unpartnered": [172071, 198695, 135182],
-        "nonrelatives": [11209, 15538, 4735],
+        "livesAlone": [90285, 229417, 234743],
+        "unpartnered": [537977, 568026, 349122],
+        "nonrelatives": [73823, 50054, 14242],
         "childOfHouseholder": [255368, 76714, 2669],
         "otherRelatives": [118501, 211841, 97468]
       },
       "households": {
         "otherFamilyNoChildren": 163803,
-        "nonfamilyShared": 120870
+        "nonfamilyShared": 120870,
+        "nonfamilyBySize": [103926, 10652, 4339, 741, 1056, 156]
       }
     },
     "22": {
@@ -1196,15 +1214,16 @@
       },
       "arrangements": {
         "adults": [951816, 1665669, 795036],
-        "livesAlone": [12638, 58146, 62001],
-        "unpartnered": [134765, 149715, 95945],
-        "nonrelatives": [12366, 8405, 3445],
+        "livesAlone": [101742, 254235, 231281],
+        "unpartnered": [617367, 647009, 356142],
+        "nonrelatives": [76447, 45813, 12205],
         "childOfHouseholder": [287535, 104492, 2762],
         "otherRelatives": [151643, 242469, 109894]
       },
       "households": {
         "otherFamilyNoChildren": 188126,
-        "nonfamilyShared": 107287
+        "nonfamilyShared": 107287,
+        "nonfamilyBySize": [90154, 12150, 3290, 973, 521, 199]
       }
     },
     "23": {
@@ -1250,15 +1269,16 @@
       },
       "arrangements": {
         "adults": [258200, 541413, 318884],
-        "livesAlone": [10835, 35983, 48340],
-        "unpartnered": [74922, 87376, 67304],
-        "nonrelatives": [9673, 8930, 3571],
+        "livesAlone": [28455, 70910, 88991],
+        "unpartnered": [140004, 156065, 118768],
+        "nonrelatives": [25656, 14978, 5295],
         "childOfHouseholder": [67677, 22095, 643],
         "otherRelatives": [18216, 48082, 23839]
       },
       "households": {
         "otherFamilyNoChildren": 39733,
-        "nonfamilyShared": 56348
+        "nonfamilyShared": 56348,
+        "nonfamilyBySize": [47534, 6302, 1702, 677, 61, 72]
       }
     },
     "24": {
@@ -1306,15 +1326,16 @@
       },
       "arrangements": {
         "adults": [1270372, 2424804, 1072108],
-        "livesAlone": [6465, 27233, 36434],
-        "unpartnered": [103979, 94569, 70604],
-        "nonrelatives": [7896, 8275, 5266],
+        "livesAlone": [120604, 297684, 291422],
+        "unpartnered": [892518, 871070, 509077],
+        "nonrelatives": [117300, 89180, 28819],
         "childOfHouseholder": [488833, 130361, 1996],
         "otherRelatives": [165781, 353845, 186840]
       },
       "households": {
         "otherFamilyNoChildren": 254122,
-        "nonfamilyShared": 150395
+        "nonfamilyShared": 150395,
+        "nonfamilyBySize": [125893, 13166, 6964, 3042, 515, 815]
       }
     },
     "25": {
@@ -1362,15 +1383,16 @@
       },
       "arrangements": {
         "adults": [1533352, 2704839, 1291338],
-        "livesAlone": [3458, 18706, 24427],
-        "unpartnered": [67989, 56355, 40279],
-        "nonrelatives": [6338, 7111, 1952],
+        "livesAlone": [133407, 323176, 363611],
+        "unpartnered": [1055169, 892834, 570821],
+        "nonrelatives": [217408, 85393, 27596],
         "childOfHouseholder": [547891, 119700, 4094],
         "otherRelatives": [156463, 364565, 175520]
       },
       "households": {
         "otherFamilyNoChildren": 264792,
-        "nonfamilyShared": 248244
+        "nonfamilyShared": 248244,
+        "nonfamilyBySize": [198802, 31232, 12588, 3885, 584, 1153]
       }
     },
     "26": {
@@ -1418,15 +1440,16 @@
       },
       "arrangements": {
         "adults": [2169437, 3716910, 1936823],
-        "livesAlone": [27294, 103446, 136215],
-        "unpartnered": [259454, 252609, 197016],
-        "nonrelatives": [20323, 18363, 9010],
+        "livesAlone": [219755, 504456, 560831],
+        "unpartnered": [1376183, 1238965, 827553],
+        "nonrelatives": [201047, 93080, 32080],
         "childOfHouseholder": [704556, 195780, 6519],
         "otherRelatives": [250825, 445649, 228123]
       },
       "households": {
         "otherFamilyNoChildren": 348579,
-        "nonfamilyShared": 279386
+        "nonfamilyShared": 279386,
+        "nonfamilyBySize": [236660, 23228, 13127, 4154, 1693, 524]
       }
     },
     "27": {
@@ -1474,15 +1497,16 @@
       },
       "arrangements": {
         "adults": [1205549, 2143801, 1015203],
-        "livesAlone": [22806, 60995, 78543],
-        "unpartnered": [145341, 134407, 105063],
-        "nonrelatives": [13912, 11089, 4907],
+        "livesAlone": [143428, 287608, 288542],
+        "unpartnered": [709517, 610711, 387502],
+        "nonrelatives": [131171, 52816, 15181],
         "childOfHouseholder": [326320, 59833, 2507],
         "otherRelatives": [108598, 210454, 81272]
       },
       "households": {
         "otherFamilyNoChildren": 143384,
-        "nonfamilyShared": 189458
+        "nonfamilyShared": 189458,
+        "nonfamilyBySize": [162807, 15071, 8085, 2508, 493, 494]
       }
     },
     "28": {
@@ -1528,15 +1552,16 @@
       },
       "arrangements": {
         "adults": [597609, 1073565, 513641],
-        "livesAlone": [17101, 69909, 79091],
-        "unpartnered": [179793, 214934, 127571],
-        "nonrelatives": [8470, 12716, 5022],
+        "livesAlone": [56627, 149482, 150018],
+        "unpartnered": [392449, 421109, 235825],
+        "nonrelatives": [30831, 24970, 10050],
         "childOfHouseholder": [197434, 76765, 1370],
         "otherRelatives": [107557, 169892, 74387]
       },
       "households": {
         "otherFamilyNoChildren": 136571,
-        "nonfamilyShared": 51372
+        "nonfamilyShared": 51372,
+        "nonfamilyBySize": [44955, 3621, 1624, 917, 122, 133]
       }
     },
     "29": {
@@ -1584,15 +1609,16 @@
       },
       "arrangements": {
         "adults": [1313551, 2277001, 1128599],
-        "livesAlone": [18294, 72580, 94556],
-        "unpartnered": [173689, 186407, 142731],
-        "nonrelatives": [13646, 14441, 7459],
+        "livesAlone": [145759, 314952, 334419],
+        "unpartnered": [754373, 723269, 480912],
+        "nonrelatives": [110216, 57214, 21005],
         "childOfHouseholder": [349995, 101491, 2736],
         "otherRelatives": [148403, 249612, 122752]
       },
       "households": {
         "otherFamilyNoChildren": 195031,
-        "nonfamilyShared": 176380
+        "nonfamilyShared": 176380,
+        "nonfamilyBySize": [150997, 16549, 6923, 1117, 440, 354]
       }
     },
     "30": {
@@ -1638,15 +1664,16 @@
       },
       "arrangements": {
         "adults": [231859, 413336, 233541],
-        "livesAlone": [3703, 20641, 26312],
-        "unpartnered": [48399, 55628, 42620],
-        "nonrelatives": [6388, 5484, 3268],
+        "livesAlone": [25163, 56596, 61264],
+        "unpartnered": [134588, 127202, 87955],
+        "nonrelatives": [32043, 12187, 5431],
         "childOfHouseholder": [54070, 19827, 647],
         "otherRelatives": [23312, 38592, 20613]
       },
       "households": {
         "otherFamilyNoChildren": 27670,
-        "nonfamilyShared": 40741
+        "nonfamilyShared": 40741,
+        "nonfamilyBySize": [33487, 5071, 1590, 511, 0, 82]
       }
     },
     "31": {
@@ -1692,15 +1719,16 @@
       },
       "arrangements": {
         "adults": [435369, 708448, 335289],
-        "livesAlone": [9921, 19817, 33474],
-        "unpartnered": [42624, 38437, 39583],
-        "nonrelatives": [4569, 2040, 861],
+        "livesAlone": [56565, 90402, 104120],
+        "unpartnered": [228496, 188500, 134192],
+        "nonrelatives": [40462, 12502, 4300],
         "childOfHouseholder": [88711, 18323, 501],
         "otherRelatives": [42758, 67273, 25271]
       },
       "households": {
         "otherFamilyNoChildren": 49742,
-        "nonfamilyShared": 58521
+        "nonfamilyShared": 58521,
+        "nonfamilyBySize": [48374, 6280, 2836, 954, 0, 77]
       }
     },
     "32": {
@@ -1746,15 +1774,16 @@
       },
       "arrangements": {
         "adults": [719080, 1256142, 568811],
-        "livesAlone": [1970, 8140, 8978],
-        "unpartnered": [18626, 23971, 17395],
-        "nonrelatives": [2171, 3937, 2041],
+        "livesAlone": [59344, 154282, 137473],
+        "unpartnered": [490443, 483290, 270587],
+        "nonrelatives": [67317, 69308, 21537],
         "childOfHouseholder": [252080, 67313, 1598],
         "otherRelatives": [111702, 192387, 109979]
       },
       "households": {
         "otherFamilyNoChildren": 133655,
-        "nonfamilyShared": 106065
+        "nonfamilyShared": 106065,
+        "nonfamilyBySize": [88718, 12304, 3734, 664, 221, 424]
       }
     },
     "33": {
@@ -1800,15 +1829,16 @@
       },
       "arrangements": {
         "adults": [274190, 553374, 291709],
-        "livesAlone": [5077, 19726, 29000],
-        "unpartnered": [67573, 60258, 45430],
-        "nonrelatives": [7233, 6882, 3544],
+        "livesAlone": [21989, 63227, 77979],
+        "unpartnered": [174007, 159523, 116269],
+        "nonrelatives": [27293, 18029, 7688],
         "childOfHouseholder": [100030, 26266, 524],
         "otherRelatives": [24695, 52001, 30078]
       },
       "households": {
         "otherFamilyNoChildren": 39524,
-        "nonfamilyShared": 45758
+        "nonfamilyShared": 45758,
+        "nonfamilyBySize": [39393, 4377, 1536, 361, 0, 91]
       }
     },
     "34": {
@@ -1856,15 +1886,16 @@
       },
       "arrangements": {
         "adults": [1959039, 3671965, 1661855],
-        "livesAlone": [3098, 15541, 23172],
-        "unpartnered": [67807, 47935, 39060],
-        "nonrelatives": [3308, 3580, 1178],
+        "livesAlone": [125989, 376774, 426203],
+        "unpartnered": [1372018, 1169634, 740874],
+        "nonrelatives": [131253, 104888, 27690],
         "childOfHouseholder": [864695, 174271, 5305],
         "otherRelatives": [250081, 513701, 281676]
       },
       "households": {
         "otherFamilyNoChildren": 371699,
-        "nonfamilyShared": 200314
+        "nonfamilyShared": 200314,
+        "nonfamilyBySize": [168622, 19214, 7082, 3888, 449, 1059]
       }
     },
     "35": {
@@ -1910,15 +1941,16 @@
       },
       "arrangements": {
         "adults": [455941, 766897, 421545],
-        "livesAlone": [4516, 22282, 29463],
-        "unpartnered": [71931, 71326, 49856],
-        "nonrelatives": [4668, 4329, 1872],
+        "livesAlone": [40426, 110240, 122273],
+        "unpartnered": [307649, 305056, 190276],
+        "nonrelatives": [38063, 26693, 9913],
         "childOfHouseholder": [151258, 53465, 1680],
         "otherRelatives": [77902, 114658, 56410]
       },
       "households": {
         "otherFamilyNoChildren": 92017,
-        "nonfamilyShared": 61701
+        "nonfamilyShared": 61701,
+        "nonfamilyBySize": [54594, 5516, 929, 534, 18, 110]
       }
     },
     "36": {
@@ -1966,15 +1998,16 @@
       },
       "arrangements": {
         "adults": [4240973, 7388835, 3609444],
-        "livesAlone": [27385, 99703, 137692],
-        "unpartnered": [234452, 231088, 192338],
-        "nonrelatives": [19295, 18769, 8405],
+        "livesAlone": [449560, 981436, 1033455],
+        "unpartnered": [2985459, 2826745, 1746891],
+        "nonrelatives": [461718, 300809, 99590],
         "childOfHouseholder": [1521226, 382701, 11494],
         "otherRelatives": [552955, 1161799, 602352]
       },
       "households": {
         "otherFamilyNoChildren": 879086,
-        "nonfamilyShared": 602917
+        "nonfamilyShared": 602917,
+        "nonfamilyBySize": [493391, 68012, 28341, 6731, 3182, 3260]
       }
     },
     "37": {
@@ -2022,15 +2055,16 @@
       },
       "arrangements": {
         "adults": [2356142, 4126008, 1932185],
-        "livesAlone": [36773, 146321, 186958],
-        "unpartnered": [398263, 406011, 293730],
-        "nonrelatives": [30387, 28361, 12225],
+        "livesAlone": [263330, 539088, 524929],
+        "unpartnered": [1441613, 1342064, 803322],
+        "nonrelatives": [216285, 95037, 31780],
         "childOfHouseholder": [667246, 185709, 5030],
         "otherRelatives": [294752, 522230, 241583]
       },
       "households": {
         "otherFamilyNoChildren": 391541,
-        "nonfamilyShared": 290267
+        "nonfamilyShared": 290267,
+        "nonfamilyBySize": [246508, 28823, 10896, 2266, 1253, 521]
       }
     },
     "38": {
@@ -2076,15 +2110,16 @@
       },
       "arrangements": {
         "adults": [182966, 271893, 132905],
-        "livesAlone": [6587, 13523, 15160],
-        "unpartnered": [19030, 23395, 18233],
-        "nonrelatives": [994, 869, 340],
+        "livesAlone": [33595, 42253, 43347],
+        "unpartnered": [89816, 72138, 54601],
+        "nonrelatives": [21526, 3422, 1258],
         "childOfHouseholder": [22528, 4307, 426],
         "otherRelatives": [12167, 22156, 9570]
       },
       "households": {
         "otherFamilyNoChildren": 18905,
-        "nonfamilyShared": 30485
+        "nonfamilyShared": 30485,
+        "nonfamilyBySize": [24698, 4012, 1474, 175, 0, 126]
       }
     },
     "39": {
@@ -2132,15 +2167,16 @@
       },
       "arrangements": {
         "adults": [2481244, 4348266, 2191097],
-        "livesAlone": [24663, 98811, 132320],
-        "unpartnered": [272265, 256054, 201031],
-        "nonrelatives": [19360, 16867, 8155],
+        "livesAlone": [283443, 630840, 658066],
+        "unpartnered": [1475845, 1432150, 951663],
+        "nonrelatives": [204167, 100686, 37100],
         "childOfHouseholder": [707337, 191675, 6017],
         "otherRelatives": [280898, 508949, 250480]
       },
       "households": {
         "otherFamilyNoChildren": 411043,
-        "nonfamilyShared": 338581
+        "nonfamilyShared": 338581,
+        "nonfamilyBySize": [290824, 31852, 9912, 3596, 1784, 613]
       }
     },
     "40": {
@@ -2186,15 +2222,16 @@
       },
       "arrangements": {
         "adults": [887498, 1460752, 668019],
-        "livesAlone": [13764, 52614, 66477],
-        "unpartnered": [151489, 155790, 106563],
-        "nonrelatives": [12692, 11816, 4562],
+        "livesAlone": [92927, 186054, 194332],
+        "unpartnered": [517260, 492471, 297276],
+        "nonrelatives": [74381, 39980, 12876],
         "childOfHouseholder": [231797, 71736, 3025],
         "otherRelatives": [118155, 194701, 87043]
       },
       "households": {
         "otherFamilyNoChildren": 135447,
-        "nonfamilyShared": 99785
+        "nonfamilyShared": 99785,
+        "nonfamilyBySize": [84957, 10430, 2986, 804, 145, 463]
       }
     },
     "41": {
@@ -2242,15 +2279,16 @@
       },
       "arrangements": {
         "adults": [906378, 1614818, 822798],
-        "livesAlone": [4888, 25618, 44253],
-        "unpartnered": [79672, 81466, 74432],
-        "nonrelatives": [9264, 11132, 6555],
+        "livesAlone": [87987, 195142, 218806],
+        "unpartnered": [541788, 514239, 338712],
+        "nonrelatives": [125432, 76738, 22797],
         "childOfHouseholder": [237454, 66293, 2303],
         "otherRelatives": [90915, 176066, 94806]
       },
       "households": {
         "otherFamilyNoChildren": 132402,
-        "nonfamilyShared": 170082
+        "nonfamilyShared": 170082,
+        "nonfamilyBySize": [140071, 17804, 8295, 2299, 880, 733]
       }
     },
     "42": {
@@ -2298,15 +2336,16 @@
       },
       "arrangements": {
         "adults": [2600393, 4855705, 2563328],
-        "livesAlone": [25960, 110289, 156271],
-        "unpartnered": [302066, 279655, 236582],
-        "nonrelatives": [20519, 18973, 12911],
+        "livesAlone": [290710, 644805, 732854],
+        "unpartnered": [1640398, 1582139, 1083277],
+        "nonrelatives": [187940, 116901, 47412],
         "childOfHouseholder": [902728, 233821, 7535],
         "otherRelatives": [259020, 586612, 295476]
       },
       "households": {
         "otherFamilyNoChildren": 457814,
-        "nonfamilyShared": 363282
+        "nonfamilyShared": 363282,
+        "nonfamilyBySize": [313528, 31567, 12315, 3679, 1403, 790]
       }
     },
     "44": {
@@ -2352,15 +2391,16 @@
       },
       "arrangements": {
         "adults": [234324, 419558, 211539],
-        "livesAlone": [512, 2801, 3946],
-        "unpartnered": [11824, 10320, 7015],
-        "nonrelatives": [1436, 496, 0],
+        "livesAlone": [22214, 56611, 63187],
+        "unpartnered": [155612, 147230, 95598],
+        "nonrelatives": [27720, 9554, 3764],
         "childOfHouseholder": [79111, 26065, 185],
         "otherRelatives": [26567, 55000, 28462]
       },
       "households": {
         "otherFamilyNoChildren": 38231,
-        "nonfamilyShared": 36311
+        "nonfamilyShared": 36311,
+        "nonfamilyBySize": [30772, 3131, 1944, 250, 60, 154]
       }
     },
     "45": {
@@ -2408,15 +2448,16 @@
       },
       "arrangements": {
         "adults": [1105501, 2026649, 1058134],
-        "livesAlone": [16338, 77443, 85470],
-        "unpartnered": [201526, 223442, 138718],
-        "nonrelatives": [13765, 11907, 4927],
+        "livesAlone": [105694, 263217, 262328],
+        "unpartnered": [689066, 689090, 407452],
+        "nonrelatives": [101437, 45471, 16767],
         "childOfHouseholder": [326971, 112285, 3074],
         "otherRelatives": [154964, 268117, 125283]
       },
       "households": {
         "otherFamilyNoChildren": 206207,
-        "nonfamilyShared": 131351
+        "nonfamilyShared": 131351,
+        "nonfamilyBySize": [110253, 13064, 6315, 620, 791, 308]
       }
     },
     "46": {
@@ -2462,15 +2503,16 @@
       },
       "arrangements": {
         "adults": [186813, 323717, 165063],
-        "livesAlone": [5875, 15534, 19106],
-        "unpartnered": [32828, 32589, 26018],
-        "nonrelatives": [2774, 1061, 733],
+        "livesAlone": [29563, 44435, 45831],
+        "unpartnered": [99923, 85920, 59574],
+        "nonrelatives": [18562, 4722, 1545],
         "childOfHouseholder": [33079, 8930, 192],
         "otherRelatives": [18719, 27833, 12006]
       },
       "households": {
         "otherFamilyNoChildren": 19937,
-        "nonfamilyShared": 25885
+        "nonfamilyShared": 25885,
+        "nonfamilyBySize": [21661, 2857, 1185, 176, 0, 6]
       }
     },
     "47": {
@@ -2518,15 +2560,16 @@
       },
       "arrangements": {
         "adults": [1572059, 2692877, 1237813],
-        "livesAlone": [19762, 96876, 117498],
-        "unpartnered": [256726, 268762, 189015],
-        "nonrelatives": [20493, 21315, 7594],
+        "livesAlone": [167705, 351153, 341375],
+        "unpartnered": [932344, 896877, 532121],
+        "nonrelatives": [122659, 72798, 20932],
         "childOfHouseholder": [431836, 129712, 4724],
         "otherRelatives": [210144, 343214, 165090]
       },
       "households": {
         "otherFamilyNoChildren": 274707,
-        "nonfamilyShared": 193538
+        "nonfamilyShared": 193538,
+        "nonfamilyBySize": [167141, 16540, 6512, 2028, 802, 515]
       }
     },
     "48": {
@@ -2574,15 +2617,16 @@
       },
       "arrangements": {
         "adults": [7277984, 11496371, 4247193],
-        "livesAlone": [41015, 157704, 197185],
-        "unpartnered": [609678, 550568, 348044],
-        "nonrelatives": [43360, 43946, 15076],
+        "livesAlone": [747663, 1249607, 1016144],
+        "unpartnered": [4730951, 3803827, 1871031],
+        "nonrelatives": [565322, 307189, 85425],
         "childOfHouseholder": [2412861, 596317, 16161],
         "otherRelatives": [1005105, 1650714, 753301]
       },
       "households": {
         "otherFamilyNoChildren": 1103647,
-        "nonfamilyShared": 696256
+        "nonfamilyShared": 696256,
+        "nonfamilyBySize": [586038, 71836, 28029, 6154, 1898, 2301]
       }
     },
     "49": {
@@ -2628,15 +2672,16 @@
       },
       "arrangements": {
         "adults": [912336, 1177625, 426668],
-        "livesAlone": [2762, 9350, 12043],
-        "unpartnered": [43173, 30280, 18822],
-        "nonrelatives": [6603, 2191, 645],
+        "livesAlone": [54560, 98537, 91447],
+        "unpartnered": [537377, 327698, 157193],
+        "nonrelatives": [133159, 37086, 8600],
         "childOfHouseholder": [244664, 57128, 1777],
         "otherRelatives": [104994, 134947, 55369]
       },
       "households": {
         "otherFamilyNoChildren": 93793,
-        "nonfamilyShared": 90383
+        "nonfamilyShared": 90383,
+        "nonfamilyBySize": [62024, 14684, 8958, 1787, 2292, 638]
       }
     },
     "50": {
@@ -2682,15 +2727,16 @@
       },
       "arrangements": {
         "adults": [120167, 248267, 143466],
-        "livesAlone": [5283, 20951, 23502],
-        "unpartnered": [36540, 42528, 33238],
-        "nonrelatives": [3733, 4269, 2476],
+        "livesAlone": [12746, 36702, 40403],
+        "unpartnered": [64206, 71629, 54542],
+        "nonrelatives": [12603, 7371, 3066],
         "childOfHouseholder": [31783, 7249, 244],
         "otherRelatives": [7074, 20307, 10829]
       },
       "households": {
         "otherFamilyNoChildren": 17973,
-        "nonfamilyShared": 30824
+        "nonfamilyShared": 30824,
+        "nonfamilyBySize": [27424, 2371, 905, 0, 124, 0]
       }
     },
     "51": {
@@ -2738,15 +2784,16 @@
       },
       "arrangements": {
         "adults": [1841574, 3347567, 1514994],
-        "livesAlone": [18078, 83052, 121217],
-        "unpartnered": [211818, 232294, 190029],
-        "nonrelatives": [18351, 19843, 10437],
+        "livesAlone": [189288, 401179, 398787],
+        "unpartnered": [1182445, 1105027, 658847],
+        "nonrelatives": [197220, 107339, 33505],
         "childOfHouseholder": [589507, 164665, 5381],
         "otherRelatives": [206430, 431844, 221174]
       },
       "households": {
         "otherFamilyNoChildren": 302248,
-        "nonfamilyShared": 228475
+        "nonfamilyShared": 228475,
+        "nonfamilyBySize": [187872, 24297, 11628, 3170, 982, 526]
       }
     },
     "53": {
@@ -2794,15 +2841,16 @@
       },
       "arrangements": {
         "adults": [1805376, 3004210, 1342476],
-        "livesAlone": [7809, 42313, 58919],
-        "unpartnered": [128649, 125260, 100897],
-        "nonrelatives": [14521, 13423, 7325],
+        "livesAlone": [195743, 354509, 345253],
+        "unpartnered": [1062052, 905717, 559926],
+        "nonrelatives": [202211, 127280, 43553],
         "childOfHouseholder": [483199, 108162, 3834],
         "otherRelatives": [180899, 315766, 167286]
       },
       "households": {
         "otherFamilyNoChildren": 232087,
-        "nonfamilyShared": 292404
+        "nonfamilyShared": 292404,
+        "nonfamilyBySize": [243983, 29879, 11631, 3724, 1285, 1902]
       }
     },
     "54": {
@@ -2848,15 +2896,16 @@
       },
       "arrangements": {
         "adults": [341152, 653737, 376238],
-        "livesAlone": [7347, 41218, 56991],
-        "unpartnered": [87870, 109937, 86441],
-        "nonrelatives": [8185, 6917, 2555],
+        "livesAlone": [29332, 88034, 107554],
+        "unpartnered": [190590, 219949, 158068],
+        "nonrelatives": [25171, 17817, 4873],
         "childOfHouseholder": [96686, 40394, 1329],
         "otherRelatives": [39401, 73704, 44312]
       },
       "households": {
         "otherFamilyNoChildren": 64436,
-        "nonfamilyShared": 43381
+        "nonfamilyShared": 43381,
+        "nonfamilyBySize": [37631, 3365, 1833, 373, 0, 179]
       }
     },
     "55": {
@@ -2904,15 +2953,16 @@
       },
       "arrangements": {
         "adults": [1238160, 2215645, 1130247],
-        "livesAlone": [23456, 80179, 101372],
-        "unpartnered": [173484, 170848, 133705],
-        "nonrelatives": [15415, 12010, 4449],
+        "livesAlone": [170044, 307484, 328299],
+        "unpartnered": [725292, 643436, 439242],
+        "nonrelatives": [133641, 51137, 17431],
         "childOfHouseholder": [313690, 72292, 2802],
         "otherRelatives": [107917, 212523, 90710]
       },
       "households": {
         "otherFamilyNoChildren": 157004,
-        "nonfamilyShared": 208810
+        "nonfamilyShared": 208810,
+        "nonfamilyBySize": [175532, 20907, 7458, 3359, 1028, 526]
       }
     },
     "56": {
@@ -2958,15 +3008,16 @@
       },
       "arrangements": {
         "adults": [119545, 215194, 114459],
-        "livesAlone": [1178, 9424, 11714],
-        "unpartnered": [13409, 19543, 15536],
-        "nonrelatives": [2929, 945, 592],
+        "livesAlone": [12715, 30560, 33252],
+        "unpartnered": [55657, 58830, 43317],
+        "nonrelatives": [14694, 4132, 1569],
         "childOfHouseholder": [19348, 4581, 193],
         "otherRelatives": [8900, 19557, 8303]
       },
       "households": {
         "otherFamilyNoChildren": 13740,
-        "nonfamilyShared": 19639
+        "nonfamilyShared": 19639,
+        "nonfamilyBySize": [15492, 2553, 1474, 120, 0, 0]
       }
     },
     "72": {
@@ -3013,15 +3064,16 @@
       },
       "arrangements": {
         "adults": [699535, 1215183, 770335],
-        "livesAlone": [1449, 10174, 14109],
-        "unpartnered": [36008, 47517, 30722],
-        "nonrelatives": [191, 0, 1473],
+        "livesAlone": [33211, 164664, 217070],
+        "unpartnered": [566856, 621717, 413746],
+        "nonrelatives": [10096, 9846, 10088],
         "childOfHouseholder": [401966, 224906, 10819],
         "otherRelatives": [121583, 222301, 175769]
       },
       "households": {
         "otherFamilyNoChildren": 205860,
-        "nonfamilyShared": 63178
+        "nonfamilyShared": 63178,
+        "nonfamilyBySize": [61764, 1009, 320, 85, 0, 0]
       }
     },
     "US": {
@@ -3077,7 +3129,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 12293399,
-        "nonfamilyShared": 9455244
+        "nonfamilyShared": 9455244,
+        "nonfamilyBySize": [7891795, 972170, 402766, 115303, 39578, 33632]
       }
     },
     "0107000": {
@@ -3131,7 +3184,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 14855,
-        "nonfamilyShared": 7977
+        "nonfamilyShared": 7977,
+        "nonfamilyBySize": [6247, 641, 486, 603, 0, 0]
       }
     },
     "0121184": {
@@ -3183,7 +3237,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 2951,
-        "nonfamilyShared": 1570
+        "nonfamilyShared": 1570,
+        "nonfamilyBySize": [1430, 98, 42, 0, 0, 0]
       }
     },
     "0150000": {
@@ -3237,7 +3292,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 10456,
-        "nonfamilyShared": 3797
+        "nonfamilyShared": 3797,
+        "nonfamilyBySize": [3027, 553, 192, 25, 0, 0]
       }
     },
     "0203000": {
@@ -3291,7 +3347,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 7277,
-        "nonfamilyShared": 9705
+        "nonfamilyShared": 9705,
+        "nonfamilyBySize": [7722, 1414, 521, 48, 0, 0]
       }
     },
     "0427820": {
@@ -3345,7 +3402,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 14416,
-        "nonfamilyShared": 9768
+        "nonfamilyShared": 9768,
+        "nonfamilyBySize": [8264, 1213, 291, 0, 0, 0]
       }
     },
     "0446000": {
@@ -3399,7 +3457,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 18668,
-        "nonfamilyShared": 15875
+        "nonfamilyShared": 15875,
+        "nonfamilyBySize": [13365, 1008, 1003, 156, 226, 117]
       }
     },
     "0455000": {
@@ -3453,7 +3512,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 72573,
-        "nonfamilyShared": 58460
+        "nonfamilyShared": 58460,
+        "nonfamilyBySize": [49996, 5587, 1964, 666, 168, 79]
       }
     },
     "0477000": {
@@ -3507,7 +3567,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 27836,
-        "nonfamilyShared": 26823
+        "nonfamilyShared": 26823,
+        "nonfamilyBySize": [21754, 2680, 1338, 202, 849, 0]
       }
     },
     "0602000": {
@@ -3561,7 +3622,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 13565,
-        "nonfamilyShared": 6981
+        "nonfamilyShared": 6981,
+        "nonfamilyBySize": [4694, 1083, 1091, 65, 48, 0]
       }
     },
     "0603526": {
@@ -3615,7 +3677,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 16959,
-        "nonfamilyShared": 7780
+        "nonfamilyShared": 7780,
+        "nonfamilyBySize": [6971, 638, 134, 37, 0, 0]
       }
     },
     "0613392": {
@@ -3669,7 +3732,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 10185,
-        "nonfamilyShared": 3745
+        "nonfamilyShared": 3745,
+        "nonfamilyBySize": [3132, 198, 237, 178, 0, 0]
       }
     },
     "0626000": {
@@ -3723,7 +3787,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 6087,
-        "nonfamilyShared": 3787
+        "nonfamilyShared": 3787,
+        "nonfamilyBySize": [2790, 555, 412, 30, 0, 0]
       }
     },
     "0627000": {
@@ -3777,7 +3842,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 23727,
-        "nonfamilyShared": 12679
+        "nonfamilyShared": 12679,
+        "nonfamilyBySize": [10073, 979, 1362, 180, 85, 0]
       }
     },
     "0629000": {
@@ -3831,7 +3897,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 9733,
-        "nonfamilyShared": 2648
+        "nonfamilyShared": 2648,
+        "nonfamilyBySize": [1566, 657, 94, 239, 0, 92]
       }
     },
     "0643000": {
@@ -3885,7 +3952,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 21981,
-        "nonfamilyShared": 18282
+        "nonfamilyShared": 18282,
+        "nonfamilyBySize": [14498, 2015, 885, 884, 0, 0]
       }
     },
     "0644000": {
@@ -3939,7 +4007,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 183358,
-        "nonfamilyShared": 168083
+        "nonfamilyShared": 168083,
+        "nonfamilyBySize": [136865, 19436, 7294, 3207, 579, 702]
       }
     },
     "0649270": {
@@ -3993,7 +4062,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 10683,
-        "nonfamilyShared": 3947
+        "nonfamilyShared": 3947,
+        "nonfamilyBySize": [2829, 936, 46, 0, 0, 136]
       }
     },
     "0653000": {
@@ -4047,7 +4117,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 19705,
-        "nonfamilyShared": 19708
+        "nonfamilyShared": 19708,
+        "nonfamilyBySize": [16398, 1777, 900, 149, 208, 276]
       }
     },
     "0653322": {
@@ -4101,7 +4172,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 7157,
-        "nonfamilyShared": 6589
+        "nonfamilyShared": 6589,
+        "nonfamilyBySize": [5007, 831, 543, 38, 0, 170]
       }
     },
     "0654652": {
@@ -4155,7 +4227,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 7690,
-        "nonfamilyShared": 2623
+        "nonfamilyShared": 2623,
+        "nonfamilyBySize": [1372, 707, 193, 214, 137, 0]
       }
     },
     "0662000": {
@@ -4209,7 +4282,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 14481,
-        "nonfamilyShared": 6299
+        "nonfamilyShared": 6299,
+        "nonfamilyBySize": [3771, 1030, 948, 173, 206, 171]
       }
     },
     "0664000": {
@@ -4263,7 +4337,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 22687,
-        "nonfamilyShared": 20173
+        "nonfamilyShared": 20173,
+        "nonfamilyBySize": [16188, 3015, 604, 248, 0, 118]
       }
     },
     "0665000": {
@@ -4317,7 +4392,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 11703,
-        "nonfamilyShared": 4032
+        "nonfamilyShared": 4032,
+        "nonfamilyBySize": [3554, 302, 127, 49, 0, 0]
       }
     },
     "0666000": {
@@ -4371,7 +4447,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 52257,
-        "nonfamilyShared": 69782
+        "nonfamilyShared": 69782,
+        "nonfamilyBySize": [52277, 12479, 3798, 775, 59, 394]
       }
     },
     "0667000": {
@@ -4425,7 +4502,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 29928,
-        "nonfamilyShared": 57569
+        "nonfamilyShared": 57569,
+        "nonfamilyBySize": [45190, 6328, 4301, 750, 895, 105]
       }
     },
     "0668000": {
@@ -4479,7 +4557,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 39964,
-        "nonfamilyShared": 25797
+        "nonfamilyShared": 25797,
+        "nonfamilyBySize": [17415, 4724, 2022, 1102, 68, 466]
       }
     },
     "0669000": {
@@ -4533,7 +4612,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 13815,
-        "nonfamilyShared": 6957
+        "nonfamilyShared": 6957,
+        "nonfamilyBySize": [4868, 890, 291, 582, 181, 145]
       }
     },
     "0675000": {
@@ -4587,7 +4667,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 14672,
-        "nonfamilyShared": 4362
+        "nonfamilyShared": 4362,
+        "nonfamilyBySize": [2888, 694, 656, 49, 0, 75]
       }
     },
     "0804000": {
@@ -4641,7 +4722,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 18893,
-        "nonfamilyShared": 13653
+        "nonfamilyShared": 13653,
+        "nonfamilyBySize": [10665, 2143, 515, 254, 0, 76]
       }
     },
     "0816000": {
@@ -4695,7 +4777,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 16492,
-        "nonfamilyShared": 17371
+        "nonfamilyShared": 17371,
+        "nonfamilyBySize": [14773, 1772, 647, 179, 0, 0]
       }
     },
     "0820000": {
@@ -4749,7 +4832,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 21518,
-        "nonfamilyShared": 48599
+        "nonfamilyShared": 48599,
+        "nonfamilyBySize": [42344, 4334, 1551, 242, 0, 128]
       }
     },
     "1150000": {
@@ -4803,7 +4887,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 27181,
-        "nonfamilyShared": 37521
+        "nonfamilyShared": 37521,
+        "nonfamilyBySize": [32259, 3307, 1083, 369, 220, 283]
       }
     },
     "1224000": {
@@ -4857,7 +4942,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 7367,
-        "nonfamilyShared": 8181
+        "nonfamilyShared": 8181,
+        "nonfamilyBySize": [6607, 833, 192, 245, 106, 198]
       }
     },
     "1230000": {
@@ -4911,7 +4997,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 16756,
-        "nonfamilyShared": 4676
+        "nonfamilyShared": 4676,
+        "nonfamilyBySize": [4214, 73, 188, 201, 0, 0]
       }
     },
     "1235000": {
@@ -4965,7 +5052,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 46486,
-        "nonfamilyShared": 28645
+        "nonfamilyShared": 28645,
+        "nonfamilyBySize": [25682, 1703, 493, 489, 111, 167]
       }
     },
     "1245000": {
@@ -5019,7 +5107,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 29623,
-        "nonfamilyShared": 20799
+        "nonfamilyShared": 20799,
+        "nonfamilyBySize": [19175, 957, 336, 30, 234, 67]
       }
     },
     "1253000": {
@@ -5073,7 +5162,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 13643,
-        "nonfamilyShared": 12778
+        "nonfamilyShared": 12778,
+        "nonfamilyBySize": [11261, 1045, 382, 90, 0, 0]
       }
     },
     "1258715": {
@@ -5127,7 +5217,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 9243,
-        "nonfamilyShared": 4874
+        "nonfamilyShared": 4874,
+        "nonfamilyBySize": [3912, 103, 597, 262, 0, 0]
       }
     },
     "1263000": {
@@ -5181,7 +5272,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 9940,
-        "nonfamilyShared": 13378
+        "nonfamilyShared": 13378,
+        "nonfamilyBySize": [12465, 857, 56, 0, 0, 0]
       }
     },
     "1271000": {
@@ -5235,7 +5327,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 14727,
-        "nonfamilyShared": 19805
+        "nonfamilyShared": 19805,
+        "nonfamilyBySize": [15860, 3076, 834, 0, 0, 35]
       }
     },
     "1304000": {
@@ -5281,15 +5374,16 @@
       },
       "arrangements": {
         "adults": [156043, 181929, 64568],
-        "livesAlone": [2680, 6590, 5264],
-        "unpartnered": [18078, 19092, 9953],
-        "nonrelatives": [1664, 1307, 525],
+        "livesAlone": [41777, 47909, 26401],
+        "unpartnered": [101529, 87530, 37637],
+        "nonrelatives": [25947, 8175, 2323],
         "childOfHouseholder": [23362, 7153, 315],
         "otherRelatives": [10443, 24293, 8598]
       },
       "households": {
         "otherFamilyNoChildren": 15472,
-        "nonfamilyShared": 30225
+        "nonfamilyShared": 30225,
+        "nonfamilyBySize": [25653, 2729, 1241, 510, 0, 92]
       }
     },
     "1304204": {
@@ -5343,7 +5437,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 12511,
-        "nonfamilyShared": 4539
+        "nonfamilyShared": 4539,
+        "nonfamilyBySize": [4030, 448, 61, 0, 0, 0]
       }
     },
     "1319000": {
@@ -5397,7 +5492,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 8759,
-        "nonfamilyShared": 6857
+        "nonfamilyShared": 6857,
+        "nonfamilyBySize": [6209, 610, 38, 0, 0, 0]
       }
     },
     "1571550": {
@@ -5451,7 +5547,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 13904,
-        "nonfamilyShared": 9811
+        "nonfamilyShared": 9811,
+        "nonfamilyBySize": [7962, 545, 385, 467, 84, 368]
       }
     },
     "1608830": {
@@ -5505,7 +5602,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 6165,
-        "nonfamilyShared": 12005
+        "nonfamilyShared": 12005,
+        "nonfamilyBySize": [9071, 1891, 954, 89, 0, 0]
       }
     },
     "1714000": {
@@ -5559,7 +5657,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 126829,
-        "nonfamilyShared": 128305
+        "nonfamilyShared": 128305,
+        "nonfamilyBySize": [108263, 13594, 4319, 919, 406, 804]
       }
     },
     "1825000": {
@@ -5613,7 +5712,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 8991,
-        "nonfamilyShared": 8977
+        "nonfamilyShared": 8977,
+        "nonfamilyBySize": [8011, 889, 0, 77, 0, 0]
       }
     },
     "1836003": {
@@ -5667,7 +5767,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 37517,
-        "nonfamilyShared": 32048
+        "nonfamilyShared": 32048,
+        "nonfamilyBySize": [29058, 2469, 204, 317, 0, 0]
       }
     },
     "2079000": {
@@ -5721,7 +5822,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 11681,
-        "nonfamilyShared": 11488
+        "nonfamilyShared": 11488,
+        "nonfamilyBySize": [9710, 1101, 599, 78, 0, 0]
       }
     },
     "2146027": {
@@ -5775,7 +5877,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 11721,
-        "nonfamilyShared": 16089
+        "nonfamilyShared": 16089,
+        "nonfamilyBySize": [12428, 1859, 1490, 312, 0, 0]
       }
     },
     "2148006": {
@@ -5829,7 +5932,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 30673,
-        "nonfamilyShared": 21928
+        "nonfamilyShared": 21928,
+        "nonfamilyBySize": [19336, 1641, 772, 38, 51, 90]
       }
     },
     "2255000": {
@@ -5883,7 +5987,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 15939,
-        "nonfamilyShared": 11138
+        "nonfamilyShared": 11138,
+        "nonfamilyBySize": [9638, 1289, 20, 129, 62, 0]
       }
     },
     "2404000": {
@@ -5937,7 +6042,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 35167,
-        "nonfamilyShared": 25095
+        "nonfamilyShared": 25095,
+        "nonfamilyBySize": [21630, 2698, 350, 342, 0, 75]
       }
     },
     "2507000": {
@@ -5991,7 +6097,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 30152,
-        "nonfamilyShared": 50857
+        "nonfamilyShared": 50857,
+        "nonfamilyBySize": [36980, 9947, 2720, 525, 188, 497]
       }
     },
     "2582000": {
@@ -6045,7 +6152,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 10562,
-        "nonfamilyShared": 9246
+        "nonfamilyShared": 9246,
+        "nonfamilyBySize": [5818, 2246, 703, 403, 76, 0]
       }
     },
     "2622000": {
@@ -6099,7 +6207,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 46626,
-        "nonfamilyShared": 13946
+        "nonfamilyShared": 13946,
+        "nonfamilyBySize": [12020, 1021, 394, 150, 310, 51]
       }
     },
     "2743000": {
@@ -6153,7 +6262,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 10660,
-        "nonfamilyShared": 27887
+        "nonfamilyShared": 27887,
+        "nonfamilyBySize": [22043, 3496, 1408, 636, 174, 130]
       }
     },
     "2758000": {
@@ -6207,7 +6317,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 11622,
-        "nonfamilyShared": 13447
+        "nonfamilyShared": 13447,
+        "nonfamilyBySize": [11129, 1117, 932, 269, 0, 0]
       }
     },
     "2938000": {
@@ -6261,7 +6372,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 17136,
-        "nonfamilyShared": 21242
+        "nonfamilyShared": 21242,
+        "nonfamilyBySize": [18750, 1669, 531, 163, 0, 129]
       }
     },
     "2965000": {
@@ -6315,7 +6427,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 14015,
-        "nonfamilyShared": 16053
+        "nonfamilyShared": 16053,
+        "nonfamilyBySize": [14881, 697, 435, 0, 0, 40]
       }
     },
     "2970000": {
@@ -6369,7 +6482,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 4365,
-        "nonfamilyShared": 10683
+        "nonfamilyShared": 10683,
+        "nonfamilyBySize": [8617, 1497, 531, 0, 38, 0]
       }
     },
     "3128000": {
@@ -6423,7 +6537,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 8311,
-        "nonfamilyShared": 12719
+        "nonfamilyShared": 12719,
+        "nonfamilyBySize": [9697, 1132, 1831, 59, 0, 0]
       }
     },
     "3137000": {
@@ -6477,7 +6592,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 16082,
-        "nonfamilyShared": 16980
+        "nonfamilyShared": 16980,
+        "nonfamilyBySize": [14664, 1818, 166, 332, 0, 0]
       }
     },
     "3231900": {
@@ -6531,7 +6647,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 13016,
-        "nonfamilyShared": 12007
+        "nonfamilyShared": 12007,
+        "nonfamilyBySize": [9366, 2243, 104, 93, 0, 201]
       }
     },
     "3240000": {
@@ -6585,7 +6702,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 29912,
-        "nonfamilyShared": 21580
+        "nonfamilyShared": 21580,
+        "nonfamilyBySize": [17237, 2943, 1063, 0, 189, 148]
       }
     },
     "3251800": {
@@ -6639,7 +6757,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 13198,
-        "nonfamilyShared": 7078
+        "nonfamilyShared": 7078,
+        "nonfamilyBySize": [6013, 586, 447, 0, 32, 0]
       }
     },
     "3254600": {
@@ -6693,7 +6812,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 8979,
-        "nonfamilyShared": 7284
+        "nonfamilyShared": 7284,
+        "nonfamilyBySize": [6406, 460, 418, 0, 0, 0]
       }
     },
     "3260600": {
@@ -6747,7 +6867,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 8120,
-        "nonfamilyShared": 15160
+        "nonfamilyShared": 15160,
+        "nonfamilyBySize": [13115, 1198, 719, 128, 0, 0]
       }
     },
     "3271400": {
@@ -6801,7 +6922,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 10144,
-        "nonfamilyShared": 3345
+        "nonfamilyShared": 3345,
+        "nonfamilyBySize": [2659, 686, 0, 0, 0, 0]
       }
     },
     "3436000": {
@@ -6855,7 +6977,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 14054,
-        "nonfamilyShared": 14080
+        "nonfamilyShared": 14080,
+        "nonfamilyBySize": [9412, 2531, 1012, 1004, 0, 121]
       }
     },
     "3451000": {
@@ -6909,7 +7032,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 19717,
-        "nonfamilyShared": 5935
+        "nonfamilyShared": 5935,
+        "nonfamilyBySize": [3797, 1206, 824, 59, 49, 0]
       }
     },
     "3502000": {
@@ -6963,7 +7087,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 23952,
-        "nonfamilyShared": 22173
+        "nonfamilyShared": 22173,
+        "nonfamilyBySize": [20309, 1265, 356, 209, 0, 34]
       }
     },
     "3611000": {
@@ -7017,7 +7142,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 13450,
-        "nonfamilyShared": 13088
+        "nonfamilyShared": 13088,
+        "nonfamilyBySize": [10632, 1205, 813, 402, 0, 36]
       }
     },
     "3651000": {
@@ -7073,7 +7199,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 485316,
-        "nonfamilyShared": 298771
+        "nonfamilyShared": 298771,
+        "nonfamilyBySize": [237550, 38969, 15348, 4337, 921, 1646]
       }
     },
     "3663000": {
@@ -7127,7 +7254,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 10761,
-        "nonfamilyShared": 11207
+        "nonfamilyShared": 11207,
+        "nonfamilyBySize": [8828, 1188, 1149, 0, 42, 0]
       }
     },
     "3684000": {
@@ -7181,7 +7309,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 12886,
-        "nonfamilyShared": 4561
+        "nonfamilyShared": 4561,
+        "nonfamilyBySize": [4172, 134, 255, 0, 0, 0]
       }
     },
     "3712000": {
@@ -7235,7 +7364,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 31173,
-        "nonfamilyShared": 34684
+        "nonfamilyShared": 34684,
+        "nonfamilyBySize": [29479, 2672, 1627, 277, 629, 0]
       }
     },
     "3722920": {
@@ -7289,7 +7419,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 9169,
-        "nonfamilyShared": 3914
+        "nonfamilyShared": 3914,
+        "nonfamilyBySize": [3216, 475, 167, 56, 0, 0]
       }
     },
     "3728000": {
@@ -7343,7 +7474,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 11112,
-        "nonfamilyShared": 11638
+        "nonfamilyShared": 11638,
+        "nonfamilyBySize": [9510, 1339, 400, 212, 0, 177]
       }
     },
     "3755000": {
@@ -7397,7 +7529,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 16824,
-        "nonfamilyShared": 25433
+        "nonfamilyShared": 25433,
+        "nonfamilyBySize": [21969, 1930, 1042, 323, 0, 169]
       }
     },
     "3775000": {
@@ -7451,7 +7584,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 9795,
-        "nonfamilyShared": 6461
+        "nonfamilyShared": 6461,
+        "nonfamilyBySize": [6204, 92, 165, 0, 0, 0]
       }
     },
     "3915000": {
@@ -7505,7 +7639,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 11232,
-        "nonfamilyShared": 17124
+        "nonfamilyShared": 17124,
+        "nonfamilyBySize": [14023, 1597, 354, 588, 454, 108]
       }
     },
     "3916000": {
@@ -7559,7 +7694,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 22135,
-        "nonfamilyShared": 13515
+        "nonfamilyShared": 13515,
+        "nonfamilyBySize": [11416, 1460, 362, 143, 61, 73]
       }
     },
     "3918000": {
@@ -7613,7 +7749,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 38663,
-        "nonfamilyShared": 44947
+        "nonfamilyShared": 44947,
+        "nonfamilyBySize": [37246, 5604, 1361, 237, 309, 190]
       }
     },
     "3977000": {
@@ -7667,7 +7804,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 13988,
-        "nonfamilyShared": 9834
+        "nonfamilyShared": 9834,
+        "nonfamilyBySize": [7357, 1785, 651, 41, 0, 0]
       }
     },
     "4041850": {
@@ -7717,7 +7855,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 3200,
-        "nonfamilyShared": 2180
+        "nonfamilyShared": 2180,
+        "nonfamilyBySize": [1834, 288, 58, 0, 0, 0]
       }
     },
     "4055000": {
@@ -7771,7 +7910,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 24329,
-        "nonfamilyShared": 20348
+        "nonfamilyShared": 20348,
+        "nonfamilyBySize": [18201, 1711, 224, 212, 0, 0]
       }
     },
     "4075000": {
@@ -7825,7 +7965,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 17528,
-        "nonfamilyShared": 15424
+        "nonfamilyShared": 15424,
+        "nonfamilyBySize": [13404, 1522, 382, 25, 91, 0]
       }
     },
     "4159000": {
@@ -7879,7 +8020,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 15854,
-        "nonfamilyShared": 44093
+        "nonfamilyShared": 44093,
+        "nonfamilyBySize": [37043, 3594, 2256, 1036, 84, 80]
       }
     },
     "4260000": {
@@ -7933,7 +8075,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 87406,
-        "nonfamilyShared": 68681
+        "nonfamilyShared": 68681,
+        "nonfamilyBySize": [55836, 7934, 3718, 808, 301, 84]
       }
     },
     "4261000": {
@@ -7987,7 +8130,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 11858,
-        "nonfamilyShared": 16673
+        "nonfamilyShared": 16673,
+        "nonfamilyBySize": [13071, 2171, 895, 120, 284, 132]
       }
     },
     "4740000": {
@@ -8041,7 +8185,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 6876,
-        "nonfamilyShared": 11273
+        "nonfamilyShared": 11273,
+        "nonfamilyBySize": [9319, 839, 700, 357, 0, 58]
       }
     },
     "4748000": {
@@ -8095,7 +8240,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 34083,
-        "nonfamilyShared": 15578
+        "nonfamilyShared": 15578,
+        "nonfamilyBySize": [14043, 1108, 427, 0, 0, 0]
       }
     },
     "4752006": {
@@ -8149,7 +8295,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 29798,
-        "nonfamilyShared": 40423
+        "nonfamilyShared": 40423,
+        "nonfamilyBySize": [31991, 5468, 2498, 466, 0, 0]
       }
     },
     "4803000": {
@@ -8195,15 +8342,16 @@
       },
       "arrangements": {
         "adults": [45885, 67921, 31565],
-        "livesAlone": [4737, 5626, 5547],
-        "unpartnered": [20878, 15267, 8408],
-        "nonrelatives": [1021, 1275, 478],
+        "livesAlone": [5341, 9718, 9888],
+        "unpartnered": [28013, 25135, 15779],
+        "nonrelatives": [4027, 2588, 509],
         "childOfHouseholder": [10320, 4257, 589],
         "otherRelatives": [8325, 8572, 4793]
       },
       "households": {
         "otherFamilyNoChildren": 7302,
-        "nonfamilyShared": 5518
+        "nonfamilyShared": 5518,
+        "nonfamilyBySize": [5464, 54, 0, 0, 0, 0]
       }
     },
     "4804000": {
@@ -8249,15 +8397,16 @@
       },
       "arrangements": {
         "adults": [102009, 144866, 52823],
-        "livesAlone": [2674, 5550, 5385],
-        "unpartnered": [20889, 16951, 9586],
-        "nonrelatives": [2226, 970, 312],
+        "livesAlone": [11513, 16484, 10346],
+        "unpartnered": [70018, 57702, 22405],
+        "nonrelatives": [12564, 7274, 821],
         "childOfHouseholder": [34160, 7554, 97],
         "otherRelatives": [11781, 26390, 11141]
       },
       "households": {
         "otherFamilyNoChildren": 14412,
-        "nonfamilyShared": 10442
+        "nonfamilyShared": 10442,
+        "nonfamilyBySize": [7961, 1282, 1091, 61, 47, 0]
       }
     },
     "4805000": {
@@ -8303,15 +8452,16 @@
       },
       "arrangements": {
         "adults": [310066, 382374, 102922],
-        "livesAlone": [3221, 5856, 7909],
-        "unpartnered": [24413, 19762, 12883],
-        "nonrelatives": [2941, 3439, 238],
+        "livesAlone": [79848, 78811, 30325],
+        "unpartnered": [178347, 139689, 47895],
+        "nonrelatives": [46897, 13980, 4171],
         "childOfHouseholder": [33988, 7194, 31],
         "otherRelatives": [17614, 39704, 13368]
       },
       "households": {
         "otherFamilyNoChildren": 30472,
-        "nonfamilyShared": 69397
+        "nonfamilyShared": 69397,
+        "nonfamilyBySize": [58738, 7541, 2390, 693, 35, 0]
       }
     },
     "4810768": {
@@ -8365,7 +8515,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 9510,
-        "nonfamilyShared": 2613
+        "nonfamilyShared": 2613,
+        "nonfamilyBySize": [2394, 219, 0, 0, 0, 0]
       }
     },
     "4817000": {
@@ -8419,7 +8570,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 13666,
-        "nonfamilyShared": 8948
+        "nonfamilyShared": 8948,
+        "nonfamilyBySize": [8048, 489, 191, 220, 0, 0]
       }
     },
     "4819000": {
@@ -8473,7 +8625,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 61318,
-        "nonfamilyShared": 48543
+        "nonfamilyShared": 48543,
+        "nonfamilyBySize": [40680, 5124, 1816, 550, 329, 44]
       }
     },
     "4824000": {
@@ -8527,7 +8680,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 37638,
-        "nonfamilyShared": 9306
+        "nonfamilyShared": 9306,
+        "nonfamilyBySize": [8690, 470, 61, 85, 0, 0]
       }
     },
     "4827000": {
@@ -8581,7 +8735,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 38062,
-        "nonfamilyShared": 22973
+        "nonfamilyShared": 22973,
+        "nonfamilyBySize": [19339, 1799, 1087, 748, 0, 0]
       }
     },
     "4830464": {
@@ -8635,7 +8790,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 10330,
-        "nonfamilyShared": 3342
+        "nonfamilyShared": 3342,
+        "nonfamilyBySize": [2739, 364, 36, 0, 0, 203]
       }
     },
     "4835000": {
@@ -8689,7 +8845,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 102291,
-        "nonfamilyShared": 64532
+        "nonfamilyShared": 64532,
+        "nonfamilyBySize": [57619, 4750, 2009, 44, 56, 54]
       }
     },
     "4837000": {
@@ -8743,7 +8900,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 10653,
-        "nonfamilyShared": 8240
+        "nonfamilyShared": 8240,
+        "nonfamilyBySize": [6435, 1057, 536, 212, 0, 0]
       }
     },
     "4841464": {
@@ -8797,7 +8955,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 11026,
-        "nonfamilyShared": 3237
+        "nonfamilyShared": 3237,
+        "nonfamilyBySize": [3010, 227, 0, 0, 0, 0]
       }
     },
     "4845000": {
@@ -8851,7 +9010,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 10988,
-        "nonfamilyShared": 11263
+        "nonfamilyShared": 11263,
+        "nonfamilyBySize": [8147, 2537, 439, 47, 0, 93]
       }
     },
     "4865000": {
@@ -8905,7 +9065,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 69916,
-        "nonfamilyShared": 47188
+        "nonfamilyShared": 47188,
+        "nonfamilyBySize": [40909, 4062, 1294, 354, 569, 0]
       }
     },
     "5103000": {
@@ -8951,15 +9112,16 @@
       },
       "arrangements": {
         "adults": [73774, 91742, 28766],
-        "livesAlone": [1981, 6337, 5898],
-        "unpartnered": [13067, 16761, 9236],
-        "nonrelatives": [297, 1914, 290],
+        "livesAlone": [17217, 19716, 10478],
+        "unpartnered": [44435, 31287, 15022],
+        "nonrelatives": [16211, 3300, 1619],
         "childOfHouseholder": [6736, 1536, 108],
         "otherRelatives": [4271, 6735, 2817]
       },
       "households": {
         "otherFamilyNoChildren": 4627,
-        "nonfamilyShared": 15655
+        "nonfamilyShared": 15655,
+        "nonfamilyBySize": [13307, 1536, 506, 196, 0, 110]
       }
     },
     "5156000": {
@@ -9013,7 +9175,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 7946,
-        "nonfamilyShared": 6020
+        "nonfamilyShared": 6020,
+        "nonfamilyBySize": [5155, 635, 121, 109, 0, 0]
       }
     },
     "5157000": {
@@ -9067,7 +9230,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 10744,
-        "nonfamilyShared": 6772
+        "nonfamilyShared": 6772,
+        "nonfamilyBySize": [4798, 1392, 526, 56, 0, 0]
       }
     },
     "5182000": {
@@ -9121,7 +9285,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 16238,
-        "nonfamilyShared": 13002
+        "nonfamilyShared": 13002,
+        "nonfamilyBySize": [11302, 1424, 228, 48, 0, 0]
       }
     },
     "5363000": {
@@ -9175,7 +9340,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 14444,
-        "nonfamilyShared": 58913
+        "nonfamilyShared": 58913,
+        "nonfamilyBySize": [52276, 3883, 1835, 162, 390, 367]
       }
     },
     "5367000": {
@@ -9229,7 +9395,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 8557,
-        "nonfamilyShared": 10098
+        "nonfamilyShared": 10098,
+        "nonfamilyBySize": [7920, 1041, 959, 54, 124, 0]
       }
     },
     "5370000": {
@@ -9283,7 +9450,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 8979,
-        "nonfamilyShared": 9680
+        "nonfamilyShared": 9680,
+        "nonfamilyBySize": [7291, 1782, 509, 98, 0, 0]
       }
     },
     "5374060": {
@@ -9337,7 +9505,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 7168,
-        "nonfamilyShared": 8773
+        "nonfamilyShared": 8773,
+        "nonfamilyBySize": [7578, 901, 166, 0, 0, 128]
       }
     },
     "5553000": {
@@ -9391,7 +9560,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 25386,
-        "nonfamilyShared": 21503
+        "nonfamilyShared": 21503,
+        "nonfamilyBySize": [17925, 2303, 676, 397, 133, 69]
       }
     },
     "7206593": {
@@ -9445,7 +9615,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 11907,
-        "nonfamilyShared": 3889
+        "nonfamilyShared": 3889,
+        "nonfamilyBySize": [3749, 140, 0, 0, 0, 0]
       }
     },
     "7276770": {
@@ -9499,7 +9670,8 @@
       },
       "households": {
         "otherFamilyNoChildren": 21662,
-        "nonfamilyShared": 8409
+        "nonfamilyShared": 8409,
+        "nonfamilyBySize": [7926, 404, 49, 30, 0, 0]
       }
     }
   },
@@ -9507,8 +9679,13 @@
     "Cohabiting couples who never married are not a separate path; the chain counts marriages only.",
     "Divorce follows women's first-marriage survival (NSFG) for every marriage, including remarriages and men's.",
     "Never-married shares by age are a cross-section of 2024, not each cohort's own history.",
-    "A household of relatives without children under 18 is seated as one parent and one grown child; siblings, grandparents raising grandchildren and other relatives living together are not separate shapes.",
-    "Housemates who are not related draw their ages one at a time from the place's living arrangements; how alike two housemates' ages are is not read.",
-    "Spouses' age difference is the national CPS distribution for every place and both opposite-sex and same-sex couples; unmarried partners use the married couples' distribution."
-  ]
+    "Spouses' age difference is the national CPS distribution for every place and both opposite-sex and same-sex couples; unmarried partners use the married couples' distribution.",
+    "A household of relatives without children under 18 is seated as one parent and one grown child; siblings, grandparents raising grandchildren and older parents living in a grown child's family home are not separate shapes.",
+    "Housemates who are not related draw their sexes and ages one at a time from the place's living arrangements; how alike housemates' ages are is not read.",
+    "Grown children at home follow each band's share of adults living as a child of the householder (B09021), not that share among adults whose parents are alive."
+  ],
+  "householdSizes": {
+    "nonfamilyFrom": 2,
+    "note": "nonfamilyBySize counts nonfamily households of 2, 3, 4, 5, 6 and 7 or more people (B11016); a home of 7 or more counts as 7."
+  }
 }
