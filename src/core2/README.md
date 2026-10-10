@@ -34,7 +34,7 @@ Pending: Complete one warmup and three measured years. Judge closures below 10% 
 
 Measured in the preserved annual baseline: The median was 96.47 days per minute without finance and 124.51 with rejected finance outcomes. No new annual days per minute has been measured. The target remains one game year under two minutes. [Preserved annual baseline](receipts/prototype-v9-money-repair-wip-20261010.json#L14)
 
-Pending: All 81 gaps remain open. The order remains judged year, four shared interfaces, PEOPLE, RENEWAL, SPEED. [Scope and status](receipts/prototype-v9-money-repair-wip-20261010.json#L1131)
+Pending: All 81 gaps remain open. The order is green checks, the measured slowdown repair, the judged year, four shared interfaces, RENEWAL and SPEED. P16 owns profiling; P15 owns PEOPLE on separate stacked branches. [Current CTO order](https://github.com/lamontaes/Political-Game-Git/pull/3918#issuecomment-6099430286)
 
 ## Method
 
