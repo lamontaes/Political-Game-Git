@@ -2,7 +2,7 @@
   "openingInputMaxBytesPerResident": {
     "value": 80554,
     "tag": "TUNABLE",
-    "citation": "CTO REVIEW19 input-shape guard. Actual cloud census src/core2/receipts/prototype-v9-opening-census-after-20261010.json, SHA-256 359a679de93ff168e7fdd7890ffc2dad6be3bf23ea410ed1b37823ad62ff79c2: 10002 residents and 732450615 compact UTF-8 bytes. Single opening observation; no annual measurement.",
+    "citation": "CTO REVIEW19 input-shape guard. Actual cloud census https://github.com/lamontaes/Political-Game-Git/blob/32569a5f2fec4169b0a6713ffc0032c2acacf4f3/src/core2/receipts/prototype-v9-opening-census-after-20261010.json, SHA-256 359a679de93ff168e7fdd7890ffc2dad6be3bf23ea410ed1b37823ad62ff79c2: 10002 residents and 732450615 compact UTF-8 bytes. Single opening observation; no annual measurement.",
     "estimatedFrom": "Measured 73230.41541691661 bytes per resident. Chosen engineering margin is 10 percent above that observation, rounded up to the next whole byte: ceil(73230.41541691661 * 1.10). Technical size ceiling only; no actor money or behavior changes.",
     "spread": {
       "status": "unmeasured",
@@ -15,7 +15,7 @@
   "openingInputMaxSourceByteShare": {
     "value": 0.7491419523895138,
     "tag": "TUNABLE",
-    "citation": "CTO REVIEW19 input-shape guard. Actual cloud census src/core2/receipts/prototype-v9-opening-census-after-20261010.json, SHA-256 359a679de93ff168e7fdd7890ffc2dad6be3bf23ea410ed1b37823ad62ff79c2: 10002 residents and 732450615 compact UTF-8 bytes. Single opening observation; no annual measurement.",
+    "citation": "CTO REVIEW19 input-shape guard. Actual cloud census https://github.com/lamontaes/Political-Game-Git/blob/32569a5f2fec4169b0a6713ffc0032c2acacf4f3/src/core2/receipts/prototype-v9-opening-census-after-20261010.json, SHA-256 359a679de93ff168e7fdd7890ffc2dad6be3bf23ea410ed1b37823ad62ff79c2: 10002 residents and 732450615 compact UTF-8 bytes. Single opening observation; no annual measurement.",
     "estimatedFrom": "Measured declared conservative Source share 0.6991419523895137. Chosen engineering margin is five percentage points, capped at one. Direct and escaped canonical Source bytes are exact; noncanonical encoded JSON uses separately declared whole-token upper bounds. Technical size ceiling only.",
     "spread": {
       "status": "unmeasured",

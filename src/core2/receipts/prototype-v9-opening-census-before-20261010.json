@@ -1030,27 +1030,21 @@
         "key": "[\"organization_29bc269608f354c4\",\"accounting-services\"]",
         "sha256": "9ee822e11f1f8b0be67684ff8e0036e1c162569cfc1c595e3764893f297d86ea",
         "bytes": 1086,
-        "jobIds": [
-          "work-relationship_2f11d884cfe99635"
-        ],
+        "jobIds": ["work-relationship_2f11d884cfe99635"],
         "providerRecordIds": []
       },
       {
         "key": "[\"organization_29bc279608f35677\",\"legal-services\"]",
         "sha256": "d3aececf1204692067289cc178ff020e76163e75f7e70f4efd1b98972785d052",
         "bytes": 1077,
-        "jobIds": [
-          "work-relationship_b3ca297dca3bd5db"
-        ],
+        "jobIds": ["work-relationship_b3ca297dca3bd5db"],
         "providerRecordIds": []
       },
       {
         "key": "[\"organization_570dd52ac59a0647\",\"personal-care\"]",
         "sha256": "a21c5e0413bff1c422abe8f3fc20c100c6b43d26483ee66fe6b8394a384d9d02",
         "bytes": 1078,
-        "jobIds": [
-          "work-relationship_ee2a4be37398b312"
-        ],
+        "jobIds": ["work-relationship_ee2a4be37398b312"],
         "providerRecordIds": []
       },
       {
