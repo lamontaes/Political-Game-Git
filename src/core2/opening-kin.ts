@@ -14,7 +14,7 @@
  * Opening generation decides who exists; no draw here decides what anyone does.
  */
 import kinJson from "./data/opening-kin.json" with { type: "json" };
-import { ssa2023AnnualProbability } from "../simulation/crisis/mortality-table";
+import cohortJson from "./data/ssa-cohort-life-tables.json" with { type: "json" };
 import { ageOnDate, isoDateFromParts, makeIsoDate } from "../simulation/dates";
 import { createStableId } from "../simulation/ids";
 import { generatePersonIdentity } from "../simulation/person-identity";
@@ -108,44 +108,68 @@ interface Home {
   countyId?: string;
 }
 
+const COHORT_TABLES = cohortJson;
 const R = OPENING_KIN.relations;
 const FEMALE = OPENING_KIN.genders.female;
 const MALE = OPENING_KIN.genders.male;
 
-let hazardTable: Record<string, number[]> | undefined;
+const hazardTables = new Map<string, number[]>();
 
-/** Cumulative age-year hazards from the SSA 2023 period table, by sex. */
-function cumulativeHazard(sex: string): number[] {
-  hazardTable ??= Object.fromEntries(
-    [FEMALE, MALE].map((key) => {
-      const rows = [p("zero")];
-      for (let age = p("zero"); ; age += p("one")) {
-        let q: number;
-        try {
-          q = Number(ssa2023AnnualProbability(age, key as "female" | "male"));
-        } catch {
-          break;
-        }
-        rows.push(rows[age]! - Math.log(p("one") - Math.min(q, p("one"))));
-      }
-      return [key, rows];
-    }),
-  );
+/**
+ * Cumulative age-year hazards for one birth year, by sex: SSA cohort life
+ * tables (Actuarial Study No. 120), interpolated between birth decades and
+ * held at the first and last decade outside them.
+ */
+function cumulativeHazard(sex: string, birthYear: number): number[] {
   // People outside the two SSA categories use the female table (registered gap).
-  return hazardTable[sex] ?? hazardTable[FEMALE]!;
+  const key = sex === MALE ? "male" : "female";
+  const cohorts = COHORT_TABLES.cohorts;
+  const first = cohorts[p("zero")]!;
+  const last = cohorts[cohorts.length - p("one")]!;
+  const year = Math.min(last, Math.max(first, Math.round(birthYear)));
+  const cacheKey = `${key}:${year}`;
+  const cached = hazardTables.get(cacheKey);
+  if (cached) return cached;
+  const below = [...cohorts].reverse().find((cohort) => cohort <= year)!;
+  const above = cohorts.find((cohort) => cohort >= year)!;
+  const share = above === below ? p("zero") : (year - below) / (above - below);
+  const table = COHORT_TABLES[key] as Record<string, readonly number[]>;
+  const low = table[String(below)]!;
+  const high = table[String(above)]!;
+  const rows = [p("zero")];
+  low.forEach((q, age) => {
+    const blended = q + (high[age]! - q) * share;
+    rows.push(rows[age]! - Math.log(p("one") - Math.min(blended, p("one"))));
+  });
+  hazardTables.set(cacheKey, rows);
+  return rows;
 }
 
-function hazardBetween(sex: string, fromAge: number, toAge: number): number {
-  const rows = cumulativeHazard(sex);
+function hazardBetween(
+  sex: string,
+  birthYear: number,
+  fromAge: number,
+  toAge: number,
+): number {
+  const rows = cumulativeHazard(sex, birthYear);
   const last = rows.length - p("one");
   const at = (age: number) =>
     rows[Math.max(p("zero"), Math.min(last, Math.floor(age)))]!;
   return at(toAge) - at(fromAge);
 }
 
-/** A person's own exponential line: they are alive while hazard stays below it. */
-function survives(rng: SeededRng, sex: string, fromAge: number, toAge: number) {
-  return hazardBetween(sex, fromAge, toAge) < -Math.log(p("one") - rng.next());
+/** A person's own exponential line: they are alive while their cohort's hazard stays below it. */
+function survives(
+  rng: SeededRng,
+  sex: string,
+  birthYear: number,
+  fromAge: number,
+  toAge: number,
+) {
+  return (
+    hazardBetween(sex, birthYear, fromAge, toAge) <
+    -Math.log(p("one") - rng.next())
+  );
 }
 
 /** Cumulative hazard of moving away between two ages, from the yearly leaving rates by band. */
@@ -402,7 +426,16 @@ export function buildOpeningKin(
         ["mother", FEMALE, motherAge],
       ] as const) {
         const pr = r.fork(role);
-        if (!survives(pr, gender, parentAge, parentAge + age)) continue;
+        if (
+          !survives(
+            pr,
+            gender,
+            birthYear - Math.round(parentAge),
+            parentAge,
+            parentAge + age,
+          )
+        )
+          continue;
         const sinceGrown = parentAge + Math.max(age - adultAge, p("zero"));
         const parent = makePerson(
           `origin:${index}:${role}`,
@@ -434,7 +467,16 @@ export function buildOpeningKin(
         const birthDate = dateInYear(sr, birthYear + (j - order) * interval);
         if (birthDate > startedAt) continue;
         const gender = drawnGender(sr.fork("identity"));
-        if (!survives(sr, gender, p("zero"), ageAt(birthDate))) continue;
+        if (
+          !survives(
+            sr,
+            gender,
+            yearOfDate(birthDate),
+            p("zero"),
+            ageAt(birthDate),
+          )
+        )
+          continue;
         // A minor sibling lives with their parents; an adult stays near them unless they moved away.
         const siblingAge = ageAt(birthDate);
         const sibling = makePerson(
@@ -498,7 +540,15 @@ export function buildOpeningKin(
           or,
           refYear + Math.round(gender === MALE ? -gap : gap),
         );
-        if (!survives(or, gender, p("zero"), ageAt(birthDate)))
+        if (
+          !survives(
+            or,
+            gender,
+            yearOfDate(birthDate),
+            p("zero"),
+            ageAt(birthDate),
+          )
+        )
           return undefined;
         otherParent = makePerson(
           `${unit.key}:other-parent`,
@@ -536,7 +586,7 @@ export function buildOpeningKin(
         // A couple's minor children live with them; a single parent's may live with the other parent.
         if (childAge < adultAge && (household.couple || !other())) continue;
         const gender = drawnGender(cr.fork("identity"));
-        if (!survives(cr, gender, p("zero"), childAge)) continue;
+        if (!survives(cr, gender, year, p("zero"), childAge)) continue;
         const child = makePerson(
           `${unit.key}:child:${i}`,
           gender,
@@ -584,7 +634,7 @@ export function buildOpeningKin(
           if (gdate > startedAt || gyear - year - gshift > maxMotherAge)
             continue;
           const ggender = drawnGender(gr.fork("identity"));
-          if (!survives(gr, ggender, p("zero"), ageAt(gdate))) continue;
+          if (!survives(gr, ggender, gyear, p("zero"), ageAt(gdate))) continue;
           const grandchild = makePerson(
             `${unit.key}:child:${i}:grandchild:${g}`,
             ggender,

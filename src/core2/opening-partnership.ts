@@ -496,6 +496,53 @@ function relativesPair(input: {
   ];
 }
 
+/** Share of the place's adults of this age who live in a parent's home (ACS B09021). */
+function homeShare(rows: Geo, age: number): number {
+  const index = bandIndex(ARRANGEMENT_BANDS, age);
+  if (index < p("zero")) return p("zero");
+  const row = rows.arrangements;
+  return (
+    row.childOfHouseholder[index]! / Math.max(row.adults[index]!, p("one"))
+  );
+}
+
+/**
+ * Grown children still at home: each age a child of these parents could be,
+ * weighted by the births the reference parent had then and the place's
+ * share of adults that age living in a parent's home.
+ */
+function grownChildWeights(
+  geo: { key: string; rows: Geo },
+  parents: readonly { age: number; sex: Sex | undefined }[],
+  reference: { age: number; sex: Sex | undefined },
+  minimum: number,
+  maximumExclusive: number,
+): number[] {
+  const youngestParent = OPENING_KIN.fertilityByAge.rows[p("zero")]!.minAge;
+  const weights: number[] = [];
+  for (let age = minimum; age < maximumExclusive; age += p("one"))
+    weights.push(
+      parents.every((parent) => parent.age - age >= youngestParent)
+        ? birthsTo(reference.sex, reference.age - age) *
+            homeShare(geo.rows, age)
+        : p("zero"),
+    );
+  return weights;
+}
+
+/** A seeded count with this mean (Poisson), for who exists at the opening. */
+function countWithMean(rng: SeededRng, mean: number): number {
+  let point = rng.next();
+  let term = Math.exp(-mean);
+  let count = p("zero");
+  for (;;) {
+    point -= term;
+    if (point < p("zero") || !(term > p("zero"))) return count;
+    count += p("one");
+    term *= mean / count;
+  }
+}
+
 type SkeletonLike = {
   readonly index: number;
   readonly shape: string;
@@ -529,8 +576,16 @@ export function partnerAgedHousehold<
   geo: { key: string; rows: Geo };
   skeleton: S;
   people: readonly P[];
-  rebirth: (person: P, age: number) => P;
-}): { skeleton: S; people: P[]; grownChild?: number } {
+  rebirth: (person: P, age: number, sex?: Sex) => P;
+  /** A new household member: stable key, sex, age, and a surname or none to draw one. */
+  addPerson: (key: string, sex: Sex, age: number, familyName?: string) => P;
+}): {
+  skeleton: S;
+  people: P[];
+  /** Members who are a grown child of `grownChildParents`. */
+  grownChildren: number[];
+  grownChildParents: number[];
+} {
   const shape = input.skeleton.shape;
   const sexOf = (n: number): Sex | undefined => {
     const gender = input.people[n]?.identity?.gender;
@@ -570,8 +625,35 @@ export function partnerAgedHousehold<
         maximumExclusive,
       ),
     ) ?? ages[n]!;
+  // People living alone or with housemates draw sex together with age, so
+  // their mix by age and sex follows the place (a woman of 80 lives alone far
+  // more often than a man of 80).
+  const sexes: (Sex | undefined)[] = members.map((_, n) => sexOf(n));
+  const both: Sex[] = ["female", "male"];
+  const span = maximumExclusive - minimum;
+  const drawSexAge = (key: string, arrangement: Arrangement) => {
+    const weights = both.flatMap((sex) =>
+      Array.from({ length: span }, (_, i) =>
+        adultWeight(input.geo, sex, arrangement, minimum + i),
+      ),
+    );
+    const index = pickAge(input.seed, `${key}:sex-age`, p("zero"), weights);
+    return index === undefined
+      ? undefined
+      : { sex: both[Math.floor(index / span)]!, age: minimum + (index % span) };
+  };
+  const sexAndAge = (n: number, arrangement: Arrangement) => {
+    const drawn = sexes[n] ? drawSexAge(keyOf(n), arrangement) : undefined;
+    if (!drawn) return void (ages[n] = adultAge(n, arrangement));
+    sexes[n] = drawn.sex;
+    ages[n] = drawn.age;
+  };
+  // P15: members beyond the generator's two adults (grown children at home,
+  // larger groups of housemates).
+  const added: { sex: Sex; age: number; familyName?: string }[] = [];
   let grownChild: number | undefined;
-  if (shape === "alone") ages[p("zero")] = adultAge(p("zero"), "alone");
+  let grownChildParents: number[] = [];
+  if (shape === "alone") sexAndAge(p("zero"), "alone");
   else if (shape === "housemates") {
     const counts = input.geo.rows.households;
     const related =
@@ -594,10 +676,32 @@ export function partnerAgedHousehold<
     if (pair) {
       [ages[p("zero")], ages[p("one")]] = pair;
       grownChild = p("one");
-    } else for (const n of adults) ages[n] = adultAge(n, "housemate");
+      grownChildParents = [p("zero")];
+    } else {
+      for (const n of adults) sexAndAge(n, "housemate");
+      // Homes of three or more housemates follow the place's nonfamily
+      // household sizes (B11016).
+      const sizes = counts.nonfamilyBySize;
+      const size =
+        data.householdSizes.nonfamilyFrom +
+        (pickAge(
+          input.seed,
+          `${keyOf(p("zero"))}:housemates`,
+          p("zero"),
+          sizes,
+        ) ?? p("zero"));
+      for (let n = adults.length; n < size; n += p("one")) {
+        const drawn = drawSexAge(
+          `${keyOf(p("zero"))}:housemate:${n}`,
+          "housemate",
+        );
+        if (drawn) added.push(drawn);
+      }
+    }
   } else if (shape === "couple") {
     ages[p("zero")] = adultAge(p("zero"), "partnered");
     ages[p("one")] = partnerOf(p("zero"), p("one"));
+    grownChildParents = adults.slice(p("zero"), p("two"));
   } else if (
     shape === "couple-with-children" ||
     shape === "parent-with-children"
@@ -628,22 +732,84 @@ export function partnerAgedHousehold<
           p("zero"),
           childAgeWeights(parents, reference),
         ) ?? ages[n]!;
-  } else return { skeleton: input.skeleton, people: [...input.people] };
+    grownChildParents = adults.slice(p("zero"), p("two"));
+  } else
+    return {
+      skeleton: input.skeleton,
+      people: [...input.people],
+      grownChildren: [],
+      grownChildParents: [],
+    };
+  // Parents' grown children still at home: a seeded count with the mean their
+  // births and the place's share of adults living with a parent imply.
+  if (shape !== "housemates" && grownChildParents.length) {
+    const parents = grownChildParents.map((n) => ({
+      age: ages[n]!,
+      sex: sexes[n],
+    }));
+    const reference =
+      parents.find((parent) => parent.sex === "female") ?? parents[p("zero")]!;
+    const weights = grownChildWeights(
+      input.geo,
+      parents,
+      reference,
+      minimum,
+      maximumExclusive,
+    );
+    const mean = weights.reduce((sum, value) => sum + value, p("zero"));
+    const key = `${keyOf(p("zero"))}:grown-children`;
+    const count = countWithMean(
+      new SeededRng(input.seed).fork(`${data.version}:${key}`),
+      mean,
+    );
+    for (let i = p("zero"); i < count; i += p("one")) {
+      const age = pickAge(input.seed, `${key}:${i}:age`, minimum, weights);
+      if (age === undefined) break;
+      const sexWeights = both.map((sex) =>
+        peopleAtAge(input.geo.rows, sex, age),
+      );
+      const sex =
+        both[
+          pickAge(input.seed, `${key}:${i}:sex`, p("zero"), sexWeights) ??
+            p("zero")
+        ]!;
+      added.push({ sex, age, familyName: input.people[p("zero")]!.familyName });
+    }
+  }
   const familyName =
     grownChild === undefined ? undefined : input.people[p("zero")]!.familyName;
   const people = input.people.map((person, n) => {
     const aged =
-      ages[n] !== members[n]!.age ? input.rebirth(person, ages[n]!) : person;
+      ages[n] !== members[n]!.age || sexes[n] !== sexOf(n)
+        ? input.rebirth(person, ages[n]!, sexes[n])
+        : person;
     return n === grownChild && familyName !== undefined
       ? { ...aged, familyName }
       : aged;
   });
+  const grownChildren = grownChild === undefined ? [] : [grownChild];
+  added.forEach((row, i) => {
+    const n = members.length + i;
+    people.push(
+      input.addPerson(
+        `${keyOf(p("zero"))}:p15-member:${n}`,
+        row.sex,
+        row.age,
+        row.familyName,
+      ),
+    );
+    if (row.familyName !== undefined) grownChildren.push(n);
+  });
   return {
     skeleton: {
       ...input.skeleton,
-      members: members.map((member, n) => ({ ...member, age: ages[n]! })),
+      members: [
+        ...members.map((member, n) => ({ ...member, age: ages[n]! })),
+        ...added.map((row) => ({ age: row.age, role: "adult" as const })),
+      ],
     },
     people,
-    ...(grownChild === undefined ? {} : { grownChild }),
+    grownChildren,
+    grownChildParents: grownChildren.length ? grownChildParents : [],
   };
 }

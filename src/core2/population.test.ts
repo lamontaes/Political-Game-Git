@@ -61,7 +61,7 @@ describe("real-place one-time population import", () => {
     }
     expect(assigned.size).toBe(opening.people.length);
     // Parent-child links inside a resident household join a minor to a parent,
-    // or (P15) a grown child to the parent whose two-person home they share.
+    // or (P15) a grown child to the parents whose home they share.
     const children = (opening.familyLinks ?? [])
       .filter(
         (link) =>
@@ -77,12 +77,15 @@ describe("real-place one-time population import", () => {
     expect(children.some((child) => ageNow(child) < WORKING_AGE_MIN)).toBe(
       true,
     );
-    for (const child of children)
-      if (ageNow(child) >= WORKING_AGE_MIN)
-        expect(
+    // Some grown children live with both parents, in homes of three or more.
+    expect(
+      children.some(
+        (child) =>
+          ageNow(child) >= WORKING_AGE_MIN &&
           opening.households.find((row) => row.id === child.householdId)!
-            .memberIds,
-        ).toHaveLength(p("two"));
+            .memberIds.length > p("two"),
+      ),
+    ).toBe(true);
     expect(
       opening.people.some((person) => person.familyIds.length > p("zero")),
     ).toBe(true);
@@ -121,7 +124,8 @@ describe("real-place one-time population import", () => {
         place.context.jurisdiction.id,
         index,
       );
-      expect(household.memberIds).toEqual(
+      // P15 may add members (grown children, more housemates) after them.
+      expect(household.memberIds.slice(0, inputs.length)).toEqual(
         inputs.map((input) =>
           characterHistoryContextPersonId(context, input.stableKey),
         ),
@@ -172,13 +176,20 @@ describe("real-place one-time population import", () => {
         ...canonical.history.kinshipRelationships.map((link) => link.id),
         ...canonical.history.partnerships.map((link) => link.id),
       ];
-      expect(
-        links
-          .filter((link) => !canonicalIds.includes(link.id))
-          .map((link) => link.kind),
-      ).toEqual(grownChild ? ["parent-child"] : []);
-      expect(links.length).toBe(canonicalIds.length + (grownChild ? 1 : 0));
-      for (const personId of household.memberIds) {
+      // Links P15 adds join a grown child to a parent at home.
+      for (const link of links.filter(
+        (row) => !canonicalIds.includes(row.id),
+      )) {
+        expect(link.kind).toBe("parent-child");
+        const child = byId.get(link.personIds[p("one")]!)!;
+        expect(
+          ageOnDate(makeIsoDate(child.birthDate), makeIsoDate(startedAt)),
+        ).toBeGreaterThanOrEqual(WORKING_AGE_MIN);
+      }
+      for (const id of canonicalIds)
+        expect(links.map((link) => link.id)).toContain(id);
+      if (grownChild) expect(links.length).toBeGreaterThan(canonicalIds.length);
+      for (const personId of household.memberIds.slice(0, inputs.length)) {
         const person = byId.get(personId)!;
         expect(person.looks?.appearanceSeed).toBe(
           canonical.people[personId]!.appearance?.seed,
