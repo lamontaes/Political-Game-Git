@@ -186,13 +186,33 @@ export function peopleReceipt(input: CoreInput, buildSeconds: number) {
       };
     };
     const key = keys.kinlessness.bands.find((row) => row.band === band);
+    // The place's own 2024 adults without a spouse at home (ACS B12002).
+    const acsNoSpouse = (sex: "female" | "male") => {
+      let all = 0,
+        present = 0;
+      OPENING_PARTNERSHIP.maritalBands.forEach((label, i) => {
+        const from = Number(label.split(/[-+]/)[0]);
+        if (from < low || from >= high) return;
+        all += geo.rows.marital[sex][i]!;
+        present += geo.rows.spousePresent[sex][i]!;
+      });
+      return percent(all - present, all);
+    };
     return {
       band,
       all: tally(),
       ...(key
         ? {
-            male: { game: tally("male"), hrs: key.male },
-            female: { game: tally("female"), hrs: key.female },
+            male: {
+              game: tally("male"),
+              hrs: key.male,
+              acsNoSpousePresentPercent: acsNoSpouse("male"),
+            },
+            female: {
+              game: tally("female"),
+              hrs: key.female,
+              acsNoSpousePresentPercent: acsNoSpouse("female"),
+            },
           }
         : {}),
     };
@@ -290,7 +310,11 @@ export function peopleReceipt(input: CoreInput, buildSeconds: number) {
       .length,
     householdShape,
     ageStructure,
-    kinByAge: { citation: keys.kinlessness.citation, bands },
+    kinByAge: {
+      citation: keys.kinlessness.citation,
+      acsNoSpousePresent: `Adults of the band who are not married with their spouse present, ACS 2024 1-year B12002 for ${geo.key} (${OPENING_PARTNERSHIP.citation.split(".")[0]}); the game's couples are all marriages.`,
+      bands,
+    },
     nearKin,
     temperament: {
       coreProfiles: profileCount(residents, true),
