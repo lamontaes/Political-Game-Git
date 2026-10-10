@@ -988,7 +988,7 @@
     "kind": "estimated-behavior",
     "file": "src/core2/data/opening-kin.json",
     "line": 3,
-    "whatItFakes": "Kin outside the household are generated per resident household as husk-tier people: parents by the SSA 2023 life table, siblings by size-biased cohort fertility, children and grandchildren by Census children ever born; relatives are never matched to other residents, partners of siblings and adult children and cousins are absent, and residence is only county or state.",
+    "whatItFakes": "Kin outside the household are generated per resident household as husk-tier people: every relative alive or not by the SSA cohort life table for their birth year (Actuarial Study No. 120, birth decades 1900-2010 interpolated), siblings by size-biased cohort fertility, children and grandchildren by Census children ever born; relatives are never matched to other residents, partners of siblings and adult children and cousins are absent, and residence is only county or state.",
     "why": "Every resident needs real family consistent with age; a full kin-matching and migration engine does not exist.",
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",

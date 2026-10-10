@@ -1254,7 +1254,7 @@ function openingFamilies(input: OpeningFamilyInput): {
   }
   const kinSource: Source = {
     ...source,
-    citation: `${source.citation} ${OPENING_KIN.completedFertility.citation} ${OPENING_KIN.fertilityByAge.citation} ${OPENING_KIN.firstBirthAge.citation} SSA 2023 period life table.`,
+    citation: `${source.citation} ${OPENING_KIN.completedFertility.citation} ${OPENING_KIN.fertilityByAge.citation} ${OPENING_KIN.firstBirthAge.citation} SSA cohort life tables by birth year (Actuarial Study No. 120).`,
     estimatedFrom:
       "Generated opening kin: who exists follows the life table and Census fertility by cohort and age; relatives outside the household are husk-tier records, not observed people.",
   };
