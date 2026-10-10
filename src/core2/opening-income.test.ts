@@ -529,15 +529,17 @@ describe("pure qualified opening retirement-income records", () => {
     ).toThrow(/contradicts/);
   });
 
-  it("adds exactly one disclosed finite account for a shared place and preserves original cash totals", () => {
+  it("adds one zero-stock local disbursement view for a shared place and preserves original cash totals", () => {
     const input = fixture([person(), person("person:second", "1952-02-20")]);
     const result = build(input);
     expect(result.receipt.payerAccounts).toHaveLength(p("one"));
     expect(result.receipt.addedContractIds).toHaveLength(input.people.length);
-    const reserve = p(data.parameters.payerReserveMonths);
-    expect(result.receipt.addedOpeningLiquidMinor).toBe(
-      Math.floor(result.receipt.plannedMonthlyIncomeMinor * reserve),
-    );
+    expect(result.receipt.addedOpeningLiquidMinor).toBe(p("zero"));
+    expect(
+      result.receipt.payerAccounts.every(
+        (row) => row.openingLiquidMinor === p("zero"),
+      ),
+    ).toBe(true);
     expect(result.receipt.originalPeopleCashMinor).toBe(
       input.people.reduce((total, row) => total + row.liquidMinor, p("zero")),
     );
@@ -724,11 +726,16 @@ describe("pure qualified opening retirement-income records", () => {
   it("rejects unsafe monetary totals and invalid priors rather than returning a partially enriched input", () => {
     const input = fixture();
     const snapshot = structuredClone(input);
-    const reserve = parameterRegistry(
-      data.parameters.payerReserveMonths,
-      Number.MAX_SAFE_INTEGER,
-    );
-    expect(() => build(input, { parameters: reserve })).toThrow(/minor units/);
+    const unsafe = {
+      ...input,
+      organizations: input.organizations.map((row) => ({
+        ...row,
+        liquidMinor: Number.MAX_SAFE_INTEGER,
+      })),
+    };
+    const unsafeSnapshot = structuredClone(unsafe);
+    expect(() => build(unsafe)).toThrow(/minor units/);
+    expect(unsafe).toEqual(unsafeSnapshot);
     expect(input).toEqual(snapshot);
     expect(() =>
       build(input, {
@@ -779,5 +786,23 @@ describe("pure qualified opening retirement-income records", () => {
       seen.add(result.receipt.payerAccounts[p("zero")]!.id);
     }
     expect(seen.size).toBe(identities.length);
+  });
+  it("uses the official January 2021 estimated mean without creating a retirement cash reserve", () => {
+    expect(p(data.parameters.benefitMonthlyMinor)).toBe(154300);
+    expect(PARAMETERS[data.parameters.benefitMonthlyMinor]!.tag).toBe(
+      "ESTIMATED",
+    );
+    expect(data.citation).toContain("January 2021");
+    expect(data.citation).toContain("estimated average");
+    const result = build();
+    const award = factByKind(result, data.generatedAwardKind);
+    expect(award.source.tag).toBe("ESTIMATED");
+    expect(award.source.generationPriorVintage).toContain("October 13, 2020");
+    expect(result.receipt.addedOpeningLiquidMinor).toBe(p("zero"));
+    expect(
+      result.receipt.payerAccounts.every(
+        (row) => row.openingLiquidMinor === p("zero"),
+      ),
+    ).toBe(true);
   });
 });

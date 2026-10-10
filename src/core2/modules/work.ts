@@ -410,12 +410,6 @@ export function runScheduledWork(
     const committed = api.settleWorkResult(result);
     decisions += p("one");
     acts += p("one");
-    api.recordActivityTime(
-      actor.id,
-      "paid-job-work",
-      attended,
-      committed.source,
-    );
     for (const module of api.state.modules.values())
       module.onWorkResult?.(api, committed);
     // No financial-pressure event or civic drive is synthesized by this module.

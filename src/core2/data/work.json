@@ -365,5 +365,13 @@
       "id": "atus-age-75",
       "minimumAgeParameter": "employment-age-75-minimumAge"
     }
-  ]
+  ],
+  "journalSourceKinds": {
+    "result": "work.result",
+    "commitment": "work.commitment",
+    "publicPayDue": "work.public-pay-due",
+    "publicPayAuthority": "work.public-pay-authority"
+  },
+  "publicPayDueIdPrefix": "public-pay-due:",
+  "publicPayDueCitation": "The owning work module records this date's actual attended minutes and current hourly terms with fractional carry. This modeled public wage obligation does not establish an observed appropriation or a future payroll guarantee."
 }
