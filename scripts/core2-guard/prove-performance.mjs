@@ -157,4 +157,6 @@ try {
   git("checkout", original);
 }
 writeFileSync(output, JSON.stringify(result, null, 2) + "\n");
-console.log(JSON.stringify(result));
+console.log(
+  `Proof receipt: ${output}; ${result.error ?? "measured slowdown detected and clock restored"}`,
+);

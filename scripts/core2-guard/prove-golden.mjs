@@ -87,4 +87,6 @@ try {
   git("checkout", original);
 }
 writeFileSync(output, JSON.stringify(results, null, 2) + "\n");
-console.log(JSON.stringify(results));
+console.log(
+  `Proof receipt: ${output}; ${results.error ?? "before passed, deliberate break red, restoration passed"}`,
+);

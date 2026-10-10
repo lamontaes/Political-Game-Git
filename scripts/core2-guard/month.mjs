@@ -68,7 +68,17 @@ export async function prepareWorld({ seed, placeKey }) {
     focusPlaceIds: [],
     visiblePlaceIds: [player.placeId, player.countyId].sort(),
   };
-  return { input, phases, place: population.placeMetadata, peers };
+  return {
+    input,
+    phases,
+    place: {
+      key: population.placeMetadata.placeKey,
+      name: population.placeMetadata.placeName,
+      countyNames: population.placeMetadata.countyNames,
+      referencePopulation: population.placeMetadata.referencePopulation,
+    },
+    peers,
+  };
 }
 export async function runMonth({ seed, placeKey, output }) {
   const { input, phases, place } = await prepareWorld({ seed, placeKey });

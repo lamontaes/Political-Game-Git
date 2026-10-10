@@ -76,6 +76,7 @@ export async function runSuite({
       place,
       status,
       ...receipt,
+      output: status === "passed" ? "" : receipt.output,
     });
   }
   return {
