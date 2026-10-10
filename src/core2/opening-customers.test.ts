@@ -20,6 +20,13 @@ import {
   type OpeningCustomerProviderQualification,
   type RecordedCustomerProvider,
 } from "./opening-customers";
+import {
+  openingCustomerQualificationKey,
+  openingCustomerQualificationReference,
+  type OpeningCustomerAgreementQualification,
+  type OpeningCustomerQualificationPlanReference,
+  type OpeningCustomerQualificationRecord,
+} from "./opening-customer-qualification";
 import { parameter as p, PARAMETERS, type Parameter } from "./parameters";
 import type {
   CoreInput,
@@ -37,6 +44,50 @@ const source: Source = {
   estimatedFrom:
     "Fixture identity and unit-constant amounts; production customer priors remain separately sourced and uncalibrated.",
 };
+
+// Representation adapter only: all prior owning job/Source assertions stay below.
+type CustomerResult = ReturnType<typeof buildOpeningCustomers>;
+function fullQualification(
+  result: CustomerResult,
+  row: OpeningCustomerAgreementQualification,
+): OpeningCustomerProviderQualification {
+  if (!("qualificationId" in row)) return row;
+  const owner = result.input.organizations.find(
+    (value) => value.id === row.organizationId,
+  )!;
+  const raw =
+    owner.governmentFacts![
+      openingCustomerQualificationKey(row.qualificationId)
+    ]!;
+  expect(raw).toBeDefined();
+  const record = JSON.parse(raw) as OpeningCustomerQualificationRecord;
+  expect(openingCustomerQualificationReference(record)).toEqual(row);
+  expect(result.receipt.providerQualifications).toContainEqual(record);
+  const { qualificationId, ...full } = record;
+  expect(qualificationId).toBe(row.qualificationId);
+  return full;
+}
+function fullPlanQualification(
+  result: CustomerResult,
+  row: OpeningCustomerQualificationPlanReference,
+): OpeningCustomerProviderQualification {
+  if ("qualificationId" in row) return fullQualification(result, row);
+  const owning = result.receipt.inlineProviderQualifications.find(
+    (value) => value.agreementId === row.agreementId,
+  )!;
+  return owning.qualifications.find(
+    (value) =>
+      value.organizationId === row.organizationId &&
+      value.serviceKey === row.serviceKey,
+  )!;
+}
+function qualificationText(result: CustomerResult, raw: string): string {
+  return JSON.stringify(
+    (JSON.parse(raw) as OpeningCustomerAgreementQualification[]).map((row) =>
+      fullQualification(result, row),
+    ),
+  );
+}
 
 function fixture(): CoreInput {
   const scopes = [
@@ -595,9 +646,11 @@ describe("opening customer producer", () => {
           record.kind === kind && record.basisRecordIds.includes(jobId),
       )!;
       expect(agreement).toBeDefined();
-      const qualifications = JSON.parse(
-        agreement.facts.providerQualifications!,
-      ) as OpeningCustomerProviderQualification[];
+      const qualifications = (
+        JSON.parse(
+          agreement.facts.providerQualifications!,
+        ) as OpeningCustomerAgreementQualification[]
+      ).map((row) => fullQualification(result, row));
       const qualification = qualifications.find((row) =>
         row.jobIds.includes(jobId),
       )!;
@@ -612,7 +665,9 @@ describe("opening customer producer", () => {
       const plan = result.receipt.contractPlans.find(
         (row) => row.agreementId === agreement.id,
       )!;
-      expect(plan.providerQualification).toEqual(qualification);
+      expect(fullPlanQualification(result, plan.providerQualification)).toEqual(
+        qualification,
+      );
     }
     const householdFact = result.input.people
       .find((person) => person.id === "customer")!
@@ -620,17 +675,19 @@ describe("opening customer producer", () => {
     expect(JSON.parse(householdFact.facts!.basisRecordIds!)).toContain(
       "job:salon",
     );
-    expect(householdFact.facts!.providerQualifications).toContain(
-      source.citation,
-    );
+    expect(
+      qualificationText(result, householdFact.facts!.providerQualifications!),
+    ).toContain(source.citation);
     const publicAgreement = JSON.parse(
       result.input.organizations.find((row) => row.id === "local-office")!
         .governmentFacts!["openingCustomers.agreement:fixture-place"]!,
     );
     expect(publicAgreement.basisRecordIds).toContain("job:cleaner");
-    expect(publicAgreement.providerQualifications).toContainEqual(
-      expect.objectContaining({ jobIds: ["job:cleaner"] }),
-    );
+    expect(
+      (
+        publicAgreement.providerQualifications as OpeningCustomerAgreementQualification[]
+      ).map((row) => fullQualification(result, row)),
+    ).toContainEqual(expect.objectContaining({ jobIds: ["job:cleaner"] }));
     const visit = result.receipt.evidence.find(
       (record) => record.kind === "outside-visit-budget",
     )!;
@@ -665,7 +722,10 @@ describe("opening customer producer", () => {
     ).toBe(false);
     expect(
       result.receipt.contractPlans.some((plan) =>
-        plan.providerQualification.jobIds.includes("job:lawyer"),
+        fullPlanQualification(
+          result,
+          plan.providerQualification,
+        ).jobIds.includes("job:lawyer"),
       ),
     ).toBe(false);
     expect(
@@ -710,11 +770,16 @@ describe("opening customer producer", () => {
       for (const plan of result.receipt.contractPlans.filter(
         (row) => row.sellerId === record.organizationId,
       )) {
-        expect(plan.providerQualification.jobIds).toEqual([]);
-        expect(plan.providerQualification.providerRecordIds).toEqual([
-          record.id,
-        ]);
-        expect(plan.providerQualification.sources).toEqual([
+        expect(
+          fullPlanQualification(result, plan.providerQualification).jobIds,
+        ).toEqual([]);
+        expect(
+          fullPlanQualification(result, plan.providerQualification)
+            .providerRecordIds,
+        ).toEqual([record.id]);
+        expect(
+          fullPlanQualification(result, plan.providerQualification).sources,
+        ).toEqual([
           {
             recordId: record.id,
             kind: "recorded-provider",
@@ -733,10 +798,12 @@ describe("opening customer producer", () => {
     const householdFact = result.input.people
       .find((person) => person.id === "customer")!
       .pastFacts!.find((fact) => fact.facts?.serviceKey === "personal-care")!;
-    expect(householdFact.facts!.providerQualifications).toContain(
-      "recorded-salon-scope",
-    );
-    expect(householdFact.facts!.providerQualifications).toContain(
+    expect(
+      qualificationText(result, householdFact.facts!.providerQualifications!),
+    ).toContain("recorded-salon-scope");
+    expect(
+      qualificationText(result, householdFact.facts!.providerQualifications!),
+    ).toContain(
       used.find((row) => row.organizationId === "salon")!.source.citation,
     );
     const publicAgreement = JSON.parse(
@@ -744,7 +811,11 @@ describe("opening customer producer", () => {
         .governmentFacts!["openingCustomers.agreement:fixture-place"]!,
     );
     expect(publicAgreement.basisRecordIds).toContain("recorded-cleaner-scope");
-    expect(publicAgreement.providerQualifications).toContainEqual(
+    expect(
+      (
+        publicAgreement.providerQualifications as OpeningCustomerAgreementQualification[]
+      ).map((row) => fullQualification(result, row)),
+    ).toContainEqual(
       expect.objectContaining({
         providerRecordIds: ["recorded-cleaner-scope"],
       }),
@@ -756,7 +827,9 @@ describe("opening customer producer", () => {
       result.input.placeMetadata![`openingCustomers.evidence:${visit.id}`]!,
     );
     expect(savedVisit.basisRecordIds).toContain("recorded-inn-scope");
-    expect(savedVisit.facts.providerQualifications).toContain(
+    expect(
+      qualificationText(result, savedVisit.facts.providerQualifications),
+    ).toContain(
       used.find((row) => row.organizationId === "inn")!.source.citation,
     );
     expect(result.input.jobs).toBe(input.jobs);
@@ -2574,5 +2647,239 @@ describe("UNEXECUTED persisted customer rebuild linkage", () => {
         agreementEndsById: { [end.id]: end },
       }),
     ).toThrow(/Invalid actual customer agreement end/);
+  });
+});
+
+describe("complete canonical provider qualification sharing", () => {
+  it("stores every qualifying staff job once and uses explicit refs across households", () => {
+    const original = fixture(),
+      baseJob = original.jobs.find((row) => row.id === "job:salon")!,
+      worker = original.people.find((row) => row.id === baseJob.personId)!;
+    const input: CoreInput = {
+      ...original,
+      people: [
+        ...original.people,
+        {
+          ...worker,
+          id: "worker:salon:second",
+          jobId: "job:salon:second",
+          householdId: "household:salon:second",
+        },
+        {
+          ...original.people.find((row) => row.id === "customer")!,
+          id: "customer:second",
+          householdId: "household:customer:second",
+        },
+      ],
+      households: [
+        ...original.households,
+        {
+          id: "household:salon:second",
+          placeId: worker.placeId,
+          memberIds: ["worker:salon:second"],
+          source,
+        },
+        {
+          id: "household:customer:second",
+          placeId: worker.placeId,
+          memberIds: ["customer:second"],
+          source,
+        },
+      ],
+      jobs: [
+        ...original.jobs,
+        {
+          ...baseJob,
+          id: "job:salon:second",
+          personId: "worker:salon:second",
+          source: {
+            ...source,
+            citation: "Second actual product-job full Source",
+            estimatedFrom: "Independent unchanged second staff basis",
+          },
+        },
+      ],
+    };
+    const saved = structuredClone(input),
+      result = buildOpeningCustomers(input, visitorOptions());
+    expect(input).toEqual(saved);
+    const plans = result.receipt.contractPlans.filter(
+      (row) => row.sellerId === "salon" && row.serviceKey === "personal-care",
+    );
+    expect(plans).toHaveLength(p("one") + p("one"));
+    const full = fullPlanQualification(
+      result,
+      plans[p("zero")]!.providerQualification,
+    );
+    expect(full.jobIds).toEqual(["job:salon", "job:salon:second"]);
+    expect(full.sources).toContainEqual(
+      expect.objectContaining({
+        recordId: "job:salon:second",
+        source: input.jobs.at(-p("one"))!.source,
+      }),
+    );
+    const owner = result.input.organizations.find((row) => row.id === "salon")!;
+    expect(
+      Object.keys(owner.governmentFacts!).filter((key) =>
+        key.startsWith("openingCustomers.qualification:"),
+      ),
+    ).toHaveLength(p("one"));
+    for (const plan of plans) {
+      expect(plan.providerQualification).not.toHaveProperty("sources");
+      expect(plan.providerQualification).not.toHaveProperty("jobIds");
+      expect(fullPlanQualification(result, plan.providerQualification)).toEqual(
+        full,
+      );
+    }
+    const rebuilt = buildOpeningCustomers(result.input, visitorOptions());
+    expect(rebuilt.input).toEqual(result.input);
+    // A changed roster cannot erase/rebind the originally admitted witness.
+    const later: CoreInput = {
+      ...result.input,
+      people: result.input.people.map((row) =>
+        row.id === worker.id ? { ...row, jobId: undefined } : row,
+      ),
+    };
+    const laterRebuilt = buildOpeningCustomers(later, visitorOptions());
+    expect(laterRebuilt.input.organizations).toEqual(later.organizations);
+    expect(laterRebuilt.input.finance!.contracts).toEqual(
+      later.finance!.contracts,
+    );
+    expect(
+      fullPlanQualification(
+        laterRebuilt,
+        laterRebuilt.receipt.contractPlans.find(
+          (row) => row.sellerId === "salon",
+        )!.providerQualification,
+      ).jobIds,
+    ).toEqual(full.jobIds);
+  });
+  it("rejects a missing, moved or pruned provider registry without mutating input", () => {
+    const first = buildOpeningCustomers(fixture(), visitorOptions());
+    for (const change of [
+      "missing",
+      "wrong-owner",
+      "pruned",
+      "duplicate-alias",
+    ] as const) {
+      const input = structuredClone(first.input),
+        owner = input.organizations.find((row) => row.id === "salon")!;
+      const key = Object.keys(owner.governmentFacts!).find((row) =>
+        row.startsWith("openingCustomers.qualification:"),
+      )!;
+      const facts = { ...owner.governmentFacts };
+      if (change === "missing") delete facts[key];
+      else if (change === "duplicate-alias")
+        facts[`${key}:alias`] = facts[key]!;
+      else {
+        const record = JSON.parse(facts[key]!);
+        if (change === "wrong-owner") record.organizationId = "inn";
+        else {
+          record.jobIds = [];
+          record.sources = [];
+        }
+        facts[key] = JSON.stringify(record);
+      }
+      owner.governmentFacts = facts;
+      const before = structuredClone(input);
+      expect(() => buildOpeningCustomers(input, visitorOptions())).toThrow();
+      expect(input).toEqual(before);
+    }
+  });
+  it("retains actual legacy inline witnesses and Sources without migrating saved input", () => {
+    const first = buildOpeningCustomers(fixture(), visitorOptions()),
+      input = structuredClone(first.input);
+    const resolve = (rows: OpeningCustomerAgreementQualification[]) =>
+      rows.map((row) => fullQualification(first, row));
+    for (const person of input.people)
+      for (const fact of person.pastFacts ?? [])
+        if (fact.facts?.providerQualifications)
+          fact.facts = {
+            ...fact.facts,
+            providerQualifications: JSON.stringify(
+              resolve(JSON.parse(fact.facts.providerQualifications)),
+            ),
+          };
+    for (const owner of input.organizations) {
+      const facts = { ...owner.governmentFacts };
+      for (const key of Object.keys(facts)) {
+        if (key.startsWith("openingCustomers.qualification:"))
+          delete facts[key];
+        else if (key.startsWith("openingCustomers.agreement:")) {
+          const record = JSON.parse(facts[key]!);
+          record.providerQualifications = resolve(
+            record.providerQualifications,
+          );
+          facts[key] = JSON.stringify(record);
+        }
+      }
+      // Canonical producer compares JSON structurally for original registry only;
+      // owning saved agreement records keep their original canonical encoding.
+      owner.governmentFacts = facts;
+    }
+    for (const [key, raw] of Object.entries(input.placeMetadata ?? {}))
+      if (key.startsWith("openingCustomers.evidence:")) {
+        const record = JSON.parse(raw);
+        if (record.facts?.providerQualifications) {
+          record.facts.providerQualifications = JSON.stringify(
+            resolve(JSON.parse(record.facts.providerQualifications)),
+          );
+          input.placeMetadata = {
+            ...input.placeMetadata,
+            [key]: JSON.stringify(record),
+          };
+        }
+      }
+    const before = structuredClone(input);
+    // Encoding is canonical in real saved producer records; fixture normalizes
+    // only its explicitly transformed inline representation before admission.
+    const canonical = (value: unknown): string =>
+      Array.isArray(value)
+        ? `[${value.map(canonical).join(",")}]`
+        : value && typeof value === "object"
+          ? `{${Object.entries(value)
+              .filter(([, row]) => row !== undefined)
+              .sort(([a], [b]) => a.localeCompare(b))
+              .map(([key, row]) => `${JSON.stringify(key)}:${canonical(row)}`)
+              .join(",")}}`
+          : (JSON.stringify(value) ?? "undefined");
+    for (const owner of input.organizations)
+      owner.governmentFacts = Object.fromEntries(
+        Object.entries(owner.governmentFacts ?? {}).map(([key, raw]) => [
+          key,
+          key.startsWith("openingCustomers.agreement:")
+            ? canonical(JSON.parse(raw))
+            : raw,
+        ]),
+      );
+    for (const person of input.people)
+      for (const fact of person.pastFacts ?? [])
+        if (fact.facts?.providerQualifications)
+          fact.facts = {
+            ...fact.facts,
+            providerQualifications: canonical(
+              JSON.parse(fact.facts.providerQualifications),
+            ),
+          };
+    input.placeMetadata = Object.fromEntries(
+      Object.entries(input.placeMetadata ?? {}).map(([key, raw]) => {
+        if (!key.startsWith("openingCustomers.evidence:")) return [key, raw];
+        const record = JSON.parse(raw);
+        if (record.facts?.providerQualifications)
+          record.facts.providerQualifications = canonical(
+            JSON.parse(record.facts.providerQualifications),
+          );
+        return [key, canonical(record)];
+      }),
+    );
+    const saved = structuredClone(input),
+      rebuilt = buildOpeningCustomers(input, visitorOptions());
+    expect(input).toEqual(saved);
+    expect(rebuilt.input).toEqual(input);
+    expect(rebuilt.receipt.providerQualifications).toEqual([]);
+    expect(rebuilt.receipt.inlineProviderQualifications.length).toBeGreaterThan(
+      p("zero"),
+    );
+    expect(before.finance).toEqual(input.finance);
   });
 });
