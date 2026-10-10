@@ -1,5 +1,6 @@
 /** P8 prototype boundary. No game screen or old-core clock imports this API. */
 import type { CashActSelection } from "./act-cash";
+import type { GeneratedHouseholdSourceBasis } from "./generated-household-source";
 import type {
   LegacyWorkCashInput,
   LegacyWorkCashResult,
@@ -43,6 +44,8 @@ export interface Source {
   citation: string;
   asOf: IsoDate;
   estimatedFrom?: string;
+  /** Fresh default household provenance; never payment authority. */
+  generatedHouseholdBasis?: GeneratedHouseholdSourceBasis;
   /** External-data vintage of an opening generation prior, not its publication date or actor knowledge. */
   generationPriorVintage?: string;
 }

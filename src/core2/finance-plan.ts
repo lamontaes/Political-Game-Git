@@ -1,3 +1,4 @@
+import { readGeneratedHouseholdSourceBasis } from "./generated-household-source";
 /** Internal read-only preparation. It grants no source authority and never writes cash. */
 import { daysBetween, makeIsoDate } from "../simulation/dates";
 import {
@@ -916,6 +917,9 @@ function readSource(
     vintage = reads.field(source, "generationPriorVintage");
   if (estimatedFrom !== undefined) copy.estimatedFrom = estimatedFrom;
   if (vintage !== undefined) copy.generationPriorVintage = vintage;
+  const generatedBasis = readGeneratedHouseholdSourceBasis(reads, source);
+  if (generatedBasis !== undefined)
+    copy.generatedHouseholdBasis = generatedBasis;
   if (
     !["SOURCED", "ESTIMATED"].includes(copy.tag) ||
     !copy.citation?.trim() ||

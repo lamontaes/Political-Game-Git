@@ -1,3 +1,11 @@
+import {
+  defaultGeneratedHouseholdCatalogs,
+  defaultGeneratedHouseholdCalendarData,
+  generatedHouseholdSourceBasis,
+  compactGeneratedHouseholdSource,
+  mayCompactGeneratedHouseholdSources,
+  type GeneratedHouseholdSourceBasis,
+} from "./generated-household-source";
 import { addDays, isoDateFromParts, makeIsoDate } from "../simulation/dates";
 import { stableHash } from "../simulation/ids";
 import {
@@ -354,6 +362,11 @@ export function buildOpeningCustomers(
 ): { input: CoreInput; receipt: OpeningCustomerBuildReceipt } {
   const data = options.data ?? DEFAULT_OPENING_CUSTOMER_DATA;
   const registry = options.parameters ?? DEFAULT_OPENING_CUSTOMER_PARAMETERS;
+  const compactDefaultHouseholdSources =
+    defaultGeneratedHouseholdCatalogs("service", data, registry) &&
+    defaultGeneratedHouseholdCalendarData(
+      DEFAULT_OPENING_PURCHASE_CALENDAR_DATA,
+    );
   const usedParameters = new Set<string>();
   const p = (key: string) => {
     const value = parameter(key, registry);
@@ -1314,6 +1327,7 @@ export function buildOpeningCustomers(
     firstDueAt?: string;
     firstDueSource?: Source;
     householdCalendar?: OpeningPurchaseCalendarChoice;
+    generatedSourceBasis?: GeneratedHouseholdSourceBasis;
   }) => {
     const calendar = agreementCalendar(
       args.agreementId,
@@ -1347,13 +1361,32 @@ export function buildOpeningCustomers(
     // Generated household Sources and markers are reconstructed independently
     // from actual current calendar inputs, never from the saved marker Source.
     const source: Source =
-      args.householdCalendar && !calendar.actualSuppliedDate && !end.endsAt
-        ? {
-            ...fullSource,
-            citation: `${args.source.citation} Calendar Source: DATA openingPurchaseCalendar.source.`,
-            estimatedFrom: `${args.source.estimatedFrom} Calendar marker ${DEFAULT_OPENING_PURCHASE_CALENDAR_DATA.recurringHouseholdDueRule}; household ${args.householdId}; basis ${canonical(args.householdCalendar.basisIds)}; result ${calendar.firstDueAt}. ${DEFAULT_OPENING_PURCHASE_CALENDAR_DATA.stopgapId}`,
-          }
-        : fullSource;
+      args.generatedSourceBasis &&
+      args.householdCalendar &&
+      !calendar.actualSuppliedDate &&
+      !end.endsAt &&
+      mayCompactGeneratedHouseholdSources(
+        args.sellerRows.map(
+          (seller) =>
+            contractById.get(`${args.agreementId}:contract:${seller.id}`)
+              ?.source,
+        ),
+      )
+        ? compactGeneratedHouseholdSource(
+            args.generatedSourceBasis,
+            at,
+            fullSource.generationPriorVintage,
+          )
+        : compactDefaultHouseholdSources &&
+            args.householdCalendar &&
+            !calendar.actualSuppliedDate &&
+            !end.endsAt
+          ? {
+              ...fullSource,
+              citation: `${args.source.citation} Calendar Source: DATA openingPurchaseCalendar.source.`,
+              estimatedFrom: `${args.source.estimatedFrom} Calendar marker ${DEFAULT_OPENING_PURCHASE_CALENDAR_DATA.recurringHouseholdDueRule}; household ${args.householdId}; basis ${canonical(args.householdCalendar.basisIds)}; result ${calendar.firstDueAt}. ${DEFAULT_OPENING_PURCHASE_CALENDAR_DATA.stopgapId}`,
+            }
+          : fullSource;
     const contractAmountsMinor: Record<string, number> = {};
     const contractSourceMap: Record<string, Source> = {};
     const contractTermsById: Record<
@@ -1705,6 +1738,23 @@ export function buildOpeningCustomers(
         firstDueAt: householdCalendar.dueAt,
         firstDueSource: householdCalendar.source,
         householdCalendar,
+        ...(compactDefaultHouseholdSources
+          ? {
+              generatedSourceBasis: generatedHouseholdSourceBasis({
+                domain: "service",
+                household,
+                key: service.key,
+                region,
+                sizeColumn: sizeKey,
+                parameterRefs: need.refs,
+                calendarDueAt: householdCalendar.dueAt,
+                calendarBasisIds: householdCalendar.basisIds,
+                missingIncome: householdCalendar.gaps.includes(
+                  `${DEFAULT_OPENING_PURCHASE_CALENDAR_DATA.missingIncomeGap}:${household.id}`,
+                ),
+              }),
+            }
+          : {}),
       });
       source = boundTerms.source;
       const record: OpeningCustomerEvidenceRecord = {
