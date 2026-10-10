@@ -41,6 +41,11 @@
       "tag": "SOURCED",
       "citation": "Identity: drive strength from the drives package is already trait-weighted on the life-change impulse scale."
     },
+    "directorScaleReentry": {
+      "value": 1,
+      "tag": "SOURCED",
+      "citation": "Identity: a re-entry adds the pair's importance from before it faded, which is already a sum of moment impacts and standing ties (October 8, 2026 story director design, part 5, rule 1)."
+    },
     "directorScaleMoney": {
       "value": 0.47,
       "tag": "ESTIMATED",
@@ -200,6 +205,12 @@
           "weightParameter": "directorWeightTieSociability"
         }
       ]
+    },
+    {
+      "id": "re-entry",
+      "measure": "faded-thread-importance",
+      "scaleParameter": "directorScaleReentry",
+      "traitWeights": []
     },
     {
       "id": "cause",
