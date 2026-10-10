@@ -114,6 +114,31 @@ describe("generated opening kin", () => {
     }
   });
 
+  it("gives children who share a relative's home that parent's household surname", () => {
+    const byId = new Map(opening.people.map((person) => [person.id, person]));
+    const childrenOf = new Map<string, string[]>();
+    for (const link of opening.familyLinks ?? []) {
+      if (link.kind !== "parent-child") continue;
+      const [parent, child] = link.personIds;
+      childrenOf.set(parent, [...(childrenOf.get(parent) ?? []), child]);
+    }
+    let checked = 0;
+    for (const [parentId, childIds] of childrenOf) {
+      const parent = byId.get(parentId)!;
+      if (parent.tier !== OPENING_KIN.kinTier) continue;
+      const home = childIds
+        .map((id) => byId.get(id)!)
+        .filter((child) => child.householdId === parent.householdId);
+      if (home.length < 2) continue;
+      checked += 1;
+      expect(
+        new Set(home.map((child) => child.familyName)).size,
+        parentId,
+      ).toBe(1);
+    }
+    expect(checked).toBeGreaterThan(0);
+  });
+
   it("is the same world for the same seed and a different one for another", () => {
     const again = buildPopulation({
       seed,

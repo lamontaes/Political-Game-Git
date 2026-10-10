@@ -485,6 +485,16 @@ export function buildOpeningKin(
           false,
         );
         const gfirst = year + Math.round(firstBirthAge(year) + gshift);
+        // A daughter's children share their father's surname, drawn once.
+        const gfamily =
+          gender === MALE || grandchildren === p("zero")
+            ? child.familyName
+            : options.name({
+                stableKey: `${child.stableKey}:children-father`,
+                gender: MALE,
+                birthDate: child.birthDate,
+                familyName: null,
+              }).familyName;
         for (let g = p("one"); g <= grandchildren; g += p("one")) {
           const gr = cr.fork(`grandchild:${g}`);
           const gyear = gfirst + (g - p("one")) * interval;
@@ -497,7 +507,7 @@ export function buildOpeningKin(
             `${unit.key}:child:${i}:grandchild:${g}`,
             ggender,
             gdate,
-            gender === MALE ? child.familyName : null,
+            gfamily,
             homeOf(child),
           );
           parentOf(child, grandchild, R.parent);
