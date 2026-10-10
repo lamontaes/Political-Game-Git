@@ -10,7 +10,7 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "5d7b1a4c1c2db1dfc92e63ab3032fa320254509943c0e0a4e8f21c27bc1e6179",
+    "sha256": "d1321f8a5e27764d5d3517eec6f9c8c88225c22c0baacdf53439219e68f6dc91",
     "meaning": "Exact central parameter table including business-book aggregate priors, the unmeasured opening cadence and a sourced reporting definition. No fitted coefficient or passed calibration is claimed."
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
@@ -4414,7 +4414,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "5d7b1a4c1c2db1dfc92e63ab3032fa320254509943c0e0a4e8f21c27bc1e6179"
+        "src/core2/data/parameters.json": "d1321f8a5e27764d5d3517eec6f9c8c88225c22c0baacdf53439219e68f6dc91"
       },
       "observations": [
         {
@@ -7282,7 +7282,7 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
-    "src/core2/data/parameters.json": "5d7b1a4c1c2db1dfc92e63ab3032fa320254509943c0e0a4e8f21c27bc1e6179",
+    "src/core2/data/parameters.json": "d1321f8a5e27764d5d3517eec6f9c8c88225c22c0baacdf53439219e68f6dc91",
     "data/research/money/public-programs-2026.json": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193",
     "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac",
     "data/research/money/opening-customer-cex-2024.json": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b",
