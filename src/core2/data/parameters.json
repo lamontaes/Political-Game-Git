@@ -3191,16 +3191,14 @@
       "ref": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD"
     }
   },
-  "kinNearCountyShare": {
-    "value": 0.55,
+  "kinMoveAwayShare": {
+    "value": 0.35,
     "tag": "TUNABLE",
-    "citation": "Share of a resident's relatives who live in the household's county rather than elsewhere in the state; tuned so the share of adults whose nearest parent or adult child lives nearby, and whose every such relative does, fall between the PSID 2013 figures.",
+    "citation": "Share of moves out of the county (ACS 2024 B07401, by state and age) that take a person away from their family, rather than to a nearby county or back home. One value cannot reach both PSID 2013 figures (74.8% nearest parent or grown child within 30 miles, 35.5% all of them); in a generated Sacramento town of 3,000 (seed p10-drives-proof-2026-10-09) 0.25 gives 74.9% and 51.2%, 0.35 gives 66.5% and 41.1%, 0.5 gives 56.0% and 30.5%. 0.35 has the smallest combined miss.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
-      "low": 0.355,
-      "high": 0.748,
-      "unit": "share of relatives living near",
-      "citation": "Choi, Schoeni, Wiemers, Hotz and Seltzer (2020), Spatial Distance Between Parents and Adult Children in the United States, Journal of Marriage and Family 82(2), PSID 2013: 74.8% of adults with a living parent or adult child have the nearest within 30 miles; 35.5% have all of them within 30 miles."
+      "status": "unmeasured",
+      "reason": "No source splits moves out of the county into moves away from family and short or return moves; PSID reports only the resulting distances (74.8% have the nearest parent or grown child within 30 miles, 35.5% all of them)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"

@@ -4,8 +4,12 @@
  * 2023 life table, siblings come from the size-biased completed fertility of
  * the mother's cohort, children from children ever born by age, and
  * grandchildren from the adult children's own fertility. Relatives who live
- * elsewhere are light husk-tier people in households of their own, placed in
- * the household's county or elsewhere in the state.
+ * elsewhere are light husk-tier people in households of their own. Where they
+ * live follows the family: an adult who never left the county they grew up in
+ * has parents nearby, siblings stay near the parents unless they moved away,
+ * and grown children stay near the household unless they moved away. Whether
+ * someone moved away is their state's ACS rate of leaving the county at each
+ * adult age, read against their own seeded line, as survival is.
  *
  * Opening generation decides who exists; no draw here decides what anyone does.
  */
@@ -54,6 +58,8 @@ export interface OpeningKinOptions {
   townId: string;
   countyId?: string;
   stateId?: string;
+  /** The state's yearly rate of leaving the county, by ACS age band ("18-19" ... "75+"). */
+  departurePerYearByAge: Readonly<Record<string, number>>;
   name: KinNamer;
 }
 
@@ -137,6 +143,45 @@ function hazardBetween(sex: string, fromAge: number, toAge: number): number {
 /** A person's own exponential line: they are alive while hazard stays below it. */
 function survives(rng: SeededRng, sex: string, fromAge: number, toAge: number) {
   return hazardBetween(sex, fromAge, toAge) < -Math.log(p("one") - rng.next());
+}
+
+/** Cumulative hazard of moving away between two ages, from the yearly leaving rates by band. */
+function moveHazard(
+  rates: Readonly<Record<string, number>>,
+  fromAge: number,
+  toAge: number,
+): number {
+  const bands = Object.entries(rates).map(([band, rate]) => {
+    const [low, high] = band.split(/[-+]/);
+    return {
+      low: Number(low),
+      high: high ? Number(high) + p("one") : Number.POSITIVE_INFINITY,
+      hazard: -Math.log(p("one") - rate) * p("kinMoveAwayShare"),
+    };
+  });
+  let total = p("zero");
+  for (let age = Math.floor(fromAge); age < Math.floor(toAge); age += p("one"))
+    total +=
+      bands.find((row) => age >= row.low && age < row.high)?.hazard ??
+      p("zero");
+  return total;
+}
+
+/** Chance the parents' marriage is still intact this many years after it began (NSFG). */
+function marriageIntact(years: number): number {
+  const points = OPENING_KIN.firstMarriageIntact.points;
+  if (years >= points[points.length - p("one")]!.years)
+    return points[points.length - p("one")]!.intact;
+  for (let i = p("one"); i < points.length; i += p("one")) {
+    const a = points[i - p("one")]!,
+      b = points[i]!;
+    if (years <= b.years)
+      return (
+        a.intact +
+        ((b.intact - a.intact) * (years - a.years)) / (b.years - a.years)
+      );
+  }
+  return points[p("zero")]!.intact;
 }
 
 function normal(rng: SeededRng): number {
@@ -276,8 +321,11 @@ export function buildOpeningKin(
     const children = household.members.filter((row) => row.role === "child");
 
     const countyId = household.countyId ?? options.countyId;
-    const newHome = (key: string): Home => {
-      const local = rng.fork(`${key}:place`).next() < p("kinNearCountyShare");
+    // Whether an adult has stayed where they grew up since turning adult.
+    const stayed = (key: string, age: number, fromAge = adultAge) =>
+      moveHazard(options.departurePerYearByAge, fromAge, age) <
+      -Math.log(p("one") - rng.fork(`${key}:stayed`).next());
+    const newHome = (key: string, local: boolean): Home => {
       const row = {
         id: createStableId(
           "household",
@@ -340,7 +388,11 @@ export function buildOpeningKin(
       // A partner who joined the household brought their own birth surname.
       let lineName: string | null =
         household.couple && index === p("one") ? null : adult.familyName;
-      const parentsHome = newHome(`origin:${index}:parents`);
+      const parentsNear = stayed(`origin:${index}`, age);
+      const parentsHome = newHome(`origin:${index}:parents`, parentsNear);
+      // A marriage that ended leaves the father in a home of his own.
+      const married = age + (order - p("one")) * interval;
+      const apart = r.fork("marriage").next() >= marriageIntact(married);
       const parents: KinPerson[] = [];
       for (const [role, gender, parentAge] of [
         ["father", MALE, motherAge + p("kinPaternalAgeGapYears")],
@@ -348,12 +400,23 @@ export function buildOpeningKin(
       ] as const) {
         const pr = r.fork(role);
         if (!survives(pr, gender, parentAge, parentAge + age)) continue;
+        const sinceGrown = parentAge + Math.max(age - adultAge, p("zero"));
         const parent = makePerson(
           `origin:${index}:${role}`,
           gender,
           dateInYear(pr, birthYear - Math.round(parentAge)),
           lineName,
-          parentsHome,
+          apart && role === "father"
+            ? newHome(
+                `origin:${index}:${role}`,
+                parentsNear &&
+                  stayed(
+                    `origin:${index}:${role}`,
+                    parentAge + age,
+                    sinceGrown,
+                  ),
+              )
+            : parentsHome,
         );
         lineName = parent.familyName;
         parents.push(parent);
@@ -369,12 +432,22 @@ export function buildOpeningKin(
         if (birthDate > startedAt) continue;
         const gender = drawnGender(sr.fork("identity"));
         if (!survives(sr, gender, p("zero"), ageAt(birthDate))) continue;
+        // A minor sibling lives with their parents; an adult stays near them unless they moved away.
+        const siblingAge = ageAt(birthDate);
         const sibling = makePerson(
           `origin:${index}:sibling:${j}`,
           gender,
           birthDate,
           lineName,
-          newHome(`origin:${index}:sibling:${j}`),
+          siblingAge < adultAge &&
+            parents.some((row) => row.householdId === parentsHome.row.id)
+            ? parentsHome
+            : newHome(
+                `origin:${index}:sibling:${j}`,
+                stayed(`origin:${index}:sibling:${j}`, siblingAge)
+                  ? parentsNear
+                  : false,
+              ),
         );
         relate(sibling, adult, R.sibling, R.sibling);
         for (const child of children)
@@ -429,7 +502,10 @@ export function buildOpeningKin(
           gender,
           birthDate,
           null,
-          newHome(`${unit.key}:other-parent`),
+          newHome(
+            `${unit.key}:other-parent`,
+            stayed(`${unit.key}:other-parent`, ageAt(birthDate)),
+          ),
         );
         return otherParent;
       };
@@ -465,7 +541,10 @@ export function buildOpeningKin(
           familyName,
           childAge < adultAge
             ? homeOf(otherParent!)
-            : newHome(`${unit.key}:child:${i}`),
+            : newHome(
+                `${unit.key}:child:${i}`,
+                stayed(`${unit.key}:child:${i}`, childAge),
+              ),
         );
         for (const parent of unit.parents) parentOf(parent, child, R.parent);
         if (otherParent) parentOf(otherParent, child, R.otherParent);
