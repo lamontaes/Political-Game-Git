@@ -30,7 +30,7 @@ Every package names its model and effort with a one-line reason. Balance usage a
 ## How every session works
 
 1. **Start:** read the package, the roadmap's progress file and the git log; run the test bench and confirm the game still works before changing anything.
-2. **Contract:** before building, write what you will build and how it will be checked (the golden-path test, in a random place). The finisher agrees first.
+2. **Contract:** before building, write what you will build and how it will be checked (the golden-path test, in a random place) in the PR body, then **start right away**. Don't wait for approval unless you're changing the package's scope, its owned paths or a test; the CTO reviews contracts at check-ins and sends one back if needed.
 3. **One feature at a time.** Commit after each meaningful unit, with tests passing.
 4. **Finish:** update the progress file, including what failed and why; leave the branch mergeable. The next feature gets a fresh session.
 5. **Done means checked:** a feature is done only when the finisher has played it in the test bench in a randomly drawn place, never on the builder's word.
