@@ -10,7 +10,7 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "0c3a281590e0e388a3a4b0f128dd9780bf1d637703fd322d751b9a4fa94be31d",
+    "sha256": "21718c7a184a0710abeb5a095f49d10e72d7f0ba0856f2553f84f64490153755",
     "meaning": "Exact central parameter table including business-book aggregate priors, the unmeasured opening cadence and a sourced reporting definition. No fitted coefficient or passed calibration is claimed."
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
@@ -1396,32 +1396,6 @@
       "parameter": "personalityUpbringingShift",
       "tag": "TUNABLE",
       "currentValueForTraceabilityOnly": 0.15,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "personalitySociabilityRiskCorrelation",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.3,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "personalityReliabilityImpulseCorrelation",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": -0.4,
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
       },
@@ -3868,7 +3842,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "0c3a281590e0e388a3a4b0f128dd9780bf1d637703fd322d751b9a4fa94be31d"
+        "src/core2/data/parameters.json": "21718c7a184a0710abeb5a095f49d10e72d7f0ba0856f2553f84f64490153755"
       },
       "observations": [
         {
@@ -6736,7 +6710,7 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
-    "src/core2/data/parameters.json": "0c3a281590e0e388a3a4b0f128dd9780bf1d637703fd322d751b9a4fa94be31d",
+    "src/core2/data/parameters.json": "21718c7a184a0710abeb5a095f49d10e72d7f0ba0856f2553f84f64490153755",
     "data/research/money/public-programs-2026.json": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193",
     "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac",
     "data/research/money/opening-customer-cex-2024.json": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b",

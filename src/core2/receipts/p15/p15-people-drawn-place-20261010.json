@@ -4,7 +4,7 @@
   "place": "Stanwood, Washington",
   "placeId": "jurisdiction_470d2437c0041c5e",
   "startedAt": "2021-01-01",
-  "buildSeconds": 3.8,
+  "buildSeconds": 3.4,
   "residents": 3003,
   "relatives": 10143,
   "relativesInCounty": 5550,
@@ -239,12 +239,12 @@
   },
   "temperament": {
     "coreProfiles": {
-      "distinct": 1369,
-      "largest": 21,
+      "distinct": 1341,
+      "largest": 22,
       "largestPercent": 0.7
     },
     "fullProfiles": {
-      "distinct": 2340,
+      "distinct": 2316,
       "largest": 8,
       "largestPercent": 0.3
     },
@@ -257,11 +257,11 @@
         "-1": 20.4
       },
       "risk": {
-        "0": 37.6,
-        "1": 22.1,
-        "2": 13.8,
+        "0": 37.3,
+        "1": 22.4,
+        "2": 13.6,
         "-2": 8.7,
-        "-1": 17.8
+        "-1": 18
       },
       "conflict": {
         "0": 37.9,
@@ -278,11 +278,11 @@
         "-1": 21.6
       },
       "deliberation": {
-        "0": 34.6,
-        "1": 21.4,
-        "2": 16.3,
-        "-2": 9.5,
-        "-1": 18.2
+        "0": 34.7,
+        "1": 22,
+        "2": 15.9,
+        "-2": 9.6,
+        "-1": 17.8
       }
     }
   }
