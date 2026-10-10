@@ -1600,14 +1600,14 @@
   "openingRetirementSchoolContextYears": {
     "value": 4,
     "tag": "ESTIMATED",
-    "citation": "Existing shared school-calendar common high-school grades 9\u201312. Four modeled years bound a possible post-cohort career start; a cohort record does not grant graduation or employment.",
+    "citation": "Existing shared school-calendar common high-school grades 9–12. Four modeled years bound a possible post-cohort career start; a cohort record does not grant graduation or employment.",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "stopgapId": "SG-P8-opening-retirement-income"
   },
   "openingRetirementClaimAgeYears": {
     "value": 66,
     "tag": "TUNABLE",
-    "citation": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943\u20131954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
+    "citation": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943–1954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "spread": {
       "status": "unmeasured",
@@ -2248,13 +2248,13 @@
   "openingCustomerOutsideHouseholdLiquidUsd": {
     "value": 7400,
     "tag": "SOURCED",
-    "citation": "Federal Reserve SCF 2022 historical nominal tables, transaction-account holding families in income percentiles 40\u201359.9, median $7,400. data/research/money/scf-transaction-accounts-2022.json; https://www.federalreserve.gov/econres/files/scf2022_tables_public_nominal_historical.xlsx. One family pool, never per member. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "citation": "Federal Reserve SCF 2022 historical nominal tables, transaction-account holding families in income percentiles 40–59.9, median $7,400. data/research/money/scf-transaction-accounts-2022.json; https://www.federalreserve.gov/econres/files/scf2022_tables_public_nominal_historical.xlsx. One family pool, never per member. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-outside-households"
   },
   "openingCustomerOutsideHouseholdIncomePriorUsd": {
     "value": 70259,
     "tag": "SOURCED",
-    "citation": "SCF 2022 nominal median family income, income percentiles 40\u201359.9, $70,259; independent generation context only. It is not a recurring cash credit. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "citation": "SCF 2022 nominal median family income, income percentiles 40–59.9, $70,259; independent generation context only. It is not a recurring cash credit. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-outside-households"
   },
   "openingCustomerOutsideLodgingAnnualUsd": {
@@ -2891,11 +2891,11 @@
     "value": 27,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 all-small-businesses cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 all-small-businesses cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 13,
       "high": 62,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2904,11 +2904,11 @@
     "value": 16,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 restaurants cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 restaurants cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 9,
       "high": 31,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2917,11 +2917,11 @@
     "value": 18,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 repair-and-maintenance cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 repair-and-maintenance cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 9,
       "high": 40,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2930,11 +2930,11 @@
     "value": 19,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 retail cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 retail cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 10,
       "high": 45,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2943,11 +2943,11 @@
     "value": 20,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 construction cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 construction cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 11,
       "high": 44,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2956,11 +2956,11 @@
     "value": 21,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 personal-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 personal-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 11,
       "high": 45,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2969,11 +2969,11 @@
     "value": 23,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 wholesalers cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 wholesalers cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 11,
       "high": 52,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2982,11 +2982,11 @@
     "value": 28,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 metal-and-machinery cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 metal-and-machinery cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 13,
       "high": 62,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2995,11 +2995,11 @@
     "value": 30,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 health-care-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 health-care-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 14,
       "high": 67,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3008,11 +3008,11 @@
     "value": 32,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 high-tech-manufacturing cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 high-tech-manufacturing cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 15,
       "high": 71,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3021,11 +3021,11 @@
     "value": 33,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 other-professional-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 other-professional-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 15,
       "high": 72,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3034,11 +3034,11 @@
     "value": 33,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 high-tech-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 high-tech-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 15,
       "high": 77,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3047,11 +3047,11 @@
     "value": 47,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 real-estate cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 real-estate cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 21,
       "high": 107,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3059,7 +3059,7 @@
   "openingEmployerCashBufferTailSpan": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "CTO REVIEW15, October 9, 2026: explicitly estimated per-firm opening WHO cash-buffer spread through real JPMC q25/median/q75 anchors. Tail span of one adjacent quartile interval is an authored assumption, not measured by JPMorgan Chase Institute, Cash Is King, September 2016, Figures 5\u20137; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7.",
+    "citation": "CTO REVIEW15, October 9, 2026: explicitly estimated per-firm opening WHO cash-buffer spread through real JPMC q25/median/q75 anchors. Tail span of one adjacent quartile interval is an authored assumption, not measured by JPMorgan Chase Institute, Cash Is King, September 2016, Figures 5–7; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7.",
     "estimatedFrom": "One openly unmeasured tail-span coefficient for a continuous piecewise-linear opening-state quantile curve. Uniform identity-keyed startup ranks, interpolation, endpoints and the generated-firm crosswalk remain unmeasured. Never chooses later actor decisions, refills cash or sizes stock to future survival.",
     "spread": {
       "status": "unmeasured",
@@ -3069,5 +3069,500 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD"
     }
+  },
+  "srrsMaximumUnits": {
+    "value": 100,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Death of a spouse anchors the scale at 100 units."
+  },
+  "srrsDeathOfCloseFamilyMember": {
+    "value": 63,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 5, death of a close family member: 63 units."
+  },
+  "srrsFamilyMemberHealthChange": {
+    "value": 44,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 11, change in health of a family member: 44 units."
+  },
+  "lifeEventStressScale": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Converts a life-change-unit share into the core2 stress impulse; P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Life change units rank event readjustment, not the stress signal's scale; no bound on this conversion has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "lifeEventMoodScale": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Converts a life-change-unit share into the core2 mood impulse; P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Life change units rank event readjustment, not the mood signal's scale; no bound on this conversion has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveCauseHalfLifeDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. Starting value one year: prolonged grief disorder is first diagnosable twelve months after a loss (DSM-5-TR, 2022). P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of event-born causes exists; the twelve-month grief window is context, not a bound."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveGrudgeHalfLifeDays": {
+    "value": 180,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of interpersonal grudges in a comparable unit has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveProtectFamilyHalfLifeDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of protective family motivation after a family health event has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveStatusHalfLifeDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of status ambition after a setback has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveCallingHalfLifeDays": {
+    "value": 730,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of vocational callings after a formative event has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveActReinforcement": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "Share of a drive's unfilled strength that each act on it fills (commitment and consistency), so repeated acts level off below the ceiling of one. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Commitment-consistency studies report behavior shifts, not a strength unit on this scale."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionTraitWeight": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Weight of each relevant trait on how heavily a perception channel counts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No instrument-matched bound links these trait scores to event salience."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionClosenessWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Extra attention per unit of recorded relationship level with the event's subject. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound in this relationship unit has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleSubject": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Attention weight when the event happened to the person. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleFamily": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Attention weight when the event happened to a recorded relative. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleHousehold": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "Attention weight when the event happened to a household member who is not recorded family. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleAcquaintance": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Attention weight when the event happened to someone the person knows. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleWitness": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Attention weight for a person who witnessed or was told of an event without another recorded tie. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveShareHours": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Time a person spends telling someone about their cause. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No ATUS category isolates conversations about a cause."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "causeShareImpulseScale": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Stress and mood impulse a listener receives per unit of the teller's drive strength. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound for secondhand distress on this scale has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "donateHours": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Time spent making one donation. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No ATUS category isolates making a donation."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "donationLivingCostDays": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "One donation equals this many days of the donor's own recorded living cost. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Annual household giving surveys report yearly totals, not per-gift amounts in days of living cost."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "volunteerHours": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Hours of one volunteering session for a cause group. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No volunteering-session duration source has been read into the repository yet."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveConfrontHours": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Time spent confronting the person a grudge is held against. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured duration for interpersonal confrontations has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "grudgeRelationshipChange": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Relationship level lost on each confrontation. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound in this relationship unit has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "confrontImpulse": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Stress and mood impulse the confronted person receives. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound for this impulse on the core2 affect scale has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCarryOnFit": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes a person toward carrying on with ordinary life and grieving privately, before their traits lean them; carrying on is the default response. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseTraitLeanGain": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How much a person's trait lean toward a response's act kinds (the shared trait-act table) scales the event's push toward it. Starting value equals the recorded trait scale (traitScale, 3): generated people carry trait values of one on that scale, so the shared table's lean reaches a third of its range, and this gain restores the full range. P10 prototype starting value; calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No instrument-matched bound links trait-act lean to response choice after life events."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseAgencyTurnAge": {
+    "value": 16,
+    "tag": "TUNABLE",
+    "citation": "Age at which a person's capacity to form a lasting drive of their own from an event is half of an adult's, rising smoothly (logistic) around it; starting value near the ages when adolescents form durable civic identities and two years below the age of majority. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Developmental studies describe identity formation across adolescence, not a measured midpoint for event-born drives."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseAgencyWidthYears": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Width in years of the smooth rise in drive-forming capacity around the turn age. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured width for this rise has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCarryOnBaseline": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Ordinary life's own pull toward carrying on, independent of the event; a weak event or a person with little agency leaves life as it was. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this baseline."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveStrengthScale": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "How quickly a response's urgency fills a drive toward its ceiling of one: strength rises as one minus the unfilled share times e to the minus urgency times this scale, so drives stay on the same unit as needs. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound links event urgency to the strength of a resulting drive."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveRetireStrength": {
+    "value": 0.01,
+    "tag": "TUNABLE",
+    "citation": "Strength below which a faded drive stops being rewritten each day; its effect on choices is already negligible and it rejoins if a new event renews the topic. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "A storage floor for speed, not a behavioral quantity; no empirical bound applies."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveTraceRetention": {
+    "value": 2000,
+    "tag": "TUNABLE",
+    "citation": "Most recent decision and act traces the drives module keeps in memory for observers; counts are always exact. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "A memory budget for developer traces, not a behavioral quantity; no empirical bound applies."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCauseFit": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward taking up a cause about its topic, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseGrudgeFit": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward holding a grudge against the person responsible, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseGuardFit": {
+    "value": 0.7,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward a resolve to protect one's family, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseAmbitionFit": {
+    "value": 0.7,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward an ambition to prove oneself, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCallingFit": {
+    "value": 0.55,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward a calling to serve others; lower than a cause because a calling commits a person to lasting service rather than to one condition, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "resilienceBaseRateScale": {
+    "value": 0.106,
+    "tag": "ESTIMATED",
+    "citation": "Scale at which the SSA 2023 period life table hazard counts against each person's resilience line, with the recorded chronic-condition weights (data/research/health/chronic-condition-pack-2026.json) multiplying it, chosen so expected yearly deaths match the life table applied to the same residents.",
+    "estimatedFrom": "Calibration probe, October 9, 2026: two generated 10,000-resident towns (Sacramento, California, seed p10-drives-proof-2026-10-09: 0.1064; Kingsville, Texas, seed p10-probe: 0.1052) solved for equal expected deaths over 2021 against the SSA 2023 table. Totals only; no person's outcome is set by it.",
+    "stopgapId": "SG-P10-resilience-scale"
+  },
+  "resilienceHashDigits": {
+    "value": 8,
+    "tag": "SOURCED",
+    "citation": "Half of the existing stable hash's sixteen hexadecimal digits (64-bit FNV-1a, src/simulation/ids.ts); two 32-bit halves feed the existing fixed-point survival-line helper (src/simulation/crisis/fixed-point.ts). A generation key, not a behavioral draw."
   }
 }
