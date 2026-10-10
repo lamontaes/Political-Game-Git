@@ -6,13 +6,18 @@ const top = Number(topArg ?? 40);
 const prof = JSON.parse(readFileSync(file, "utf8"));
 const nodes = new Map(prof.nodes.map((n) => [n.id, n]));
 const parent = new Map();
-for (const n of prof.nodes) for (const c of n.children ?? []) parent.set(c, n.id);
+for (const n of prof.nodes)
+  for (const c of n.children ?? []) parent.set(c, n.id);
 const key = (n) => {
   const f = n.callFrame;
-  const url = f.url.replace(/^file:\/\/.*?\/(wt-(?:before|after)|Political-Game-Git)\//, "");
+  const url = f.url.replace(
+    /^file:\/\/.*?\/(wt-(?:before|after)|Political-Game-Git)\//,
+    "",
+  );
   return `${f.functionName || "(anonymous)"} ${url}:${f.lineNumber + 1}`;
 };
-const self = new Map(), total = new Map();
+const self = new Map(),
+  total = new Map();
 let all = 0;
 const dts = prof.timeDeltas;
 for (let i = 0; i < prof.samples.length; i++) {
@@ -32,5 +37,20 @@ for (let i = 0; i < prof.samples.length; i++) {
   }
 }
 const rank = (m) =>
-  [...m.entries()].sort((a, b) => b[1] - a[1]).slice(0, top).map(([name, ms]) => ({ name, ms: Math.round(ms), pct: +((ms / all) * 100).toFixed(1) }));
-console.log(JSON.stringify({ totalMs: Math.round(all), self: rank(self), total: rank(total), selfAll: Object.fromEntries([...self].map(([k, v]) => [k, v])), totalAll: Object.fromEntries([...total]) }));
+  [...m.entries()]
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, top)
+    .map(([name, ms]) => ({
+      name,
+      ms: Math.round(ms),
+      pct: +((ms / all) * 100).toFixed(1),
+    }));
+console.log(
+  JSON.stringify({
+    totalMs: Math.round(all),
+    self: rank(self),
+    total: rank(total),
+    selfAll: Object.fromEntries([...self].map(([k, v]) => [k, v])),
+    totalAll: Object.fromEntries([...total]),
+  }),
+);
