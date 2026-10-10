@@ -163,17 +163,21 @@
     },
     "directorFriendHalfLifeDays": {
       "value": 548,
-      "tag": "ESTIMATED",
-      "citation": "Owner question 4 (P13 design note): about 18 months. Roberts, S. G. B., and Dunbar, R. I. M. (2015), Managing relationship decay: network, gender, and contextual effects, Human Nature 26(4):426-450, found emotional closeness to friends declined without contact over 18 months.",
-      "estimatedFrom": "Roberts and Dunbar (2015)",
-      "stopgapId": "SG-P13-param-directorHalfLives"
+      "tag": "TUNABLE",
+      "citation": "Owner question 4 (P13 design note): about 18 months, the same value P15 uses for closeness between people who are not relatives. No study reports a half-life for closeness without contact: Roberts and Dunbar (2015), Human Nature 26(4):426-450, report only that friends' closeness fell over their 18-month study, and 18 months is the study's length, not a half-life. To be calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
+      "stopgapId": "SG-P13-param-directorHalfLives",
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      }
     },
     "directorKinHalfLifeDays": {
       "value": 1096,
-      "tag": "ESTIMATED",
-      "citation": "Owner question 4 (P13 design note): about 36 months, twice the friend half-life, because Roberts and Dunbar (2015) found kin closeness declined markedly less than friends' without contact.",
-      "estimatedFrom": "Roberts and Dunbar (2015)",
-      "stopgapId": "SG-P13-param-directorHalfLives"
+      "tag": "TUNABLE",
+      "citation": "Owner question 4 (P13 design note): about 36 months, twice the friend half-life, the same value P15 uses for relatives. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life. To be calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
+      "stopgapId": "SG-P13-param-directorHalfLives",
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      }
     },
     "directorRenewedFading": {
       "value": 0.5,

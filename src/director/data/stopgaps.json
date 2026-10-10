@@ -89,10 +89,10 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How fast closeness fades without contact for friends and relatives.",
-    "why": "Roberts and Dunbar (2015) report declines over 18 months, not a half-life; owner question 4 is open.",
+    "why": "No study reports a half-life for closeness without contact; Roberts and Dunbar (2015) give direction only, and 18 months is their study's length. Tagged TUNABLE (CTO, October 10, 2026).",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
-    "replacement": "An owner answer and a half-life fitted to published closeness decay.",
+    "replacement": "A half-life calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
     "status": "open"
   },
   {
