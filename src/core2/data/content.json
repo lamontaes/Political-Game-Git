@@ -79,7 +79,7 @@
       "need": "company",
       "effortParameter": "socialHours",
       "effectParameter": "relationContactGain",
-      "targetKind": "known-person",
+      "targetKind": "contact-candidate",
       "effect": "contact",
       "stopgapId": "SG-P8-life-utility",
       "emotion": {

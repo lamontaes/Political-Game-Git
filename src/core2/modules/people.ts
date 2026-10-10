@@ -11,7 +11,8 @@
 import { daysBetween, makeIsoDate } from "../../simulation/dates";
 import { CLOSENESS, hoursLost, openingClosenessHours } from "../closeness";
 import { OPENING_KIN } from "../opening-kin";
-import type { CoreAPI, CoreModule, Relationship } from "../types";
+import type { ActOffer, CoreAPI, CoreModule, Relationship } from "../types";
+import { offer } from "./life";
 
 export const PEOPLE_MODULE_ID = "core2-people-p15-v1";
 
@@ -77,6 +78,23 @@ export const PEOPLE_MODULE: CoreModule = {
   id: PEOPLE_MODULE_ID,
   onDay: (api) => {
     shareHomeTime(api);
+  },
+  offerProviders: {
+    // Everyone the person knows and has a tie with, plus one person they know
+    // without a tie yet. Untied offers all score alike and the chooser breaks
+    // ties by the lowest key, so the lowest-id untied person stands for them all.
+    "contact-candidate": (api, actor, action) => {
+      const out: ActOffer[] = [];
+      let untied: string | undefined;
+      for (const id of actor.knownIds) {
+        if (!api.state.people.get(id)?.alive) continue;
+        if (api.state.relationships.has([actor.id, id].sort().join(":")))
+          out.push(offer(api, actor, action, id));
+        else if (untied === undefined || id < untied) untied = id;
+      }
+      if (untied !== undefined) out.push(offer(api, actor, action, untied));
+      return out;
+    },
   },
   reasonProviders: {
     "tie-fading": (api, actor, offer) => {
