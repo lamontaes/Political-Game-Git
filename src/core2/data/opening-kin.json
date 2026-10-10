@@ -1,0 +1,243 @@
+{
+  "version": "p15-opening-kin-v1",
+  "stopgapId": "SG-P15-kin-generation",
+  "kinTier": "husk",
+  "relations": {
+    "parent": "parent",
+    "child": "child",
+    "sibling": "sibling",
+    "grandparent": "grandparent",
+    "grandchild": "grandchild",
+    "otherParent": "other-parent",
+    "auntUncle": "aunt-or-uncle",
+    "nieceNephew": "niece-or-nephew"
+  },
+  "genders": { "female": "female", "male": "male" },
+  "parityBins": {
+    "citation": "U.S. Census Bureau, Current Population Survey June Fertility Supplement, children-ever-born bins: none, one, two, three, four, five and six, seven or more.",
+    "counts": [0, 1, 2, 3, 4, 5, 7],
+    "splitBinIndex": 5,
+    "splitBinUpperCount": 6
+  },
+  "completedFertility": {
+    "citation": "U.S. Census Bureau, Historical Table 2, Distribution of Women Age 40 to 50 by Number of Children Ever Born and Marital Status: Selected Years, 1970 to 2024 (h2.xlsx, sha256 ed0576eadad310efaf09980529bb03fc8a6ee67514ac6e1154b7e0b45b6d732e), all marital classes, women 40 to 44, percent by children ever born.",
+    "cohortOffsetYears": 42,
+    "rows": [
+      {
+        "surveyYear": 1976,
+        "percent": [10.2, 9.6, 21.7, 22.7, 15.8, 13.9, 6.2]
+      },
+      {
+        "surveyYear": 1977,
+        "percent": [10.9, 10.3, 21.7, 20.3, 14.2, 15.2, 7.3]
+      },
+      {
+        "surveyYear": 1979,
+        "percent": [9.8, 9.9, 24.0, 22.5, 15.4, 13.0, 5.4]
+      },
+      {
+        "surveyYear": 1980,
+        "percent": [10.1, 9.6, 24.6, 22.6, 15.5, 11.6, 6.0]
+      },
+      {
+        "surveyYear": 1981,
+        "percent": [9.5, 10.1, 27.0, 24.6, 14.1, 9.9, 4.9]
+      },
+      {
+        "surveyYear": 1982,
+        "percent": [11.0, 9.4, 27.5, 24.1, 13.8, 10.4, 3.9]
+      },
+      {
+        "surveyYear": 1983,
+        "percent": [10.1, 11.8, 28.7, 23.3, 13.8, 9.5, 3.0]
+      },
+      {
+        "surveyYear": 1984,
+        "percent": [11.1, 12.2, 30.5, 23.5, 12.0, 8.2, 2.6]
+      },
+      {
+        "surveyYear": 1985,
+        "percent": [11.4, 12.6, 32.9, 23.1, 10.9, 7.1, 2.0]
+      },
+      {
+        "surveyYear": 1986,
+        "percent": [13.2, 14.5, 33.5, 20.4, 10.3, 6.5, 1.6]
+      },
+      {
+        "surveyYear": 1987,
+        "percent": [14.2, 14.9, 35.0, 19.7, 9.3, 5.5, 1.4]
+      },
+      {
+        "surveyYear": 1988,
+        "percent": [14.7, 14.9, 35.2, 20.7, 8.8, 4.9, 0.8]
+      },
+      {
+        "surveyYear": 1990,
+        "percent": [16.0, 16.9, 35.0, 19.4, 8.0, 3.9, 0.9]
+      },
+      {
+        "surveyYear": 1992,
+        "percent": [15.7, 17.3, 36.6, 19.0, 7.0, 3.6, 0.8]
+      },
+      {
+        "surveyYear": 1994,
+        "percent": [17.5, 17.1, 35.3, 18.9, 7.0, 3.3, 0.8]
+      },
+      {
+        "surveyYear": 1995,
+        "percent": [17.5, 17.6, 35.2, 18.5, 7.4, 3.0, 0.9]
+      },
+      {
+        "surveyYear": 1998,
+        "percent": [19.0, 17.3, 35.8, 18.2, 6.1, 3.0, 0.5]
+      },
+      {
+        "surveyYear": 2000,
+        "percent": [19.0, 16.4, 35.0, 19.1, 7.2, 2.8, 0.5]
+      },
+      {
+        "surveyYear": 2002,
+        "percent": [17.9, 17.4, 35.4, 18.9, 6.8, 2.8, 0.8]
+      },
+      {
+        "surveyYear": 2004,
+        "percent": [19.3, 17.4, 34.5, 18.1, 7.4, 2.9, 0.5]
+      },
+      {
+        "surveyYear": 2006,
+        "percent": [20.4, 16.9, 34.4, 18.5, 6.4, 3.1, 0.5]
+      },
+      {
+        "surveyYear": 2008,
+        "percent": [17.8, 18.4, 36.2, 17.8, 6.1, 3.1, 0.5]
+      },
+      {
+        "surveyYear": 2010,
+        "percent": [18.8, 18.5, 33.3, 19.1, 6.8, 2.7, 0.8]
+      },
+      {
+        "surveyYear": 2012,
+        "percent": [15.1, 18.9, 34.9, 19.9, 7.2, 3.4, 0.7]
+      },
+      {
+        "surveyYear": 2014,
+        "percent": [15.3, 18.3, 34.6, 20.2, 7.6, 3.3, 0.8]
+      },
+      {
+        "surveyYear": 2016,
+        "percent": [14.4, 18.3, 34.9, 19.6, 7.9, 3.9, 1.0]
+      },
+      {
+        "surveyYear": 2018,
+        "percent": [15.0, 18.7, 34.6, 18.6, 8.7, 3.8, 0.7]
+      },
+      {
+        "surveyYear": 2020,
+        "percent": [16.5, 17.7, 35.8, 18.2, 6.8, 4.3, 0.7]
+      },
+      {
+        "surveyYear": 2022,
+        "percent": [17.7, 19.0, 32.4, 20.1, 6.7, 4.1, 0.0]
+      },
+      { "surveyYear": 2024, "percent": [18.8, 18.0, 33.5, 17.1, 7.3, 5.3, 0.0] }
+    ]
+  },
+  "fertilityByAge": {
+    "citation": "U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018 (t1.xlsx, sha256 491e05e528153c09799ed4ad5a37d3e16e91b38df1f5c415b45823edff359566), all women, all marital statuses.",
+    "rows": [
+      { "minAge": 15, "percent": [96.9, 2.1, 0.8, 0.1, 0.0, 0.1, 0.0] },
+      { "minAge": 20, "percent": [78.6, 14.0, 6.0, 1.0, 0.3, 0.2, 0.0] },
+      { "minAge": 25, "percent": [54.2, 20.4, 16.2, 6.5, 2.1, 0.5, 0.1] },
+      { "minAge": 30, "percent": [33.6, 22.3, 24.6, 12.8, 4.4, 1.9, 0.3] },
+      { "minAge": 35, "percent": [20.0, 19.2, 32.6, 17.4, 7.3, 3.2, 0.4] },
+      { "minAge": 40, "percent": [15.0, 18.7, 34.6, 18.6, 8.7, 3.8, 0.7] }
+    ],
+    "completedFromAge": 45
+  },
+  "firstBirthAge": {
+    "citation": "NCHS Data Brief 21 (2009): mean age of mother at first birth 21.4 in 1970 and 25.0 in 2006; NCHS Data Brief 232 (2016): 24.9 in 2000, 25.2 in 2009, 26.3 in 2014; NCFMR Family Profile FP-18-25: 26.8 in 2017; 27.5 in 2023 (Natality, as reported in PMC12278045). Years before 1970 hold the 1970 value.",
+    "points": [
+      { "year": 1970, "age": 21.4 },
+      { "year": 2000, "age": 24.9 },
+      { "year": 2006, "age": 25.0 },
+      { "year": 2009, "age": 25.2 },
+      { "year": 2014, "age": 26.3 },
+      { "year": 2017, "age": 26.8 },
+      { "year": 2023, "age": 27.5 }
+    ]
+  },
+  "personality": {
+    "stopgapId": "SG-P15-personality-mapping",
+    "citation": "Age curves: Terracciano, McCrae, Brant and Costa (2005), Hierarchical linear modeling analyses of the NEO-PI-R scales in the Baltimore Longitudinal Study of Aging, Psychology and Aging 20(3), Table 2 (T scores, mean 50, SD 10, age centered at 64.5 and counted in decades; A4 quadratic term not legible in the manuscript, held at zero). Sex differences: Kajonius and Johnson (2018), Sex differences in 30 facets of the five factor model of personality in the large public (N = 320,128), Personality and Individual Differences 129, Table 1, d = male minus female.",
+    "tScoreSd": 10,
+    "ageCenter": 64.5,
+    "ageUnitYears": 10,
+    "minimumCurveAge": 20,
+    "dimensions": [
+      {
+        "trait": "sociability",
+        "facet": "E2 Gregariousness",
+        "sign": 1,
+        "ageLinear": -0.211,
+        "ageQuadratic": -0.154,
+        "sexDMaleMinusFemale": -0.05
+      },
+      {
+        "trait": "risk",
+        "facet": "E5 Excitement-Seeking",
+        "sign": 1,
+        "ageLinear": -1.361,
+        "ageQuadratic": 0.193,
+        "sexDMaleMinusFemale": 0.29
+      },
+      {
+        "trait": "conflict",
+        "facet": "A4 Compliance (Cooperation), reversed",
+        "sign": -1,
+        "ageLinear": 1.324,
+        "ageQuadratic": 0,
+        "sexDMaleMinusFemale": -0.33
+      },
+      {
+        "trait": "reliability",
+        "facet": "C3 Dutifulness",
+        "sign": 1,
+        "ageLinear": 0.239,
+        "ageQuadratic": -0.347,
+        "sexDMaleMinusFemale": -0.19
+      },
+      {
+        "trait": "deliberation",
+        "facet": "C6 Deliberation (Cautiousness), reversed: the high pole is impulsive",
+        "sign": -1,
+        "ageLinear": 1.697,
+        "ageQuadratic": -0.219,
+        "sexDMaleMinusFemale": 0.04
+      }
+    ],
+    "correlatedPairs": [
+      {
+        "first": "sociability",
+        "second": "risk",
+        "parameter": "personalitySociabilityRiskCorrelation"
+      },
+      {
+        "first": "reliability",
+        "second": "deliberation",
+        "parameter": "personalityReliabilityImpulseCorrelation"
+      }
+    ],
+    "levels": {
+      "citation": "The owner-accepted seeded spread SEED_SPREAD = [-2, -1, -1, 0, 0, 0, 0, 1, 1, 2] in src/simulation/people-trait-pack.ts: 10%, 20%, 40%, 20%, 10% of people at -2..2. Cut points are the standard normal quantiles at 10%, 30%, 70% and 90%.",
+      "values": [-2, -1, 0, 1, 2],
+      "cutPoints": [-1.2815516, -0.5244005, 0.5244005, 1.2815516]
+    }
+  },
+  "gaps": [
+    "Relatives living outside the household are light husk-tier records in their own households; they are never matched to other residents of the town.",
+    "Siblings' and adult children's partners, and cousins, are not generated.",
+    "Each relative lives in the household's county or elsewhere in the state; out-of-state residence is not represented.",
+    "Men's children ever born use the women's table shifted later by a tunable number of years.",
+    "Upbringing still estimates sibling count from its own SIPP distribution instead of reading the generated siblings."
+  ]
+}

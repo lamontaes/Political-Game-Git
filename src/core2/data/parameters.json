@@ -1600,14 +1600,14 @@
   "openingRetirementSchoolContextYears": {
     "value": 4,
     "tag": "ESTIMATED",
-    "citation": "Existing shared school-calendar common high-school grades 9\u201312. Four modeled years bound a possible post-cohort career start; a cohort record does not grant graduation or employment.",
+    "citation": "Existing shared school-calendar common high-school grades 9–12. Four modeled years bound a possible post-cohort career start; a cohort record does not grant graduation or employment.",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "stopgapId": "SG-P8-opening-retirement-income"
   },
   "openingRetirementClaimAgeYears": {
     "value": 66,
     "tag": "TUNABLE",
-    "citation": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943\u20131954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
+    "citation": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943–1954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "spread": {
       "status": "unmeasured",
@@ -2248,13 +2248,13 @@
   "openingCustomerOutsideHouseholdLiquidUsd": {
     "value": 7400,
     "tag": "SOURCED",
-    "citation": "Federal Reserve SCF 2022 historical nominal tables, transaction-account holding families in income percentiles 40\u201359.9, median $7,400. data/research/money/scf-transaction-accounts-2022.json; https://www.federalreserve.gov/econres/files/scf2022_tables_public_nominal_historical.xlsx. One family pool, never per member. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "citation": "Federal Reserve SCF 2022 historical nominal tables, transaction-account holding families in income percentiles 40–59.9, median $7,400. data/research/money/scf-transaction-accounts-2022.json; https://www.federalreserve.gov/econres/files/scf2022_tables_public_nominal_historical.xlsx. One family pool, never per member. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-outside-households"
   },
   "openingCustomerOutsideHouseholdIncomePriorUsd": {
     "value": 70259,
     "tag": "SOURCED",
-    "citation": "SCF 2022 nominal median family income, income percentiles 40\u201359.9, $70,259; independent generation context only. It is not a recurring cash credit. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
+    "citation": "SCF 2022 nominal median family income, income percentiles 40–59.9, $70,259; independent generation context only. It is not a recurring cash credit. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-outside-households"
   },
   "openingCustomerOutsideLodgingAnnualUsd": {
@@ -2891,11 +2891,11 @@
     "value": 27,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 all-small-businesses cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 all-small-businesses cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 13,
       "high": 62,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2904,11 +2904,11 @@
     "value": 16,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 restaurants cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 restaurants cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 9,
       "high": 31,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2917,11 +2917,11 @@
     "value": 18,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 repair-and-maintenance cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 repair-and-maintenance cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 9,
       "high": 40,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2930,11 +2930,11 @@
     "value": 19,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 retail cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 retail cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 10,
       "high": 45,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2943,11 +2943,11 @@
     "value": 20,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 construction cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 construction cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 11,
       "high": 44,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2956,11 +2956,11 @@
     "value": 21,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 personal-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 personal-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 11,
       "high": 45,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2969,11 +2969,11 @@
     "value": 23,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 wholesalers cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 wholesalers cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 11,
       "high": 52,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2982,11 +2982,11 @@
     "value": 28,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 metal-and-machinery cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 metal-and-machinery cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 13,
       "high": 62,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -2995,11 +2995,11 @@
     "value": 30,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 health-care-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 health-care-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 14,
       "high": 67,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3008,11 +3008,11 @@
     "value": 32,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 high-tech-manufacturing cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 high-tech-manufacturing cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 15,
       "high": 71,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3021,11 +3021,11 @@
     "value": 33,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 other-professional-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 other-professional-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 15,
       "high": 72,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3034,11 +3034,11 @@
     "value": 33,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 high-tech-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 high-tech-services cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 15,
       "high": 77,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3047,11 +3047,11 @@
     "value": 47,
     "tag": "ESTIMATED",
     "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 6, printed page 15 (median).",
-    "estimatedFrom": "Observed February\u2013October 2015 real-estate cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
+    "estimatedFrom": "Observed February–October 2015 real-estate cohort median used as a fresh generated employer opening-stock estimate. Payroll/accounting-cost denominator, individual industry/legal-form/size/vintage/geography crosswalk and owner-capital source remain unmeasured. Developer observed-range target EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS.",
     "spread": {
       "low": 21,
       "high": 107,
-      "unit": "cash buffer days; observed 25th\u201375th percentiles",
+      "unit": "cash buffer days; observed 25th–75th percentiles",
       "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days, September 2016; https://www.jpmorganchase.com/content/dam/jpmc/jpmorgan-chase-and-co/institute/pdf/jpmc-institute-small-business-report.pdf; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7; Figure 7, printed page 16. Observed cohort dispersion; not an individual clamp, confidence interval or calibrated coefficient range."
     },
     "stopgapId": "SG-P8-opening-private-cash-buffer"
@@ -3059,7 +3059,7 @@
   "openingEmployerCashBufferTailSpan": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "CTO REVIEW15, October 9, 2026: explicitly estimated per-firm opening WHO cash-buffer spread through real JPMC q25/median/q75 anchors. Tail span of one adjacent quartile interval is an authored assumption, not measured by JPMorgan Chase Institute, Cash Is King, September 2016, Figures 5\u20137; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7.",
+    "citation": "CTO REVIEW15, October 9, 2026: explicitly estimated per-firm opening WHO cash-buffer spread through real JPMC q25/median/q75 anchors. Tail span of one adjacent quartile interval is an authored assumption, not measured by JPMorgan Chase Institute, Cash Is King, September 2016, Figures 5–7; original PDF SHA256 e4ddf6731fd32b239ec9d0afd308791c3b0155fe9f8396b4d80a8221e268eef7.",
     "estimatedFrom": "One openly unmeasured tail-span coefficient for a continuous piecewise-linear opening-state quantile curve. Uniform identity-keyed startup ranks, interpolation, endpoints and the generated-firm crosswalk remain unmeasured. Never chooses later actor decisions, refills cash or sizes stock to future survival.",
     "spread": {
       "status": "unmeasured",
@@ -3069,5 +3069,141 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD"
     }
+  },
+  "kinNearCountyShare": {
+    "value": 0.55,
+    "tag": "TUNABLE",
+    "citation": "Share of a resident's relatives who live in the household's county rather than elsewhere in the state; tuned so the share of adults whose nearest parent or adult child lives nearby, and whose every such relative does, fall between the PSID 2013 figures.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "low": 0.355,
+      "high": 0.748,
+      "unit": "share of relatives living near",
+      "citation": "Choi, Schoeni, Wiemers, Hotz and Seltzer (2020), Spatial Distance Between Parents and Adult Children in the United States, Journal of Marriage and Family 82(2), PSID 2013: 74.8% of adults with a living parent or adult child have the nearest within 30 miles; 35.5% have all of them within 30 miles."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinInterbirthYears": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Years between a mother's successive births in generated sibships and families; prototype choice pending an NSFG birth-interval source.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinFirstBirthAgeSdYears": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "Spread in years of a mother's age at first birth around the NCHS national mean for that year; prototype choice pending a natality spread source.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinPaternalAgeGapYears": {
+    "value": 2.5,
+    "tag": "TUNABLE",
+    "citation": "Years by which a generated father is older than the mother; prototype choice pending an NSFG or natality paternal-age source.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinMaleFertilityAgeShiftYears": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Years by which a man's children ever born by age lag the women's Census table; prototype choice pending an NSFG men's fertility source.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinBirthdayLatestDayOfMonth": {
+    "value": 28,
+    "tag": "SOURCED",
+    "citation": "Gregorian calendar: the shortest month has 28 days, so any month accepts a generated day from 1 to 28."
+  },
+  "personalityHeritability": {
+    "value": 0.4,
+    "tag": "SOURCED",
+    "citation": "Vukasovic and Bratko (2015), Heritability of personality: A meta-analysis of behavior genetic studies, Psychological Bulletin 141(4), 769-785: average heritability of personality about 0.40."
+  },
+  "personalityUpbringingShift": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "Standard-score shift per step of the canonical upbringing value added to a resident's temperament; prototype choice so upbringing still matters without overriding the sourced spread.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "personalitySociabilityRiskCorrelation": {
+    "value": 0.34,
+    "tag": "ESTIMATED",
+    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): E2 Gregariousness with E5 Excitement-Seeking, r = .34.",
+    "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
+    "stopgapId": "SG-P15-personality-mapping",
+    "spread": {
+      "low": 0.284,
+      "high": 0.394,
+      "unit": "correlation",
+      "citation": "Fisher-transformed 95% interval for the Costa and McCrae (1992) value with N = 1,000."
+    }
+  },
+  "personalityReliabilityImpulseCorrelation": {
+    "value": -0.45,
+    "tag": "ESTIMATED",
+    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): C3 Dutifulness with C6 Deliberation, r = .45; deliberation is reversed to impulsiveness here, so the value is -.45.",
+    "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
+    "stopgapId": "SG-P15-personality-mapping",
+    "spread": {
+      "low": -0.498,
+      "high": -0.399,
+      "unit": "correlation",
+      "citation": "Fisher-transformed 95% interval for the Costa and McCrae (1992) value with N = 1,000."
+    }
+  },
+  "personalityReferenceAge": {
+    "value": 40,
+    "tag": "TUNABLE",
+    "citation": "Age whose facet curve value counts as average, so the age shifts center near the adult population; prototype choice.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "spouseAgeGapOpenRowYears": {
+    "value": 5,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, CPS 2023 ASEC, America's Families and Living Arrangements: 2023, Table FG3: the age-difference rows are 2-3, 4-5, 6-9, 10-14 and 15-19 years, and the last rows are open (husband or wife 20 or more years older).",
+    "estimatedFrom": "Each open row is spread over five whole years, the width of the two rows next to it (10-14 and 15-19 years), so 20 or more years reads as 20 to 24. The open rows hold 1.2% of married couples.",
+    "stopgapId": "SG-P15-partnership-model"
   }
 }
