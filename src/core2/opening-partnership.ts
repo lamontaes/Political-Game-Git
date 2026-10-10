@@ -529,7 +529,7 @@ export function partnerAgedHousehold<
   geo: { key: string; rows: Geo };
   skeleton: S;
   people: readonly P[];
-  rebirth: (person: P, age: number) => P;
+  rebirth: (person: P, age: number, sex?: Sex) => P;
 }): { skeleton: S; people: P[]; grownChild?: number } {
   const shape = input.skeleton.shape;
   const sexOf = (n: number): Sex | undefined => {
@@ -570,8 +570,31 @@ export function partnerAgedHousehold<
         maximumExclusive,
       ),
     ) ?? ages[n]!;
+  // People living alone or with housemates draw sex together with age, so
+  // their mix by age and sex follows the place (a woman of 80 lives alone far
+  // more often than a man of 80).
+  const sexes: (Sex | undefined)[] = members.map((_, n) => sexOf(n));
+  const sexAndAge = (n: number, arrangement: Arrangement) => {
+    if (!sexes[n]) return void (ages[n] = adultAge(n, arrangement));
+    const both: Sex[] = ["female", "male"];
+    const weights = both.flatMap((sex) =>
+      Array.from({ length: maximumExclusive - minimum }, (_, i) =>
+        adultWeight(input.geo, sex, arrangement, minimum + i),
+      ),
+    );
+    const index = pickAge(
+      input.seed,
+      `${keyOf(n)}:sex-age`,
+      p("zero"),
+      weights,
+    );
+    if (index === undefined) return void (ages[n] = adultAge(n, arrangement));
+    const span = maximumExclusive - minimum;
+    sexes[n] = both[Math.floor(index / span)];
+    ages[n] = minimum + (index % span);
+  };
   let grownChild: number | undefined;
-  if (shape === "alone") ages[p("zero")] = adultAge(p("zero"), "alone");
+  if (shape === "alone") sexAndAge(p("zero"), "alone");
   else if (shape === "housemates") {
     const counts = input.geo.rows.households;
     const related =
@@ -594,7 +617,7 @@ export function partnerAgedHousehold<
     if (pair) {
       [ages[p("zero")], ages[p("one")]] = pair;
       grownChild = p("one");
-    } else for (const n of adults) ages[n] = adultAge(n, "housemate");
+    } else for (const n of adults) sexAndAge(n, "housemate");
   } else if (shape === "couple") {
     ages[p("zero")] = adultAge(p("zero"), "partnered");
     ages[p("one")] = partnerOf(p("zero"), p("one"));
@@ -633,7 +656,9 @@ export function partnerAgedHousehold<
     grownChild === undefined ? undefined : input.people[p("zero")]!.familyName;
   const people = input.people.map((person, n) => {
     const aged =
-      ages[n] !== members[n]!.age ? input.rebirth(person, ages[n]!) : person;
+      ages[n] !== members[n]!.age || sexes[n] !== sexOf(n)
+        ? input.rebirth(person, ages[n]!, sexes[n])
+        : person;
     return n === grownChild && familyName !== undefined
       ? { ...aged, familyName }
       : aged;

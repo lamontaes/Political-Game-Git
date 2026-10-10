@@ -558,7 +558,7 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       geo: partnershipGeo(lifePlaceByJurisdictionId(town)?.sourceGeoid),
       skeleton: townHouseholdSkeleton(seedWorld, town, index),
       people: townHouseholdPeople(seedWorld, town, index),
-      rebirth: (person, age) => {
+      rebirth: (person, age, sex) => {
         const birthDate = inventedPersonBirthDate(
           new SeededRng(seedWorld.seed).fork(`${person.stableKey}:p15-birth`),
           {
@@ -568,25 +568,36 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
             placement: "drawn-exact",
           },
         );
-        const gender = person.identity?.gender as GenderIdentityKey | undefined;
+        // A sex drawn with age brings its own pronouns and first name.
+        const identity =
+          sex && sex !== person.identity?.gender
+            ? { gender: sex, pronouns: defaultPronounsForGender(sex) }
+            : person.identity;
+        const corpusVersion = nameCorpusVersionForWorld(seedWorld, town);
+        const drawnName =
+          identity === person.identity || !identity
+            ? person.givenName
+            : drawCanonicalNamedIdentity(
+                new SeededRng(seedWorld.seed)
+                  .fork(`${person.stableKey}:p15-sex`)
+                  .fork("name"),
+                identity,
+                { corpusVersion },
+              ).givenName;
+        const gender = identity?.gender as GenderIdentityKey | undefined;
         return {
           ...person,
           birthDate,
-          ...(gender &&
-          nameCorpusVersionForWorld(seedWorld, town) === DEFAULT_CORPUS_VERSION
-            ? {
-                givenName: birthCohortGivenName(
-                  seedWorld.seed,
-                  person.stableKey,
-                  {
-                    givenName: person.givenName,
-                    familyName: person.familyName,
-                    birthDate,
-                    gender,
-                  },
-                ),
-              }
-            : {}),
+          ...(identity ? { identity } : {}),
+          givenName:
+            gender && corpusVersion === DEFAULT_CORPUS_VERSION
+              ? birthCohortGivenName(seedWorld.seed, person.stableKey, {
+                  givenName: drawnName,
+                  familyName: person.familyName,
+                  birthDate,
+                  gender,
+                })
+              : drawnName,
         };
       },
     });
