@@ -45,9 +45,9 @@
     "name": "nextLegislativeElection",
     "inventoryEngine": "elections",
     "keepLines": 10,
-    "status": "partial-not-liftable",
+    "status": "lifted",
     "lift": "src/rules/elections/intake-and-calendars.ts",
-    "reason": "Decision kernel is lifted over selected facts. Whole function closes over legacy module records, research transport or helper contracts (`isElectionYear`, `generalElectionDay`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "reason": "Complete supplied-rule election-date arithmetic is copied unchanged and uses the already-lifted isElectionYear/generalElectionDay helpers; all-place golden tests verify the result."
   },
   {
     "sourceFile": "src/simulation/living-world/congress-candidates.ts",
