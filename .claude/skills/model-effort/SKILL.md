@@ -1,9 +1,11 @@
 ---
 name: model-effort
 description: >
-  Use when starting any session, subagent or package. Codex builds at medium
-  (high only with a stated reason); a separate Claude session finishes (Sonnet
-  high for agreed designs and checks, Opus high only for judgment calls).
+  Use when starting any session, subagent or package. Codex builds broad and
+  data-heavy work at medium (high only with a stated reason); the Claude
+  engineering account builds the critical path at Sonnet high (Opus high for
+  judgment-heavy design); a separate Claude session finishes (Sonnet high for
+  agreed designs and checks, Opus high only for judgment calls).
   Balance usage and effectiveness, leaning toward thrift.
 ---
 
@@ -19,7 +21,11 @@ reason in the package.
   Default effort: **medium**. Use **high** only for core architecture, money
   conservation or rules every port depends on, and say so. Use extra-high only
   after high failed at a named task.
-- **A separate Claude session finishes.** **Sonnet at high** checks agreed
+- **The Claude engineering account builds** the critical path and work where
+  mistakes cost most: core speed, money, people modeling, and work orders the
+  CTO assigns to it (owner, Oct 11). Default effort: **Sonnet at high**;
+  **Opus at high** for judgment-heavy design.
+- **A separate Claude session finishes**, never the session that built it. **Sonnet at high** checks agreed
   designs, tests and tooling, and plays features in the bench. **Opus at
   high** is for judgment calls: core design, people modeling, disputed
   results. **Max** only after high failed at a named task. Medium for small,

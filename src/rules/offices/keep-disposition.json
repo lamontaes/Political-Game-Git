@@ -1,0 +1,652 @@
+[
+  {
+    "sourceFile": "src/simulation/candidacy-packs.ts",
+    "sourceLine": 184,
+    "name": "compiledQualificationForOffice",
+    "inventoryEngine": "elections",
+    "keepLines": 224,
+    "status": "partial",
+    "lift": "src/rules/offices/compiled-qualification.ts",
+    "reason": "Candidate rule-set, dated source-row, stand-in and settled-row reads; source citation and residency wording. Numeric fallback and field-state decisions are lifted together with their helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/candidacy.ts",
+    "sourceLine": 387,
+    "name": "districtSeatMustBeNamed",
+    "inventoryEngine": "elections",
+    "keepLines": 36,
+    "status": "partial",
+    "lift": "src/rules/offices/continuity.ts",
+    "reason": "Executive, congressional, local and Gazetteer identity lookup. The supplied identity flags and district count feed every naming gate."
+  },
+  {
+    "sourceFile": "src/simulation/candidacy.ts",
+    "sourceLine": 476,
+    "name": "assessEnactedQualification",
+    "inventoryEngine": "elections",
+    "keepLines": 55,
+    "status": "partial",
+    "lift": "src/rules/offices/enacted-qualification.ts",
+    "reason": "Law designation and English age/residence explanations. Minimum-age and completed-month residence comparisons are lifted through enactedQualificationAssessments."
+  },
+  {
+    "sourceFile": "src/simulation/candidate-filing-terms.ts",
+    "sourceLine": 36,
+    "name": "validTerms",
+    "inventoryEngine": "elections",
+    "keepLines": 15,
+    "status": "lifted",
+    "lift": "src/rules/offices/filing-terms.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/candidate-petitions.ts",
+    "sourceLine": 42,
+    "name": "circulateCandidatePetition",
+    "inventoryEngine": "elections",
+    "keepLines": 67,
+    "status": "partial",
+    "lift": "src/rules/offices/petition-circulation.ts",
+    "reason": "Campaign/contest and residence reads, individual askToSign decisions, durable traces and signature/decline event writes. Field-rate conversion, bounded FNV roster walk, self/residence exclusion and deduplication are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/candidate-qualification.ts",
+    "sourceLine": 231,
+    "name": "ruleSetApplicableOn",
+    "inventoryEngine": "elections",
+    "keepLines": 50,
+    "status": "partial",
+    "lift": "src/rules/offices/candidate-qualification.ts",
+    "reason": "Unavailable-field reason and evidence wording; dated applicability and field states are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/candidate-qualification.ts",
+    "sourceLine": 314,
+    "name": "durationRefusal",
+    "inventoryEngine": "elections",
+    "keepLines": 43,
+    "status": "partial",
+    "lift": "src/rules/offices/candidate-qualification.ts",
+    "reason": "English refusal sentences; duration comparisons and ordered refusal categories are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/candidate-qualification.ts",
+    "sourceLine": 359,
+    "name": "assessCandidateQualification",
+    "inventoryEngine": "elections",
+    "keepLines": 47,
+    "status": "partial",
+    "lift": "src/rules/offices/candidate-qualification.ts",
+    "reason": "English refusal explanations; minimum-age, date applicability and duration assessment are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/district-residence.ts",
+    "sourceLine": 199,
+    "name": "districtResidenceSince",
+    "inventoryEngine": "elections",
+    "keepLines": 29,
+    "status": "partial",
+    "lift": "src/rules/offices/district-residence.ts",
+    "reason": "Person-index and district-identity resolution reads. Provenance admission, interval selection and household continuity dates are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/district-residence.ts",
+    "sourceLine": 292,
+    "name": "membershipStartedOn",
+    "inventoryEngine": "elections",
+    "keepLines": 18,
+    "status": "partial",
+    "lift": "src/rules/offices/district-residence.ts",
+    "reason": "Household residence-history read; the canonical-placement date versus authored interval date decision is lifted."
+  },
+  {
+    "sourceFile": "src/simulation/district-residence.ts",
+    "sourceLine": 317,
+    "name": "recordedDistrictMembership",
+    "inventoryEngine": "elections",
+    "keepLines": 20,
+    "status": "partial",
+    "lift": "src/rules/offices/district-residence.ts",
+    "reason": "Person-index read; supported provenance, chamber, open/closed boundaries and ambiguity checks are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/governing/office-consequence.ts",
+    "sourceLine": 448,
+    "name": "officesHeldBy",
+    "inventoryEngine": "governing",
+    "keepLines": 35,
+    "status": "partial",
+    "lift": "src/rules/offices/held-offices.ts",
+    "reason": "Governing-office, Congress, active-work, seat-catalog and title reads; the office filtering and deduplication decisions are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/governing/office-consequence.ts",
+    "sourceLine": 489,
+    "name": "playerOfficeScope",
+    "inventoryEngine": "governing",
+    "keepLines": 87,
+    "status": "partial",
+    "lift": "src/rules/offices/held-offices.ts",
+    "reason": "Governing-office, President, Congress, jurisdiction and active-work reads; scope precedence and office-level classification are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/governing/office-continuity.ts",
+    "sourceLine": 439,
+    "name": "nextCongressionalElectionAfter",
+    "inventoryEngine": "governing",
+    "keepLines": 7,
+    "status": "lifted",
+    "lift": "src/rules/offices/continuity.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/governing/office-continuity.ts",
+    "sourceLine": 1036,
+    "name": "statutoryPresidentialSuccessor",
+    "inventoryEngine": "governing",
+    "keepLines": 77,
+    "status": "partial",
+    "lift": "src/rules/offices/office-plans.ts",
+    "reason": "Congress projection, presiding-officer election/effect adapter and vote-event writes. The eligible sitting-member projection, service-date fallback, House-before-Senate precedence and catalog match are lifted; presiding-officer ballot math belongs to the legislature shelf, not an exclusion."
+  },
+  {
+    "sourceFile": "src/simulation/governing/office-continuity.ts",
+    "sourceLine": 1530,
+    "name": "ageOn",
+    "inventoryEngine": "governing",
+    "keepLines": 4,
+    "status": "lifted",
+    "lift": "src/rules/offices/continuity.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/governing/office-continuity.ts",
+    "sourceLine": 1663,
+    "name": "congressSeatHeldBy",
+    "inventoryEngine": "governing",
+    "keepLines": 17,
+    "status": "partial",
+    "lift": "src/rules/offices/continuity.ts",
+    "reason": "Congress projection and catalog read; occupied-person selection and matching seat identity are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/government-units.ts",
+    "sourceLine": 247,
+    "name": "countyPopulationSharesForPlace",
+    "inventoryEngine": "governing",
+    "keepLines": 11,
+    "status": "partial",
+    "lift": "src/rules/offices/county-shares.ts",
+    "reason": "County/place relation transport; population-share selection and normalization are lifted over supplied county parts."
+  },
+  {
+    "sourceFile": "src/simulation/government-units.ts",
+    "sourceLine": 271,
+    "name": "countyGovernmentUnitsForPlace",
+    "inventoryEngine": "governing",
+    "keepLines": 16,
+    "status": "partial",
+    "lift": "src/rules/offices/county-shares.ts",
+    "reason": "County/place relation and unit catalog transport; county grouping, share totals and unit admission are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/government-units.ts",
+    "sourceLine": 293,
+    "name": "countyLandSharesForPlace",
+    "inventoryEngine": "governing",
+    "keepLines": 12,
+    "status": "partial",
+    "lift": "src/rules/offices/county-shares.ts",
+    "reason": "County/place relation transport; land-share normalization, including the legacy zero-total result, is lifted."
+  },
+  {
+    "sourceFile": "src/simulation/government-units.ts",
+    "sourceLine": 319,
+    "name": "countyGeoidsForPlace",
+    "inventoryEngine": "governing",
+    "keepLines": 7,
+    "status": "partial",
+    "lift": "src/rules/offices/county-shares.ts",
+    "reason": "County/place relation transport; unique county selection and sorting are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/congress-seats.ts",
+    "sourceLine": 156,
+    "name": "seatTermWindow",
+    "inventoryEngine": "elections",
+    "keepLines": 23,
+    "status": "partial",
+    "lift": "src/rules/offices/seat-term.ts",
+    "reason": "Term-rule corpus lookup and legacy evidence wording; the selected term calendar is lifted."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/house-delegates.ts",
+    "sourceLine": 173,
+    "name": "houseDelegateTermWindow",
+    "inventoryEngine": "elections",
+    "keepLines": 14,
+    "status": "lifted",
+    "lift": "src/rules/offices/delegate-terms.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/house-delegates.ts",
+    "sourceLine": 350,
+    "name": "seatHouseDelegates",
+    "inventoryEngine": "elections",
+    "keepLines": 24,
+    "status": "partial",
+    "lift": "src/rules/offices/office-plans.ts",
+    "reason": "Seeded person/prior-service generation and delegate record writers. Cycle dates, prior-term service-year subtraction and outgoing term facts are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/house-delegates.ts",
+    "sourceLine": 489,
+    "name": "houseDelegateOccupant",
+    "inventoryEngine": "elections",
+    "keepLines": 44,
+    "status": "partial",
+    "lift": "src/rules/offices/delegate-occupant.ts",
+    "reason": "Seat, person, name and dated death reads; tenure-event precedence, tag dates and alive/ended classification are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/local-government-seats.ts",
+    "sourceLine": 293,
+    "name": "seatOne",
+    "inventoryEngine": "elections",
+    "keepLines": 49,
+    "status": "partial",
+    "lift": "src/rules/offices/continuity.ts",
+    "reason": "Municipal installation, seat and participation writers, and body/organization reads. Body-cap admission and compiled-versus-organization command decisions are lifted through localSeatCommand."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-wards.ts",
+    "sourceLine": 93,
+    "name": "sizeRank",
+    "inventoryEngine": "elections",
+    "keepLines": 17,
+    "status": "partial",
+    "lift": "src/rules/offices/ward-plans.ts",
+    "reason": "Government-unit and population catalog reads and cache ownership; population sort, stable ties and midpoint ranks are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-wards.ts",
+    "sourceLine": 112,
+    "name": "charterWardSeats",
+    "inventoryEngine": "elections",
+    "keepLines": 21,
+    "status": "partial",
+    "lift": "src/rules/offices/ward-plans.ts",
+    "reason": "Compiled government and charter reading lookup; ward counts, caps and at-large remainder are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-wards.ts",
+    "sourceLine": 135,
+    "name": "councilWardPlan",
+    "inventoryEngine": "elections",
+    "keepLines": 27,
+    "status": "partial",
+    "lift": "src/rules/offices/ward-plans.ts",
+    "reason": "Identity, seat-count and national survey reads; charter precedence and population-rank ward composition are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-wards.ts",
+    "sourceLine": 164,
+    "name": "isWardSeat",
+    "inventoryEngine": "elections",
+    "keepLines": 6,
+    "status": "lifted",
+    "lift": "src/rules/offices/ward-seats.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-wards.ts",
+    "sourceLine": 218,
+    "name": "wardAt",
+    "inventoryEngine": "elections",
+    "keepLines": 5,
+    "status": "lifted",
+    "lift": "src/rules/offices/ward-seats.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-wards.ts",
+    "sourceLine": 225,
+    "name": "wardRange",
+    "inventoryEngine": "elections",
+    "keepLines": 8,
+    "status": "lifted",
+    "lift": "src/rules/offices/ward-seats.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-wards.ts",
+    "sourceLine": 349,
+    "name": "drawWardCuts",
+    "inventoryEngine": "elections",
+    "keepLines": 39,
+    "status": "lifted",
+    "lift": "src/rules/offices/ward-seats.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-wards.ts",
+    "sourceLine": 395,
+    "name": "redrawTownWards",
+    "inventoryEngine": "elections",
+    "keepLines": 144,
+    "status": "partial",
+    "lift": "src/rules/offices/ward-plans.ts",
+    "reason": "Town roster, member-home and governing-law reads; map and drawn-out event writes and English explanations. All cut, pairing, seat assignment, deviation and attribution decisions are lifted, including the legacy same-date record-key failure fact."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-wards.ts",
+    "sourceLine": 660,
+    "name": "votingPrecinctPlan",
+    "inventoryEngine": "elections",
+    "keepLines": 79,
+    "status": "partial",
+    "lift": "src/rules/offices/precincts.ts",
+    "reason": "Place, jurisdiction, census VTD, reference-population and roster reads; admitted-row selection, donor averaging, population bounds and precinct counts are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-wards.ts",
+    "sourceLine": 871,
+    "name": "establishVotingPrecinctMembership",
+    "inventoryEngine": "elections",
+    "keepLines": 49,
+    "status": "partial",
+    "lift": "src/rules/offices/precincts.ts",
+    "reason": "Prior-map/home reads and precinct map event serialization. Census/opening timing and largest-remainder assignment are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-wards.ts",
+    "sourceLine": 922,
+    "name": "syncVotingPrecinctArrival",
+    "inventoryEngine": "elections",
+    "keepLines": 40,
+    "status": "partial",
+    "lift": "src/rules/offices/precincts.ts",
+    "reason": "Primary-home and saved-map/membership reads, opening producer invocation and arrival event serialization. Largest-deficit assignment with stable ties is lifted."
+  },
+  {
+    "sourceFile": "src/simulation/municipal-qualification-estimate.ts",
+    "sourceLine": 53,
+    "name": "municipalMinimumAgeEstimate",
+    "inventoryEngine": "elections",
+    "keepLines": 44,
+    "status": "lifted",
+    "lift": "src/rules/offices/municipal-age.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/municipal-seat-identity.ts",
+    "sourceLine": 64,
+    "name": "municipalSeatMustBeNamed",
+    "inventoryEngine": "elections",
+    "keepLines": 3,
+    "status": "partial",
+    "lift": "src/rules/offices/continuity.ts",
+    "reason": "Compiled seat-choice lookup; the nonempty choice-count decision is lifted."
+  },
+  {
+    "sourceFile": "src/simulation/nationwide-world/congress-candidacy-packs.ts",
+    "sourceLine": 63,
+    "name": "ordinal",
+    "inventoryEngine": "elections",
+    "keepLines": 14,
+    "status": "excluded",
+    "lift": null,
+    "reason": "Only formats an English ordinal suffix using last-digit/last-two-digit cases; no office, eligibility, term, seat or filing rule remains."
+  },
+  {
+    "sourceFile": "src/simulation/nationwide-world/local-chief-executive-rules.ts",
+    "sourceLine": 141,
+    "name": "localChiefExecutiveRules",
+    "inventoryEngine": "governing",
+    "keepLines": 28,
+    "status": "partial",
+    "lift": "src/rules/offices/chief-executive.ts",
+    "reason": "Municipal reading and place-population lookup. Direct-election text classification, mayor-term admission, owner population gate and modal fallback are lifted with caller-supplied default title data."
+  },
+  {
+    "sourceFile": "src/simulation/nationwide-world/local-governing-body-candidacy-packs.ts",
+    "sourceLine": 208,
+    "name": "localGoverningBodyIdentityForOfficeKey",
+    "inventoryEngine": "elections",
+    "keepLines": 30,
+    "status": "excluded",
+    "lift": null,
+    "reason": "Only parses a persisted office key suffix, routes municipio versus Census publisher identity lookup, constructs the selected catalog identity and checks that its key matches; no seat-count, eligibility, election or term decision remains."
+  },
+  {
+    "sourceFile": "src/simulation/nationwide-world/local-governments.ts",
+    "sourceLine": 102,
+    "name": "placeLocalGovernmentUnits",
+    "inventoryEngine": "governing",
+    "keepLines": 109,
+    "status": "partial",
+    "lift": "src/rules/offices/local-units.ts",
+    "reason": "Municipal, township, county-relation and municipio catalog reads; county explanatory text. Geographic scope, government selection and county-share decisions are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/nationwide-world/residence-duration.ts",
+    "sourceLine": 104,
+    "name": "continuousResidenceSince",
+    "inventoryEngine": "elections",
+    "keepLines": 47,
+    "status": "partial",
+    "lift": "src/rules/offices/continuous-residence.ts",
+    "reason": "Residence, household membership, state and location history reads; uninterrupted-date ordering and one-day move continuity are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/nationwide-world/state-executive-terms.ts",
+    "sourceLine": 76,
+    "name": "wholeYears",
+    "inventoryEngine": "governing",
+    "keepLines": 5,
+    "status": "lifted",
+    "lift": "src/rules/offices/executive-terms.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/nationwide-world/state-executive-terms.ts",
+    "sourceLine": 87,
+    "name": "ordinaryStateExecutiveTermDates",
+    "inventoryEngine": "governing",
+    "keepLines": 26,
+    "status": "partial",
+    "lift": "src/rules/offices/executive-terms.ts",
+    "reason": "Enacted-rule and capability-resolution reads; enacted-versus-admitted precedence, calendar composition and unknown-field decisions are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/nationwide-world/state-executive-terms.ts",
+    "sourceLine": 141,
+    "name": "admittedTermDates",
+    "inventoryEngine": "governing",
+    "keepLines": 56,
+    "status": "partial",
+    "lift": "src/rules/offices/executive-terms.ts",
+    "reason": "Capability-resolution read; verified field admission, whole-year validation and commencement/term-end math are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/nationwide-world/state-executive-terms.ts",
+    "sourceLine": 204,
+    "name": "planOrdinaryStateExecutiveTerm",
+    "inventoryEngine": "governing",
+    "keepLines": 40,
+    "status": "partial",
+    "lift": "src/rules/offices/office-plans.ts",
+    "reason": "Contest/result/identity reads, eligibility reader and term/qualification writers. Regular-election guard, dated-term admission and zero-block routine qualification command are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/nationwide-world/state-executive-terms.ts",
+    "sourceLine": 252,
+    "name": "offCycleRecoveryDates",
+    "inventoryEngine": "governing",
+    "keepLines": 12,
+    "status": "lifted",
+    "lift": "src/rules/offices/executive-terms.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/nationwide-world/state-executives.ts",
+    "sourceLine": 103,
+    "name": "wholeYears",
+    "inventoryEngine": "governing",
+    "keepLines": 5,
+    "status": "lifted",
+    "lift": "src/rules/offices/executive-terms.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/nationwide-world/state-executives.ts",
+    "sourceLine": 119,
+    "name": "stateExecutiveTermWindow",
+    "inventoryEngine": "governing",
+    "keepLines": 72,
+    "status": "partial",
+    "lift": "src/rules/offices/executive-terms.ts",
+    "reason": "Capability and executive-rule reads and explanatory term-note text; admitted and fallback calendar selection is lifted."
+  },
+  {
+    "sourceFile": "src/simulation/nationwide-world/state-executives.ts",
+    "sourceLine": 397,
+    "name": "seatOpeningGovernorElect",
+    "inventoryEngine": "governing",
+    "keepLines": 88,
+    "status": "partial",
+    "lift": "src/rules/offices/office-plans.ts",
+    "reason": "Executive-rule and term-window reads, tenure deduplication and generated holder/event writers. Backward election-year search, past-election and matching-commencement gates and dated tenure command are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/office-pay.ts",
+    "sourceLine": 139,
+    "name": "estimatedStatePay",
+    "inventoryEngine": "governing",
+    "keepLines": 53,
+    "status": "partial",
+    "lift": "src/rules/offices/pay-estimate.ts",
+    "reason": "Salary, income and Census-region reads, cache and English estimate basis. Donor admission, regional/income closeness, reciprocal ranks, weighted mean and hundred-dollar rounding are lifted together."
+  },
+  {
+    "sourceFile": "src/simulation/office-qualification-profile.ts",
+    "sourceLine": 76,
+    "name": "modalQualification",
+    "inventoryEngine": "elections",
+    "keepLines": 29,
+    "status": "partial",
+    "lift": "src/rules/offices/qualification-profile.ts",
+    "reason": "Source-row transport and estimate evidence wording; positive-value selection, mode and ties are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/office-qualification-profile.ts",
+    "sourceLine": 116,
+    "name": "qualificationRange",
+    "inventoryEngine": "elections",
+    "keepLines": 24,
+    "status": "partial",
+    "lift": "src/rules/offices/qualification-profile.ts",
+    "reason": "Source-row transport and estimate evidence wording; ordered numeric range selection is lifted."
+  },
+  {
+    "sourceFile": "src/simulation/office-qualification-rules.ts",
+    "sourceLine": 211,
+    "name": "qualificationTemporalApplicability",
+    "inventoryEngine": "elections",
+    "keepLines": 38,
+    "status": "partial",
+    "lift": "src/rules/offices/qualification.ts",
+    "reason": "Field date/evidence wording; date validity and availability decisions are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/office-qualification-rules.ts",
+    "sourceLine": 407,
+    "name": "durationMonths",
+    "inventoryEngine": "elections",
+    "keepLines": 46,
+    "status": "lifted",
+    "lift": "src/rules/offices/qualification.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/office-qualification-rules.ts",
+    "sourceLine": 496,
+    "name": "residedLabel",
+    "inventoryEngine": "elections",
+    "keepLines": 7,
+    "status": "excluded",
+    "lift": null,
+    "reason": "Only formats completed years/months into an English residence-duration sentence; no residence admission or duration comparison remains."
+  },
+  {
+    "sourceFile": "src/simulation/office-qualification-rules.ts",
+    "sourceLine": 546,
+    "name": "assessOfficeQualifications",
+    "inventoryEngine": "elections",
+    "keepLines": 227,
+    "status": "partial",
+    "lift": "src/rules/offices/qualification.ts",
+    "reason": "English assessment sentences and source-row assembly; every assessment verdict, duration, prior-term and temporal gate is lifted."
+  },
+  {
+    "sourceFile": "src/simulation/office-salary.ts",
+    "sourceLine": 131,
+    "name": "annualPay",
+    "inventoryEngine": "governing",
+    "keepLines": 51,
+    "status": "partial",
+    "lift": "src/rules/offices/salary.ts",
+    "reason": "Operative-pay, work-role, comparable-pay and wage-rate reads and English salary explanation. Salary precedence, minor-unit conversion, tenure and annual hourly-pay arithmetic are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/office-salary.ts",
+    "sourceLine": 183,
+    "name": "weeklyMinor",
+    "inventoryEngine": "governing",
+    "keepLines": 3,
+    "status": "lifted",
+    "lift": "src/rules/offices/salary.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/office-salary.ts",
+    "sourceLine": 334,
+    "name": "dueOfficePeriods",
+    "inventoryEngine": "governing",
+    "keepLines": 41,
+    "status": "partial",
+    "lift": "src/rules/offices/salary.ts",
+    "reason": "Latest recorded transfer, dated active-work and paid-office reads, plus transfer identity/provenance fields. Closed-week arithmetic, active-day stop and paid-period admission are lifted."
+  },
+  {
+    "sourceFile": "src/simulation/office-transition.ts",
+    "sourceLine": 397,
+    "name": "datedTransitionServices",
+    "inventoryEngine": "governing",
+    "keepLines": 16,
+    "status": "lifted",
+    "lift": "src/rules/offices/transition.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
+  },
+  {
+    "sourceFile": "src/simulation/office-transition.ts",
+    "sourceLine": 441,
+    "name": "transitionServiceStatus",
+    "inventoryEngine": "governing",
+    "keepLines": 12,
+    "status": "partial",
+    "lift": "src/rules/offices/transition.ts",
+    "reason": "Current date and attended-event read; attended/window/availability status precedence is lifted."
+  },
+  {
+    "sourceFile": "src/simulation/settled-qualifications.ts",
+    "sourceLine": 26,
+    "name": "settledQualification",
+    "inventoryEngine": "elections",
+    "keepLines": 29,
+    "status": "partial",
+    "lift": "src/rules/offices/settled-qualifications.ts",
+    "reason": "Settled qualification table transport; family/field/state and valid-from date selection is lifted."
+  }
+]
