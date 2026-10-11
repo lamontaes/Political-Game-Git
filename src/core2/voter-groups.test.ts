@@ -110,6 +110,7 @@ describe("recorded voter groups", () => {
     expect(groups.get(row.id)).toEqual(row);
     const spread = { id: "bad", placeId: "place", asOf: row.asOf, source };
     expect(() => groups.check(spread)).toThrow(/bounds/);
+    expect(() => groups.check({ ...spread, turnout: [0.4, 0.6], source: { ...source, tag: "ESTIMATED", estimatedFrom: "Unmeasured target." } })).toThrow(/sourced reference/);
     expect(() => groups.check({ ...spread, turnout: [0.8, 0.2] })).toThrow();
     expect(() => groups.check({ ...spread, lean: [-2, 0] })).toThrow();
   });
