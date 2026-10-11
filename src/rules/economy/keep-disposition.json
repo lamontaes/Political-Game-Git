@@ -285,9 +285,9 @@
     "name": "publicBodyRolePay",
     "inventoryEngine": "economy",
     "keepLines": 46,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-listings.ts",
+    "reason": "Complete employer/public role/pay/holder selection, turnover/vacancy and offer/timing/listing math, full required constants and exact Native text travel. job-listings-world.test.ts compares unchanged public townEmployerRoles/openWeeklyListings/openingTakesApplications across all 56 generated Worlds with canonical public-body/work/pay sources and repeated, aged-unfilled and read-only role-frontier controls. Every append draft field/identity/sequence is checked before the public-parent canonical history prefix is supplied; no private evaluation or copied append World writer. Bounded request proof, not core2 transport integration. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/job-market.ts",
@@ -295,9 +295,9 @@
     "name": "townEmployerRoles",
     "inventoryEngine": "economy",
     "keepLines": 109,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-listings.ts",
+    "reason": "Complete employer/public role/pay/holder selection, turnover/vacancy and offer/timing/listing math, full required constants and exact Native text travel. job-listings-world.test.ts compares unchanged public townEmployerRoles/openWeeklyListings/openingTakesApplications across all 56 generated Worlds with canonical public-body/work/pay sources and repeated, aged-unfilled and read-only role-frontier controls. Every append draft field/identity/sequence is checked before the public-parent canonical history prefix is supplied; no private evaluation or copied append World writer. Bounded request proof, not core2 transport integration. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/job-market.ts",
@@ -305,9 +305,9 @@
     "name": "openingTakesApplications",
     "inventoryEngine": "economy",
     "keepLines": 11,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-listings.ts",
+    "reason": "Complete employer/public role/pay/holder selection, turnover/vacancy and offer/timing/listing math, full required constants and exact Native text travel. job-listings-world.test.ts compares unchanged public townEmployerRoles/openWeeklyListings/openingTakesApplications across all 56 generated Worlds with canonical public-body/work/pay sources and repeated, aged-unfilled and read-only role-frontier controls. Every append draft field/identity/sequence is checked before the public-parent canonical history prefix is supplied; no private evaluation or copied append World writer. Bounded request proof, not core2 transport integration. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/job-market.ts",
@@ -325,9 +325,9 @@
     "name": "roleComesOpen",
     "inventoryEngine": "economy",
     "keepLines": 29,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-listings.ts",
+    "reason": "Complete employer/public role/pay/holder selection, turnover/vacancy and offer/timing/listing math, full required constants and exact Native text travel. job-listings-world.test.ts compares unchanged public townEmployerRoles/openWeeklyListings/openingTakesApplications across all 56 generated Worlds with canonical public-body/work/pay sources and repeated, aged-unfilled and read-only role-frontier controls. Every append draft field/identity/sequence is checked before the public-parent canonical history prefix is supplied; no private evaluation or copied append World writer. Bounded request proof, not core2 transport integration. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/job-market.ts",
@@ -335,9 +335,9 @@
     "name": "offerTerms",
     "inventoryEngine": "economy",
     "keepLines": 40,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-listings.ts",
+    "reason": "Complete employer/public role/pay/holder selection, turnover/vacancy and offer/timing/listing math, full required constants and exact Native text travel. job-listings-world.test.ts compares unchanged public townEmployerRoles/openWeeklyListings/openingTakesApplications across all 56 generated Worlds with canonical public-body/work/pay sources and repeated, aged-unfilled and read-only role-frontier controls. Every append draft field/identity/sequence is checked before the public-parent canonical history prefix is supplied; no private evaluation or copied append World writer. Bounded request proof, not core2 transport integration. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/job-market.ts",
@@ -345,9 +345,9 @@
     "name": "openWeeklyListings",
     "inventoryEngine": "economy",
     "keepLines": 47,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-listings.ts",
+    "reason": "Complete employer/public role/pay/holder selection, turnover/vacancy and offer/timing/listing math, full required constants and exact Native text travel. job-listings-world.test.ts compares unchanged public townEmployerRoles/openWeeklyListings/openingTakesApplications across all 56 generated Worlds with canonical public-body/work/pay sources and repeated, aged-unfilled and read-only role-frontier controls. Every append draft field/identity/sequence is checked before the public-parent canonical history prefix is supplied; no private evaluation or copied append World writer. Bounded request proof, not core2 transport integration. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/job-market.ts",
@@ -1025,9 +1025,9 @@
     "name": "recordedCredentialHourlyPay",
     "inventoryEngine": "economy",
     "keepLines": 136,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/credential-pay.ts",
+    "reason": "Complete credential-pay current and paid snapshot frontiers, occupation/workplace/credential peer qualification, actual paid amount/cadence/hour conversion, counted-work mean and every source ID travel. credential-pay-world.test.ts compares the unchanged public parent across all 56 generated Worlds with canonical saved work/completed enrollment/pay terms/paid outcomes and labeled exclusion/date/sequence controls. Raw dated life and credential receipts remain upstream. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-pay.ts",
@@ -1095,9 +1095,9 @@
     "name": "rentLawLevel",
     "inventoryEngine": "economy",
     "keepLines": 20,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-readings.ts",
+    "reason": "Complete retained HUD parser/place/county/state/town-weighted selection, family limit/affordable math, citywide law response, local home/macro price chaining, dated household membership/lease/pay reading and Native renewal English travel. rent-readings-world.test.ts compares complete unchanged public readers across all 56 generated Worlds using canonical household/dwelling/tenure/flow/obligation and actual opening macro sources; saved-law, family size/bedrooms and raw sequence controls are labeled edges. The law owner is already lifted. No private evaluation or copied writer; courts/press stay parked. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1105,9 +1105,9 @@
     "name": "marketRentLevel",
     "inventoryEngine": "economy",
     "keepLines": 7,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-readings.ts",
+    "reason": "Complete retained HUD parser/place/county/state/town-weighted selection, family limit/affordable math, citywide law response, local home/macro price chaining, dated household membership/lease/pay reading and Native renewal English travel. rent-readings-world.test.ts compares complete unchanged public readers across all 56 generated Worlds using canonical household/dwelling/tenure/flow/obligation and actual opening macro sources; saved-law, family size/bedrooms and raw sequence controls are labeled edges. The law owner is already lifted. No private evaluation or copied writer; courts/press stay parked. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1115,9 +1115,9 @@
     "name": "populationWeightedTownRow",
     "inventoryEngine": "economy",
     "keepLines": 37,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-readings.ts",
+    "reason": "Complete retained HUD parser/place/county/state/town-weighted selection, family limit/affordable math, citywide law response, local home/macro price chaining, dated household membership/lease/pay reading and Native renewal English travel. rent-readings-world.test.ts compares complete unchanged public readers across all 56 generated Worlds using canonical household/dwelling/tenure/flow/obligation and actual opening macro sources; saved-law, family size/bedrooms and raw sequence controls are labeled edges. The law owner is already lifted. No private evaluation or copied writer; courts/press stay parked. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1125,9 +1125,9 @@
     "name": "veryLowIncomeLimit",
     "inventoryEngine": "economy",
     "keepLines": 12,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-readings.ts",
+    "reason": "Complete retained HUD parser/place/county/state/town-weighted selection, family limit/affordable math, citywide law response, local home/macro price chaining, dated household membership/lease/pay reading and Native renewal English travel. rent-readings-world.test.ts compares complete unchanged public readers across all 56 generated Worlds using canonical household/dwelling/tenure/flow/obligation and actual opening macro sources; saved-law, family size/bedrooms and raw sequence controls are labeled edges. The law owner is already lifted. No private evaluation or copied writer; courts/press stay parked. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1135,9 +1135,9 @@
     "name": "interpolateFactor",
     "inventoryEngine": "economy",
     "keepLines": 7,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-readings.ts",
+    "reason": "Complete retained HUD parser/place/county/state/town-weighted selection, family limit/affordable math, citywide law response, local home/macro price chaining, dated household membership/lease/pay reading and Native renewal English travel. rent-readings-world.test.ts compares complete unchanged public readers across all 56 generated Worlds using canonical household/dwelling/tenure/flow/obligation and actual opening macro sources; saved-law, family size/bedrooms and raw sequence controls are labeled edges. The law owner is already lifted. No private evaluation or copied writer; courts/press stay parked. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1145,9 +1145,9 @@
     "name": "affordableRentMinor",
     "inventoryEngine": "economy",
     "keepLines": 12,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-readings.ts",
+    "reason": "Complete retained HUD parser/place/county/state/town-weighted selection, family limit/affordable math, citywide law response, local home/macro price chaining, dated household membership/lease/pay reading and Native renewal English travel. rent-readings-world.test.ts compares complete unchanged public readers across all 56 generated Worlds using canonical household/dwelling/tenure/flow/obligation and actual opening macro sources; saved-law, family size/bedrooms and raw sequence controls are labeled edges. The law owner is already lifted. No private evaluation or copied writer; courts/press stay parked. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1175,9 +1175,9 @@
     "name": "rentPriceLevel",
     "inventoryEngine": "economy",
     "keepLines": 13,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-readings.ts",
+    "reason": "Complete retained HUD parser/place/county/state/town-weighted selection, family limit/affordable math, citywide law response, local home/macro price chaining, dated household membership/lease/pay reading and Native renewal English travel. rent-readings-world.test.ts compares complete unchanged public readers across all 56 generated Worlds using canonical household/dwelling/tenure/flow/obligation and actual opening macro sources; saved-law, family size/bedrooms and raw sequence controls are labeled edges. The law owner is already lifted. No private evaluation or copied writer; courts/press stay parked. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1185,9 +1185,9 @@
     "name": "marketRentMinor",
     "inventoryEngine": "economy",
     "keepLines": 10,
-    "status": "pending-owned",
-    "lift": "src/rules/economy/rent-and-eviction.ts",
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-readings.ts",
+    "reason": "Complete retained HUD parser/place/county/state/town-weighted selection, family limit/affordable math, citywide law response, local home/macro price chaining, dated household membership/lease/pay reading and Native renewal English travel. rent-readings-world.test.ts compares complete unchanged public readers across all 56 generated Worlds using canonical household/dwelling/tenure/flow/obligation and actual opening macro sources; saved-law, family size/bedrooms and raw sequence controls are labeled edges. The law owner is already lifted. No private evaluation or copied writer; courts/press stay parked. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1195,9 +1195,9 @@
     "name": "householdMonthlyIncome",
     "inventoryEngine": "economy",
     "keepLines": 14,
-    "status": "pending-owned",
-    "lift": "src/rules/economy/rent-and-eviction.ts",
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-readings.ts",
+    "reason": "Complete retained HUD parser/place/county/state/town-weighted selection, family limit/affordable math, citywide law response, local home/macro price chaining, dated household membership/lease/pay reading and Native renewal English travel. rent-readings-world.test.ts compares complete unchanged public readers across all 56 generated Worlds using canonical household/dwelling/tenure/flow/obligation and actual opening macro sources; saved-law, family size/bedrooms and raw sequence controls are labeled edges. The law owner is already lifted. No private evaluation or copied writer; courts/press stay parked. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1205,9 +1205,9 @@
     "name": "householdHousingFacts",
     "inventoryEngine": "economy",
     "keepLines": 28,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-readings.ts",
+    "reason": "Complete retained HUD parser/place/county/state/town-weighted selection, family limit/affordable math, citywide law response, local home/macro price chaining, dated household membership/lease/pay reading and Native renewal English travel. rent-readings-world.test.ts compares complete unchanged public readers across all 56 generated Worlds using canonical household/dwelling/tenure/flow/obligation and actual opening macro sources; saved-law, family size/bedrooms and raw sequence controls are labeled edges. The law owner is already lifted. No private evaluation or copied writer; courts/press stay parked. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1275,9 +1275,9 @@
     "name": "marketRentRenewalReason",
     "inventoryEngine": "economy",
     "keepLines": 11,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-readings.ts",
+    "reason": "Complete retained HUD parser/place/county/state/town-weighted selection, family limit/affordable math, citywide law response, local home/macro price chaining, dated household membership/lease/pay reading and Native renewal English travel. rent-readings-world.test.ts compares complete unchanged public readers across all 56 generated Worlds using canonical household/dwelling/tenure/flow/obligation and actual opening macro sources; saved-law, family size/bedrooms and raw sequence controls are labeled edges. The law owner is already lifted. No private evaluation or copied writer; courts/press stay parked. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -2545,9 +2545,9 @@
     "name": "intervalsOverlap",
     "inventoryEngine": "economy",
     "keepLines": 11,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/time-conflicts.ts",
+    "reason": "Complete strict half-open comparator, last-array scheduled state/cache, participant intersection and sorted conflict parent travel. time-conflicts-world.test.ts compares unchanged public scheduledConflictExists across all 56 generated Worlds with canonical saved activities, cancellation and labeled endpoint/participant/read-only future/reordered-state controls. Full public-parent coverage is bounded, not exhaustive, ordinary NPC play or a finisher/core2 claim."
   },
   {
     "sourceFile": "src/simulation/time-work.ts",

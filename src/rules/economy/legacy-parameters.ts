@@ -315,6 +315,15 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: ["economy.county-home-equal-weight"],
   },
+  "credential-pay.ts": {
+    values: [-1, 0, 1, 2, 12, 24, 26, 52],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/living-world/town-pay.ts:769; src/simulation/resource-queries.ts:50",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.credential-pay-peer-frontier"],
+  },
   "dated-cash.ts": {
     values: [-1, 0, 1],
     provenance: "SOURCED",
@@ -502,6 +511,23 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     source: "src/simulation/job-market.ts:1327",
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+  },
+  "job-listings.ts": {
+    values: [
+      -1, 0, 0.033, 0.08, 1, 2, 3, 5, 7, 12, 28, 30, 37, 40, 52, 91, 100, 725,
+      50000, 6789100, 340110988,
+    ],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/job-market.ts:272; src/simulation/job-market.ts:327; src/simulation/job-market.ts:623; src/simulation/job-market.ts:782; src/simulation/job-market.ts:817; src/simulation/job-market.ts:863; src/simulation/job-market.ts:145; src/simulation/job-market.ts:255; src/simulation/job-market.ts:747",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.job-listing-public-role-estimate",
+      "economy.job-listing-history-frontier",
+      "economy.job-listing-turnover-offer-policy",
+      "economy.job-listing-append-receipts",
+    ],
   },
   "labor-readings.ts": {
     values: [
@@ -776,9 +802,28 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     values: [-1, 0, 1],
     provenance: "SOURCED",
     source:
-      "src/simulation/living-world/town-rent.ts:581; src/simulation/living-world/town-rent.ts:756; src/simulation/living-world/town-rent.ts:1490; src/simulation/living-world/town-rent.ts:2290",
+      "src/simulation/living-world/town-rent.ts:1490; src/simulation/living-world/town-rent.ts:2290",
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+  },
+  "rent-readings.ts": {
+    values: [
+      0, 0.051, 0.08, 0.3, 0.7, 0.8, 0.9, 1, 1.08, 1.16, 1.2, 1.24, 1.32, 1.5,
+      2, 3, 4, 5, 6, 7, 8, 12, 24, 26, 52, 100, 365,
+    ],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/living-world/town-rent.ts:267; src/simulation/living-world/town-rent.ts:289; src/simulation/living-world/town-rent.ts:460; src/simulation/living-world/town-rent.ts:499; src/simulation/living-world/town-rent.ts:512; src/simulation/living-world/town-rent.ts:525; src/simulation/living-world/town-rent.ts:566; src/simulation/living-world/town-rent.ts:581; src/simulation/living-world/town-rent.ts:756; src/simulation/living-world/town-rent.ts:984; src/simulation/living-world/town-rent.ts:1666; src/simulation/living-world/town-rent.ts:349; src/simulation/living-world/town-rent.ts:711; src/simulation/household-pay.ts:84; src/simulation/household-pay.ts:132",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.rent-hud-weighted-source",
+      "economy.rent-law-citywide-delay",
+      "economy.rent-affordable-family-factors",
+      "economy.rent-household-plain-date-frontier",
+      "economy.rent-renewal-native-English",
+      "economy.rent-price-initial-index",
+    ],
   },
   "retail-revenue.ts": {
     values: [0, 1],
@@ -816,6 +861,15 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: ["economy.starting-cash-pay-eligibility"],
+  },
+  "time-conflicts.ts": {
+    values: [0],
+    provenance: "TUNABLE",
+    source:
+      "src/simulation/time-work.ts:340; src/simulation/time-work.ts:220; src/simulation/time-work.ts:383",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.time-conflict-last-state-frontier"],
   },
   "town-employment-mix.ts": {
     values: [0, 1, 4],
