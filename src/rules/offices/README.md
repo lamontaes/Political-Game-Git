@@ -25,6 +25,21 @@ Before code changes, run the existing bench smoke test and baseline gate in the 
 
 Run changed-file typecheck, ESLint and Prettier, focused golden tests, `release:check --mode pr`, `zero-dice` and the stopgap registry tripwire. Record baseline failures separately. Fully lifted and partially lifted KEEP lines are reported separately; a partial lift is not reported as a complete source function.
 
-## Current status
+## Lifted and remaining
 
-Contract only. No rules lifted and no tests run yet. The managed execution environment is starting; GitHub reading and contract preparation are available, but the bench and local gate are not.
+- Fully lifted: signature arithmetic (14 KEEP lines) and filing opening (3).
+- Partial: candidate applicability and assessment (140), office temporal applicability, duration and assessment (311), modal/range profile math (53), and selected seat-term window (23). Inputs select records; player wording stays in the English engine. Total source KEEP lines covered by partial lifts: 527.
+- Seat creation, district catalogs, filing offices/fees and petition history remain with the port; their wrappers are not imported into the shelf. No PLUMBING or DEAD wrapper is claimed as a rule lift.
+- Numeric date conversions and input validation support the lifted rules; they are not counted as engine KEEP coverage.
+
+## CTO findings
+
+The elector assessment applies a single legacy 30-day residence period to every supplied elector requirement. It is preserved and registered as a suspected bug. The common July 1 filing opening and 1e-9 signature rounding tolerance are also retained with registered replacements. No decision behavior was corrected.
+
+Golden comparisons omit generated player wording; eligibility, ordering, field states, dates, source facts and refusal categories are compared. This is an output boundary change, not a new qualification rule.
+
+## Baseline and status
+
+The existing game smoke test is reproducible (seed `rules2-baseline-20261011`, six people and eleven events). The focused legacy baseline has 36 passes and one pre-existing failure: the qualification metadata test expects 69 records, and its corpus has 72. Main does not contain the core2 bench, so no playable golden-path advancement is claimed. The initial default-sandbox Vitest startup failed at Vite's git identity subprocess; the escalated run works.
+
+RULES-2: GPT-6 (Codex), configured variant/effort not exposed; repository default medium. No helpers. Usage not exposed; no finisher send-backs. Time receipts and final validation are in draft PR #3946.

@@ -1,0 +1,38 @@
+[
+  {
+    "id": "SG-P14-offices-filing-opening",
+    "kind": "estimated-number",
+    "file": "src/rules/offices/parameters.ts",
+    "line": 9,
+    "whatItFakes": "Every filing window opens July 1 of the preceding year.",
+    "why": "The legacy field-entry helper uses one estimated opening bound for every place and office.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Dated place-specific filing window facts, selected by the port.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-offices-elector-residence",
+    "kind": "estimated-number",
+    "file": "src/rules/offices/parameters.ts",
+    "line": 29,
+    "whatItFakes": "Uses the legacy 30-day elector residence rule for every supplied elector requirement.",
+    "why": "The original qualification helper applies a single-place legal figure without checking whether other place facts agree. Preserve this suspected bug.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Per-place voter residence facts with explicit legal dates; CTO decides the change.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-offices-signature-tolerance",
+    "kind": "tunable-number",
+    "file": "src/rules/offices/parameters.ts",
+    "line": 36,
+    "whatItFakes": "Subtracts 1e-9 before rounding a percentage signature count upward.",
+    "why": "The legacy helper uses this tolerance. Preserve it pending the integer arithmetic contract.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Sourced signature rounding rule and a checked exact arithmetic implementation.",
+    "status": "OPEN"
+  }
+]
