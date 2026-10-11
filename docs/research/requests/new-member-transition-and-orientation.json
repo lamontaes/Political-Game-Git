@@ -11,13 +11,23 @@
   "priority": "P1",
   "question": "lamontae wants to see real orientation programs for newly elected legislators and decide himself what goes in the game. Answer as one complete set: (1) Congress: the actual orientation and transition the House and Senate give members-elect (the House's New Member Orientation and its handbook, the Senate's equivalent), what it covers, when it happens, and what the member-elect does and receives (office setup, staff hiring allowance, office lottery, ethics and administrative briefings); (2) every state legislature, plus the D.C. Council and Puerto Rico's Legislative Assembly: its orientation for new members, and what a governor-elect or mayor-elect receives; (3) local government: about five representative examples in each of the 50 states, D.C. and Puerto Rico (city councils, county boards, mayors, school boards), chosen to span large and small places. Where a level or place has no program, say so. Then distill the whole set into a short summary written for lamontae: the common elements, how they differ by level and size of place, and the notable unusual cases, so he can choose what the game includes. Nothing is built from this until he chooses.",
   "questionId": "new-member-transition-and-orientation",
-  "relatedQuestionIds": ["legislative-winner-between-election-and-seat"],
+  "relatedQuestionIds": [
+    "legislative-winner-between-election-and-seat"
+  ],
   "requestVersion": "research-request/v1",
   "requestedBy": "research intake thread, from lamontae's message of 2026-09-22T19:50Z",
   "sourcesChecked": [
     {
       "source": "docs/research/requests/legislative-winner-between-election-and-seat.json, ChatGPT's A08 answer (DEPTH2, 2026-09-22T18:27Z)",
       "whatItDidNotSettle": "It settles that a transition exists and should not hide a job-acceptance trap, but gives no content from the real congressional, state or local programs."
+    },
+    {
+      "source": "https://cao.house.gov/sites/evo-subsites/cao.house.gov/files/evo-media-document/semiannual_july-december-2024_2025.2.25_digital.pdf",
+      "whatItDidNotSettle": "All56 office pay, state/local orientation/ceremony programs, per-diem attendance, time demands, employment restrictions and in-term pay-change rules remain incomplete."
+    },
+    {
+      "source": "https://history.house.gov/Blog/2019/January/1-10-officelottery/",
+      "whatItDidNotSettle": "All56 office pay, state/local orientation/ceremony programs, per-diem attendance, time demands, employment restrictions and in-term pay-change rules remain incomplete."
     }
   ],
   "title": "What transition and orientation do newly elected officials actually get",
@@ -27,5 +37,15 @@
     "words": "have GPT search up orientations for legislators. If it can get examples from all 50 states at levels of government, maybe five representative samples for each state at the local level. But I feel like state and federal level, those orientations, have it distill those orientations to me and I'll decide what should go in the game.",
     "saidBy": "lamontae",
     "saidAt": "2026-09-22T22:42:17.000Z"
+  },
+  "answer": {
+    "summary": "CAO2024 transition report and official office-lottery history catalog federal House onboarding evidence. Complete current House/Senate/state/local programs and five-place samples remain open; nothing is built before owner choice.",
+    "sources": [
+      "https://cao.house.gov/sites/evo-subsites/cao.house.gov/files/evo-media-document/semiannual_july-december-2024_2025.2.25_digital.pdf",
+      "https://history.house.gov/Blog/2019/January/1-10-officelottery/"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:20:24.386693+00:00",
+    "stillOpen": "All56 office pay, state/local orientation/ceremony programs, per-diem attendance, time demands, employment restrictions and in-term pay-change rules remain incomplete."
   }
 }
