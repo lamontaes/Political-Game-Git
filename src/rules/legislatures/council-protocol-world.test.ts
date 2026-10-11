@@ -1,3 +1,17 @@
+import { personName } from "../../simulation/people";
+import * as nativeVotes from "../../simulation/governing/chamber-votes";
+import * as ownVotes from "./chamber-vote";
+import {
+  decideOrdinaryCouncilReading,
+  type OrdinaryCouncilFacts,
+} from "./ordinary-council";
+import { councilSitsOnAuthoredCalendar } from "../../simulation/municipal-seat-identity";
+import {
+  decideCouncilVote,
+  type CouncilDecisionFacts,
+} from "./council-decision";
+import { decideCouncilVote as nativeCouncilVote } from "../../simulation/governing/council-lawmaking";
+import { lawInForce } from "../../simulation/governing/law-in-force";
 import { afterAll, describe, expect, it, vi } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { STATES } from "../../simulation/state-reference";
@@ -113,6 +127,113 @@ describe("legislatures: council passage, executive and override caller protocols
         stableKey: `${measure.stableKey}:agenda`,
         measureId: measure.id,
       });
+      // The parent reading/council protocol consumes exact native child ballots.
+      // Child selection is checked separately; this seam proves roster/request
+      // construction and the no-view deference rule without choosing twice.
+      world = { ...world, control: { kind: "observer" } };
+      const names = new Map(
+        world.personOrder.map((id) => [id, personName(world.people[id]!)]),
+      );
+      const parties = new Map(
+        world.personOrder.map((id) => [
+          id,
+          nativeVotes.publicPartyOf(world, id),
+        ]),
+      );
+      const childReceipts: {
+        input: Parameters<typeof nativeVotes.decideChamberVote>[1];
+        rows: ReturnType<typeof nativeVotes.decideChamberVote>;
+      }[] = [];
+      const childOriginal = nativeVotes.decideChamberVote;
+      const childCapture = vi
+        .spyOn(nativeVotes, "decideChamberVote")
+        .mockImplementation((at, input, options) => {
+          const rows = childOriginal(at, input, options);
+          childReceipts.push({ input, rows });
+          return rows;
+        });
+      const councilInput = {
+        stableKey: `${measure.stableKey}:council-parent`,
+        measureId: measure.id,
+        jurisdictionId,
+        members: seats,
+        playerPersonId: null,
+        questionLabel: "Authored council parent",
+        executivePersonId: null,
+        nonpartisan: true,
+      };
+      let ordinary, council;
+      try {
+        ordinary = procedure.decideOrdinaryCouncilReading(
+          world,
+          government.key,
+          measure.id,
+        );
+        council = nativeCouncilVote(world, councilInput);
+      } finally {
+        childCapture.mockRestore();
+      }
+      let childCursor = 0;
+      const replay = vi
+        .spyOn(ownVotes, "decideChamberVote")
+        .mockImplementation((_facts, input) => {
+          const receipt = childReceipts[childCursor++]!;
+          expect(input).toEqual(receipt.input);
+          return receipt.rows;
+        });
+      // The undefined child facts cannot be reached: receipt replay above is
+      // explicit and the standalone chamber tests own the child's arithmetic.
+      const baseChild = {
+        context: undefined,
+        interactions: [],
+        trustReadings: new Map(),
+        memberEvaluations: new Map(),
+      };
+      try {
+        expect(
+          decideOrdinaryCouncilReading(
+            {
+              ...baseChild,
+              question: procedure.municipalReadingQuestion(
+                world,
+                government.key,
+                measure.id,
+              ),
+              sitsOnAuthoredCalendar: councilSitsOnAuthoredCalendar(
+                government.key,
+              ),
+              measure,
+              seats,
+              names,
+              playerPersonId: null,
+              playerBallot: null,
+            } as unknown as OrdinaryCouncilFacts,
+            government.key,
+            measure.id,
+          ),
+        ).toEqual(ordinary);
+        expect(
+          decideCouncilVote(
+            {
+              ...baseChild,
+              names,
+              parties,
+              measures: world.history.legislativeMeasures ?? [],
+              laws: new Map(
+                (measure.propositionAnswers ?? []).map((row) => [
+                  `${measure.jurisdictionId}:${row.propositionId}`,
+                  lawInForce(world, measure.jurisdictionId, row.propositionId),
+                ]),
+              ),
+              playerBallot: null,
+            } as unknown as CouncilDecisionFacts,
+            councilInput,
+          ),
+        ).toEqual(council);
+        expect(childCursor).toBe(childReceipts.length);
+      } finally {
+        replay.mockRestore();
+      }
       const raw = (at: World) => ({
         measure,
         pack,

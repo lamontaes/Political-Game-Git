@@ -109,6 +109,7 @@ export function monthlyPay(
     currency,
   };
 }
+// stopgapId: "SG-P14-legislatures-story-basis-access"
 export function officialActsInEvent(
   facts: OfficialFactorFacts,
   eventId: EntityId,

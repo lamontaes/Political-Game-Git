@@ -1,3 +1,11 @@
+import { establishDistrictResidence } from "../../simulation/district-residence";
+import { districtIdentityCatalog } from "../../districts/catalog";
+import {
+  listDistrictIdentities,
+  resolveDistrictBinding,
+  gazetteerChamberForOfficeChamberKey,
+} from "../../districts/query";
+import { membersInDistrict } from "../../districts/members-per-district";
 import { afterAll, describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { STATES } from "../../simulation/state-reference";
@@ -112,8 +120,50 @@ describe("legislatures: saved state seating evidence", () => {
         events: world.history.events,
         packs,
         intervals: world.history.districtResidenceIntervals ?? [],
-        resolutions: new Map(),
-        chamberFacts: new Map(),
+        resolutions: new Map(
+          (world.history.districtResidenceIntervals ?? []).map((row) => [
+            row.id,
+            resolveDistrictBinding(districtIdentityCatalog(), row.binding),
+          ]),
+        ),
+        chamberFacts: new Map(
+          [...packs.values()].map((pack) => {
+            const districts = Object.fromEntries(
+              pack.offices.map((office) => {
+                const key = office.officeKey.split(":").at(-1)!,
+                  chamber = gazetteerChamberForOfficeChamberKey(key);
+                return [
+                  key,
+                  chamber
+                    ? listDistrictIdentities(districtIdentityCatalog(), {
+                        stateUsps: pack.jurisdictionKey.slice(3),
+                        chamber,
+                      })
+                    : [],
+                ];
+              }),
+            );
+            return [
+              pack.packId,
+              {
+                districts,
+                memberCounts: Object.fromEntries(
+                  Object.values(districts).flatMap((rows) =>
+                    rows.map((row) => [
+                      row.recordId,
+                      membersInDistrict(
+                        row.stateUsps,
+                        row.chamber,
+                        row.districtCode,
+                      ),
+                    ]),
+                  ),
+                ),
+                atLargeSeats: { "US-PR": { house: 11, senate: 11 } },
+              },
+            ];
+          }),
+        ),
       });
       const raw = evidenceFacts(world);
       for (const relationship of world.history.workRelationships.filter(
@@ -268,10 +318,74 @@ describe("legislatures: saved state seating evidence", () => {
       expect(
         activeLegislativeTermEvidence(evidenceFacts(decided), work.id),
       ).toEqual(nativeActive(decided, work.id));
+      // Authored legacy-save edge: erase only the saved contest binding so
+      // the unchanged term reader must derive the single district from native
+      // residence intervals. This is not a new unbound campaign producer.
+      const residence = establishDistrictResidence(decided, {
+        personId: candidate.member.personId,
+        binding: candidate.districtBinding,
+        startedOn: world.currentDate,
+        provenance: {
+          method: "authored",
+          sourceEventId: null,
+          note: "Explicit legacy-save district membership edge.",
+        },
+      });
+      expect(residence.kind).toBe("recorded");
+      const legacy = {
+        ...residence.world,
+        history: {
+          ...residence.world.history,
+          electionContests: residence.world.history.electionContests!.map(
+            (row) =>
+              row.id !== contest.id
+                ? row
+                : {
+                    ...row,
+                    office: {
+                      ...row.office,
+                      districtBinding: null,
+                      seatKey: null,
+                    },
+                  },
+          ),
+        },
+      };
+      const legacyTerm = nativeTerm(legacy, work.id)!;
+      expect(legacyTerm.seatKey).toBe(candidate.districtBinding.recordId);
+      expect(
+        legislativeTermForRelationship(evidenceFacts(legacy), work.id),
+      ).toEqual(legacyTerm);
+      // Isolate this authored entry edge by canceling unrelated scheduled
+      // work before moving the date; a date jump must not skip active dues.
+      let isolated = decided;
+      for (const item of isolated.history.futureDueItems)
+        if (
+          item.id !== term.entry.id &&
+          item.id !== term.expiry.id &&
+          item.dueAt < term.startsAt &&
+          isolated.history.futureDueItemStates
+            .filter((row) => row.dueItemId === item.id)
+            .at(-1)?.status === "scheduled"
+        )
+          isolated = setFutureDueItemTerminalState(isolated, {
+            stableKey: `rules2:${place}:isolate-entry:${item.id}`,
+            dueItemId: item.id,
+            effectiveAt: isolated.currentDate,
+            status: item.entityIds.includes(contest.id)
+              ? "resolved"
+              : "cancelled",
+            reasonKey: null,
+            context:
+              "Authored isolated entry control records its supplied result and cancels unrelated dues.",
+            outcomeEventId: item.entityIds.includes(contest.id)
+              ? term.result.outcomeEventId
+              : null,
+          });
       const enteredAt = {
-        ...decided,
+        ...isolated,
         currentDate: term.startsAt,
-        currentMoment: { ...decided.currentMoment, date: term.startsAt },
+        currentMoment: { ...isolated.currentMoment, date: term.startsAt },
       };
       const transition = legislativeTermTransitionHandler(
         enteredAt,

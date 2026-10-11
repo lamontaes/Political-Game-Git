@@ -5,9 +5,9 @@
     "name": "mostFrequent",
     "inventoryEngine": "legislatures",
     "keepLines": 18,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/bill-numbering-style.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/bill-numbering-style.ts"],
     "goldenTests": ["src/rules/legislatures/record-style-world.test.ts"]
   },
@@ -17,9 +17,9 @@
     "name": "periodOf",
     "inventoryEngine": "legislatures",
     "keepLines": 54,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/bill-numbering-style.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/bill-numbering-style.ts"],
     "goldenTests": ["src/rules/legislatures/record-style-world.test.ts"]
   },
@@ -29,9 +29,9 @@
     "name": "chamberStart",
     "inventoryEngine": "legislatures",
     "keepLines": 37,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/bill-numbering-style.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/bill-numbering-style.ts"],
     "goldenTests": ["src/rules/legislatures/record-style-world.test.ts"]
   },
@@ -41,11 +41,16 @@
     "name": "constitutionalPosition",
     "inventoryEngine": "legislatures",
     "keepLines": 74,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/constitutional-position.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/constitutional-position.ts"],
-    "goldenTests": ["src/rules/legislatures/constitutional-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/constitutional-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/constitutional-ratification-rules.ts",
@@ -53,9 +58,9 @@
     "name": "fractionParts",
     "inventoryEngine": "legislatures",
     "keepLines": 11,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/ratification.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/ratification.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -65,9 +70,9 @@
     "name": "sourcedBridgeCitations",
     "inventoryEngine": "legislatures",
     "keepLines": 38,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/ratification.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/ratification.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -77,11 +82,11 @@
     "name": "moveActs",
     "inventoryEngine": "legislatures",
     "keepLines": 117,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/council-sittings.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/council-sittings.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/council-sittings-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/favor-collection.ts",
@@ -89,9 +94,9 @@
     "name": "favorNeed",
     "inventoryEngine": "legislatures",
     "keepLines": 29,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/favor-need.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/favor-need.ts"],
     "goldenTests": ["src/rules/legislatures/social-world.test.ts"]
   },
@@ -101,9 +106,9 @@
     "name": "receiverHalfLife",
     "inventoryEngine": "legislatures",
     "keepLines": 15,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/favor-standing.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/favor-standing.ts"],
     "goldenTests": ["src/rules/legislatures/social-world.test.ts"]
   },
@@ -113,9 +118,9 @@
     "name": "lastingSteps",
     "inventoryEngine": "legislatures",
     "keepLines": 8,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/favor-standing.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/favor-standing.ts"],
     "goldenTests": ["src/rules/legislatures/social-world.test.ts"]
   },
@@ -125,9 +130,9 @@
     "name": "toBand",
     "inventoryEngine": "legislatures",
     "keepLines": 6,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/favor-standing.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/favor-standing.ts"],
     "goldenTests": ["src/rules/legislatures/social-world.test.ts"]
   },
@@ -137,9 +142,9 @@
     "name": "directFavorStandingBetween",
     "inventoryEngine": "legislatures",
     "keepLines": 50,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/favor-standing.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/favor-standing.ts"],
     "goldenTests": ["src/rules/legislatures/social-world.test.ts"]
   },
@@ -149,9 +154,9 @@
     "name": "favorStandingBetween",
     "inventoryEngine": "legislatures",
     "keepLines": 35,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/favor-standing.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/favor-standing.ts"],
     "goldenTests": ["src/rules/legislatures/social-world.test.ts"]
   },
@@ -161,9 +166,9 @@
     "name": "candidateParts",
     "inventoryEngine": "legislatures",
     "keepLines": 41,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/amendment-plans.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/amendment-plans.ts"],
     "goldenTests": ["src/rules/legislatures/amendment-world.test.ts"]
   },
@@ -173,9 +178,9 @@
     "name": "planFloorAmendment",
     "inventoryEngine": "legislatures",
     "keepLines": 164,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/amendment-plans.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/amendment-plans.ts"],
     "goldenTests": ["src/rules/legislatures/amendment-world.test.ts"]
   },
@@ -185,9 +190,9 @@
     "name": "chooseMotive",
     "inventoryEngine": "legislatures",
     "keepLines": 28,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/amendment-plans.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/amendment-plans.ts"],
     "goldenTests": ["src/rules/legislatures/amendment-world.test.ts"]
   },
@@ -207,9 +212,9 @@
     "name": "offerPlannedAmendment",
     "inventoryEngine": "legislatures",
     "keepLines": 105,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/amendment-offers.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/amendment-offers.ts"],
     "goldenTests": ["src/rules/legislatures/amendment-world.test.ts"]
   },
@@ -219,11 +224,11 @@
     "name": "mostLeanYes",
     "inventoryEngine": "legislatures",
     "keepLines": 13,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/article-v-leaning.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/article-v-leaning.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/congress-route-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/governing/article-v.ts",
@@ -231,11 +236,11 @@
     "name": "mostLeanNo",
     "inventoryEngine": "legislatures",
     "keepLines": 13,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/article-v-leaning.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/article-v-leaning.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/congress-route-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/governing/article-v.ts",
@@ -243,11 +248,11 @@
     "name": "leanShare",
     "inventoryEngine": "legislatures",
     "keepLines": 15,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/article-v-leaning.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/article-v-leaning.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/congress-route-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/governing/article-v.ts",
@@ -255,11 +260,11 @@
     "name": "memberBallot",
     "inventoryEngine": "legislatures",
     "keepLines": 6,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/article-v-leaning.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/article-v-leaning.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/congress-route-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/governing/article-v.ts",
@@ -267,9 +272,9 @@
     "name": "congressRoute",
     "inventoryEngine": "legislatures",
     "keepLines": 62,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/congress-route.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/congress-route.ts"],
     "goldenTests": ["src/rules/legislatures/congress-route-world.test.ts"]
   },
@@ -279,9 +284,9 @@
     "name": "selectSortedSponsorReference",
     "inventoryEngine": "legislatures",
     "keepLines": 11,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/automatic-laws.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/automatic-laws.ts"],
     "goldenTests": ["src/rules/legislatures/automatic-world.test.ts"]
   },
@@ -291,9 +296,9 @@
     "name": "sponsorRequestedLawTerm",
     "inventoryEngine": "legislatures",
     "keepLines": 142,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/automatic-laws.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/automatic-laws.ts"],
     "goldenTests": ["src/rules/legislatures/automatic-world.test.ts"]
   },
@@ -303,9 +308,9 @@
     "name": "compileAutomaticLawDraft",
     "inventoryEngine": "legislatures",
     "keepLines": 271,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/automatic-laws.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/automatic-laws.ts"],
     "goldenTests": ["src/rules/legislatures/automatic-world.test.ts"]
   },
@@ -315,11 +320,15 @@
     "name": "amendmentAdmissible",
     "inventoryEngine": "legislatures",
     "keepLines": 59,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/amendment-rules.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/amendment-rules.ts"],
-    "goldenTests": ["src/rules/legislatures/admission-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/governing/chamber-votes.ts",
@@ -327,11 +336,22 @@
     "name": "nominationVoteContext",
     "inventoryEngine": "legislatures",
     "keepLines": 279,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/nomination-context.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/nomination-context.ts"],
-    "goldenTests": ["src/rules/legislatures/chamber-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/chamber-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/governing/chamber-votes.ts",
@@ -339,14 +359,21 @@
     "name": "decideChamberVote",
     "inventoryEngine": "legislatures",
     "keepLines": 187,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/chamber-vote.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/chamber-vote.ts"],
     "goldenTests": [
       "src/rules/legislatures/amendment-world.test.ts",
       "src/rules/legislatures/chamber-world.test.ts",
-      "src/rules/legislatures/procedure-world.test.ts"
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
     ]
   },
   {
@@ -355,11 +382,11 @@
     "name": "weighRecordedPolicyBeliefs",
     "inventoryEngine": "legislatures",
     "keepLines": 50,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/belief-weights.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/belief-weights.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/actor-consumers-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/governing/chamber-votes.ts",
@@ -367,14 +394,21 @@
     "name": "trustedColleagueCues",
     "inventoryEngine": "legislatures",
     "keepLines": 25,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/chamber-vote.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/chamber-vote.ts"],
     "goldenTests": [
       "src/rules/legislatures/amendment-world.test.ts",
       "src/rules/legislatures/chamber-world.test.ts",
-      "src/rules/legislatures/procedure-world.test.ts"
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
     ]
   },
   {
@@ -383,11 +417,16 @@
     "name": "committeeRosters",
     "inventoryEngine": "legislatures",
     "keepLines": 31,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/committees.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/committees.ts"],
-    "goldenTests": ["src/rules/legislatures/procedure.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/procedure.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/governing/committee-assignment.ts",
@@ -395,11 +434,16 @@
     "name": "seatingOrder",
     "inventoryEngine": "legislatures",
     "keepLines": 25,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/committees.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/committees.ts"],
-    "goldenTests": ["src/rules/legislatures/procedure.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/procedure.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/governing/congress-chambers.ts",
@@ -407,9 +451,9 @@
     "name": "seatCongressChamber",
     "inventoryEngine": "legislatures",
     "keepLines": 38,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/congress-seating.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/congress-seating.ts"],
     "goldenTests": ["src/rules/legislatures/record-style-world.test.ts"]
   },
@@ -419,11 +463,14 @@
     "name": "presidentDesk",
     "inventoryEngine": "legislatures",
     "keepLines": 44,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/executive-desks.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/executive-desks.ts"],
-    "goldenTests": ["src/rules/legislatures/council-protocol-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/governing/congress-lawmaking.ts",
@@ -431,11 +478,11 @@
     "name": "nextIntakeDate",
     "inventoryEngine": "legislatures",
     "keepLines": 17,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/procedure-calendar.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/procedure-calendar.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/helper-callers-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/governing/council-lawmaking.ts",
@@ -443,11 +490,15 @@
     "name": "decideCouncilVote",
     "inventoryEngine": "legislatures",
     "keepLines": 56,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/council-decision.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/council-decision.ts"],
-    "goldenTests": []
+    "goldenTests": [
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/governing/governing-calendar.ts",
@@ -455,9 +506,9 @@
     "name": "recordedStateBillDate",
     "inventoryEngine": "legislatures",
     "keepLines": 41,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/governing-calendar.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/governing-calendar.ts"],
     "goldenTests": ["src/rules/legislatures/procedure-world.test.ts"]
   },
@@ -467,9 +518,9 @@
     "name": "overrideCount",
     "inventoryEngine": "legislatures",
     "keepLines": 83,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/override-count.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/override-count.ts"],
     "goldenTests": ["src/rules/legislatures/procedure.test.ts"]
   },
@@ -479,9 +530,9 @@
     "name": "executiveBillActionWindow",
     "inventoryEngine": "legislatures",
     "keepLines": 56,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/executive-window.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/executive-window.ts"],
     "goldenTests": ["src/rules/legislatures/procedure.test.ts"]
   },
@@ -491,11 +542,14 @@
     "name": "seatedStateLegislators",
     "inventoryEngine": "legislatures",
     "keepLines": 9,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/seated-officeholders.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/seated-officeholders.ts"],
-    "goldenTests": []
+    "goldenTests": [
+      "src/rules/legislatures/actor-consumers-world.test.ts",
+      "src/rules/legislatures/helper-callers-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/governing/joint-assembly.ts",
@@ -503,9 +557,9 @@
     "name": "jointAssemblyCandidates",
     "inventoryEngine": "legislatures",
     "keepLines": 33,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/agenda.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/agenda.ts"],
     "goldenTests": ["src/rules/legislatures/remaining-rules.test.ts"]
   },
@@ -515,9 +569,9 @@
     "name": "strongestReason",
     "inventoryEngine": "legislatures",
     "keepLines": 12,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/ballots.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/ballots.ts"],
     "goldenTests": ["src/rules/legislatures/ballots-world.test.ts"]
   },
@@ -527,11 +581,22 @@
     "name": "seatedLeaders",
     "inventoryEngine": "legislatures",
     "keepLines": 34,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/chamber-seating.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/chamber-seating.ts"],
-    "goldenTests": ["src/rules/legislatures/admission-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/governing/legislative-clock.ts",
@@ -539,11 +604,21 @@
     "name": "sessionStatus",
     "inventoryEngine": "legislatures",
     "keepLines": 15,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/session-status.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/session-status.ts"],
-    "goldenTests": ["src/rules/legislatures/procedure-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/governing/legislative-clock.ts",
@@ -551,14 +626,25 @@
     "name": "maxIsoDate",
     "inventoryEngine": "legislatures",
     "keepLines": 3,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/institution-context.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": [
       "src/rules/legislatures/institution-context.ts",
       "src/rules/legislatures/procedure-calendar.ts"
     ],
-    "goldenTests": ["src/rules/legislatures/procedure-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/helper-callers-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/governing/legislative-clock.ts",
@@ -566,11 +652,21 @@
     "name": "decide",
     "inventoryEngine": "legislatures",
     "keepLines": 41,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/institution-context.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/institution-context.ts"],
-    "goldenTests": ["src/rules/legislatures/procedure-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/governing/legislative-clock.ts",
@@ -578,11 +674,14 @@
     "name": "applyInstitutionStep",
     "inventoryEngine": "legislatures",
     "keepLines": 556,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/institution-driver.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/institution-driver.ts"],
-    "goldenTests": ["src/rules/legislatures/procedure-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/governing/legislative-clock.ts",
@@ -590,9 +689,9 @@
     "name": "noticeMemberVote",
     "inventoryEngine": "legislatures",
     "keepLines": 86,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/member-notices.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/member-notices.ts"],
     "goldenTests": [
       "src/rules/legislatures/notices-world.test.ts",
@@ -605,9 +704,9 @@
     "name": "agendaCaucus",
     "inventoryEngine": "legislatures",
     "keepLines": 16,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/agenda.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/agenda.ts"],
     "goldenTests": ["src/rules/legislatures/remaining-rules.test.ts"]
   },
@@ -617,9 +716,9 @@
     "name": "majorityAgendaChoice",
     "inventoryEngine": "legislatures",
     "keepLines": 34,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/agenda.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/agenda.ts"],
     "goldenTests": ["src/rules/legislatures/remaining-rules.test.ts"]
   },
@@ -629,9 +728,9 @@
     "name": "positionBillAnswer",
     "inventoryEngine": "legislatures",
     "keepLines": 9,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/agenda.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/agenda.ts"],
     "goldenTests": ["src/rules/legislatures/remaining-rules.test.ts"]
   },
@@ -651,9 +750,9 @@
     "name": "rowCondition",
     "inventoryEngine": "legislatures",
     "keepLines": 21,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/member-filing-caps.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/member-filing-caps.ts"],
     "goldenTests": ["src/rules/legislatures/research-native.test.ts"]
   },
@@ -663,9 +762,9 @@
     "name": "memberFilingCap",
     "inventoryEngine": "legislatures",
     "keepLines": 124,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/member-filing-caps.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/member-filing-caps.ts"],
     "goldenTests": ["src/rules/legislatures/research-native.test.ts"]
   },
@@ -675,9 +774,9 @@
     "name": "stateMemberSeatingEvidence",
     "inventoryEngine": "legislatures",
     "keepLines": 95,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/seating-evidence.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/seating-evidence.ts"],
     "goldenTests": ["src/rules/legislatures/seating-world.test.ts"]
   },
@@ -687,9 +786,9 @@
     "name": "electPresidingOfficer",
     "inventoryEngine": "legislatures",
     "keepLines": 73,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/presiding-officers.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/presiding-officers.ts"],
     "goldenTests": ["src/rules/legislatures/ballots-world.test.ts"]
   },
@@ -699,11 +798,21 @@
     "name": "sessionLegalLimit",
     "inventoryEngine": "legislatures",
     "keepLines": 18,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/session-closure.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/session-closure.ts"],
-    "goldenTests": ["src/rules/legislatures/procedure-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/governing/standing-considerations.ts",
@@ -711,11 +820,14 @@
     "name": "strongerBand",
     "inventoryEngine": "legislatures",
     "keepLines": 4,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/relationship-reasons.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/relationship-reasons.ts"],
-    "goldenTests": []
+    "goldenTests": [
+      "src/rules/legislatures/ballots-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/governing/statehood-admission.ts",
@@ -723,9 +835,9 @@
     "name": "statehoodAdmittedOn",
     "inventoryEngine": "legislatures",
     "keepLines": 9,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/statehood-date.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/statehood-date.ts"],
     "goldenTests": ["src/rules/legislatures/record-style-world.test.ts"]
   },
@@ -735,9 +847,9 @@
     "name": "heardViewsHeldBy",
     "inventoryEngine": "legislatures",
     "keepLines": 19,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/heard-views.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/heard-views.ts"],
     "goldenTests": ["src/rules/legislatures/records-world.test.ts"]
   },
@@ -747,9 +859,9 @@
     "name": "formatMinorUnits",
     "inventoryEngine": "legislatures",
     "keepLines": 18,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/money-display.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/money-display.ts"],
     "goldenTests": ["src/rules/legislatures/admission-world.test.ts"]
   },
@@ -759,9 +871,9 @@
     "name": "resolveTiming",
     "inventoryEngine": "legislatures",
     "keepLines": 24,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/program-timing.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/program-timing.ts"],
     "goldenTests": ["src/rules/legislatures/timing-native.test.ts"]
   },
@@ -771,9 +883,9 @@
     "name": "stateContext",
     "inventoryEngine": "legislatures",
     "keepLines": 33,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/scenario-moment.ts",
-    "reason": "Fixed initial clock arithmetic is present in scenario-moment.ts. Residual constructor assigns jurisdiction/provenance metadata and English fixture labels. Public exported native scenario contexts are the golden owner.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/scenario-moment.ts"],
     "goldenTests": ["src/rules/legislatures/admission-world.test.ts"]
   },
@@ -783,11 +895,22 @@
     "name": "seatChamber",
     "inventoryEngine": "legislatures",
     "keepLines": 24,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/chamber-seating.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/chamber-seating.ts"],
-    "goldenTests": ["src/rules/legislatures/admission-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/legislation-scenarios.ts",
@@ -795,11 +918,22 @@
     "name": "dispositionsFromCounts",
     "inventoryEngine": "legislatures",
     "keepLines": 38,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/vote-dispositions.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/vote-dispositions.ts"],
-    "goldenTests": ["src/rules/legislatures/remaining-rules.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts",
+      "src/rules/legislatures/remaining-rules.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/legislation-scenarios.ts",
@@ -807,11 +941,21 @@
     "name": "authoredScenarioSeatCount",
     "inventoryEngine": "legislatures",
     "keepLines": 18,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/authored-seats.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/authored-seats.ts"],
-    "goldenTests": []
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/legislation.ts",
@@ -819,11 +963,21 @@
     "name": "applyRecordedAction",
     "inventoryEngine": "legislatures",
     "keepLines": 460,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/measure-replay.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/measure-replay.ts"],
-    "goldenTests": ["src/rules/legislatures/procedure-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/legislation.ts",
@@ -831,11 +985,21 @@
     "name": "availableMeasureSteps",
     "inventoryEngine": "legislatures",
     "keepLines": 88,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/measure-replay.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/measure-replay.ts"],
-    "goldenTests": ["src/rules/legislatures/procedure-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/legislation.ts",
@@ -843,17 +1007,18 @@
     "name": "electedMembersFor",
     "inventoryEngine": "legislatures",
     "keepLines": 20,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/elected-members.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": [
       "src/rules/legislatures/elected-members.ts",
       "src/rules/legislatures/floor-vote-admission.ts"
     ],
     "goldenTests": [
-      "src/rules/legislatures/remaining-rules.test.ts",
       "src/rules/legislatures/council-protocol-world.test.ts",
-      "src/rules/legislatures/procedure-world.test.ts"
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/remaining-rules.test.ts"
     ]
   },
   {
@@ -862,9 +1027,9 @@
     "name": "legislationEntityAvailableAt",
     "inventoryEngine": "legislatures",
     "keepLines": 27,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/record-availability.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/record-availability.ts"],
     "goldenTests": ["src/rules/legislatures/procedure-world.test.ts"]
   },
@@ -874,11 +1039,11 @@
     "name": "deriveMemberDisposition",
     "inventoryEngine": "legislatures",
     "keepLines": 51,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/member-disposition.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/member-disposition.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/actor-consumers-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/legislative-office-terms.ts",
@@ -886,11 +1051,11 @@
     "name": "legacyUnboundDistrictSeat",
     "inventoryEngine": "legislatures",
     "keepLines": 50,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/unbound-district.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/unbound-district.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/seating-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/legislative-procedure-world.ts",
@@ -898,11 +1063,21 @@
     "name": "regularSessionYearForWorld",
     "inventoryEngine": "legislatures",
     "keepLines": 9,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/session-rules.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/session-rules.ts"],
-    "goldenTests": ["src/rules/legislatures/procedure-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/legislative-procedure-world.ts",
@@ -910,11 +1085,22 @@
     "name": "regularSessionDateStatus",
     "inventoryEngine": "legislatures",
     "keepLines": 35,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/procedure-steps.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/procedure-steps.ts"],
-    "goldenTests": ["src/rules/legislatures/remaining-rules.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts",
+      "src/rules/legislatures/remaining-rules.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/legislative-session-calendar.ts",
@@ -922,11 +1108,22 @@
     "name": "nextSessionCalendarDate",
     "inventoryEngine": "legislatures",
     "keepLines": 64,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/sitting-calendar.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/sitting-calendar.ts"],
-    "goldenTests": ["src/rules/legislatures/procedure.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/procedure.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/legislative-starting-procedures.ts",
@@ -934,11 +1131,11 @@
     "name": "medianReadCutoff",
     "inventoryEngine": "legislatures",
     "keepLines": 12,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/session-cutoff.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/session-cutoff.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/helper-callers-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/legislature-game-profile.ts",
@@ -946,9 +1143,9 @@
     "name": "middleOf",
     "inventoryEngine": "legislatures",
     "keepLines": 3,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/profile.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/profile.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -958,9 +1155,9 @@
     "name": "vetoWindowDayBasisFor",
     "inventoryEngine": "legislatures",
     "keepLines": 32,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/profile.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/profile.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -970,9 +1167,9 @@
     "name": "mostCommon",
     "inventoryEngine": "legislatures",
     "keepLines": 7,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/profile.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/profile.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -982,9 +1179,9 @@
     "name": "mostCommonReadOverride",
     "inventoryEngine": "legislatures",
     "keepLines": 15,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/profile.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/profile.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -994,9 +1191,9 @@
     "name": "fractionValue",
     "inventoryEngine": "legislatures",
     "keepLines": 4,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/profile.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/profile.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -1006,9 +1203,9 @@
     "name": "ascendingDistinct",
     "inventoryEngine": "legislatures",
     "keepLines": 3,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/profile.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/profile.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -1018,9 +1215,9 @@
     "name": "researchedChamberSpread",
     "inventoryEngine": "legislatures",
     "keepLines": 23,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/profile.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/profile.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -1030,9 +1227,9 @@
     "name": "researchedExecutiveSpread",
     "inventoryEngine": "legislatures",
     "keepLines": 41,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/profile.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/profile.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -1042,9 +1239,9 @@
     "name": "buildLegislatureProfile",
     "inventoryEngine": "legislatures",
     "keepLines": 76,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/profile.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/profile.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -1054,9 +1251,9 @@
     "name": "committeeSize",
     "inventoryEngine": "legislatures",
     "keepLines": 3,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/profile.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/profile.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -1066,9 +1263,9 @@
     "name": "seatsForChamber",
     "inventoryEngine": "legislatures",
     "keepLines": 64,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/profile.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/profile.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -1078,9 +1275,9 @@
     "name": "overrideThresholdFor",
     "inventoryEngine": "legislatures",
     "keepLines": 88,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/profile.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/profile.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -1090,9 +1287,9 @@
     "name": "bargainingMannerFromRecord",
     "inventoryEngine": "legislatures",
     "keepLines": 42,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/bargaining-manner.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/bargaining-manner.ts"],
     "goldenTests": ["src/rules/legislatures/records-world.test.ts"]
   },
@@ -1102,11 +1299,19 @@
     "name": "resolveRequiredVotes",
     "inventoryEngine": "legislatures",
     "keepLines": 26,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/votes.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/votes.ts"],
-    "goldenTests": ["src/rules/legislatures/procedure.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/council-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/procedure.test.ts",
+      "src/rules/legislatures/record-style-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/legislature-rules.ts",
@@ -1114,11 +1319,22 @@
     "name": "nextChamberKey",
     "inventoryEngine": "legislatures",
     "keepLines": 14,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/procedure-steps.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/procedure-steps.ts"],
-    "goldenTests": ["src/rules/legislatures/remaining-rules.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts",
+      "src/rules/legislatures/remaining-rules.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/legislature-rules.ts",
@@ -1126,11 +1342,22 @@
     "name": "nextFloorStageKey",
     "inventoryEngine": "legislatures",
     "keepLines": 14,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/procedure-steps.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/procedure-steps.ts"],
-    "goldenTests": ["src/rules/legislatures/remaining-rules.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/notices-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts",
+      "src/rules/legislatures/remaining-rules.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/living-world/congress-aggregate-outcome.ts",
@@ -1138,9 +1365,9 @@
     "name": "aggregateCongressAffiliation",
     "inventoryEngine": "legislatures",
     "keepLines": 25,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/congress-affiliation.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/congress-affiliation.ts"],
     "goldenTests": ["src/rules/legislatures/record-style-world.test.ts"]
   },
@@ -1150,9 +1377,9 @@
     "name": "totalsFor",
     "inventoryEngine": "legislatures",
     "keepLines": 42,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/congress-totals.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/congress-totals.ts"],
     "goldenTests": ["src/rules/legislatures/ballots-world.test.ts"]
   },
@@ -1162,9 +1389,9 @@
     "name": "lowestCap",
     "inventoryEngine": "legislatures",
     "keepLines": 6,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/governor-reform.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/governor-reform.ts"],
     "goldenTests": ["src/rules/legislatures/reform-world.test.ts"]
   },
@@ -1174,9 +1401,9 @@
     "name": "reformCause",
     "inventoryEngine": "legislatures",
     "keepLines": 61,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/governor-reform.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/governor-reform.ts"],
     "goldenTests": ["src/rules/legislatures/reform-world.test.ts"]
   },
@@ -1186,11 +1413,11 @@
     "name": "principlesAmendment",
     "inventoryEngine": "legislatures",
     "keepLines": 55,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/reform-ballots.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/reform-ballots.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/reform-ballot-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/constitutional-reform.ts",
@@ -1198,11 +1425,14 @@
     "name": "nextGeneralElectionDay",
     "inventoryEngine": "legislatures",
     "keepLines": 10,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/review-calendar.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/review-calendar.ts"],
-    "goldenTests": ["src/rules/legislatures/remaining-rules.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/remaining-rules.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/living-world/constitutional-reform.ts",
@@ -1210,11 +1440,11 @@
     "name": "constitutionalReformBallotHandler",
     "inventoryEngine": "legislatures",
     "keepLines": 68,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/reform-ballots.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/reform-ballots.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/reform-ballot-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/federal-reform.ts",
@@ -1222,9 +1452,9 @@
     "name": "yearsLater",
     "inventoryEngine": "legislatures",
     "keepLines": 6,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/congress-route.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": [
       "src/rules/legislatures/congress-route.ts",
       "src/rules/legislatures/president-reform.ts"
@@ -1240,9 +1470,9 @@
     "name": "nextTermStart",
     "inventoryEngine": "legislatures",
     "keepLines": 5,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/president-reform.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/president-reform.ts"],
     "goldenTests": ["src/rules/legislatures/reform-world.test.ts"]
   },
@@ -1252,9 +1482,9 @@
     "name": "federalReformCause",
     "inventoryEngine": "legislatures",
     "keepLines": 49,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/president-reform.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/president-reform.ts"],
     "goldenTests": ["src/rules/legislatures/reform-world.test.ts"]
   },
@@ -1264,11 +1494,11 @@
     "name": "termLimitCount",
     "inventoryEngine": "legislatures",
     "keepLines": 59,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/term-limit-votes.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/term-limit-votes.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/reform-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/local-council-meetings.ts",
@@ -1276,9 +1506,9 @@
     "name": "playCouncilItems",
     "inventoryEngine": "legislatures",
     "keepLines": 11,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/council-items.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/council-items.ts"],
     "goldenTests": ["src/rules/legislatures/remaining-rules.test.ts"]
   },
@@ -1288,11 +1518,11 @@
     "name": "moveOrdinances",
     "inventoryEngine": "legislatures",
     "keepLines": 44,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/council-sittings.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/council-sittings.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/council-sittings-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/local-council-meetings.ts",
@@ -1300,11 +1530,11 @@
     "name": "seatedCouncil",
     "inventoryEngine": "legislatures",
     "keepLines": 33,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/council-sittings.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/council-sittings.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/council-sittings-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/official-views.ts",
@@ -1312,12 +1542,13 @@
     "name": "officialActsInEvent",
     "inventoryEngine": "legislatures",
     "keepLines": 69,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/official-factors.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/official-factors.ts"],
     "goldenTests": [
       "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/official-acts-world.test.ts",
       "src/rules/legislatures/reflection-world.test.ts"
     ]
   },
@@ -1327,12 +1558,13 @@
     "name": "outcomeFactor",
     "inventoryEngine": "legislatures",
     "keepLines": 66,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/official-factors.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/official-factors.ts"],
     "goldenTests": [
       "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/official-acts-world.test.ts",
       "src/rules/legislatures/reflection-world.test.ts"
     ]
   },
@@ -1342,12 +1574,13 @@
     "name": "lawFactor",
     "inventoryEngine": "legislatures",
     "keepLines": 72,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/official-factors.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/official-factors.ts"],
     "goldenTests": [
       "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/official-acts-world.test.ts",
       "src/rules/legislatures/reflection-world.test.ts"
     ]
   },
@@ -1357,12 +1590,13 @@
     "name": "salienceFor",
     "inventoryEngine": "legislatures",
     "keepLines": 18,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/official-factors.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/official-factors.ts"],
     "goldenTests": [
       "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/official-acts-world.test.ts",
       "src/rules/legislatures/reflection-world.test.ts"
     ]
   },
@@ -1372,12 +1606,13 @@
     "name": "legacyFactor",
     "inventoryEngine": "legislatures",
     "keepLines": 21,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/official-factors.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/official-factors.ts"],
     "goldenTests": [
       "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/official-acts-world.test.ts",
       "src/rules/legislatures/reflection-world.test.ts"
     ]
   },
@@ -1387,12 +1622,13 @@
     "name": "feltFromShare",
     "inventoryEngine": "legislatures",
     "keepLines": 7,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/official-factors.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/official-factors.ts"],
     "goldenTests": [
       "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/official-acts-world.test.ts",
       "src/rules/legislatures/reflection-world.test.ts"
     ]
   },
@@ -1402,9 +1638,9 @@
     "name": "buildFloorStages",
     "inventoryEngine": "governing",
     "keepLines": 73,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/municipal-stages.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/municipal-stages.ts"],
     "goldenTests": ["src/rules/legislatures/research-native.test.ts"]
   },
@@ -1414,11 +1650,11 @@
     "name": "decideOrdinaryCouncilReading",
     "inventoryEngine": "legislatures",
     "keepLines": 37,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/ordinary-council.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/ordinary-council.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/council-protocol-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/municipal-ordinance-procedure.ts",
@@ -1426,13 +1662,17 @@
     "name": "checkCouncilVote",
     "inventoryEngine": "legislatures",
     "keepLines": 63,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/council-vote.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/council-vote.ts"],
     "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
       "src/rules/legislatures/council-protocol-world.test.ts",
-      "src/rules/legislatures/council-world.test.ts"
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/council-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/record-style-world.test.ts"
     ]
   },
   {
@@ -1441,11 +1681,14 @@
     "name": "addWeekdays",
     "inventoryEngine": "legislatures",
     "keepLines": 9,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/review-calendar.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/review-calendar.ts"],
-    "goldenTests": ["src/rules/legislatures/remaining-rules.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/remaining-rules.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/municipal-ordinance-procedure.ts",
@@ -1453,11 +1696,14 @@
     "name": "congressionalReviewEffectiveOn",
     "inventoryEngine": "legislatures",
     "keepLines": 11,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/review-calendar.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/review-calendar.ts"],
-    "goldenTests": ["src/rules/legislatures/remaining-rules.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/reform-ballot-world.test.ts",
+      "src/rules/legislatures/remaining-rules.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/municipal-ordinance-procedure.ts",
@@ -1465,11 +1711,14 @@
     "name": "actOnCouncilMeasure",
     "inventoryEngine": "legislatures",
     "keepLines": 50,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/executive-desks.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/executive-desks.ts"],
-    "goldenTests": ["src/rules/legislatures/council-protocol-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/president-desk-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/municipal-public-work.ts",
@@ -1477,13 +1726,17 @@
     "name": "evaluateMunicipalManagerElection",
     "inventoryEngine": "governing",
     "keepLines": 135,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/council-vote.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/council-vote.ts"],
     "goldenTests": [
+      "src/rules/legislatures/amendment-world.test.ts",
       "src/rules/legislatures/council-protocol-world.test.ts",
-      "src/rules/legislatures/council-world.test.ts"
+      "src/rules/legislatures/council-sittings-world.test.ts",
+      "src/rules/legislatures/council-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts",
+      "src/rules/legislatures/record-style-world.test.ts"
     ]
   },
   {
@@ -1492,9 +1745,9 @@
     "name": "stateSeats",
     "inventoryEngine": "legislatures",
     "keepLines": 13,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/county-body-size.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/county-body-size.ts"],
     "goldenTests": ["src/rules/legislatures/research-native.test.ts"]
   },
@@ -1504,9 +1757,9 @@
     "name": "municipioRules",
     "inventoryEngine": "legislatures",
     "keepLines": 31,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/county-body-size.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/county-body-size.ts"],
     "goldenTests": ["src/rules/legislatures/research-native.test.ts"]
   },
@@ -1526,9 +1779,9 @@
     "name": "localGoverningBodySeatKindFromComposition",
     "inventoryEngine": "legislatures",
     "keepLines": 19,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/council-items.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/council-items.ts"],
     "goldenTests": ["src/rules/legislatures/remaining-rules.test.ts"]
   },
@@ -1538,9 +1791,9 @@
     "name": "modalShare",
     "inventoryEngine": "legislatures",
     "keepLines": 12,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/council-items.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/council-items.ts"],
     "goldenTests": ["src/rules/legislatures/remaining-rules.test.ts"]
   },
@@ -1550,9 +1803,9 @@
     "name": "typicalShares",
     "inventoryEngine": "legislatures",
     "keepLines": 22,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/council-spread.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/council-spread.ts"],
     "goldenTests": ["src/rules/legislatures/record-style-world.test.ts"]
   },
@@ -1562,9 +1815,9 @@
     "name": "localGoverningBodyReadSpread",
     "inventoryEngine": "legislatures",
     "keepLines": 10,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/council-spread.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/council-spread.ts"],
     "goldenTests": ["src/rules/legislatures/record-style-world.test.ts"]
   },
@@ -1574,9 +1827,9 @@
     "name": "standingOn",
     "inventoryEngine": "legislatures",
     "keepLines": 35,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/official-standing.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/official-standing.ts"],
     "goldenTests": ["src/rules/legislatures/social-world.test.ts"]
   },
@@ -1586,9 +1839,9 @@
     "name": "strongestOfficialStanding",
     "inventoryEngine": "legislatures",
     "keepLines": 33,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/official-standing.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/official-standing.ts"],
     "goldenTests": ["src/rules/legislatures/social-world.test.ts"]
   },
@@ -1598,9 +1851,9 @@
     "name": "townSupportFromViews",
     "inventoryEngine": "legislatures",
     "keepLines": 39,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/official-standing.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/official-standing.ts"],
     "goldenTests": ["src/rules/legislatures/social-world.test.ts"]
   },
@@ -1610,9 +1863,9 @@
     "name": "scoreOf",
     "inventoryEngine": "legislatures",
     "keepLines": 10,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/appointments.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/appointments.ts"],
     "goldenTests": ["src/rules/legislatures/social-world.test.ts"]
   },
@@ -1622,9 +1875,9 @@
     "name": "shaped",
     "inventoryEngine": "legislatures",
     "keepLines": 8,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/appointments.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/appointments.ts"],
     "goldenTests": ["src/rules/legislatures/social-world.test.ts"]
   },
@@ -1634,9 +1887,9 @@
     "name": "considerationsFor",
     "inventoryEngine": "legislatures",
     "keepLines": 192,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/appointments.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/appointments.ts"],
     "goldenTests": ["src/rules/legislatures/social-world.test.ts"]
   },
@@ -1646,9 +1899,9 @@
     "name": "appointmentMotive",
     "inventoryEngine": "legislatures",
     "keepLines": 19,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/appointments.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/appointments.ts"],
     "goldenTests": ["src/rules/legislatures/social-world.test.ts"]
   },
@@ -1658,9 +1911,9 @@
     "name": "wasPersonalAppointment",
     "inventoryEngine": "legislatures",
     "keepLines": 15,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/appointments.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/appointments.ts"],
     "goldenTests": ["src/rules/legislatures/social-world.test.ts"]
   },
@@ -1670,11 +1923,14 @@
     "name": "federalColleaguesOf",
     "inventoryEngine": "legislatures",
     "keepLines": 12,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/seated-officeholders.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/seated-officeholders.ts"],
-    "goldenTests": []
+    "goldenTests": [
+      "src/rules/legislatures/actor-consumers-world.test.ts",
+      "src/rules/legislatures/helper-callers-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/relationship-leverage.ts",
@@ -1682,11 +1938,11 @@
     "name": "relationshipLeverage",
     "inventoryEngine": "legislatures",
     "keepLines": 13,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/relationship-leverage.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/relationship-leverage.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/helper-callers-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/roll-call-packing.ts",
@@ -1694,9 +1950,9 @@
     "name": "unpackVote",
     "inventoryEngine": "legislatures",
     "keepLines": 49,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/roll-call-decoding.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/roll-call-decoding.ts"],
     "goldenTests": ["src/rules/legislatures/records-world.test.ts"]
   },
@@ -1706,9 +1962,9 @@
     "name": "standingCommittee",
     "inventoryEngine": "legislatures",
     "keepLines": 34,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/standing-committee.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/standing-committee.ts"],
     "goldenTests": ["src/rules/legislatures/profile-native.test.ts"]
   },
@@ -1718,9 +1974,9 @@
     "name": "assessLifeUndertaking",
     "inventoryEngine": "legislatures",
     "keepLines": 36,
-    "status": "kernel-present-validation-in-progress",
+    "status": "math-kernel-lifted",
     "lift": "src/rules/legislatures/undertakings.ts",
-    "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
+    "reason": "Physical KEEP rule math and helper/constant closure are present. Same-World or raw-source native public-caller goldens are listed, including transitive owning callers. Writer/preparation requests and upstream actor/compiler/law receipts are explicit. Coverage is bounded to the cases described in those files; this is not exhaustive branch coverage, live core2 integration, or a finisher grade.",
     "kernels": ["src/rules/legislatures/undertakings.ts"],
     "goldenTests": ["src/rules/legislatures/records-world.test.ts"]
   }

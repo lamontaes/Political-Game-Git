@@ -1,3 +1,10 @@
+import { mostLeanYes, mostLeanNo } from "./article-v-leaning";
+import { ARTICLE_V_STATE_KEYS } from "../../simulation/constitutional-process";
+import {
+  stateVoice,
+  CONVENTION_APPLICATION_EVENT,
+  CONVENTION_RESCISSION_EVENT,
+} from "../../simulation/governing/article-v";
 import { describe, expect, it, vi } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { STATES } from "../../simulation/state-reference";
@@ -101,7 +108,80 @@ describe("legislatures: Article V routing through the native review caller", () 
           return at;
         });
       try {
-        articleVReviewHandler(world, world.history.futureDueItems.at(-1)!);
+        const reviewed = articleVReviewHandler(
+          world,
+          world.history.futureDueItems.at(-1)!,
+        ).world;
+        const leaningFacts = {
+          onDate: reviewed.currentDate,
+          policyCatalog: reviewed.policyCatalog,
+          principles: reviewed.history.principles,
+          playerPersonId: null,
+        };
+        for (const state of ARTICLE_V_STATE_KEYS) {
+          const voice = stateVoice(reviewed, state.slice(3));
+          expect(
+            reviewed.history.events.some(
+              (event) =>
+                event.type === CONVENTION_APPLICATION_EVENT &&
+                event.tags.includes(`state:${state}`) &&
+                event.tags.includes(`proposition:${question.id}`),
+            ),
+          ).toBe(mostLeanYes(leaningFacts, voice.personIds, question.id));
+        }
+        // Supersede the same native records with the opposing stance. The
+        // unchanged review caller now reaches private mostLeanNo to rescind.
+        const opposed = recordPrinciples(
+          reviewed,
+          voters.flatMap((voter) =>
+            question.principles!.map((bearing) => ({
+              stableKey: `rules2:${place}:rescind:${voter.personId}:${bearing.principleId}`,
+              personId: voter.personId,
+              principleId: bearing.principleId,
+              formedAt: reviewed.currentDate,
+              stance:
+                bearing.bearing === "consistent-with"
+                  ? ("rejects" as const)
+                  : ("endorses" as const),
+              strength: 1,
+              conviction: "settled" as const,
+              flexibility: "firm" as const,
+              qualification: null,
+              formation: createFormationContext("experience:life", {
+                note: "Authored opposition/rescission edge.",
+              }),
+              supersedesPrincipleRecordId:
+                [...reviewed.history.principles]
+                  .reverse()
+                  .find(
+                    (row) =>
+                      row.personId === voter.personId &&
+                      row.principleId === bearing.principleId,
+                  )?.id ?? null,
+            })),
+          ),
+        );
+        const rescinded = articleVReviewHandler(
+          opposed,
+          world.history.futureDueItems.at(-1)!,
+        ).world;
+        for (const state of ARTICLE_V_STATE_KEYS) {
+          const voice = stateVoice(rescinded, state.slice(3));
+          expect(
+            rescinded.history.events.some(
+              (event) =>
+                event.type === CONVENTION_RESCISSION_EVENT &&
+                event.tags.includes(`state:${state}`) &&
+                event.tags.includes(`proposition:${question.id}`),
+            ),
+          ).toBe(
+            mostLeanNo(
+              { ...leaningFacts, principles: rescinded.history.principles },
+              voice.personIds,
+              question.id,
+            ),
+          );
+        }
         expect(requests.length).toBeGreaterThan(0);
         const request = requests.find((row) =>
           row.input.proposal.stableKey.endsWith(":congress"),
