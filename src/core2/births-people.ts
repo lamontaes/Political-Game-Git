@@ -115,6 +115,7 @@ export function buildNewborn(
     ...(mother.countyId ? { countyId: mother.countyId } : {}),
     householdId: mother.householdId,
     tier: "newborn",
+    discretionaryEligibleV1: false,
     traits,
     sharedTraitSource: {
       ...source,
