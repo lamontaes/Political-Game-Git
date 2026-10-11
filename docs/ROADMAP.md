@@ -28,7 +28,7 @@ Every test runs in a place drawn at random from all 56 (50 states, D.C. and five
 
 ## Who does what
 
-Codex builds; a separate Claude session finishes (Opus for judgment calls, Sonnet for agreed designs); the CTO merges. The owner approves designs and package text before anything is sent. A feature is done only when the finisher has played it in the test bench in a randomly drawn place.
+Codex and the Claude engineering account build (owner, Oct 11: Codex takes broad and data-heavy work; the Claude engineering account takes the critical path and work where mistakes cost most); a separate Claude session finishes every package (Opus for judgment calls, Sonnet for agreed designs); the CTO merges. The owner approves designs and package text before anything is sent. A feature is done only when the finisher has played it in the test bench in a randomly drawn place.
 
 ## Milestones
 
