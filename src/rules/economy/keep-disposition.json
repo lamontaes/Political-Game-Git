@@ -5,9 +5,9 @@
     "name": "clock",
     "inventoryEngine": "economy",
     "keepLines": 9,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/career-eligibility.ts",
+    "reason": "Full retained KEEP public-parent math and required raw resident/worker/role/term/status/cadence or career overlap/accepted-event/clock helpers travel. labor-readings-world.test.ts and career-eligibility-world.test.ts compare complete unchanged Native public owners across all 56 generated Worlds. Actual canonical work/pay/status/macro/offer/acceptance sources and labeled rate controls are distinguished. Dated life frontiers and entry eligibility remain separately owned receipts, with no selected math delegated, private evaluation, copied writer, ordinary NPC employment claim, exhaustive/core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/careers/another-term.ts",
@@ -575,9 +575,9 @@
     "name": "townUnemploymentRate",
     "inventoryEngine": "economy",
     "keepLines": 16,
-    "status": "pending-owned",
-    "lift": "src/rules/economy/town-measures.ts",
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/labor-readings.ts",
+    "reason": "Full retained KEEP public-parent math and required raw resident/worker/role/term/status/cadence or career overlap/accepted-event/clock helpers travel. labor-readings-world.test.ts and career-eligibility-world.test.ts compare complete unchanged Native public owners across all 56 generated Worlds. Actual canonical work/pay/status/macro/offer/acceptance sources and labeled rate controls are distinguished. Dated life frontiers and entry eligibility remain separately owned receipts, with no selected math delegated, private evaluation, copied writer, ordinary NPC employment claim, exhaustive/core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-economy-measures.ts",
@@ -585,9 +585,9 @@
     "name": "townMedianHourlyPay",
     "inventoryEngine": "economy",
     "keepLines": 13,
-    "status": "pending-owned",
-    "lift": "src/rules/economy/town-measures.ts",
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/labor-readings.ts",
+    "reason": "Full retained KEEP public-parent math and required raw resident/worker/role/term/status/cadence or career overlap/accepted-event/clock helpers travel. labor-readings-world.test.ts and career-eligibility-world.test.ts compare complete unchanged Native public owners across all 56 generated Worlds. Actual canonical work/pay/status/macro/offer/acceptance sources and labeled rate controls are distinguished. Dated life frontiers and entry eligibility remain separately owned receipts, with no selected math delegated, private evaluation, copied writer, ordinary NPC employment claim, exhaustive/core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-employment.ts",
@@ -635,9 +635,9 @@
     "name": "laborStatus",
     "inventoryEngine": "economy",
     "keepLines": 19,
-    "status": "pending-owned",
-    "lift": "src/rules/economy/town-measures.ts",
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/labor-readings.ts",
+    "reason": "Full retained KEEP public-parent math and required raw resident/worker/role/term/status/cadence or career overlap/accepted-event/clock helpers travel. labor-readings-world.test.ts and career-eligibility-world.test.ts compare complete unchanged Native public owners across all 56 generated Worlds. Actual canonical work/pay/status/macro/offer/acceptance sources and labeled rate controls are distinguished. Dated life frontiers and entry eligibility remain separately owned receipts, with no selected math delegated, private evaluation, copied writer, ordinary NPC employment claim, exhaustive/core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-employment.ts",
@@ -925,9 +925,9 @@
     "name": "jobsLostBy",
     "inventoryEngine": "economy",
     "keepLines": 16,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/labor-readings.ts",
+    "reason": "Full retained KEEP public-parent math and required raw resident/worker/role/term/status/cadence or career overlap/accepted-event/clock helpers travel. labor-readings-world.test.ts and career-eligibility-world.test.ts compare complete unchanged Native public owners across all 56 generated Worlds. Actual canonical work/pay/status/macro/offer/acceptance sources and labeled rate controls are distinguished. Dated life frontiers and entry eligibility remain separately owned receipts, with no selected math delegated, private evaluation, copied writer, ordinary NPC employment claim, exhaustive/core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-labor-market.ts",
@@ -935,9 +935,9 @@
     "name": "townUnemploymentPressure",
     "inventoryEngine": "economy",
     "keepLines": 22,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/labor-readings.ts",
+    "reason": "Full retained KEEP public-parent math and required raw resident/worker/role/term/status/cadence or career overlap/accepted-event/clock helpers travel. labor-readings-world.test.ts and career-eligibility-world.test.ts compare complete unchanged Native public owners across all 56 generated Worlds. Actual canonical work/pay/status/macro/offer/acceptance sources and labeled rate controls are distinguished. Dated life frontiers and entry eligibility remain separately owned receipts, with no selected math delegated, private evaluation, copied writer, ordinary NPC employment claim, exhaustive/core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-pay.ts",
@@ -1085,9 +1085,9 @@
     "name": "townHourlyPayCents",
     "inventoryEngine": "economy",
     "keepLines": 41,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/labor-readings.ts",
+    "reason": "Full retained KEEP public-parent math and required raw resident/worker/role/term/status/cadence or career overlap/accepted-event/clock helpers travel. labor-readings-world.test.ts and career-eligibility-world.test.ts compare complete unchanged Native public owners across all 56 generated Worlds. Actual canonical work/pay/status/macro/offer/acceptance sources and labeled rate controls are distinguished. Dated life frontiers and entry eligibility remain separately owned receipts, with no selected math delegated, private evaluation, copied writer, ordinary NPC employment claim, exhaustive/core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",

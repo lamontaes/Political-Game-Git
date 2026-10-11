@@ -1138,5 +1138,65 @@
     "whatItFakes": "Native quantitative shortfall, fiscal adjustment and governor explanation text, plus the cannabis levy contract text, is returned verbatim.",
     "why": "Full math and exact output travel until separately owned English realization is wired; wording is not rewritten during a KEEP lift.",
     "replacement": "English-engine realization from portable fiscal/decision/operative-levy facts."
+  },
+  {
+    "id": "economy.labor-resident-age-history-frontier",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/labor-readings.ts",
+    "line": 121,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native town summaries use ages 18 through 66 and all saved death, enrollment, household and partnership rows for resident circumstances.",
+    "why": "Retain the same age window and whole-history frontier, including future/ended-row ambiguity; no current residency or retirement model is inferred.",
+    "replacement": "Dated working-age/residency/household circumstances and an approved age coverage policy."
+  },
+  {
+    "id": "economy.labor-eligibility-label",
+    "kind": "stubbed-behavior",
+    "file": "src/rules/economy/labor-readings.ts",
+    "line": 103,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native employed fallback means eligibility for existing job matching; any active work beats education and primary young-child care.",
+    "why": "Preserve the confusing eligibility label and active-work priority; summaries separately count actual active relationships.",
+    "replacement": "Explicit matching eligibility and recorded employment/looking-for-work/retirement states."
+  },
+  {
+    "id": "economy.labor-pay-history-frontier",
+    "kind": "stubbed-behavior",
+    "file": "src/rules/economy/labor-readings.ts",
+    "line": 226,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native latest role uses append order without an effective-date guard; town pay terms use effective date without a recorded sequence cutoff.",
+    "why": "Source query/role frontier travels unchanged with fixed annual cadence factors; a bounded control is not proof of an ordinary-play future-record defect.",
+    "replacement": "Approved dated compensation/role frontier using canonical life/resource sequence receipts."
+  },
+  {
+    "id": "economy.labor-unemployment-pressure-clamp",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/labor-readings.ts",
+    "line": 360,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native turnover pressure divides unemployment by 4.2 percent, clamps to 0.5 through 3, and uses one for absent/nonfinite/nonpositive readings.",
+    "why": "Keep the authored reference and response bounds rather than recalibrating a rate or selecting an actor.",
+    "replacement": "Validated causal labor-pressure response with sourced reference and explicit spread."
+  },
+  {
+    "id": "economy.career-overlap-clock-English",
+    "kind": "stubbed-behavior",
+    "file": "src/rules/economy/career-eligibility.ts",
+    "line": 49,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native static daily-shift overlap, three supported civilian contexts and twelve-hour clock wording are returned verbatim; touching shifts do not overlap.",
+    "why": "Active or accepted expected work uses its source path/session minutes; same-path work is skipped and no overnight/date-aware adapter is invented.",
+    "replacement": "Typed dated work/calendar overlap and English-engine clock/eligibility realization."
   }
 ]
