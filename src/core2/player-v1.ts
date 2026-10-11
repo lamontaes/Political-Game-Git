@@ -1,3 +1,4 @@
+import { runModuleCalendar } from "./module-calendar";
 /** Process-local controlled clock. Client IDs select saved offers, never amounts or motives. */
 import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import { advanceDate, duePeople } from "./calendar";
@@ -530,6 +531,7 @@ function closeDay(core: CoreState, s: Session, day: Day): void {
   if (day.work.length || day.action)
     throw new Error("Cannot close a day with unfinished controlled acts.");
   try {
+    runModuleCalendar(core, s.api);
     for (const module of core.modules.values()) {
       const decide = (
         actorId: string,

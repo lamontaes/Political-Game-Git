@@ -1,4 +1,11 @@
 import {
+  prepareModuleState,
+  installModuleState,
+  moduleState,
+} from "./module-state";
+import { moduleCalendar } from "./module-calendar";
+import { voterGroups } from "./voter-groups";
+import {
   emptyWorkRuntime,
   admitWorkCommitment,
   settleWorkResult,
@@ -375,6 +382,19 @@ export function createCore(
     }
   }
   for (const module of options.modules ?? []) registerModule(core, module);
+  const restoredModules = new Set<string>();
+  for (const snapshot of input.moduleState ?? []) {
+    if (restoredModules.has(snapshot.moduleId))
+      throw new Error("Duplicate opening module snapshot.");
+    moduleState(core, snapshot.moduleId).restore(snapshot);
+    restoredModules.add(snapshot.moduleId);
+  }
+  const openingGroups = voterGroups(core);
+  for (const row of input.voterGroups ?? []) {
+    if (openingGroups.get(row.id))
+      throw new Error("Duplicate opening voter group.");
+    openingGroups.put(row);
+  }
   assertCoreIntegrity(core);
   nativeFactoryCoreAdd.call(actualCore, core);
   return core;
@@ -435,6 +455,12 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
 
 export function registerModule(core: CoreState, module: CoreModule): void {
   if (!module.id.trim()) throw new Error("Module identity is empty.");
+  const preparedState = prepareModuleState(module);
+  if (
+    module.onCalendarWork !== undefined &&
+    typeof module.onCalendarWork !== "function"
+  )
+    throw new Error("Invalid institutional calendar handler.");
   if (core.modules.has(module.id))
     throw new Error(`Duplicate module: ${module.id}`);
   if (module.onEvent && !module.eventKinds)
@@ -496,6 +522,7 @@ export function registerModule(core: CoreState, module: CoreModule): void {
     );
   registerModuleNotifications(core, module);
   core.modules.set(module.id, module);
+  installModuleState(core, preparedState);
   for (const [name, provider] of Object.entries(module.reasonProviders ?? {}))
     core.reasonProviders.set(name, provider);
 }
@@ -681,6 +708,9 @@ export function coreAPI(core: CoreState): CoreAPI {
   };
   const journalHost = cashJournalHost(core);
   const api: CoreAPI = {
+    moduleState: (moduleId) => moduleState(core, moduleId),
+    moduleCalendar: (moduleId) => moduleCalendar(core, moduleId),
+    voterGroups: () => voterGroups(core),
     version: core.apiVersion,
     state: core,
     parameter: p,

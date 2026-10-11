@@ -1,3 +1,10 @@
+import type {
+  ModuleStateDefinition,
+  ModuleStateStore,
+  ModuleStateSnapshot,
+} from "./module-state";
+import type { ModuleCalendar, ModuleCalendarWork } from "./module-calendar";
+import type { VoterGroup, VoterGroups } from "./voter-groups";
 /** P8 prototype boundary. No game screen or old-core clock imports this API. */
 import type { CashActSelection } from "./act-cash";
 import type {
@@ -612,6 +619,9 @@ export interface WorkData {
 }
 
 export interface CoreInput {
+  /** Explicit exact-version module snapshots; absent tables start empty. */
+  moduleState?: readonly ModuleStateSnapshot[];
+  voterGroups?: readonly VoterGroup[];
   seed: string;
   startedAt: IsoDate;
   people: readonly PersonInput[];
@@ -791,6 +801,9 @@ export interface CoreData {
 
 export interface CoreModule {
   id: string;
+  state?: ModuleStateDefinition;
+  /** Dated institutional work, before day hooks; emits/effects use the canonical API. */
+  onCalendarWork?: (api: CoreAPI, work: Readonly<ModuleCalendarWork>) => void;
   reasonProviders?: Readonly<Record<string, ReasonProvider>>;
   /** Open named kinds resolve actual canonical payment/reclassification records. */
   journalSourceProviders?: Readonly<
@@ -883,6 +896,9 @@ export interface CoreModule {
 
 /** All engine changes enter through this versioned facade. */
 export interface CoreAPI {
+  moduleState(moduleId: string): ModuleStateStore;
+  moduleCalendar(moduleId: string): ModuleCalendar;
+  voterGroups(): VoterGroups;
   version: string;
   readonly state: Readonly<CoreState>;
   parameter(key: string): number;

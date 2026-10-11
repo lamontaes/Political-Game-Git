@@ -1,3 +1,4 @@
+import { runModuleCalendar } from "./module-calendar";
 import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import { advanceDate, duePeople, catchUpPerson } from "./calendar";
 import { affectAt } from "./emotion";
@@ -341,6 +342,7 @@ export function advanceCore(
     const due = duePeople(core, date);
     advanceDate(core, date);
     const api = coreAPI(core);
+    runModuleCalendar(core, api);
     for (const module of core.modules.values()) {
       const committed = module.onDay?.(
         api,
