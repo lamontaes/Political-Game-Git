@@ -22,6 +22,7 @@ const occupation = "occupation:office-clerk";
 
 function wageRowsForAreas(areas: readonly string[]): readonly WageAreaRow[] {
   const soc = TOWN_JOB_SOC[occupation];
+  if (!soc) throw new Error("Fixture occupation has no SOC");
   const entry = TOWN_PAY_PERCENTILES.split(";").find((row) =>
     row.startsWith(`${soc}=`),
   );

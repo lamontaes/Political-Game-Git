@@ -1,3 +1,4 @@
+import { createStableId } from "../../simulation/ids";
 import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { daysInLine as legacyDaysInLine } from "../../simulation/job-market";
@@ -6,7 +7,10 @@ import { makeIsoDate } from "../../simulation/dates";
 import { daysInJobLineFromFacts } from "./job-history-rules";
 
 const date = makeIsoDate("2026-02-01");
-const opening = { title: "Cashier", occupationClassification: "SOC-41" };
+const opening = {
+  title: "Cashier",
+  occupationClassification: "occupation:SOC-41" as const,
+};
 
 describe("job line experience rule", () => {
   it.each(lifePlaceStateIdentities())(
@@ -18,7 +22,12 @@ describe("job line experience rule", () => {
         seed: `job-line-experience:${jurisdictionKey}`,
       });
       expect(daysInJobLineFromFacts([], opening)).toBe(
-        legacyDaysInLine(world, "person:none", opening, date),
+        legacyDaysInLine(
+          world,
+          createStableId("person", "none"),
+          opening,
+          date,
+        ),
       );
     },
   );
@@ -36,7 +45,7 @@ describe("job line experience rule", () => {
           {
             isEmployment: true,
             title: "Sales associate",
-            occupationClassification: "SOC-41",
+            occupationClassification: "occupation:SOC-41",
             workedDays: 50,
           },
           {
@@ -48,13 +57,13 @@ describe("job line experience rule", () => {
           {
             isEmployment: false,
             title: "Cashier",
-            occupationClassification: "SOC-41",
+            occupationClassification: "occupation:SOC-41",
             workedDays: 300,
           },
           {
             isEmployment: true,
             title: "Cashier",
-            occupationClassification: "SOC-41",
+            occupationClassification: "occupation:SOC-41",
             workedDays: -1,
           },
         ],

@@ -7,11 +7,11 @@ import { homePriceLevelsFromFacts } from "./home-price-levels";
 const places = lifePlaceStateIdentities();
 
 describe("home price level rule", () => {
-  it.each(places)(
-    "matches legacy levels for $jurisdictionKey",
-    (_place, placeIndex) => {
+  it.each(places.map((place, placeIndex) => ({ place, placeIndex })))(
+    "matches legacy levels for $place.jurisdictionKey",
+    ({ placeIndex }) => {
       const months = Array.from({ length: 24 }, (_, index) => ({
-        recordedAt: `2025-${String(index + 1).padStart(2, "0")}-01`,
+        recordedAt: `${2025 + Math.floor(index / 12)}-${String((index % 12) + 1).padStart(2, "0")}-01`,
         growthPct: 1.2 + placeIndex * 0.01 + (index % 5) * 0.1,
         inflationPct: 2.1 + (index % 3) * 0.1,
         policyRate: {
@@ -19,6 +19,9 @@ describe("home price level rule", () => {
           upperPct: 3.25 + placeIndex * 0.001 + Math.floor(index / 12) * 0.2,
         },
       }));
+      expect(months.every((month) => Number.isFinite(month.growthPct))).toBe(
+        true,
+      );
       const townEffect = (month: (typeof months)[number]) =>
         month.recordedAt.endsWith("01") ? -0.001 : 0;
       expect(homePriceLevelsFromFacts(months, townEffect)).toEqual(

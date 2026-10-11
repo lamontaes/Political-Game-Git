@@ -90,7 +90,8 @@ const facts: readonly EvictionDecisionFacts[] = [
 describe("standalone housing rules", () => {
   it.each(facts)("matches the legacy eviction disposition for %o", (row) => {
     expect(decideEvictionOutcome(row)).toBe(
-      legacyDecideEvictionCase(row as LegacyEvictionCaseFacts).outcome,
+      legacyDecideEvictionCase(row as unknown as LegacyEvictionCaseFacts)
+        .outcome,
     );
   });
 
@@ -105,7 +106,9 @@ describe("standalone housing rules", () => {
         macroEconomy: { months: [] },
       } as unknown as World;
       const date = world.currentDate;
-      const row = { rents: [1000, 1200, 1400, 1600, 1800] };
+      const row = {
+        rents: [1000, 1200, 1400, 1600, 1800],
+      } as unknown as Parameters<typeof legacyMarketRentMinor>[2];
       const level = marketRentLevel(world, place.id, date);
       for (const bedrooms of [-1, 0, 2, 4, 6])
         expect(
@@ -117,15 +120,16 @@ describe("standalone housing rules", () => {
 });
 
 describe("standalone public housing rent rule", () => {
-  it.each(lifePlaceStateIdentities())(
-    "matches public housing rent inputs for $jurisdictionKey",
-    (_place, index) => {
+  it.each(lifePlaceStateIdentities().map((place, index) => ({ place, index })))(
+    "matches public housing rent inputs for $place.jurisdictionKey",
+    ({ index }) => {
       const memberIds = ["resident-a", "resident-b", "resident-c"];
       const pay = new Map<string, number>([
         [memberIds[0]!, 81_237.5 + index * 100],
         [memberIds[2]!, 35_113.5 + index * 50],
       ]);
       const income = householdMonthlyIncomeFromFacts(memberIds, pay);
+      expect(Number.isFinite(income)).toBe(true);
       expect(income).toBe(
         Math.round(81_237.5 + index * 100 + 35_113.5 + index * 50),
       );

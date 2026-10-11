@@ -33,7 +33,7 @@ const nationalShapes = Object.keys(FDIC_SMALL_BANK_SHAPES)
 
 function recordsForPlace(usps: string): {
   state: string | null;
-  records: readonly [number, number][];
+  records: readonly (readonly [number, number])[];
   shapes: readonly string[];
 } {
   const records = FDIC_SMALL_BANK_RECORDS[usps];

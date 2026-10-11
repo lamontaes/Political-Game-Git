@@ -14,7 +14,8 @@ export interface BusinessHiringBookFacts {
 export function businessHasRoomToHireFromFacts(
   books: BusinessHiringBookFacts | null,
   staff: number,
-  townAveragePay = ECONOMY_RULE_PARAMETERS.noAveragePayEstimateDollars.value,
+  townAveragePay: number = ECONOMY_RULE_PARAMETERS.noAveragePayEstimateDollars
+    .value,
 ): boolean {
   if (books === null || books.lastQuarterPay === undefined || staff <= 0) {
     return true;

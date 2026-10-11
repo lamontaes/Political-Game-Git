@@ -66,7 +66,10 @@ describe("town employment mix selection", () => {
     "matches the legacy national fallback for $place.jurisdictionKey",
     ({ index }) => {
       const oldResult = townEmploymentMix(
-        createStableId("town", `P14-economy-national-fallback-${index}`),
+        createStableId(
+          "jurisdiction",
+          `P14-economy-national-fallback-${index}`,
+        ),
       );
       const liftedResult = townEmploymentMixFromFacts({
         countyGeoids: [],

@@ -96,9 +96,9 @@ export function townEmploymentMixFromFacts(
     0,
   );
   const fallbackPublic = nationalPublicRow(facts.statePublicRowsByFips);
-  const row =
-    (facts.stateFips && facts.statePublicRowsByFips.get(facts.stateFips)) ??
-    fallbackPublic;
+  const row = ((facts.stateFips &&
+    facts.statePublicRowsByFips.get(facts.stateFips)) ??
+    fallbackPublic) as readonly (number | null | undefined)[];
   const [total, federal, stateCell, localCell] = row;
   const cityIsState =
     localCell === null && stateCell !== null && stateCell !== undefined;
