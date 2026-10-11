@@ -1,71 +1,15 @@
-# P14 legislature and council — RULES-2 contract
+# P14 legislature and council — RULES-2 send-back 1
 
-Owner-approved REVIEW 25; stack on `pool/P14-elections`. Own
-`src/rules/legislatures/` and its release declaration. Old engines unchanged.
+Owner-approved REVIEW 25; branch `pool/P14-legislatures`, draft #3950, stacked on elections #3948. Courts and press are parked. Old engines remain unchanged. This is an unfinished pure-rule shelf, not a playable core2 port or a finisher approval.
 
-Plan: lift inventory RULE/KEEP vote requirements (including quorum and override
-denominators), committee assignment, sitting calendars, executive action windows
-and override counts into pure functions of caller-selected facts. Exercise local,
-state and federal rule inputs together across all 56 identities, against the
-unchanged legacy rule functions. Readers and decisions are caller/port boundaries;
-golden fixtures may supply those readers' facts while retaining the original rule
-calculation as the oracle. Preserve suspected bugs and register every shortcut.
+The former 19-full/2-partial/119-stock-exclusion hand-off is withdrawn. KEEP helpers and constants travel with their owning rule. Institutional World reads and writes become explicit fact/kernel/request boundaries. Only named text/metadata/transport remnants may be excluded after their rule calculations have moved. The ledger is being rebuilt against the physical declarations and native-caller goldens; untested code must not be described as verified.
 
-Separate finisher and CTO merge. Courts/press parked. Continue to authorized
-`pool/P14-laws`, then `pool/P14-economy`, without waiting for review.
+Current checked work: fourteen new 56-place golden files compare native public callers for profiles and ratification, member and presiding ballots, chamber nomination and two-pass decisions, numbering and vote records, measure replay and seasonal calendars, statutory research, favors and appointments, record availability and undertakings, constitutional position and ratification, admission and leadership, seating and term evidence, Article V routes, amendment planning, and municipal membership and manager elections. They use the same generated World facts. Authored edge controls and independently verified child-rule receipt seams are identified in their tests; they are not ordinary generated-event or live core2 integration proof.
 
-Model: GPT-6 (Codex); exact runtime variant/configured effort not exposed;
-repository default medium. Start: 2026-10-11 00:38 UTC. Usage/cost not exposed.
+The rebuilt inventory names 137 physical kernels and three exact prose/transport exclusions across 140 frozen KEEP functions. Every kernel remains marked validation-in-progress. Importing a kernel in a golden file does not prove every branch. Forty-four stopgaps preserve suspected defects, estimates, English and adapter dependencies; the CTO list is in CTO-STOPGAPS.md. Numeric values are recorded in the parameter tables with frozen-source provenance and coverage limits.
 
-## Lift and boundary
+Remaining checks before a completed legislature hand-off: the prepared institution-driver route; positive amendment offer/revision writer protocol; automatic-law and program timing compiler requests; council adoption and override routes; member-notice scheduling; positive term provenance; full official-reflection factors; question authority; and executive reform/ballot request routes. Dated law snapshots, pinned compiler identities and selected actor evaluations are upstream facts, not additional engines or choosers. Then complete the scoped local gate and exact inventory receipt and continue laws #3931 and economy #3932 without waiting for review.
 
-146 KEEP lines fully lifted: required vote arithmetic (26), committee rosters and
-recorded seating order (56), and next sitting date (64). 139 lines partially
-lifted: executive action windows (56) and override count (83). Supplied thresholds
-serve quorum, passage and veto override without changing the denominator or floor.
-Local council profiles are included where a recorded government unit resolves one;
-missing state-level packs in D.C. and territories remain absent. Federal inputs
-and generic committee/sitting fixtures run against every jurisdiction identity.
+Preparation requests use a provisional World. Reread it after each requested native writer, and commit or discard it exactly where the unchanged owning caller returns or drops its World. In particular, native institution idle/blocked branches can discard principle preparation. Independent items must preserve native order and reread between writes. A `prepare` plan is not authorization to retain a World that the native caller would discard. Selected shared actor evaluations remain an actor-engine input; no second chooser is introduced here. Dated law snapshots are the laws engine's output, and pinned compiler identities are F's output. These dependencies are not claimed as legislature-owned ports.
 
-Golden window/count tests supply selected pack, action, adjournment, seated chamber
-and predicted disposition facts at legacy reader boundaries. They do not mock the
-original deadline loops, override counting or required-vote calculation. These
-tests establish equivalence of the lifted rule, not equivalence of the unported
-readers, decision evaluator or whole World integration.
-
-CTO stopgaps preserved: zero-member fraction cap; 1e-9 vote tolerance; authored
-round-robin committee assignment; two-traversal committee guard; four-year sitting
-search; business windows omit holidays; after-adjournment inaction outcome is null.
-Each has exact core2 fields and a source marker. Legacy council quorum validation,
-override deadline lookup and remaining procedural orchestration are still unported;
-the pure overrideDeadline wrapper is PLUMBING in the inventory and was excluded.
-
-## Validation / hand-off
-
-283 tests in two files pass across all 56 identities. Random draw AK, seed
-`rules2-legislatures-20261011`. Scoped ESLint, Prettier, diff and zero-dice checks
-pass. Owned TypeScript diagnostics zero; imported legacy graph retains the 101
-baseline diagnostics. Main smoke evidence is in #3946; no new-core bench exists
-on main. RULES-2 implementation interval 2026-10-11 00:38–00:43 UTC (~5 minutes).
-Model/effort above; usage/cost not exposed. Next: the authorized laws branch.
-
-## Complete scoped KEEP disposition
-
-`KEEP-DISPOSITION.md` and `keep-disposition.json` account for every one of the
-138 legislature/council inventory KEEP functions, plus two governing-classified
-municipal procedure/manager-election functions. Each whole-function blocker
-names its specific legacy World effects, research closure, private owning
-pipeline or English/old evaluator contract. Partial windows and overrides keep
-their destinations. This does not reclassify KEEP or claim future adapters are
-impossible.
-
-The continuation adds agenda/caucus selection, joint-assembly candidates,
-positioned bill answers, chamber/floor progression, session gates, elected-member
-validation, authored disposition assignment, council-item routing and seat
-classification, modal council shares and review/general-election calendars.
-Private supporting validation and chamber sequence lookup are not counted as
-KEEP functions. New CTO registrations preserve pending/unplayed council items,
-noninteger/negative authored vote counts, weekday-only congressional review and
-the district fallback for unknown seat composition. No legacy engine is edited.
-Golden comparisons exercise every new rule across all 56 identities; real state
-packs are used where present without inventing territorial legislatures.
+Model: GPT-6 (Codex). Exact runtime variant and configured effort are not exposed; repository default is medium. Usage/cost are unavailable. CTO send-back count: 1, because stock reader/helper/orchestration blockers left KEEP arithmetic behind. Shared send-back started 2026-10-11 02:19 UTC; legislature continuation started about 03:50 UTC and remains active. Exact final interval and random watched record receipts will be recorded at hand-off.
