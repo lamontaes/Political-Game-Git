@@ -802,5 +802,77 @@
     "addedBy": "RULES-2",
     "addedAt": "2026-10-11",
     "status": "OPEN"
+  },
+  {
+    "id": "economy.work-schedule-authored-patterns",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/work-schedules.ts",
+    "line": 101,
+    "whatItFakes": "Authored work patterns, shift times, part-time threshold/short shifts, workplace/title-to-picture joins and employer roster rotations supply every schedule; holidays and vacations are absent.",
+    "why": "Native work-schedules.ts labels all pattern timing as a game assumption; exact totals, cycle and hash-offset math travel unchanged with their public schedule owner.",
+    "replacement": "Admitted dated employer rosters, shift patterns and leave calendars.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.work-schedule-history-frontier",
+    "kind": "placeholder",
+    "file": "src/rules/economy/work-schedules.ts",
+    "line": 312,
+    "whatItFakes": "Dated job status honors the current sequence cutoff, while role selection omits that cutoff; historical schedules read employer profiles at current World date and cache by raw history/date.",
+    "why": "Native role/profile temporal frontier is retained as a suspected historical-read edge, not an ordinary-play defect claim.",
+    "replacement": "Reviewed role/profile historical cutoff and immutable cache-key contract.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.business-book-kind-source-mean",
+    "kind": "estimated-number",
+    "file": "src/rules/economy/business-books.ts",
+    "line": 41,
+    "whatItFakes": "Businesses share IRS 2022 industry-level cost and margin ratios; suppressed sales-sensitive costs and missing business kinds use the all-corporation source mean.",
+    "why": "Native IRS Statistics of Income Table 5.1 measured cohorts and suppressed-cell estimates remain unchanged; no business-specific profitability observation is invented.",
+    "replacement": "Admitted dated employer-level sales/cost records and missing-cell distributions.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.household-source-fallback",
+    "kind": "placeholder",
+    "file": "src/rules/economy/household-source.ts",
+    "line": 20,
+    "whatItFakes": "A missing locality household-shape row uses its state, then national ACS counts; count shares divide by the raw total without a zero-total guard.",
+    "why": "Native ACS 2020\u20132024 B11001/B11003 parser, coverage fallback and normalization behavior remain unchanged, including the unguarded denominator edge.",
+    "replacement": "Reviewed source coverage and explicit malformed/zero-total count handling.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.pay-period-native-producer",
+    "kind": "placeholder",
+    "file": "src/rules/economy/pay-period.ts",
+    "line": 13,
+    "whatItFakes": "The portable period rule receives the original seeded employer-period position as an upstream legacy-producer receipt; government employers use biweekly periods.",
+    "why": "Native original producer behavior is preserved without a production RNG in the lifted rule or substituting its selected period. Tests obtain the exact original fork position and compare the complete native public owner.",
+    "replacement": "Admitted recorded employer payroll cadence replacing the retired legacy producer receipt.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.pay-period-industry-size-independence",
+    "kind": "estimated-number",
+    "file": "src/rules/economy/pay-period.ts",
+    "line": 51,
+    "whatItFakes": "Authored employer-to-BLS-industry joins combine industry and size payroll shares as independent; absent rows use overall private shares and no selected weight falls back to biweekly.",
+    "why": "Native BLS payroll-frequency source combination and government default remain unchanged.",
+    "replacement": "Admitted recorded employer cadence or joint industry/size payroll-frequency source with coverage policy.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
   }
 ]
