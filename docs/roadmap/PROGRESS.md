@@ -1,8 +1,17 @@
 # Progress
 
-Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
+Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting, as the repository guide requires.
 
 ## 2026-10-10
+
+- **DATA-FIX, two legal-review engineering corrections in draft review.**
+  - Player effect: officeholders remain fictional, and salary calibration now uses independently researched government facts. Names, portraits, identity records and election notes stay in preserved research rather than the shipped projection. Election and payroll calculations keep their existing logic; amounts can change with the new data.
+  - Measured: all 636 calibration observations and presidential totals reconcile. All 62 checked research files and locks are byte-identical to the baseline. All 168 salary combinations across 56 jurisdictions are positive: 122 sourced facts and 46 existing labeled estimates. Twenty former direct amounts change, 27 become estimates and three missing rows gain official facts.
+  - Measured: 24 calibration/world-setup tests and 14 salary/shipping-integrity tests passed. The production build, typecheck and artifact gate pass. The scan covers 3,821 files and reports no flagged real names, identity source URLs, salary capture tokens or captured research artifacts. Evidence is in `docs/reports/2026-10-data-fix.md` and its receipts.
+  - Failed and why: the observer salary-initialization assertion also fails with baseline files restored: it expects history sequence 86,385 and receives 86,387. The first scanner matched a generic institutional URL; its corrected policy now selects only identifying governor source URLs, with a passing regression test. The extra multiweek payroll-law fixture was stopped after 18 minutes and 42 seconds without a result; no full law playthrough is claimed.
+  - Measured generated opening: seed `data-fix-official-salary-opening` draws Lahaina, Hawaii, from all 56. All 7,386 paid state-legislator flows match the unchanged salary reader and reinitialization is idempotent. The bounded test passes.
+  - Next: hand draft PR #3954 on `pool/data-fix` to an independent finisher and the CTO. No new golden-path progress is claimed and no merge is authorized for the builder.
+  - Hand-off: Codex, GPT-6 family, repository default medium for bounded data work. Exact deployment ID, actual provider effort and usage are not exposed. No escalation; one read-only civic-report reviewer required by the local skill. Elapsed: about one hour, including the stopped multiweek fixture. Finisher send-backs: zero so far; finishing has not started.
 
 - **OPUS-PEOPLE (M0-people), parts 1 to 4 in review.**
   - What changes for the player: every resident of a generated town has relatives, a temperament, and an age and home that follow the place's records. Whether each relative is alive follows the life table for their own birth year. Homes now include grown children and groups of three or more housemates. Children attend real public schools from the P12 data, and employed residents know their coworkers. Closeness grows with time together and fades without it. Only people with a cause look up offices, meeting places and groups, and they stop once they know one.
