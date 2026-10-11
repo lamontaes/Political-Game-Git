@@ -20,9 +20,22 @@
     {
       "source": "docs/research/chatgpt-answers/2026-09-22-nationwide-2340/Our-Civic-Duty--prior-campaign-fund-misuse-after-taking-office-52-jurisdictions--2026-09-22.md",
       "whatItDidNotSettle": "Covers civil consequences of earlier campaign-fund misuse after taking office; no removal on conviction, ballot eligibility or disqualification periods."
+    },
+    {
+      "source": "https://www.justice.gov/criminal/media/1384436/dl",
+      "whatItDidNotSettle": "Requested current state-by-state controlling procedures, deadlines, sanctions, conviction consequences, amounts, causal electoral effects and repeat-offense rules require additional direct-primary research; no numeric fallback supported."
     }
   ],
   "title": "What a criminal sentence does to an officeholder or a candidate, state by state",
   "usableAnswer": "One row per jurisdiction and office type: removal trigger and stage, offense classes that count, candidacy and ballot rules for the charged, convicted and jailed, disqualification period, and outcome distributions with real cases. UNKNOWN where no source settles it; no invented probabilities.",
-  "whyItMatters": "A jailed official currently loses every office and a jailed candidate stays on the ballot everywhere, by one blanket placeholder. Real rules differ by state and office, and they decide whether a conviction ends a career or not."
+  "whyItMatters": "A jailed official currently loses every office and a jailed candidate stays on the ballot everywhere, by one blanket placeholder. Real rules differ by state and office, and they decide whether a conviction ends a career or not.",
+  "answer": {
+    "summary": "DOJ Table I supplies federal prosecution totals by official level, not a state-law matrix, sentence distribution, case-amount threshold or per-official risk. Unread jurisdiction rules remain UNKNOWN; no named cases are included.",
+    "sources": [
+      "https://www.justice.gov/criminal/media/1384436/dl"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:14:26.080114+00:00",
+    "stillOpen": "Requested current state-by-state controlling procedures, deadlines, sanctions, conviction consequences, amounts, causal electoral effects and repeat-offense rules require additional direct-primary research; no numeric fallback supported."
+  }
 }

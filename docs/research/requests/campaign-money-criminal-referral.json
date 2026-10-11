@@ -21,9 +21,22 @@
     {
       "source": "docs/research/chatgpt-answers/2026-09-22-campaign-finance-regulators/CAMPAIGN-FINANCE-REGULATORS-52.md",
       "whatItDidNotSettle": "Mentions criminal referral as a split in some states (Arizona, Vermont, Tennessee) without statutes, thresholds or penalties."
+    },
+    {
+      "source": "https://www.justice.gov/criminal/media/1384436/dl",
+      "whatItDidNotSettle": "Requested current state-by-state controlling procedures, deadlines, sanctions, conviction consequences, amounts, causal electoral effects and repeat-offense rules require additional direct-primary research; no numeric fallback supported."
     }
   ],
   "title": "When taking campaign money becomes a crime, who prosecutes it, and what sentence follows",
   "usableAnswer": "One row per jurisdiction (plus federal): criminal statute and mental state, felony threshold, referring and prosecuting bodies, procedural steps and limitation period, penalty ranges including disqualification, and real case outcomes. UNKNOWN where no source settles it; no invented probabilities.",
-  "whyItMatters": "A candidate who keeps taking campaign money after being caught faces only rising civil fines. Whether and when that becomes a prosecution, and what it costs her, is the ceiling of the whole corruption consequence ladder."
+  "whyItMatters": "A candidate who keeps taking campaign money after being caught faces only rising civil fines. Whether and when that becomes a prosecution, and what it costs her, is the ceiling of the whole corruption consequence ladder.",
+  "answer": {
+    "summary": "DOJ Table I supplies federal prosecution totals by official level, not a state-law matrix, sentence distribution, case-amount threshold or per-official risk. Unread jurisdiction rules remain UNKNOWN; no named cases are included.",
+    "sources": [
+      "https://www.justice.gov/criminal/media/1384436/dl"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:14:26.080114+00:00",
+    "stillOpen": "Requested current state-by-state controlling procedures, deadlines, sanctions, conviction consequences, amounts, causal electoral effects and repeat-offense rules require additional direct-primary research; no numeric fallback supported."
+  }
 }
