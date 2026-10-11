@@ -1,3 +1,6 @@
+import { writeFileSync } from "node:fs";
+import { join } from "node:path";
+import { tmpdir } from "node:os";
 import { nextCongressionalElectionAfter } from "./continuity";
 import {
   senateVacancyLaw,
@@ -111,7 +114,8 @@ it.each(Object.keys(STATES))(
       },
     ]);
     if (place === watchedPlace)
-      console.info(
+      writeFileSync(
+        join(tmpdir(), "rules2-offices-watch.json"),
         JSON.stringify({
           place,
           seed: base.world.seed,
