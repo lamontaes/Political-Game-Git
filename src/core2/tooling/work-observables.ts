@@ -276,10 +276,11 @@ export function summarizeWorkObservables(
           : config.crosswalkStatus,
     };
   });
+  const payrollStocks = payrollStockObservables(core);
   let plannedMinutes = zero,
     attendedMinutes = zero,
-    requestedMinor = zero,
-    paidMinor = zero,
+    requestedMinor = payrollStocks.legacyDiscretionaryEarnedMinor,
+    paidMinor = payrollStocks.legacyDiscretionaryPaidMinor,
     attendedDatedSegments = zero,
     absentDatedSegments = zero;
   for (const total of core.work.totalsByJob.values()) {
@@ -400,7 +401,7 @@ export function summarizeWorkObservables(
       receiptHours,
     },
     money: {
-      ...payrollStockObservables(core),
+      ...payrollStocks,
       requestedMinor,
       paidMinor,
       shortfallMinor: requestedMinor - paidMinor,
@@ -413,7 +414,7 @@ export function summarizeWorkObservables(
       cashAndExternalFlowsConserved: cashAndExternalFlowsDeltaMinor === zero,
       latestCashReceiptFailures,
       scope:
-        "Actual liquid minor units across initialized residents and organizations; original opening sources are estimates. Requested means earned. The retained shortfall alias is earned minus paid, including not-yet-due accrual and recognized arrears; use arrearsMinor for overdue payroll debt.",
+        "Actual liquid minor units across initialized residents and organizations; original opening sources are estimates. Requested means earned across scheduled work and separately counted legacy discretionary paid work. The retained shortfall alias is earned minus paid, including scheduled accrual, scheduled arrears and cumulative unretried legacy discretionary shortfall; arrearsMinor retains scheduled debt scope.",
     },
     byAge,
     reference: {

@@ -1,6 +1,7 @@
 /** Developer-only snapshots of retained authoritative ledgers; never an engine target. */
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { parameter } from "../parameters";
+import { FinanceReadGuard } from "../finance-plan";
 import type { FinanceTotals } from "../finance-types";
 import type { CoreState, Source, WorkCommitmentInput } from "../types";
 import { WORK_OBSERVABLE_CONFIG } from "./work-observables";
@@ -50,6 +51,13 @@ export interface FinanceObservableSnapshot {
     accruedMinor: number;
     arrearsMinor: number;
     legacyUnpaidMinor: number;
+    legacyDiscretionaryEarnedMinor: number;
+    legacyDiscretionaryPaidMinor: number;
+    legacyDiscretionaryShortfallMinor: number;
+    legacyDiscretionaryCompletedReceiptCount: number;
+    legacyEarnedMinor: number;
+    legacyPaidMinor: number;
+    legacyJobsWithCumulativeResults: number;
     retainedPayrollLedgers: number;
     plannedMinutes: number;
     attendedMinutes: number;
@@ -188,11 +196,135 @@ export interface FinanceObservableSnapshot {
       calendarId?: string;
       componentCommitmentIds?: readonly string[];
       componentJobIds?: readonly string[];
+      personId?: string;
+      payrollGroup?: boolean;
+      newlyDueMinor?: number;
+      arrearsBeforeMinor?: number;
+      paidArrearsMinor?: number;
+      paidNewlyDueMinor?: number;
+      missedNewlyDueMinor?: number;
+      arrearsAfterMinor?: number;
+      payrollComponents?: readonly {
+        id: string;
+        date: string;
+        groupReceiptId: string | null;
+        claimId: string;
+        commitmentId: string;
+        jobId: string;
+        personId: string;
+        organizationId: string;
+        calendarId: string;
+        index: number;
+        fromAt: string;
+        throughAt: string;
+        dueAt: string;
+        requestedMinor: number;
+        newlyDueMinor: number;
+        arrearsBeforeMinor: number;
+        paidMinor: number;
+        shortfallMinor: number;
+        paidArrearsMinor: number;
+        paidNewlyDueMinor: number;
+        missedNewlyDueMinor: number;
+        arrearsAfterMinor: number;
+        source: Source;
+        jobSource: Source;
+        paySource: Source;
+        scheduleSource: Source;
+        calendarSource: Source;
+        earnedPeriodSource?: Source;
+      }[];
       source: Source;
     };
     source: Source;
   }[];
   gaps: readonly string[];
+}
+
+/** Only the bounded retained closure receipt graph, never current/latest pay Sources.
+ * Frozen canonical and mutable captured descriptors may differ; all own data,
+ * optional-field presence, enumerability, arrays and complete Source values match.
+ */
+function guardCapturedPayrollClosure(
+  core: Readonly<CoreState>,
+  captured: object,
+): FinanceReadGuard {
+  function fail(): never {
+    throw new Error(
+      "Payroll closure differs from its retained canonical full receipt.",
+    );
+  }
+  const reads = new FinanceReadGuard(),
+    leftActive = new Set<object>(),
+    rightActive = new Set<object>();
+  const compare = (left: unknown, right: unknown): void => {
+    if (
+      left === null ||
+      right === null ||
+      typeof left !== "object" ||
+      typeof right !== "object"
+    ) {
+      if (
+        typeof left === "function" ||
+        typeof right === "function" ||
+        typeof left === "symbol" ||
+        typeof right === "symbol" ||
+        !Object.is(left, right)
+      )
+        fail();
+      return;
+    }
+    for (const value of [left, right]) {
+      const prototype = Object.getPrototypeOf(value);
+      if (
+        Array.isArray(value)
+          ? prototype !== Array.prototype
+          : prototype !== Object.prototype && prototype !== null
+      )
+        fail();
+    }
+    if (
+      Array.isArray(left) !== Array.isArray(right) ||
+      leftActive.has(left) ||
+      rightActive.has(right)
+    )
+      fail();
+    leftActive.add(left);
+    rightActive.add(right);
+    const leftKeys = reads.keys(left),
+      rightKeys = reads.keys(right),
+      rightKeySet = new Set(rightKeys);
+    if (leftKeys.length !== rightKeys.length) fail();
+    for (const key of leftKeys) {
+      if (typeof key !== "string" || !rightKeySet.has(key)) fail();
+      const leftValue = reads.field(left as Record<PropertyKey, unknown>, key),
+        rightValue = reads.field(right as Record<PropertyKey, unknown>, key);
+      if (
+        Object.getOwnPropertyDescriptor(left, key)?.enumerable !==
+        Object.getOwnPropertyDescriptor(right, key)?.enumerable
+      )
+        fail();
+      compare(leftValue, rightValue);
+    }
+    leftActive.delete(left);
+    rightActive.delete(right);
+  };
+  const id = reads.field(captured as Record<PropertyKey, unknown>, "id");
+  if (typeof id !== "string" || !id) fail();
+  const work = reads.field(core, "work"),
+    canonical = reads.mapGet(reads.field(work, "payrollCashSources"), id);
+  if (!canonical) fail();
+  // Existing completion/owner/conservation checks below remain independently intact.
+  for (const key of [
+    "id",
+    "date",
+    "group",
+    "postedJournalSequence",
+    "completedAt",
+  ] as const)
+    reads.field(canonical, key);
+  compare(captured, reads.field(canonical, "result"));
+  return reads;
 }
 
 /**
@@ -504,14 +636,14 @@ export function financeObservables(
     scheduledWorkEnabled: core.data.work !== undefined,
     retainedJobsWithCumulativeResults: core.work.totalsByJob.size,
     ...payrollStocks,
-    requestedMinor: zero,
-    paidMinor: zero,
+    requestedMinor: payrollStocks.legacyDiscretionaryEarnedMinor,
+    paidMinor: payrollStocks.legacyDiscretionaryPaidMinor,
     unpaidMinor: zero,
     plannedMinutes: zero,
     attendedMinutes: zero,
     attendedDatedSegments: zero,
     absentDatedSegments: zero,
-    unit: "Cumulative actual dated work segments. Requested means earned; earned minus paid includes not-yet-due accrual and actual arrears. Due recognized counts original amounts once; retries do not create new earnings or obligations.",
+    unit: "Cumulative actual scheduled work plus separately counted legacy discretionary paid-work receipts. Requested means earned. Earned minus paid includes scheduled accrual, scheduled arrears and unretried legacy discretionary shortfall. Due recognized counts each original amount once; retries do not create new earnings or obligations. Minutes and dated segment counts retain scheduled-work scope.",
   };
   for (const [id, total] of core.work.totalsByJob) {
     if (!core.jobs.has(id))
@@ -841,7 +973,9 @@ export function financeObservables(
         throw new Error(
           "Closure cause does not belong to this employer obligation.",
         );
+      let closureReads: FinanceReadGuard | undefined;
       if (isPayroll) {
+        closureReads = guardCapturedPayrollClosure(core, cause);
         const canonical = core.work.payrollCashSources.get(cause.id),
           actual = canonical?.result;
         if (
@@ -909,7 +1043,7 @@ export function financeObservables(
             "Closure ended-job facts disagree with their retained ownership.",
           );
       }
-      return {
+      const observed = {
         organizationId: id,
         date: row.date,
         reasonKey: row.reasonKey,
@@ -930,9 +1064,64 @@ export function financeObservables(
           sourceActId: isWork && !isPayroll ? cause.sourceActId : null,
           jobId: isWork ? (cause.jobId ?? null) : null,
           contractId: isWork || isPayroll ? null : cause.contractId,
-          ...(isPayroll && cause.group === true
+          ...(isPayroll
             ? {
                 calendarId: cause.calendarId,
+                personId: cause.personId,
+                payrollGroup: cause.group === true,
+                newlyDueMinor: cause.newlyDueMinor,
+                arrearsBeforeMinor: cause.arrearsBeforeMinor,
+                paidArrearsMinor: cause.paidArrearsMinor,
+                paidNewlyDueMinor: cause.paidNewlyDueMinor,
+                missedNewlyDueMinor: cause.missedNewlyDueMinor,
+                arrearsAfterMinor: cause.arrearsAfterMinor,
+                payrollComponents: (cause.group === true
+                  ? cause.components
+                  : [cause]
+                ).map((component) => ({
+                  id: component.id,
+                  date: component.date,
+                  groupReceiptId:
+                    "groupReceiptId" in component
+                      ? component.groupReceiptId
+                      : null,
+                  claimId:
+                    "claimId" in component ? component.claimId : component.id,
+                  commitmentId: component.commitmentId,
+                  jobId: component.jobId,
+                  personId: component.personId,
+                  organizationId: component.organizationId,
+                  calendarId: component.calendarId,
+                  index: component.index,
+                  fromAt: component.fromAt,
+                  throughAt: component.throughAt,
+                  dueAt: component.dueAt,
+                  requestedMinor: component.requestedMinor,
+                  newlyDueMinor: component.newlyDueMinor,
+                  arrearsBeforeMinor: component.arrearsBeforeMinor,
+                  paidMinor: component.paidMinor,
+                  shortfallMinor: component.shortfallMinor,
+                  paidArrearsMinor: component.paidArrearsMinor,
+                  paidNewlyDueMinor: component.paidNewlyDueMinor,
+                  missedNewlyDueMinor: component.missedNewlyDueMinor,
+                  arrearsAfterMinor: component.arrearsAfterMinor,
+                  source: source(component.source),
+                  jobSource: source(component.jobSource),
+                  paySource: source(component.paySource),
+                  scheduleSource: source(component.scheduleSource),
+                  calendarSource: source(component.calendarSource),
+                  ...(component.earnedPeriodSource
+                    ? {
+                        earnedPeriodSource: source(
+                          component.earnedPeriodSource,
+                        ),
+                      }
+                    : {}),
+                })),
+              }
+            : {}),
+          ...(isPayroll && cause.group === true
+            ? {
                 componentCommitmentIds: cause.components.map(
                   (component) => component.commitmentId,
                 ),
@@ -957,6 +1146,8 @@ export function financeObservables(
         },
         source: source(row.source),
       };
+      closureReads?.verify();
+      return observed;
     });
 
   return {

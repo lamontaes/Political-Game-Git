@@ -5,6 +5,7 @@ import type {
   WorkPayrollJobReceipt,
 } from "../work-payroll-cash";
 import { parameter } from "../parameters";
+import { readLegacyDiscretionaryWages } from "../legacy-wage-counters";
 import type { CoreState } from "../types";
 import { addDays, makeIsoDate } from "../../simulation/dates";
 import { FinanceReadGuard } from "../finance-plan";
@@ -386,13 +387,21 @@ export function payrollStockObservables(core: Readonly<CoreState>) {
         throw new Error(
           "Payroll observer has a spent, foreign or shifted arrears retry index.",
         );
+  const legacy = readLegacyDiscretionaryWages(reads, work, zero, one);
   const result = {
-    earnedMinor: zero,
-    dueRecognizedMinor: zero,
-    paidMinor: zero,
+    earnedMinor: legacy.earnedMinor,
+    dueRecognizedMinor: legacy.earnedMinor,
+    paidMinor: legacy.paidMinor,
+    legacyDiscretionaryEarnedMinor: legacy.earnedMinor,
+    legacyDiscretionaryPaidMinor: legacy.paidMinor,
+    legacyDiscretionaryShortfallMinor: legacy.shortfallMinor,
+    legacyDiscretionaryCompletedReceiptCount: legacy.completedReceiptCount,
     accruedMinor: zero,
     arrearsMinor: zero,
     legacyUnpaidMinor: zero,
+    legacyEarnedMinor: zero,
+    legacyPaidMinor: zero,
+    legacyJobsWithCumulativeResults: zero,
     retainedPayrollLedgers: core.work.payrollLedgerByCommitment.size,
   };
   for (const [jobId, total] of core.work.totalsByJob) {
@@ -434,12 +443,28 @@ export function payrollStockObservables(core: Readonly<CoreState>) {
       row?.arrearsMinor ?? earned - paid,
       "all arrears",
     );
-    if (!row)
+    if (!row) {
+      result.legacyJobsWithCumulativeResults = sum(
+        result.legacyJobsWithCumulativeResults,
+        one,
+        "legacy actual result jobs",
+      );
+      result.legacyEarnedMinor = sum(
+        result.legacyEarnedMinor,
+        earned,
+        "legacy actual earned",
+      );
+      result.legacyPaidMinor = sum(
+        result.legacyPaidMinor,
+        paid,
+        "legacy actual paid",
+      );
       result.legacyUnpaidMinor = sum(
         result.legacyUnpaidMinor,
         earned - paid,
         "legacy unpaid",
       );
+    }
     byJob.delete(jobId);
   }
   if (
@@ -451,7 +476,11 @@ export function payrollStockObservables(core: Readonly<CoreState>) {
         "all earned identity",
       ) ||
     result.dueRecognizedMinor !==
-      sum(result.paidMinor, result.arrearsMinor, "all due identity")
+      sum(
+        sum(result.paidMinor, result.arrearsMinor, "all due identity"),
+        result.legacyDiscretionaryShortfallMinor,
+        "all due plus unretried legacy shortfall",
+      )
   )
     throw new Error(
       "Payroll observer has an uncounted or incoherent cumulative obligation.",

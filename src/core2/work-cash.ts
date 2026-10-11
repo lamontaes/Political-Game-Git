@@ -28,6 +28,7 @@ import {
   workWeekStart,
 } from "./modules/work";
 import { validateDatedWorkResult } from "./work-state";
+import { readLegacyDiscretionaryWages } from "./legacy-wage-counters";
 import {
   preparePublicWorkPay,
   resolvePublicWorkPayDue,
@@ -1002,6 +1003,24 @@ export function settleLegacyWorkResultJournal(
       },
     };
     stageLegacyActivation(s, api, actor.id, input.offer);
+    const cumulative = readLegacyDiscretionaryWages(r, work, s.zero, s.one);
+    // The original sealed cash/noncash session commits these once with the receipt.
+    // No job-total update, retry debt, payment policy, or historical summation.
+    m.write(work, "legacyDiscretionaryWages", {
+      earnedMinor: minor(
+        cumulative.earnedMinor + result.requestedMinor,
+        s.zero,
+      ),
+      paidMinor: minor(cumulative.paidMinor + result.paidMinor, s.zero),
+      shortfallMinor: minor(
+        cumulative.shortfallMinor + result.shortfallMinor,
+        s.zero,
+      ),
+      completedReceiptCount: minor(
+        cumulative.completedReceiptCount + s.one,
+        s.zero,
+      ),
+    });
     const stored = m.mapSet(latest, actor.id, result);
     const data = r.field(core, "data"),
       kind = r.field(data, "legacyWorkJournalSourceKind");

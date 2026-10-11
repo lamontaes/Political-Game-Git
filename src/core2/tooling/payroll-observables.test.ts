@@ -7,6 +7,7 @@ import { LIFE_MODULE } from "../modules/life";
 import { parameter as p } from "../parameters";
 import { coreAPI, createCore } from "../state";
 import { settleWorkPayrollJournal } from "../work-payroll-cash";
+import type { WorkPayrollCashReceipt } from "../work-payroll-cash";
 import type {
   CoreInput,
   CoreState,
@@ -525,5 +526,150 @@ describe("actual payroll stocks and original work-total labels (UNEXECUTED)", ()
       value: "calendar",
     });
     expect(saved(core)).toEqual(original);
+  });
+});
+
+/** Additive first-observation closure pin cases; SOURCE-ONLY, UNEXECUTED. */
+describe("canonical single-payday closure evidence before its first observation", () => {
+  it("rejects independently altered captured Sources, period terms and attribution against the untouched actual receipt", () => {
+    const changes = [
+      (cause: WorkPayrollCashReceipt) => {
+        cause.calendarSource.citation += " Altered captured citation.";
+      },
+      (cause: WorkPayrollCashReceipt) => {
+        cause.paySource.generationPriorVintage = "altered-captured-vintage";
+      },
+      (cause: WorkPayrollCashReceipt) => {
+        expect(cause.scheduleSource.estimatedFrom).toBeDefined();
+        delete cause.scheduleSource.estimatedFrom;
+      },
+      (cause: WorkPayrollCashReceipt) => {
+        expect(cause.paySource.estimatedFrom).toBeDefined();
+        Object.defineProperty(cause.paySource, "estimatedFrom", {
+          value: cause.paySource.estimatedFrom,
+          enumerable: false,
+          configurable: true,
+          writable: true,
+        });
+      },
+      (cause: WorkPayrollCashReceipt) => {
+        cause.index += one;
+      },
+      (cause: WorkPayrollCashReceipt) => {
+        cause.fromAt = "2020-12-31";
+      },
+      (cause: WorkPayrollCashReceipt) => {
+        cause.paidArrearsMinor += one;
+      },
+    ];
+    for (const change of changes) {
+      const { core, receipt } = due(true);
+      if (receipt.group === true)
+        throw new Error("Actual single receipt required.");
+      const canonical = core.work.payrollCashSources.get(receipt.id)!,
+        original = structuredClone(canonical.result),
+        closure = coreAPI(core).closeEmployer(
+          "employer",
+          receipt.id,
+          "controlled-first-observation-pin",
+        ),
+        cause = closure.cause;
+      if (!("calendarId" in cause) || cause.group === true)
+        throw new Error("Actual captured single payday required.");
+      change(cause);
+      const before = saved(core);
+      // No prior observer snapshot supplies an expected value for this altered clone.
+      expect(() => financeObservables(core)).toThrow(
+        /retained canonical full receipt/,
+      );
+      expect(core.work.payrollCashSources.get(receipt.id)).toBe(canonical);
+      expect(canonical.result).toEqual(original);
+      expect(saved(core)).toEqual(before);
+    }
+  });
+
+  it("does not invoke a captured Source getter or alter actual evidence", () => {
+    const { core, receipt } = due(true),
+      closure = coreAPI(core).closeEmployer(
+        "employer",
+        receipt.id,
+        "controlled-first-observation-accessor",
+      ),
+      cause = closure.cause;
+    if (!("calendarId" in cause) || cause.group === true)
+      throw new Error("Actual captured single payday required.");
+    const before = saved(core),
+      descriptor = Object.getOwnPropertyDescriptor(
+        cause.calendarSource,
+        "citation",
+      )!;
+    let calls = zero;
+    Object.defineProperty(cause.calendarSource, "citation", {
+      enumerable: true,
+      configurable: true,
+      get() {
+        calls += one;
+        throw new Error("captured Source getter must not run");
+      },
+    });
+    expect(() => financeObservables(core)).toThrow(/direct own data fields/);
+    expect(calls).toBe(zero);
+    Object.defineProperty(cause.calendarSource, "citation", descriptor);
+    expect(saved(core)).toEqual(before);
+  });
+
+  it("keeps the original captured Sources after a genuine later retry moves the latest job index", () => {
+    const { core, receipt } = due(true),
+      original = structuredClone(receipt);
+    if (original.group === true)
+      throw new Error("Actual single receipt required.");
+    coreAPI(core).closeEmployer(
+      "employer",
+      receipt.id,
+      "controlled-real-pin-retention",
+    );
+    advanceDate(core, "2021-01-15");
+    const retry = settleWorkPayrollJournal(core, coreAPI(core), "work");
+    expect(retry.id).not.toBe(receipt.id);
+    expect(core.work.latestPayrollByJob.get("job")!.id).toBe(retry.id);
+    const before = saved(core),
+      observed = financeObservables(core).closures[zero]!.cause;
+    expect(observed.stillLatestInOwnIndex).toBe(false);
+    expect(observed.source).toEqual(original.source);
+    expect(observed.payrollComponents).toEqual([
+      {
+        id: original.id,
+        date: original.date,
+        groupReceiptId: null,
+        claimId: original.id,
+        commitmentId: original.commitmentId,
+        jobId: original.jobId,
+        personId: original.personId,
+        organizationId: original.organizationId,
+        calendarId: original.calendarId,
+        index: original.index,
+        fromAt: original.fromAt,
+        throughAt: original.throughAt,
+        dueAt: original.dueAt,
+        requestedMinor: original.requestedMinor,
+        newlyDueMinor: original.newlyDueMinor,
+        arrearsBeforeMinor: original.arrearsBeforeMinor,
+        paidMinor: original.paidMinor,
+        shortfallMinor: original.shortfallMinor,
+        paidArrearsMinor: original.paidArrearsMinor,
+        paidNewlyDueMinor: original.paidNewlyDueMinor,
+        missedNewlyDueMinor: original.missedNewlyDueMinor,
+        arrearsAfterMinor: original.arrearsAfterMinor,
+        source: original.source,
+        jobSource: original.jobSource,
+        paySource: original.paySource,
+        scheduleSource: original.scheduleSource,
+        calendarSource: original.calendarSource,
+        ...(original.earnedPeriodSource
+          ? { earnedPeriodSource: original.earnedPeriodSource }
+          : {}),
+      },
+    ]);
+    expect(saved(core)).toEqual(before);
   });
 });

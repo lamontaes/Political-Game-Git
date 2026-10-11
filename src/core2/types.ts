@@ -497,6 +497,15 @@ export interface WorkTotals {
   workedDays: number;
   missedDays: number;
 }
+/** Actual legacy discretionary paid-work completions; separate from scheduled job totals.
+ * Shortfall is a cumulative unretried remainder, never a scheduled arrears stock.
+ */
+export interface LegacyDiscretionaryWageTotals {
+  earnedMinor: number;
+  paidMinor: number;
+  shortfallMinor: number;
+  completedReceiptCount: number;
+}
 export interface ActivityTimeTotal {
   ageReferenceId: string;
   category: string;
@@ -523,6 +532,8 @@ export interface WorkRuntime {
   cashActSelections: Map<string, CashActSelection>;
   cashSources: Map<string, WorkCashSourceState>;
   latestLegacyCashResultByPerson: Map<PersonId, LegacyWorkCashResult>;
+  /** Cumulative actual conserving legacy completions, including zero-line completion. */
+  legacyDiscretionaryWages: LegacyDiscretionaryWageTotals;
   commitments: Map<string, WorkCommitmentInput>;
   commitmentsByPerson: Map<PersonId, Set<string>>;
   /** Period then residue indexes only jobs with an intersecting date segment. */

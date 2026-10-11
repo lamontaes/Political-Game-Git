@@ -897,3 +897,123 @@ describe("explicitly controlled quiet aggregate payroll retention", () => {
     expect(snapshot(f.core)).toEqual(before);
   });
 });
+
+/** Additive first-observation closure pin cases; SOURCE-ONLY, UNEXECUTED. */
+describe("canonical grouped-payday closure evidence before its first observation", () => {
+  it("rejects altered captured aggregate/component Sources, original claims and period terms before an initial snapshot can self-authorize them", () => {
+    const changes: readonly ((cause: WorkPayrollGroupReceipt) => void)[] = [
+      (cause) => {
+        cause.calendarSource.citation += " Altered captured calendar.";
+      },
+      (cause) => {
+        cause.source.citation += " Altered captured aggregate.";
+      },
+      (cause) => {
+        cause.components[p("zero")]!.paySource.citation +=
+          " Altered captured pay.";
+      },
+      (cause) => {
+        expect(
+          cause.components[p("zero")]!.scheduleSource.estimatedFrom,
+        ).toBeDefined();
+        delete cause.components[p("zero")]!.scheduleSource.estimatedFrom;
+      },
+      (cause) => {
+        cause.components[p("zero")]!.claimId += ":altered-claim";
+      },
+      (cause) => {
+        cause.components[p("zero")]!.index += p("one");
+      },
+      (cause) => {
+        cause.components[p("zero")]!.fromAt = "2020-12-31";
+      },
+      (cause) => {
+        cause.components[p("zero")]!.paidArrearsMinor += p("one");
+      },
+    ];
+    for (const change of changes) {
+      const f = fixture(half);
+      books(f.core);
+      earned(f);
+      const paid = group(f),
+        canonical = f.core.work.payrollCashSources.get(paid.id)!,
+        original = structuredClone(canonical.result),
+        closure = f.api.closeEmployer(
+          employer,
+          paid.id,
+          f.core.data.finance!.reasons.closure,
+        ),
+        cause = closure.cause;
+      if (!("calendarId" in cause) || cause.group !== true)
+        throw new Error("Actual captured group payday required.");
+      change(cause);
+      const before = snapshot(f.core);
+      // Only the actual retained canonical receipt can supply this first expectation.
+      expect(() => financeObservables(f.core)).toThrow(
+        /retained canonical full receipt/,
+      );
+      expect(f.core.work.payrollCashSources.get(paid.id)).toBe(canonical);
+      expect(canonical.result).toEqual(original);
+      expect(snapshot(f.core)).toEqual(before);
+    }
+  });
+
+  it("retains original group component Sources when a genuine later retry moves every latest per-job view", () => {
+    const f = fixture(half);
+    books(f.core);
+    earned(f);
+    const paid = group(f),
+      original = structuredClone(paid);
+    f.api.closeEmployer(
+      employer,
+      paid.id,
+      f.core.data.finance!.reasons.closure,
+    );
+    advanceDate(f.core, "2021-01-15");
+    const retry = group(f);
+    expect(retry.id).not.toBe(paid.id);
+    for (const component of retry.components)
+      expect(f.core.work.latestPayrollByJob.get(component.jobId)!.id).toBe(
+        retry.id,
+      );
+    const before = snapshot(f.core),
+      observed = financeObservables(f.core).closures[p("zero")]!.cause;
+    expect(observed.stillLatestInOwnIndex).toBe(false);
+    expect(observed.source).toEqual(original.source);
+    expect(observed.payrollComponents).toEqual(
+      original.components.map((component) => ({
+        id: component.id,
+        date: component.date,
+        groupReceiptId: component.groupReceiptId,
+        claimId: component.claimId,
+        commitmentId: component.commitmentId,
+        jobId: component.jobId,
+        personId: component.personId,
+        organizationId: component.organizationId,
+        calendarId: component.calendarId,
+        index: component.index,
+        fromAt: component.fromAt,
+        throughAt: component.throughAt,
+        dueAt: component.dueAt,
+        requestedMinor: component.requestedMinor,
+        newlyDueMinor: component.newlyDueMinor,
+        arrearsBeforeMinor: component.arrearsBeforeMinor,
+        paidMinor: component.paidMinor,
+        shortfallMinor: component.shortfallMinor,
+        paidArrearsMinor: component.paidArrearsMinor,
+        paidNewlyDueMinor: component.paidNewlyDueMinor,
+        missedNewlyDueMinor: component.missedNewlyDueMinor,
+        arrearsAfterMinor: component.arrearsAfterMinor,
+        source: component.source,
+        jobSource: component.jobSource,
+        paySource: component.paySource,
+        scheduleSource: component.scheduleSource,
+        calendarSource: component.calendarSource,
+        ...(component.earnedPeriodSource
+          ? { earnedPeriodSource: component.earnedPeriodSource }
+          : {}),
+      })),
+    );
+    expect(snapshot(f.core)).toEqual(before);
+  });
+});
