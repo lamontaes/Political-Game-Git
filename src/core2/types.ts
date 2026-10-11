@@ -96,6 +96,8 @@ export interface PersonInput {
   tier: Tier;
   traits: Readonly<Record<string, number>>;
   traitSources?: Readonly<Record<string, Source>>;
+  /** One complete generated upbringing Source shared by the person's recorded traits. */
+  sharedTraitSource?: Source;
   liquidMinor: number;
   livingCostDailyMinor: number;
   source: Source;

@@ -410,7 +410,6 @@ function openingTraits(
 ) {
   const upbringing = upbringingFor(world, personId);
   const traits: Record<string, number> = {};
-  const traitSources: Record<string, Source> = {};
   for (const trait of PEOPLE_TRAITS)
     traits[`${PEOPLE_MIND_VERSION}:${trait}`] = upbringingCoreValueFrom(
       upbringing,
@@ -452,8 +451,7 @@ function openingTraits(
     ...source,
     estimatedFrom: `${explanation} Canonical sparse upbringing trait projection; no traits inferred from names or gender.`,
   };
-  for (const key of Object.keys(traits)) traitSources[key] = traitSource;
-  return { traits, traitSources };
+  return { traits, sharedTraitSource: traitSource };
 }
 
 /** One-time legacy-source importer; no legacy clock, world generation or advance. */
