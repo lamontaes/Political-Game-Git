@@ -5,6 +5,8 @@ import ts from "typescript";
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { P } from "../core2/parameters";
+import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
+import type { PlayerPacketV1 } from "../core2/player-v1";
 import type {
   CoreInput,
   CoreModule,
@@ -844,5 +846,89 @@ describe("story director on the new core", () => {
     expect(paceOf(SITUATION_LIBRARY, "2010-03-01", "2021-03-01")).toBe(2);
     expect(paceOf(SITUATION_LIBRARY, "2005-03-01", "2021-03-01")).toBe(3);
     expect(paceOf(SITUATION_LIBRARY, "1969-12-20", "2021-03-01")).toBe(4);
+  });
+
+  it("stops the player's clock before the next day when the controlled person's moment is at or over the line", () => {
+    const place = "place:director-fixture";
+    const through = { date: "2021-01-15", minuteOfDay: P.zero };
+    /** Plays to the end date as the player: the first offer answers a choice; every stop is collected and acknowledged. */
+    const play = (controlledPersonId: string) => {
+      const director = createDirector({
+        watch: ["person:worker", "person:spouse"],
+      });
+      const core = createLifeCore(town(place), {
+        scheduledWork: false,
+        modules: [fixtureWorld(place), director.module],
+      });
+      director.start(core);
+      const stops: Extract<PlayerPacketV1, { kind: "stop" }>[] = [];
+      let packet = advancePlayerV1(core, { controlledPersonId, through });
+      while (packet.kind !== "complete") {
+        if (packet.kind === "stop") stops.push(packet);
+        packet =
+          packet.kind === "stop"
+            ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
+            : resumePlayerV1(core, {
+                kind: "choice",
+                pauseId: packet.pauseId,
+                offerId: packet.offers[P.zero]!.offerId,
+              });
+      }
+      return { director, stops };
+    };
+
+    const worker = play("person:worker");
+    const momentId = "person:worker:2021-01-10:fixture-closed:2021-01-10";
+    const directorStops = worker.stops.filter((packet) =>
+      packet.stop.modules.some((row) => row.moduleId === "p13-story-director"),
+    );
+    // One stop, at the midnight after the closure, before 2021-01-11 runs.
+    expect(directorStops).toHaveLength(1);
+    expect(directorStops[0]!.at).toEqual({
+      date: "2021-01-11",
+      minuteOfDay: P.zero,
+    });
+    expect(directorStops[0]!.stop.modules).toEqual([
+      expect.objectContaining({
+        moduleId: "p13-story-director",
+        recordId: momentId,
+        controlledPersonId: "person:worker",
+        kind: "interrupt",
+        hold: false,
+        reasonKey: DEFAULT_DIRECTOR_DATA.interruptStop.reasonKey,
+      }),
+    ]);
+    const entry = worker.director.ledger.people
+      .get("person:worker")!
+      .schedule.find((row) => row.momentId === momentId)!;
+    expect(entry).toMatchObject({
+      interrupt: true,
+      outcome: "scene-now",
+      stop: { recordId: momentId, at: { date: "2021-01-11" } },
+    });
+
+    // The spouse's 0.431 share of the same loss is under the line: it waits and stops nothing.
+    const spouse = play("person:spouse");
+    expect(
+      spouse.stops.filter((packet) =>
+        packet.stop.modules.some(
+          (row) => row.moduleId === "p13-story-director",
+        ),
+      ),
+    ).toEqual([]);
+    const shared = spouse.director.ledger.people
+      .get("person:spouse")!
+      .schedule.find((row) => row.mode !== "before-opening")!;
+    expect(shared).toMatchObject({
+      interrupt: false,
+      outcome: "scene-waiting",
+    });
+    expect(shared.stop).toBeUndefined();
+    // The worker is watched but not controlled in this play: the same 0.509 moment interrupts without a player stop.
+    const uncontrolled = spouse.director.ledger.people
+      .get("person:worker")!
+      .schedule.find((row) => row.momentId === momentId)!;
+    expect(uncontrolled.interrupt).toBe(true);
+    expect(uncontrolled.stop).toBeUndefined();
   });
 });

@@ -45,6 +45,8 @@ export interface DirectorData {
   pastNotRecordedValues: readonly string[];
   /** Past-fact kind prefixes that are public background, not personal moments. */
   backdropPastFactPrefixes: readonly string[];
+  /** The reason key and citation on a core player stop for an interrupting moment. */
+  interruptStop: { reasonKey: string; citation: string };
 }
 
 export interface ChannelContribution {

@@ -4,13 +4,16 @@
  * background entries (docs/design/director-on-core2.md).
  *
  * It reads the core through its module callbacks and its state, and calls no
- * writer. Impact is measured from the change itself on each channel, sized by
+ * world writer. Its one write is a core player stop for an interrupting moment
+ * of the person the player controls, which changes no world field. Impact is measured from the change itself on each channel, sized by
  * the person's own traits; there is no list of moment kinds. Nothing here
  * draws by chance.
  */
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import { appraiseEvent } from "../core2/emotion";
 import { P, parameterValues } from "../core2/parameters";
+import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
+import { registerModuleStopV1 } from "../core2/player-stops-v1";
 import type {
   CoreEventInput,
   CoreModule,
@@ -22,6 +25,7 @@ import type {
 } from "../core2/types";
 import directorJson from "./data/director.json" with { type: "json" };
 import { scheduleMoment } from "./scheduling";
+import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
 import type {
   BackdropEntry,
@@ -100,6 +104,8 @@ export function createDirector(
   };
   const snapshots = new Map<PersonId, Snapshot>();
   const pending = new Map<PersonId, Pending>();
+  /** Today's interrupting moments, registered as player stops once the day's measuring ends. */
+  const interrupts: { moment: Moment; entry: ScheduleEntry }[] = [];
   const initial = [...options.watch];
   let started = false;
   let mode: "live" | "skipping" = "live";
@@ -477,6 +483,7 @@ export function createDirector(
       date: moment.date,
       outcome: "journal-line",
       mode: "before-opening",
+      interrupt: false,
       stopsSkip: false,
       rank: zero,
       pace: zero,
@@ -975,12 +982,49 @@ export function createDirector(
         });
       rescoreHindsight(book, otherId, date);
     }
-    book.schedule.push(
-      scheduleMoment(core, book, moment, {
-        mode,
-        interruptImpact: param("directorInterruptImpact"),
-      }),
-    );
+    const entry = scheduleMoment(core, book, moment, {
+      mode,
+      interruptImpact: param("directorInterruptImpact"),
+    });
+    book.schedule.push(entry);
+    if (entry.interrupt) interrupts.push({ moment, entry });
+  }
+
+  /**
+   * Tells the core's player clock that the controlled person's interrupting
+   * moment stops it at the frontier, the midnight after the measured day,
+   * before the next day runs. A one-shot stop: the client's acknowledgment
+   * consumes it. Moments of anyone not controlled stop nothing.
+   */
+  function registerInterrupts(core: CoreState): void {
+    const line = param("directorInterruptImpact");
+    for (const { moment, entry } of interrupts.splice(zero)) {
+      if (
+        !isExplicitlyControlledPersonV1(core, moment.personId) ||
+        !core.people.get(moment.personId)?.alive
+      )
+        continue;
+      const at = {
+        date: addDays(makeIsoDate(core.date), one),
+        minuteOfDay: zero,
+      };
+      registerModuleStopV1(core, {
+        moduleId: module.id,
+        recordId: moment.id,
+        controlledPersonId: moment.personId,
+        at,
+        kind: "interrupt",
+        reasonKey: data.interruptStop.reasonKey,
+        source: {
+          tag: "ESTIMATED",
+          citation: data.interruptStop.citation,
+          asOf: core.date,
+          estimatedFrom: `Director moment ${moment.id}: impact ${moment.impact} at or over the interrupt line ${line}.`,
+        },
+        hold: false,
+      });
+      entry.stop = { recordId: moment.id, at };
+    }
   }
 
   function link(
@@ -1153,6 +1197,7 @@ export function createDirector(
       if (!started)
         throw new Error("The story director was installed but not started.");
       for (const book of ledger.people.values()) measureDay(api.state, book);
+      registerInterrupts(api.state);
     },
   };
 
