@@ -52,7 +52,8 @@ Model/effort above; usage/cost not exposed. Next: the authorized laws branch.
 ## Complete scoped KEEP disposition
 
 `KEEP-DISPOSITION.md` and `keep-disposition.json` account for every one of the
-138 legislature/council inventory KEEP functions. Each whole-function blocker
+138 legislature/council inventory KEEP functions, plus two governing-classified
+municipal procedure/manager-election functions. Each whole-function blocker
 names its specific legacy World effects, research closure, private owning
 pipeline or English/old evaluator contract. Partial windows and overrides keep
 their destinations. This does not reclassify KEEP or claim future adapters are

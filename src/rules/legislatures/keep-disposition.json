@@ -1130,6 +1130,16 @@
     "reason": "Whole function closes over legacy module records, research transport or helper contracts (`UNMEASURED_WEIGHT`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
   },
   {
+    "sourceFile": "src/simulation/municipal-government.ts",
+    "sourceLine": 1221,
+    "name": "buildFloorStages",
+    "inventoryEngine": "governing",
+    "keepLines": 73,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`knownRule`, `municipalRuleSourceRef`, `unknownRule`, `municipalIntervalRule`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
     "sourceFile": "src/simulation/municipal-ordinance-procedure.ts",
     "sourceLine": 335,
     "name": "decideOrdinaryCouncilReading",
@@ -1178,6 +1188,16 @@
     "status": "not-liftable",
     "lift": null,
     "reason": "Whole function depends on legacy World/history or effect orchestration through `refuse`, `measureOfThisCouncil`, `measurePosition`, `municipalExecutiveHolder`, `openMunicipalBillMatter`, `governingMatters`, `decideGoverningMatter`, `BILL_SIGN`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/municipal-public-work.ts",
+    "sourceLine": 1561,
+    "name": "evaluateMunicipalManagerElection",
+    "inventoryEngine": "governing",
+    "keepLines": 135,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `municipalGovernmentByKey`, `primaryReading`, `councilorSeats`, `municipalVoteThresholdRule`, `municipalRuleSourceRef`, `tallyDispositions`, `presentDisposition`, `resolveRequiredVotes`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/county-governing-body-rules.ts",
