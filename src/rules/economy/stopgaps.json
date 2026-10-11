@@ -550,5 +550,89 @@
     "addedBy": "RULES-2",
     "addedAt": "2026-10-11",
     "status": "OPEN"
+  },
+  {
+    "id": "economy.starting-cash-pay-eligibility",
+    "kind": "estimated-number",
+    "file": "src/rules/economy/starting-cash.ts",
+    "line": 63,
+    "whatItFakes": "Opening pay selection requires adulthood and 365.25 days of paid work; an existing USD position or transferred money yields no current-pay estimate and the estimator falls back to the middle SCF family group.",
+    "why": "Native eligibility/family-median fallback is retained, including its existing-account interaction; this is not a claim that the estimated amount is tracked cash.",
+    "replacement": "Reviewed opening-cash eligibility and admitted dated household/individual transaction account policy.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.housing-supply-law-response",
+    "kind": "estimated-number",
+    "file": "src/rules/economy/housing-prices.ts",
+    "line": 46,
+    "whatItFakes": "Supply law changes act after 365 days and share a sign-only package response of -0.00146 monthly log points.",
+    "why": "Native calibration from Minneapolis/Pew 2024, Auckland/Greenaway-McGrevy 2025, Terner 2022 and provisional Sao Paulo/NBER comparisons is retained; uniform delay and one-package saturation are assumptions.",
+    "replacement": "Admitted place-specific construction delay and housing supply response distributions.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.housing-price-cache-frontier",
+    "kind": "placeholder",
+    "file": "src/rules/economy/housing-prices.ts",
+    "line": 86,
+    "whatItFakes": "The saved-month cache invalidates on month count and enacted-law count, while equal-count changed law/catalog facts can reuse the prior level.",
+    "why": "This native cache frontier is preserved as a suspected branch-history edge; no ordinary production defect is claimed or repaired.",
+    "replacement": "Reviewed cache key for dated law/catalog revisions and branch provenance.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.mortgage-saved-rate-pass-through",
+    "kind": "estimated-number",
+    "file": "src/rules/economy/mortgage-quotes.ts",
+    "line": 44,
+    "whatItFakes": "Mortgages add a fixed December 31, 2025 Freddie Mac/FRED mortgage-policy spread to the saved policy midpoint; opening debt uses the same rate to reconstruct paid months.",
+    "why": "Native single-day calibration is a game financing rule, not an actual bank quote or measured pass-through.",
+    "replacement": "Admitted dated mortgage-rate term structure and opening loan payment records.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.down-payment-completed-sample-mean",
+    "kind": "estimated-number",
+    "file": "src/rules/economy/down-payments.ts",
+    "line": 50,
+    "whatItFakes": "Completed same-purchase down payments and mortgage principal produce an unweighted first/repeat-buyer sample mean; otherwise NAR 2025 medians are used.",
+    "why": "Native completed-record sample/fallback is preserved; placeholders are excluded and no fabricated sample or personal offer is introduced.",
+    "replacement": "Admitted dated local buyer/down-payment distribution and source coverage policy.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.home-purchase-majority-age",
+    "kind": "placeholder",
+    "file": "src/rules/economy/home-purchase-records.ts",
+    "line": 120,
+    "whatItFakes": "Home-purchase qualification uses age 18 in every represented place.",
+    "why": "Native uniform majority-age guard is retained, including places whose age-of-majority research may require another value; no legal repair is made here.",
+    "replacement": "Reviewed dated deed/loan capacity and majority-age rules by place.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.home-purchase-native-English",
+    "kind": "hand-written-text",
+    "file": "src/rules/economy/home-purchase-records.ts",
+    "line": 33,
+    "whatItFakes": "Qualification messages and dollar/non-dollar formatting retain native en-US wording and presentation.",
+    "why": "Exact retained output travels with the KEEP parent until separate English realization; native text is not rewritten during the lift.",
+    "replacement": "English-engine realization from portable qualification and money facts.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
   }
 ]

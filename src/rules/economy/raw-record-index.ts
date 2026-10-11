@@ -1,4 +1,4 @@
-/** Supporting immutable-array indexes retained with the dated cash rule. */
+/** Supporting immutable-array indexes retained with dated cash and opening-pay rules. */
 import type { EntityId } from "../../simulation/types";
 const RECENT_LIMIT = 16;
 function startsWith(
@@ -129,3 +129,48 @@ const FIRST_RECORD_BY_ID: GrowingIndexKind<Map<unknown, unknown>> = {
     if (!index.has(id)) index.set(id, record);
   },
 };
+const GROUPED_BY_FIELD = new Map<
+  string,
+  {
+    readonly cache: WeakMap<object, Map<unknown, readonly unknown[]>>;
+    readonly recent: (readonly unknown[])[];
+  }
+>();
+export function recordsWithFieldValue<T, K extends keyof T & string>(
+  records: readonly T[],
+  field: K,
+  value: T[K],
+): readonly T[] {
+  let slot = GROUPED_BY_FIELD.get(field);
+  if (!slot) {
+    slot = { cache: new WeakMap(), recent: [] };
+    GROUPED_BY_FIELD.set(field, slot);
+  }
+  if (typeof value === "number" && Number.isNaN(value)) return [];
+  const extend = (
+    groups: Map<unknown, readonly unknown[]>,
+    from: number,
+  ): Map<unknown, readonly unknown[]> => {
+    const grown = new Map<unknown, unknown[]>();
+    for (let at = from; at < records.length; at += 1) {
+      const record = records[at]!;
+      const key = record[field];
+      let group = grown.get(key);
+      if (!group) {
+        group = [...(groups.get(key) ?? [])];
+        grown.set(key, group);
+      }
+      group.push(record);
+    }
+    for (const [key, group] of grown) groups.set(key, group);
+    return groups;
+  };
+  const groups = indexFollowingAppends(
+    slot.cache,
+    slot.recent,
+    records,
+    () => extend(new Map(), 0),
+    extend,
+  );
+  return (groups.get(value) ?? []) as readonly T[];
+}

@@ -175,9 +175,9 @@
     "name": "homeDownPaymentShare",
     "inventoryEngine": "economy",
     "keepLines": 89,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/down-payments.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence in all 56 generated places is recorded in down-payment-world.test.ts. Actual native startup/monthly/scheduler/purchase writers and raw sources are used; saved law/cap/pay/balance controls are labeled edges. No exhaustive, ordinary-play, core2-wiring or finisher claim."
   },
   {
     "sourceFile": "src/simulation/home-purchase.ts",
@@ -185,9 +185,9 @@
     "name": "roundTo",
     "inventoryEngine": "economy",
     "keepLines": 3,
-    "status": "lifted",
-    "lift": "src/rules/economy/home-purchase.ts",
-    "reason": "Complete round-to-increment arithmetic is inlined in the golden-tested purchase calculation; it is also used for inherited price rounding. No separate World reader is copied."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/home-purchase-records.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence in all 56 generated places is recorded in housing-mortgage-world.test.ts. Actual native startup/monthly/scheduler/purchase writers and raw sources are used; saved law/cap/pay/balance controls are labeled edges. No exhaustive, ordinary-play, core2-wiring or finisher claim."
   },
   {
     "sourceFile": "src/simulation/home-purchase.ts",
@@ -195,9 +195,9 @@
     "name": "homePurchaseTerms",
     "inventoryEngine": "economy",
     "keepLines": 30,
-    "status": "pending-owned",
-    "lift": "src/rules/economy/home-purchase.ts",
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/home-purchase-records.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence in all 56 generated places is recorded in housing-mortgage-world.test.ts. Actual native startup/monthly/scheduler/purchase writers and raw sources are used; saved law/cap/pay/balance controls are labeled edges. No exhaustive, ordinary-play, core2-wiring or finisher claim."
   },
   {
     "sourceFile": "src/simulation/home-purchase.ts",
@@ -205,9 +205,9 @@
     "name": "homePurchaseReason",
     "inventoryEngine": "economy",
     "keepLines": 28,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/home-purchase-records.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence in all 56 generated places is recorded in housing-mortgage-world.test.ts. Actual native startup/monthly/scheduler/purchase writers and raw sources are used; saved law/cap/pay/balance controls are labeled edges. No exhaustive, ordinary-play, core2-wiring or finisher claim."
   },
   {
     "sourceFile": "src/simulation/household-loans.ts",
@@ -475,9 +475,9 @@
     "name": "housingLawEffect",
     "inventoryEngine": "economy",
     "keepLines": 17,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/housing-prices.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence in all 56 generated places is recorded in housing-mortgage-world.test.ts. Actual native startup/monthly/scheduler/purchase writers and raw sources are used; saved law/cap/pay/balance controls are labeled edges. No exhaustive, ordinary-play, core2-wiring or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/housing-market.ts",
@@ -485,9 +485,9 @@
     "name": "incomeRate",
     "inventoryEngine": "economy",
     "keepLines": 3,
-    "status": "lifted",
-    "lift": "src/rules/economy/home-price-levels.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/housing-prices.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence in all 56 generated places is recorded in housing-mortgage-world.test.ts. Actual native startup/monthly/scheduler/purchase writers and raw sources are used; saved law/cap/pay/balance controls are labeled edges. No exhaustive, ordinary-play, core2-wiring or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/housing-market.ts",
@@ -495,9 +495,9 @@
     "name": "rateMidpoint",
     "inventoryEngine": "economy",
     "keepLines": 3,
-    "status": "lifted",
-    "lift": "src/rules/economy/home-price-levels.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/housing-prices.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence in all 56 generated places is recorded in housing-mortgage-world.test.ts. Actual native startup/monthly/scheduler/purchase writers and raw sources are used; saved law/cap/pay/balance controls are labeled edges. No exhaustive, ordinary-play, core2-wiring or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/housing-market.ts",
@@ -505,9 +505,9 @@
     "name": "homePriceLevels",
     "inventoryEngine": "economy",
     "keepLines": 42,
-    "status": "pending-owned",
-    "lift": "src/rules/economy/home-price-levels.ts",
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/housing-prices.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence in all 56 generated places is recorded in housing-mortgage-world.test.ts. Actual native startup/monthly/scheduler/purchase writers and raw sources are used; saved law/cap/pay/balance controls are labeled edges. No exhaustive, ordinary-play, core2-wiring or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/housing-price-model.ts",
@@ -515,9 +515,9 @@
     "name": "priceGrowthMonthly",
     "inventoryEngine": "economy",
     "keepLines": 9,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/housing-price-model.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence in all 56 generated places is recorded in housing-mortgage-world.test.ts. Actual native startup/monthly/scheduler/purchase writers and raw sources are used; saved law/cap/pay/balance controls are labeled edges. No exhaustive, ordinary-play, core2-wiring or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-business-books.ts",
@@ -1955,9 +1955,9 @@
     "name": "moneyText",
     "inventoryEngine": "economy",
     "keepLines": 14,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/home-purchase-records.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence in all 56 generated places is recorded in housing-mortgage-world.test.ts. Actual native startup/monthly/scheduler/purchase writers and raw sources are used; saved law/cap/pay/balance controls are labeled edges. No exhaustive, ordinary-play, core2-wiring or finisher claim."
   },
   {
     "sourceFile": "src/simulation/mortgage-financing.ts",
@@ -1965,9 +1965,9 @@
     "name": "mortgageFinancingQuote",
     "inventoryEngine": "economy",
     "keepLines": 90,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/mortgage-quotes.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence in all 56 generated places is recorded in housing-mortgage-world.test.ts. Actual native startup/monthly/scheduler/purchase writers and raw sources are used; saved law/cap/pay/balance controls are labeled edges. No exhaustive, ordinary-play, core2-wiring or finisher claim."
   },
   {
     "sourceFile": "src/simulation/mortgage-financing.ts",
@@ -1975,9 +1975,9 @@
     "name": "openingMortgageFinancingQuote",
     "inventoryEngine": "economy",
     "keepLines": 68,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/mortgage-quotes.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence in all 56 generated places is recorded in housing-mortgage-world.test.ts. Actual native startup/monthly/scheduler/purchase writers and raw sources are used; saved law/cap/pay/balance controls are labeled edges. No exhaustive, ordinary-play, core2-wiring or finisher claim."
   },
   {
     "sourceFile": "src/simulation/opening-employer-cash.ts",
@@ -2505,9 +2505,9 @@
     "name": "annualPay",
     "inventoryEngine": "economy",
     "keepLines": 14,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/starting-cash.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence in all 56 generated places is recorded in starting-cash-world.test.ts. Actual native startup/monthly/scheduler/purchase writers and raw sources are used; saved law/cap/pay/balance controls are labeled edges. No exhaustive, ordinary-play, core2-wiring or finisher claim."
   },
   {
     "sourceFile": "src/simulation/starting-money.ts",
@@ -2525,9 +2525,9 @@
     "name": "estimatedPersonalBalance",
     "inventoryEngine": "economy",
     "keepLines": 22,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/starting-cash.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence in all 56 generated places is recorded in starting-cash-world.test.ts. Actual native startup/monthly/scheduler/purchase writers and raw sources are used; saved law/cap/pay/balance controls are labeled edges. No exhaustive, ordinary-play, core2-wiring or finisher claim."
   },
   {
     "sourceFile": "src/simulation/student-debt.ts",

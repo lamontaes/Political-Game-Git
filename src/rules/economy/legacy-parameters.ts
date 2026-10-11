@@ -129,6 +129,14 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
   },
+  "down-payments.ts": {
+    values: [0],
+    provenance: "ESTIMATED",
+    source: "src/simulation/home-down-payment.ts:31",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.down-payment-completed-sample-mean"],
+  },
   "employment-mix.ts": {
     values: [0],
     provenance: "SOURCED",
@@ -181,7 +189,7 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     values: [0, 1, 2, 100],
     provenance: "TUNABLE",
     source:
-      "src/simulation/living-world/housing-market.ts:157; src/simulation/living-world/housing-market.ts:161; src/simulation/living-world/housing-market.ts:166",
+      "Frozen supporting native unit/schema/calendar contract; see module imports and KEEP-DISPOSITION.md.",
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: [
@@ -190,11 +198,22 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "economy.home-price-opening-level",
     ],
   },
+  "home-purchase-records.ts": {
+    values: [-1, 0, 1, 2, 18, 100, 100000],
+    provenance: "TUNABLE",
+    source:
+      "src/simulation/home-purchase.ts:69; src/simulation/home-purchase.ts:74; src/simulation/home-purchase.ts:253; src/simulation/money-text.ts:9",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.home-purchase-majority-age",
+      "economy.home-purchase-native-English",
+    ],
+  },
   "home-purchase.ts": {
     values: [0, 1],
     provenance: "SOURCED",
-    source:
-      "src/simulation/home-purchase.ts:69; src/simulation/home-purchase.ts:74; src/simulation/job-market.ts:747",
+    source: "src/simulation/job-market.ts:747",
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
   },
@@ -217,6 +236,25 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     registeredStopgaps: [
       "economy.first-lease-bedroom-proxy",
       "economy.inclusionary-rounding-tolerance",
+    ],
+  },
+  "housing-price-model.ts": {
+    values: [-0.12, -0.0046, 0.036, 0.38, 0.63, 12],
+    provenance: "SOURCED",
+    source: "src/simulation/living-world/housing-price-model.ts:52",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+  },
+  "housing-prices.ts": {
+    values: [-0.12, -0.00146, 0, 1, 2, 12, 100, 365],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/living-world/housing-market.ts:118; src/simulation/living-world/housing-market.ts:157; src/simulation/living-world/housing-market.ts:161; src/simulation/living-world/housing-market.ts:166",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.housing-supply-law-response",
+      "economy.housing-price-cache-frontier",
     ],
   },
   "job-history-rules.ts": {
@@ -353,6 +391,15 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
   },
+  "mortgage-quotes.ts": {
+    values: [0, 1, 2, 3.5, 3.75, 6.15, 12, 30, 100],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/mortgage-financing.ts:55; src/simulation/mortgage-financing.ts:170",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.mortgage-saved-rate-pass-through"],
+  },
   "operating-income.ts": {
     values: [0],
     provenance: "TUNABLE",
@@ -427,6 +474,15 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "economy.starting-cash-source-interpolation",
       "economy.student-rate-nearest-award",
     ],
+  },
+  "starting-cash.ts": {
+    values: [0, 1, 12, 18, 52, 100, 365.25],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/starting-money.ts:32; src/simulation/starting-money.ts:236",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.starting-cash-pay-eligibility"],
   },
   "town-employment-mix.ts": {
     values: [0, 1, 4],
