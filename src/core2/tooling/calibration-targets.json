@@ -207,7 +207,9 @@
         "PSS scale guidance: https://www.cmu.edu/dietrich/psychology/stress-immunity-disease-lab/scales/"
       ],
       "testRoute": "After an instrument-valid last-month report bridge and demographically matched sample exist, compare distributions/subgroup summaries; retain the source warning that scores have no universal cutoff.",
-      "adapterGaps": ["P9 biographies do not contain PSS questionnaires."],
+      "adapterGaps": [
+        "P9 biographies do not contain PSS questionnaires."
+      ],
       "engineGaps": [
         "P8 stress is a latent instantaneous state; it does not generate the retrospective ten-item scale or a validated demographic sample."
       ],
@@ -311,7 +313,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysAll",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -332,7 +336,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysRestaurants",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -353,7 +359,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysRepair",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -374,7 +382,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysRetail",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -395,7 +405,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysConstruction",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -416,7 +428,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysPersonalServices",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -437,7 +451,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysWholesale",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -458,7 +474,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysMetalMachinery",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -479,7 +497,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysHealthCare",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -500,7 +520,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysHighTechManufacturing",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -521,7 +543,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysProfessionalServices",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -542,7 +566,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysHighTechServices",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -563,7 +589,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysRealEstate",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -1382,6 +1410,292 @@
       },
       "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
       "reviewNote": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership."
+    },
+    {
+      "parameter": "kinInterbirthYears",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 3,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "kinFirstBirthAgeSdYears",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 4,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "kinPaternalAgeGapYears",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 2.5,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "kinMaleFertilityAgeShiftYears",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 2,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "personalityUpbringingShift",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.15,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "personalityReferenceAge",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 40,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "closenessHoursAtHalf",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 90,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "closenessKinHalfLifeDays",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 1095,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted. Named check: Mollenhorst, Volker and Flap (2014), 48% of named network members still present after seven years; needs a seven-year run (P15 part 5)."
+    },
+    {
+      "parameter": "closenessOtherHalfLifeDays",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 548,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted. Named check: Mollenhorst, Volker and Flap (2014), 48% of named network members still present after seven years; needs a seven-year run (P15 part 5)."
+    },
+    {
+      "parameter": "householdOtherMinutesPerDay",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 43,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "schoolHoursFriendshipWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.25,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "extendedKinVisitShare",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.25,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "tieMissingWeightPerHour",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.1,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "kinMoveAwayShare",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.35,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "openingCoworkerGroupSize",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 8,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "griefLittleFraction",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.25,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 grief (src/core2/grief.ts, modules/people.ts): a relative's grief after a death and its pull on rest, family contact and organizing.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "griefPullWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 1,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 grief (src/core2/grief.ts, modules/people.ts): a relative's grief after a death and its pull on rest, family contact and organizing.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "griefHoldWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": -1,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 grief (src/core2/grief.ts, modules/people.ts): a relative's grief after a death and its pull on rest, family contact and organizing.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "fallingOutConflictWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.35,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 shared past (src/core2/opening-falling-outs.ts): falling-outs between people who shared a class or workgroup.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "fallingOutReliabilityWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.35,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 shared past (src/core2/opening-falling-outs.ts): falling-outs between people who shared a class or workgroup.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "unmodeledLeisureValuePerHour",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.46,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 free hours (src/core2/free-block.ts): an act added after the activation's pick must beat its hours in unmodeled leisure.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "Calibrated to the ATUS share of people who socialize on a given day; the target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "favorSharedHoursPerYear",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 50,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 shared past (src/core2/opening-favors.ts): closeness at a move from years shared before it.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
     }
   ],
   "unreferencedRemovalReview": {
@@ -1437,9 +1751,15 @@
             "earliest": "1994-10-13",
             "latest": "1995-10-12",
             "precision": "age-interval",
-            "sourceRefs": ["aoc-faith", "aoc-museum"]
+            "sourceRefs": [
+              "aoc-faith",
+              "aoc-museum"
+            ]
           },
-          "sourceRefs": ["aoc-faith", "aoc-museum"],
+          "sourceRefs": [
+            "aoc-faith",
+            "aoc-museum"
+          ],
           "sources": [
             {
               "id": "aoc-faith",
@@ -1476,9 +1796,13 @@
             "earliest": "2007-01-01",
             "latest": "2007-12-31",
             "precision": "year",
-            "sourceRefs": ["aoc-house"]
+            "sourceRefs": [
+              "aoc-house"
+            ]
           },
-          "sourceRefs": ["aoc-house"],
+          "sourceRefs": [
+            "aoc-house"
+          ],
           "sources": [
             {
               "id": "aoc-house",
@@ -1496,7 +1820,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["family-move"]
+          "requires": [
+            "family-move"
+          ]
         },
         {
           "lifeId": "alexandria-ocasio-cortez",
@@ -1508,9 +1834,13 @@
             "earliest": "2008-01-01",
             "latest": "2008-12-31",
             "precision": "year",
-            "sourceRefs": ["aoc-about"]
+            "sourceRefs": [
+              "aoc-about"
+            ]
           },
-          "sourceRefs": ["aoc-about"],
+          "sourceRefs": [
+            "aoc-about"
+          ],
           "sources": [
             {
               "id": "aoc-about",
@@ -1540,9 +1870,13 @@
             "earliest": "2011-01-01",
             "latest": "2011-12-31",
             "precision": "year",
-            "sourceRefs": ["aoc-house"]
+            "sourceRefs": [
+              "aoc-house"
+            ]
           },
-          "sourceRefs": ["aoc-house"],
+          "sourceRefs": [
+            "aoc-house"
+          ],
           "sources": [
             {
               "id": "aoc-house",
@@ -1560,7 +1894,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["high-school"]
+          "requires": [
+            "high-school"
+          ]
         },
         {
           "lifeId": "alexandria-ocasio-cortez",
@@ -1572,9 +1908,15 @@
             "earliest": "2011-01-01",
             "latest": "2018-06-25",
             "precision": "interval",
-            "sourceRefs": ["aoc-about", "aoc-museum"]
+            "sourceRefs": [
+              "aoc-about",
+              "aoc-museum"
+            ]
           },
-          "sourceRefs": ["aoc-about", "aoc-museum"],
+          "sourceRefs": [
+            "aoc-about",
+            "aoc-museum"
+          ],
           "sources": [
             {
               "id": "aoc-about",
@@ -1599,7 +1941,10 @@
             }
           ],
           "ranges": [],
-          "requires": ["father-dies", "college-graduation"]
+          "requires": [
+            "father-dies",
+            "college-graduation"
+          ]
         },
         {
           "lifeId": "alexandria-ocasio-cortez",
@@ -1611,9 +1956,13 @@
             "earliest": "2016-01-01",
             "latest": "2016-12-31",
             "precision": "year",
-            "sourceRefs": ["aoc-museum"]
+            "sourceRefs": [
+              "aoc-museum"
+            ]
           },
-          "sourceRefs": ["aoc-museum"],
+          "sourceRefs": [
+            "aoc-museum"
+          ],
           "sources": [
             {
               "id": "aoc-museum",
@@ -1643,9 +1992,15 @@
             "earliest": "2017-01-01",
             "latest": "2018-06-25",
             "precision": "interval",
-            "sourceRefs": ["aoc-about", "aoc-museum"]
+            "sourceRefs": [
+              "aoc-about",
+              "aoc-museum"
+            ]
           },
-          "sourceRefs": ["aoc-about", "aoc-museum"],
+          "sourceRefs": [
+            "aoc-about",
+            "aoc-museum"
+          ],
           "sources": [
             {
               "id": "aoc-about",
@@ -1670,7 +2025,10 @@
             }
           ],
           "ranges": [],
-          "requires": ["restaurant-work", "standing-rock"]
+          "requires": [
+            "restaurant-work",
+            "standing-rock"
+          ]
         },
         {
           "lifeId": "alexandria-ocasio-cortez",
@@ -1682,9 +2040,13 @@
             "earliest": "2018-06-26",
             "latest": "2018-06-26",
             "precision": "day",
-            "sourceRefs": ["aoc-museum"]
+            "sourceRefs": [
+              "aoc-museum"
+            ]
           },
-          "sourceRefs": ["aoc-museum"],
+          "sourceRefs": [
+            "aoc-museum"
+          ],
           "sources": [
             {
               "id": "aoc-museum",
@@ -1702,7 +2064,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["house-campaign"]
+          "requires": [
+            "house-campaign"
+          ]
         },
         {
           "lifeId": "alexandria-ocasio-cortez",
@@ -1714,9 +2078,13 @@
             "earliest": "2019-01-03",
             "latest": "2019-01-03",
             "precision": "day",
-            "sourceRefs": ["aoc-house"]
+            "sourceRefs": [
+              "aoc-house"
+            ]
           },
-          "sourceRefs": ["aoc-house"],
+          "sourceRefs": [
+            "aoc-house"
+          ],
           "sources": [
             {
               "id": "aoc-house",
@@ -1745,7 +2113,9 @@
               }
             }
           ],
-          "requires": ["primary-win"]
+          "requires": [
+            "primary-win"
+          ]
         },
         {
           "lifeId": "alexandria-ocasio-cortez",
@@ -1757,9 +2127,13 @@
             "earliest": "2021-04-20",
             "latest": "2021-04-20",
             "precision": "day",
-            "sourceRefs": ["gnd-2021"]
+            "sourceRefs": [
+              "gnd-2021"
+            ]
           },
-          "sourceRefs": ["gnd-2021"],
+          "sourceRefs": [
+            "gnd-2021"
+          ],
           "sources": [
             {
               "id": "gnd-2021",
@@ -1777,7 +2151,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["house-service"]
+          "requires": [
+            "house-service"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -1789,9 +2165,13 @@
             "earliest": "1913-09-01",
             "latest": "1913-09-30",
             "precision": "month",
-            "sourceRefs": ["lbj-boyhood"]
+            "sourceRefs": [
+              "lbj-boyhood"
+            ]
           },
-          "sourceRefs": ["lbj-boyhood"],
+          "sourceRefs": [
+            "lbj-boyhood"
+          ],
           "sources": [
             {
               "id": "lbj-boyhood",
@@ -1821,9 +2201,13 @@
             "earliest": "1924-05-24",
             "latest": "1924-05-24",
             "precision": "day",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -1841,7 +2225,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["family-move"]
+          "requires": [
+            "family-move"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -1853,9 +2239,13 @@
             "earliest": "1927-01-01",
             "latest": "1927-12-31",
             "precision": "year",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -1891,7 +2281,9 @@
               }
             }
           ],
-          "requires": ["high-school"]
+          "requires": [
+            "high-school"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -1903,9 +2295,13 @@
             "earliest": "1928-01-01",
             "latest": "1929-12-31",
             "precision": "interval",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -1923,7 +2319,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["college"]
+          "requires": [
+            "college"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -1935,9 +2333,13 @@
             "earliest": "1930-08-19",
             "latest": "1930-08-19",
             "precision": "day",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -1955,7 +2357,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["cotulla"]
+          "requires": [
+            "cotulla"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -1967,9 +2371,13 @@
             "earliest": "1931-11-30",
             "latest": "1931-11-30",
             "precision": "day",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -1987,7 +2395,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["college-degree"]
+          "requires": [
+            "college-degree"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -1999,9 +2409,13 @@
             "earliest": "1934-11-17",
             "latest": "1934-11-17",
             "precision": "day",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -2031,9 +2445,13 @@
             "earliest": "1935-07-01",
             "latest": "1935-07-31",
             "precision": "month",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -2051,7 +2469,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["congressional-aide"]
+          "requires": [
+            "congressional-aide"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -2063,9 +2483,13 @@
             "earliest": "1937-01-01",
             "latest": "1937-04-09",
             "precision": "interval",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -2083,7 +2507,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["nya-director"]
+          "requires": [
+            "nya-director"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -2095,9 +2521,13 @@
             "earliest": "1937-04-10",
             "latest": "1937-04-10",
             "precision": "day",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -2115,7 +2545,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["house-campaign"]
+          "requires": [
+            "house-campaign"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -2127,9 +2559,13 @@
             "earliest": "1941-12-09",
             "latest": "1941-12-09",
             "precision": "day",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -2159,9 +2595,13 @@
             "earliest": "1948-11-02",
             "latest": "1948-11-02",
             "precision": "day",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -2179,7 +2619,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["house-win"]
+          "requires": [
+            "house-win"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -2191,9 +2633,13 @@
             "earliest": "1955-01-02",
             "latest": "1955-01-02",
             "precision": "day",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -2211,7 +2657,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["senate-win"]
+          "requires": [
+            "senate-win"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -2223,9 +2671,13 @@
             "earliest": "1955-07-02",
             "latest": "1955-07-02",
             "precision": "day",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -2255,9 +2707,13 @@
             "earliest": "1960-11-08",
             "latest": "1960-11-08",
             "precision": "day",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -2275,7 +2731,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["majority-leader"]
+          "requires": [
+            "majority-leader"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -2287,9 +2745,13 @@
             "earliest": "1963-11-22",
             "latest": "1963-11-22",
             "precision": "day",
-            "sourceRefs": ["succession"]
+            "sourceRefs": [
+              "succession"
+            ]
           },
-          "sourceRefs": ["succession"],
+          "sourceRefs": [
+            "succession"
+          ],
           "sources": [
             {
               "id": "succession",
@@ -2318,7 +2780,9 @@
               }
             }
           ],
-          "requires": ["vice-president"]
+          "requires": [
+            "vice-president"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -2330,9 +2794,13 @@
             "earliest": "1964-07-02",
             "latest": "1964-07-02",
             "precision": "day",
-            "sourceRefs": ["civil-rights"]
+            "sourceRefs": [
+              "civil-rights"
+            ]
           },
-          "sourceRefs": ["civil-rights"],
+          "sourceRefs": [
+            "civil-rights"
+          ],
           "sources": [
             {
               "id": "civil-rights",
@@ -2350,7 +2818,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["presidential-succession"]
+          "requires": [
+            "presidential-succession"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -2362,9 +2832,13 @@
             "earliest": "1964-08-04",
             "latest": "1964-08-04",
             "precision": "day",
-            "sourceRefs": ["tonkin"]
+            "sourceRefs": [
+              "tonkin"
+            ]
           },
-          "sourceRefs": ["tonkin"],
+          "sourceRefs": [
+            "tonkin"
+          ],
           "sources": [
             {
               "id": "tonkin",
@@ -2382,7 +2856,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["presidential-succession"]
+          "requires": [
+            "presidential-succession"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -2394,9 +2870,13 @@
             "earliest": "1965-08-06",
             "latest": "1965-08-06",
             "precision": "day",
-            "sourceRefs": ["voting-rights"]
+            "sourceRefs": [
+              "voting-rights"
+            ]
           },
-          "sourceRefs": ["voting-rights"],
+          "sourceRefs": [
+            "voting-rights"
+          ],
           "sources": [
             {
               "id": "voting-rights",
@@ -2414,7 +2894,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["presidential-succession"]
+          "requires": [
+            "presidential-succession"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -2426,9 +2908,13 @@
             "earliest": "1968-03-31",
             "latest": "1968-03-31",
             "precision": "day",
-            "sourceRefs": ["withdrawal"]
+            "sourceRefs": [
+              "withdrawal"
+            ]
           },
-          "sourceRefs": ["withdrawal"],
+          "sourceRefs": [
+            "withdrawal"
+          ],
           "sources": [
             {
               "id": "withdrawal",
@@ -2446,7 +2932,10 @@
             }
           ],
           "ranges": [],
-          "requires": ["presidential-succession", "tonkin-request"]
+          "requires": [
+            "presidential-succession",
+            "tonkin-request"
+          ]
         },
         {
           "lifeId": "wes-moore",
@@ -2458,9 +2947,13 @@
             "earliest": "1981-10-15",
             "latest": "1982-10-14",
             "precision": "age-interval",
-            "sourceRefs": ["moore-governor"]
+            "sourceRefs": [
+              "moore-governor"
+            ]
           },
-          "sourceRefs": ["moore-governor"],
+          "sourceRefs": [
+            "moore-governor"
+          ],
           "sources": [
             {
               "id": "moore-governor",
@@ -2490,9 +2983,13 @@
             "earliest": "1981-10-15",
             "latest": "1992-10-14",
             "precision": "interval",
-            "sourceRefs": ["moore-governor"]
+            "sourceRefs": [
+              "moore-governor"
+            ]
           },
-          "sourceRefs": ["moore-governor"],
+          "sourceRefs": [
+            "moore-governor"
+          ],
           "sources": [
             {
               "id": "moore-governor",
@@ -2510,7 +3007,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["father-dies"]
+          "requires": [
+            "father-dies"
+          ]
         },
         {
           "lifeId": "wes-moore",
@@ -2522,9 +3021,15 @@
             "earliest": "1992-10-15",
             "latest": "1993-10-14",
             "precision": "age-interval",
-            "sourceRefs": ["moore-archives", "moore-launch"]
+            "sourceRefs": [
+              "moore-archives",
+              "moore-launch"
+            ]
           },
-          "sourceRefs": ["moore-archives", "moore-launch"],
+          "sourceRefs": [
+            "moore-archives",
+            "moore-launch"
+          ],
           "sources": [
             {
               "id": "moore-archives",
@@ -2549,7 +3054,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["move-to-grandparents"]
+          "requires": [
+            "move-to-grandparents"
+          ]
         },
         {
           "lifeId": "wes-moore",
@@ -2561,9 +3068,13 @@
             "earliest": "1998-01-01",
             "latest": "1998-12-31",
             "precision": "year",
-            "sourceRefs": ["moore-archives"]
+            "sourceRefs": [
+              "moore-archives"
+            ]
           },
-          "sourceRefs": ["moore-archives"],
+          "sourceRefs": [
+            "moore-archives"
+          ],
           "sources": [
             {
               "id": "moore-archives",
@@ -2593,9 +3104,13 @@
             "earliest": "1998-01-01",
             "latest": "1998-12-31",
             "precision": "year",
-            "sourceRefs": ["moore-governor"]
+            "sourceRefs": [
+              "moore-governor"
+            ]
           },
-          "sourceRefs": ["moore-governor"],
+          "sourceRefs": [
+            "moore-governor"
+          ],
           "sources": [
             {
               "id": "moore-governor",
@@ -2613,7 +3128,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["military-college"]
+          "requires": [
+            "military-college"
+          ]
         },
         {
           "lifeId": "wes-moore",
@@ -2625,9 +3142,13 @@
             "earliest": "2001-01-01",
             "latest": "2001-12-31",
             "precision": "year",
-            "sourceRefs": ["moore-archives"]
+            "sourceRefs": [
+              "moore-archives"
+            ]
           },
-          "sourceRefs": ["moore-archives"],
+          "sourceRefs": [
+            "moore-archives"
+          ],
           "sources": [
             {
               "id": "moore-archives",
@@ -2645,7 +3166,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["military-college"]
+          "requires": [
+            "military-college"
+          ]
         },
         {
           "lifeId": "wes-moore",
@@ -2657,9 +3180,13 @@
             "earliest": "2004-01-01",
             "latest": "2004-12-31",
             "precision": "year",
-            "sourceRefs": ["moore-archives"]
+            "sourceRefs": [
+              "moore-archives"
+            ]
           },
-          "sourceRefs": ["moore-archives"],
+          "sourceRefs": [
+            "moore-archives"
+          ],
           "sources": [
             {
               "id": "moore-archives",
@@ -2677,7 +3204,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["johns-hopkins"]
+          "requires": [
+            "johns-hopkins"
+          ]
         },
         {
           "lifeId": "wes-moore",
@@ -2689,9 +3218,13 @@
             "earliest": "2005-01-01",
             "latest": "2005-12-31",
             "precision": "year",
-            "sourceRefs": ["moore-governor"]
+            "sourceRefs": [
+              "moore-governor"
+            ]
           },
-          "sourceRefs": ["moore-governor"],
+          "sourceRefs": [
+            "moore-governor"
+          ],
           "sources": [
             {
               "id": "moore-governor",
@@ -2709,7 +3242,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["army-commission"]
+          "requires": [
+            "army-commission"
+          ]
         },
         {
           "lifeId": "wes-moore",
@@ -2721,9 +3256,13 @@
             "earliest": "2014-01-01",
             "latest": "2014-12-31",
             "precision": "year",
-            "sourceRefs": ["moore-archives"]
+            "sourceRefs": [
+              "moore-archives"
+            ]
           },
-          "sourceRefs": ["moore-archives"],
+          "sourceRefs": [
+            "moore-archives"
+          ],
           "sources": [
             {
               "id": "moore-archives",
@@ -2741,7 +3280,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["johns-hopkins"]
+          "requires": [
+            "johns-hopkins"
+          ]
         },
         {
           "lifeId": "wes-moore",
@@ -2753,9 +3294,13 @@
             "earliest": "2017-01-01",
             "latest": "2017-12-31",
             "precision": "year",
-            "sourceRefs": ["moore-archives"]
+            "sourceRefs": [
+              "moore-archives"
+            ]
           },
-          "sourceRefs": ["moore-archives"],
+          "sourceRefs": [
+            "moore-archives"
+          ],
           "sources": [
             {
               "id": "moore-archives",
@@ -2785,9 +3330,13 @@
             "earliest": "2021-06-07",
             "latest": "2021-06-07",
             "precision": "day",
-            "sourceRefs": ["moore-launch"]
+            "sourceRefs": [
+              "moore-launch"
+            ]
           },
-          "sourceRefs": ["moore-launch"],
+          "sourceRefs": [
+            "moore-launch"
+          ],
           "sources": [
             {
               "id": "moore-launch",
@@ -2805,7 +3354,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["robin-hood"]
+          "requires": [
+            "robin-hood"
+          ]
         },
         {
           "lifeId": "wes-moore",
@@ -2817,9 +3368,13 @@
             "earliest": "2022-07-19",
             "latest": "2022-07-19",
             "precision": "day",
-            "sourceRefs": ["moore-primary"]
+            "sourceRefs": [
+              "moore-primary"
+            ]
           },
-          "sourceRefs": ["moore-primary"],
+          "sourceRefs": [
+            "moore-primary"
+          ],
           "sources": [
             {
               "id": "moore-primary",
@@ -2855,7 +3410,9 @@
               }
             }
           ],
-          "requires": ["governor-campaign"]
+          "requires": [
+            "governor-campaign"
+          ]
         },
         {
           "lifeId": "wes-moore",
@@ -2867,9 +3424,13 @@
             "earliest": "2022-11-08",
             "latest": "2022-11-08",
             "precision": "day",
-            "sourceRefs": ["moore-election"]
+            "sourceRefs": [
+              "moore-election"
+            ]
           },
-          "sourceRefs": ["moore-election"],
+          "sourceRefs": [
+            "moore-election"
+          ],
           "sources": [
             {
               "id": "moore-election",
@@ -2905,7 +3466,9 @@
               }
             }
           ],
-          "requires": ["primary-win"]
+          "requires": [
+            "primary-win"
+          ]
         },
         {
           "lifeId": "wes-moore",
@@ -2917,9 +3480,13 @@
             "earliest": "2023-01-18",
             "latest": "2023-01-18",
             "precision": "day",
-            "sourceRefs": ["moore-archives"]
+            "sourceRefs": [
+              "moore-archives"
+            ]
           },
-          "sourceRefs": ["moore-archives"],
+          "sourceRefs": [
+            "moore-archives"
+          ],
           "sources": [
             {
               "id": "moore-archives",
@@ -2937,7 +3504,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["general-win"]
+          "requires": [
+            "general-win"
+          ]
         }
       ],
       "testRoute": {
@@ -3147,7 +3716,10 @@
             "earliest": "1994-10-13",
             "latest": "1995-10-12",
             "precision": "age-interval",
-            "sourceRefs": ["aoc-faith", "aoc-museum"]
+            "sourceRefs": [
+              "aoc-faith",
+              "aoc-museum"
+            ]
           }
         },
         {
@@ -3158,7 +3730,9 @@
             "earliest": "2008-01-01",
             "latest": "2008-12-31",
             "precision": "year",
-            "sourceRefs": ["aoc-about"]
+            "sourceRefs": [
+              "aoc-about"
+            ]
           }
         },
         {
@@ -3169,7 +3743,9 @@
             "earliest": "1913-09-01",
             "latest": "1913-09-30",
             "precision": "month",
-            "sourceRefs": ["lbj-boyhood"]
+            "sourceRefs": [
+              "lbj-boyhood"
+            ]
           }
         },
         {
@@ -3180,7 +3756,9 @@
             "earliest": "1955-07-02",
             "latest": "1955-07-02",
             "precision": "day",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           }
         },
         {
@@ -3191,7 +3769,9 @@
             "earliest": "1963-11-22",
             "latest": "1963-11-22",
             "precision": "day",
-            "sourceRefs": ["succession"]
+            "sourceRefs": [
+              "succession"
+            ]
           }
         },
         {
@@ -3202,7 +3782,9 @@
             "earliest": "1981-10-15",
             "latest": "1982-10-14",
             "precision": "age-interval",
-            "sourceRefs": ["moore-governor"]
+            "sourceRefs": [
+              "moore-governor"
+            ]
           }
         },
         {
@@ -3213,7 +3795,9 @@
             "earliest": "1981-10-15",
             "latest": "1992-10-14",
             "precision": "interval",
-            "sourceRefs": ["moore-governor"]
+            "sourceRefs": [
+              "moore-governor"
+            ]
           }
         },
         {
@@ -3224,7 +3808,10 @@
             "earliest": "1992-10-15",
             "latest": "1993-10-14",
             "precision": "age-interval",
-            "sourceRefs": ["moore-archives", "moore-launch"]
+            "sourceRefs": [
+              "moore-archives",
+              "moore-launch"
+            ]
           }
         },
         {
@@ -3235,7 +3822,9 @@
             "earliest": "2005-01-01",
             "latest": "2005-12-31",
             "precision": "year",
-            "sourceRefs": ["moore-governor"]
+            "sourceRefs": [
+              "moore-governor"
+            ]
           }
         }
       ]
@@ -3268,9 +3857,13 @@
             "earliest": "2007-01-01",
             "latest": "2007-12-31",
             "precision": "year",
-            "sourceRefs": ["aoc-house"]
+            "sourceRefs": [
+              "aoc-house"
+            ]
           },
-          "sourceRefs": ["aoc-house"],
+          "sourceRefs": [
+            "aoc-house"
+          ],
           "sources": [
             {
               "id": "aoc-house",
@@ -3288,7 +3881,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["family-move"]
+          "requires": [
+            "family-move"
+          ]
         },
         {
           "lifeId": "alexandria-ocasio-cortez",
@@ -3300,9 +3895,13 @@
             "earliest": "2011-01-01",
             "latest": "2011-12-31",
             "precision": "year",
-            "sourceRefs": ["aoc-house"]
+            "sourceRefs": [
+              "aoc-house"
+            ]
           },
-          "sourceRefs": ["aoc-house"],
+          "sourceRefs": [
+            "aoc-house"
+          ],
           "sources": [
             {
               "id": "aoc-house",
@@ -3320,7 +3919,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["high-school"]
+          "requires": [
+            "high-school"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -3332,9 +3933,13 @@
             "earliest": "1924-05-24",
             "latest": "1924-05-24",
             "precision": "day",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -3352,7 +3957,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["family-move"]
+          "requires": [
+            "family-move"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -3364,9 +3971,13 @@
             "earliest": "1927-01-01",
             "latest": "1927-12-31",
             "precision": "year",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -3402,7 +4013,9 @@
               }
             }
           ],
-          "requires": ["high-school"]
+          "requires": [
+            "high-school"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -3414,9 +4027,13 @@
             "earliest": "1930-08-19",
             "latest": "1930-08-19",
             "precision": "day",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -3434,7 +4051,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["cotulla"]
+          "requires": [
+            "cotulla"
+          ]
         },
         {
           "lifeId": "wes-moore",
@@ -3446,9 +4065,13 @@
             "earliest": "1998-01-01",
             "latest": "1998-12-31",
             "precision": "year",
-            "sourceRefs": ["moore-archives"]
+            "sourceRefs": [
+              "moore-archives"
+            ]
           },
-          "sourceRefs": ["moore-archives"],
+          "sourceRefs": [
+            "moore-archives"
+          ],
           "sources": [
             {
               "id": "moore-archives",
@@ -3478,9 +4101,13 @@
             "earliest": "2001-01-01",
             "latest": "2001-12-31",
             "precision": "year",
-            "sourceRefs": ["moore-archives"]
+            "sourceRefs": [
+              "moore-archives"
+            ]
           },
-          "sourceRefs": ["moore-archives"],
+          "sourceRefs": [
+            "moore-archives"
+          ],
           "sources": [
             {
               "id": "moore-archives",
@@ -3498,7 +4125,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["military-college"]
+          "requires": [
+            "military-college"
+          ]
         },
         {
           "lifeId": "wes-moore",
@@ -3510,9 +4139,13 @@
             "earliest": "2004-01-01",
             "latest": "2004-12-31",
             "precision": "year",
-            "sourceRefs": ["moore-archives"]
+            "sourceRefs": [
+              "moore-archives"
+            ]
           },
-          "sourceRefs": ["moore-archives"],
+          "sourceRefs": [
+            "moore-archives"
+          ],
           "sources": [
             {
               "id": "moore-archives",
@@ -3530,7 +4163,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["johns-hopkins"]
+          "requires": [
+            "johns-hopkins"
+          ]
         }
       ],
       "sourceFiles": {
@@ -3602,9 +4237,13 @@
             "earliest": "1934-11-17",
             "latest": "1934-11-17",
             "precision": "day",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -3683,9 +4322,13 @@
             "earliest": "1927-01-01",
             "latest": "1927-12-31",
             "precision": "year",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -3721,7 +4364,9 @@
               }
             }
           ],
-          "requires": ["high-school"]
+          "requires": [
+            "high-school"
+          ]
         },
         {
           "lifeId": "lyndon-b-johnson",
@@ -3733,9 +4378,13 @@
             "earliest": "1928-01-01",
             "latest": "1929-12-31",
             "precision": "interval",
-            "sourceRefs": ["lbj-timeline"]
+            "sourceRefs": [
+              "lbj-timeline"
+            ]
           },
-          "sourceRefs": ["lbj-timeline"],
+          "sourceRefs": [
+            "lbj-timeline"
+          ],
           "sources": [
             {
               "id": "lbj-timeline",
@@ -3753,7 +4402,9 @@
             }
           ],
           "ranges": [],
-          "requires": ["college"]
+          "requires": [
+            "college"
+          ]
         }
       ],
       "sourceFiles": {
@@ -3807,7 +4458,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "7704c1eddb7a2abc7b1c8e14775616b638dd9bf58e167e66857831065794336c"
+        "src/core2/data/parameters.json": "9e9f14510944dc9951cda87016569a852db3d04bcc99e358af4de3e88d64ee60"
       },
       "observations": [
         {
@@ -3822,7 +4473,9 @@
             "precision": "five-year-survey-window"
           },
           "sourceFile": "src/core2/data/resident-employment.json",
-          "sourceRefs": ["county-acs-b23001"],
+          "sourceRefs": [
+            "county-acs-b23001"
+          ],
           "observedCounts": {
             "population": 62577,
             "employed": 13185
@@ -3841,7 +4494,9 @@
             "precision": "five-year-survey-window"
           },
           "sourceFile": "src/core2/data/resident-employment.json",
-          "sourceRefs": ["county-acs-b23001"],
+          "sourceRefs": [
+            "county-acs-b23001"
+          ],
           "observedCounts": {
             "population": 29794,
             "employed": 16791
@@ -3860,7 +4515,9 @@
             "precision": "five-year-survey-window"
           },
           "sourceFile": "src/core2/data/resident-employment.json",
-          "sourceRefs": ["county-acs-b23001"],
+          "sourceRefs": [
+            "county-acs-b23001"
+          ],
           "observedCounts": {
             "population": 39663,
             "employed": 25901
@@ -3879,7 +4536,9 @@
             "precision": "five-year-survey-window"
           },
           "sourceFile": "src/core2/data/resident-employment.json",
-          "sourceRefs": ["county-acs-b23001"],
+          "sourceRefs": [
+            "county-acs-b23001"
+          ],
           "observedCounts": {
             "population": 63360,
             "employed": 43840
@@ -3898,7 +4557,9 @@
             "precision": "five-year-survey-window"
           },
           "sourceFile": "src/core2/data/resident-employment.json",
-          "sourceRefs": ["county-acs-b23001"],
+          "sourceRefs": [
+            "county-acs-b23001"
+          ],
           "observedCounts": {
             "population": 58552,
             "employed": 41747
@@ -3917,7 +4578,9 @@
             "precision": "five-year-survey-window"
           },
           "sourceFile": "src/core2/data/resident-employment.json",
-          "sourceRefs": ["county-acs-b23001"],
+          "sourceRefs": [
+            "county-acs-b23001"
+          ],
           "observedCounts": {
             "population": 108931,
             "employed": 79726
@@ -3936,7 +4599,9 @@
             "precision": "five-year-survey-window"
           },
           "sourceFile": "src/core2/data/resident-employment.json",
-          "sourceRefs": ["county-acs-b23001"],
+          "sourceRefs": [
+            "county-acs-b23001"
+          ],
           "observedCounts": {
             "population": 102360,
             "employed": 73666
@@ -3955,7 +4620,9 @@
             "precision": "five-year-survey-window"
           },
           "sourceFile": "src/core2/data/resident-employment.json",
-          "sourceRefs": ["county-acs-b23001"],
+          "sourceRefs": [
+            "county-acs-b23001"
+          ],
           "observedCounts": {
             "population": 40274,
             "employed": 25968
@@ -3974,7 +4641,9 @@
             "precision": "five-year-survey-window"
           },
           "sourceFile": "src/core2/data/resident-employment.json",
-          "sourceRefs": ["county-acs-b23001"],
+          "sourceRefs": [
+            "county-acs-b23001"
+          ],
           "observedCounts": {
             "population": 15128,
             "employed": 8934
@@ -3993,7 +4662,9 @@
             "precision": "five-year-survey-window"
           },
           "sourceFile": "src/core2/data/resident-employment.json",
-          "sourceRefs": ["county-acs-b23001"],
+          "sourceRefs": [
+            "county-acs-b23001"
+          ],
           "observedCounts": {
             "population": 22246,
             "employed": 9651
@@ -4012,7 +4683,9 @@
             "precision": "five-year-survey-window"
           },
           "sourceFile": "src/core2/data/resident-employment.json",
-          "sourceRefs": ["county-acs-b23001"],
+          "sourceRefs": [
+            "county-acs-b23001"
+          ],
           "observedCounts": {
             "population": 32076,
             "employed": 8490
@@ -4031,7 +4704,9 @@
             "precision": "five-year-survey-window"
           },
           "sourceFile": "src/core2/data/resident-employment.json",
-          "sourceRefs": ["county-acs-b23001"],
+          "sourceRefs": [
+            "county-acs-b23001"
+          ],
           "observedCounts": {
             "population": 26701,
             "employed": 3279
@@ -4050,7 +4725,9 @@
             "precision": "five-year-survey-window"
           },
           "sourceFile": "src/core2/data/resident-employment.json",
-          "sourceRefs": ["county-acs-b23001"],
+          "sourceRefs": [
+            "county-acs-b23001"
+          ],
           "observedCounts": {
             "population": 45758,
             "employed": 2138
@@ -4067,7 +4744,9 @@
             "precision": "annual-average"
           },
           "sourceFile": "src/core2/data/parameters.json",
-          "sourceRefs": ["national-cps-age-2019"],
+          "sourceRefs": [
+            "national-cps-age-2019"
+          ],
           "observedCounts": {
             "population": 8798,
             "employed": 1789
@@ -4084,7 +4763,9 @@
             "precision": "annual-average"
           },
           "sourceFile": "src/core2/data/parameters.json",
-          "sourceRefs": ["national-cps-age-2019"],
+          "sourceRefs": [
+            "national-cps-age-2019"
+          ],
           "observedCounts": {
             "population": 7894,
             "employed": 3361
@@ -4101,7 +4782,9 @@
             "precision": "annual-average"
           },
           "sourceFile": "src/core2/data/parameters.json",
-          "sourceRefs": ["national-cps-age-2019"],
+          "sourceRefs": [
+            "national-cps-age-2019"
+          ],
           "observedCounts": {
             "population": 21055,
             "employed": 14172
@@ -4118,7 +4801,9 @@
             "precision": "annual-average"
           },
           "sourceFile": "src/core2/data/parameters.json",
-          "sourceRefs": ["national-cps-age-2019"],
+          "sourceRefs": [
+            "national-cps-age-2019"
+          ],
           "observedCounts": {
             "population": 22933,
             "employed": 18211
@@ -4135,7 +4820,9 @@
             "precision": "annual-average"
           },
           "sourceFile": "src/core2/data/parameters.json",
-          "sourceRefs": ["national-cps-age-2019"],
+          "sourceRefs": [
+            "national-cps-age-2019"
+          ],
           "observedCounts": {
             "population": 21943,
             "employed": 17597
@@ -4152,7 +4839,9 @@
             "precision": "annual-average"
           },
           "sourceFile": "src/core2/data/parameters.json",
-          "sourceRefs": ["national-cps-age-2019"],
+          "sourceRefs": [
+            "national-cps-age-2019"
+          ],
           "observedCounts": {
             "population": 40960,
             "employed": 33127
@@ -4169,7 +4858,9 @@
             "precision": "annual-average"
           },
           "sourceFile": "src/core2/data/parameters.json",
-          "sourceRefs": ["national-cps-age-2019"],
+          "sourceRefs": [
+            "national-cps-age-2019"
+          ],
           "observedCounts": {
             "population": 40445,
             "employed": 32042
@@ -4186,7 +4877,9 @@
             "precision": "annual-average"
           },
           "sourceFile": "src/core2/data/parameters.json",
-          "sourceRefs": ["national-cps-age-2019"],
+          "sourceRefs": [
+            "national-cps-age-2019"
+          ],
           "observedCounts": {
             "population": 21624,
             "employed": 15348
@@ -4203,7 +4896,9 @@
             "precision": "annual-average"
           },
           "sourceFile": "src/core2/data/parameters.json",
-          "sourceRefs": ["national-cps-age-2019"],
+          "sourceRefs": [
+            "national-cps-age-2019"
+          ],
           "observedCounts": {
             "population": 20616,
             "employed": 11545
@@ -4220,7 +4915,9 @@
             "precision": "annual-average"
           },
           "sourceFile": "src/core2/data/parameters.json",
-          "sourceRefs": ["national-cps-age-2019"],
+          "sourceRefs": [
+            "national-cps-age-2019"
+          ],
           "observedCounts": {
             "population": 17288,
             "employed": 5765
@@ -4237,7 +4934,9 @@
             "precision": "annual-average"
           },
           "sourceFile": "src/core2/data/parameters.json",
-          "sourceRefs": ["national-cps-age-2019"],
+          "sourceRefs": [
+            "national-cps-age-2019"
+          ],
           "observedCounts": {
             "population": 13990,
             "employed": 2679
@@ -4254,7 +4953,9 @@
             "precision": "annual-average"
           },
           "sourceFile": "src/core2/data/parameters.json",
-          "sourceRefs": ["national-cps-age-2019"],
+          "sourceRefs": [
+            "national-cps-age-2019"
+          ],
           "observedCounts": {
             "population": 21626,
             "employed": 1903
@@ -4311,7 +5012,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 9.8,
           "rawPublishedValue": "9.80",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4327,7 +5030,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.21,
           "rawPublishedValue": "1.21",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4343,7 +5048,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.99,
           "rawPublishedValue": "1.99",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4359,7 +5066,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.69,
           "rawPublishedValue": "0.69",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4375,7 +5084,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.49,
           "rawPublishedValue": "0.49",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4391,7 +5102,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.15,
           "rawPublishedValue": "0.15",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4407,7 +5120,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 3.32,
           "rawPublishedValue": "3.32",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4423,7 +5138,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.44,
           "rawPublishedValue": "0.44",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4439,7 +5156,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.28,
           "rawPublishedValue": "0.28",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4455,7 +5174,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 5.16,
           "rawPublishedValue": "5.16",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4471,7 +5192,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.19,
           "rawPublishedValue": "0.19",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4487,7 +5210,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.27,
           "rawPublishedValue": "0.27",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4503,7 +5228,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 10.93,
           "rawPublishedValue": "10.93",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4519,7 +5246,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.18,
           "rawPublishedValue": "1.18",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4535,7 +5264,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.71,
           "rawPublishedValue": "0.71",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4551,7 +5282,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.38,
           "rawPublishedValue": "0.38",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4567,7 +5300,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.07,
           "rawPublishedValue": "0.07",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4583,7 +5318,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.06,
           "rawPublishedValue": "0.06",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4599,7 +5336,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.71,
           "rawPublishedValue": "0.71",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4615,7 +5354,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 3.45,
           "rawPublishedValue": "3.45",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4631,7 +5372,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.51,
           "rawPublishedValue": "0.51",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4647,7 +5390,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 5.66,
           "rawPublishedValue": "5.66",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4663,7 +5408,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.18,
           "rawPublishedValue": "0.18",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4679,7 +5426,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.16,
           "rawPublishedValue": "0.16",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4695,7 +5444,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 10.44,
           "rawPublishedValue": "10.44",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4711,7 +5462,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.13,
           "rawPublishedValue": "1.13",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4727,7 +5480,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.37,
           "rawPublishedValue": "1.37",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4743,7 +5498,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.62,
           "rawPublishedValue": "0.62",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4759,7 +5516,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.41,
           "rawPublishedValue": "0.41",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4775,7 +5534,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.07,
           "rawPublishedValue": "0.07",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4791,7 +5552,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 3.85,
           "rawPublishedValue": "3.85",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4807,7 +5570,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.88,
           "rawPublishedValue": "0.88",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4823,7 +5588,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.19,
           "rawPublishedValue": "0.19",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4839,7 +5606,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 4.67,
           "rawPublishedValue": "4.67",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4855,7 +5624,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.17,
           "rawPublishedValue": "0.17",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4871,7 +5642,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.21,
           "rawPublishedValue": "0.21",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4887,7 +5660,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 9.82,
           "rawPublishedValue": "9.82",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4903,7 +5678,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.13,
           "rawPublishedValue": "1.13",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4919,7 +5696,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.58,
           "rawPublishedValue": "1.58",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4935,7 +5714,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.59,
           "rawPublishedValue": "0.59",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4951,7 +5732,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.79,
           "rawPublishedValue": "0.79",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4967,7 +5750,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.04,
           "rawPublishedValue": "0.04",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4983,7 +5768,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 4.58,
           "rawPublishedValue": "4.58",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -4999,7 +5786,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.42,
           "rawPublishedValue": "0.42",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5015,7 +5804,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.13,
           "rawPublishedValue": "0.13",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5031,7 +5822,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 4.5,
           "rawPublishedValue": "4.50",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5047,7 +5840,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.11,
           "rawPublishedValue": "0.11",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5063,7 +5858,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.29,
           "rawPublishedValue": "0.29",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5079,7 +5876,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 9.4,
           "rawPublishedValue": "9.40",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5095,7 +5894,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.16,
           "rawPublishedValue": "1.16",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5111,7 +5912,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.98,
           "rawPublishedValue": "1.98",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5127,7 +5930,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.72,
           "rawPublishedValue": "0.72",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5143,7 +5948,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.23,
           "rawPublishedValue": "1.23",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5159,7 +5966,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.09,
           "rawPublishedValue": "0.09",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5175,7 +5984,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 4.83,
           "rawPublishedValue": "4.83",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5191,7 +6002,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.09,
           "rawPublishedValue": "0.09",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5207,7 +6020,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.17,
           "rawPublishedValue": "0.17",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5223,7 +6038,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 3.89,
           "rawPublishedValue": "3.89",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5239,7 +6056,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.12,
           "rawPublishedValue": "0.12",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5255,7 +6074,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.32,
           "rawPublishedValue": "0.32",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5271,7 +6092,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 9.49,
           "rawPublishedValue": "9.49",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5287,7 +6110,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.22,
           "rawPublishedValue": "1.22",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5303,7 +6128,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 2.18,
           "rawPublishedValue": "2.18",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5319,7 +6146,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.66,
           "rawPublishedValue": "0.66",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5335,7 +6164,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.51,
           "rawPublishedValue": "0.51",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5351,7 +6182,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.27,
           "rawPublishedValue": "0.27",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5367,7 +6200,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 4.7,
           "rawPublishedValue": "4.70",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5383,7 +6218,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.03,
           "rawPublishedValue": "0.03",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5399,7 +6236,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.25,
           "rawPublishedValue": "0.25",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5415,7 +6254,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 4.3,
           "rawPublishedValue": "4.30",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5431,7 +6272,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.17,
           "rawPublishedValue": "0.17",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5447,7 +6290,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.23,
           "rawPublishedValue": "0.23",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5463,7 +6308,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 9.67,
           "rawPublishedValue": "9.67",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5479,7 +6326,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.19,
           "rawPublishedValue": "1.19",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5495,7 +6344,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 2.18,
           "rawPublishedValue": "2.18",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5511,7 +6362,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.75,
           "rawPublishedValue": "0.75",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5527,7 +6380,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.16,
           "rawPublishedValue": "0.16",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5543,7 +6398,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.24,
           "rawPublishedValue": "0.24",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5559,7 +6416,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 3.83,
           "rawPublishedValue": "3.83",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5575,7 +6434,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.04,
           "rawPublishedValue": "0.04",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5591,7 +6452,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.28,
           "rawPublishedValue": "0.28",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5607,7 +6470,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 5.21,
           "rawPublishedValue": "5.21",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5623,7 +6488,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.19,
           "rawPublishedValue": "0.19",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5639,7 +6506,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.26,
           "rawPublishedValue": "0.26",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5655,7 +6524,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 9.63,
           "rawPublishedValue": "9.63",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5671,7 +6542,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.27,
           "rawPublishedValue": "1.27",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5687,7 +6560,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 2.74,
           "rawPublishedValue": "2.74",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5703,7 +6578,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.88,
           "rawPublishedValue": "0.88",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5719,7 +6596,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.13,
           "rawPublishedValue": "0.13",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5735,7 +6614,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.25,
           "rawPublishedValue": "0.25",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5751,7 +6632,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.14,
           "rawPublishedValue": "1.14",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5767,7 +6650,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.03,
           "rawPublishedValue": "0.03",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5783,7 +6668,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.46,
           "rawPublishedValue": "0.46",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5799,7 +6686,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 6.9,
           "rawPublishedValue": "6.90",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5815,7 +6704,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.31,
           "rawPublishedValue": "0.31",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5831,7 +6722,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.28,
           "rawPublishedValue": "0.28",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5847,7 +6740,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 9.87,
           "rawPublishedValue": "9.87",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5863,7 +6758,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 1.49,
           "rawPublishedValue": "1.49",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5879,7 +6776,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 2.73,
           "rawPublishedValue": "2.73",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5895,7 +6794,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.82,
           "rawPublishedValue": "0.82",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5911,7 +6812,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.09,
           "rawPublishedValue": "0.09",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5927,7 +6830,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.14,
           "rawPublishedValue": "0.14",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5943,7 +6848,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.26,
           "rawPublishedValue": "0.26",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5959,7 +6866,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.42,
           "rawPublishedValue": "0.42",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5975,7 +6884,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 7.39,
           "rawPublishedValue": "7.39",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -5991,7 +6902,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.41,
           "rawPublishedValue": "0.41",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -6007,7 +6920,9 @@
             "precision": "annual-diary-estimate"
           },
           "sourceFile": "src/core2/data/time-use-reference.json",
-          "sourceRefs": ["atus-age-2025"],
+          "sourceRefs": [
+            "atus-age-2025"
+          ],
           "observedValue": 0.37,
           "rawPublishedValue": "0.37",
           "uncertainty": "Published mean and age differences only; no individual dispersion, covariance or standard error inferred."
@@ -6075,7 +6990,9 @@
             "precision": "factsheet-pre-January-2026-estimate; full page not retrieved"
           },
           "sourceFile": "data/research/money/public-programs-2026.json",
-          "sourceRefs": ["ssa-retired-worker-before-cola"],
+          "sourceRefs": [
+            "ssa-retired-worker-before-cola"
+          ],
           "observedValue": 2015,
           "rawPublishedValue": "2015; status SNIPPET in preserved source",
           "uncertainty": "No individual spread, sample variance or coefficient bound is supplied; later-vintage amount context only."
@@ -6116,7 +7033,9 @@
             "precision": "federal-fiscal-year"
           },
           "sourceFile": "data/research/money/federal-budget-fy2025.json",
-          "sourceRefs": ["treasury-mts-fy2025"],
+          "sourceRefs": [
+            "treasury-mts-fy2025"
+          ],
           "observedValue": 1580685783033.83,
           "rawPublishedValue": "1580685783033.83",
           "uncertainty": "Preserved administrative aggregate, not sampling variance, individual dispersion, modeled account liquidity or a coefficient interval."
@@ -6158,7 +7077,9 @@
             "precision": "calendar-year"
           },
           "sourceFile": "data/research/money/opening-customer-cex-2024.json",
-          "sourceRefs": ["bls-cex-region-2024"],
+          "sourceRefs": [
+            "bls-cex-region-2024"
+          ],
           "observedValue": 978.0,
           "rawPublishedValue": "978.0",
           "uncertainty": "Published aggregate mean and sampling error are not individual dispersion or an identified allocation/cadence coefficient interval."
@@ -6207,7 +7128,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysAll",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -6228,7 +7151,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysRestaurants",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -6249,7 +7174,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysRepair",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -6270,7 +7197,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysRetail",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -6291,7 +7220,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysConstruction",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -6312,7 +7243,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysPersonalServices",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -6333,7 +7266,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysWholesale",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -6354,7 +7289,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysMetalMachinery",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -6375,7 +7312,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysHealthCare",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -6396,7 +7335,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysHighTechManufacturing",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -6417,7 +7358,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysProfessionalServices",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -6438,7 +7381,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysHighTechServices",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -6459,7 +7404,9 @@
             "precision": "nine calendar months"
           },
           "sourceFile": "src/core2/data/opening-employer-cash-reference.json",
-          "sourceRefs": ["jpmci-cash-is-king-2016"],
+          "sourceRefs": [
+            "jpmci-cash-is-king-2016"
+          ],
           "sourceLocation": "Figures 6 and 7, printed pages 15 and 16",
           "estimatedParameterRef": "openingEmployerCashBufferDaysRealEstate",
           "uncertainty": "Observed cohort dispersion only; no individual crosswalk or coefficient interval identified."
@@ -6525,7 +7472,9 @@
             "latest": "2013-03-31",
             "precision": "reference month"
           },
-          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceRefs": [
+            "bls-2013-private-frequency"
+          ],
           "sourceLocation": "Chart1 for overall; Table1 for industry",
           "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
           "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
@@ -6544,7 +7493,9 @@
             "latest": "2013-03-31",
             "precision": "reference month"
           },
-          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceRefs": [
+            "bls-2013-private-frequency"
+          ],
           "sourceLocation": "Chart1 for overall; Table1 for industry",
           "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
           "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
@@ -6563,7 +7514,9 @@
             "latest": "2013-03-31",
             "precision": "reference month"
           },
-          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceRefs": [
+            "bls-2013-private-frequency"
+          ],
           "sourceLocation": "Chart1 for overall; Table1 for industry",
           "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
           "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
@@ -6582,7 +7535,9 @@
             "latest": "2013-03-31",
             "precision": "reference month"
           },
-          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceRefs": [
+            "bls-2013-private-frequency"
+          ],
           "sourceLocation": "Chart1 for overall; Table1 for industry",
           "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
           "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
@@ -6601,7 +7556,9 @@
             "latest": "2013-03-31",
             "precision": "reference month"
           },
-          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceRefs": [
+            "bls-2013-private-frequency"
+          ],
           "sourceLocation": "Chart1 for overall; Table1 for industry",
           "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
           "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
@@ -6620,7 +7577,9 @@
             "latest": "2013-03-31",
             "precision": "reference month"
           },
-          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceRefs": [
+            "bls-2013-private-frequency"
+          ],
           "sourceLocation": "Chart1 for overall; Table1 for industry",
           "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
           "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
@@ -6639,7 +7598,9 @@
             "latest": "2013-03-31",
             "precision": "reference month"
           },
-          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceRefs": [
+            "bls-2013-private-frequency"
+          ],
           "sourceLocation": "Chart1 for overall; Table1 for industry",
           "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
           "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
@@ -6658,7 +7619,9 @@
             "latest": "2013-03-31",
             "precision": "reference month"
           },
-          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceRefs": [
+            "bls-2013-private-frequency"
+          ],
           "sourceLocation": "Chart1 for overall; Table1 for industry",
           "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
           "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
@@ -6677,7 +7640,9 @@
             "latest": "2013-03-31",
             "precision": "reference month"
           },
-          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceRefs": [
+            "bls-2013-private-frequency"
+          ],
           "sourceLocation": "Chart1 for overall; Table1 for industry",
           "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
           "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
@@ -6696,7 +7661,9 @@
             "latest": "2013-03-31",
             "precision": "reference month"
           },
-          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceRefs": [
+            "bls-2013-private-frequency"
+          ],
           "sourceLocation": "Chart1 for overall; Table1 for industry",
           "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
           "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
@@ -6715,7 +7682,9 @@
             "latest": "2013-03-31",
             "precision": "reference month"
           },
-          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceRefs": [
+            "bls-2013-private-frequency"
+          ],
           "sourceLocation": "Chart1 for overall; Table1 for industry",
           "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
           "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
@@ -6733,7 +7702,9 @@
             "latest": "2021-01-07",
             "precision": "published exact calendar dates"
           },
-          "sourceRefs": ["santa-barbara-2021-pay-calendar"],
+          "sourceRefs": [
+            "santa-barbara-2021-pay-calendar"
+          ],
           "sourceLocation": "PDFlines1,55\u201365; issuedNovember2020",
           "periodStartsAt": "2020-12-14",
           "periodThroughAt": "2020-12-27",
@@ -6753,7 +7724,9 @@
             "latest": "2020-12-31",
             "precision": "published final paycheck dates"
           },
-          "sourceRefs": ["american-university-2020-payroll"],
+          "sourceRefs": [
+            "american-university-2020-payroll"
+          ],
           "sourceLocation": "MemorandumDecember11,2020, lines118\u2013130",
           "limit": "Option existence is not1:1 prevalence or national education weighting.",
           "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"

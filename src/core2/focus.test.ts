@@ -109,20 +109,29 @@ describe("normal play circle and tier scope", () => {
         .map((row) => row.personId)
         .sort(),
     ).toEqual(["body", "contact", "coworker", "family", "household", "player"]);
-    advanceCore(core, "2021-01-08");
-    for (const id of core.focusPersonIds)
-      expect(core.people.get(id)!.actCount).toBe(7);
-    expect(core.people.get("town")!.actCount).toBe(1);
-    expect(core.people.get("state")!.actCount).toBe(0);
-    expect(core.people.get("body")!.actCount).toBe(1);
-    expect(core.people.get("inactive")!.actCount).toBe(0);
+    // P15 part 2b: an activation can fill the free hours with several acts,
+    // so the cadence is counted in activations, one chooser call each.
+    const activations = new Map<string, number>();
+    const count = (decision: { actorId: string }) => {
+      activations.set(
+        decision.actorId,
+        (activations.get(decision.actorId) ?? 0) + 1,
+      );
+      return undefined;
+    };
+    advanceCore(core, "2021-01-08", { controller: count });
+    for (const id of core.focusPersonIds) expect(activations.get(id)).toBe(7);
+    expect(activations.get("town")).toBe(1);
+    expect(activations.get("state")).toBeUndefined();
+    expect(activations.get("body")).toBe(1);
+    expect(activations.get("inactive")).toBeUndefined();
     expect(
       [...core.durableLog.values()]
         .filter((row) => row.kind === "person.acted")
         .every((row) => core.focusPersonIds.has(row.actorId!)),
     ).toBe(true);
-    advanceCore(core, "2021-02-01");
-    expect(core.people.get("state")!.actCount).toBe(1);
+    advanceCore(core, "2021-02-01", { controller: count });
+    expect(activations.get("state")).toBe(1);
   });
 
   it("matches circle choices and results against a full-county daily run", () => {
@@ -171,9 +180,18 @@ describe("normal play circle and tier scope", () => {
     const watched = createLifeCore(input(), { observer: true });
     for (const core of [detailed, watched]) {
       expect(duePeople(core, "2021-01-02")).toHaveLength(9);
-      advanceCore(core, "2021-01-02");
+      const activations = new Map<string, number>();
+      advanceCore(core, "2021-01-02", {
+        controller: (decision) => {
+          activations.set(
+            decision.actorId,
+            (activations.get(decision.actorId) ?? 0) + 1,
+          );
+          return undefined;
+        },
+      });
       for (const person of core.people.values())
-        expect(person.actCount).toBe(1);
+        expect(activations.get(person.id)).toBe(1);
     }
   });
 });

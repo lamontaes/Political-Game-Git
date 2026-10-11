@@ -260,6 +260,122 @@
         "status": "public-domain-us-government"
       },
       "storage": "committed"
+    },
+    {
+      "artifactId": "nces-edge-geocode-publicsch-2425",
+      "bytes": {
+        "length": 30448565,
+        "sha256": "9dc51ecd5cdf6e38bdb679f7ac95e2bf73ee3fb48718b8612cf830800cffb288"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Department of Education, NCES EDGE",
+      "publisher": {
+        "documentationUrl": "https://nces.ed.gov/programs/edge/Geographic/SchoolLocations",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2024-25 public school geocodes"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 30448565,
+        "retrievedAt": "2026-10-09T17:27:36.091Z",
+        "url": "https://nces.ed.gov/programs/edge/data/EDGE_GEOCODE_PUBLICSCH_2425.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Federal NCES EDGE geographic product; school locations only.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "census-cb-2025-place-500k",
+      "bytes": {
+        "length": 23057021,
+        "sha256": "ce0e4019ecd4123d03d53aaa936eed0459b82e3e14b89a3dcd4d5e8b3308627d"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Census Bureau, Geography Division",
+      "publisher": {
+        "documentationUrl": "https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2025 cartographic boundary files, places, 1:500,000"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 23057021,
+        "retrievedAt": "2026-10-09T17:27:53.157Z",
+        "url": "https://www2.census.gov/geo/tiger/GENZ2025/shp/cb_2025_us_place_500k.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Census Bureau cartographic boundary files; public domain.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "ccd-2023-24-school-membership",
+      "bytes": {
+        "length": 207481236,
+        "sha256": "06bd50eede0c036e4c92b6464b69f192ff3b8f9f739b403c2b218a9f6ec3e239"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Department of Education, NCES",
+      "publisher": {
+        "documentationUrl": "https://nces.ed.gov/ccd/files.asp",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2023-24 school membership v1a (the 2024-25 membership is not yet published)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 207481236,
+        "retrievedAt": "2026-10-09T17:27:55.881Z",
+        "url": "https://nces.ed.gov/ccd/data/zip/ccd_sch_052_2324_l_1a_073124.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Federal NCES statistical product; school-level counts only, no student records.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "ccd-2023-24-school-directory",
+      "bytes": {
+        "length": 12624979,
+        "sha256": "3910300771b1db27e0589d014451f95e3190ca71ab4dcabe06227224f58b4ecb"
+      },
+      "localPath": null,
+      "mediaType": "application/zip",
+      "provider": "U.S. Department of Education, NCES",
+      "publisher": {
+        "documentationUrl": "https://nces.ed.gov/ccd/files.asp",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "2023-24 school directory v1a (fills the states the 2024-25 preliminary directory lacks)"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "bulk-download",
+        "responseBytes": 12624979,
+        "retrievedAt": "2026-10-09T17:38:45.195Z",
+        "url": "https://nces.ed.gov/ccd/data/zip/ccd_sch_029_2324_w_1a_073124.zip"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Federal NCES statistical directory product; no student records or reidentification.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
     }
   ],
   "domain": "education"
