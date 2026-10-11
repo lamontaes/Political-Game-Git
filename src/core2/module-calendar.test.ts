@@ -9,6 +9,7 @@ import {
 import { runModuleCalendar } from "./module-calendar";
 import { piecesInput, piecesSource as source } from "./core-pieces-fixture";
 import type { CoreModule } from "./types";
+import type { FinanceConditionInput } from "./finance-types";
 const work = {
   key: "filing",
   date: "2026-01-02",
@@ -88,7 +89,7 @@ describe("keyed institutional calendar", () => {
           .table("inputs")
           .get(row.sourceRecordIds[0]!);
         if (!condition) throw new Error("Missing owning condition.");
-        api.addFinanceCondition(condition as never);
+        api.addFinanceCondition(condition as unknown as FinanceConditionInput);
       },
     };
     registerModule(core, module);
@@ -209,6 +210,7 @@ describe("keyed institutional calendar", () => {
     core.date = work.date;
     expect(() => runModuleCalendar(core, api)).toThrow();
     expect(calendar.get(work.key)?.status).toBe("failed");
+    expect(calendar.forget(work.key)).toBe(true);
     expect(() => runModuleCalendar(core, api)).toThrow(/faulted/);
   });
 

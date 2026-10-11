@@ -145,7 +145,7 @@ describe("registered module state", () => {
         },
       },
     ])
-      expect(() => table.put({ ...row, terms } as never)).toThrow();
+      expect(() => table.put({ ...row, terms })).toThrow();
     registerModule(core, {
       id: "reentrant",
       state: {

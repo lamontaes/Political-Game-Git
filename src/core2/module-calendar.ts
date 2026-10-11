@@ -138,7 +138,7 @@ export function moduleCalendar(
       return true;
     },
     forget(key: string) {
-      check();
+      check(true);
       const rows = calendars.get(core)?.byOwner.get(moduleId),
         entry = rows?.get(moduleKey(key));
       if (!entry) return false;
