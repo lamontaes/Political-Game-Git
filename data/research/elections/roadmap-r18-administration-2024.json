@@ -1,0 +1,2002 @@
+{
+  "topic": "R18",
+  "researchedAt": "2026-10-11T05:01:40.794864+00:00",
+  "status": "researched-with-gaps",
+  "model": "GPT-6 (Codex)",
+  "effort": "not exposed by runtime; no escalation or helpers",
+  "startedAt": "2026-10-11T05:00:43+00:00",
+  "elapsedSeconds": 58,
+  "sources": [
+    {
+      "publisher": "U.S. Election Assistance Commission",
+      "url": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "terms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "vintage": "2024 general election; revised July 2025",
+      "sha256": "72c0cc1a1b197bd3751dbaf4249f6dbd911f6de4818873c4e5ca875e7cf9bb7e"
+    },
+    {
+      "publisher": "U.S. Census Bureau",
+      "url": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "terms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "repositoryInput": "data/source/census-voting-registration/corpus.json"
+    }
+  ],
+  "findings": [
+    {
+      "places": [
+        "US-AL"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 67,
+      "activeRegisteredVoters": 3466606,
+      "citizenVotingAgePopulation": 3871866,
+      "turnoutCount": 2272911,
+      "turnoutPercentActiveRegistered": 65.6,
+      "turnoutPercentCVAP": 58.7,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-AK"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 1,
+      "activeRegisteredVoters": 565242,
+      "citizenVotingAgePopulation": 540681,
+      "turnoutCount": 340981,
+      "turnoutPercentActiveRegistered": 60.3,
+      "turnoutPercentCVAP": 63.1,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-AS"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 1,
+      "activeRegisteredVoters": 15948,
+      "citizenVotingAgePopulation": "not reported/not applicable in source",
+      "turnoutCount": 10215,
+      "turnoutPercentActiveRegistered": 64.1,
+      "turnoutPercentCVAP": "not reported/not applicable in source",
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-AZ"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 15,
+      "activeRegisteredVoters": 4366786,
+      "citizenVotingAgePopulation": 5384019,
+      "turnoutCount": 3477975,
+      "turnoutPercentActiveRegistered": 79.6,
+      "turnoutPercentCVAP": 64.6,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-AR"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 75,
+      "activeRegisteredVoters": 1359659,
+      "citizenVotingAgePopulation": 2270663,
+      "turnoutCount": 1122278,
+      "turnoutPercentActiveRegistered": 82.5,
+      "turnoutPercentCVAP": 49.4,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-CA"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 58,
+      "activeRegisteredVoters": 22836602,
+      "citizenVotingAgePopulation": 26042367,
+      "turnoutCount": 16164330,
+      "turnoutPercentActiveRegistered": 70.8,
+      "turnoutPercentCVAP": 62.1,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-CO"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 64,
+      "activeRegisteredVoters": 4074612,
+      "citizenVotingAgePopulation": 4390366,
+      "turnoutCount": 3240754,
+      "turnoutPercentActiveRegistered": 79.5,
+      "turnoutPercentCVAP": 73.8,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-CT"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 169,
+      "activeRegisteredVoters": 2292818,
+      "citizenVotingAgePopulation": 2660107,
+      "turnoutCount": 1820891,
+      "turnoutPercentActiveRegistered": 79.4,
+      "turnoutPercentCVAP": 68.5,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-DE"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 3,
+      "activeRegisteredVoters": 742370,
+      "citizenVotingAgePopulation": 770737,
+      "turnoutCount": 514367,
+      "turnoutPercentActiveRegistered": 69.3,
+      "turnoutPercentCVAP": 66.7,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-DC"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 1,
+      "activeRegisteredVoters": 469969,
+      "citizenVotingAgePopulation": 508689,
+      "turnoutCount": 328871,
+      "turnoutPercentActiveRegistered": 70.0,
+      "turnoutPercentCVAP": 64.7,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-FL"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 67,
+      "activeRegisteredVoters": 14028831,
+      "citizenVotingAgePopulation": 16313597,
+      "turnoutCount": 10999125,
+      "turnoutPercentActiveRegistered": 78.4,
+      "turnoutPercentCVAP": 67.4,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-GA"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 159,
+      "activeRegisteredVoters": 7174961,
+      "citizenVotingAgePopulation": 7917054,
+      "turnoutCount": 5297500,
+      "turnoutPercentActiveRegistered": 73.8,
+      "turnoutPercentCVAP": 66.9,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-GU"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 1,
+      "activeRegisteredVoters": 62098,
+      "citizenVotingAgePopulation": "not reported/not applicable in source",
+      "turnoutCount": 30283,
+      "turnoutPercentActiveRegistered": 48.8,
+      "turnoutPercentCVAP": "not reported/not applicable in source",
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-HI"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 5,
+      "activeRegisteredVoters": 765998,
+      "citizenVotingAgePopulation": 1053254,
+      "turnoutCount": 522236,
+      "turnoutPercentActiveRegistered": 68.2,
+      "turnoutPercentCVAP": 49.6,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-ID"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 44,
+      "activeRegisteredVoters": 1178750,
+      "citizenVotingAgePopulation": 1445124,
+      "turnoutCount": 917469,
+      "turnoutPercentActiveRegistered": 77.8,
+      "turnoutPercentCVAP": 63.5,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-IL"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 108,
+      "activeRegisteredVoters": 8104485,
+      "citizenVotingAgePopulation": 9036650,
+      "turnoutCount": 5717147,
+      "turnoutPercentActiveRegistered": 70.5,
+      "turnoutPercentCVAP": 63.3,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-IN"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 92,
+      "activeRegisteredVoters": 4288091,
+      "citizenVotingAgePopulation": 5058179,
+      "turnoutCount": 2986839,
+      "turnoutPercentActiveRegistered": 69.7,
+      "turnoutPercentCVAP": 59.0,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-IA"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 99,
+      "activeRegisteredVoters": 2016967,
+      "citizenVotingAgePopulation": 2387401,
+      "turnoutCount": 1674011,
+      "turnoutPercentActiveRegistered": 83.0,
+      "turnoutPercentCVAP": 70.1,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-KS"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 105,
+      "activeRegisteredVoters": 1871857,
+      "citizenVotingAgePopulation": 2146714,
+      "turnoutCount": 1342102,
+      "turnoutPercentActiveRegistered": 71.7,
+      "turnoutPercentCVAP": 62.5,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-KY"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 120,
+      "activeRegisteredVoters": 3219361,
+      "citizenVotingAgePopulation": 3414611,
+      "turnoutCount": 2086090,
+      "turnoutPercentActiveRegistered": 64.8,
+      "turnoutPercentCVAP": 61.1,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-LA"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 64,
+      "activeRegisteredVoters": 2734059,
+      "citizenVotingAgePopulation": 3398688,
+      "turnoutCount": 2021588,
+      "turnoutPercentActiveRegistered": 73.9,
+      "turnoutPercentCVAP": 59.5,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-ME"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 497,
+      "activeRegisteredVoters": 1041826,
+      "citizenVotingAgePopulation": 1126987,
+      "turnoutCount": 842447,
+      "turnoutPercentActiveRegistered": 80.9,
+      "turnoutPercentCVAP": 74.8,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-MD"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 24,
+      "activeRegisteredVoters": 4231112,
+      "citizenVotingAgePopulation": 4411478,
+      "turnoutCount": 3028813,
+      "turnoutPercentActiveRegistered": 71.6,
+      "turnoutPercentCVAP": 68.7,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-MA"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 351,
+      "activeRegisteredVoters": 4369280,
+      "citizenVotingAgePopulation": 5136750,
+      "turnoutCount": 3512930,
+      "turnoutPercentActiveRegistered": 80.4,
+      "turnoutPercentCVAP": 68.4,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-MI"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 83,
+      "activeRegisteredVoters": 7267666,
+      "citizenVotingAgePopulation": 7646222,
+      "turnoutCount": 5706503,
+      "turnoutPercentActiveRegistered": 78.5,
+      "turnoutPercentCVAP": 74.6,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-MN"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 87,
+      "activeRegisteredVoters": 3853668,
+      "citizenVotingAgePopulation": 4258921,
+      "turnoutCount": 3271069,
+      "turnoutPercentActiveRegistered": 84.9,
+      "turnoutPercentCVAP": 76.8,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-MS"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 82,
+      "activeRegisteredVoters": 1965948,
+      "citizenVotingAgePopulation": 2222109,
+      "turnoutCount": 1225176,
+      "turnoutPercentActiveRegistered": 62.3,
+      "turnoutPercentCVAP": 55.1,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-MO"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 116,
+      "activeRegisteredVoters": 4075977,
+      "citizenVotingAgePopulation": 4698865,
+      "turnoutCount": 3126837,
+      "turnoutPercentActiveRegistered": 76.7,
+      "turnoutPercentCVAP": 66.5,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-MT"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 56,
+      "activeRegisteredVoters": 691534,
+      "citizenVotingAgePopulation": 888190,
+      "turnoutCount": 612423,
+      "turnoutPercentActiveRegistered": 88.6,
+      "turnoutPercentCVAP": 69.0,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-NE"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 93,
+      "activeRegisteredVoters": 1190813,
+      "citizenVotingAgePopulation": 1420996,
+      "turnoutCount": 965145,
+      "turnoutPercentActiveRegistered": 81.0,
+      "turnoutPercentCVAP": 67.9,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-NV"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 17,
+      "activeRegisteredVoters": 2052976,
+      "citizenVotingAgePopulation": 2243354,
+      "turnoutCount": 1486297,
+      "turnoutPercentActiveRegistered": 72.4,
+      "turnoutPercentCVAP": 66.3,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-NH"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 320,
+      "activeRegisteredVoters": 1008603,
+      "citizenVotingAgePopulation": 1117113,
+      "turnoutCount": 829090,
+      "turnoutPercentActiveRegistered": 82.2,
+      "turnoutPercentCVAP": 74.2,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-NJ"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 21,
+      "activeRegisteredVoters": 6066940,
+      "citizenVotingAgePopulation": 6397695,
+      "turnoutCount": 4321921,
+      "turnoutPercentActiveRegistered": 71.2,
+      "turnoutPercentCVAP": 67.6,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-NM"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 33,
+      "activeRegisteredVoters": 1254851,
+      "citizenVotingAgePopulation": 1552694,
+      "turnoutCount": 927923,
+      "turnoutPercentActiveRegistered": 73.9,
+      "turnoutPercentCVAP": 59.8,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-NY"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 62,
+      "activeRegisteredVoters": 12429981,
+      "citizenVotingAgePopulation": 13945400,
+      "turnoutCount": 8389626,
+      "turnoutPercentActiveRegistered": 67.5,
+      "turnoutPercentCVAP": 60.2,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-NC"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 100,
+      "activeRegisteredVoters": 6986365,
+      "citizenVotingAgePopulation": 8017902,
+      "turnoutCount": 5756106,
+      "turnoutPercentActiveRegistered": 82.4,
+      "turnoutPercentCVAP": 71.8,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-ND"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 53,
+      "activeRegisteredVoters": "not reported/not applicable in source",
+      "citizenVotingAgePopulation": 589860,
+      "turnoutCount": 371974,
+      "turnoutPercentActiveRegistered": "not reported/not applicable in source",
+      "turnoutPercentCVAP": 63.1,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-MP"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 1,
+      "activeRegisteredVoters": 19329,
+      "citizenVotingAgePopulation": "not reported/not applicable in source",
+      "turnoutCount": 12610,
+      "turnoutPercentActiveRegistered": 65.2,
+      "turnoutPercentCVAP": "not reported/not applicable in source",
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-OH"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 88,
+      "activeRegisteredVoters": 7054966,
+      "citizenVotingAgePopulation": 8948378,
+      "turnoutCount": 5851625,
+      "turnoutPercentActiveRegistered": 82.9,
+      "turnoutPercentCVAP": 65.4,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-OK"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 77,
+      "activeRegisteredVoters": 2095952,
+      "citizenVotingAgePopulation": 2953778,
+      "turnoutCount": 1573274,
+      "turnoutPercentActiveRegistered": 75.1,
+      "turnoutPercentCVAP": 53.3,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-OR"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 36,
+      "activeRegisteredVoters": 3060374,
+      "citizenVotingAgePopulation": 3212722,
+      "turnoutCount": 2269608,
+      "turnoutPercentActiveRegistered": 74.2,
+      "turnoutPercentCVAP": 70.6,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-PA"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 67,
+      "activeRegisteredVoters": 8407874,
+      "citizenVotingAgePopulation": 9930217,
+      "turnoutCount": 7074875,
+      "turnoutPercentActiveRegistered": 84.1,
+      "turnoutPercentCVAP": 71.2,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-PR"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 1,
+      "activeRegisteredVoters": 1987317,
+      "citizenVotingAgePopulation": 2670201,
+      "turnoutCount": 1283628,
+      "turnoutPercentActiveRegistered": 64.6,
+      "turnoutPercentCVAP": 48.1,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-RI"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 39,
+      "activeRegisteredVoters": 734885,
+      "citizenVotingAgePopulation": 824795,
+      "turnoutCount": 522164,
+      "turnoutPercentActiveRegistered": 71.1,
+      "turnoutPercentCVAP": 63.3,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-SC"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 46,
+      "activeRegisteredVoters": 3417493,
+      "citizenVotingAgePopulation": 4065128,
+      "turnoutCount": 2566404,
+      "turnoutPercentActiveRegistered": 75.1,
+      "turnoutPercentCVAP": 63.1,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-SD"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 66,
+      "activeRegisteredVoters": 627248,
+      "citizenVotingAgePopulation": 683617,
+      "turnoutCount": 435739,
+      "turnoutPercentActiveRegistered": 69.5,
+      "turnoutPercentCVAP": 63.7,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-TN"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 95,
+      "activeRegisteredVoters": 4458851,
+      "citizenVotingAgePopulation": 5329651,
+      "turnoutCount": 3090161,
+      "turnoutPercentActiveRegistered": 69.3,
+      "turnoutPercentCVAP": 58.0,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-TX"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 254,
+      "activeRegisteredVoters": 16611078,
+      "citizenVotingAgePopulation": 20149798,
+      "turnoutCount": 11488820,
+      "turnoutPercentActiveRegistered": 69.2,
+      "turnoutPercentCVAP": 57.0,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-VI"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 1,
+      "activeRegisteredVoters": 31171,
+      "citizenVotingAgePopulation": "not reported/not applicable in source",
+      "turnoutCount": 15952,
+      "turnoutPercentActiveRegistered": 51.2,
+      "turnoutPercentCVAP": "not reported/not applicable in source",
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-UT"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 29,
+      "activeRegisteredVoters": 1793182,
+      "citizenVotingAgePopulation": 2327211,
+      "turnoutCount": 1466896,
+      "turnoutPercentActiveRegistered": 81.8,
+      "turnoutPercentCVAP": 63.0,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-VT"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 247,
+      "activeRegisteredVoters": 460415,
+      "citizenVotingAgePopulation": 523322,
+      "turnoutCount": 361604,
+      "turnoutPercentActiveRegistered": 78.5,
+      "turnoutPercentCVAP": 69.1,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-VA"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 133,
+      "activeRegisteredVoters": 5898922,
+      "citizenVotingAgePopulation": 6397071,
+      "turnoutCount": 4511853,
+      "turnoutPercentActiveRegistered": 76.5,
+      "turnoutPercentCVAP": 70.5,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-WA"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 39,
+      "activeRegisteredVoters": 5013112,
+      "citizenVotingAgePopulation": 5604117,
+      "turnoutCount": 3949810,
+      "turnoutPercentActiveRegistered": 78.8,
+      "turnoutPercentCVAP": 70.5,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-WV"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 55,
+      "activeRegisteredVoters": 1118468,
+      "citizenVotingAgePopulation": 1404377,
+      "turnoutCount": 769206,
+      "turnoutPercentActiveRegistered": 68.8,
+      "turnoutPercentCVAP": 54.8,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-WI"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 1851,
+      "activeRegisteredVoters": 3933068,
+      "citizenVotingAgePopulation": 4518555,
+      "turnoutCount": 3434185,
+      "turnoutPercentActiveRegistered": 87.3,
+      "turnoutPercentCVAP": 76.0,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "US-WY"
+      ],
+      "measure": "2024 EAVS executive-summary turnout table",
+      "sourcePages": "vi–vii",
+      "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
+      "reportingJurisdictions": 23,
+      "activeRegisteredVoters": 296960,
+      "citizenVotingAgePopulation": 442989,
+      "turnoutCount": 271123,
+      "turnoutPercentActiveRegistered": 91.3,
+      "turnoutPercentCVAP": 61.2,
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "ALABAMA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 68.9,
+      "registeredCitizenMoe": 4.5,
+      "votedCitizenPercent": 58.7,
+      "votedCitizenMoe": 4.5,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "ALASKA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 78.3,
+      "registeredCitizenMoe": 3.4,
+      "votedCitizenPercent": 62.1,
+      "votedCitizenMoe": 4.1,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "ARIZONA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 69,
+      "registeredCitizenMoe": 3.2,
+      "votedCitizenPercent": 61.7,
+      "votedCitizenMoe": 3.2,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "ARKANSAS"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 64.7,
+      "registeredCitizenMoe": 2.3,
+      "votedCitizenPercent": 52.8,
+      "votedCitizenMoe": 2.7,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "CALIFORNIA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 72.9,
+      "registeredCitizenMoe": 1.5,
+      "votedCitizenPercent": 64.7,
+      "votedCitizenMoe": 1.6,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "COLORADO"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 73.8,
+      "registeredCitizenMoe": 5.2,
+      "votedCitizenPercent": 70.1,
+      "votedCitizenMoe": 5,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "CONNECTICUT"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 72.2,
+      "registeredCitizenMoe": 3.4,
+      "votedCitizenPercent": 66.3,
+      "votedCitizenMoe": 3.4,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "DELAWARE"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 77.4,
+      "registeredCitizenMoe": 3.6,
+      "votedCitizenPercent": 69.8,
+      "votedCitizenMoe": 3.7,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "DISTRICT OF COLUMBIA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 85.1,
+      "registeredCitizenMoe": 2.8,
+      "votedCitizenPercent": 79.5,
+      "votedCitizenMoe": 3.3,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "FLORIDA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 67,
+      "registeredCitizenMoe": 2.2,
+      "votedCitizenPercent": 60.3,
+      "votedCitizenMoe": 1.9,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "GEORGIA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 70.8,
+      "registeredCitizenMoe": 2.8,
+      "votedCitizenPercent": 64.4,
+      "votedCitizenMoe": 2.6,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "HAWAII"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 67.6,
+      "registeredCitizenMoe": 3,
+      "votedCitizenPercent": 58.5,
+      "votedCitizenMoe": 3.4,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "IDAHO"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 71.2,
+      "registeredCitizenMoe": 2.1,
+      "votedCitizenPercent": 65.2,
+      "votedCitizenMoe": 2.2,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "ILLINOIS"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 76.8,
+      "registeredCitizenMoe": 2.6,
+      "votedCitizenPercent": 65.9,
+      "votedCitizenMoe": 3,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "INDIANA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 73.7,
+      "registeredCitizenMoe": 3.3,
+      "votedCitizenPercent": 60.7,
+      "votedCitizenMoe": 3.4,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "IOWA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 80.6,
+      "registeredCitizenMoe": 3.7,
+      "votedCitizenPercent": 71.8,
+      "votedCitizenMoe": 4.4,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "KANSAS"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 79.8,
+      "registeredCitizenMoe": 4.5,
+      "votedCitizenPercent": 70.7,
+      "votedCitizenMoe": 5.6,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "KENTUCKY"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 80.5,
+      "registeredCitizenMoe": 3.2,
+      "votedCitizenPercent": 67.7,
+      "votedCitizenMoe": 3.6,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "LOUISIANA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 66,
+      "registeredCitizenMoe": 3.6,
+      "votedCitizenPercent": 58,
+      "votedCitizenMoe": 3.6,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "MAINE"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 74,
+      "registeredCitizenMoe": 4,
+      "votedCitizenPercent": 67.1,
+      "votedCitizenMoe": 3.5,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "MARYLAND"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 80.4,
+      "registeredCitizenMoe": 3.2,
+      "votedCitizenPercent": 71.1,
+      "votedCitizenMoe": 3.6,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "MASSACHUSETTS"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 75.4,
+      "registeredCitizenMoe": 3,
+      "votedCitizenPercent": 68.9,
+      "votedCitizenMoe": 3.1,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "MICHIGAN"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 80.8,
+      "registeredCitizenMoe": 2.5,
+      "votedCitizenPercent": 72.3,
+      "votedCitizenMoe": 2.9,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "MINNESOTA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 83.6,
+      "registeredCitizenMoe": 2.3,
+      "votedCitizenPercent": 75.9,
+      "votedCitizenMoe": 2.9,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "MISSISSIPPI"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 81,
+      "registeredCitizenMoe": 2.2,
+      "votedCitizenPercent": 68.9,
+      "votedCitizenMoe": 2.8,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "MISSOURI"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 79.5,
+      "registeredCitizenMoe": 2.7,
+      "votedCitizenPercent": 69.5,
+      "votedCitizenMoe": 3.3,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "MONTANA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 73.8,
+      "registeredCitizenMoe": 2.5,
+      "votedCitizenPercent": 69.2,
+      "votedCitizenMoe": 2.5,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "NEBRASKA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 73.8,
+      "registeredCitizenMoe": 4,
+      "votedCitizenPercent": 67.4,
+      "votedCitizenMoe": 4,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "NEVADA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 73.5,
+      "registeredCitizenMoe": 2.6,
+      "votedCitizenPercent": 66.9,
+      "votedCitizenMoe": 2.9,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "NEW HAMPSHIRE"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 78.1,
+      "registeredCitizenMoe": 3.4,
+      "votedCitizenPercent": 71.9,
+      "votedCitizenMoe": 3.4,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "NEW JERSEY"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 81.9,
+      "registeredCitizenMoe": 2.7,
+      "votedCitizenPercent": 72.5,
+      "votedCitizenMoe": 2.8,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "NEW MEXICO"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 76.1,
+      "registeredCitizenMoe": 3.3,
+      "votedCitizenPercent": 66,
+      "votedCitizenMoe": 3.7,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "NEW YORK"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 66.2,
+      "registeredCitizenMoe": 2.7,
+      "votedCitizenPercent": 59.2,
+      "votedCitizenMoe": 2.6,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "NORTH CAROLINA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 69.8,
+      "registeredCitizenMoe": 2.7,
+      "votedCitizenPercent": 64.6,
+      "votedCitizenMoe": 2.7,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "NORTH DAKOTA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 78.6,
+      "registeredCitizenMoe": 2.9,
+      "votedCitizenPercent": 71.2,
+      "votedCitizenMoe": 2.7,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "OHIO"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 75.1,
+      "registeredCitizenMoe": 2.2,
+      "votedCitizenPercent": 67.4,
+      "votedCitizenMoe": 2.5,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "OKLAHOMA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 70.5,
+      "registeredCitizenMoe": 3,
+      "votedCitizenPercent": 59.7,
+      "votedCitizenMoe": 3.1,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "OREGON"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 83,
+      "registeredCitizenMoe": 3,
+      "votedCitizenPercent": 75.3,
+      "votedCitizenMoe": 2.8,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "PENNSYLVANIA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 75.7,
+      "registeredCitizenMoe": 2.3,
+      "votedCitizenPercent": 69.7,
+      "votedCitizenMoe": 2.3,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "RHODE ISLAND"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 79.5,
+      "registeredCitizenMoe": 3.2,
+      "votedCitizenPercent": 70,
+      "votedCitizenMoe": 4,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "SOUTH CAROLINA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 73.3,
+      "registeredCitizenMoe": 3,
+      "votedCitizenPercent": 62.7,
+      "votedCitizenMoe": 3.2,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "SOUTH DAKOTA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 70.7,
+      "registeredCitizenMoe": 3.7,
+      "votedCitizenPercent": 58.9,
+      "votedCitizenMoe": 3.8,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "TENNESSEE"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 75.1,
+      "registeredCitizenMoe": 2.6,
+      "votedCitizenPercent": 64.8,
+      "votedCitizenMoe": 2.6,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "TEXAS"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 69.1,
+      "registeredCitizenMoe": 2.3,
+      "votedCitizenPercent": 57.9,
+      "votedCitizenMoe": 2.3,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "UNITED STATES"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 73.6,
+      "registeredCitizenMoe": 0.5,
+      "votedCitizenPercent": 65.3,
+      "votedCitizenMoe": 0.5,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "UTAH"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 74.7,
+      "registeredCitizenMoe": 3.1,
+      "votedCitizenPercent": 66.9,
+      "votedCitizenMoe": 3.1,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "VERMONT"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 77.2,
+      "registeredCitizenMoe": 3.4,
+      "votedCitizenPercent": 71.7,
+      "votedCitizenMoe": 3.1,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "VIRGINIA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 79.6,
+      "registeredCitizenMoe": 2.2,
+      "votedCitizenPercent": 72.9,
+      "votedCitizenMoe": 2.4,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "WASHINGTON"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 77.1,
+      "registeredCitizenMoe": 3.5,
+      "votedCitizenPercent": 70,
+      "votedCitizenMoe": 4,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "WEST VIRGINIA"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 73.8,
+      "registeredCitizenMoe": 4.4,
+      "votedCitizenPercent": 59.5,
+      "votedCitizenMoe": 5.5,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "WISCONSIN"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 76.3,
+      "registeredCitizenMoe": 3.2,
+      "votedCitizenPercent": 72.2,
+      "votedCitizenMoe": 3.4,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "WYOMING"
+      ],
+      "measure": "2024 CPS reported citizen voting/registration percent",
+      "universe": "civilian-noninstitutionalized-age-18-and-over",
+      "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
+      "registeredCitizenPercent": 69.3,
+      "registeredCitizenMoe": 2.5,
+      "votedCitizenPercent": 63.8,
+      "votedCitizenMoe": 2.4,
+      "source": "U.S. Census Bureau",
+      "sourceUrl": "https://www2.census.gov/programs-surveys/cps/tables/p20/587/vote04a_2024.xlsx",
+      "sourceTerms": "Federal government statistical table; public domain. Locked artifact rights checked. Self/proxy-reported estimates, not administrative roll counts.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "EAVS reporting jurisdictions nationwide; not equal completeness by item"
+      ],
+      "measure": "2024 published mode/rejection figures",
+      "mailPercent": 30.3,
+      "earlyInPersonPercent": 35.2,
+      "electionDayInPersonPercent": 37.4,
+      "mailRejectionPercent": 1.2,
+      "scope": "Published mode values do not sum to 100; differing reporting populations/denominators prevent treating them as exclusive population probabilities. Rejection denominates returned mail, not all turnout. Do not sum returned/counted/rejected totals across differently complete reporting sets.",
+      "source": "U.S. Election Assistance Commission",
+      "sourceUrl": "https://www.eac.gov/sites/default/files/2025-07/2024_EAVS_Report_508.pdf",
+      "sourceTerms": "Federal government report, public domain under roadmap Rule 5; agency supplied aggregates only.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    }
+  ],
+  "gaps": [
+    {
+      "scope": "current rules in all56",
+      "finding": "2024 administration observations are not 2026/2028 registration deadlines, mail eligibility or same-day registration law. Verify current statutes separately; no legal default inferred."
+    },
+    {
+      "scope": "primary, municipal, off-cycle and processing durations",
+      "finding": "General-election turnout is the best sourced reference, with complete 56-place observed ranges; use only as a general-election calibration. No defensible universal multiplier or counting-duration estimate established."
+    }
+  ],
+  "termsQuestions": [],
+  "interpretation": "Aggregate observations calibrate totals; they do not choose an individual actor outcome. Legal rules apply only to the stated jurisdiction and vintage. Missing coverage is not legal permission. No excluded source or real-person name is included."
+}
