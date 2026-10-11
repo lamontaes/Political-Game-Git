@@ -1,0 +1,47 @@
+{
+  "schema": "m0-compact-explanations-cost/v1",
+  "status": "MEASURED_MONTH_COST_FAIL_REPAIR_PENDING",
+  "collectedAtUtc": "2026-10-11T02:42:39.443603+00:00",
+  "publicBase": "f6701d45bdade9604cffb7f1469b687c1097520d",
+  "comparison": {
+    "baseline": {
+      "seconds": 103.31104806599998,
+      "daysPerMinute": 18.003882787170486
+    },
+    "candidate": {
+      "seconds": 136.97083532300002,
+      "daysPerMinute": 13.579533158382299
+    },
+    "candidateOverBaseline": 1.3258101421592061,
+    "limit": 1.2,
+    "pass": false,
+    "inputSha256": "821f2934e37922f8c1718d89c5091a3359f38243e63c0a9b3b4634b4189ee82c",
+    "simulatedDaysPerRun": 31,
+    "warmupRunsPerVariant": 1,
+    "measuredRunsPerVariant": 3,
+    "annualResult": null
+  },
+  "profile": {
+    "wallSeconds": 3.439598920000004,
+    "from": "2021-01-04",
+    "through": "2021-01-05",
+    "seed": "p10-drives-proof-2026-10-09",
+    "place": "Sacramento, California",
+    "attendanceCopySampledSelfSeconds": 0.648333,
+    "attendanceCopyOverlappingInclusiveSeconds": 0.860517,
+    "advanceCoreSampledInclusiveSeconds": 3.251452,
+    "inspectorEnvelopeSampledSecondsExcluded": 1.386389,
+    "method": "One sampled simulated day after initialization and advance through January 4. V8 sampling at one millisecond. Self time and overlapping inclusive time are separate; this profile is not a causal before/after cost proof."
+  },
+  "rawEvidence": {
+    "/workspace/p8-review-artifacts/m0-resume/compact-choice-month-cost-v1/accepted-part1-source.json": "d3dabd8a4f9c9c10a3cbb3d386b302cb9a4ba1c5be1c85e25d07b2767c4ccd4c",
+    "/workspace/p8-review-artifacts/m0-resume/compact-choice-month-cost-v1/compact-explanations.json": "0e5ddfa4fdbf1ae29c9048db316c9bdb5b4316525e1b2b0d3e42e16f2a3f339f",
+    "/workspace/p8-review-artifacts/m0-resume/compact-choice-month-cost-v1/comparison.json": "a1a5b6272c8ba42e7473035aaf6ba854783bdf9f4a20641fad974f6628916718",
+    "/workspace/p8-review-artifacts/m0-resume/compact-choice-day-profile-v1/collect.mts": "8be23a5b5c0b6228c9f9850dd52e17624a1b1c0b871142e23bc3f8c419fea4b7",
+    "/workspace/p8-review-artifacts/m0-resume/compact-choice-day-profile-v1/profile.json": "f4f0b910306c0b250552fd932dec26179a732c039d53c0675ca5664314f2f26e",
+    "/workspace/p8-review-artifacts/m0-resume/compact-choice-day-profile-v1/summary.json": "229c3d26227a27540676850523c368b7be67cdb9965eede2f8a398a5394dc061"
+  },
+  "moneyYearResult": null,
+  "repairSpeedResult": null,
+  "sourcePinsHeld": true
+}

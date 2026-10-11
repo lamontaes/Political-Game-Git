@@ -7,6 +7,7 @@ import {
 } from "./opening-public-pay";
 import { canonicalOpeningSchedules } from "./opening-work";
 import { openingWorkCommitments } from "./modules/work";
+import { openingWorkPayrollCalendars } from "./opening-payroll-calendar";
 import coreContent from "./data/content.json" with { type: "json" };
 import { realLocalities } from "./places";
 import {
@@ -440,7 +441,6 @@ function openingTraits(
 ) {
   const upbringing = upbringingFor(world, personId);
   const traits: Record<string, number> = {};
-  const traitSources: Record<string, Source> = {};
   for (const trait of PEOPLE_TRAITS)
     traits[`${PEOPLE_MIND_VERSION}:${trait}`] = upbringingCoreValueFrom(
       upbringing,
@@ -482,8 +482,7 @@ function openingTraits(
     ...source,
     estimatedFrom: `${explanation} Canonical sparse upbringing trait projection; no traits inferred from names or gender.`,
   };
-  for (const key of Object.keys(traits)) traitSources[key] = traitSource;
-  return { traits, traitSources };
+  return { traits, sharedTraitSource: traitSource };
 }
 
 /** One-time legacy-source importer; no legacy clock, world generation or advance. */
@@ -1155,6 +1154,14 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     publicPayIdentities,
     { ownerIdByGovernmentKey: historicalCountyPayingOwnerIds },
   );
+  const payroll = openingWorkPayrollCalendars({
+    seed: options.seed,
+    startedAt,
+    people,
+    jobs,
+    organizations: publicPay.organizations,
+    workCommitments: publicPay.workCommitments,
+  });
   const family = openingFamilies({
     seed: options.seed,
     world,
@@ -1176,7 +1183,8 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     households: [...households, ...family.households],
     jobs,
     organizations: publicPay.organizations,
-    workCommitments: publicPay.workCommitments,
+    workCommitments: payroll.workCommitments,
+    workPayrollCalendars: payroll.calendars,
     familyLinks: [...familyLinks, ...family.familyLinks],
     focusPersonIds: [],
     focusPlaceIds: [],
@@ -1185,9 +1193,14 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       ...counties.map((county) => county.place.context.jurisdiction.id),
     ],
     calendarDates: [],
-    gaps: [...gaps, ...openingCapital.gaps, ...publicPay.gaps],
+    gaps: [...gaps, ...openingCapital.gaps, ...publicPay.gaps, ...payroll.gaps],
     placeMetadata: {
       openingEmploymentReceipt: JSON.stringify(openingAllocation.receipt),
+      openingPayrollCalendarReceipt: JSON.stringify({
+        status: "MODELED_PAY_CALENDARS_ONLY_NO_EARNINGS_OR_CASH",
+        estimates: payroll.estimates,
+        gaps: payroll.gaps,
+      }),
       openingPublicPayReceipt: JSON.stringify({
         status: "MODELED_ZERO_STOCK_DUE_FLOW_LINKS_ONLY",
         authorities: publicPay.authorities,

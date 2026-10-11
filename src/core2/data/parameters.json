@@ -3324,5 +3324,323 @@
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
+  },
+  "openingPayrollBlsAllPrivateWeeklyWeight": {
+    "value": 32.4,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, all-private: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsAllPrivateBiweeklyWeight": {
+    "value": 36.5,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, all-private: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsAllPrivateSemimonthlyWeight": {
+    "value": 19.8,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, all-private: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsAllPrivateMonthlyWeight": {
+    "value": 11.3,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, all-private: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsNaturalResourcesAndMiningWeeklyWeight": {
+    "value": 44.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, natural-resources-and-mining: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsNaturalResourcesAndMiningBiweeklyWeight": {
+    "value": 25.5,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, natural-resources-and-mining: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsNaturalResourcesAndMiningSemimonthlyWeight": {
+    "value": 19.1,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, natural-resources-and-mining: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsNaturalResourcesAndMiningMonthlyWeight": {
+    "value": 11.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, natural-resources-and-mining: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsConstructionWeeklyWeight": {
+    "value": 70.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, construction: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsConstructionBiweeklyWeight": {
+    "value": 18.3,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, construction: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsConstructionSemimonthlyWeight": {
+    "value": 5.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, construction: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsConstructionMonthlyWeight": {
+    "value": 5.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, construction: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsManufacturingWeeklyWeight": {
+    "value": 50.8,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, manufacturing: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsManufacturingBiweeklyWeight": {
+    "value": 35.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, manufacturing: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsManufacturingSemimonthlyWeight": {
+    "value": 9.5,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, manufacturing: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsManufacturingMonthlyWeight": {
+    "value": 3.8,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, manufacturing: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsTradeTransportationAndUtilitiesWeeklyWeight": {
+    "value": 36.1,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, trade-transportation-and-utilities: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsTradeTransportationAndUtilitiesBiweeklyWeight": {
+    "value": 37.3,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, trade-transportation-and-utilities: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsTradeTransportationAndUtilitiesSemimonthlyWeight": {
+    "value": 16.4,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, trade-transportation-and-utilities: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsTradeTransportationAndUtilitiesMonthlyWeight": {
+    "value": 10.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, trade-transportation-and-utilities: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsInformationWeeklyWeight": {
+    "value": 10.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, information: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsInformationBiweeklyWeight": {
+    "value": 43.7,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, information: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsInformationSemimonthlyWeight": {
+    "value": 35.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, information: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsInformationMonthlyWeight": {
+    "value": 10.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, information: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsFinancialActivitiesWeeklyWeight": {
+    "value": 18.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, financial-activities: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsFinancialActivitiesBiweeklyWeight": {
+    "value": 33.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, financial-activities: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsFinancialActivitiesSemimonthlyWeight": {
+    "value": 30.5,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, financial-activities: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsFinancialActivitiesMonthlyWeight": {
+    "value": 17.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, financial-activities: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsProfessionalAndBusinessServicesWeeklyWeight": {
+    "value": 20.4,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsProfessionalAndBusinessServicesBiweeklyWeight": {
+    "value": 36.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsProfessionalAndBusinessServicesSemimonthlyWeight": {
+    "value": 28.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsProfessionalAndBusinessServicesMonthlyWeight": {
+    "value": 15.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsEducationAndHealthServicesWeeklyWeight": {
+    "value": 12.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, education-and-health-services: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsEducationAndHealthServicesBiweeklyWeight": {
+    "value": 52.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, education-and-health-services: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsEducationAndHealthServicesSemimonthlyWeight": {
+    "value": 22.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, education-and-health-services: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsEducationAndHealthServicesMonthlyWeight": {
+    "value": 11.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, education-and-health-services: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsLeisureAndHospitalityWeeklyWeight": {
+    "value": 28.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, leisure-and-hospitality: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsLeisureAndHospitalityBiweeklyWeight": {
+    "value": 46.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, leisure-and-hospitality: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsLeisureAndHospitalitySemimonthlyWeight": {
+    "value": 17.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, leisure-and-hospitality: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsLeisureAndHospitalityMonthlyWeight": {
+    "value": 7.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, leisure-and-hospitality: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsOtherServicesWeeklyWeight": {
+    "value": 42.5,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, other-services: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsOtherServicesBiweeklyWeight": {
+    "value": 28.4,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, other-services: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsOtherServicesSemimonthlyWeight": {
+    "value": 17.1,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, other-services: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsOtherServicesMonthlyWeight": {
+    "value": 12.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, other-services: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollPrivatePhaseSpanFraction": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Uniform opening WHO phase across one recorded cycle is unmeasured. Stable employer identity is not a future action draw.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Uniform opening WHO phase across one recorded cycle is unmeasured. Stable employer identity is not a future action draw. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+    }
+  },
+  "openingPayrollPeriodEndLagDays": {
+    "value": 5,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Five calendar days from inclusive period end is an authored opening convention. BLS gives no individual lag; county actual lag is a distinct example, not this private or education lag.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Five calendar days from inclusive period end is an authored opening convention. BLS gives no individual lag; county actual lag is a distinct example, not this private or education lag. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+    }
+  },
+  "openingPayrollMonthlyBoundaryDay": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "First calendar day boundary is an authored month phase, not a measured employer term.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "First calendar day boundary is an authored month phase, not a measured employer term. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+    }
+  },
+  "openingPayrollSemimonthlyFirstBoundaryDay": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "First of two civil-month boundaries is an authored convention, not measured by BLS.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "First of two civil-month boundaries is an authored convention, not measured by BLS. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+    }
+  },
+  "openingPayrollSemimonthlySecondBoundaryDay": {
+    "value": 16,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Sixteenth as the second civil-month boundary is an authored convention. Periods are real calendar half-months, never fixed fifteen days.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Sixteenth as the second civil-month boundary is an authored convention. Periods are real calendar half-months, never fixed fifteen days. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+    }
+  },
+  "openingPayrollEducationBiweeklyWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+    }
+  },
+  "openingPayrollEducationMonthlyWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+    }
   }
 }
