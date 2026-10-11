@@ -67,7 +67,7 @@ const provenance = {
   kind: "authored" as const,
   note: "Controlled saved work and compensation, not ordinary employer wealth.",
 };
-function worker(
+export function worker(
   start: World,
   jurisdictionId: EntityId,
   townPayroll = false,
@@ -224,7 +224,7 @@ export function completed(usps: string) {
       row.resolvedConsequence.action === "raise-hourly-floor" &&
       row.resolvedConsequence.questionKey === FEDERAL_MINIMUM_WAGE_QUESTION_KEY,
   );
-  if (produced) return { world: base, assessment: produced };
+  if (produced) return { world: base, assessment: produced, base };
   const cutoff = {
     asOfDate: completion.occurredAt,
     historySequenceExclusive: completion.sequence + 1,
@@ -390,7 +390,7 @@ export function completed(usps: string) {
     (row) => row.id === assessment.id,
   );
   expect(actual).toEqual(assessment);
-  return { world, assessment: actual! };
+  return { world, assessment: actual!, base };
 }
 export function factsFor(
   world: World,

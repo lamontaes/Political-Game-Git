@@ -395,9 +395,9 @@
     "name": "hireAtAdultStart",
     "inventoryEngine": "economy",
     "keepLines": 80,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-pay-effects.ts",
+    "reason": "Complete hire/employer/experience/peer-wage and weekly/legacy payroll rules, required retirement/period/selection constants and own town-settlement closure. Canonical actual sources, labeled real Colorado authority/workplace positive controls, funded payer cash and completed wages, whole-period/ending/replay controls; actual DC/territory missing-source frontiers retained. Original sources are not claimed as actual territory hiring. Required KEEP helpers/constants travel. job-pay-effects-world.test.ts compares unchanged Native PUBLIC parents in all 56 generated Worlds; no private evaluation, stock whole-function exclusion, parallel World writer, exhaustive/NPC/core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/job-market.ts",
@@ -405,9 +405,9 @@
     "name": "weeklyPayAtHire",
     "inventoryEngine": "economy",
     "keepLines": 20,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-pay-effects.ts",
+    "reason": "Complete hire/employer/experience/peer-wage and weekly/legacy payroll rules, required retirement/period/selection constants and own town-settlement closure. Canonical actual sources, labeled real Colorado authority/workplace positive controls, funded payer cash and completed wages, whole-period/ending/replay controls; actual DC/territory missing-source frontiers retained. Original sources are not claimed as actual territory hiring. Required KEEP helpers/constants travel. job-pay-effects-world.test.ts compares unchanged Native PUBLIC parents in all 56 generated Worlds; no private evaluation, stock whole-function exclusion, parallel World writer, exhaustive/NPC/core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/job-market.ts",
@@ -415,9 +415,9 @@
     "name": "payFirstJob",
     "inventoryEngine": "economy",
     "keepLines": 25,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-pay-effects.ts",
+    "reason": "Complete hire/employer/experience/peer-wage and weekly/legacy payroll rules, required retirement/period/selection constants and own town-settlement closure. Canonical actual sources, labeled real Colorado authority/workplace positive controls, funded payer cash and completed wages, whole-period/ending/replay controls; actual DC/territory missing-source frontiers retained. Original sources are not claimed as actual territory hiring. Required KEEP helpers/constants travel. job-pay-effects-world.test.ts compares unchanged Native PUBLIC parents in all 56 generated Worlds; no private evaluation, stock whole-function exclusion, parallel World writer, exhaustive/NPC/core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/job-market.ts",
@@ -435,9 +435,9 @@
     "name": "settleRecordedJobPay",
     "inventoryEngine": "economy",
     "keepLines": 74,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-pay-effects.ts",
+    "reason": "Complete hire/employer/experience/peer-wage and weekly/legacy payroll rules, required retirement/period/selection constants and own town-settlement closure. Canonical actual sources, labeled real Colorado authority/workplace positive controls, funded payer cash and completed wages, whole-period/ending/replay controls; actual DC/territory missing-source frontiers retained. Original sources are not claimed as actual territory hiring. Required KEEP helpers/constants travel. job-pay-effects-world.test.ts compares unchanged Native PUBLIC parents in all 56 generated Worlds; no private evaluation, stock whole-function exclusion, parallel World writer, exhaustive/NPC/core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-costs-data.ts",
@@ -465,9 +465,9 @@
     "name": "proposeLevy",
     "inventoryEngine": "economy",
     "keepLines": 41,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/county-hearings.ts",
+    "reason": "Full hearing/levy/budget math, exact board-opening/fiscal authority/calendar/numbering helpers and request drafts, actual county behavior and labeled real Colorado board authority controls; saved hearing DTO checks public-parent prefix before intake. Required KEEP helpers/constants travel. county-hearings-world.test.ts compares unchanged Native PUBLIC parents in all 56 generated Worlds; no private evaluation, stock whole-function exclusion, parallel World writer, exhaustive/NPC/core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/housing-market.ts",
@@ -1045,9 +1045,9 @@
     "name": "applyLawPayConsequence",
     "inventoryEngine": "economy",
     "keepLines": 393,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/law-pay-effects.ts",
+    "reason": "Full immutable earned and prospective hours/cadence/amount/terms/guard/replay rules, complete owned law/math dependencies and exact earned assessment DTO. Canonical completed activity/law producers, malformed/low/positive/replay controls; saved public-parent earned DTO before intake. Required KEEP helpers/constants travel. law-pay-effects-world.test.ts compares unchanged Native PUBLIC parents in all 56 generated Worlds; no private evaluation, stock whole-function exclusion, parallel World writer, exhaustive/NPC/core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-pay.ts",
@@ -1075,9 +1075,9 @@
     "name": "payTownPaydays",
     "inventoryEngine": "economy",
     "keepLines": 60,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/town-settlement.ts",
+    "reason": "Full town period catch-up, earned/absence/leave/cash/order/settlement money and DTO math. Funded saved weekly workers and canonical completed work, law floor effects, tax dispatcher requests, duplicate/repeat cases. Only separately owned public law binding/absence/legal-rate/common producers are source seams; complete lifted hourly target replaces its Native public target during the golden. Required KEEP helpers/constants travel. town-settlement-world.test.ts compares unchanged Native PUBLIC parents in all 56 generated Worlds; no private evaluation, stock whole-function exclusion, parallel World writer, exhaustive/NPC/core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-pay.ts",
@@ -1555,9 +1555,9 @@
     "name": "later",
     "inventoryEngine": "economy",
     "keepLines": 3,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/local-seating.ts",
+    "reason": "Full seating formation/adult age/date/key/name/role/employer/counterparty math, own aggregate-customer generator and exact rejection/modulo from original raw uint32 producer words. All national population receipts, actual public source behavior, complete common producer requests and repeat/leap controls. Required KEEP helpers/constants travel. local-seating-world.test.ts compares unchanged Native PUBLIC parents in all 56 generated Worlds; no private evaluation, stock whole-function exclusion, parallel World writer, exhaustive/NPC/core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/local-fiscal-authority.ts",
@@ -1935,9 +1935,9 @@
     "name": "offerAmount",
     "inventoryEngine": "economy",
     "keepLines": 5,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/mogul-offers.ts",
+    "reason": "Full wealth/interest/committee/offer/consideration/decision/answer/stance/deal-review closure and constants. Actual sources plus explicitly labeled separately owned Colorado authority/geography and missing compliance/unresolved-ruling controls, common decisions/resources/press/court receipts. Press/court math remains parked and owned by its original source. Required KEEP helpers/constants travel. mogul-offers-world.test.ts compares unchanged Native PUBLIC parents in all 56 generated Worlds; no private evaluation, stock whole-function exclusion, parallel World writer, exhaustive/NPC/core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/moguls.ts",
@@ -1945,9 +1945,9 @@
     "name": "produceMogulOffers",
     "inventoryEngine": "economy",
     "keepLines": 16,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/mogul-offers.ts",
+    "reason": "Full wealth/interest/committee/offer/consideration/decision/answer/stance/deal-review closure and constants. Actual sources plus explicitly labeled separately owned Colorado authority/geography and missing compliance/unresolved-ruling controls, common decisions/resources/press/court receipts. Press/court math remains parked and owned by its original source. Required KEEP helpers/constants travel. mogul-offers-world.test.ts compares unchanged Native PUBLIC parents in all 56 generated Worlds; no private evaluation, stock whole-function exclusion, parallel World writer, exhaustive/NPC/core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/money-text.ts",
@@ -2555,9 +2555,9 @@
     "name": "windowOverlapsActivity",
     "inventoryEngine": "economy",
     "keepLines": 12,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/time-routine.ts",
+    "reason": "Full partial/completed routine/window/blocker/performance/400-step/64-retry decision closure with latest-state ordering, exact clock/completion requests and supporting helpers. Plain/partial/two windows, touching/overlapping blockers and saved resumption in every place. Clock receipts are immutable unchanged public-parent outputs with checked request start, target, action/history frontier and completion/event identity; private Native clock transport is not a live core2 writer and remains OPEN. Required KEEP helpers/constants travel. time-routine-world.test.ts compares unchanged Native PUBLIC parents in all 56 generated Worlds; no private evaluation, stock whole-function exclusion, parallel World writer, exhaustive/NPC/core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/time-work.ts",
@@ -2565,9 +2565,9 @@
     "name": "concludeScheduledActivity",
     "inventoryEngine": "economy",
     "keepLines": 24,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/time-routine.ts",
+    "reason": "Full partial/completed routine/window/blocker/performance/400-step/64-retry decision closure with latest-state ordering, exact clock/completion requests and supporting helpers. Plain/partial/two windows, touching/overlapping blockers and saved resumption in every place. Clock receipts are immutable unchanged public-parent outputs with checked request start, target, action/history frontier and completion/event identity; private Native clock transport is not a live core2 writer and remains OPEN. Required KEEP helpers/constants travel. time-routine-world.test.ts compares unchanged Native PUBLIC parents in all 56 generated Worlds; no private evaluation, stock whole-function exclusion, parallel World writer, exhaustive/NPC/core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/time-work.ts",
@@ -2575,9 +2575,9 @@
     "name": "resolveAdvanceWithRoutine",
     "inventoryEngine": "economy",
     "keepLines": 44,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/time-routine.ts",
+    "reason": "Full partial/completed routine/window/blocker/performance/400-step/64-retry decision closure with latest-state ordering, exact clock/completion requests and supporting helpers. Plain/partial/two windows, touching/overlapping blockers and saved resumption in every place. Clock receipts are immutable unchanged public-parent outputs with checked request start, target, action/history frontier and completion/event identity; private Native clock transport is not a live core2 writer and remains OPEN. Required KEEP helpers/constants travel. time-routine-world.test.ts compares unchanged Native PUBLIC parents in all 56 generated Worlds; no private evaluation, stock whole-function exclusion, parallel World writer, exhaustive/NPC/core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/time-work.ts",
