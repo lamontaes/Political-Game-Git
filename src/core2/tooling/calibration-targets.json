@@ -10,7 +10,7 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "4e0a729b58766f729b480a44c15bfd76cad2400c7f57ce8f6ae321ac6aab01ae",
+    "sha256": "2536062dc0a943534d7cca176504d97bb5a5f4eda500a33e341d2bc9b26c17c3",
     "meaning": "Exact central parameter table including business-book aggregate priors, the unmeasured opening cadence and a sourced reporting definition. No fitted coefficient or passed calibration is claimed."
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
@@ -1040,21 +1040,6 @@
       "calibrated": false,
       "openStopgapId": "SG-P8-work-schedule-data",
       "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
-    },
-    {
-      "parameter": "workWakingRecoveryHours",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 1,
-      "checkRange": {
-        "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
-      },
-      "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
-      "productionPathOrGap": "Indexed scheduled work, time budget or bounded result retention; see src/core2/modules/work.ts and work-state.ts",
-      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "openStopgapId": "SG-P8-work-time-reserve",
-      "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Waking recovery is not an instrument-equivalent ATUS primary activity and its coefficient interval is unidentified."
     },
     {
       "parameter": "openingMissingCountyEmploymentScale",
@@ -3920,7 +3905,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "4e0a729b58766f729b480a44c15bfd76cad2400c7f57ce8f6ae321ac6aab01ae"
+        "src/core2/data/parameters.json": "2536062dc0a943534d7cca176504d97bb5a5f4eda500a33e341d2bc9b26c17c3"
       },
       "observations": [
         {
@@ -6788,7 +6773,7 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
-    "src/core2/data/parameters.json": "4e0a729b58766f729b480a44c15bfd76cad2400c7f57ce8f6ae321ac6aab01ae",
+    "src/core2/data/parameters.json": "2536062dc0a943534d7cca176504d97bb5a5f4eda500a33e341d2bc9b26c17c3",
     "data/research/money/public-programs-2026.json": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193",
     "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac",
     "data/research/money/opening-customer-cex-2024.json": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b",
