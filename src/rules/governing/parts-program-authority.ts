@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-093: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-091: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/governing/public-program.ts :: programAuthority.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.
@@ -223,8 +223,15 @@ export function programAuthorityRule26(facts: {
   return facts.readingManagerTitle ?? "Manager";
 }
 
-/** Legacy line 675: strongMayor && isMayor */
+/** Legacy line 673: reading.manager?.title ?? "a manager" */
 export function programAuthorityRule27(facts: {
+  readonly readingManagerTitle: string;
+}) {
+  return facts.readingManagerTitle ?? "a manager";
+}
+
+/** Legacy line 675: strongMayor && isMayor */
+export function programAuthorityRule28(facts: {
   readonly strongMayor: boolean;
   readonly isMayor: boolean;
 }) {
@@ -232,7 +239,7 @@ export function programAuthorityRule27(facts: {
 }
 
 /** Legacy line 686: standing.roles.length === 0 */
-export function programAuthorityRule28(facts: {
+export function programAuthorityRule29(facts: {
   readonly standingRolesLength: number;
 }) {
   return facts.standingRolesLength === 0;

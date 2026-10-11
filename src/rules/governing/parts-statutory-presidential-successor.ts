@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-045: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-044: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/governing/office-continuity.ts :: statutoryPresidentialSuccessor.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.
@@ -35,15 +35,23 @@ export function statutoryPresidentialSuccessorRule4(facts: {
     : [];
 }
 
-/** Legacy line 1083: sitting.length === 0 */
+/** Legacy line 1078: member.serviceSince ?? member.startedAt ?? null */
 export function statutoryPresidentialSuccessorRule5(facts: {
+  readonly memberServiceSince: string | null;
+  readonly memberStartedAt: string | null;
+}) {
+  return facts.memberServiceSince! ?? facts.memberStartedAt! ?? null;
+}
+
+/** Legacy line 1083: sitting.length === 0 */
+export function statutoryPresidentialSuccessorRule6(facts: {
   readonly sittingLength: number;
 }) {
   return facts.sittingLength === 0;
 }
 
 /** Legacy line 1098: row.personId === elected.election.winnerPersonId */
-export function statutoryPresidentialSuccessorRule6(facts: {
+export function statutoryPresidentialSuccessorRule7(facts: {
   readonly rowPersonId: string;
   readonly electedElectionWinnerPersonId: string | null;
 }) {
@@ -51,7 +59,7 @@ export function statutoryPresidentialSuccessorRule6(facts: {
 }
 
 /** Legacy line 1100: holder       ? congressSeats().find(           (candidate) => candidate.seatKey === holder.seatKey,         )       : undefined */
-export function statutoryPresidentialSuccessorRule7(facts: {
+export function statutoryPresidentialSuccessorRule8(facts: {
   readonly holder: unknown;
   readonly congressSeatsFindCandidateCandidateSeatKeyHolderSeatKey: unknown;
 }) {
@@ -61,7 +69,7 @@ export function statutoryPresidentialSuccessorRule7(facts: {
 }
 
 /** Legacy line 1102: candidate.seatKey === holder.seatKey */
-export function statutoryPresidentialSuccessorRule8(facts: {
+export function statutoryPresidentialSuccessorRule9(facts: {
   readonly candidateSeatKey: string;
   readonly holderSeatKey: string;
 }) {
@@ -69,7 +77,7 @@ export function statutoryPresidentialSuccessorRule8(facts: {
 }
 
 /** Legacy line 1105: holder && seat */
-export function statutoryPresidentialSuccessorRule9(facts: {
+export function statutoryPresidentialSuccessorRule10(facts: {
   readonly holder: unknown;
   readonly seat: unknown;
 }) {

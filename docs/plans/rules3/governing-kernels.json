@@ -4799,6 +4799,14 @@
         },
         {
           "name": "hazardSampleHandlerRule3",
+          "source": "-1",
+          "start": 14662,
+          "end": 14664,
+          "line": 456,
+          "inputs": []
+        },
+        {
+          "name": "hazardSampleHandlerRule4",
           "source": "!FELT_AS_DISASTER.has(sample.magnitude)",
           "start": 14791,
           "end": 14830,
@@ -4820,7 +4828,7 @@
           ]
         },
         {
-          "name": "hazardSampleHandlerRule4",
+          "name": "hazardSampleHandlerRule5",
           "source": "Math.min(Math.max(1, sample.dayOfMonth), lastDay)",
           "start": 14993,
           "end": 15042,
@@ -4855,7 +4863,7 @@
           ]
         },
         {
-          "name": "hazardSampleHandlerRule5",
+          "name": "hazardSampleHandlerRule6",
           "source": "String(day)",
           "start": 15170,
           "end": 15181,
@@ -4877,7 +4885,7 @@
           ]
         },
         {
-          "name": "hazardSampleHandlerRule6",
+          "name": "hazardSampleHandlerRule7",
           "source": "arrives <= next.currentDate",
           "start": 15217,
           "end": 15244,
@@ -4912,7 +4920,7 @@
           ]
         },
         {
-          "name": "hazardSampleHandlerRule7",
+          "name": "hazardSampleHandlerRule8",
           "source": "declared += 1",
           "start": 15737,
           "end": 15750,
@@ -4934,7 +4942,7 @@
           ]
         },
         {
-          "name": "hazardSampleHandlerRule8",
+          "name": "hazardSampleHandlerRule9",
           "source": "areas.length > 0",
           "start": 15939,
           "end": 15955,
@@ -4956,7 +4964,7 @@
           ]
         },
         {
-          "name": "hazardSampleHandlerRule9",
+          "name": "hazardSampleHandlerRule10",
           "source": "declared === 0 ? \"crisis:no-hazard-this-month\" : \"crisis:hazard-sampled\"",
           "start": 16564,
           "end": 16636,
@@ -6961,6 +6969,28 @@
         },
         {
           "name": "compileExecutiveGoverningPlanRule3",
+          "source": "context.facts[key] ?? \"\"",
+          "start": 25578,
+          "end": 25602,
+          "line": 715,
+          "inputs": [
+            {
+              "name": "contextFactsKey",
+              "source": "context.facts[key]",
+              "type": "string | undefined",
+              "start": 25578,
+              "end": 25596,
+              "occurrences": [
+                {
+                  "start": 25578,
+                  "end": 25596
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "compileExecutiveGoverningPlanRule4",
           "source": "missingFacts.length > 0",
           "start": 25636,
           "end": 25659,
@@ -6982,7 +7012,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule4",
+          "name": "compileExecutiveGoverningPlanRule5",
           "source": "definition.authority.kind === \"supplied-canonical-fact\"",
           "start": 25848,
           "end": 25903,
@@ -7004,7 +7034,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule5",
+          "name": "compileExecutiveGoverningPlanRule6",
           "source": "(context.facts[factKey] ?? \"\").trim().length === 0",
           "start": 25965,
           "end": 26015,
@@ -7026,7 +7056,29 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule6",
+          "name": "compileExecutiveGoverningPlanRule7",
+          "source": "context.facts[factKey] ?? \"\"",
+          "start": 25966,
+          "end": 25994,
+          "line": 728,
+          "inputs": [
+            {
+              "name": "contextFactsFactKey",
+              "source": "context.facts[factKey]",
+              "type": "string | undefined",
+              "start": 25966,
+              "end": 25988,
+              "occurrences": [
+                {
+                  "start": 25966,
+                  "end": 25988
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "compileExecutiveGoverningPlanRule8",
           "source": "definition.authority.kind === \"legislative-rule-pack\"",
           "start": 26321,
           "end": 26374,
@@ -7048,7 +7100,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule7",
+          "name": "compileExecutiveGoverningPlanRule9",
           "source": "!context.measure",
           "start": 26386,
           "end": 26402,
@@ -7070,7 +7122,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule8",
+          "name": "compileExecutiveGoverningPlanRule10",
           "source": "dispositionOptions.available.length === 0",
           "start": 27005,
           "end": 27046,
@@ -7092,7 +7144,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule9",
+          "name": "compileExecutiveGoverningPlanRule11",
           "source": "!dispositionOptions.available.includes(context.measure.chosenOption)",
           "start": 27307,
           "end": 27375,
@@ -7114,7 +7166,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule10",
+          "name": "compileExecutiveGoverningPlanRule12",
           "source": "candidate.option === context.measure?.chosenOption",
           "start": 27459,
           "end": 27509,
@@ -7149,7 +7201,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule11",
+          "name": "compileExecutiveGoverningPlanRule13",
           "source": "withheld?.note ??\n            `${pack.displayName} does not offer '${context.measure.chosenOption}'.`",
           "start": 27632,
           "end": 27733,
@@ -7197,7 +7249,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule12",
+          "name": "compileExecutiveGoverningPlanRule14",
           "source": "binding.kind === \"omitted\"",
           "start": 28250,
           "end": 28276,
@@ -7219,7 +7271,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule13",
+          "name": "compileExecutiveGoverningPlanRule15",
           "source": "binding.kind === \"deferred\"",
           "start": 28433,
           "end": 28460,
@@ -7241,7 +7293,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule14",
+          "name": "compileExecutiveGoverningPlanRule16",
           "source": "!focus",
           "start": 29114,
           "end": 29120,
@@ -7263,7 +7315,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule15",
+          "name": "compileExecutiveGoverningPlanRule17",
           "source": "!slot",
           "start": 30181,
           "end": 30186,
@@ -7285,7 +7337,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule16",
+          "name": "compileExecutiveGoverningPlanRule18",
           "source": "participants[0] ?? null",
           "start": 30750,
           "end": 30773,
@@ -7307,7 +7359,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule17",
+          "name": "compileExecutiveGoverningPlanRule19",
           "source": "!dueAt",
           "start": 31229,
           "end": 31235,
@@ -7329,7 +7381,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule18",
+          "name": "compileExecutiveGoverningPlanRule20",
           "source": "!eventStableKey",
           "start": 33149,
           "end": 33164,
@@ -7351,7 +7403,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule19",
+          "name": "compileExecutiveGoverningPlanRule21",
           "source": "!context.measure",
           "start": 33896,
           "end": 33912,
@@ -7373,7 +7425,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule20",
+          "name": "compileExecutiveGoverningPlanRule22",
           "source": "context.measure.chosenOption === \"sign\" ? \"signed\" : \"vetoed\"",
           "start": 34352,
           "end": 34413,
@@ -7395,7 +7447,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule21",
+          "name": "compileExecutiveGoverningPlanRule23",
           "source": "unboundRoles.length > 0",
           "start": 34530,
           "end": 34553,
@@ -7417,7 +7469,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule22",
+          "name": "compileExecutiveGoverningPlanRule24",
           "source": "missingWindows.length > 0",
           "start": 34683,
           "end": 34708,
@@ -7439,7 +7491,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule23",
+          "name": "compileExecutiveGoverningPlanRule25",
           "source": "missingDueDates.length > 0",
           "start": 34830,
           "end": 34856,
@@ -7461,7 +7513,7 @@
           ]
         },
         {
-          "name": "compileExecutiveGoverningPlanRule24",
+          "name": "compileExecutiveGoverningPlanRule26",
           "source": "missingEventAnchors.length > 0",
           "start": 34949,
           "end": 34979,
@@ -8778,6 +8830,28 @@
         },
         {
           "name": "parseExecutiveBudgetDollarsRule3",
+          "source": "match[2] ?? \"\"",
+          "start": 9810,
+          "end": 9824,
+          "line": 280,
+          "inputs": [
+            {
+              "name": "match2",
+              "source": "match[2]",
+              "type": "string | undefined",
+              "start": 9810,
+              "end": 9818,
+              "occurrences": [
+                {
+                  "start": 9810,
+                  "end": 9818
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "parseExecutiveBudgetDollarsRule4",
           "source": "cents > BigInt(Number.MAX_SAFE_INTEGER)",
           "start": 9849,
           "end": 9888,
@@ -8812,7 +8886,7 @@
           ]
         },
         {
-          "name": "parseExecutiveBudgetDollarsRule4",
+          "name": "parseExecutiveBudgetDollarsRule5",
           "source": "Number(cents)",
           "start": 9918,
           "end": 9931,
@@ -9466,6 +9540,41 @@
         },
         {
           "name": "statutoryPresidentialSuccessorRule5",
+          "source": "member.serviceSince ?? member.startedAt ?? null",
+          "start": 39598,
+          "end": 39645,
+          "line": 1078,
+          "inputs": [
+            {
+              "name": "memberServiceSince",
+              "source": "member.serviceSince",
+              "type": "string | null",
+              "start": 39598,
+              "end": 39617,
+              "occurrences": [
+                {
+                  "start": 39598,
+                  "end": 39617
+                }
+              ]
+            },
+            {
+              "name": "memberStartedAt",
+              "source": "member.startedAt",
+              "type": "string | null",
+              "start": 39621,
+              "end": 39637,
+              "occurrences": [
+                {
+                  "start": 39621,
+                  "end": 39637
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "statutoryPresidentialSuccessorRule6",
           "source": "sitting.length === 0",
           "start": 39704,
           "end": 39724,
@@ -9487,7 +9596,7 @@
           ]
         },
         {
-          "name": "statutoryPresidentialSuccessorRule6",
+          "name": "statutoryPresidentialSuccessorRule7",
           "source": "row.personId === elected.election.winnerPersonId",
           "start": 40173,
           "end": 40221,
@@ -9522,7 +9631,7 @@
           ]
         },
         {
-          "name": "statutoryPresidentialSuccessorRule7",
+          "name": "statutoryPresidentialSuccessorRule8",
           "source": "holder\n      ? congressSeats().find(\n          (candidate) => candidate.seatKey === holder.seatKey,\n        )\n      : undefined",
           "start": 40247,
           "end": 40374,
@@ -9557,7 +9666,7 @@
           ]
         },
         {
-          "name": "statutoryPresidentialSuccessorRule8",
+          "name": "statutoryPresidentialSuccessorRule9",
           "source": "candidate.seatKey === holder.seatKey",
           "start": 40309,
           "end": 40345,
@@ -9592,7 +9701,7 @@
           ]
         },
         {
-          "name": "statutoryPresidentialSuccessorRule9",
+          "name": "statutoryPresidentialSuccessorRule10",
           "source": "holder && seat",
           "start": 40384,
           "end": 40398,
@@ -18806,6 +18915,28 @@
         },
         {
           "name": "staffRecommendationRule16",
+          "source": "pick.key === \"program:no-action\"\n                ? \"Nothing here has to be committed this week, and the money keeps.\"\n                : \"Paying it out month by month keeps a failed payment from taking the whole year with it.\"",
+          "start": 53510,
+          "end": 53735,
+          "line": 1519,
+          "inputs": [
+            {
+              "name": "pickKey",
+              "source": "pick.key",
+              "type": "string",
+              "start": 53510,
+              "end": 53518,
+              "occurrences": [
+                {
+                  "start": 53510,
+                  "end": 53518
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "staffRecommendationRule17",
           "source": "assessment.steadiness === null",
           "start": 53808,
           "end": 53838,
@@ -18827,7 +18958,7 @@
           ]
         },
         {
-          "name": "staffRecommendationRule17",
+          "name": "staffRecommendationRule18",
           "source": "assessment.steadiness >= 2\n        ? {\n            optionKey: \"pace:careful\",\n            byPersonId: chief,\n            reason: \"Would rather plan first than explain an early stumble.\",\n          }\n        : {\n            optionKey: \"pace:fast\",\n            byPersonId: chief,\n            reason: \"Thinks the agencies are ready and delay costs momentum.\",\n          }",
           "start": 53866,
           "end": 54234,
@@ -19749,6 +19880,89 @@
         },
         {
           "name": "decisionSummaryRule12",
+          "source": "measureTitle(world, matter.measureId) ?? `a bill on ${subjectLabel(matter.subjectKey)}`",
+          "start": 81878,
+          "end": 81965,
+          "line": 2334,
+          "inputs": [
+            {
+              "name": "measureTitleWorldMatterMeasureId",
+              "source": "measureTitle(world, matter.measureId)",
+              "type": "string | null",
+              "start": 81878,
+              "end": 81915,
+              "occurrences": [
+                {
+                  "start": 81878,
+                  "end": 81915
+                }
+              ]
+            },
+            {
+              "name": "subjectLabelMatterSubjectKey",
+              "source": "subjectLabel(matter.subjectKey)",
+              "type": "string",
+              "start": 81932,
+              "end": 81963,
+              "occurrences": [
+                {
+                  "start": 81932,
+                  "end": 81963
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "decisionSummaryRule13",
+          "source": "matter.measureId ? `vetoed ${measureTitle(world, matter.measureId) ?? \"the bill\"}` : `sent back a bill on ${subjectLabel(matter.subjectKey)} unsigned`",
+          "start": 82086,
+          "end": 82236,
+          "line": 2338,
+          "inputs": [
+            {
+              "name": "matterMeasureId",
+              "source": "matter.measureId",
+              "type": "string | null",
+              "start": 82086,
+              "end": 82102,
+              "occurrences": [
+                {
+                  "start": 82086,
+                  "end": 82102
+                }
+              ]
+            },
+            {
+              "name": "measureTitleWorldMatterMeasureId",
+              "source": "measureTitle(world, matter.measureId)",
+              "type": "string | null",
+              "start": 82115,
+              "end": 82152,
+              "occurrences": [
+                {
+                  "start": 82115,
+                  "end": 82152
+                }
+              ]
+            },
+            {
+              "name": "subjectLabelMatterSubjectKey",
+              "source": "subjectLabel(matter.subjectKey)",
+              "type": "string",
+              "start": 82194,
+              "end": 82225,
+              "occurrences": [
+                {
+                  "start": 82194,
+                  "end": 82225
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "decisionSummaryRule14",
           "source": "option.key === \"program:no-action\"\n        ? {\n            summary: `${who}, ${office.title}, committed none of the money adopted for ${subjectLabel(matter.subjectKey)} yet.`,\n            visibility: \"limited\",\n          }\n        : {\n            summary: `${who}, ${office.title}, committed money adopted for ${subjectLabel(matter.subjectKey)}: ${option.label.toLowerCase()}.`,\n            visibility: \"public\",\n          }",
           "start": 82321,
           "end": 82745,
@@ -19796,7 +20010,7 @@
           ]
         },
         {
-          "name": "decisionSummaryRule13",
+          "name": "decisionSummaryRule15",
           "source": "option.key === CLEMENCY_GRANT\n        ? {\n            summary: `${who}, ${office.title}, agreed to a request for clemency from ${petitioner}.`,\n            visibility: \"limited\",\n          }\n        : {\n            summary: `${who}, ${office.title}, turned down a request for clemency from ${petitioner}.`,\n            visibility: \"limited\",\n          }",
           "start": 82852,
           "end": 83205,
@@ -19857,7 +20071,7 @@
           ]
         },
         {
-          "name": "decisionSummaryRule14",
+          "name": "decisionSummaryRule16",
           "source": "option.key === \"pace:hold\"\n        ? {\n            summary: `${office.title} held work on ${subjectLabel(matter.subjectKey)} until the budget is settled.`,\n            visibility: \"limited\",\n          }\n        : {\n            summary: `${office.title} directed agencies to begin work on ${subjectLabel(matter.subjectKey)}.`,\n            visibility: \"public\",\n          }",
           "start": 83253,
           "end": 83624,
@@ -19905,7 +20119,7 @@
           ]
         },
         {
-          "name": "decisionSummaryRule15",
+          "name": "decisionSummaryRule17",
           "source": "option.key === \"order:independent-policy\"\n          ? ({\n              kind: \"independent-policy\",\n              topicKey: matter.subjectKey ?? \"unspecified-policy\",\n            } as const)\n          : ({\n              kind: \"executive-branch-management\",\n              topicKey: \"agency-instructions\",\n            } as const)",
           "start": 83762,
           "end": 84088,
@@ -19953,7 +20167,29 @@
           ]
         },
         {
-          "name": "decisionSummaryRule16",
+          "name": "decisionSummaryRule18",
+          "source": "matter.subjectKey ?? \"unspecified-policy\"",
+          "start": 83885,
+          "end": 83926,
+          "line": 2379,
+          "inputs": [
+            {
+              "name": "matterSubjectKey",
+              "source": "matter.subjectKey",
+              "type": "string | null",
+              "start": 83885,
+              "end": 83902,
+              "occurrences": [
+                {
+                  "start": 83885,
+                  "end": 83902
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "decisionSummaryRule19",
           "source": "jurisdictionKey\n        ? decideExecutiveActionAuthority(\n            executiveRulePackForJurisdiction(jurisdictionKey),\n            clause,\n            null,\n          )\n        : {\n            allowed: false,\n            reason: \"This office has no recorded executive-order authority.\",\n          }",
           "start": 84114,
           "end": 84414,
@@ -20001,7 +20237,7 @@
           ]
         },
         {
-          "name": "decisionSummaryRule17",
+          "name": "decisionSummaryRule20",
           "source": "authority.allowed\n        ? {\n            summary: `${who}, ${office.title}, directed an agency's internal work by executive order.`,\n            visibility: \"public\",\n          }\n        : {\n            summary: `${who}, ${office.title}, requested an executive order on ${matter.subjectKey ?? \"this matter\"}. The request was refused: ${authority.reason}`,\n            visibility: \"limited\",\n          }",
           "start": 84429,
           "end": 84832,
@@ -20049,7 +20285,29 @@
           ]
         },
         {
-          "name": "decisionSummaryRule18",
+          "name": "decisionSummaryRule21",
+          "source": "matter.subjectKey ?? \"this matter\"",
+          "start": 84702,
+          "end": 84736,
+          "line": 2401,
+          "inputs": [
+            {
+              "name": "matterSubjectKey",
+              "source": "matter.subjectKey",
+              "type": "string | null",
+              "start": 84702,
+              "end": 84719,
+              "occurrences": [
+                {
+                  "start": 84702,
+                  "end": 84719
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "decisionSummaryRule22",
           "source": "option.key === \"emergency:declare\"\n        ? {\n            summary: `${who}, ${office.title}, declared an emergency for ${matter.subjectKey ?? \"the recorded crisis\"}.`,\n            visibility: \"public\",\n          }\n        : {\n            summary: `${who}, ${office.title}, declined to declare an emergency for ${matter.subjectKey ?? \"the recorded crisis\"}.`,\n            visibility: \"public\",\n          }",
           "start": 85056,
           "end": 85461,
@@ -20091,6 +20349,50 @@
                 {
                   "start": 85281,
                   "end": 85461
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "decisionSummaryRule23",
+          "source": "matter.subjectKey ?? \"the recorded crisis\"",
+          "start": 85178,
+          "end": 85220,
+          "line": 2413,
+          "inputs": [
+            {
+              "name": "matterSubjectKey",
+              "source": "matter.subjectKey",
+              "type": "string | null",
+              "start": 85178,
+              "end": 85195,
+              "occurrences": [
+                {
+                  "start": 85178,
+                  "end": 85195
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "decisionSummaryRule24",
+          "source": "matter.subjectKey ?? \"the recorded crisis\"",
+          "start": 85369,
+          "end": 85411,
+          "line": 2417,
+          "inputs": [
+            {
+              "name": "matterSubjectKey",
+              "source": "matter.subjectKey",
+              "type": "string | null",
+              "start": 85369,
+              "end": 85386,
+              "occurrences": [
+                {
+                  "start": 85369,
+                  "end": 85386
                 }
               ]
             }
@@ -25308,6 +25610,50 @@
               ]
             }
           ]
+        },
+        {
+          "name": "annualPayRule13",
+          "source": "inForce.annualDollars * 100",
+          "start": 6045,
+          "end": 6072,
+          "line": 175,
+          "inputs": [
+            {
+              "name": "inForceAnnualDollars",
+              "source": "inForce.annualDollars",
+              "type": "number",
+              "start": 6045,
+              "end": 6066,
+              "occurrences": [
+                {
+                  "start": 6045,
+                  "end": 6066
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "annualPayRule14",
+          "source": "inForce.estimatedBecause ??\n          `Salary for this office, published (The Book of the States 2023; Congressional Research Service 97-1011 for Congress).`",
+          "start": 6098,
+          "end": 6255,
+          "line": 177,
+          "inputs": [
+            {
+              "name": "inForceEstimatedBecause",
+              "source": "inForce.estimatedBecause",
+              "type": "string | undefined",
+              "start": 6098,
+              "end": 6122,
+              "occurrences": [
+                {
+                  "start": 6098,
+                  "end": 6122
+                }
+              ]
+            }
+          ]
         }
       ]
     },
@@ -26328,6 +26674,50 @@
         },
         {
           "name": "serviceHoursTextRule4",
+          "source": "String(rest)",
+          "start": 3463,
+          "end": 3475,
+          "line": 101,
+          "inputs": [
+            {
+              "name": "rest",
+              "source": "rest",
+              "type": "number",
+              "start": 3470,
+              "end": 3474,
+              "occurrences": [
+                {
+                  "start": 3470,
+                  "end": 3474
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "serviceHoursTextRule5",
+          "source": "String(price)",
+          "start": 3496,
+          "end": 3509,
+          "line": 102,
+          "inputs": [
+            {
+              "name": "price",
+              "source": "price",
+              "type": "number",
+              "start": 3503,
+              "end": 3508,
+              "occurrences": [
+                {
+                  "start": 3503,
+                  "end": 3508
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "serviceHoursTextRule6",
           "source": "text === \"1\" ? \"hour\" : \"hours\"",
           "start": 3596,
           "end": 3627,
@@ -27312,6 +27702,99 @@
         },
         {
           "name": "evaluateGovernorBillRule2",
+          "source": "input.playerChoice.optionKey === BILL_SIGN\n                ? BILL_RETURN\n                : BILL_SIGN",
+          "start": 15158,
+          "end": 15258,
+          "line": 431,
+          "inputs": [
+            {
+              "name": "inputPlayerChoiceOptionKey",
+              "source": "input.playerChoice.optionKey",
+              "type": "string",
+              "start": 15158,
+              "end": 15186,
+              "occurrences": [
+                {
+                  "start": 15158,
+                  "end": 15186
+                }
+              ]
+            },
+            {
+              "name": "BILL_SIGN",
+              "source": "BILL_SIGN",
+              "type": "string",
+              "start": 15191,
+              "end": 15200,
+              "occurrences": [
+                {
+                  "start": 15191,
+                  "end": 15200
+                },
+                {
+                  "start": 15249,
+                  "end": 15258,
+                  "occurrences": [
+                    {
+                      "start": 15249,
+                      "end": 15258
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "BILL_RETURN",
+              "source": "BILL_RETURN",
+              "type": "string",
+              "start": 15219,
+              "end": 15230,
+              "occurrences": [
+                {
+                  "start": 15219,
+                  "end": 15230
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "evaluateGovernorBillRule3",
+          "source": "input.playerChoice.matterKnowledgeId\n                ? [\n                    {\n                      kind: \"event-knowledge\" as const,\n                      knowledgeId: input.playerChoice.matterKnowledgeId,\n                    },\n                  ]\n                : []",
+          "start": 15587,
+          "end": 15858,
+          "line": 442,
+          "inputs": [
+            {
+              "name": "inputPlayerChoiceMatterKnowledgeId",
+              "source": "input.playerChoice.matterKnowledgeId",
+              "type": "string | undefined",
+              "start": 15587,
+              "end": 15623,
+              "occurrences": [
+                {
+                  "start": 15587,
+                  "end": 15623
+                }
+              ]
+            },
+            {
+              "name": "kindEventKnowledgeAsConstKnowledgeIdInputPlayerChoiceMatterK",
+              "source": "[\n                    {\n                      kind: \"event-knowledge\" as const,\n                      knowledgeId: input.playerChoice.matterKnowledgeId,\n                    },\n                  ]",
+              "type": "unknown[]",
+              "start": 15642,
+              "end": 15837,
+              "occurrences": [
+                {
+                  "start": 15642,
+                  "end": 15837
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "evaluateGovernorBillRule4",
           "source": "input.executiveTitle\n        ? {\n            ...reason,\n            explanation: reason.explanation.replace(\n              /\\bgovernor\\b/g,\n              input.executiveTitle.toLowerCase(),\n            ),\n          }\n        : reason",
           "start": 16060,
           "end": 16293,
@@ -27621,6 +28104,41 @@
         },
         {
           "name": "forecastProgramAlternativeRule9",
+          "source": "operating / capacity.monthlyOperatingNeed.minorUnits",
+          "start": 26398,
+          "end": 26450,
+          "line": 746,
+          "inputs": [
+            {
+              "name": "operating",
+              "source": "operating",
+              "type": "number",
+              "start": 26398,
+              "end": 26407,
+              "occurrences": [
+                {
+                  "start": 26398,
+                  "end": 26407
+                }
+              ]
+            },
+            {
+              "name": "capacityMonthlyOperatingNeedMinorUnits",
+              "source": "capacity.monthlyOperatingNeed.minorUnits",
+              "type": "number",
+              "start": 26410,
+              "end": 26450,
+              "occurrences": [
+                {
+                  "start": 26410,
+                  "end": 26450
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "forecastProgramAlternativeRule10",
           "source": "total === 0",
           "start": 26524,
           "end": 26535,
@@ -27642,7 +28160,7 @@
           ]
         },
         {
-          "name": "forecastProgramAlternativeRule10",
+          "name": "forecastProgramAlternativeRule11",
           "source": "capacity && operating > 0",
           "start": 26798,
           "end": 26823,
@@ -27677,7 +28195,7 @@
           ]
         },
         {
-          "name": "forecastProgramAlternativeRule11",
+          "name": "forecastProgramAlternativeRule12",
           "source": "capacity && maintenance > 0",
           "start": 27016,
           "end": 27043,
@@ -27712,7 +28230,7 @@
           ]
         },
         {
-          "name": "forecastProgramAlternativeRule12",
+          "name": "forecastProgramAlternativeRule13",
           "source": "capacity.unitsTotal - capacity.unitsOperational",
           "start": 27066,
           "end": 27113,
@@ -27747,7 +28265,7 @@
           ]
         },
         {
-          "name": "forecastProgramAlternativeRule13",
+          "name": "forecastProgramAlternativeRule14",
           "source": "Math.min(\n          idle,\n          Math.floor(maintenance / capacity.restorationCostPerUnit.minorUnits),\n        )",
           "start": 27184,
           "end": 27299,
@@ -27795,7 +28313,7 @@
           ]
         },
         {
-          "name": "forecastProgramAlternativeRule14",
+          "name": "forecastProgramAlternativeRule15",
           "source": "alternative.deliveryLeadDays ? ` about ${alternative.deliveryLeadDays} days after payment` : \"\"",
           "start": 27483,
           "end": 27578,
@@ -27827,7 +28345,7 @@
           ]
         },
         {
-          "name": "forecastProgramAlternativeRule15",
+          "name": "forecastProgramAlternativeRule16",
           "source": "capacity?.completedPermille !== null && capacity",
           "start": 27758,
           "end": 27806,
@@ -27862,7 +28380,7 @@
           ]
         },
         {
-          "name": "forecastProgramAlternativeRule16",
+          "name": "forecastProgramAlternativeRule17",
           "source": "Math.round(capacity.completedPermille! / 10)",
           "start": 27839,
           "end": 27883,
@@ -27884,7 +28402,7 @@
           ]
         },
         {
-          "name": "forecastProgramAlternativeRule17",
+          "name": "forecastProgramAlternativeRule18",
           "source": "total > uncommitted",
           "start": 28003,
           "end": 28022,
@@ -27919,7 +28437,7 @@
           ]
         },
         {
-          "name": "forecastProgramAlternativeRule18",
+          "name": "forecastProgramAlternativeRule19",
           "source": "cashNow &&\n    total > 0 &&\n    cashNow.minorUnits < (alternative.installments[0]?.amount.minorUnits ?? 0)",
           "start": 28112,
           "end": 28218,
@@ -27980,7 +28498,7 @@
           ]
         },
         {
-          "name": "forecastProgramAlternativeRule19",
+          "name": "forecastProgramAlternativeRule20",
           "source": "total <= uncommitted",
           "start": 28501,
           "end": 28521,
@@ -28015,7 +28533,7 @@
           ]
         },
         {
-          "name": "forecastProgramAlternativeRule20",
+          "name": "forecastProgramAlternativeRule21",
           "source": "Math.max(0, uncommitted - total)",
           "start": 28551,
           "end": 28583,
@@ -28050,7 +28568,7 @@
           ]
         },
         {
-          "name": "forecastProgramAlternativeRule21",
+          "name": "forecastProgramAlternativeRule22",
           "source": "lead !== null && maintenance > 0\n        ? addDays(\n            world.currentDate,\n            lead +\n              Math.max(\n                0,\n                ...alternative.installments\n                  .filter((plan) => plan.purpose === \"maintenance\")\n                  .map((plan) => plan.afterDays),\n              ),\n          )\n        : null",
           "start": 28665,
           "end": 29015,
@@ -28098,7 +28616,7 @@
           ]
         },
         {
-          "name": "forecastProgramAlternativeRule22",
+          "name": "forecastProgramAlternativeRule23",
           "source": "lead +\n              Math.max(\n                0,\n                ...alternative.installments\n                  .filter((plan) => plan.purpose === \"maintenance\")\n                  .map((plan) => plan.afterDays),\n              )",
           "start": 28760,
           "end": 28987,
@@ -28127,6 +28645,28 @@
                 {
                   "start": 28829,
                   "end": 28970
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "forecastProgramAlternativeRule24",
+          "source": "plan.purpose === \"maintenance\"",
+          "start": 28890,
+          "end": 28920,
+          "line": 808,
+          "inputs": [
+            {
+              "name": "planPurpose",
+              "source": "plan.purpose",
+              "type": "string",
+              "start": 28890,
+              "end": 28902,
+              "occurrences": [
+                {
+                  "start": 28890,
+                  "end": 28902
                 }
               ]
             }
@@ -29006,6 +29546,28 @@
         },
         {
           "name": "programAuthorityRule27",
+          "source": "reading.manager?.title ?? \"a manager\"",
+          "start": 23687,
+          "end": 23724,
+          "line": 673,
+          "inputs": [
+            {
+              "name": "readingManagerTitle",
+              "source": "reading.manager?.title",
+              "type": "string",
+              "start": 23687,
+              "end": 23709,
+              "occurrences": [
+                {
+                  "start": 23687,
+                  "end": 23709
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "programAuthorityRule28",
           "source": "strongMayor && isMayor",
           "start": 23825,
           "end": 23847,
@@ -29040,7 +29602,7 @@
           ]
         },
         {
-          "name": "programAuthorityRule28",
+          "name": "programAuthorityRule29",
           "source": "standing.roles.length === 0",
           "start": 24142,
           "end": 24169,

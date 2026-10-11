@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-063: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-061: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/governing/state-governing.ts :: staffRecommendation.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.
@@ -139,15 +139,22 @@ export function staffRecommendationRule15(facts: {
     : null;
 }
 
+/** Legacy line 1519: pick.key === "program:no-action"                 ? "Nothing here has to be committed this week, and the money keeps."                 : "Paying it out month by month keeps a failed payment from taking the whole year with it." */
+export function staffRecommendationRule16(facts: { readonly pickKey: string }) {
+  return facts.pickKey === "program:no-action"
+    ? "Nothing here has to be committed this week, and the money keeps."
+    : "Paying it out month by month keeps a failed payment from taking the whole year with it.";
+}
+
 /** Legacy line 1526: assessment.steadiness === null */
-export function staffRecommendationRule16(facts: {
+export function staffRecommendationRule17(facts: {
   readonly assessmentSteadiness: number | null;
 }) {
   return facts.assessmentSteadiness! === null;
 }
 
 /** Legacy line 1527: assessment.steadiness >= 2         ? {             optionKey: "pace:careful",             byPersonId: chief,             reason: "Would rather plan first than explain an early stumble.",           }         : {             optionKey: "pace:fast",     */
-export function staffRecommendationRule17(facts: {
+export function staffRecommendationRule18(facts: {
   readonly assessmentSteadiness: number;
   readonly optionKeyPaceCarefulByPersonIdChiefReasonWouldRatherPlanFirs: unknown;
   readonly optionKeyPaceFastByPersonIdChiefReasonThinksTheAgenciesAreRe: unknown;

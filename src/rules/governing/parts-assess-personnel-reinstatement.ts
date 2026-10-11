@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-009: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-010: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/civil-personnel-actions.ts :: assessPersonnelReinstatement.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.

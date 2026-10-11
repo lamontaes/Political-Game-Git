@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-087: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-085: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/record-in-office.ts :: startingSupportAdjustment.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.

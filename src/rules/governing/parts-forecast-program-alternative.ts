@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-092: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-090: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/governing/public-program.ts :: forecastProgramAlternative.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.
@@ -70,15 +70,23 @@ export function forecastProgramAlternativeRule8(facts: {
     : null;
 }
 
-/** Legacy line 749: total === 0 */
+/** Legacy line 746: operating / capacity.monthlyOperatingNeed.minorUnits */
 export function forecastProgramAlternativeRule9(facts: {
+  readonly operating: number;
+  readonly capacityMonthlyOperatingNeedMinorUnits: number;
+}) {
+  return facts.operating / facts.capacityMonthlyOperatingNeedMinorUnits;
+}
+
+/** Legacy line 749: total === 0 */
+export function forecastProgramAlternativeRule10(facts: {
   readonly total: number;
 }) {
   return facts.total === 0;
 }
 
 /** Legacy line 757: capacity && operating > 0 */
-export function forecastProgramAlternativeRule10(facts: {
+export function forecastProgramAlternativeRule11(facts: {
   readonly capacity: unknown;
   readonly operating: number;
 }) {
@@ -86,7 +94,7 @@ export function forecastProgramAlternativeRule10(facts: {
 }
 
 /** Legacy line 761: capacity && maintenance > 0 */
-export function forecastProgramAlternativeRule11(facts: {
+export function forecastProgramAlternativeRule12(facts: {
   readonly capacity: unknown;
   readonly maintenance: number;
 }) {
@@ -94,7 +102,7 @@ export function forecastProgramAlternativeRule11(facts: {
 }
 
 /** Legacy line 762: capacity.unitsTotal - capacity.unitsOperational */
-export function forecastProgramAlternativeRule12(facts: {
+export function forecastProgramAlternativeRule13(facts: {
   readonly capacityUnitsTotal: number;
   readonly capacityUnitsOperational: number;
 }) {
@@ -102,7 +110,7 @@ export function forecastProgramAlternativeRule12(facts: {
 }
 
 /** Legacy line 764: Math.min(           idle,           Math.floor(maintenance / capacity.restorationCostPerUnit.minorUnits),         ) */
-export function forecastProgramAlternativeRule13(facts: {
+export function forecastProgramAlternativeRule14(facts: {
   readonly idle: number;
   readonly maintenance: number;
   readonly capacityRestorationCostPerUnitMinorUnits: number;
@@ -116,7 +124,7 @@ export function forecastProgramAlternativeRule13(facts: {
 }
 
 /** Legacy line 769: alternative.deliveryLeadDays ? ` about ${alternative.deliveryLeadDays} days after payment` : "" */
-export function forecastProgramAlternativeRule14(facts: {
+export function forecastProgramAlternativeRule15(facts: {
   readonly alternativeDeliveryLeadDays: number | null;
 }) {
   return facts.alternativeDeliveryLeadDays!
@@ -125,7 +133,7 @@ export function forecastProgramAlternativeRule14(facts: {
 }
 
 /** Legacy line 777: capacity?.completedPermille !== null && capacity */
-export function forecastProgramAlternativeRule15(facts: {
+export function forecastProgramAlternativeRule16(facts: {
   readonly capacityCompletedPermille: number | null | undefined;
   readonly capacity: unknown;
 }) {
@@ -133,14 +141,14 @@ export function forecastProgramAlternativeRule15(facts: {
 }
 
 /** Legacy line 779: Math.round(capacity.completedPermille! / 10) */
-export function forecastProgramAlternativeRule16(facts: {
+export function forecastProgramAlternativeRule17(facts: {
   readonly capacityCompletedPermille: number;
 }) {
   return Math.round(facts.capacityCompletedPermille / 10);
 }
 
 /** Legacy line 781: total > uncommitted */
-export function forecastProgramAlternativeRule17(facts: {
+export function forecastProgramAlternativeRule18(facts: {
   readonly total: number;
   readonly uncommitted: number;
 }) {
@@ -148,7 +156,7 @@ export function forecastProgramAlternativeRule17(facts: {
 }
 
 /** Legacy line 784: cashNow &&     total > 0 &&     cashNow.minorUnits < (alternative.installments[0]?.amount.minorUnits ?? 0) */
-export function forecastProgramAlternativeRule18(facts: {
+export function forecastProgramAlternativeRule19(facts: {
   readonly cashNow: unknown;
   readonly total: number;
   readonly cashNowMinorUnits: number;
@@ -163,7 +171,7 @@ export function forecastProgramAlternativeRule18(facts: {
 }
 
 /** Legacy line 795: total <= uncommitted */
-export function forecastProgramAlternativeRule19(facts: {
+export function forecastProgramAlternativeRule20(facts: {
   readonly total: number;
   readonly uncommitted: number;
 }) {
@@ -171,7 +179,7 @@ export function forecastProgramAlternativeRule19(facts: {
 }
 
 /** Legacy line 796: Math.max(0, uncommitted - total) */
-export function forecastProgramAlternativeRule20(facts: {
+export function forecastProgramAlternativeRule21(facts: {
   readonly uncommitted: number;
   readonly total: number;
 }) {
@@ -179,7 +187,7 @@ export function forecastProgramAlternativeRule20(facts: {
 }
 
 /** Legacy line 801: lead !== null && maintenance > 0         ? addDays(             world.currentDate,             lead +               Math.max(                 0,                 ...alternative.installments                   .filter((plan) => plan.purpose === "mainten */
-export function forecastProgramAlternativeRule21(facts: {
+export function forecastProgramAlternativeRule22(facts: {
   readonly lead: number | null;
   readonly maintenance: number;
   readonly addDaysResult: string;
@@ -190,7 +198,7 @@ export function forecastProgramAlternativeRule21(facts: {
 }
 
 /** Legacy line 804: lead +               Math.max(                 0,                 ...alternative.installments                   .filter((plan) => plan.purpose === "maintenance")                   .map((plan) => plan.afterDays),               ) */
-export function forecastProgramAlternativeRule22(facts: {
+export function forecastProgramAlternativeRule23(facts: {
   readonly lead: number;
   readonly alternativeInstallmentsFilterPlanPlanPurposeMaintenanceMapPl: number[];
 }) {
@@ -201,4 +209,11 @@ export function forecastProgramAlternativeRule22(facts: {
       ...facts.alternativeInstallmentsFilterPlanPlanPurposeMaintenanceMapPl,
     )
   );
+}
+
+/** Legacy line 808: plan.purpose === "maintenance" */
+export function forecastProgramAlternativeRule24(facts: {
+  readonly planPurpose: string;
+}) {
+  return facts.planPurpose === "maintenance";
 }

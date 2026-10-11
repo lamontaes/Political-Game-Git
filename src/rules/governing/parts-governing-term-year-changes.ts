@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-070: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-068: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/nationwide-world/executive-term-rules-in-world.ts :: governingTermYearChanges.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.

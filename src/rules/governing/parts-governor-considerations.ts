@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-090: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-088: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/governing/governor-bill-decision.ts :: governorConsiderations.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.

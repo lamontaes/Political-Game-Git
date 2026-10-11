@@ -18,8 +18,15 @@ export function parseExecutiveBudgetDollarsRule2(facts: {
   return BigInt(facts.match1) * 100n + BigInt(facts.match2PadEnd20);
 }
 
-/** Legacy line 281: cents > BigInt(Number.MAX_SAFE_INTEGER) */
+/** Legacy line 280: match[2] ?? "" */
 export function parseExecutiveBudgetDollarsRule3(facts: {
+  readonly match2: string | undefined;
+}) {
+  return facts.match2! ?? "";
+}
+
+/** Legacy line 281: cents > BigInt(Number.MAX_SAFE_INTEGER) */
+export function parseExecutiveBudgetDollarsRule4(facts: {
   readonly cents: bigint;
   readonly NumberMAX_SAFE_INTEGER: number;
 }) {
@@ -27,7 +34,7 @@ export function parseExecutiveBudgetDollarsRule3(facts: {
 }
 
 /** Legacy line 282: Number(cents) */
-export function parseExecutiveBudgetDollarsRule4(facts: {
+export function parseExecutiveBudgetDollarsRule5(facts: {
   readonly cents: bigint;
 }) {
   return Number(facts.cents);

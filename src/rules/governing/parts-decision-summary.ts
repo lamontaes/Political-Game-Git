@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-067: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-065: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/governing/state-governing.ts :: decisionSummary.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.
@@ -107,8 +107,30 @@ export function decisionSummaryRule11(facts: {
     : facts.summary$Who$OfficeTitle$MatterMeasureIdVetoed$MeasureTitleWo;
 }
 
-/** Legacy line 2342: option.key === "program:no-action"         ? {             summary: `${who}, ${office.title}, committed none of the money adopted for ${subjectLabel(matter.subjectKey)} yet.`,             visibility: "limited",           }         : {             sum */
+/** Legacy line 2334: measureTitle(world, matter.measureId) ?? `a bill on ${subjectLabel(matter.subjectKey)}` */
 export function decisionSummaryRule12(facts: {
+  readonly measureTitleWorldMatterMeasureId: string | null;
+  readonly subjectLabelMatterSubjectKey: string;
+}) {
+  return (
+    facts.measureTitleWorldMatterMeasureId! ??
+    `a bill on ${facts.subjectLabelMatterSubjectKey}`
+  );
+}
+
+/** Legacy line 2338: matter.measureId ? `vetoed ${measureTitle(world, matter.measureId) ?? "the bill"}` : `sent back a bill on ${subjectLabel(matter.subjectKey)} unsigned` */
+export function decisionSummaryRule13(facts: {
+  readonly matterMeasureId: string | null;
+  readonly measureTitleWorldMatterMeasureId: string | null;
+  readonly subjectLabelMatterSubjectKey: string;
+}) {
+  return facts.matterMeasureId!
+    ? `vetoed ${facts.measureTitleWorldMatterMeasureId! ?? "the bill"}`
+    : `sent back a bill on ${facts.subjectLabelMatterSubjectKey} unsigned`;
+}
+
+/** Legacy line 2342: option.key === "program:no-action"         ? {             summary: `${who}, ${office.title}, committed none of the money adopted for ${subjectLabel(matter.subjectKey)} yet.`,             visibility: "limited",           }         : {             sum */
+export function decisionSummaryRule14(facts: {
   readonly optionKey: string;
   readonly summary$Who$OfficeTitleCommittedNoneOfTheMoneyAdoptedFor$Sub: unknown;
   readonly summary$Who$OfficeTitleCommittedMoneyAdoptedFor$SubjectLabel: unknown;
@@ -119,7 +141,7 @@ export function decisionSummaryRule12(facts: {
 }
 
 /** Legacy line 2353: option.key === CLEMENCY_GRANT         ? {             summary: `${who}, ${office.title}, agreed to a request for clemency from ${petitioner}.`,             visibility: "limited",           }         : {             summary: `${who}, ${office.title},  */
-export function decisionSummaryRule13(facts: {
+export function decisionSummaryRule15(facts: {
   readonly optionKey: string;
   readonly CLEMENCY_GRANT: string;
   readonly summary$Who$OfficeTitleAgreedToARequestForClemencyFrom$Petit: unknown;
@@ -131,7 +153,7 @@ export function decisionSummaryRule13(facts: {
 }
 
 /** Legacy line 2364: option.key === "pace:hold"         ? {             summary: `${office.title} held work on ${subjectLabel(matter.subjectKey)} until the budget is settled.`,             visibility: "limited",           }         : {             summary: `${office.titl */
-export function decisionSummaryRule14(facts: {
+export function decisionSummaryRule16(facts: {
   readonly optionKey: string;
   readonly summary$OfficeTitleHeldWorkOn$SubjectLabelMatterSubjectKeyUn: unknown;
   readonly summary$OfficeTitleDirectedAgenciesToBeginWorkOn$SubjectLabe: unknown;
@@ -142,7 +164,7 @@ export function decisionSummaryRule14(facts: {
 }
 
 /** Legacy line 2376: option.key === "order:independent-policy"           ? ({               kind: "independent-policy",               topicKey: matter.subjectKey ?? "unspecified-policy",             } as const)           : ({               kind: "executive-branch-managem */
-export function decisionSummaryRule15(facts: {
+export function decisionSummaryRule17(facts: {
   readonly optionKey: string;
   readonly kindIndependentPolicyTopicKeyMatterSubjectKeyUnspecifiedPoli: unknown;
   readonly kindExecutiveBranchManagementTopicKeyAgencyInstructionsAsConst: unknown;
@@ -152,8 +174,15 @@ export function decisionSummaryRule15(facts: {
     : facts.kindExecutiveBranchManagementTopicKeyAgencyInstructionsAsConst;
 }
 
+/** Legacy line 2379: matter.subjectKey ?? "unspecified-policy" */
+export function decisionSummaryRule18(facts: {
+  readonly matterSubjectKey: string | null;
+}) {
+  return facts.matterSubjectKey! ?? "unspecified-policy";
+}
+
 /** Legacy line 2385: jurisdictionKey         ? decideExecutiveActionAuthority(             executiveRulePackForJurisdiction(jurisdictionKey),             clause,             null,           )         : {             allowed: false,             reason: "This office has no */
-export function decisionSummaryRule16(facts: {
+export function decisionSummaryRule19(facts: {
   readonly jurisdictionKey: string | null;
   readonly decideExecutiveActionAuthorityResult: unknown;
   readonly allowedFalseReasonThisOfficeHasNoRecordedExecutiveOrderAuthority: unknown;
@@ -164,7 +193,7 @@ export function decisionSummaryRule16(facts: {
 }
 
 /** Legacy line 2395: authority.allowed         ? {             summary: `${who}, ${office.title}, directed an agency's internal work by executive order.`,             visibility: "public",           }         : {             summary: `${who}, ${office.title}, requested a */
-export function decisionSummaryRule17(facts: {
+export function decisionSummaryRule20(facts: {
   readonly authorityAllowed: boolean;
   readonly summary$Who$OfficeTitleDirectedAnAgencySInternalWorkByExecut: unknown;
   readonly summary$Who$OfficeTitleRequestedAnExecutiveOrderOn$MatterSub: unknown;
@@ -174,8 +203,15 @@ export function decisionSummaryRule17(facts: {
     : facts.summary$Who$OfficeTitleRequestedAnExecutiveOrderOn$MatterSub;
 }
 
+/** Legacy line 2401: matter.subjectKey ?? "this matter" */
+export function decisionSummaryRule21(facts: {
+  readonly matterSubjectKey: string | null;
+}) {
+  return facts.matterSubjectKey! ?? "this matter";
+}
+
 /** Legacy line 2411: option.key === "emergency:declare"         ? {             summary: `${who}, ${office.title}, declared an emergency for ${matter.subjectKey ?? "the recorded crisis"}.`,             visibility: "public",           }         : {             summary: `$ */
-export function decisionSummaryRule18(facts: {
+export function decisionSummaryRule22(facts: {
   readonly optionKey: string;
   readonly summary$Who$OfficeTitleDeclaredAnEmergencyFor$MatterSubjectK: unknown;
   readonly summary$Who$OfficeTitleDeclinedToDeclareAnEmergencyFor$Matte: unknown;
@@ -183,4 +219,18 @@ export function decisionSummaryRule18(facts: {
   return facts.optionKey === "emergency:declare"
     ? facts.summary$Who$OfficeTitleDeclaredAnEmergencyFor$MatterSubjectK
     : facts.summary$Who$OfficeTitleDeclinedToDeclareAnEmergencyFor$Matte;
+}
+
+/** Legacy line 2413: matter.subjectKey ?? "the recorded crisis" */
+export function decisionSummaryRule23(facts: {
+  readonly matterSubjectKey: string | null;
+}) {
+  return facts.matterSubjectKey! ?? "the recorded crisis";
+}
+
+/** Legacy line 2417: matter.subjectKey ?? "the recorded crisis" */
+export function decisionSummaryRule24(facts: {
+  readonly matterSubjectKey: string | null;
+}) {
+  return facts.matterSubjectKey! ?? "the recorded crisis";
 }

@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-082: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-080: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/office-salary.ts :: annualPay.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.
@@ -85,4 +85,21 @@ export function annualPayRule12(facts: {
   return facts.inForce
     ? facts.annualMinorInForceAnnualDollars100NoteInForceEstimatedBecaus
     : null;
+}
+
+/** Legacy line 175: inForce.annualDollars * 100 */
+export function annualPayRule13(facts: {
+  readonly inForceAnnualDollars: number;
+}) {
+  return facts.inForceAnnualDollars * 100;
+}
+
+/** Legacy line 177: inForce.estimatedBecause ??           `Salary for this office, published (The Book of the States 2023; Congressional Research Service 97-1011 for Congress).` */
+export function annualPayRule14(facts: {
+  readonly inForceEstimatedBecause: string | undefined;
+}) {
+  return (
+    facts.inForceEstimatedBecause! ??
+    `Salary for this office, published (The Book of the States 2023; Congressional Research Service 97-1011 for Congress).`
+  );
 }

@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-010: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-011: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/constituent-casework-routing.ts :: holdsPublicOffice.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.

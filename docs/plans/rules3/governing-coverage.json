@@ -1876,7 +1876,8 @@
       "purePart": ["src/rules/governing/transition-services.ts"],
       "coreContracts": [
         "journal: indexed attendance-event read by stable person/contest/service key; calendar: effective date and service bounds; offices: contest identity. Pure status decision takes today, hasAttended and service."
-      ]
+      ],
+      "additionalAuditCorrection": true
     },
     {
       "file": "src/simulation/public-service-producer.ts",
@@ -2122,12 +2123,15 @@
     "model": "GPT-6 Codex",
     "effort": "Repository medium default; served variant and runtime effort not exposed",
     "originalDeferrals": 117,
-    "kernelExpressions": 789,
+    "kernelExpressions": 810,
     "counts": {
       "lifted": 25,
       "partially-lifted": 89,
       "pure-plumbing": 3
     },
-    "equivalenceScope": "Original expression text versus new kernels with selected facts across 56 places and boundary/nullable/error cases, plus prior whole-rule golden tests. This is controlled fixture equivalence, not generated-world integration or finisher acceptance."
+    "equivalenceScope": "Original expression text versus new kernels with selected facts across 56 places and boundary/nullable/error cases, plus prior whole-rule golden tests. This is controlled fixture equivalence, not generated-world integration or finisher acceptance.",
+    "additionalAuditCorrections": ["transitionServiceStatus"],
+    "completedAt": "2026-10-11 02:35 UTC",
+    "combinedElapsedMinutes": 53
   }
 }

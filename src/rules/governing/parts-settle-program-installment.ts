@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-094: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-092: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/governing/public-program.ts :: settleProgramInstallment.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.

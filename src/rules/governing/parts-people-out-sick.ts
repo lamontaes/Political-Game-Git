@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-013: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-014: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/crisis/epidemic.ts :: peopleOutSick.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.

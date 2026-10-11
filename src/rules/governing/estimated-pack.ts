@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-125: inherited hashed executive-law estimates and fallback powers, preserved for equivalence only.
+// STOPGAP RULES3-GOV-123: inherited hashed executive-law estimates and fallback powers, preserved for equivalence only.
 // Lifted unchanged from src/simulation/executive-authority-game-profile.ts; RULES-3, 2026-10-11.
 import { executiveKnown, executiveUnknown } from "./executive-rule-values";
 import type {

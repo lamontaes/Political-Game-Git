@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-078: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-076: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/nationwide-world/state-executive-terms.ts :: offCycleRecoveryDates.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.

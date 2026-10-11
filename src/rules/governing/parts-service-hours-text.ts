@@ -1,4 +1,4 @@
-// STOPGAP RULES3-GOV-088: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-GOV-086: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/transit-service.ts :: serviceHoursText.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/governing-kernels.json.
@@ -30,7 +30,17 @@ export function serviceHoursTextRule3(facts: {
     : `${facts.whole}.${facts.StringRestPadStartStringPriceLength10Replace0$}`;
 }
 
+/** Legacy line 101: String(rest) */
+export function serviceHoursTextRule4(facts: { readonly rest: number }) {
+  return String(facts.rest);
+}
+
+/** Legacy line 102: String(price) */
+export function serviceHoursTextRule5(facts: { readonly price: number }) {
+  return String(facts.price);
+}
+
 /** Legacy line 104: text === "1" ? "hour" : "hours" */
-export function serviceHoursTextRule4(facts: { readonly text: string }) {
+export function serviceHoursTextRule6(facts: { readonly text: string }) {
   return facts.text === "1" ? "hour" : "hours";
 }
