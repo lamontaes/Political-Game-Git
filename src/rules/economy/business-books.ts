@@ -15,6 +15,12 @@ function reader(facts: BusinessBookSourceFacts) {
   }
   return read;
 }
+export function townBusinessKindBooks(
+  facts: BusinessBookSourceFacts,
+  kind: string,
+) {
+  return reader(facts).kind(kind);
+}
 export function otherCostsAtSales(
   facts: BusinessBookSourceFacts,
   books: TownBusinessBooks,
@@ -117,6 +123,7 @@ function compile(facts: BusinessBookSourceFacts) {
     return books.lastQuarterPay * 4 > payTheBooksCover(books) + 1;
   }
   return {
+    kind: townBusinessKindBooks,
     costs: otherCostsAtSales,
     hire: townBusinessHasRoomToHire,
     layoff: townBusinessLaysOff,
