@@ -1198,5 +1198,77 @@
     "whatItFakes": "Native static daily-shift overlap, three supported civilian contexts and twelve-hour clock wording are returned verbatim; touching shifts do not overlap.",
     "why": "Active or accepted expected work uses its source path/session minutes; same-path work is skipped and no overnight/date-aware adapter is invented.",
     "replacement": "Typed dated work/calendar overlap and English-engine clock/eligibility realization."
+  },
+  {
+    "id": "economy.business-readings-history-peer-frontier",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/business-readings.ts",
+    "line": 38,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native town-business status selection uses effective dates but append order and a separate dated closing/profile frontier. Peer gap means only resident places with saved businesses; no peer gives no gap. Local business selection accepts missing/nonfinite ordinals and ignores formed-at/status/profile, sorting by retained catalog order. Full static workplace/name/role catalogs travel without recalibration.",
+    "why": "Preserved unchanged Native KEEP behavior for equivalence, pending CTO/source review; authored controls are not ordinary-play defect evidence.",
+    "replacement": "Reviewed indexed source frontiers, peer estimates with spread, and business catalog/ordinal validation."
+  },
+  {
+    "id": "economy.home-choice-native-thresholds",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/home-choice.ts",
+    "line": 6,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native housing choices use fixed kind-price factors and 28 percent pay-carry threshold, age sixty tenure, five-member large-house and two-member apartment rules. Static decision constants travel unchanged; these are retained model assumptions rather than new legal or empirical sourcing.",
+    "why": "Preserved unchanged Native KEEP behavior for equivalence, pending CTO/source review; authored controls are not ordinary-play defect evidence.",
+    "replacement": "Sourced housing affordability/tenure cohorts with recorded per-household variation."
+  },
+  {
+    "id": "economy.staff-funding-native-index-fallback",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/staff-funding.ts",
+    "line": 16,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native program funding selects the last budget year and program index, applies its cut and divides by adopted, matching-baseline, nominal-month or fixed opening index. A zero/absent index returns null; negative adoption indices remain accepted.",
+    "why": "Preserved unchanged Native KEEP behavior for equivalence, pending CTO/source review; authored controls are not ordinary-play defect evidence.",
+    "replacement": "Reviewed recorded adoption/index frontier and program staffing baseline contract."
+  },
+  {
+    "id": "economy.time-record-first-wins",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/time-records.ts",
+    "line": 19,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native identity caches bind immutable array identity and preserve the first duplicate record across activity/activity-state/work/work-state priority. Availability uses only record sequence and created/recorded date, without terminal-state or effective-date checks.",
+    "why": "Preserved unchanged Native KEEP behavior for equivalence, pending CTO/source review; authored controls are not ordinary-play defect evidence.",
+    "replacement": "A reviewed canonical unique-identity/availability contract and cache frontier."
+  },
+  {
+    "id": "economy.macro-cycle-native-window",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/macro-cycle.ts",
+    "line": 19,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native recession labels use three consecutive months, six-month cause sums with a one-sixth cutoff and twenty-four-month positive rate-tag citations. Missing drivers defer classification; English formats one decimal. Bank failure citations have a lower date bound and no upper bound; whole-store array order supplies turns. Existing chance driver wording is retained although the current producer emits zero.",
+    "why": "Preserved unchanged Native KEEP behavior for equivalence, pending CTO/source review; authored controls are not ordinary-play defect evidence.",
+    "replacement": "A reviewed sourced cycle-dating/driver attribution and dated-event frontier contract."
+  },
+  {
+    "id": "economy.macro-release-native-frontier",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/macro-publications.ts",
+    "line": 15,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native publication takes the last record per month through Map overwrite, requires twelve-month inflation and complete six-month quarterly windows, rounds fixed decimals and emits fixed English summaries. No extra guard for absent current month or zero baseline indices is introduced.",
+    "why": "Preserved unchanged Native KEEP behavior for equivalence, pending CTO/source review; authored controls are not ordinary-play defect evidence.",
+    "replacement": "A reviewed recorded-publication source frontier and English-engine realization contract."
   }
 ]

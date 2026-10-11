@@ -565,9 +565,9 @@
     "name": "townBusinessEntryGaps",
     "inventoryEngine": "economy",
     "keepLines": 51,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/business-readings.ts",
+    "reason": "Full retained public-parent closure and necessary helpers/constants travel. time-records-world.test.ts and macro-publications-world.test.ts compare unchanged Native public owners across all 56 generated places. Canonical scheduled/work identity and actual fourteen saved macro months/publications provide raw sources; read-only duplicate/growth/driver controls are labeled edges. Ordered event DTOs use the unchanged common event writer; no private evaluation, parallel World writer, ordinary NPC recession, exhaustive/core2 or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-economy-measures.ts",
@@ -905,9 +905,9 @@
     "name": "homeForNewHousehold",
     "inventoryEngine": "economy",
     "keepLines": 34,
-    "status": "pending-owned",
-    "lift": "src/rules/economy/home-allocation.ts",
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/home-choice.ts",
+    "reason": "Full retained public-parent closure and necessary helpers/constants travel. time-records-world.test.ts and macro-publications-world.test.ts compare unchanged Native public owners across all 56 generated places. Canonical scheduled/work identity and actual fourteen saved macro months/publications provide raw sources; read-only duplicate/growth/driver controls are labeled edges. Ordered event DTOs use the unchanged common event writer; no private evaluation, parallel World writer, ordinary NPC recession, exhaustive/core2 or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-homes.ts",
@@ -1535,9 +1535,9 @@
     "name": "localBusinessesIn",
     "inventoryEngine": "economy",
     "keepLines": 31,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/business-readings.ts",
+    "reason": "Full retained public-parent closure and necessary helpers/constants travel. time-records-world.test.ts and macro-publications-world.test.ts compare unchanged Native public owners across all 56 generated places. Canonical scheduled/work identity and actual fourteen saved macro months/publications provide raw sources; read-only duplicate/growth/driver controls are labeled edges. Ordered event DTOs use the unchanged common event writer; no private evaluation, parallel World writer, ordinary NPC recession, exhaustive/core2 or finisher claim."
   },
   {
     "sourceFile": "src/simulation/local-economy.ts",
@@ -1695,9 +1695,9 @@
     "name": "one",
     "inventoryEngine": "economy",
     "keepLines": 3,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/macro-cycle.ts",
+    "reason": "Full retained public-parent closure and necessary helpers/constants travel. time-records-world.test.ts and macro-publications-world.test.ts compare unchanged Native public owners across all 56 generated places. Canonical scheduled/work identity and actual fourteen saved macro months/publications provide raw sources; read-only duplicate/growth/driver controls are labeled edges. Ordered event DTOs use the unchanged common event writer; no private evaluation, parallel World writer, ordinary NPC recession, exhaustive/core2 or finisher claim."
   },
   {
     "sourceFile": "src/simulation/macro-economy/kernel.ts",
@@ -1845,9 +1845,9 @@
     "name": "formatPct",
     "inventoryEngine": "economy",
     "keepLines": 3,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/macro-publications.ts",
+    "reason": "Full retained public-parent closure and necessary helpers/constants travel. time-records-world.test.ts and macro-publications-world.test.ts compare unchanged Native public owners across all 56 generated places. Canonical scheduled/work identity and actual fourteen saved macro months/publications provide raw sources; read-only duplicate/growth/driver controls are labeled edges. Ordered event DTOs use the unchanged common event writer; no private evaluation, parallel World writer, ordinary NPC recession, exhaustive/core2 or finisher claim."
   },
   {
     "sourceFile": "src/simulation/macro-economy/rate-choice.ts",
@@ -2315,9 +2315,9 @@
     "name": "realProgramFunding",
     "inventoryEngine": "economy",
     "keepLines": 24,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/staff-funding.ts",
+    "reason": "Full retained public-parent closure and necessary helpers/constants travel. time-records-world.test.ts and macro-publications-world.test.ts compare unchanged Native public owners across all 56 generated places. Canonical scheduled/work identity and actual fourteen saved macro months/publications provide raw sources; read-only duplicate/growth/driver controls are labeled edges. Ordered event DTOs use the unchanged common event writer; no private evaluation, parallel World writer, ordinary NPC recession, exhaustive/core2 or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/staffing.ts",
@@ -2585,8 +2585,8 @@
     "name": "timeWorkEntityAvailableAt",
     "inventoryEngine": "economy",
     "keepLines": 11,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/time-records.ts",
+    "reason": "Full retained public-parent closure and necessary helpers/constants travel. time-records-world.test.ts and macro-publications-world.test.ts compare unchanged Native public owners across all 56 generated places. Canonical scheduled/work identity and actual fourteen saved macro months/publications provide raw sources; read-only duplicate/growth/driver controls are labeled edges. Ordered event DTOs use the unchanged common event writer; no private evaluation, parallel World writer, ordinary NPC recession, exhaustive/core2 or finisher claim."
   }
 ]

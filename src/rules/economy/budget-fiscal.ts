@@ -256,7 +256,7 @@ export function budgetLawReadings(
   };
 }
 export function nominalEconomyIndex(
-  facts: BudgetFiscalFacts,
+  facts: Pick<BudgetFiscalFacts, "months">,
   stateJurisdictionId: EntityId,
   asOf: IsoDate,
 ): number | null {

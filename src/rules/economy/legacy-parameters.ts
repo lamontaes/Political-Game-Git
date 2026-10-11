@@ -225,6 +225,15 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: ["economy.business-plan-opening-caps"],
   },
+  "business-readings.ts": {
+    values: [0, 1, 2, 3, 4, 5, 6, 21, 22, 24, 25, 26, 28, 30, 32],
+    provenance: "TUNABLE",
+    source:
+      "src/simulation/living-world/town-businesses.ts:283; src/simulation/local-economy.ts:309; src/simulation/living-world/town-employment.ts:239; src/simulation/living-world/town-business-books.ts:150; src/simulation/living-world/town-businesses.ts:121",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.business-readings-history-peer-frontier"],
+  },
   "business-supply.ts": {
     values: [0, 1, 2],
     provenance: "ESTIMATED",
@@ -383,9 +392,18 @@ export const ECONOMY_LEGACY_PARAMETERS = {
   "home-allocation.ts": {
     values: [0],
     provenance: "SOURCED",
+    source:
+      "Frozen supporting native unit/schema/calendar contract; see module imports and KEEP-DISPOSITION.md.",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+  },
+  "home-choice.ts": {
+    values: [0, 0.28, 0.35, 0.5, 0.6, 0.8, 1, 1.6, 2, 5, 7, 60, 65, 365],
+    provenance: "TUNABLE",
     source: "src/simulation/living-world/town-homes.ts:175",
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.home-choice-native-thresholds"],
   },
   "home-price-levels.ts": {
     values: [0, 1, 2, 100],
@@ -560,6 +578,15 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: ["economy.credit-response-model"],
   },
+  "macro-cycle.ts": {
+    values: [-1, 0, 1, 2, 3, 4, 5, 6, 7, 10, 12, 24, 100, 1000],
+    provenance: "TUNABLE",
+    source:
+      "src/simulation/macro-economy/cycle.ts:59; src/simulation/macro-economy/cycle.ts:29",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.macro-cycle-native-window"],
+  },
   "macro-deterministic-math.ts": {
     values: [
       -700, 0, 0.6931471805599453, 0.7071067811865476, 1, 2, 60, 80, 700,
@@ -613,6 +640,15 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "economy.macro-provisional-policy",
       "economy.macro-recovery-episode",
     ],
+  },
+  "macro-publications.ts": {
+    values: [0, 1, 2, 3, 4, 5, 6, 7, 10, 12],
+    provenance: "TUNABLE",
+    source:
+      "src/simulation/macro-economy/producer.ts:437; src/simulation/macro-economy/producer.ts:420; src/simulation/macro-economy/store.ts:40",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.macro-release-native-frontier"],
   },
   "macro-rate-choice.ts": {
     values: [
@@ -763,6 +799,14 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "economy.starting-cash-source-interpolation",
       "economy.student-rate-nearest-award",
     ],
+  },
+  "staff-funding.ts": {
+    values: [-1, 0, 1, 100],
+    provenance: "TUNABLE",
+    source: "src/simulation/public-budgets/staffing.ts:121",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.staff-funding-native-index-fallback"],
   },
   "starting-cash.ts": {
     values: [0, 1, 12, 18, 52, 100, 365.25],
