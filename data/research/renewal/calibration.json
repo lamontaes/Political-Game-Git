@@ -1,0 +1,207 @@
+{
+  "tag": "TUNABLE",
+  "status": "exploratory-single-town-fit",
+  "sourceHead": "ee04811219",
+  "place": {
+    "selection": "crypto random all56 identity, then locality; generation only",
+    "state": {
+      "usps": "DC",
+      "jurisdictionKey": "US-DC",
+      "name": "District of Columbia"
+    },
+    "place": {
+      "key": "1150000",
+      "displayName": "Washington, District of Columbia",
+      "formalName": "Washington",
+      "withinName": "District of Columbia",
+      "context": {
+        "jurisdiction": {
+          "id": "jurisdiction_7691c6e3ae48f824",
+          "slug": "us-place-1150000",
+          "name": "Washington, District of Columbia",
+          "kind": "census-place",
+          "parentName": "District of Columbia",
+          "provenance": {
+            "asOf": "2026-01-05",
+            "source": "census-gazetteer-2025-places-zip",
+            "jurisdiction": "jurisdiction_7691c6e3ae48f824",
+            "status": "approved"
+          }
+        },
+        "initialMoment": {
+          "date": "2026-01-05",
+          "minuteOfDay": 550,
+          "timeZone": "America/New_York",
+          "utcOffsetMinutes": -300
+        },
+        "creationSummary": "Seeded world in Washington, District of Columbia, from the 2025 Census Gazetteer place identity.",
+        "goalScope": "Washington, District of Columbia",
+        "householdLocationLabel": "Washington, District of Columbia"
+      },
+      "scope": "locality",
+      "stateJurisdictionKey": "US-DC",
+      "capabilities": {
+        "legislativeScenarioKey": null,
+        "candidacyPackId": null
+      },
+      "sourceGeoid": "1150000"
+    },
+    "seed": "m1-renewal-births-20261011",
+    "people": 3734,
+    "inputSha256": "c41dd1b1b81afa1ae005d361d856c89adaa09eb7f608211b339742e5b7275641"
+  },
+  "observations": {
+    "years": [2023, 2024],
+    "sourceFiles": ["natality-2023.json", "natality-2024.json"],
+    "crudeRange": [10.8, 11.6]
+  },
+  "failedYears": [
+    {
+      "implementation": "No opening pregnancy records",
+      "births": 5,
+      "rate": 6.25,
+      "baseMilliseconds": 86353.725251,
+      "headMilliseconds": 78022.455156
+    },
+    {
+      "implementation": "Recorded opening pregnancy reconstruction",
+      "births": 5,
+      "rate": 6.25,
+      "baseMilliseconds": 80750.852874,
+      "headMilliseconds": 73944.611129
+    }
+  ],
+  "sensitivityGrid": [
+    {
+      "incomeWeight": 2,
+      "waitPull": 3,
+      "earlyAgreeingCouples": 5
+    },
+    {
+      "incomeWeight": 2,
+      "waitPull": 2,
+      "earlyAgreeingCouples": 5
+    },
+    {
+      "incomeWeight": 2,
+      "waitPull": 1.5,
+      "earlyAgreeingCouples": 8
+    },
+    {
+      "incomeWeight": 2,
+      "waitPull": 1,
+      "earlyAgreeingCouples": 8
+    },
+    {
+      "incomeWeight": 2,
+      "waitPull": 0.5,
+      "earlyAgreeingCouples": 8
+    },
+    {
+      "incomeWeight": 1.5,
+      "waitPull": 3,
+      "earlyAgreeingCouples": 5
+    },
+    {
+      "incomeWeight": 1.5,
+      "waitPull": 2,
+      "earlyAgreeingCouples": 8
+    },
+    {
+      "incomeWeight": 1.5,
+      "waitPull": 1.5,
+      "earlyAgreeingCouples": 8
+    },
+    {
+      "incomeWeight": 1.5,
+      "waitPull": 1,
+      "earlyAgreeingCouples": 8
+    },
+    {
+      "incomeWeight": 1.5,
+      "waitPull": 0.5,
+      "earlyAgreeingCouples": 8
+    },
+    {
+      "incomeWeight": 1,
+      "waitPull": 3,
+      "earlyAgreeingCouples": 5
+    },
+    {
+      "incomeWeight": 1,
+      "waitPull": 2,
+      "earlyAgreeingCouples": 8
+    },
+    {
+      "incomeWeight": 1,
+      "waitPull": 1.5,
+      "earlyAgreeingCouples": 8
+    },
+    {
+      "incomeWeight": 1,
+      "waitPull": 1,
+      "earlyAgreeingCouples": 9
+    },
+    {
+      "incomeWeight": 1,
+      "waitPull": 0.5,
+      "earlyAgreeingCouples": 9
+    },
+    {
+      "incomeWeight": 0.75,
+      "waitPull": 3,
+      "earlyAgreeingCouples": 7
+    },
+    {
+      "incomeWeight": 0.75,
+      "waitPull": 2,
+      "earlyAgreeingCouples": 8
+    },
+    {
+      "incomeWeight": 0.75,
+      "waitPull": 1.5,
+      "earlyAgreeingCouples": 8
+    },
+    {
+      "incomeWeight": 0.75,
+      "waitPull": 1,
+      "earlyAgreeingCouples": 9
+    },
+    {
+      "incomeWeight": 0.75,
+      "waitPull": 0.5,
+      "earlyAgreeingCouples": 9
+    },
+    {
+      "incomeWeight": 0.5,
+      "waitPull": 3,
+      "earlyAgreeingCouples": 7
+    },
+    {
+      "incomeWeight": 0.5,
+      "waitPull": 2,
+      "earlyAgreeingCouples": 8
+    },
+    {
+      "incomeWeight": 0.5,
+      "waitPull": 1.5,
+      "earlyAgreeingCouples": 9
+    },
+    {
+      "incomeWeight": 0.5,
+      "waitPull": 1,
+      "earlyAgreeingCouples": 9
+    },
+    {
+      "incomeWeight": 0.5,
+      "waitPull": 0.5,
+      "earlyAgreeingCouples": 9
+    }
+  ],
+  "selectedUniversalWeights": {
+    "incomeWeight": 1,
+    "waitPull": 1
+  },
+  "reason": "Both weights had been unmeasured old-engine assumptions. Lower absolute-income gradient and status-quo pull preserve individual circumstances and both agreements. Choice coefficients fit aggregate observations offline; runtime never reads natality.",
+  "limitation": "Forecasts reuse recorded early scores and do not predict changed later histories. A fresh full-year run is required. Single drawn town is a training point; finisher must independently draw a new place. No empirical coefficient interval is claimed."
+}
