@@ -22,7 +22,7 @@
     </style>
   </head>
   <body>
-    <h1>M0 developer bench — WIP</h1>
+    <h1>M0 developer bench</h1>
     <form id="opening">
       <label>Seed <input id="seed" required /></label>
       <button id="random" type="button">New seed</button>
@@ -49,38 +49,37 @@
     <button id="more" type="button" hidden>More residents</button>
     <h2>Resident records and offers</h2>
     <div id="detail"></div>
-    <p>
-      Saved records and director channels are inspectable. The saved
-      reason/source resolver is pending on #3918; raw records do not certify a
-      why trace.
-    </p>
-    <h2>Choices — awaiting the core pause/resume hook</h2>
-    <p id="chosen-resident">Choose a resident to inspect current offers.</p>
+    <p>Saved explanations come from the core resolver and director records.</p>
+    <h2>Choices</h2>
+    <p id="chosen-resident">Choose a living resident to play.</p>
     <fieldset id="choices" disabled>
-      <legend>Offered choices (preview only)</legend>
+      <legend>Issued offers</legend>
       <div id="choice-options"></div>
       <button id="submit-choice" type="button">Submit offered choice</button>
     </fieldset>
-    <h2>Time — API implementation pending</h2>
+    <h2>Time</h2>
     <button id="day" type="button" disabled>Day</button>
     <button id="week" type="button" disabled>Week</button>
     <label>Calendar <input id="calendar" type="date" disabled /></label>
     <button id="calendar-go" type="button" disabled>Go to date</button>
     <button id="skip" type="button" disabled>Skip until needed</button>
-    <p id="stop-status" role="status">No core time has advanced.</p>
-    <p id="api-status">
-      Choice, earliest-stop/resume and saved-trace implementations are pending
-      on #3918.
+    <button id="resume-stop" type="button" disabled>Continue after stop</button>
+    <p>
+      Skip looks ahead up to 365 days. A pending answer continues the original
+      destination. Switching residents requires a finished civil day.
     </p>
+    <pre id="clock-detail"></pre>
+    <p id="stop-status" role="status">No core time has advanced.</p>
+    <p id="api-status">Loading player API capabilities.</p>
     <h2>Saved trace</h2>
     <label>Record ID <input id="trace-record-id" /></label>
-    <button id="resolve-trace" type="button" disabled>
-      Resolve saved trace
-    </button>
-    <p id="trace-status">
-      Saved-trace resolver pending; raw records remain inspectable.
-    </p>
+    <button id="resolve-trace" type="button">Resolve saved trace</button>
+    <p id="trace-status">Select a saved record to read its explanation.</p>
     <div id="trace-detail"></div>
+    <details>
+      <summary>Records with no saved scores yet</summary>
+      <pre id="missing-scores"></pre>
+    </details>
     <section aria-labelledby="path-heading">
       <h2 id="path-heading">Golden path and world panel</h2>
       <p id="path-basis">

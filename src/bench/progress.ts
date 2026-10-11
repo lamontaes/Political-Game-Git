@@ -36,9 +36,17 @@ export function benchProgress(core: CoreState, placeId: string) {
     .filter(
       (person) =>
         person.alive &&
-        ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)) ===
-          ENTRY_AGE,
+        [ENTRY_AGE - 1, ENTRY_AGE].includes(
+          ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(core.date)),
+        ),
     );
+  // The core-only opening has 17-year-olds and adults starting at 19.
+  // An actual upcoming birthday remains reachable through the calendar.
+  entrants.sort(
+    (a, b) =>
+      ageOnDate(makeIsoDate(b.birthDate), makeIsoDate(core.date)) -
+      ageOnDate(makeIsoDate(a.birthDate), makeIsoDate(core.date)),
+  );
   let entrant = entrants[0];
   let contact: ReturnType<typeof availableActs>[number] | undefined;
   for (const person of entrants) {
@@ -55,6 +63,22 @@ export function benchProgress(core: CoreState, placeId: string) {
     }
   }
   const household = entrant && core.households.get(entrant.householdId);
+  const birthdayYear =
+    entrant && Number(entrant.birthDate.slice(0, 4)) + ENTRY_AGE;
+  const birthdayMonthDay = entrant?.birthDate.slice(5);
+  // Match the date utility's leap-day birthday convention.
+  const turns18At =
+    birthdayYear && birthdayMonthDay
+      ? `${birthdayYear}-${
+          birthdayMonthDay === "02-29" &&
+          !(
+            birthdayYear % 4 === 0 &&
+            (birthdayYear % 100 !== 0 || birthdayYear % 400 === 0)
+          )
+            ? "02-28"
+            : birthdayMonthDay
+        }`
+      : undefined;
   const entryEvidence =
     entrant && household?.memberIds.includes(entrant.id)
       ? {
@@ -64,6 +88,7 @@ export function benchProgress(core: CoreState, placeId: string) {
           familyName: entrant.familyName,
           householdId: household.id,
           birthDate: entrant.birthDate,
+          turns18At,
           age: ageOnDate(
             makeIsoDate(entrant.birthDate),
             makeIsoDate(core.date),
@@ -99,7 +124,7 @@ export function benchProgress(core: CoreState, placeId: string) {
         status: entryEvidence ? "reachable now" : "not in the new core yet",
         missingModule: entryEvidence
           ? null
-          : "opening 18-year-old resident record",
+          : "opening resident at or approaching 18",
         evidence: entryEvidence,
       },
       {
@@ -108,7 +133,7 @@ export function benchProgress(core: CoreState, placeId: string) {
         status: contactEvidence ? "reachable now" : "not in the new core yet",
         missingModule: contactEvidence
           ? null
-          : "contact offer for an opening 18-year-old resident",
+          : "contact offer for the resident at or approaching 18",
         evidence: contactEvidence,
       },
       ...missingSteps.map(([label, missingModule], index) => ({

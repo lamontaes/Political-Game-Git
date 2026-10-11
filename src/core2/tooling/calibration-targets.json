@@ -10,8 +10,8 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "d1321f8a5e27764d5d3517eec6f9c8c88225c22c0baacdf53439219e68f6dc91",
-    "meaning": "Exact central parameter table including business-book aggregate priors, the unmeasured opening cadence and a sourced reporting definition. No fitted coefficient or passed calibration is claimed."
+    "sha256": "b9a453a1a210938ccb39f38937721b04e3982237208c567e7f7738a3a32c954e",
+    "meaning": "Exact central parameter table, including 44 sourced opening payroll business weights and seven unmeasured calendar conventions. No fitted coefficient or passed calibration is claimed."
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
   "engineReferenceContract": "A TUNABLE may carry only checkRange: { ref: \"P9-GENERIC-ID\" | \"EMPIRICAL-GENERIC-ID\" }. The simulation ignores this developer-only pointer. P9 trajectories keep their pinned source/evaluator contract; external population observables have independently hashed source records and never pass through a P9 individual replay evaluator. A reference, contextual report or target pass does not identify a coefficient bound or close a stopgap.",
@@ -85,8 +85,8 @@
       "id": "panas-affect-score",
       "title": "PANAS observed positive and negative affect scores",
       "kind": "external empirical observable",
-      "quantity": "Separate positive-affect and negative-affect 10-item scale sums; item range 1–5",
-      "unit": "scale points, each subscale 10–50",
+      "quantity": "Separate positive-affect and negative-affect 10-item scale sums; item range 1\u20135",
+      "unit": "scale points, each subscale 10\u201350",
       "sample": {
         "population": "Mostly undergraduate validation samples in Watson, Clark, and Tellegen (1988)",
         "samples": [
@@ -157,8 +157,8 @@
       "id": "pss10-monthly-stress",
       "title": "PSS-10 perceived stress score",
       "kind": "external empirical observable",
-      "quantity": "Ten last-month items, each 0–4 with four reverse-scored; sum score",
-      "unit": "scale points, 0–40",
+      "quantity": "Ten last-month items, each 0\u20134 with four reverse-scored; sum score",
+      "unit": "scale points, 0\u201340",
       "sample": {
         "population": "2009 U.S. survey probability sample",
         "n": 2000,
@@ -176,7 +176,7 @@
             "sd": 7.56
           },
           {
-            "group": "ages 25–34",
+            "group": "ages 25\u201334",
             "n": 433,
             "mean": 17.46,
             "sd": 7.31
@@ -260,7 +260,7 @@
       "calibrationStatus": "pending; raw repeated target data and compatible observations required.",
       "bindingStatus": "supplementary only; no current P8 parameter checkRange points here",
       "routeStatus": "not currently executable against P8 output; instrument/data adapter and output bridge are missing, so this target must not be reported as passed",
-      "requiredTestRouteAfterImplementation": "Use raw event-aligned repeated measures with timestamps and fit/hold out people; the cited paper’s shape finding is not a numeric coefficient test."
+      "requiredTestRouteAfterImplementation": "Use raw event-aligned repeated measures with timestamps and fit/hold out people; the cited paper\u2019s shape finding is not a numeric coefficient test."
     },
     {
       "id": "opening-school-peer-network",
@@ -275,7 +275,7 @@
       ],
       "status": "proposed; not source-retrieved or calibrated",
       "sourceLimitation": "NCES CCD local-institutions data supports recent identity context only. Existing school-calendar proxies and public biography timeline checks supply no empirical social-network or class-size bound.",
-      "acceptanceLimitation": "The owner often20–60 ordinary-circle requirement is an acceptance observation to examine, not a forced generator minimum or fabricated empirical spread."
+      "acceptanceLimitation": "The owner often20\u201360 ordinary-circle requirement is an acceptance observation to examine, not a forced generator minimum or fabricated empirical spread."
     },
     {
       "id": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS",
@@ -570,7 +570,7 @@
         }
       ],
       "checkRange": {
-        "quantity": "Observed source-cohort 25th–75th percentiles, separated by industry",
+        "quantity": "Observed source-cohort 25th\u201375th percentiles, separated by industry",
         "unit": "cash buffer days",
         "location": "src/core2/data/opening-employer-cash-reference.json observations[].observedCounts.percentile25 / percentile75",
         "meaning": "Real empirical interquartile check range. Do not force every simulated employer inside it or use it as a survival condition; half of the source cohort is outside its interquartile range."
@@ -1328,667 +1328,60 @@
       "reviewNote": "Real independently pinned JPMC cohort q25/median/q75 anchors provide contextual distribution evidence. Uniform startup ranks, interpolation, tails, legal form/vintage/location and scheduled-payroll/accounting-cost-to-ALL-debit mapping remain unmeasured. No full CDF, coefficient interval or survival-based stock tuning is justified."
     },
     {
-      "parameter": "lifeEventStressScale",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 1,
+      "parameter": "openingPayrollPrivatePhaseSpanFraction",
       "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
+        "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
       },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+      "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
+      "reviewNote": "Uniform opening WHO phase across one recorded cycle is unmeasured. Stable employer identity is not a future action draw."
     },
     {
-      "parameter": "lifeEventMoodScale",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 1,
+      "parameter": "openingPayrollPeriodEndLagDays",
       "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
+        "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
       },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+      "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
+      "reviewNote": "Five calendar days from inclusive period end is an authored opening convention. BLS gives no individual lag; county actual lag is a distinct example, not this private or education lag."
     },
     {
-      "parameter": "driveCauseHalfLifeDays",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 365,
+      "parameter": "openingPayrollMonthlyBoundaryDay",
       "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
+        "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
       },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+      "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
+      "reviewNote": "First calendar day boundary is an authored month phase, not a measured employer term."
     },
     {
-      "parameter": "driveGrudgeHalfLifeDays",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 180,
+      "parameter": "openingPayrollSemimonthlyFirstBoundaryDay",
       "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
+        "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
       },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+      "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
+      "reviewNote": "First of two civil-month boundaries is an authored convention, not measured by BLS."
     },
     {
-      "parameter": "driveProtectFamilyHalfLifeDays",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 365,
+      "parameter": "openingPayrollSemimonthlySecondBoundaryDay",
       "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
+        "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
       },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+      "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
+      "reviewNote": "Sixteenth as the second civil-month boundary is an authored convention. Periods are real calendar half-months, never fixed fifteen days."
     },
     {
-      "parameter": "driveStatusHalfLifeDays",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 365,
+      "parameter": "openingPayrollEducationBiweeklyWeight",
       "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
+        "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
       },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+      "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
+      "reviewNote": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership."
     },
     {
-      "parameter": "driveCallingHalfLifeDays",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 730,
+      "parameter": "openingPayrollEducationMonthlyWeight",
       "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
+        "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
       },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "driveActReinforcement",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.05,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "perceptionTraitWeight",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.25,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "perceptionClosenessWeight",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 1,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "perceptionRoleSubject",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 1,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "perceptionRoleFamily",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 1,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "perceptionRoleHousehold",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.8,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "perceptionRoleAcquaintance",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.3,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "perceptionRoleWitness",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.6,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "driveShareHours",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.5,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "causeShareImpulseScale",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.5,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "donateHours",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.25,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "donationLivingCostDays",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 1,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "volunteerHours",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 2,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "driveConfrontHours",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.5,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "grudgeRelationshipChange",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.1,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "confrontImpulse",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.3,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "responseCarryOnFit",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 1,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "responseTraitLeanGain",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 3,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "responseAgencyTurnAge",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 16,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "responseAgencyWidthYears",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 2,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "responseCarryOnBaseline",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 1,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "driveStrengthScale",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.3,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "driveRetireStrength",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.01,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "driveTraceRetention",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 2000,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "responseCauseFit",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.8,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "responseGrudgeFit",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.8,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "responseGuardFit",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.7,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "responseAmbitionFit",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.7,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "responseCallingFit",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.55,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P10 drives module (src/core2/modules/drives.ts, modules/health.ts): event perception, drive formation, fading, drive acts and event impulses.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "kinInterbirthYears",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 3,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "kinFirstBirthAgeSdYears",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 4,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "kinPaternalAgeGapYears",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 2.5,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "kinMaleFertilityAgeShiftYears",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 2,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "personalityUpbringingShift",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.15,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "personalityReferenceAge",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 40,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "closenessHoursAtHalf",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 90,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "closenessKinHalfLifeDays",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 1095,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted. Named check: Mollenhorst, Volker and Flap (2014), 48% of named network members still present after seven years; needs a seven-year run (P15 part 5)."
-    },
-    {
-      "parameter": "closenessOtherHalfLifeDays",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 548,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted. Named check: Mollenhorst, Volker and Flap (2014), 48% of named network members still present after seven years; needs a seven-year run (P15 part 5)."
-    },
-    {
-      "parameter": "householdOtherMinutesPerDay",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 43,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "schoolHoursFriendshipWeight",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.25,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "extendedKinVisitShare",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.25,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "tieMissingWeightPerHour",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.1,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "kinMoveAwayShare",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.35,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
-      "parameter": "openingCoworkerGroupSize",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 8,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+      "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
+      "reviewNote": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership."
     }
   ],
   "unreferencedRemovalReview": {
@@ -2058,7 +1451,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -2193,7 +1586,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -2225,7 +1618,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -2264,7 +1657,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -2296,7 +1689,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women’s History Museum",
+              "publisher": "National Women\u2019s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -3072,7 +2465,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor’s Office",
+              "publisher": "Maryland Governor\u2019s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -3104,7 +2497,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor’s Office",
+              "publisher": "Maryland Governor\u2019s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -3207,7 +2600,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor’s Office",
+              "publisher": "Maryland Governor\u2019s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -3303,7 +2696,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor’s Office",
+              "publisher": "Maryland Governor\u2019s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -3553,7 +2946,7 @@
         "evaluation": "The run command writes a receipt and evaluation. Score only the 35 decision/outcome steps as model-result targets. For each such step require Evaluation step.reproduced=true, all checks matched, all ranges inside, chainBrokenBy empty, StepReceipt representation=full, and engine-origin observations with nonempty canonical recordIds. Nine event steps are sourced external inputs through ReplayCore.event; they are not predictive passes. Preserve their external provenance, and leave dependent results unmeasured if the evaluator cannot verify continuity through a source-backed event record. A forced selection, initialized fact, stored row without behavior, missing record, or placeholder cannot pass as a model outcome.",
         "routeStatus": "The CLI/evaluator is executable, but no P8 module currently exports the required createReplayCore adapter. Running against the existing old-core adapter does not validate the new P8 engine. Until a real P8 adapter and mechanisms exist, result is blocked/unmeasured; do not convert missing output to success.",
         "parameterInterpretation": "This suite is a joint end-to-end output target for the referenced in-use life parameters. It does not independently identify any single coefficient, supply a numeric range, or establish population realism. An outcome match is a replay check only.",
-        "eventInputRule": "The P9 runner submits each sourced event via ReplayCore.event. Never rewrite an input event as an engine-predicted outcome. For a requires chain to pass, the event must be represented through the contract’s actual source record path; if the current evaluator cannot verify it without relabeling the source, the dependent P9 outcome remains blocked/unmeasured.",
+        "eventInputRule": "The P9 runner submits each sourced event via ReplayCore.event. Never rewrite an input event as an engine-predicted outcome. For a requires chain to pass, the event must be represented through the contract\u2019s actual source record path; if the current evaluator cannot verify it without relabeling the source, the dependent P9 outcome remains blocked/unmeasured.",
         "implementationStatus": "blocked; P8 ReplayCore adapter and model outcome mechanisms are not implemented"
       },
       "adapterGaps": [
@@ -4156,12 +3549,12 @@
       "parameterApplicability": {
         "deepPastMiddleSchoolOffsetYears": {
           "status": "candidate end-to-end chronology check only",
-          "testableQuestion": "Does the independently generated middle-school cohort record occur before the subject’s later sourced education milestones and retain attendance=cohort-estimate and qualification=not-inferred?",
+          "testableQuestion": "Does the independently generated middle-school cohort record occur before the subject\u2019s later sourced education milestones and retain attendance=cohort-estimate and qualification=not-inferred?",
           "coefficientCalibration": "not identified by these outcomes; cohorts and diploma completion are different observables."
         },
         "deepPastHighSchoolOffsetYears": {
           "status": "candidate end-to-end chronology check only",
-          "testableQuestion": "Does the independently generated high-school cohort record occur before the subject’s later sourced high-school/degree milestone, while remaining explicitly an estimate rather than personal attendance?",
+          "testableQuestion": "Does the independently generated high-school cohort record occur before the subject\u2019s later sourced high-school/degree milestone, while remaining explicitly an estimate rather than personal attendance?",
           "coefficientCalibration": "not identified by these outcomes; the P8 cohort offset is not the P9 credential date."
         },
         "openingPeerGroupSize": {
@@ -4248,7 +3641,7 @@
       "parameterApplicability": {
         "marriageReferenceAge": {
           "status": "not-applicable-to-current-generator-output",
-          "testableQuestion": "The cited 1934 marriage is a real individual outcome. Current marriageReferenceAge only backdates synthetic population couple households from adult ages; it does not generate LBJ’s partnership history or the individual marriage decision.",
+          "testableQuestion": "The cited 1934 marriage is a real individual outcome. Current marriageReferenceAge only backdates synthetic population couple households from adult ages; it does not generate LBJ\u2019s partnership history or the individual marriage decision.",
           "coefficientCalibration": "not valid; do not construct a synthetic town around a named LifeFile subject."
         }
       },
@@ -4277,7 +3670,7 @@
         "selection": "purposive sourced public biographies; not a representative sample"
       },
       "title": "Source-linked prior education-finance timeline",
-      "quantity": "LBJ’s 1927 college-enrollment loan range and subsequent Cotulla teaching employment recorded as funding college.",
+      "quantity": "LBJ\u2019s 1927 college-enrollment loan range and subsequent Cotulla teaching employment recorded as funding college.",
       "units": "P9 dated categorical checks and any sourced ranges retained from each original LifeFile step; no coefficient units or numerical bounds are inferred.",
       "observations": [
         {
@@ -4414,7 +3807,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "d1321f8a5e27764d5d3517eec6f9c8c88225c22c0baacdf53439219e68f6dc91"
+        "src/core2/data/parameters.json": "7704c1eddb7a2abc7b1c8e14775616b638dd9bf58e167e66857831065794336c"
       },
       "observations": [
         {
@@ -7073,7 +6466,7 @@
         }
       ],
       "checkRange": {
-        "quantity": "Observed source-cohort 25th–75th percentiles, separated by industry",
+        "quantity": "Observed source-cohort 25th\u201375th percentiles, separated by industry",
         "unit": "cash buffer days",
         "location": "src/core2/data/opening-employer-cash-reference.json observations[].observedCounts.percentile25 / percentile75",
         "meaning": "Real empirical interquartile check range. Do not force every simulated employer inside it or use it as a survival condition; half of the source cohort is outside its interquartile range."
@@ -7088,6 +6481,293 @@
       "calibrationStatus": "blocked and unmeasured; actual published anchors are pinned, but startup-rank, interpolation, tail-span and individual/denominator crosswalk applicability remains unmeasured",
       "bindingStatus": "Real open TUNABLE binding; applicability-blocked. No matched cash-debit/balance adapter, distribution evaluator or coefficient identification has been executed.",
       "requiredTestRouteAfterImplementation": null
+    },
+    {
+      "id": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT",
+      "kind": "external empirical observable",
+      "revision": "bls2013-chart1-table1-sbc2021-au2020-cached-primary-v1",
+      "scope": "Independent contextual target only. Observed business frequency weights and dated employer examples cannot identify individual model phase/lag or national education/government/farm shares.",
+      "sources": [
+        {
+          "id": "bls-2013-private-frequency",
+          "title": "How frequently do private businesses pay workers?",
+          "publisher": "U.S. Bureau of Labor Statistics",
+          "url": "https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm"
+        },
+        {
+          "id": "santa-barbara-2021-pay-calendar",
+          "title": "2021 Biweekly Payroll Schedule",
+          "publisher": "County of Santa Barbara, Office of the Auditor Controller, Payroll Division",
+          "url": "https://essplus.co.santa-barbara.ca.us/ESS/PayrollCalendars/Calendars/2021%20Pay%20Schedule.pdf"
+        },
+        {
+          "id": "american-university-2020-payroll",
+          "title": "Important2020 Year-End Payroll and Tax-Related Deadlines",
+          "publisher": "American University, Payroll Office",
+          "url": "https://www.american.edu/finance/memos/important-2020-year-end-payroll-and-tax-related-deadlines.cfm"
+        }
+      ],
+      "sourceFiles": {
+        "src/core2/data/opening-payroll-frequency-reference.json": "fbd44e29f9e22aca7f2037c22703372c66186ba6854941121d21de309e42c771"
+      },
+      "observations": [
+        {
+          "quantity": "all-private reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 32.4,
+            "biweekly": 36.5,
+            "semimonthly": 19.8,
+            "monthly": 11.3
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "natural-resources-and-mining reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 44.2,
+            "biweekly": 25.5,
+            "semimonthly": 19.1,
+            "monthly": 11.2
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "construction reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 70.6,
+            "biweekly": 18.3,
+            "semimonthly": 5.2,
+            "monthly": 5.9
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "manufacturing reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 50.8,
+            "biweekly": 35.9,
+            "semimonthly": 9.5,
+            "monthly": 3.8
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "trade-transportation-and-utilities reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 36.1,
+            "biweekly": 37.3,
+            "semimonthly": 16.4,
+            "monthly": 10.2
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "information reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 10.2,
+            "biweekly": 43.7,
+            "semimonthly": 35.9,
+            "monthly": 10.2
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "financial-activities reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 18.0,
+            "biweekly": 33.9,
+            "semimonthly": 30.5,
+            "monthly": 17.6
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "professional-and-business-services reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 20.4,
+            "biweekly": 36.0,
+            "semimonthly": 28.0,
+            "monthly": 15.6
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "education-and-health-services reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 12.6,
+            "biweekly": 52.9,
+            "semimonthly": 22.9,
+            "monthly": 11.6
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "leisure-and-hospitality reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 28.9,
+            "biweekly": 46.2,
+            "semimonthly": 17.0,
+            "monthly": 7.9
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "other-services reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 42.5,
+            "biweekly": 28.4,
+            "semimonthly": 17.1,
+            "monthly": 12.0
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "Published county payperiod01 scheduled dates",
+          "unit": "scheduled civil calendar days",
+          "observedValue": 14,
+          "observedCounts": {
+            "periodLengthDays": 14,
+            "inclusiveEndToPaydayDays": 11
+          },
+          "dateWindow": {
+            "earliest": "2020-12-14",
+            "latest": "2021-01-07",
+            "precision": "published exact calendar dates"
+          },
+          "sourceRefs": ["santa-barbara-2021-pay-calendar"],
+          "sourceLocation": "PDFlines1,55\u201365; issuedNovember2020",
+          "periodStartsAt": "2020-12-14",
+          "periodThroughAt": "2020-12-27",
+          "paydayAt": "2021-01-07",
+          "limit": "Only this recorded county calendar; later holiday exceptions differ from the base lag.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "University explicitly named payroll frequencies",
+          "unit": "named employer options",
+          "observedCounts": {
+            "biweeklyOptionExists": 1,
+            "monthlyOptionExists": 1
+          },
+          "dateWindow": {
+            "earliest": "2020-12-24",
+            "latest": "2020-12-31",
+            "precision": "published final paycheck dates"
+          },
+          "sourceRefs": ["american-university-2020-payroll"],
+          "sourceLocation": "MemorandumDecember11,2020, lines118\u2013130",
+          "limit": "Option existence is not1:1 prevalence or national education weighting.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        }
+      ],
+      "testRoute": {
+        "implementationStatus": "planned",
+        "routeStatus": "blocked; no matched employer payroll cohort evaluator executed",
+        "commandTemplate": "Root-owned fresh calendar inventory by eligible private source industry plus qualified dated employer calendar comparison; no actor outcome or survival tuning",
+        "evaluationContract": "Check opening employer frequency distribution against matched BLS single-period business cohort. Report public, education, farm and unknown-owner extrapolations separately. Compare actual qualified period bounds/paydates before any phase/lag or legal/holiday claim. Individual phase/lag, monthly boundaries, education mix and crosswalk coefficients remain unidentified; aggregate frequency equality cannot calibrate them."
+      },
+      "parameterApplicability": "TUNABLEs are explicit unmeasured conventions. Source observations do not provide coefficient intervals, actual fictional employer terms, national education weights or legal compliance. No calibration closure, future payment/attendance forecast, deficit rescue, cash creation or speed gain follows from structural source bindings.",
+      "calibrationStatus": "blocked and unmeasured; real contextual observations pinned, individual model conventions and generated-employer crosswalk uncalibrated",
+      "bindingStatus": "Open applicability-blocked contextual references"
     }
   ],
   "jointTargetRef": "P9-OUTCOME-WHOLE-LIFE",
@@ -7282,11 +6962,12 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
-    "src/core2/data/parameters.json": "d1321f8a5e27764d5d3517eec6f9c8c88225c22c0baacdf53439219e68f6dc91",
+    "src/core2/data/parameters.json": "b9a453a1a210938ccb39f38937721b04e3982237208c567e7f7738a3a32c954e",
     "data/research/money/public-programs-2026.json": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193",
     "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac",
     "data/research/money/opening-customer-cex-2024.json": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b",
     "src/core2/data/opening-employer-cash-reference.json": "cbc4f26a3ebfa9d098e2dd44614bb1315c322a1199b20c7c284c7c68a3abd8af",
-    "data/research/money/opening-employer-cash-buffers.json": "d6a20e11c0db0532146704c429070bf1da5b6f66b1beec4efc1f62981910f198"
+    "data/research/money/opening-employer-cash-buffers.json": "d6a20e11c0db0532146704c429070bf1da5b6f66b1beec4efc1f62981910f198",
+    "src/core2/data/opening-payroll-frequency-reference.json": "8d6419c8b47a8404679e3d2a1e4a00fea8652b0e41d57400d0e2f4ba919818f1"
   }
 }

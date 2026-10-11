@@ -3070,761 +3070,322 @@
       "ref": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD"
     }
   },
-  "srrsMaximumUnits": {
-    "value": 100,
+  "openingPayrollBlsAllPrivateWeeklyWeight": {
+    "value": 32.4,
     "tag": "SOURCED",
-    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Death of a spouse anchors the scale at 100 units."
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, all-private: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
   },
-  "srrsDeathOfCloseFamilyMember": {
-    "value": 63,
+  "openingPayrollBlsAllPrivateBiweeklyWeight": {
+    "value": 36.5,
     "tag": "SOURCED",
-    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 5, death of a close family member: 63 units."
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, all-private: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
   },
-  "srrsFamilyMemberHealthChange": {
-    "value": 44,
+  "openingPayrollBlsAllPrivateSemimonthlyWeight": {
+    "value": 19.8,
     "tag": "SOURCED",
-    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 11, change in health of a family member: 44 units."
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, all-private: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
   },
-  "lifeEventStressScale": {
+  "openingPayrollBlsAllPrivateMonthlyWeight": {
+    "value": 11.3,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, all-private: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsNaturalResourcesAndMiningWeeklyWeight": {
+    "value": 44.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, natural-resources-and-mining: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsNaturalResourcesAndMiningBiweeklyWeight": {
+    "value": 25.5,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, natural-resources-and-mining: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsNaturalResourcesAndMiningSemimonthlyWeight": {
+    "value": 19.1,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, natural-resources-and-mining: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsNaturalResourcesAndMiningMonthlyWeight": {
+    "value": 11.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, natural-resources-and-mining: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsConstructionWeeklyWeight": {
+    "value": 70.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, construction: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsConstructionBiweeklyWeight": {
+    "value": 18.3,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, construction: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsConstructionSemimonthlyWeight": {
+    "value": 5.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, construction: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsConstructionMonthlyWeight": {
+    "value": 5.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, construction: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsManufacturingWeeklyWeight": {
+    "value": 50.8,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, manufacturing: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsManufacturingBiweeklyWeight": {
+    "value": 35.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, manufacturing: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsManufacturingSemimonthlyWeight": {
+    "value": 9.5,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, manufacturing: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsManufacturingMonthlyWeight": {
+    "value": 3.8,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, manufacturing: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsTradeTransportationAndUtilitiesWeeklyWeight": {
+    "value": 36.1,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, trade-transportation-and-utilities: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsTradeTransportationAndUtilitiesBiweeklyWeight": {
+    "value": 37.3,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, trade-transportation-and-utilities: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsTradeTransportationAndUtilitiesSemimonthlyWeight": {
+    "value": 16.4,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, trade-transportation-and-utilities: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsTradeTransportationAndUtilitiesMonthlyWeight": {
+    "value": 10.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, trade-transportation-and-utilities: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsInformationWeeklyWeight": {
+    "value": 10.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, information: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsInformationBiweeklyWeight": {
+    "value": 43.7,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, information: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsInformationSemimonthlyWeight": {
+    "value": 35.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, information: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsInformationMonthlyWeight": {
+    "value": 10.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, information: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsFinancialActivitiesWeeklyWeight": {
+    "value": 18.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, financial-activities: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsFinancialActivitiesBiweeklyWeight": {
+    "value": 33.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, financial-activities: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsFinancialActivitiesSemimonthlyWeight": {
+    "value": 30.5,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, financial-activities: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsFinancialActivitiesMonthlyWeight": {
+    "value": 17.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, financial-activities: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsProfessionalAndBusinessServicesWeeklyWeight": {
+    "value": 20.4,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsProfessionalAndBusinessServicesBiweeklyWeight": {
+    "value": 36.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsProfessionalAndBusinessServicesSemimonthlyWeight": {
+    "value": 28.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsProfessionalAndBusinessServicesMonthlyWeight": {
+    "value": 15.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsEducationAndHealthServicesWeeklyWeight": {
+    "value": 12.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, education-and-health-services: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsEducationAndHealthServicesBiweeklyWeight": {
+    "value": 52.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, education-and-health-services: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsEducationAndHealthServicesSemimonthlyWeight": {
+    "value": 22.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, education-and-health-services: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsEducationAndHealthServicesMonthlyWeight": {
+    "value": 11.6,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, education-and-health-services: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsLeisureAndHospitalityWeeklyWeight": {
+    "value": 28.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, leisure-and-hospitality: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsLeisureAndHospitalityBiweeklyWeight": {
+    "value": 46.2,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, leisure-and-hospitality: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsLeisureAndHospitalitySemimonthlyWeight": {
+    "value": 17.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, leisure-and-hospitality: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsLeisureAndHospitalityMonthlyWeight": {
+    "value": 7.9,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, leisure-and-hospitality: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsOtherServicesWeeklyWeight": {
+    "value": 42.5,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, other-services: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsOtherServicesBiweeklyWeight": {
+    "value": 28.4,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, other-services: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsOtherServicesSemimonthlyWeight": {
+    "value": 17.1,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, other-services: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollBlsOtherServicesMonthlyWeight": {
+    "value": 12.0,
+    "tag": "SOURCED",
+    "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, other-services: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
+  },
+  "openingPayrollPrivatePhaseSpanFraction": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Converts a life-change-unit share into the core2 stress impulse; P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Uniform opening WHO phase across one recorded cycle is unmeasured. Stable employer identity is not a future action draw.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Life change units rank event readjustment, not the stress signal's scale; no bound on this conversion has been identified."
+      "reason": "Uniform opening WHO phase across one recorded cycle is unmeasured. Stable employer identity is not a future action draw. No empirical coefficient interval or individual phase/lag distribution is established."
     },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
     "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
     }
   },
-  "lifeEventMoodScale": {
+  "openingPayrollPeriodEndLagDays": {
+    "value": 5,
+    "tag": "TUNABLE",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Five calendar days from inclusive period end is an authored opening convention. BLS gives no individual lag; county actual lag is a distinct example, not this private or education lag.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Five calendar days from inclusive period end is an authored opening convention. BLS gives no individual lag; county actual lag is a distinct example, not this private or education lag. No empirical coefficient interval or individual phase/lag distribution is established."
+    },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+    }
+  },
+  "openingPayrollMonthlyBoundaryDay": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Converts a life-change-unit share into the core2 mood impulse; P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "First calendar day boundary is an authored month phase, not a measured employer term.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Life change units rank event readjustment, not the mood signal's scale; no bound on this conversion has been identified."
+      "reason": "First calendar day boundary is an authored month phase, not a measured employer term. No empirical coefficient interval or individual phase/lag distribution is established."
     },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
     "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
     }
   },
-  "driveCauseHalfLifeDays": {
-    "value": 365,
-    "tag": "TUNABLE",
-    "citation": "Half-life of a drive's pull without new events or acts. Starting value one year: prolonged grief disorder is first diagnosable twelve months after a loss (DSM-5-TR, 2022). P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No measured persistence of event-born causes exists; the twelve-month grief window is context, not a bound."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "driveGrudgeHalfLifeDays": {
-    "value": 180,
-    "tag": "TUNABLE",
-    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No measured persistence of interpersonal grudges in a comparable unit has been identified."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "driveProtectFamilyHalfLifeDays": {
-    "value": 365,
-    "tag": "TUNABLE",
-    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No measured persistence of protective family motivation after a family health event has been identified."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "driveStatusHalfLifeDays": {
-    "value": 365,
-    "tag": "TUNABLE",
-    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No measured persistence of status ambition after a setback has been identified."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "driveCallingHalfLifeDays": {
-    "value": 730,
-    "tag": "TUNABLE",
-    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No measured persistence of vocational callings after a formative event has been identified."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "driveActReinforcement": {
-    "value": 0.05,
-    "tag": "TUNABLE",
-    "citation": "Share of a drive's unfilled strength that each act on it fills (commitment and consistency), so repeated acts level off below the ceiling of one. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Commitment-consistency studies report behavior shifts, not a strength unit on this scale."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "perceptionTraitWeight": {
-    "value": 0.25,
-    "tag": "TUNABLE",
-    "citation": "Weight of each relevant trait on how heavily a perception channel counts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No instrument-matched bound links these trait scores to event salience."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "perceptionClosenessWeight": {
+  "openingPayrollSemimonthlyFirstBoundaryDay": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Extra attention per unit of recorded relationship level with the event's subject. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "First of two civil-month boundaries is an authored convention, not measured by BLS.",
     "spread": {
       "status": "unmeasured",
-      "reason": "No measured bound in this relationship unit has been identified."
+      "reason": "First of two civil-month boundaries is an authored convention, not measured by BLS. No empirical coefficient interval or individual phase/lag distribution is established."
     },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
     "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
     }
   },
-  "perceptionRoleSubject": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "Attention weight when the event happened to the person. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Role weights are relative prototype assumptions with no measured bounds."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "perceptionRoleFamily": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "Attention weight when the event happened to a recorded relative. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Role weights are relative prototype assumptions with no measured bounds."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "perceptionRoleHousehold": {
-    "value": 0.8,
-    "tag": "TUNABLE",
-    "citation": "Attention weight when the event happened to a household member who is not recorded family. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Role weights are relative prototype assumptions with no measured bounds."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "perceptionRoleAcquaintance": {
-    "value": 0.3,
-    "tag": "TUNABLE",
-    "citation": "Attention weight when the event happened to someone the person knows. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Role weights are relative prototype assumptions with no measured bounds."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "perceptionRoleWitness": {
-    "value": 0.6,
-    "tag": "TUNABLE",
-    "citation": "Attention weight for a person who witnessed or was told of an event without another recorded tie. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Role weights are relative prototype assumptions with no measured bounds."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "driveShareHours": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "Time a person spends telling someone about their cause. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No ATUS category isolates conversations about a cause."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "causeShareImpulseScale": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "Stress and mood impulse a listener receives per unit of the teller's drive strength. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No measured bound for secondhand distress on this scale has been identified."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "donateHours": {
-    "value": 0.25,
-    "tag": "TUNABLE",
-    "citation": "Time spent making one donation. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No ATUS category isolates making a donation."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "donationLivingCostDays": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "One donation equals this many days of the donor's own recorded living cost. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Annual household giving surveys report yearly totals, not per-gift amounts in days of living cost."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "volunteerHours": {
-    "value": 2,
-    "tag": "TUNABLE",
-    "citation": "Hours of one volunteering session for a cause group. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No volunteering-session duration source has been read into the repository yet."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "driveConfrontHours": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "Time spent confronting the person a grudge is held against. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No measured duration for interpersonal confrontations has been identified."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "grudgeRelationshipChange": {
-    "value": 0.1,
-    "tag": "TUNABLE",
-    "citation": "Relationship level lost on each confrontation. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No measured bound in this relationship unit has been identified."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "confrontImpulse": {
-    "value": 0.3,
-    "tag": "TUNABLE",
-    "citation": "Stress and mood impulse the confronted person receives. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No measured bound for this impulse on the core2 affect scale has been identified."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "responseCarryOnFit": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes a person toward carrying on with ordinary life and grieving privately, before their traits lean them; carrying on is the default response. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "responseTraitLeanGain": {
-    "value": 3,
-    "tag": "TUNABLE",
-    "citation": "How much a person's trait lean toward a response's act kinds (the shared trait-act table) scales the event's push toward it. Starting value equals the recorded trait scale (traitScale, 3): generated people carry trait values of one on that scale, so the shared table's lean reaches a third of its range, and this gain restores the full range. P10 prototype starting value; calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No instrument-matched bound links trait-act lean to response choice after life events."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "responseAgencyTurnAge": {
+  "openingPayrollSemimonthlySecondBoundaryDay": {
     "value": 16,
     "tag": "TUNABLE",
-    "citation": "Age at which a person's capacity to form a lasting drive of their own from an event is half of an adult's, rising smoothly (logistic) around it; starting value near the ages when adolescents form durable civic identities and two years below the age of majority. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Sixteenth as the second civil-month boundary is an authored convention. Periods are real calendar half-months, never fixed fifteen days.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Developmental studies describe identity formation across adolescence, not a measured midpoint for event-born drives."
+      "reason": "Sixteenth as the second civil-month boundary is an authored convention. Periods are real calendar half-months, never fixed fifteen days. No empirical coefficient interval or individual phase/lag distribution is established."
     },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
     "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
     }
   },
-  "responseAgencyWidthYears": {
-    "value": 2,
-    "tag": "TUNABLE",
-    "citation": "Width in years of the smooth rise in drive-forming capacity around the turn age. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No measured width for this rise has been identified."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "responseCarryOnBaseline": {
+  "openingPayrollEducationBiweeklyWeight": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Ordinary life's own pull toward carrying on, independent of the event; a weak event or a person with little agency leaves life as it was. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership.",
     "spread": {
       "status": "unmeasured",
-      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this baseline."
+      "reason": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership. No empirical coefficient interval or individual phase/lag distribution is established."
     },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
     "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
     }
   },
-  "driveStrengthScale": {
-    "value": 0.3,
+  "openingPayrollEducationMonthlyWeight": {
+    "value": 1,
     "tag": "TUNABLE",
-    "citation": "How quickly a response's urgency fills a drive toward its ceiling of one: strength rises as one minus the unfilled share times e to the minus urgency times this scale, so drives stay on the same unit as needs. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
+    "citation": "CTO REVIEW23 and explicit P8 opening-calendar estimate; contextual BLS2013/private, SantaBarbara2021/public and AmericanUniversity2020/education records are pinned by EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT. No Source identifies this individual convention.",
+    "estimatedFrom": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership.",
     "spread": {
       "status": "unmeasured",
-      "reason": "No measured bound links event urgency to the strength of a resulting drive."
+      "reason": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership. No empirical coefficient interval or individual phase/lag distribution is established."
     },
+    "stopgapId": "SG-P8-opening-employer-pay-calendar",
     "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "driveRetireStrength": {
-    "value": 0.01,
-    "tag": "TUNABLE",
-    "citation": "Strength below which a faded drive stops being rewritten each day; its effect on choices is already negligible and it rejoins if a new event renews the topic. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "A storage floor for speed, not a behavioral quantity; no empirical bound applies."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "driveTraceRetention": {
-    "value": 2000,
-    "tag": "TUNABLE",
-    "citation": "Most recent decision and act traces the drives module keeps in memory for observers; counts are always exact. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "A memory budget for developer traces, not a behavioral quantity; no empirical bound applies."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "responseCauseFit": {
-    "value": 0.8,
-    "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes toward taking up a cause about its topic, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "responseGrudgeFit": {
-    "value": 0.8,
-    "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes toward holding a grudge against the person responsible, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "responseGuardFit": {
-    "value": 0.7,
-    "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes toward a resolve to protect one's family, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "responseAmbitionFit": {
-    "value": 0.7,
-    "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes toward an ambition to prove oneself, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "responseCallingFit": {
-    "value": 0.55,
-    "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes toward a calling to serve others; lower than a cause because a calling commits a person to lasting service rather than to one condition, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
-    "stopgapId": "SG-P10-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "resilienceBaseRateScale": {
-    "value": 0.106,
-    "tag": "ESTIMATED",
-    "citation": "Scale at which the SSA 2023 period life table hazard counts against each person's resilience line, with the recorded chronic-condition weights (data/research/health/chronic-condition-pack-2026.json) multiplying it, chosen so expected yearly deaths match the life table applied to the same residents.",
-    "estimatedFrom": "Calibration probe, October 9, 2026: two generated 10,000-resident towns (Sacramento, California, seed p10-drives-proof-2026-10-09: 0.1064; Kingsville, Texas, seed p10-probe: 0.1052) solved for equal expected deaths over 2021 against the SSA 2023 table. Totals only; no person's outcome is set by it.",
-    "stopgapId": "SG-P10-resilience-scale"
-  },
-  "resilienceHashDigits": {
-    "value": 8,
-    "tag": "SOURCED",
-    "citation": "Half of the existing stable hash's sixteen hexadecimal digits (64-bit FNV-1a, src/simulation/ids.ts); two 32-bit halves feed the existing fixed-point survival-line helper (src/simulation/crisis/fixed-point.ts). A generation key, not a behavioral draw."
-  },
-  "closenessHoursAtHalf": {
-    "value": 90,
-    "tag": "TUNABLE",
-    "citation": "Hours of time together at which closeness reaches half of full closeness; closeness is hours / (hours + this value), so it grows toward full closeness and never reaches it.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "low": 80,
-      "high": 100,
-      "unit": "hours together",
-      "citation": "Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4): 80 to 100 hours to become a friend, combined across both studies; roughly 50 hours to a casual friend and more than 200 to a close friend."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "closenessKinHalfLifeDays": {
-    "value": 1095,
-    "tag": "TUNABLE",
-    "citation": "Half-life of time together between relatives without contact, 36 months, as the P15 package and the P13 director use it. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life. Calibration check: Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80 (Dutch panel, 1,007 adults aged 18-65, 604 re-interviewed seven years later): 48% of the discussion partners and practical helpers named at the start were still in the network seven years later, and 30% held the same position (figures as reported in the Utrecht University release of May 27, 2009, ScienceDaily 090527111907; the 2014 article is paywalled and no kin/non-kin split was found in the sources read). The game's share of ties still above their opening closeness after seven years is compared with it in a seven-year run.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No study reports a half-life for closeness without contact; Roberts and Dunbar (2015) report direction only (kin b = 0.27, friends b = -0.62 over 18 months)."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "closenessOtherHalfLifeDays": {
-    "value": 548,
-    "tag": "TUNABLE",
-    "citation": "Half-life of time together between people who are not relatives without contact, 18 months, as the P15 package and the P13 director use it. Calibration check: Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80 (Dutch panel, 1,007 adults aged 18-65, 604 re-interviewed seven years later): 48% of the discussion partners and practical helpers named at the start were still in the network seven years later, and 30% held the same position (figures as reported in the Utrecht University release of May 27, 2009, ScienceDaily 090527111907; the 2014 article is paywalled and no kin/non-kin split was found in the sources read). The game's share of ties still above their opening closeness after seven years is compared with it in a seven-year run.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No study reports a half-life for closeness without contact; Roberts and Dunbar (2015) report that friendships decline faster than kinship."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "householdFamilyMinutesPerDay": {
-    "value": 243,
-    "tag": "SOURCED",
-    "citation": "Kannan and Veazie (2022), SSM Population Health 21:101331, American Time Use Survey 2019: average minutes per day in the presence of household family members, respondents 15 and older."
-  },
-  "householdOtherMinutesPerDay": {
-    "value": 43,
-    "tag": "TUNABLE",
-    "citation": "Minutes per day a housemate who is not family spends in another housemate's presence; ATUS 2019 reports 43 minutes per day with all 'others' (roommates, neighbors, acquaintances, coworkers and clients) together, used here as the housemate figure.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "ATUS does not separate roommates from neighbors, acquaintances, coworkers and clients."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "schoolDaysPerYear": {
-    "value": 180,
-    "tag": "SOURCED",
-    "citation": "NCES Schools and Staffing Survey 2007-08, public school data file, average number of days in the school year (sass0708_035_s1s): 180."
-  },
-  "schoolHoursPerDay": {
-    "value": 6.64,
-    "tag": "SOURCED",
-    "citation": "NCES Schools and Staffing Survey 2007-08, public school data file, average hours in the school day (sass0708_035_s1s): 6.64."
-  },
-  "schoolHoursFriendshipWeight": {
-    "value": 0.25,
-    "tag": "TUNABLE",
-    "citation": "Share of an hour at school that counts as an hour of time together toward friendship. Hall (2019): hours spent working or at school together count less than time socializing.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "Hall (2019) reports that work and school hours count less, not by how much."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "farKinContactShare": {
-    "value": 0.39,
-    "tag": "ESTIMATED",
-    "citation": "Visits to a relative living elsewhere in the state, as a share of visits to one living in the same county; Pew 2005: 22% of adults with a parent in a different town see or talk to that parent daily, against 56% in the same town (0.39).",
-    "estimatedFrom": "Pew Research Center (2005), daily contact with a parent by whether the parent lives in the same town (56%) or a different town (22%): 22/56 = 0.39, applied to visits to any relative elsewhere in the state. Pew counts calls with visits and compares towns, not counties; the CTO accepted it until relatives carry a place (October 10, 2026).",
-    "stopgapId": "SG-P15-distance-by-place"
-  },
-  "extendedKinVisitShare": {
-    "value": 0.25,
-    "tag": "TUNABLE",
-    "citation": "Visits to one grandparent, grandchild, aunt, uncle, niece, nephew or a child's other parent, as a share of the GSS frequency of a social evening with any relative.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "The GSS asks about relatives as a group; no source gives visits per extended relative."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "tieMissingWeightPerHour": {
-    "value": 0.1,
-    "tag": "TUNABLE",
-    "citation": "Pull toward contacting a person for each hour of time together the tie has lost since the last contact. Chosen in a sweep of a 600-resident generated Stanwood, Washington town (56 days, seed p15-opening-kin), where higher values added little contact and crowded out other acts. Checked in a 10,001-resident Sacramento town over 91 days (seed p10-drives-proof-2026-10-09): adults made 47.4 visits a year to relatives outside their home, about 91 hours against 170 in ATUS 2019 (28 minutes a day, Kannan and Veazie 2022), and visited each parent 2.5 times as often as each sibling against 1.37 in the GSS. One discretionary act per activation caps the total.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No source measures how strongly a fading tie pulls a person to make contact."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "kinMoveAwayShare": {
-    "value": 0.35,
-    "tag": "TUNABLE",
-    "citation": "Share of moves out of the county (ACS 2024 B07401, by state and age) that take a person away from their family, rather than to a nearby county or back home. One value cannot reach both PSID 2013 figures (74.8% nearest parent or grown child within 30 miles, 35.5% all of them). In a generated Sacramento town of 3,000 (seed p10-drives-proof-2026-10-09, with later-life re-aging), 0.3 gives 71.1% and 42.4%, and 0.35 gives 67.1% and 37.5%; 0.35 has the smaller combined miss.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No source splits moves out of the county into moves away from family and short or return moves; PSID reports only the resulting distances (74.8% have the nearest parent or grown child within 30 miles, 35.5% all of them)."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "kinInterbirthYears": {
-    "value": 3,
-    "tag": "TUNABLE",
-    "citation": "Years between a mother's successive births in generated sibships and families; prototype choice pending an NSFG birth-interval source.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "kinFirstBirthAgeSdYears": {
-    "value": 4,
-    "tag": "TUNABLE",
-    "citation": "Spread in years of a mother's age at first birth around the NCHS national mean for that year; prototype choice pending a natality spread source.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "kinPaternalAgeGapYears": {
-    "value": 2.5,
-    "tag": "TUNABLE",
-    "citation": "Years by which a generated father is older than the mother; prototype choice pending an NSFG or natality paternal-age source.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "kinMaleFertilityAgeShiftYears": {
-    "value": 2,
-    "tag": "TUNABLE",
-    "citation": "Years by which a man's children ever born by age lag the women's Census table; prototype choice pending an NSFG men's fertility source.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "kinBirthdayLatestDayOfMonth": {
-    "value": 28,
-    "tag": "SOURCED",
-    "citation": "Gregorian calendar: the shortest month has 28 days, so any month accepts a generated day from 1 to 28."
-  },
-  "personalityHeritability": {
-    "value": 0.4,
-    "tag": "SOURCED",
-    "citation": "Vukasovic and Bratko (2015), Heritability of personality: A meta-analysis of behavior genetic studies, Psychological Bulletin 141(4), 769-785: average heritability of personality about 0.40."
-  },
-  "personalityUpbringingShift": {
-    "value": 0.15,
-    "tag": "TUNABLE",
-    "citation": "Standard-score shift per step of the canonical upbringing value added to a resident's temperament; prototype choice so upbringing still matters without overriding the sourced spread.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "personalitySociabilityRiskCorrelation": {
-    "value": 0.34,
-    "tag": "ESTIMATED",
-    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): E2 Gregariousness with E5 Excitement-Seeking, r = .34.",
-    "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
-    "stopgapId": "SG-P15-personality-mapping",
-    "spread": {
-      "low": 0.284,
-      "high": 0.394,
-      "unit": "correlation",
-      "citation": "Fisher-transformed 95% interval for the Costa and McCrae (1992) value with N = 1,000."
-    }
-  },
-  "personalityReliabilityImpulseCorrelation": {
-    "value": -0.45,
-    "tag": "ESTIMATED",
-    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): C3 Dutifulness with C6 Deliberation, r = .45; deliberation is reversed to impulsiveness here, so the value is -.45.",
-    "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
-    "stopgapId": "SG-P15-personality-mapping",
-    "spread": {
-      "low": -0.498,
-      "high": -0.399,
-      "unit": "correlation",
-      "citation": "Fisher-transformed 95% interval for the Costa and McCrae (1992) value with N = 1,000."
-    }
-  },
-  "personalityReferenceAge": {
-    "value": 40,
-    "tag": "TUNABLE",
-    "citation": "Age whose facet curve value counts as average, so the age shifts center near the adult population; prototype choice.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
-  },
-  "spouseAgeGapOpenRowYears": {
-    "value": 5,
-    "tag": "ESTIMATED",
-    "citation": "U.S. Census Bureau, CPS 2023 ASEC, America's Families and Living Arrangements: 2023, Table FG3: the age-difference rows are 2-3, 4-5, 6-9, 10-14 and 15-19 years, and the last rows are open (husband or wife 20 or more years older).",
-    "estimatedFrom": "Each open row is spread over five whole years, the width of the two rows next to it (10-14 and 15-19 years), so 20 or more years reads as 20 to 24. The open rows hold 1.2% of married couples.",
-    "stopgapId": "SG-P15-partnership-model"
-  },
-  "openingCoworkerGroupSize": {
-    "value": 8,
-    "tag": "TUNABLE",
-    "citation": "Largest generated workgroup of residents at one employer whose members know each other by name; prototype choice pending a US source on how many coworkers people know. A survey of 3,000 full-time US workers (Olivet Nazarene University, 2019) found five friends at work on average, a lower bound on coworkers known by name.",
-    "stopgapId": "SG-P15-params-uncalibrated",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No US source on the number of coworkers known by name was found; friends at work (about five on average) bound it from below."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
     }
   }
 }

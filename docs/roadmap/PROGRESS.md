@@ -2,6 +2,10 @@
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
+## 2026-10-11
+
+- **CODEX-BENCH: M0-01 through M0-05 ready for the independent finisher on #3940.** The owner can play any living resident through the published pause/resume API, move time and inspect saved explanations. Rebuilt from only Sol's core and the director, with P10/P15 deferred and no manual core/director changes. Three random jurisdiction openings checked every resident reference. Seven controlled days saved 11 screen-answered acts while 19,911 other acts continued; twenty random explanations included 6 plainly listed saved-score gaps. Full and scoped gates passed. No golden-path step is reached because M1 world modules remain absent. The cohort's missing current 18-year-olds and a sparse trace sample initially failed checks; the panel now exposes an actual upcoming birthday and the verifier earns additional real records. Next: independent finisher play, Sol's saved-score additions, and owners' P10/P15 re-integration. [Handoff, receipts, model/effort/time and limits](../../src/bench/HANDOFF.md). GitHub API posting is denied; committed handoff/body provide the fallback.
+
 ## 2026-10-10 — bench
 
 - **CODEX-BENCH (M0-bench), WIP on #3940.** The CTO approved the build/check contract. Seeded opening, resident inspection, the 16 GB Codespace configuration and golden-path/world panel shell are published; no playable step is demonstrated. Four synthetic place-selection checks, syntax checks and JSON/HTML parsing pass; generated-world acceptance and local dependency gates are not run. The restarted cloud still cannot connect to its configured proxy on port 8080, so source-branch integration and dependency acquisition remain blocked. Choice, earliest-stop and trace API requests are routed to SOL-1258 and the director owner; time controls remain disabled. Next: restore cloud access, integrate the approved source heads and play the five specs with the finisher. No pass flags changed.

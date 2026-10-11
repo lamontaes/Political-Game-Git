@@ -1,6 +1,7 @@
 /** The recorded work owner composes the act, wage, credit and time in one journal. */
 import { daysBetween, makeIsoDate } from "../simulation/dates";
 import { cashJournalParameters } from "./cash-host";
+import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import { registerModule } from "./state";
 import {
   FinancePlanningSession,
@@ -27,6 +28,7 @@ import {
   workWeekStart,
 } from "./modules/work";
 import { validateDatedWorkResult } from "./work-state";
+import { readLegacyDiscretionaryWages } from "./legacy-wage-counters";
 import {
   preparePublicWorkPay,
   resolvePublicWorkPayDue,
@@ -93,9 +95,11 @@ export interface WorkCashSourceState extends CashJournalPostedMarker {
   commitmentReference?: ResolvedCashJournalSource["relatedRecords"][number];
   publicAuthorityReference?: ResolvedCashJournalSource["relatedRecords"][number];
 }
+type ControlSnapshot = ReturnType<typeof snapshotExplicitControlV1>;
 type Pending = {
   plan: PreparedFinancePlan<WorkResult | LegacyWorkCashResult>;
   selection: CashActSelection;
+  controlSnapshot: ControlSnapshot;
 };
 const registered = new WeakMap<
   CoreState,
@@ -149,9 +153,34 @@ export function ensureWorkCashModule(core: CoreState): void {
   });
 }
 
-const pending = new WeakMap<WorkCashSourceState, Pending>();
+const pending = new WeakMap<WorkCashSourceState, Pending>(),
+  sessionControl = new WeakMap<FinancePlanningSession, ControlSnapshot>(),
+  retainedControlledSources = new WeakSet<WorkCashSourceState>();
 const mapSet = Map.prototype.set,
-  mapDelete = Map.prototype.delete;
+  mapDelete = Map.prototype.delete,
+  controlGet = WeakMap.prototype.get,
+  controlSet = WeakMap.prototype.set,
+  retainedHas = WeakSet.prototype.has,
+  retainedAdd = WeakSet.prototype.add;
+function controlledWorkSession(core: CoreState): FinancePlanningSession {
+  const snapshot = snapshotExplicitControlV1(core),
+    s = new FinancePlanningSession(
+      core,
+      core.cashJournal,
+      cashJournalParameters(core),
+    );
+  controlSet.call(sessionControl, s, snapshot);
+  return s;
+}
+function workControl(s: FinancePlanningSession): ControlSnapshot {
+  const snapshot = controlGet.call(sessionControl, s) as
+    ControlSnapshot | undefined;
+  if (!snapshot)
+    throw new Error(
+      "Work cash writer lost its original explicit-control preimage.",
+    );
+  return snapshot;
+}
 
 function finite(value: number, field: string): number {
   if (!Number.isFinite(value))
@@ -169,7 +198,8 @@ function focus(session: FinancePlanningSession, personId: string): boolean {
   return (
     r.field(core, "observer") ||
     r.field(core, "playerId") === personId ||
-    r.member(r.field(core, "focusPersonIds"), personId)
+    r.member(r.field(core, "focusPersonIds"), personId) ||
+    workControl(session).personId === personId
   );
 }
 
@@ -184,6 +214,16 @@ function captureWorkContext(
     work = r.field(core, "work"),
     data = r.field(r.field(core, "data"), "work");
   if (!data) throw new Error("Recorded work requires its actual work data.");
+  const calendarClaims = r.field(work, "payrollCalendarByCommitment"),
+    commitmentId = r.field(input, "commitmentId"),
+    enrolled = r.mapGet(r.field(work, "commitments"), commitmentId);
+  if (
+    r.mapHas(calendarClaims, commitmentId) ||
+    (enrolled && r.field(enrolled, "payrollCalendarId") !== undefined)
+  )
+    throw new Error(
+      "An accrued commitment cannot also receive per-shift cash.",
+    );
   const row = r.mapGet(r.field(work, "commitments"), input.commitmentId),
     actor = r.mapGet(r.field(core, "people"), input.personId),
     job = r.mapGet(r.field(core, "jobs"), input.jobId),
@@ -525,14 +565,18 @@ export function workCashSourceProvider(
     marker: row,
     metadata: bundle?.plan.metadata ?? [],
     secondaryMarkers: related.secondaryMarkers,
-    retainFull: false,
+    retainFull: retainedHas.call(retainedControlledSources, row),
   };
-  if (bundle)
+  if (bundle) {
+    bundle.controlSnapshot.verify();
     bundle.plan.preflight.verify(
       core,
       core.cashJournal,
       cashJournalParameters(core),
     );
+    // Native private identity only, after the original reflective preflight.
+    bundle.controlSnapshot.verify();
+  }
   return slot;
 }
 
@@ -545,6 +589,7 @@ function prunePriorSource(
   const prior = core.work.cashSources.get(priorId);
   if (
     !prior ||
+    retainedHas.call(retainedControlledSources, prior) ||
     core.work.detailedResults.has(priorId) ||
     core.durableLog.has(prior.selectionId)
   )
@@ -610,7 +655,10 @@ function submit(
     const plan = session.seal(returned),
       callerResult = structuredClone(plan.result);
     row.postings = plan.postings;
-    pending.set(row, { plan, selection });
+    const controlSnapshot = workControl(session);
+    if (controlSnapshot.personId === row.personId)
+      retainedAdd.call(retainedControlledSources, row);
+    pending.set(row, { plan, selection, controlSnapshot });
     if (plan.postings.length > session.zero)
       api.postJournal({
         id: `journal:${core.date}:${core.cashJournal.nextSequence}`,
@@ -644,11 +692,7 @@ export function settleWorkResultJournal(
 ): WorkResult {
   ensureWorkCashModule(core);
   ensureFinanceCashModule(core);
-  const s = new FinancePlanningSession(
-    core,
-    core.cashJournal,
-    cashJournalParameters(core),
-  );
+  const s = controlledWorkSession(core);
   captureWorkContext(s, api, input);
   const row = core.work.commitments.get(input.commitmentId)!,
     actor = core.people.get(input.personId)!,
@@ -863,11 +907,7 @@ export function settleLegacyWorkResultJournal(
 ): LegacyWorkCashResult {
   ensureWorkCashModule(core);
   ensureFinanceCashModule(core);
-  const s = new FinancePlanningSession(
-      core,
-      core.cashJournal,
-      cashJournalParameters(core),
-    ),
+  const s = controlledWorkSession(core),
     r = s.reads,
     m = s.metadata;
   r.payload(input, s.zero, s.one);
@@ -893,6 +933,28 @@ export function settleLegacyWorkResultJournal(
       "Legacy pay requires its actual current owned job, selected work and positive elapsed days.",
     );
   r.payload(job, s.zero, s.one);
+  const ownedWork = r.field(core, "work"),
+    payrollByJob = r.field(ownedWork, "payrollCalendarByJob"),
+    ownedCommitments = r.mapGet(
+      r.field(ownedWork, "commitmentsByPerson"),
+      r.field(actor, "id"),
+    );
+  if (
+    r.mapHas(payrollByJob, r.field(job, "id")) ||
+    (ownedCommitments &&
+      r.members(ownedCommitments).some((id) => {
+        const row = r.mapGet(r.field(ownedWork, "commitments"), id);
+        if (!row)
+          throw new Error("Legacy work's actual commitment index is stale.");
+        return (
+          r.field(row, "jobId") === r.field(job, "id") &&
+          r.field(row, "payrollCalendarId") !== undefined
+        );
+      }))
+  )
+    throw new Error(
+      "An accrual-enrolled job cannot also receive calendar-average legacy cash.",
+    );
   const work = r.field(core, "work"),
     latest = r.field(work, "latestLegacyCashResultByPerson"),
     prior = m.mapGet(latest, actor.id),
@@ -941,6 +1003,24 @@ export function settleLegacyWorkResultJournal(
       },
     };
     stageLegacyActivation(s, api, actor.id, input.offer);
+    const cumulative = readLegacyDiscretionaryWages(r, work, s.zero, s.one);
+    // The original sealed cash/noncash session commits these once with the receipt.
+    // No job-total update, retry debt, payment policy, or historical summation.
+    m.write(work, "legacyDiscretionaryWages", {
+      earnedMinor: minor(
+        cumulative.earnedMinor + result.requestedMinor,
+        s.zero,
+      ),
+      paidMinor: minor(cumulative.paidMinor + result.paidMinor, s.zero),
+      shortfallMinor: minor(
+        cumulative.shortfallMinor + result.shortfallMinor,
+        s.zero,
+      ),
+      completedReceiptCount: minor(
+        cumulative.completedReceiptCount + s.one,
+        s.zero,
+      ),
+    });
     const stored = m.mapSet(latest, actor.id, result);
     const data = r.field(core, "data"),
       kind = r.field(data, "legacyWorkJournalSourceKind");

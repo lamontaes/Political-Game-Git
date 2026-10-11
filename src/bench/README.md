@@ -1,72 +1,69 @@
-# M0 bench — WIP
+# M0 developer bench
 
-Developer tool only. It reads the core's opening records and offers. It does not
-advance time or invent choice outcomes, why scores, stories or world activity.
+Open a Codespace with at least 16 GB of memory, run `npm run bench`, and open
+forwarded port 3000. Use a new random seed or enter any seed. The seed draws a
+jurisdiction from all 56 and a locality from that jurisdiction's source catalog;
+there is no default town. Opening generation retains the core's full default
+cohort and checks every displayed resident's household and job references.
 
-Open a Codespace with at least 16 GB of memory, run `npm run bench`, and open the
-forwarded port. The devcontainer selects Node 22 and installs the existing
-lockfile's dependencies through the storage guard on creation. No dependencies or
-lockfile changes are introduced. The bench command uses the storage reservation.
+Select a living resident, then use Day, Week, Calendar or Skip until needed.
+The first player frontier is midnight after the opening date. Day and Week
+request one or seven days from the exact frontier; Calendar requests midnight
+on the entered date. The API can return before that destination with an issued
+choice or stop. Choose an issued offer and submit it, or continue after a stop.
+Each answer continues the original destination. Time controls are disabled while
+an answer is outstanding. A held deadline stays paused until its owning module
+releases it; Continue merely checks whether it has been released. Choosing
+another person requires a completed civil-day boundary without a pending choice
+or intention; the core rejects an unsafe switch without changing the owner.
 
-The server is an opening/resident-inspection slice, not M0 acceptance. Integrated
-source heads are recorded in `integration-heads.json`. People parts 1–3 are
-included; part 4 still has an owner decision pending. The opening uses the public
-population, deep-past, civic-input and finance builders. Health, drives and the
-director are installed through the public module interface, alongside life,
-people, work and finance. Selecting a resident starts director observation and
-shows its saved opening moments; inspection advances no core time.
-Opening uses the core's default population size; it does not reduce the cohort
-for convenience. Both the jurisdiction and locality are drawn from recorded
-catalogs by the seed. Missing jurisdiction coverage rejects rather than choosing
-a fallback town. The resident list includes only people whose recorded place ID
-matches the drawn town, rather than relatives living elsewhere. Age, household,
-job and offered actions come from core records. Every listed household membership
-and job owner is checked against the same core before the opening is returned.
+Skip looks ahead up to 365 civil days (a bounded developer lookahead, not simulation
+calibration) and probes one civil day at a time until a player choice or exact recorded stop.
+Answering a pause continues only its current probe, so it does not commit the
+player to a year of future answers. The
+screen says fixed commitment, director moment at or over 0.50, or deadline offer,
+including all tied record reasons in the packet. Other people keep choosing
+through the core. Durations are the issued core minutes, with their evidence;
+the bench has no time writer or energy meter.
 
-Focused infrastructure check: `node src/bench/place-selection.test.mjs`.
-Synthetic identities here test catalog selection, not generated-world proof.
+The director currently publishes new scored moments in its end-of-day callback.
+The bench's registered adapter reads only those new saved moments and registers
+an interrupt at the publication frontier (the next midnight). It excludes
+historical opening moments and scores under the spec's 0.50 line. It does not
+invent a within-day occurrence time or change the director. Fixed commitments
+and registered offer deadlines come from `earliestPlayerStopV1`; the bench does
+not create deadline offers. No deadline-producing game module is installed in
+this two-branch integration; held deadline behavior has a labeled edge-fixture
+check for the finisher.
 
-## Missing core capabilities requested in PR #3940
+Click Select trace record beside a saved act, relationship, payment or director
+moment, or enter a record ID. Core records use `resolveSavedTraceV1`. Director
+moments show their saved impact channels and their cause's core trace; impact
+channels are not represented as saved choice scores. Missing reasons, scores,
+source references and records remain explicit. Inspected records without saved
+scores are listed under Records with no saved scores yet. Original scores in an
+issued choice are displayed as issued scoring evidence; they are not claimed to
+be a saved act before the core finishes it.
 
-- A pause/resume choice boundary for the selected resident, including committed
-  work. `advanceCore` advances the date and runs module work before calling the
-  synchronous Controller. Undefined means autonomous selection, not waiting.
-  Throwing is not a rollback. The bench must not partially advance to ask a
-  question, or replay a cached offer against another date.
-- A pre-advance earliest-stop query and advance-to-stop contract covering
-  director interrupts, work commitments and deadline offers. Date-only progress
-  does not establish exact within-day interruption or action duration.
-- CTO resolved the director interrupt boundary to **at or over 0.50** in
-  [PR #3940](https://github.com/lamontaes/Political-Game-Git/pull/3940#issuecomment-6102574333).
-- A saved reason/source facade covering choices, director moments, relationship
-  changes and payments, with the referenced record IDs resolvable. Computed
-  previews are not labeled saved why evidence.
+The eleven-step panel and four world rows stay record-backed. With P15 removed,
+Sol's opening contains 17-year-olds and adults starting at 19; the panel uses an
+actual resident approaching 18, shows the recorded upcoming birthday and current
+contact offer, and marks steps 1–2 reachable. Existing 18-year-olds are preferred
+when present. Steps 3–11 name missing modules. No step is marked reached until
+the world modules run, and opening history never counts as played evidence.
 
-SOL-1258 posted the `core2-part1b-v1` contract on
-[PR #3918](https://github.com/lamontaes/Political-Game-Git/pull/3918):
-`advancePlayerV1`, `resumePlayerV1`, `earliestPlayerStopV1` and
-`resolveSavedTraceV1`. Its body labels implementation pending. The integrated
-source still has the synchronous Controller and date-only advancement, so the
-bench does not emulate the proposed hooks.
+`integration-heads.json` identifies the exact Sol-core and director inputs.
+Drives and P15 people work are deliberately omitted pending their owners'
+re-integration. Core and director source trees exactly match that clean merge;
+all adapter code is in `src/bench`.
 
-The golden-path/world panel projects opening records with `benchProgress`.
-Steps 1–2 identify an actual 18-year-old in the selected town, that person's
-household and birth record, a current contact offer and its recorded target.
-The panel's route buttons inspect those records; they do not play an act.
-Steps 3–11 name their missing modules. All four M1 world pieces remain
-"not in the new core yet," even if opening data contains government offices or
-relatives in other places. No step is reached without played records and the
-world running. M0-01 and M0-05 are ready for the independent finisher's check;
-no feature pass flag is changed.
-
-Prepared controls show current offered action/target IDs and the core's duration,
-without treating previews as pending choices. Time and submission controls remain
-disabled. Relationship snapshots, saved payments and director moments can select
-a trace record for later resolution. `/api/capabilities` reports the proposed
-contract and installed exports. Advance, resume and trace requests return 409
-without invoking the engine while the adapter is absent. This is not the M0-02
-seven-day proof, M0-03 stop proof or M0-04 twenty-item trace proof.
-
-Technical values: 16 GB comes from M0-bench; port 3000 is the forwarded development
-port; 100 is the browser's page size; 1024 test seeds exercise coverage. These
-values do not calibrate simulation behavior.
+Checks: `node src/bench/place-selection.test.mjs`,
+`npx vitest run src/bench/player.test.ts --maxWorkers 1`, and
+`npx tsc -p src/bench/tsconfig.json`. To repeat the actual screen receipt, start
+the bench, then run
+`npm run storage -- run e2e-capture -- node src/bench/verify.mjs`.
+The verifier uses system Chromium; `BENCH_BROWSER` and `BENCH_URL` can select
+another installed browser or running bench. It draws fresh seeds and residents,
+answers choices on screen, samples twenty saved items randomly, and writes
+`screen-receipt.json`. These are builder checks; independent acceptance remains
+with the finisher. See `HANDOFF.md` for measured results and limitations.

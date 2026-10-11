@@ -9,8 +9,7 @@ import { buildDeepPast } from "../core2/deep-past";
 import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
-import { withDrives, createDrivesModule } from "../core2/modules/drives";
-import { createHealthModule } from "../core2/modules/health";
+import { BenchPlayer, directorStops } from "./player";
 import { createDirector, type Director } from "../director/ledger";
 import { createLifeCore, availableActs } from "../core2/life";
 import type { CoreState } from "../core2/types";
@@ -21,6 +20,8 @@ import { playerApiReadiness } from "./api-readiness";
 // This is a reference to engine-owned state, not a parallel state or writer.
 let core: CoreState | undefined;
 let director: Director | undefined;
+let player: BenchPlayer | undefined;
+let placeId = "";
 let building = false;
 const assets = new Map([
   ["/", { file: "index.html", type: "text/html; charset=utf-8" }],
@@ -63,16 +64,32 @@ const server = createServer(async (request, response) => {
       send(200, playerApiReadiness());
       return;
     }
-    if (
-      (request.method === "POST" &&
-        ["/api/advance", "/api/resume"].includes(url.pathname)) ||
-      (request.method === "GET" && url.pathname === "/api/trace")
-    ) {
-      send(409, {
-        error:
-          "Core player hooks are not wired. No time advanced and no answer was submitted.",
-        ...playerApiReadiness(),
-      });
+    if (request.method === "POST" && url.pathname === "/api/advance") {
+      if (!player) throw new Error("Generate a town first.");
+      const result = player.advance(
+        url.searchParams.get("mode") ?? "day",
+        url.searchParams.get("date") ?? undefined,
+      );
+      send(200, { ...result, progress: benchProgress(requireCore(), placeId) });
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/resume") {
+      if (!player) throw new Error("Generate a town first.");
+      const pauseId = url.searchParams.get("pauseId") ?? "";
+      const result =
+        url.searchParams.get("kind") === "choice"
+          ? player.resume({
+              kind: "choice",
+              pauseId,
+              offerId: url.searchParams.get("offerId") ?? "",
+            })
+          : player.resume({ kind: "stop", pauseId });
+      send(200, { ...result, progress: benchProgress(requireCore(), placeId) });
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/trace") {
+      if (!player) throw new Error("Generate a town first.");
+      send(200, player.trace(url.searchParams.get("id") ?? ""));
       return;
     }
     if (request.method === "POST" && url.pathname === "/api/build") {
@@ -99,12 +116,8 @@ const server = createServer(async (request, response) => {
         const next = createLifeCore(
           { ...input, finance: createOpeningFinance(input) },
           {
-            data: withDrives(DEFAULT_DATA),
-            modules: [
-              createHealthModule(),
-              createDrivesModule(),
-              nextDirector.module,
-            ],
+            data: DEFAULT_DATA,
+            modules: [nextDirector.module, directorStops(nextDirector)],
           },
         );
         nextDirector.start(next);
@@ -133,6 +146,8 @@ const server = createServer(async (request, response) => {
           });
         core = next;
         director = nextDirector;
+        player = new BenchPlayer(next, nextDirector);
+        placeId = place.context.jurisdiction.id;
         send(200, {
           seed: core.seed,
           date: core.date,
@@ -163,9 +178,10 @@ const server = createServer(async (request, response) => {
       const id = url.searchParams.get("id") ?? "";
       const person = current.people.get(id);
       if (!person) throw new Error("Resident does not exist in core records.");
-      director?.watch(current, id);
+      player?.select(id);
       send(200, {
         date: current.date,
+        packet: player?.packet,
         person,
         household: current.households.get(person.householdId),
         job: person.jobId ? current.jobs.get(person.jobId) : undefined,

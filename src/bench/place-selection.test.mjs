@@ -18,7 +18,11 @@ test("a seed selects the same source row regardless of catalog order", () => {
   const chosen = selectBenchPlace("replay", jurisdictions, places);
   assert.ok(places.includes(chosen));
   assert.equal(
-    selectBenchPlace("replay", [...jurisdictions].reverse(), [...places].reverse()),
+    selectBenchPlace(
+      "replay",
+      [...jurisdictions].reverse(),
+      [...places].reverse(),
+    ),
     chosen,
   );
 });
@@ -27,9 +31,13 @@ test("every jurisdiction participates in seeded opening selection", () => {
   const seen = new Set();
   for (let seed = 0; seed < 1024; seed++)
     seen.add(
-      selectBenchPlace(String(seed), jurisdictions, places).stateJurisdictionKey,
+      selectBenchPlace(String(seed), jurisdictions, places)
+        .stateJurisdictionKey,
     );
-  assert.deepEqual(seen, new Set(jurisdictions.map((row) => row.jurisdictionKey)));
+  assert.deepEqual(
+    seen,
+    new Set(jurisdictions.map((row) => row.jurisdictionKey)),
+  );
 });
 
 test("missing coverage rejects instead of silently narrowing the draw", () => {
@@ -42,7 +50,8 @@ test("missing coverage rejects instead of silently narrowing the draw", () => {
 test("empty seeds and duplicate jurisdiction identities reject", () => {
   assert.throws(() => selectBenchPlace(" ", jurisdictions, places), /seed/);
   assert.throws(
-    () => selectBenchPlace("seed", [...jurisdictions, jurisdictions[0]], places),
+    () =>
+      selectBenchPlace("seed", [...jurisdictions, jurisdictions[0]], places),
     /unique/,
   );
 });

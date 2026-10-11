@@ -4,6 +4,10 @@ const status = element("status");
 let residents = [];
 let visibleCount = 100; // Engineering page size, not simulation calibration.
 let inspectionRequest = 0;
+let selectedId;
+let packet;
+let busy = false;
+const missingScores = new Set();
 
 async function request(path, options) {
   const response = await fetch(path, options);
@@ -25,11 +29,9 @@ function recordDetails(label, record, traceId) {
     select.textContent = "Select trace record";
     select.addEventListener("click", () => {
       element("trace-record-id").value = traceId;
-      element("trace-status").textContent =
-        `Record ${traceId}: saved-trace resolver pending. The raw record is shown below.`;
-      element("trace-detail").replaceChildren(
-        recordDetails(`Raw record: ${traceId}`, record),
-      );
+      resolveTrace(traceId).catch((error) => {
+        element("trace-status").textContent = error.message;
+      });
     });
     details.append(select);
   }
@@ -81,26 +83,61 @@ function renderProgress(progress) {
     `Furthest reached step: ${progress.furthestReachedStep ?? "none demonstrated"}.`;
 }
 
+function renderPacket(value) {
+  packet = value;
+  element("choice-options").replaceChildren();
+  element("choices").disabled = !value || value.kind !== "choice";
+  element("resume-stop").disabled = !value || value.kind !== "stop";
+  if (!value) {
+    element("clock-detail").textContent = "";
+    element("stop-status").textContent =
+      "No outstanding player pause. The first frontier is midnight after the opening date.";
+    return;
+  }
+  element("stop-status").textContent =
+    `Clock: ${value.at.date}, minute ${value.at.minuteOfDay}. ${value.kind === "choice" ? `Awaiting ${value.choiceKind} choice` : value.kind === "stop" ? `Stopped: ${value.stop.work ? "fixed commitment" : ""}${value.stop.modules.map((row) => (row.kind === "interrupt" ? "director moment at or over 0.50" : "deadline offer (owner must release)")).join(", ")}` : "Destination reached"}.`;
+  if (value.kind === "choice") {
+    for (const offer of value.offers) {
+      const line = document.createElement("div");
+      const label = document.createElement("label");
+      const input = document.createElement("input");
+      input.type = "radio";
+      input.name = "offered-choice";
+      input.value = offer.offerId;
+      label.append(
+        input,
+        document.createTextNode(
+          `${offer.actionId}:${offer.targetId}; duration: ${offer.durationMinutes} minutes`,
+        ),
+      );
+      line.append(
+        label,
+        recordDetails("Issued score and duration evidence", offer),
+      );
+      element("choice-options").append(line);
+    }
+  }
+  element("clock-detail").textContent = JSON.stringify(value, null, 2);
+}
+
+async function resolveTrace(id) {
+  const value = await request(`/api/trace?id=${encodeURIComponent(id)}`);
+  const saved = ["saved", "no-saved-reason", "saved-director-record"].includes(
+    value.status,
+  );
+  if (saved && value.scoresStatus === "none-saved") missingScores.add(id);
+  element("trace-status").textContent =
+    `Record ${id}: ${value.status}. ${!saved ? "No unambiguous saved record." : value.scoresStatus === "none-saved" ? "No scores saved yet." : "Saved scores available."}`;
+  element("trace-detail").replaceChildren(
+    recordDetails(`Saved explanation: ${id}`, value),
+  );
+  element("missing-scores").textContent = [...missingScores].join("\n");
+}
+
 function renderChoices(value) {
   element("chosen-resident").textContent =
-    `Resident: ${value.person.givenName} ${value.person.familyName} (${value.person.id}). Current offers are previews; no unanswered choice is active.`;
-  element("choice-options").replaceChildren();
-  for (const offer of value.offers) {
-    const label = document.createElement("label");
-    const input = document.createElement("input");
-    input.type = "radio";
-    input.name = "offered-choice";
-    input.value = `${offer.definition.id}:${offer.targetId}`;
-    label.append(
-      input,
-      document.createTextNode(
-        `${input.value}; duration: ${offer.effortHours ?? "not provided"} hours`,
-      ),
-    );
-    const line = document.createElement("div");
-    line.append(label);
-    element("choice-options").append(line);
-  }
+    `Resident: ${value.person.givenName} ${value.person.familyName} (${value.person.id}).`;
+  renderPacket(value.packet);
 }
 
 async function inspect(id) {
@@ -108,18 +145,30 @@ async function inspect(id) {
   try {
     const value = await request(`/api/resident?id=${encodeURIComponent(id)}`);
     if (requestId !== inspectionRequest) return;
+    selectedId = id;
     renderChoices(value);
+    for (const control of ["day", "week", "calendar", "calendar-go", "skip"])
+      element(control).disabled =
+        value.packet && value.packet.kind !== "complete";
     element("trace-detail").replaceChildren();
     element("trace-record-id").value = "";
     element("trace-status").textContent =
-      "Saved-trace resolver pending; raw records remain inspectable.";
+      "Select a saved record to read its explanation.";
     element("detail").replaceChildren(
-      recordDetails(`Person: ${value.person.id}`, value.person),
-      recordDetails(`Household: ${value.person.householdId}`, value.household),
+      recordDetails(
+        `Person: ${value.person.id}`,
+        value.person,
+        value.person.id,
+      ),
+      recordDetails(
+        `Household: ${value.person.householdId}`,
+        value.household,
+        value.person.householdId,
+      ),
     );
     if (value.job)
       element("detail").append(
-        recordDetails(`Job: ${value.job.id}`, value.job),
+        recordDetails(`Job: ${value.job.id}`, value.job, value.job.id),
       );
     for (const offer of value.offers)
       element("detail").append(
@@ -214,15 +263,23 @@ element("opening").addEventListener("submit", async (event) => {
     const value = await request(`/api/build?${query}`, { method: "POST" });
     residents = value.residents;
     ++inspectionRequest;
+    selectedId = undefined;
+    packet = undefined;
+    missingScores.clear();
+    element("missing-scores").textContent = "";
+    for (const control of ["day", "week", "calendar", "calendar-go", "skip"])
+      element(control).disabled = true;
+    element("choices").disabled = true;
+    element("resume-stop").disabled = true;
     visibleCount = 100;
     element("detail").replaceChildren();
     element("choice-options").replaceChildren();
     element("chosen-resident").textContent =
-      "Choose a resident to inspect current offers.";
+      "Choose a living resident to play.";
     element("trace-detail").replaceChildren();
     element("trace-record-id").value = "";
     element("trace-status").textContent =
-      "Saved-trace resolver pending; raw records remain inspectable.";
+      "Select a saved record to read its explanation.";
     renderProgress(value.progress);
     element("calendar").value = value.date;
     element("stop-status").textContent =
@@ -247,8 +304,56 @@ request("/api/capabilities")
       .filter(([, present]) => !present)
       .map(([name]) => name);
     element("api-status").textContent =
-      `${value.contract}: ${value.status}. Missing exports: ${missing.join(", ") || "none"}. Source: #3918.`;
+      `${value.contract}: ${value.status}. Missing exports: ${missing.join(", ") || "none"}. Source: src/core2/player-v1.md.`;
   })
   .catch((error) => {
     element("api-status").textContent = error.message;
   });
+
+async function clockRequest(path, query) {
+  if (busy) return;
+  busy = true;
+  try {
+    const result = await request(`${path}?${new URLSearchParams(query)}`, {
+      method: "POST",
+    });
+    renderPacket(result.packet);
+    renderProgress(result.progress);
+    if (selectedId) await inspect(selectedId);
+  } catch (error) {
+    status.textContent = error.message;
+  } finally {
+    busy = false;
+  }
+}
+for (const mode of ["day", "week", "skip"])
+  element(mode).addEventListener("click", () =>
+    clockRequest("/api/advance", { mode }),
+  );
+element("calendar-go").addEventListener("click", () =>
+  clockRequest("/api/advance", {
+    mode: "calendar",
+    date: element("calendar").value,
+  }),
+);
+element("submit-choice").addEventListener("click", () => {
+  const choice = document.querySelector('input[name="offered-choice"]:checked');
+  if (!choice || packet?.kind !== "choice") {
+    status.textContent = "Select an issued offer first.";
+    return;
+  }
+  clockRequest("/api/resume", {
+    kind: "choice",
+    pauseId: packet.pauseId,
+    offerId: choice.value,
+  });
+});
+element("resume-stop").addEventListener("click", () => {
+  if (packet?.kind === "stop")
+    clockRequest("/api/resume", { kind: "stop", pauseId: packet.pauseId });
+});
+element("resolve-trace").addEventListener("click", () =>
+  resolveTrace(element("trace-record-id").value).catch((error) => {
+    element("trace-status").textContent = error.message;
+  }),
+);

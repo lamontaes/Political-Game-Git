@@ -1,6 +1,7 @@
 /** Local CoreAPI writers for the work/time boundary. No per-act global integrity pass. */
 import { addDays, makeIsoDate } from "../simulation/dates";
 import { settleWorkResultJournal } from "./work-cash";
+import { parameter } from "./parameters";
 import {
   activityAgeId,
   commitmentCalendar,
@@ -19,10 +20,31 @@ import type {
 } from "./types";
 
 export function emptyWorkRuntime(): WorkRuntime {
+  const zero = parameter("zero");
   return {
+    payrollCalendars: new Map(),
+    payrollCalendarByCommitment: new Map(),
+    payrollCalendarByJob: new Map(),
+    payrollLedgerByCommitment: new Map(),
+    earnedPayPeriods: new Map(),
+    earnedPayPeriodByCommitmentIndex: new Map(),
+    payrollPeriodsByDue: new Map(),
+    payrollArrearsByDue: new Map(),
+    payrollCashSources: new Map(),
+    latestPayrollByJob: new Map(),
+    detailedPayroll: new Map(),
+    currentAttendanceJobByRecordId: new Map(),
+    lastAttendanceByJob: new Map(),
+    detailedAttendance: new Map(),
     cashActSelections: new Map(),
     cashSources: new Map(),
     latestLegacyCashResultByPerson: new Map(),
+    legacyDiscretionaryWages: {
+      earnedMinor: zero,
+      paidMinor: zero,
+      shortfallMinor: zero,
+      completedReceiptCount: zero,
+    },
     commitments: new Map(),
     commitmentsByPerson: new Map(),
     byPeriodResidue: new Map(),

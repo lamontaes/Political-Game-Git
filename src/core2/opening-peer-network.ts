@@ -15,12 +15,6 @@ export interface OpeningPeerData {
   contextKinds: readonly string[];
   requiredContextFields: readonly string[];
   optionalContextFields: readonly string[];
-  /** P15: people whose contexts began on different dates still share one (coworkers). */
-  groupAcrossDates?: boolean;
-  /** P15: a context that began on the opening day counts (coworkers). */
-  includesOpeningDay?: boolean;
-  /** Context fields copied onto each generated acquaintance fact. */
-  copiedContextFields: readonly string[];
   factKind: string;
   relationshipBasis: string;
   relationship: string;
@@ -60,11 +54,6 @@ export interface OpeningPeerOptions {
   personIds: readonly PersonId[];
   data?: OpeningPeerData;
   parameters?: Readonly<Record<string, Parameter>>;
-  /** P15: reads a context fact's fields from another record (coworkers' jobs); defaults to the fact's own. */
-  contextValues?: (
-    person: PersonInput,
-    fact: PriorFact,
-  ) => Readonly<Record<string, string>> | undefined;
 }
 
 export interface OpeningPeerBuild {
@@ -76,7 +65,6 @@ export interface OpeningPeerBuild {
 interface ContextMember {
   person: PersonInput;
   fact: PriorFact;
-  values: Readonly<Record<string, string>>;
   contextKey: string;
 }
 
@@ -162,25 +150,20 @@ export function buildOpeningPeerContacts(
     for (const fact of person.pastFacts ?? []) {
       if (!data.contextKinds.includes(fact.kind)) continue;
       const date = makeIsoDate(fact.date);
+      if (date < birth || date >= cutoff) continue;
+      const values = fact.facts;
       if (
-        date < birth ||
-        date > cutoff ||
-        (date === cutoff && !data.includesOpeningDay)
+        !values ||
+        !values.schoolName ||
+        data.requiredContextFields.some((field) => !values[field])
       )
-        continue;
-      const values = options.contextValues
-        ? options.contextValues(person, fact)
-        : fact.facts;
-      if (!values || data.requiredContextFields.some((field) => !values[field]))
         continue;
       const fields = [
         ...data.requiredContextFields,
         ...data.optionalContextFields,
       ].map((field) => [field, values[field] ?? ""]);
-      const contextKey = JSON.stringify(
-        data.groupAcrossDates ? [fact.kind, fields] : [fact.kind, date, fields],
-      );
-      const candidate = { person, fact, values, contextKey };
+      const contextKey = JSON.stringify([fact.kind, date, fields]);
+      const candidate = { person, fact, contextKey };
       if (
         !latest ||
         fact.date > latest.fact.date ||
@@ -396,12 +379,7 @@ export function buildOpeningPeerContacts(
               historicalAttendance: data.attendanceStatus,
               currentCloseness: data.closenessStatus,
               recognition: data.recognitionStatus,
-              ...Object.fromEntries(
-                data.copiedContextFields.map((field) => [
-                  field,
-                  direction.self.values[field]!,
-                ]),
-              ),
+              schoolName: direction.self.fact.facts!.schoolName!,
               stopgapId: marker.id,
             },
           });

@@ -1,6 +1,5 @@
 import { daysBetween, makeIsoDate } from "../../simulation/dates";
 import { plannedWorkMinutesOnDate } from "./work";
-import { currentCloseness } from "../closeness";
 import { appraiseEvent, affectAt } from "../emotion";
 import { parameterValues } from "../parameters";
 import type {
@@ -16,8 +15,7 @@ const p = (api: CoreAPI, key: string) => api.parameter(key);
 const zero = (api: CoreAPI) => p(api, "zero");
 const positive = (api: CoreAPI, value: number) => Math.max(zero(api), value);
 
-/** Shared offer builder; P15 people offers reuse it so drive selection stays identical. */
-export function offer(
+function offer(
   api: CoreAPI,
   actor: Readonly<PersonState>,
   action: ActionDefinition,
@@ -105,12 +103,6 @@ const eventConditions: Readonly<
 };
 
 /** Available acts and consequences are registered operations; content identities remain data. */
-/** P15: closeness today, faded since the last contact; zero for strangers. */
-function relationAt(api: CoreAPI, id: string): number {
-  const row = api.state.relationships.get(id);
-  return row ? currentCloseness(api.state, row) : zero(api);
-}
-
 export const LIFE_MODULE: CoreModule = {
   id: "core2-life-v2",
   eventKinds: ["*"],
@@ -259,12 +251,11 @@ export const LIFE_MODULE: CoreModule = {
       api.updatePerson(actorId, { affect });
     },
     contact: (api, actorId, chosen) => {
-      // P15: the visit's hours are time together.
       api.relationship(
         actorId,
         chosen.targetId,
         "contact",
-        chosen.effortHours ?? p(api, chosen.definition.effortParameter),
+        p(api, "relationContactGain"),
       );
       api.updatePerson(actorId, { lastContactDate: api.state.date });
       api.updatePerson(chosen.targetId, { lastContactDate: api.state.date });
@@ -274,7 +265,7 @@ export const LIFE_MODULE: CoreModule = {
         actorId,
         chosen.targetId,
         "family",
-        chosen.effortHours ?? p(api, chosen.definition.effortParameter),
+        p(api, "relationContactGain"),
       );
       const actor = api.state.people.get(actorId)!;
       api.updatePerson(actorId, {
@@ -332,7 +323,11 @@ export const LIFE_MODULE: CoreModule = {
       const actor = api.state.people.get(id)!;
       const relation = event.personIds.reduce(
         (level, subject) =>
-          Math.max(level, relationAt(api, [id, subject].sort().join(":"))),
+          Math.max(
+            level,
+            api.state.relationships.get([id, subject].sort().join(":"))
+              ?.level ?? zero(api),
+          ),
         zero(api),
       );
       const appraisal = appraiseEvent(

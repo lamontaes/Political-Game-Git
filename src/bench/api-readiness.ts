@@ -1,21 +1,21 @@
-import * as life from "../core2/life";
-
-// The published Part 1b proposal is a dependency contract, not an implementation.
+import {
+  advancePlayerV1,
+  resumePlayerV1,
+  earliestPlayerStopV1,
+} from "../core2/player-v1";
+import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
 export function playerApiReadiness() {
-  const names = [
-    "advancePlayerV1",
-    "resumePlayerV1",
-    "earliestPlayerStopV1",
-    "resolveSavedTraceV1",
-  ] as const;
-  const exports = life as unknown as Record<string, unknown>;
   return {
     contract: "core2-part1b-v1",
     implementation: Object.fromEntries(
-      names.map((name) => [name, typeof exports[name] === "function"]),
+      Object.entries({
+        advancePlayerV1,
+        resumePlayerV1,
+        earliestPlayerStopV1,
+        resolveSavedTraceV1,
+      }).map(([name, value]) => [name, typeof value === "function"]),
     ),
-    wired: false,
-    status: "awaiting published implementation and verified bench adapter",
-    source: "https://github.com/lamontaes/Political-Game-Git/pull/3918",
+    wired: true,
+    status: "bench adapter installed",
   };
 }
