@@ -1,3 +1,5 @@
+2026-10-11 — R19: data/research/parties/roadmap-r19-organization-and-electors.json + 2 request answers; coverage 51 Electoral College allocations; TX/CT local party organization examples; PR source audit; gaps registration switching, other jurisdictions’ party units, PR verified chamber seat totals and delegate rules; terms questions none; model GPT-6 (Codex), effort not exposed, 66 seconds.
+
 2026-10-11 — R18: data/research/elections/roadmap-r18-administration-2024.json + 0 request answers; coverage 56 EAVS jurisdictions, plus 51-place CPS voting survey; gaps current voting statutes, primary/local/off-cycle turnout and counting duration; terms questions none; model GPT-6 (Codex), effort not exposed, 58 seconds.
 
 2026-10-11 — R17: data/research/campaigns/roadmap-r17-polls.json + 1 request answers; coverage U.S. national Pew survey practice; not all56 race-specific error; gaps mode/race-level sample frequency and internal-poll house effects; terms questions AAPOR report commercial reuse not established; no coefficients adopted; model GPT-6 (Codex), effort not exposed, 38 seconds.
