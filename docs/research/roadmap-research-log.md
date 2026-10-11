@@ -1,3 +1,11 @@
+2026-10-11 — RESUME: branch pool/research-roadmap from main 1bbb8c92be; replayed 818ed8b720 (prerequisite data) and 7b9403646e; renamed the session log; Rule 3 and startup bench exemption fixed by #3971; prior path and publishing blockers resolved; model GPT-6/Codex, actual effort unavailable.
+
+# Priorities 0 and 1
+
+Current scope: P0-1 through P0-13, R1 through R12. Research only. Source terms before reuse; every row has provenance, coverage and estimate spread/basis. Missing folders may now be created; existing research files on main remain unchanged. Answer topic requests in place. Validate facts, arithmetic, provenance, file size and path scope; commit, update PR body and push after every topic. Startup bench is explicitly waived. No game code or own merge.
+
+Historical local checkpoint follows; all earlier blockers are superseded by the resume above.
+
 2026-10-11 — R11 PARTIAL CHECKPOINT: data/research/places/roadmap-r11-population-v2025-*.csv, manifest and island baselines; 22,705 county/municipio/incorporated-place rows for 52 jurisdictions plus four territory totals; gaps CDPs, PR GEOID joins, Island Area local identities/2026 trends; Census DS027 terms checked; GPT-6/Codex, actual effort/usage unavailable; source checking approximately 15 minutes, extraction timestamps in manifest. Request remains open; topic not complete.
 
 2026-10-11 — PATH AUDIT (P0-1–P0-13; R1–R3, R5–R10, R12): docs/research/roadmap-research-path-audit-2.json; coverage 0/56; 23 mandated destination directories absent; rule 3 forbids creating them; terms not assessed; model GPT-6/Codex; actual effort/usage unavailable; shared audit under 1 minute. These topics are blocked, not completed.
