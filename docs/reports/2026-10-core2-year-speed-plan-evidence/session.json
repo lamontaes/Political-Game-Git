@@ -62,5 +62,16 @@
   "observedSecondsThroughHandoffPreparation": 2576.918893,
   "collectorAtCollectionSha256": "e04d0c8e63ab34304ba629c441271097a20fbfbf87a3f303a1c49f9f4ab37450",
   "publishedCollectorSha256": "d6129713bc663df1902364c461f67e5c4cdae8f66f592096a56eaa7cf11104f3",
-  "postCollectionToolEdits": "Formatting and explicit node:url import; collection-time collector is retained in the contract commit. No source or measurement settings changed."
+  "postCollectionToolEdits": "Formatting and explicit node:url import; collection-time collector is retained in the contract commit. No source or measurement settings changed.",
+  "publicationVerifiedClock": "2026-10-11T05:44:42.918128+00:00",
+  "observedSecondsThroughPublicationVerification": 2809.918128,
+  "publicationChecks": {
+    "draftPr": 3975,
+    "draft": true,
+    "mergeable": true,
+    "cleanWorktree": true,
+    "srcDataAndLockfileChanges": false,
+    "progressConflict": "Resolved documentation only after base progress advanced; measured source preserved.",
+    "prEditFallback": "REST PATCH succeeded after gh pr edit hit deprecated classic Projects query."
+  }
 }
