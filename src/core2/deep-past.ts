@@ -11,6 +11,7 @@ import { kindergartenYear, onCalendar } from "../simulation/school-calendar";
 import { SCHOOL_NAMES_V3 } from "../simulation/school-names";
 import type { EntityId } from "../simulation/types";
 import contentJson from "./data/deep-past.json" with { type: "json" };
+import { OPENING_KIN } from "./opening-kin";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type { CoreInput, PersonInput, Source } from "./types";
@@ -197,6 +198,13 @@ export function buildDeepPast(
   };
 
   const people = input.people.map((person): PersonInput => {
+    // Relatives living elsewhere never act, so their own schooling and era
+    // history is left until the game simulates them; they keep their family
+    // and move facts (SG-P15-kin-light-past).
+    if (person.tier === OPENING_KIN.kinTier) {
+      stopgap("SG-P15-kin-light-past");
+      return person;
+    }
     const birth = makeIsoDate(person.birthDate);
     if (birth > opening)
       throw new Error(`Deep past cannot precede birth: ${person.id}`);
