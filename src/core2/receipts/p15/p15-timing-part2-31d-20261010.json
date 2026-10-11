@@ -1,0 +1,63 @@
+{
+  "place": "Sacramento, California",
+  "seed": "p10-drives-proof-2026-10-09",
+  "residents": 10001,
+  "days": 31,
+  "method": "One process at a time in one cloud container, alternating part 1 (cca46c19) and part 2 (dd8dd595), two runs each; nothing else ran. Each run builds the population, deep past and core, then advances 31 days (scratchpad script p15-time.mts: buildPopulation, buildDeepPast, enrichCivicInputs, createLifeCore, advanceCore).",
+  "runs": [
+    {
+      "label": "pool/P15-people-1@cca46c19a",
+      "days": 31,
+      "people": 47783,
+      "relationships": 89763,
+      "buildSeconds": 17.7,
+      "createSeconds": 2.8,
+      "simulateSeconds": 84.2,
+      "totalSeconds": 104.7,
+      "rssMiB": 2939
+    },
+    {
+      "label": "pool/P15-people-2@dd8dd5953",
+      "days": 31,
+      "people": 47783,
+      "relationships": 90772,
+      "buildSeconds": 19.9,
+      "createSeconds": 3.9,
+      "simulateSeconds": 83.1,
+      "totalSeconds": 106.9,
+      "rssMiB": 3808
+    },
+    {
+      "label": "pool/P15-people-1@cca46c19a",
+      "days": 31,
+      "people": 47783,
+      "relationships": 89763,
+      "buildSeconds": 17.1,
+      "createSeconds": 2.5,
+      "simulateSeconds": 88.9,
+      "totalSeconds": 108.5,
+      "rssMiB": 3784
+    },
+    {
+      "label": "pool/P15-people-2@dd8dd5953",
+      "days": 31,
+      "people": 47783,
+      "relationships": 90772,
+      "buildSeconds": 19.1,
+      "createSeconds": 3.9,
+      "simulateSeconds": 91,
+      "totalSeconds": 114,
+      "rssMiB": 3495
+    }
+  ],
+  "part1": {
+    "simulateMean": 86.55,
+    "totalMean": 106.6
+  },
+  "part2": {
+    "simulateMean": 87.05,
+    "totalMean": 110.45
+  },
+  "simulateAddedPercent": 0.6,
+  "totalAddedPercent": 3.6
+}

@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { advanceDate } from "./calendar";
+import { closenessAfter } from "./closeness";
 import { DEFAULT_DATA } from "./data";
 import { appraiseEvent } from "./emotion";
 import { LIFE_MODULE } from "./modules/life";
@@ -504,7 +505,13 @@ describe("ordered relationship mutation notices", () => {
       {
         measure: "level",
         before: firstLevel,
-        after: Math.tanh(firstLevel - parameter("one")),
+        // P15: one hour together, then one hour taken away the same day.
+        after: closenessAfter(
+          core,
+          { level: firstLevel, lastContactDate: date, kind: "contact" },
+          "contact",
+          -parameter("one"),
+        ),
       },
     ]);
     expect(Reflect.set(seen[0]!.changes[0]!, "after", parameter("zero"))).toBe(

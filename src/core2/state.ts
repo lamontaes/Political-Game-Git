@@ -1,3 +1,4 @@
+import { closenessAfter, openingClosenessHours } from "./closeness";
 import {
   prepareModuleState,
   installModuleState,
@@ -343,7 +344,12 @@ export function createCore(
       if (!core.people.has(id)) throw new Error(`Absent family member: ${id}`);
       const relationshipId = [actor.id, id].sort().join(":");
       if (!core.relationships.has(relationshipId))
-        api.relationship(actor.id, id, "family", p("relationInitial"));
+        api.relationship(
+          actor.id,
+          id,
+          "family",
+          openingClosenessHours(core, actor.id, id),
+        );
     }
     for (const id of actor.knownIds) {
       const other = core.people.get(id);
@@ -823,7 +829,8 @@ export function coreAPI(core: CoreState): CoreAPI {
         lastContactDate: core.date,
       };
       api.stopgap("SG-P8-relationship-closeness-update");
-      row.level = Math.tanh(row.level + change);
+      // P15: `change` is hours of time together; closeness fades between contacts.
+      row.level = closenessAfter(core, previous, row.kind, change);
       row.lastContactDate = core.date;
       core.relationships.set(id, row);
       index(core.relationshipsByPerson, actorId, id);
@@ -1255,7 +1262,12 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
   });
   const api = coreAPI(core);
   for (const id of actor.familyIds)
-    api.relationship(actor.id, id, "family", api.parameter("relationInitial"));
+    api.relationship(
+      actor.id,
+      id,
+      "family",
+      openingClosenessHours(core, actor.id, id),
+    );
   for (const id of actor.knownIds) {
     const other = core.people.get(id) ?? core.husks.get(id)!;
     api.observe(actor.id, {

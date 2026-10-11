@@ -10,8 +10,13 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
+<<<<<<< HEAD
     "sha256": "b9a453a1a210938ccb39f38937721b04e3982237208c567e7f7738a3a32c954e",
     "meaning": "Exact central parameter table, including 44 sourced opening payroll business weights and seven unmeasured calendar conventions. No fitted coefficient or passed calibration is claimed."
+=======
+    "sha256": "9e9f14510944dc9951cda87016569a852db3d04bcc99e358af4de3e88d64ee60",
+    "meaning": "Exact central parameter table including business-book aggregate priors, the unmeasured opening cadence and a sourced reporting definition. No fitted coefficient or passed calibration is claimed."
+>>>>>>> origin/pool/P15-people-5
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
   "engineReferenceContract": "A TUNABLE may carry only checkRange: { ref: \"P9-GENERIC-ID\" | \"EMPIRICAL-GENERIC-ID\" }. The simulation ignores this developer-only pointer. P9 trajectories keep their pinned source/evaluator contract; external population observables have independently hashed source records and never pass through a P9 individual replay evaluator. A reference, contextual report or target pass does not identify a coefficient bound or close a stopgap.",
@@ -604,19 +609,6 @@
       "reviewNote": "Structural reference only. The developer target catalog explains the source-linked observations, measurement gap, and non-applicability where relevant; no expected facts are injected into P8."
     },
     {
-      "parameter": "careHours",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 0.5,
-      "checkRange": {
-        "ref": "P9-OUTCOME-WHOLE-LIFE"
-      },
-      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
-      "productionPath": "Act eligibility/effort; current choice score and care-for-relative action path.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
-    },
-    {
       "parameter": "civicHours",
       "tag": "TUNABLE",
       "currentValueForTraceabilityOnly": 1,
@@ -1055,21 +1047,6 @@
       "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Age-work diary means expose contextual activity totals, but not the parameter-specific attendance or schedule coefficient interval."
     },
     {
-      "parameter": "workWakingRecoveryHours",
-      "tag": "TUNABLE",
-      "currentValueForTraceabilityOnly": 1,
-      "checkRange": {
-        "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
-      },
-      "mappingStatus": "target-reference-present; blocked by identifying evidence/crosswalk gap; not calibration",
-      "productionPathOrGap": "Indexed scheduled work, time budget or bounded result retention; see src/core2/modules/work.ts and work-state.ts",
-      "proposal": "Keep TUNABLE/unmeasured and its associated stopgap open. Compare correctly denominated observable receipts before any coefficient search; do not copy target means into a person or force an outcome.",
-      "calibrationRange": null,
-      "calibrated": false,
-      "openStopgapId": "SG-P8-work-time-reserve",
-      "reviewNote": "Outcome reference present; applicability-blocked and unmeasured. Waking recovery is not an instrument-equivalent ATUS primary activity and its coefficient interval is unidentified."
-    },
-    {
       "parameter": "openingMissingCountyEmploymentScale",
       "tag": "TUNABLE",
       "currentValueForTraceabilityOnly": 1,
@@ -1328,6 +1305,7 @@
       "reviewNote": "Real independently pinned JPMC cohort q25/median/q75 anchors provide contextual distribution evidence. Uniform startup ranks, interpolation, tails, legal form/vintage/location and scheduled-payroll/accounting-cost-to-ALL-debit mapping remain unmeasured. No full CDF, coefficient interval or survival-based stock tuning is justified."
     },
     {
+<<<<<<< HEAD
       "parameter": "openingPayrollPrivatePhaseSpanFraction",
       "checkRange": {
         "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
@@ -1382,6 +1360,292 @@
       },
       "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
       "reviewNote": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership."
+=======
+      "parameter": "kinInterbirthYears",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 3,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "kinFirstBirthAgeSdYears",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 4,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "kinPaternalAgeGapYears",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 2.5,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "kinMaleFertilityAgeShiftYears",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 2,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "personalityUpbringingShift",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.15,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "personalityReferenceAge",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 40,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 opening families and temperament (src/core2/opening-kin.ts, opening-personality.ts): kin generation and temperament spread.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "closenessHoursAtHalf",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 90,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "closenessKinHalfLifeDays",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 1095,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted. Named check: Mollenhorst, Volker and Flap (2014), 48% of named network members still present after seven years; needs a seven-year run (P15 part 5)."
+    },
+    {
+      "parameter": "closenessOtherHalfLifeDays",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 548,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted. Named check: Mollenhorst, Volker and Flap (2014), 48% of named network members still present after seven years; needs a seven-year run (P15 part 5)."
+    },
+    {
+      "parameter": "householdOtherMinutesPerDay",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 43,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "schoolHoursFriendshipWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.25,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "extendedKinVisitShare",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.25,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "tieMissingWeightPerHour",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.1,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "kinMoveAwayShare",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.35,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "openingCoworkerGroupSize",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 8,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 people (src/core2/opening-kin.ts, opening-personality.ts, closeness.ts, modules/people.ts): kin, temperament, closeness and contact.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "griefLittleFraction",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.25,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 grief (src/core2/grief.ts, modules/people.ts): a relative's grief after a death and its pull on rest, family contact and organizing.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "griefPullWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 1,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 grief (src/core2/grief.ts, modules/people.ts): a relative's grief after a death and its pull on rest, family contact and organizing.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "griefHoldWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": -1,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 grief (src/core2/grief.ts, modules/people.ts): a relative's grief after a death and its pull on rest, family contact and organizing.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "fallingOutConflictWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.35,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 shared past (src/core2/opening-falling-outs.ts): falling-outs between people who shared a class or workgroup.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "fallingOutReliabilityWeight",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.35,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 shared past (src/core2/opening-falling-outs.ts): falling-outs between people who shared a class or workgroup.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "unmodeledLeisureValuePerHour",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 0.46,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 free hours (src/core2/free-block.ts): an act added after the activation's pick must beat its hours in unmodeled leisure.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "Calibrated to the ATUS share of people who socialize on a given day; the target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "favorSharedHoursPerYear",
+      "tag": "TUNABLE",
+      "currentValueForTraceabilityOnly": 50,
+      "checkRange": {
+        "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "mappingStatus": "joint-P9-output-target; not individual coefficient calibration",
+      "productionPath": "P15 shared past (src/core2/opening-favors.ts): closeness at a move from years shared before it.",
+      "calibrationRange": null,
+      "calibrated": false,
+      "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+>>>>>>> origin/pool/P15-people-5
     }
   ],
   "unreferencedRemovalReview": {
@@ -3807,7 +4071,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "7704c1eddb7a2abc7b1c8e14775616b638dd9bf58e167e66857831065794336c"
+        "src/core2/data/parameters.json": "9e9f14510944dc9951cda87016569a852db3d04bcc99e358af4de3e88d64ee60"
       },
       "observations": [
         {
@@ -6962,7 +7226,11 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
+<<<<<<< HEAD
     "src/core2/data/parameters.json": "b9a453a1a210938ccb39f38937721b04e3982237208c567e7f7738a3a32c954e",
+=======
+    "src/core2/data/parameters.json": "9e9f14510944dc9951cda87016569a852db3d04bcc99e358af4de3e88d64ee60",
+>>>>>>> origin/pool/P15-people-5
     "data/research/money/public-programs-2026.json": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193",
     "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac",
     "data/research/money/opening-customer-cex-2024.json": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b",

@@ -173,17 +173,11 @@
     "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm"
   },
   "careHours": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
+    "value": 2.23,
+    "tag": "ESTIMATED",
+    "citation": "BLS American Time Use Survey 2025, Table 1: caring for and helping household members, 2.23 hours per day among people who did it that day (22.0% of people); https://www.bls.gov/news.release/atus.t01.htm",
     "stopgapId": "SG-P8-param-careHours",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    "estimatedFrom": "The ATUS average for people who gave care that day is used as the length of one act of caring for a relative, inside or outside the home; ATUS counts household members only, and an act stands for a day's caregiving, not one task (CTO, October 10, 2026)."
   },
   "civicHours": {
     "value": 1,
@@ -463,6 +457,121 @@
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "closenessHoursAtHalf": {
+    "value": 90,
+    "tag": "TUNABLE",
+    "citation": "Hours of time together at which closeness reaches half of full closeness; closeness is hours / (hours + this value), so it grows toward full closeness and never reaches it.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "low": 80,
+      "high": 100,
+      "unit": "hours together",
+      "citation": "Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4): 80 to 100 hours to become a friend, combined across both studies; roughly 50 hours to a casual friend and more than 200 to a close friend."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "closenessKinHalfLifeDays": {
+    "value": 1095,
+    "tag": "TUNABLE",
+    "citation": "Half-life of time together between relatives without contact, 36 months, as the P15 package and the P13 director use it. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life. Calibration check: Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80 (Dutch panel, 1,007 adults aged 18-65, 604 re-interviewed seven years later): 48% of the discussion partners and practical helpers named at the start were still in the network seven years later, and 30% held the same position (figures as reported in the Utrecht University release of May 27, 2009, ScienceDaily 090527111907; the 2014 article is paywalled and no kin/non-kin split was found in the sources read). The game's share of ties still above their opening closeness after seven years is compared with it in a seven-year run.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study reports a half-life for closeness without contact; Roberts and Dunbar (2015) report direction only (kin b = 0.27, friends b = -0.62 over 18 months)."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "closenessOtherHalfLifeDays": {
+    "value": 548,
+    "tag": "TUNABLE",
+    "citation": "Half-life of time together between people who are not relatives without contact, 18 months, as the P15 package and the P13 director use it. Calibration check: Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80 (Dutch panel, 1,007 adults aged 18-65, 604 re-interviewed seven years later): 48% of the discussion partners and practical helpers named at the start were still in the network seven years later, and 30% held the same position (figures as reported in the Utrecht University release of May 27, 2009, ScienceDaily 090527111907; the 2014 article is paywalled and no kin/non-kin split was found in the sources read). The game's share of ties still above their opening closeness after seven years is compared with it in a seven-year run.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study reports a half-life for closeness without contact; Roberts and Dunbar (2015) report that friendships decline faster than kinship."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "householdFamilyMinutesPerDay": {
+    "value": 243,
+    "tag": "SOURCED",
+    "citation": "Kannan and Veazie (2022), SSM Population Health 21:101331, American Time Use Survey 2019: average minutes per day in the presence of household family members, respondents 15 and older."
+  },
+  "householdOtherMinutesPerDay": {
+    "value": 43,
+    "tag": "TUNABLE",
+    "citation": "Minutes per day a housemate who is not family spends in another housemate's presence; ATUS 2019 reports 43 minutes per day with all 'others' (roommates, neighbors, acquaintances, coworkers and clients) together, used here as the housemate figure.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "ATUS does not separate roommates from neighbors, acquaintances, coworkers and clients."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "schoolDaysPerYear": {
+    "value": 180,
+    "tag": "SOURCED",
+    "citation": "NCES Schools and Staffing Survey 2007-08, public school data file, average number of days in the school year (sass0708_035_s1s): 180."
+  },
+  "schoolHoursPerDay": {
+    "value": 6.64,
+    "tag": "SOURCED",
+    "citation": "NCES Schools and Staffing Survey 2007-08, public school data file, average hours in the school day (sass0708_035_s1s): 6.64."
+  },
+  "schoolHoursFriendshipWeight": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Share of an hour at school that counts as an hour of time together toward friendship. Hall (2019): hours spent working or at school together count less than time socializing.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Hall (2019) reports that work and school hours count less, not by how much."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "farKinContactShare": {
+    "value": 0.39,
+    "tag": "ESTIMATED",
+    "citation": "Visits to a relative living elsewhere in the state, as a share of visits to one living in the same county; Pew 2005: 22% of adults with a parent in a different town see or talk to that parent daily, against 56% in the same town (0.39).",
+    "estimatedFrom": "Pew Research Center (2005), daily contact with a parent by whether the parent lives in the same town (56%) or a different town (22%): 22/56 = 0.39, applied to visits to any relative elsewhere in the state. Pew counts calls with visits and compares towns, not counties; the CTO accepted it until relatives carry a place (October 10, 2026).",
+    "stopgapId": "SG-P15-distance-by-place"
+  },
+  "extendedKinVisitShare": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Visits to one grandparent, grandchild, aunt, uncle, niece, nephew or a child's other parent, as a share of the GSS frequency of a social evening with any relative.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The GSS asks about relatives as a group; no source gives visits per extended relative."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "tieMissingWeightPerHour": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Pull toward contacting a person for each hour of time together the tie has lost since the last contact. Chosen in a sweep of a 600-resident generated Stanwood, Washington town (56 days, seed p15-opening-kin), where higher values added little contact and crowded out other acts. Checked in a 10,001-resident Sacramento town over 91 days (seed p10-drives-proof-2026-10-09): adults made 47.4 visits a year to relatives outside their home, about 91 hours against 170 in ATUS 2019 (28 minutes a day, Kannan and Veazie 2022), and visited each parent 2.5 times as often as each sibling against 1.37 in the GSS. One discretionary act per activation caps the total.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No source measures how strongly a fading tie pulls a person to make contact."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -941,17 +1050,11 @@
     }
   },
   "workWakingRecoveryHours": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "No measured bound for the duration of a prototype waking-recovery offer; separate from sleep and the reported sleep mean.",
-    "stopgapId": "SG-P8-work-time-reserve",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical offer-duration range or matched microdata calibration is established."
-    },
-    "checkRange": {
-      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
-    }
+    "value": 5.16,
+    "tag": "ESTIMATED",
+    "citation": "BLS American Time Use Survey 2025, Table 3: leisure and sports, 5.16 hours per day for people 15 and over (src/core2/data/time-use-reference.json).",
+    "estimatedFrom": "The rest act stands for an evening of leisure, so it takes the ATUS daily leisure and sports time, averaged over everyone 15 and over (CTO, October 10, 2026: rest gets a real leisure length so it competes for the evening). ATUS leisure ranges from 3.89 hours (35 to 44) to 7.39 (75 and over); one value serves every age here.",
+    "stopgapId": "SG-P8-work-time-reserve"
   },
   "employmentCountyAge22": {
     "value": 22,
@@ -3070,6 +3173,7 @@
       "ref": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD"
     }
   },
+<<<<<<< HEAD
   "openingPayrollBlsAllPrivateWeeklyWeight": {
     "value": 32.4,
     "tag": "SOURCED",
@@ -3387,5 +3491,292 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
     }
+=======
+  "kinMoveAwayShare": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "citation": "Share of moves out of the county (ACS 2024 B07401, by state and age) that take a person away from their family, rather than to a nearby county or back home. One value cannot reach both PSID 2013 figures (74.8% nearest parent or grown child within 30 miles, 35.5% all of them). In a generated Sacramento town of 3,000 (seed p10-drives-proof-2026-10-09, with later-life re-aging), 0.3 gives 71.1% and 42.4%, and 0.35 gives 67.1% and 37.5%; 0.35 has the smaller combined miss.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No source splits moves out of the county into moves away from family and short or return moves; PSID reports only the resulting distances (74.8% have the nearest parent or grown child within 30 miles, 35.5% all of them)."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinInterbirthYears": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Years between a mother's successive births in generated sibships and families; prototype choice pending an NSFG birth-interval source.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinFirstBirthAgeSdYears": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "Spread in years of a mother's age at first birth around the NCHS national mean for that year; prototype choice pending a natality spread source.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinPaternalAgeGapYears": {
+    "value": 2.5,
+    "tag": "TUNABLE",
+    "citation": "Years by which a generated father is older than the mother; prototype choice pending an NSFG or natality paternal-age source.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinMaleFertilityAgeShiftYears": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Years by which a man's children ever born by age lag the women's Census table; prototype choice pending an NSFG men's fertility source.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinBirthdayLatestDayOfMonth": {
+    "value": 28,
+    "tag": "SOURCED",
+    "citation": "Gregorian calendar: the shortest month has 28 days, so any month accepts a generated day from 1 to 28."
+  },
+  "personalityHeritability": {
+    "value": 0.4,
+    "tag": "SOURCED",
+    "citation": "Vukasovic and Bratko (2015), Heritability of personality: A meta-analysis of behavior genetic studies, Psychological Bulletin 141(4), 769-785: average heritability of personality about 0.40."
+  },
+  "personalityUpbringingShift": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "Standard-score shift per step of the canonical upbringing value added to a resident's temperament; prototype choice so upbringing still matters without overriding the sourced spread.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "personalitySociabilityRiskCorrelation": {
+    "value": 0.34,
+    "tag": "ESTIMATED",
+    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): E2 Gregariousness with E5 Excitement-Seeking, r = .34.",
+    "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
+    "stopgapId": "SG-P15-personality-mapping",
+    "spread": {
+      "low": 0.284,
+      "high": 0.394,
+      "unit": "correlation",
+      "citation": "Fisher-transformed 95% interval for the Costa and McCrae (1992) value with N = 1,000."
+    }
+  },
+  "personalityReliabilityImpulseCorrelation": {
+    "value": -0.45,
+    "tag": "ESTIMATED",
+    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): C3 Dutifulness with C6 Deliberation, r = .45; deliberation is reversed to impulsiveness here, so the value is -.45.",
+    "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
+    "stopgapId": "SG-P15-personality-mapping",
+    "spread": {
+      "low": -0.498,
+      "high": -0.399,
+      "unit": "correlation",
+      "citation": "Fisher-transformed 95% interval for the Costa and McCrae (1992) value with N = 1,000."
+    }
+  },
+  "personalityReferenceAge": {
+    "value": 40,
+    "tag": "TUNABLE",
+    "citation": "Age whose facet curve value counts as average, so the age shifts center near the adult population; prototype choice.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "spouseAgeGapOpenRowYears": {
+    "value": 5,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, CPS 2023 ASEC, America's Families and Living Arrangements: 2023, Table FG3: the age-difference rows are 2-3, 4-5, 6-9, 10-14 and 15-19 years, and the last rows are open (husband or wife 20 or more years older).",
+    "estimatedFrom": "Each open row is spread over five whole years, the width of the two rows next to it (10-14 and 15-19 years), so 20 or more years reads as 20 to 24. The open rows hold 1.2% of married couples.",
+    "stopgapId": "SG-P15-partnership-model"
+  },
+  "openingCoworkerGroupSize": {
+    "value": 8,
+    "tag": "TUNABLE",
+    "citation": "Largest generated workgroup of residents at one employer whose members know each other by name; prototype choice pending a US source on how many coworkers people know. A survey of 3,000 full-time US workers (Olivet Nazarene University, 2019) found five friends at work on average, a lower bound on coworkers known by name.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No US source on the number of coworkers known by name was found; friends at work (about five on average) bound it from below."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "griefResilientShare": {
+    "value": 0.459,
+    "tag": "ESTIMATED",
+    "citation": "Bonanno, Wortman, Lehman et al. (2002), Journal of Personality and Social Psychology 83(5):1150-1164, Results: of 205 widowed adults followed at 6 and 18 months, 94 (45.9%) showed the resilient pattern.",
+    "estimatedFrom": "Taken as the share whose grief has fallen to little by 6 months after a death. The study measured widowed adults aged about 72; the game applies it to every relative's loss (owner ruling, October 10, 2026).",
+    "stopgapId": "SG-P15-grief-line"
+  },
+  "griefChronicShare": {
+    "value": 0.156,
+    "tag": "ESTIMATED",
+    "citation": "Bonanno, Wortman, Lehman et al. (2002), Journal of Personality and Social Psychology 83(5):1150-1164, Results: of 205 widowed adults followed at 6 and 18 months, 32 (15.6%) showed chronic grief.",
+    "estimatedFrom": "Taken as the share whose grief is still above little at 18 months. The 7.8% with chronic depression began depressed before the loss and are not counted here.",
+    "stopgapId": "SG-P15-grief-line"
+  },
+  "griefEarlyCheckMonths": {
+    "value": 6,
+    "tag": "SOURCED",
+    "citation": "Bonanno, Wortman, Lehman et al. (2002), Journal of Personality and Social Psychology 83(5):1150-1164, Results: of 205 widowed adults followed at 6 and 18 months: the first follow-up, 6 months after the loss."
+  },
+  "griefLateCheckMonths": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "Bonanno, Wortman, Lehman et al. (2002), Journal of Personality and Social Psychology 83(5):1150-1164, Results: of 205 widowed adults followed at 6 and 18 months: the second follow-up, 18 months after the loss."
+  },
+  "griefLittleFraction": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Share of the grief at a death that counts as little grief when the resilience spread is solved from Bonanno et al. (2002); the study classified people by depression and grief scores, not by a share of starting grief, so this is a modeling choice.",
+    "stopgapId": "SG-P15-grief-line",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified; Bonanno et al. (2002) classify grief patterns by scores, not by this quantity."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "griefPullWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Pull of grief toward rest and contact with family, per unit of grief; no direct source.",
+    "stopgapId": "SG-P15-grief-line",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified; Bonanno et al. (2002) classify grief patterns by scores, not by this quantity."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "griefHoldWeight": {
+    "value": -1,
+    "tag": "TUNABLE",
+    "citation": "Hold of grief on organizing, per unit of grief (negative: grief makes organizing less attractive); no direct source. CTO REVIEW 11: grief first pulls toward withdrawal and family.",
+    "stopgapId": "SG-P15-grief-line",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified; Bonanno et al. (2002) classify grief patterns by scores, not by this quantity."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "schoolFinalGrade": {
+    "value": 12,
+    "tag": "SOURCED",
+    "citation": "U.S. public schools end with grade 12 (the existing game school-calendar.ts: grades 9-12 in high school)."
+  },
+  "fallingOutBaseRatePerYear": {
+    "value": 0.0155,
+    "tag": "ESTIMATED",
+    "citation": "YouGov, February 24-27, 2023, 31,380 U.S. adults: 68% have decided to end a friendship and followed through; https://yougov.com/en-us/articles/45676-americans-ended-friendship-breakups-poll",
+    "estimatedFrom": "Solved so 68% of adults have at least one falling-out among the people they shared a class or workgroup with, pooled over six generated towns (seeds p15-fall-a to -f: Grand Mound, Washington; Monument, Colorado; Heber, Utah; Bay Minette, Alabama; Tice, Florida; Summit, New Jersey; 12,963 adults; 1.34 falling-outs per adult). Each generated peer stands for the missing members of a full class or workgroup, so circles sampled from big places count fully. YouGov counts any friendship over a lifetime, not only classmates and coworkers.",
+    "stopgapId": "SG-P15-falling-outs"
+  },
+  "fallingOutConflictWeight": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "citation": "Rise in the yearly falling-out rate per level of each person's conflict trait (log scale); no direct source.",
+    "stopgapId": "SG-P15-falling-outs",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified for how temperament changes the rate of falling out."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "fallingOutReliabilityWeight": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "citation": "Fall in the yearly falling-out rate per level of each person's reliability (log scale); no direct source.",
+    "stopgapId": "SG-P15-falling-outs",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified for how temperament changes the rate of falling out."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "householdChildAgeYears": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey: household children are those under 18 (ATUS glossary, 'household children'); https://www.bls.gov/tus/glossary.htm"
+  },
+  "unmodeledLeisureValuePerHour": {
+    "value": 0.46,
+    "tag": "TUNABLE",
+    "citation": "Score an hour of the leisure the game does not model is worth; an act added to a free block after the activation's pick must score above its hours times this. Calibrated so visits fall on the ATUS 2025 share of people who socialize or communicate on a given day (30.4%, Table 1); no direct source for the value itself. Calibrated on two generated towns of 1,000 residents over 28 days (seeds p15-visit-a and -b: Albertville, Alabama; Kennedale, Texas): 0.4 gave 33.9% and 0.5 gave 28.6% of adult-days with a visit.",
+    "stopgapId": "SG-P15-free-block-plan",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibrated to one ATUS share; no empirical range for the value of an hour of leisure in these score units."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "favorSharedHoursPerYear": {
+    "value": 50,
+    "tag": "TUNABLE",
+    "citation": "Hours of time together a year of sharing a class or workgroup counts for when judging closeness at a later need; Hall (2019) finds about 50 hours make a casual friend and that hours working together count less than socializing; no direct source for a year's worth.",
+    "stopgapId": "SG-P15-favors",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range for hours of friendship time per shared school or work year."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "favorRatePerNeed": {
+    "value": 0.169,
+    "tag": "ESTIMATED",
+    "citation": "Talker Research for Safeway Moving, March 19-25, 2025, 2,000 U.S. adults (opt-in commercial poll): 39% first ask friends for help moving; https://talkerresearch.com/more-than-a-third-secretly-hate-being-asked-to-help-with-moving/",
+    "estimatedFrom": "Solved so 39% of residents' recorded moves draw a favor from at least one person they shared a class or workgroup with, each sampled peer standing for the missing members of a full group; pooled over six generated towns (seeds p15-fall-a to -f; 6,613 recorded moves into the county, 0.71 favors per move). Asking friends first is not the same as receiving a favor, and the poll is opt-in.",
+    "stopgapId": "SG-P15-favors"
+>>>>>>> origin/pool/P15-people-5
   }
 }
