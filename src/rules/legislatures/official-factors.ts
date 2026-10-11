@@ -501,3 +501,7 @@ export function reactionLens(
 }
 
 // stopgapId: "SG-P14-legislatures-official-felt-size"
+// stopgapId: "SG-P14-legislatures-official-actor-rejection"
+// Competing authored legacy/outcome receipts can be rejected by the unchanged
+// shared belief chooser (political-belief-formation.ts:200). Keep factors intact;
+// propagate that boundary's outcome or failure without inventing a fallback.

@@ -29,6 +29,18 @@ import { STATEHOOD_ADMISSION_DAYS } from "../../simulation/governing/statehood-a
 import admission from "../../../data/research/congress/statehood-seats.json";
 import { fractionOf } from "../../simulation/legislature-rules";
 import type { EntityId } from "../../simulation/types";
+import { aggregateCongressAffiliation as nativeAggregate } from "../../simulation/living-world/congress-aggregate-outcome";
+import { aggregateCongressAffiliation } from "./congress-affiliation";
+import {
+  typicalShares as nativeShares,
+  localGoverningBodyReadSpread as nativeSpread,
+} from "../../simulation/nationwide-world/typical-council-spread";
+import { typicalCouncilTables } from "../../simulation/nationwide-world/typical-council-size";
+import {
+  municipalGovernments,
+  primaryReading,
+} from "../../simulation/municipal-government";
+import { typicalShares, localGoverningBodyReadSpread } from "./council-spread";
 function outcome(call: () => unknown) {
   try {
     return { value: call() };
@@ -110,6 +122,30 @@ describe("legislatures: numbering derivation and vote-record validation through 
           ),
         ).toEqual(nativeSeating(world, chamber));
       const people = world.personOrder.slice(0, 4);
+      const sizes = municipalGovernments().map(
+        (government) => primaryReading(government)?.bodySize ?? null,
+      );
+      expect(typicalShares(sizes, typicalCouncilTables())).toEqual(
+        nativeShares(),
+      );
+      expect(
+        localGoverningBodyReadSpread(sizes, typicalCouncilTables()),
+      ).toEqual(nativeSpread());
+      // Authored aggregate-reader controls include absent calibration and ties.
+      // They do not manufacture candidate-level ballot outcomes.
+      for (const democraticShare of [null, 0, 0.47, 0.5, 0.53, 1, -1, NaN])
+        for (const incumbentAffiliation of [null, "democratic", "republican"])
+          for (const incumbentSeeking of [false, true]) {
+            const input = {
+              democraticShare,
+              incumbentAffiliation,
+              incumbentSeeking,
+              baselineAffiliation: null,
+            };
+            expect(aggregateCongressAffiliation(input)).toEqual(
+              nativeAggregate(input),
+            );
+          }
       for (const denominator of [
         "members-elected",
         "members-present",

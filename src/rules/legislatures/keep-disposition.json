@@ -283,7 +283,7 @@
     "lift": "src/rules/legislatures/automatic-laws.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/automatic-laws.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/automatic-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/governing/automatic-legislation.ts",
@@ -295,7 +295,7 @@
     "lift": "src/rules/legislatures/automatic-laws.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/automatic-laws.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/automatic-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/governing/automatic-legislation.ts",
@@ -307,7 +307,7 @@
     "lift": "src/rules/legislatures/automatic-laws.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/automatic-laws.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/automatic-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/governing/chamber-procedure.ts",
@@ -345,7 +345,8 @@
     "kernels": ["src/rules/legislatures/chamber-vote.ts"],
     "goldenTests": [
       "src/rules/legislatures/amendment-world.test.ts",
-      "src/rules/legislatures/chamber-world.test.ts"
+      "src/rules/legislatures/chamber-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts"
     ]
   },
   {
@@ -372,7 +373,8 @@
     "kernels": ["src/rules/legislatures/chamber-vote.ts"],
     "goldenTests": [
       "src/rules/legislatures/amendment-world.test.ts",
-      "src/rules/legislatures/chamber-world.test.ts"
+      "src/rules/legislatures/chamber-world.test.ts",
+      "src/rules/legislatures/procedure-world.test.ts"
     ]
   },
   {
@@ -421,7 +423,7 @@
     "lift": "src/rules/legislatures/executive-desks.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/executive-desks.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/council-protocol-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/governing/congress-lawmaking.ts",
@@ -850,6 +852,7 @@
     ],
     "goldenTests": [
       "src/rules/legislatures/remaining-rules.test.ts",
+      "src/rules/legislatures/council-protocol-world.test.ts",
       "src/rules/legislatures/procedure-world.test.ts"
     ]
   },
@@ -863,7 +866,7 @@
     "lift": "src/rules/legislatures/record-availability.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/record-availability.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/procedure-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/legislative-member-decisions.ts",
@@ -899,7 +902,7 @@
     "lift": "src/rules/legislatures/session-rules.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/session-rules.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/procedure-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/legislative-procedure-world.ts",
@@ -1091,7 +1094,7 @@
     "lift": "src/rules/legislatures/bargaining-manner.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/bargaining-manner.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/records-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/legislature-rules.ts",
@@ -1139,7 +1142,7 @@
     "lift": "src/rules/legislatures/congress-affiliation.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/congress-affiliation.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/record-style-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/congress.ts",
@@ -1163,7 +1166,7 @@
     "lift": "src/rules/legislatures/governor-reform.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/governor-reform.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/reform-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/constitutional-reform.ts",
@@ -1175,7 +1178,7 @@
     "lift": "src/rules/legislatures/governor-reform.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/governor-reform.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/reform-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/constitutional-reform.ts",
@@ -1226,7 +1229,10 @@
       "src/rules/legislatures/congress-route.ts",
       "src/rules/legislatures/president-reform.ts"
     ],
-    "goldenTests": ["src/rules/legislatures/congress-route-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/congress-route-world.test.ts",
+      "src/rules/legislatures/reform-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/living-world/federal-reform.ts",
@@ -1238,7 +1244,7 @@
     "lift": "src/rules/legislatures/president-reform.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/president-reform.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/reform-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/federal-reform.ts",
@@ -1250,7 +1256,7 @@
     "lift": "src/rules/legislatures/president-reform.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/president-reform.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/reform-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/federal-reform.ts",
@@ -1310,7 +1316,10 @@
     "lift": "src/rules/legislatures/official-factors.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/official-factors.ts"],
-    "goldenTests": ["src/rules/legislatures/admission-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/reflection-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/living-world/official-views.ts",
@@ -1322,7 +1331,10 @@
     "lift": "src/rules/legislatures/official-factors.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/official-factors.ts"],
-    "goldenTests": ["src/rules/legislatures/admission-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/reflection-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/living-world/official-views.ts",
@@ -1334,7 +1346,10 @@
     "lift": "src/rules/legislatures/official-factors.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/official-factors.ts"],
-    "goldenTests": ["src/rules/legislatures/admission-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/reflection-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/living-world/official-views.ts",
@@ -1346,7 +1361,10 @@
     "lift": "src/rules/legislatures/official-factors.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/official-factors.ts"],
-    "goldenTests": ["src/rules/legislatures/admission-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/reflection-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/living-world/official-views.ts",
@@ -1358,7 +1376,10 @@
     "lift": "src/rules/legislatures/official-factors.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/official-factors.ts"],
-    "goldenTests": ["src/rules/legislatures/admission-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/reflection-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/living-world/official-views.ts",
@@ -1370,7 +1391,10 @@
     "lift": "src/rules/legislatures/official-factors.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/official-factors.ts"],
-    "goldenTests": ["src/rules/legislatures/admission-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/admission-world.test.ts",
+      "src/rules/legislatures/reflection-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/municipal-government.ts",
@@ -1406,7 +1430,10 @@
     "lift": "src/rules/legislatures/council-vote.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/council-vote.ts"],
-    "goldenTests": ["src/rules/legislatures/council-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/municipal-ordinance-procedure.ts",
@@ -1442,7 +1469,7 @@
     "lift": "src/rules/legislatures/executive-desks.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/executive-desks.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/council-protocol-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/municipal-public-work.ts",
@@ -1454,7 +1481,10 @@
     "lift": "src/rules/legislatures/council-vote.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/council-vote.ts"],
-    "goldenTests": ["src/rules/legislatures/council-world.test.ts"]
+    "goldenTests": [
+      "src/rules/legislatures/council-protocol-world.test.ts",
+      "src/rules/legislatures/council-world.test.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/county-governing-body-rules.ts",
@@ -1524,7 +1554,7 @@
     "lift": "src/rules/legislatures/council-spread.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/council-spread.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/record-style-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/typical-council-spread.ts",
@@ -1536,7 +1566,7 @@
     "lift": "src/rules/legislatures/council-spread.ts",
     "reason": "Physical rule kernel is present with explicit raw fact and writer-request boundaries. Private helpers and constants are retained with their owner. The listed tests document current caller coverage; positive-path and protocol validation is still in progress, so this is not a completed lift receipt.",
     "kernels": ["src/rules/legislatures/council-spread.ts"],
-    "goldenTests": []
+    "goldenTests": ["src/rules/legislatures/record-style-world.test.ts"]
   },
   {
     "sourceFile": "src/simulation/official-view-reads.ts",

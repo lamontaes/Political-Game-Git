@@ -2,6 +2,15 @@ import { describe, expect, it } from "vitest";
 import { smallWorld } from "../../../tests/fixtures/small-world";
 import { STATES } from "../../simulation/state-reference";
 import { recordWorldEvent } from "../../simulation/world";
+import { introduceMeasure } from "../../simulation/legislation";
+import { recordLegislativeCommitment } from "../../simulation/legislative-politics";
+import {
+  NATIONAL_ELECTION_JURISDICTION,
+  ensureNationalElectionJurisdiction,
+} from "../../simulation/national-election-geography";
+import { US_CONGRESS_RULE_PACK } from "../../simulation/congress-rule-pack";
+import { bargainingMannerFromRecord as nativeManner } from "../../simulation/legislature-manner";
+import { bargainingMannerFromRecord } from "./bargaining-manner";
 import { recordEventKnowledge } from "../../simulation/records";
 import { recordLifeCommitment } from "../../simulation/life";
 import { heardViewsHeldBy as nativeHeard } from "../../simulation/heard-official-views";
@@ -92,6 +101,77 @@ describe("legislatures: native record readers in generated worlds", () => {
         },
       });
       const event = world.history.events.at(-1)!;
+      world = introduceMeasure(ensureNationalElectionJurisdiction(world), {
+        stableKey: `rules2:${place}:commitment-measure`,
+        jurisdictionId: NATIONAL_ELECTION_JURISDICTION.id,
+        rulePackId: US_CONGRESS_RULE_PACK.packId,
+        designation: "H.R. 901",
+        shortTitle: "Authored commitment control",
+        summary: "Record-reader edge.",
+        origin: "member-introduction",
+        subjectClass: "general-policy",
+        sponsorPersonId: holder,
+        originChamberKey: "house",
+        propositionIds: [],
+      });
+      const commitmentMeasure = world.history.legislativeMeasures!.at(-1)!;
+      for (const [index, firmness] of [
+        "explicit",
+        "provisional",
+        "explicit",
+        "qualified",
+      ].entries()) {
+        world = recordWorldEvent(world, {
+          stableKey: `rules2:${place}:commitment-occasion:${index}`,
+          type: "life.conversation",
+          occurredAt: world.currentDate,
+          recordedAt: world.currentDate,
+          jurisdictionId: null,
+          involvedEntityIds: [holder, listener],
+          participants: [
+            { personId: holder, role: "agency:actor", detail: null },
+          ],
+          personFactConstraints: [],
+          visibility: "private",
+          tags: [],
+          summary: "Authored commitment occasion.",
+          context: {
+            location: null,
+            socialContext: null,
+            pressure: null,
+            choice: null,
+            motivation: null,
+            immediateReaction: null,
+          },
+        });
+        world = recordLegislativeCommitment(world, {
+          stableKey: `rules2:${place}:legislative-promise:${index}`,
+          holderPersonId: holder,
+          subject: {
+            question: {
+              measureId: commitmentMeasure.id,
+              purpose: "floor-stage",
+              forumKey: "house",
+              floorStageKey: "passage",
+              amendmentStableKey: null,
+              provisionKey: null,
+            },
+            questionLabel: "Authored passage control",
+          },
+          stance: "support",
+          firmness: firmness as "explicit" | "provisional" | "qualified",
+          audience: "private",
+          eventId: world.history.events.at(-1)!.id,
+          heardByPersonIds: [listener],
+          statement: "Authored commitment.",
+        });
+        expect(
+          bargainingMannerFromRecord(
+            world.history.legislativeCommitments ?? [],
+            holder,
+          ),
+        ).toEqual(nativeManner(world, holder));
+      }
       for (const [index, position] of [
         "support",
         "oppose",

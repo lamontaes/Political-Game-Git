@@ -526,5 +526,17 @@
     "addedAt": "2026-10-11",
     "replacement": "CTO-directed dated evidence or shared core2/English/actor/F adapter; change behavior only in the owning port, with a new equivalence/design decision.",
     "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-legislatures-official-actor-rejection",
+    "kind": "preserved-legacy",
+    "file": "src/rules/legislatures/official-factors.ts",
+    "line": 504,
+    "whatItFakes": "No fallback belief outcome is supplied when the unchanged shared belief chooser rejects an authored competing legacy/outcome receipt. Factors remain unchanged.",
+    "why": "The native public reflection caller reaches political-belief-formation.ts:200 after factor calculation and can throw no available outcome in the labeled edge fixture. An ordinary producer route has not established this as a production defect.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Shared actor owner/CTO examines the exact native failure and decides its live adapter contract; preserve outcome or failure until then.",
+    "status": "OPEN"
   }
 ]
