@@ -2,16 +2,20 @@
 import { createHash, randomInt } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import { performance } from "node:perf_hooks";
-import {
-  lifePlaceStateIdentities,
-  lifePlaceSearch,
-} from "../simulation/life-places";
-import { placeReferencePopulation } from "../simulation/nationwide-world/place-population";
-import { buildPopulation } from "./population";
-import { createLifeCore, advanceCore } from "./life";
-import { createRenewalCore } from "./births-setup";
-import { coreAPI, assertCoreIntegrity } from "./state";
-import { RENEWAL_MODULE_ID } from "./modules/renewal";
+import { execFileSync } from "node:child_process";
+import { hostname, platform, arch, cpus } from "node:os";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
+// The runner may be copied to /tmp while the single checkout switches named
+// revisions. All runtime modules load from cwd, not from the copied runner.
+const load = (path: string) => import(pathToFileURL(resolve(path)).href);
+import type * as PlacesModule from "../simulation/life-places";
+import type * as PlacePopulationModule from "../simulation/nationwide-world/place-population";
+import type * as PopulationModule from "./population";
+import type * as LifeModule from "./life";
+import type * as StateModule from "./state";
+import type * as RenewalSetupModule from "./births-setup";
+import type * as RenewalModule from "./modules/renewal";
 import type { CoreInput } from "./types";
 const args = process.argv.slice(2);
 const arg = (name: string) => {
@@ -22,6 +26,15 @@ const arg = (name: string) => {
 const hash = (bytes: string) =>
   createHash("sha256").update(bytes).digest("hex");
 if (args.includes("--prepare")) {
+  const { lifePlaceStateIdentities, lifePlaceSearch } = (await load(
+    "src/simulation/life-places.ts",
+  )) as typeof PlacesModule;
+  const { placeReferencePopulation } = (await load(
+    "src/simulation/nationwide-world/place-population.ts",
+  )) as typeof PlacePopulationModule;
+  const { buildPopulation } = (await load(
+    "src/core2/population.ts",
+  )) as typeof PopulationModule;
   const states = lifePlaceStateIdentities();
   if (states.length !== 56) throw new Error("Expected all 56 identities.");
   const state = states[randomInt(states.length)]!;
@@ -63,9 +76,26 @@ if (args.includes("--prepare")) {
   const variant = arg("--variant");
   if (!["base", "births"].includes(variant))
     throw new Error("Unknown variant.");
+  const sourceRevision = execFileSync("git", ["rev-parse", "HEAD"], {
+    encoding: "utf8",
+  }).trim();
+  if (
+    execFileSync("git", ["status", "--porcelain"], { encoding: "utf8" }).trim()
+  )
+    throw new Error("Measure a clean named revision.");
+  const { createLifeCore, advanceCore } = (await load(
+    "src/core2/life.ts",
+  )) as typeof LifeModule;
+  const { coreAPI, assertCoreIntegrity } = (await load(
+    "src/core2/state.ts",
+  )) as typeof StateModule;
+  const factory =
+    variant === "births"
+      ? ((await load("src/core2/births-setup.ts")) as typeof RenewalSetupModule)
+          .createRenewalCore
+      : createLifeCore;
   const start = performance.now();
-  const core =
-    variant === "births" ? createRenewalCore(input) : createLifeCore(input);
+  const core = factory(input);
   const ready = performance.now();
   const result = advanceCore(core, "2027-01-01");
   const end = performance.now();
@@ -74,7 +104,10 @@ if (args.includes("--prepare")) {
   assertCoreIntegrity(core);
   const store =
     variant === "births"
-      ? coreAPI(core).moduleState(RENEWAL_MODULE_ID)
+      ? coreAPI(core).moduleState(
+          ((await load("src/core2/modules/renewal.ts")) as typeof RenewalModule)
+            .RENEWAL_MODULE_ID,
+        )
       : undefined;
   const residents = input.people.filter(
     (person) => person.tier !== "husk",
@@ -82,6 +115,16 @@ if (args.includes("--prepare")) {
   const births = store?.table("births").rows() ?? [];
   const receipt = {
     variant,
+    sourceRevision,
+    apiVersion: core.apiVersion,
+    host: {
+      hostname: hostname(),
+      platform: platform(),
+      arch: arch(),
+      cpu: cpus()[0]?.model,
+      node: process.versions.node,
+    },
+    peakRssMiB: process.resourceUsage().maxRSS / 1024,
     inputSha256: hash(bytes),
     residents,
     inputPeople: input.people.length,

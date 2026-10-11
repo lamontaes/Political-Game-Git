@@ -10,13 +10,42 @@ const arg = (name: string) => {
 };
 const read = (name: string) => JSON.parse(readFileSync(arg(name), "utf8"));
 const place = read("--place"),
-  base = read("--base"),
-  head = read("--head");
+  baseRuns = read("--base"),
+  headRuns = read("--head");
 if (
-  base.inputSha256 !== head.inputSha256 ||
-  head.inputSha256 !== place.inputSha256
+  !Array.isArray(baseRuns) ||
+  !Array.isArray(headRuns) ||
+  baseRuns.length !== 3 ||
+  headRuns.length !== 3
 )
-  throw new Error("Mismatched generated inputs.");
+  throw new Error(
+    "Require three independent year runs for each clean revision.",
+  );
+const base = baseRuns[0],
+  head = headRuns[0];
+for (const group of [baseRuns, headRuns]) {
+  if (group.some((row) => row.sourceRevision !== group[0].sourceRevision))
+    throw new Error("Revision changed within measured group.");
+}
+for (const row of [...baseRuns, ...headRuns]) {
+  if (
+    row.inputSha256 !== place.inputSha256 ||
+    row.result.simulatedDays !== 365 ||
+    JSON.stringify(row.host) !== JSON.stringify(base.host) ||
+    !Number.isFinite(row.advanceMilliseconds) ||
+    row.advanceMilliseconds <= 0
+  )
+    throw new Error("Incomparable generated year runs.");
+}
+if (
+  headRuns.some(
+    (row) => JSON.stringify(row.births) !== JSON.stringify(head.births),
+  )
+)
+  throw new Error("Birth outcomes changed across identical inputs.");
+const median = (values: number[]) => [...values].sort((a, b) => a - b)[1]!;
+const baseMilliseconds = median(baseRuns.map((row) => row.advanceMilliseconds));
+const headMilliseconds = median(headRuns.map((row) => row.advanceMilliseconds));
 const area = place.state.name;
 const rates = [rates2023, rates2024]
   .map(
@@ -27,7 +56,7 @@ const rates = [rates2023, rates2024]
   )
   .filter((rate): rate is number => typeof rate === "number");
 const range = rates.length ? [Math.min(...rates), Math.max(...rates)] : null;
-const ratio = head.advanceMilliseconds / base.advanceMilliseconds;
+const ratio = headMilliseconds / baseMilliseconds;
 const receipt = {
   place: {
     jurisdiction: area,
@@ -36,8 +65,17 @@ const receipt = {
   },
   seed: place.seed,
   inputSha256: head.inputSha256,
-  baseMilliseconds: base.advanceMilliseconds,
-  headMilliseconds: head.advanceMilliseconds,
+  baseRevision: base.sourceRevision,
+  headRevision: head.sourceRevision,
+  host: head.host,
+  timing: {
+    method:
+      "median of three independent full-year processes per clean named revision, one process at a time",
+    baseMilliseconds: baseRuns.map((row) => row.advanceMilliseconds),
+    headMilliseconds: headRuns.map((row) => row.advanceMilliseconds),
+  },
+  baseMilliseconds,
+  headMilliseconds,
   addedYearPercent: (ratio - 1) * 100,
   speedWithin5Percent: ratio <= 1.05,
   births: head.births.length,
