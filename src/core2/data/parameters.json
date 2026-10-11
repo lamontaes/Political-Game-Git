@@ -3331,5 +3331,43 @@
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
+  },
+  "schoolFinalGrade": {
+    "value": 12,
+    "tag": "SOURCED",
+    "citation": "U.S. public schools end with grade 12 (the existing game school-calendar.ts: grades 9-12 in high school)."
+  },
+  "fallingOutBaseRatePerYear": {
+    "value": 0.0155,
+    "tag": "ESTIMATED",
+    "citation": "YouGov, February 24-27, 2023, 31,380 U.S. adults: 68% have decided to end a friendship and followed through; https://yougov.com/en-us/articles/45676-americans-ended-friendship-breakups-poll",
+    "estimatedFrom": "Solved so 68% of adults have at least one falling-out among the people they shared a class or workgroup with, pooled over six generated towns (seeds p15-fall-a to -f: Grand Mound, Washington; Monument, Colorado; Heber, Utah; Bay Minette, Alabama; Tice, Florida; Summit, New Jersey; 12,963 adults; 1.34 falling-outs per adult). Each generated peer stands for the missing members of a full class or workgroup, so circles sampled from big places count fully. YouGov counts any friendship over a lifetime, not only classmates and coworkers.",
+    "stopgapId": "SG-P15-falling-outs"
+  },
+  "fallingOutConflictWeight": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "citation": "Rise in the yearly falling-out rate per level of each person's conflict trait (log scale); no direct source.",
+    "stopgapId": "SG-P15-falling-outs",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified for how temperament changes the rate of falling out."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "fallingOutReliabilityWeight": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "citation": "Fall in the yearly falling-out rate per level of each person's reliability (log scale); no direct source.",
+    "stopgapId": "SG-P15-falling-outs",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified for how temperament changes the rate of falling out."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
   }
 }

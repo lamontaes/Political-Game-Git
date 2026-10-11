@@ -831,7 +831,7 @@
     "id": "SG-P8-shared-past-history",
     "kind": "shared-past-generation-gap",
     "file": "src/core2/deep-past.ts",
-    "line": 137,
+    "line": 138,
     "whatItFakes": "Historical acquaintances are seeded for the player alone and carry no dated shared moments keyed to both people. Other residents have no generated acquaintance history for a reunion to read.",
     "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player’s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here.",
     "addedBy": "SOL-1258",
@@ -1065,6 +1065,18 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
     "replacement": "Workgroups from occupation and establishment records (BLS OEWS staffing patterns by industry) and a measured number of coworkers known, with time worked together adding to closeness on the shifts both attend.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-falling-outs",
+    "kind": "behavior-model-gap",
+    "file": "src/core2/data/opening-falling-outs.json",
+    "line": 3,
+    "whatItFakes": "Falling-outs in the shared past build from the years a pair shared a class or workgroup and both people's conflict and reliability traits, with tunable trait weights; the base rate is solved to YouGov's lifetime share of adults who ended a friendship, which counts all friendships, not only classmates and coworkers. Favors are not generated: no dated recorded need (a move, a job loss, an illness) exists in the shared past.",
+    "why": "CTO, October 10, 2026 (#3938): generate favors and falling-outs in the shared past so the director can bring a person back with stakes.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-11",
+    "replacement": "A friendship-ending rate among classmates and coworkers by years known, temperament weights checked against a study of conflict and personality, and favors from dated recorded needs.",
     "status": "open"
   }
 ]
