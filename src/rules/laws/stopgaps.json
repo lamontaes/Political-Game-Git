@@ -94,5 +94,41 @@
     "addedAt": "2026-10-11",
     "replacement": "Explicit sourced conflict precedence rather than a numerical offset.",
     "status": "OPEN"
+  },
+  {
+    "id": "laws.common-teacher-school-year",
+    "kind": "placeholder",
+    "file": "src/rules/laws/school-year-date.ts",
+    "line": 4,
+    "whatItFakes": "Every supplied teacher floor begins on the next July 1, regardless of the place's actual school-year date.",
+    "why": "Preserve the unchanged legacy decision and arithmetic; the golden tests explicitly retain this edge behavior.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Place- and effective-date-specific school-year opening facts.",
+    "status": "OPEN"
+  },
+  {
+    "id": "laws.wage-floor-overwrites-cap",
+    "kind": "placeholder",
+    "file": "src/rules/laws/statutory-payroll.ts",
+    "line": 16,
+    "whatItFakes": "A wage floor calculation replaces the earlier wage cap result when both fields are non-null.",
+    "why": "Preserve the unchanged legacy decision and arithmetic; the golden tests explicitly retain this edge behavior.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Reviewed contract for combined cap/floor employment-tax rules.",
+    "status": "OPEN"
+  },
+  {
+    "id": "laws.negative-payroll-rounding",
+    "kind": "placeholder",
+    "file": "src/rules/laws/statutory-payroll.ts",
+    "line": 24,
+    "whatItFakes": "Positive half-up bias followed by BigInt truncation makes negative tax amounts asymmetric: taxAt(-5,10000) is -4.",
+    "why": "Preserve the unchanged legacy result; do not silently correct refund or negative-base arithmetic in a lift.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Reviewed signed monetary rounding contract and negative tax-base applicability.",
+    "status": "OPEN"
   }
 ]

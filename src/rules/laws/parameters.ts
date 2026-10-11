@@ -75,4 +75,12 @@ export const LAWS_PARAMETERS = {
     basis: "TUNABLE",
     range: { minimum: 0, maximum: 1 },
   },
+  teacherSchoolYearStart: {
+    value: "07-01",
+    basis: "ESTIMATED",
+    source:
+      "Legacy teacher-salary-floor.ts; common school/fiscal-year opening from starting-law rows",
+    range: ["01-01", "12-31"],
+    stopgapId: "laws.common-teacher-school-year",
+  },
 } as const;

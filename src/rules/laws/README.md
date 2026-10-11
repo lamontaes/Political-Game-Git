@@ -35,3 +35,21 @@ WV, seed `rules2-laws-20261011`. Owned TypeScript diagnostics zero after correct
 inherited fixture types; the retired branch's imported legacy graph has 102
 baseline diagnostics. Scoped ESLint, Prettier, diff and zero-dice checks pass.
 Implementation ended 2026-10-11 00:47 UTC (~4 minutes). Next: economy #3932.
+
+## Complete KEEP disposition continuation
+
+`KEEP-DISPOSITION.md` and `keep-disposition.json` account for all 133 functions
+in the Laws KEEP inventory. Full and partial lifts name their actual renamed
+shelf functions. Whole-function blockers identify their World/history/effect,
+research-transport, private-pipeline or English contracts. Consequence and
+outcome-web functions additionally name the active RULES-4 ownership in #3933;
+this law-in-force branch does not duplicate that work. KEEP rows are not
+reclassified, and blockers do not imply future core2 adapters are impossible.
+
+This continuation adds enacted-rule rank selection, payroll taxable wages and
+tax rounding, monthly interest/revolving payment/rate caps, and teacher school
+year opening. New registrations preserve the floor overwriting a prior wage cap,
+the asymmetric negative payroll rounding, and a common July 1 school year.
+Golden checks compare outputs and errors over all 56 identities. Supporting date
+validation is isolated and not counted as engine KEEP coverage. No old engine is
+edited or wired.
