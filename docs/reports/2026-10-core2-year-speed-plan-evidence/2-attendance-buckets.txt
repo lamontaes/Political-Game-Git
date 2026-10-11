@@ -1,0 +1,4 @@
+subtree ms 249617
+44225 17.7% 1 verify replay (guards re-checked)
+75056 30.1% 2 payload/field/map read recording
+130336 52.2% 6 other (settle plumbing, source refs, act admit, plan building)

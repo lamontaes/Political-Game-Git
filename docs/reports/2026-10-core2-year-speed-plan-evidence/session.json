@@ -1,0 +1,66 @@
+{
+  "schema": "core2-speed-plan-session-v1",
+  "model": "GPT-6 (Codex)",
+  "effort": "Not exposed by runtime; no escalation requested",
+  "tokenUsage": null,
+  "firstRetainedSetupClock": "2026-10-11T04:57:53Z",
+  "publicationPreparationClock": "2026-10-11T05:40:49.918893+00:00",
+  "coreHead": "b2d5bd34ab8e42afa2000db5676a7f7048d6df29",
+  "guardHead": "31cc98bb0b2c4d72cd1ef7243919232217ecb713",
+  "profileToolsHead": "97ffc169508e0f4d5ff7a12726a2ef76b28668b7",
+  "collectorWindows": [
+    {
+      "place": "Mount Charleston, Nevada",
+      "start": "2026-10-11T04:58:55.499Z",
+      "end": "2026-10-11T05:12:45.082Z",
+      "profiledYearSeconds": 816.402924485
+    },
+    {
+      "place": "Lake Montezuma, Arizona",
+      "start": "2026-10-11T05:13:08.322Z",
+      "end": "2026-10-11T05:25:05.157Z",
+      "profiledYearSeconds": 707.639141189
+    },
+    {
+      "place": "Port LaBelle, Florida",
+      "start": "2026-10-11T05:25:08.433Z",
+      "end": "2026-10-11T05:36:05.175Z",
+      "profiledYearSeconds": 644.7148424989999
+    }
+  ],
+  "totalProfiledYearSeconds": 2168.756908173,
+  "dependencyLockSha256": "fc084b9576b620dab3700a90aa60d729e998cdedf35cce024935b60d55385807",
+  "checks": {
+    "evidenceVerification": "PASS",
+    "legacyProfilerCrossChecks": "PASS; summarizer via M0 adapter, bucket, tree, subself for each year",
+    "reportCheck": "PASS, 0 errors, 0 warnings",
+    "M0ComparisonDetectorTests": "PASS, 4/4",
+    "openingInputBudgetTests": "PASS, 11/11",
+    "scopedLintAndFormat": "PASS, collector/analyzer/report",
+    "releasePrCheck": "PASS",
+    "zeroDice": "PASS"
+  },
+  "reportReview": {
+    "result": "PASS",
+    "reviewer": "independent civic_report_reviewer; inherited model and effort",
+    "reviewScope": "Report clarity and evidence only, not game behavior or acceptance",
+    "sendBacks": 1,
+    "repairs": [
+      "Separated proposed implementation from measured lead.",
+      "Exposed measured buckets behind each ranked savings estimate."
+    ],
+    "finalResourceParagraphRecheck": "PASS: arithmetic and clarity verified against session receipt"
+  },
+  "setupFailures": [
+    "Default storage state path /home/agent/.ocd-dev unavailable; used /workspace/.ocd-dev and registered existing checkout.",
+    "Default npm cache path unavailable; guarded install succeeded with /tmp/speed-plan-npm-cache.",
+    "GitHub Project claim denied: Resource not accessible by integration.",
+    "First report check treated module headings containing \"the year\" as a story report; descriptive module/step headings fixed classification.",
+    "Initial scoped ESLint flagged URL globals; explicit node:url imports repaired measurement tools. No game source was edited."
+  ],
+  "draftPr": "https://github.com/lamontaes/Political-Game-Git/pull/3975",
+  "observedSecondsThroughHandoffPreparation": 2576.918893,
+  "collectorAtCollectionSha256": "e04d0c8e63ab34304ba629c441271097a20fbfbf87a3f303a1c49f9f4ab37450",
+  "publishedCollectorSha256": "d6129713bc663df1902364c461f67e5c4cdae8f66f592096a56eaa7cf11104f3",
+  "postCollectionToolEdits": "Formatting and explicit node:url import; collection-time collector is retained in the contract commit. No source or measurement settings changed."
+}

@@ -1,0 +1,22 @@
+
+> political-life-rpg@0.5.0 storage
+> node scripts/storage/cli.mjs run test -- node --max-old-space-size=8192 --import tsx docs/reports/2026-10-core2-year-speed-plan-evidence/collect.mjs 0
+
+[storage-guard] test: holding 1.0 GiB until the command ends; 25 GiB reserve kept free.
+{"throughDate":"2021-02-01","simulatedDays":31,"decisions":93685,"acts":93685,"milliseconds":53062.14727,"rssMiB":4550.86328125,"heapMiB":3126.6012954711914}
+{"throughDate":"2021-03-01","simulatedDays":28,"decisions":90500,"acts":90500,"milliseconds":61166.735612000004,"rssMiB":5232.80859375,"heapMiB":1735.1691284179688}
+{"throughDate":"2021-04-01","simulatedDays":31,"decisions":94308,"acts":94308,"milliseconds":65855.64069900001,"rssMiB":5351.2734375,"heapMiB":4840.2270431518555}
+{"throughDate":"2021-05-01","simulatedDays":30,"decisions":102010,"acts":102010,"milliseconds":65621.508378,"rssMiB":5426.80078125,"heapMiB":2524.3715896606445}
+{"throughDate":"2021-06-01","simulatedDays":31,"decisions":94900,"acts":94900,"milliseconds":69958.02345799998,"rssMiB":5566.875,"heapMiB":4057.900215148926}
+{"throughDate":"2021-07-01","simulatedDays":30,"decisions":93342,"acts":93342,"milliseconds":65449.611676,"rssMiB":5682.50390625,"heapMiB":4095.5176696777344}
+{"throughDate":"2021-08-01","simulatedDays":31,"decisions":102946,"acts":102946,"milliseconds":69536.52228099998,"rssMiB":5757.390625,"heapMiB":3629.5126724243164}
+{"throughDate":"2021-09-01","simulatedDays":31,"decisions":94498,"acts":94498,"milliseconds":74022.98236299999,"rssMiB":5903.58984375,"heapMiB":3580.740104675293}
+{"throughDate":"2021-10-01","simulatedDays":30,"decisions":103674,"acts":103674,"milliseconds":69466.45059199992,"rssMiB":5989.22265625,"heapMiB":4670.455131530762}
+{"throughDate":"2021-11-01","simulatedDays":31,"decisions":94175,"acts":94175,"milliseconds":76394.87374800001,"rssMiB":6085.65234375,"heapMiB":3451.9734649658203}
+{"throughDate":"2021-12-01","simulatedDays":30,"decisions":91809,"acts":91809,"milliseconds":70491.77320000005,"rssMiB":6190.8125,"heapMiB":4300.555969238281}
+{"throughDate":"2022-01-01","simulatedDays":31,"decisions":104510,"acts":104510,"milliseconds":74703.71447399992,"rssMiB":6283.88671875,"heapMiB":4246.421035766602}
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.0
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.0
+npm notice To update run: npm install -g npm@12.2.0
+npm notice

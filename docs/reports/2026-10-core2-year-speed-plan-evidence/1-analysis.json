@@ -1,0 +1,712 @@
+{
+  "index": 1,
+  "totalSeconds": 707.6377979998978,
+  "excludedProfilerControlSeconds": 0.989614,
+  "profileDurationSeconds": 708.631138,
+  "samples": 68598,
+  "steps": [
+    {
+      "name": "Read recording",
+      "seconds": 146.89100699999992
+    },
+    {
+      "name": "Garbage collection",
+      "seconds": 130.82123599999966
+    },
+    {
+      "name": "Read-log validation",
+      "seconds": 106.01687199999986
+    },
+    {
+      "name": "Copying and freezing",
+      "seconds": 88.1096019999999
+    },
+    {
+      "name": "Pay-period calculations",
+      "seconds": 83.09733099999958
+    },
+    {
+      "name": "Attendance remainder",
+      "seconds": 41.04748299999994
+    },
+    {
+      "name": "Other simulation and runtime",
+      "seconds": 32.68717199999997
+    },
+    {
+      "name": "Payroll remainder",
+      "seconds": 23.825974999999993
+    },
+    {
+      "name": "Offer enumeration",
+      "seconds": 18.70095300000003
+    },
+    {
+      "name": "Need refresh",
+      "seconds": 13.250251000000029
+    },
+    {
+      "name": "Choice scoring",
+      "seconds": 10.540286000000025
+    },
+    {
+      "name": "Finance planning and authority",
+      "seconds": 7.610399999999997
+    },
+    {
+      "name": "Journal posting and checks",
+      "seconds": 5.039229999999999
+    }
+  ],
+  "modules": [
+    {
+      "name": "Work / scheduled attendance",
+      "seconds": 282.95834599999523
+    },
+    {
+      "name": "Work / payroll dispatch and settlement",
+      "seconds": 241.64972299999627
+    },
+    {
+      "name": "Runtime / garbage collection",
+      "seconds": 130.82123599999966
+    },
+    {
+      "name": "Life / discretionary activation",
+      "seconds": 46.74458499999993
+    },
+    {
+      "name": "Other simulation and runtime",
+      "seconds": 3.381587999999999
+    },
+    {
+      "name": "Clock / due actors",
+      "seconds": 1.6464640000000004
+    },
+    {
+      "name": "Opening / initialization",
+      "seconds": 0.3572989999999999
+    },
+    {
+      "name": "Retention / compaction",
+      "seconds": 0.07855700000000002
+    }
+  ],
+  "cross": {
+    "Runtime / garbage collection": {
+      "Garbage collection": 130.82123599999966
+    },
+    "Opening / initialization": {
+      "Other simulation and runtime": 0.25336499999999995,
+      "Journal posting and checks": 0.021803000000000003,
+      "Copying and freezing": 0.010091,
+      "Read recording": 0.032438999999999996,
+      "Attendance remainder": 0.025019,
+      "Read-log validation": 0.014582000000000001
+    },
+    "Clock / due actors": {
+      "Other simulation and runtime": 1.6464640000000004
+    },
+    "Work / scheduled attendance": {
+      "Need refresh": 7.828098000000003,
+      "Read recording": 75.29668499999971,
+      "Choice scoring": 5.7602379999999975,
+      "Attendance remainder": 40.97200099999995,
+      "Copying and freezing": 59.311437999999924,
+      "Read-log validation": 47.907250999999974,
+      "Pay-period calculations": 36.2742359999999,
+      "Other simulation and runtime": 9.536253000000002,
+      "Finance planning and authority": 0.072146
+    },
+    "Other simulation and runtime": {
+      "Other simulation and runtime": 3.3311019999999987,
+      "Read recording": 0.030301,
+      "Attendance remainder": 0.010092,
+      "Pay-period calculations": 0.010093
+    },
+    "Life / discretionary activation": {
+      "Need refresh": 5.4221530000000016,
+      "Offer enumeration": 18.70095300000003,
+      "Choice scoring": 4.780048000000002,
+      "Other simulation and runtime": 17.84143100000006
+    },
+    "Retention / compaction": {
+      "Other simulation and runtime": 0.07855700000000002
+    },
+    "Work / payroll dispatch and settlement": {
+      "Read recording": 71.53158199999991,
+      "Read-log validation": 58.095038999999865,
+      "Pay-period calculations": 46.813001999999834,
+      "Payroll remainder": 23.825974999999993,
+      "Journal posting and checks": 5.017426999999998,
+      "Finance planning and authority": 7.5382539999999985,
+      "Copying and freezing": 28.788072999999955,
+      "Attendance remainder": 0.040371000000000004
+    }
+  },
+  "self": [
+    {
+      "name": "(garbage collector) ",
+      "seconds": 130.82123599999966
+    },
+    {
+      "name": "verify src/core2/finance-plan.ts",
+      "seconds": 83.23010299999956
+    },
+    {
+      "name": "field src/core2/finance-plan.ts",
+      "seconds": 53.82304799999989
+    },
+    {
+      "name": "payload src/core2/finance-plan.ts",
+      "seconds": 42.446024999999935
+    },
+    {
+      "name": "directRead src/core2/finance-plan.ts",
+      "seconds": 40.83096199999998
+    },
+    {
+      "name": "detached src/core2/work-attendance.ts",
+      "seconds": 38.35142099999998
+    },
+    {
+      "name": "recordWorkAttendance src/core2/work-attendance.ts",
+      "seconds": 19.968631
+    },
+    {
+      "name": "guardedRecord src/core2/work-pay-period.ts",
+      "seconds": 15.090170000000017
+    },
+    {
+      "name": "shallow src/core2/work-attendance.ts",
+      "seconds": 14.349236000000015
+    },
+    {
+      "name": "keys src/core2/finance-plan.ts",
+      "seconds": 14.080723000000019
+    },
+    {
+      "name": "prepareWorkPayAccrual src/core2/work-pay-period.ts",
+      "seconds": 14.047855999999998
+    },
+    {
+      "name": "monthBoundary src/core2/work-pay-period.ts",
+      "seconds": 13.06736200000002
+    },
+    {
+      "name": "detach src/core2/finance-plan.ts",
+      "seconds": 12.469853000000017
+    },
+    {
+      "name": "addDays src/simulation/dates.ts",
+      "seconds": 11.467715999999994
+    },
+    {
+      "name": "commit src/core2/work-attendance.ts",
+      "seconds": 10.765543000000015
+    },
+    {
+      "name": "mapGet src/core2/finance-plan.ts",
+      "seconds": 10.084032000000015
+    },
+    {
+      "name": "prepareWorkPayrollRequest src/core2/work-pay-period.ts",
+      "seconds": 8.178361000000006
+    },
+    {
+      "name": "prepareWorkPayrollSettlement src/core2/work-pay-period.ts",
+      "seconds": 7.328706
+    },
+    {
+      "name": "copyRelationshipEvidence src/core2/state.ts",
+      "seconds": 7.211663999999999
+    },
+    {
+      "name": "availableActs src/core2/life.ts",
+      "seconds": 6.969932000000011
+    },
+    {
+      "name": "(anonymous) src/core2/state.ts",
+      "seconds": 6.708911999999997
+    },
+    {
+      "name": "makeIsoDate src/simulation/dates.ts",
+      "seconds": 6.497386
+    },
+    {
+      "name": "prepare src/core2/work-payroll-cash.ts",
+      "seconds": 6.0995990000000075
+    },
+    {
+      "name": "workPayrollCashSourceProvider src/core2/work-payroll-cash.ts",
+      "seconds": 5.730873
+    },
+    {
+      "name": "copy src/core2/work-payroll-cash.ts",
+      "seconds": 5.233030000000003
+    },
+    {
+      "name": "chooseAct src/core2/choice.ts",
+      "seconds": 4.959259999999995
+    },
+    {
+      "name": "basis src/core2/work-pay-period.ts",
+      "seconds": 4.842796999999998
+    },
+    {
+      "name": "runScheduledWork src/core2/modules/work.ts",
+      "seconds": 4.517365000000002
+    },
+    {
+      "name": "dateTime src/core2/emotion.ts",
+      "seconds": 4.4488679999999965
+    },
+    {
+      "name": "(anonymous) src/core2/modules/life.ts",
+      "seconds": 3.993653999999998
+    },
+    {
+      "name": "utcDate src/simulation/dates.ts",
+      "seconds": 3.715067000000001
+    },
+    {
+      "name": "parameter src/core2/parameters.ts",
+      "seconds": 3.3099360000000044
+    },
+    {
+      "name": "(anonymous) src/core2/finance-plan.ts",
+      "seconds": 3.219565999999998
+    },
+    {
+      "name": "same src/core2/work-payroll-cash.ts",
+      "seconds": 2.8139099999999995
+    },
+    {
+      "name": "activate src/core2/life.ts",
+      "seconds": 2.4433990000000003
+    },
+    {
+      "name": "seal src/core2/finance-plan.ts",
+      "seconds": 2.322095999999999
+    },
+    {
+      "name": "projectWorkNeeds src/core2/life.ts",
+      "seconds": 2.1572610000000014
+    },
+    {
+      "name": "(anonymous) src/core2/work-payroll-cash.ts",
+      "seconds": 1.9843399999999995
+    },
+    {
+      "name": "array src/core2/finance-plan.ts",
+      "seconds": 1.9653829999999997
+    },
+    {
+      "name": "onDay src/core2/modules/work.ts",
+      "seconds": 1.8431090000000003
+    },
+    {
+      "name": "(anonymous) src/core2/journal-state.ts",
+      "seconds": 1.6887300000000003
+    },
+    {
+      "name": "sameEvidence src/core2/work-pay-period.ts",
+      "seconds": 1.6768759999999998
+    },
+    {
+      "name": "(anonymous) src/core2/life.ts",
+      "seconds": 1.6695819999999992
+    },
+    {
+      "name": "availableSource src/core2/work-attendance.ts",
+      "seconds": 1.6094260000000005
+    },
+    {
+      "name": "parameter src/core2/work-attendance.ts",
+      "seconds": 1.5309730000000004
+    },
+    {
+      "name": "set filename ",
+      "seconds": 1.5267830000000002
+    },
+    {
+      "name": "anchorPosition src/core2/work-pay-period.ts",
+      "seconds": 1.472660999999999
+    },
+    {
+      "name": "member src/core2/finance-plan.ts",
+      "seconds": 1.4692179999999995
+    },
+    {
+      "name": "discretionaryHours src/core2/modules/work.ts",
+      "seconds": 1.39794
+    },
+    {
+      "name": "boundaryAtIndex src/core2/work-pay-period.ts",
+      "seconds": 1.3676629999999999
+    },
+    {
+      "name": "units src/core2/work-pay-period.ts",
+      "seconds": 1.32583
+    },
+    {
+      "name": "availableSource src/core2/work-pay-period.ts",
+      "seconds": 1.3037329999999996
+    },
+    {
+      "name": "recordWorkAttendance src/core2/state.ts",
+      "seconds": 1.239498
+    },
+    {
+      "name": "postCashJournal src/core2/journal-state.ts",
+      "seconds": 1.234949
+    },
+    {
+      "name": "periodAtIndex src/core2/work-pay-period.ts",
+      "seconds": 1.2091509999999999
+    },
+    {
+      "name": "periodContaining src/core2/work-pay-period.ts",
+      "seconds": 1.2052009999999997
+    },
+    {
+      "name": "(anonymous) src/core2/choice.ts",
+      "seconds": 1.174764
+    },
+    {
+      "name": "duePeople src/core2/calendar.ts",
+      "seconds": 1.1568550000000002
+    },
+    {
+      "name": "readSource src/core2/finance-plan.ts",
+      "seconds": 1.1476909999999998
+    },
+    {
+      "name": "validateCommittedAct src/core2/state.ts",
+      "seconds": 1.0969880000000005
+    }
+  ],
+  "inclusive": [
+    {
+      "name": "(root) ",
+      "seconds": 707.6377979998978
+    },
+    {
+      "name": "(anonymous) file:///workspace/Political-Game-Git/docs/reports/2026-10-core2-year-speed-plan-evidence/collect.mjs",
+      "seconds": 576.0617059999688
+    },
+    {
+      "name": "advanceCore src/core2/life.ts",
+      "seconds": 575.6935819999694
+    },
+    {
+      "name": "onDay src/core2/modules/work.ts",
+      "seconds": 526.4511779999855
+    },
+    {
+      "name": "runScheduledWork src/core2/modules/work.ts",
+      "seconds": 282.95834599999523
+    },
+    {
+      "name": "recordWorkAttendance src/core2/state.ts",
+      "seconds": 261.7491469999975
+    },
+    {
+      "name": "recordWorkAttendance src/core2/work-attendance.ts",
+      "seconds": 260.5096489999973
+    },
+    {
+      "name": "runWorkPayrollDay src/core2/work-payroll-dispatch.ts",
+      "seconds": 241.64972299999627
+    },
+    {
+      "name": "settleWorkPayrollAndNotify src/core2/work-payroll-dispatch.ts",
+      "seconds": 224.04111599999666
+    },
+    {
+      "name": "settleWorkPayroll src/core2/state.ts",
+      "seconds": 224.04111599999666
+    },
+    {
+      "name": "settleWorkPayrollJournal src/core2/work-payroll-cash.ts",
+      "seconds": 217.16209599999704
+    },
+    {
+      "name": "workPayrollCashSourceProvider src/core2/work-payroll-cash.ts",
+      "seconds": 139.45905799999963
+    },
+    {
+      "name": "(garbage collector) ",
+      "seconds": 130.82123599999966
+    },
+    {
+      "name": "(anonymous) src/core2/state.ts",
+      "seconds": 109.03462400000001
+    },
+    {
+      "name": "verify src/core2/finance-plan.ts",
+      "seconds": 106.01687199999986
+    },
+    {
+      "name": "postJournal src/core2/state.ts",
+      "seconds": 76.64909499999997
+    },
+    {
+      "name": "postCashJournal src/core2/journal-state.ts",
+      "seconds": 76.49768599999996
+    },
+    {
+      "name": "field src/core2/finance-plan.ts",
+      "seconds": 74.11025299999994
+    },
+    {
+      "name": "completeJournalSource src/core2/state.ts",
+      "seconds": 69.8113629999995
+    },
+    {
+      "name": "completeCashJournalSource src/core2/journal-state.ts",
+      "seconds": 69.75078499999951
+    },
+    {
+      "name": "payload src/core2/finance-plan.ts",
+      "seconds": 68.34135599999998
+    },
+    {
+      "name": "prepare src/core2/work-payroll-cash.ts",
+      "seconds": 64.74268899999993
+    },
+    {
+      "name": "commit src/core2/work-attendance.ts",
+      "seconds": 58.70761500000001
+    },
+    {
+      "name": "prepareWorkPayAccrual src/core2/work-pay-period.ts",
+      "seconds": 57.78643899999968
+    },
+    {
+      "name": "prepareWorkPayrollRequest src/core2/work-pay-period.ts",
+      "seconds": 51.74138699999996
+    },
+    {
+      "name": "activate src/core2/life.ts",
+      "seconds": 46.74458499999993
+    },
+    {
+      "name": "readPeriod src/core2/work-pay-period.ts",
+      "seconds": 46.38606899999982
+    },
+    {
+      "name": "guardedRecord src/core2/work-pay-period.ts",
+      "seconds": 46.29909299999994
+    },
+    {
+      "name": "detached src/core2/work-attendance.ts",
+      "seconds": 45.014595999999976
+    },
+    {
+      "name": "currentContext src/core2/work-payroll-cash.ts",
+      "seconds": 41.586769999999916
+    },
+    {
+      "name": "directRead src/core2/finance-plan.ts",
+      "seconds": 40.83096199999998
+    },
+    {
+      "name": "prepareWorkPayrollSettlement src/core2/work-pay-period.ts",
+      "seconds": 38.79360699999994
+    },
+    {
+      "name": "periodAtIndex src/core2/work-pay-period.ts",
+      "seconds": 33.09862699999996
+    },
+    {
+      "name": "basis src/core2/work-pay-period.ts",
+      "seconds": 28.332659999999976
+    },
+    {
+      "name": "boundaryAtIndex src/core2/work-pay-period.ts",
+      "seconds": 22.247912000000028
+    },
+    {
+      "name": "periodContaining src/core2/work-pay-period.ts",
+      "seconds": 21.734484000000037
+    },
+    {
+      "name": "workPayPeriodOnDate src/core2/work-pay-period.ts",
+      "seconds": 20.280983000000017
+    },
+    {
+      "name": "shallow src/core2/work-attendance.ts",
+      "seconds": 20.06455299999999
+    },
+    {
+      "name": "(anonymous) src/core2/modules/life.ts",
+      "seconds": 19.582537000000052
+    },
+    {
+      "name": "availableActs src/core2/life.ts",
+      "seconds": 18.70095300000003
+    },
+    {
+      "name": "readLedger src/core2/work-pay-period.ts",
+      "seconds": 18.614144999999994
+    },
+    {
+      "name": "addDays src/simulation/dates.ts",
+      "seconds": 18.540405
+    },
+    {
+      "name": "dispatchStatus src/core2/work-payroll-dispatch.ts",
+      "seconds": 16.798724999999997
+    },
+    {
+      "name": "seal src/core2/finance-plan.ts",
+      "seconds": 16.642650000000042
+    },
+    {
+      "name": "(anonymous) src/core2/life.ts",
+      "seconds": 16.105596000000048
+    },
+    {
+      "name": "keys src/core2/finance-plan.ts",
+      "seconds": 14.080723000000019
+    },
+    {
+      "name": "monthBoundary src/core2/work-pay-period.ts",
+      "seconds": 13.95522600000002
+    },
+    {
+      "name": "detach src/core2/finance-plan.ts",
+      "seconds": 13.119606000000013
+    },
+    {
+      "name": "same src/core2/work-payroll-cash.ts",
+      "seconds": 13.08050900000002
+    },
+    {
+      "name": "ownedRequest src/core2/work-payroll-dispatch.ts",
+      "seconds": 12.51270499999999
+    },
+    {
+      "name": "prepareWorkFinancePlan src/core2/finance-plan.ts",
+      "seconds": 11.695309000000012
+    },
+    {
+      "name": "mapGet src/core2/finance-plan.ts",
+      "seconds": 10.68838900000001
+    },
+    {
+      "name": "(anonymous) src/core2/work-payroll-cash.ts",
+      "seconds": 10.092716999999999
+    },
+    {
+      "name": "chooseAct src/core2/choice.ts",
+      "seconds": 9.864394000000026
+    },
+    {
+      "name": "availableSource src/core2/work-pay-period.ts",
+      "seconds": 9.615787000000006
+    },
+    {
+      "name": "stage src/core2/work-payroll-cash.ts",
+      "seconds": 9.37101900000001
+    },
+    {
+      "name": "anchorPosition src/core2/work-pay-period.ts",
+      "seconds": 8.812722
+    },
+    {
+      "name": "(anonymous) src/core2/work-pay-period.ts",
+      "seconds": 8.351888000000002
+    },
+    {
+      "name": "relationship src/core2/state.ts",
+      "seconds": 8.349974999999997
+    },
+    {
+      "name": "sameEvidence src/core2/work-pay-period.ts",
+      "seconds": 7.7745580000000025
+    },
+    {
+      "name": "nextWorkPayrollPeriod src/core2/work-pay-period.ts",
+      "seconds": 7.719108999999995
+    },
+    {
+      "name": "copy src/core2/work-payroll-cash.ts",
+      "seconds": 7.403288999999991
+    },
+    {
+      "name": "copyRelationshipEvidence src/core2/state.ts",
+      "seconds": 7.211663999999999
+    },
+    {
+      "name": "mapSet src/core2/finance-plan.ts",
+      "seconds": 7.131175000000002
+    },
+    {
+      "name": "#next src/core2/finance-plan.ts",
+      "seconds": 6.886592000000002
+    },
+    {
+      "name": "refreshNeeds src/core2/life.ts",
+      "seconds": 6.707757000000004
+    },
+    {
+      "name": "(anonymous) src/core2/work-attendance.ts",
+      "seconds": 6.688958999999994
+    },
+    {
+      "name": "projectWorkNeeds src/core2/life.ts",
+      "seconds": 6.542494000000001
+    },
+    {
+      "name": "makeIsoDate src/simulation/dates.ts",
+      "seconds": 6.497386
+    },
+    {
+      "name": "affectAt src/core2/emotion.ts",
+      "seconds": 6.290024000000006
+    },
+    {
+      "name": "basis src/core2/work-attendance.ts",
+      "seconds": 6.079371000000001
+    },
+    {
+      "name": "parameter src/core2/work-attendance.ts",
+      "seconds": 5.828375000000006
+    },
+    {
+      "name": "knownPublicTargets src/core2/modules/life.ts",
+      "seconds": 5.505862999999998
+    },
+    {
+      "name": "calendar src/core2/work-pay-period.ts",
+      "seconds": 5.249576999999997
+    },
+    {
+      "name": "references src/core2/work-payroll-cash.ts",
+      "seconds": 5.001521000000003
+    },
+    {
+      "name": "availableSource src/core2/work-attendance.ts",
+      "seconds": 4.951284000000001
+    },
+    {
+      "name": "dateTime src/core2/emotion.ts",
+      "seconds": 4.519636999999997
+    },
+    {
+      "name": "#owner src/core2/finance-plan.ts",
+      "seconds": 4.025320000000002
+    },
+    {
+      "name": "array src/core2/finance-plan.ts",
+      "seconds": 3.8059209999999974
+    },
+    {
+      "name": "utcDate src/simulation/dates.ts",
+      "seconds": 3.715067000000001
+    }
+  ],
+  "method": "timeDeltas[i]; each retained sample in one module and one step; recursion counted once for inclusive witnesses; deepest matching special step then deepest broad match"
+}

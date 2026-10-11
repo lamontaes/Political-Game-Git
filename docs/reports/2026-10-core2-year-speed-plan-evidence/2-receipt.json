@@ -1,0 +1,207 @@
+{
+  "schema": "core2-profiled-year-v1",
+  "selected": {
+    "index": 2,
+    "state": {
+      "usps": "FL",
+      "jurisdictionKey": "US-FL",
+      "name": "Florida"
+    },
+    "place": {
+      "key": "1258420",
+      "displayName": "Port LaBelle, Florida",
+      "formalName": "Port LaBelle",
+      "withinName": "Florida",
+      "context": {
+        "jurisdiction": {
+          "id": "jurisdiction_98526dadfe089db9",
+          "slug": "us-place-1258420",
+          "name": "Port LaBelle, Florida",
+          "kind": "census-place",
+          "parentName": "Florida",
+          "provenance": {
+            "asOf": "2026-01-05",
+            "source": "census-gazetteer-2025-places-zip",
+            "jurisdiction": "jurisdiction_98526dadfe089db9",
+            "status": "approved"
+          }
+        },
+        "initialMoment": {
+          "date": "2026-01-05",
+          "minuteOfDay": 550,
+          "timeZone": "America/New_York",
+          "utcOffsetMinutes": -300
+        },
+        "creationSummary": "Seeded world in Port LaBelle, Florida, from the 2025 Census Gazetteer place identity.",
+        "goalScope": "Port LaBelle, Florida",
+        "householdLocationLabel": "Port LaBelle, Florida"
+      },
+      "scope": "locality",
+      "stateJurisdictionKey": "US-FL",
+      "capabilities": {
+        "legislativeScenarioKey": null,
+        "candidacyPackId": null
+      },
+      "sourceGeoid": "1258420"
+    },
+    "seed": "speed-plan-all56-2026-10-11-v1:world:2"
+  },
+  "place": {
+    "key": "1258420",
+    "name": "Port LaBelle, Florida",
+    "countyNames": "Glades County, Florida; Hendry County, Florida",
+    "referencePopulation": "7923"
+  },
+  "revision": "379971ea6cc22ffa044a475f89da15aec4178635",
+  "sourceTree": "da463e9b63987084ce946f8bd2db2ec415698d24",
+  "inputHash": "492e030aedaf758576dfe22a5f49701bd70c6de50a9ba02b9b3324a6606f56cc",
+  "startUtc": "2026-10-11T05:25:08.433Z",
+  "endUtc": "2026-10-11T05:36:05.175Z",
+  "phases": {
+    "population": 3494.3481829999996,
+    "deepPast": 429.1990169999999,
+    "civicInputs": 3.595195999999305,
+    "openingPeers": 129.02079699999922
+  },
+  "initializeMilliseconds": 475.9033929999987,
+  "advanceMilliseconds": 644230.193156,
+  "elapsedMilliseconds": 644714.8424989999,
+  "days": 365,
+  "acts": 1051121,
+  "decisions": 1051121,
+  "months": [
+    {
+      "throughDate": "2021-02-01",
+      "simulatedDays": 31,
+      "decisions": 84496,
+      "acts": 84496,
+      "milliseconds": 43281.355848,
+      "rssMiB": 4283.765625,
+      "heapMiB": 3133.2555541992188
+    },
+    {
+      "throughDate": "2021-03-01",
+      "simulatedDays": 28,
+      "decisions": 81308,
+      "acts": 81308,
+      "milliseconds": 48954.579324000006,
+      "rssMiB": 5106.54296875,
+      "heapMiB": 3357.2478561401367
+    },
+    {
+      "throughDate": "2021-04-01",
+      "simulatedDays": 31,
+      "decisions": 85566,
+      "acts": 85566,
+      "milliseconds": 53045.388859,
+      "rssMiB": 5252.71484375,
+      "heapMiB": 2113.475730895996
+    },
+    {
+      "throughDate": "2021-05-01",
+      "simulatedDays": 30,
+      "decisions": 93152,
+      "acts": 93152,
+      "milliseconds": 55194.671103,
+      "rssMiB": 5265.21875,
+      "heapMiB": 3652.824821472168
+    },
+    {
+      "throughDate": "2021-06-01",
+      "simulatedDays": 31,
+      "decisions": 86096,
+      "acts": 86096,
+      "milliseconds": 54086.301154000015,
+      "rssMiB": 5404.20703125,
+      "heapMiB": 4518.969367980957
+    },
+    {
+      "throughDate": "2021-07-01",
+      "simulatedDays": 30,
+      "decisions": 83447,
+      "acts": 83447,
+      "milliseconds": 52385.10459499998,
+      "rssMiB": 5501.28125,
+      "heapMiB": 2250.39070892334
+    },
+    {
+      "throughDate": "2021-08-01",
+      "simulatedDays": 31,
+      "decisions": 93816,
+      "acts": 93816,
+      "milliseconds": 54461.08182599995,
+      "rssMiB": 5560.62890625,
+      "heapMiB": 3192.5640716552734
+    },
+    {
+      "throughDate": "2021-09-01",
+      "simulatedDays": 31,
+      "decisions": 86298,
+      "acts": 86298,
+      "milliseconds": 58286.37933700002,
+      "rssMiB": 5621.6171875,
+      "heapMiB": 2843.0119705200195
+    },
+    {
+      "throughDate": "2021-10-01",
+      "simulatedDays": 30,
+      "decisions": 93498,
+      "acts": 93498,
+      "milliseconds": 54785.91256899998,
+      "rssMiB": 5717.7734375,
+      "heapMiB": 2493.4483795166016
+    },
+    {
+      "throughDate": "2021-11-01",
+      "simulatedDays": 31,
+      "decisions": 84725,
+      "acts": 84725,
+      "milliseconds": 56769.905954000016,
+      "rssMiB": 5756.9296875,
+      "heapMiB": 4176.1845779418945
+    },
+    {
+      "throughDate": "2021-12-01",
+      "simulatedDays": 30,
+      "decisions": 83902,
+      "acts": 83902,
+      "milliseconds": 56222.988885,
+      "rssMiB": 5871.59765625,
+      "heapMiB": 2906.720054626465
+    },
+    {
+      "throughDate": "2022-01-01",
+      "simulatedDays": 31,
+      "decisions": 94817,
+      "acts": 94817,
+      "milliseconds": 56756.523702000035,
+      "rssMiB": 5918.50390625,
+      "heapMiB": 5026.217109680176
+    }
+  ],
+  "peakRssMiB": 5945.53125,
+  "opening": {
+    "bytes": 233463137,
+    "residents": 10002,
+    "sourceShare": 0.6216472196208004,
+    "budget": {
+      "passed": true,
+      "maxBytesPerResident": 80554,
+      "maxSourceByteShare": 0.7491419523895138,
+      "sourceShareUsed": "declaredConservativeSourceByteShare",
+      "violations": []
+    }
+  },
+  "settings": {
+    "observer": false,
+    "scheduledWork": true,
+    "samplingIntervalMicroseconds": 10000
+  },
+  "profileSha256": "2c30c8ac804a5fea1e1437b9fabab3a0816aa8480726c6d68d1c0c4859b8d095",
+  "host": {
+    "hostname": "bbe4eeeb0236",
+    "node": "v24.19.0",
+    "cpu": "AMD EPYC 9V74 80-Core Processor",
+    "cpuCount": 5
+  }
+}

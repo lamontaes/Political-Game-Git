@@ -1,0 +1,161 @@
+{
+  "selected": {
+    "index": 1,
+    "state": {
+      "usps": "AZ",
+      "jurisdictionKey": "US-AZ",
+      "name": "Arizona"
+    },
+    "place": {
+      "key": "0439720",
+      "displayName": "Lake Montezuma, Arizona",
+      "formalName": "Lake Montezuma",
+      "withinName": "Arizona",
+      "context": {
+        "jurisdiction": {
+          "id": "jurisdiction_b2aee513976db946",
+          "slug": "us-place-0439720",
+          "name": "Lake Montezuma, Arizona",
+          "kind": "census-place",
+          "parentName": "Arizona",
+          "provenance": {
+            "asOf": "2026-01-05",
+            "source": "census-gazetteer-2025-places-zip",
+            "jurisdiction": "jurisdiction_b2aee513976db946",
+            "status": "approved"
+          }
+        },
+        "initialMoment": {
+          "date": "2026-01-05",
+          "minuteOfDay": 550,
+          "timeZone": "America/Phoenix",
+          "utcOffsetMinutes": -420
+        },
+        "creationSummary": "Seeded world in Lake Montezuma, Arizona, from the 2025 Census Gazetteer place identity.",
+        "goalScope": "Lake Montezuma, Arizona",
+        "householdLocationLabel": "Lake Montezuma, Arizona"
+      },
+      "scope": "locality",
+      "stateJurisdictionKey": "US-AZ",
+      "capabilities": {
+        "legislativeScenarioKey": null,
+        "candidacyPackId": null
+      },
+      "sourceGeoid": "0439720"
+    },
+    "seed": "speed-plan-all56-2026-10-11-v1:world:1"
+  },
+  "revision": "379971ea6cc22ffa044a475f89da15aec4178635",
+  "inputHash": "37d13e42a87e0c61b27e1b3c83c78defaec9400516cb077e06e42ed6b19ba6c5",
+  "days": 365,
+  "months": [
+    {
+      "throughDate": "2021-02-01",
+      "simulatedDays": 31,
+      "decisions": 87744,
+      "acts": 87744,
+      "milliseconds": 47054.481561,
+      "rssMiB": 3892.58984375,
+      "heapMiB": 2949.337562561035
+    },
+    {
+      "throughDate": "2021-03-01",
+      "simulatedDays": 28,
+      "decisions": 83168,
+      "acts": 83168,
+      "milliseconds": 52834.573519000005,
+      "rssMiB": 4967.44140625,
+      "heapMiB": 1294.282569885254
+    },
+    {
+      "throughDate": "2021-04-01",
+      "simulatedDays": 31,
+      "decisions": 88477,
+      "acts": 88477,
+      "milliseconds": 57919.79722700002,
+      "rssMiB": 5211.046875,
+      "heapMiB": 2656.7151641845703
+    },
+    {
+      "throughDate": "2021-05-01",
+      "simulatedDays": 30,
+      "decisions": 95228,
+      "acts": 95228,
+      "milliseconds": 58124.302278999996,
+      "rssMiB": 5283.52734375,
+      "heapMiB": 3934.460807800293
+    },
+    {
+      "throughDate": "2021-06-01",
+      "simulatedDays": 31,
+      "decisions": 87984,
+      "acts": 87984,
+      "milliseconds": 59436.61682399997,
+      "rssMiB": 5355.3125,
+      "heapMiB": 3262.977180480957
+    },
+    {
+      "throughDate": "2021-07-01",
+      "simulatedDays": 30,
+      "decisions": 87238,
+      "acts": 87238,
+      "milliseconds": 57354.143114000035,
+      "rssMiB": 5430.0234375,
+      "heapMiB": 4988.66756439209
+    },
+    {
+      "throughDate": "2021-08-01",
+      "simulatedDays": 31,
+      "decisions": 96025,
+      "acts": 96025,
+      "milliseconds": 62883.20954400004,
+      "rssMiB": 5542.04296875,
+      "heapMiB": 2233.410446166992
+    },
+    {
+      "throughDate": "2021-09-01",
+      "simulatedDays": 31,
+      "decisions": 88418,
+      "acts": 88418,
+      "milliseconds": 58572.52392399998,
+      "rssMiB": 5588.18359375,
+      "heapMiB": 4990.952041625977
+    },
+    {
+      "throughDate": "2021-10-01",
+      "simulatedDays": 30,
+      "decisions": 96166,
+      "acts": 96166,
+      "milliseconds": 65742.39212600002,
+      "rssMiB": 5641.7109375,
+      "heapMiB": 3238.1261138916016
+    },
+    {
+      "throughDate": "2021-11-01",
+      "simulatedDays": 31,
+      "decisions": 87462,
+      "acts": 87462,
+      "milliseconds": 60036.92907100008,
+      "rssMiB": 5742.95703125,
+      "heapMiB": 2494.317657470703
+    },
+    {
+      "throughDate": "2021-12-01",
+      "simulatedDays": 30,
+      "decisions": 86741,
+      "acts": 86741,
+      "milliseconds": 60655.73823800008,
+      "rssMiB": 5792.74609375,
+      "heapMiB": 2933.9776458740234
+    },
+    {
+      "throughDate": "2022-01-01",
+      "simulatedDays": 31,
+      "decisions": 96965,
+      "acts": 96965,
+      "milliseconds": 66518.95091300004,
+      "rssMiB": 5919.6640625,
+      "heapMiB": 3352.8363723754883
+    }
+  ]
+}

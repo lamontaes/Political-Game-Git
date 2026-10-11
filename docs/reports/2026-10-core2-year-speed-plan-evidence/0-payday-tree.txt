@@ -1,0 +1,24 @@
+ROOT settleWorkPayrollJournal: 233820ms self 824
+  99052ms (self 20) completeJournalSource src/core2/state.ts
+    99032ms (self 546) completeCashJournalSource src/core2/journal-state.ts
+  59090ms (self 94) postJournal src/core2/state.ts
+    58996ms (self 922) postCashJournal src/core2/journal-state.ts
+  24810ms (self 2534) prepare src/core2/work-payroll-cash.ts
+    14240ms (self 2581) prepareWorkPayrollSettlement src/core2/work-pay-period.ts
+    4778ms (self 64) prepareWorkFinancePlan src/core2/finance-plan.ts
+    1852ms (self 151) references src/core2/work-payroll-cash.ts
+  18299ms (self 1313) seal src/core2/finance-plan.ts
+    7034ms (self 1081) seal src/core2/finance-plan.ts
+    4758ms (self 3901) verify src/core2/finance-plan.ts
+    3731ms (self 2296) detach src/core2/finance-plan.ts
+    1134ms (self 192) payload src/core2/finance-plan.ts
+  14295ms (self 257) currentContext src/core2/work-payroll-cash.ts
+    7391ms (self 1121) prepareWorkPayrollRequest src/core2/work-pay-period.ts
+    1660ms (self 71) nextWorkPayrollPeriod src/core2/work-pay-period.ts
+    1318ms (self 405) payload src/core2/finance-plan.ts
+    1163ms (self 95) owningBasis src/core2/work-payroll-cash.ts
+  10105ms (self 1212) stage src/core2/work-payroll-cash.ts
+    7037ms (self 30) mapSet src/core2/finance-plan.ts
+  3057ms (self 675) payload src/core2/finance-plan.ts
+    1396ms (self 672) payload src/core2/finance-plan.ts
+  1967ms (self 942) copy src/core2/work-payroll-cash.ts
