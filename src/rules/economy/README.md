@@ -1,70 +1,15 @@
-# P14 economy shelf — RULES-2 hand-off
+# P14 economy — RULES-2 tested checkpoint, still active
 
-Owner-approved REVIEW 25 order: offices #3946, elections #3948,
-legislature/council #3950, laws #3931, then this transferred branch (#3932).
-The continuation plan was posted in the draft PR before implementation: add the
-exact-quantity KEEP calculations, compare unchanged legacy behavior over all 56
-place identities, bring inherited stopgaps to the core2 schema, and run scoped
-gates. Courts and press remain parked. The existing eviction calculation was
-inherited from RULES-1; this continuation adds no court rules.
+Owner-approved REVIEW 25: local/state/federal together, continuing transferred draft #3932 on `pool/P14-laws` after offices/elections/legislature/laws. Current main `47b1406a4c` and the preceding gates are included. Old engines are unchanged. Courts and press remain parked; separate outcome ownership stays with RULES-4 #3933.
 
-The shelf now fully lifts 286 inventory KEEP lines: the inherited 126 plus 160
-for `createExactQuantity` (21), `compareExactQuantities` (20),
-`multiplyExactQuantities` (29), `divideExactQuantities` (21),
-`scaleSafeIntegerByExactShare` (21), `combineExactQuantities` (31),
-`greatestCommonDivisor` (10), and `safeMultiply` (7). The 351 inherited partial
-lines remain partial. World/history selection and orchestration stay with their
-callers. Private unit and canonical-form validation supports the calculations
-but is not counted as KEEP coverage. No legacy engine is edited or switched.
+The first CTO send-back withdrew the old stock World/private-helper blockers. The [ledger](KEEP-DISPOSITION.md) now records **93 physical closures**: 38 inherited full rules and 55 additional retained math/helper closures. **166 owned source functions remain pending**; absent code is not claimed lifted. Private helpers/constants travel with the owning rule. Own public raw-fact/output kernels are compared with unchanged native public callers on the same generated Worlds across all 56 places. No exhaustive proof, finisher grade or playable core2 step is claimed.
 
-Golden tests compare results and error names/messages with the unchanged public
-legacy quantity functions for every place. They exercise reduction, negatives,
-zero, incompatible units, canonical-form rejection, fractional integer scaling,
-and safe-integer overflow. The rules retain Number arithmetic and its exact
-error behavior.
+The five new all-place golden files cover macro/credit/national and local month records, central-bank actor requests/votes and president succession, business/population/home-value/poverty/living-cost source selection, employment/workplace/business/bank/cash/student-rate selectors, and dated-cash positions/payments/minima/cache fallback. Actual startup records and ordinary raw sources come from native producers. Authored employment, shocks, age, choices, calendar and payment controls are labeled edge cases; they are not ordinary NPC-play evidence.
 
-`stopgaps.json` has 19 open entries with all ten core2 fields and in-code
-markers. The test checks production source coverage, unique IDs, and exact
-locations. The CTO should review `economy.quantity-intermediate-overflow`: an
-intermediate product can overflow even when the final comparison/result could
-be represented. This suspected bug is lifted unchanged. The other 18 inherited
-assumptions remain registered, including local wage omissions, mortgage-rate
-proxies, housing and eviction estimates, payroll lag, and bank selection.
+**1,943 builder checks pass in 30 files (71.28 s)**, including 280 new all-place checks. Strict scoped TypeScript reports owned 0/dependencies 0. Scoped lint passes. Frozen [numeric provenance](legacy-parameters.ts) covers 51 production module contracts alongside inherited parameters. **46 exact OPEN registrations** preserve old estimates and suspected defects; see the [CTO list](CTO-SUSPECTED-BUGS.md).
 
-Two inherited housing test callbacks incorrectly used Vitest's second argument
-as a place index. Their fixtures now provide the index explicitly and assert
-finite values; the home-price series also uses valid months. Other fixture
-typing fixes and two production type annotations change no rule calculations.
+Fixture corrections before this clean run: dates use the native string constructor, absent selected records normalize to null, territories use the native national CES fallback, event transport normalizes participants/tags, copied name functions compare their realized labels, and attempted payment matches its saved terms. The earlier bank-opening integration failure at `paidBank` was not rerun or repaired. The markdown formatting gate required formatting regenerated tables; no production code changed for that correction.
 
-Validation: 1,607 tests pass in 24 files; the corrected job-history fixture also
-passes its focused rerun. Owned TypeScript diagnostics: zero; 102 diagnostics
-remain in imported legacy dependencies. Scoped ESLint, Prettier, diff checks,
-zero-dice, and release PR checks are recorded in the PR after completion.
-The inherited bank-opening integration result remains 58/60 failures because
-`paidBank` cannot find an opened organization; this continuation does not
-repair or rerun that legacy failure. This is a pure shelf, not a playable
-core2 integration or a claim that the entire economy inventory is ported.
+Next: close remaining opening cash, fiscal/budget, housing/loan/rent/cost, employment/pay/business-finance and decision/ordered-effect math. Draft review does not block the authorized continuation. Separate finishing and CTO merge remain pending.
 
-RULES-2: GPT-6 (Codex); exact runtime variant and configured effort are not
-exposed, repository default medium. Continuation started 2026-10-11 00:48 UTC.
-Final elapsed time and seeded audit place are recorded in the PR. Usage/cost
-are not exposed.
-
-## Complete scoped KEEP disposition
-
-`KEEP-DISPOSITION.md` and `keep-disposition.json` account for all 259 economy
-inventory KEEP functions. Renamed and inlined inherited kernels have explicit
-source/destination mappings. Every whole-function blocker names its World/effect,
-research/policy closure, private owning pipeline or English contract; partial
-fact projections remain partial. This does not reclassify KEEP or claim that a
-future core2 adapter is impossible. Courts/press remain parked.
-
-The continuation adds completed hourly gross, operating income, joint cost-ratio
-estimation, retail revenue, fiscal/month arithmetic, bedroom/set-aside decisions,
-pay period/next payday/weekly hours, and shift predicates. Supporting date
-validation is not counted as engine KEEP coverage. Six additional CTO stopgaps
-preserve bedroom occupancy proxies, inclusionary rounding tolerance, the joint
-cost ratio, omitted nonpayroll operating costs, common payday assumptions, and
-missing required source keys escaping retail-source validation. No old engine
-is edited. All new calculations are golden-compared across all 56 identities,
-including errors and midnight shift boundaries; receipts are in #3932.
+Checkpoint hand-off: GPT-6 (Codex), exact runtime variant/configured effort unavailable; repository default medium; no helpers, usage/cost unavailable. Economy continuation began 2026-10-11 07:31 UTC; checkpoint about 08:04 UTC (33 minutes), still active. One CTO send-back for stock exclusions leaving KEEP math behind.
