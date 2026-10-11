@@ -10,6 +10,7 @@ import { addDays, ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { enrichCivicInputs } from "../civic-inputs";
 import { CLOSENESS, currentCloseness } from "../closeness";
 import { buildDeepPast } from "../deep-past";
+import { ENCOUNTERS } from "../encounters";
 import { advanceCore, createLifeCore } from "../life";
 import { OPENING_KIN } from "../opening-kin";
 import { buildPopulation } from "../population";
@@ -111,6 +112,12 @@ if (process.argv[1]?.endsWith("p15-closeness-receipt.ts")) {
       ).length,
   );
   const opening = closenessByTie(core);
+  // M0-07: each resident's closeness to everyone they have a tie with at the
+  // start, to count the ties that grew closer.
+  const startedOn = core.date;
+  const before = new Map<string, number>();
+  for (const row of core.relationships.values())
+    before.set(row.id, currentCloseness(core, row));
 
   const contacts = new Map<string, number>();
   const byActor = new Map<string, Map<string, number>>();
@@ -185,6 +192,69 @@ if (process.argv[1]?.endsWith("p15-closeness-receipt.ts")) {
     Math.max(...targets.values()),
   );
 
+  // M0-07: people met during the run, from the dated facts each side keeps.
+  const metByKind = new Map<string, number>();
+  const metBy = new Map<string, number>();
+  for (const person of residents)
+    for (const fact of person.pastFacts ?? [])
+      if (
+        fact.kind.startsWith(ENCOUNTERS.factKindPrefix) &&
+        fact.date >= startedOn
+      ) {
+        metByKind.set(fact.kind, (metByKind.get(fact.kind) ?? 0) + 1);
+        metBy.set(person.id, (metBy.get(person.id) ?? 0) + 1);
+      }
+  const closer = new Set<string>();
+  for (const row of core.relationships.values()) {
+    const start = before.get(row.id);
+    if (start === undefined || currentCloseness(core, row) <= start) continue;
+    closer.add(row.actorId);
+    closer.add(row.otherId);
+  }
+  const eighteen = residents
+    .filter(
+      (person) =>
+        ageOnDate(makeIsoDate(person.birthDate), makeIsoDate(startedOn)) ===
+        ADULT_AGE,
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const player = eighteen.length
+    ? eighteen[
+        Number.parseInt(
+          seed.replace(/[^0-9a-f]/gi, "").slice(0, 8) || "0",
+          16,
+        ) % eighteen.length
+      ]
+    : undefined;
+  const encounters = {
+    factsByKind: Object.fromEntries([...metByKind].sort()),
+    residentsWhoMetSomeone: metBy.size,
+    shareOfResidents: Number((metBy.size / residents.length).toFixed(3)),
+    adultsWithATieGrownCloser: adults.filter((person) => closer.has(person.id))
+      .length,
+    player: player && {
+      id: player.id,
+      name: `${player.givenName} ${player.familyName}`,
+      met: (player.pastFacts ?? [])
+        .filter(
+          (fact) =>
+            fact.kind.startsWith(ENCOUNTERS.factKindPrefix) &&
+            fact.date >= startedOn,
+        )
+        .map((fact) => ({
+          date: fact.date,
+          kind: fact.kind,
+          summary: fact.summary,
+        })),
+      tiesGrownCloser: [...core.relationships.values()].filter(
+        (row) =>
+          (row.actorId === player.id || row.otherId === player.id) &&
+          before.has(row.id) &&
+          currentCloseness(core, row) > before.get(row.id)!,
+      ).length,
+    },
+  };
+
   const receipt = {
     version: CLOSENESS.version,
     seed,
@@ -204,6 +274,7 @@ if (process.argv[1]?.endsWith("p15-closeness-receipt.ts")) {
     openingCloseness: opening,
     closenessAfter: closenessByTie(core),
     contactRates,
+    encounters,
     mostContactsWithOnePerson: summary(repeat),
     // Every act that happened, by effect, per resident per day.
     actsPerResidentDay: Object.fromEntries(
