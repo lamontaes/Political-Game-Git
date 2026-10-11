@@ -24,7 +24,7 @@
 ### Part 1: births
 
 1. **A birth comes from a couple's own circumstances:** partnership, ages, children already, money, housing, health and traits, through the shared chooser as a plan both partners agree to, with a pregnancy on record and a birth on its date. Real fertility rates by age and state are the check, never a draw.
-2. **The new person** is a full core2 person: kin from both parents, the household, a deep past that starts at birth, built through OPUS-PEOPLE's builders (call them; don't edit them).
+2. **The new person** is a full core2 person: kin from both parents, the household, a deep past that starts at birth. OPUS-PEOPLE's builders only create people at the opening, so build the newborn in this work order's own files, using the same kin record shape and the same temperament rules. Don't edit OPUS-PEOPLE's files: if you need an export or a change there, request it on #3956 and keep a registered stopgap until it lands.
 3. Births land in the household and the town's records, and grief, closeness and the story director see them through events.
 
 ### Part 2: moves and newcomers
