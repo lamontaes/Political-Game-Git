@@ -4,6 +4,13 @@ Newest first. One short entry per event: what changed for the player, the measur
 
 ## 2026-10-10
 
+- **RULES-4: law consequences and outcome web lifted, draft review.**
+  - Player behavior is unchanged; this is the reusable rule shelf for the later core2 ports.
+  - Measured in [the completion ledger](../../src/rules/outcome-web/inventory.json): all 49 scoped classifier KEEP functions are accounted for. Including audit overrides and supporting declarations, 71 are lifted and 15 have specific reasons they cannot be lifted intact.
+  - Measured in the focused shelf run: 622 tests pass in 11 files across all 56 places, including fan-out at all three government levels. The source hashes and production isolation checks pass. TypeScript, ESLint, formatting, zero-dice, and prose review pass.
+  - Failed and why: the initial monthly oracle import reached a legacy circular initialization error; the test now evaluates unchanged source. The first inventory check missed arrow declarations. Golden recipient boundaries exposed RULES-1's missing-cohort false result; the lift now preserves the old engine's throw. Eleven preserved gaps and suspected bugs are registered in [the CTO hand-off](../../src/rules/outcome-web/README.md).
+  - Next: separate finisher and CTO review on draft #3933; integration stays with the owning ports. No old engine or other P14 branch was changed.
+  - Model and cost: Codex GPT-6; deployed variant, runtime effort and usage are unavailable. Started October 10 at 9:33 p.m. Eastern; elapsed time is in the final PR comment. One read-only prose reviewer, no implementation helpers, no finisher send-backs.
 - **OPUS-PEOPLE (M0-people), parts 1 to 4 in review.**
   - What changes for the player: every resident of a generated town has relatives, a temperament, and an age and home that follow the place's records. Whether each relative is alive follows the life table for their own birth year. Homes now include grown children and groups of three or more housemates. Children attend real public schools from the P12 data, and employed residents know their coworkers. Closeness grows with time together and fades without it. Only people with a cause look up offices, meeting places and groups, and they stop once they know one.
   - Measured in the town of the P10 proof seed (Sacramento): adults by age are within 1.3 points of the city's ACS in every band. Children attend 132 elementary and 55 high schools, where before the town shared one per stage. 1,742 of 1,752 employed residents know 6.6 coworkers each. 31 days simulate in 86.7 s, against 87.1 s for part 2. The kin test seed draws Stanwood, Washington, which now matches its state's ACS on older adults' living arrangements.
