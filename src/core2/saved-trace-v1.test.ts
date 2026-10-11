@@ -6,6 +6,7 @@ import { DEFAULT_DATA, extendData } from "./data";
 import { parameter as p } from "./parameters";
 import { coreAPI, createCore } from "./state";
 import { resolveSavedTraceV1 } from "./saved-trace-v1";
+import { PEOPLE_MODULE } from "./modules/people";
 import type {
   CoreInput,
   CoreState,
@@ -216,6 +217,10 @@ function earn(core: CoreState) {
   advanceDate(core, "2021-01-02");
   return coreAPI(core).recordWorkAttendance(attendance(core));
 }
+function attendanceAfterOpening(core: CoreState): WorkAttendanceInput {
+  advanceDate(core, "2021-01-02");
+  return attendance(core);
+}
 function ref(
   trace: ReturnType<typeof resolveSavedTraceV1>,
   id: string,
@@ -240,6 +245,8 @@ function boundary(core: CoreState) {
     payrollRows: core.work.payrollCashSources.size,
     financeRows: core.finance.cashSources.size,
     attendanceRows: core.work.currentAttendanceJobByRecordId.size,
+    quietChoices: [...core.quietChoices],
+    quietChoiceIndex: [...core.quietChoiceByPerson],
   };
 }
 
@@ -305,6 +312,20 @@ describe("saved trace v1: actual saved-record queries, unexecuted by author", ()
     });
     expect(trace).not.toHaveProperty("scores");
     expect(ref(trace, row.sourceActId)?.status).toBe("missing-record");
+    expect(row.compactChoice).toBeUndefined();
+    expect(trace).not.toHaveProperty("compactChoice");
+    expect(
+      core.work.earnedPayPeriods.get(row.earnedPayPeriodId)!
+        .lastAttendanceBasis,
+    ).toBeUndefined();
+    const legacy = fresh(false),
+      legacyInput = attendanceAfterOpening(legacy);
+    delete legacyInput.decision!.compactChoice;
+    const legacyRow = coreAPI(legacy).recordWorkAttendance(legacyInput);
+    expect(
+      ref(resolveSavedTraceV1(legacy, legacyRow.id), legacyRow.sourceActId)
+        ?.status,
+    ).toBe("missing-record");
     core.work.currentAttendanceJobByRecordId.set(row.id, "not-the-owning-job");
     const before = boundary(core);
     expect(() => resolveSavedTraceV1(core, row.id)).toThrow(/index|owning/);
@@ -782,4 +803,398 @@ describe("saved trace mandatory typed-reference shape (SOURCE_ONLY, UNEXECUTED)"
       expect(mandatoryReferenceSnapshot(core)).toEqual(before);
     }
   });
+});
+
+describe("saved period original attendance basis", () => {
+  it("resolves the last genuine attendance after its current job entry is superseded", () => {
+    const core = fresh(false);
+    core.focusPersonIds.add("worker");
+    const first = earn(core),
+      periodId = first.earnedPayPeriodId;
+    advanceDate(core, "2021-01-09");
+    coreAPI(core).recordWorkAttendance(attendance(core));
+    expect(core.work.currentAttendanceJobByRecordId.has(first.id)).toBe(false);
+    const before = boundary(core),
+      trace = resolveSavedTraceV1(core, periodId);
+    expect(ref(trace, first.id)?.status).toBe("resolved-saved-record");
+    expect(boundary(core)).toEqual(before);
+    expect(trace).not.toHaveProperty("scores");
+  });
+  it("rejects a compact explanation with another actor before writing attendance", () => {
+    const core = fresh(false),
+      request = attendanceAfterOpening(core),
+      before = boundary(core);
+    request.decision = chooseAct(
+      core,
+      "worker",
+      [request.decision!.selected!],
+      undefined,
+      true,
+    );
+    request.decision!.compactChoice = {
+      ...request.decision!.compactChoice!,
+      actorId: "other",
+    };
+    expect(() => coreAPI(core).recordWorkAttendance(request)).toThrow(
+      /compact|actor/i,
+    );
+    expect(boundary(core)).toEqual(before);
+  });
+});
+
+describe("bounded quiet selections and relationship explanations", () => {
+  it("keeps outsider results without saved choices and records full choices on entering the focus circle", () => {
+    const core = fresh(false),
+      first = savedAct(core),
+      second = savedAct(core);
+    const before = boundary(core);
+    expect(core.quietChoices.size).toBe(0);
+    expect(core.quietChoiceByPerson.size).toBe(0);
+    expect(core.people.get("worker")!.actCount).toBe(2);
+    expect(core.people.get("worker")!.lastChoice).toBe(
+      second.decision.selected!.definition.id,
+    );
+    expect(core.people.get("worker")!.lastReason).toBe(
+      second.decision.reasonKey,
+    );
+    expect(resolveSavedTraceV1(core, first.id).status).toBe("record-not-found");
+    expect(resolveSavedTraceV1(core, second.id).status).toBe(
+      "record-not-found",
+    );
+    expect(boundary(core)).toEqual(before);
+    core.focusPersonIds.add("worker");
+    const full = savedAct(core);
+    expect(resolveSavedTraceV1(core, full.id)).toMatchObject({
+      scoresStatus: "saved",
+      compactChoice: full.decision.compactChoice,
+    });
+  });
+  it("rejects an unrelated nested choice under genuine relationship endpoints", () => {
+    const core = fresh(false),
+      api = coreAPI(core);
+    core.focusPersonIds.add("worker");
+    // P15: a contact offer carries the people module's tie-fading reason.
+    core.reasonProviders.set(
+      "tie-fading",
+      PEOPLE_MODULE.reasonProviders!["tie-fading"]!,
+    );
+    const offer = {
+      definition: core.data.actions.find((row) => row.effect === "contact")!,
+      targetId: "other",
+      availableHours: 8,
+      effortHours: 1,
+    };
+    const decision = chooseAct(core, "worker", [offer]);
+    api.relationship("worker", "other", "contact", 1, decision);
+    const row = [...core.relationships.values()][0]!,
+      before = boundary(core);
+    expect(resolveSavedTraceV1(core, row.id)).toMatchObject({
+      status: "saved",
+      compactChoice: decision.compactChoice,
+    });
+    expect(boundary(core)).toEqual(before);
+    const nested = row.latestChange!.decision!;
+    row.latestChange = {
+      ...row.latestChange!,
+      decision: {
+        ...nested,
+        actorId: "unrelated",
+        compactChoice: {
+          ...nested.compactChoice!,
+          actorId: "unrelated",
+          sourceRecordRefs: [{ kind: "person", id: "unrelated" }],
+        },
+      },
+    };
+    expect(() => resolveSavedTraceV1(core, row.id)).toThrow(
+      /actual change owner/,
+    );
+  });
+});
+
+// SOURCE_ONLY, UNEXECUTED. Append to saved-trace-v1.test.ts using its existing helpers.
+// All original bodies/assertions stay byte-identical.
+describe("saved payment and earned-period factual projections", () => {
+  it("keeps original payday amounts and Sources separate from actor utility scores", () => {
+    const core = fresh();
+    earn(core);
+    advanceDate(core, "2021-01-08");
+    const paid = coreAPI(core).settleWorkPayroll("work"),
+      before = boundary(core);
+    const trace = resolveSavedTraceV1(core, paid.id);
+    expect(trace.status).toBe("no-saved-reason");
+    expect(trace.scoresStatus).toBe("none-saved");
+    expect(trace).not.toHaveProperty("scores");
+    expect(trace.paymentCause).toMatchObject({
+      mechanism: "recorded-payroll-due",
+      receiptId: paid.id,
+      date: paid.date,
+      due: {
+        status: "saved",
+        dueAt: paid.dueAt,
+        fromAt: paid.fromAt,
+        throughAt: paid.throughAt,
+      },
+      priorArrearsStatus: "saved",
+      amounts: {
+        requestedMinor: paid.requestedMinor,
+        newlyDueMinor: paid.newlyDueMinor,
+        arrearsBeforeMinor: paid.arrearsBeforeMinor,
+        paidMinor: paid.paidMinor,
+        paidArrearsMinor: paid.paidArrearsMinor,
+        paidNewlyDueMinor: paid.paidNewlyDueMinor,
+        shortfallMinor: paid.shortfallMinor,
+        arrearsAfterMinor: paid.arrearsAfterMinor,
+      },
+    });
+    expect(trace.paymentCause!.sources.source).toEqual(paid.source);
+    expect(trace.paymentCause!.recordedReferences).toEqual(
+      core.work.payrollCashSources.get(paid.id)!.references,
+    );
+    expect(trace.paymentCause!.ownerRefs).toContainEqual({
+      kind: "person",
+      id: "worker",
+    });
+    expect(Object.isFrozen(trace.paymentCause!.amounts)).toBe(true);
+    expect(boundary(core)).toEqual(before);
+  });
+
+  it("reports standing payer legs while honestly declining to reconstruct advanced due terms", () => {
+    const core = fresh(),
+      paid = coreAPI(core).settleFinanceContract("standing-term");
+    const terms = core.finance.contracts.get(paid.contractId)!;
+    expect(terms.dueAt).not.toBe(paid.date);
+    const before = boundary(core),
+      trace = resolveSavedTraceV1(core, paid.id);
+    expect(trace.scoresStatus).toBe("none-saved");
+    expect(trace.status).toBe("no-saved-reason");
+    expect(trace.paymentCause).toMatchObject({
+      mechanism: "recorded-standing-transfer",
+      due: { status: "not-retained" },
+      priorArrearsStatus: "not-retained",
+      amounts: {
+        requestedMinor: paid.requestedMinor,
+        paidMinor: paid.paidMinor,
+        unfundedMinor: paid.unfundedMinor,
+        arrearsMinor: paid.arrearsMinor,
+      },
+    });
+    expect(trace.paymentCause!.payments).toEqual(paid.payments);
+    expect(trace.paymentCause!.sources.source).toEqual(paid.source);
+    expect(trace.paymentCause!.due).not.toHaveProperty("dueAt");
+    expect(boundary(core)).toEqual(before);
+  });
+
+  it("exposes an actual credit request without inventing historical borrower identities or utility", () => {
+    const core = fresh(true, p("zero")),
+      paid = coreAPI(core).drawCredit(
+        "recorded-facility",
+        p("minutesPerHour"),
+        core.data.finance!.reasons.borrowing,
+        "standing-term",
+      );
+    const before = boundary(core),
+      trace = resolveSavedTraceV1(core, paid.id);
+    expect(trace.scoresStatus).toBe("none-saved");
+    expect(trace.paymentCause).toMatchObject({
+      mechanism: "recorded-credit-request",
+      cashOwnerIdentityStatus: "facility-only",
+      due: { status: "not-applicable" },
+      amounts: {
+        requestedMinor: paid.requestedMinor,
+        transferredMinor: paid.transferredMinor,
+        principalBeforeMinor: paid.principalBeforeMinor,
+        principalAfterMinor: paid.principalAfterMinor,
+      },
+    });
+    expect(trace.paymentCause!.sources.source).toEqual(paid.source);
+    expect(trace.paymentCause!.ownerRefs).toEqual([
+      {
+        kind: core.data.finance!.cashJournal.relatedKinds.facility,
+        id: paid.facilityId,
+      },
+    ]);
+    expect(trace).not.toHaveProperty("reasons");
+    expect(boundary(core)).toEqual(before);
+  });
+
+  it("projects actual accrual and optional saved supporting attendance without calling it a payday choice", () => {
+    const core = fresh(false);
+    core.focusPersonIds.add("worker");
+    const attended = earn(core),
+      period = core.work.earnedPayPeriods.get(attended.earnedPayPeriodId)!;
+    const before = boundary(core),
+      trace = resolveSavedTraceV1(core, period.id);
+    expect(trace.status).toBe("no-saved-reason");
+    expect(trace.scoresStatus).toBe("none-saved");
+    expect(trace).not.toHaveProperty("paymentCause");
+    expect(trace.earnedPeriodCause).toMatchObject({
+      mechanism: "recorded-attendance-accrual",
+      recordId: period.id,
+      amounts: {
+        segmentCount: period.segmentCount,
+        plannedMinutes: period.plannedMinutes,
+        attendedMinutes: period.attendedMinutes,
+        earnedMinor: period.earnedMinor,
+      },
+      dates: {
+        fromAt: period.fromAt,
+        throughAt: period.throughAt,
+        dueAt: period.dueAt,
+        firstEarnedAt: period.firstEarnedAt,
+        lastEarnedAt: period.lastEarnedAt,
+      },
+    });
+    expect(period.lastAttendanceBasis?.compactChoice).toBeDefined();
+    expect(trace.earnedPeriodCause!.supportingChoiceStatus).toBe(
+      "saved-attendance-choice",
+    );
+    expect(trace.earnedPeriodCause!.lastAttendanceChoice).toEqual(
+      period.lastAttendanceBasis!.compactChoice,
+    );
+    expect(trace.earnedPeriodCause!.sources.source).toEqual(period.source);
+    expect(boundary(core)).toEqual(before);
+  });
+
+  it("rejects a payment amount accessor without invoking it or changing canonical state", () => {
+    const core = fresh();
+    earn(core);
+    advanceDate(core, "2021-01-08");
+    const paid = coreAPI(core).settleWorkPayroll("work"),
+      actual = core.work.payrollCashSources.get(paid.id)!;
+    const captured = structuredClone(actual);
+    let calls = p("zero");
+    Object.defineProperty(captured.result, "paidMinor", {
+      enumerable: true,
+      configurable: true,
+      get() {
+        calls += p("one");
+        return p("zero");
+      },
+    });
+    core.work.payrollCashSources.set(paid.id, captured);
+    const before = boundary(core),
+      descriptor = Object.getOwnPropertyDescriptor(
+        captured.result,
+        "paidMinor",
+      );
+    expect(() => resolveSavedTraceV1(core, paid.id)).toThrow(/direct own data/);
+    expect(calls).toBe(p("zero"));
+    expect(boundary(core)).toEqual(before);
+    expect(core.work.payrollCashSources.get(paid.id)).toBe(captured);
+    expect(
+      Object.getOwnPropertyDescriptor(captured.result, "paidMinor"),
+    ).toEqual(descriptor);
+  });
+});
+
+it("preserves genuine fractional attendance minutes in its earned-period explanation", () => {
+  const packet = input(),
+    minutes = 30.5;
+  const original = packet.workCommitments![0]!;
+  packet.workCommitments = [
+    {
+      ...original,
+      expectedWeeklyMinutes: minutes * p("daysPerWeek"),
+      slots: [{ ...original.slots[0]!, minutes }],
+    },
+  ];
+  packet.jobs = packet.jobs.map((job) => ({
+    ...job,
+    hoursDaily: minutes / p("minutesPerHour"),
+    wageDailyMinor: Math.floor((100 * minutes) / p("minutesPerHour")),
+  }));
+  const core = createCore(packet, { data });
+  advanceDate(core, "2021-01-02");
+  const request = attendance(core),
+    exact = (100 * minutes) / p("minutesPerHour");
+  request.plannedMinutes = minutes;
+  request.attendedMinutes = minutes;
+  request.earnedMinor = Math.floor(exact);
+  request.payRemainderMinor = exact - Math.floor(exact);
+  request.decision = chooseAct(core, "worker", [
+    {
+      ...request.decision!.selected!,
+      effortHours: minutes / p("minutesPerHour"),
+    },
+  ]);
+  request.reasonKey = request.decision.reasonKey;
+  const actual = coreAPI(core).recordWorkAttendance(request),
+    before = boundary(core);
+  const trace = resolveSavedTraceV1(core, actual.earnedPayPeriodId);
+  expect(trace.earnedPeriodCause!.amounts.plannedMinutes).toBe(minutes);
+  expect(trace.earnedPeriodCause!.amounts.attendedMinutes).toBe(minutes);
+  expect(trace.earnedPeriodCause!.amounts.earnedMinor).toBe(Math.floor(exact));
+  expect(boundary(core)).toEqual(before);
+});
+
+it("validates supplied outsider compact evidence before changing counters without saving it", () => {
+  const core = fresh(false),
+    api = coreAPI(core);
+  const offer = {
+    definition: core.data.actions.find((row) => row.id === "rest")!,
+    targetId: "worker",
+    availableHours: p("hoursPerDay"),
+    effortHours: p("one"),
+  };
+  const original = chooseAct(core, "worker", [offer], undefined, true),
+    before = boundary(core);
+  const wrongActor = {
+    ...original,
+    compactChoice: { ...original.compactChoice!, actorId: "other" },
+  };
+  const wrongContribution = {
+    ...original,
+    compactChoice: {
+      ...original.compactChoice!,
+      chosen: {
+        ...original.compactChoice!.chosen,
+        contributions: {
+          ...original.compactChoice!.chosen.contributions,
+          need: 999,
+        },
+      },
+    },
+  };
+  let calls = 0;
+  const getter = { ...original };
+  Object.defineProperty(getter, "compactChoice", {
+    get: () => {
+      calls++;
+      return original.compactChoice;
+    },
+  });
+  const inherited = Object.assign(
+    Object.create({ compactChoice: wrongActor.compactChoice }),
+    { ...original, compactChoice: undefined },
+  );
+  delete inherited.compactChoice;
+  const inheritedGetter = { ...original };
+  delete inheritedGetter.compactChoice;
+  Object.setPrototypeOf(
+    inheritedGetter,
+    Object.defineProperty({}, "compactChoice", {
+      get: () => {
+        calls++;
+        return original.compactChoice;
+      },
+    }),
+  );
+  for (const bad of [
+    wrongActor,
+    wrongContribution,
+    getter,
+    inherited,
+    inheritedGetter,
+  ]) {
+    expect(() => api.recordAct("worker", offer, core.date, bad)).toThrow(
+      /compact|contribution/i,
+    );
+    expect(boundary(core)).toEqual(before);
+  }
+  expect(calls).toBe(0);
+  api.recordAct("worker", offer, core.date, original);
+  expect(core.people.get("worker")!.actCount).toBe(1);
+  expect(core.quietChoices.size).toBe(0);
+  expect(core.quietChoiceByPerson.size).toBe(0);
 });
