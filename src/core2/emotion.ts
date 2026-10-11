@@ -1,6 +1,7 @@
 import content from "./data/content.json" with { type: "json" };
 import { P } from "./parameters";
 import { stopgap } from "./stopgaps";
+import { recordedTraitSource } from "./trait-source";
 import type {
   Affect,
   CoreEventInput,
@@ -38,7 +39,7 @@ export interface EventAppraisal {
 
 type AppraisalActor = Pick<
   PersonState,
-  "id" | "traits" | "traitSources" | "source" | "affect"
+  "id" | "traits" | "traitSources" | "sharedTraitSource" | "source" | "affect"
 >;
 
 function numeric(
@@ -166,7 +167,7 @@ function traitContribution(
     recordedValue,
     normalizedValue,
     multiplierDelta: normalizedValue * numeric(params, weightParameter),
-    source: actor.traitSources?.[traitId] ?? actor.source,
+    source: recordedTraitSource(actor, traitId) ?? actor.source,
   };
 }
 

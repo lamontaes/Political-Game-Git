@@ -1,4 +1,6 @@
 /** Developer-only dated observables. No target values enter the life chooser. */
+import type { WorkResult } from "../types";
+import type { WorkPayrollJournalReceipt } from "../work-payroll-cash";
 import {
   addDays,
   dateAtAge,
@@ -10,6 +12,7 @@ import configJson from "./work-observables.json" with { type: "json" };
 import { parameter, PARAMETERS, type Parameter } from "../parameters";
 import type { CoreInput, CoreState } from "../types";
 import { externalFlowObservables } from "./external-flow-observables";
+import { payrollStockObservables } from "./payroll-observables";
 
 export interface ExposureAgeRow {
   id: string;
@@ -273,10 +276,11 @@ export function summarizeWorkObservables(
           : config.crosswalkStatus,
     };
   });
+  const payrollStocks = payrollStockObservables(core);
   let plannedMinutes = zero,
     attendedMinutes = zero,
-    requestedMinor = zero,
-    paidMinor = zero,
+    requestedMinor = payrollStocks.legacyDiscretionaryEarnedMinor,
+    paidMinor = payrollStocks.legacyDiscretionaryPaidMinor,
     attendedDatedSegments = zero,
     absentDatedSegments = zero;
   for (const total of core.work.totalsByJob.values()) {
@@ -336,7 +340,36 @@ export function summarizeWorkObservables(
   )
     throw new Error("Measured money totals overflow minor units.");
   let latestCashReceiptFailures = zero;
-  for (const row of core.work.lastResultByJob.values()) {
+  const actualCashReceipts: Array<WorkResult | WorkPayrollJournalReceipt> = [
+      ...core.work.lastResultByJob.values(),
+    ],
+    seenGroups = new Set<string>();
+  for (const latest of core.work.latestPayrollByJob.values()) {
+    if ("groupReceiptId" in latest) {
+      const canonical = core.work.payrollCashSources.get(latest.groupReceiptId);
+      if (
+        !canonical ||
+        canonical.group !== true ||
+        canonical.id !== latest.id ||
+        canonical.result.id !== latest.groupReceiptId ||
+        (canonical.postedJournalSequence === undefined &&
+          canonical.completedAt === undefined) ||
+        !canonical.componentStates.some(
+          (state) =>
+            state.result === latest &&
+            canonical.result.components.includes(latest),
+        )
+      )
+        throw new Error(
+          "Work observer lost its actual conserving group cash source.",
+        );
+      if (!seenGroups.has(canonical.id)) {
+        seenGroups.add(canonical.id);
+        actualCashReceipts.push(canonical.result);
+      }
+    } else actualCashReceipts.push(latest);
+  }
+  for (const row of actualCashReceipts) {
     const directOutside = row.publicPayDue?.ownerId === row.organizationId;
     const payerValid = directOutside
       ? row.payerCashBeforeMinor === zero &&
@@ -368,6 +401,7 @@ export function summarizeWorkObservables(
       receiptHours,
     },
     money: {
+      ...payrollStocks,
       requestedMinor,
       paidMinor,
       shortfallMinor: requestedMinor - paidMinor,
@@ -380,7 +414,7 @@ export function summarizeWorkObservables(
       cashAndExternalFlowsConserved: cashAndExternalFlowsDeltaMinor === zero,
       latestCashReceiptFailures,
       scope:
-        "Actual liquid minor units across initialized residents and organizations; original opening sources are estimates. Requested minus paid is arithmetic unpaid amount, not a manufactured event or legal arrears determination.",
+        "Actual liquid minor units across initialized residents and organizations; original opening sources are estimates. Requested means earned across scheduled work and separately counted legacy discretionary paid work. The retained shortfall alias is earned minus paid, including scheduled accrual, scheduled arrears and cumulative unretried legacy discretionary shortfall; arrearsMinor retains scheduled debt scope.",
     },
     byAge,
     reference: {

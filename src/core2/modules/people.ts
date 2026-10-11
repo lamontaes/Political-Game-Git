@@ -18,6 +18,7 @@
 import { daysBetween, makeIsoDate } from "../../simulation/dates";
 import { CLOSENESS, hoursLost, openingClosenessHours } from "../closeness";
 import { GRIEF, griefToday, recordDeath } from "../grief";
+import { runDuePlannedActs } from "../free-block";
 import { OPENING_KIN } from "../opening-kin";
 import type {
   ActOffer,
@@ -131,6 +132,10 @@ export const PEOPLE_MODULE: CoreModule = {
   // Part 4: a death reaches the relatives who learn of it as grief.
   eventKinds: GRIEF.deathEventKinds,
   onEvent: (api, event, learnedBy) => recordDeath(api, event, learnedBy),
+  // Part 2b: acts planned for today that no other loop has run yet.
+  onAfterDay: (api) => {
+    runDuePlannedActs(api.state);
+  },
   needEvaluators: {
     // The children at home need care each day; the act meets it for the day.
     "dependent-care": (api, actor) =>

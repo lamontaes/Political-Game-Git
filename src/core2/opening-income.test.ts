@@ -189,6 +189,21 @@ function parameterRegistry(
 }
 
 describe("pure qualified opening retirement-income records", () => {
+  it("preserves award amounts and complete evidence with one shared trait Source", () => {
+    const original = person();
+    const compact = {
+      ...original,
+      traitSources: undefined,
+      sharedTraitSource: source,
+    };
+    const before = build(fixture([original]));
+    const after = build(fixture([compact]));
+    expect(after.input.finance).toEqual(before.input.finance);
+    expect(after.input.people[0]!.pastFacts).toEqual(
+      before.input.people[0]!.pastFacts,
+    );
+    expect(after.input.organizations).toEqual(before.input.organizations);
+  });
   it("builds career, qualified claim and award from an ordinary generated-record shape without preseeded income", () => {
     const input = fixture();
     const result = build(input);
