@@ -14,6 +14,7 @@
  */
 import { daysBetween, makeIsoDate } from "../../simulation/dates";
 import { CLOSENESS, hoursLost, openingClosenessHours } from "../closeness";
+import { runDuePlannedActs } from "../free-block";
 import { OPENING_KIN } from "../opening-kin";
 import type {
   ActOffer,
@@ -119,6 +120,10 @@ export const PEOPLE_MODULE: CoreModule = {
   id: PEOPLE_MODULE_ID,
   onDay: (api) => {
     shareHomeTime(api);
+  },
+  // Part 2b: acts planned for today that no other loop has run yet.
+  onAfterDay: (api) => {
+    runDuePlannedActs(api.state);
   },
   needEvaluators: {
     // The children at home need care each day; the act meets it for the day.

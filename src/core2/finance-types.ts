@@ -1,6 +1,7 @@
 import type { IsoDate, PersonId, Source, WorkResult } from "./types";
 import type { CashJournalSourceRef } from "./journal";
 import type { CashJournalPostedMarker } from "./journal-state";
+import type { WorkPayrollJournalReceipt } from "./work-payroll-cash";
 
 export interface HouseholdPurchaseCalendarInput {
   ruleId: string;
@@ -20,6 +21,9 @@ export interface HouseholdPurchaseCalendarBasis {
       | "opening-basis"
       | "job"
       | "commitment"
+      | "payroll-calendar"
+      | "earned-pay-period"
+      | "payroll-receipt"
       | "income-contract"
       | "income-award";
     source: Source;
@@ -213,7 +217,8 @@ export interface EmployerClosure {
   reasonKey: string;
   sourceReceiptId: string;
   /** Decision-free actual evidence survives superseded routine receipt compaction. */
-  cause: FinanceReceipt | Omit<WorkResult, "decision">;
+  cause:
+    FinanceReceipt | Omit<WorkResult, "decision"> | WorkPayrollJournalReceipt;
   endedJobIds: readonly string[];
   affectedPersonIds: readonly PersonId[];
   source: Source;

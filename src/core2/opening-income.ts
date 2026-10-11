@@ -9,6 +9,7 @@ import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import type { EntityId } from "../simulation/types";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
+import { recordedTraitSource } from "./trait-source";
 import type { FinanceContractInput, FinanceInput } from "./finance-types";
 import type {
   CoreInput,
@@ -597,7 +598,7 @@ export function buildOpeningRetirementIncome(
         data.contextKinds,
       );
       const traitValue = person.traits[data.contextTrait];
-      const traitSource = person.traitSources?.[data.contextTrait];
+      const traitSource = recordedTraitSource(person, data.contextTrait);
       if (!coverage && !context && (traitValue === undefined || !traitSource)) {
         quiet(person, data.reasons.missingContext!);
         continue;

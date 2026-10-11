@@ -1,4 +1,4 @@
-import { DEFAULT_WORK_DATA } from "./modules/work";
+import { DEFAULT_WORK_DATA } from "./work-data";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "./business-books";
 import finance from "./data/finance.json" with { type: "json" };
 import content from "./data/content.json" with { type: "json" };

@@ -3,6 +3,8 @@ import financeDataJson from "./data/finance.json" with { type: "json" };
 import openingDataJson from "./data/opening-finance.json" with { type: "json" };
 import type { FinanceContractInput, FinancePolicyData } from "./finance-types";
 import { dateSegments } from "./modules/work";
+import { FinanceReadGuard } from "./finance-plan";
+import { workPayPeriodAtIndex, workPayPeriodOnDate } from "./work-pay-period";
 import { parameter, PARAMETERS, type Parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
 import type {
@@ -100,7 +102,11 @@ export function createOpeningPurchaseCalendar(
   for (const id of people.keys())
     if (organizations.has(id))
       throw new Error(`Ambiguous opening calendar cash identity: ${id}`);
-  index(input.workCommitments ?? [], "commitment");
+  const commitments = index(input.workCommitments ?? [], "commitment");
+  const payrollCalendars = index(
+    input.workPayrollCalendars ?? [],
+    "payroll calendar",
+  );
   index(recordedContracts, "contract");
   const datedSource = (source: Source, id: string) => {
     if (
@@ -133,7 +139,12 @@ export function createOpeningPurchaseCalendar(
     rows.push(anchor);
     map.set(id, rows);
   };
-  const nextScheduledDate = (row: WorkCommitmentInput): string | undefined => {
+  const nextScheduledDate = (
+    row: WorkCommitmentInput,
+    earningFrom = firstAdvancedAt,
+    earningUntil?: string,
+    jobEnd?: string,
+  ): string | undefined => {
     const start = makeIsoDate(row.startsAt),
       anchor = makeIsoDate(row.anchorDate),
       end = row.endsAt === undefined ? undefined : makeIsoDate(row.endsAt);
@@ -167,7 +178,7 @@ export function createOpeningPurchaseCalendar(
           if (segment.minutes <= zero) continue;
           // A spill segment cannot exist before its original scheduled shift began.
           const from = [
-              firstAdvancedAt,
+              earningFrom,
               addDays(start, segment.offset - slot.offsetDays),
             ]
               .sort()
@@ -178,7 +189,12 @@ export function createOpeningPurchaseCalendar(
               ((fromOffset % row.periodDays) + row.periodDays) % row.periodDays,
             delay = (offset - residue + row.periodDays) % row.periodDays,
             dueAt = addDays(makeIsoDate(from), delay);
-          if ((!end || dueAt <= end) && (!earliest || dueAt < earliest))
+          if (
+            (!end || dueAt <= end) &&
+            (!jobEnd || dueAt < jobEnd) &&
+            (!earningUntil || dueAt < earningUntil) &&
+            (!earliest || dueAt < earliest)
+          )
             earliest = dueAt;
         }
         return {
@@ -217,14 +233,99 @@ export function createOpeningPurchaseCalendar(
     datedSource(job.source, job.id);
     datedSource(row.scheduleSource, row.id);
     datedSource(row.paySource, row.id);
-    const dueAt = nextScheduledDate(row),
+    const scheduledAt = nextScheduledDate(row),
       jobEnd = job.endsAt === undefined ? undefined : makeIsoDate(job.endsAt);
-    if (row.hourlyMinor <= zero || !dueAt || (jobEnd && dueAt >= jobEnd))
+    if (
+      row.hourlyMinor <= zero ||
+      !scheduledAt ||
+      (jobEnd && scheduledAt >= jobEnd)
+    )
       continue;
+    const calendar = row.payrollCalendarId
+      ? payrollCalendars.get(row.payrollCalendarId)
+      : undefined;
+    const reads = new FinanceReadGuard(),
+      units = { zero, one, monthsPerYear: p("monthsPerYear") };
+    if (
+      !calendar ||
+      reads.field(calendar, "id") !== row.payrollCalendarId ||
+      reads.field(calendar, "organizationId") !== row.organizationId ||
+      !reads
+        .array(reads.field(calendar, "workCommitmentIds"), zero, one)
+        .includes(row.id)
+    )
+      throw new Error(
+        `Opening income timing requires its owning employer payday calendar: ${row.id}`,
+      );
+    // Opening precedes runtime admission: qualify actual records and available full Sources.
+    workPayPeriodAtIndex(reads, calendar, zero, startedAt, units);
+    for (const basisId of reads.array(
+      reads.field(calendar, "basisRecordIds"),
+      zero,
+      one,
+    )) {
+      const record =
+        people.get(basisId) ??
+        jobs.get(basisId) ??
+        organizations.get(basisId) ??
+        commitments.get(basisId);
+      if (
+        !record ||
+        reads.field(record, "id") !== basisId ||
+        basisId === row.payrollCalendarId
+      )
+        throw new Error(
+          `Opening payroll calendar has no independent owning basis: ${basisId}`,
+        );
+      const evidence = record as { source?: Source; paySource?: Source },
+        source =
+          reads.field(evidence, "source") ?? reads.field(evidence, "paySource");
+      if (!source)
+        throw new Error(
+          `Opening payroll basis requires its full Source: ${basisId}`,
+        );
+      reads.payload(source, zero, one);
+      const tag = reads.field(source, "tag"),
+        asOf = makeIsoDate(reads.field(source, "asOf"));
+      if (
+        !["SOURCED", "ESTIMATED"].includes(tag) ||
+        !reads.field(source, "citation")?.trim() ||
+        asOf > startedAt ||
+        (tag === "ESTIMATED" && !reads.field(source, "estimatedFrom")?.trim())
+      )
+        throw new Error(
+          `Opening payroll basis Source is unavailable: ${basisId}`,
+        );
+    }
+    const earningFrom = [
+        firstAdvancedAt,
+        makeIsoDate(reads.field(calendar, "effectiveFrom")),
+        makeIsoDate(reads.field(calendar, "firstPeriodStartsAt")),
+      ]
+        .sort()
+        .at(-one)!,
+      rawUntil = reads.field(calendar, "effectiveUntil"),
+      firstAttendanceAt = nextScheduledDate(
+        row,
+        earningFrom,
+        rawUntil === undefined ? undefined : makeIsoDate(rawUntil),
+        jobEnd,
+      );
+    if (!firstAttendanceAt) {
+      reads.verify();
+      continue;
+    }
+    const period = workPayPeriodOnDate(
+      reads,
+      calendar,
+      firstAttendanceAt,
+      units,
+    );
+    reads.verify();
     add(wageByHousehold, person.householdId, {
-      dueAt,
-      ids: [job.id, row.id],
-      detail: `Owned work basis ${job.id}, ${row.id}; schedule/pay Sources remain on those records. This predicts neither attendance nor a paycheck.`,
+      dueAt: period.dueAt,
+      ids: [job.id, row.id, calendar.id],
+      detail: `Owned work basis ${job.id}, ${row.id}; recorded payroll calendar ${calendar.id} puts the first eligible earned period on ${period.dueAt}. All schedule, pay and calendar Sources remain on their owning records. This calendar opportunity predicts neither attendance nor a paycheck.`,
     });
   }
   const incomePolicy: Pick<FinancePolicyData, "recipientIncomeKinds"> =

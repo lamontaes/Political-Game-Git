@@ -10,8 +10,8 @@
   },
   "p8ParameterPreimage": {
     "path": "src/core2/data/parameters.json",
-    "sha256": "4645cbe0a58c1f83c3b1f432e6f324a44afa863dd2e6b3ff0e16d55359de7fee",
-    "meaning": "Exact central parameter table including business-book aggregate priors, the unmeasured opening cadence and a sourced reporting definition. No fitted coefficient or passed calibration is claimed."
+    "sha256": "312f6ae8b90e81f52f846f7b8fc307739e4b4ae3da1ad046d88d6637687df0d9",
+    "meaning": "Exact central parameter table, including 44 sourced opening payroll business weights and seven unmeasured calendar conventions. No fitted coefficient or passed calibration is claimed."
   },
   "status": "All currently bound TUNABLE rows have generic target pointers; every coefficient remains uncalibrated. New work/population observable bindings are applicability-blocked where their crosswalk, coverage or identifying evidence is absent. No route was executed by the candidate author.",
   "engineReferenceContract": "A TUNABLE may carry only checkRange: { ref: \"P9-GENERIC-ID\" | \"EMPIRICAL-GENERIC-ID\" }. The simulation ignores this developer-only pointer. P9 trajectories keep their pinned source/evaluator contract; external population observables have independently hashed source records and never pass through a P9 individual replay evaluator. A reference, contextual report or target pass does not identify a coefficient bound or close a stopgap.",
@@ -1545,6 +1545,62 @@
       "calibrationRange": null,
       "calibrated": false,
       "limitation": "P9 output comparison is a concrete end-to-end target. The target suite cannot identify this parameter separately and no numeric bound is asserted."
+    },
+    {
+      "parameter": "openingPayrollPrivatePhaseSpanFraction",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+      },
+      "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
+      "reviewNote": "Uniform opening WHO phase across one recorded cycle is unmeasured. Stable employer identity is not a future action draw."
+    },
+    {
+      "parameter": "openingPayrollPeriodEndLagDays",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+      },
+      "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
+      "reviewNote": "Five calendar days from inclusive period end is an authored opening convention. BLS gives no individual lag; county actual lag is a distinct example, not this private or education lag."
+    },
+    {
+      "parameter": "openingPayrollMonthlyBoundaryDay",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+      },
+      "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
+      "reviewNote": "First calendar day boundary is an authored month phase, not a measured employer term."
+    },
+    {
+      "parameter": "openingPayrollSemimonthlyFirstBoundaryDay",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+      },
+      "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
+      "reviewNote": "First of two civil-month boundaries is an authored convention, not measured by BLS."
+    },
+    {
+      "parameter": "openingPayrollSemimonthlySecondBoundaryDay",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+      },
+      "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
+      "reviewNote": "Sixteenth as the second civil-month boundary is an authored convention. Periods are real calendar half-months, never fixed fifteen days."
+    },
+    {
+      "parameter": "openingPayrollEducationBiweeklyWeight",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+      },
+      "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
+      "reviewNote": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership."
+    },
+    {
+      "parameter": "openingPayrollEducationMonthlyWeight",
+      "checkRange": {
+        "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
+      },
+      "mappingStatus": "applicability-blocked; contextual source does not identify individual convention",
+      "reviewNote": "Equal education-option weight is unmeasured. American University confirms the option but not national prevalence or modeled employer payroll-group membership."
     }
   ],
   "unreferencedRemovalReview": {
@@ -3970,7 +4026,7 @@
       ],
       "sourceFiles": {
         "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
-        "src/core2/data/parameters.json": "4645cbe0a58c1f83c3b1f432e6f324a44afa863dd2e6b3ff0e16d55359de7fee"
+        "src/core2/data/parameters.json": "312f6ae8b90e81f52f846f7b8fc307739e4b4ae3da1ad046d88d6637687df0d9"
       },
       "observations": [
         {
@@ -6644,6 +6700,293 @@
       "calibrationStatus": "blocked and unmeasured; actual published anchors are pinned, but startup-rank, interpolation, tail-span and individual/denominator crosswalk applicability remains unmeasured",
       "bindingStatus": "Real open TUNABLE binding; applicability-blocked. No matched cash-debit/balance adapter, distribution evaluator or coefficient identification has been executed.",
       "requiredTestRouteAfterImplementation": null
+    },
+    {
+      "id": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT",
+      "kind": "external empirical observable",
+      "revision": "bls2013-chart1-table1-sbc2021-au2020-cached-primary-v1",
+      "scope": "Independent contextual target only. Observed business frequency weights and dated employer examples cannot identify individual model phase/lag or national education/government/farm shares.",
+      "sources": [
+        {
+          "id": "bls-2013-private-frequency",
+          "title": "How frequently do private businesses pay workers?",
+          "publisher": "U.S. Bureau of Labor Statistics",
+          "url": "https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm"
+        },
+        {
+          "id": "santa-barbara-2021-pay-calendar",
+          "title": "2021 Biweekly Payroll Schedule",
+          "publisher": "County of Santa Barbara, Office of the Auditor Controller, Payroll Division",
+          "url": "https://essplus.co.santa-barbara.ca.us/ESS/PayrollCalendars/Calendars/2021%20Pay%20Schedule.pdf"
+        },
+        {
+          "id": "american-university-2020-payroll",
+          "title": "Important2020 Year-End Payroll and Tax-Related Deadlines",
+          "publisher": "American University, Payroll Office",
+          "url": "https://www.american.edu/finance/memos/important-2020-year-end-payroll-and-tax-related-deadlines.cfm"
+        }
+      ],
+      "sourceFiles": {
+        "src/core2/data/opening-payroll-frequency-reference.json": "fbd44e29f9e22aca7f2037c22703372c66186ba6854941121d21de309e42c771"
+      },
+      "observations": [
+        {
+          "quantity": "all-private reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 32.4,
+            "biweekly": 36.5,
+            "semimonthly": 19.8,
+            "monthly": 11.3
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "natural-resources-and-mining reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 44.2,
+            "biweekly": 25.5,
+            "semimonthly": 19.1,
+            "monthly": 11.2
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "construction reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 70.6,
+            "biweekly": 18.3,
+            "semimonthly": 5.2,
+            "monthly": 5.9
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "manufacturing reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 50.8,
+            "biweekly": 35.9,
+            "semimonthly": 9.5,
+            "monthly": 3.8
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "trade-transportation-and-utilities reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 36.1,
+            "biweekly": 37.3,
+            "semimonthly": 16.4,
+            "monthly": 10.2
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "information reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 10.2,
+            "biweekly": 43.7,
+            "semimonthly": 35.9,
+            "monthly": 10.2
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "financial-activities reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 18.0,
+            "biweekly": 33.9,
+            "semimonthly": 30.5,
+            "monthly": 17.6
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "professional-and-business-services reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 20.4,
+            "biweekly": 36.0,
+            "semimonthly": 28.0,
+            "monthly": 15.6
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "education-and-health-services reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 12.6,
+            "biweekly": 52.9,
+            "semimonthly": 22.9,
+            "monthly": 11.6
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "leisure-and-hospitality reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 28.9,
+            "biweekly": 46.2,
+            "semimonthly": 17.0,
+            "monthly": 7.9
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "other-services reported frequency weights",
+          "unit": "percent of single-pay-period private businesses",
+          "observedCounts": {
+            "weekly": 42.5,
+            "biweekly": 28.4,
+            "semimonthly": 17.1,
+            "monthly": 12.0
+          },
+          "dateWindow": {
+            "earliest": "2013-03-01",
+            "latest": "2013-03-31",
+            "precision": "reference month"
+          },
+          "sourceRefs": ["bls-2013-private-frequency"],
+          "sourceLocation": "Chart1 for overall; Table1 for industry",
+          "scope": "CES valid hours/earnings private single-pay-period businesses; government, all education, farm and multiple-pay-period scope excluded.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "Published county payperiod01 scheduled dates",
+          "unit": "scheduled civil calendar days",
+          "observedValue": 14,
+          "observedCounts": {
+            "periodLengthDays": 14,
+            "inclusiveEndToPaydayDays": 11
+          },
+          "dateWindow": {
+            "earliest": "2020-12-14",
+            "latest": "2021-01-07",
+            "precision": "published exact calendar dates"
+          },
+          "sourceRefs": ["santa-barbara-2021-pay-calendar"],
+          "sourceLocation": "PDFlines1,55\u201365; issuedNovember2020",
+          "periodStartsAt": "2020-12-14",
+          "periodThroughAt": "2020-12-27",
+          "paydayAt": "2021-01-07",
+          "limit": "Only this recorded county calendar; later holiday exceptions differ from the base lag.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        },
+        {
+          "quantity": "University explicitly named payroll frequencies",
+          "unit": "named employer options",
+          "observedCounts": {
+            "biweeklyOptionExists": 1,
+            "monthlyOptionExists": 1
+          },
+          "dateWindow": {
+            "earliest": "2020-12-24",
+            "latest": "2020-12-31",
+            "precision": "published final paycheck dates"
+          },
+          "sourceRefs": ["american-university-2020-payroll"],
+          "sourceLocation": "MemorandumDecember11,2020, lines118\u2013130",
+          "limit": "Option existence is not1:1 prevalence or national education weighting.",
+          "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
+        }
+      ],
+      "testRoute": {
+        "implementationStatus": "planned",
+        "routeStatus": "blocked; no matched employer payroll cohort evaluator executed",
+        "commandTemplate": "Root-owned fresh calendar inventory by eligible private source industry plus qualified dated employer calendar comparison; no actor outcome or survival tuning",
+        "evaluationContract": "Check opening employer frequency distribution against matched BLS single-period business cohort. Report public, education, farm and unknown-owner extrapolations separately. Compare actual qualified period bounds/paydates before any phase/lag or legal/holiday claim. Individual phase/lag, monthly boundaries, education mix and crosswalk coefficients remain unidentified; aggregate frequency equality cannot calibrate them."
+      },
+      "parameterApplicability": "TUNABLEs are explicit unmeasured conventions. Source observations do not provide coefficient intervals, actual fictional employer terms, national education weights or legal compliance. No calibration closure, future payment/attendance forecast, deficit rescue, cash creation or speed gain follows from structural source bindings.",
+      "calibrationStatus": "blocked and unmeasured; real contextual observations pinned, individual model conventions and generated-employer crosswalk uncalibrated",
+      "bindingStatus": "Open applicability-blocked contextual references"
     }
   ],
   "jointTargetRef": "P9-OUTCOME-WHOLE-LIFE",
@@ -6838,11 +7181,12 @@
   "empiricalSourceFiles": {
     "src/core2/data/resident-employment.json": "6b283dab0ed5d3c95a9b12c3227372992eee948333ffe0410048b81d7bd1f4c0",
     "src/core2/data/time-use-reference.json": "c60d48d0d9633883487a324255fd36f5cfb3a93d79216ab9a86e915d15754437",
-    "src/core2/data/parameters.json": "4645cbe0a58c1f83c3b1f432e6f324a44afa863dd2e6b3ff0e16d55359de7fee",
+    "src/core2/data/parameters.json": "312f6ae8b90e81f52f846f7b8fc307739e4b4ae3da1ad046d88d6637687df0d9",
     "data/research/money/public-programs-2026.json": "dc577439edac9cb16ae022156b0cec92cff96933d9f651f3836f131e841e8193",
     "data/research/money/federal-budget-fy2025.json": "a37720bb90b8050ac846542e30ff9e57a8e54cb3ee2f3ec35aa93f25c15927ac",
     "data/research/money/opening-customer-cex-2024.json": "88f9f8b9f59b45a8d55d2d5612c754daee23a993bfe476823325015ba2ac535b",
     "src/core2/data/opening-employer-cash-reference.json": "cbc4f26a3ebfa9d098e2dd44614bb1315c322a1199b20c7c284c7c68a3abd8af",
-    "data/research/money/opening-employer-cash-buffers.json": "d6a20e11c0db0532146704c429070bf1da5b6f66b1beec4efc1f62981910f198"
+    "data/research/money/opening-employer-cash-buffers.json": "d6a20e11c0db0532146704c429070bf1da5b6f66b1beec4efc1f62981910f198",
+    "src/core2/data/opening-payroll-frequency-reference.json": "8d6419c8b47a8404679e3d2a1e4a00fea8652b0e41d57400d0e2f4ba919818f1"
   }
 }

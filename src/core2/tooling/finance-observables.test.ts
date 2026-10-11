@@ -3,8 +3,16 @@ import { describe, expect, it } from "vitest";
 import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
 import { DEFAULT_DATA, extendData } from "../data";
 import { chooseAct } from "../life";
+import { advanceDate } from "../calendar";
 import { LIFE_MODULE } from "../modules/life";
-import { runScheduledWork } from "../modules/work";
+import {
+  discretionaryHours,
+  plannedWorkMinutesOnDate,
+  runScheduledWork,
+  WORK_MODULE,
+} from "../modules/work";
+import { runWorkPayrollDay } from "../work-payroll-dispatch";
+import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import { parameter as p } from "../parameters";
 import { coreAPI, createCore } from "../state";
 import type { FinanceContractInput } from "../finance-types";
@@ -212,6 +220,84 @@ function fixtureInput(options: Options = {}): CoreInput {
 function fixture(options: Options = {}): CoreState {
   return createCore(fixtureInput(options), { data, modules: [LIFE_MODULE] });
 }
+
+/** Explicit supplied technical pay calendar; this fixture never estimates an employer's payday. */
+function paydayFixture(options: Options = {}): CoreState {
+  const input = fixtureInput(options);
+  const calendar: WorkPayrollCalendarInput = {
+    id: "fixture-observable-pay-calendar",
+    organizationId: employer,
+    workCommitmentIds: [commitmentId],
+    basisRecordIds: [employer, jobId, commitmentId],
+    rule: "fixed-days-after-inclusive-period-end",
+    firstPeriodStartsAt: opening,
+    periodDays: p("daysPerWeek"),
+    firstPaydayAt: "2021-01-08",
+    effectiveFrom: opening,
+    nonbusinessDayRule: "no-adjustment",
+    arrearsRule: "carry-to-next-recorded-payday",
+    source,
+  };
+  input.workCommitments = input.workCommitments!.map((row) => ({
+    ...row,
+    payrollCalendarId: calendar.id,
+  }));
+  input.workPayrollCalendars = [calendar];
+  return createCore(input, { data, modules: [LIFE_MODULE, WORK_MODULE] });
+}
+
+/** Existing per-shift legacy writer fixtures start unenrolled; no admitted state is cleared. */
+function legacyFixture(options: Options = {}): CoreState {
+  return createCore(fixtureInput(options), { data, modules: [WORK_MODULE] });
+}
+
+function settleLegacyScheduledWork(core: CoreState) {
+  const api = coreAPI(core),
+    row = core.work.commitments.get(commitmentId)!,
+    planned = plannedWorkMinutesOnDate(api, row),
+    hours = planned / api.parameter("minutesPerHour"),
+    available = discretionaryHours(api, worker),
+    workData = core.data.work!;
+  const decision = chooseAct(core, worker, [
+    {
+      definition: workData.attendanceAction,
+      targetId: row.id,
+      availableHours: available,
+      effortHours: hours,
+    },
+    {
+      definition: workData.absenceAction,
+      targetId: row.id,
+      availableHours: available,
+      effortHours: api.parameter("zero"),
+    },
+  ]);
+  const attended =
+      decision.selected!.definition.effect === workData.attendanceAction.effect
+        ? planned
+        : api.parameter("zero"),
+    previous = core.work.lastResultByJob.get(jobId),
+    exact =
+      (previous?.payRemainderMinor ?? api.parameter("zero")) +
+      (row.hourlyMinor * attended) / api.parameter("minutesPerHour"),
+    requested = Math.floor(exact);
+  return api.settleWorkResult({
+    id: `work-result:${core.date}:${row.id}`,
+    commitmentId: row.id,
+    jobId: row.jobId,
+    personId: row.personId,
+    organizationId: row.organizationId,
+    date: core.date,
+    plannedMinutes: planned,
+    attendedMinutes: attended,
+    absentMinutes: planned - attended,
+    requestedMinor: requested,
+    payRemainderMinor: exact - requested,
+    reasonKey: decision.reasonKey,
+    decision,
+    source: { ...source, asOf: core.date },
+  });
+}
 const age = (core: CoreState, id: string) =>
   financeObservables(core).employment.byAge.find((row) => row.ageId === id)!;
 const allRows = (core: CoreState): string =>
@@ -221,7 +307,7 @@ const allRows = (core: CoreState): string =>
 
 describe("read-only authoritative finance observables", () => {
   it("attributes actual commuting wages to the worker's recorded residence rather than the employer town", () => {
-    const core = fixture({
+    const core = paydayFixture({
       employerCash: p("minorPerDollar") * p("daysPerWeek"),
     });
     core.organizations.get(employer)!.placeId =
@@ -232,7 +318,38 @@ describe("read-only authoritative finance observables", () => {
       (id, offers, context) => chooseAct(core, id, offers, context),
       () => undefined,
     );
-    const paid = core.work.lastResultByJob.get(jobId)!.paidMinor;
+    const attendance = core.work.lastAttendanceByJob.get(jobId)!,
+      period = core.work.earnedPayPeriods.get(attendance.earnedPayPeriodId)!,
+      accrued = financeObservables(core);
+    expect(attendance.earnedMinor).toBeGreaterThan(p("zero"));
+    expect(period.dueAt).toBe("2021-01-08");
+    expect(core.work.latestPayrollByJob.has(jobId)).toBe(false);
+    expect(accrued.wages).toMatchObject({
+      requestedMinor: attendance.earnedMinor,
+      earnedMinor: attendance.earnedMinor,
+      dueRecognizedMinor: p("zero"),
+      paidMinor: p("zero"),
+      accruedMinor: attendance.earnedMinor,
+      arrearsMinor: p("zero"),
+      unpaidMinor: attendance.earnedMinor,
+      legacyEarnedMinor: p("zero"),
+      legacyDiscretionaryEarnedMinor: p("zero"),
+    });
+    expect(core.finance.paidIncomeByPlaceMonth.size).toBe(p("zero"));
+    advanceDate(core, period.dueAt);
+    expect(runWorkPayrollDay(api)!.settled).toBe(p("one"));
+    const paid = core.work.latestPayrollByJob.get(jobId)!.paidMinor;
+    expect(financeObservables(core).wages).toMatchObject({
+      earnedMinor: attendance.earnedMinor,
+      dueRecognizedMinor: attendance.earnedMinor,
+      paidMinor: paid,
+      accruedMinor: p("zero"),
+      arrearsMinor: p("zero"),
+      unpaidMinor: p("zero"),
+      legacyEarnedMinor: p("zero"),
+      legacyDiscretionaryEarnedMinor: p("zero"),
+    });
+    expect(paid).toBe(attendance.earnedMinor);
     expect(paid).toBeGreaterThan(p("zero"));
     expect(
       core.finance.paidIncomeByPlaceMonth.get("2021-01:fixture-place"),
@@ -424,15 +541,15 @@ describe("read-only authoritative finance observables", () => {
   });
 
   it("retains historical actual wages and the actual closure cause after the latest result index is unavailable", () => {
-    const core = fixture({ withBooks: true, employerCash: p("zero") });
+    const core = legacyFixture({ withBooks: true, employerCash: p("zero") });
     const api = coreAPI(core);
+    expect(core.modules.has(LIFE_MODULE.id)).toBe(false);
+    expect(core.work.payrollCalendarByCommitment.size).toBe(p("zero"));
+    expect(core.work.payrollLedgerByCommitment.size).toBe(p("zero"));
     // Actual shared chooser and canonical conserving writer, never a forced attendance result.
-    runScheduledWork(
-      api,
-      (id, offers, context) => chooseAct(core, id, offers, context),
-      () => undefined,
-    );
-    const result = core.work.lastResultByJob.get(jobId)!;
+    const result = settleLegacyScheduledWork(core);
+    expect(core.work.lastResultByJob.get(jobId)!.id).toBe(result.id);
+    expect(core.work.lastAttendanceByJob.size).toBe(p("zero"));
     expect(result.shortfallMinor).toBeGreaterThan(p("zero"));
     const closure = api.closeEmployer(
       employer,
@@ -494,7 +611,9 @@ describe("read-only authoritative finance observables", () => {
     expect(() => financeObservables(core)).toThrow(
       "Untagged numeric parameter",
     );
-    const wrong = fixture();
+    const wrong = legacyFixture();
+    expect(wrong.work.payrollCalendarByCommitment.size).toBe(p("zero"));
+    expect(wrong.work.payrollLedgerByCommitment.size).toBe(p("zero"));
     wrong.work.totalsByJob.set(jobId, {
       requestedMinor: p("zero"),
       paidMinor: p("one"),
@@ -504,7 +623,7 @@ describe("read-only authoritative finance observables", () => {
       missedDays: p("zero"),
     });
     expect(() => financeObservables(wrong)).toThrow(
-      "exceed their actual requested/planned",
+      "Payroll stocks disagree with cumulative actual dated work totals.",
     );
     const collision = fixture();
     collision.organizations.set(worker, {
