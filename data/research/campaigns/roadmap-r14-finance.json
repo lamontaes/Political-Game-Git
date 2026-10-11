@@ -4,8 +4,8 @@
   "status": "researched-with-gaps",
   "model": "GPT-6 (Codex)",
   "effort": "not exposed by runtime; no escalation or helpers",
-  "startedAt": "2026-10-11T04:59:00+00:00",
-  "elapsedSeconds": -97,
+  "startedAt": null,
+  "elapsedSeconds": null,
   "sources": [
     {
       "publisher": "Federal Election Commission",
@@ -130,5 +130,6 @@
   "termsQuestions": [
     "USPS terms at https://about.usps.com/who/legal/terms-of-use.htm checked; site material is copyrighted and commercial reuse scope unclear. No copied rate table or numeric postal finding adopted."
   ],
-  "interpretation": "Aggregate observations calibrate totals; they do not choose an individual actor outcome. Legal rules apply only to the stated jurisdiction and vintage. Missing coverage is not legal permission. No excluded source or real-person name is included."
+  "interpretation": "Aggregate observations calibrate totals; they do not choose an individual actor outcome. Legal rules apply only to the stated jurisdiction and vintage. Missing coverage is not legal permission. No excluded source or real-person name is included.",
+  "elapsedTimeNote": "Topic start was not captured; researchedAt records completion. No elapsed duration inferred."
 }

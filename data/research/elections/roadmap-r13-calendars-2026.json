@@ -4,8 +4,8 @@
   "status": "researched-with-gaps",
   "model": "GPT-6 (Codex)",
   "effort": "not exposed by runtime; no escalation or helpers",
-  "startedAt": "2026-10-11T04:49:00+00:00",
-  "elapsedSeconds": 419,
+  "startedAt": null,
+  "elapsedSeconds": null,
   "sources": [
     {
       "publisher": "Federal Election Commission",
@@ -1187,5 +1187,6 @@
     "Candidate guides contain explanatory prose beyond government edicts; state-site reuse terms not established. No guide prose adopted.",
     "Georgia legislature PDF is a 2025 supplement with LexisNexis annotations, not a read of complete current 21-2-9; do not adopt its editorial text."
   ],
-  "interpretation": "Aggregate observations calibrate totals; they do not choose an individual actor outcome. Legal rules apply only to the stated jurisdiction and vintage. Missing coverage is not legal permission. No excluded source or real-person name is included."
+  "interpretation": "Aggregate observations calibrate totals; they do not choose an individual actor outcome. Legal rules apply only to the stated jurisdiction and vintage. Missing coverage is not legal permission. No excluded source or real-person name is included.",
+  "elapsedTimeNote": "Topic start was not captured; researchedAt records completion. No elapsed duration inferred."
 }
