@@ -1,0 +1,1191 @@
+{
+  "base": {
+    "head": "8249aaba6473ea2ca7ac483199d8f55b547bd704",
+    "host": "1427eb41e7d0",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "node": "v24.19.0",
+    "mode": "opening",
+    "variant": "base",
+    "warmups": 1,
+    "measurements": [
+      {
+        "seed": "m1-history-part1-a",
+        "state": "US-GA",
+        "placeKey": "1307612",
+        "placeName": "Bethlehem, Georgia",
+        "runs": [
+          {
+            "elapsedMilliseconds": 1324.456768,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 47228072,
+            "bytesPerResident": 59035.09,
+            "sourceShare": 0.6673743954654765,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 0,
+            "examples": [],
+            "passes": [],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1109549056,
+            "heapUsedBytes": 739356408,
+            "processLifetimeMaxRssBytes": 1109549056
+          },
+          {
+            "elapsedMilliseconds": 1296.2604030000002,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 47228072,
+            "bytesPerResident": 59035.09,
+            "sourceShare": 0.6673743954654765,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 0,
+            "examples": [],
+            "passes": [],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1115316224,
+            "heapUsedBytes": 743394072,
+            "processLifetimeMaxRssBytes": 1115316224
+          },
+          {
+            "elapsedMilliseconds": 1253.5269399999997,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 47228072,
+            "bytesPerResident": 59035.09,
+            "sourceShare": 0.6673743954654765,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 0,
+            "examples": [],
+            "passes": [],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1118662656,
+            "heapUsedBytes": 743940168,
+            "processLifetimeMaxRssBytes": 1118793728
+          }
+        ],
+        "medianMilliseconds": 1296.2604030000002
+      },
+      {
+        "seed": "m1-history-part1-b",
+        "state": "US-SC",
+        "placeKey": "4557670",
+        "placeName": "Plum Branch, South Carolina",
+        "runs": [
+          {
+            "elapsedMilliseconds": 1266.8198349999984,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 50842678,
+            "bytesPerResident": 63553.3475,
+            "sourceShare": 0.6684199443624901,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 0,
+            "examples": [],
+            "passes": [],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1156894720,
+            "heapUsedBytes": 785353344,
+            "processLifetimeMaxRssBytes": 1156894720
+          },
+          {
+            "elapsedMilliseconds": 1256.6128420000023,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 50842678,
+            "bytesPerResident": 63553.3475,
+            "sourceShare": 0.6684199443624901,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 0,
+            "examples": [],
+            "passes": [],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1159393280,
+            "heapUsedBytes": 782911912,
+            "processLifetimeMaxRssBytes": 1159393280
+          },
+          {
+            "elapsedMilliseconds": 1258.5501220000006,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 50842678,
+            "bytesPerResident": 63553.3475,
+            "sourceShare": 0.6684199443624901,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 0,
+            "examples": [],
+            "passes": [],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1162682368,
+            "heapUsedBytes": 785495664,
+            "processLifetimeMaxRssBytes": 1162682368
+          }
+        ],
+        "medianMilliseconds": 1258.5501220000006
+      },
+      {
+        "seed": "m1-history-part1-c",
+        "state": "US-WA",
+        "placeKey": "5364380",
+        "placeName": "Silver Firs, Washington",
+        "runs": [
+          {
+            "elapsedMilliseconds": 1159.4904129999995,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 46255817,
+            "bytesPerResident": 57819.77125,
+            "sourceShare": 0.6683615814201271,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 0,
+            "examples": [],
+            "passes": [],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1163149312,
+            "heapUsedBytes": 764457296,
+            "processLifetimeMaxRssBytes": 1164095488
+          },
+          {
+            "elapsedMilliseconds": 1181.8418810000003,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 46255817,
+            "bytesPerResident": 57819.77125,
+            "sourceShare": 0.6683615814201271,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 0,
+            "examples": [],
+            "passes": [],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1163169792,
+            "heapUsedBytes": 767745336,
+            "processLifetimeMaxRssBytes": 1164095488
+          },
+          {
+            "elapsedMilliseconds": 1220.6853899999987,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 46255817,
+            "bytesPerResident": 57819.77125,
+            "sourceShare": 0.6683615814201271,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 0,
+            "examples": [],
+            "passes": [],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1163718656,
+            "heapUsedBytes": 772089264,
+            "processLifetimeMaxRssBytes": 1164513280
+          }
+        ],
+        "medianMilliseconds": 1181.8418810000003
+      }
+    ]
+  },
+  "head": {
+    "head": "0aa6bfb2ad51ff945e2ee18a5000d3e34e9509c0",
+    "host": "1427eb41e7d0",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "node": "v24.19.0",
+    "mode": "opening",
+    "variant": "head",
+    "warmups": 1,
+    "measurements": [
+      {
+        "seed": "m1-history-part1-a",
+        "state": "US-GA",
+        "placeKey": "1307612",
+        "placeName": "Bethlehem, Georgia",
+        "runs": [
+          {
+            "elapsedMilliseconds": 1381.8745530000006,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 47901244,
+            "bytesPerResident": 59876.555,
+            "sourceShare": 0.6649651729295382,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 601,
+            "examples": [
+              {
+                "id": "person_7f7810c064c22d75:partnership_94f4a83f5371a43b:past:person_7f7810c064c22d75",
+                "personId": "person_7f7810c064c22d75",
+                "factId": "partnership_94f4a83f5371a43b:past:person_7f7810c064c22d75",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_7f780fc064c22bc2:partnership_94f4a83f5371a43b:past:person_7f780fc064c22bc2",
+                "personId": "person_7f780fc064c22bc2",
+                "factId": "partnership_94f4a83f5371a43b:past:person_7f780fc064c22bc2",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_1c1a4e52cea0f037:partnership_ffe1bef47dd1955d:past:person_1c1a4e52cea0f037",
+                "personId": "person_1c1a4e52cea0f037",
+                "factId": "partnership_ffe1bef47dd1955d:past:person_1c1a4e52cea0f037",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              }
+            ],
+            "passes": [
+              {
+                "moduleId": "history-people",
+                "phase": "people",
+                "tier": "monthly",
+                "steps": 60
+              }
+            ],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1107320832,
+            "heapUsedBytes": 777748128,
+            "processLifetimeMaxRssBytes": 1107320832
+          },
+          {
+            "elapsedMilliseconds": 1311.7538459999996,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 47901244,
+            "bytesPerResident": 59876.555,
+            "sourceShare": 0.6649651729295382,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 601,
+            "examples": [
+              {
+                "id": "person_7f7810c064c22d75:partnership_94f4a83f5371a43b:past:person_7f7810c064c22d75",
+                "personId": "person_7f7810c064c22d75",
+                "factId": "partnership_94f4a83f5371a43b:past:person_7f7810c064c22d75",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_7f780fc064c22bc2:partnership_94f4a83f5371a43b:past:person_7f780fc064c22bc2",
+                "personId": "person_7f780fc064c22bc2",
+                "factId": "partnership_94f4a83f5371a43b:past:person_7f780fc064c22bc2",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_1c1a4e52cea0f037:partnership_ffe1bef47dd1955d:past:person_1c1a4e52cea0f037",
+                "personId": "person_1c1a4e52cea0f037",
+                "factId": "partnership_ffe1bef47dd1955d:past:person_1c1a4e52cea0f037",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              }
+            ],
+            "passes": [
+              {
+                "moduleId": "history-people",
+                "phase": "people",
+                "tier": "monthly",
+                "steps": 60
+              }
+            ],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1116868608,
+            "heapUsedBytes": 784222376,
+            "processLifetimeMaxRssBytes": 1116868608
+          },
+          {
+            "elapsedMilliseconds": 1302.7795319999987,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 47901244,
+            "bytesPerResident": 59876.555,
+            "sourceShare": 0.6649651729295382,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 601,
+            "examples": [
+              {
+                "id": "person_7f7810c064c22d75:partnership_94f4a83f5371a43b:past:person_7f7810c064c22d75",
+                "personId": "person_7f7810c064c22d75",
+                "factId": "partnership_94f4a83f5371a43b:past:person_7f7810c064c22d75",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_7f780fc064c22bc2:partnership_94f4a83f5371a43b:past:person_7f780fc064c22bc2",
+                "personId": "person_7f780fc064c22bc2",
+                "factId": "partnership_94f4a83f5371a43b:past:person_7f780fc064c22bc2",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_1c1a4e52cea0f037:partnership_ffe1bef47dd1955d:past:person_1c1a4e52cea0f037",
+                "personId": "person_1c1a4e52cea0f037",
+                "factId": "partnership_ffe1bef47dd1955d:past:person_1c1a4e52cea0f037",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              }
+            ],
+            "passes": [
+              {
+                "moduleId": "history-people",
+                "phase": "people",
+                "tier": "monthly",
+                "steps": 60
+              }
+            ],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1121382400,
+            "heapUsedBytes": 782289128,
+            "processLifetimeMaxRssBytes": 1121382400
+          }
+        ],
+        "medianMilliseconds": 1311.7538459999996
+      },
+      {
+        "seed": "m1-history-part1-b",
+        "state": "US-SC",
+        "placeKey": "4557670",
+        "placeName": "Plum Branch, South Carolina",
+        "runs": [
+          {
+            "elapsedMilliseconds": 1290.1862550000005,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 51082380,
+            "bytesPerResident": 63852.975,
+            "sourceShare": 0.6679316038132914,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 257,
+            "examples": [
+              {
+                "id": "person_e43e90939c6ad2f3:kinship_c6af12769146956b:past:person_e43e90939c6ad2f3",
+                "personId": "person_e43e90939c6ad2f3",
+                "factId": "kinship_c6af12769146956b:past:person_e43e90939c6ad2f3",
+                "date": "2021-01-10",
+                "kind": "family:child",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_e43e8f939c6ad140:kinship_c6af1176914693b8:past:person_e43e8f939c6ad140",
+                "personId": "person_e43e8f939c6ad140",
+                "factId": "kinship_c6af1176914693b8:past:person_e43e8f939c6ad140",
+                "date": "2021-01-10",
+                "kind": "family:child",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_e43e92939c6ad659:fact_ca5ca6769e42ffe9",
+                "personId": "person_e43e92939c6ad659",
+                "factId": "fact_ca5ca6769e42ffe9",
+                "date": "2021-01-10",
+                "kind": "birth-date",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              }
+            ],
+            "passes": [
+              {
+                "moduleId": "history-people",
+                "phase": "people",
+                "tier": "monthly",
+                "steps": 60
+              }
+            ],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1145716736,
+            "heapUsedBytes": 801025360,
+            "processLifetimeMaxRssBytes": 1145847808
+          },
+          {
+            "elapsedMilliseconds": 1469.4106920000013,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 51082380,
+            "bytesPerResident": 63852.975,
+            "sourceShare": 0.6679316038132914,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 257,
+            "examples": [
+              {
+                "id": "person_e43e90939c6ad2f3:kinship_c6af12769146956b:past:person_e43e90939c6ad2f3",
+                "personId": "person_e43e90939c6ad2f3",
+                "factId": "kinship_c6af12769146956b:past:person_e43e90939c6ad2f3",
+                "date": "2021-01-10",
+                "kind": "family:child",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_e43e8f939c6ad140:kinship_c6af1176914693b8:past:person_e43e8f939c6ad140",
+                "personId": "person_e43e8f939c6ad140",
+                "factId": "kinship_c6af1176914693b8:past:person_e43e8f939c6ad140",
+                "date": "2021-01-10",
+                "kind": "family:child",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_e43e92939c6ad659:fact_ca5ca6769e42ffe9",
+                "personId": "person_e43e92939c6ad659",
+                "factId": "fact_ca5ca6769e42ffe9",
+                "date": "2021-01-10",
+                "kind": "birth-date",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              }
+            ],
+            "passes": [
+              {
+                "moduleId": "history-people",
+                "phase": "people",
+                "tier": "monthly",
+                "steps": 60
+              }
+            ],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1147686912,
+            "heapUsedBytes": 801342272,
+            "processLifetimeMaxRssBytes": 1147686912
+          },
+          {
+            "elapsedMilliseconds": 1266.6905760000009,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 51082380,
+            "bytesPerResident": 63852.975,
+            "sourceShare": 0.6679316038132914,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 257,
+            "examples": [
+              {
+                "id": "person_e43e90939c6ad2f3:kinship_c6af12769146956b:past:person_e43e90939c6ad2f3",
+                "personId": "person_e43e90939c6ad2f3",
+                "factId": "kinship_c6af12769146956b:past:person_e43e90939c6ad2f3",
+                "date": "2021-01-10",
+                "kind": "family:child",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_e43e8f939c6ad140:kinship_c6af1176914693b8:past:person_e43e8f939c6ad140",
+                "personId": "person_e43e8f939c6ad140",
+                "factId": "kinship_c6af1176914693b8:past:person_e43e8f939c6ad140",
+                "date": "2021-01-10",
+                "kind": "family:child",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_e43e92939c6ad659:fact_ca5ca6769e42ffe9",
+                "personId": "person_e43e92939c6ad659",
+                "factId": "fact_ca5ca6769e42ffe9",
+                "date": "2021-01-10",
+                "kind": "birth-date",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              }
+            ],
+            "passes": [
+              {
+                "moduleId": "history-people",
+                "phase": "people",
+                "tier": "monthly",
+                "steps": 60
+              }
+            ],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1150996480,
+            "heapUsedBytes": 802143664,
+            "processLifetimeMaxRssBytes": 1150996480
+          }
+        ],
+        "medianMilliseconds": 1290.1862550000005
+      },
+      {
+        "seed": "m1-history-part1-c",
+        "state": "US-WA",
+        "placeKey": "5364380",
+        "placeName": "Silver Firs, Washington",
+        "runs": [
+          {
+            "elapsedMilliseconds": 1249.3489260000024,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 46961374,
+            "bytesPerResident": 58701.7175,
+            "sourceShare": 0.6655375543313532,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 724,
+            "examples": [
+              {
+                "id": "person_e12b44bfbd03a8d2:partnership_f74f293ebbecb9f8:past:person_e12b44bfbd03a8d2",
+                "personId": "person_e12b44bfbd03a8d2",
+                "factId": "partnership_f74f293ebbecb9f8:past:person_e12b44bfbd03a8d2",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_e12b45bfbd03aa85:partnership_f74f293ebbecb9f8:past:person_e12b45bfbd03aa85",
+                "personId": "person_e12b45bfbd03aa85",
+                "factId": "partnership_f74f293ebbecb9f8:past:person_e12b45bfbd03aa85",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_05430bb0eaba7c68:partnership_02bb6ec968f04e24:past:person_05430bb0eaba7c68",
+                "personId": "person_05430bb0eaba7c68",
+                "factId": "partnership_02bb6ec968f04e24:past:person_05430bb0eaba7c68",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              }
+            ],
+            "passes": [
+              {
+                "moduleId": "history-people",
+                "phase": "people",
+                "tier": "monthly",
+                "steps": 60
+              }
+            ],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1152167936,
+            "heapUsedBytes": 746836888,
+            "processLifetimeMaxRssBytes": 1152925696
+          },
+          {
+            "elapsedMilliseconds": 1213.8400230000007,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 46961374,
+            "bytesPerResident": 58701.7175,
+            "sourceShare": 0.6655375543313532,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 724,
+            "examples": [
+              {
+                "id": "person_e12b44bfbd03a8d2:partnership_f74f293ebbecb9f8:past:person_e12b44bfbd03a8d2",
+                "personId": "person_e12b44bfbd03a8d2",
+                "factId": "partnership_f74f293ebbecb9f8:past:person_e12b44bfbd03a8d2",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_e12b45bfbd03aa85:partnership_f74f293ebbecb9f8:past:person_e12b45bfbd03aa85",
+                "personId": "person_e12b45bfbd03aa85",
+                "factId": "partnership_f74f293ebbecb9f8:past:person_e12b45bfbd03aa85",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_05430bb0eaba7c68:partnership_02bb6ec968f04e24:past:person_05430bb0eaba7c68",
+                "personId": "person_05430bb0eaba7c68",
+                "factId": "partnership_02bb6ec968f04e24:past:person_05430bb0eaba7c68",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              }
+            ],
+            "passes": [
+              {
+                "moduleId": "history-people",
+                "phase": "people",
+                "tier": "monthly",
+                "steps": 60
+              }
+            ],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1153044480,
+            "heapUsedBytes": 750581864,
+            "processLifetimeMaxRssBytes": 1153912832
+          },
+          {
+            "elapsedMilliseconds": 1220.6617619999997,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 46961374,
+            "bytesPerResident": 58701.7175,
+            "sourceShare": 0.6655375543313532,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 724,
+            "examples": [
+              {
+                "id": "person_e12b44bfbd03a8d2:partnership_f74f293ebbecb9f8:past:person_e12b44bfbd03a8d2",
+                "personId": "person_e12b44bfbd03a8d2",
+                "factId": "partnership_f74f293ebbecb9f8:past:person_e12b44bfbd03a8d2",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_e12b45bfbd03aa85:partnership_f74f293ebbecb9f8:past:person_e12b45bfbd03aa85",
+                "personId": "person_e12b45bfbd03aa85",
+                "factId": "partnership_f74f293ebbecb9f8:past:person_e12b45bfbd03aa85",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_05430bb0eaba7c68:partnership_02bb6ec968f04e24:past:person_05430bb0eaba7c68",
+                "personId": "person_05430bb0eaba7c68",
+                "factId": "partnership_02bb6ec968f04e24:past:person_05430bb0eaba7c68",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              }
+            ],
+            "passes": [
+              {
+                "moduleId": "history-people",
+                "phase": "people",
+                "tier": "monthly",
+                "steps": 60
+              }
+            ],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1153863680,
+            "heapUsedBytes": 753756256,
+            "processLifetimeMaxRssBytes": 1154748416
+          }
+        ],
+        "medianMilliseconds": 1220.6617619999997
+      }
+    ]
+  },
+  "runtime": {
+    "runs": {
+      "base": [
+        {
+          "head": "8249aaba6473ea2ca7ac483199d8f55b547bd704",
+          "host": "1427eb41e7d0",
+          "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+          "node": "v24.19.0",
+          "mode": "month",
+          "variant": "base",
+          "inputSha256": "897856349c2058c17bdaeeff531240997762421790990e5a140fd2458a0b1e36",
+          "seed": "m1-history-part1-a",
+          "place": "Bethlehem, Georgia",
+          "people": 800,
+          "startedAt": "2026-01-01",
+          "through": "2026-02-01",
+          "simulatedDays": 31,
+          "initializationMilliseconds": 173.31154800000058,
+          "advanceMilliseconds": 34471.504866999996,
+          "result": {
+            "simulatedDays": 31,
+            "decisions": 8680,
+            "acts": 8680
+          },
+          "processLifetimeMaxRssBytes": 2978107392
+        },
+        {
+          "head": "8249aaba6473ea2ca7ac483199d8f55b547bd704",
+          "host": "1427eb41e7d0",
+          "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+          "node": "v24.19.0",
+          "mode": "month",
+          "variant": "base",
+          "inputSha256": "897856349c2058c17bdaeeff531240997762421790990e5a140fd2458a0b1e36",
+          "seed": "m1-history-part1-a",
+          "place": "Bethlehem, Georgia",
+          "people": 800,
+          "startedAt": "2026-01-01",
+          "through": "2026-02-01",
+          "simulatedDays": 31,
+          "initializationMilliseconds": 190.57614700000022,
+          "advanceMilliseconds": 36257.265323,
+          "result": {
+            "simulatedDays": 31,
+            "decisions": 8680,
+            "acts": 8680
+          },
+          "processLifetimeMaxRssBytes": 2981232640
+        },
+        {
+          "head": "8249aaba6473ea2ca7ac483199d8f55b547bd704",
+          "host": "1427eb41e7d0",
+          "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+          "node": "v24.19.0",
+          "mode": "month",
+          "variant": "base",
+          "inputSha256": "897856349c2058c17bdaeeff531240997762421790990e5a140fd2458a0b1e36",
+          "seed": "m1-history-part1-a",
+          "place": "Bethlehem, Georgia",
+          "people": 800,
+          "startedAt": "2026-01-01",
+          "through": "2026-02-01",
+          "simulatedDays": 31,
+          "initializationMilliseconds": 246.2070650000005,
+          "advanceMilliseconds": 43223.010495,
+          "result": {
+            "simulatedDays": 31,
+            "decisions": 8680,
+            "acts": 8680
+          },
+          "processLifetimeMaxRssBytes": 2943057920
+        },
+        {
+          "head": "8249aaba6473ea2ca7ac483199d8f55b547bd704",
+          "host": "1427eb41e7d0",
+          "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+          "node": "v24.19.0",
+          "mode": "month",
+          "variant": "base",
+          "inputSha256": "897856349c2058c17bdaeeff531240997762421790990e5a140fd2458a0b1e36",
+          "seed": "m1-history-part1-a",
+          "place": "Bethlehem, Georgia",
+          "people": 800,
+          "startedAt": "2026-01-01",
+          "through": "2026-02-01",
+          "simulatedDays": 31,
+          "initializationMilliseconds": 293.26950299999953,
+          "advanceMilliseconds": 41031.304204,
+          "result": {
+            "simulatedDays": 31,
+            "decisions": 8680,
+            "acts": 8680
+          },
+          "processLifetimeMaxRssBytes": 2966056960
+        }
+      ],
+      "head": [
+        {
+          "head": "0aa6bfb2ad51ff945e2ee18a5000d3e34e9509c0",
+          "host": "1427eb41e7d0",
+          "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+          "node": "v24.19.0",
+          "mode": "month",
+          "variant": "head",
+          "inputSha256": "897856349c2058c17bdaeeff531240997762421790990e5a140fd2458a0b1e36",
+          "seed": "m1-history-part1-a",
+          "place": "Bethlehem, Georgia",
+          "people": 800,
+          "startedAt": "2026-01-01",
+          "through": "2026-02-01",
+          "simulatedDays": 31,
+          "initializationMilliseconds": 220.41563099999985,
+          "advanceMilliseconds": 36766.203889,
+          "result": {
+            "simulatedDays": 31,
+            "decisions": 8680,
+            "acts": 8680
+          },
+          "processLifetimeMaxRssBytes": 2996514816
+        },
+        {
+          "head": "0aa6bfb2ad51ff945e2ee18a5000d3e34e9509c0",
+          "host": "1427eb41e7d0",
+          "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+          "node": "v24.19.0",
+          "mode": "month",
+          "variant": "head",
+          "inputSha256": "897856349c2058c17bdaeeff531240997762421790990e5a140fd2458a0b1e36",
+          "seed": "m1-history-part1-a",
+          "place": "Bethlehem, Georgia",
+          "people": 800,
+          "startedAt": "2026-01-01",
+          "through": "2026-02-01",
+          "simulatedDays": 31,
+          "initializationMilliseconds": 203.6781689999998,
+          "advanceMilliseconds": 35123.263309999995,
+          "result": {
+            "simulatedDays": 31,
+            "decisions": 8680,
+            "acts": 8680
+          },
+          "processLifetimeMaxRssBytes": 2930606080
+        },
+        {
+          "head": "0aa6bfb2ad51ff945e2ee18a5000d3e34e9509c0",
+          "host": "1427eb41e7d0",
+          "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+          "node": "v24.19.0",
+          "mode": "month",
+          "variant": "head",
+          "inputSha256": "897856349c2058c17bdaeeff531240997762421790990e5a140fd2458a0b1e36",
+          "seed": "m1-history-part1-a",
+          "place": "Bethlehem, Georgia",
+          "people": 800,
+          "startedAt": "2026-01-01",
+          "through": "2026-02-01",
+          "simulatedDays": 31,
+          "initializationMilliseconds": 212.02234700000008,
+          "advanceMilliseconds": 34468.789376,
+          "result": {
+            "simulatedDays": 31,
+            "decisions": 8680,
+            "acts": 8680
+          },
+          "processLifetimeMaxRssBytes": 2981490688
+        },
+        {
+          "head": "0aa6bfb2ad51ff945e2ee18a5000d3e34e9509c0",
+          "host": "1427eb41e7d0",
+          "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+          "node": "v24.19.0",
+          "mode": "month",
+          "variant": "head",
+          "inputSha256": "897856349c2058c17bdaeeff531240997762421790990e5a140fd2458a0b1e36",
+          "seed": "m1-history-part1-a",
+          "place": "Bethlehem, Georgia",
+          "people": 800,
+          "startedAt": "2026-01-01",
+          "through": "2026-02-01",
+          "simulatedDays": 31,
+          "initializationMilliseconds": 201.79234799999995,
+          "advanceMilliseconds": 37122.858468,
+          "result": {
+            "simulatedDays": 31,
+            "decisions": 8680,
+            "acts": 8680
+          },
+          "processLifetimeMaxRssBytes": 2950713344
+        }
+      ]
+    },
+    "medianAdvanceMilliseconds": {
+      "base": 41031.304204,
+      "head": 35123.263309999995
+    },
+    "ratio": 0.8560113793939786,
+    "m1FivePercentPassed": true,
+    "coreTwentyPercentPassed": true,
+    "inputSha256": "897856349c2058c17bdaeeff531240997762421790990e5a140fd2458a0b1e36",
+    "method": "One warmup and three independent measured 31-day processes per revision, sequentially in one checkout on one host; identical prepared generated input. Runtime guard uses the established matched-month method; no judged annual or browser load claim.",
+    "inputBudgetPassed": true
+  },
+  "selection": {
+    "head": "0aa6bfb2ad51ff945e2ee18a5000d3e34e9509c0",
+    "host": "1427eb41e7d0",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "node": "v24.19.0",
+    "selection": "Seeded draw from all 56 identities, then one recorded locality; no actor outcomes drawn",
+    "draws": [
+      {
+        "seed": "m1-history-part1-a",
+        "state": "US-GA",
+        "placeKey": "1307612",
+        "placeName": "Bethlehem, Georgia"
+      },
+      {
+        "seed": "m1-history-part1-b",
+        "state": "US-SC",
+        "placeKey": "4557670",
+        "placeName": "Plum Branch, South Carolina"
+      },
+      {
+        "seed": "m1-history-part1-c",
+        "state": "US-WA",
+        "placeKey": "5364380",
+        "placeName": "Silver Firs, Washington"
+      }
+    ]
+  },
+  "preparedInput": {
+    "head": "0aa6bfb2ad51ff945e2ee18a5000d3e34e9509c0",
+    "host": "1427eb41e7d0",
+    "cpu": "INTEL(R) XEON(R) PLATINUM 8573C",
+    "node": "v24.19.0",
+    "mode": "prepare",
+    "variant": "head",
+    "warmups": 0,
+    "measurements": [
+      {
+        "seed": "m1-history-part1-a",
+        "state": "US-GA",
+        "placeKey": "1307612",
+        "placeName": "Bethlehem, Georgia",
+        "runs": [
+          {
+            "elapsedMilliseconds": 1799.0573449999997,
+            "startedAt": "2026-01-01",
+            "people": 800,
+            "bytes": 47901244,
+            "bytesPerResident": 59876.555,
+            "sourceShare": 0.6649651729295382,
+            "budget": {
+              "passed": true,
+              "maxBytesPerResident": 80554,
+              "maxSourceByteShare": 0.7491419523895138,
+              "sourceShareUsed": "declaredConservativeSourceByteShare",
+              "violations": []
+            },
+            "recentEvents": 601,
+            "examples": [
+              {
+                "id": "person_7f7810c064c22d75:partnership_94f4a83f5371a43b:past:person_7f7810c064c22d75",
+                "personId": "person_7f7810c064c22d75",
+                "factId": "partnership_94f4a83f5371a43b:past:person_7f7810c064c22d75",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_7f780fc064c22bc2:partnership_94f4a83f5371a43b:past:person_7f780fc064c22bc2",
+                "personId": "person_7f780fc064c22bc2",
+                "factId": "partnership_94f4a83f5371a43b:past:person_7f780fc064c22bc2",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              },
+              {
+                "id": "person_1c1a4e52cea0f037:partnership_ffe1bef47dd1955d:past:person_1c1a4e52cea0f037",
+                "personId": "person_1c1a4e52cea0f037",
+                "factId": "partnership_ffe1bef47dd1955d:past:person_1c1a4e52cea0f037",
+                "date": "2021-01-01",
+                "kind": "family:partner",
+                "month": "2021-01",
+                "basis": "supplied-opening-builder-fact",
+                "economyConsistency": "opening-snapshot-only-until-M1-engine-passes"
+              }
+            ],
+            "passes": [
+              {
+                "moduleId": "history-people",
+                "phase": "people",
+                "tier": "monthly",
+                "steps": 60
+              }
+            ],
+            "simulatedDays": 0,
+            "dailyActs": 0,
+            "rssBytes": 1020956672,
+            "heapUsedBytes": 691645704,
+            "processLifetimeMaxRssBytes": 1020956672,
+            "inputSha256": "897856349c2058c17bdaeeff531240997762421790990e5a140fd2458a0b1e36",
+            "inputBytes": 47691861,
+            "playerId": "person_866ae3a1e776f426"
+          }
+        ],
+        "medianMilliseconds": 1799.0573449999997
+      }
+    ]
+  },
+  "namedPeopleExamples": [
+    {
+      "name": "Anna Ortega",
+      "personId": "person_b23c964b48852b14",
+      "factId": "work-relationship_49432281f3eb4ee7:past:opening",
+      "date": "2021-04-20",
+      "kind": "work:opening",
+      "summary": "The generated opening job as Maintenance worker has an estimated start on 2021-04-20.",
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "BLS Occupational Employment and Wage Statistics, May 2025: area, state and national tables, 10th, 25th, 50th, 75th and 90th percentile annual wage, all ownerships. Census Bureau, 2023 County Business Patterns, county file, March employment by two-digit NAICS sector (private employers). BLS OEWS May 2025 state ownership research estimates: federal, state and local government, including schools and hospitals. BLS notes these carry more model error than standard estimates. src/simulation/living-world/town-employment.ts",
+        "asOf": "2026-01-01",
+        "estimatedFrom": "SOC 49-9071, area 12060, percentile 36.75246582749817; weekly hours from the generated role; calendar-day average. Job tenure, wage and minimum floor are opening proxies, not historical 2021 contracts."
+      }
+    },
+    {
+      "name": "Rowan Higgins",
+      "personId": "person_c42716df53332c2b",
+      "factId": "fact_4bf88579745adfb8",
+      "date": "2021-11-02",
+      "kind": "birth-date",
+      "summary": "Rowan Higgins's birth date is established.",
+      "source": {
+        "tag": "ESTIMATED",
+        "citation": "U.S. Census Bureau, 2020-2024 American Community Survey 5-year, tables B11001 and B11003, nation, states and places. town-residents-v1; census-gazetteer-2025-places-zip; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx; HUD FY2025 Fair Market Rents, by county or New England town: efficiency through four bedrooms, dollars a month (the 40th percentile of gross rent for standard-quality units recently rented).; Federal Reserve SCF 2022 Tables 1/6; src/simulation/people-upbringing.ts.",
+        "asOf": "2026-01-01",
+        "estimatedFrom": "Generated opening cohort at 2026-01-01; place household mix held from ACS 2020\u20132024, identities from existing Gazetteer/territory provider. This is not an observed census roster or an exact 2021 population. Opening money is a household SCF reserve or labelled expense buffer, apportioned among adults; costs are CES categories plus a hypothetical HUD shelter budget, not observed bills."
+      }
+    },
+    {
+      "name": "Kennedy Higgins",
+      "personId": "person_c42717df53332dde",
+      "factId": "person_c42717df53332dde:p8-deep-past-v1:school:middle",
+      "date": "2021-08-30",
+      "kind": "school:cohort-estimate",
+      "summary": "Middle school cohort",
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2026-01-01",
+        "citation": "Existing game school-calendar.ts: common K\u20135, grades 6\u20138, grades 9\u201312 and a shared fall calendar. NCES CCD local-institutions.json supplies recent district/high-school identities, not historical attendance or historical existence. school-names.ts supplies generated landscape naming forms. No indexed campus identity; generated landscape name.",
+        "estimatedFrom": "Birth cohort calendar; recorded birthplace used as a schooling-location proxy. Historical attendance and historical name/existence are not verified; no qualification or graduation inferred."
+      }
+    }
+  ]
+}

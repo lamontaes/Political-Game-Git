@@ -2,6 +2,10 @@
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
+## October 10, 2026 (Eastern)
+
+- **CODEX-HISTORY, M1 Part 1:** three generated 800-person worlds open on January 1, 2026 with recent life records. Opening medians were 1.22–1.31 seconds; byte and Source-share budgets passed. The matched 31-day median was 35.1 seconds against 41.0 at the exact stacked base, within the 5% limit. Twenty-one focused cases and core2 static/release/no-dice checks passed. A new test's byte-field name and a blocked measurement subprocess were repaired without changing accepted tests. The base has no bench script; the separate finisher must adopt the new opening API. Real M1 engine histories and feature acceptance remain pending. Builder: Codex/GPT-6, package-requested high; actual runtime effort and usage are unavailable. Finisher send-backs: zero; the report reviewer returned wording and evidence clarifications twice, repaired, with the final review passing. Report-ready work took 26 minutes 19 seconds from the first clock observation; complete timing and review returns are in the draft PR. [Part 1 evidence](../../src/core2/data/history/evidence.json).
+
 ## 2026-10-11
 
 - **SOL-1258 (M0-core), repeated opening evidence:** storing one complete upbringing Source per person reduced the opening from 387.5 MB to 238.7 MB in the guard’s original random place. Source share fell from 75.84% to 61.73%, below the unchanged 74.91% limit. Expanding the shared sources reproduced the exact prior input hash. All 49 focused cases and static checks passed. Next: compact saved explanations, then runtime timing and the judged year. No annual speed result is available. [Receipt](../../src/core2/receipts/m0-opening-source-compaction-20261011.json).
