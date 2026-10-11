@@ -1,6 +1,39 @@
 import { moduleData, moduleKey, moduleSource } from "./module-data";
 import type { CoreState, Source } from "./types";
 
+export interface VoterDimensionV1 {
+  /** Count of the represented group, including people with no opinion. */
+  populationSize: number;
+  opinionSize: number;
+  mean: number | null;
+  variance: number | null;
+  strength: number;
+}
+export interface VoterGroupViewsV1 {
+  schemaVersion: "voter-group-views/v1";
+  values: Readonly<Record<string, VoterDimensionV1>>;
+  issues: Readonly<Record<string, VoterDimensionV1>>;
+}
+export interface VoterViewSummaryV1 {
+  populationSize: number;
+  opinionSize: number;
+  missingSize: number;
+  mean: number | null;
+  variance: number | null;
+  strength: number | null;
+  opinionShare: number | null;
+}
+export interface VoterViewSpreadV1 {
+  id: string;
+  placeId: string;
+  ageBand?: string;
+  target: "value" | "issue";
+  key: string;
+  metric: "mean" | "variance" | "strength" | "opinionShare";
+  bounds: readonly [number, number];
+  source: Source;
+}
+
 export interface VoterGroup {
   id: string;
   placeId: string;
@@ -14,6 +47,8 @@ export interface VoterGroup {
   asOf: string;
   source: Source;
   sourceRecordIds: readonly string[];
+  /** Optional versioned distributions. Legacy lean and turnout keep their existing meanings. */
+  views?: VoterGroupViewsV1;
 }
 export interface VoterSpread {
   id: string;
@@ -64,6 +99,136 @@ function ageKey(place: string, age: string): string {
 function range(value: number, min: number, max: number): void {
   if (!Number.isFinite(value) || value < min || value > max)
     throw new Error("Voter group value is outside its finite range.");
+}
+function validateViews(views: VoterGroupViewsV1, size: number): void {
+  if (views.schemaVersion !== "voter-group-views/v1")
+    throw new Error("Unsupported voter-group views version.");
+  for (const dimensions of [views.values, views.issues]) {
+    if (
+      !dimensions ||
+      typeof dimensions !== "object" ||
+      Array.isArray(dimensions)
+    )
+      throw new Error("Voter-group dimensions require records.");
+    for (const [id, row] of Object.entries(dimensions)) {
+      moduleKey(id);
+      if (
+        row.populationSize !== size ||
+        !Number.isSafeInteger(row.opinionSize) ||
+        row.opinionSize < 0 ||
+        row.opinionSize > size
+      )
+        throw new Error(
+          "Voter-group opinion counts do not match its population.",
+        );
+      range(row.strength, 0, 1);
+      if (!row.opinionSize) {
+        if (row.mean !== null || row.variance !== null || row.strength !== 0)
+          throw new Error(
+            "No opinion is distinct from a neutral measured opinion.",
+          );
+      } else {
+        if (typeof row.mean !== "number" || typeof row.variance !== "number")
+          throw new Error("Held group opinions need moments.");
+        range(row.mean, -1, 1);
+        range(row.variance, 0, 1);
+        if (row.variance > 1 - row.mean * row.mean + Number.EPSILON * 4)
+          throw new Error(
+            "Voter-group variance is incompatible with bounded opinions.",
+          );
+      }
+    }
+  }
+}
+
+/** Aggregate supplied causal records without assigning an individual opinion or drawing a group. */
+export function summarizeVoterGroupViewsV1(
+  rows: readonly VoterGroup[],
+  target: "value" | "issue",
+  key: string,
+): Readonly<VoterViewSummaryV1> {
+  moduleKey(key);
+  if (target !== "value" && target !== "issue")
+    throw new Error("Unknown voter view target.");
+  let populationSize = 0,
+    opinionSize = 0,
+    missingSize = 0,
+    total = 0,
+    squares = 0,
+    strength = 0;
+  for (const group of rows) {
+    populationSize += group.size;
+    const row = (
+      target === "value" ? group.views?.values : group.views?.issues
+    )?.[key];
+    if (!row) {
+      missingSize += group.size;
+      continue;
+    }
+    opinionSize += row.opinionSize;
+    if (row.opinionSize) {
+      total += row.opinionSize * row.mean!;
+      squares += row.opinionSize * (row.variance! + row.mean! * row.mean!);
+      strength += row.opinionSize * row.strength;
+    }
+  }
+  if (
+    ![populationSize, opinionSize, missingSize].every(Number.isSafeInteger) ||
+    ![total, squares, strength].every(Number.isFinite)
+  )
+    throw new Error("Voter view aggregate exceeds numeric precision.");
+  const mean = opinionSize ? total / opinionSize : null;
+  return Object.freeze({
+    populationSize,
+    opinionSize,
+    missingSize,
+    mean,
+    variance:
+      mean === null ? null : Math.max(0, squares / opinionSize - mean * mean),
+    strength: opinionSize ? strength / opinionSize : null,
+    opinionShare: populationSize ? opinionSize / populationSize : null,
+  });
+}
+
+export function checkVoterGroupViewsV1(
+  core: CoreState,
+  input: VoterViewSpreadV1,
+) {
+  const spread = moduleData(input);
+  moduleKey(spread.id);
+  moduleSource(spread.source, core.date);
+  if (spread.source.tag !== "SOURCED")
+    throw new Error("Voter view checks require sourced reference spreads.");
+  if (
+    !["mean", "variance", "strength", "opinionShare"].includes(spread.metric) ||
+    !Array.isArray(spread.bounds) ||
+    spread.bounds.length !== 2 ||
+    spread.bounds[0] > spread.bounds[1]
+  )
+    throw new Error("Invalid voter view bounds.");
+  spread.bounds.forEach((value) =>
+    range(value, spread.metric === "mean" ? -1 : 0, 1),
+  );
+  const observed = summarizeVoterGroupViewsV1(
+    voterGroups(core).atPlace(spread.placeId, spread.ageBand),
+    spread.target,
+    spread.key,
+  );
+  const value = observed[spread.metric];
+  const status =
+    observed.missingSize || value === null
+      ? "missing"
+      : value >= spread.bounds[0] && value <= spread.bounds[1]
+        ? "within"
+        : "outside";
+  return Object.freeze({
+    spreadId: spread.id,
+    observed,
+    metric: spread.metric,
+    value,
+    status,
+    source: spread.source,
+  });
 }
 function index(map: Map<string, Set<string>>, key: string, id: string): void {
   let ids = map.get(key);
@@ -128,6 +293,7 @@ export function voterGroups(core: CoreState): VoterGroups {
       if (!Array.isArray(row.sourceRecordIds) || !row.sourceRecordIds.length)
         throw new Error("Voter group requires causal source record keys.");
       row.sourceRecordIds.forEach(moduleKey);
+      if (row.views !== undefined) validateViews(row.views, row.size);
       let g = registries.get(core);
       if (!g)
         registries.set(
