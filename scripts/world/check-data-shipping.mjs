@@ -36,6 +36,9 @@ export function shippingPolicy(root = process.cwd()) {
     "data/source/electoral-calibration-2024/artifact-lock.json",
   );
   const salaries = read("data/source/book-of-the-states/artifact-lock.json");
+  const identifyingSourceIds = new Set(
+    corpus.governors.flatMap((row) => row.sourceIds),
+  );
   const captures = [
     {
       path: corpusPath,
@@ -51,7 +54,7 @@ export function shippingPolicy(root = process.cwd()) {
     captures,
     forbiddenText: [
       ...electoral.artifacts
-        .filter((row) => row.id.startsWith("nga-"))
+        .filter((row) => identifyingSourceIds.has(row.id))
         .map((row) => row.url),
       ...salaries.artifacts.flatMap((row) => [
         row.url,

@@ -27,6 +27,12 @@ describe("shipped data regression check", () => {
     expect(
       inspectShippingBytes(Buffer.from('"fictional-person"'), policy),
     ).toEqual([]);
+    expect(
+      inspectShippingBytes(
+        Buffer.from('"https://www.nga.org/governors/powers-and-authority/"'),
+        policy,
+      ),
+    ).toEqual([]);
   });
   it("detects a captured artifact by digest and a salary source URL in a map", () => {
     const bytes = Buffer.from("captured research bytes");
