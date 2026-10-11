@@ -1,3 +1,5 @@
+2026-10-11 — P0-1: data/research/core-figures/P0-1/ce-region-categories-2024.json, data/research/core-figures/P0-1/ce-size-categories-2024.json, data/research/core-figures/P0-1/ce-national-source.json, data/research/core-figures/P0-1/ce-region-source.json, data/research/core-figures/P0-1/ce-size-source.json, data/research/core-figures/P0-1/public-spending-sample-2023.json, data/research/core-figures/P0-1/findings.json; coverage 51 CE jurisdictions, regional/household-size marginals; Census local government sample; territories proxy gaps; gaps vendor-local shares, unincorporated and nonsampled units, per-town visitor spending; no invented central procurement share; terms questions none; model GPT-6/Codex, actual effort/usage not exposed; elapsed 81s (instrumented topic work; excludes any pre-timer source retrieval).
+
 2026-10-11 — RESUME: branch pool/research-roadmap from main 1bbb8c92be; replayed 818ed8b720 (prerequisite data) and 7b9403646e; renamed the session log; Rule 3 and startup bench exemption fixed by #3971; prior path and publishing blockers resolved; model GPT-6/Codex, actual effort unavailable.
 
 # Priorities 0 and 1
