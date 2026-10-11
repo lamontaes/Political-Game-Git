@@ -145,9 +145,9 @@
     "name": "ruleChangeInForce",
     "inventoryEngine": "laws",
     "keepLines": 10,
-    "status": "partial-not-liftable",
+    "status": "lifted",
     "lift": "src/rules/laws/rule-change-order.ts",
-    "reason": "Decision kernel is lifted over selected facts. Whole function closes over legacy module records, research transport or helper contracts (`lawLevelRank`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "reason": "Complete last-at-highest-level selection is copied unchanged, using the already-lifted lawLevelRank helper and preserving the registered rank-only preemption assumption."
   },
   {
     "sourceFile": "src/simulation/federal-data-privacy-law.ts",
@@ -305,9 +305,9 @@
     "name": "governingRank",
     "inventoryEngine": "laws",
     "keepLines": 5,
-    "status": "partial-not-liftable",
+    "status": "lifted",
     "lift": "src/rules/laws/law-in-force.ts",
-    "reason": "Decision kernel is lifted over selected facts. Whole function closes over legacy module records, research transport or helper contracts (`lawLevelRank`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "reason": "Complete supplied-candidate rank arithmetic is lifted with the already-ported lawLevelRank helper and the unchanged registered half-level starting-law yield offset."
   },
   {
     "sourceFile": "src/simulation/governing/law-in-force.ts",
