@@ -1582,5 +1582,113 @@
     "whatItFakes": "Native rent price indexing reads current local/national prices against the first national month visible at World currentDate, falling back to one for missing or nonpositive base data. HUD market rent clamps bedrooms to zero through four and rounds dollars before multiplying by one hundred.",
     "why": "Exact unchanged Native KEEP behavior; pending CTO review, without ordinary NPC/integration claims.",
     "replacement": "Reviewed dated opening-price baseline and cents rounding contract."
+  },
+  {
+    "id": "economy.pay-start-native-phase",
+    "kind": "placeholder",
+    "file": "src/rules/economy/pay-jobs.ts",
+    "line": 159,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native biweekly phase floors the original employer-specific seeded numeric position times two. The lift takes that exact raw legacy receipt, tested at the original fork; it creates no RNG and never borrows the chosen phase. Employer period weights are already fully lifted.",
+    "why": "Exact unchanged Native KEEP behavior and bounded public-owner proof; pending CTO review, without ordinary NPC/integration claims.",
+    "replacement": "Admitted recorded employer pay-calendar phase replacing legacy numeric receipts."
+  },
+  {
+    "id": "economy.pay-job-profile-history-frontier",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/pay-jobs.ts",
+    "line": 212,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native startup and teacher raises use the last raw role/profile and whole-history death, job-ending and last-period-paid indexes. Active life status is dated, but a future death can suppress startup, current profile can cover an earlier day, and any outcome status advances the paid-period frontier. The exact mixed cutoffs remain unchanged.",
+    "why": "Exact unchanged Native KEEP behavior and bounded public-owner proof; pending CTO review, without ordinary NPC/integration claims.",
+    "replacement": "Reviewed uniform dated payroll role/death/profile/payment eligibility frontiers."
+  },
+  {
+    "id": "economy.pay-teacher-reprise-window",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/pay-jobs.ts",
+    "line": 498,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native teacher raises scan at most four hundred catch-up days, apply only at recorded new pay-period starts after the latest paid end, never reduce existing pay and convert annual dollars over 2,080 hours. Candidate startup begins no earlier than the maximum work/employer/payer dates and since minus thirty-one days. All thresholds/rounding remain unchanged.",
+    "why": "Exact unchanged Native KEEP behavior and bounded public-owner proof; pending CTO review, without ordinary NPC/integration claims.",
+    "replacement": "Reviewed dated earned/prospective pay calendar and catch-up admission contract."
+  },
+  {
+    "id": "economy.pay-teacher-stamp-receipt",
+    "kind": "placeholder",
+    "file": "src/rules/economy/pay-jobs.ts",
+    "line": 601,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native teacher raises patch the last saved terms stamp after writing it. The lift emits the complete saved stamped-row DTO; the test checks every field against the unchanged public parent before canonical prefix intake. This does not provide a new World writer; core2 stamp transport remains pending.",
+    "why": "Exact unchanged Native KEEP behavior and bounded public-owner proof; pending CTO review, without ordinary NPC/integration claims.",
+    "replacement": "Common admitted stamped-terms transport with core2 integration proof."
+  },
+  {
+    "id": "economy.pay-start-coverage-English",
+    "kind": "placeholder",
+    "file": "src/rules/economy/pay-jobs.ts",
+    "line": 679,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native hire coverage compatibility preserves the offered amount with belowRate false and an empty uncovered note; relationship membership still traverses retained date/sequence ordering. Startup/teacher provenance and explanation English remain exact. Catalog presence gates possible teacher floors rather than proving an enactment.",
+    "why": "Exact unchanged Native KEEP behavior and bounded public-owner proof; pending CTO review, without ordinary NPC/integration claims.",
+    "replacement": "Reviewed law-coverage source contract and English realization of pay/source causes."
+  },
+  {
+    "id": "economy.job-decision-admission-frontier",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/job-decisions.ts",
+    "line": 236,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native applications require a recorded living person at least sixteen; minimum recorded work hours at least thirty prohibit a second full-time offer. Employment education is excluded, while holdsWork does not check compensation. Exact age/hour/availability labels remain unchanged.",
+    "why": "Exact unchanged Native KEEP behavior and bounded public-owner proof; pending CTO review, without ordinary NPC/integration claims.",
+    "replacement": "Reviewed jurisdiction-specific employment eligibility and dated hours commitments."
+  },
+  {
+    "id": "economy.job-decision-ranking-window",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/job-decisions.ts",
+    "line": 412,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native applicant ordering prefers more recorded days in the same title/occupation, then introduced route, earlier application and lexical person ID. Experience uses any raw role and current work status, not the decision date frontier; any rival step may count as already chosen. Exact ordering, six-step loop, offer/reply/start and single-follow-up windows remain unchanged.",
+    "why": "Exact unchanged Native KEEP behavior and bounded public-owner proof; pending CTO review, without ordinary NPC/integration claims.",
+    "replacement": "Reviewed dated experience/admission and recorded employer selection with causal ties."
+  },
+  {
+    "id": "economy.job-decision-native-English",
+    "kind": "placeholder",
+    "file": "src/rules/economy/job-decisions.ts",
+    "line": 440,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Native applicant decisions, offers, lapsed replies, missed starts, follow-up and withdrawal format fixed English, including played-person wording, employer source names and dates. Text and numeric wording remain unchanged.",
+    "why": "Exact unchanged Native KEEP behavior and bounded public-owner proof; pending CTO review, without ordinary NPC/integration claims.",
+    "replacement": "English-engine realization of the complete decision/timing record."
+  },
+  {
+    "id": "economy.job-decision-event-step-receipts",
+    "kind": "placeholder",
+    "file": "src/rules/economy/job-decisions.ts",
+    "line": 292,
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN",
+    "whatItFakes": "Full owned event and application-step drafts travel in order. Tests execute unchanged common event writers and check every step field, identity and sequence against the public parent before its canonical saved prefix is supplied. No copied append writer/private evaluation; shared core2 step transport remains pending.",
+    "why": "Exact unchanged Native KEEP behavior and bounded public-owner proof; pending CTO review, without ordinary NPC/integration claims.",
+    "replacement": "Common admitted application-step append transport and core2 integration proof."
   }
 ]

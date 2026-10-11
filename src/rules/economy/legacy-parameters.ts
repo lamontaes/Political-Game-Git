@@ -505,6 +505,20 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "economy.housing-price-cache-frontier",
     ],
   },
+  "job-decisions.ts": {
+    values: [-1, 0, 0.08, 1, 2, 3, 6, 7, 16, 28, 30, 100],
+    provenance: "TUNABLE",
+    source:
+      "src/simulation/job-market.ts:929; src/simulation/job-market.ts:1300; src/simulation/job-market.ts:1368; src/simulation/job-market.ts:1398; src/simulation/job-market.ts:2050; src/simulation/job-market.ts:915; src/simulation/job-market.ts:1103; src/simulation/job-market.ts:1327",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.job-decision-admission-frontier",
+      "economy.job-decision-ranking-window",
+      "economy.job-decision-native-English",
+      "economy.job-decision-event-step-receipts",
+    ],
+  },
   "job-history-rules.ts": {
     values: [0],
     provenance: "SOURCED",
@@ -738,6 +752,21 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: ["economy.operating-income-omits-other-costs"],
+  },
+  "pay-jobs.ts": {
+    values: [-31, -1, 0, 1, 2, 12, 24, 26, 52, 100, 365.25, 400, 2080],
+    provenance: "TUNABLE",
+    source:
+      "src/simulation/living-world/town-pay.ts:906; src/simulation/living-world/town-pay.ts:1613; src/simulation/living-world/town-pay.ts:1625; src/simulation/living-world/town-pay.ts:436; src/simulation/living-world/town-pay.ts:655; src/simulation/living-world/town-pay.ts:1042; src/simulation/teacher-salary-floor.ts:306; src/simulation/fairness-pay-law.ts:58",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.pay-start-native-phase",
+      "economy.pay-job-profile-history-frontier",
+      "economy.pay-teacher-reprise-window",
+      "economy.pay-teacher-stamp-receipt",
+      "economy.pay-start-coverage-English",
+    ],
   },
   "pay-period.ts": {
     values: [0, 10, 20, 50, 100, 250, 500, 1000],

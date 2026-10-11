@@ -355,9 +355,9 @@
     "name": "applicantCanAct",
     "inventoryEngine": "economy",
     "keepLines": 9,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-decisions.ts",
+    "reason": "Complete admission/death/age, held-hours, recorded experience and deterministic rival ordering, offer/reply/start/lapse/follow-up/withdrawal and exact event/step math travel. job-decisions-world.test.ts compares unchanged public residentApplicationBlocked/advanceApplications across all 56 generated Worlds with canonical public listing/application/answer/work/pay producers and labeled date/competition/missed-start controls. Common event writers complete requests; every step draft/identity/sequence is checked before public-parent canonical history prefix intake. No private evaluation or copied append writer; shared core2 step transport remains pending. Coverage is bounded, not exhaustive or ordinary NPC/finisher/core2 play."
   },
   {
     "sourceFile": "src/simulation/job-market.ts",
@@ -365,9 +365,9 @@
     "name": "holdsFullTimeWork",
     "inventoryEngine": "economy",
     "keepLines": 9,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-decisions.ts",
+    "reason": "Complete admission/death/age, held-hours, recorded experience and deterministic rival ordering, offer/reply/start/lapse/follow-up/withdrawal and exact event/step math travel. job-decisions-world.test.ts compares unchanged public residentApplicationBlocked/advanceApplications across all 56 generated Worlds with canonical public listing/application/answer/work/pay producers and labeled date/competition/missed-start controls. Common event writers complete requests; every step draft/identity/sequence is checked before public-parent canonical history prefix intake. No private evaluation or copied append writer; shared core2 step transport remains pending. Coverage is bounded, not exhaustive or ordinary NPC/finisher/core2 play."
   },
   {
     "sourceFile": "src/simulation/job-market.ts",
@@ -375,9 +375,9 @@
     "name": "betterPlaced",
     "inventoryEngine": "economy",
     "keepLines": 14,
-    "status": "pending-owned",
-    "lift": "src/rules/economy/job-applicant-ranking.ts",
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-decisions.ts",
+    "reason": "Complete admission/death/age, held-hours, recorded experience and deterministic rival ordering, offer/reply/start/lapse/follow-up/withdrawal and exact event/step math travel. job-decisions-world.test.ts compares unchanged public residentApplicationBlocked/advanceApplications across all 56 generated Worlds with canonical public listing/application/answer/work/pay producers and labeled date/competition/missed-start controls. Common event writers complete requests; every step draft/identity/sequence is checked before public-parent canonical history prefix intake. No private evaluation or copied append writer; shared core2 step transport remains pending. Coverage is bounded, not exhaustive or ordinary NPC/finisher/core2 play."
   },
   {
     "sourceFile": "src/simulation/job-market.ts",
@@ -385,9 +385,9 @@
     "name": "decide",
     "inventoryEngine": "economy",
     "keepLines": 75,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-decisions.ts",
+    "reason": "Complete admission/death/age, held-hours, recorded experience and deterministic rival ordering, offer/reply/start/lapse/follow-up/withdrawal and exact event/step math travel. job-decisions-world.test.ts compares unchanged public residentApplicationBlocked/advanceApplications across all 56 generated Worlds with canonical public listing/application/answer/work/pay producers and labeled date/competition/missed-start controls. Common event writers complete requests; every step draft/identity/sequence is checked before public-parent canonical history prefix intake. No private evaluation or copied append writer; shared core2 step transport remains pending. Coverage is bounded, not exhaustive or ordinary NPC/finisher/core2 play."
   },
   {
     "sourceFile": "src/simulation/job-market.ts",
@@ -425,9 +425,9 @@
     "name": "advanceApplication",
     "inventoryEngine": "economy",
     "keepLines": 80,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/job-decisions.ts",
+    "reason": "Complete admission/death/age, held-hours, recorded experience and deterministic rival ordering, offer/reply/start/lapse/follow-up/withdrawal and exact event/step math travel. job-decisions-world.test.ts compares unchanged public residentApplicationBlocked/advanceApplications across all 56 generated Worlds with canonical public listing/application/answer/work/pay producers and labeled date/competition/missed-start controls. Common event writers complete requests; every step draft/identity/sequence is checked before public-parent canonical history prefix intake. No private evaluation or copied append writer; shared core2 step transport remains pending. Coverage is bounded, not exhaustive or ordinary NPC/finisher/core2 play."
   },
   {
     "sourceFile": "src/simulation/job-market.ts",
@@ -1035,9 +1035,9 @@
     "name": "startTownJobPay",
     "inventoryEngine": "economy",
     "keepLines": 165,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/pay-jobs.ts",
+    "reason": "Complete retained startup candidate/staff/period/start/pay/credential/coverage selection, legal payer/account requests, weekly/annual conversions, and teacher reprise/calendar/paid-frontier/stamp math travel with required helpers/constants. pay-jobs-world.test.ts compares unchanged public startup and raise parents across all 56 generated Worlds, canonical saved employer/work/flow records, real baseline law sources, repeated/exclusion controls and a labeled separately owned public legal-floor receipt control. The latter is an authored input, not an enacted statute. Existing common writers complete effects; the full stamp patch is checked against public-parent saved canonical prefix intake. Legacy numeric period/phase producer positions stay test-only upstream receipts, with cadence/phase math local. No production RNG, private evaluation or copied World writer. Coverage is bounded, not exhaustive or ordinary NPC/finisher/core2 play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-pay.ts",
@@ -1055,9 +1055,9 @@
     "name": "floorHourlyMinorOf",
     "inventoryEngine": "economy",
     "keepLines": 3,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/pay-jobs.ts",
+    "reason": "Complete retained startup candidate/staff/period/start/pay/credential/coverage selection, legal payer/account requests, weekly/annual conversions, and teacher reprise/calendar/paid-frontier/stamp math travel with required helpers/constants. pay-jobs-world.test.ts compares unchanged public startup and raise parents across all 56 generated Worlds, canonical saved employer/work/flow records, real baseline law sources, repeated/exclusion controls and a labeled separately owned public legal-floor receipt control. The latter is an authored input, not an enacted statute. Existing common writers complete effects; the full stamp patch is checked against public-parent saved canonical prefix intake. Legacy numeric period/phase producer positions stay test-only upstream receipts, with cadence/phase math local. No production RNG, private evaluation or copied World writer. Coverage is bounded, not exhaustive or ordinary NPC/finisher/core2 play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-pay.ts",
@@ -1065,9 +1065,9 @@
     "name": "raiseTeacherPayToFloor",
     "inventoryEngine": "economy",
     "keepLines": 116,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/pay-jobs.ts",
+    "reason": "Complete retained startup candidate/staff/period/start/pay/credential/coverage selection, legal payer/account requests, weekly/annual conversions, and teacher reprise/calendar/paid-frontier/stamp math travel with required helpers/constants. pay-jobs-world.test.ts compares unchanged public startup and raise parents across all 56 generated Worlds, canonical saved employer/work/flow records, real baseline law sources, repeated/exclusion controls and a labeled separately owned public legal-floor receipt control. The latter is an authored input, not an enacted statute. Existing common writers complete effects; the full stamp patch is checked against public-parent saved canonical prefix intake. Legacy numeric period/phase producer positions stay test-only upstream receipts, with cadence/phase math local. No production RNG, private evaluation or copied World writer. Coverage is bounded, not exhaustive or ordinary NPC/finisher/core2 play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-pay.ts",
