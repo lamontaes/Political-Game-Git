@@ -1,6 +1,7 @@
 /** Recorded counterparties, indexed monthly reviews and bills; no daily population scan. */
 import type { CoreAPI, CoreModule } from "../types";
 import { financeSettlementPhase } from "../finance-state";
+import { observeWorkPayrollForFinance } from "../work-payroll-dispatch";
 
 function dueIds(
   index: ReadonlyMap<string, ReadonlySet<string>>,
@@ -39,5 +40,6 @@ function runFinanceDay(api: CoreAPI): void {
 export const FINANCE_MODULE: CoreModule = {
   id: "core2-recorded-finance-v1",
   onDay: runFinanceDay,
+  onWorkPayroll: observeWorkPayrollForFinance,
   onAfterDay: (api) => api.finishFinanceDay(),
 };

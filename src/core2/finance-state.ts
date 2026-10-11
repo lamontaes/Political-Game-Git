@@ -1,3 +1,4 @@
+import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
 import { validateHouseholdPurchaseCalendarAdmission } from "./household-purchase-calendar";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
 import { makeIsoDate } from "../simulation/dates";
@@ -1087,6 +1088,54 @@ export function closeEmployer(
         employerOpeningFundsSource: { ...actual.employerOpeningFundsSource },
         source: { ...actual.source },
       };
+    }
+  }
+  // Attendance accrues wages; only a completed current payday can be a missed payroll.
+  const grouped = core.work.payrollCashSources.get(sourceReceiptId);
+  if (grouped?.group === true) {
+    const aggregate = grouped.result;
+    if (
+      aggregate.organizationId !== organizationId ||
+      aggregate.date !== core.date ||
+      aggregate.shortfallMinor <= api.parameter("zero") ||
+      aggregate.requestedMinor - aggregate.paidMinor !==
+        aggregate.shortfallMinor
+    )
+      throw new Error(
+        "Closure requires its actual completed conserving aggregate payday source and retained debt.",
+      );
+    verifyCurrentWorkPayrollGroup(api, aggregate);
+    cause = structuredClone(aggregate);
+  }
+  for (const jobId of core.finance.jobsByOrganization.get(organizationId) ??
+    []) {
+    const row = core.work.latestPayrollByJob.get(jobId),
+      ledger = row && core.work.payrollLedgerByCommitment.get(row.commitmentId),
+      canonical = row && core.work.payrollCashSources.get(row.id);
+    if (
+      canonical?.group !== true &&
+      row?.id === sourceReceiptId &&
+      row.date === core.date &&
+      row.organizationId === organizationId &&
+      row.shortfallMinor > api.parameter("zero")
+    ) {
+      if (
+        !ledger ||
+        !canonical ||
+        canonical.id !== row.id ||
+        canonical.date !== row.date ||
+        canonical.result !== row ||
+        (canonical.postedJournalSequence === undefined &&
+          canonical.completedAt === undefined) ||
+        ledger.lastPayrollReceiptId !== row.id ||
+        ledger.lastSettledAt !== row.date ||
+        ledger.arrearsMinor !== row.arrearsAfterMinor ||
+        row.requestedMinor - row.paidMinor !== row.shortfallMinor
+      )
+        throw new Error(
+          "Closure requires its actual completed conserving payday source and retained debt.",
+        );
+      cause = structuredClone(row);
     }
   }
   const retiredProcurementPayers = new Set<string>();

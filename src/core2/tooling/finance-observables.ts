@@ -1,10 +1,12 @@
 /** Developer-only snapshots of retained authoritative ledgers; never an engine target. */
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { parameter } from "../parameters";
+import { FinanceReadGuard } from "../finance-plan";
 import type { FinanceTotals } from "../finance-types";
 import type { CoreState, Source, WorkCommitmentInput } from "../types";
 import { WORK_OBSERVABLE_CONFIG } from "./work-observables";
 import { externalFlowObservables } from "./external-flow-observables";
+import { payrollStockObservables } from "./payroll-observables";
 
 export interface FinanceAgeSnapshot {
   ageId: string;
@@ -44,6 +46,19 @@ export interface FinanceObservableSnapshot {
     requestedMinor: number;
     paidMinor: number;
     unpaidMinor: number;
+    earnedMinor: number;
+    dueRecognizedMinor: number;
+    accruedMinor: number;
+    arrearsMinor: number;
+    legacyUnpaidMinor: number;
+    legacyDiscretionaryEarnedMinor: number;
+    legacyDiscretionaryPaidMinor: number;
+    legacyDiscretionaryShortfallMinor: number;
+    legacyDiscretionaryCompletedReceiptCount: number;
+    legacyEarnedMinor: number;
+    legacyPaidMinor: number;
+    legacyJobsWithCumulativeResults: number;
+    retainedPayrollLedgers: number;
     plannedMinutes: number;
     attendedMinutes: number;
     attendedDatedSegments: number;
@@ -152,6 +167,8 @@ export interface FinanceObservableSnapshot {
   };
   receipts: {
     latestWorkResults: number;
+    latestAttendanceResults: number;
+    latestPayrollReceipts: number;
     latestFinanceReceipts: number;
     latestCreditReceipts: number;
     detailedFinanceReceipts: number;
@@ -168,7 +185,7 @@ export interface FinanceObservableSnapshot {
     cause: {
       id: string;
       date: string;
-      kind: "work-result" | "finance-receipt";
+      kind: "work-result" | "work-payroll" | "finance-receipt";
       requestedMinor: number;
       paidMinor: number;
       unfundedMinor: number;
@@ -176,11 +193,138 @@ export interface FinanceObservableSnapshot {
       jobId: string | null;
       contractId: string | null;
       stillLatestInOwnIndex: boolean;
+      calendarId?: string;
+      componentCommitmentIds?: readonly string[];
+      componentJobIds?: readonly string[];
+      personId?: string;
+      payrollGroup?: boolean;
+      newlyDueMinor?: number;
+      arrearsBeforeMinor?: number;
+      paidArrearsMinor?: number;
+      paidNewlyDueMinor?: number;
+      missedNewlyDueMinor?: number;
+      arrearsAfterMinor?: number;
+      payrollComponents?: readonly {
+        id: string;
+        date: string;
+        groupReceiptId: string | null;
+        claimId: string;
+        commitmentId: string;
+        jobId: string;
+        personId: string;
+        organizationId: string;
+        calendarId: string;
+        index: number;
+        fromAt: string;
+        throughAt: string;
+        dueAt: string;
+        requestedMinor: number;
+        newlyDueMinor: number;
+        arrearsBeforeMinor: number;
+        paidMinor: number;
+        shortfallMinor: number;
+        paidArrearsMinor: number;
+        paidNewlyDueMinor: number;
+        missedNewlyDueMinor: number;
+        arrearsAfterMinor: number;
+        source: Source;
+        jobSource: Source;
+        paySource: Source;
+        scheduleSource: Source;
+        calendarSource: Source;
+        earnedPeriodSource?: Source;
+      }[];
       source: Source;
     };
     source: Source;
   }[];
   gaps: readonly string[];
+}
+
+/** Only the bounded retained closure receipt graph, never current/latest pay Sources.
+ * Frozen canonical and mutable captured descriptors may differ; all own data,
+ * optional-field presence, enumerability, arrays and complete Source values match.
+ */
+function guardCapturedPayrollClosure(
+  core: Readonly<CoreState>,
+  captured: object,
+): FinanceReadGuard {
+  function fail(): never {
+    throw new Error(
+      "Payroll closure differs from its retained canonical full receipt.",
+    );
+  }
+  const reads = new FinanceReadGuard(),
+    leftActive = new Set<object>(),
+    rightActive = new Set<object>();
+  const compare = (left: unknown, right: unknown): void => {
+    if (
+      left === null ||
+      right === null ||
+      typeof left !== "object" ||
+      typeof right !== "object"
+    ) {
+      if (
+        typeof left === "function" ||
+        typeof right === "function" ||
+        typeof left === "symbol" ||
+        typeof right === "symbol" ||
+        !Object.is(left, right)
+      )
+        fail();
+      return;
+    }
+    for (const value of [left, right]) {
+      const prototype = Object.getPrototypeOf(value);
+      if (
+        Array.isArray(value)
+          ? prototype !== Array.prototype
+          : prototype !== Object.prototype && prototype !== null
+      )
+        fail();
+    }
+    if (
+      Array.isArray(left) !== Array.isArray(right) ||
+      leftActive.has(left) ||
+      rightActive.has(right)
+    )
+      fail();
+    leftActive.add(left);
+    rightActive.add(right);
+    const leftKeys = reads.keys(left),
+      rightKeys = reads.keys(right),
+      rightKeySet = new Set(rightKeys);
+    if (leftKeys.length !== rightKeys.length) fail();
+    for (const key of leftKeys) {
+      if (typeof key !== "string" || !rightKeySet.has(key)) fail();
+      const leftValue = reads.field(left as Record<PropertyKey, unknown>, key),
+        rightValue = reads.field(right as Record<PropertyKey, unknown>, key);
+      if (
+        Object.getOwnPropertyDescriptor(left, key)?.enumerable !==
+        Object.getOwnPropertyDescriptor(right, key)?.enumerable
+      )
+        fail();
+      compare(leftValue, rightValue);
+    }
+    leftActive.delete(left);
+    rightActive.delete(right);
+  };
+  const id = reads.field(captured as Record<PropertyKey, unknown>, "id");
+  if (typeof id !== "string" || !id) fail();
+  const work = reads.field(core, "work"),
+    canonical = reads.mapGet(reads.field(work, "payrollCashSources"), id);
+  if (!canonical) fail();
+  // Existing completion/owner/conservation checks below remain independently intact.
+  for (const key of [
+    "id",
+    "date",
+    "group",
+    "postedJournalSequence",
+    "completedAt",
+  ] as const)
+    reads.field(canonical, key);
+  compare(captured, reads.field(canonical, "result"));
+  return reads;
 }
 
 /**
@@ -487,17 +631,19 @@ export function financeObservables(
           age.holdersWithCompleteRecordedSchedules
         : null;
 
+  const payrollStocks = payrollStockObservables(core);
   const wages = {
     scheduledWorkEnabled: core.data.work !== undefined,
     retainedJobsWithCumulativeResults: core.work.totalsByJob.size,
-    requestedMinor: zero,
-    paidMinor: zero,
+    ...payrollStocks,
+    requestedMinor: payrollStocks.legacyDiscretionaryEarnedMinor,
+    paidMinor: payrollStocks.legacyDiscretionaryPaidMinor,
     unpaidMinor: zero,
     plannedMinutes: zero,
     attendedMinutes: zero,
     attendedDatedSegments: zero,
     absentDatedSegments: zero,
-    unit: "Cumulative actual dated work segments, not completed shifts or usual weekly hours; requested minus paid is unpaid arithmetic, not a legal arrears determination.",
+    unit: "Cumulative actual scheduled work plus separately counted legacy discretionary paid-work receipts. Requested means earned. Earned minus paid includes scheduled accrual, scheduled arrears and unretried legacy discretionary shortfall. Due recognized counts each original amount once; retries do not create new earnings or obligations. Minutes and dated segment counts retain scheduled-work scope.",
   };
   for (const [id, total] of core.work.totalsByJob) {
     if (!core.jobs.has(id))
@@ -534,6 +680,13 @@ export function financeObservables(
     );
   }
   wages.unpaidMinor = wages.requestedMinor - wages.paidMinor;
+  if (
+    wages.requestedMinor !== payrollStocks.earnedMinor ||
+    wages.paidMinor !== payrollStocks.paidMinor
+  )
+    throw new Error(
+      "Work wages disagree with the actual earned and paid payroll stocks.",
+    );
 
   const firms = [...core.finance.businesses]
     .sort(([a], [b]) => a.localeCompare(b))
@@ -801,7 +954,9 @@ export function financeObservables(
       const requested = minor(cause.requestedMinor, "closure requested amount"),
         paid = minor(cause.paidMinor, "closure paid amount");
       const isWork = "jobId" in cause;
-      const unfunded = isWork ? cause.shortfallMinor : cause.unfundedMinor;
+      const isPayroll = "calendarId" in cause;
+      const unfunded =
+        isWork || isPayroll ? cause.shortfallMinor : cause.unfundedMinor;
       if (
         minor(unfunded, "closure unfunded amount") <= zero ||
         requested - paid !== unfunded
@@ -810,14 +965,72 @@ export function financeObservables(
           "Closure cause is not an actual positive unpaid obligation.",
         );
       if (
-        isWork
-          ? cause.organizationId !== id || !cause.sourceActId
+        isWork || isPayroll
+          ? cause.organizationId !== id || (!isPayroll && !cause.sourceActId)
           : !core.finance.contracts.get(cause.contractId)?.accruesArrears ||
             !cause.payments.some((payment) => payment.payerId === id)
       )
         throw new Error(
           "Closure cause does not belong to this employer obligation.",
         );
+      let closureReads: FinanceReadGuard | undefined;
+      if (isPayroll) {
+        closureReads = guardCapturedPayrollClosure(core, cause);
+        const canonical = core.work.payrollCashSources.get(cause.id),
+          actual = canonical?.result;
+        if (
+          !canonical ||
+          !actual ||
+          canonical.id !== cause.id ||
+          canonical.date !== cause.date ||
+          (canonical.postedJournalSequence === undefined &&
+            canonical.completedAt === undefined) ||
+          actual.id !== cause.id ||
+          actual.calendarId !== cause.calendarId ||
+          actual.personId !== cause.personId ||
+          actual.organizationId !== id ||
+          (cause.group === true
+            ? canonical.group !== true ||
+              actual.group !== true ||
+              cause.components.length !== actual.components.length ||
+              cause.components.some((component, index) => {
+                const original = actual.components[index],
+                  state = canonical.componentStates[index];
+                return (
+                  !original ||
+                  !state ||
+                  state.result !== original ||
+                  component.groupReceiptId !== cause.id ||
+                  component.commitmentId !== original.commitmentId ||
+                  component.jobId !== original.jobId ||
+                  component.personId !== cause.personId ||
+                  component.organizationId !== id ||
+                  component.calendarId !== cause.calendarId ||
+                  component.id !== cause.id ||
+                  component.date !== cause.date ||
+                  component.requestedMinor !== original.requestedMinor ||
+                  component.paidMinor !== original.paidMinor ||
+                  component.shortfallMinor !== original.shortfallMinor ||
+                  component.newlyDueMinor !== original.newlyDueMinor ||
+                  component.arrearsBeforeMinor !==
+                    original.arrearsBeforeMinor ||
+                  component.arrearsAfterMinor !== original.arrearsAfterMinor
+                );
+              })
+            : actual.group === true ||
+              actual.commitmentId !== cause.commitmentId ||
+              actual.jobId !== cause.jobId) ||
+          actual.requestedMinor !== requested ||
+          actual.paidMinor !== paid ||
+          actual.shortfallMinor !== unfunded ||
+          actual.newlyDueMinor !== cause.newlyDueMinor ||
+          actual.arrearsBeforeMinor !== cause.arrearsBeforeMinor ||
+          actual.arrearsAfterMinor !== cause.arrearsAfterMinor
+        )
+          throw new Error(
+            "Payroll closure lost its actual completed conserving source and original amounts.",
+          );
+      }
       for (const jobId of row.endedJobIds) {
         const job = core.jobs.get(jobId);
         if (
@@ -830,7 +1043,7 @@ export function financeObservables(
             "Closure ended-job facts disagree with their retained ownership.",
           );
       }
-      return {
+      const observed = {
         organizationId: id,
         date: row.date,
         reasonKey: row.reasonKey,
@@ -840,23 +1053,101 @@ export function financeObservables(
         cause: {
           id: cause.id,
           date: cause.date,
-          kind: isWork
-            ? ("work-result" as const)
-            : ("finance-receipt" as const),
+          kind: isPayroll
+            ? ("work-payroll" as const)
+            : isWork
+              ? ("work-result" as const)
+              : ("finance-receipt" as const),
           requestedMinor: requested,
           paidMinor: paid,
           unfundedMinor: unfunded,
-          sourceActId: isWork ? cause.sourceActId : null,
-          jobId: isWork ? cause.jobId : null,
-          contractId: isWork ? null : cause.contractId,
-          stillLatestInOwnIndex: isWork
-            ? core.work.lastResultByJob.get(cause.jobId)?.id === cause.id
-            : core.finance.latestReceiptsByContract.get(cause.contractId)
-                ?.id === cause.id,
+          sourceActId: isWork && !isPayroll ? cause.sourceActId : null,
+          jobId: isWork ? (cause.jobId ?? null) : null,
+          contractId: isWork || isPayroll ? null : cause.contractId,
+          ...(isPayroll
+            ? {
+                calendarId: cause.calendarId,
+                personId: cause.personId,
+                payrollGroup: cause.group === true,
+                newlyDueMinor: cause.newlyDueMinor,
+                arrearsBeforeMinor: cause.arrearsBeforeMinor,
+                paidArrearsMinor: cause.paidArrearsMinor,
+                paidNewlyDueMinor: cause.paidNewlyDueMinor,
+                missedNewlyDueMinor: cause.missedNewlyDueMinor,
+                arrearsAfterMinor: cause.arrearsAfterMinor,
+                payrollComponents: (cause.group === true
+                  ? cause.components
+                  : [cause]
+                ).map((component) => ({
+                  id: component.id,
+                  date: component.date,
+                  groupReceiptId:
+                    "groupReceiptId" in component
+                      ? component.groupReceiptId
+                      : null,
+                  claimId:
+                    "claimId" in component ? component.claimId : component.id,
+                  commitmentId: component.commitmentId,
+                  jobId: component.jobId,
+                  personId: component.personId,
+                  organizationId: component.organizationId,
+                  calendarId: component.calendarId,
+                  index: component.index,
+                  fromAt: component.fromAt,
+                  throughAt: component.throughAt,
+                  dueAt: component.dueAt,
+                  requestedMinor: component.requestedMinor,
+                  newlyDueMinor: component.newlyDueMinor,
+                  arrearsBeforeMinor: component.arrearsBeforeMinor,
+                  paidMinor: component.paidMinor,
+                  shortfallMinor: component.shortfallMinor,
+                  paidArrearsMinor: component.paidArrearsMinor,
+                  paidNewlyDueMinor: component.paidNewlyDueMinor,
+                  missedNewlyDueMinor: component.missedNewlyDueMinor,
+                  arrearsAfterMinor: component.arrearsAfterMinor,
+                  source: source(component.source),
+                  jobSource: source(component.jobSource),
+                  paySource: source(component.paySource),
+                  scheduleSource: source(component.scheduleSource),
+                  calendarSource: source(component.calendarSource),
+                  ...(component.earnedPeriodSource
+                    ? {
+                        earnedPeriodSource: source(
+                          component.earnedPeriodSource,
+                        ),
+                      }
+                    : {}),
+                })),
+              }
+            : {}),
+          ...(isPayroll && cause.group === true
+            ? {
+                componentCommitmentIds: cause.components.map(
+                  (component) => component.commitmentId,
+                ),
+                componentJobIds: cause.components.map(
+                  (component) => component.jobId,
+                ),
+              }
+            : {}),
+          stillLatestInOwnIndex: isPayroll
+            ? cause.group === true
+              ? cause.components.every(
+                  (component) =>
+                    core.work.latestPayrollByJob.get(component.jobId)?.id ===
+                    cause.id,
+                )
+              : core.work.latestPayrollByJob.get(cause.jobId)?.id === cause.id
+            : isWork
+              ? core.work.lastResultByJob.get(cause.jobId)?.id === cause.id
+              : core.finance.latestReceiptsByContract.get(cause.contractId)
+                  ?.id === cause.id,
           source: source(cause.source),
         },
         source: source(row.source),
       };
+      closureReads?.verify();
+      return observed;
     });
 
   return {
@@ -946,6 +1237,8 @@ export function financeObservables(
     },
     receipts: {
       latestWorkResults: core.work.lastResultByJob.size,
+      latestAttendanceResults: core.work.lastAttendanceByJob.size,
+      latestPayrollReceipts: core.work.latestPayrollByJob.size,
       latestFinanceReceipts: core.finance.latestReceiptsByContract.size,
       latestCreditReceipts: core.finance.latestCreditByFacility.size,
       detailedFinanceReceipts: core.finance.detailedReceipts.size,

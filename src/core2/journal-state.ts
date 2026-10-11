@@ -2,6 +2,7 @@
 import { makeIsoDate } from "../simulation/dates";
 import { P } from "./parameters";
 import { projectCashJournal } from "./journal";
+import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import type {
   CashAccountSnapshot,
   CashJournalInput,
@@ -1139,6 +1140,8 @@ export function postCashJournal(
     throw new Error("Reentrant cash journal writer.");
   activeWriters.add(runtime);
   try {
+    const state = host.state,
+      controlSnapshot = snapshotExplicitControlV1(state);
     const request: CashJournalInput = {
       id: input.id,
       date: input.date,
@@ -1146,8 +1149,7 @@ export function postCashJournal(
       sourceRef: Object.freeze({ ...input.sourceRef }),
       postings: input.postings.map((row) => ({ ...row })),
     };
-    const state = host.state,
-      parameters = host.parameters;
+    const parameters = host.parameters;
     const numbers = constants(parameters),
       { zero, one } = numbers;
     const date = makeIsoDate(state.date),
@@ -1547,6 +1549,9 @@ export function postCashJournal(
       undefined,
       true,
     );
+    // The known factory closure checks only captured private WeakMap identity.
+    // No host/module/client callback is admitted; all original reflective checks ran above.
+    controlSnapshot.verify();
     // COMMIT: only captured direct fields and native map/set mutations follow.
     // No lookup, parameter read, serialization, validation, callback or event runs here.
     for (const write of cashWrites) write.row.liquidMinor = write.next;
@@ -1635,11 +1640,12 @@ export function completeCashJournalSource(
     throw new Error("Reentrant canonical noncash completion.");
   activeWriters.add(runtime);
   try {
+    const state = host.state,
+      controlSnapshot = snapshotExplicitControlV1(state);
     const request = Object.freeze({ kind: reference.kind, id: reference.id });
     identity(request.kind, "noncash source kind");
     identity(request.id, "noncash source id");
-    const state = host.state,
-      parameters = host.parameters;
+    const parameters = host.parameters;
     const { zero, one } = constants(parameters),
       date = makeIsoDate(state.date);
     const people = state.people,
@@ -1779,6 +1785,8 @@ export function completeCashJournalSource(
       false,
       secondaryObjects,
     );
+    // Factory-owned native private identity check after every original rejection-capable check.
+    controlSnapshot.verify();
     // COMMIT: the primary direct completion field and captured typed operations only.
     marker.completedAt = date;
     for (const row of secondary) row.marker.completedAt = date;
