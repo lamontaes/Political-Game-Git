@@ -86,6 +86,12 @@ export function openGovernmentBudget(
 ) {
   return reader(facts.views).opening(facts, candidate, today);
 }
+export function pensionFlowProfile(
+  facts: Pick<OpeningBudgetFacts, "views">,
+  government: Pick<PublicBudgetGovernment, "stateKey" | "level" | "name">,
+) {
+  return reader(facts.views).pension(government);
+}
 export function servingGovernment(
   facts: Pick<OpeningBudgetFacts, "views">,
   placeGeoid: string,
@@ -975,6 +981,7 @@ function compileOpening(views: BudgetGeographyViews) {
     };
   }
   return {
+    pension: pensionFlows,
     serving: servingGovernment,
     candidates: computeBudgetCandidates,
     opening: computeGovernmentOpening,

@@ -745,9 +745,9 @@
     "name": "townTaxableSales",
     "inventoryEngine": "economy",
     "keepLines": 9,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/finance-readings.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-cannabis-finance-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-finances.ts",
@@ -1565,9 +1565,9 @@
     "name": "sourcedRestriction",
     "inventoryEngine": "economy",
     "keepLines": 30,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-shared",
+    "lift": "src/rules/legislatures/local-fiscal-admission.ts",
+    "reason": "Full retained private restriction and public localFiscalAuthorityFor closure already travel in the owned legislature shelf. council-world.test.ts compares the complete unchanged Native public owner across all 56 generated places; the prior legislature 1851-check gate and current stacked head carry this proof. Referenced shared closure, not duplicate economy production or a new gameplay/integration claim."
   },
   {
     "sourceFile": "src/simulation/macro-economy/central-bank.ts",
@@ -1995,9 +1995,9 @@
     "name": "cannabisSalesRevenueChange",
     "inventoryEngine": "economy",
     "keepLines": 86,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-cannabis.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-cannabis-finance-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/cannabis-sales-revenue.ts",
@@ -2005,9 +2005,9 @@
     "name": "cannabisTaxTermsForLaw",
     "inventoryEngine": "economy",
     "keepLines": 92,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-cannabis.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-cannabis-finance-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/cannabis-sales-revenue.ts",
@@ -2015,9 +2015,9 @@
     "name": "cannabisRetailRevenue",
     "inventoryEngine": "economy",
     "keepLines": 41,
-    "status": "lifted",
-    "lift": "src/rules/economy/retail-revenue.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-cannabis.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-cannabis-finance-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/cannabis-sales-revenue.ts",
@@ -2025,9 +2025,9 @@
     "name": "enactedCannabisRevenue",
     "inventoryEngine": "economy",
     "keepLines": 82,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-cannabis.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-cannabis-finance-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/fiscal.ts",
@@ -2065,9 +2065,9 @@
     "name": "borrowingCostChange",
     "inventoryEngine": "economy",
     "keepLines": 10,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-month.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-month-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/month.ts",
@@ -2075,9 +2075,9 @@
     "name": "monthsInto",
     "inventoryEngine": "economy",
     "keepLines": 6,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-month.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-month-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/month.ts",
@@ -2085,9 +2085,9 @@
     "name": "taxLawFactor",
     "inventoryEngine": "economy",
     "keepLines": 45,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-month.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-month-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/month.ts",
@@ -2095,9 +2095,9 @@
     "name": "lawSpendingForMonth",
     "inventoryEngine": "economy",
     "keepLines": 20,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-month.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-month-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/month.ts",
@@ -2105,9 +2105,9 @@
     "name": "cannabisSalesFactor",
     "inventoryEngine": "economy",
     "keepLines": 10,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-month.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-month-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/month.ts",
@@ -2115,9 +2115,9 @@
     "name": "openingMonthLevel",
     "inventoryEngine": "economy",
     "keepLines": 16,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-month.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-month-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/month.ts",
@@ -2125,9 +2125,9 @@
     "name": "settleGovernmentMonth",
     "inventoryEngine": "economy",
     "keepLines": 613,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-month.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-month-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/month.ts",
@@ -2135,9 +2135,9 @@
     "name": "lawMoneyChange",
     "inventoryEngine": "economy",
     "keepLines": 24,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-month.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-month-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/month.ts",
@@ -2145,9 +2145,9 @@
     "name": "shortfallDollars",
     "inventoryEngine": "economy",
     "keepLines": 5,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-month.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-month-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/month.ts",
@@ -2155,9 +2155,9 @@
     "name": "decideShortfallOrder",
     "inventoryEngine": "economy",
     "keepLines": 41,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-month.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-month-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/month.ts",
@@ -2165,9 +2165,9 @@
     "name": "decideLawMoneyReaction",
     "inventoryEngine": "economy",
     "keepLines": 75,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-month.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-month-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/month.ts",
@@ -2175,9 +2175,9 @@
     "name": "proposeNextYearBudget",
     "inventoryEngine": "economy",
     "keepLines": 11,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-month.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-month-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/month.ts",
@@ -2185,9 +2185,9 @@
     "name": "adoptNextYear",
     "inventoryEngine": "economy",
     "keepLines": 315,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-month.ts",
+    "reason": "Full retained KEEP closure and necessary private helpers/constants travel; budget-month-world.test.ts compares complete unchanged Native public-owner outputs on the same generated Worlds across all 56 places. Actual startup/macro/account/transfer/governor sources and labeled operative tax-contract, rollover, idempotence, law-cost and receipt-shortfall controls are distinguished. Unsupported county source identity stays a Native no-op. Raw/compiled legal, principle and outcome receipts remain separately owned. No private evaluation, fabricated jurisdiction, copied World writer, ordinary NPC fiscal year, exhaustive proof, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/opening-cash-profile.ts",

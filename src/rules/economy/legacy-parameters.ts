@@ -43,6 +43,18 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: ["economy.opening-account-crosswalk"],
   },
+  "budget-cannabis.ts": {
+    values: [0, 1, 2, 4, 5, 7, 8, 10, 12, 90],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/public-budgets/cannabis-sales-revenue.ts:42; src/simulation/public-budgets/cannabis-sales-revenue.ts:162; src/simulation/public-budgets/cannabis-sales-revenue.ts:288; src/simulation/public-budgets/cannabis-sales-revenue.ts:330; src/simulation/public-budgets/cannabis-sales-revenue.ts:1; src/simulation/governing/final-law-term-query.ts:520; src/simulation/tax-policy.ts:603",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.cannabis-retail-market-projection",
+      "economy.cannabis-term-validation-frontier",
+    ],
+  },
   "budget-cash-profile.ts": {
     values: [0, 100],
     provenance: "ESTIMATED",
@@ -88,6 +100,33 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: ["economy.peer-cash-bracket-estimate"],
+  },
+  "budget-month-policy.ts": {
+    values: [
+      -250000000, 0, 1, 2, 5753048, 6208038, 19867248, 53900000, 56600000,
+      250000000,
+    ],
+    provenance: "ESTIMATED",
+    source: "src/simulation/public-budgets/rules.ts:76",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.monthly-budget-elasticity",
+      "economy.monthly-law-spending-cohort",
+    ],
+  },
+  "budget-month.ts": {
+    values: [-1, 0, 0.001, 1, 2, 3, 4, 5, 7, 12, 100, 10000, 1000000],
+    provenance: "TUNABLE",
+    source:
+      "src/simulation/public-budgets/month.ts:590; src/simulation/public-budgets/month.ts:608; src/simulation/public-budgets/month.ts:628; src/simulation/public-budgets/month.ts:681; src/simulation/public-budgets/month.ts:709; src/simulation/public-budgets/month.ts:728; src/simulation/public-budgets/month.ts:771; src/simulation/public-budgets/month.ts:1392; src/simulation/public-budgets/month.ts:1418; src/simulation/public-budgets/month.ts:1436; src/simulation/public-budgets/month.ts:1501; src/simulation/public-budgets/month.ts:1581; src/simulation/public-budgets/month.ts:1605; src/simulation/public-budgets/fiscal.ts:27; src/simulation/county-budget-record.ts:90",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.monthly-budget-capital-policy",
+      "economy.budget-unmaterialized-source-government",
+      "economy.monthly-budget-native-English",
+    ],
   },
   "budget-opening.ts": {
     values: [0, 1, 2, 5, 100, 1000, 10000, 1000000],
@@ -317,6 +356,14 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: ["economy.quantity-intermediate-overflow"],
+  },
+  "finance-readings.ts": {
+    values: [-3, -1, 0, 2],
+    provenance: "SOURCED",
+    source:
+      "src/simulation/living-world/town-finances.ts:598; src/simulation/living-world/town-finances.ts:507",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
   },
   "fiscal-and-month-dates.ts": {
     values: [0, 1, 2, 4, 5, 7, 12, 86400000],
@@ -682,7 +729,8 @@ export const ECONOMY_LEGACY_PARAMETERS = {
   "retail-revenue.ts": {
     values: [0, 1],
     provenance: "TUNABLE",
-    source: "src/simulation/public-budgets/cannabis-sales-revenue.ts:288",
+    source:
+      "Frozen supporting native unit/schema/calendar contract; see module imports and KEEP-DISPOSITION.md.",
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: ["economy.cannabis-missing-source-keys"],
