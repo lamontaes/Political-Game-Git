@@ -24,7 +24,7 @@ import { workRoleAt } from "./life-queries";
 describe("what states pay for an office", () => {
   it("holds the governor's published salary", () => {
     expect(statePayFor("governor", "NY")?.annualDollars).toBe(250_000);
-    expect(statePayFor("governor", "AL")?.annualDollars).toBe(131_800);
+    expect(statePayFor("governor", "MI")?.annualDollars).toBe(159_300);
     expect(OFFICE_PAY_META.governors).toBeGreaterThanOrEqual(50);
   });
 
@@ -33,17 +33,18 @@ describe("what states pay for an office", () => {
     expect(statePayFor("state-legislator", "TX")?.annualDollars).toBe(7_200);
   });
 
-  it("holds California's newer legislator salary in place of the 2023 table's", () => {
-    // $128,215 since December 4, 2023; the Book of the States 2023 shows $122,694.
+  it("holds the independently cited legislator salary and its reference period", () => {
     expect(statePayFor("state-legislator", "CA")?.annualDollars).toBe(128_215);
-    expect(OFFICE_PAY_META.newerThanTables).toEqual([
+    expect(OFFICE_PAY_META.citations).toContainEqual(
       expect.objectContaining({
         office: "state-legislator",
         state: "CA",
         annualDollars: 128_215,
-        effectiveFrom: "2023-12-04",
+        referencePeriod: "December 4, 2023",
+        sourceUrl:
+          "https://www.calhr.ca.gov/california-citizens-compensation-commission/cccc-salaries/",
       }),
-    ]);
+    );
   });
 
   it("holds a trial court judge's and a member of Congress's salary", () => {
