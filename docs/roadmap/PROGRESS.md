@@ -2,6 +2,10 @@
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
+## 2026-10-11
+
+- **RULES-3 campaigns precursor, draft #3951.** Recognition, field pacing, contribution decisions, civic stake and pressure math are lifted into a pure library. Two focused files / 61 tests pass across all 56 places with all three office-level inputs and positive contact checks. All 76 classifier/manual entries are accounted for, including rejected designs and old-runtime blockers. Eight inherited stopgaps remain unchanged and are registered. A legacy date fixture carries a stale daylight-saving offset; new checks use the existing canonical local-date helper. No playable golden-path step advances; core wiring and independent finishing are next. Model, effort and time are in `docs/plans/rules3/campaigns.md`.
+
 ## 2026-10-10
 
 - **OPUS-PEOPLE (M0-people), parts 1 to 4 in review.**
