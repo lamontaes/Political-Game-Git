@@ -27,7 +27,7 @@ import { modalValue } from "./modal-value";
 import {
   councilOpeningNumber,
   congressNumberForYear,
-  dcCouncilPeriodForYear,
+  councilPeriodForYear,
 } from "./measure-periods";
 
 describe("remaining standalone election KEEP rules", () => {
@@ -85,7 +85,7 @@ describe("remaining standalone election KEEP rules", () => {
         expect(congressNumberForYear(year)).toBe(
           numbering.congressNumberForYear(year),
         );
-        expect(dcCouncilPeriodForYear(year)).toBe(
+        expect(councilPeriodForYear(year, 1975, 2)).toBe(
           numbering.dcCouncilPeriodForYear(year),
         );
         for (const cadence of [1, 2, 4])

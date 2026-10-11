@@ -74,3 +74,9 @@ preserve the 55% self-starter opportunity gate, estimated weekly ordinance pace,
 and modalValue's undefined result for empty inputs despite its declared type.
 All new calculations are golden-compared over all 56 identities. Measured
 validation, the seeded audit draw and model/effort/time are recorded in #3948.
+
+Final boundary check: the council period formula accepts a supplied reference
+year and cycle length. The original place-specific function/1975 anchor remains
+an explicit whole-function blocker; its arithmetic is golden-compared through
+this shared helper. The complete legislative date function is a full lift
+because its calendar helpers are already lifted, not an unresolved dependency.

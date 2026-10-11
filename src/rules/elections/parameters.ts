@@ -77,10 +77,4 @@ export const ELECTION_PARAMETERS = {
     tag: "SOURCED",
     source: "U.S. Senate, The First Federal Congress, 1789-1791",
   },
-  councilPeriodAnchor: {
-    value: 1975,
-    tag: "SOURCED",
-    source:
-      "data/research/bill-samples/dc/district-of-columbia.json: period 26 in 2025-2026, two-year period numbering",
-  },
 } as const;
