@@ -1,3 +1,5 @@
+2026-10-11 — R22: data/research/legislatures/roadmap-r22-throughput.json + 2 request answers; coverage Congress, four 2024 state sessions, TX off-year rule and three municipal/county observations; gaps remaining jurisdictions, committee kills, roll-call distribution, subject series and causal voting weights; terms questions none; model GPT-6 (Codex), effort not exposed, 54 seconds.
+
 2026-10-11 — R21: data/research/legislatures/roadmap-r21-procedure.json + 11 request answers; coverage Congress and D.C. legal procedure; state/local quantitative examples separately in R22; gaps full56 state/territory procedure and five-kind council samples; committee calendars/assignments; terms questions none; model GPT-6 (Codex), effort not exposed, 90 seconds.
 
 2026-10-11 — R20: data/research/news/roadmap-r20-local-news.json + 6 request answers; coverage U.S. adult survey aggregates; not a county outlet inventory or territory sample; gaps county outlets, newsroom staffing/content mix, scandal reach, diffusion and local-official recall; terms questions Northwestern news-desert reuse unclear; no records copied; model GPT-6 (Codex), effort not exposed, 38 seconds.
