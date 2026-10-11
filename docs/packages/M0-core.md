@@ -35,7 +35,10 @@ Run a full year in a randomly drawn place (and the existing benchmark place for 
 
 If it fails, find the cause, fix it, and run again. Never top up firms just so they survive.
 
-## Part 3: the four core pieces (high)
+## Part 3: the four core pieces (high), split across two sessions (owner, Oct 10)
+
+- **SOL-1258** builds piece 2 (accounts and postings), because it's entangled with the money work.
+- **CORE-PIECES** (a new Codex session, GPT-6.1 Sol, high: core architecture) builds pieces 1, 3 and 4 (module state, the module calendar, voter groups) in parallel, on branch `pool/M0-core-pieces` stacked on SOL-1258's latest `pool/P8-part-1`. It rebases on Sol's head regularly, keeps the `core2-part1b-v1` player API intact, and lets modules register stop points through the calendar so they feed `earliestPlayerStopV1`. Its changes to shared core files go in their own commits for SOL-1258's review.
 
 The approved interface additions from `docs/design/core2-porting-plan.md`, "What the new core's interface lacks":
 
