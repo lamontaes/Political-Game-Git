@@ -32,6 +32,11 @@
     {
       "source": "www2.census.gov from this environment",
       "whatItDidNotSettle": "Blocked by the network proxy (403), so the Island Areas code lists could not be fetched directly."
+    },
+    {
+      "source": "US Census Bureau 2020 Island Areas release and API access checks, 2026-10-11",
+      "url": "https://www.census.gov/library/stories/2021/10/first-2020-census-united-states-island-areas-data-released-today.html",
+      "whatItDidNotSettle": "Verified territory counts AS 49,710; GU 153,836; MP 47,329; VI 87,146. API requests returned Missing Key HTML. No complete county/place list, government-unit classification or spelling aliases extracted. Request remains unanswered; see data/research/places/roadmap-r11-population-v2025-manifest.json."
     }
   ],
   "title": "Which towns and villages a life can start in on Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands",
