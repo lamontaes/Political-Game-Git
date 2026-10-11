@@ -1156,7 +1156,6 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     publicPayIdentities,
     { ownerIdByGovernmentKey: historicalCountyPayingOwnerIds },
   );
-<<<<<<< HEAD
   const payroll = openingWorkPayrollCalendars({
     seed: options.seed,
     startedAt,
@@ -1165,7 +1164,6 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     organizations: publicPay.organizations,
     workCommitments: publicPay.workCommitments,
   });
-=======
   const family = openingFamilies({
     seed: options.seed,
     world,
@@ -1180,7 +1178,6 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     source,
   });
   stopgap("SG-P15-kin-generation");
->>>>>>> origin/pool/P15-people-5
   return {
     seed: options.seed,
     startedAt,
@@ -1188,14 +1185,9 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
     households: [...households, ...family.households],
     jobs,
     organizations: publicPay.organizations,
-<<<<<<< HEAD
     workCommitments: payroll.workCommitments,
     workPayrollCalendars: payroll.calendars,
-    familyLinks,
-=======
-    workCommitments: publicPay.workCommitments,
     familyLinks: [...familyLinks, ...family.familyLinks],
->>>>>>> origin/pool/P15-people-5
     focusPersonIds: [],
     focusPlaceIds: [],
     visiblePlaceIds: [

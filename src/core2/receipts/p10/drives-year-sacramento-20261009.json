@@ -1,0 +1,2286 @@
+{
+  "schema": "p10-drives-proof-v1",
+  "seed": "p10-drives-proof-2026-10-09",
+  "place": {
+    "placeName": "Sacramento, California",
+    "countyNames": "Sacramento County, California",
+    "placeKey": "0664000"
+  },
+  "startedAt": "2021-01-01",
+  "through": "2022-01-01",
+  "buildSeconds": 5.622758681000001,
+  "timing": {
+    "withDrivesSeconds": 373.166510762,
+    "monthly": [
+      {
+        "month": "2021-01",
+        "seconds": 24.583195262,
+        "rssMiB": 1887.40625
+      },
+      {
+        "month": "2021-02",
+        "seconds": 47.705808836,
+        "rssMiB": 2115.1875
+      },
+      {
+        "month": "2021-03",
+        "seconds": 79.127420463,
+        "rssMiB": 3222.5625
+      },
+      {
+        "month": "2021-04",
+        "seconds": 120.122941638,
+        "rssMiB": 3913.1484375
+      },
+      {
+        "month": "2021-05",
+        "seconds": 149.76404463800003,
+        "rssMiB": 3928.7734375
+      },
+      {
+        "month": "2021-06",
+        "seconds": 179.308761901,
+        "rssMiB": 3916.515625
+      },
+      {
+        "month": "2021-07",
+        "seconds": 213.93613502500003,
+        "rssMiB": 3932.765625
+      },
+      {
+        "month": "2021-08",
+        "seconds": 244.85446911499997,
+        "rssMiB": 4292.20703125
+      },
+      {
+        "month": "2021-09",
+        "seconds": 279.191134753,
+        "rssMiB": 4310.33203125
+      },
+      {
+        "month": "2021-10",
+        "seconds": 310.42397852399995,
+        "rssMiB": 5083.33203125
+      },
+      {
+        "month": "2021-11",
+        "seconds": 340.29814976399996,
+        "rssMiB": 5365.28515625
+      },
+      {
+        "month": "2021-12",
+        "seconds": 373.16633046199996,
+        "rssMiB": 5383.16015625
+      }
+    ],
+    "peakRssMiB": 5383.16015625
+  },
+  "stopgapHits": [
+    "SG-P10-drive-acts",
+    "SG-P10-event-severity",
+    "SG-P10-health-minimal-port",
+    "SG-P10-params-uncalibrated",
+    "SG-P10-perception-model",
+    "SG-P10-resilience-scale",
+    "SG-P10-response-model",
+    "SG-P8-attendance-choice",
+    "SG-P8-civic-progress",
+    "SG-P8-emotion-model",
+    "SG-P8-life-utility",
+    "SG-P8-param-careHours",
+    "SG-P8-param-civicHours",
+    "SG-P8-param-companyHorizonDays",
+    "SG-P8-param-moneyBufferDays",
+    "SG-P8-param-relationContactGain",
+    "SG-P8-param-restEffect",
+    "SG-P8-param-traitWeight",
+    "SG-P8-work-pay-terms",
+    "SG-P8-work-result-retention",
+    "SG-P8-work-schedule-data",
+    "SG-P8-work-time-reserve"
+  ],
+  "population": 10001,
+  "health": {
+    "onsets": 72,
+    "deaths": 65,
+    "casesWithOnsetInRun": 72
+  },
+  "drives": {
+    "formedByYearKind": {
+      "2021:cause": 11,
+      "2021:calling": 12
+    },
+    "formedPerThousandResidents": {
+      "2021:cause": 1.0998900109989003,
+      "2021:calling": 1.1998800119988002
+    },
+    "peopleHoldingDrives": 23,
+    "responsesByRule": {
+      "serious-illness:carry-on": 133,
+      "serious-illness:take-up-cause": 11,
+      "bereavement:answer-calling": 12,
+      "bereavement:take-up-cause": 10,
+      "bereavement:carry-on": 45,
+      "cause-shared:carry-on": 5
+    },
+    "perceivedDecisions": 216,
+    "actsByAction": {
+      "look-up-local-institution": 260,
+      "volunteer-for-cause": 346,
+      "share-cause": 5,
+      "organize-meeting": 2
+    },
+    "actsByBasis": {
+      "scored": 611,
+      "reconstructed": 2
+    },
+    "actsByKindAndAction": {
+      "cause:look-up-local-institution": 260,
+      "calling:volunteer-for-cause": 346,
+      "calling:share-cause": 5,
+      "cause:organize-meeting": 2
+    },
+    "groupsFounded": 0,
+    "decisionsRetained": 216,
+    "decisionsFormingDrive": 33,
+    "adultDecisions": 168,
+    "adultDecisionsFormingDrive": 33,
+    "driveMinusCarryOnUrgency": {
+      "min": -6.256746663076488,
+      "p25": -2.8736530315627533,
+      "median": -1.093703703703704,
+      "p75": -0.46361904761904893,
+      "p90": 0.14666800259397217,
+      "max": 0.6418200946335104
+    }
+  },
+  "chain": {
+    "person": {
+      "id": "person_cd53ffe3c91634df",
+      "name": "Rodney Cobb",
+      "birthDate": "1952-02-22",
+      "traits": {
+        "people-mind-v1:deliberation": 0,
+        "people-mind-v1:sociability": 1,
+        "people-mind-v1:conflict": 0,
+        "people-mind-v1:reliability": 1,
+        "people-mind-v1:risk": 1,
+        "personality-v1:facet-duty-bound": 1,
+        "personality-v1:facet-practical": 1,
+        "personality-v1:facet-acquisitive": 1
+      }
+    },
+    "sourceEvent": {
+      "date": "2021-06-23",
+      "subjects": ["person_cd53fee3c916332c"],
+      "topic": "health:heart-disease",
+      "desiredChange": "care-and-cure:heart-disease",
+      "facts": {
+        "event:health.serious-illness:person_cd53fee3c916332c:2021-06-23:condition": "heart-disease"
+      },
+      "id": "health.serious-illness:person_cd53fee3c916332c:2021-06-23",
+      "kind": "health.serious-illness",
+      "healthCase": {
+        "personId": "person_cd53fee3c916332c",
+        "conditions": ["heart-disease", "diabetes", "substance-use-disorder"],
+        "conditionKey": "heart-disease",
+        "severity": 840.911842,
+        "onsetDate": "2021-06-23",
+        "onsetEventId": "health.serious-illness:person_cd53fee3c916332c:2021-06-23",
+        "deathDate": "2021-07-23",
+        "deathEventId": "life.death:person_cd53fee3c916332c:2021-07-23"
+      },
+      "subject": {
+        "id": "person_cd53fee3c916332c",
+        "name": "Rose Cobb",
+        "birthDate": "1949-02-08",
+        "traits": {
+          "people-mind-v1:deliberation": 0,
+          "people-mind-v1:sociability": 0,
+          "people-mind-v1:conflict": 0,
+          "people-mind-v1:reliability": 1,
+          "people-mind-v1:risk": 0,
+          "personality-v1:facet-duty-bound": 1,
+          "personality-v1:facet-contented": 1,
+          "personality-v1:facet-generous": 1
+        }
+      }
+    },
+    "drive": {
+      "id": "cause:health:heart-disease",
+      "kind": "cause",
+      "topic": "health:heart-disease",
+      "formedAt": "2021-06-23",
+      "halfLifeDays": 365,
+      "formations": [
+        {
+          "date": "2021-06-23",
+          "personId": "person_cd53ffe3c91634df",
+          "eventId": "health.serious-illness:person_cd53fee3c916332c:2021-06-23",
+          "eventKind": "health.serious-illness",
+          "ruleId": "serious-illness",
+          "role": "family",
+          "roleWeight": 1,
+          "closeness": 0.46211715726000974,
+          "channelGain": 1,
+          "traitTerms": [],
+          "attention": 1.4621171572600098,
+          "magnitude": 1.2866630983888085,
+          "agency": 0.9999999999973788,
+          "pressure": 1.881252191767601,
+          "event": {
+            "date": "2021-06-23",
+            "subjects": ["person_cd53fee3c916332c"],
+            "topic": "health:heart-disease",
+            "desiredChange": "care-and-cure:heart-disease",
+            "facts": {
+              "event:health.serious-illness:person_cd53fee3c916332c:2021-06-23:condition": "heart-disease"
+            }
+          },
+          "considered": [
+            {
+              "responseId": "take-up-cause",
+              "fit": 0.8,
+              "lean": 0.2222222222222222,
+              "urgency": 2.759169881251916
+            },
+            {
+              "responseId": "guard-family",
+              "fit": 0.7,
+              "lean": 0.06666666666666667,
+              "urgency": 1.6931269725864027
+            },
+            {
+              "responseId": "carry-on",
+              "fit": 1,
+              "lean": -0.04761904761904763,
+              "urgency": 2.6125018786579437
+            }
+          ],
+          "chosen": {
+            "responseId": "take-up-cause",
+            "score": 3.10361432569636,
+            "reasons": {
+              "need": 0.25,
+              "goal": 2.759169881251916,
+              "drive": 0,
+              "trait": 0.044444444444444446,
+              "emotion": 0.05,
+              "effort": 0
+            }
+          },
+          "runnerUp": {
+            "responseId": "carry-on",
+            "score": 2.902978069134134,
+            "reasons": {
+              "need": 0.25,
+              "goal": 2.6125018786579437,
+              "drive": 0,
+              "trait": -0.009523809523809526,
+              "emotion": 0.05,
+              "effort": 0
+            }
+          },
+          "strengthAdded": 0.5629689196685093,
+          "driveId": "cause:health:heart-disease"
+        },
+        {
+          "date": "2021-07-23",
+          "personId": "person_cd53ffe3c91634df",
+          "eventId": "life.death:person_cd53fee3c916332c:2021-07-23",
+          "eventKind": "life.death",
+          "ruleId": "bereavement",
+          "role": "family",
+          "roleWeight": 1,
+          "closeness": 0.46211715726000974,
+          "channelGain": 1,
+          "traitTerms": [],
+          "attention": 1.4621171572600098,
+          "magnitude": 1.8422676181476123,
+          "agency": 0.9999999999974842,
+          "pressure": 2.693611092758156,
+          "event": {
+            "date": "2021-07-23",
+            "subjects": ["person_cd53fee3c916332c"],
+            "topic": "health:heart-disease",
+            "desiredChange": "care-and-cure:heart-disease",
+            "facts": {
+              "event:life.death:person_cd53fee3c916332c:2021-07-23:condition": "heart-disease"
+            }
+          },
+          "considered": [
+            {
+              "responseId": "take-up-cause",
+              "fit": 0.8,
+              "lean": 0.2222222222222222,
+              "urgency": 3.950629602702024
+            },
+            {
+              "responseId": "answer-calling",
+              "fit": 0.55,
+              "lean": 0.2222222222222222,
+              "urgency": 3.277226829514179
+            },
+            {
+              "responseId": "carry-on",
+              "fit": 1,
+              "lean": -0.04761904761904763,
+              "urgency": 3.3088095080784194
+            }
+          ],
+          "chosen": {
+            "responseId": "take-up-cause",
+            "score": 4.338775092751938,
+            "reasons": {
+              "need": 0.28641753800455827,
+              "goal": 3.950629602702024,
+              "drive": 0,
+              "trait": 0.044444444444444446,
+              "emotion": 0.05728350760091166,
+              "effort": 0
+            }
+          },
+          "runnerUp": {
+            "responseId": "answer-calling",
+            "score": 4.321671273958623,
+            "reasons": {
+              "need": 1,
+              "goal": 3.277226829514179,
+              "drive": 0,
+              "trait": 0.044444444444444446,
+              "emotion": 0,
+              "effort": 0
+            }
+          },
+          "strengthAdded": 0.26863405671337914,
+          "driveId": "cause:health:heart-disease"
+        }
+      ],
+      "acts": [
+        {
+          "date": "2021-06-25",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:493761",
+          "score": 2.7155928163376464,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.5608347815025525,
+            "trait": 0.06666666666666667,
+            "emotion": 0.09121636816842697,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:494357",
+            "score": 2.7155928163376464
+          },
+          "strengthBefore": 0.5597707481738097
+        },
+        {
+          "date": "2021-07-02",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:494357",
+          "score": 2.735821017437345,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.5751908904890769,
+            "trait": 0.06666666666666667,
+            "emotion": 0.09708846028160108,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:501673",
+            "score": 2.735821017437345
+          },
+          "strengthBefore": 0.5740996203003238
+        },
+        {
+          "date": "2021-07-09",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:IPEDS:501673",
+          "score": 2.7280755412281836,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.588649096562358,
+            "trait": 0.06666666666666667,
+            "emotion": 0.07588477799915873,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0600036",
+            "score": 2.7280755412281836
+          },
+          "strengthBefore": 0.5875322930431494
+        },
+        {
+          "date": "2021-07-16",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0600036",
+          "score": 2.727956491888939,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.6012655590649006,
+            "trait": 0.06666666666666667,
+            "emotion": 0.06314926615737146,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003603755",
+            "score": 2.727956491888939
+          },
+          "strengthBefore": 0.6001248191975262
+        },
+        {
+          "date": "2021-07-23",
+          "actionId": "organize-meeting",
+          "targetId": "organization_20c62303389f37ce",
+          "basis": "reconstructed",
+          "score": 3.051664916780018,
+          "reasons": {
+            "need": 1.2041180350387648,
+            "goal": 0.881726981566212,
+            "drive": 0.881726981566212,
+            "trait": 0.04000000000000001,
+            "emotion": 0.05659291860882916,
+            "effort": -0.0125
+          },
+          "reasonKey": "utility:safety:cause:health:heart-disease",
+          "strengthBefore": 0.881726981566212
+        },
+        {
+          "date": "2021-07-30",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003603755",
+          "score": 3.068588723392365,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8759190993555147,
+            "trait": 0.06666666666666667,
+            "emotion": 0.12912795737018345,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003611084",
+            "score": 3.068588723392365
+          },
+          "strengthBefore": 0.8742572781815504
+        },
+        {
+          "date": "2021-08-06",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003611084",
+          "score": 3.0303765241644363,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8705682579989474,
+            "trait": 0.06666666666666667,
+            "emotion": 0.09626659949882171,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003611735",
+            "score": 3.0303765241644363
+          },
+          "strengthBefore": 0.8689165886089452
+        },
+        {
+          "date": "2021-08-13",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003611735",
+          "score": 3.0028194850383243,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8655520850436075,
+            "trait": 0.06666666666666667,
+            "emotion": 0.0737257333280497,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003613189",
+            "score": 3.0028194850383243
+          },
+          "strengthBefore": 0.8639099324941851
+        },
+        {
+          "date": "2021-08-20",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060003613189",
+          "score": 2.986306546208352,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8608496486525524,
+            "trait": 0.06666666666666667,
+            "emotion": 0.06191523088913212,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060133201985",
+            "score": 2.986306546208352
+          },
+          "strengthBefore": 0.8592164177128649
+        },
+        {
+          "date": "2021-08-27",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060133201985",
+          "score": 2.9759452366692596,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8564413261706931,
+            "trait": 0.06666666666666667,
+            "emotion": 0.055962243831899176,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060133201987",
+            "score": 2.9759452366692596
+          },
+          "strengthBefore": 0.8548164588386122
+        },
+        {
+          "date": "2021-09-03",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060133201987",
+          "score": 2.9688319199201336,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8523087222420084,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05298153101145824,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601480",
+            "score": 2.9688319199201336
+          },
+          "strengthBefore": 0.8506916954156515
+        },
+        {
+          "date": "2021-09-10",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601480",
+          "score": 2.9634670603797892,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8484345920481168,
+            "trait": 0.06666666666666667,
+            "emotion": 0.051490801665005165,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601598",
+            "score": 2.9634670603797892
+          },
+          "strengthBefore": 0.8468249153430116
+        },
+        {
+          "date": "2021-09-17",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601598",
+          "score": 2.9590898400431236,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8448027693478954,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05074540402856124,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601703",
+            "score": 2.9590898400431236
+          },
+          "strengthBefore": 0.8431999830506689
+        },
+        {
+          "date": "2021-09-24",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601703",
+          "score": 2.9553124679813,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8413980990178582,
+            "trait": 0.06666666666666667,
+            "emotion": 0.050372702296774964,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060170312785",
+            "score": 2.9553124679813
+          },
+          "strengthBefore": 0.8398017721679129
+        },
+        {
+          "date": "2021-10-01",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060170312785",
+          "score": 2.9519343916518226,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8382063738117987,
+            "trait": 0.06666666666666667,
+            "emotion": 0.050186351173356694,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601767",
+            "score": 2.9519343916518226
+          },
+          "strengthBefore": 0.8366161024029698
+        },
+        {
+          "date": "2021-10-08",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601767",
+          "score": 2.9488491173313527,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8352142750758005,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05009317558888535,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601775",
+            "score": 2.9488491173313527
+          },
+          "strengthBefore": 0.8336296803704909
+        },
+        {
+          "date": "2021-10-15",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601775",
+          "score": 2.9459975716325317,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8324093171712269,
+            "trait": 0.06666666666666667,
+            "emotion": 0.050046587794637734,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060177511070",
+            "score": 2.9459975716325317
+          },
+          "strengthBefore": 0.830830044119985
+        },
+        {
+          "date": "2021-10-22",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060177511070",
+          "score": 2.9433447559377806,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8297797953737773,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05002329389733612,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601786",
+            "score": 2.9433447559377806
+          },
+          "strengthBefore": 0.8282055111337208
+        },
+        {
+          "date": "2021-10-29",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601786",
+          "score": 2.9408680506465315,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8273147370311944,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05001164694866959,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601824",
+            "score": 2.9408680506465315
+          },
+          "strengthBefore": 0.825745129577101
+        },
+        {
+          "date": "2021-11-05",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0601824",
+          "score": 2.9385513459168173,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.825003855775815,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000582347433492,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602003",
+            "score": 2.9385513459168173
+          },
+          "strengthBefore": 0.8234386325980818
+        },
+        {
+          "date": "2021-11-12",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602003",
+          "score": 2.936382087004731,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8228375086008965,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000291173716749,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602034",
+            "score": 2.936382087004731
+          },
+          "strengthBefore": 0.8212763954849351
+        },
+        {
+          "date": "2021-11-19",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602034",
+          "score": 2.9343497781568555,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8208066556216047,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000145586858375,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602094",
+            "score": 2.9343497781568555
+          },
+          "strengthBefore": 0.8192493955035796
+        },
+        {
+          "date": "2021-11-26",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602094",
+          "score": 2.9324452169537087,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8189028223527501,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000072793429187,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602123",
+            "score": 2.9324452169537087
+          },
+          "strengthBefore": 0.8173491742468848
+        },
+        {
+          "date": "2021-12-03",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602123",
+          "score": 2.9306600949796784,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8171180643458651,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000036396714594,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602183",
+            "score": 2.9306600949796784
+          },
+          "strengthBefore": 0.8155678023388397
+        },
+        {
+          "date": "2021-12-10",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602183",
+          "score": 2.928986782688294,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8154449340380537,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000018198357298,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602188",
+            "score": 2.928986782688294
+          },
+          "strengthBefore": 0.8138978463462984
+        },
+        {
+          "date": "2021-12-17",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602188",
+          "score": 2.927418207332735,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8138764496742813,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000009099178648,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602285",
+            "score": 2.927418207332735
+          },
+          "strengthBefore": 0.8123323377602303
+        },
+        {
+          "date": "2021-12-24",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602285",
+          "score": 2.925947778335979,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8124060661734187,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000004549589324,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060228511951",
+            "score": 2.925947778335979
+          },
+          "strengthBefore": 0.8108647439170398
+        },
+        {
+          "date": "2021-12-31",
+          "actionId": "look-up-local-institution",
+          "basis": "scored",
+          "reasonKey": "utility:company:cause:health:heart-disease",
+          "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:060228511951",
+          "score": 2.924569337231085,
+          "reasons": {
+            "need": 1,
+            "goal": 1,
+            "drive": 0.8110276478164714,
+            "trait": 0.06666666666666667,
+            "emotion": 0.05000002274794662,
+            "effort": -0.003125
+          },
+          "runnerUp": {
+            "actionId": "look-up-local-institution",
+            "targetId": "public-directory:jurisdiction_747f3ae0bd287399:NCES-CCD:0602303",
+            "score": 2.924569337231085
+          },
+          "strengthBefore": 0.8094889407386106
+        }
+      ],
+      "told": []
+    }
+  },
+  "sameEventDifferentResponse": [
+    {
+      "eventId": "health.serious-illness:person_439a09bf5384214b:2021-01-09",
+      "eventKind": "health.serious-illness",
+      "people": [
+        {
+          "id": "person_439a08bf53841f98",
+          "name": "Isabel Payne",
+          "birthDate": "1969-03-26",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1,
+            "personality-v1:facet-acquisitive": 1
+          },
+          "decision": {
+            "date": "2021-01-09",
+            "personId": "person_439a08bf53841f98",
+            "eventId": "health.serious-illness:person_439a09bf5384214b:2021-01-09",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.2866630983888085,
+            "agency": 0.9999999831091443,
+            "pressure": 1.881252191767601,
+            "event": {
+              "date": "2021-01-09",
+              "subjects": ["person_439a09bf5384214b"],
+              "topic": "health:copd",
+              "desiredChange": "care-and-cure:copd",
+              "facts": {
+                "event:health.serious-illness:person_439a09bf5384214b:2021-01-09:condition": "copd"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 2.759169834654408
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.06666666666666667,
+                "urgency": 1.6931269439924772
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -0.04761904761904763,
+                "urgency": 2.6125018786579437
+              }
+            ],
+            "chosen": {
+              "responseId": "take-up-cause",
+              "score": 3.103614279098852,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.759169834654408,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.05,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "carry-on",
+              "score": 2.902978069134134,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.6125018786579437,
+                "drive": 0,
+                "trait": -0.009523809523809526,
+                "emotion": 0.05,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0.5629689135591415,
+            "driveId": "cause:health:copd"
+          }
+        },
+        {
+          "id": "person_439a0abf538422fe",
+          "name": "Amanda Payne",
+          "birthDate": "2007-02-12",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 0,
+            "people-mind-v1:conflict": -1,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": -1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1
+          },
+          "decision": {
+            "date": "2021-01-09",
+            "personId": "person_439a0abf538422fe",
+            "eventId": "health.serious-illness:person_439a09bf5384214b:2021-01-09",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.2866630983888085,
+            "agency": 0.2600485556449055,
+            "pressure": 1.881252191767601,
+            "event": {
+              "date": "2021-01-09",
+              "subjects": ["person_439a09bf5384214b"],
+              "topic": "health:copd",
+              "desiredChange": "care-and-cure:copd",
+              "facts": {
+                "event:health.serious-illness:person_439a09bf5384214b:2021-01-09:condition": "copd"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.16666666666666666,
+                "urgency": 0.6359819898548706
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.3333333333333333,
+                "urgency": 0.8316687559640615
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": 0.3333333333333333,
+                "urgency": 4.762504383535202
+              }
+            ],
+            "chosen": {
+              "responseId": "carry-on",
+              "score": 5.129171050201868,
+              "reasons": {
+                "need": 0.25,
+                "goal": 4.762504383535202,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0.05,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "guard-family",
+              "score": 1.0733354226307283,
+              "reasons": {
+                "need": 0.125,
+                "goal": 0.8316687559640615,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0.05,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0
+          }
+        }
+      ]
+    },
+    {
+      "eventId": "life.death:person_439a09bf5384214b:2021-02-08",
+      "eventKind": "life.death",
+      "people": [
+        {
+          "id": "person_439a08bf53841f98",
+          "name": "Isabel Payne",
+          "birthDate": "1969-03-26",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1,
+            "personality-v1:facet-acquisitive": 1
+          },
+          "decision": {
+            "date": "2021-02-08",
+            "personId": "person_439a08bf53841f98",
+            "eventId": "life.death:person_439a09bf5384214b:2021-02-08",
+            "eventKind": "life.death",
+            "ruleId": "bereavement",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.8422676181476123,
+            "agency": 0.9999999837887767,
+            "pressure": 2.693611092758156,
+            "event": {
+              "date": "2021-02-08",
+              "subjects": ["person_439a09bf5384214b"],
+              "topic": "health:copd",
+              "desiredChange": "care-and-cure:copd",
+              "facts": {
+                "event:life.death:person_439a09bf5384214b:2021-02-08:condition": "copd"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 3.950629538667424
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.06666666666666667,
+                "urgency": 2.4242499441822827
+              },
+              {
+                "responseId": "answer-calling",
+                "fit": 0.55,
+                "lean": 0.2222222222222222,
+                "urgency": 3.277226776394568
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -0.04761904761904763,
+                "urgency": 3.3088095080784194
+              }
+            ],
+            "chosen": {
+              "responseId": "take-up-cause",
+              "score": 4.338775028717338,
+              "reasons": {
+                "need": 0.28641753800455827,
+                "goal": 3.950629538667424,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.05728350760091166,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "answer-calling",
+              "score": 4.321671220839012,
+              "reasons": {
+                "need": 1,
+                "goal": 3.277226776394568,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0.26768140127718254,
+            "driveId": "cause:health:copd"
+          }
+        },
+        {
+          "id": "person_439a0abf538422fe",
+          "name": "Amanda Payne",
+          "birthDate": "2007-02-12",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 0,
+            "people-mind-v1:conflict": -1,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": -1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1
+          },
+          "decision": {
+            "date": "2021-02-08",
+            "personId": "person_439a0abf538422fe",
+            "eventId": "life.death:person_439a09bf5384214b:2021-02-08",
+            "eventKind": "life.death",
+            "ruleId": "bereavement",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.8422676181476123,
+            "agency": 0.26802863017007117,
+            "pressure": 2.693611092758156,
+            "event": {
+              "date": "2021-02-08",
+              "subjects": ["person_439a09bf5384214b"],
+              "topic": "health:copd",
+              "desiredChange": "care-and-cure:copd",
+              "facts": {
+                "event:life.death:person_439a09bf5384214b:2021-02-08:condition": "copd"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.16666666666666666,
+                "urgency": 0.9385543588237403
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.3333333333333333,
+                "urgency": 1.227340315384891
+              },
+              {
+                "responseId": "answer-calling",
+                "fit": 0.55,
+                "lean": 0.3333333333333333,
+                "urgency": 1.1190455816744596
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": 0.3333333333333333,
+                "urgency": 6.387222185516312
+              }
+            ],
+            "chosen": {
+              "responseId": "carry-on",
+              "score": 6.807172129536212,
+              "reasons": {
+                "need": 0.2943934760800669,
+                "goal": 6.387222185516312,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0.05888980127316638,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "answer-calling",
+              "score": 2.1857122483411264,
+              "reasons": {
+                "need": 1,
+                "goal": 1.1190455816744596,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0
+          }
+        }
+      ]
+    },
+    {
+      "eventId": "life.death:person_9a94c5f9a88c058b:2021-03-12",
+      "eventKind": "life.death",
+      "people": [
+        {
+          "id": "person_9a94c4f9a88c03d8",
+          "name": "Erica Wooten",
+          "birthDate": "1968-12-13",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-contented": 1,
+            "personality-v1:facet-generous": 1
+          },
+          "decision": {
+            "date": "2021-03-12",
+            "personId": "person_9a94c4f9a88c03d8",
+            "eventId": "life.death:person_9a94c5f9a88c058b:2021-03-12",
+            "eventKind": "life.death",
+            "ruleId": "bereavement",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 0.9583333333333333,
+            "traitTerms": [
+              {
+                "traitId": "personality-v1:facet-contented",
+                "channel": "loss",
+                "term": -0.08333333333333333
+              }
+            ],
+            "attention": 1.4011956090408426,
+            "magnitude": 1.8422676181476123,
+            "agency": 0.9999999865242055,
+            "pressure": 2.5813772972265663,
+            "event": {
+              "date": "2021-03-12",
+              "subjects": ["person_9a94c5f9a88c058b"],
+              "topic": "health:cancer",
+              "desiredChange": "care-and-cure:cancer",
+              "facts": {
+                "event:life.death:person_9a94c5f9a88c058b:2021-03-12:condition": "cancer"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 3.7860199849126697
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.20000000000000004,
+                "urgency": 3.3557904411725934
+              },
+              {
+                "responseId": "answer-calling",
+                "fit": 0.55,
+                "lean": 0.3333333333333333,
+                "urgency": 4.001134756782707
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -1.3877787807814457e-17,
+                "urgency": 3.5813772972265663
+              }
+            ],
+            "chosen": {
+              "responseId": "answer-calling",
+              "score": 5.067801423449374,
+              "reasons": {
+                "need": 1,
+                "goal": 4.001134756782707,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "take-up-cause",
+              "score": 4.209626571673014,
+              "reasons": {
+                "need": 0.3159684519299171,
+                "goal": 3.7860199849126697,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.06319369038598342,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0.6989083052894582,
+            "driveId": "calling:health:cancer"
+          }
+        },
+        {
+          "id": "person_9a94c6f9a88c073e",
+          "name": "Emily Wooten",
+          "birthDate": "2009-10-04",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 0,
+            "people-mind-v1:conflict": -1,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": -1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1
+          },
+          "decision": {
+            "date": "2021-03-12",
+            "personId": "person_9a94c6f9a88c073e",
+            "eventId": "life.death:person_9a94c5f9a88c058b:2021-03-12",
+            "eventKind": "life.death",
+            "ruleId": "bereavement",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.8422676181476123,
+            "agency": 0.09263470907657605,
+            "pressure": 2.693611092758156,
+            "event": {
+              "date": "2021-03-12",
+              "subjects": ["person_9a94c5f9a88c058b"],
+              "topic": "health:cancer",
+              "desiredChange": "care-and-cure:cancer",
+              "facts": {
+                "event:life.death:person_9a94c5f9a88c058b:2021-03-12:condition": "cancer"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.16666666666666666,
+                "urgency": 0.32437844392601684
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.3333333333333333,
+                "urgency": 0.4241871959032528
+              },
+              {
+                "responseId": "answer-calling",
+                "fit": 0.55,
+                "lean": 0.3333333333333333,
+                "urgency": 0.38675891391178935
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": 0.3333333333333333,
+                "urgency": 6.387222185516312
+              }
+            ],
+            "chosen": {
+              "responseId": "carry-on",
+              "score": 6.833095418727491,
+              "reasons": {
+                "need": 0.3159684519299171,
+                "goal": 6.387222185516312,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0.0632381146145954,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "answer-calling",
+              "score": 1.453425580578456,
+              "reasons": {
+                "need": 1,
+                "goal": 0.38675891391178935,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0
+          }
+        }
+      ]
+    },
+    {
+      "eventId": "health.serious-illness:person_95270c986bb64e9a:2021-03-19",
+      "eventKind": "health.serious-illness",
+      "people": [
+        {
+          "id": "person_95270d986bb6504d",
+          "name": "Jennifer Sellers",
+          "birthDate": "1969-10-13",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1,
+            "personality-v1:facet-acquisitive": 1
+          },
+          "decision": {
+            "date": "2021-03-19",
+            "personId": "person_95270d986bb6504d",
+            "eventId": "health.serious-illness:person_95270c986bb64e9a:2021-03-19",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.2866630983888085,
+            "agency": 0.9999999797637762,
+            "pressure": 1.881252191767601,
+            "event": {
+              "date": "2021-03-19",
+              "subjects": ["person_95270c986bb64e9a"],
+              "topic": "health:heart-disease",
+              "desiredChange": "care-and-cure:heart-disease",
+              "facts": {
+                "event:health.serious-illness:person_95270c986bb64e9a:2021-03-19:condition": "heart-disease"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 2.759169825423969
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.06666666666666667,
+                "urgency": 1.6931269383283443
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -0.04761904761904763,
+                "urgency": 2.6125018786579437
+              }
+            ],
+            "chosen": {
+              "responseId": "take-up-cause",
+              "score": 3.1036142698684133,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.759169825423969,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.05,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "carry-on",
+              "score": 2.902978069134134,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.6125018786579437,
+                "drive": 0,
+                "trait": -0.009523809523809526,
+                "emotion": 0.05,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0.5629689123489449,
+            "driveId": "cause:health:heart-disease"
+          }
+        },
+        {
+          "id": "person_952709986bb64981",
+          "name": "Megan Sellers",
+          "birthDate": "2006-07-10",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": -1,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": -1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1
+          },
+          "decision": {
+            "date": "2021-03-19",
+            "personId": "person_952709986bb64981",
+            "eventId": "health.serious-illness:person_95270c986bb64e9a:2021-03-19",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.2866630983888085,
+            "agency": 0.34204471470949305,
+            "pressure": 1.881252191767601,
+            "event": {
+              "date": "2021-03-19",
+              "subjects": ["person_95270c986bb64e9a"],
+              "topic": "health:heart-disease",
+              "desiredChange": "care-and-cure:heart-disease",
+              "facts": {
+                "event:health.serious-illness:person_95270c986bb64e9a:2021-03-19:condition": "heart-disease"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.20000000000000004,
+                "urgency": 0.9008613169216607
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.3333333333333333,
+                "urgency": 1.093903027690588
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": 0.16666666666666666,
+                "urgency": 3.8218782876514017
+              }
+            ],
+            "chosen": {
+              "responseId": "carry-on",
+              "score": 4.155211620984734,
+              "reasons": {
+                "need": 0.25,
+                "goal": 3.8218782876514017,
+                "drive": 0,
+                "trait": 0.03333333333333333,
+                "emotion": 0.05,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "guard-family",
+              "score": 1.3355696943572546,
+              "reasons": {
+                "need": 0.125,
+                "goal": 1.093903027690588,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0.05,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0
+          }
+        }
+      ]
+    },
+    {
+      "eventId": "life.death:person_95270c986bb64e9a:2021-04-18",
+      "eventKind": "life.death",
+      "people": [
+        {
+          "id": "person_95270d986bb6504d",
+          "name": "Jennifer Sellers",
+          "birthDate": "1969-10-13",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1,
+            "personality-v1:facet-acquisitive": 1
+          },
+          "decision": {
+            "date": "2021-04-18",
+            "personId": "person_95270d986bb6504d",
+            "eventId": "life.death:person_95270c986bb64e9a:2021-04-18",
+            "eventKind": "life.death",
+            "ruleId": "bereavement",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.8422676181476123,
+            "agency": 0.9999999805780154,
+            "pressure": 2.693611092758156,
+            "event": {
+              "date": "2021-04-18",
+              "subjects": ["person_95270c986bb64e9a"],
+              "topic": "health:heart-disease",
+              "desiredChange": "care-and-cure:heart-disease",
+              "facts": {
+                "event:life.death:person_95270c986bb64e9a:2021-04-18:condition": "heart-disease"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 3.9506295259828956
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.06666666666666667,
+                "urgency": 2.4242499363985943
+              },
+              {
+                "responseId": "answer-calling",
+                "fit": 0.55,
+                "lean": 0.2222222222222222,
+                "urgency": 3.2772267658721748
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -0.04761904761904763,
+                "urgency": 3.3088095080784194
+              }
+            ],
+            "chosen": {
+              "responseId": "take-up-cause",
+              "score": 4.33877501603281,
+              "reasons": {
+                "need": 0.28641753800455827,
+                "goal": 3.9506295259828956,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.05728350760091166,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "answer-calling",
+              "score": 4.3216712103166195,
+              "reasons": {
+                "need": 1,
+                "goal": 3.2772267658721748,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0.25571815880466353,
+            "driveId": "cause:health:heart-disease"
+          }
+        },
+        {
+          "id": "person_952709986bb64981",
+          "name": "Megan Sellers",
+          "birthDate": "2006-07-10",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": -1,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": -1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1
+          },
+          "decision": {
+            "date": "2021-04-18",
+            "personId": "person_952709986bb64981",
+            "eventId": "life.death:person_95270c986bb64e9a:2021-04-18",
+            "eventKind": "life.death",
+            "ruleId": "bereavement",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.8422676181476123,
+            "agency": 0.3513462412553944,
+            "pressure": 2.693611092758156,
+            "event": {
+              "date": "2021-04-18",
+              "subjects": ["person_95270c986bb64e9a"],
+              "topic": "health:heart-disease",
+              "desiredChange": "care-and-cure:heart-disease",
+              "facts": {
+                "event:life.death:person_95270c986bb64e9a:2021-04-18:condition": "heart-disease"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.20000000000000004,
+                "urgency": 1.3249461859821792
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.3333333333333333,
+                "urgency": 1.608863225835503
+              },
+              {
+                "responseId": "answer-calling",
+                "fit": 0.55,
+                "lean": 0.3333333333333333,
+                "urgency": 1.466904705908841
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": 0.16666666666666666,
+                "urgency": 5.040416639137234
+              }
+            ],
+            "chosen": {
+              "responseId": "carry-on",
+              "score": 5.4071873738930165,
+              "reasons": {
+                "need": 0.27785795687843706,
+                "goal": 5.040416639137234,
+                "drive": 0,
+                "trait": 0.03333333333333333,
+                "emotion": 0.055579444544012535,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "answer-calling",
+              "score": 2.533571372575508,
+              "reasons": {
+                "need": 1,
+                "goal": 1.466904705908841,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0
+          }
+        }
+      ]
+    },
+    {
+      "eventId": "health.serious-illness:person_0407fb11c2dd59ef:2021-04-21",
+      "eventKind": "health.serious-illness",
+      "people": [
+        {
+          "id": "person_0407fa11c2dd583c",
+          "name": "Diane Powers",
+          "birthDate": "1941-07-20",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1,
+            "personality-v1:facet-acquisitive": 1
+          },
+          "decision": {
+            "date": "2021-04-21",
+            "personId": "person_0407fa11c2dd583c",
+            "eventId": "health.serious-illness:person_0407fb11c2dd59ef:2021-04-21",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.2866630983888085,
+            "agency": 0.9999999999999858,
+            "pressure": 1.881252191767601,
+            "event": {
+              "date": "2021-04-21",
+              "subjects": ["person_0407fb11c2dd59ef"],
+              "topic": "health:cancer",
+              "desiredChange": "care-and-cure:cancer",
+              "facts": {
+                "event:health.serious-illness:person_0407fb11c2dd59ef:2021-04-21:condition": "cancer"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 2.7591698812591092
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.06666666666666667,
+                "urgency": 1.693126972590817
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -0.04761904761904763,
+                "urgency": 2.6125018786579437
+              }
+            ],
+            "chosen": {
+              "responseId": "take-up-cause",
+              "score": 3.1036143257035533,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.7591698812591092,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.05,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "carry-on",
+              "score": 2.902978069134134,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.6125018786579437,
+                "drive": 0,
+                "trait": -0.009523809523809526,
+                "emotion": 0.05,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0.5629689196694524,
+            "driveId": "cause:health:cancer"
+          }
+        },
+        {
+          "id": "person_0407fb11c2dd59ef",
+          "name": "Neil Powers",
+          "birthDate": "1938-05-10",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 0,
+            "people-mind-v1:conflict": 1,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1,
+            "personality-v1:facet-acquisitive": 1
+          },
+          "decision": {
+            "date": "2021-04-21",
+            "personId": "person_0407fb11c2dd59ef",
+            "eventId": "health.serious-illness:person_0407fb11c2dd59ef:2021-04-21",
+            "eventKind": "health.serious-illness",
+            "ruleId": "serious-illness",
+            "role": "subject",
+            "roleWeight": 1,
+            "closeness": 0,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1,
+            "magnitude": 0.88,
+            "agency": 0.9999999999999971,
+            "pressure": 0.88,
+            "event": {
+              "date": "2021-04-21",
+              "subjects": ["person_0407fb11c2dd59ef"],
+              "topic": "health:cancer",
+              "desiredChange": "care-and-cure:cancer",
+              "facts": {
+                "event:health.serious-illness:person_0407fb11c2dd59ef:2021-04-21:condition": "cancer"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 1.290666666666663
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.06666666666666667,
+                "urgency": 0.7919999999999976
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": 0.06666666666666667,
+                "urgency": 2.056
+              }
+            ],
+            "chosen": {
+              "responseId": "carry-on",
+              "score": 2.369333333333333,
+              "reasons": {
+                "need": 0.25,
+                "goal": 2.056,
+                "drive": 0,
+                "trait": 0.013333333333333334,
+                "emotion": 0.05,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "take-up-cause",
+              "score": 1.6351111111111076,
+              "reasons": {
+                "need": 0.25,
+                "goal": 1.290666666666663,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.05,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0
+          }
+        }
+      ]
+    },
+    {
+      "eventId": "life.death:person_a1919a154b8d3a4c:2021-05-07",
+      "eventKind": "life.death",
+      "people": [
+        {
+          "id": "person_a1919b154b8d3bff",
+          "name": "Gina Simpson",
+          "birthDate": "1967-10-17",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 1,
+            "people-mind-v1:conflict": 0,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": 1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-contented": 1,
+            "personality-v1:facet-generous": 1
+          },
+          "decision": {
+            "date": "2021-05-07",
+            "personId": "person_a1919b154b8d3bff",
+            "eventId": "life.death:person_a1919a154b8d3a4c:2021-05-07",
+            "eventKind": "life.death",
+            "ruleId": "bereavement",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 0.9583333333333333,
+            "traitTerms": [
+              {
+                "traitId": "personality-v1:facet-contented",
+                "channel": "loss",
+                "term": -0.08333333333333333
+              }
+            ],
+            "attention": 1.4011956090408426,
+            "magnitude": 1.8422676181476123,
+            "agency": 0.9999999930052046,
+            "pressure": 2.5813772972265663,
+            "event": {
+              "date": "2021-05-07",
+              "subjects": ["person_a1919a154b8d3a4c"],
+              "topic": "health:cancer",
+              "desiredChange": "care-and-cure:cancer",
+              "facts": {
+                "event:life.death:person_a1919a154b8d3a4c:2021-05-07:condition": "cancer"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.2222222222222222,
+                "urgency": 3.7860200094498624
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.20000000000000004,
+                "urgency": 3.3557904629214685
+              },
+              {
+                "responseId": "answer-calling",
+                "fit": 0.55,
+                "lean": 0.3333333333333333,
+                "urgency": 4.001134782714058
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": -1.3877787807814457e-17,
+                "urgency": 3.5813772972265663
+              }
+            ],
+            "chosen": {
+              "responseId": "answer-calling",
+              "score": 5.067801449380725,
+              "reasons": {
+                "need": 1,
+                "goal": 4.001134782714058,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "take-up-cause",
+              "score": 4.209626596210207,
+              "reasons": {
+                "need": 0.3159684519299171,
+                "goal": 3.7860200094498624,
+                "drive": 0,
+                "trait": 0.044444444444444446,
+                "emotion": 0.06319369038598342,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0.6989083076317726,
+            "driveId": "calling:health:cancer"
+          }
+        },
+        {
+          "id": "person_a1919c154b8d3db2",
+          "name": "Jeremiah Simpson",
+          "birthDate": "2004-11-19",
+          "traits": {
+            "people-mind-v1:deliberation": 0,
+            "people-mind-v1:sociability": 0,
+            "people-mind-v1:conflict": -1,
+            "people-mind-v1:reliability": 1,
+            "people-mind-v1:risk": -1,
+            "personality-v1:facet-duty-bound": 1,
+            "personality-v1:facet-practical": 1
+          },
+          "decision": {
+            "date": "2021-05-07",
+            "personId": "person_a1919c154b8d3db2",
+            "eventId": "life.death:person_a1919a154b8d3a4c:2021-05-07",
+            "eventKind": "life.death",
+            "ruleId": "bereavement",
+            "role": "family",
+            "roleWeight": 1,
+            "closeness": 0.46211715726000974,
+            "channelGain": 1,
+            "traitTerms": [],
+            "attention": 1.4621171572600098,
+            "magnitude": 1.8422676181476123,
+            "agency": 0.5576222030805356,
+            "pressure": 2.693611092758156,
+            "event": {
+              "date": "2021-05-07",
+              "subjects": ["person_a1919a154b8d3a4c"],
+              "topic": "health:cancer",
+              "desiredChange": "care-and-cure:cancer",
+              "facts": {
+                "event:life.death:person_a1919a154b8d3a4c:2021-05-07:condition": "cancer"
+              }
+            },
+            "considered": [
+              {
+                "responseId": "take-up-cause",
+                "fit": 0.8,
+                "lean": 0.16666666666666666,
+                "urgency": 1.9526225573217635
+              },
+              {
+                "responseId": "guard-family",
+                "fit": 0.7,
+                "lean": 0.3333333333333333,
+                "urgency": 2.5534294980361523
+              },
+              {
+                "responseId": "answer-calling",
+                "fit": 0.55,
+                "lean": 0.3333333333333333,
+                "urgency": 2.3281268952682566
+              },
+              {
+                "responseId": "carry-on",
+                "fit": 1,
+                "lean": 0.3333333333333333,
+                "urgency": 6.387222185516312
+              }
+            ],
+            "chosen": {
+              "responseId": "carry-on",
+              "score": 6.833095418727491,
+              "reasons": {
+                "need": 0.3159684519299171,
+                "goal": 6.387222185516312,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0.0632381146145954,
+                "effort": 0
+              }
+            },
+            "runnerUp": {
+              "responseId": "answer-calling",
+              "score": 3.3947935619349234,
+              "reasons": {
+                "need": 1,
+                "goal": 2.3281268952682566,
+                "drive": 0,
+                "trait": 0.06666666666666667,
+                "emotion": 0,
+                "effort": 0
+              }
+            },
+            "strengthAdded": 0
+          }
+        }
+      ]
+    }
+  ],
+  "populationProbe": {
+    "method": "buildPopulation with the same seed and 10,000 minimum people, read only; separate process after the year run.",
+    "residents": 10001,
+    "distinctNonzeroTraitProfiles": 68,
+    "largestProfileShares": [1198, 825, 634],
+    "residentsWithRecordedFamily": 6481,
+    "meanRecordedFamilyLinks": 1.4714528547145285,
+    "meanRecordedAcquaintances": 1.6732326767323267,
+    "namedPeople": {
+      "person_cd53fee3c916332c": "Rose Cobb, born February 8, 1949; partner Rodney Cobb; one household",
+      "person_95270c986bb64e9a": "Russell Sellers, born August 25, 1964; partner Jennifer Sellers; children Megan, Robert and Ryan; one household"
+    },
+    "lifeTableExpectedDeaths2021": 69.8,
+    "lifeTableMethod": "SSA 2023 period life table, equal mixture of male and female rows, applied to each resident's age on January 1, 2021: sum of 1 - exp(-H(age))."
+  },
+  "healthRule": "Personal resilience line per person (owner ruling, October 9, 2026); base-rate scale 0.106."
+}

@@ -8,16 +8,12 @@ import {
 } from "./calendar";
 import { affectAt } from "./emotion";
 import { compactQuietWorkResults } from "./work-state";
-<<<<<<< HEAD
-import { chooseAct } from "./choice";
+import { chooseAct, decisionFromScores, scoreOffers } from "./choice";
+import { planFreeTime, takePlannedActs, type PlannedAct } from "./free-block";
 import {
   isExplicitlyControlledPersonV1,
   snapshotExplicitControlV1,
 } from "./player-control-state-v1";
-=======
-import { chooseAct, decisionFromScores, scoreOffers } from "./choice";
-import { planFreeTime, takePlannedActs, type PlannedAct } from "./free-block";
->>>>>>> origin/pool/P15-people-5
 export { chooseAct } from "./choice";
 import {
   WORK_MODULE,
@@ -63,29 +59,9 @@ export function createLifeCore(
   } = {},
 ): CoreState {
   const { scheduledWork = true, ...coreOptions } = options;
-<<<<<<< HEAD
   const data = options.data ?? DEFAULT_DATA;
   const primaryJobByPerson = new Map(
     input.people.map((person) => [person.id, person.jobId]),
-=======
-  const core = createCore(
-    scheduledWork ? input : { ...input, workCommitments: [] },
-    {
-      ...coreOptions,
-      data: scheduledWork
-        ? options.data
-        : { ...(options.data ?? DEFAULT_DATA), work: undefined },
-      modules: [
-        LIFE_MODULE,
-        PEOPLE_MODULE,
-        // Modeled within-day order: actual work pay arrives before purchase budgets.
-        // Firms use their recorded working capital, not future customer receipts.
-        ...(scheduledWork ? [WORK_MODULE] : []),
-        ...(input.finance ? [FINANCE_MODULE] : []),
-        ...(options.modules ?? []),
-      ],
-    },
->>>>>>> origin/pool/P15-people-5
   );
   const payroll =
     scheduledWork && data.work
@@ -126,6 +102,7 @@ export function createLifeCore(
       : { ...(options.data ?? DEFAULT_DATA), work: undefined },
     modules: [
       LIFE_MODULE,
+      PEOPLE_MODULE,
       // Attendance accrues wages; recorded payday cash precedes purchase budgets.
       // Firms use their recorded working capital, not future customer receipts.
       ...(scheduledWork ? [WORK_MODULE] : []),
@@ -136,11 +113,7 @@ export function createLifeCore(
   if (payroll?.estimates.length)
     coreAPI(core).stopgap(OPENING_PAYROLL_CALENDAR_STOPGAP);
   core.gaps.add(
-<<<<<<< HEAD
-    "Recorded work is scored and earned on its scheduled dates; cash settles on separately recorded employer paydays. Remaining time admits one discretionary scored act per tier activation. Sleep reserve, shift placement and opening pay-calendar conventions remain tunable; education, care, consumption and a complete diary are not modeled.",
-=======
-    "Recorded work is scored and settled on its scheduled dates; remaining free hours hold several scored acts from one scoring pass per activation, at most one per need a day. Sleep reserve and shift placement remain tunable; education, care, consumption and a complete diary are not modeled.",
->>>>>>> origin/pool/P15-people-5
+    "Recorded work is scored and earned on its scheduled dates; cash settles on separately recorded employer paydays. Remaining free hours hold several scored acts from one scoring pass per activation, at most one per need a day. Sleep reserve, shift placement and opening pay-calendar conventions remain tunable; education, care, consumption and a complete diary are not modeled.",
   );
   core.gaps.add(
     "Business receipts and standing purchases cover recorded counterparties only; missing suppliers, public budgets, hiring, nonwage income, demography, elections and law effects prevent realism claims.",
@@ -296,9 +269,6 @@ export function availableActs(
   return offers;
 }
 
-<<<<<<< HEAD
-export function activate(
-=======
 function perform(
   core: CoreState,
   api: CoreAPI,
@@ -341,8 +311,7 @@ function plannedDecision(core: CoreState, act: PlannedAct): DecisionResult {
  * now; the rest of today's free hours and each later day up to the next
  * activation are filled from the same scores (free-block.ts).
  */
-function activate(
->>>>>>> origin/pool/P15-people-5
+export function activate(
   core: CoreState,
   personId: string,
   days: number,

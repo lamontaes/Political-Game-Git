@@ -269,15 +269,10 @@ describe("real-place one-time population import", () => {
       );
       for (const [key, value] of Object.entries(person.traits)) {
         expect(Number.isFinite(value)).toBe(true);
-<<<<<<< HEAD
         expect(recordedTraitSource(person, key)?.estimatedFrom).toContain(
-          "Canonical sparse upbringing trait projection",
-=======
-        expect(person.traitSources?.[key]?.estimatedFrom).toContain(
           key.startsWith(`${PEOPLE_MIND_VERSION}:`)
             ? "Generated opening temperament"
             : "Canonical sparse upbringing trait projection",
->>>>>>> origin/pool/P15-people-5
         );
       }
       expect(Number.isSafeInteger(person.liquidMinor)).toBe(true);
