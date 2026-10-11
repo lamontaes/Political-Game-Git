@@ -1,0 +1,2592 @@
+[
+  {
+    "sourceFile": "src/simulation/career-path7.ts",
+    "sourceLine": 120,
+    "name": "clock",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/careers/another-term.ts",
+    "sourceLine": 213,
+    "name": "weightiestReason",
+    "inventoryEngine": "economy",
+    "keepLines": 13,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`IMPORTANCE_ORDER`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/careers/another-term.ts",
+    "sourceLine": 327,
+    "name": "healthConsiderations",
+    "inventoryEngine": "economy",
+    "keepLines": 30,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `healthIndex`, `HEALTH_WEIGHT`, `HEALTH_REASON`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/careers/another-term.ts",
+    "sourceLine": 363,
+    "name": "chanceOfDyingBefore",
+    "inventoryEngine": "economy",
+    "keepLines": 34,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `mortalityCalibrationOf`, `hazardMultipliersOf`, `MULTIPLIER_ONE`, `SSA_2023_MAX_AGE`, `ssa2023AnnualProbability`, `ageOnDate`, `addDays`, `daysBetween`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/careers/another-term.ts",
+    "sourceLine": 398,
+    "name": "daysBetween",
+    "inventoryEngine": "economy",
+    "keepLines": 6,
+    "status": "lifted",
+    "lift": "src/rules/economy/calendar.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/careers/another-term.ts",
+    "sourceLine": 439,
+    "name": "agingConsiderations",
+    "inventoryEngine": "economy",
+    "keepLines": 26,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `chanceOfDyingBefore`, `AGING_WEIGHTS`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/completed-hourly-gross.ts",
+    "sourceLine": 6,
+    "name": "assessedCompletedHourlyGrossMinor",
+    "inventoryEngine": "economy",
+    "keepLines": 24,
+    "status": "lifted",
+    "lift": "src/rules/economy/completed-gross.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/cost-of-living.ts",
+    "sourceLine": 130,
+    "name": "estimatedHouseholdLivingCostsAt",
+    "inventoryEngine": "economy",
+    "keepLines": 53,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `primaryHouseholdId`, `peopleInHouseholdAt`, `householdMembershipsAt`, `householdLocationAt`, `lifePlaceByJurisdictionId`, `estimatedMonthlyHouseholdLivingCosts`, `livingCostsRegionForState`, `drawnLinkSize`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/cost-of-living.ts",
+    "sourceLine": 266,
+    "name": "dollars",
+    "inventoryEngine": "economy",
+    "keepLines": 6,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/cost-of-living.ts",
+    "sourceLine": 273,
+    "name": "householdBills",
+    "inventoryEngine": "economy",
+    "keepLines": 25,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `primaryHouseholdId`, `LIVING_COSTS_CATEGORY_DATA`, `LIVING_COSTS_BASIS`, `resourceFlowsTouching`, `resourceFlowTermsAt`, `sameEndpoint`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/cost-of-living.ts",
+    "sourceLine": 330,
+    "name": "prepareHouseholdCosts",
+    "inventoryEngine": "economy",
+    "keepLines": 171,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `payerIsControlled`, `estimatedHouseholdLivingCostsAt`, `livingCostsProvenance`, `peopleInHouseholdAt`, `primaryHouseholdId`, `resourceFlowsTouching`, `flowKey`, `endFlow`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/cost-of-living.ts",
+    "sourceLine": 511,
+    "name": "settleLivingCosts",
+    "inventoryEngine": "economy",
+    "keepLines": 32,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `payerIsControlled`, `prepareHouseholdCosts`, `householdBills`, `resourceTransferOutcomesOfFlows`, `firstOfNextMonth`, `CATCH_UP_LIMIT_MONTHS`, `settleMonth`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/county-home-value.ts",
+    "sourceLine": 46,
+    "name": "median",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/county-home-value.ts",
+    "sourceLine": 63,
+    "name": "homeValueForJurisdiction",
+    "inventoryEngine": "economy",
+    "keepLines": 24,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`lifePlaceByJurisdictionId`, `countyGeoidsForPlace`, `counties`, `median`, `nationalMedianHomeValue`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/economy.ts",
+    "sourceLine": 324,
+    "name": "availableState",
+    "inventoryEngine": "economy",
+    "keepLines": 22,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `Number.isSafeInteger`, `world.history.metricStates.find`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/governing/budget-stakes.ts",
+    "sourceLine": 57,
+    "name": "daysToFiscalYear",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "lifted",
+    "lift": "src/rules/economy/fiscal-and-month-dates.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/governing/budget-stakes.ts",
+    "sourceLine": 69,
+    "name": "budgetDeadlineConsideration",
+    "inventoryEngine": "economy",
+    "keepLines": 23,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `fiscalYearStartFor`, `daysToFiscalYear`, `DEADLINE_DAYS`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/home-down-payment.ts",
+    "sourceLine": 31,
+    "name": "homeDownPaymentShare",
+    "inventoryEngine": "economy",
+    "keepLines": 89,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `source`, `homeBuyerKind`, `resourceFlowTermsAt`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/home-purchase.ts",
+    "sourceLine": 69,
+    "name": "roundTo",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "lifted",
+    "lift": "src/rules/economy/home-purchase.ts",
+    "reason": "Complete round-to-increment arithmetic is inlined in the golden-tested purchase calculation; it is also used for inherited price rounding. No separate World reader is copied."
+  },
+  {
+    "sourceFile": "src/simulation/home-purchase.ts",
+    "sourceLine": 74,
+    "name": "homePurchaseTerms",
+    "inventoryEngine": "economy",
+    "keepLines": 30,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/home-purchase.ts",
+    "reason": "Price/down-payment/monthly-term calculation is lifted from selected facts. Whole legacy World buyer, home-value, macro, law and down-payment lookups cannot be copied into the pure shelf."
+  },
+  {
+    "sourceFile": "src/simulation/home-purchase.ts",
+    "sourceLine": 253,
+    "name": "homePurchaseReason",
+    "inventoryEngine": "economy",
+    "keepLines": 28,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `ageOnDate`, `HOME_BUYING_AGE`, `lifePlaceByJurisdictionId`, `primaryHouseholdId`, `ownedHomeFor`, `balance`, `homePurchaseTerms`, `dollars`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/household-loans.ts",
+    "sourceLine": 659,
+    "name": "settleHouseholdLoanPayments",
+    "inventoryEngine": "economy",
+    "keepLines": 49,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `loanTermsAt`, `nextFirstOfMonth`, `outstandingDebtAt`, `serviceLoanMonth`, `serviceLegacyMortgageMonth`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/household-loans.ts",
+    "sourceLine": 720,
+    "name": "serviceLegacyMortgageMonth",
+    "inventoryEngine": "economy",
+    "keepLines": 64,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `resourceFlowTermsAt`, `recordResourceFlowTerms`, `resourcePositionAt`, `recordResourceTransferOutcome`, `money`, `monthName`, `recordMortgageMissedPayment`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/household-loans.ts",
+    "sourceLine": 848,
+    "name": "serviceLoanMonth",
+    "inventoryEngine": "economy",
+    "keepLines": 177,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `flowOf`, `loanTermsAt`, `consumerLoanCapAt`, `appendLoanTerms`, `outstandingDebtAt`, `markPaidOff`, `monthlyInterestMinor`, `appendDebtCharge`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/household-loans.ts",
+    "sourceLine": 1171,
+    "name": "assertHouseholdLoanIntegrity",
+    "inventoryEngine": "economy",
+    "keepLines": 179,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `createStableId`, `assertTermsInput`, `loanBalanceComponentsAt`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/household-mix.ts",
+    "sourceLine": 54,
+    "name": "mixOf",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`HOUSEHOLD_SHAPE_ORDER`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/household-pay.ts",
+    "sourceLine": 48,
+    "name": "annualPovertyLineMinor",
+    "inventoryEngine": "economy",
+    "keepLines": 19,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`yearOf`, `GUIDELINES`, `STATES`, `povertyLineMinor`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/household-pay.ts",
+    "sourceLine": 84,
+    "name": "annualizedRecordedPayMinor",
+    "inventoryEngine": "economy",
+    "keepLines": 8,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/annualized-pay.ts",
+    "reason": "Amount annualization is lifted as annualizedPayMinorFromFacts with supplied periods-per-year. Whole legacy function parses cadence strings and closes over PERIODS_PER_YEAR; the cadence adapter remains with the port."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 272,
+    "name": "publicBodyRolePay",
+    "inventoryEngine": "economy",
+    "keepLines": 46,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `PUBLIC_BODY_ROLE_PROFILE`, `currentLifeCutoff`, `workStatusAt`, `workRoleAt`, `staffPay`, `stateMedianAnnualWage`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 327,
+    "name": "townEmployerRoles",
+    "inventoryEngine": "economy",
+    "keepLines": 109,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `publicBodyOrganizations`, `organizationProfileAt`, `PUBLIC_BODY_ROLE_PROFILE`, `publicBodyRolePay`, `playerTown`, `slug`, `townRoster`, `JOB_TURNOVER`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 623,
+    "name": "openingTakesApplications",
+    "inventoryEngine": "economy",
+    "keepLines": 11,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `openingFilled`, `organizationClosingAt`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 747,
+    "name": "roundTo",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "lifted",
+    "lift": "src/rules/economy/home-purchase.ts",
+    "reason": "Complete round-to-increment arithmetic is inlined in the golden-tested purchase calculation; it is also used for inherited price rounding. No separate World reader is copied."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 782,
+    "name": "roleComesOpen",
+    "inventoryEngine": "economy",
+    "keepLines": 29,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `roleListings`, `someoneLeft`, `daysBetween`, `JOB_TURNOVER`, `WEEK_DAYS`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 817,
+    "name": "offerTerms",
+    "inventoryEngine": "economy",
+    "keepLines": 40,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `roleListings`, `openingFilled`, `JOB_MARKET_TIMING_ESTIMATE`, `money`, `roundTo`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 863,
+    "name": "openWeeklyListings",
+    "inventoryEngine": "economy",
+    "keepLines": 47,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `weekIndex`, `townEmployerRoles`, `roleListings`, `openingTakesApplications`, `roleComesOpen`, `offerTerms`, `minimumHourlyMinorFor`, `addDays`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 929,
+    "name": "applicantCanAct",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `isPersonAliveAt`, `currentLifeCutoff`, `ageOnDate`, `MINIMUM_APPLICANT_AGE`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 1300,
+    "name": "holdsFullTimeWork",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `activeWorkRelationshipsAt`, `JOB_MARKET_TIMING_ESTIMATE`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 1368,
+    "name": "betterPlaced",
+    "inventoryEngine": "economy",
+    "keepLines": 14,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/job-applicant-ranking.ts",
+    "reason": "Applicant comparator is lifted as isApplicantBetterPlacedFromFacts over selected work-line/route/submission/person facts. Whole original selects experience from World/job history."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 1398,
+    "name": "decide",
+    "inventoryEngine": "economy",
+    "keepLines": 75,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `jobOpening`, `organizationName`, `isPlayed`, `residentName`, `JOB_MARKET_TIMING_ESTIMATE`, `holdsFullTimeWork`, `addStep`, `rivalsFor`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 1803,
+    "name": "hireAtAdultStart",
+    "inventoryEngine": "economy",
+    "keepLines": 80,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `ageOnDate`, `activeWorkRelationshipsAt`, `recordedTownEmployer`, `workStatusAt`, `dateAtAge`, `addDays`, `note`, `createWorkRelationship`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 1890,
+    "name": "weeklyPayAtHire",
+    "inventoryEngine": "economy",
+    "keepLines": 20,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `payAtHire`, `minimumHourlyMinorFor`, `note`, `UNCOVERED_PAY_NOTE`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 2020,
+    "name": "payFirstJob",
+    "inventoryEngine": "economy",
+    "keepLines": 25,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `LEGACY_FIRST_JOB_WORK_KEY`, `workStatusAt`, `activeRole`, `minimumHourlyMinorFor`, `workplaceJurisdictionId`, `payWeekly`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 2050,
+    "name": "advanceApplication",
+    "inventoryEngine": "economy",
+    "keepLines": 80,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `latestApplicationStep`, `jobOpening`, `organizationName`, `isPlayed`, `residentName`, `decide`, `addStep`, `addDays`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/job-market.ts",
+    "sourceLine": 2157,
+    "name": "settleRecordedJobPay",
+    "inventoryEngine": "economy",
+    "keepLines": 74,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `resourceFlowTermsHistory`, `daysBetween`, `WEEK_DAYS`, `CATCH_UP_LIMIT_WEEKS`, `addDays`, `isActiveOn`, `resourceFlowTermsAt`, `settleTownCompensations`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-costs-data.ts",
+    "sourceLine": 23,
+    "name": "estimateLivingCostsCategoryAnnual",
+    "inventoryEngine": "economy",
+    "keepLines": 22,
+    "status": "lifted",
+    "lift": "src/rules/economy/living-cost-ratio.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/living-costs-data.ts",
+    "sourceLine": 47,
+    "name": "estimatedMonthlyHouseholdLivingCosts",
+    "inventoryEngine": "economy",
+    "keepLines": 35,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`LIVING_COSTS_CATEGORY_DATA`, `estimateLivingCostsCategoryAnnual`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/county-budget-hearings.ts",
+    "sourceLine": 190,
+    "name": "proposeLevy",
+    "inventoryEngine": "economy",
+    "keepLines": 41,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `proposeNextYearBudget`, `PROPERTY_SOURCE`, `PERSONS_PER_HOUSEHOLD`, `homePurchaseTerms`, `OWNER_SHARE`, `RATE_DENOMINATOR`, `ESTIMATE_NOTES`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/housing-market.ts",
+    "sourceLine": 118,
+    "name": "housingLawEffect",
+    "inventoryEngine": "economy",
+    "keepLines": 17,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `addDays`, `HOUSING_SUPPLY_LAW_EFFECT`, `supplyLawIds`, `lawInForce`, `lawInForceAtStart`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/housing-market.ts",
+    "sourceLine": 157,
+    "name": "incomeRate",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "lifted",
+    "lift": "src/rules/economy/home-price-levels.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/housing-market.ts",
+    "sourceLine": 161,
+    "name": "rateMidpoint",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "lifted",
+    "lift": "src/rules/economy/home-price-levels.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/housing-market.ts",
+    "sourceLine": 166,
+    "name": "homePriceLevels",
+    "inventoryEngine": "economy",
+    "keepLines": 42,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/home-price-levels.ts",
+    "reason": "Rolling home-price math is lifted over selected monthly/event facts. Whole original also resolves housing-law effects from World in monthly records; the rule shelf cannot copy that World reader."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/housing-price-model.ts",
+    "sourceLine": 52,
+    "name": "priceGrowthMonthly",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`HOUSING_PRICE_COEFFICIENTS`, `MONTHS_PER_YEAR`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-business-books.ts",
+    "sourceLine": 97,
+    "name": "otherCostsAtSales",
+    "inventoryEngine": "economy",
+    "keepLines": 5,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/business-book-math.ts",
+    "reason": "Cost-at-sales arithmetic is lifted as otherCostsAtSalesFromFacts. Whole original resolves townBusinessKindBooks research by kind; that data lookup stays outside."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-business-books.ts",
+    "sourceLine": 110,
+    "name": "townBusinessHasRoomToHire",
+    "inventoryEngine": "economy",
+    "keepLines": 14,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/business-hiring.ts",
+    "reason": "Hiring affordability is lifted as businessHasRoomToHireFromFacts. Whole legacy function selects quarterly book and average-pay state; the port supplies those facts."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-business-books.ts",
+    "sourceLine": 126,
+    "name": "payTheBooksCover",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "lifted",
+    "lift": "src/rules/economy/business-book-math.ts",
+    "reason": "Complete selected-book pay-coverage arithmetic is lifted as payTheBooksCoverFromFacts; all-place legacy checks preserve the result."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-business-books.ts",
+    "sourceLine": 136,
+    "name": "townBusinessLaysOff",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "lifted",
+    "lift": "src/rules/economy/business-layoffs.ts",
+    "reason": "Complete book/staff/pay-coverage predicate is lifted as businessLaysOffFromFacts, retaining the registered dollar tolerance."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-businesses.ts",
+    "sourceLine": 283,
+    "name": "townBusinessEntryGaps",
+    "inventoryEngine": "economy",
+    "keepLines": 51,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `townBusinesses`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-economy-measures.ts",
+    "sourceLine": 37,
+    "name": "townUnemploymentRate",
+    "inventoryEngine": "economy",
+    "keepLines": 16,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/town-measures.ts",
+    "reason": "Rate arithmetic is lifted as unemploymentRateFromFacts over caller-selected residents. Whole original reads town labor facts from World."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-economy-measures.ts",
+    "sourceLine": 55,
+    "name": "townMedianHourlyPay",
+    "inventoryEngine": "economy",
+    "keepLines": 13,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/town-measures.ts",
+    "reason": "Median arithmetic is lifted as medianHourlyPayFromFacts over selected employee pay. Whole original reads World employee/pay records."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-employment.ts",
+    "sourceLine": 143,
+    "name": "addSectors",
+    "inventoryEngine": "economy",
+    "keepLines": 11,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/employment-mix.ts",
+    "reason": "Sector aggregation is lifted as addWeightedSectorValuesFromFacts. Whole legacy function closes over TOWN_EMPLOYMENT_META.sectors and mutates a caller map; the shelf supplies sector identity and returns an independent map."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-employment.ts",
+    "sourceLine": 159,
+    "name": "townEmploymentMix",
+    "inventoryEngine": "economy",
+    "keepLines": 53,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/town-employment-mix.ts",
+    "reason": "Employment aggregation/fallback/scaling is lifted as townEmploymentMixFromFacts. Whole original resolves Census/BLS rows, county and place identities from research."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-employment.ts",
+    "sourceLine": 904,
+    "name": "medianTenureYears",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/employment-tenure.ts",
+    "reason": "First matching age-band tenure lookup is lifted over supplied rows. Whole original captures TOWN_MEDIAN_TENURE_BY_AGE; research transport remains the caller's adapter."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-employment.ts",
+    "sourceLine": 1070,
+    "name": "townWorkplaceWeights",
+    "inventoryEngine": "economy",
+    "keepLines": 21,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/employment-mix.ts",
+    "reason": "Workplace share multiplication/aggregation is lifted as workplaceWeightsFromFacts. Whole original resolves townEmploymentMix and static sector/workplace data."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-employment.ts",
+    "sourceLine": 1106,
+    "name": "laborStatus",
+    "inventoryEngine": "economy",
+    "keepLines": 19,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/town-measures.ts",
+    "reason": "Resident labor status decision is lifted over selected work/pay facts. Whole legacy World employment/history access cannot be copied."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-employment.ts",
+    "sourceLine": 1130,
+    "name": "yearsBefore",
+    "inventoryEngine": "economy",
+    "keepLines": 5,
+    "status": "lifted",
+    "lift": "src/rules/economy/calendar-year.ts",
+    "reason": "Complete year-offset/date-normalization arithmetic is lifted as calendarDateByYearsFromFacts; all-place boundary tests preserve leap-day behavior."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-employment.ts",
+    "sourceLine": 1380,
+    "name": "fillTownJobs",
+    "inventoryEngine": "economy",
+    "keepLines": 445,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `lifePlaceByJurisdictionId`, `jailTermOn`, `TOWN_EMPLOYMENT_VERSION`, `countyGovernmentUnitsForPlace`, `countyDisplayName`, `townWorkplaceWeights`, `TOWN_WORKPLACES`, `role`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 309,
+    "name": "observedBankPool",
+    "inventoryEngine": "economy",
+    "keepLines": 43,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `FDIC_SMALL_BANK_RECORDS`, `observedBankPools`, `FDIC_SMALL_BANK_SHAPES`, `parseShapes`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 358,
+    "name": "recordedBankShape",
+    "inventoryEngine": "economy",
+    "keepLines": 37,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`observedBankPool`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 419,
+    "name": "round2",
+    "inventoryEngine": "economy",
+    "keepLines": 1,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 420,
+    "name": "round6",
+    "inventoryEngine": "economy",
+    "keepLines": 1,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 422,
+    "name": "dollars",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 426,
+    "name": "formatDollars",
+    "inventoryEngine": "economy",
+    "keepLines": 4,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function interprets or produces legacy presentation/prose through `Math.round`, `Math.abs`, `whole.toLocaleString`. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 449,
+    "name": "payBetween",
+    "inventoryEngine": "economy",
+    "keepLines": 57,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/quarterly-pay.ts",
+    "reason": "Date/cadence/payday normalization kernel is lifted as quarterlyPayFromFacts. Whole original scans World outcomes and selects resource flow/employer facts."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 528,
+    "name": "economyOf",
+    "inventoryEngine": "economy",
+    "keepLines": 39,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `MACRO_CREDIT_POLICY`, `MACRO_ERA_POLICY`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 598,
+    "name": "townTaxableSales",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `economyOf`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 614,
+    "name": "median",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 632,
+    "name": "townDepositsPerResident",
+    "inventoryEngine": "economy",
+    "keepLines": 29,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `depositsByCounty`, `FDIC_COUNTY_DEPOSITS`, `areaResidents`, `perResidentByState`, `median`, `perResidentNation`, `lifePlaceByJurisdictionId`, `countyGeoidsForPlace`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 673,
+    "name": "openBankBooks",
+    "inventoryEngine": "economy",
+    "keepLines": 38,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `TOWN_FINANCE_POLICY`, `round2`, `townDepositsPerResident`, `townPeople`, `organizationProfileAt`, `localInstitutionsFor`, `recordedBankShapeForCertificate`, `recordedBankShape`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 717,
+    "name": "lenderOf",
+    "inventoryEngine": "economy",
+    "keepLines": 14,
+    "status": "lifted",
+    "lift": "src/rules/economy/bank-credit.ts",
+    "reason": "Complete deposit/ID selection is lifted as largestDepositBankFromFacts over caller-supplied open-bank facts; the inherited largest-bank proxy is registered."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 738,
+    "name": "buildToward",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`acuteWeight`, `TOWN_FINANCE_POLICY`, `addDays`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 992,
+    "name": "openBusinessBooks",
+    "inventoryEngine": "economy",
+    "keepLines": 37,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `TOWN_FINANCE_POLICY`, `townBusinessKindBooks`, `round2`, `round6`, `townCreditLineDays`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 1057,
+    "name": "capitalRatio",
+    "inventoryEngine": "economy",
+    "keepLines": 4,
+    "status": "lifted",
+    "lift": "src/rules/economy/bank-credit.ts",
+    "reason": "Complete asset/capital ratio arithmetic is lifted privately as capitalRatioFromFacts and golden-checked through credit predicates."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 1070,
+    "name": "honorsLine",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/bank-credit.ts",
+    "reason": "Credit-line predicate is lifted as bankHonorsCreditLineFromFacts. Whole legacy function captures TOWN_FINANCE_POLICY.bank.lendingCapitalRatio; the port must supply that policy fact."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 1079,
+    "name": "lends",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/bank-credit.ts",
+    "reason": "New-credit predicate is lifted as bankExtendsNewCreditFromFacts with supplied capital-ratio/tightness facts. Whole legacy function captures policy and Economy records; their adapter remains outside."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 1095,
+    "name": "stepTownFinances",
+    "inventoryEngine": "economy",
+    "keepLines": 518,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `economyOf`, `TOWN_FINANCES_VERSION`, `townBanks`, `TOWN_EMPLOYMENT_VERSION`, `addDays`, `payBetween`, `activeTownJobs`, `round2`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 1772,
+    "name": "townHouseholdDefaults",
+    "inventoryEngine": "economy",
+    "keepLines": 75,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `addDays`, `TOWN_FINANCE_POLICY`, `TOWN_EMPLOYMENT_VERSION`, `jobsLostBy`, `activeTownJobs`, `lenderOf`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 1848,
+    "name": "lossesSentence",
+    "inventoryEngine": "economy",
+    "keepLines": 13,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function interprets or produces legacy presentation/prose through `formatDollars`. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 1862,
+    "name": "failTownBank",
+    "inventoryEngine": "economy",
+    "keepLines": 85,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `townBanks`, `activeTownJobs`, `organizationProfileAt`, `TOWN_FINANCES_VERSION`, `closeOrganization`, `TOWN_FINANCE_CLOSING_REASONS`, `TOWN_BANK_JOB_END_REASON`, `capitalRatio`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 1948,
+    "name": "percent",
+    "inventoryEngine": "economy",
+    "keepLines": 1,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-finances.ts",
+    "sourceLine": 1982,
+    "name": "closeBusinessesOutOfCash",
+    "inventoryEngine": "economy",
+    "keepLines": 102,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `activeTownJobs`, `organizationProfileAt`, `closeOrganization`, `TOWN_FINANCE_CLOSING_REASONS`, `TOWN_JOB_END_REASONS`, `formatDollars`, `kindPlural`, `percent`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-homes.ts",
+    "sourceLine": 175,
+    "name": "homeForNewHousehold",
+    "inventoryEngine": "economy",
+    "keepLines": 34,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/home-allocation.ts",
+    "reason": "Home-choice kernel is lifted as homeForHouseholdFromFacts. Whole legacy function captures home-price, dwelling/tenure records and decision-profile data; caller must supply those records."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-homes.ts",
+    "sourceLine": 222,
+    "name": "headAge",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-labor-market.ts",
+    "sourceLine": 208,
+    "name": "jobsLostBy",
+    "inventoryEngine": "economy",
+    "keepLines": 16,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `workRelationshipHistoryForPerson`, `workStatusHistory`, `TOWN_JOB_LOSS_REASONS`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-labor-market.ts",
+    "sourceLine": 237,
+    "name": "townUnemploymentPressure",
+    "inventoryEngine": "economy",
+    "keepLines": 22,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `macroConditionsAt`, `macroScopeForJurisdiction`, `TOWN_JOB_TURNOVER`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 273,
+    "name": "townPayPercentile",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "lifted",
+    "lift": "src/rules/economy/town-pay.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 282,
+    "name": "interpolate",
+    "inventoryEngine": "economy",
+    "keepLines": 13,
+    "status": "lifted",
+    "lift": "src/rules/economy/town-pay.ts",
+    "reason": "Complete wage interpolation is lifted as interpolateAnnualWage, preserving legacy bounds and selected wage row arithmetic."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 364,
+    "name": "townJobRate",
+    "inventoryEngine": "economy",
+    "keepLines": 25,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/town-pay.ts",
+    "reason": "Wage percentile/interpolation/floor math is lifted over selected SOC/wage/minimum facts. Whole original resolves TOWN_JOB_SOC, wageTable and townPayAreas research records."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 435,
+    "name": "sizeGroup",
+    "inventoryEngine": "economy",
+    "keepLines": 10,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 503,
+    "name": "payPeriodEndingOn",
+    "inventoryEngine": "economy",
+    "keepLines": 31,
+    "status": "lifted",
+    "lift": "src/rules/economy/payday-and-shift.ts",
+    "reason": "Complete supplied pay-period/date/phase calendar is lifted unchanged, with common payday convention registered."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 536,
+    "name": "nextPaydayDate",
+    "inventoryEngine": "economy",
+    "keepLines": 12,
+    "status": "lifted",
+    "lift": "src/rules/economy/payday-and-shift.ts",
+    "reason": "Complete next common-payday date search is lifted unchanged; employer-specific calendars remain a registered missing mechanism."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 558,
+    "name": "nextRecordedPaydayDate",
+    "inventoryEngine": "economy",
+    "keepLines": 24,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `nextPaydayDate`, `growingIndex`, `OFFICE_CALENDAR_FLOWS`, `resourceFlowTermsAt`, `recordById`, `workStatusAt`, `daysBetween`, `addDays`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 694,
+    "name": "weeklyHoursOf",
+    "inventoryEngine": "economy",
+    "keepLines": 4,
+    "status": "lifted",
+    "lift": "src/rules/economy/payday-and-shift.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 769,
+    "name": "recordedCredentialHourlyPay",
+    "inventoryEngine": "economy",
+    "keepLines": 136,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `recordById`, `workRoleAt`, `workStatusAt`, `hasLifePathCredential`, `educationEnrollmentStateAt`, `resourceFlowTermsAt`, `resourceTransferOutcomesForFlow`, `payNoteOf`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 906,
+    "name": "startTownJobPay",
+    "inventoryEngine": "economy",
+    "keepLines": 165,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `latestRoles`, `deathDates`, `TOWN_EMPLOYMENT_VERSION`, `statusOn`, `anyTeacherFloorLawEnacted`, `PAY_KEY_PREFIX`, `resourceFlowTermsAt`, `payNoteOf`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 1191,
+    "name": "applyLawPayConsequence",
+    "inventoryEngine": "economy",
+    "keepLines": 393,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `makeIsoDate`, `lawEffectStamp`, `recordById`, `payPayerAt`, `completedPayShift`, `lawInForce`, `workRoleAt`, `workStatusAt`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 1613,
+    "name": "floorHourlyMinorOf",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`HOURS_PER_YEAR`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 1625,
+    "name": "raiseTeacherPayToFloor",
+    "inventoryEngine": "economy",
+    "keepLines": 116,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `anyTeacherFloorLawEnacted`, `latestRoles`, `termsByPayFlow`, `growingIndex`, `JOB_ENDINGS`, `LAST_PERIOD_PAID`, `townPayFlows`, `TEACHER_FLOOR_OCCUPATION`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 1747,
+    "name": "payTownPaydays",
+    "inventoryEngine": "economy",
+    "keepLines": 60,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `townPayFlows`, `daysBetween`, `CATCH_UP_LIMIT_DAYS`, `addDays`, `deathDates`, `termsByPayFlow`, `termsOn`, `payNoteOf`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-pay.ts",
+    "sourceLine": 2129,
+    "name": "townHourlyPayCents",
+    "inventoryEngine": "economy",
+    "keepLines": 41,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `TOWN_EMPLOYMENT_VERSION`, `latestRoles`, `termsByPayFlow`, `PAY_KEY_PREFIX`, `termsOn`, `payNoteOf`, `weeklyHoursOf`, `PERIODS_PER_YEAR`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 267,
+    "name": "rentLawLevel",
+    "inventoryEngine": "economy",
+    "keepLines": 20,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `propositionId`, `RENT_LAW_KEYS`, `lawInForce`, `addDays`, `RENT_STABILIZATION_CITYWIDE`, `lawInForceAtStart`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 289,
+    "name": "marketRentLevel",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `homePriceLevel`, `rentLawLevel`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 460,
+    "name": "populationWeightedTownRow",
+    "inventoryEngine": "economy",
+    "keepLines": 37,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 499,
+    "name": "veryLowIncomeLimit",
+    "inventoryEngine": "economy",
+    "keepLines": 12,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`interpolateFactor`, `HUD_FAMILY_SIZE_FACTORS`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 512,
+    "name": "interpolateFactor",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`HUD_FAMILY_SIZE_FACTORS`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 525,
+    "name": "affordableRentMinor",
+    "inventoryEngine": "economy",
+    "keepLines": 12,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`veryLowIncomeLimit`, `AFFORDABLE_LIMIT_OF_VERY_LOW`, `AFFORDABLE_RENT_OF_INCOME`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 540,
+    "name": "pick",
+    "inventoryEngine": "economy",
+    "keepLines": 13,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 559,
+    "name": "bedroomsForHousehold",
+    "inventoryEngine": "economy",
+    "keepLines": 5,
+    "status": "lifted",
+    "lift": "src/rules/economy/housing-occupancy.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 566,
+    "name": "rentPriceLevel",
+    "inventoryEngine": "economy",
+    "keepLines": 13,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `macroScopeForJurisdiction`, `macroConditionsAt`, `macroMonthHistory`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 581,
+    "name": "marketRentMinor",
+    "inventoryEngine": "economy",
+    "keepLines": 10,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/rent-and-eviction.ts",
+    "reason": "Selected rent amount and monthly price-factor math is lifted. Whole original resolves bedroom/FMR data and law/price inputs through legacy records; those fact readers remain outside."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 756,
+    "name": "householdMonthlyIncome",
+    "inventoryEngine": "economy",
+    "keepLines": 14,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/rent-and-eviction.ts",
+    "reason": "Household income aggregation is lifted over supplied members/pay facts. Whole legacy World household and transfer selection cannot be copied."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 984,
+    "name": "householdHousingFacts",
+    "inventoryEngine": "economy",
+    "keepLines": 28,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `householdMembers`, `monthlyPayByPerson`, `townLeases`, `termsByFlow`, `termsOn`, `householdMonthlyIncome`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 1024,
+    "name": "monthsBetween",
+    "inventoryEngine": "economy",
+    "keepLines": 5,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 1175,
+    "name": "chooseLeaseholder",
+    "inventoryEngine": "economy",
+    "keepLines": 13,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 1490,
+    "name": "publicHousingRentMinor",
+    "inventoryEngine": "economy",
+    "keepLines": 12,
+    "status": "lifted",
+    "lift": "src/rules/economy/rent-and-eviction.ts",
+    "reason": "Complete public-housing rent calculation is already lifted as publicHousingRentMinorFromFacts, with sourced tagged constants and all-place golden tests."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 1512,
+    "name": "inclusionaryHome",
+    "inventoryEngine": "economy",
+    "keepLines": 50,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `coveredKind`, `rentConstructionCovered`, `housingLawYes`, `RENT_LAW_KEYS`, `readFinalEnactedLawTerm`, `homeKindOf`, `inclusionarySetAsideOpen`, `measureDesignation`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 1569,
+    "name": "inclusionarySetAsideOpen",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "lifted",
+    "lift": "src/rules/economy/housing-occupancy.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 1608,
+    "name": "chooseLandlord",
+    "inventoryEngine": "economy",
+    "keepLines": 56,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `housingAuthority`, `propertyManager`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 1666,
+    "name": "marketRentRenewalReason",
+    "inventoryEngine": "economy",
+    "keepLines": 11,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Formats a rent-change sentence with toFixed percentage and optional estimate prose. Player wording belongs to the English engine; this is not copied into the economy rule shelf."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 1684,
+    "name": "renewTownLeases",
+    "inventoryEngine": "economy",
+    "keepLines": 162,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `townLeases`, `termsByFlow`, `householdMembers`, `monthlyPayByPerson`, `monthsBetween`, `termsOn`, `hudRentRowFor`, `PROVENANCE`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 1847,
+    "name": "dollarsOf",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 1890,
+    "name": "payTownRent",
+    "inventoryEngine": "economy",
+    "keepLines": 112,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `townLeases`, `termsByFlow`, `firstOfNextMonth`, `termsOn`, `resourcePositionAt`, `money`, `PROVENANCE`, `arrearsFlowOwing`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 2079,
+    "name": "actOnArrears",
+    "inventoryEngine": "economy",
+    "keepLines": 89,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `filingsByLease`, `householdMembers`, `rentEvent`, `RENT_EVENTS`, `landlordName`, `householdName`, `monthlyPayByPerson`, `evictionCaseFacts`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 2170,
+    "name": "fileAtMonths",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `personTrait`, `EVICTION`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 2224,
+    "name": "evictionCaseFacts",
+    "inventoryEngine": "economy",
+    "keepLines": 64,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `personTrait`, `EVICTION`, `evictionNoticeKey`, `evictionCaseAnswer`, `EVICTION_CASE_CHOICES`, `trialJudge`, `personName`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 2290,
+    "name": "decideEvictionCase",
+    "inventoryEngine": "economy",
+    "keepLines": 46,
+    "status": "partial-not-liftable",
+    "lift": "src/rules/economy/rent-and-eviction.ts",
+    "reason": "Existing RULES-1 disposition kernel remains as decideEvictionOutcome. Whole original selects case, judge and counsel facts from World; courts are parked and this continuation does not add court rules."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 2533,
+    "name": "canPayRentOwed",
+    "inventoryEngine": "economy",
+    "keepLines": 21,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `leaseHeldBy`, `resourceFlowTermsAt`, `rentOwedMinor`, `resourcePositionAt`, `arrearsPaidOn`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 2582,
+    "name": "payRentOwed",
+    "inventoryEngine": "economy",
+    "keepLines": 46,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `leaseHeldBy`, `rentOwedMinor`, `resourceFlowTermsAt`, `arrearsPaidOn`, `resourcePositionAt`, `money`, `arrearsFlowOwing`, `recordResourceTransferOutcomes`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 2634,
+    "name": "moveOutBeforeHearing",
+    "inventoryEngine": "economy",
+    "keepLines": 22,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `leaseHeldBy`, `householdMembers`, `rentOwedMinor`, `rentEvent`, `RENT_EVENTS`, `householdName`, `bedroomHome`, `landlordName`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/town-rent.ts",
+    "sourceLine": 2882,
+    "name": "median",
+    "inventoryEngine": "economy",
+    "keepLines": 8,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/work-schedules.ts",
+    "sourceLine": 83,
+    "name": "hours",
+    "inventoryEngine": "economy",
+    "keepLines": 4,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/work-schedules.ts",
+    "sourceLine": 327,
+    "name": "jobIndex",
+    "inventoryEngine": "economy",
+    "keepLines": 84,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `INDEXES`, `currentLifeCutoff`, `organizationProfileAt`, `townWorkplaceFor`, `jobShape`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/work-schedules.ts",
+    "sourceLine": 416,
+    "name": "scheduleOf",
+    "inventoryEngine": "economy",
+    "keepLines": 75,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`WORK_PATTERNS`, `daysBetween`, `EPOCH`, `weekdayOf`, `employerOffset`, `weekIndex`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/work-schedules.ts",
+    "sourceLine": 493,
+    "name": "employerOffset",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/work-schedules.ts",
+    "sourceLine": 514,
+    "name": "previousDate",
+    "inventoryEngine": "economy",
+    "keepLines": 5,
+    "status": "lifted",
+    "lift": "src/rules/economy/payday-and-shift.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/work-schedules.ts",
+    "sourceLine": 521,
+    "name": "onShiftAt",
+    "inventoryEngine": "economy",
+    "keepLines": 20,
+    "status": "lifted",
+    "lift": "src/rules/economy/payday-and-shift.ts",
+    "reason": "Complete selected shift/working-day callback predicate is lifted, including previous-day midnight overflow. No World schedule generator or shift patterns are copied."
+  },
+  {
+    "sourceFile": "src/simulation/living-world/work-schedules.ts",
+    "sourceLine": 566,
+    "name": "minuteOf",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`daysBetween`, `EPOCH`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/local-business-counts.ts",
+    "sourceLine": 62,
+    "name": "parseCounts",
+    "inventoryEngine": "economy",
+    "keepLines": 22,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`KIND_COUNT`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/local-business-counts.ts",
+    "sourceLine": 112,
+    "name": "rateFor",
+    "inventoryEngine": "economy",
+    "keepLines": 19,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`countyCounts`, `stateCounts`, `stateRate`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/local-business-counts.ts",
+    "sourceLine": 132,
+    "name": "stateRate",
+    "inventoryEngine": "economy",
+    "keepLines": 12,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/local-business-counts.ts",
+    "sourceLine": 152,
+    "name": "populationBasis",
+    "inventoryEngine": "economy",
+    "keepLines": 66,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`placeReferencePopulation`, `populationTotals`, `PLACE_COUNTY_RELATIONS_ROWS`, `PLACE_COUNTY_RELATIONS_META`, `populationMeans`, `NATIONAL_PLACES_ROWS`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/local-business-counts.ts",
+    "sourceLine": 220,
+    "name": "localBusinessSupplyFor",
+    "inventoryEngine": "economy",
+    "keepLines": 59,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`lifePlaceByJurisdictionId`, `populationBasis`, `countyLandSharesForPlace`, `stateCounts`, `salesPerEmployee`, `LOCAL_BUSINESS_COUNT_KINDS`, `rateFor`, `stateRate`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/local-economy.ts",
+    "sourceLine": 199,
+    "name": "localBusinessPlansFor",
+    "inventoryEngine": "economy",
+    "keepLines": 48,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`localBusinessSupplyFor`, `LOCAL_BUSINESS_MAX_STAFF`, `LOCAL_BUSINESS_KINDS`, `LOCAL_BUSINESS_MAX_PER_KIND`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/local-economy.ts",
+    "sourceLine": 255,
+    "name": "modeledLocalBusinessOperatingIncomeMinor",
+    "inventoryEngine": "economy",
+    "keepLines": 15,
+    "status": "lifted",
+    "lift": "src/rules/economy/operating-income.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/local-economy.ts",
+    "sourceLine": 309,
+    "name": "localBusinessesIn",
+    "inventoryEngine": "economy",
+    "keepLines": 31,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `LOCAL_BUSINESS_KINDS`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/local-economy.ts",
+    "sourceLine": 341,
+    "name": "yearsBefore",
+    "inventoryEngine": "economy",
+    "keepLines": 5,
+    "status": "lifted",
+    "lift": "src/rules/economy/calendar-year.ts",
+    "reason": "Complete year-offset/date-normalization arithmetic is lifted as calendarDateByYearsFromFacts; all-place boundary tests preserve leap-day behavior."
+  },
+  {
+    "sourceFile": "src/simulation/local-economy.ts",
+    "sourceLine": 347,
+    "name": "later",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/local-fiscal-authority.ts",
+    "sourceLine": 140,
+    "name": "sourcedRestriction",
+    "inventoryEngine": "economy",
+    "keepLines": 30,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/central-bank.ts",
+    "sourceLine": 152,
+    "name": "votingReserveBanks",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`ROTATION`, `ROTATION_ANCHOR_YEAR`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/central-bank.ts",
+    "sourceLine": 254,
+    "name": "seatTermEnds",
+    "inventoryEngine": "economy",
+    "keepLines": 5,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`makeIsoDate`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/central-bank.ts",
+    "sourceLine": 739,
+    "name": "februaryEnd",
+    "inventoryEngine": "economy",
+    "keepLines": 4,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`makeIsoDate`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/central-bank.ts",
+    "sourceLine": 794,
+    "name": "stepReserveBankPresidents",
+    "inventoryEngine": "economy",
+    "keepLines": 73,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `februaryEnd`, `ageOnDate`, `CENTRAL_BANK_PROFILE`, `isDead`, `addDays`, `RESERVE_BANKS`, `CENTRAL_BANK_VERSION`, `generateBoardPeople`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/central-bank.ts",
+    "sourceLine": 902,
+    "name": "centralBankReadings",
+    "inventoryEngine": "economy",
+    "keepLines": 42,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `CENTRAL_BANK_PROFILE`, `MACRO_CREDIT_POLICY`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/central-bank.ts",
+    "sourceLine": 991,
+    "name": "rangeFromMid",
+    "inventoryEngine": "economy",
+    "keepLines": 11,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/central-bank.ts",
+    "sourceLine": 1007,
+    "name": "holdCentralBankMeeting",
+    "inventoryEngine": "economy",
+    "keepLines": 134,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `CENTRAL_BANK_VERSION`, `isDead`, `votingReserveBanks`, `centralBankReadings`, `choiceOf`, `rateMoveOf`, `CENTRAL_BANK_PROFILE`, `personName`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/conditions.ts",
+    "sourceLine": 45,
+    "name": "stepNationalConditions",
+    "inventoryEngine": "economy",
+    "keepLines": 44,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`NO_INNOVATIONS`, `stepEraConditions`, `stepCredit`, `roundMacro`, `stepMonth`, `POLICY`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/credit.ts",
+    "sourceLine": 191,
+    "name": "round6",
+    "inventoryEngine": "economy",
+    "keepLines": 5,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/credit.ts",
+    "sourceLine": 197,
+    "name": "clamp",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/credit.ts",
+    "sourceLine": 202,
+    "name": "startCreditState",
+    "inventoryEngine": "economy",
+    "keepLines": 25,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`MACRO_CREDIT_POLICY`, `round6`, `MACRO_CREDIT_VERSION`, `MACRO_ERA_POLICY`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/credit.ts",
+    "sourceLine": 252,
+    "name": "stepCredit",
+    "inventoryEngine": "economy",
+    "keepLines": 116,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`MACRO_CREDIT_POLICY`, `clamp`, `logistic`, `detExp`, `MACRO_CREDIT_VERSION`, `round6`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/cycle.ts",
+    "sourceLine": 59,
+    "name": "one",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/kernel.ts",
+    "sourceLine": 24,
+    "name": "roundMacro",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "lifted",
+    "lift": "src/rules/economy/macro-index-rules.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/kernel.ts",
+    "sourceLine": 124,
+    "name": "boundedUnemployment",
+    "inventoryEngine": "economy",
+    "keepLines": 4,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`POLICY`, `roundMacro`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/kernel.ts",
+    "sourceLine": 136,
+    "name": "stepMonth",
+    "inventoryEngine": "economy",
+    "keepLines": 52,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`POLICY`, `ERA`, `roundMacro`, `RECOVERY`, `boundedUnemployment`, `detExp`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/kernel.ts",
+    "sourceLine": 201,
+    "name": "stepLocalMonth",
+    "inventoryEngine": "economy",
+    "keepLines": 22,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`POLICY`, `roundMacro`, `boundedUnemployment`, `RECOVERY`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/kernel.ts",
+    "sourceLine": 228,
+    "name": "annualizedQuarterlyGrowthPct",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "lifted",
+    "lift": "src/rules/economy/macro-index-rules.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/kernel.ts",
+    "sourceLine": 239,
+    "name": "twelveMonthChangePct",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "lifted",
+    "lift": "src/rules/economy/macro-index-rules.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/kernel.ts",
+    "sourceLine": 272,
+    "name": "bounded",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`roundMacro`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/kernel.ts",
+    "sourceLine": 291,
+    "name": "stepEraConditions",
+    "inventoryEngine": "economy",
+    "keepLines": 40,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`ERA`, `ERA_CONDITIONS`, `bounded`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/producer.ts",
+    "sourceLine": 131,
+    "name": "monthsBetween",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/producer.ts",
+    "sourceLine": 140,
+    "name": "shockFactor",
+    "inventoryEngine": "economy",
+    "keepLines": 19,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`monthEnd`, `monthsBetween`, `monthKeyOf`, `monthStart`, `SHOCK_FLOOR`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/producer.ts",
+    "sourceLine": 160,
+    "name": "impulsesFor",
+    "inventoryEngine": "economy",
+    "keepLines": 31,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `shockFactor`, `roundMacro`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/producer.ts",
+    "sourceLine": 279,
+    "name": "lastMonth",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/producer.ts",
+    "sourceLine": 289,
+    "name": "nationalMonth",
+    "inventoryEngine": "economy",
+    "keepLines": 67,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `lastMonth`, `stateOf`, `startState`, `impulsesFor`, `POLICY`, `stepNationalConditions`, `START_ERA`, `startCreditState`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/producer.ts",
+    "sourceLine": 361,
+    "name": "localMonth",
+    "inventoryEngine": "economy",
+    "keepLines": 56,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `lastMonth`, `stateOf`, `impulsesFor`, `stepLocalMonth`, `monthRecordKey`, `roundMacro`, `detExp`, `UNEMPLOYMENT_RECOVERY_RULE`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/producer.ts",
+    "sourceLine": 437,
+    "name": "formatPct",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function interprets or produces legacy presentation/prose through `(Math.round(value * 10) / 10).toFixed`, `Math.round`. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/rate-choice.ts",
+    "sourceLine": 100,
+    "name": "step",
+    "inventoryEngine": "economy",
+    "keepLines": 4,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`LADDER`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/rate-choice.ts",
+    "sourceLine": 105,
+    "name": "sizeOf",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/rate-choice.ts",
+    "sourceLine": 120,
+    "name": "fmt",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/rate-choice.ts",
+    "sourceLine": 125,
+    "name": "rateConcerns",
+    "inventoryEngine": "economy",
+    "keepLines": 77,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`CENTRAL_BANK_INFLATION_GOAL_PCT`, `step`, `sizeOf`, `fmt`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/readers.ts",
+    "sourceLine": 24,
+    "name": "macroConditionsAt",
+    "inventoryEngine": "economy",
+    "keepLines": 12,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/readers.ts",
+    "sourceLine": 37,
+    "name": "macroMonthHistory",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `(world.macroEconomy?.months ?? []).filter`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/readers.ts",
+    "sourceLine": 47,
+    "name": "macroReleasesAt",
+    "inventoryEngine": "economy",
+    "keepLines": 11,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `(world.macroEconomy?.releases ?? []).filter`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/macro-economy/store.ts",
+    "sourceLine": 35,
+    "name": "previousMonthKey",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "lifted",
+    "lift": "src/rules/economy/fiscal-and-month-dates.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/moguls.ts",
+    "sourceLine": 365,
+    "name": "offerAmount",
+    "inventoryEngine": "economy",
+    "keepLines": 5,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`MOGUL_OFFERS_ESTIMATE`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/moguls.ts",
+    "sourceLine": 512,
+    "name": "produceMogulOffers",
+    "inventoryEngine": "economy",
+    "keepLines": 16,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `sortedUnique`, `mogulInterests`, `isAlive`, `lastOfferBy`, `addDays`, `MOGUL_OFFERS_ESTIMATE`, `considerApproach`, `reviewAcceptedDeals`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/money-text.ts",
+    "sourceLine": 9,
+    "name": "moneyText",
+    "inventoryEngine": "economy",
+    "keepLines": 14,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function interprets or produces legacy presentation/prose through `(Math.abs(amount.minorUnits) / 100).toLocaleString`, `Math.abs`. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+  },
+  {
+    "sourceFile": "src/simulation/mortgage-financing.ts",
+    "sourceLine": 55,
+    "name": "mortgageFinancingQuote",
+    "inventoryEngine": "economy",
+    "keepLines": 90,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `macroConditionsAt`, `macroScopeForJurisdiction`, `CRUNCH46_PROVISIONAL_POLICY`, `MORTGAGE_SPREAD_REFERENCE`, `cappedAnnualRateBasisPoints`, `FIXED_MORTGAGE_TERM_MONTHS`, `amortizedMonthlyPaymentMinor`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/mortgage-financing.ts",
+    "sourceLine": 170,
+    "name": "openingMortgageFinancingQuote",
+    "inventoryEngine": "economy",
+    "keepLines": 68,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `mortgageFinancingQuote`, `monthlyInterestMinor`, `amortizedMonthlyPaymentMinor`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/opening-employer-cash.ts",
+    "sourceLine": 236,
+    "name": "ensureEmployerCashPositions",
+    "inventoryEngine": "economy",
+    "keepLines": 203,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `makeCurrencyCode`, `workStatusAt`, `resourceFlowTermsAt`, `annualPeriods`, `workRoleAt`, `LIFE_PATHS2_CATALOG`, `yearOf`, `daysBetween`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/cannabis-sales-revenue.ts",
+    "sourceLine": 42,
+    "name": "cannabisSalesRevenueChange",
+    "inventoryEngine": "economy",
+    "keepLines": 86,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `TAX_QUESTION_EFFECTS`, `CANNABIS_TAX_EFFECT`, `propositionIdFor`, `lawInForceAtStart`, `lawInForce`, `makeIsoDate`, `enactedCannabisRevenue`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/cannabis-sales-revenue.ts",
+    "sourceLine": 162,
+    "name": "cannabisTaxTermsForLaw",
+    "inventoryEngine": "economy",
+    "keepLines": 92,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `effectiveTaxPolicy`, `recordById`, `currentMeasureProvisions`, `taxLevyText`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/cannabis-sales-revenue.ts",
+    "sourceLine": 288,
+    "name": "cannabisRetailRevenue",
+    "inventoryEngine": "economy",
+    "keepLines": 41,
+    "status": "lifted",
+    "lift": "src/rules/economy/retail-revenue.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/cannabis-sales-revenue.ts",
+    "sourceLine": 330,
+    "name": "enactedCannabisRevenue",
+    "inventoryEngine": "economy",
+    "keepLines": 82,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `readFinalEnactedLawTerm`, `CANNABIS_TAX_EFFECT`, `cannabisTaxTermsForLaw`, `finalTermEnactment`, `finalTermProvisions`, `market`, `cannabisRetailRevenue`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/fiscal.ts",
+    "sourceLine": 66,
+    "name": "fiscalYearContaining",
+    "inventoryEngine": "economy",
+    "keepLines": 11,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`makeIsoDate`, `addDays`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/fiscal.ts",
+    "sourceLine": 92,
+    "name": "firstOfPreviousMonth",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`makeIsoDate`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/fiscal.ts",
+    "sourceLine": 309,
+    "name": "budgetObligationPayment",
+    "inventoryEngine": "economy",
+    "keepLines": 19,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`evaluateLawAmount`, `BUDGET_OBLIGATION_AMOUNT`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/month.ts",
+    "sourceLine": 590,
+    "name": "borrowingCostChange",
+    "inventoryEngine": "economy",
+    "keepLines": 10,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `placeOutcomeAt`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/month.ts",
+    "sourceLine": 608,
+    "name": "monthsInto",
+    "inventoryEngine": "economy",
+    "keepLines": 6,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/month.ts",
+    "sourceLine": 628,
+    "name": "taxLawFactor",
+    "inventoryEngine": "economy",
+    "keepLines": 45,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `cannabisSalesFactor`, `roadChargeFactor`, `federalAidFactor`, `TAX_QUESTION_EFFECTS`, `propositionIdFor`, `lawInForce`, `lawInForceAtStart`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/month.ts",
+    "sourceLine": 681,
+    "name": "lawSpendingForMonth",
+    "inventoryEngine": "economy",
+    "keepLines": 20,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `BUDGET_PROGRAMS`, `SPENDING_QUESTION_EFFECTS`, `lawSpendingPerResident`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/month.ts",
+    "sourceLine": 709,
+    "name": "cannabisSalesFactor",
+    "inventoryEngine": "economy",
+    "keepLines": 10,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `SELECTIVE_TAX`, `cannabisSalesRevenueChange`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/month.ts",
+    "sourceLine": 728,
+    "name": "openingMonthLevel",
+    "inventoryEngine": "economy",
+    "keepLines": 16,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`ECONOMY_ELASTICITY`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/month.ts",
+    "sourceLine": 771,
+    "name": "settleGovernmentMonth",
+    "inventoryEngine": "economy",
+    "keepLines": 613,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `heldCashBailMinorUnits`, `GOVERNMENT_BUDGET_CATEGORIES`, `firstOfNextMonth`, `stateJurisdictionForKey`, `nominalEconomyIndex`, `citySalesNow`, `BUDGET_SOURCES`, `taxLawFactor`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/month.ts",
+    "sourceLine": 1392,
+    "name": "lawMoneyChange",
+    "inventoryEngine": "economy",
+    "keepLines": 24,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `BUDGET_SOURCES`, `taxLawFactor`, `sum`, `lawSpendingForMonth`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/month.ts",
+    "sourceLine": 1418,
+    "name": "shortfallDollars",
+    "inventoryEngine": "economy",
+    "keepLines": 5,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/month.ts",
+    "sourceLine": 1436,
+    "name": "decideShortfallOrder",
+    "inventoryEngine": "economy",
+    "keepLines": 41,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `currentStateExecutiveHolders`, `propositionIdFor`, `BUDGET_LAW_KEYS`, `principledLeaning`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/month.ts",
+    "sourceLine": 1501,
+    "name": "decideLawMoneyReaction",
+    "inventoryEngine": "economy",
+    "keepLines": 75,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `currentStateExecutiveHolders`, `BUDGET_LAW_KEYS`, `propositionIdFor`, `principledLeaning`, `REACTION_KIND`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/month.ts",
+    "sourceLine": 1581,
+    "name": "proposeNextYearBudget",
+    "inventoryEngine": "economy",
+    "keepLines": 11,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `adoptNextYear`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/month.ts",
+    "sourceLine": 1605,
+    "name": "adoptNextYear",
+    "inventoryEngine": "economy",
+    "keepLines": 315,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `firstOfNextMonth`, `fiscalYearContaining`, `budgetLawReadings`, `stateJurisdictionForKey`, `nominalEconomyIndex`, `citySalesNow`, `BUDGET_SOURCES`, `SELECTIVE_TAX`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/opening-cash-profile.ts",
+    "sourceLine": 19,
+    "name": "researchedPublicCashOpeningProfile",
+    "inventoryEngine": "economy",
+    "keepLines": 81,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `makeIsoDate`, `budgetCandidates`, `openGovernmentBudget`, `municipalGovernments`, `lifePlaceByKey`, `US_STATE_USPS`, `canonicalStateJurisdictionId`, `federal`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/opening-government-accounts.ts",
+    "sourceLine": 332,
+    "name": "estimateLocalOpeningCash",
+    "inventoryEngine": "economy",
+    "keepLines": 65,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `readMonthFlows`, `spreadOf`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/opening-government-accounts.ts",
+    "sourceLine": 399,
+    "name": "ensureOpeningGovernmentAccounts",
+    "inventoryEngine": "economy",
+    "keepLines": 64,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `budgetCandidates`, `openGovernmentBudget`, `makeIsoDate`, `ensureStateJurisdictionForKey`, `ensurePublicGovernmentAccount`, `worldOpeningRecord`, `PUBLIC_CASH_OPENING_PROFILE_VERSION`, `ensureNationalElectionJurisdiction`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/opening.ts",
+    "sourceLine": 312,
+    "name": "budgetCandidates",
+    "inventoryEngine": "economy",
+    "keepLines": 100,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `lifePlaceByJurisdictionId`, `STATE_IS_LOCAL`, `STATES`, `chiefExecutiveJurisdiction`, `NATIONAL_ELECTION_JURISDICTION`, `governmentUnitsForPlace`, `servingGovernment`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/opening.ts",
+    "sourceLine": 590,
+    "name": "openingPension",
+    "inventoryEngine": "economy",
+    "keepLines": 17,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`actuarialContribution`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/opening.ts",
+    "sourceLine": 615,
+    "name": "actuarialContribution",
+    "inventoryEngine": "economy",
+    "keepLines": 9,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`AMORTIZATION_FACTOR`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/opening.ts",
+    "sourceLine": 635,
+    "name": "carvePension",
+    "inventoryEngine": "economy",
+    "keepLines": 15,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`BUDGET_PROGRAMS`, `PROTECTED_PROGRAMS`, `sum`, `paid`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/opening.ts",
+    "sourceLine": 663,
+    "name": "interestNote",
+    "inventoryEngine": "economy",
+    "keepLines": 6,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/opening.ts",
+    "sourceLine": 670,
+    "name": "stateOpening",
+    "inventoryEngine": "economy",
+    "keepLines": 101,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`emptyRevenue`, `emptySpending`, `DEFAULT_STATE_INTEREST_RATE`, `STATE_IS_LOCAL`, `BUDGET_CALIBRATION`, `BUDGET_SOURCES`, `BUDGET_PROGRAMS`, `ISLAND_AREA_AVERAGE`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/opening.ts",
+    "sourceLine": 772,
+    "name": "localOpening",
+    "inventoryEngine": "economy",
+    "keepLines": 82,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`NATIONAL_LOCAL_AVERAGE`, `ACS_PLACE_POPULATION`, `COUNTY_POPULATION`, `ACS_MUNICIPIO_POPULATION`, `placePopulation`, `ACS_TOWN_POPULATION`, `BUDGET_CALIBRATION`, `emptySpending`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/road-usage-charge.ts",
+    "sourceLine": 29,
+    "name": "yearsBetween",
+    "inventoryEngine": "economy",
+    "keepLines": 3,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`daysBetween`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/road-usage-charge.ts",
+    "sourceLine": 47,
+    "name": "roadChargeFactor",
+    "inventoryEngine": "economy",
+    "keepLines": 40,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `TAX_QUESTION_EFFECTS`, `MILEAGE_FEE_QUESTION`, `motorFuelShare`, `FUEL_TAX_EROSION_PER_YEAR`, `yearsBetween`, `propositionIdFor`, `lawInForce`, `lawInForceAtStart`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/staffing.ts",
+    "sourceLine": 121,
+    "name": "realProgramFunding",
+    "inventoryEngine": "economy",
+    "keepLines": 24,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `BUDGET_PROGRAMS`, `stateJurisdictionForKey`, `nominalEconomyIndex`, `openingEconomyIndex`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/public-budgets/staffing.ts",
+    "sourceLine": 225,
+    "name": "staffProgram",
+    "inventoryEngine": "economy",
+    "keepLines": 56,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `fundingGovernment`, `realProgramFunding`, `fundedStaff`, `PUBLIC_BUDGETS_VERSION`, `layOff`, `hire`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/quantity.ts",
+    "sourceLine": 14,
+    "name": "createExactQuantity",
+    "inventoryEngine": "economy",
+    "keepLines": 21,
+    "status": "lifted",
+    "lift": "src/rules/economy/exact-quantity.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/quantity.ts",
+    "sourceLine": 51,
+    "name": "compareExactQuantities",
+    "inventoryEngine": "economy",
+    "keepLines": 20,
+    "status": "lifted",
+    "lift": "src/rules/economy/exact-quantity.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/quantity.ts",
+    "sourceLine": 86,
+    "name": "multiplyExactQuantities",
+    "inventoryEngine": "economy",
+    "keepLines": 29,
+    "status": "lifted",
+    "lift": "src/rules/economy/exact-quantity.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/quantity.ts",
+    "sourceLine": 116,
+    "name": "divideExactQuantities",
+    "inventoryEngine": "economy",
+    "keepLines": 21,
+    "status": "lifted",
+    "lift": "src/rules/economy/exact-quantity.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/quantity.ts",
+    "sourceLine": 158,
+    "name": "scaleSafeIntegerByExactShare",
+    "inventoryEngine": "economy",
+    "keepLines": 21,
+    "status": "lifted",
+    "lift": "src/rules/economy/exact-quantity.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/quantity.ts",
+    "sourceLine": 180,
+    "name": "combineExactQuantities",
+    "inventoryEngine": "economy",
+    "keepLines": 31,
+    "status": "lifted",
+    "lift": "src/rules/economy/exact-quantity.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/quantity.ts",
+    "sourceLine": 223,
+    "name": "greatestCommonDivisor",
+    "inventoryEngine": "economy",
+    "keepLines": 10,
+    "status": "lifted",
+    "lift": "src/rules/economy/exact-quantity.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/quantity.ts",
+    "sourceLine": 234,
+    "name": "safeMultiply",
+    "inventoryEngine": "economy",
+    "keepLines": 7,
+    "status": "lifted",
+    "lift": "src/rules/economy/exact-quantity.ts",
+    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+  },
+  {
+    "sourceFile": "src/simulation/recorded-employer.ts",
+    "sourceLine": 28,
+    "name": "localBusinessWageMinor",
+    "inventoryEngine": "economy",
+    "keepLines": 48,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `recordedOccupationWeeklyHours`, `recordedWorkAnnualPay`, `stateMedianAnnualWage`, `townMinimumHourly`, `LOCAL_BUSINESS_ESTIMATE`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/recorded-work-pay.ts",
+    "sourceLine": 48,
+    "name": "recordedWorkAnnualPay",
+    "inventoryEngine": "economy",
+    "keepLines": 73,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `workRoleAt`, `workStatusAt`, `resourceFlowTermsAt`, `PERIODS`, `weeklyHoursOf`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/resource-payments.ts",
+    "sourceLine": 48,
+    "name": "createDatedCashPaymentReader",
+    "inventoryEngine": "economy",
+    "keepLines": 144,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `datedCashBalanceAt`, `minimumDatedCashAt`, `minimumOutcomeCashAt`, `resourceFlowsTouching`, `liveBoundaryMinimum`, `makeIsoDate`, `paymentFromDatedCash`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/resource-payments.ts",
+    "sourceLine": 199,
+    "name": "paymentFromDatedCash",
+    "inventoryEngine": "economy",
+    "keepLines": 48,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `money`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/resource-payments.ts",
+    "sourceLine": 249,
+    "name": "minimumDatedCashAt",
+    "inventoryEngine": "economy",
+    "keepLines": 12,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `liveBoundaryMinimum`, `minimumOutcomeCashAt`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/resource-payments.ts",
+    "sourceLine": 280,
+    "name": "minimumOutcomeCashAt",
+    "inventoryEngine": "economy",
+    "keepLines": 27,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `resourceFlowsTouching`, `resourceTransferOutcomesOfFlows`, `makeIsoDate`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/resource-queries.ts",
+    "sourceLine": 98,
+    "name": "resourcePositionAt",
+    "inventoryEngine": "economy",
+    "keepLines": 127,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `resourcePositionsOf`, `availableOn`, `positionOwnerEndpoint`, `runningLedger`, `money`, `addExact`, `resourceFlowsTouching`, `resourceTransferOutcomesOfFlows`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/resource-queries.ts",
+    "sourceLine": 859,
+    "name": "enter",
+    "inventoryEngine": "economy",
+    "keepLines": 37,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`addExact`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/resources.ts",
+    "sourceLine": 1294,
+    "name": "settlementPeriodsOverlap",
+    "inventoryEngine": "economy",
+    "keepLines": 8,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/starting-money.ts",
+    "sourceLine": 32,
+    "name": "annualPay",
+    "inventoryEngine": "economy",
+    "keepLines": 14,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+  },
+  {
+    "sourceFile": "src/simulation/starting-money.ts",
+    "sourceLine": 56,
+    "name": "medianTransactionBalance",
+    "inventoryEngine": "economy",
+    "keepLines": 21,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`scf`, `annualPay`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/starting-money.ts",
+    "sourceLine": 236,
+    "name": "estimatedPersonalBalance",
+    "inventoryEngine": "economy",
+    "keepLines": 22,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `ensureStartingPersonalMoney`, `medianTransactionBalance`, `scf`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/student-debt.ts",
+    "sourceLine": 50,
+    "name": "studentLoanRateFor",
+    "inventoryEngine": "economy",
+    "keepLines": 23,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`STUDENT_LOAN_RATE_ROW`, `debtResearch`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/time-work.ts",
+    "sourceLine": 340,
+    "name": "intervalsOverlap",
+    "inventoryEngine": "economy",
+    "keepLines": 11,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`compareSimulationMoments`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+  },
+  {
+    "sourceFile": "src/simulation/time-work.ts",
+    "sourceLine": 1272,
+    "name": "windowOverlapsActivity",
+    "inventoryEngine": "economy",
+    "keepLines": 12,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `latestActivityStateUnchecked`, `compareSimulationMoments`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/time-work.ts",
+    "sourceLine": 1285,
+    "name": "concludeScheduledActivity",
+    "inventoryEngine": "economy",
+    "keepLines": 24,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `scheduledActivityState`, `compareSimulationMoments`, `performScheduledActivity`, `simulationMinutesBetween`, `nonRoutineBlockingIds`, `advanceCanonicalMinutes`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/time-work.ts",
+    "sourceLine": 1349,
+    "name": "resolveAdvanceWithRoutine",
+    "inventoryEngine": "economy",
+    "keepLines": 44,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `compareSimulationMoments`, `completeRoutineWindow`, `simulationMinutesBetween`, `nonRoutineBlockingIds`, `scheduledActivityState`, `advanceStoppingAtNewCommitments`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  },
+  {
+    "sourceFile": "src/simulation/time-work.ts",
+    "sourceLine": 2347,
+    "name": "timeWorkEntityAvailableAt",
+    "inventoryEngine": "economy",
+    "keepLines": 11,
+    "status": "not-liftable",
+    "lift": null,
+    "reason": "Whole function depends on legacy World/history or effect orchestration through `timeWorkRecordById`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+  }
+]

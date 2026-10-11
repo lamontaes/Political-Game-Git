@@ -49,3 +49,22 @@ RULES-2: GPT-6 (Codex); exact runtime variant and configured effort are not
 exposed, repository default medium. Continuation started 2026-10-11 00:48 UTC.
 Final elapsed time and seeded audit place are recorded in the PR. Usage/cost
 are not exposed.
+
+## Complete scoped KEEP disposition
+
+`KEEP-DISPOSITION.md` and `keep-disposition.json` account for all 259 economy
+inventory KEEP functions. Renamed and inlined inherited kernels have explicit
+source/destination mappings. Every whole-function blocker names its World/effect,
+research/policy closure, private owning pipeline or English contract; partial
+fact projections remain partial. This does not reclassify KEEP or claim that a
+future core2 adapter is impossible. Courts/press remain parked.
+
+The continuation adds completed hourly gross, operating income, joint cost-ratio
+estimation, retail revenue, fiscal/month arithmetic, bedroom/set-aside decisions,
+pay period/next payday/weekly hours, and shift predicates. Supporting date
+validation is not counted as engine KEEP coverage. Six additional CTO stopgaps
+preserve bedroom occupancy proxies, inclusionary rounding tolerance, the joint
+cost ratio, omitted nonpayroll operating costs, common payday assumptions, and
+missing required source keys escaping retail-source validation. No old engine
+is edited. All new calculations are golden-compared across all 56 identities,
+including errors and midnight shift boundaries; receipts are in #3932.

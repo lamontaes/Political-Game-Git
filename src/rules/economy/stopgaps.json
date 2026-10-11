@@ -226,5 +226,77 @@
     "addedAt": "2026-10-11",
     "replacement": "Reviewed exact-integer arithmetic with an explicit persisted quantity bound.",
     "status": "OPEN"
+  },
+  {
+    "id": "economy.first-lease-bedroom-proxy",
+    "kind": "placeholder",
+    "file": "src/rules/economy/housing-occupancy.ts",
+    "line": 2,
+    "whatItFakes": "One-person households take a studio; other households use two people per bedroom, capped at four.",
+    "why": "Preserve the legacy pure calculation and its missing-fact or estimated-mechanism behavior unchanged.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Recorded dwelling capacity/bedrooms and applicable occupancy rules.",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.inclusionary-rounding-tolerance",
+    "kind": "placeholder",
+    "file": "src/rules/economy/housing-occupancy.ts",
+    "line": 14,
+    "whatItFakes": "Subtracts 1e-9 before rounding the recorded affordable-home obligation upward.",
+    "why": "Preserve the legacy pure calculation and its missing-fact or estimated-mechanism behavior unchanged.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Reviewed exact-ratio adopted obligation and rounding contract.",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.joint-living-cost-ratio",
+    "kind": "placeholder",
+    "file": "src/rules/economy/living-cost-ratio.ts",
+    "line": 2,
+    "whatItFakes": "Multiplies a household-size mean by a region/national mean ratio as a joint cost estimate.",
+    "why": "Preserve the legacy pure calculation and its missing-fact or estimated-mechanism behavior unchanged.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Sourced household-size-by-region joint expenditure records.",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.operating-income-omits-other-costs",
+    "kind": "placeholder",
+    "file": "src/rules/economy/operating-income.ts",
+    "line": 1,
+    "whatItFakes": "Business operating income uses receipts less payroll and omits other operating costs.",
+    "why": "Preserve the legacy pure calculation and its missing-fact or estimated-mechanism behavior unchanged.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Recorded completed operating expenses alongside payroll and receipts.",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.common-payday-calendar",
+    "kind": "placeholder",
+    "file": "src/rules/economy/payday-and-shift.ts",
+    "line": 17,
+    "whatItFakes": "Weekly pay closes Friday, semimonthly pay on the 15th/month end, and biweekly phases anchor January 7, 2000.",
+    "why": "Preserve the legacy pure calculation and its missing-fact or estimated-mechanism behavior unchanged.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Recorded employer-specific pay calendars, holiday and posting conventions.",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.cannabis-missing-source-keys",
+    "kind": "placeholder",
+    "file": "src/rules/economy/retail-revenue.ts",
+    "line": 5,
+    "whatItFakes": "Object.entries checks supplied source values but missing required source keys can pass unchecked.",
+    "why": "Preserve the legacy pure calculation and its missing-fact or estimated-mechanism behavior unchanged.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Reviewed explicit presence check for each required source role.",
+    "status": "OPEN"
   }
 ]

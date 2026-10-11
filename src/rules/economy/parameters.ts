@@ -252,4 +252,25 @@ export const ECONOMY_RULE_PARAMETERS = {
     source: "Calendar year contains 12 months",
     range: { minimum: 1, maximum: 12 },
   },
+  firstLeaseBedroomCap: {
+    value: 4,
+    basis: "ESTIMATED",
+    source: "Legacy town-rent.ts representative occupancy; HUD table endpoint",
+    range: [0, 4],
+    stopgapId: "economy.first-lease-bedroom-proxy",
+  },
+  peoplePerBedroom: {
+    value: 2,
+    basis: "ESTIMATED",
+    source: "Legacy town-rent.ts representative occupancy",
+    range: [1, 3],
+    stopgapId: "economy.first-lease-bedroom-proxy",
+  },
+  inclusionaryRoundingTolerance: {
+    value: 1e-9,
+    basis: "TUNABLE",
+    source: "Legacy town-rent.ts set-aside ceiling tolerance",
+    range: [0, 1e-9],
+    stopgapId: "economy.inclusionary-rounding-tolerance",
+  },
 } as const;
