@@ -863,6 +863,7 @@ export function coreAPI(core: CoreState): CoreAPI {
       // Names are learned by household adults from the birth, never by the infant.
       for (const parentId of parents) {
         const parent = core.people.get(parentId)!;
+        if (!parent.alive) continue;
         parent.knownIds.add(child.id);
         api.observe(parentId, {
           key: `person:${child.id}:name`,
