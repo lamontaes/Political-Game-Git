@@ -1,3 +1,4 @@
+import { resolveSavedTraceV1 } from "./saved-trace-v1";
 /** Additive actual attendance/cash fixtures. UNEXECUTED by the source-only author. */
 import { describe, expect, it } from "vitest";
 import { DEFAULT_DATA } from "./data";
@@ -1016,4 +1017,39 @@ describe("canonical grouped-payday closure evidence before its first observation
     );
     expect(snapshot(f.core)).toEqual(before);
   });
+});
+
+// SOURCE_ONLY, UNEXECUTED. Append to work-payroll-group.test.ts; add a normal static import
+// of resolveSavedTraceV1 from ./saved-trace-v1. Existing fixture, earned, group and snapshot are used.
+it("projects every actual retained group component while preserving aggregate no-choice accounting", () => {
+  const f = earned(fixture(unit)),
+    paid = group(f),
+    before = snapshot(f.core);
+  const trace = resolveSavedTraceV1(f.core, paid.id),
+    cause = trace.paymentCause!;
+  expect(trace.status).toBe("no-saved-reason");
+  expect(trace.scoresStatus).toBe("none-saved");
+  expect(cause.amounts.requestedMinor).toBe(paid.requestedMinor);
+  expect(cause.amounts.paidMinor).toBe(paid.paidMinor);
+  expect(cause.accountingAttributionRule).toBe(paid.accountingAttributionRule);
+  expect(cause.components).toHaveLength(paid.components.length);
+  for (const component of paid.components) {
+    const saved = cause.components!.find(
+      (row) =>
+        row.receiptId === component.id &&
+        row.ownerRefs.some(
+          (ref) =>
+            ref.kind === f.core.data.work!.journalSourceKinds.commitment &&
+            ref.id === component.commitmentId,
+        ),
+    )!;
+    expect(saved.amounts.paidArrearsMinor).toBe(component.paidArrearsMinor);
+    expect(saved.amounts.paidNewlyDueMinor).toBe(component.paidNewlyDueMinor);
+    expect(saved.sources.paySource).toEqual(component.paySource);
+    expect(saved.ownerRefs).toContainEqual({
+      kind: f.core.data.work!.journalSourceKinds.commitment,
+      id: component.commitmentId,
+    });
+  }
+  expect(snapshot(f.core)).toEqual(before);
 });

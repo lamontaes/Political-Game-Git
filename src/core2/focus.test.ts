@@ -82,6 +82,9 @@ function input(): CoreInput {
         source,
       },
     ],
+    // Jobs establish coworker identity; this fixture supplies no attendance terms.
+    workCommitments: [],
+    workPayrollCalendars: [],
     playerId: "player",
     focusPersonIds: [],
     focusPlaceIds: [],
@@ -174,6 +177,36 @@ describe("normal play circle and tier scope", () => {
       advanceCore(core, "2021-01-02");
       for (const person of core.people.values())
         expect(person.actCount).toBe(1);
+    }
+  });
+});
+
+// SOURCE-ONLY additive proposal; UNEXECUTED by the author.
+describe("focus fixture attendance scope", () => {
+  it("preserves coworker links while distinguishing empty work terms from default enrollment", () => {
+    const supplied = input();
+    const omitted = { ...supplied };
+    delete omitted.workCommitments;
+    delete omitted.workPayrollCalendars;
+    const scoped = createLifeCore(supplied);
+    const ordinary = createLifeCore(omitted);
+    expect([...scoped.focusPersonIds].sort()).toEqual(
+      [...ordinary.focusPersonIds].sort(),
+    );
+    expect(scoped.jobs.get("job:player")?.personId).toBe("player");
+    expect(scoped.jobs.get("job:coworker")?.personId).toBe("coworker");
+    expect(scoped.work.commitments.size).toBe(0);
+    expect(scoped.work.payrollCalendars.size).toBe(0);
+    expect(ordinary.work.commitments.size).toBe(2);
+    advanceCore(scoped, "2021-01-08");
+    advanceCore(ordinary, "2021-01-08");
+    for (const id of ["player", "coworker"]) {
+      expect(scoped.people.get(id)!.actCount).toBe(7);
+      expect(ordinary.people.get(id)!.actCount).toBe(12);
+      expect(
+        ordinary.work.totalsByJob.get(`job:${id}`)!.workedDays +
+          ordinary.work.totalsByJob.get(`job:${id}`)!.missedDays,
+      ).toBe(5);
     }
   });
 });

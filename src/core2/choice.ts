@@ -4,6 +4,8 @@ import { coreAPI } from "./state";
 import type {
   ActOffer,
   CoreState,
+  CompactChoiceScoreV1,
+  CompactChoiceTraceV1,
   DecisionContext,
   DecisionReason,
   DecisionResult,
@@ -75,26 +77,63 @@ export function chooseAct(
   personId: string,
   offers: readonly ActOffer[],
   context?: DecisionContext,
+  captureOriginalScores = false,
 ): DecisionResult {
   const actor = core.people.get(personId);
   if (!actor) throw new Error("Decision actor is absent.");
   const p = (key: string) => parameter(key, core.data.parameters);
-  let best:
-    | {
-        offer: ActOffer;
-        score: number;
-        reasons: DecisionReason;
-        reasonTerms?: readonly WeightedReason[];
-      }
-    | undefined;
+  type Ranked = {
+    offerIndex: number;
+    offer: ActOffer;
+    actionId: string;
+    targetId: string;
+    availableHours: number;
+    effortHours: number;
+    driveId?: string;
+    score: number;
+    reasons: DecisionReason;
+    reasonTerms?: readonly WeightedReason[];
+  };
+  let best: Ranked | undefined, runnerUp: Ranked | undefined;
+  const compact = (row: Ranked): Readonly<CompactChoiceScoreV1> =>
+    Object.freeze({
+      offerIndex: row.offerIndex,
+      actionId: row.actionId,
+      targetId: row.targetId,
+      availableHours: row.availableHours,
+      effortHours: row.effortHours,
+      ...(row.driveId === undefined ? {} : { driveId: row.driveId }),
+      score: row.score,
+      contributions: Object.freeze({ ...row.reasons }),
+      ...(row.reasonTerms?.length
+        ? {
+            reasonTerms: Object.freeze(
+              row.reasonTerms.map((term) =>
+                Object.freeze({
+                  bindingId: term.id,
+                  provider: term.provider,
+                  weightParameter: term.weightParameter,
+                  value: term.value,
+                  contribution: term.contribution,
+                  ...(term.sourceIds === undefined
+                    ? {}
+                    : { sourceIds: Object.freeze([...term.sourceIds]) }),
+                }),
+              ),
+            ),
+          }
+        : {}),
+    });
   const traced =
     core.observer ||
     actor.id === core.playerId ||
     core.focusPersonIds.has(actor.id) ||
     isExplicitlyControlledPersonV1(core, actor.id);
   const scores: NonNullable<DecisionResult["scores"]>[number][] | undefined =
-    traced ? [] : undefined;
+    traced || captureOriginalScores ? [] : undefined;
+  let nextOfferIndex = p("zero");
   for (const offer of offers) {
+    const offerIndex = nextOfferIndex++;
     const action = offer.definition;
     const effortHours = offer.effortHours ?? p(action.effortParameter);
     if (!Number.isFinite(offer.availableHours) || !Number.isFinite(effortHours))
@@ -132,7 +171,8 @@ export function chooseAct(
       ...(action.reasonBindings ?? []),
       ...(offer.reasonBindings ?? []),
     ];
-    const reasonTerms: WeightedReason[] | undefined = traced ? [] : undefined;
+    // Retain at most the selected and runner-up terms. Full alternative scores stay detail-only.
+    const reasonTerms: WeightedReason[] = [];
     if (bindings.length) {
       const api = coreAPI(core),
         ids = new Set<string>();
@@ -186,20 +226,64 @@ export function chooseAct(
     const bestKey = best
       ? `${best.offer.definition.id}:${best.offer.targetId}`
       : undefined;
-    if (!best || score > best.score || (score === best.score && key < bestKey!))
-      best = { offer, score, reasons, reasonTerms };
+    const candidate: Ranked = {
+      offerIndex,
+      offer,
+      actionId: action.id,
+      targetId: offer.targetId,
+      availableHours: offer.availableHours,
+      effortHours,
+      driveId: offer.driveId,
+      score,
+      reasons,
+      reasonTerms,
+    };
+    if (
+      !best ||
+      score > best.score ||
+      (score === best.score && key < bestKey!)
+    ) {
+      if (best) runnerUp = best;
+      best = candidate;
+    } else {
+      const runnerKey = runnerUp
+        ? `${runnerUp.actionId}:${runnerUp.targetId}`
+        : undefined;
+      if (
+        !runnerUp ||
+        score > runnerUp.score ||
+        (score === runnerUp.score && key < runnerKey!)
+      )
+        runnerUp = candidate;
+    }
   }
   return {
     actorId: personId,
     date: core.date,
     selected: best?.offer,
     selectedReasons: best?.reasons,
-    selectedReasonTerms: best?.reasonTerms?.length
-      ? best.reasonTerms
-      : undefined,
+    // Preserve the old quiet/full retention contract outside the compact pair.
+    selectedReasonTerms:
+      traced && best?.reasonTerms?.length ? best.reasonTerms : undefined,
     reasonKey: best
       ? `utility:${best.offer.definition.need}:${best.offer.driveId ?? best.offer.definition.effect}`
       : "no-available-act",
     scores,
+    ...(best && (traced || captureOriginalScores)
+      ? {
+          compactChoice: Object.freeze({
+            version: "core2-compact-choice-v1",
+            actorId: personId,
+            date: core.date,
+            selection: "utility-max",
+            chosen: compact(best),
+            ...(runnerUp ? { runnerUp: compact(runnerUp) } : {}),
+            runnerUpStatus: runnerUp ? "saved" : "no-distinct-alternative",
+            sourceRecordRefs: Object.freeze([
+              Object.freeze({ kind: "person", id: personId }),
+            ]),
+          } satisfies CompactChoiceTraceV1),
+        }
+      : {}),
   };
 }
