@@ -102,8 +102,8 @@
       "golden_path": "studio",
       "package": "M0-guard",
       "test": "A deliberately broken step-2 change turns the check red, and the suite fits its time budget.",
-      "command": null,
-      "passes": false
+      "command": "node --import tsx --test tests/golden-path/runner.node-test.mjs",
+      "passes": true
     },
     {
       "id": "M0-11",
@@ -112,8 +112,8 @@
       "golden_path": "studio",
       "package": "M0-guard",
       "test": "A change that makes a year more than 20% slower than its base fails the check, and the report names the slowest steps.",
-      "command": null,
-      "passes": false
+      "command": "node --import tsx --test scripts/core2-guard/compare.node-test.mjs",
+      "passes": true
     },
     {
       "id": "M0-12",

@@ -4,6 +4,7 @@ Newest first. One short entry per event: what changed for the player, the measur
 
 ## 2026-10-11
 
+- **CTO: M0-10 and M0-11 pass.** The guard (#3941) merged after two separate checkers passed both specs in new places (Honomu, Hawaii and Fairbanks, Alaska for the suite; Elko, Nevada, Chester, Pennsylvania and Dewey Beach, Delaware for the speed guard) and the builder fixed the one defect they sent back. Their light detector tests are registered as the specs' commands, so the golden-path check now turns red if either regresses. The full paired speed run stays on core changes only. Next: M0-01, M0-02 and M0-05 are recorded when the bench merges; M0-03 and M0-04 are rechecked after their fixes.
 - **CODEX-GUARD, GUARD-CHECK send-back:** the profile month now has an explicit receipt path outside the checkout, and the month runner rejects missing output before opening a world. The new tooling regression reproduces the old untracked `--seed` file and verifies two complete paired runs restore a clean named branch. Both proof tools' named-branch requirement is documented. Next: GUARD-CHECK verifies this single defect repair on #3941.
 
 ## 2026-10-10
