@@ -1,3 +1,5 @@
+2026-10-11 — R28: data/research/constituent-cases/roadmap-r28-casework-scope.json + 0 request answers; coverage federal congressional casework; local311 terms audit only; gaps representative case mix, frequency and verified resolution durations in all56/local types; terms questions NYC311 full reuse/privacy terms not verified; no records collected; model GPT-6 (Codex), effort not exposed, 42 seconds.
+
 2026-10-11 — R27: data/research/interest-groups/roadmap-r27-disclosure-measurement.json + 1 request answers; coverage federal lobbying disclosure rules; California official data entrypoint; gaps all56 issue/spending counts, group formation and corrupt-approach incidence; terms questions none; model GPT-6 (Codex), effort not exposed, 26 seconds.
 
 2026-10-11 — R26: data/research/executive/roadmap-r26-staff-boundaries.json + 1 request answers; coverage federal House legal staffing; national public workforce wage/turnover methods; gaps state/council executive staff size/pay and office-specific hiring duration; terms questions none; model GPT-6 (Codex), effort not exposed, 31 seconds.
