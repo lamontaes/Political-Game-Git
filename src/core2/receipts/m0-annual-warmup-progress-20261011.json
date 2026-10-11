@@ -1,0 +1,41 @@
+{
+  "schema": "m0-partial-annual-warmup-progress-v1",
+  "status": "PARTIAL_WARMUP_YEAR_RUNNING_NOT_JUDGED",
+  "batch": "accepted-part1-source-benchmark-year",
+  "warmup": 1,
+  "place": "La Homa, Texas",
+  "throughDate": "2021-02-28",
+  "completedSimulatedDays": 58,
+  "sourceNativeCommit": "16e247d50fdec3cb5a7ee12ac37a7e719732ad20",
+  "sourceManifestSha256": "20482b1d737e2703a33bbbfc27a72e72963ce8622340650581659b733f33bfca",
+  "annualPlanSha256": "f038cc5dd0604bee108eb4a235f2de5030514f13c48a337217031b322064cbaf",
+  "intervals": [
+    {
+      "observedAt": "2026-10-11T04:01:52.151Z",
+      "throughDate": "2021-01-31",
+      "simulatedDays": 30,
+      "elapsedMilliseconds": 359595.147576,
+      "decisions": 65728,
+      "acts": 65728,
+      "seconds": 359.59514757600004,
+      "daysPerMinute": 5.005629280966791,
+      "rawLine": "[2026-10-11T04:01:52.151Z] month-advanced {\"throughDate\":\"2021-01-31\",\"simulatedDays\":30,\"elapsedMilliseconds\":359595.147576,\"decisions\":65728,\"acts\":65728}"
+    },
+    {
+      "observedAt": "2026-10-11T04:11:44.437Z",
+      "throughDate": "2021-02-28",
+      "simulatedDays": 28,
+      "elapsedMilliseconds": 592215.216399,
+      "decisions": 63343,
+      "acts": 63343,
+      "seconds": 592.215216399,
+      "daysPerMinute": 2.8368065417422743,
+      "rawLine": "[2026-10-11T04:11:44.437Z] month-advanced {\"throughDate\":\"2021-02-28\",\"simulatedDays\":28,\"elapsedMilliseconds\":592215.216399,\"decisions\":63343,\"acts\":63343}"
+    }
+  ],
+  "timingScope": "Existing month chunk: advance, focus affect capture, financial/economy snapshots. Excludes later month-counter hashing; not the complete annual timer.",
+  "annualMedianSeconds": null,
+  "annualDaysPerMinute": null,
+  "annualFinancialJudgment": null,
+  "limitation": "One partial warmup only. Complete source/input stability and repeated-run judgments remain pending; no year result or extrapolation."
+}
