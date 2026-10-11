@@ -100,12 +100,12 @@
     "stopgapId": "SG-M1-births-circumstances"
   },
   "renewalIncomeWeight": {
-    "value": 2,
+    "value": 1,
     "tag": "TUNABLE",
-    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "citation": "Universal exploratory calibration of the old smooth family-plan shape: recorded couple score sensitivity in the all56 draw Washington, DC, seed m1-renewal-births-20261011, against NCHS final 2023/2024 crude rates. Not an identified causal coefficient; no rates enter actors.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+      "reason": "Single generated-town calibration, independently drawn finisher validation pending. Income weight sensitivity 0.5 to 2 and wait pull 0.5 to 3 examined; this is a sensitivity window, not an empirical confidence interval."
     },
     "stopgapId": "SG-M1-births-circumstances"
   },
@@ -140,12 +140,12 @@
     "stopgapId": "SG-M1-births-circumstances"
   },
   "renewalWaitPull": {
-    "value": 3,
+    "value": 1,
     "tag": "TUNABLE",
-    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "citation": "Universal exploratory calibration of the old smooth family-plan shape: recorded couple score sensitivity in the all56 draw Washington, DC, seed m1-renewal-births-20261011, against NCHS final 2023/2024 crude rates. Not an identified causal coefficient; no rates enter actors.",
     "spread": {
       "status": "unmeasured",
-      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+      "reason": "Single generated-town calibration, independently drawn finisher validation pending. Income weight sensitivity 0.5 to 2 and wait pull 0.5 to 3 examined; this is a sensitivity window, not an empirical confidence interval."
     },
     "stopgapId": "SG-M1-births-circumstances"
   }
