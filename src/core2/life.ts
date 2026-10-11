@@ -32,6 +32,7 @@ import {
 } from "./opening-payroll-calendar";
 import { LIFE_MODULE } from "./modules/life";
 import { PEOPLE_MODULE } from "./modules/people";
+import { withGrief } from "./grief";
 import { FINANCE_MODULE } from "./modules/finance";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
@@ -101,9 +102,13 @@ export function createLifeCore(
     : { ...input, workCommitments: [], workPayrollCalendars: [] };
   const core = createCore(preparedInput, {
     ...coreOptions,
-    data: scheduledWork
-      ? options.data
-      : { ...(options.data ?? DEFAULT_DATA), work: undefined },
+    // P15 part 4: the people module is always loaded here, so the acts grief
+    // bears on carry its reason (withGrief), as drives add their own acts.
+    data: withGrief(
+      scheduledWork
+        ? (options.data ?? DEFAULT_DATA)
+        : { ...(options.data ?? DEFAULT_DATA), work: undefined },
+    ),
     modules: [
       LIFE_MODULE,
       PEOPLE_MODULE,
