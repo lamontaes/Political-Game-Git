@@ -1,0 +1,145 @@
+{
+  "selectionSeed": "speed-plan-all56-2026-10-11-v1",
+  "method": "SHA-256 first 32 bits modulo sorted pool length; jurisdictions without replacement, localities without filtering; generation only",
+  "poolSize": 56,
+  "selected": [
+    {
+      "index": 0,
+      "state": {
+        "usps": "NV",
+        "jurisdictionKey": "US-NV",
+        "name": "Nevada"
+      },
+      "place": {
+        "key": "3249310",
+        "displayName": "Mount Charleston, Nevada",
+        "formalName": "Mount Charleston",
+        "withinName": "Nevada",
+        "context": {
+          "jurisdiction": {
+            "id": "jurisdiction_ff123faa8b8ba5c7",
+            "slug": "us-place-3249310",
+            "name": "Mount Charleston, Nevada",
+            "kind": "census-place",
+            "parentName": "Nevada",
+            "provenance": {
+              "asOf": "2026-01-05",
+              "source": "census-gazetteer-2025-places-zip",
+              "jurisdiction": "jurisdiction_ff123faa8b8ba5c7",
+              "status": "approved"
+            }
+          },
+          "initialMoment": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/Los_Angeles",
+            "utcOffsetMinutes": -480
+          },
+          "creationSummary": "Seeded world in Mount Charleston, Nevada, from the 2025 Census Gazetteer place identity.",
+          "goalScope": "Mount Charleston, Nevada",
+          "householdLocationLabel": "Mount Charleston, Nevada"
+        },
+        "scope": "locality",
+        "stateJurisdictionKey": "US-NV",
+        "capabilities": {
+          "legislativeScenarioKey": null,
+          "candidacyPackId": null
+        },
+        "sourceGeoid": "3249310"
+      },
+      "seed": "speed-plan-all56-2026-10-11-v1:world:0"
+    },
+    {
+      "index": 1,
+      "state": {
+        "usps": "AZ",
+        "jurisdictionKey": "US-AZ",
+        "name": "Arizona"
+      },
+      "place": {
+        "key": "0439720",
+        "displayName": "Lake Montezuma, Arizona",
+        "formalName": "Lake Montezuma",
+        "withinName": "Arizona",
+        "context": {
+          "jurisdiction": {
+            "id": "jurisdiction_b2aee513976db946",
+            "slug": "us-place-0439720",
+            "name": "Lake Montezuma, Arizona",
+            "kind": "census-place",
+            "parentName": "Arizona",
+            "provenance": {
+              "asOf": "2026-01-05",
+              "source": "census-gazetteer-2025-places-zip",
+              "jurisdiction": "jurisdiction_b2aee513976db946",
+              "status": "approved"
+            }
+          },
+          "initialMoment": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/Phoenix",
+            "utcOffsetMinutes": -420
+          },
+          "creationSummary": "Seeded world in Lake Montezuma, Arizona, from the 2025 Census Gazetteer place identity.",
+          "goalScope": "Lake Montezuma, Arizona",
+          "householdLocationLabel": "Lake Montezuma, Arizona"
+        },
+        "scope": "locality",
+        "stateJurisdictionKey": "US-AZ",
+        "capabilities": {
+          "legislativeScenarioKey": null,
+          "candidacyPackId": null
+        },
+        "sourceGeoid": "0439720"
+      },
+      "seed": "speed-plan-all56-2026-10-11-v1:world:1"
+    },
+    {
+      "index": 2,
+      "state": {
+        "usps": "FL",
+        "jurisdictionKey": "US-FL",
+        "name": "Florida"
+      },
+      "place": {
+        "key": "1258420",
+        "displayName": "Port LaBelle, Florida",
+        "formalName": "Port LaBelle",
+        "withinName": "Florida",
+        "context": {
+          "jurisdiction": {
+            "id": "jurisdiction_98526dadfe089db9",
+            "slug": "us-place-1258420",
+            "name": "Port LaBelle, Florida",
+            "kind": "census-place",
+            "parentName": "Florida",
+            "provenance": {
+              "asOf": "2026-01-05",
+              "source": "census-gazetteer-2025-places-zip",
+              "jurisdiction": "jurisdiction_98526dadfe089db9",
+              "status": "approved"
+            }
+          },
+          "initialMoment": {
+            "date": "2026-01-05",
+            "minuteOfDay": 550,
+            "timeZone": "America/New_York",
+            "utcOffsetMinutes": -300
+          },
+          "creationSummary": "Seeded world in Port LaBelle, Florida, from the 2025 Census Gazetteer place identity.",
+          "goalScope": "Port LaBelle, Florida",
+          "householdLocationLabel": "Port LaBelle, Florida"
+        },
+        "scope": "locality",
+        "stateJurisdictionKey": "US-FL",
+        "capabilities": {
+          "legislativeScenarioKey": null,
+          "candidacyPackId": null
+        },
+        "sourceGeoid": "1258420"
+      },
+      "seed": "speed-plan-all56-2026-10-11-v1:world:2"
+    }
+  ]
+}
