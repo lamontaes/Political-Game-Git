@@ -1,5 +1,7 @@
 /** Same-World raw records and separately owned life/source/legal-cost receipts. No finance math is preselected. */
 import {
+  workRoleAt,
+  workStatusAt,
   organizationClosingAt,
   organizationProfileAt,
 } from "../../../simulation/life-queries";
@@ -34,6 +36,18 @@ export function financeFacts(world: World): FinanceFacts {
     jurisdictions: world.jurisdictions,
     townFinances: world.townFinances,
     records: world.history,
+    lifeStatuses: new Map(
+      world.history.workRelationships.map((row) => [
+        row.id,
+        workStatusAt(world, row.id),
+      ]),
+    ),
+    lifeRoles: new Map(
+      world.history.workRelationships.map((row) => [
+        row.id,
+        workRoleAt(world, row.id),
+      ]),
+    ),
     lifeProfiles: new Map(
       world.history.organizations.map((row) => [
         row.id,

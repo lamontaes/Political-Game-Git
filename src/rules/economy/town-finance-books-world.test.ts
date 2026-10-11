@@ -43,8 +43,12 @@ function execute<T>(
   while (!step.done) {
     const request = step.value;
     observed.push(request);
-    current = { ...current, townFinances: request.books };
+    if (request.books !== undefined)
+      current = { ...current, townFinances: request.books };
     switch (request.kind) {
+      case "createResourcePosition":
+        current = resources.createResourcePosition(current, request.input);
+        break;
       case "createOrganization":
         current = life.createOrganization(current, request.input);
         break;

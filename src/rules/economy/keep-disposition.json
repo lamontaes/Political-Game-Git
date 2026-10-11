@@ -567,7 +567,7 @@
     "keepLines": 51,
     "status": "lifted-math",
     "lift": "src/rules/economy/business-readings.ts",
-    "reason": "Full retained public-parent closure and necessary helpers/constants travel. business-readings-world.test.ts compares complete unchanged Native public owners across all 56 generated places from canonical saved records and separately owned raw source receipts. Authored duplicate/growth/driver/peer/age/pay/cut/index controls are labeled edges. Fourteen actual Native macro steps per World reach every publication indicator. Names are compared by realized value. Ordered event DTOs use unchanged shared transport. No private evaluation, parallel World writer, ordinary NPC recession/entry, exhaustive/core2 or finisher claim."
+    "reason": "Full retained public-parent closure and necessary helpers/constants travel. business-readings-world.test.ts compares complete unchanged Native public owners across all 56 generated places from canonical saved records and separately owned raw source receipts. Authored duplicate/growth/driver/peer/age/pay/cut/index controls are labeled edges. Names are compared by realized value. Ordered event DTOs use unchanged shared transport. No private evaluation, parallel World writer, ordinary NPC recession/entry, exhaustive/core2 or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-economy-measures.ts",
@@ -907,7 +907,7 @@
     "keepLines": 34,
     "status": "lifted-math",
     "lift": "src/rules/economy/home-choice.ts",
-    "reason": "Full retained public-parent closure and necessary helpers/constants travel. home-choice-world.test.ts compares complete unchanged Native public owners across all 56 generated places from canonical saved records and separately owned raw source receipts. Authored duplicate/growth/driver/peer/age/pay/cut/index controls are labeled edges. Fourteen actual Native macro steps per World reach every publication indicator. Names are compared by realized value. Ordered event DTOs use unchanged shared transport. No private evaluation, parallel World writer, ordinary NPC recession/entry, exhaustive/core2 or finisher claim."
+    "reason": "Full retained public-parent closure and necessary helpers/constants travel. home-choice-world.test.ts compares complete unchanged Native public owners across all 56 generated places from canonical saved records and separately owned raw source receipts. Authored duplicate/growth/driver/peer/age/pay/cut/index controls are labeled edges. Names are compared by realized value. Ordered event DTOs use unchanged shared transport. No private evaluation, parallel World writer, ordinary NPC recession/entry, exhaustive/core2 or finisher claim."
   },
   {
     "sourceFile": "src/simulation/living-world/town-homes.ts",
@@ -1537,7 +1537,7 @@
     "keepLines": 31,
     "status": "lifted-math",
     "lift": "src/rules/economy/business-readings.ts",
-    "reason": "Full retained public-parent closure and necessary helpers/constants travel. business-readings-world.test.ts compares complete unchanged Native public owners across all 56 generated places from canonical saved records and separately owned raw source receipts. Authored duplicate/growth/driver/peer/age/pay/cut/index controls are labeled edges. Fourteen actual Native macro steps per World reach every publication indicator. Names are compared by realized value. Ordered event DTOs use unchanged shared transport. No private evaluation, parallel World writer, ordinary NPC recession/entry, exhaustive/core2 or finisher claim."
+    "reason": "Full retained public-parent closure and necessary helpers/constants travel. business-readings-world.test.ts compares complete unchanged Native public owners across all 56 generated places from canonical saved records and separately owned raw source receipts. Authored duplicate/growth/driver/peer/age/pay/cut/index controls are labeled edges. Names are compared by realized value. Ordered event DTOs use unchanged shared transport. No private evaluation, parallel World writer, ordinary NPC recession/entry, exhaustive/core2 or finisher claim."
   },
   {
     "sourceFile": "src/simulation/local-economy.ts",
@@ -1985,9 +1985,9 @@
     "name": "ensureEmployerCashPositions",
     "inventoryEngine": "economy",
     "keepLines": 203,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/town-finance-books.ts",
+    "reason": "Complete retained public opening/later employer cash parent, classification and staffed-place means, payroll calendar/shift conversion, researched buffer/year-cost math, frozen donor pass and supporting opening-book/sales requests travel. employer-opening-cash-world.test.ts compares complete unchanged Native public parents across all 56 generated Worlds using canonical saved organizations/work/typed payroll/recorded donor accounts and labeled cohort/cadence/subset/repeated-opening controls. Raw life/catalog/source receipts remain separately owned. Typed requests use existing common writers and recollect facts. No private evaluation, copied World writer, production RNG, ordinary NPC cash claim, exhaustive/core2 or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/cannabis-sales-revenue.ts",
@@ -2317,7 +2317,7 @@
     "keepLines": 24,
     "status": "lifted-math",
     "lift": "src/rules/economy/staff-funding.ts",
-    "reason": "Full retained public-parent closure and necessary helpers/constants travel. staff-funding-world.test.ts compares complete unchanged Native public owners across all 56 generated places from canonical saved records and separately owned raw source receipts. Authored duplicate/growth/driver/peer/age/pay/cut/index controls are labeled edges. Fourteen actual Native macro steps per World reach every publication indicator. Names are compared by realized value. Ordered event DTOs use unchanged shared transport. No private evaluation, parallel World writer, ordinary NPC recession/entry, exhaustive/core2 or finisher claim."
+    "reason": "Full retained public-parent closure and necessary helpers/constants travel. staff-funding-world.test.ts compares complete unchanged Native public owners across all 56 generated places from canonical saved records and separately owned raw source receipts. Authored duplicate/growth/driver/peer/age/pay/cut/index controls are labeled edges. Names are compared by realized value. Ordered event DTOs use unchanged shared transport. No private evaluation, parallel World writer, ordinary NPC recession/entry, exhaustive/core2 or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/staffing.ts",
@@ -2587,6 +2587,6 @@
     "keepLines": 11,
     "status": "lifted-math",
     "lift": "src/rules/economy/time-records.ts",
-    "reason": "Full retained public-parent closure and necessary helpers/constants travel. time-records-world.test.ts compares complete unchanged Native public owners across all 56 generated places from canonical saved records and separately owned raw source receipts. Authored duplicate/growth/driver/peer/age/pay/cut/index controls are labeled edges. Fourteen actual Native macro steps per World reach every publication indicator. Names are compared by realized value. Ordered event DTOs use unchanged shared transport. No private evaluation, parallel World writer, ordinary NPC recession/entry, exhaustive/core2 or finisher claim."
+    "reason": "Full retained public-parent closure and necessary helpers/constants travel. time-records-world.test.ts compares complete unchanged Native public owners across all 56 generated places from canonical saved records and separately owned raw source receipts. Authored duplicate/growth/driver/peer/age/pay/cut/index controls are labeled edges. Names are compared by realized value. Ordered event DTOs use unchanged shared transport. No private evaluation, parallel World writer, ordinary NPC recession/entry, exhaustive/core2 or finisher claim."
   }
 ]

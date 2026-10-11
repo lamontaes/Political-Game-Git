@@ -1,6 +1,24 @@
+import cashBuffers from "../../../data/research/money/opening-employer-cash-buffers.json" with { type: "json" };
+import { LIFE_PATHS2_CATALOG } from "../../simulation/life-paths2-catalog";
+import {
+  TOWN_WORKPLACES,
+  TOWN_BUSINESS_WORKPLACES,
+  type Workplace,
+} from "./business-readings";
+import { startState } from "./macro-months";
+import type {
+  workStatusAt as nativeWorkStatus,
+  workRoleAt as nativeWorkRole,
+} from "../../simulation/life-queries";
+import { resourcePositionsOf as ownPositions } from "./cash-positions";
 /** Complete retained town business/bank quarterly book and ordered effect closure. Raw life/legal/source receipts stay with their owners; common transport returns recollected facts. No World is written here. */
 import townBusinessResearch from "../../../data/research/money/town-business-a71-2026.json" with { type: "json" };
-import { addDays, daysBetween } from "../../simulation/dates";
+import {
+  addDays,
+  daysBetween,
+  isoDateFromParts,
+  yearOf,
+} from "../../simulation/dates";
 import { countyGeoidsForPlace } from "../../simulation/government-units";
 import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
 import { areaResidents } from "../../simulation/outcome-web/place-outcome-store";
@@ -21,6 +39,10 @@ import type {
   TownMarketBooks,
 } from "../../simulation/living-world/town-finance-types";
 import type {
+  CurrencyCode,
+  ResourceFlowTermsRecord,
+  ResourceTransferOutcome,
+  HistoricalCutoff,
   World,
   EntityId,
   IsoDate,
@@ -71,6 +93,11 @@ export interface FinanceFacts extends Pick<
   | "townFinances"
 > {
   readonly records: World["history"];
+  readonly lifeStatuses: ReadonlyMap<
+    EntityId,
+    ReturnType<typeof nativeWorkStatus>
+  >;
+  readonly lifeRoles: ReadonlyMap<EntityId, ReturnType<typeof nativeWorkRole>>;
   readonly lifeProfiles: ReadonlyMap<
     EntityId,
     ReturnType<typeof nativeProfile>
@@ -88,6 +115,9 @@ export interface FinanceFacts extends Pick<
   readonly businessSource: BusinessBookSourceFacts;
 }
 interface FinanceInputs {
+  readonly createResourcePosition: Parameters<
+    typeof nativeResources.createResourcePosition
+  >[1];
   readonly createResourceFlow: Parameters<
     typeof nativeResources.createResourceFlow
   >[1];
@@ -178,11 +208,15 @@ function paymentFromDatedCash(
 ) {
   return cashPayment(cashFacts(facts), ...args);
 }
-function resourceTransferOutcomesForFlow(facts: FinanceFacts, id: EntityId) {
-  return recordsWithFieldValue(
-    facts.records.resourceTransferOutcomes,
-    "resourceFlowId",
-    id,
+function resourceTransferOutcomesForFlow(
+  facts: FinanceFacts,
+  id: EntityId,
+  cutoff: HistoricalCutoff = currentResourceCutoff(facts),
+): readonly ResourceTransferOutcome[] {
+  return facts.records.resourceTransferOutcomes.filter(
+    (record) =>
+      record.resourceFlowId === id &&
+      availableOn(record, record.occurredAt, cutoff),
   );
 }
 function jobsLostBy(
@@ -1789,4 +1823,558 @@ export function acuteWeight(
 ): number {
   const age = daysBetween(happenedAt, asOf);
   return age < 0 ? 0 : Math.pow(0.5, age / halfLifeDays);
+}
+
+function workStatusAt(facts: FinanceFacts, id: EntityId) {
+  return receipt(facts.lifeStatuses, id);
+}
+function workRoleAt(facts: FinanceFacts, id: EntityId) {
+  return receipt(facts.lifeRoles, id);
+}
+function resourcePositionsOf(
+  facts: FinanceFacts,
+  ...args: Parameters<typeof ownPositions> extends [unknown, ...infer R]
+    ? R
+    : never
+) {
+  return ownPositions(cashFacts(facts), ...args);
+}
+const WORKPLACE = new Map(TOWN_WORKPLACES.map((row) => [row.key, row]));
+export function townWorkplaceFor(
+  organizationStableKey: string,
+  classification: string | null,
+): Workplace | null {
+  const employer = /:employer:([a-z-]+):\d+$/.exec(organizationStableKey);
+  if (employer) return WORKPLACE.get(employer[1]!) ?? null;
+  return (
+    TOWN_WORKPLACES.find(
+      (workplace) =>
+        workplace.existing && workplace.existing === classification,
+    ) ?? null
+  );
+}
+export function resourceFlowTermsHistory(
+  facts: FinanceFacts,
+  resourceFlowId: EntityId,
+  cutoff: HistoricalCutoff = currentResourceCutoff(facts),
+): readonly ResourceFlowTermsRecord[] {
+  return recordsWithFieldValue(
+    facts.records.resourceFlowTerms,
+    "resourceFlowId",
+    resourceFlowId,
+  ).filter((record) => available(record, cutoff));
+}
+
+export function resourceFlowTermsAt(
+  facts: FinanceFacts,
+  resourceFlowId: EntityId,
+  cutoff: HistoricalCutoff = currentResourceCutoff(facts),
+): ResourceFlowTermsRecord | undefined {
+  return resourceFlowTermsHistory(facts, resourceFlowId, cutoff).at(-1);
+}
+
+function available(
+  record: {
+    readonly effectiveAt: string;
+    readonly sequence: number;
+  },
+  cutoff: HistoricalCutoff,
+): boolean {
+  return availableOn(record, record.effectiveAt, cutoff);
+}
+
+function availableOn(
+  record: {
+    readonly sequence: number;
+  },
+  date: string,
+  cutoff: HistoricalCutoff,
+): boolean {
+  return (
+    date <= cutoff.asOfDate && record.sequence < cutoff.historySequenceExclusive
+  );
+}
+export type OpeningEmployerCashEstimate =
+  | {
+      readonly status: "blocked";
+      readonly reason:
+        "missing-employer-profile" | "empty-comparable-cash-cohort";
+    }
+  | {
+      readonly status: "estimated";
+      readonly amount: MoneyAmount;
+      readonly donors: readonly {
+        readonly organizationId: EntityId;
+        readonly profileId: EntityId;
+        readonly positionId: EntityId;
+        readonly outcomeIds: readonly EntityId[];
+        readonly spendableMinorUnits: number;
+      }[];
+      readonly note: string;
+    };
+export function readOpeningEmployerCashEstimate(
+  facts: FinanceFacts,
+  organizationId: EntityId,
+  currency: CurrencyCode,
+): OpeningEmployerCashEstimate {
+  const target = organizationProfileAt(facts, organizationId);
+  if (!target || target.closed)
+    return { status: "blocked", reason: "missing-employer-profile" };
+  const employers = new Set(
+    facts.records.workRelationships
+      .filter(
+        (work) =>
+          work.compensation === "paid" &&
+          work.startedAt <= facts.currentDate &&
+          workStatusAt(facts, work.id)?.status === "active",
+      )
+      .map((work) => work.organizationId),
+  );
+  const donors = facts.records.organizations.flatMap((organization) => {
+    if (
+      organization.id === organizationId ||
+      organization.formedAt > facts.currentDate ||
+      !employers.has(organization.id)
+    )
+      return [];
+    const profile = organizationProfileAt(facts, organization.id);
+    if (
+      !profile ||
+      profile.closed ||
+      profile.classification !== target.classification
+    )
+      return [];
+    const cash = resourcePositionAt(
+      facts,
+      { kind: "organization", organizationId: organization.id },
+      currency,
+    );
+    if (!cash) return [];
+    return [
+      {
+        organizationId: organization.id,
+        profileId: profile.id,
+        positionId: cash.positionId,
+        outcomeIds: cash.outcomeIds,
+        spendableMinorUnits: Math.max(0, cash.liquidBalance.minorUnits),
+      },
+    ];
+  });
+  if (!donors.length)
+    return { status: "blocked", reason: "empty-comparable-cash-cohort" };
+  const mean = Math.round(
+    donors.reduce(
+      (sum, donor) => sum + donor.spendableMinorUnits / donors.length,
+      0,
+    ),
+  );
+  return {
+    status: "estimated",
+    amount: money(mean, currency),
+    donors,
+    note: `ESTIMATED FROM AVERAGE: ${donors.length} active paid employers with saved classification ${target.classification}; current recorded spendable ${currency} cash, each employer counted once. Negative balances supply zero spendable cash. Source positions: ${donors.map((donor) => donor.positionId).join(", ")}. No cash written or payment recorded.`,
+  };
+}
+// STOPGAP: economy.employer-later-classification-place-mean
+function readStaffedPlaceEmployerCashEstimate(
+  facts: FinanceFacts,
+  organizationId: EntityId,
+  currency: CurrencyCode,
+): OpeningEmployerCashEstimate {
+  const targetProfile = organizationProfileAt(facts, organizationId);
+  if (!targetProfile || targetProfile.closed)
+    return { status: "blocked", reason: "missing-employer-profile" };
+  const activePaid = facts.records.workRelationships.filter(
+    (work) =>
+      work.organizationId &&
+      work.compensation === "paid" &&
+      work.startedAt <= facts.currentDate &&
+      workStatusAt(facts, work.id)?.status === "active",
+  );
+  const targetStaff = activePaid.filter(
+    (work) => work.organizationId === organizationId,
+  );
+  const targetPlaces = targetProfile.locationJurisdictionId
+    ? [targetProfile.locationJurisdictionId]
+    : targetStaff.flatMap((work) => {
+        const role = workRoleAt(facts, work.id);
+        const jurisdictionId =
+          role?.locationJurisdictionId ??
+          role?.timeDemand.locationJurisdictionId ??
+          facts.people[work.personId]?.homeJurisdictionId ??
+          null;
+        return jurisdictionId ? [jurisdictionId] : [];
+      });
+  if (!targetPlaces.length)
+    return { status: "blocked", reason: "empty-comparable-cash-cohort" };
+  const targetStateKeys = new Set(
+    targetPlaces.flatMap((id) => {
+      const key = lifePlaceByJurisdictionId(id)?.stateJurisdictionKey;
+      return key ? [key] : [];
+    }),
+  );
+  const placeMatches = (candidateId: EntityId | null): boolean => {
+    if (!candidateId) return false;
+    if (targetPlaces.includes(candidateId)) return true;
+    const key = lifePlaceByJurisdictionId(candidateId)?.stateJurisdictionKey;
+    return !!key && targetStateKeys.has(key);
+  };
+  const donorOrganizations = new Set(
+    activePaid
+      .filter((work) => work.organizationId !== organizationId)
+      .map((work) => work.organizationId!),
+  );
+  const donors = [...donorOrganizations].flatMap((donorId) => {
+    const organization = facts.records.organizations.find(
+      (row) => row.id === donorId && row.formedAt <= facts.currentDate,
+    );
+    const profile = organizationProfileAt(facts, donorId);
+    if (!organization || !profile || profile.closed) return [];
+    const donorWork = activePaid.filter(
+      (work) => work.organizationId === donorId,
+    );
+    const donorPlaces = profile.locationJurisdictionId
+      ? [profile.locationJurisdictionId]
+      : donorWork.flatMap((work) => {
+          const role = workRoleAt(facts, work.id);
+          const jurisdictionId =
+            role?.locationJurisdictionId ??
+            role?.timeDemand.locationJurisdictionId ??
+            facts.people[work.personId]?.homeJurisdictionId ??
+            null;
+          return jurisdictionId ? [jurisdictionId] : [];
+        });
+    if (!donorPlaces.some(placeMatches)) return [];
+    const cash = resourcePositionAt(
+      facts,
+      { kind: "organization", organizationId: donorId },
+      currency,
+    );
+    if (!cash) return [];
+    return [
+      {
+        organizationId: donorId,
+        profileId: profile.id,
+        positionId: cash.positionId,
+        outcomeIds: cash.outcomeIds,
+        spendableMinorUnits: Math.max(0, cash.liquidBalance.minorUnits),
+      },
+    ];
+  });
+  if (!donors.length)
+    return { status: "blocked", reason: "empty-comparable-cash-cohort" };
+  const mean = Math.round(
+    donors.reduce(
+      (sum, donor) => sum + donor.spendableMinorUnits / donors.length,
+      0,
+    ),
+  );
+  const placeDescription = targetProfile.locationJurisdictionId
+    ? `recorded employer place ${targetProfile.locationJurisdictionId}`
+    : `recorded worker home jurisdiction(s) ${targetPlaces.join(", ")} because the employer worksite is unknown`;
+  return {
+    status: "estimated",
+    amount: money(mean, currency),
+    donors,
+    note: `ESTIMATED FROM AVERAGE: ${donors.length} active paid employers with saved staff and cash in a comparable place to ${placeDescription}; current recorded spendable ${currency} cash, each employer counted once. Negative balances supply zero spendable cash. Source positions: ${donors.map((donor) => donor.positionId).join(", ")}. No cash written or payment recorded.`,
+  };
+}
+const annualPeriods: Readonly<Record<string, number>> = {
+  weekly: 52,
+  biweekly: 26,
+  semimonthly: 24,
+  monthly: 12,
+  annual: 1,
+};
+// STOPGAP: economy.employer-opening-payroll-buffer
+export function* ensureEmployerCashPositions(
+  facts: FinanceFacts,
+  phase: "opening" | "later",
+  onlyOrganizations?: ReadonlySet<EntityId>,
+): Generator<FinanceEffectRequest, FinanceFacts, FinanceFacts> {
+  const USD = makeCurrencyCode("USD");
+  const payroll = new Map<
+    EntityId,
+    {
+      annualMinor: number;
+      flowIds: EntityId[];
+      termsIds: EntityId[];
+    }
+  >();
+  const works = new Map(
+    facts.records.workRelationships.map((work) => [work.id, work]),
+  );
+  for (const flow of facts.records.resourceFlows) {
+    if (
+      flow.basisKind !== "compensation:work" ||
+      flow.basisReference.kind !== "work" ||
+      flow.source.kind !== "organization" ||
+      flow.startsAt > facts.currentDate
+    )
+      continue;
+    const work = works.get(flow.basisReference.workRelationshipId);
+    if (
+      !work ||
+      work.compensation !== "paid" ||
+      workStatusAt(facts, work.id)?.status !== "active"
+    )
+      continue;
+    const terms = resourceFlowTermsAt(facts, flow.id);
+    if (
+      !terms ||
+      terms.status !== "active" ||
+      terms.amount.currency !== USD ||
+      terms.amount.minorUnits <= 0
+    )
+      continue;
+    const cadence =
+      /^schedule:(?:town-)?(weekly|biweekly|semimonthly|monthly|annual)(?:-\d+)?$/.exec(
+        terms.cadenceKind,
+      );
+    let periods = cadence ? annualPeriods[cadence[1]!]! : null;
+    if (terms.cadenceKind === "work:completed-shift") {
+      const pathId = /^employment:life-paths2-(.+)$/.exec(work.kind)?.[1];
+      const role = workRoleAt(facts, work.id);
+      const path = pathId
+        ? LIFE_PATHS2_CATALOG.find((entry) => entry.id === pathId)
+        : null;
+      if (role && path?.kind === "work" && path.sessionMinutes > 0) {
+        const hours = role.timeDemand.expectedWeekly;
+        const weeklyHours = (hours.minimumHours + hours.maximumHours) / 2;
+        if (Number.isFinite(weeklyHours) && weeklyHours > 0)
+          periods = (weeklyHours / (path.sessionMinutes / 60)) * 52;
+      }
+    }
+    if (periods === null) {
+      if (terms.cadenceKind !== "work:completed-shift")
+        throw new Error(
+          `No recorded calendar conversion for employer payroll cadence ${terms.cadenceKind}.`,
+        );
+      if (phase === "opening") continue;
+    }
+    const row = payroll.get(flow.source.organizationId) ?? {
+      annualMinor: 0,
+      flowIds: [],
+      termsIds: [],
+    };
+    if (periods !== null) row.annualMinor += terms.amount.minorUnits * periods;
+    row.flowIds.push(flow.id);
+    row.termsIds.push(terms.id);
+    payroll.set(flow.source.organizationId, row);
+  }
+  const year = yearOf(facts.currentDate);
+  const daysInYear = daysBetween(
+    isoDateFromParts(year, 1, 1),
+    isoDateFromParts(year + 1, 1, 1),
+  );
+  return yield* (function* (): Generator<
+    FinanceEffectRequest,
+    FinanceFacts,
+    FinanceFacts
+  > {
+    let next = facts;
+    for (const [organizationId, pay] of payroll) {
+      if (onlyOrganizations && !onlyOrganizations.has(organizationId)) continue;
+      const owner = { kind: "organization" as const, organizationId };
+      if (
+        resourcePositionsOf(facts, owner).some(
+          (position) => position.openingBalance.currency === USD,
+        )
+      )
+        continue;
+      const organization = facts.records.organizations.find(
+        (row) => row.id === organizationId,
+      );
+      const profile = organizationProfileAt(facts, organizationId);
+      if (!organization || !profile || profile.closed) continue;
+      let amount: MoneyAmount;
+      let note: string;
+      if (phase === "later") {
+        const classificationPeer = readOpeningEmployerCashEstimate(
+          facts,
+          organizationId,
+          USD,
+        );
+        const peer =
+          classificationPeer.status === "estimated"
+            ? classificationPeer
+            : classificationPeer.reason === "empty-comparable-cash-cohort"
+              ? readStaffedPlaceEmployerCashEstimate(facts, organizationId, USD)
+              : classificationPeer;
+        if (peer.status === "blocked") continue;
+        amount = peer.amount;
+        note = `ESTIMATED OPENING STOCK recorded before payroll settlement. ${peer.note.replace("No cash written or payment recorded.", "This estimate records opening stock only; no transfer or payment was recorded.")}`;
+      } else {
+        const kind =
+          townWorkplaceFor(organization.stableKey, profile.classification)
+            ?.key ??
+          TOWN_WORKPLACES.find(
+            (place) => place.classification === profile.classification,
+          )?.key ??
+          "*";
+        const costs = townBusinessKindBooks(facts, kind);
+        const annualRevenueMinor = pay.annualMinor / costs.payShare;
+        const annualOtherCostsMinor = Math.max(
+          0,
+          annualRevenueMinor * (1 - costs.margin) - pay.annualMinor,
+        );
+        const industries: Readonly<Record<string, string>> =
+          cashBuffers.industryByClassification;
+        const medians: Readonly<Record<string, number>> =
+          cashBuffers.medianDaysByIndustry;
+        const industry =
+          industries[profile.classification] ?? "all-small-businesses";
+        const bufferDays = medians[industry]!;
+        const minor = Math.round(
+          ((pay.annualMinor + annualOtherCostsMinor) / daysInYear) * bufferDays,
+        );
+        if (!Number.isSafeInteger(minor) || minor <= 0)
+          throw new Error(
+            `Invalid sourced employer opening cash for ${organizationId}.`,
+          );
+        amount = money(minor, USD);
+        note = `ESTIMATED OPENING STOCK: own recorded monthly payroll ${pay.annualMinor / 12} USD minor units plus estimated monthly other costs ${annualOtherCostsMinor / 12}, multiplied by 12/${daysInYear} calendar days and ${bufferDays} median cash-buffer days (${industry}). ${cashBuffers.source}, ${cashBuffers.citation}; ${cashBuffers.url}. ${cashBuffers.definition} Other costs reuse IRS 2022 Table 5.1 ${costs.industry}: payShare=${costs.payShare}, margin=${costs.margin}. ${industry === "all-small-businesses" ? cashBuffers.fallbackMethod : "Saved classification matches named source industry."} Saved payroll flows ${pay.flowIds.join(", ")}; terms ${pay.termsIds.join(", ")}; profile ${profile.id}. No wage payment, revenue or tax receipt recorded.`;
+      }
+      next = yield financeEffectRequest("createResourcePosition", next, {
+        stableKey: `employer-cash:${organizationId}:USD`,
+        owner,
+        openedAt: facts.currentDate,
+        openingBalance: amount,
+        provenance: { kind: "authored", note },
+      });
+    }
+    if (phase === "opening") {
+      // STOPGAP: economy.employer-opening-subset-cohort-frontier
+      const cohortWorld = next;
+      const employers = new Set(
+        cohortWorld.records.workRelationships
+          .filter(
+            (work) =>
+              work.compensation === "paid" &&
+              work.startedAt <= cohortWorld.currentDate &&
+              workStatusAt(cohortWorld, work.id)?.status === "active",
+          )
+          .map((work) => work.organizationId),
+      );
+      for (const organizationId of employers) {
+        if (!organizationId) continue;
+        const owner = { kind: "organization" as const, organizationId };
+        if (
+          resourcePositionsOf(cohortWorld, owner).some(
+            (position) => position.openingBalance.currency === USD,
+          )
+        )
+          continue;
+        const peer = readOpeningEmployerCashEstimate(
+          cohortWorld,
+          organizationId,
+          USD,
+        );
+        if (peer.status === "blocked") continue;
+        next = yield financeEffectRequest("createResourcePosition", next, {
+          stableKey: `employer-cash:${organizationId}:USD`,
+          owner,
+          openedAt: cohortWorld.currentDate,
+          openingBalance: peer.amount,
+          provenance: {
+            kind: "authored",
+            note: `ESTIMATED OPENING STOCK from the recorded classification cohort. ${peer.note}`,
+          },
+        });
+      }
+    }
+    return phase === "opening"
+      ? yield* ensureTownOpeningBusinessBooks(
+          next,
+          new Map([...payroll].map(([id, pay]) => [id, pay.annualMinor / 400])),
+        )
+      : next;
+  })();
+}
+// STOPGAP: economy.employer-opening-book-receipts
+export function* ensureTownOpeningBusinessBooks(
+  facts: FinanceFacts,
+  quarterPayByEmployer: ReadonlyMap<EntityId, number>,
+): Generator<FinanceEffectRequest, FinanceFacts, FinanceFacts> {
+  const priceIndex =
+    facts.macroEconomy?.months
+      .filter(
+        (row) =>
+          row.scope === "national" && row.recordedAt <= facts.currentDate,
+      )
+      .at(-1)?.priceIndex ??
+    (facts.macroEconomy
+      ? startState(facts.macroEconomy.start).priceIndex
+      : undefined);
+  if (priceIndex === undefined) return facts;
+  const currency = makeCurrencyCode("USD");
+  const store = facts.townFinances;
+  const books = { ...(store?.businesses ?? {}) };
+  const towns = new Set<EntityId>();
+  const round = `opening:${facts.currentDate}`;
+  for (const [organizationId, quarterPay] of quarterPayByEmployer) {
+    if (!Number.isFinite(quarterPay))
+      throw new Error("Opening books require finite recorded quarter-pay.");
+    if (quarterPay <= 0) continue;
+    const profile = organizationProfileAt(facts, organizationId);
+    const organization = recordById(
+      facts.records.organizations,
+      organizationId,
+    );
+    if (
+      !organization ||
+      !profile ||
+      profile.closed ||
+      !profile.locationJurisdictionId
+    )
+      continue;
+    const kind =
+      townWorkplaceFor(organization.stableKey, profile.classification)?.key ??
+      TOWN_WORKPLACES.find(
+        (row) => row.classification === profile.classification,
+      )?.key;
+    if (!kind || !TOWN_BUSINESS_WORKPLACES.has(kind)) continue;
+    if (!books[organizationId]) {
+      const opened = openBusinessBooks(
+        facts,
+        organizationId,
+        kind,
+        quarterPay / (priceIndex / (store?.basePriceIndex ?? priceIndex)),
+        null,
+        round,
+      );
+      const cash = resourcePositionAt(
+        facts,
+        { kind: "organization", organizationId },
+        currency,
+      );
+      books[organizationId] = {
+        ...opened,
+        cash: cash ? cash.liquidBalance.minorUnits / 100 : opened.cash,
+      };
+    }
+    towns.add(profile.locationJurisdictionId);
+  }
+  if (!towns.size) return facts;
+  let next: FinanceFacts = {
+    ...facts,
+    townFinances: {
+      version: TOWN_FINANCES_VERSION,
+      banks: store?.banks ?? {},
+      markets: store?.markets ?? {},
+      ...store,
+      businesses: books,
+      basePriceIndex: store?.basePriceIndex ?? priceIndex,
+    },
+  };
+  for (const town of towns)
+    next = yield* recordTownSalesReceipts(
+      next,
+      town,
+      next.currentDate,
+      next.currentDate,
+      round,
+      priceIndex / next.townFinances!.basePriceIndex!,
+    );
+  return next;
 }

@@ -828,11 +828,11 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     values: [
       -91, -45, -3, -1, -0.03, 0, 1e-9, 0.02, 0.05, 0.07, 0.1, 0.25, 0.5, 0.75,
       0.81, 1, 2, 3, 4, 5, 7, 12, 16, 18, 19, 20, 21, 23, 24, 26, 27, 28, 30,
-      33, 47, 52, 100, 120, 365, 400, 1000, 1095, 1000000,
+      33, 47, 52, 60, 100, 120, 365, 400, 1000, 1095, 1000000,
     ],
     provenance: "ESTIMATED",
     source:
-      "src/simulation/living-world/town-finances.ts:419; src/simulation/living-world/town-finances.ts:420; src/simulation/living-world/town-finances.ts:422; src/simulation/living-world/town-finances.ts:426; src/simulation/living-world/town-finances.ts:449; src/simulation/living-world/town-finances.ts:528; src/simulation/living-world/town-finances.ts:614; src/simulation/living-world/town-finances.ts:632; src/simulation/living-world/town-finances.ts:673; src/simulation/living-world/town-finances.ts:738; src/simulation/living-world/town-finances.ts:992; src/simulation/living-world/town-finances.ts:1070; src/simulation/living-world/town-finances.ts:1079; src/simulation/living-world/town-finances.ts:1095; src/simulation/living-world/town-finances.ts:1772; src/simulation/living-world/town-finances.ts:1848; src/simulation/living-world/town-finances.ts:1862; src/simulation/living-world/town-finances.ts:1948; src/simulation/living-world/town-finances.ts:1982; src/simulation/living-world/town-finances.ts:110; src/simulation/aggregate-customers.ts:4; src/simulation/outcome-web/index.ts:869",
+      "src/simulation/living-world/town-finances.ts:419; src/simulation/living-world/town-finances.ts:420; src/simulation/living-world/town-finances.ts:422; src/simulation/living-world/town-finances.ts:426; src/simulation/living-world/town-finances.ts:449; src/simulation/living-world/town-finances.ts:528; src/simulation/living-world/town-finances.ts:614; src/simulation/living-world/town-finances.ts:632; src/simulation/living-world/town-finances.ts:673; src/simulation/living-world/town-finances.ts:738; src/simulation/living-world/town-finances.ts:992; src/simulation/living-world/town-finances.ts:1070; src/simulation/living-world/town-finances.ts:1079; src/simulation/living-world/town-finances.ts:1095; src/simulation/living-world/town-finances.ts:1772; src/simulation/living-world/town-finances.ts:1848; src/simulation/living-world/town-finances.ts:1862; src/simulation/living-world/town-finances.ts:1948; src/simulation/living-world/town-finances.ts:1982; src/simulation/opening-employer-cash.ts:236; src/simulation/living-world/town-finances.ts:110; src/simulation/aggregate-customers.ts:4; src/simulation/outcome-web/index.ts:869",
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: [
@@ -846,6 +846,10 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "economy.finance-bank-failure-native-English",
       "economy.finance-sales-aggregate-receipts",
       "economy.finance-business-closing-native-English",
+      "economy.employer-opening-payroll-buffer",
+      "economy.employer-later-classification-place-mean",
+      "economy.employer-opening-subset-cohort-frontier",
+      "economy.employer-opening-book-receipts",
     ],
   },
   "town-measures.ts": {
