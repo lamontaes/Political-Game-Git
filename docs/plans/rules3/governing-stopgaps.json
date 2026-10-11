@@ -48,5 +48,38 @@
     "replacement": "Sourced procedure dates for each jurisdiction.",
     "status": "open-inherited",
     "behavior": "preserved unchanged"
+  },
+  {
+    "id": "RULES3-GOV-006",
+    "path": "src/simulation/governing/office-continuity.ts",
+    "reason": "Unlifted legacy governor succession, Senate vacancy appointment and VP nomination/confirmation pace remain placeholders. The whole handlers elect/appoint, record office changes and schedule due items.",
+    "replacement": "Sourced continuity/filling rules and core holder/confirmation/calendar contracts.",
+    "author": "RULES-3",
+    "date": "2026-10-11",
+    "status": "open-unlifted",
+    "behavior": "old engine untouched",
+    "marker": "Existing PLACEHOLDER marker in legacy source; registered here without editing old engines."
+  },
+  {
+    "id": "RULES3-GOV-007",
+    "path": "src/simulation/governing/office-staff-hiring.ts",
+    "reason": "Unlifted legacy staffing gives every legislator two positions.",
+    "replacement": "Sourced office staffing rows and core employment/appointment integration.",
+    "author": "RULES-3",
+    "date": "2026-10-11",
+    "status": "open-unlifted",
+    "behavior": "old engine untouched",
+    "marker": "Existing PLACEHOLDER marker in legacy source; registered here without editing old engines."
+  },
+  {
+    "id": "RULES3-GOV-008",
+    "path": "src/simulation/governing/state-governing.ts",
+    "reason": "Unlifted legacy desk has no governor clemency deadline.",
+    "replacement": "Sourced action-window data and core executive-matter calendar contract.",
+    "author": "RULES-3",
+    "date": "2026-10-11",
+    "status": "open-unlifted",
+    "behavior": "old engine untouched",
+    "marker": "Existing PLACEHOLDER marker in legacy source; registered here without editing old engines."
   }
 ]
