@@ -1,0 +1,86 @@
+[
+  {
+    "id": "SG-P14-legislatures-business-holidays",
+    "kind": "missing-data",
+    "file": "src/rules/legislatures/executive-window.ts",
+    "line": 32,
+    "whatItFakes": "Business-day windows skip weekends but not legal holidays.",
+    "why": "The old action-window loop has no holiday input.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Caller-selected holiday calendar admitted for the jurisdiction and year.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-legislatures-adjournment-inaction",
+    "kind": "missing-law",
+    "file": "src/rules/legislatures/executive-window.ts",
+    "line": 43,
+    "whatItFakes": "Always returns null for inaction outcome after adjournment.",
+    "why": "The old helper calculates the deadline but does not resolve the after-adjournment legal outcome.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Dated after-adjournment inaction provisions; CTO decides the change.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-legislatures-zero-membership-cap",
+    "kind": "missing-law",
+    "file": "src/rules/legislatures/votes.ts",
+    "line": 22,
+    "whatItFakes": "Caps the fractional vote requirement at the denominator, including zero members.",
+    "why": "A strict majority of an empty body resolves to zero in legacy. Preserve this suspected bug.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "CTO-approved empty-body/quorum interpretation and equivalence change.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-legislatures-committee-assignment",
+    "kind": "placeholder",
+    "file": "src/rules/legislatures/committees.ts",
+    "line": 6,
+    "whatItFakes": "Deals recorded seniority order around committees in compiled order.",
+    "why": "Authored gameplay profile substitutes for actual committee appointment decisions.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Saved appointment decisions under each body's procedure.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-legislatures-vote-tolerance",
+    "kind": "tunable-number",
+    "file": "src/rules/legislatures/parameters.ts",
+    "line": 7,
+    "whatItFakes": "Subtracts 1e-9 before ceiling a fractional vote requirement.",
+    "why": "Preserve legacy floating-point tolerance unchanged.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Exact rational vote arithmetic with a reviewed rounding contract.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-legislatures-committee-guard",
+    "kind": "tunable-number",
+    "file": "src/rules/legislatures/parameters.ts",
+    "line": 14,
+    "whatItFakes": "Searches at most twice through the member order per committee.",
+    "why": "Preserve the legacy defensive guard, including any underfilled result.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Validated member uniqueness and a proven complete roster operation.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-legislatures-calendar-search",
+    "kind": "tunable-number",
+    "file": "src/rules/legislatures/parameters.ts",
+    "line": 21,
+    "whatItFakes": "Searches only through the year four years after the starting year.",
+    "why": "A later eligible sitting can be rejected by the legacy bound.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Validated recurrence bounds or unbounded direct calculation.",
+    "status": "OPEN"
+  }
+]
