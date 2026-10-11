@@ -2,6 +2,10 @@
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
+## 2026-10-11
+
+- **LEGAL-CHECK:** legal research is in draft PR #3947 on `pool/legal-check`, in `docs/reports/2026-10-legal-review.md`. No game behavior changed. The review covers 45 source directories, 43 research units, 4,250 observed citation URLs, and 108 recorded photo references. Real names remain in calibration and institution data; generated names can collide with officeholders. CSG commercial restrictions and unresolved art/research rights require attorney review before release. The report checker, writing review, zero-dice, and release-entry check pass. The initial release command lacked `tsx`; pinned temporary validation tools resolved that limit without changing project dependencies. Model, effort visibility, timing, usage limits, and the writing-review repair round are recorded in the report. The CTO and attorney must resolve the listed release risks; this draft does not clear release.
+
 ## 2026-10-10
 
 - **OPUS-PEOPLE (M0-people), parts 1 to 4 in review.**
