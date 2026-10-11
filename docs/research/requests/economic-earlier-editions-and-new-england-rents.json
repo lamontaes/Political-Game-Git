@@ -27,7 +27,9 @@
   "priority": "P2",
   "question": "The game now shows each economic figure from the day its edition was published, per DEPTH2. The editions it holds are the newest: county personal income released February 5, 2026 and price parities released February 19, 2026. So a life opening January 5, 2026 sees no county income for five weeks, although an earlier edition (November 14, 2024, describing 2023) was out. Can the earlier editions be supplied as files, together with the LAUS monthly release dates for the locked months, the posting date of HUD's FY2025 income limits, and a Census place-to-county-subdivision relationship file for New England so rents reach towns there?",
   "questionId": "economic-earlier-editions-and-new-england-rents",
-  "relatedQuestionIds": ["economic-figure-availability-date"],
+  "relatedQuestionIds": [
+    "economic-figure-availability-date"
+  ],
   "requestVersion": "research-request/v1",
   "requestedBy": "every-town-in-america thread (technical team lead)",
   "sourcesChecked": [
@@ -42,9 +44,36 @@
     {
       "source": "curl to apps.bea.gov/regional/histdata from the build container",
       "whatItDidNotSettle": "Refused by the network policy (403 on CONNECT), so no earlier edition could be fetched here."
+    },
+    {
+      "source": "BLS QCEW2025annualemploymentandwages",
+      "url": "https://data.bls.gov/cew/data/api/2025/a/industry/81.csv",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "public-domain-US",
+        "url": "https://www.bls.gov/bls/linksite.htm",
+        "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
+      },
+      "sourceCoverage": [
+        "VI"
+      ]
     }
   ],
   "title": "Earlier economic editions, LAUS release dates, and New England rents",
   "usableAnswer": "Files in the Drive exchange: the BEA CAINC1 zip as released November 14, 2024 (and the RPP edition current on January 5, 2026 if earlier than February 19, 2026), each with its release date; a list of LAUS release dates for the locked months; HUD's FY2025 income limits posting date with its source; and the Census place-to-county-subdivision relationship file for CT, ME, MA, NH, RI and VT.",
-  "whyItMatters": "Without them a January opening shows only rents for its first five weeks, unemployment never appears before September, and no town in New England sees rents at all."
+  "whyItMatters": "Without them a January opening shows only rents for its first five weeks, unemployment never appears before September, and no town in New England sees rents at all.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/regional/roadmap-r1-laus-annual-2000-2025.json",
+        "data/research/regional/roadmap-r1-gap-persistence.json",
+        "data/research/regional/roadmap-r1-qcew-state-industry-2025.json",
+        "data/research/regional/roadmap-r1-findings.json"
+      ],
+      "result": "OfficialLAUSannual2000–2025andQCEWstateindustry2025; derivedannualgapAR1withresidual/observedspreadexplicitlydescriptive,notcausalreturntime. Useworkplaceindustryexposureandactualemployerorders; separateedition/releasedatefromobservationdate. HUDplace-rentlevels,GDP/metrohistoryandcausallocalsalesmultipliersremainunsettled."
+    }
+  }
 }

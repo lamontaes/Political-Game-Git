@@ -16,16 +16,45 @@
   "priority": "P1",
   "question": "The owner wants jobs to react to what happens: a national move off coal should hurt West Virginia. The job market draws openings from each town's employers. The planned next step reads each county's industry mix from the Census 2023 County Business Patterns counts. What should link a policy or market change in one industry to a county's jobs? For a given shock (for example a coal phase-out, a tariff, a plant closing), how much should openings, hiring and pay change in counties by that industry's share of local employment, how fast, and how much should spill into other local businesses?",
   "questionId": "local-jobs-react-to-industry-shocks",
-  "relatedQuestionIds": ["job-market-calibration"],
+  "relatedQuestionIds": [
+    "job-market-calibration"
+  ],
   "requestVersion": "research-request/v1",
   "requestedBy": "Jobs thread, for lamontae (owner)",
   "sourcesChecked": [
     {
       "source": "Our Civic Duty - readme for nationwide county industry data - 2023 CBP.md, on PR #531",
       "whatItDidNotSettle": "Supplies each county's industry counts, which give the exposure, but no rule for how a change moves them."
+    },
+    {
+      "source": "BLS QCEW2025annualemploymentandwages",
+      "url": "https://data.bls.gov/cew/data/api/2025/a/industry/81.csv",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "public-domain-US",
+        "url": "https://www.bls.gov/bls/linksite.htm",
+        "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
+      },
+      "sourceCoverage": [
+        "VI"
+      ]
     }
   ],
   "title": "How a national change in one industry should move jobs in the places that depend on it",
   "usableAnswer": "A rule of the form: change in openings and hiring in a county equals some function of that industry's share of county employment and the size of the national change, with a speed, a floor, and a local spillover, plus the sources behind it.",
-  "whyItMatters": "Without it the job market is the same whatever the country does, which the owner named as a goal on 9/23."
+  "whyItMatters": "Without it the job market is the same whatever the country does, which the owner named as a goal on 9/23.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/regional/roadmap-r1-laus-annual-2000-2025.json",
+        "data/research/regional/roadmap-r1-gap-persistence.json",
+        "data/research/regional/roadmap-r1-qcew-state-industry-2025.json",
+        "data/research/regional/roadmap-r1-findings.json"
+      ],
+      "result": "OfficialLAUSannual2000–2025andQCEWstateindustry2025; derivedannualgapAR1withresidual/observedspreadexplicitlydescriptive,notcausalreturntime. Useworkplaceindustryexposureandactualemployerorders; separateedition/releasedatefromobservationdate. HUDplace-rentlevels,GDP/metrohistoryandcausallocalsalesmultipliersremainunsettled."
+    }
+  }
 }

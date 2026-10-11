@@ -9,7 +9,9 @@
   "priority": "P2",
   "question": "When a town's total employer payroll rises or falls by one percent, by what percent do the sales of its local-serving businesses (restaurants, retail, personal care, repair) move? Is there a measured elasticity of local nontradable sales or employment to local tradable payroll or employment?",
   "questionId": "local-sales-response-to-town-pay",
-  "relatedQuestionIds": ["small-business-credit-line-size"],
+  "relatedQuestionIds": [
+    "small-business-credit-line-size"
+  ],
   "requestVersion": "research-request/v1",
   "requestedBy": "Standby Claude Team 5",
   "sourcesChecked": [
@@ -20,9 +22,36 @@
     {
       "source": "BEA Regional Input-Output Modeling System (RIMS II) multipliers",
       "whatItDidNotSettle": "Region-specific output and earnings multipliers sold per region; not read into the repository."
+    },
+    {
+      "source": "BLS QCEW2025annualemploymentandwages",
+      "url": "https://data.bls.gov/cew/data/api/2025/a/industry/81.csv",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "public-domain-US",
+        "url": "https://www.bls.gov/bls/linksite.htm",
+        "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
+      },
+      "sourceCoverage": [
+        "VI"
+      ]
     }
   ],
   "title": "How far a town's local sales follow its payroll",
   "usableAnswer": "One elasticity (with a range) of local-serving business revenue or employment to local total payroll or tradable employment, from a named study or dataset (Moretti 2010 with the conversion shown, Moretti and Thulin 2013, BEA RIMS II household-spending effects, or QCEW county panels), ideally by industry and by town size, so it can be read as data rather than set by hand.",
-  "whyItMatters": "This number decides how hard a plant closing or a raise hits the shops in town. At a hand-set one half, every town's main street responds alike; a sourced value lets a player's jobs or wage law show the local knock-on a real town would see."
+  "whyItMatters": "This number decides how hard a plant closing or a raise hits the shops in town. At a hand-set one half, every town's main street responds alike; a sourced value lets a player's jobs or wage law show the local knock-on a real town would see.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/regional/roadmap-r1-laus-annual-2000-2025.json",
+        "data/research/regional/roadmap-r1-gap-persistence.json",
+        "data/research/regional/roadmap-r1-qcew-state-industry-2025.json",
+        "data/research/regional/roadmap-r1-findings.json"
+      ],
+      "result": "OfficialLAUSannual2000–2025andQCEWstateindustry2025; derivedannualgapAR1withresidual/observedspreadexplicitlydescriptive,notcausalreturntime. Useworkplaceindustryexposureandactualemployerorders; separateedition/releasedatefromobservationdate. HUDplace-rentlevels,GDP/metrohistoryandcausallocalsalesmultipliersremainunsettled."
+    }
+  }
 }

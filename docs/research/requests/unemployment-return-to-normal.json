@@ -21,9 +21,36 @@
     {
       "source": "Codex overnight CTO dispatch 2026-09-23 (Drive 1WL9Q126qCzK9D4_PPX7q8A03HLvBVHiMwV3s_4oP180): FRED UNRATE 5.0% December 2007, 10.0% October 2009, 3.6% December 2019; BLS 2010 state averages Nevada 14.9%, North Dakota 3.9%",
       "whatItDidNotSettle": "Shows one recession's path and the state spread, not a monthly persistence, a normal rate or how state gaps decay."
+    },
+    {
+      "source": "BLS QCEW2025annualemploymentandwages",
+      "url": "https://data.bls.gov/cew/data/api/2025/a/industry/81.csv",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "public-domain-US",
+        "url": "https://www.bls.gov/bls/linksite.htm",
+        "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
+      },
+      "sourceCoverage": [
+        "VI"
+      ]
     }
   ],
   "title": "How fast unemployment comes back after a downturn, nationally and in each state",
   "usableAnswer": "A normal (natural or long-run) unemployment rate for the nation and, where it differs, for each of the 50 states, D.C. and Puerto Rico, with a source or a range; a monthly persistence or half-life of the national gap from that rate, with the estimate cited; and the monthly persistence of a state's gap from the national rate. Say where no estimate exists rather than supply one.",
-  "whyItMatters": "Every simulated world's unemployment used to climb and never come back, which drives migration pressure, governors' records in office and the local figures a player reads. The fix pulls it back at a placeholder speed toward one national figure used for every state; researched values decide how long a recession hurts and whether Nevada and North Dakota recover differently."
+  "whyItMatters": "Every simulated world's unemployment used to climb and never come back, which drives migration pressure, governors' records in office and the local figures a player reads. The fix pulls it back at a placeholder speed toward one national figure used for every state; researched values decide how long a recession hurts and whether Nevada and North Dakota recover differently.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/regional/roadmap-r1-laus-annual-2000-2025.json",
+        "data/research/regional/roadmap-r1-gap-persistence.json",
+        "data/research/regional/roadmap-r1-qcew-state-industry-2025.json",
+        "data/research/regional/roadmap-r1-findings.json"
+      ],
+      "result": "OfficialLAUSannual2000–2025andQCEWstateindustry2025; derivedannualgapAR1withresidual/observedspreadexplicitlydescriptive,notcausalreturntime. Useworkplaceindustryexposureandactualemployerorders; separateedition/releasedatefromobservationdate. HUDplace-rentlevels,GDP/metrohistoryandcausallocalsalesmultipliersremainunsettled."
+    }
+  }
 }

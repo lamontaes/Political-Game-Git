@@ -40,9 +40,36 @@
     {
       "source": "grep of src/simulation for rent, price level and inflation",
       "whatItDidNotSettle": "Finds no simulated rent or price level to carry them forward."
+    },
+    {
+      "source": "BLS QCEW2025annualemploymentandwages",
+      "url": "https://data.bls.gov/cew/data/api/2025/a/industry/81.csv",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "public-domain-US",
+        "url": "https://www.bls.gov/bls/linksite.htm",
+        "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
+      },
+      "sourceCoverage": [
+        "VI"
+      ]
     }
   ],
   "title": "What a town's rent and income do after the last real edition",
   "usableAnswer": "A rule for whether local rent, income and unemployment continue past the last shipped edition as simulated-world conditions, what drives each, a realistic pace of change for each (for example a yearly range), and how the screen labels them apart from real agency releases.",
-  "whyItMatters": "Every life longer than a year reads a frozen local economy. The owner asked whether rents and county income change as you would expect, and today they do not."
+  "whyItMatters": "Every life longer than a year reads a frozen local economy. The owner asked whether rents and county income change as you would expect, and today they do not.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/regional/roadmap-r1-laus-annual-2000-2025.json",
+        "data/research/regional/roadmap-r1-gap-persistence.json",
+        "data/research/regional/roadmap-r1-qcew-state-industry-2025.json",
+        "data/research/regional/roadmap-r1-findings.json"
+      ],
+      "result": "OfficialLAUSannual2000–2025andQCEWstateindustry2025; derivedannualgapAR1withresidual/observedspreadexplicitlydescriptive,notcausalreturntime. Useworkplaceindustryexposureandactualemployerorders; separateedition/releasedatefromobservationdate. HUDplace-rentlevels,GDP/metrohistoryandcausallocalsalesmultipliersremainunsettled."
+    }
+  }
 }
