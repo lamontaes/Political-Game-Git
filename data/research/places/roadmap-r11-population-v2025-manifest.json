@@ -357,5 +357,22 @@
   "measuredExtractionStartedAt": "2026-10-11T04:38:13.025198+00:00",
   "retrievedAt": "2026-10-11",
   "measuredExtractionFinishedAt": "2026-10-11T04:38:13.613646+00:00",
-  "researchTime": "Approximately 15 minutes of source checking before this measured extraction; exact prior elapsed time not instrumented."
+  "researchTime": "Approximately 15 minutes of source checking before this measured extraction; exact prior elapsed time not instrumented.",
+  "validation": {
+    "result": "passed",
+    "rows": 22705,
+    "jurisdictions": 52,
+    "checks": [
+      "unique geography keys",
+      "derived-file hashes match",
+      "per-row provenance present",
+      "projection center within spread",
+      "last-year growth recomputed; zero denominators explicitly blank",
+      "all 78 Puerto Rico municipios included",
+      "all files under 5 MB"
+    ],
+    "maximumCsvBytes": 836832,
+    "zero2024Baselines": 4,
+    "initialValidationFailure": "A blank growth field for a zero-population place raised ValueError; verifier now checks zero denominators explicitly. Growth labels recomputed from the actual 2024/2025 pair."
+  }
 }
