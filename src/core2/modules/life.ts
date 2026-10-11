@@ -258,23 +258,25 @@ export const LIFE_MODULE: CoreModule = {
       affect.stress *= Math.exp(-p(api, chosen.definition.effectParameter));
       api.updatePerson(actorId, { affect });
     },
-    contact: (api, actorId, chosen) => {
+    contact: (api, actorId, chosen, _date, _days, decision) => {
       // P15: the visit's hours are time together.
       api.relationship(
         actorId,
         chosen.targetId,
         "contact",
         chosen.effortHours ?? p(api, chosen.definition.effortParameter),
+        decision,
       );
       api.updatePerson(actorId, { lastContactDate: api.state.date });
       api.updatePerson(chosen.targetId, { lastContactDate: api.state.date });
     },
-    care: (api, actorId, chosen) => {
+    care: (api, actorId, chosen, _date, _days, decision) => {
       api.relationship(
         actorId,
         chosen.targetId,
         "family",
         chosen.effortHours ?? p(api, chosen.definition.effortParameter),
+        decision,
       );
       const actor = api.state.people.get(actorId)!;
       api.updatePerson(actorId, {

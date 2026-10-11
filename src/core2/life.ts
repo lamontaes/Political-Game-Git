@@ -1,3 +1,4 @@
+import { runModuleCalendar } from "./module-calendar";
 import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import {
   advanceDate,
@@ -8,6 +9,8 @@ import {
 import { affectAt } from "./emotion";
 import { compactQuietWorkResults } from "./work-state";
 import { chooseAct, decisionFromScores, scoreOffers } from "./choice";
+import { compactOriginalAnswer } from "./compact-choice";
+import { FinanceReadGuard } from "./finance-plan";
 import {
   planFreeTime,
   registerPlannedActRunner,
@@ -300,12 +303,20 @@ function perform(
 }
 
 function plannedDecision(core: CoreState, act: PlannedAct): DecisionResult {
+  // The chooser's retention contract: full reason terms only for traced people.
+  const traced =
+    core.observer ||
+    act.personId === core.playerId ||
+    core.focusPersonIds.has(act.personId) ||
+    isExplicitlyControlledPersonV1(core, act.personId);
   return {
     actorId: act.personId,
     date: core.date,
     selected: act.offer,
     selectedReasons: act.reasons,
-    selectedReasonTerms: act.reasonTerms,
+    ...(traced && act.reasonTerms?.length
+      ? { selectedReasonTerms: act.reasonTerms }
+      : {}),
     reasonKey: `planned:utility:${act.offer.definition.need}:${act.offer.driveId ?? act.offer.definition.effect}`,
   };
 }
@@ -324,22 +335,50 @@ export function activate(
   const actor = core.people.get(personId)!;
   const api = coreAPI(core);
   refreshNeeds(core, api, actor);
-  const offers = availableActs(core, personId);
+  const offers = availableActs(core, personId).map((offer) =>
+    controller
+      ? {
+          ...offer,
+          effortHours:
+            offer.effortHours ??
+            api.parameter(offer.definition.effortParameter),
+        }
+      : offer,
+  );
   const scored = scoreOffers(core, personId, offers);
-  const decision = decisionFromScores(core, personId, scored);
+  const decision = decisionFromScores(core, personId, scored, !!controller);
+  const retainFullScores =
+    core.observer ||
+    actor.id === core.playerId ||
+    core.focusPersonIds.has(actor.id) ||
+    isExplicitlyControlledPersonV1(core, actor.id);
   if (controller) {
+    const originalReads = new FinanceReadGuard();
+    originalReads.payload(
+      decision,
+      api.parameter("zero"),
+      api.parameter("one"),
+    );
+    originalReads.payload(offers, api.parameter("zero"), api.parameter("one"));
     const requested = controller(decision, offers);
+    originalReads.verify();
     if (requested !== undefined) {
       const chosen = offers.find(
         (offer) => `${offer.definition.id}:${offer.targetId}` === requested,
       );
       if (!chosen) throw new Error("Controller requested an unavailable act.");
-      const forced = chooseAct(core, personId, [chosen]);
+      const index = offers.indexOf(chosen);
+      const scored = decision.scores![index]!;
       decision.selected = chosen;
-      decision.selectedReasons = forced.selectedReasons;
-      decision.reasonKey = `controller:${forced.reasonKey}`;
+      decision.selectedReasons = scored.reasons;
+      decision.selectedReasonTerms = retainFullScores
+        ? scored.reasonTerms
+        : undefined;
+      decision.compactChoice = compactOriginalAnswer(decision, offers, index);
+      decision.reasonKey = `controller:utility:${chosen.definition.need}:${chosen.driveId ?? chosen.definition.effect}`;
     }
   }
+  if (!retainFullScores) decision.scores = undefined;
   const chosen = decision.selected;
   const later = planFreeTime(
     api,
@@ -433,6 +472,7 @@ export function advanceCore(
     const due = duePeople(core, date);
     advanceDate(core, date);
     const api = coreAPI(core);
+    runModuleCalendar(core, api);
     for (const module of core.modules.values()) {
       const committed = module.onDay?.(
         api,

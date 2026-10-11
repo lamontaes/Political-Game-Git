@@ -82,6 +82,9 @@ function input(): CoreInput {
         source,
       },
     ],
+    // Jobs establish coworker identity; this fixture supplies no attendance terms.
+    workCommitments: [],
+    workPayrollCalendars: [],
     playerId: "player",
     focusPersonIds: [],
     focusPlaceIds: [],
@@ -192,6 +195,52 @@ describe("normal play circle and tier scope", () => {
       });
       for (const person of core.people.values())
         expect(activations.get(person.id)).toBe(1);
+    }
+  });
+});
+
+// SOURCE-ONLY additive proposal; UNEXECUTED by the author.
+describe("focus fixture attendance scope", () => {
+  it("preserves coworker links while distinguishing empty work terms from default enrollment", () => {
+    const supplied = input();
+    const omitted = { ...supplied };
+    delete omitted.workCommitments;
+    delete omitted.workPayrollCalendars;
+    const scoped = createLifeCore(supplied);
+    const ordinary = createLifeCore(omitted);
+    expect([...scoped.focusPersonIds].sort()).toEqual(
+      [...ordinary.focusPersonIds].sort(),
+    );
+    expect(scoped.jobs.get("job:player")?.personId).toBe("player");
+    expect(scoped.jobs.get("job:coworker")?.personId).toBe("coworker");
+    expect(scoped.work.commitments.size).toBe(0);
+    expect(scoped.work.payrollCalendars.size).toBe(0);
+    expect(ordinary.work.commitments.size).toBe(2);
+    // P15 part 2b: an activation can fill the free hours with several acts,
+    // so the cadence is counted in activations and work in work days.
+    const activations = new Map<
+      ReturnType<typeof createLifeCore>,
+      Map<string, number>
+    >();
+    for (const core of [scoped, ordinary]) {
+      const counts = new Map<string, number>();
+      activations.set(core, counts);
+      advanceCore(core, "2021-01-08", {
+        controller: (decision) => {
+          counts.set(decision.actorId, (counts.get(decision.actorId) ?? 0) + 1);
+          return undefined;
+        },
+      });
+    }
+    for (const id of ["player", "coworker"]) {
+      expect(activations.get(scoped)!.get(id)).toBe(7);
+      expect(activations.get(ordinary)!.get(id)).toBe(7);
+      expect(scoped.people.get(id)!.actCount).toBeGreaterThanOrEqual(7);
+      expect(ordinary.people.get(id)!.actCount).toBeGreaterThanOrEqual(12);
+      expect(
+        ordinary.work.totalsByJob.get(`job:${id}`)!.workedDays +
+          ordinary.work.totalsByJob.get(`job:${id}`)!.missedDays,
+      ).toBe(5);
     }
   });
 });
