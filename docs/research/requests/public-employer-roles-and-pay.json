@@ -16,7 +16,9 @@
   "priority": "P1",
   "question": "A town's county and city governments now appear on Jobs as employers, named from the Census 2025 Government Units listing. Each offers one placeholder role, an office clerk at the national median for general office clerks ($21.64 an hour, BLS OEWS May 2025), 37 to 40 hours a week, the same in every place. Which roles should a general-purpose local government post (for example clerks, public works, parks, water, police and fire, library), how does that mix change with the government's size, and what should each pay by state or area? Are hourly or salaried terms usual for each? Do any need a credential or license?",
   "questionId": "public-employer-roles-and-pay",
-  "relatedQuestionIds": ["employers-and-job-listings"],
+  "relatedQuestionIds": [
+    "employers-and-job-listings"
+  ],
   "requestVersion": "research-request/v1",
   "requestedBy": "Jobs thread, for lamontae (owner)",
   "sourcesChecked": [
@@ -27,9 +29,91 @@
     {
       "source": "src/presentation/generated/career-occupations.json",
       "whatItDidNotSettle": "Holds national medians for three occupations only, not local-government pay."
+    },
+    {
+      "source": "DOLWHDstate minimumwagesummaryretrievedOct11,2026",
+      "url": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
+      ]
     }
   ],
   "title": "Which jobs a county, city or town government posts, and what they pay",
   "usableAnswer": "A short list of roles by government size, each with hourly or salaried terms, a pay range and its source (OEWS local-government ownership rows, the Census Annual Survey of Public Employment and Payroll, or a state salary schedule), and any credential required.",
-  "whyItMatters": "Public bodies are the only employers every town in the 50 states and D.C. has on the screen today, so their one repeated role is most of what a player sees until the town businesses land."
+  "whyItMatters": "Public bodies are the only employers every town in the 50 states and D.C. has on the screen today, so their one repeated role is most of what a player sees until the town businesses land.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/jobs/roadmap-r3-jolts-table1-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table2-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table4-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table5-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table7-aug2026.json",
+        "data/research/jobs/roadmap-r3-unemployment-duration-2025.json",
+        "data/research/jobs/roadmap-r3-oews-sector-staffing-2025.json",
+        "data/research/jobs/roadmap-r3-state-wage-floor-summary.json",
+        "data/research/jobs/roadmap-r3-calibration-findings.json"
+      ],
+      "result": "CurrentJOLTSindustry/regionandsizeopenings,hires,quitsandlayoffs; CPS2025duration; OEWS2025detailedoccupationstaffingwithinsectorsandwagepercentiles; DOLstatesummaryrates. Timetofill,localordinances,publicownerbreakdownsandteenlifecourseprobabilitiesremainunsettled; ratesareaggregatechecks,notactoroutcomes."
+    }
+  }
 }

@@ -15,16 +15,100 @@
   "priority": "P2",
   "question": "Job offers are written no lower than the federal minimum of $7.25 an hour. The game has no state, territory or city minimum on file, so an offer in Nevada or Washington could fall below the law there. What is the current minimum wage in each of the 50 states, D.C. and Puerto Rico, with the date each took effect and any scheduled increase? Which cities and counties set a higher local minimum? Are there lower rates for tipped work or young workers that an ordinary listing should respect?",
   "questionId": "minimum-wages-by-place",
-  "relatedQuestionIds": ["job-market-calibration"],
+  "relatedQuestionIds": [
+    "job-market-calibration"
+  ],
   "requestVersion": "research-request/v1",
   "requestedBy": "Jobs thread, for lamontae (owner)",
   "sourcesChecked": [
     {
       "source": "src/simulation (search for minimum wage)",
       "whatItDidNotSettle": "No minimum-wage record exists in the simulation."
+    },
+    {
+      "source": "DOLWHDstate minimumwagesummaryretrievedOct11,2026",
+      "url": "https://www.dol.gov/agencies/whd/minimum-wage/state",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
+      ]
     }
   ],
   "title": "The minimum wage in each state, D.C., Puerto Rico and the local places that set their own",
   "usableAnswer": "A table by jurisdiction: rate, effective date, scheduled changes, tipped rate, and source link. Local minimums as a separate list.",
-  "whyItMatters": "The owner's answer says wage rules still constrain generated offers where established. Without them the floor is federal everywhere."
+  "whyItMatters": "The owner's answer says wage rules still constrain generated offers where established. Without them the floor is federal everywhere.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/jobs/roadmap-r3-jolts-table1-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table2-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table4-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table5-aug2026.json",
+        "data/research/jobs/roadmap-r3-jolts-table7-aug2026.json",
+        "data/research/jobs/roadmap-r3-unemployment-duration-2025.json",
+        "data/research/jobs/roadmap-r3-oews-sector-staffing-2025.json",
+        "data/research/jobs/roadmap-r3-state-wage-floor-summary.json",
+        "data/research/jobs/roadmap-r3-calibration-findings.json"
+      ],
+      "result": "CurrentJOLTSindustry/regionandsizeopenings,hires,quitsandlayoffs; CPS2025duration; OEWS2025detailedoccupationstaffingwithinsectorsandwagepercentiles; DOLstatesummaryrates. Timetofill,localordinances,publicownerbreakdownsandteenlifecourseprobabilitiesremainunsettled; ratesareaggregatechecks,notactoroutcomes."
+    }
+  }
 }
