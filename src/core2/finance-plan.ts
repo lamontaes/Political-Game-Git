@@ -84,6 +84,24 @@ type Read =
   | SetContentsRead
   | MapContentsRead
   | KeysRead;
+// Only this module can defer intermediate replays to the final session seal.
+const nativeWeakMapGet = WeakMap.prototype.get;
+const nativeWeakMapSet = WeakMap.prototype.set;
+const finishMetadataForSeal = new WeakMap<
+  FinanceMetadataComposer,
+  () => readonly CashJournalMetadataWrite[]
+>();
+const finishCashForSeal = new WeakMap<
+  FinanceCashPlanner,
+  () => readonly CashJournalPosting[]
+>();
+// Fresh detached plain rows have immutable own fields; Maps/Sets never qualify.
+const ownedFrozenRows = new WeakSet<object>();
+const nativeFreeze = Object.freeze;
+const nativeCreate = Object.create;
+const nativeDefineProperty = Object.defineProperty;
+const nativeWeakSetHas = WeakSet.prototype.has;
+const nativeWeakSetAdd = WeakSet.prototype.add;
 const nativeMapHas = Map.prototype.has;
 const nativeMapGet = Map.prototype.get;
 const nativeMapEntries = Map.prototype.entries;
@@ -310,6 +328,12 @@ export class FinanceReadGuard {
   verify(): void {
     for (const read of this.#reads) {
       if (read.kind === "field") {
+        // Absence still checks inheritance. No external frozen object is admitted.
+        if (
+          read.descriptor &&
+          nativeWeakSetHas.call(ownedFrozenRows, read.target)
+        )
+          continue;
         if (
           Object.getPrototypeOf(read.target) !== read.prototype ||
           !sameDescriptor(read.descriptor, directRead(read.target, read.key))
@@ -356,6 +380,7 @@ export class FinanceReadGuard {
         )
           throw new Error("Stale finance next-payload map contents.");
       } else {
+        if (nativeWeakSetHas.call(ownedFrozenRows, read.target)) continue;
         const keys = Reflect.ownKeys(read.target);
         if (
           keys.length !== read.keys.length ||
@@ -391,7 +416,11 @@ function exact(value: bigint, zero: number, field: string): number {
 }
 
 /** Detached data only. Frozen Map/Set contents also get an independent payload snapshot. */
-function detach<T>(value: T, copies = new WeakMap<object, object>()): T {
+function detach<T>(
+  value: T,
+  copies = new WeakMap<object, object>(),
+  owned?: WeakSet<object>,
+): T {
   if (
     typeof value === "number" &&
     (!Number.isFinite(value) ||
@@ -403,6 +432,7 @@ function detach<T>(value: T, copies = new WeakMap<object, object>()): T {
       "Prepared finance payload cannot contain executable values.",
     );
   if (value === null || typeof value !== "object") return value;
+  if (owned && nativeWeakSetHas.call(owned, value)) return value;
   const prior = copies.get(value);
   if (prior) return prior as T;
   if (value instanceof Map) {
@@ -410,7 +440,7 @@ function detach<T>(value: T, copies = new WeakMap<object, object>()): T {
     const result = new Map();
     copies.set(value, result);
     for (const [key, entry] of nativeMapEntries.call(value))
-      result.set(detach(key, copies), detach(entry, copies));
+      result.set(detach(key, copies, owned), detach(entry, copies, owned));
     return Object.freeze(result) as T;
   }
   if (value instanceof Set) {
@@ -418,7 +448,7 @@ function detach<T>(value: T, copies = new WeakMap<object, object>()): T {
     const result = new Set();
     copies.set(value, result);
     for (const entry of nativeSetValues.call(value))
-      result.add(detach(entry, copies));
+      result.add(detach(entry, copies, owned));
     return Object.freeze(result) as T;
   }
   const prototype = Object.getPrototypeOf(value);
@@ -430,23 +460,25 @@ function detach<T>(value: T, copies = new WeakMap<object, object>()): T {
     throw new Error(
       "Prepared finance payload must contain ordinary data rows.",
     );
-  const result: object = Array.isArray(value) ? [] : Object.create(prototype);
+  const result: object = Array.isArray(value) ? [] : nativeCreate(prototype);
   copies.set(value, result);
   for (const key of Reflect.ownKeys(value)) {
     if (Array.isArray(value) && key === "length") continue;
     const descriptor = directRead(value, key)!;
-    Object.defineProperty(result, key, {
-      value: detach(descriptor.value, copies),
+    nativeDefineProperty(result, key, {
+      value: detach(descriptor.value, copies, owned),
       enumerable: descriptor.enumerable,
       writable: true,
       configurable: true,
     });
   }
   if (Array.isArray(value))
-    Object.defineProperty(result, "length", {
+    nativeDefineProperty(result, "length", {
       value: directRead(value, "length")!.value,
     });
-  return Object.freeze(result) as T;
+  nativeFreeze(result);
+  nativeWeakSetAdd.call(ownedFrozenRows, result);
+  return result as T;
 }
 
 type FieldStage = Extract<
@@ -468,7 +500,11 @@ export class FinanceMetadataComposer {
     private readonly nextReads: FinanceReadGuard,
     private readonly zero: number,
     private readonly one: number,
-  ) {}
+  ) {
+    nativeWeakMapSet.call(finishMetadataForSeal, this, () =>
+      this.#finish(false),
+    );
+  }
 
   #open(): void {
     if (this.#sealed) throw new Error("Finance metadata plan is sealed.");
@@ -477,7 +513,7 @@ export class FinanceMetadataComposer {
     const next =
       value !== null && typeof value === "object" && this.#detached.has(value)
         ? value
-        : detach(value);
+        : detach(value, new WeakMap<object, object>(), this.#detached);
     this.nextReads.payload(next, this.zero, this.one);
     if (next !== null && typeof next === "object") this.#detached.add(next);
     return next;
@@ -534,7 +570,7 @@ export class FinanceMetadataComposer {
     return staged ? staged.nextPresent : this.reads.mapHas(target, key);
   }
 
-  mapSet<K, V>(target: Map<K, V>, key: K, value: V): V {
+  mapSet<K, V, T extends V>(target: Map<K, V>, key: K, value: T): T {
     this.#open();
     this.reads.mapGet(target, key);
     const next = this.#next(value),
@@ -613,9 +649,15 @@ export class FinanceMetadataComposer {
   }
 
   finish(): readonly CashJournalMetadataWrite[] {
+    return this.#finish(true);
+  }
+
+  #finish(replay: boolean): readonly CashJournalMetadataWrite[] {
     this.#open();
-    this.reads.verify();
-    this.nextReads.verify();
+    if (replay) {
+      this.reads.verify();
+      this.nextReads.verify();
+    }
     const result: CashJournalMetadataWrite[] = [];
     for (const fields of this.#fields.values())
       for (const write of fields.values())
@@ -660,7 +702,9 @@ export class FinanceCashPlanner {
     private readonly date: IsoDate,
     private readonly zero: number,
     private readonly one: number,
-  ) {}
+  ) {
+    nativeWeakMapSet.call(finishCashForSeal, this, () => this.#finish(false));
+  }
 
   #owner(id: string): PlannedCashOwner {
     if (this.#sealed) throw new Error("Finance cash plan is sealed.");
@@ -892,8 +936,12 @@ export class FinanceCashPlanner {
   }
 
   finish(): readonly CashJournalPosting[] {
+    return this.#finish(true);
+  }
+
+  #finish(replay: boolean): readonly CashJournalPosting[] {
     if (this.#sealed) throw new Error("Finance cash plan is sealed.");
-    this.reads.verify();
+    if (replay) this.reads.verify();
     this.#sealed = true;
     Object.freeze(this);
     return Object.freeze(
@@ -1072,8 +1120,16 @@ export class FinancePlanningSession {
     if (this.#sealed) throw new Error("Finance preparation session is sealed.");
     const returned = detach(result);
     this.nextReads.payload(returned, this.zero, this.one);
-    const postings = this.cash.finish(),
-      metadata = this.metadata.finish();
+    const finishCash = nativeWeakMapGet.call(finishCashForSeal, this.cash) as
+      (() => readonly CashJournalPosting[]) | undefined;
+    const finishMetadata = nativeWeakMapGet.call(
+      finishMetadataForSeal,
+      this.metadata,
+    ) as (() => readonly CashJournalMetadataWrite[]) | undefined;
+    if (!finishCash || !finishMetadata)
+      throw new Error("Finance seal requires its actual owned planners.");
+    const postings = finishCash(),
+      metadata = finishMetadata();
     this.reads.seal();
     this.nextReads.seal();
     this.#sealed = true;
@@ -1654,12 +1710,16 @@ export function prepareWorkFinancePlan(
   personId: string,
   requested: number,
   receiptId: string,
+  recognizedDueMinor: number = requested,
 ): PreparedWorkFinance {
   const r = session.reads,
     m = session.metadata,
     zero = session.zero;
   identity(receiptId, "work receipt");
   minor(requested, zero, "requested wage");
+  minor(recognizedDueMinor, zero, "newly recognized wage");
+  if (recognizedDueMinor > requested)
+    throw new Error("Newly recognized wages exceed the actual wage request.");
   const book = m.mapGet(session.map("businesses"), organizationId),
     data = session.policy(false),
     facilityIndex = m.mapGet(
@@ -1711,7 +1771,8 @@ export function prepareWorkFinancePlan(
       book,
       "wagesRequestedMinor",
       exact(
-        BigInt(m.field(book, "wagesRequestedMinor")) + BigInt(requested),
+        BigInt(m.field(book, "wagesRequestedMinor")) +
+          BigInt(recognizedDueMinor),
         zero,
         "business wages:requested",
       ),
@@ -1730,7 +1791,8 @@ export function prepareWorkFinancePlan(
       "wagesUnpaidMinor",
       exact(
         BigInt(m.field(book, "wagesUnpaidMinor")) +
-          BigInt(requested - expectedPaidMinor),
+          BigInt(recognizedDueMinor) -
+          BigInt(expectedPaidMinor),
         zero,
         "business wages:unpaid",
       ),
@@ -1761,7 +1823,20 @@ export function prepareWorkFinancePlan(
 /** Root must use this before sealing, after it has built the genuine canonical work result. */
 export function guardWorkFinanceResult(
   session: FinancePlanningSession,
-  receipt: WorkResult,
+  receipt: Pick<
+    WorkResult,
+    | "id"
+    | "date"
+    | "organizationId"
+    | "personId"
+    | "requestedMinor"
+    | "paidMinor"
+    | "shortfallMinor"
+    | "payerCashBeforeMinor"
+    | "payerCashAfterMinor"
+    | "payeeCashBeforeMinor"
+    | "payeeCashAfterMinor"
+  >,
   projection: PreparedWorkFinance,
 ): void {
   const r = session.reads;

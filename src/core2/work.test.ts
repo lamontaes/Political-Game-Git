@@ -25,6 +25,8 @@ const source: Source = {
   asOf: startedAt,
   citation:
     "Controlled work/time contract fixture; not an ordinary generated-world outcome.",
+  estimatedFrom:
+    "Explicit worker, owning job, schedule and finite employer cash fixture.",
 };
 
 function fixture(): CoreInput {
@@ -188,22 +190,22 @@ describe("recorded opening work boundary", () => {
     );
   });
 
-  it("settles real paid returns once, retains actual committed IDs, and keeps outsiders quiet", () => {
+  it("accrues actual attendance without cash, pays once on the recorded payday, and keeps outsiders quiet", () => {
     const core = createLifeCore(fixture());
     advanceCore(core, nextDay);
-    const receipts = [...core.work.lastResultByJob.values()];
+    const receipts = [...core.work.lastAttendanceByJob.values()];
     expect(receipts).toHaveLength(fixture().jobs.length);
-    expect(receipts.reduce((sum, row) => sum + row.paidMinor, p("zero"))).toBe(
+    expect(
+      receipts.reduce((sum, row) => sum + row.earnedMinor, p("zero")),
+    ).toBe(p("minorPerDollar") * p("two"));
+    expect(core.cashJournal.nextSequence).toBe(p("zero"));
+    expect(core.organizations.get("fixture-employer")!.liquidMinor).toBe(
       p("minorPerDollar"),
     );
+    expect(
+      [...core.people.values()].every((row) => row.liquidMinor === p("zero")),
+    ).toBe(true);
     for (const row of receipts) {
-      expect(row.payerCashBeforeMinor - row.payerCashAfterMinor).toBe(
-        row.paidMinor,
-      );
-      expect(row.payeeCashAfterMinor - row.payeeCashBeforeMinor).toBe(
-        row.paidMinor,
-      );
-      expect(row.shortfallMinor).toBe(row.requestedMinor - row.paidMinor);
       expect(row.sourceActId).toBe(
         `act:${row.date}:${row.personId}:${core.people.get(row.personId)!.actCount}`,
       );
@@ -211,7 +213,7 @@ describe("recorded opening work boundary", () => {
       expect(
         core.knowledgeByPerson
           .get(row.personId)!
-          .has(`job:${row.jobId}:latest-work-result`),
+          .has(`job:${row.jobId}:latest-work-attendance`),
       ).toBe(false);
     }
     expect(core.durableLog.size).toBe(p("zero"));
@@ -225,15 +227,32 @@ describe("recorded opening work boundary", () => {
     expect([...core.people.values()].map((row) => row.liquidMinor)).toEqual(
       cash,
     );
+    const earnedPayday = [...core.work.payrollPeriodsByDue.keys()].sort()[0]!;
+    expect(earnedPayday).toBeDefined();
+    advanceCore(core, earnedPayday);
+    const payroll = [...core.work.latestPayrollByJob.values()];
+    expect(payroll.reduce((sum, row) => sum + row.paidMinor, p("zero"))).toBe(
+      p("minorPerDollar"),
+    );
+    expect(core.organizations.get("fixture-employer")!.liquidMinor).toBe(
+      p("zero"),
+    );
+    expect(
+      [...core.people.values()].reduce(
+        (sum, row) => sum + row.liquidMinor,
+        p("zero"),
+      ),
+    ).toBe(p("minorPerDollar"));
+    expect(core.cashJournal.nextSequence).toBe(p("one"));
   });
 
   it("treats place-only refresh as routine result retention, without full act traces", () => {
     const input = fixture();
     const core = createLifeCore({ ...input, focusPlaceIds: ["fixture-place"] });
     advanceCore(core, nextDay);
-    expect(core.work.lastResultByJob.size).toBe(input.jobs.length);
-    expect(core.work.detailedResults.size).toBe(p("zero"));
-    for (const row of core.work.lastResultByJob.values()) {
+    expect(core.work.lastAttendanceByJob.size).toBe(input.jobs.length);
+    expect(core.work.detailedAttendance.size).toBe(p("zero"));
+    for (const row of core.work.lastAttendanceByJob.values()) {
       expect(row.decision).toBeUndefined();
       expect(row.sourceActId).toContain(`act:${nextDay}:${row.personId}:`);
       expect(core.durableLog.has(row.sourceActId)).toBe(false);
@@ -245,7 +264,7 @@ describe("recorded opening work boundary", () => {
     advanceCore(core, nextDay);
     expect(core.jobs.size).toBe(fixture().jobs.length);
     expect(core.work.commitments.size).toBe(p("zero"));
-    expect(core.work.lastResultByJob.size).toBe(p("zero"));
+    expect(core.work.lastAttendanceByJob.size).toBe(p("zero"));
   });
 
   it("keeps work/pay results identical across equivalent advance partitions", () => {
@@ -254,8 +273,8 @@ describe("recorded opening work boundary", () => {
     advanceCore(whole, "2021-01-10");
     advanceCore(split, "2021-01-05");
     advanceCore(split, "2021-01-10");
-    expect([...split.work.lastResultByJob]).toEqual([
-      ...whole.work.lastResultByJob,
+    expect([...split.work.lastAttendanceByJob]).toEqual([
+      ...whole.work.lastAttendanceByJob,
     ]);
     expect([...split.work.totalsByJob]).toEqual([...whole.work.totalsByJob]);
     expect([...split.people.values()].map((row) => row.liquidMinor)).toEqual(
@@ -274,9 +293,9 @@ describe("recorded opening work boundary", () => {
         },
       });
     advanceCore(core, nextDay);
-    for (const row of core.work.lastResultByJob.values()) {
+    for (const row of core.work.lastAttendanceByJob.values()) {
       expect(row.attendedMinutes).toBe(p("zero"));
-      expect(row.requestedMinor).toBe(p("zero"));
+      expect(row.earnedMinor).toBe(p("zero"));
       expect(row.absentMinutes).toBe(row.plannedMinutes);
       expect(core.people.get(row.personId)!.jobId).toBe(row.jobId);
     }
@@ -294,7 +313,7 @@ describe("recorded opening work boundary", () => {
     const cash = [...core.people.values()].map((row) => row.liquidMinor);
     const payer = core.organizations.get("fixture-employer")!.liquidMinor;
     expect(() => advanceCore(core, nextDay)).toThrow(
-      "Untagged numeric parameter: isoMonthCharacters",
+      "Attendance has an unregistered parameter: isoMonthCharacters",
     );
     expect(core.organizations.get("fixture-employer")!.liquidMinor).toBe(payer);
     expect([...core.people.values()].map((row) => row.liquidMinor)).toEqual(
@@ -303,7 +322,7 @@ describe("recorded opening work boundary", () => {
     expect(
       [...core.people.values()].every((row) => row.actCount === p("zero")),
     ).toBe(true);
-    expect(core.work.lastResultByJob.size).toBe(p("zero"));
+    expect(core.work.lastAttendanceByJob.size).toBe(p("zero"));
   });
 });
 
@@ -347,7 +366,11 @@ describe("actual owned-job cash admission", () => {
             },
             () => undefined,
           ),
-        ).toThrow("Invalid or duplicate dated work result");
+        ).toThrow(
+          change === "ended"
+            ? "Invalid or duplicate dated work result"
+            : "Payroll calendar lacks independently resolved job/person/employer owners",
+        );
         expect(before).toBeDefined();
         expect(cashWorkSnapshot(core)).toEqual(before);
         expect(core.work.cashSources.size).toBe(p("zero"));
@@ -376,7 +399,7 @@ describe("actual owned-job cash admission", () => {
         });
       advanceCore(core, nextDay);
       const worker = core.people.get("worker-a")!,
-        result = core.work.lastResultByJob.get(worker.jobId!)!;
+        result = core.work.lastAttendanceByJob.get(worker.jobId!)!;
       expect(result.date).toBe(nextDay);
       expect(result.attendedMinutes).toBe(
         zeroAttendance ? p("zero") : p("minutesPerHour"),
@@ -396,6 +419,9 @@ describe("actual owned-job cash admission", () => {
       };
       const decision = chooseAct(core, worker.id, [offer]);
       expect(decision.selected).toBe(offer);
+      // Accrual does not initialize the cash providers; capture after their setup.
+      ensureWorkCashModule(core);
+      ensureFinanceCashModule(core);
       const before = cashWorkSnapshot(core);
       expect(() =>
         api.settleLegacyWorkResult({
@@ -405,10 +431,15 @@ describe("actual owned-job cash admission", () => {
           date: core.date,
           days: p("one"),
         }),
-      ).toThrow("scheduled job");
+      ).toThrow(
+        "An accrual-enrolled job cannot also receive calendar-average legacy cash.",
+      );
       expect(cashWorkSnapshot(core)).toEqual(before);
       expect(core.people.get(worker.id)!.actCount).toBe(p("one"));
-      expect(core.work.cashActSelections.has(result.sourceActId)).toBe(true);
+      expect(core.work.currentAttendanceJobByRecordId.get(result.id)).toBe(
+        worker.jobId,
+      );
+      expect(core.work.cashActSelections.has(result.sourceActId)).toBe(false);
     },
   );
 });
