@@ -1,0 +1,67 @@
+{
+  "version": "p15-timing-encounters-v1",
+  "seed": "p10-drives-proof-2026-10-09",
+  "place": "Sacramento, California",
+  "days": 31,
+  "note": "Part 5 base (3a3e9893) and closeness reasons plus encounters (2b8617c7), alternated in one environment, one process at a time, three pairs; simulate seconds exclude building the town.",
+  "runs": [
+    {
+      "label": "part5-base@3a3e9893",
+      "days": 31,
+      "people": 44554,
+      "relationships": 88962,
+      "buildSeconds": 16.7,
+      "createSeconds": 10.8,
+      "simulateSeconds": 78.7
+    },
+    {
+      "label": "encounters@2b8617c7",
+      "days": 31,
+      "people": 44554,
+      "relationships": 90634,
+      "buildSeconds": 15.9,
+      "createSeconds": 10.5,
+      "simulateSeconds": 82.7
+    },
+    {
+      "label": "part5-base@3a3e9893",
+      "days": 31,
+      "people": 44554,
+      "relationships": 88962,
+      "buildSeconds": 15.3,
+      "createSeconds": 10,
+      "simulateSeconds": 83.6
+    },
+    {
+      "label": "encounters@2b8617c7",
+      "days": 31,
+      "people": 44554,
+      "relationships": 90634,
+      "buildSeconds": 16.2,
+      "createSeconds": 10.8,
+      "simulateSeconds": 79
+    },
+    {
+      "label": "part5-base@3a3e9893",
+      "days": 31,
+      "people": 44554,
+      "relationships": 88962,
+      "buildSeconds": 15.3,
+      "createSeconds": 11.5,
+      "simulateSeconds": 84.5
+    },
+    {
+      "label": "encounters@2b8617c7",
+      "days": 31,
+      "people": 44554,
+      "relationships": 90634,
+      "buildSeconds": 16.9,
+      "createSeconds": 11,
+      "simulateSeconds": 84.9
+    }
+  ],
+  "meanSimulateSeconds": {
+    "base": 82.3,
+    "encounters": 82.2
+  }
+}

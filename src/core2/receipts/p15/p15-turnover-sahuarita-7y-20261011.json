@@ -1,0 +1,72 @@
+{
+  "seed": "48bc1f71-93a4-4a4b-b957-9e6454d965d5",
+  "place": "Sahuarita, Arizona",
+  "startedAt": "2021-01-01",
+  "endedAt": "2028-01-02",
+  "years": 7,
+  "adultsAtStart": 730,
+  "adultsAlive": 730,
+  "newPeopleMetPerSurvivingAdult": 0.16,
+  "retention": {
+    "closest3": {
+      "members": 2156,
+      "stillInCircle": 0.91,
+      "kinShareOfMembers": 1,
+      "kinStillInCircle": 0.91,
+      "othersStillInCircle": 0
+    },
+    "closest5": {
+      "members": 3416,
+      "stillInCircle": 0.914,
+      "kinShareOfMembers": 1,
+      "kinStillInCircle": 0.914,
+      "othersStillInCircle": 0
+    },
+    "closest10": {
+      "members": 5007,
+      "stillInCircle": 0.979,
+      "kinShareOfMembers": 1,
+      "kinStillInCircle": 0.979,
+      "othersStillInCircle": 0
+    }
+  },
+  "answerKey": {
+    "id": "mollenhorst-network-turnover",
+    "citation": "Mollenhorst, G., Volker, B. and Flap, H. (2014), Changes in personal relationships: How social contexts affect the emergence and discontinuation of relationships, Social Networks 37, 65-80, doi 10.1016/j.socnet.2013.12.003; figures from the Utrecht University release of May 27, 2009 (ScienceDaily 090527111907).",
+    "findings": "Of 1,007 Dutch adults aged 18 to 65, 604 were re-interviewed seven years later. Network size barely changed, but only 48% of the discussion partners and practical helpers were still in the network, and 30% held the same position. A lack of meeting opportunities is a main reason ties end. No kin/non-kin retention split was found in the sources read; the 2014 article is paywalled.",
+    "use": "Calibration check for the closeness half-lives (closenessKinHalfLifeDays, closenessOtherHalfLifeDays) in a seven-year run."
+  },
+  "seconds": {
+    "createWithDeepPast": 4.9,
+    "yearly": [
+      {
+        "year": 1,
+        "seconds": 111.6
+      },
+      {
+        "year": 2,
+        "seconds": 110.5
+      },
+      {
+        "year": 3,
+        "seconds": 103.8
+      },
+      {
+        "year": 4,
+        "seconds": 102.8
+      },
+      {
+        "year": 5,
+        "seconds": 98.4
+      },
+      {
+        "year": 6,
+        "seconds": 100
+      },
+      {
+        "year": 7,
+        "seconds": 99
+      }
+    ]
+  }
+}
