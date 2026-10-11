@@ -18,6 +18,7 @@
 import { daysBetween, makeIsoDate } from "../../simulation/dates";
 import { CLOSENESS, hoursLost, openingClosenessHours } from "../closeness";
 import { GRIEF, griefToday, recordDeath } from "../grief";
+import { ENCOUNTERS } from "../encounters";
 import { runDuePlannedActs } from "../free-block";
 import { OPENING_KIN } from "../opening-kin";
 import type {
@@ -73,6 +74,7 @@ function shareHomeTime(api: CoreAPI): void {
               b.id,
               CLOSENESS.householdKind as Relationship["kind"],
               openingClosenessHours(core, a.id, b.id),
+              { cause: ENCOUNTERS.causes.openingHome },
             );
           continue;
         }
@@ -88,6 +90,7 @@ function shareHomeTime(api: CoreAPI): void {
             ? CLOSENESS.familyKind
             : CLOSENESS.householdKind) as Relationship["kind"],
           (minutes / p("minutesPerHour")) * week,
+          { cause: ENCOUNTERS.causes.homeTime, sourceId: household.id },
         );
       }
   }
