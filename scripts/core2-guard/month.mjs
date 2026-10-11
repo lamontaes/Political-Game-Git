@@ -82,6 +82,8 @@ export async function prepareWorld({ seed, placeKey }) {
   };
 }
 export async function runMonth({ seed, placeKey, output }) {
+  if (typeof output !== "string" || !output.trim() || output.startsWith("--"))
+    throw new Error("Missing value for --output: supply a receipt path");
   const { input, phases, place } = await prepareWorld({ seed, placeKey });
   const [
     { censusOpeningInput, openingInputBudget },
@@ -155,7 +157,7 @@ export async function runMonth({ seed, placeKey, output }) {
     },
     acts: receipt.acts,
   };
-  if (output) writeFileSync(output, JSON.stringify(result, null, 2) + "\n");
+  writeFileSync(output, JSON.stringify(result, null, 2) + "\n");
   return result;
 }
 if (
@@ -163,12 +165,21 @@ if (
   import.meta.url === pathToFileURL(resolve(process.argv[1])).href
 ) {
   const args = process.argv.slice(2),
-    value = (flag) => args[args.indexOf(flag) + 1];
-  runMonth({
-    seed: value("--seed"),
-    placeKey: value("--place-key"),
-    output: value("--output"),
-  })
+    value = (flag) => {
+      const index = args.indexOf(flag),
+        next = args[index + 1];
+      if (index < 0 || !next?.trim() || next.startsWith("--"))
+        throw new Error(`Missing value for ${flag}`);
+      return next;
+    };
+  Promise.resolve()
+    .then(() =>
+      runMonth({
+        seed: value("--seed"),
+        placeKey: value("--place-key"),
+        output: value("--output"),
+      }),
+    )
     .then((result) => console.log(JSON.stringify(result)))
     .catch((error) => {
       console.error(error);

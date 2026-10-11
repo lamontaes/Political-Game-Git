@@ -25,7 +25,7 @@ jobs:
           cache: npm
       - run: npm ci
       - name: Detector contract tests
-        run: node --import tsx --test tests/golden-path/runner.node-test.mjs scripts/core2-guard/compare.node-test.mjs
+        run: node --import tsx --test tests/golden-path/runner.node-test.mjs scripts/core2-guard/compare.node-test.mjs scripts/core2-guard/paired.node-test.mjs
       - name: Golden-path commands
         env:
           EVENT_NAME: ${{ github.event_name }}

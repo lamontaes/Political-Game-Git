@@ -13,7 +13,7 @@ unchanged by these tools.
 - Performance: `node --import tsx scripts/core2-guard/paired.mjs --base BASE --head HEAD --output /tmp/core2-paired.json`.
   Start with a clean registered checkout. The tool switches revisions
   sequentially, then restores the original branch or detached commit.
-- Detector tests: `node --import tsx --test tests/golden-path/runner.node-test.mjs scripts/core2-guard/compare.node-test.mjs`.
+- Detector tests: `node --import tsx --test tests/golden-path/runner.node-test.mjs scripts/core2-guard/compare.node-test.mjs scripts/core2-guard/paired.node-test.mjs`.
   Run heavy commands through the repository storage wrapper in the cloud.
 
 An accepted command failure, timeout, or missing command is red. Goal failures
@@ -70,8 +70,9 @@ when the people package supplies it.
 `prove-performance.mjs CORE_REVISION /tmp/speed-proof.json` measures the core,
 introduces real CPU work at its clock boundary, measures again, and requires
 red. It removes the temporary break, runs the ordinary clock again, and checks
-the real opening-input guard with an oversized fixture. Both proof tools
-require a clean checkout and restore the original source and branch in finally.
+the real opening-input guard with an oversized fixture.
+Both proof tools need a named branch; they fail on a detached HEAD.
+They require a clean checkout and restore the original source and branch in finally.
 Neither temporary break is committed.
 
 Main does not yet contain the core. Until it lands, proofs use the latest

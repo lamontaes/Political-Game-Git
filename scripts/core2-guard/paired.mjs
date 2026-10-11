@@ -123,6 +123,8 @@ export async function paired({ base, head, output }) {
         place.seed,
         "--place-key",
         place.key,
+        "--output",
+        resolve(profileDir, "month.json"),
       ]);
       const profile = await execute([
         process.execPath,

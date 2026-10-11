@@ -2,6 +2,10 @@
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
+## 2026-10-11
+
+- **CODEX-GUARD, GUARD-CHECK send-back:** the profile month now has an explicit receipt path outside the checkout, and the month runner rejects missing output before opening a world. The new tooling regression reproduces the old untracked `--seed` file and verifies two complete paired runs restore a clean named branch. Both proof tools' named-branch requirement is documented. Next: GUARD-CHECK verifies this single defect repair on #3941.
+
 ## 2026-10-10
 
 - **CODEX-GUARD (M0-guard), built for Sonnet finishing:** the golden-path runner and sequential month guard are on draft #3941. Eleven detector tests pass. The approved provisional step-2 command passed, a real acquaintance-record break turned it red, and restoration passed, each under 23 seconds in the drawn place. A real clock slowdown measured 1.990 times its base and was detected; its source was restored. The generated baseline already exceeds the core Source-share budget (75.87% versus 74.91%), so the combined guard remains red. Main still lacks the core and feature commands; no acceptance flags changed. Next: Sonnet verification, the full people test when supplied, and the core owner’s input-budget repair. Evidence: `scripts/core2-guard/evidence/`.
