@@ -1331,7 +1331,8 @@ function openingFamilies(input: OpeningFamilyInput): {
   }
   const kinSource: Source = {
     ...source,
-    citation: `${source.citation} ${OPENING_KIN.completedFertility.citation} ${OPENING_KIN.fertilityByAge.citation} ${OPENING_KIN.firstBirthAge.citation} SSA cohort life tables by birth year (Actuarial Study No. 120).`,
+    // Kin sources only; the town's housing and money sources stay on the households.
+    citation: `${OPENING_KIN.householdBasis} ${OPENING_KIN.completedFertility.citation} ${OPENING_KIN.fertilityByAge.citation} ${OPENING_KIN.firstBirthAge.citation} SSA cohort life tables by birth year (Actuarial Study No. 120).`,
     estimatedFrom:
       "Generated opening kin: who exists follows the life table and Census fertility by cohort and age; relatives outside the household are husk-tier records, not observed people.",
   };
@@ -1413,7 +1414,7 @@ function openingFamilies(input: OpeningFamilyInput): {
   );
   const temperamentSource: Source = {
     ...source,
-    citation: `${source.citation} ${OPENING_KIN.personality.citation} ${PARAMETERS.personalityHeritability!.citation}`,
+    citation: `${OPENING_KIN.householdBasis} ${OPENING_KIN.personality.citation} ${PARAMETERS.personalityHeritability!.citation}`,
     estimatedFrom:
       "Generated opening temperament: sourced facet age and sex differences, an inherited share from parents, a small upbringing shift and a person's own part, cut at the owner-accepted 10/20/40/20/10 spread.",
   };
@@ -1463,7 +1464,9 @@ function openingFamilies(input: OpeningFamilyInput): {
       ...(person.countyId ? { countyId: person.countyId } : {}),
       householdId: person.householdId,
       tier: OPENING_KIN.kinTier,
-      ...withTemperament(person.id, {}, undefined),
+      // One shared source for the relative's temperament, not one per trait.
+      traits: { ...(temperament.get(person.id) ?? {}) },
+      sharedTraitSource: temperamentSource,
       liquidMinor: p("zero"),
       livingCostDailyMinor: p("zero"),
       source: kinSource,
