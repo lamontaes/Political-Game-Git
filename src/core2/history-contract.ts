@@ -56,17 +56,13 @@ export function historyIntervals(
   while (cursor < end) {
     const date = new Date(`${cursor}T00:00:00Z`);
     const month = date.getUTCMonth();
-    const next = new Date(
-      Date.UTC(
-        date.getUTCFullYear(),
-        tier === "monthly"
-          ? month + months
-          : Math.floor(month / months) * months + months,
-        P.one,
-      ),
-    )
-      .toISOString()
-      .slice(P.zero, "YYYY-MM-DD".length);
+    date.setUTCDate(P.one);
+    date.setUTCMonth(
+      tier === "monthly"
+        ? month + months
+        : Math.floor(month / months) * months + months,
+    );
+    const next = date.toISOString().slice(P.zero, "YYYY-MM-DD".length);
     const through = next < end ? next : end;
     intervals.push(
       Object.freeze({ fromInclusive: cursor, throughExclusive: through }),
