@@ -15,11 +15,41 @@
     {
       "source": "data/source/constitutional-process/raw/us-quorum.html (Constitution transcript, archives.gov, retrieved 2026-09-13)",
       "whatItDidNotSettle": "Settles Article I only; says nothing about chamber rules, committees or statute."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Exact requested rules1–9 and current issue-to-committee/membership table remain open; no invented operative quotation."
+    },
+    {
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+      "whatItDidNotSettle": "Exact requested rules1–9 and current issue-to-committee/membership table remain open; no invented operative quotation."
+    },
+    {
+      "source": "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "whatItDidNotSettle": "Exact requested rules1–9 and current issue-to-committee/membership table remain open; no invented operative quotation."
+    },
+    {
+      "source": "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf",
+      "whatItDidNotSettle": "Exact requested rules1–9 and current issue-to-committee/membership table remain open; no invented operative quotation."
     }
   ],
   "requestedBy": "Congress passes laws thread (technical team lead)",
   "filedAt": "2026-09-23T02:00:00.000Z",
   "priority": "P2",
   "notes": [],
-  "relatedQuestionIds": ["how-congress-moves-bills"]
+  "relatedQuestionIds": [
+    "how-congress-moves-bills"
+  ],
+  "answer": {
+    "summary": "Article I section5 supplies majority quorum; section7 supplies bicameral enactment, 10-day presidential return window excluding Sundays and two-thirds override in each house. House revenue origination is section7. Constitution alone does not supply current committee jurisdictions, staff counts or Senate debate/cloture exceptions.",
+    "sources": [
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+      "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:05:05.262998+00:00",
+    "stillOpen": "Exact requested rules1–9 and current issue-to-committee/membership table remain open; no invented operative quotation."
+  }
 }
