@@ -631,8 +631,14 @@ export function buildOpeningKin(
         const birthDate = dateInYear(cr, year);
         if (birthDate > startedAt) continue;
         const childAge = ageAt(birthDate);
-        // A couple's minor children live with them; a single parent's may live with the other parent.
-        if (childAge < adultAge && (household.couple || !other())) continue;
+        // A couple's minor children live with them. When parents part, the
+        // mother keeps the minor children (the data's custody note), so only a
+        // single father's minor children can live elsewhere, with their mother.
+        if (
+          childAge < adultAge &&
+          (household.couple || reference.gender === FEMALE || !other())
+        )
+          continue;
         const gender = drawnGender(cr.fork("identity"));
         if (!survives(cr, gender, year, p("zero"), childAge)) continue;
         const child = makePerson(
