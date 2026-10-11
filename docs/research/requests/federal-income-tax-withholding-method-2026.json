@@ -5,7 +5,9 @@
   "priority": "P1",
   "question": "For tax year 2026: (1) the IRS Publication 15-T percentage method for automated payroll, with its annual tables, for an employee who filed a 2020-or-later Form W-4 with no adjustments, for single and for married filing jointly, and for weekly, biweekly and per-shift (daily) pay; (2) what an employer withholds when no W-4 was filed; (3) at year end, who must file a return, the April due date, and how a refund or a balance due arises from withholding versus the annual liability computed from the 2026 brackets and standard deduction already in the research; (4) what happens to an unpaid balance: the failure-to-pay penalty rate and cap, the interest rate rule, notices and when collection begins. Mark each figure with its source and tax year.",
   "questionId": "federal-income-tax-withholding-method-2026",
-  "relatedQuestionIds": ["who-pays-which-taxes-56-places"],
+  "relatedQuestionIds": [
+    "who-pays-which-taxes-56-places"
+  ],
   "requestVersion": "research-request/v1",
   "requestedBy": "filed by the Taxes people and businesses pay thread, building on who-pays-which-taxes-56-places",
   "sourcesChecked": [
@@ -16,9 +18,90 @@
     {
       "source": "src/simulation/statutory-tax.ts and statutory-tax-rules.ts on branch claude/project-thread-nrwxy9",
       "whatItDidNotSettle": "The paycheck assessment records this tax as UNKNOWN with no amount, because the 56-place research does not carry what is asked here."
+    },
+    {
+      "source": "IRSPublication15,EmployerTaxGuide2026",
+      "url": "https://www.irs.gov/publications/p15",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "PR",
+        "GU",
+        "VI",
+        "AS",
+        "MP"
+      ]
     }
   ],
   "title": "How much federal income tax an employer withholds from a paycheck, and how the year settles",
   "usableAnswer": "The 2026 percentage-method table for single and married filing jointly with the pay-period divisors; the no-W-4 default; the filing threshold and due date; and the penalty and interest rules for a balance due, each cited.",
-  "whyItMatters": "Every paycheck in the game now records federal income tax withholding as UNKNOWN, so no player or person pays income tax at all. With the method, a paycheck can withhold a real amount, the annual return can compute the real liability from the brackets we already have, and a shortfall becomes an unpaid balance that persists under federal law, as the owner decided."
+  "whyItMatters": "Every paycheck in the game now records federal income tax withholding as UNKNOWN, so no player or person pays income tax at all. With the method, a paycheck can withhold a real amount, the annual return can compute the real liability from the brackets we already have, and a shortfall becomes an unpaid balance that persists under federal law, as the owner decided.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/budgets/roadmap-r5-local-fiscal-end-sample-2024.json",
+        "data/research/budgets/roadmap-r5-federal-withholding-percentage-2026.json",
+        "data/research/budgets/roadmap-r5-tax-scope-and-procurement.json"
+      ],
+      "result": "2026IRSautomatedpercentagewithholdingbracketsandpayroll/depositbenchmarks;2024observedfiscalyearendsbylocalgovernmenttypesample. Publicoutlaysnotlocalvendorpayments; nationaltaxbenchmarksdo not establishstate/localtaxauthority,earmarks,reserves,adoptiondeadlinesorcoverageexceptions. Seespecificunverifiedfields; nozerosorlegalauthorityinferred."
+    }
+  }
 }

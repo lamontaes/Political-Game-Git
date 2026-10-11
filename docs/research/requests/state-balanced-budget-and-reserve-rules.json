@@ -7,14 +7,95 @@
   "questionId": "state-balanced-budget-and-reserve-rules",
   "relatedQuestionIds": [],
   "requestVersion": "research-request/v1",
-  "requestedBy": "filed by Build 12 \u00b7 Public Budgets",
+  "requestedBy": "filed by Build 12 · Public Budgets",
   "sourcesChecked": [
     {
       "source": "data/source/state-local-fiscal-authority/research-input/92N_NATIONAL_STATE_LOCAL_FISCAL_AUTHORITY.json",
       "whatItDidNotSettle": "Secondary research; not yet checked against NASBO, and it carries no reserve floor as a share."
+    },
+    {
+      "source": "IRSPublication15,EmployerTaxGuide2026",
+      "url": "https://www.irs.gov/publications/p15",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "PR",
+        "GU",
+        "VI",
+        "AS",
+        "MP"
+      ]
     }
   ],
   "title": "Each state's balanced-budget and reserve rules, checked against NASBO",
   "usableAnswer": "One row per state with each balanced-budget stage as yes or no, the reserve floor and cap, the deposit and withdrawal rules, and the mid-year authority, each cited.",
-  "whyItMatters": "The game's minimum-reserve law uses a PLACEHOLDER floor of 5% of spending with a 1% yearly deposit, and its balanced-budget law cuts across the board, at most 3% first, before drawing the reserve (src/simulation/public-budgets/rules.ts, RESERVE and FIRST_CUT_SHARE). The states' starting answers go to the starting-law file only after this check."
+  "whyItMatters": "The game's minimum-reserve law uses a PLACEHOLDER floor of 5% of spending with a 1% yearly deposit, and its balanced-budget law cuts across the board, at most 3% first, before drawing the reserve (src/simulation/public-budgets/rules.ts, RESERVE and FIRST_CUT_SHARE). The states' starting answers go to the starting-law file only after this check.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/budgets/roadmap-r5-local-fiscal-end-sample-2024.json",
+        "data/research/budgets/roadmap-r5-federal-withholding-percentage-2026.json",
+        "data/research/budgets/roadmap-r5-tax-scope-and-procurement.json"
+      ],
+      "result": "2026IRSautomatedpercentagewithholdingbracketsandpayroll/depositbenchmarks;2024observedfiscalyearendsbylocalgovernmenttypesample. Publicoutlaysnotlocalvendorpayments; nationaltaxbenchmarksdo not establishstate/localtaxauthority,earmarks,reserves,adoptiondeadlinesorcoverageexceptions. Seespecificunverifiedfields; nozerosorlegalauthorityinferred."
+    }
+  }
 }
