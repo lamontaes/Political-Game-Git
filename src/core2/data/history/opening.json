@@ -1,0 +1,11 @@
+{
+  "version": "core2-pre-start-v1",
+  "startedAt": "2026-01-01",
+  "fromInclusive": "2021-01-01",
+  "source": {
+    "tag": "SOURCED",
+    "asOf": "2026-10-10",
+    "citation": "Owner-approved docs/packages/M1-history.md Part 1: 2026 opening, latest full-data year 2021. These are loading boundaries, not economic observations."
+  },
+  "phases": ["economy", "people", "governments"]
+}
