@@ -111,7 +111,9 @@
   "blockedBy": [
     "Environment outbound policy excludes dataverse.harvard.edu; publisher dataset API returns HTTP 403. Approved source access is needed for CES-derived keys.",
     "ANES and GSS derived-data incorporation need CTO interpretation of their terms before use.",
-    "The approved stack has no npm bench script; bench startup cannot be demonstrated until M0-bench integration is supplied.",
     "By-faith and by-education checks require recorded personal faith and attainment. Deep-past explicitly records missing faith and does not infer qualifications from school cohorts; the producer route remains to be established inside approved scope."
+  ],
+  "nonBlockingDependencies": [
+    "Startup bench missing. M1-common at 48ab29c981 explicitly says to note it and continue; finishers use pool/M0-bench (#3940)."
   ]
 }

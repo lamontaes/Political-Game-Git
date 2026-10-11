@@ -5,7 +5,7 @@
   "builder": "CODEX-VIEWS",
   "workspace": "/workspace/Political-Game-Git",
   "startedAtObservation": "2026-10-11T03:11:37Z",
-  "checkpointAt": "2026-10-11T03:21:00Z",
+  "checkpointAt": "2026-10-11T03:28:20Z",
   "model": {
     "reportedFamily": "GPT-6-based Codex",
     "servingVariant": "not exposed",
@@ -17,7 +17,7 @@
   "dependencies": {
     "people": "3a3e98935e3b2f2a8270755ee01183efe45734a8",
     "drives": "d2f4b432f647aad7cf6262f627dd95807049af6c",
-    "main": "9ff1b4ef4c"
+    "main": "48ab29c981f71dfb8398f1b749462cfec469455e"
   },
   "pr": "https://github.com/lamontaes/Political-Game-Git/pull/3965",
   "status": "research-blocked",
@@ -40,7 +40,7 @@
     {
       "command": "npm run bench",
       "exitCode": 1,
-      "result": "Missing script: bench. No bench play or initial playable-game claim."
+      "result": "Missing script: bench. No bench play or initial playable-game claim. Latest M1-common explicitly allows startup bench to be skipped until #3940 merges; not a blocker."
     },
     {
       "command": "gh project list --owner lamontaes --format json",
@@ -67,18 +67,77 @@
       "exitCode": 1,
       "result": "49 tests: 43 passed, 6 failed in life.test.ts. Other six files passed. Two earlier attempts failed collection because of a builder merge-script defect; full chooser restored before this completed run.",
       "durationSeconds": 59.29,
-      "baselineComparison": "pending"
+      "baselineComparison": {
+        "coreBase": {
+          "head": "8249aaba6473ea2ca7ac483199d8f55b547bd704",
+          "tests": 16,
+          "passed": 10,
+          "failed": 6,
+          "durationSeconds": 19.38,
+          "result": "The same six life tests fail on the untouched core base."
+        },
+        "peopleBase": {
+          "head": "3a3e98935e3b2f2a8270755ee01183efe45734a8",
+          "tests": 16,
+          "passed": 16,
+          "failed": 0,
+          "durationSeconds": 22.7
+        },
+        "main": {
+          "head": "9ff1b4ef4c1904c5227392899b39a24e04c6c464",
+          "result": "No matching life.test.ts file exists; test invocation exits 1 without tests."
+        }
+      },
+      "failedCases": [
+        "uses same chooser for player and NPC money choices",
+        "reevaluates resource pressure after wages",
+        "changing trait changes choice",
+        "emotion changes utility",
+        "ordinary NPC work retains compact result",
+        "new data action uses existing module operations"
+      ]
     },
     {
       "command": "npm run report:check -- /tmp/M1-views-pr.md",
       "exitCode": 0,
-      "result": "0 errors; 1 code-reference warning. Required read-only reviewer returned PASS after two send-backs."
+      "result": "0 errors; 1 code-reference warning. Required read-only reviewer returned PASS after two PR-description send-backs and one progress-entry send-back."
+    },
+    {
+      "command": "npx prettier --check src/core2/choice.ts src/core2/life.ts src/core2/population.ts src/core2/population.test.ts src/core2/data/parameters.json src/core2/data/stopgaps.json src/core2/tooling/calibration-targets.json data/research/views/preflight.json data/research/views/source-register.json",
+      "exitCode": 0,
+      "result": "All nine named files passed. First invocation used the wrong calibration path and exited 2; corrected without changing source."
+    },
+    {
+      "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev npm run storage -- run build -- npm run release:check -- --mode pr",
+      "exitCode": 0,
+      "result": "PR release declaration range check passed at d4d233c."
+    },
+    {
+      "command": "npm run zero-dice",
+      "exitCode": 1,
+      "result": "Combined stack reports six new list-pick entries in unchanged P15 deep-past/opening-kin/opening-partnership code. Main and P15 alone pass their respective guards; the newer main guard scans core2 code absent from main. This integration registration gap remains red; no guard, allowlist or test was weakened."
+    },
+    {
+      "command": "git fetch origin main pool/M0-core-pieces pool/P15-people-5 pool/P10-part-1",
+      "exitCode": 0,
+      "result": "Core, people and drives unchanged at checkpoint. New main documentation was merged at 48ab29c981, including explicit startup bench deferral."
+    },
+    {
+      "command": "npm run report:check -- /tmp/M1-views-pr.md docs/roadmap/PROGRESS.md",
+      "exitCode": 1,
+      "result": "PR body has 0 errors and 1 warning. Whole progress history has three existing errors outside CODEX-VIEWS entry: code in its AGENTS.md lead and two long CTO sentences. Required reviewer passed the changed entry and the PR body; unrelated progress entries preserved."
+    },
+    {
+      "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev npm_config_cache=/workspace/.npm-cache VITE_CONFIG_NATIVE_IGNORE_WARNING=true npm run storage -- run build -- npx vitest run src/core2/population.test.ts src/core2/choice.test.ts --maxWorkers=1",
+      "exitCode": 0,
+      "result": "All eight population tests passed. There is no standalone choice.test.ts; the earlier life tests exercise the chooser.",
+      "durationSeconds": 35.27
     }
   ],
   "integrationRepair": {
     "initialCommit": "a514096aaf",
     "problem": "A greedy conflict-resolution regular expression truncated choice.ts and left P15 markers. An intermediate local integration commit recorded the damage.",
-    "repaired": "Markers resolved with bounded expressions; full people chooser restored from its branch, with core cache-transfer and explicit-control additions. Final scoped typecheck passes; runtime baseline comparison remains pending.",
+    "repaired": "Markers resolved with bounded expressions; full people chooser restored from its branch, with core cache-transfer and explicit-control additions. Scoped implementation typecheck passes. The six failing life tests reproduce on the untouched core base.",
     "historyRewritten": false
   },
   "sendBacks": [
@@ -93,6 +152,12 @@
       "iteration": 2,
       "reason": "Three remaining claims lacked labels/direct evidence links.",
       "fixed": "Added direct receipt/register/request links; subsequent review PASS."
+    },
+    {
+      "kind": "civic-report-review",
+      "iteration": 3,
+      "reason": "Progress entry lacked an explicit measured label. PR description passed.",
+      "fixed": "Added Measured label to progress observations; corrected progress entry and PR description both returned PASS."
     }
   ],
   "finisherSendBacks": 0,
@@ -104,5 +169,6 @@
     "annualSpeedMeasured": false,
     "featurePassesChanged": false
   },
-  "next": "Approved CES source access and CTO source-term/request disposition; resolve baseline stack failures before views implementation."
+  "next": "Owner-approved CES source access and CTO source-term/request disposition; derive evidence before views implementation. Core life failures and merged-stack no-dice registration gap are visible for integration review.",
+  "elapsedFromFirstObservationMinutes": 16.7
 }
