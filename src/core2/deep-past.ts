@@ -95,6 +95,8 @@ export interface DeepPastOptions {
   data?: DeepPastData;
   parameters?: Readonly<Record<string, Parameter>>;
   institutions?: LocalInstitutionsCorpus;
+  /** Reuse these builders for only the recent opening window; preserve older facts. */
+  fromInclusive?: string;
 }
 
 type ReportedInput = CoreInput & {
@@ -117,6 +119,11 @@ export function buildDeepPast(
   const opening = makeIsoDate(input.startedAt);
   const boundary = makeIsoDate(data.throughExclusive);
   const cutoff = opening < boundary ? opening : boundary;
+  const from = options.fromInclusive
+    ? makeIsoDate(options.fromInclusive)
+    : undefined;
+  if (from && from > cutoff)
+    throw new Error("Personal history window is reversed.");
   const institutions =
     options.institutions ?? (institutionsJson as LocalInstitutionsCorpus);
   const gapPrefix = `Deep past ${data.version} `;
@@ -211,7 +218,12 @@ export function buildDeepPast(
     const added: PriorFact[] = [];
     const prefix = `${person.id}:${data.version}:`;
     const add = (fact: PriorFact): void => {
-      if (fact.date < birth || fact.date >= cutoff) return;
+      if (
+        fact.date < birth ||
+        fact.date >= cutoff ||
+        (from && fact.date < from)
+      )
+        return;
       if (!ids.has(fact.id)) {
         ids.add(fact.id);
         added.push(fact);
