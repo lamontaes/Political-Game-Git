@@ -145,9 +145,9 @@
     "name": "availableState",
     "inventoryEngine": "economy",
     "keepLines": 22,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/metric-fiscal.ts",
+    "reason": "Full retained KEEP closure and necessary helper/constants travel; metric-fiscal-world.test.ts compares complete unchanged native public-owner outputs across all 56 generated places using raw saved facts. Metric cutoff, tracked/untracked loan/cash/standing/payoff/legacy, and recorded/source employer wage controls are bounded labeled edges. Ordered requests use common writers; private append DTOs are checked field-for-field against actual native public-parent saved receipts and receive read-only canonical prefixes, with no copied append writer/private eval. No ordinary NPC/core2 integration, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/governing/budget-stakes.ts",
@@ -215,9 +215,9 @@
     "name": "settleHouseholdLoanPayments",
     "inventoryEngine": "economy",
     "keepLines": 49,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/loan-months.ts",
+    "reason": "Full retained KEEP closure and necessary helper/constants travel; loan-months-world.test.ts compares complete unchanged native public-owner outputs across all 56 generated places using raw saved facts. Metric cutoff, tracked/untracked loan/cash/standing/payoff/legacy, and recorded/source employer wage controls are bounded labeled edges. Ordered requests use common writers; private append DTOs are checked field-for-field against actual native public-parent saved receipts and receive read-only canonical prefixes, with no copied append writer/private eval. No ordinary NPC/core2 integration, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/household-loans.ts",
@@ -225,9 +225,9 @@
     "name": "serviceLegacyMortgageMonth",
     "inventoryEngine": "economy",
     "keepLines": 64,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/loan-months.ts",
+    "reason": "Full retained KEEP closure and necessary helper/constants travel; loan-months-world.test.ts compares complete unchanged native public-owner outputs across all 56 generated places using raw saved facts. Metric cutoff, tracked/untracked loan/cash/standing/payoff/legacy, and recorded/source employer wage controls are bounded labeled edges. Ordered requests use common writers; private append DTOs are checked field-for-field against actual native public-parent saved receipts and receive read-only canonical prefixes, with no copied append writer/private eval. No ordinary NPC/core2 integration, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/household-loans.ts",
@@ -235,9 +235,9 @@
     "name": "serviceLoanMonth",
     "inventoryEngine": "economy",
     "keepLines": 177,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/loan-months.ts",
+    "reason": "Full retained KEEP closure and necessary helper/constants travel; loan-months-world.test.ts compares complete unchanged native public-owner outputs across all 56 generated places using raw saved facts. Metric cutoff, tracked/untracked loan/cash/standing/payoff/legacy, and recorded/source employer wage controls are bounded labeled edges. Ordered requests use common writers; private append DTOs are checked field-for-field against actual native public-parent saved receipts and receive read-only canonical prefixes, with no copied append writer/private eval. No ordinary NPC/core2 integration, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/household-loans.ts",
@@ -245,9 +245,9 @@
     "name": "assertHouseholdLoanIntegrity",
     "inventoryEngine": "economy",
     "keepLines": 179,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/loan-months.ts",
+    "reason": "Full retained KEEP closure and necessary helper/constants travel; loan-months-world.test.ts compares complete unchanged native public-owner outputs across all 56 generated places using raw saved facts. Metric cutoff, tracked/untracked loan/cash/standing/payoff/legacy, and recorded/source employer wage controls are bounded labeled edges. Ordered requests use common writers; private append DTOs are checked field-for-field against actual native public-parent saved receipts and receive read-only canonical prefixes, with no copied append writer/private eval. No ordinary NPC/core2 integration, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/household-mix.ts",
@@ -2415,9 +2415,9 @@
     "name": "localBusinessWageMinor",
     "inventoryEngine": "economy",
     "keepLines": 48,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/employer-wage.ts",
+    "reason": "Full retained KEEP closure and necessary helper/constants travel; employer-wage-world.test.ts compares complete unchanged native public-owner outputs across all 56 generated places using raw saved facts. Metric cutoff, tracked/untracked loan/cash/standing/payoff/legacy, and recorded/source employer wage controls are bounded labeled edges. Ordered requests use common writers; private append DTOs are checked field-for-field against actual native public-parent saved receipts and receive read-only canonical prefixes, with no copied append writer/private eval. No ordinary NPC/core2 integration, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/recorded-work-pay.ts",

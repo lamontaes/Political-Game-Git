@@ -241,6 +241,15 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: ["economy.down-payment-completed-sample-mean"],
   },
+  "employer-wage.ts": {
+    values: [0, 12, 52, 100, 280000],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/recorded-employer.ts:28; src/simulation/recorded-employer.ts:1; src/simulation/recorded-work-pay.ts:15",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.employer-wage-designed-fallback"],
+  },
   "employment-mix.ts": {
     values: [0],
     provenance: "SOURCED",
@@ -405,6 +414,21 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: ["economy.joint-living-cost-ratio"],
   },
+  "loan-months.ts": {
+    values: [-1, 0, 1, 2, 12, 480],
+    provenance: "TUNABLE",
+    source:
+      "src/simulation/household-loans.ts:659; src/simulation/household-loans.ts:720; src/simulation/household-loans.ts:848; src/simulation/household-loans.ts:1171; src/simulation/household-loans.ts:408; src/simulation/resource-queries.ts:268; src/simulation/consumer-loan-law.ts:48",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.loan-payment-cash-frontier",
+      "economy.loan-servicing-standing-policy",
+      "economy.loan-private-append-transport",
+      "economy.loan-native-English",
+      "economy.loan-integrity-validation-boundaries",
+    ],
+  },
   "loan-servicing.ts": {
     values: [0],
     provenance: "SOURCED",
@@ -505,6 +529,14 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     provenance: "SOURCED",
     source:
       "src/simulation/macro-economy/readers.ts:24; src/simulation/macro-economy/readers.ts:37; src/simulation/macro-economy/readers.ts:47",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+  },
+  "metric-fiscal.ts": {
+    values: [0],
+    provenance: "SOURCED",
+    source:
+      "src/simulation/economy.ts:324; src/simulation/economy.ts:268; src/simulation/world-metrics.ts:1121",
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
   },

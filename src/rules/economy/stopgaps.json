@@ -934,5 +934,77 @@
     "addedBy": "RULES-2",
     "addedAt": "2026-10-11",
     "status": "OPEN"
+  },
+  {
+    "id": "economy.loan-payment-cash-frontier",
+    "kind": "placeholder",
+    "file": "src/rules/economy/loan-months.ts",
+    "line": 516,
+    "whatItFakes": "Loan servicing pays from current cash, while saved legacy mortgages use the minimum dated cash at due/current/outcome dates. Untracked loan cash records blocked payment and leaves standing unchanged.",
+    "why": "Native payment chronology and unknown-money semantics are retained; a historical servicing run may see a different cash frontier from the legacy mortgage path.",
+    "replacement": "Reviewed dated servicing cash contract and admitted tracked positions for borrowers.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.loan-servicing-standing-policy",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/loan-months.ts",
+    "line": 320,
+    "whatItFakes": "Each transition catches up at most 480 months; missed installments add recorded late fees and escalation counts, while one completed payment does not cure default or collections.",
+    "why": "Native catch-up and threshold/standing policy remain unchanged; the fee and thresholds come from saved loan terms, not new calibration.",
+    "replacement": "Reviewed bounded catch-up and legally/contractually admitted delinquency/cure policy.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.loan-private-append-transport",
+    "kind": "placeholder",
+    "file": "src/rules/economy/loan-months.ts",
+    "line": 147,
+    "whatItFakes": "The lifted closure emits complete draft DTOs for native private loan-term/charge/standing/allocation append operations. It does not materialize a World; production integration must supply the existing shared writer transport.",
+    "why": "All-place tests compare every draft field with actual unchanged public-parent saved receipts, then use read-only canonical history-prefix receipts; no private evaluation or parallel append writer is introduced and no live core2 integration is claimed.",
+    "replacement": "Wire these exact DTOs to the existing shared core2 record writer and finish that integration separately.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.loan-native-English",
+    "kind": "placeholder",
+    "file": "src/rules/economy/loan-months.ts",
+    "line": 368,
+    "whatItFakes": "Monthly mortgage, payment-term, blocked-cash and first-only missed-mortgage explanations retain native American English literals and currency/month realization.",
+    "why": "Golden equivalence preserves source records and text instead of changing their meaning during the lift.",
+    "replacement": "English-engine realization of the same recorded amounts, dates and causes.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.loan-integrity-validation-boundaries",
+    "kind": "placeholder",
+    "file": "src/rules/economy/loan-months.ts",
+    "line": 766,
+    "whatItFakes": "The standalone native loan checker retains its exact validation frontier, including charge positivity/term linkage and standing-count checks; it does not independently add every currency, safe-integer or supersession guard.",
+    "why": "The complete existing public checker is copied unchanged. This is a bounded suspected standalone validation edge, not evidence that complete World integrity accepts a corrupt loan.",
+    "replacement": "Reviewed single integrity contract covering the recorded loan schema without duplicated conflicting guards.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.employer-wage-designed-fallback",
+    "kind": "estimated-number",
+    "file": "src/rules/economy/employer-wage.ts",
+    "line": 17,
+    "whatItFakes": "No published wage uses the designed $2,800 monthly fallback; comparable saved hours/pay use local-first arithmetic means, and available source median pay is bounded by the existing minimum floor.",
+    "why": "Native designed fallback and cohort/hour annualization remain unchanged, including no-floor fallback when the source occupation is absent.",
+    "replacement": "Admitted occupation/place/hour pay estimates with source uncertainty and reviewed missing-source floor policy.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
   }
 ]
