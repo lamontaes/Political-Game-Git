@@ -31,9 +31,7 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "VI"
-      ]
+      "sourceCoverage": ["VI"]
     }
   ],
   "title": "How fast unemployment comes back after a downturn, nationally and in each state",

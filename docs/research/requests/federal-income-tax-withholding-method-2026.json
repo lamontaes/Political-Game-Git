@@ -5,9 +5,7 @@
   "priority": "P1",
   "question": "For tax year 2026: (1) the IRS Publication 15-T percentage method for automated payroll, with its annual tables, for an employee who filed a 2020-or-later Form W-4 with no adjustments, for single and for married filing jointly, and for weekly, biweekly and per-shift (daily) pay; (2) what an employer withholds when no W-4 was filed; (3) at year end, who must file a return, the April due date, and how a refund or a balance due arises from withholding versus the annual liability computed from the 2026 brackets and standard deduction already in the research; (4) what happens to an unpaid balance: the failure-to-pay penalty rate and cap, the interest rate rule, notices and when collection begins. Mark each figure with its source and tax year.",
   "questionId": "federal-income-tax-withholding-method-2026",
-  "relatedQuestionIds": [
-    "who-pays-which-taxes-56-places"
-  ],
+  "relatedQuestionIds": ["who-pays-which-taxes-56-places"],
   "requestVersion": "research-request/v1",
   "requestedBy": "filed by the Taxes people and businesses pay thread, building on who-pays-which-taxes-56-places",
   "sourcesChecked": [

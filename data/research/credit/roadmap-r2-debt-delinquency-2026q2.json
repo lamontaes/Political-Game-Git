@@ -1902,11 +1902,5 @@
     "Studentdelinquencydistortedbyresumedreportingofdefaults.",
     "Annualizedflowcannotbeappliedasaper-personmonthlyrandomhazard."
   ],
-  "coverageGaps": [
-    "PR",
-    "GU",
-    "VI",
-    "AS",
-    "MP"
-  ]
+  "coverageGaps": ["PR", "GU", "VI", "AS", "MP"]
 }

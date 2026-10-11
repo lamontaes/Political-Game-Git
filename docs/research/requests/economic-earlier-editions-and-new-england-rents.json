@@ -27,9 +27,7 @@
   "priority": "P2",
   "question": "The game now shows each economic figure from the day its edition was published, per DEPTH2. The editions it holds are the newest: county personal income released February 5, 2026 and price parities released February 19, 2026. So a life opening January 5, 2026 sees no county income for five weeks, although an earlier edition (November 14, 2024, describing 2023) was out. Can the earlier editions be supplied as files, together with the LAUS monthly release dates for the locked months, the posting date of HUD's FY2025 income limits, and a Census place-to-county-subdivision relationship file for New England so rents reach towns there?",
   "questionId": "economic-earlier-editions-and-new-england-rents",
-  "relatedQuestionIds": [
-    "economic-figure-availability-date"
-  ],
+  "relatedQuestionIds": ["economic-figure-availability-date"],
   "requestVersion": "research-request/v1",
   "requestedBy": "every-town-in-america thread (technical team lead)",
   "sourcesChecked": [
@@ -54,9 +52,7 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "VI"
-      ]
+      "sourceCoverage": ["VI"]
     }
   ],
   "title": "Earlier economic editions, LAUS release dates, and New England rents",

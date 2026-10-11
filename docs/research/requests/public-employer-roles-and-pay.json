@@ -16,9 +16,7 @@
   "priority": "P1",
   "question": "A town's county and city governments now appear on Jobs as employers, named from the Census 2025 Government Units listing. Each offers one placeholder role, an office clerk at the national median for general office clerks ($21.64 an hour, BLS OEWS May 2025), 37 to 40 hours a week, the same in every place. Which roles should a general-purpose local government post (for example clerks, public works, parks, water, police and fire, library), how does that mix change with the government's size, and what should each pay by state or area? Are hourly or salaried terms usual for each? Do any need a credential or license?",
   "questionId": "public-employer-roles-and-pay",
-  "relatedQuestionIds": [
-    "employers-and-job-listings"
-  ],
+  "relatedQuestionIds": ["employers-and-job-listings"],
   "requestVersion": "research-request/v1",
   "requestedBy": "Jobs thread, for lamontae (owner)",
   "sourcesChecked": [

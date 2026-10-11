@@ -952,12 +952,8 @@
         "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.01",
         "notice": "Code website explicitly public domain; no bulk scraping, use bulk download for corpus."
       },
-      "sourceCoverage": [
-        "DC"
-      ],
-      "placesCovered": [
-        "DC"
-      ],
+      "sourceCoverage": ["DC"],
+      "placesCovered": ["DC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -965,7 +961,7 @@
     },
     {
       "metric": "DC_council_vacancy",
-      "value": "Ward and chairman vacancies trigger special election on a Tuesday70–174days after vacancy. Interim chairman selected from elected at-large members. Affiliated at-large vacancy uses party central committee appointment; unaffiliated uses Council appointment of unaffiliated person; special election follows.",
+      "value": "District-seat and chairman vacancies trigger special election on a Tuesday70–174days after vacancy. Interim chairman selected from elected at-large members. Affiliated at-large vacancy uses party central committee appointment; unaffiliated uses Council appointment of unaffiliated person; special election follows.",
       "source": "DC council vacancy statute",
       "url": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.01",
       "retrievedAt": "2026-10-11",
@@ -974,12 +970,8 @@
         "url": "https://www.copyright.gov/comp3/chap300/ch300-copyrightable-authorship.pdf",
         "notice": "Enacted constitutions/statutes and factual structure only; excludes website prose, photographs, seals and third-party material."
       },
-      "sourceCoverage": [
-        "DC"
-      ],
-      "placesCovered": [
-        "DC"
-      ],
+      "sourceCoverage": ["DC"],
+      "placesCovered": ["DC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",

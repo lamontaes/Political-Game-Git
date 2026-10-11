@@ -69,9 +69,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -150,9 +148,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -231,9 +227,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -312,9 +306,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -393,9 +385,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -474,9 +464,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -555,9 +543,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -636,9 +622,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -717,9 +701,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -798,9 +780,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -879,9 +859,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -960,9 +938,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1041,9 +1017,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1122,9 +1096,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1203,9 +1175,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1284,9 +1254,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1365,9 +1333,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1446,9 +1412,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1527,9 +1491,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1608,9 +1570,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1689,9 +1649,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1770,9 +1728,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1851,9 +1807,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1932,9 +1886,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2013,9 +1965,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2094,9 +2044,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2175,9 +2123,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2256,9 +2202,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2337,9 +2281,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2418,9 +2360,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2499,9 +2439,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2580,9 +2518,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2661,9 +2597,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2742,9 +2676,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2823,9 +2755,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2904,9 +2834,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2985,9 +2913,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3066,9 +2992,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3147,9 +3071,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3228,9 +3150,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3309,9 +3229,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3390,9 +3308,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3471,9 +3387,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3552,9 +3466,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3633,9 +3545,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3714,9 +3624,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3795,9 +3703,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3876,9 +3782,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3957,9 +3861,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4038,9 +3940,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4119,9 +4019,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4200,9 +4098,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4281,9 +4177,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4362,9 +4256,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4443,9 +4335,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4524,9 +4414,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4605,9 +4493,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4686,9 +4572,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4767,9 +4651,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4848,9 +4730,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4929,9 +4809,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -5010,9 +4888,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -5091,9 +4967,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -5172,9 +5046,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -5253,9 +5125,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -5334,9 +5204,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -5415,9 +5283,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -5496,9 +5362,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -5577,9 +5441,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -5658,9 +5520,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -5739,9 +5599,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -5820,9 +5678,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -5901,9 +5757,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -5982,9 +5836,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -6063,9 +5915,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -6144,9 +5994,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -6225,9 +6073,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -6306,9 +6152,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -6387,9 +6231,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -6468,9 +6310,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -6549,9 +6389,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -6630,9 +6468,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -6711,9 +6547,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -6792,9 +6626,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -6873,9 +6705,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -6954,9 +6784,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -7035,9 +6863,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -7116,9 +6942,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -7197,9 +7021,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -7278,9 +7100,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -7359,9 +7179,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -7440,9 +7258,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -7521,9 +7337,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -7602,9 +7416,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -7683,9 +7495,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -7764,9 +7574,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -7845,9 +7653,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -7926,9 +7732,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -8007,9 +7811,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -8088,9 +7890,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -8169,9 +7969,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -8250,9 +8048,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -8331,9 +8127,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -8412,9 +8206,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -8493,9 +8285,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -8574,9 +8364,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -8655,9 +8443,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -8736,9 +8522,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -8817,9 +8601,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -8898,9 +8680,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -8979,9 +8759,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -9060,9 +8838,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -9141,9 +8917,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -9222,9 +8996,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -9303,9 +9075,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -9384,9 +9154,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -9465,9 +9233,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -9546,9 +9312,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -9627,9 +9391,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -9708,9 +9470,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -9789,9 +9549,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -9870,9 +9628,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -9951,9 +9707,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -10032,9 +9786,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -10113,9 +9865,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -10194,9 +9944,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -10275,9 +10023,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -10356,9 +10102,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -10437,9 +10181,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -10518,9 +10260,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -10599,9 +10339,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -10680,9 +10418,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -10761,9 +10497,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -10842,9 +10576,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -10923,9 +10655,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -11004,9 +10734,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -11085,9 +10813,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -11166,9 +10892,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -11247,9 +10971,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -11328,9 +11050,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -11409,9 +11129,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -11490,9 +11208,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -11571,9 +11287,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -11652,9 +11366,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -11733,9 +11445,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -11814,9 +11524,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -11895,9 +11603,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -11976,9 +11682,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -12057,9 +11761,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -12138,9 +11840,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -12219,9 +11919,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -12300,9 +11998,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -12381,9 +12077,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -12462,9 +12156,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -12543,9 +12235,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -12624,9 +12314,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -12705,9 +12393,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -12786,9 +12472,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -12867,9 +12551,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -12948,9 +12630,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -13029,9 +12709,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -13110,9 +12788,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -13191,9 +12867,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -13272,9 +12946,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -13353,9 +13025,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -13434,9 +13104,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -13515,9 +13183,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -13596,9 +13262,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -13677,9 +13341,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -13758,9 +13420,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -13839,9 +13499,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -13920,9 +13578,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -14001,9 +13657,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -14082,9 +13736,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -14163,9 +13815,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -14244,9 +13894,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -14325,9 +13973,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -14406,9 +14052,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -14487,9 +14131,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -14568,9 +14210,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -14649,9 +14289,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -14730,9 +14368,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -14811,9 +14447,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -14892,9 +14526,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -14973,9 +14605,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -15054,9 +14684,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -15135,9 +14763,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -15216,9 +14842,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -15297,9 +14921,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -15378,9 +15000,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -15459,9 +15079,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -15540,9 +15158,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -15621,9 +15237,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -15702,9 +15316,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -15783,9 +15395,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -15864,9 +15474,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -15945,9 +15553,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -16026,9 +15632,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -16107,9 +15711,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -16188,9 +15790,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -16269,9 +15869,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -16350,9 +15948,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -16431,9 +16027,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -16512,9 +16106,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -16593,9 +16185,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -16674,9 +16264,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -16755,9 +16343,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -16836,9 +16422,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -16917,9 +16501,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -16998,9 +16580,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -17079,9 +16659,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -17160,9 +16738,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -17241,9 +16817,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -17322,9 +16896,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -17403,9 +16975,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -17484,9 +17054,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -17565,9 +17133,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -17646,9 +17212,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -17727,9 +17291,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -17808,9 +17370,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -17889,9 +17449,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -17970,9 +17528,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -18051,9 +17607,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -18132,9 +17686,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -18213,9 +17765,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -18294,9 +17844,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -18375,9 +17923,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -18456,9 +18002,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -18537,9 +18081,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -18618,9 +18160,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -18699,9 +18239,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -18780,9 +18318,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -18861,9 +18397,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -18942,9 +18476,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -19023,9 +18555,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -19104,9 +18634,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -19185,9 +18713,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -19266,9 +18792,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -19347,9 +18871,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -19428,9 +18950,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -19509,9 +19029,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -19590,9 +19108,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -19671,9 +19187,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -19752,9 +19266,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -19833,9 +19345,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -19914,9 +19424,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -19995,9 +19503,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -20076,9 +19582,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -20157,9 +19661,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -20238,9 +19740,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -20319,9 +19819,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -20400,9 +19898,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -20481,9 +19977,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -20562,9 +20056,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -20643,9 +20135,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -20724,9 +20214,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -20805,9 +20293,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -20886,9 +20372,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -20967,9 +20451,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -21048,9 +20530,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -21129,9 +20609,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -21210,9 +20688,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -21291,9 +20767,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -21372,9 +20846,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -21453,9 +20925,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -21534,9 +21004,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -21615,9 +21083,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -21696,9 +21162,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -21777,9 +21241,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -21858,9 +21320,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -21939,9 +21399,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -22020,9 +21478,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -22101,9 +21557,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -22182,9 +21636,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -22263,9 +21715,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -22344,9 +21794,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -22425,9 +21873,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -22506,9 +21952,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -22587,9 +22031,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -22668,9 +22110,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -22749,9 +22189,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -22830,9 +22268,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -22911,9 +22347,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -22992,9 +22426,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -23073,9 +22505,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -23154,9 +22584,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -23235,9 +22663,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -23316,9 +22742,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -23397,9 +22821,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -23478,9 +22900,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -23559,9 +22979,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -23640,9 +23058,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -23721,9 +23137,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -23802,9 +23216,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -23883,9 +23295,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -23964,9 +23374,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -24045,9 +23453,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -24126,9 +23532,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -24207,9 +23611,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -24288,9 +23690,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -24369,9 +23769,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -24450,9 +23848,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -24531,9 +23927,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -24612,9 +24006,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -24693,9 +24085,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -24774,9 +24164,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -24855,9 +24243,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -24936,9 +24322,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -25017,9 +24401,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -25098,9 +24480,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -25179,9 +24559,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -25260,9 +24638,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -25341,9 +24717,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -25422,9 +24796,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -25503,9 +24875,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -25584,9 +24954,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -25665,9 +25033,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -25746,9 +25112,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -25827,9 +25191,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -25908,9 +25270,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -25989,9 +25349,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -26070,9 +25428,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -26151,9 +25507,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -26232,9 +25586,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -26313,9 +25665,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -26394,9 +25744,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -26475,9 +25823,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -26556,9 +25902,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -26637,9 +25981,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -26718,9 +26060,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -26799,9 +26139,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -26880,9 +26218,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -26961,9 +26297,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -27042,9 +26376,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -27123,9 +26455,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -27204,9 +26534,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -27285,9 +26613,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -27366,9 +26692,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -27447,9 +26771,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -27528,9 +26850,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -27609,9 +26929,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -27690,9 +27008,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -27771,9 +27087,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -27852,9 +27166,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -27933,9 +27245,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -28014,9 +27324,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -28095,9 +27403,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -28176,9 +27482,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -28257,9 +27561,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -28338,9 +27640,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -28419,9 +27719,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -28500,9 +27798,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -28581,9 +27877,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -28662,9 +27956,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -28743,9 +28035,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -28824,9 +28114,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -28905,9 +28193,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -28986,9 +28272,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -29067,9 +28351,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -29148,9 +28430,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -29229,9 +28509,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -29310,9 +28588,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -29391,9 +28667,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -29472,9 +28746,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -29553,9 +28825,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -29634,9 +28904,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -29715,9 +28983,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -29796,9 +29062,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -29877,9 +29141,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -29958,9 +29220,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -30039,9 +29299,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -30120,9 +29378,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -30201,9 +29457,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -30282,9 +29536,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -30363,9 +29615,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -30444,9 +29694,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -30525,9 +29773,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -30606,9 +29852,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -30687,9 +29931,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -30768,9 +30010,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -30849,9 +30089,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -30930,9 +30168,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -31011,9 +30247,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -31092,9 +30326,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -31173,9 +30405,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -31254,9 +30484,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -31335,9 +30563,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -31416,9 +30642,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -31497,9 +30721,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -31578,9 +30800,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -31659,9 +30879,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -31740,9 +30958,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -31821,9 +31037,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -31902,9 +31116,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -31983,9 +31195,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -32064,9 +31274,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -32145,9 +31353,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -32226,9 +31432,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -32307,9 +31511,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -32388,9 +31590,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -32469,9 +31669,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -32550,9 +31748,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -32631,9 +31827,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -32712,9 +31906,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -32793,9 +31985,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -32874,9 +32064,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -32955,9 +32143,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -33036,9 +32222,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -33117,9 +32301,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -33198,9 +32380,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -33279,9 +32459,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -33360,9 +32538,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -33441,9 +32617,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -33522,9 +32696,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -33603,9 +32775,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -33684,9 +32854,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -33765,9 +32933,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -33846,9 +33012,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -33927,9 +33091,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -34008,9 +33170,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -34089,9 +33249,7 @@
         "AS",
         "MP"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",

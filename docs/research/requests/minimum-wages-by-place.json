@@ -15,9 +15,7 @@
   "priority": "P2",
   "question": "Job offers are written no lower than the federal minimum of $7.25 an hour. The game has no state, territory or city minimum on file, so an offer in Nevada or Washington could fall below the law there. What is the current minimum wage in each of the 50 states, D.C. and Puerto Rico, with the date each took effect and any scheduled increase? Which cities and counties set a higher local minimum? Are there lower rates for tipped work or young workers that an ordinary listing should respect?",
   "questionId": "minimum-wages-by-place",
-  "relatedQuestionIds": [
-    "job-market-calibration"
-  ],
+  "relatedQuestionIds": ["job-market-calibration"],
   "requestVersion": "research-request/v1",
   "requestedBy": "Jobs thread, for lamontae (owner)",
   "sourcesChecked": [

@@ -23,12 +23,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "AK"
-      ],
-      "placesCovered": [
-        "AK"
-      ],
+      "sourceCoverage": ["AK"],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -57,12 +53,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "AL"
-      ],
-      "placesCovered": [
-        "AL"
-      ],
+      "sourceCoverage": ["AL"],
+      "placesCovered": ["AL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -91,12 +83,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "AR"
-      ],
-      "placesCovered": [
-        "AR"
-      ],
+      "sourceCoverage": ["AR"],
+      "placesCovered": ["AR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -125,12 +113,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "AS"
-      ],
-      "placesCovered": [
-        "AS"
-      ],
+      "sourceCoverage": ["AS"],
+      "placesCovered": ["AS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -159,12 +143,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "AZ"
-      ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "sourceCoverage": ["AZ"],
+      "placesCovered": ["AZ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -193,12 +173,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "CA"
-      ],
-      "placesCovered": [
-        "CA"
-      ],
+      "sourceCoverage": ["CA"],
+      "placesCovered": ["CA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -227,12 +203,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "CO"
-      ],
-      "placesCovered": [
-        "CO"
-      ],
+      "sourceCoverage": ["CO"],
+      "placesCovered": ["CO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -261,12 +233,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "CT"
-      ],
-      "placesCovered": [
-        "CT"
-      ],
+      "sourceCoverage": ["CT"],
+      "placesCovered": ["CT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -295,12 +263,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "DC"
-      ],
-      "placesCovered": [
-        "DC"
-      ],
+      "sourceCoverage": ["DC"],
+      "placesCovered": ["DC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -329,12 +293,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "DE"
-      ],
-      "placesCovered": [
-        "DE"
-      ],
+      "sourceCoverage": ["DE"],
+      "placesCovered": ["DE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -363,12 +323,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "FL"
-      ],
-      "placesCovered": [
-        "FL"
-      ],
+      "sourceCoverage": ["FL"],
+      "placesCovered": ["FL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -397,12 +353,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "GA"
-      ],
-      "placesCovered": [
-        "GA"
-      ],
+      "sourceCoverage": ["GA"],
+      "placesCovered": ["GA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -431,12 +383,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "GU"
-      ],
-      "placesCovered": [
-        "GU"
-      ],
+      "sourceCoverage": ["GU"],
+      "placesCovered": ["GU"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -465,12 +413,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "HI"
-      ],
-      "placesCovered": [
-        "HI"
-      ],
+      "sourceCoverage": ["HI"],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -499,12 +443,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "IA"
-      ],
-      "placesCovered": [
-        "IA"
-      ],
+      "sourceCoverage": ["IA"],
+      "placesCovered": ["IA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -533,12 +473,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "ID"
-      ],
-      "placesCovered": [
-        "ID"
-      ],
+      "sourceCoverage": ["ID"],
+      "placesCovered": ["ID"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -567,12 +503,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "IL"
-      ],
-      "placesCovered": [
-        "IL"
-      ],
+      "sourceCoverage": ["IL"],
+      "placesCovered": ["IL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -601,12 +533,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "IN"
-      ],
-      "placesCovered": [
-        "IN"
-      ],
+      "sourceCoverage": ["IN"],
+      "placesCovered": ["IN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -635,12 +563,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "KS"
-      ],
-      "placesCovered": [
-        "KS"
-      ],
+      "sourceCoverage": ["KS"],
+      "placesCovered": ["KS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -669,12 +593,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "KY"
-      ],
-      "placesCovered": [
-        "KY"
-      ],
+      "sourceCoverage": ["KY"],
+      "placesCovered": ["KY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -703,12 +623,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "LA"
-      ],
-      "placesCovered": [
-        "LA"
-      ],
+      "sourceCoverage": ["LA"],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -737,12 +653,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "MA"
-      ],
-      "placesCovered": [
-        "MA"
-      ],
+      "sourceCoverage": ["MA"],
+      "placesCovered": ["MA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -771,12 +683,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "MD"
-      ],
-      "placesCovered": [
-        "MD"
-      ],
+      "sourceCoverage": ["MD"],
+      "placesCovered": ["MD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -805,12 +713,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "ME"
-      ],
-      "placesCovered": [
-        "ME"
-      ],
+      "sourceCoverage": ["ME"],
+      "placesCovered": ["ME"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -839,12 +743,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "MI"
-      ],
-      "placesCovered": [
-        "MI"
-      ],
+      "sourceCoverage": ["MI"],
+      "placesCovered": ["MI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -873,12 +773,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "MN"
-      ],
-      "placesCovered": [
-        "MN"
-      ],
+      "sourceCoverage": ["MN"],
+      "placesCovered": ["MN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -907,12 +803,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "MO"
-      ],
-      "placesCovered": [
-        "MO"
-      ],
+      "sourceCoverage": ["MO"],
+      "placesCovered": ["MO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -941,12 +833,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "MP"
-      ],
-      "placesCovered": [
-        "MP"
-      ],
+      "sourceCoverage": ["MP"],
+      "placesCovered": ["MP"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -975,12 +863,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "MS"
-      ],
-      "placesCovered": [
-        "MS"
-      ],
+      "sourceCoverage": ["MS"],
+      "placesCovered": ["MS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1009,12 +893,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "MT"
-      ],
-      "placesCovered": [
-        "MT"
-      ],
+      "sourceCoverage": ["MT"],
+      "placesCovered": ["MT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1043,12 +923,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "NC"
-      ],
-      "placesCovered": [
-        "NC"
-      ],
+      "sourceCoverage": ["NC"],
+      "placesCovered": ["NC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1077,12 +953,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "ND"
-      ],
-      "placesCovered": [
-        "ND"
-      ],
+      "sourceCoverage": ["ND"],
+      "placesCovered": ["ND"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1111,12 +983,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "NE"
-      ],
-      "placesCovered": [
-        "NE"
-      ],
+      "sourceCoverage": ["NE"],
+      "placesCovered": ["NE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1145,12 +1013,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "NH"
-      ],
-      "placesCovered": [
-        "NH"
-      ],
+      "sourceCoverage": ["NH"],
+      "placesCovered": ["NH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1179,12 +1043,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "NJ"
-      ],
-      "placesCovered": [
-        "NJ"
-      ],
+      "sourceCoverage": ["NJ"],
+      "placesCovered": ["NJ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1213,12 +1073,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "NM"
-      ],
-      "placesCovered": [
-        "NM"
-      ],
+      "sourceCoverage": ["NM"],
+      "placesCovered": ["NM"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1247,12 +1103,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "NV"
-      ],
-      "placesCovered": [
-        "NV"
-      ],
+      "sourceCoverage": ["NV"],
+      "placesCovered": ["NV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1281,12 +1133,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "NY"
-      ],
-      "placesCovered": [
-        "NY"
-      ],
+      "sourceCoverage": ["NY"],
+      "placesCovered": ["NY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1315,12 +1163,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "OH"
-      ],
-      "placesCovered": [
-        "OH"
-      ],
+      "sourceCoverage": ["OH"],
+      "placesCovered": ["OH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1349,12 +1193,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "OK"
-      ],
-      "placesCovered": [
-        "OK"
-      ],
+      "sourceCoverage": ["OK"],
+      "placesCovered": ["OK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1383,12 +1223,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "OR"
-      ],
-      "placesCovered": [
-        "OR"
-      ],
+      "sourceCoverage": ["OR"],
+      "placesCovered": ["OR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1417,12 +1253,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "PA"
-      ],
-      "placesCovered": [
-        "PA"
-      ],
+      "sourceCoverage": ["PA"],
+      "placesCovered": ["PA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1451,12 +1283,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1485,12 +1313,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "RI"
-      ],
-      "placesCovered": [
-        "RI"
-      ],
+      "sourceCoverage": ["RI"],
+      "placesCovered": ["RI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1519,12 +1343,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "SC"
-      ],
-      "placesCovered": [
-        "SC"
-      ],
+      "sourceCoverage": ["SC"],
+      "placesCovered": ["SC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1553,12 +1373,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "SD"
-      ],
-      "placesCovered": [
-        "SD"
-      ],
+      "sourceCoverage": ["SD"],
+      "placesCovered": ["SD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1587,12 +1403,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "TN"
-      ],
-      "placesCovered": [
-        "TN"
-      ],
+      "sourceCoverage": ["TN"],
+      "placesCovered": ["TN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1621,12 +1433,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "TX"
-      ],
-      "placesCovered": [
-        "TX"
-      ],
+      "sourceCoverage": ["TX"],
+      "placesCovered": ["TX"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1655,12 +1463,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "UT"
-      ],
-      "placesCovered": [
-        "UT"
-      ],
+      "sourceCoverage": ["UT"],
+      "placesCovered": ["UT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1689,12 +1493,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "VA"
-      ],
-      "placesCovered": [
-        "VA"
-      ],
+      "sourceCoverage": ["VA"],
+      "placesCovered": ["VA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1723,12 +1523,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "VI"
-      ],
-      "placesCovered": [
-        "VI"
-      ],
+      "sourceCoverage": ["VI"],
+      "placesCovered": ["VI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1757,12 +1553,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "VT"
-      ],
-      "placesCovered": [
-        "VT"
-      ],
+      "sourceCoverage": ["VT"],
+      "placesCovered": ["VT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1791,12 +1583,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "WA"
-      ],
-      "placesCovered": [
-        "WA"
-      ],
+      "sourceCoverage": ["WA"],
+      "placesCovered": ["WA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1825,12 +1613,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "WI"
-      ],
-      "placesCovered": [
-        "WI"
-      ],
+      "sourceCoverage": ["WI"],
+      "placesCovered": ["WI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1859,12 +1643,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "WV"
-      ],
-      "placesCovered": [
-        "WV"
-      ],
+      "sourceCoverage": ["WV"],
+      "placesCovered": ["WV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1893,12 +1673,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "WY"
-      ],
-      "placesCovered": [
-        "WY"
-      ],
+      "sourceCoverage": ["WY"],
+      "placesCovered": ["WY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",

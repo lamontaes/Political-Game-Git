@@ -25,10 +25,7 @@
   "priority": "P1",
   "question": "What share of American households are (a) one person living alone, (b) a married couple with no children under 18 at home, (c) a married couple with children under 18, (d) an unmarried couple, with and without children, (e) a single parent with children under 18, and (f) other non-family households such as roommates? For each, what is the usual number of children and the age distribution of the householder? Nationally from the latest ACS 1-year tables, and by state (or county) where the table exists.",
   "questionId": "town-household-composition",
-  "relatedQuestionIds": [
-    "place-population-today",
-    "town-congregations"
-  ],
+  "relatedQuestionIds": ["place-population-today", "town-congregations"],
   "requestVersion": "research-request/v1",
   "requestedBy": "every-town-in-america thread (technical team lead)",
   "sourcesChecked": [
@@ -297,9 +294,7 @@
         "url": "https://www.copyright.gov/comp3/chap300/ch300-copyrightable-authorship.pdf",
         "notice": "Statutory facts and government edict; no copyrighted commentary reproduced."
       },
-      "sourceCoverage": [
-        "NE"
-      ]
+      "sourceCoverage": ["NE"]
     }
   ],
   "title": "What kinds of households a town has",

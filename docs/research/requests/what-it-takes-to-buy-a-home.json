@@ -8,9 +8,7 @@
   "priority": "P1",
   "question": "What does it realistically take for an ordinary American adult to buy a home, by state and by town size (small town, suburb, city)? Typical purchase price of a starter home, the usual down payment share, closing costs, whether and when a lender approves a mortgage (income, savings, credit), the usual mortgage length and interest rate, the monthly payment including property tax and insurance, and how that compares with renting the same kind of home. What happens when a homeowner misses mortgage payments, and how long until foreclosure?",
   "questionId": "what-it-takes-to-buy-a-home",
-  "relatedQuestionIds": [
-    "what-a-person-spends-to-live"
-  ],
+  "relatedQuestionIds": ["what-a-person-spends-to-live"],
   "requestVersion": "research-request/v1",
   "requestedBy": "ordinary adult life thread",
   "sourcesChecked": [

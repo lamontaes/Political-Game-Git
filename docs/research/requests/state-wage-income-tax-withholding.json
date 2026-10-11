@@ -5,9 +5,7 @@
   "priority": "P1",
   "question": "For each of the 40 states and D.C. whose individual income tax the 56-place research marks YES, and for Montana, whose 2026 status it marks UNKNOWN: (1) the 2026 employer withholding method or table for a resident employee with the state's default exemption or allowance certificate, for weekly and daily pay; (2) whether wages are taxed where the employee lives, where the work is done, or both, and any reciprocity agreements; (3) the annual return due date and the state's rule for an unpaid balance (penalty, interest, notices). Start with the flat-rate states (Arizona, Colorado, Georgia, Idaho, Illinois, Indiana, Iowa, Kentucky, Louisiana, Michigan, North Carolina, Pennsylvania, Utah), which need the least. Mark each figure with its source and tax year; say UNKNOWN where nothing is verified.",
   "questionId": "state-wage-income-tax-withholding",
-  "relatedQuestionIds": [
-    "who-pays-which-taxes-56-places"
-  ],
+  "relatedQuestionIds": ["who-pays-which-taxes-56-places"],
   "requestVersion": "research-request/v1",
   "requestedBy": "filed by the Taxes people and businesses pay thread, building on who-pays-which-taxes-56-places",
   "sourcesChecked": [

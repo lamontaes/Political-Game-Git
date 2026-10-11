@@ -5,9 +5,7 @@
   "priority": "P1",
   "question": "For each of the 50 states: when a U.S. Senate seat falls vacant (death or resignation), may the governor appoint a temporary senator under the Seventeenth Amendment? If so, within what time, and must the appointee be of the departed senator's party (or be chosen from a list the party submits)? When is the special election held (the next regular general election, a date the governor sets, or within a fixed number of days), and is there a cutoff before a regular election after which the seat waits for it? Give the statutory citation for each state.",
   "questionId": "us-senate-vacancy-appointment-and-special-election",
-  "relatedQuestionIds": [
-    "gubernatorial-succession-in-every-state"
-  ],
+  "relatedQuestionIds": ["gubernatorial-succession-in-every-state"],
   "requestVersion": "research-request/v1",
   "requestedBy": "Empty offices and term dates thread",
   "sourcesChecked": [

@@ -248,10 +248,7 @@
     },
     {
       "metric": "typical_closing_cost_purchase_share_range",
-      "value": [
-        0.02,
-        0.05
-      ],
+      "value": [0.02, 0.05],
       "source": "CFPBdownpaymentandclosingcostguidance",
       "url": "https://www.consumerfinance.gov/owning-a-home/prepare/determine-your-down-payment/",
       "retrievedAt": "2026-10-11",

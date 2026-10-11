@@ -8,9 +8,7 @@
   "priority": "P1",
   "question": "What does a single adult or a small household realistically spend each month on rent or a mortgage, food, utilities, transportation, insurance and other necessities, and how does that change between a small town and a city, and across states? What does a shop assistant or stock clerk's pay leave after that?",
   "questionId": "what-a-person-spends-to-live",
-  "relatedQuestionIds": [
-    "economic-earlier-editions-and-new-england-rents"
-  ],
+  "relatedQuestionIds": ["economic-earlier-editions-and-new-england-rents"],
   "requestVersion": "research-request/v1",
   "requestedBy": "long playthrough thread (Fatima Erickson and Seth Woodward)",
   "sourcesChecked": [

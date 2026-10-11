@@ -201,10 +201,7 @@
   "rows": [
     {
       "metric": "uncomplicated_flu_typical_resolution_days",
-      "value": [
-        3,
-        7
-      ],
+      "value": [3, 7],
       "source": "CDCclinicalinfluenza",
       "url": "https://www.cdc.gov/flu/hcp/clinical-signs/index.html",
       "retrievedAt": "2026-10-11",
@@ -328,13 +325,7 @@
   ],
   "mechanism": "Forhazardsuseactualintensity/footprintandexposedhousingconstructionandcondition; propertylossdataareaggregatechecks. NRIexpectedannual losscombinesexposure,frequencyandhistoriclossratio; itisnotahouse-specificdamagefunction. Declarationsareadministrativeresponsestocapacityneed,notcauses ofdamage.",
   "gaps": {
-    "placesMissingNOAA": [
-      "AS",
-      "GU",
-      "MP",
-      "PR",
-      "VI"
-    ],
+    "placesMissingNOAA": ["AS", "GU", "MP", "PR", "VI"],
     "facts": [
       "56placeexposure/vulnerabilitycurvesandlocalrepresentativesamples",
       "age-specificseriousdiagnosis/stage/treatmentdurationandprovisional2025mortality",

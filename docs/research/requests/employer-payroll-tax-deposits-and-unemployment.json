@@ -5,9 +5,7 @@
   "priority": "P2",
   "question": "(1) The 2026 federal deposit schedule for withheld income tax and both shares of Social Security and Medicare: the monthly versus semiweekly lookback rule, the next-day rule, the small-employer annual and quarterly options, and the penalty for a late deposit. (2) FUTA: how the up-to-5.4% credit depends on state unemployment contributions, and which states are credit-reduction states for 2026. (3) State unemployment insurance for each state and D.C.: the 2026 taxable wage base and the new-employer rate. Mark each figure with its source; UNKNOWN where not verified.",
   "questionId": "employer-payroll-tax-deposits-and-unemployment",
-  "relatedQuestionIds": [
-    "who-pays-which-taxes-56-places"
-  ],
+  "relatedQuestionIds": ["who-pays-which-taxes-56-places"],
   "requestVersion": "research-request/v1",
   "requestedBy": "filed by the Taxes people and businesses pay thread, building on who-pays-which-taxes-56-places",
   "sourcesChecked": [

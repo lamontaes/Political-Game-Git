@@ -16,12 +16,8 @@
         "url": "https://www.copyright.gov/comp3/chap300/ch300-copyrightable-authorship.pdf",
         "notice": "Enacted constitutions/statutes and factual structure only; excludes website prose, photographs, seals and third-party material."
       },
-      "sourceCoverage": [
-        "AS"
-      ],
-      "placesCovered": [
-        "AS"
-      ],
+      "sourceCoverage": ["AS"],
+      "placesCovered": ["AS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Official plan description; plan vintage/current constitutional amendments and Swains nonvoting delegate need verification."
@@ -41,12 +37,8 @@
         "url": "https://www.copyright.gov/comp3/chap300/ch300-copyrightable-authorship.pdf",
         "notice": "Enacted constitutions/statutes and factual structure only; excludes website prose, photographs, seals and third-party material."
       },
-      "sourceCoverage": [
-        "GU"
-      ],
-      "placesCovered": [
-        "GU"
-      ],
+      "sourceCoverage": ["GU"],
+      "placesCovered": ["GU"],
       "isEstimate": false,
       "spread": null,
       "basis": "Official agency indexed text; direct retrieval503. No district count inferred from seats."
@@ -66,12 +58,8 @@
         "url": "https://www.copyright.gov/comp3/chap300/ch300-copyrightable-authorship.pdf",
         "notice": "Enacted constitutions/statutes and factual structure only; excludes website prose, photographs, seals and third-party material."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Constitutional base sizes; minority representation clause can add seats. Current authorized/occupied totals require current election certification.",
@@ -88,12 +76,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "VI"
-      ],
-      "placesCovered": [
-        "VI"
-      ],
+      "sourceCoverage": ["VI"],
+      "placesCovered": ["VI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Post2000 act removed fixed fifteen from federal text. Current VI Code needed for exact count; historical federal fallback districts are not current rules.",

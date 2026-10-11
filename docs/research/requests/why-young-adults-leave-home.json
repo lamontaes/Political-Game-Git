@@ -10,9 +10,7 @@
   "priority": "P2",
   "question": "With age held equal, how much do a young adult's own earnings against local rent, employment, school enrollment, a partner, and their family's income change the odds that they live in a parent's home, and how many leave home to another county?",
   "questionId": "why-young-adults-leave-home",
-  "relatedQuestionIds": [
-    "why-americans-move-causes-and-strengths"
-  ],
+  "relatedQuestionIds": ["why-americans-move-causes-and-strengths"],
   "requestVersion": "research-request/v1",
   "requestedBy": "Standby Claude Team 5",
   "sourcesChecked": [

@@ -2230,12 +2230,6 @@
       "warning": "Interval runs from prior birth to conception, not from birth to birth; historical, not2026."
     }
   ],
-  "coverageGaps": [
-    "PR",
-    "GU",
-    "VI",
-    "AS",
-    "MP"
-  ],
+  "coverageGaps": ["PR", "GU", "VI", "AS", "MP"],
   "use": "National aggregate validation; no per-person outcome rolls. No local/state disaggregation inferred."
 }

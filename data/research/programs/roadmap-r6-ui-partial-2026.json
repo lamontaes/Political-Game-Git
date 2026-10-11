@@ -69,9 +69,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "AL"
-      ],
+      "placesCovered": ["AL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -145,9 +143,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "placesCovered": ["AZ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -221,9 +217,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "AR"
-      ],
+      "placesCovered": ["AR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -297,9 +291,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "CA"
-      ],
+      "placesCovered": ["CA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -372,9 +364,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "CO"
-      ],
+      "placesCovered": ["CO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -448,9 +438,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "DE"
-      ],
+      "placesCovered": ["DE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -524,9 +512,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "DC"
-      ],
+      "placesCovered": ["DC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -600,9 +586,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "FL"
-      ],
+      "placesCovered": ["FL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -676,9 +660,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "GA"
-      ],
+      "placesCovered": ["GA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -752,9 +734,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -828,9 +808,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "ID"
-      ],
+      "placesCovered": ["ID"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -904,9 +882,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "IN"
-      ],
+      "placesCovered": ["IN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -980,9 +956,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "KS"
-      ],
+      "placesCovered": ["KS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -1056,9 +1030,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "KY"
-      ],
+      "placesCovered": ["KY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -1132,9 +1104,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -1207,9 +1177,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "MD"
-      ],
+      "placesCovered": ["MD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -1282,9 +1250,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "MI"
-      ],
+      "placesCovered": ["MI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -1357,9 +1323,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "MN"
-      ],
+      "placesCovered": ["MN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -1432,9 +1396,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "MS"
-      ],
+      "placesCovered": ["MS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -1507,9 +1469,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "MO"
-      ],
+      "placesCovered": ["MO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -1582,9 +1542,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "MT"
-      ],
+      "placesCovered": ["MT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -1657,9 +1615,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "NE"
-      ],
+      "placesCovered": ["NE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -1732,9 +1688,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "NV"
-      ],
+      "placesCovered": ["NV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -1807,9 +1761,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "NH"
-      ],
+      "placesCovered": ["NH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -1883,9 +1835,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "NY"
-      ],
+      "placesCovered": ["NY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -1959,9 +1909,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "NC"
-      ],
+      "placesCovered": ["NC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -2035,9 +1983,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "ND"
-      ],
+      "placesCovered": ["ND"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -2110,9 +2056,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "OH"
-      ],
+      "placesCovered": ["OH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -2186,9 +2130,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "OK"
-      ],
+      "placesCovered": ["OK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -2262,9 +2204,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "OR"
-      ],
+      "placesCovered": ["OR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -2338,9 +2278,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "PR"
-      ],
+      "placesCovered": ["PR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -2414,9 +2352,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "SC"
-      ],
+      "placesCovered": ["SC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -2490,9 +2426,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "SD"
-      ],
+      "placesCovered": ["SD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -2566,9 +2500,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "TN"
-      ],
+      "placesCovered": ["TN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -2642,9 +2574,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "TX"
-      ],
+      "placesCovered": ["TX"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -2718,9 +2648,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "UT"
-      ],
+      "placesCovered": ["UT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -2794,9 +2722,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "VT"
-      ],
+      "placesCovered": ["VT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -2870,9 +2796,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "VA"
-      ],
+      "placesCovered": ["VA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -2946,9 +2870,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "VI"
-      ],
+      "placesCovered": ["VI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -3022,9 +2944,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "WA"
-      ],
+      "placesCovered": ["WA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -3098,9 +3018,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "WV"
-      ],
+      "placesCovered": ["WV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -3174,9 +3092,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "WI"
-      ],
+      "placesCovered": ["WI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."
@@ -3250,9 +3166,7 @@
         "PR",
         "VI"
       ],
-      "placesCovered": [
-        "WY"
-      ],
+      "placesCovered": ["WY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Partial extraction from table state-label line. Wrapped schedules/dependent allowances omitted; not a full benefit calculator."

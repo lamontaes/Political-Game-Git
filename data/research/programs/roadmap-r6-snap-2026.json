@@ -191,9 +191,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -268,9 +266,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -345,9 +341,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -422,9 +416,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "GU"
-      ],
+      "placesCovered": ["GU"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -499,9 +491,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -576,9 +566,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "VI"
-      ],
+      "placesCovered": ["VI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -778,9 +766,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -855,9 +841,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -932,9 +916,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1009,9 +991,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "GU"
-      ],
+      "placesCovered": ["GU"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1086,9 +1066,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1163,9 +1141,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "VI"
-      ],
+      "placesCovered": ["VI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1365,9 +1341,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1442,9 +1416,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1519,9 +1491,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1596,9 +1566,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "GU"
-      ],
+      "placesCovered": ["GU"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1673,9 +1641,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1750,9 +1716,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "VI"
-      ],
+      "placesCovered": ["VI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1952,9 +1916,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2029,9 +1991,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2106,9 +2066,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2183,9 +2141,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "GU"
-      ],
+      "placesCovered": ["GU"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2260,9 +2216,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2337,9 +2291,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "VI"
-      ],
+      "placesCovered": ["VI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2539,9 +2491,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2616,9 +2566,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2693,9 +2641,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2770,9 +2716,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "GU"
-      ],
+      "placesCovered": ["GU"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2847,9 +2791,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2924,9 +2866,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "VI"
-      ],
+      "placesCovered": ["VI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3126,9 +3066,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3203,9 +3141,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3280,9 +3216,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3357,9 +3291,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "GU"
-      ],
+      "placesCovered": ["GU"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3434,9 +3366,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3511,9 +3441,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "VI"
-      ],
+      "placesCovered": ["VI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3713,9 +3641,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3790,9 +3716,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3867,9 +3791,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -3944,9 +3866,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "GU"
-      ],
+      "placesCovered": ["GU"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4021,9 +3941,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4098,9 +4016,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "VI"
-      ],
+      "placesCovered": ["VI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4300,9 +4216,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4377,9 +4291,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4454,9 +4366,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4531,9 +4441,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "GU"
-      ],
+      "placesCovered": ["GU"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4608,9 +4516,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4685,9 +4591,7 @@
         "GU",
         "VI"
       ],
-      "placesCovered": [
-        "VI"
-      ],
+      "placesCovered": ["VI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -4707,16 +4611,8 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "PR",
-        "AS",
-        "MP"
-      ],
-      "placesCovered": [
-        "PR",
-        "AS",
-        "MP"
-      ],
+      "sourceCoverage": ["PR", "AS", "MP"],
+      "placesCovered": ["PR", "AS", "MP"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference."

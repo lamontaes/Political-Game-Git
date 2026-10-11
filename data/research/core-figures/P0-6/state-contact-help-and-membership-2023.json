@@ -64,9 +64,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AL"
-      ],
+      "placesCovered": ["AL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -140,9 +138,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AL"
-      ],
+      "placesCovered": ["AL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -216,9 +212,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AL"
-      ],
+      "placesCovered": ["AL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -292,9 +286,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AL"
-      ],
+      "placesCovered": ["AL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -368,9 +360,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AL"
-      ],
+      "placesCovered": ["AL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -444,9 +434,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AL"
-      ],
+      "placesCovered": ["AL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -520,9 +508,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AL"
-      ],
+      "placesCovered": ["AL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -596,9 +582,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -672,9 +656,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -748,9 +730,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -824,9 +804,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -900,9 +878,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -976,9 +952,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -1052,9 +1026,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -1128,9 +1100,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "placesCovered": ["AZ"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -1204,9 +1174,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "placesCovered": ["AZ"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -1280,9 +1248,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "placesCovered": ["AZ"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -1356,9 +1322,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "placesCovered": ["AZ"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -1432,9 +1396,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "placesCovered": ["AZ"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -1508,9 +1470,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "placesCovered": ["AZ"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -1584,9 +1544,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "placesCovered": ["AZ"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -1660,9 +1618,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AR"
-      ],
+      "placesCovered": ["AR"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -1736,9 +1692,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AR"
-      ],
+      "placesCovered": ["AR"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -1812,9 +1766,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AR"
-      ],
+      "placesCovered": ["AR"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -1888,9 +1840,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AR"
-      ],
+      "placesCovered": ["AR"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -1964,9 +1914,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AR"
-      ],
+      "placesCovered": ["AR"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -2040,9 +1988,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AR"
-      ],
+      "placesCovered": ["AR"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -2116,9 +2062,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AR"
-      ],
+      "placesCovered": ["AR"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -2192,9 +2136,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CA"
-      ],
+      "placesCovered": ["CA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -2268,9 +2210,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CA"
-      ],
+      "placesCovered": ["CA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -2344,9 +2284,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CA"
-      ],
+      "placesCovered": ["CA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -2420,9 +2358,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CA"
-      ],
+      "placesCovered": ["CA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -2496,9 +2432,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CA"
-      ],
+      "placesCovered": ["CA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -2572,9 +2506,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CA"
-      ],
+      "placesCovered": ["CA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -2648,9 +2580,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CA"
-      ],
+      "placesCovered": ["CA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -2724,9 +2654,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CO"
-      ],
+      "placesCovered": ["CO"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -2800,9 +2728,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CO"
-      ],
+      "placesCovered": ["CO"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -2876,9 +2802,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CO"
-      ],
+      "placesCovered": ["CO"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -2952,9 +2876,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CO"
-      ],
+      "placesCovered": ["CO"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -3028,9 +2950,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CO"
-      ],
+      "placesCovered": ["CO"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -3104,9 +3024,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CO"
-      ],
+      "placesCovered": ["CO"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -3180,9 +3098,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CO"
-      ],
+      "placesCovered": ["CO"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -3256,9 +3172,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT"
-      ],
+      "placesCovered": ["CT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -3332,9 +3246,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT"
-      ],
+      "placesCovered": ["CT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -3408,9 +3320,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT"
-      ],
+      "placesCovered": ["CT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -3484,9 +3394,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT"
-      ],
+      "placesCovered": ["CT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -3560,9 +3468,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT"
-      ],
+      "placesCovered": ["CT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -3636,9 +3542,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT"
-      ],
+      "placesCovered": ["CT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -3712,9 +3616,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT"
-      ],
+      "placesCovered": ["CT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -3788,9 +3690,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DE"
-      ],
+      "placesCovered": ["DE"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -3864,9 +3764,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DE"
-      ],
+      "placesCovered": ["DE"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -3940,9 +3838,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DE"
-      ],
+      "placesCovered": ["DE"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -4016,9 +3912,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DE"
-      ],
+      "placesCovered": ["DE"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -4092,9 +3986,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DE"
-      ],
+      "placesCovered": ["DE"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -4168,9 +4060,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DE"
-      ],
+      "placesCovered": ["DE"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -4244,9 +4134,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DE"
-      ],
+      "placesCovered": ["DE"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -4320,9 +4208,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DC"
-      ],
+      "placesCovered": ["DC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -4396,9 +4282,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DC"
-      ],
+      "placesCovered": ["DC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -4472,9 +4356,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DC"
-      ],
+      "placesCovered": ["DC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -4548,9 +4430,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DC"
-      ],
+      "placesCovered": ["DC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -4624,9 +4504,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DC"
-      ],
+      "placesCovered": ["DC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -4700,9 +4578,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DC"
-      ],
+      "placesCovered": ["DC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -4776,9 +4652,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DC"
-      ],
+      "placesCovered": ["DC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -4852,9 +4726,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "FL"
-      ],
+      "placesCovered": ["FL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -4928,9 +4800,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "FL"
-      ],
+      "placesCovered": ["FL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -5004,9 +4874,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "FL"
-      ],
+      "placesCovered": ["FL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -5080,9 +4948,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "FL"
-      ],
+      "placesCovered": ["FL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -5156,9 +5022,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "FL"
-      ],
+      "placesCovered": ["FL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -5232,9 +5096,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "FL"
-      ],
+      "placesCovered": ["FL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -5308,9 +5170,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "FL"
-      ],
+      "placesCovered": ["FL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -5384,9 +5244,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "GA"
-      ],
+      "placesCovered": ["GA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -5460,9 +5318,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "GA"
-      ],
+      "placesCovered": ["GA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -5536,9 +5392,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "GA"
-      ],
+      "placesCovered": ["GA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -5612,9 +5466,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "GA"
-      ],
+      "placesCovered": ["GA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -5688,9 +5540,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "GA"
-      ],
+      "placesCovered": ["GA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -5764,9 +5614,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "GA"
-      ],
+      "placesCovered": ["GA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -5840,9 +5688,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "GA"
-      ],
+      "placesCovered": ["GA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -5916,9 +5762,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -5992,9 +5836,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -6068,9 +5910,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -6144,9 +5984,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -6220,9 +6058,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -6296,9 +6132,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -6372,9 +6206,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -6448,9 +6280,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ID"
-      ],
+      "placesCovered": ["ID"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -6524,9 +6354,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ID"
-      ],
+      "placesCovered": ["ID"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -6600,9 +6428,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ID"
-      ],
+      "placesCovered": ["ID"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -6676,9 +6502,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ID"
-      ],
+      "placesCovered": ["ID"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -6752,9 +6576,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ID"
-      ],
+      "placesCovered": ["ID"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -6828,9 +6650,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ID"
-      ],
+      "placesCovered": ["ID"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -6904,9 +6724,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ID"
-      ],
+      "placesCovered": ["ID"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -6980,9 +6798,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IL"
-      ],
+      "placesCovered": ["IL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -7056,9 +6872,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IL"
-      ],
+      "placesCovered": ["IL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -7132,9 +6946,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IL"
-      ],
+      "placesCovered": ["IL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -7208,9 +7020,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IL"
-      ],
+      "placesCovered": ["IL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -7284,9 +7094,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IL"
-      ],
+      "placesCovered": ["IL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -7360,9 +7168,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IL"
-      ],
+      "placesCovered": ["IL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -7436,9 +7242,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IL"
-      ],
+      "placesCovered": ["IL"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -7512,9 +7316,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IN"
-      ],
+      "placesCovered": ["IN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -7588,9 +7390,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IN"
-      ],
+      "placesCovered": ["IN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -7664,9 +7464,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IN"
-      ],
+      "placesCovered": ["IN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -7740,9 +7538,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IN"
-      ],
+      "placesCovered": ["IN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -7816,9 +7612,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IN"
-      ],
+      "placesCovered": ["IN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -7892,9 +7686,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IN"
-      ],
+      "placesCovered": ["IN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -7968,9 +7760,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IN"
-      ],
+      "placesCovered": ["IN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -8044,9 +7834,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IA"
-      ],
+      "placesCovered": ["IA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -8120,9 +7908,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IA"
-      ],
+      "placesCovered": ["IA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -8196,9 +7982,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IA"
-      ],
+      "placesCovered": ["IA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -8272,9 +8056,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IA"
-      ],
+      "placesCovered": ["IA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -8348,9 +8130,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IA"
-      ],
+      "placesCovered": ["IA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -8424,9 +8204,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IA"
-      ],
+      "placesCovered": ["IA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -8500,9 +8278,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IA"
-      ],
+      "placesCovered": ["IA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -8576,9 +8352,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KS"
-      ],
+      "placesCovered": ["KS"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -8652,9 +8426,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KS"
-      ],
+      "placesCovered": ["KS"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -8728,9 +8500,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KS"
-      ],
+      "placesCovered": ["KS"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -8804,9 +8574,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KS"
-      ],
+      "placesCovered": ["KS"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -8880,9 +8648,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KS"
-      ],
+      "placesCovered": ["KS"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -8956,9 +8722,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KS"
-      ],
+      "placesCovered": ["KS"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -9032,9 +8796,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KS"
-      ],
+      "placesCovered": ["KS"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -9108,9 +8870,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KY"
-      ],
+      "placesCovered": ["KY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -9184,9 +8944,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KY"
-      ],
+      "placesCovered": ["KY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -9260,9 +9018,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KY"
-      ],
+      "placesCovered": ["KY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -9336,9 +9092,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KY"
-      ],
+      "placesCovered": ["KY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -9412,9 +9166,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KY"
-      ],
+      "placesCovered": ["KY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -9488,9 +9240,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KY"
-      ],
+      "placesCovered": ["KY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -9564,9 +9314,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KY"
-      ],
+      "placesCovered": ["KY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -9640,9 +9388,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -9716,9 +9462,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -9792,9 +9536,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -9868,9 +9610,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -9944,9 +9684,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -10020,9 +9758,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -10096,9 +9832,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -10172,9 +9906,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ME"
-      ],
+      "placesCovered": ["ME"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -10248,9 +9980,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ME"
-      ],
+      "placesCovered": ["ME"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -10324,9 +10054,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ME"
-      ],
+      "placesCovered": ["ME"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -10400,9 +10128,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ME"
-      ],
+      "placesCovered": ["ME"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -10476,9 +10202,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ME"
-      ],
+      "placesCovered": ["ME"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -10552,9 +10276,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ME"
-      ],
+      "placesCovered": ["ME"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -10628,9 +10350,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ME"
-      ],
+      "placesCovered": ["ME"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -10704,9 +10424,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MD"
-      ],
+      "placesCovered": ["MD"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -10780,9 +10498,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MD"
-      ],
+      "placesCovered": ["MD"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -10856,9 +10572,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MD"
-      ],
+      "placesCovered": ["MD"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -10932,9 +10646,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MD"
-      ],
+      "placesCovered": ["MD"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -11008,9 +10720,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MD"
-      ],
+      "placesCovered": ["MD"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -11084,9 +10794,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MD"
-      ],
+      "placesCovered": ["MD"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -11160,9 +10868,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MD"
-      ],
+      "placesCovered": ["MD"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -11236,9 +10942,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MA"
-      ],
+      "placesCovered": ["MA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -11312,9 +11016,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MA"
-      ],
+      "placesCovered": ["MA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -11388,9 +11090,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MA"
-      ],
+      "placesCovered": ["MA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -11464,9 +11164,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MA"
-      ],
+      "placesCovered": ["MA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -11540,9 +11238,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MA"
-      ],
+      "placesCovered": ["MA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -11616,9 +11312,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MA"
-      ],
+      "placesCovered": ["MA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -11692,9 +11386,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MA"
-      ],
+      "placesCovered": ["MA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -11768,9 +11460,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MI"
-      ],
+      "placesCovered": ["MI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -11844,9 +11534,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MI"
-      ],
+      "placesCovered": ["MI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -11920,9 +11608,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MI"
-      ],
+      "placesCovered": ["MI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -11996,9 +11682,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MI"
-      ],
+      "placesCovered": ["MI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -12072,9 +11756,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MI"
-      ],
+      "placesCovered": ["MI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -12148,9 +11830,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MI"
-      ],
+      "placesCovered": ["MI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -12224,9 +11904,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MI"
-      ],
+      "placesCovered": ["MI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -12300,9 +11978,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MN"
-      ],
+      "placesCovered": ["MN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -12376,9 +12052,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MN"
-      ],
+      "placesCovered": ["MN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -12452,9 +12126,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MN"
-      ],
+      "placesCovered": ["MN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -12528,9 +12200,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MN"
-      ],
+      "placesCovered": ["MN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -12604,9 +12274,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MN"
-      ],
+      "placesCovered": ["MN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -12680,9 +12348,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MN"
-      ],
+      "placesCovered": ["MN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -12756,9 +12422,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MN"
-      ],
+      "placesCovered": ["MN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -12832,9 +12496,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MS"
-      ],
+      "placesCovered": ["MS"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -12908,9 +12570,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MS"
-      ],
+      "placesCovered": ["MS"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -12984,9 +12644,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MS"
-      ],
+      "placesCovered": ["MS"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -13060,9 +12718,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MS"
-      ],
+      "placesCovered": ["MS"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -13136,9 +12792,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MS"
-      ],
+      "placesCovered": ["MS"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -13212,9 +12866,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MS"
-      ],
+      "placesCovered": ["MS"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -13288,9 +12940,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MS"
-      ],
+      "placesCovered": ["MS"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -13364,9 +13014,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MO"
-      ],
+      "placesCovered": ["MO"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -13440,9 +13088,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MO"
-      ],
+      "placesCovered": ["MO"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -13516,9 +13162,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MO"
-      ],
+      "placesCovered": ["MO"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -13592,9 +13236,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MO"
-      ],
+      "placesCovered": ["MO"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -13668,9 +13310,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MO"
-      ],
+      "placesCovered": ["MO"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -13744,9 +13384,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MO"
-      ],
+      "placesCovered": ["MO"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -13820,9 +13458,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MO"
-      ],
+      "placesCovered": ["MO"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -13896,9 +13532,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MT"
-      ],
+      "placesCovered": ["MT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -13972,9 +13606,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MT"
-      ],
+      "placesCovered": ["MT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -14048,9 +13680,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MT"
-      ],
+      "placesCovered": ["MT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -14124,9 +13754,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MT"
-      ],
+      "placesCovered": ["MT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -14200,9 +13828,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MT"
-      ],
+      "placesCovered": ["MT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -14276,9 +13902,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MT"
-      ],
+      "placesCovered": ["MT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -14352,9 +13976,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MT"
-      ],
+      "placesCovered": ["MT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -14428,9 +14050,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NE"
-      ],
+      "placesCovered": ["NE"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -14504,9 +14124,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NE"
-      ],
+      "placesCovered": ["NE"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -14580,9 +14198,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NE"
-      ],
+      "placesCovered": ["NE"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -14656,9 +14272,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NE"
-      ],
+      "placesCovered": ["NE"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -14732,9 +14346,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NE"
-      ],
+      "placesCovered": ["NE"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -14808,9 +14420,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NE"
-      ],
+      "placesCovered": ["NE"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -14884,9 +14494,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NE"
-      ],
+      "placesCovered": ["NE"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -14960,9 +14568,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NV"
-      ],
+      "placesCovered": ["NV"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -15036,9 +14642,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NV"
-      ],
+      "placesCovered": ["NV"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -15112,9 +14716,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NV"
-      ],
+      "placesCovered": ["NV"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -15188,9 +14790,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NV"
-      ],
+      "placesCovered": ["NV"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -15264,9 +14864,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NV"
-      ],
+      "placesCovered": ["NV"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -15340,9 +14938,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NV"
-      ],
+      "placesCovered": ["NV"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -15416,9 +15012,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NV"
-      ],
+      "placesCovered": ["NV"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -15492,9 +15086,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NH"
-      ],
+      "placesCovered": ["NH"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -15568,9 +15160,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NH"
-      ],
+      "placesCovered": ["NH"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -15644,9 +15234,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NH"
-      ],
+      "placesCovered": ["NH"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -15720,9 +15308,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NH"
-      ],
+      "placesCovered": ["NH"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -15796,9 +15382,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NH"
-      ],
+      "placesCovered": ["NH"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -15872,9 +15456,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NH"
-      ],
+      "placesCovered": ["NH"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -15948,9 +15530,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NH"
-      ],
+      "placesCovered": ["NH"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -16024,9 +15604,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NJ"
-      ],
+      "placesCovered": ["NJ"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -16100,9 +15678,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NJ"
-      ],
+      "placesCovered": ["NJ"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -16176,9 +15752,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NJ"
-      ],
+      "placesCovered": ["NJ"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -16252,9 +15826,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NJ"
-      ],
+      "placesCovered": ["NJ"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -16328,9 +15900,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NJ"
-      ],
+      "placesCovered": ["NJ"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -16404,9 +15974,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NJ"
-      ],
+      "placesCovered": ["NJ"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -16480,9 +16048,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NJ"
-      ],
+      "placesCovered": ["NJ"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -16556,9 +16122,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NM"
-      ],
+      "placesCovered": ["NM"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -16632,9 +16196,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NM"
-      ],
+      "placesCovered": ["NM"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -16708,9 +16270,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NM"
-      ],
+      "placesCovered": ["NM"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -16784,9 +16344,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NM"
-      ],
+      "placesCovered": ["NM"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -16860,9 +16418,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NM"
-      ],
+      "placesCovered": ["NM"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -16936,9 +16492,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NM"
-      ],
+      "placesCovered": ["NM"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -17012,9 +16566,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NM"
-      ],
+      "placesCovered": ["NM"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -17088,9 +16640,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NY"
-      ],
+      "placesCovered": ["NY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -17164,9 +16714,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NY"
-      ],
+      "placesCovered": ["NY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -17240,9 +16788,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NY"
-      ],
+      "placesCovered": ["NY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -17316,9 +16862,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NY"
-      ],
+      "placesCovered": ["NY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -17392,9 +16936,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NY"
-      ],
+      "placesCovered": ["NY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -17468,9 +17010,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NY"
-      ],
+      "placesCovered": ["NY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -17544,9 +17084,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NY"
-      ],
+      "placesCovered": ["NY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -17620,9 +17158,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NC"
-      ],
+      "placesCovered": ["NC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -17696,9 +17232,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NC"
-      ],
+      "placesCovered": ["NC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -17772,9 +17306,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NC"
-      ],
+      "placesCovered": ["NC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -17848,9 +17380,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NC"
-      ],
+      "placesCovered": ["NC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -17924,9 +17454,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NC"
-      ],
+      "placesCovered": ["NC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -18000,9 +17528,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NC"
-      ],
+      "placesCovered": ["NC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -18076,9 +17602,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NC"
-      ],
+      "placesCovered": ["NC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -18152,9 +17676,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ND"
-      ],
+      "placesCovered": ["ND"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -18228,9 +17750,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ND"
-      ],
+      "placesCovered": ["ND"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -18304,9 +17824,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ND"
-      ],
+      "placesCovered": ["ND"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -18380,9 +17898,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ND"
-      ],
+      "placesCovered": ["ND"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -18456,9 +17972,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ND"
-      ],
+      "placesCovered": ["ND"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -18532,9 +18046,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ND"
-      ],
+      "placesCovered": ["ND"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -18608,9 +18120,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ND"
-      ],
+      "placesCovered": ["ND"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -18684,9 +18194,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OH"
-      ],
+      "placesCovered": ["OH"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -18760,9 +18268,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OH"
-      ],
+      "placesCovered": ["OH"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -18836,9 +18342,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OH"
-      ],
+      "placesCovered": ["OH"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -18912,9 +18416,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OH"
-      ],
+      "placesCovered": ["OH"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -18988,9 +18490,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OH"
-      ],
+      "placesCovered": ["OH"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -19064,9 +18564,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OH"
-      ],
+      "placesCovered": ["OH"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -19140,9 +18638,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OH"
-      ],
+      "placesCovered": ["OH"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -19216,9 +18712,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OK"
-      ],
+      "placesCovered": ["OK"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -19292,9 +18786,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OK"
-      ],
+      "placesCovered": ["OK"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -19368,9 +18860,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OK"
-      ],
+      "placesCovered": ["OK"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -19444,9 +18934,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OK"
-      ],
+      "placesCovered": ["OK"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -19520,9 +19008,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OK"
-      ],
+      "placesCovered": ["OK"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -19596,9 +19082,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OK"
-      ],
+      "placesCovered": ["OK"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -19672,9 +19156,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OK"
-      ],
+      "placesCovered": ["OK"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -19748,9 +19230,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OR"
-      ],
+      "placesCovered": ["OR"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -19824,9 +19304,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OR"
-      ],
+      "placesCovered": ["OR"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -19900,9 +19378,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OR"
-      ],
+      "placesCovered": ["OR"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -19976,9 +19452,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OR"
-      ],
+      "placesCovered": ["OR"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -20052,9 +19526,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OR"
-      ],
+      "placesCovered": ["OR"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -20128,9 +19600,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OR"
-      ],
+      "placesCovered": ["OR"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -20204,9 +19674,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OR"
-      ],
+      "placesCovered": ["OR"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -20280,9 +19748,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "PA"
-      ],
+      "placesCovered": ["PA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -20356,9 +19822,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "PA"
-      ],
+      "placesCovered": ["PA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -20432,9 +19896,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "PA"
-      ],
+      "placesCovered": ["PA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -20508,9 +19970,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "PA"
-      ],
+      "placesCovered": ["PA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -20584,9 +20044,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "PA"
-      ],
+      "placesCovered": ["PA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -20660,9 +20118,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "PA"
-      ],
+      "placesCovered": ["PA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -20736,9 +20192,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "PA"
-      ],
+      "placesCovered": ["PA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -20812,9 +20266,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "RI"
-      ],
+      "placesCovered": ["RI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -20888,9 +20340,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "RI"
-      ],
+      "placesCovered": ["RI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -20964,9 +20414,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "RI"
-      ],
+      "placesCovered": ["RI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -21040,9 +20488,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "RI"
-      ],
+      "placesCovered": ["RI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -21116,9 +20562,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "RI"
-      ],
+      "placesCovered": ["RI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -21192,9 +20636,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "RI"
-      ],
+      "placesCovered": ["RI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -21268,9 +20710,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "RI"
-      ],
+      "placesCovered": ["RI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -21344,9 +20784,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SC"
-      ],
+      "placesCovered": ["SC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -21420,9 +20858,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SC"
-      ],
+      "placesCovered": ["SC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -21496,9 +20932,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SC"
-      ],
+      "placesCovered": ["SC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -21572,9 +21006,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SC"
-      ],
+      "placesCovered": ["SC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -21648,9 +21080,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SC"
-      ],
+      "placesCovered": ["SC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -21724,9 +21154,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SC"
-      ],
+      "placesCovered": ["SC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -21800,9 +21228,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SC"
-      ],
+      "placesCovered": ["SC"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -21876,9 +21302,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SD"
-      ],
+      "placesCovered": ["SD"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -21952,9 +21376,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SD"
-      ],
+      "placesCovered": ["SD"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -22028,9 +21450,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SD"
-      ],
+      "placesCovered": ["SD"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -22104,9 +21524,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SD"
-      ],
+      "placesCovered": ["SD"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -22180,9 +21598,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SD"
-      ],
+      "placesCovered": ["SD"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -22256,9 +21672,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SD"
-      ],
+      "placesCovered": ["SD"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -22332,9 +21746,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SD"
-      ],
+      "placesCovered": ["SD"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -22408,9 +21820,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TN"
-      ],
+      "placesCovered": ["TN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -22484,9 +21894,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TN"
-      ],
+      "placesCovered": ["TN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -22560,9 +21968,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TN"
-      ],
+      "placesCovered": ["TN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -22636,9 +22042,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TN"
-      ],
+      "placesCovered": ["TN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -22712,9 +22116,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TN"
-      ],
+      "placesCovered": ["TN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -22788,9 +22190,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TN"
-      ],
+      "placesCovered": ["TN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -22864,9 +22264,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TN"
-      ],
+      "placesCovered": ["TN"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -22940,9 +22338,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TX"
-      ],
+      "placesCovered": ["TX"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -23016,9 +22412,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TX"
-      ],
+      "placesCovered": ["TX"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -23092,9 +22486,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TX"
-      ],
+      "placesCovered": ["TX"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -23168,9 +22560,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TX"
-      ],
+      "placesCovered": ["TX"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -23244,9 +22634,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TX"
-      ],
+      "placesCovered": ["TX"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -23320,9 +22708,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TX"
-      ],
+      "placesCovered": ["TX"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -23396,9 +22782,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TX"
-      ],
+      "placesCovered": ["TX"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -23472,9 +22856,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "UT"
-      ],
+      "placesCovered": ["UT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -23548,9 +22930,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "UT"
-      ],
+      "placesCovered": ["UT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -23624,9 +23004,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "UT"
-      ],
+      "placesCovered": ["UT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -23700,9 +23078,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "UT"
-      ],
+      "placesCovered": ["UT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -23776,9 +23152,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "UT"
-      ],
+      "placesCovered": ["UT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -23852,9 +23226,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "UT"
-      ],
+      "placesCovered": ["UT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -23928,9 +23300,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "UT"
-      ],
+      "placesCovered": ["UT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -24004,9 +23374,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VT"
-      ],
+      "placesCovered": ["VT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -24080,9 +23448,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VT"
-      ],
+      "placesCovered": ["VT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -24156,9 +23522,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VT"
-      ],
+      "placesCovered": ["VT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -24232,9 +23596,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VT"
-      ],
+      "placesCovered": ["VT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -24308,9 +23670,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VT"
-      ],
+      "placesCovered": ["VT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -24384,9 +23744,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VT"
-      ],
+      "placesCovered": ["VT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -24460,9 +23818,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VT"
-      ],
+      "placesCovered": ["VT"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -24536,9 +23892,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VA"
-      ],
+      "placesCovered": ["VA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -24612,9 +23966,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VA"
-      ],
+      "placesCovered": ["VA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -24688,9 +24040,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VA"
-      ],
+      "placesCovered": ["VA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -24764,9 +24114,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VA"
-      ],
+      "placesCovered": ["VA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -24840,9 +24188,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VA"
-      ],
+      "placesCovered": ["VA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -24916,9 +24262,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VA"
-      ],
+      "placesCovered": ["VA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -24992,9 +24336,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VA"
-      ],
+      "placesCovered": ["VA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -25068,9 +24410,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WA"
-      ],
+      "placesCovered": ["WA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -25144,9 +24484,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WA"
-      ],
+      "placesCovered": ["WA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -25220,9 +24558,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WA"
-      ],
+      "placesCovered": ["WA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -25296,9 +24632,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WA"
-      ],
+      "placesCovered": ["WA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -25372,9 +24706,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WA"
-      ],
+      "placesCovered": ["WA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -25448,9 +24780,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WA"
-      ],
+      "placesCovered": ["WA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -25524,9 +24854,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WA"
-      ],
+      "placesCovered": ["WA"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -25600,9 +24928,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WV"
-      ],
+      "placesCovered": ["WV"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -25676,9 +25002,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WV"
-      ],
+      "placesCovered": ["WV"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -25752,9 +25076,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WV"
-      ],
+      "placesCovered": ["WV"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -25828,9 +25150,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WV"
-      ],
+      "placesCovered": ["WV"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -25904,9 +25224,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WV"
-      ],
+      "placesCovered": ["WV"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -25980,9 +25298,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WV"
-      ],
+      "placesCovered": ["WV"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -26056,9 +25372,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WV"
-      ],
+      "placesCovered": ["WV"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -26132,9 +25446,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WI"
-      ],
+      "placesCovered": ["WI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -26208,9 +25520,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WI"
-      ],
+      "placesCovered": ["WI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -26284,9 +25594,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WI"
-      ],
+      "placesCovered": ["WI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -26360,9 +25668,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WI"
-      ],
+      "placesCovered": ["WI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -26436,9 +25742,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WI"
-      ],
+      "placesCovered": ["WI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -26512,9 +25816,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WI"
-      ],
+      "placesCovered": ["WI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -26588,9 +25890,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WI"
-      ],
+      "placesCovered": ["WI"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,
@@ -26664,9 +25964,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WY"
-      ],
+      "placesCovered": ["WY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.185,
@@ -26740,9 +26038,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WY"
-      ],
+      "placesCovered": ["WY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.147,
@@ -26816,9 +26112,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WY"
-      ],
+      "placesCovered": ["WY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.457,
@@ -26892,9 +26186,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WY"
-      ],
+      "placesCovered": ["WY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.936,
@@ -26968,9 +26260,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WY"
-      ],
+      "placesCovered": ["WY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.613,
@@ -27044,9 +26334,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WY"
-      ],
+      "placesCovered": ["WY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.057,
@@ -27120,9 +26408,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WY"
-      ],
+      "placesCovered": ["WY"],
       "isEstimate": true,
       "spread": {
         "lower": 0.133,

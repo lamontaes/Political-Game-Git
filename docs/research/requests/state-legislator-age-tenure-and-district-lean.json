@@ -84,12 +84,8 @@
   "requestedBy": "modular legislation thread (technical team lead)",
   "filedAt": "2026-09-22T22:45:00.000Z",
   "priority": "P1",
-  "notes": [
-    "Aggregates only; no names of sitting members are wanted."
-  ],
-  "relatedQuestionIds": [
-    "state-legislature-chamber-sizes-and-quorum"
-  ],
+  "notes": ["Aggregates only; no names of sitting members are wanted."],
+  "relatedQuestionIds": ["state-legislature-chamber-sizes-and-quorum"],
   "answer": {
     "status": "answered-with-gaps",
     "answeredAt": "2026-10-11",

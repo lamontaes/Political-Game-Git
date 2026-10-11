@@ -16,12 +16,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 17934,
@@ -38,9 +34,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -60,12 +54,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 37137,
@@ -82,9 +72,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -104,12 +92,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 52856,
@@ -126,9 +110,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -148,12 +130,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 22624,
@@ -170,9 +148,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -192,12 +168,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 24674,
@@ -214,9 +186,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -236,12 +206,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 24245,
@@ -258,9 +224,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -280,12 +244,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 85014,
@@ -302,9 +262,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -324,12 +282,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 14588,
@@ -346,9 +300,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -368,12 +320,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 22200,
@@ -390,9 +338,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -412,12 +358,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 29447,
@@ -434,9 +376,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -456,12 +396,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 179351,
@@ -478,9 +414,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -500,12 +434,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 46364,
@@ -522,9 +452,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -544,12 +472,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 123423,
@@ -566,9 +490,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -588,12 +510,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 32545,
@@ -610,9 +528,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -632,12 +548,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 41039,
@@ -654,9 +566,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -676,12 +586,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 148892,
@@ -698,9 +604,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -720,12 +624,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 21466,
@@ -742,9 +642,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -764,12 +662,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 39765,
@@ -786,9 +680,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -808,12 +700,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 10445,
@@ -830,9 +718,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -852,12 +738,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 16555,
@@ -874,9 +756,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -896,12 +776,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 39484,
@@ -918,9 +794,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -940,12 +814,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 32826,
@@ -962,9 +832,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -984,12 +852,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 18321,
@@ -1006,9 +870,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1028,12 +890,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 34402,
@@ -1050,9 +908,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1072,12 +928,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 1725,
@@ -1094,9 +946,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1116,12 +966,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 35753,
@@ -1138,9 +984,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1160,12 +1004,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 30561,
@@ -1182,9 +1022,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1204,12 +1042,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 11304,
@@ -1226,9 +1060,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1248,12 +1080,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 11634,
@@ -1270,9 +1098,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1292,12 +1118,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 33652,
@@ -1314,9 +1136,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1336,12 +1156,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 16304,
@@ -1358,9 +1174,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1380,12 +1194,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 88659,
@@ -1402,9 +1212,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1424,12 +1232,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 39553,
@@ -1446,9 +1250,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1468,12 +1270,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 37602,
@@ -1490,9 +1288,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1512,12 +1308,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 15141,
@@ -1534,9 +1326,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1556,12 +1346,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 48932,
@@ -1578,9 +1364,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1600,12 +1384,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 42805,
@@ -1622,9 +1402,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1644,12 +1422,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 14326,
@@ -1666,9 +1440,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1688,12 +1460,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 45625,
@@ -1710,9 +1478,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1732,12 +1498,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 36459,
@@ -1754,9 +1516,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1776,12 +1536,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 22641,
@@ -1798,9 +1554,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1820,12 +1574,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 27641,
@@ -1842,9 +1592,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1864,12 +1612,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 8582,
@@ -1886,9 +1630,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1908,12 +1650,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 34546,
@@ -1930,9 +1668,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1952,12 +1688,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 21257,
@@ -1974,9 +1706,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -1996,12 +1726,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 17061,
@@ -2018,9 +1744,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2040,12 +1764,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 38157,
@@ -2062,9 +1782,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2084,12 +1802,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 4275,
@@ -2106,9 +1820,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2128,12 +1840,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 10036,
@@ -2150,9 +1858,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2172,12 +1878,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 68337,
@@ -2194,9 +1896,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2216,12 +1916,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 37450,
@@ -2238,9 +1934,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2260,12 +1954,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 28018,
@@ -2282,9 +1972,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2304,12 +1992,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 22505,
@@ -2326,9 +2010,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2348,12 +2030,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 29549,
@@ -2370,9 +2048,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2392,12 +2068,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 21241,
@@ -2414,9 +2086,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2436,12 +2106,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 14938,
@@ -2458,9 +2124,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2480,12 +2144,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 19147,
@@ -2502,9 +2162,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2524,12 +2182,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 127135,
@@ -2546,9 +2200,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2568,12 +2220,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 23079,
@@ -2590,9 +2238,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2612,12 +2258,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 15553,
@@ -2634,9 +2276,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2656,12 +2296,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 44424,
@@ -2678,9 +2314,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2700,12 +2334,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 21916,
@@ -2722,9 +2352,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2744,12 +2372,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 24000,
@@ -2766,9 +2390,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2788,12 +2410,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 30608,
@@ -2810,9 +2428,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2832,12 +2448,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 327352,
@@ -2854,9 +2466,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2876,12 +2486,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 37078,
@@ -2898,9 +2504,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2920,12 +2524,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 38865,
@@ -2942,9 +2542,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -2964,12 +2562,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 19406,
@@ -2986,9 +2580,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -3008,12 +2600,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 65397,
@@ -3030,9 +2618,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -3052,12 +2638,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 70277,
@@ -3074,9 +2656,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -3096,12 +2676,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 65959,
@@ -3118,9 +2694,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -3140,12 +2714,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 26671,
@@ -3162,9 +2732,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -3184,12 +2752,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 34130,
@@ -3206,9 +2770,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -3228,12 +2790,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 53219,
@@ -3250,9 +2808,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -3272,12 +2828,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 7792,
@@ -3294,9 +2846,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -3316,12 +2866,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 20970,
@@ -3338,9 +2884,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -3360,12 +2904,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 27732,
@@ -3382,9 +2922,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     },
@@ -3404,12 +2942,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": true,
       "spread": {
         "lower": 31279,
@@ -3426,9 +2960,7 @@
           "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
           "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
         },
-        "sourceCoverage": [
-          "PR"
-        ]
+        "sourceCoverage": ["PR"]
       },
       "populationSourceFile": "data/research/places/roadmap-r11-population-v2025-72.csv"
     }

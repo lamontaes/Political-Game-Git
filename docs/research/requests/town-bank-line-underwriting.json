@@ -9,9 +9,7 @@
   "priority": "P2",
   "question": "How does a bank's decision to grant a small business a line of credit depend on the firm's own books: annual sales, years in business, cash on hand, existing debt, and profitability? Is there a measured relation (for example, the share of firms holding a line by sales band, firm age band and profitability) that a smooth, deterministic underwriting rule could follow, so that about 34 percent of small firms end up holding a line?",
   "questionId": "town-bank-line-underwriting",
-  "relatedQuestionIds": [
-    "small-business-credit-line-size"
-  ],
+  "relatedQuestionIds": ["small-business-credit-line-size"],
   "requestVersion": "research-request/v1",
   "requestedBy": "Standby Claude Team 5",
   "sourcesChecked": [

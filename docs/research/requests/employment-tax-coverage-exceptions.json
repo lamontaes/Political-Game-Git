@@ -5,9 +5,7 @@
   "priority": "P2",
   "question": "(1) State and local government employees, including elected officials: when their wages are covered by Social Security (Section 218 agreements, mandatory Medicare for those hired after March 31, 1986) and how coverage varies by state. (2) Members of Congress and federal employees. (3) Household employers paying a sitter, cleaner or caregiver: the 2026 threshold above which Social Security and Medicare apply, and who withholds. (4) The five inhabited territories (Puerto Rico, Guam, U.S. Virgin Islands, American Samoa, Northern Mariana Islands): whether Social Security and Medicare apply to local wages, per IRS Publication 570 and Publication 80. (5) How the Social Security wage base is set each year after 2026. Mark each with its source.",
   "questionId": "employment-tax-coverage-exceptions",
-  "relatedQuestionIds": [
-    "who-pays-which-taxes-56-places"
-  ],
+  "relatedQuestionIds": ["who-pays-which-taxes-56-places"],
   "requestVersion": "research-request/v1",
   "requestedBy": "filed by the Taxes people and businesses pay thread, building on who-pays-which-taxes-56-places",
   "sourcesChecked": [

@@ -10,9 +10,7 @@
   "priority": "P2",
   "question": "In the United States, when does a governor request a federal disaster declaration, and what damage assessment comes first? (1) What does a preliminary damage assessment count (homes, public infrastructure, costs per person), and what per-capita thresholds do FEMA and states use? (2) How often do governors request a declaration when few or no homes were damaged, for example for damage to roads, utilities or public buildings only? (3) How often are requests denied, and for what reasons? (4) How long after an event is a request usually made, and what is the legal deadline?",
   "questionId": "disaster-request-with-no-damage",
-  "relatedQuestionIds": [
-    "disaster-handling-reactions"
-  ],
+  "relatedQuestionIds": ["disaster-handling-reactions"],
   "requestVersion": "research-request/v1",
   "requestedBy": "crises and political violence thread",
   "sourcesChecked": [

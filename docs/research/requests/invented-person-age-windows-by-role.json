@@ -2,15 +2,11 @@
   "filedAt": "2026-10-01T18:00:00.000Z",
   "impact": "shapes-design",
   "lane": "people and social engine",
-  "notes": [
-    "Aggregates only; no named individuals are wanted."
-  ],
+  "notes": ["Aggregates only; no named individuals are wanted."],
   "priority": "P2",
   "question": "For each kind of person the game invents when the records name no one, what is the real age distribution in the United States? The roles are: members of Congress and state legislators (new and sitting), people chosen to fill a legislative vacancy, presidential nominees, governors and their challengers and successors, statewide officials in office, people a governor considers appointing, party chapter organizers and national and state party committee members, campaign staff and field leads, campaign volunteers and contacts, opposing candidates, local reporters and newsroom staff, people who move into a town from elsewhere, Federal Reserve governors and reserve bank presidents, town council members and town managers, small-business owners and their workers, and state court judges when first seated. For each role give the median, the quartiles, and the 5th and 95th percentiles.",
   "questionId": "invented-person-age-windows-by-role",
-  "relatedQuestionIds": [
-    "state-legislator-age-tenure-and-district-lean"
-  ],
+  "relatedQuestionIds": ["state-legislator-age-tenure-and-district-lean"],
   "requestVersion": "research-request/v1",
   "requestedBy": "Team 5 (A161, one way to make a person)",
   "sourcesChecked": [

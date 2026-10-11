@@ -11,9 +11,7 @@
   "priority": "P2",
   "question": "When something happens to a person (they lose a job, lose health coverage, see their rent rise, or are the victim of a crime, or their child has to change schools in the middle of the year), which official do they hold responsible (governor, mayor, president, legislator), and how much does their own experience move their approval of that official, compared with a law that official enacted that cost them the same?",
   "questionId": "who-answers-for-what-happened-to-me",
-  "relatedQuestionIds": [
-    "felt-size-of-non-money-law-effects"
-  ],
+  "relatedQuestionIds": ["felt-size-of-non-money-law-effects"],
   "requestVersion": "research-request/v1",
   "requestedBy": "Standby Claude Team 5",
   "sourcesChecked": [
@@ -114,6 +112,9 @@
         "data/research/drives/roadmap-r10-effects-and-gaps.json"
       ],
       "finding": "US crisis survey logistic estimates and licensed Denmark industrial-decline study support distinct participation and blame pathways. Neither establishes the US probability of a persistent personal grudge or its daily decay. No uniform blame weights inferred."
-    }
+    },
+    "finalCorrections": [
+      "data/research/drives/roadmap-r10-crisis-tables-verified.json"
+    ]
   }
 }

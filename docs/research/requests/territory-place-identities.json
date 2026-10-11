@@ -47,9 +47,7 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ]
+      "sourceCoverage": ["PR"]
     }
   ],
   "title": "Which towns and villages a life can start in on Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands",
@@ -70,6 +68,9 @@
         "data/research/places/roadmap-r11-handoff.json"
       ],
       "finding": "2025official place identities and class/function codes supplied for all five territories. PR municipios uniquely join official county-equivalent GEOIDs. Island-place population/growth remain gaps; labels do not imply elected governments."
-    }
+    },
+    "finalCorrections": [
+      "data/research/places/roadmap-r11-island-baselines-verified.json"
+    ]
   }
 }

@@ -6688,11 +6688,5 @@
     "bytes": 1901,
     "retrievedAt": "2026-10-11"
   },
-  "coverageGaps": [
-    "PR",
-    "GU",
-    "VI",
-    "AS",
-    "MP"
-  ]
+  "coverageGaps": ["PR", "GU", "VI", "AS", "MP"]
 }

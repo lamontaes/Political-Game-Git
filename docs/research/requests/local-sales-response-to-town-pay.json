@@ -9,9 +9,7 @@
   "priority": "P2",
   "question": "When a town's total employer payroll rises or falls by one percent, by what percent do the sales of its local-serving businesses (restaurants, retail, personal care, repair) move? Is there a measured elasticity of local nontradable sales or employment to local tradable payroll or employment?",
   "questionId": "local-sales-response-to-town-pay",
-  "relatedQuestionIds": [
-    "small-business-credit-line-size"
-  ],
+  "relatedQuestionIds": ["small-business-credit-line-size"],
   "requestVersion": "research-request/v1",
   "requestedBy": "Standby Claude Team 5",
   "sourcesChecked": [
@@ -32,9 +30,7 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "VI"
-      ]
+      "sourceCoverage": ["VI"]
     }
   ],
   "title": "How far a town's local sales follow its payroll",

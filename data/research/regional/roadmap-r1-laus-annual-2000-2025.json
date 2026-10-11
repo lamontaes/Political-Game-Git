@@ -38,12 +38,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "AK"
-      ],
-      "placesCovered": [
-        "AK"
-      ],
+      "sourceCoverage": ["AK"],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -88,12 +84,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "AL"
-      ],
-      "placesCovered": [
-        "AL"
-      ],
+      "sourceCoverage": ["AL"],
+      "placesCovered": ["AL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -138,12 +130,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "AR"
-      ],
-      "placesCovered": [
-        "AR"
-      ],
+      "sourceCoverage": ["AR"],
+      "placesCovered": ["AR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -188,12 +176,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "AZ"
-      ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "sourceCoverage": ["AZ"],
+      "placesCovered": ["AZ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -238,12 +222,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "CA"
-      ],
-      "placesCovered": [
-        "CA"
-      ],
+      "sourceCoverage": ["CA"],
+      "placesCovered": ["CA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -288,12 +268,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "CO"
-      ],
-      "placesCovered": [
-        "CO"
-      ],
+      "sourceCoverage": ["CO"],
+      "placesCovered": ["CO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -338,12 +314,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "CT"
-      ],
-      "placesCovered": [
-        "CT"
-      ],
+      "sourceCoverage": ["CT"],
+      "placesCovered": ["CT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -388,12 +360,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "DC"
-      ],
-      "placesCovered": [
-        "DC"
-      ],
+      "sourceCoverage": ["DC"],
+      "placesCovered": ["DC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -438,12 +406,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "DE"
-      ],
-      "placesCovered": [
-        "DE"
-      ],
+      "sourceCoverage": ["DE"],
+      "placesCovered": ["DE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -488,12 +452,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "FL"
-      ],
-      "placesCovered": [
-        "FL"
-      ],
+      "sourceCoverage": ["FL"],
+      "placesCovered": ["FL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -538,12 +498,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "GA"
-      ],
-      "placesCovered": [
-        "GA"
-      ],
+      "sourceCoverage": ["GA"],
+      "placesCovered": ["GA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -588,12 +544,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "HI"
-      ],
-      "placesCovered": [
-        "HI"
-      ],
+      "sourceCoverage": ["HI"],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -638,12 +590,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "IA"
-      ],
-      "placesCovered": [
-        "IA"
-      ],
+      "sourceCoverage": ["IA"],
+      "placesCovered": ["IA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -688,12 +636,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "ID"
-      ],
-      "placesCovered": [
-        "ID"
-      ],
+      "sourceCoverage": ["ID"],
+      "placesCovered": ["ID"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -738,12 +682,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "IL"
-      ],
-      "placesCovered": [
-        "IL"
-      ],
+      "sourceCoverage": ["IL"],
+      "placesCovered": ["IL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -788,12 +728,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "IN"
-      ],
-      "placesCovered": [
-        "IN"
-      ],
+      "sourceCoverage": ["IN"],
+      "placesCovered": ["IN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -838,12 +774,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "KS"
-      ],
-      "placesCovered": [
-        "KS"
-      ],
+      "sourceCoverage": ["KS"],
+      "placesCovered": ["KS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -888,12 +820,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "KY"
-      ],
-      "placesCovered": [
-        "KY"
-      ],
+      "sourceCoverage": ["KY"],
+      "placesCovered": ["KY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -938,12 +866,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "LA"
-      ],
-      "placesCovered": [
-        "LA"
-      ],
+      "sourceCoverage": ["LA"],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -988,12 +912,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "MA"
-      ],
-      "placesCovered": [
-        "MA"
-      ],
+      "sourceCoverage": ["MA"],
+      "placesCovered": ["MA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1038,12 +958,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "MD"
-      ],
-      "placesCovered": [
-        "MD"
-      ],
+      "sourceCoverage": ["MD"],
+      "placesCovered": ["MD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1088,12 +1004,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "ME"
-      ],
-      "placesCovered": [
-        "ME"
-      ],
+      "sourceCoverage": ["ME"],
+      "placesCovered": ["ME"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1138,12 +1050,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "MI"
-      ],
-      "placesCovered": [
-        "MI"
-      ],
+      "sourceCoverage": ["MI"],
+      "placesCovered": ["MI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1188,12 +1096,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "MN"
-      ],
-      "placesCovered": [
-        "MN"
-      ],
+      "sourceCoverage": ["MN"],
+      "placesCovered": ["MN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1238,12 +1142,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "MO"
-      ],
-      "placesCovered": [
-        "MO"
-      ],
+      "sourceCoverage": ["MO"],
+      "placesCovered": ["MO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1288,12 +1188,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "MS"
-      ],
-      "placesCovered": [
-        "MS"
-      ],
+      "sourceCoverage": ["MS"],
+      "placesCovered": ["MS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1338,12 +1234,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "MT"
-      ],
-      "placesCovered": [
-        "MT"
-      ],
+      "sourceCoverage": ["MT"],
+      "placesCovered": ["MT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1388,12 +1280,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "NC"
-      ],
-      "placesCovered": [
-        "NC"
-      ],
+      "sourceCoverage": ["NC"],
+      "placesCovered": ["NC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1438,12 +1326,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "ND"
-      ],
-      "placesCovered": [
-        "ND"
-      ],
+      "sourceCoverage": ["ND"],
+      "placesCovered": ["ND"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1488,12 +1372,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "NE"
-      ],
-      "placesCovered": [
-        "NE"
-      ],
+      "sourceCoverage": ["NE"],
+      "placesCovered": ["NE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1538,12 +1418,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "NH"
-      ],
-      "placesCovered": [
-        "NH"
-      ],
+      "sourceCoverage": ["NH"],
+      "placesCovered": ["NH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1588,12 +1464,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "NJ"
-      ],
-      "placesCovered": [
-        "NJ"
-      ],
+      "sourceCoverage": ["NJ"],
+      "placesCovered": ["NJ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1638,12 +1510,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "NM"
-      ],
-      "placesCovered": [
-        "NM"
-      ],
+      "sourceCoverage": ["NM"],
+      "placesCovered": ["NM"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1688,12 +1556,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "NV"
-      ],
-      "placesCovered": [
-        "NV"
-      ],
+      "sourceCoverage": ["NV"],
+      "placesCovered": ["NV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1738,12 +1602,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "NY"
-      ],
-      "placesCovered": [
-        "NY"
-      ],
+      "sourceCoverage": ["NY"],
+      "placesCovered": ["NY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1788,12 +1648,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "OH"
-      ],
-      "placesCovered": [
-        "OH"
-      ],
+      "sourceCoverage": ["OH"],
+      "placesCovered": ["OH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1838,12 +1694,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "OK"
-      ],
-      "placesCovered": [
-        "OK"
-      ],
+      "sourceCoverage": ["OK"],
+      "placesCovered": ["OK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1888,12 +1740,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "OR"
-      ],
-      "placesCovered": [
-        "OR"
-      ],
+      "sourceCoverage": ["OR"],
+      "placesCovered": ["OR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1938,12 +1786,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "PA"
-      ],
-      "placesCovered": [
-        "PA"
-      ],
+      "sourceCoverage": ["PA"],
+      "placesCovered": ["PA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -1987,12 +1831,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2037,12 +1877,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "RI"
-      ],
-      "placesCovered": [
-        "RI"
-      ],
+      "sourceCoverage": ["RI"],
+      "placesCovered": ["RI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2087,12 +1923,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "SC"
-      ],
-      "placesCovered": [
-        "SC"
-      ],
+      "sourceCoverage": ["SC"],
+      "placesCovered": ["SC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2137,12 +1969,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "SD"
-      ],
-      "placesCovered": [
-        "SD"
-      ],
+      "sourceCoverage": ["SD"],
+      "placesCovered": ["SD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2187,12 +2015,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "TN"
-      ],
-      "placesCovered": [
-        "TN"
-      ],
+      "sourceCoverage": ["TN"],
+      "placesCovered": ["TN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2237,12 +2061,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "TX"
-      ],
-      "placesCovered": [
-        "TX"
-      ],
+      "sourceCoverage": ["TX"],
+      "placesCovered": ["TX"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2287,12 +2107,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "UT"
-      ],
-      "placesCovered": [
-        "UT"
-      ],
+      "sourceCoverage": ["UT"],
+      "placesCovered": ["UT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2337,12 +2153,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "VA"
-      ],
-      "placesCovered": [
-        "VA"
-      ],
+      "sourceCoverage": ["VA"],
+      "placesCovered": ["VA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2387,12 +2199,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "VT"
-      ],
-      "placesCovered": [
-        "VT"
-      ],
+      "sourceCoverage": ["VT"],
+      "placesCovered": ["VT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2437,12 +2245,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "WA"
-      ],
-      "placesCovered": [
-        "WA"
-      ],
+      "sourceCoverage": ["WA"],
+      "placesCovered": ["WA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2487,12 +2291,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "WI"
-      ],
-      "placesCovered": [
-        "WI"
-      ],
+      "sourceCoverage": ["WI"],
+      "placesCovered": ["WI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2537,12 +2337,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "WV"
-      ],
-      "placesCovered": [
-        "WV"
-      ],
+      "sourceCoverage": ["WV"],
+      "placesCovered": ["WV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",
@@ -2587,12 +2383,8 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "WY"
-      ],
-      "placesCovered": [
-        "WY"
-      ],
+      "sourceCoverage": ["WY"],
+      "placesCovered": ["WY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Directly reported source fact or rule; no local inference.",

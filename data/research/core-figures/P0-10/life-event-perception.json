@@ -21,10 +21,7 @@
     },
     {
       "metric": "age_only_model_R_squared_range",
-      "value": [
-        0,
-        0.04
-      ],
+      "value": [0, 0.04],
       "source": "Haehner,Schaefer,Brickau,KaiserandLuhmann2024,PLOSOne19e0314011",
       "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0314011",
       "retrievedAt": "2026-10-11",
@@ -43,10 +40,7 @@
     },
     {
       "metric": "age_plus_event_type_R_squared_range",
-      "value": [
-        0.08,
-        0.57
-      ],
+      "value": [0.08, 0.57],
       "source": "Haehner,Schaefer,Brickau,KaiserandLuhmann2024,PLOSOne19e0314011",
       "url": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0314011",
       "retrievedAt": "2026-10-11",

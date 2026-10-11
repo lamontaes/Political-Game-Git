@@ -9,9 +9,7 @@
   "priority": "P2",
   "question": "How large a line of credit does a small employer business hold, as a share of its annual revenue, and how does that vary by industry and firm size? The Federal Reserve Small Business Credit Survey (Report on Employer Firms) reports the amount of financing sought and approved and the firm's annual revenue band; is there a published or derivable median line-of-credit limit relative to revenue?",
   "questionId": "small-business-credit-line-size",
-  "relatedQuestionIds": [
-    "local-sales-response-to-town-pay"
-  ],
+  "relatedQuestionIds": ["local-sales-response-to-town-pay"],
   "requestVersion": "research-request/v1",
   "requestedBy": "Standby Claude Team 5",
   "sourcesChecked": [

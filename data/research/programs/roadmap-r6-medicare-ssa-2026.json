@@ -1059,15 +1059,8 @@
     {
       "metric": "PIA_2026_bend_points_and_marginal_rates",
       "value": {
-        "bendPointsAIME_USD": [
-          1286,
-          7749
-        ],
-        "rates": [
-          0.9,
-          0.32,
-          0.15
-        ]
+        "bendPointsAIME_USD": [1286, 7749],
+        "rates": [0.9, 0.32, 0.15]
       },
       "source": "SSA PIA formula",
       "url": "https://www.ssa.gov/oact/cola/piaformula.html",

@@ -38,12 +38,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -86,12 +82,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -134,12 +126,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -182,12 +170,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -230,12 +214,8 @@
         "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
         "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
       },
-      "sourceCoverage": [
-        "PR"
-      ],
-      "placesCovered": [
-        "PR"
-      ],
+      "sourceCoverage": ["PR"],
+      "placesCovered": ["PR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."

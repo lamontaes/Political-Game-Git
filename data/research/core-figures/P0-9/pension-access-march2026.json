@@ -7506,12 +7506,6 @@
     }
   ],
   "unit": "percent; participationdenominatorallworkers; take-updenominatorworkerswithaccess",
-  "coverageGaps": [
-    "PR",
-    "GU",
-    "VI",
-    "AS",
-    "MP"
-  ],
+  "coverageGaps": ["PR", "GU", "VI", "AS", "MP"],
   "warning": "Excludesfederalgovernment,armedforces,selfemployed,agriculture andprivatehouseholds; civilian=privateplusstate/local, notallUSworkers."
 }

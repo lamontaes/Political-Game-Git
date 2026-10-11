@@ -37,13 +37,7 @@
         "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
         "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
       },
-      "sourceCoverage": [
-        "PR",
-        "GU",
-        "VI",
-        "AS",
-        "MP"
-      ]
+      "sourceCoverage": ["PR", "GU", "VI", "AS", "MP"]
     },
     {
       "source": "NCESpublicschooldirectory",

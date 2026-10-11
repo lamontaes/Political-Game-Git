@@ -193,17 +193,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 79322.89,
@@ -685,17 +675,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 10941.86,
@@ -1177,17 +1157,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 6728.14,
@@ -1669,17 +1639,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 3961.26,
@@ -2161,17 +2121,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 754.96,
@@ -2653,17 +2603,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 27689.48,
@@ -3145,17 +3085,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 17654.47,
@@ -3637,17 +3567,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 4831.49,
@@ -4129,17 +4049,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 1705.84,
@@ -4621,17 +4531,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 847.69,
@@ -5113,17 +5013,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 2030.57,
@@ -5605,17 +5495,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 1981.78,
@@ -6097,17 +5977,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 11479.58,
@@ -6589,17 +6459,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 3453.76,
@@ -7081,17 +6941,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 4066.23,
@@ -7573,17 +7423,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 1591.55,
@@ -8065,17 +7905,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 5791.4,
@@ -8557,17 +8387,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 3064.07,
@@ -9049,17 +8869,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 909.98,
@@ -9541,17 +9351,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 97.59,
@@ -10033,17 +9833,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 1675.12,
@@ -10525,17 +10315,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 307.64,
@@ -11017,17 +10797,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 900.56,
@@ -11509,17 +11279,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 1462.77,
@@ -12001,17 +11761,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT",
-        "ME",
-        "MA",
-        "NH",
-        "RI",
-        "VT",
-        "NJ",
-        "NY",
-        "PA"
-      ],
+      "placesCovered": ["CT", "ME", "MA", "NH", "RI", "VT", "NJ", "NY", "PA"],
       "isEstimate": true,
       "spread": {
         "lower": 9517.96,

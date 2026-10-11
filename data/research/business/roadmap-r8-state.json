@@ -91,9 +91,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AL"
-      ],
+      "placesCovered": ["AL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -189,9 +187,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -287,9 +283,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "placesCovered": ["AZ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -385,9 +379,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AR"
-      ],
+      "placesCovered": ["AR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -483,9 +475,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CA"
-      ],
+      "placesCovered": ["CA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -581,9 +571,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CO"
-      ],
+      "placesCovered": ["CO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -679,9 +667,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT"
-      ],
+      "placesCovered": ["CT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -777,9 +763,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DE"
-      ],
+      "placesCovered": ["DE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -875,9 +859,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DC"
-      ],
+      "placesCovered": ["DC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -973,9 +955,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "FL"
-      ],
+      "placesCovered": ["FL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -1071,9 +1051,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "GA"
-      ],
+      "placesCovered": ["GA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -1169,9 +1147,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -1267,9 +1243,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ID"
-      ],
+      "placesCovered": ["ID"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -1365,9 +1339,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IL"
-      ],
+      "placesCovered": ["IL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -1463,9 +1435,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IN"
-      ],
+      "placesCovered": ["IN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -1561,9 +1531,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IA"
-      ],
+      "placesCovered": ["IA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -1659,9 +1627,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KS"
-      ],
+      "placesCovered": ["KS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -1757,9 +1723,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KY"
-      ],
+      "placesCovered": ["KY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -1855,9 +1819,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -1953,9 +1915,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ME"
-      ],
+      "placesCovered": ["ME"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -2051,9 +2011,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MD"
-      ],
+      "placesCovered": ["MD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -2149,9 +2107,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MA"
-      ],
+      "placesCovered": ["MA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -2247,9 +2203,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MI"
-      ],
+      "placesCovered": ["MI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -2345,9 +2299,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MN"
-      ],
+      "placesCovered": ["MN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -2443,9 +2395,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MS"
-      ],
+      "placesCovered": ["MS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -2541,9 +2491,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MO"
-      ],
+      "placesCovered": ["MO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -2639,9 +2587,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MT"
-      ],
+      "placesCovered": ["MT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -2737,9 +2683,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NE"
-      ],
+      "placesCovered": ["NE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -2835,9 +2779,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NV"
-      ],
+      "placesCovered": ["NV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -2933,9 +2875,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NH"
-      ],
+      "placesCovered": ["NH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -3031,9 +2971,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NJ"
-      ],
+      "placesCovered": ["NJ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -3129,9 +3067,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NM"
-      ],
+      "placesCovered": ["NM"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -3227,9 +3163,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NY"
-      ],
+      "placesCovered": ["NY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -3325,9 +3259,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NC"
-      ],
+      "placesCovered": ["NC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -3423,9 +3355,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ND"
-      ],
+      "placesCovered": ["ND"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -3521,9 +3451,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OH"
-      ],
+      "placesCovered": ["OH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -3619,9 +3547,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OK"
-      ],
+      "placesCovered": ["OK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -3717,9 +3643,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OR"
-      ],
+      "placesCovered": ["OR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -3815,9 +3739,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "PA"
-      ],
+      "placesCovered": ["PA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -3913,9 +3835,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "RI"
-      ],
+      "placesCovered": ["RI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -4011,9 +3931,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SC"
-      ],
+      "placesCovered": ["SC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -4109,9 +4027,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SD"
-      ],
+      "placesCovered": ["SD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -4207,9 +4123,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TN"
-      ],
+      "placesCovered": ["TN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -4305,9 +4219,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TX"
-      ],
+      "placesCovered": ["TX"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -4403,9 +4315,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "UT"
-      ],
+      "placesCovered": ["UT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -4501,9 +4411,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VT"
-      ],
+      "placesCovered": ["VT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -4599,9 +4507,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VA"
-      ],
+      "placesCovered": ["VA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -4697,9 +4603,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WA"
-      ],
+      "placesCovered": ["WA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -4795,9 +4699,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WV"
-      ],
+      "placesCovered": ["WV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -4893,9 +4795,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WI"
-      ],
+      "placesCovered": ["WI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -4991,9 +4891,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WY"
-      ],
+      "placesCovered": ["WY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -5089,9 +4987,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AL"
-      ],
+      "placesCovered": ["AL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -5187,9 +5083,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -5285,9 +5179,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "placesCovered": ["AZ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -5383,9 +5275,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AR"
-      ],
+      "placesCovered": ["AR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -5481,9 +5371,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CA"
-      ],
+      "placesCovered": ["CA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -5579,9 +5467,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CO"
-      ],
+      "placesCovered": ["CO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -5677,9 +5563,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT"
-      ],
+      "placesCovered": ["CT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -5775,9 +5659,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DE"
-      ],
+      "placesCovered": ["DE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -5873,9 +5755,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DC"
-      ],
+      "placesCovered": ["DC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -5971,9 +5851,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "FL"
-      ],
+      "placesCovered": ["FL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -6069,9 +5947,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "GA"
-      ],
+      "placesCovered": ["GA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -6167,9 +6043,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -6265,9 +6139,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ID"
-      ],
+      "placesCovered": ["ID"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -6363,9 +6235,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IL"
-      ],
+      "placesCovered": ["IL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -6461,9 +6331,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IN"
-      ],
+      "placesCovered": ["IN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -6559,9 +6427,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IA"
-      ],
+      "placesCovered": ["IA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -6657,9 +6523,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KS"
-      ],
+      "placesCovered": ["KS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -6755,9 +6619,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KY"
-      ],
+      "placesCovered": ["KY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -6853,9 +6715,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -6951,9 +6811,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ME"
-      ],
+      "placesCovered": ["ME"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -7049,9 +6907,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MD"
-      ],
+      "placesCovered": ["MD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -7147,9 +7003,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MA"
-      ],
+      "placesCovered": ["MA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -7245,9 +7099,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MI"
-      ],
+      "placesCovered": ["MI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -7343,9 +7195,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MN"
-      ],
+      "placesCovered": ["MN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -7441,9 +7291,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MS"
-      ],
+      "placesCovered": ["MS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -7539,9 +7387,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MO"
-      ],
+      "placesCovered": ["MO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -7637,9 +7483,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MT"
-      ],
+      "placesCovered": ["MT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -7735,9 +7579,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NE"
-      ],
+      "placesCovered": ["NE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -7833,9 +7675,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NV"
-      ],
+      "placesCovered": ["NV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -7931,9 +7771,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NH"
-      ],
+      "placesCovered": ["NH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -8029,9 +7867,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NJ"
-      ],
+      "placesCovered": ["NJ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -8127,9 +7963,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NM"
-      ],
+      "placesCovered": ["NM"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -8225,9 +8059,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NY"
-      ],
+      "placesCovered": ["NY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -8323,9 +8155,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NC"
-      ],
+      "placesCovered": ["NC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -8421,9 +8251,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ND"
-      ],
+      "placesCovered": ["ND"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -8519,9 +8347,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OH"
-      ],
+      "placesCovered": ["OH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -8617,9 +8443,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OK"
-      ],
+      "placesCovered": ["OK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -8715,9 +8539,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OR"
-      ],
+      "placesCovered": ["OR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -8813,9 +8635,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "PA"
-      ],
+      "placesCovered": ["PA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -8911,9 +8731,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "RI"
-      ],
+      "placesCovered": ["RI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -9009,9 +8827,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SC"
-      ],
+      "placesCovered": ["SC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -9107,9 +8923,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SD"
-      ],
+      "placesCovered": ["SD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -9205,9 +9019,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TN"
-      ],
+      "placesCovered": ["TN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -9303,9 +9115,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TX"
-      ],
+      "placesCovered": ["TX"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -9401,9 +9211,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "UT"
-      ],
+      "placesCovered": ["UT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -9499,9 +9307,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VT"
-      ],
+      "placesCovered": ["VT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -9597,9 +9403,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VA"
-      ],
+      "placesCovered": ["VA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -9695,9 +9499,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WA"
-      ],
+      "placesCovered": ["WA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -9793,9 +9595,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WV"
-      ],
+      "placesCovered": ["WV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -9891,9 +9691,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WI"
-      ],
+      "placesCovered": ["WI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -9989,9 +9787,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WY"
-      ],
+      "placesCovered": ["WY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -10087,9 +9883,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AL"
-      ],
+      "placesCovered": ["AL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -10185,9 +9979,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -10283,9 +10075,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "placesCovered": ["AZ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -10381,9 +10171,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AR"
-      ],
+      "placesCovered": ["AR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -10479,9 +10267,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CA"
-      ],
+      "placesCovered": ["CA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -10577,9 +10363,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CO"
-      ],
+      "placesCovered": ["CO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -10675,9 +10459,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT"
-      ],
+      "placesCovered": ["CT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -10773,9 +10555,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DE"
-      ],
+      "placesCovered": ["DE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -10871,9 +10651,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DC"
-      ],
+      "placesCovered": ["DC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -10969,9 +10747,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "FL"
-      ],
+      "placesCovered": ["FL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -11067,9 +10843,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "GA"
-      ],
+      "placesCovered": ["GA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -11165,9 +10939,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -11263,9 +11035,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ID"
-      ],
+      "placesCovered": ["ID"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -11361,9 +11131,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IL"
-      ],
+      "placesCovered": ["IL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -11459,9 +11227,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IN"
-      ],
+      "placesCovered": ["IN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -11557,9 +11323,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IA"
-      ],
+      "placesCovered": ["IA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -11655,9 +11419,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KS"
-      ],
+      "placesCovered": ["KS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -11753,9 +11515,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KY"
-      ],
+      "placesCovered": ["KY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -11851,9 +11611,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -11949,9 +11707,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ME"
-      ],
+      "placesCovered": ["ME"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -12047,9 +11803,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MD"
-      ],
+      "placesCovered": ["MD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -12145,9 +11899,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MA"
-      ],
+      "placesCovered": ["MA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -12243,9 +11995,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MI"
-      ],
+      "placesCovered": ["MI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -12341,9 +12091,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MN"
-      ],
+      "placesCovered": ["MN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -12439,9 +12187,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MS"
-      ],
+      "placesCovered": ["MS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -12537,9 +12283,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MO"
-      ],
+      "placesCovered": ["MO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -12635,9 +12379,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MT"
-      ],
+      "placesCovered": ["MT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -12733,9 +12475,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NE"
-      ],
+      "placesCovered": ["NE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -12831,9 +12571,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NV"
-      ],
+      "placesCovered": ["NV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -12929,9 +12667,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NH"
-      ],
+      "placesCovered": ["NH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -13027,9 +12763,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NJ"
-      ],
+      "placesCovered": ["NJ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -13125,9 +12859,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NM"
-      ],
+      "placesCovered": ["NM"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -13223,9 +12955,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NY"
-      ],
+      "placesCovered": ["NY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -13321,9 +13051,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NC"
-      ],
+      "placesCovered": ["NC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -13419,9 +13147,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ND"
-      ],
+      "placesCovered": ["ND"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -13517,9 +13243,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OH"
-      ],
+      "placesCovered": ["OH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -13615,9 +13339,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OK"
-      ],
+      "placesCovered": ["OK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -13713,9 +13435,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OR"
-      ],
+      "placesCovered": ["OR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -13811,9 +13531,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "PA"
-      ],
+      "placesCovered": ["PA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -13909,9 +13627,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "RI"
-      ],
+      "placesCovered": ["RI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -14007,9 +13723,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SC"
-      ],
+      "placesCovered": ["SC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -14105,9 +13819,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SD"
-      ],
+      "placesCovered": ["SD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -14203,9 +13915,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TN"
-      ],
+      "placesCovered": ["TN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -14301,9 +14011,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TX"
-      ],
+      "placesCovered": ["TX"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -14399,9 +14107,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "UT"
-      ],
+      "placesCovered": ["UT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -14497,9 +14203,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VT"
-      ],
+      "placesCovered": ["VT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -14595,9 +14299,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VA"
-      ],
+      "placesCovered": ["VA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -14693,9 +14395,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WA"
-      ],
+      "placesCovered": ["WA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -14791,9 +14491,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WV"
-      ],
+      "placesCovered": ["WV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -14889,9 +14587,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WI"
-      ],
+      "placesCovered": ["WI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -14987,9 +14683,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WY"
-      ],
+      "placesCovered": ["WY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -15085,9 +14779,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AL"
-      ],
+      "placesCovered": ["AL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -15183,9 +14875,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -15281,9 +14971,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "placesCovered": ["AZ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -15379,9 +15067,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AR"
-      ],
+      "placesCovered": ["AR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -15477,9 +15163,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CA"
-      ],
+      "placesCovered": ["CA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -15575,9 +15259,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CO"
-      ],
+      "placesCovered": ["CO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -15673,9 +15355,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT"
-      ],
+      "placesCovered": ["CT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -15771,9 +15451,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DE"
-      ],
+      "placesCovered": ["DE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -15869,9 +15547,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DC"
-      ],
+      "placesCovered": ["DC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -15967,9 +15643,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "FL"
-      ],
+      "placesCovered": ["FL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -16065,9 +15739,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "GA"
-      ],
+      "placesCovered": ["GA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -16163,9 +15835,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -16261,9 +15931,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ID"
-      ],
+      "placesCovered": ["ID"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -16359,9 +16027,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IL"
-      ],
+      "placesCovered": ["IL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -16457,9 +16123,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IN"
-      ],
+      "placesCovered": ["IN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -16555,9 +16219,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IA"
-      ],
+      "placesCovered": ["IA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -16653,9 +16315,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KS"
-      ],
+      "placesCovered": ["KS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -16751,9 +16411,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KY"
-      ],
+      "placesCovered": ["KY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -16849,9 +16507,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -16947,9 +16603,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ME"
-      ],
+      "placesCovered": ["ME"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -17045,9 +16699,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MD"
-      ],
+      "placesCovered": ["MD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -17143,9 +16795,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MA"
-      ],
+      "placesCovered": ["MA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -17241,9 +16891,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MI"
-      ],
+      "placesCovered": ["MI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -17339,9 +16987,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MN"
-      ],
+      "placesCovered": ["MN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -17437,9 +17083,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MS"
-      ],
+      "placesCovered": ["MS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -17535,9 +17179,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MO"
-      ],
+      "placesCovered": ["MO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -17633,9 +17275,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MT"
-      ],
+      "placesCovered": ["MT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -17731,9 +17371,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NE"
-      ],
+      "placesCovered": ["NE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -17829,9 +17467,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NV"
-      ],
+      "placesCovered": ["NV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -17927,9 +17563,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NH"
-      ],
+      "placesCovered": ["NH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -18025,9 +17659,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NJ"
-      ],
+      "placesCovered": ["NJ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -18123,9 +17755,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NM"
-      ],
+      "placesCovered": ["NM"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -18221,9 +17851,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NY"
-      ],
+      "placesCovered": ["NY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -18319,9 +17947,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NC"
-      ],
+      "placesCovered": ["NC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -18417,9 +18043,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ND"
-      ],
+      "placesCovered": ["ND"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -18515,9 +18139,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OH"
-      ],
+      "placesCovered": ["OH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -18613,9 +18235,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OK"
-      ],
+      "placesCovered": ["OK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -18711,9 +18331,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OR"
-      ],
+      "placesCovered": ["OR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -18809,9 +18427,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "PA"
-      ],
+      "placesCovered": ["PA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -18907,9 +18523,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "RI"
-      ],
+      "placesCovered": ["RI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -19005,9 +18619,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SC"
-      ],
+      "placesCovered": ["SC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -19103,9 +18715,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SD"
-      ],
+      "placesCovered": ["SD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -19201,9 +18811,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TN"
-      ],
+      "placesCovered": ["TN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -19299,9 +18907,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TX"
-      ],
+      "placesCovered": ["TX"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -19397,9 +19003,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "UT"
-      ],
+      "placesCovered": ["UT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -19495,9 +19099,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VT"
-      ],
+      "placesCovered": ["VT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -19593,9 +19195,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VA"
-      ],
+      "placesCovered": ["VA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -19691,9 +19291,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WA"
-      ],
+      "placesCovered": ["WA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -19789,9 +19387,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WV"
-      ],
+      "placesCovered": ["WV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -19887,9 +19483,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WI"
-      ],
+      "placesCovered": ["WI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -19985,9 +19579,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WY"
-      ],
+      "placesCovered": ["WY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -20083,9 +19675,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AL"
-      ],
+      "placesCovered": ["AL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -20181,9 +19771,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AK"
-      ],
+      "placesCovered": ["AK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -20279,9 +19867,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AZ"
-      ],
+      "placesCovered": ["AZ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -20377,9 +19963,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "AR"
-      ],
+      "placesCovered": ["AR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -20475,9 +20059,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CA"
-      ],
+      "placesCovered": ["CA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -20573,9 +20155,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CO"
-      ],
+      "placesCovered": ["CO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -20671,9 +20251,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "CT"
-      ],
+      "placesCovered": ["CT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -20769,9 +20347,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DE"
-      ],
+      "placesCovered": ["DE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -20867,9 +20443,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "DC"
-      ],
+      "placesCovered": ["DC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -20965,9 +20539,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "FL"
-      ],
+      "placesCovered": ["FL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -21063,9 +20635,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "GA"
-      ],
+      "placesCovered": ["GA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -21161,9 +20731,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "HI"
-      ],
+      "placesCovered": ["HI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -21259,9 +20827,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ID"
-      ],
+      "placesCovered": ["ID"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -21357,9 +20923,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IL"
-      ],
+      "placesCovered": ["IL"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -21455,9 +21019,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IN"
-      ],
+      "placesCovered": ["IN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -21553,9 +21115,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "IA"
-      ],
+      "placesCovered": ["IA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -21651,9 +21211,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KS"
-      ],
+      "placesCovered": ["KS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -21749,9 +21307,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "KY"
-      ],
+      "placesCovered": ["KY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -21847,9 +21403,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "LA"
-      ],
+      "placesCovered": ["LA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -21945,9 +21499,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ME"
-      ],
+      "placesCovered": ["ME"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -22043,9 +21595,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MD"
-      ],
+      "placesCovered": ["MD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -22141,9 +21691,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MA"
-      ],
+      "placesCovered": ["MA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -22239,9 +21787,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MI"
-      ],
+      "placesCovered": ["MI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -22337,9 +21883,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MN"
-      ],
+      "placesCovered": ["MN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -22435,9 +21979,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MS"
-      ],
+      "placesCovered": ["MS"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -22533,9 +22075,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MO"
-      ],
+      "placesCovered": ["MO"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -22631,9 +22171,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "MT"
-      ],
+      "placesCovered": ["MT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -22729,9 +22267,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NE"
-      ],
+      "placesCovered": ["NE"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -22827,9 +22363,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NV"
-      ],
+      "placesCovered": ["NV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -22925,9 +22459,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NH"
-      ],
+      "placesCovered": ["NH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -23023,9 +22555,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NJ"
-      ],
+      "placesCovered": ["NJ"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -23121,9 +22651,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NM"
-      ],
+      "placesCovered": ["NM"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -23219,9 +22747,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NY"
-      ],
+      "placesCovered": ["NY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -23317,9 +22843,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "NC"
-      ],
+      "placesCovered": ["NC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -23415,9 +22939,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "ND"
-      ],
+      "placesCovered": ["ND"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -23513,9 +23035,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OH"
-      ],
+      "placesCovered": ["OH"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -23611,9 +23131,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OK"
-      ],
+      "placesCovered": ["OK"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -23709,9 +23227,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "OR"
-      ],
+      "placesCovered": ["OR"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -23807,9 +23323,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "PA"
-      ],
+      "placesCovered": ["PA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -23905,9 +23419,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "RI"
-      ],
+      "placesCovered": ["RI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -24003,9 +23515,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SC"
-      ],
+      "placesCovered": ["SC"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -24101,9 +23611,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "SD"
-      ],
+      "placesCovered": ["SD"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -24199,9 +23707,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TN"
-      ],
+      "placesCovered": ["TN"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -24297,9 +23803,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "TX"
-      ],
+      "placesCovered": ["TX"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -24395,9 +23899,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "UT"
-      ],
+      "placesCovered": ["UT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -24493,9 +23995,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VT"
-      ],
+      "placesCovered": ["VT"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -24591,9 +24091,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "VA"
-      ],
+      "placesCovered": ["VA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -24689,9 +24187,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WA"
-      ],
+      "placesCovered": ["WA"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -24787,9 +24283,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WV"
-      ],
+      "placesCovered": ["WV"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -24885,9 +24379,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WI"
-      ],
+      "placesCovered": ["WI"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."
@@ -24983,9 +24475,7 @@
         "WI",
         "WY"
       ],
-      "placesCovered": [
-        "WY"
-      ],
+      "placesCovered": ["WY"],
       "isEstimate": false,
       "spread": null,
       "basis": "Published annual March-to-March employer-business aggregate. Rates retain source percentage-point units and suppression codes."

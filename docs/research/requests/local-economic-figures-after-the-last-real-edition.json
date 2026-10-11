@@ -50,9 +50,7 @@
         "url": "https://www.bls.gov/bls/linksite.htm",
         "notice": "BLS publications public domain except previously copyrighted photographs/illustrations; credit BLS; no emblem use."
       },
-      "sourceCoverage": [
-        "VI"
-      ]
+      "sourceCoverage": ["VI"]
     }
   ],
   "title": "What a town's rent and income do after the last real edition",
