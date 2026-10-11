@@ -66,3 +66,35 @@ it("has no runtime import of legacy engine logic", () => {
     }
   }
 });
+
+it("preserves newly copied constants and calibration initializers", () => {
+  let compared = 0;
+  for (const file of readdirSync(directory).filter(
+    (f) => f.startsWith("pure-") && f.endsWith(".ts"),
+  )) {
+    const text = readFileSync(join(directory, file), "utf8");
+    const source = /Lifted unchanged from ([^;]+);/.exec(text)![1]!;
+    const old = ts.createSourceFile(
+      source,
+      readFileSync(source, "utf8"),
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    const fresh = ts.createSourceFile(file, text, ts.ScriptTarget.Latest, true);
+    for (const node of fresh.statements) {
+      if (!ts.isVariableStatement(node)) continue;
+      for (const declaration of node.declarationList.declarations) {
+        const original = old.statements
+          .filter(ts.isVariableStatement)
+          .flatMap((s) => [...s.declarationList.declarations])
+          .find((d) => d.name.getText(old) === declaration.name.getText(fresh));
+        expect(original, file).toBeDefined();
+        expect(
+          printer.printNode(ts.EmitHint.Unspecified, declaration, fresh),
+        ).toBe(printer.printNode(ts.EmitHint.Unspecified, original!, old));
+        compared++;
+      }
+    }
+  }
+  expect(compared).toBeGreaterThan(0);
+});
