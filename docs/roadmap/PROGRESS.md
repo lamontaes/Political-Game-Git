@@ -2,6 +2,9 @@
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
+
+- **2026-10-10 (America/New_York), CODEX-MACRO / M1-02:** no player behavior changed; agency source/terms inventory is on draft [#3959](https://github.com/lamontaes/Political-Game-Git/pull/3959), stacked on core-pieces `8249aaba6473`. Research stopped because Freddie Mac's current terms do not clearly permit historical PMMS ingestion and commercial derived game use. No PMMS data or measured coefficient was retained; the research request remains unresolved. Startup bench failed (missing script), cloud Git fetch could not reach its proxy, and dependencies are absent, so no world/year or speed proof ran. Next: CTO confirms permission or approves a publishing-source change. Codex (GPT-6 family; exact deployment unavailable), package effort high, no helpers, usage unavailable, send-backs 0; first explicit clock sample 23:11:30 EDT, blocked hand-off 2026-10-11 03:14:28 UTC (total session start not exposed).
+
 ## 2026-10-11
 
 - **SOL-1258 (M0-core), repeated opening evidence:** storing one complete upbringing Source per person reduced the opening from 387.5 MB to 238.7 MB in the guard’s original random place. Source share fell from 75.84% to 61.73%, below the unchanged 74.91% limit. Expanding the shared sources reproduced the exact prior input hash. All 49 focused cases and static checks passed. Next: compact saved explanations, then runtime timing and the judged year. No annual speed result is available. [Receipt](../../src/core2/receipts/m0-opening-source-compaction-20261011.json).
