@@ -903,6 +903,8 @@ export function buildPopulation(options: PopulationOptions): CoreInput {
       kind: `family:${relation}`,
       summary: `${other.givenName} ${other.familyName} is recorded as this person's ${relation} in the generated opening household.`,
       source,
+      // M0-06: the relative's own record, not only their name in the summary.
+      facts: { otherPersonId: otherId },
     });
     familyPast.set(personId, rows);
   };
@@ -1340,6 +1342,7 @@ function openingFamilies(input: OpeningFamilyInput): {
         kind: `family:${row.relation}`,
         summary: `${names.get(row.otherId)} is recorded as this person's ${row.relation} in the generated opening family.`,
         source: kinSource,
+        facts: { otherPersonId: row.otherId },
       })),
       ...(movesOf.get(personId) ?? []).map((move) => ({
         id: `${personId}:move:${move.date}`,
