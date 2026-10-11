@@ -707,21 +707,53 @@ export function partnerAgedHousehold<
     shape === "parent-with-children"
   ) {
     const head = adults[p("zero")]!;
-    ages[head] =
-      pickAge(
-        input.seed,
-        `${keyOf(head)}:age`,
-        minimum,
-        parentAgeWeights(
-          input.geo,
-          sexOf(head),
-          shape === "couple-with-children" ? "partnered" : "single",
+    // A single parent draws sex together with age, so mothers and fathers
+    // follow the CPS counts of parents with no partner at home.
+    const single =
+      shape === "parent-with-children" && sexes[head] !== undefined
+        ? (() => {
+            const weights = both.flatMap((sex) =>
+              parentAgeWeights(
+                input.geo,
+                sex,
+                "single",
+                minimum,
+                maximumExclusive,
+              ),
+            );
+            const index = pickAge(
+              input.seed,
+              `${keyOf(head)}:sex-age`,
+              p("zero"),
+              weights,
+            );
+            return index === undefined
+              ? undefined
+              : {
+                  sex: both[Math.floor(index / span)]!,
+                  age: minimum + (index % span),
+                };
+          })()
+        : undefined;
+    if (single) {
+      sexes[head] = single.sex;
+      ages[head] = single.age;
+    } else
+      ages[head] =
+        pickAge(
+          input.seed,
+          `${keyOf(head)}:age`,
           minimum,
-          maximumExclusive,
-        ),
-      ) ?? ages[head]!;
+          parentAgeWeights(
+            input.geo,
+            sexOf(head),
+            shape === "couple-with-children" ? "partnered" : "single",
+            minimum,
+            maximumExclusive,
+          ),
+        ) ?? ages[head]!;
     for (const n of adults.slice(p("one"))) ages[n] = partnerOf(head, n);
-    const parents = adults.map((n) => ({ age: ages[n]!, sex: sexOf(n) }));
+    const parents = adults.map((n) => ({ age: ages[n]!, sex: sexes[n] }));
     const reference =
       parents.find((parent) => parent.sex === "female") ?? parents[p("zero")]!;
     for (const n of children)
