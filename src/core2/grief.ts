@@ -16,7 +16,15 @@ import { stableHash } from "../simulation/ids";
 import { inverseStandardNormal } from "../simulation/world-setup/deterministic-math";
 import { currentCloseness } from "./closeness";
 import data from "./data/grief.json" with { type: "json" };
-import type { CoreAPI, CoreEventInput, IsoDate, PersonState } from "./types";
+import { extendData } from "./data";
+import type {
+  CoreAPI,
+  CoreData,
+  CoreEventInput,
+  IsoDate,
+  PersonState,
+  ReasonBinding,
+} from "./types";
 
 export const GRIEF = data;
 
@@ -122,4 +130,31 @@ export function griefToday(
     grief: Math.min(api.parameter("one"), grief),
     sourceIds: rows.map((row) => row.eventId),
   };
+}
+
+/**
+ * The acts grief bears on carry its reason only when the people module, which
+ * provides it, is loaded; createLifeCore adds them, as drives add theirs.
+ */
+export function withGrief(base: CoreData): CoreData {
+  const byAction = new Map<string, ReasonBinding[]>();
+  for (const row of GRIEF.bindings)
+    byAction.set(row.actionId, [
+      ...(byAction.get(row.actionId) ?? []),
+      row.binding as ReasonBinding,
+    ]);
+  return extendData(base, {
+    actions: base.actions
+      .filter((action) => byAction.has(action.id))
+      .map((action) => ({
+        ...action,
+        reasonBindings: [
+          ...(action.reasonBindings ?? []).filter(
+            (binding) =>
+              !byAction.get(action.id)!.some((row) => row.id === binding.id),
+          ),
+          ...byAction.get(action.id)!,
+        ],
+      })),
+  });
 }
