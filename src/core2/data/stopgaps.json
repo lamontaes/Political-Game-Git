@@ -1162,5 +1162,29 @@
     "addedAt": "2026-10-12",
     "replacement": "Opening views from the person's education, faith, place type and upbringing through CES-derived weights; the 14 values; conversations and news moving stances (M1-10, M2-09).",
     "status": "open"
+  },
+  {
+    "id": "SG-M1-births-circumstances",
+    "kind": "unmeasured-life-loop-model",
+    "file": "src/core2/births-plan.ts",
+    "line": 1,
+    "whatItFakes": "Old smooth family-plan coefficients; living-cost and household-size housing proxies, recorded affect health proxy, identity gender carrier proxy, successful planned singleton pregnancy with fixed conception-relative duration, infant inactive discretionary tier until future development work.",
+    "why": "Part 1 precedes housing/jobs integrations; clinical reproductive capacity, infertility and pregnancy outcomes are not represented by the current people records. Rates cannot select pregnancies.",
+    "addedBy": "CODEX-RENEWAL",
+    "addedAt": "2026-10-11",
+    "replacement": "Source-matched individual reproductive/clinical records, dated pregnancy outcomes, dwelling capacity and coupled choice calibration; infant development producer. Finisher must review these limits against Part 1.",
+    "status": "open"
+  },
+  {
+    "id": "SG-M1-opening-pregnancies",
+    "kind": "opening-prehistory-estimate",
+    "file": "src/core2/modules/renewal.ts",
+    "line": 1,
+    "whatItFakes": "Opening still-pregnant plans use current opening money, housing, health and temperament as pre-opening proxies, with real recorded partnership and child dates. Reviews occur at 91-day phases anchored to partnership or youngest child; both partners must agree through the chooser. No surveyed fertility rate decides pregnancy.",
+    "why": "No prenatal records exist in P15 opening population; starting with none depresses the entire first year and synchronizes deliveries.",
+    "addedBy": "CODEX-RENEWAL",
+    "addedAt": "2026-10-11",
+    "replacement": "OPUS-PEOPLE dated lived pregnancy/resource/medical history, or a finisher/CTO accepted reconstruction with validated first-year calibration.",
+    "status": "open"
   }
 ]

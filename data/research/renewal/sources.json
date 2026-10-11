@@ -1,0 +1,119 @@
+{
+  "checkedAt": "2026-10-11",
+  "author": "CODEX-RENEWAL",
+  "scope": "Part 1 births; moves research deferred with Part 2.",
+  "sources": [
+    {
+      "id": "nchs-final-2024",
+      "url": "https://www.cdc.gov/nchs/data/nvsr/nvsr75/nvsr75-02.pdf",
+      "publicationDate": "2026-06-09",
+      "tables": [6, 7],
+      "terms": "https://www.cdc.gov/other/agencymaterials.html",
+      "permission": "CDC agency public-domain work; attribution retained; commercial reuse allowed.",
+      "use": "2024 residence crude, general and maternal-age rates; all 56 areas separate from national."
+    },
+    {
+      "id": "nchs-final-2023",
+      "url": "https://stacks.cdc.gov/view/cdc/175204/cdc_175204_DS1.pdf",
+      "publicationDate": "2025-03-18",
+      "tables": [8, 9, 10],
+      "terms": "https://www.cdc.gov/other/agencymaterials.html",
+      "permission": "CDC agency public-domain work.",
+      "use": "2023 rates; American Samoa unavailable, not a zero or invented earlier year."
+    },
+    {
+      "id": "wonder",
+      "url": "https://wonder.cdc.gov/wonder/help/natality-expanded.html",
+      "terms": "https://www.cdc.gov/other/agencymaterials.html",
+      "finding": "Income is not a natality certificate variable. County suppression and CA marital-status withholding from 2017 limit cross-tabs. Do not infer income coefficients from the age/state rates."
+    },
+    {
+      "id": "census-income",
+      "url": "https://www.census.gov/data/tables/2024/demo/fertility/women-fertility.html",
+      "table": 7,
+      "observationYear": 2023,
+      "terms": "https://www2.census.gov/foia/ds_policies/ds027.pdf#page=9",
+      "permission": "Census employee works generally have no US copyright; aggregate official survey tables only.",
+      "finding": "Table 7 publishes household income and income per member among women with births by marital status, not conditional birth probabilities. XLS link retrieval failed in browser and cloud proxy; numeric cells not transcribed or used. ACS sampling error is required for a later estimate."
+    },
+    {
+      "id": "spacing",
+      "url": "https://www.cdc.gov/nchs/products/databriefs/db240.htm",
+      "terms": "https://www.cdc.gov/other/agencymaterials.html",
+      "finding": "2014 second-or-higher singleton interpregnancy spacing; 47 states and DC. Aggregate spacing cannot identify a couple utility coefficient."
+    }
+  ],
+  "maritalStatus": {
+    "tag": "SOURCED",
+    "denominator": "Married/unmarried women ages 15-44, per 1000 in respective marital groups; percent nonmarital births uses births denominator.",
+    "years": {
+      "2023": {
+        "unmarriedRate": 36.4,
+        "marriedRate": 81.6,
+        "nonmaritalBirthPercent": 40.0
+      },
+      "2024": {
+        "unmarriedRate": 35.5,
+        "marriedRate": 81.3,
+        "nonmaritalBirthPercent": 39.5
+      }
+    },
+    "sourceIds": ["nchs-final-2023", "nchs-final-2024"],
+    "limitation": "Actual cohabiting partnership is not legal marriage. No marriage multiplier or aggregate rate enters actor choice."
+  },
+  "territoryRegistries": [
+    {
+      "area": "Puerto Rico",
+      "url": "https://www.salud.pr.gov/menuInst/download/2324",
+      "finding": "Health department births 2024/2025 by maternal age; territory-local reuse terms not established, no local cells shipped. Federal NCHS republication used."
+    },
+    {
+      "area": "Guam",
+      "url": "https://bsp.guam.gov/wp-bsp-content/uploads/2025/01/2023-Guam-Statistical-Yearbook-Final.pdf",
+      "registry": "https://dphss.guam.gov/services/vital-statistics",
+      "finding": "Local vital statistics identified. Local reuse terms not established, use federal NCHS republication."
+    },
+    {
+      "area": "Virgin Islands",
+      "url": "https://doh.vi.gov/programs/vital-records-statistics/",
+      "finding": "Responsible registry opened; no numeric aggregate table retrieved. Federal NCHS republication used."
+    },
+    {
+      "area": "Northern Marianas",
+      "url": "https://www.chcc.health/DocumentFiles/PublicHealth/MCHData/CNMI%20Maternal%20%26%20Child%20Health%20FY24%20Annual%20Report%20%26%20Fy26%20Application09252025.pdf",
+      "finding": "CHCC maternal/child report identified; direct report and terms not established, no local cells shipped. Federal NCHS republication used."
+    },
+    {
+      "area": "American Samoa",
+      "finding": "Direct vital registry aggregate publication not located. 2024 NCHS territory-reported rates are available; 2023 unavailable. No two-year real range established."
+    }
+  ],
+  "method": {
+    "extraction": "Retained browser-rendered source excerpts with page/line locators, derivative JSON transcriptions. U.S. Virgin Islands 2023 spelling normalized to Virgin Islands; teen sub-bands excluded from eight maternal-age groups.",
+    "ageFootnote": "45-49 denominator includes births to mothers 50+ in numerator. Suppressed/unreliable rates remain null.",
+    "checkOnly": "Research rates are imported only by evidence tools, never by the producer or chooser.",
+    "unresolved": "Real county rates where published, income numeric table, cohort age-profile one-year reference changes, and any acceptance treatment for small towns or a single observed year remain for explicit review. Do not broaden the work-order test silently.",
+    "ageProfileReferenceAttempt": {
+      "url": "https://api.census.gov/data/2024/acs/acs1/subject?get=NAME,S0101_C02_002E,S0101_C02_022E,S0101_C02_030E&for=state:11",
+      "result": "2023 and 2024 API requests inaccessible through connected browser; cloud proxy also blocks Census downloads. No one-year age-change bound invented."
+    }
+  },
+  "lineage": [
+    {
+      "file": "natality-2023.json",
+      "sha256": "cc9705af73853f20a7d9f487f2599fdb37420b3bfa025e087b074bf29b87e43b"
+    },
+    {
+      "file": "natality-2024.json",
+      "sha256": "8e3116ac7d926ca80fb6f4348f6436074231d47ea311fabc912ae7e66daf7167"
+    },
+    {
+      "file": "nchs-2023-table-8.txt",
+      "sha256": "138a0f7154b0355ed5e9d4b2a54d2b2cc607730880eef2a33454639c612c2ccd"
+    },
+    {
+      "file": "nchs-2024-table-6.txt",
+      "sha256": "841f5bb15f72f975f698ad6d29dbcd0dabae231a25c8ed9ab7beed9499c138d5"
+    }
+  ]
+}
