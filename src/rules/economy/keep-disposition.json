@@ -615,9 +615,9 @@
     "name": "medianTenureYears",
     "inventoryEngine": "economy",
     "keepLines": 3,
-    "status": "pending-owned",
-    "lift": "src/rules/economy/employment-tenure.ts",
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/employment.ts",
+    "reason": "Full civic/workplace/role/tenure/age/hours/capacity/history/name-selection math and required tables/constants travel, including lazy census initialization before pure comparisons. employment-world.test.ts compares unchanged public fill parents in all 56 generated Worlds with common organization/work writers and labeled life-hours/funded/empty/repeat controls. Original unfiltered uint32 producer words are test-only receipts; local rejection/modulo, family/style collision and employer/role math remain owned. The exact duplicate stable-work-key failure and common writer input/World prefix are compared, not repaired. Bounded evidence, not exhaustive/ordinary NPC/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-employment.ts",
@@ -655,9 +655,9 @@
     "name": "fillTownJobs",
     "inventoryEngine": "economy",
     "keepLines": 445,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/employment.ts",
+    "reason": "Full civic/workplace/role/tenure/age/hours/capacity/history/name-selection math and required tables/constants travel, including lazy census initialization before pure comparisons. employment-world.test.ts compares unchanged public fill parents in all 56 generated Worlds with common organization/work writers and labeled life-hours/funded/empty/repeat controls. Original unfiltered uint32 producer words are test-only receipts; local rejection/modulo, family/style collision and employer/role math remain owned. The exact duplicate stable-work-key failure and common writer input/World prefix are compared, not repaired. Bounded evidence, not exhaustive/ordinary NPC/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-finances.ts",
@@ -915,9 +915,9 @@
     "name": "headAge",
     "inventoryEngine": "economy",
     "keepLines": 3,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/home-review.ts",
+    "reason": "Full quarterly public review parent including head age, raw household/death/location/work frontiers, home/tenure/vacancy selection, affordability/burden/downsize and exact move/event drafts; required helpers/constants travel. home-review-world.test.ts compares unchanged public review/describe parents across all 56 generated Worlds with canonical household locations, common home writers, canonical invented older person and ended memberships for a positive downsize, repeated/date/empty controls. No private evaluation or World writer. Bounded evidence, not exhaustive/ordinary NPC/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-labor-market.ts",
@@ -2325,9 +2325,9 @@
     "name": "staffProgram",
     "inventoryEngine": "economy",
     "keepLines": 56,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/public-staffing.ts",
+    "reason": "Full public funded-staffing parent, government joins/indexes, baseline/rounding, dated titles/statuses, seniority layoffs, credential/labor/recall ordering and employer balancing travel, invoking complete lifted hiring math. public-staffing-world.test.ts compares unchanged public parents across all 56 generated Worlds, actual corpus source behavior, canonical employer/work/degree/ending records and labeled raw Native-produced funding-year/geographic controls. Missing territory sources and the source-geoid state-funding guard remain unchanged; the positive reference-geoid control does not assert an actual territory location. Full baseline DTOs check saved public-parent prefixes; common transport/core2 remains pending. Bounded evidence, not exhaustive/ordinary NPC/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/quantity.ts",
@@ -2495,9 +2495,9 @@
     "name": "settlementPeriodsOverlap",
     "inventoryEngine": "economy",
     "keepLines": 8,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/resource-settlement.ts",
+    "reason": "Complete retained transfer preparation/chronology/inclusive collision/terms/amount/cash/debt/earned/stamp closure and required helpers/constants travel; no World writer. resource-settlement-world.test.ts compares complete prepared DTOs/errors with unchanged public recordResourceTransferOutcome across all 56 generated Worlds and common writer effects. Canonical flows/terms/personal obligations/cash and labeled status/date/currency/terms/principal controls exercise edges. Canonical public completed-session and applyLawPayConsequence producers supply actual saved earned assessment; no handcrafted assessment append, private evaluation or owned-math preselection. Full already lifted earned-law validation executes locally, with raw legal/life receipts. Bounded evidence, not ordinary NPC/exhaustive/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/starting-money.ts",
