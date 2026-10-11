@@ -101,6 +101,8 @@ export interface PersonInput {
   countyId?: PlaceId;
   householdId: string;
   tier: Tier;
+  /** v13: an explicit developmental capability, independent of observation/cadence. */
+  discretionaryEligibleV1?: boolean;
   traits: Readonly<Record<string, number>>;
   traitSources?: Readonly<Record<string, Source>>;
   /** One complete generated upbringing Source shared by the person's recorded traits. */
