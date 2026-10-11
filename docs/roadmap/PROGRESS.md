@@ -2,6 +2,10 @@
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
+## 2026-10-11
+
+- **RULES-3 governing precursor, draft #3952.** Pure KEEP rules have legacy equivalence checks in all 56 places and all three authority levels. Two focused files / 61 tests pass; local gate passes. Coverage ledger accounts for 152 classifier/manual entries with lifts, false positives, and concrete old-runtime dependencies. One legacy term-limit test is already red on main because its unread-data assumption is stale. No playable golden-path step advances: core module wiring and independent finishing remain next. Inherited suspected bugs are registered, unchanged. Model, effort and time are in `docs/plans/rules3/governing.md`.
+
 ## 2026-10-10
 
 - **OPUS-PEOPLE (M0-people), parts 1 to 4 in review.**
