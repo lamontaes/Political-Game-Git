@@ -48,29 +48,30 @@ function traitScore(
   return result;
 }
 
-export function chooseAct(
+/** One scored offer: its total, its reasons, and the chooser's tie-break key. */
+export interface ScoredOffer {
+  offer: ActOffer;
+  score: number;
+  reasons: DecisionReason;
+  reasonTerms?: readonly WeightedReason[];
+  key: string;
+}
+
+/** Scores every offer once with the chooser's reasons; it chooses nothing. */
+export function scoreOffers(
   core: CoreState,
   personId: string,
   offers: readonly ActOffer[],
   context?: DecisionContext,
-): DecisionResult {
+): ScoredOffer[] {
   const actor = core.people.get(personId);
   if (!actor) throw new Error("Decision actor is absent.");
   const p = (key: string) => parameter(key, core.data.parameters);
-  let best:
-    | {
-        offer: ActOffer;
-        score: number;
-        reasons: DecisionReason;
-        reasonTerms?: readonly WeightedReason[];
-      }
-    | undefined;
   const traced =
     core.observer ||
     actor.id === core.playerId ||
     core.focusPersonIds.has(actor.id);
-  const scores: NonNullable<DecisionResult["scores"]>[number][] | undefined =
-    traced ? [] : undefined;
+  const scored: ScoredOffer[] = [];
   for (const offer of offers) {
     const action = offer.definition;
     const effortHours = offer.effortHours ?? p(action.effortParameter);
@@ -152,20 +153,50 @@ export function chooseAct(
       p("zero"),
     );
     if (!Number.isFinite(score)) throw new Error("Non-finite choice utility.");
-    scores?.push({
-      actionId: action.id,
-      targetId: offer.targetId,
+    scored.push({
+      offer,
       score,
       reasons,
-      ...(reasonTerms?.length ? { reasonTerms } : {}),
+      reasonTerms,
+      key: `${action.id}:${offer.targetId}`,
     });
-    const key = `${action.id}:${offer.targetId}`;
-    const bestKey = best
-      ? `${best.offer.definition.id}:${best.offer.targetId}`
-      : undefined;
-    if (!best || score > best.score || (score === best.score && key < bestKey!))
-      best = { offer, score, reasons, reasonTerms };
   }
+  return scored;
+}
+
+export function chooseAct(
+  core: CoreState,
+  personId: string,
+  offers: readonly ActOffer[],
+  context?: DecisionContext,
+): DecisionResult {
+  return decisionFromScores(
+    core,
+    personId,
+    scoreOffers(core, personId, offers, context),
+  );
+}
+
+/** The chooser's pick from a scoring pass: the highest score, ties to the lowest key. */
+export function decisionFromScores(
+  core: CoreState,
+  personId: string,
+  scored: readonly ScoredOffer[],
+): DecisionResult {
+  const actor = core.people.get(personId);
+  if (!actor) throw new Error("Decision actor is absent.");
+  const traced =
+    core.observer ||
+    actor.id === core.playerId ||
+    core.focusPersonIds.has(actor.id);
+  let best: ScoredOffer | undefined;
+  for (const row of scored)
+    if (
+      !best ||
+      row.score > best.score ||
+      (row.score === best.score && row.key < best.key)
+    )
+      best = row;
   return {
     actorId: personId,
     date: core.date,
@@ -177,6 +208,14 @@ export function chooseAct(
     reasonKey: best
       ? `utility:${best.offer.definition.need}:${best.offer.driveId ?? best.offer.definition.effect}`
       : "no-available-act",
-    scores,
+    scores: traced
+      ? scored.map((row) => ({
+          actionId: row.offer.definition.id,
+          targetId: row.offer.targetId,
+          score: row.score,
+          reasons: row.reasons,
+          ...(row.reasonTerms?.length ? { reasonTerms: row.reasonTerms } : {}),
+        }))
+      : undefined,
   };
 }

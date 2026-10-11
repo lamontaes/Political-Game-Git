@@ -1,4 +1,8 @@
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import {
+  daysBetween,
+  isoDateFromParts,
+  makeIsoDate,
+} from "../simulation/dates";
 import { parameter } from "./parameters";
 import type { CoreState, IsoDate, PersonState, TierDefinition } from "./types";
 
@@ -133,4 +137,32 @@ export function catchUpPerson(
   const actor = core.people.get(personId);
   if (!actor) throw new Error(`Absent full person: ${personId}`);
   return { personId, days: elapsedDays(core, actor, target) };
+}
+
+/**
+ * P15 part 2b: days from today until the person's next activation, the span
+ * one activation plans their free time over. Calendar and inactive cadences
+ * plan only today.
+ */
+export function planningDays(
+  core: CoreState,
+  actor: Readonly<PersonState>,
+): number {
+  const one = parameter("one", core.data.parameters);
+  if (hasDailyFocus(core, actor)) return one;
+  const tier = core.data.tiers.find((row) => row.id === actor.tier);
+  if (tier?.cadence === "days") return interval(core, tier);
+  if (tier?.cadence === "months") {
+    const next = new Date(makeIsoDate(core.date));
+    next.setUTCMonth(next.getUTCMonth() + interval(core, tier));
+    return daysBetween(
+      makeIsoDate(core.date),
+      isoDateFromParts(
+        next.getUTCFullYear(),
+        next.getUTCMonth() + one,
+        next.getUTCDate(),
+      ),
+    );
+  }
+  return one;
 }
