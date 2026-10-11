@@ -1,0 +1,27 @@
+{
+  "version": "p15-encounters-v1",
+  "factKindPrefix": "social:met-",
+  "source": {
+    "tag": "SOURCED",
+    "citation": "Simulated encounter: the two people were at the same place on this date because of the recorded act or event named in the fact; the first tie is the hours they spent together there."
+  },
+  "visit": {
+    "stopgapId": "SG-P15-visit-housemates-home",
+    "kind": "visiting",
+    "relationshipKind": "contact",
+    "visitorSummaryTemplate": "{otherName}: met visiting {hostName}",
+    "housemateSummaryTemplate": "{otherName}: met when they visited {hostName}"
+  },
+  "group": {
+    "kind": "joining-group",
+    "relationshipKind": "group",
+    "joinerSummaryTemplate": "{otherName}: met on joining {groupName}",
+    "memberSummaryTemplate": "{otherName}: met when they joined {groupName}"
+  },
+  "meeting": {
+    "stopgapId": "SG-P15-meeting-attendance",
+    "kind": "at-meeting",
+    "relationshipKind": "group",
+    "summaryTemplate": "{otherName}: met at a meeting at {placeName}"
+  }
+}

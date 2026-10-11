@@ -107,6 +107,9 @@ export interface PersonInput {
   }[];
 }
 
+/** One dated fact in a person's past or lived life. */
+export type PastFact = NonNullable<PersonInput["pastFacts"]>[number];
+
 export interface PersonState extends Omit<
   PersonInput,
   "traits" | "familyIds" | "knownIds"
@@ -634,6 +637,7 @@ export interface CoreState {
   organizationsByPlaceKind: Map<string, Set<string>>;
   relationshipsByPerson: Map<PersonId, Set<string>>;
   membershipsByPerson: Map<PersonId, Set<string>>;
+  membershipsByOrganization: Map<string, Set<string>>;
   pendingCallbacks: Map<string, CoreEventInput>;
   durableLog: Map<string, LogRecord>;
   logByPerson: Map<PersonId, Set<string>>;
@@ -870,6 +874,11 @@ export interface CoreAPI {
     reason: ClosenessReason,
   ): void;
   join(personId: PersonId, organizationId: string, driveId?: string): void;
+  /**
+   * P15: a person meets someone in person. The dated fact goes in their past;
+   * if they did not know the other's name, they learn it from that fact.
+   */
+  meetPerson(personId: PersonId, otherId: PersonId, fact: PastFact): void;
   emit(event: CoreEventInput): void;
   /** External consumers can subscribe without owning or scanning world state. */
   subscribeEvents(

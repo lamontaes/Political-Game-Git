@@ -220,6 +220,7 @@ export function createCore(
     organizationsByPlaceKind: new Map(),
     relationshipsByPerson: new Map(),
     membershipsByPerson: new Map(),
+    membershipsByOrganization: new Map(),
     pendingCallbacks: new Map(),
     durableLog: new Map(),
     logByPerson: new Map(),
@@ -854,6 +855,36 @@ export function coreAPI(core: CoreState): CoreAPI {
         status: "requested",
       });
       index(core.membershipsByPerson, personId, id);
+      index(core.membershipsByOrganization, organizationId, id);
+    },
+    meetPerson(personId, otherId, fact) {
+      const actor = core.people.get(personId);
+      const other = core.people.get(otherId);
+      if (!actor || !other || personId === otherId)
+        throw new Error("A meeting requires two recorded people.");
+      if (
+        fact.date !== core.date ||
+        fact.facts?.otherPersonId !== otherId ||
+        actor.pastFacts?.some((row) => row.id === fact.id)
+      )
+        throw new Error(
+          "A meeting fact must be new, dated today, and name the other person.",
+        );
+      // Copies, so the opening input's arrays stay as they were built.
+      actor.pastFacts = [...(actor.pastFacts ?? []), fact];
+      if (actor.knownIds.has(otherId)) return;
+      actor.knownIds.add(otherId);
+      actor.knownIdSources = {
+        ...actor.knownIdSources,
+        [otherId]: { sourceFactId: fact.id, learnedAt: core.date },
+      };
+      api.observe(personId, {
+        key: `person:${otherId}:name`,
+        value: `${other.givenName} ${other.familyName}`,
+        sourceId: fact.id,
+        learnedAt: core.date,
+        access: "perceived",
+      });
     },
     emit(event) {
       applyCoreEvent(core, event);
@@ -1316,6 +1347,8 @@ export function assertCoreIntegrity(core: CoreState): void {
   for (const [id, row] of core.memberships)
     fail(
       core.membershipsByPerson.get(row.personId)?.has(id) === true &&
+        core.membershipsByOrganization.get(row.organizationId)?.has(id) ===
+          true &&
         core.people.has(row.personId) &&
         (core.organizations.has(row.organizationId) ||
           core.publicOrganizations.has(row.organizationId)),

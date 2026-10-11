@@ -1114,5 +1114,29 @@
     "addedAt": "2026-10-11",
     "replacement": "A probability-sample source on help received at a move, closeness at the time from a measured friendship model, out-of-town birthplaces from ACS place of birth, and favors at job losses and illness.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-visit-housemates-home",
+    "kind": "behavior-model-gap",
+    "file": "src/core2/data/encounters.json",
+    "line": 9,
+    "whatItFakes": "Everyone alive who shares the visited person's home (relatives outside town included) is taken as home for the whole visit, so the visitor meets each one they have no tie with, for the visit's hours.",
+    "why": "Owner ruling on #3956 (encounter 1); the day has no times or places for each person, so nothing says who is home in the evening.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-11",
+    "replacement": "Who is home follows each housemate's own day: work shifts, their own acts and where they are at the visit's hour.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-meeting-attendance",
+    "kind": "behavior-model-gap",
+    "file": "src/core2/data/encounters.json",
+    "line": 22,
+    "whatItFakes": "Those who come to an organized meeting are the organizer's relatives and acquaintances in the same town or county who hold a cause on the same topic, plus the hosting group's members; they come without choosing to, and the meeting takes none of their own day.",
+    "why": "Owner ruling on #3956 (encounter 2); meetings are not yet scheduled events that people see and choose to attend.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-11",
+    "replacement": "Meetings are scheduled events; each invitee chooses to attend as an act from their own cause, ties and free hours (M2 civic meetings).",
+    "status": "open"
   }
 ]

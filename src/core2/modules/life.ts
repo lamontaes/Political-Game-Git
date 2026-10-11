@@ -1,6 +1,7 @@
 import { daysBetween, makeIsoDate } from "../../simulation/dates";
 import { plannedWorkMinutesOnDate } from "./work";
 import { CLOSENESS, currentCloseness } from "../closeness";
+import { meetAtGathering, meetGroup, meetHousemates } from "../encounters";
 import { appraiseEvent, affectAt } from "../emotion";
 import { parameterValues } from "../parameters";
 import type {
@@ -259,7 +260,8 @@ export const LIFE_MODULE: CoreModule = {
       api.updatePerson(actorId, { affect });
     },
     contact: (api, actorId, chosen, date, _days, decision) => {
-      // P15: the visit's hours are time together, saved with the act as the reason.
+      // P15: the visit's hours are time together, saved with the act as the
+      // reason; at the visit the visitor meets the people the host lives with.
       const actId = api.recordAct(actorId, chosen, date, decision);
       const hours =
         chosen.effortHours ?? p(api, chosen.definition.effortParameter);
@@ -269,6 +271,7 @@ export const LIFE_MODULE: CoreModule = {
       });
       api.updatePerson(actorId, { lastContactDate: api.state.date });
       api.updatePerson(chosen.targetId, { lastContactDate: api.state.date });
+      meetHousemates(api, actorId, chosen.targetId, hours, actId);
       return { recordedActId: actId };
     },
     care: (api, actorId, chosen, date, _days, decision) => {
@@ -293,10 +296,20 @@ export const LIFE_MODULE: CoreModule = {
     },
     "public-lookup": (api, actorId, chosen) =>
       api.lookupPublicOrganization(actorId, chosen.targetId),
-    join: (api, actorId, chosen) => {
+    join: (api, actorId, chosen, date, _days, decision) => {
       const event = civicEvent(api, actorId, chosen, "association.requested");
       api.join(actorId, chosen.targetId, chosen.driveId);
       api.emit(event);
+      // P15: joining meets the group's members and staff.
+      const actId = api.recordAct(actorId, chosen, date, decision);
+      meetGroup(
+        api,
+        actorId,
+        chosen.targetId,
+        chosen.effortHours ?? p(api, chosen.definition.effortParameter),
+        actId,
+      );
+      return { recordedActId: actId };
     },
     organize: (api, actorId, chosen) => {
       api.stopgap("SG-P8-grief-action-response");
@@ -306,8 +319,21 @@ export const LIFE_MODULE: CoreModule = {
         : undefined;
       if (!drive) throw new Error("Organizing requires a recorded cause.");
       api.markOrganized(actorId, drive.topic);
-      api.emit(
-        civicEvent(api, actorId, chosen, "initiative.organizing-started"),
+      const event = civicEvent(
+        api,
+        actorId,
+        chosen,
+        "initiative.organizing-started",
+      );
+      api.emit(event);
+      // P15: the meeting meets the others who come.
+      meetAtGathering(
+        api,
+        actorId,
+        chosen.targetId,
+        drive.topic,
+        chosen.effortHours ?? p(api, chosen.definition.effortParameter),
+        event.id,
       );
     },
     approach: (api, actorId, chosen) => {
