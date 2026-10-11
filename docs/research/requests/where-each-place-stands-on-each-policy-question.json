@@ -28,5 +28,18 @@
       "source": "src/simulation/legislation.ts measurePropositions at main",
       "whatItDidNotSettle": "A measure lists which questions it is about; nothing records which way any law in force answers them."
     }
-  ]
+  ],
+  "answer": {
+    "status": "partial-causal-design-empirical-calibration-open",
+    "summary": "Beliefs-side answer only, per CTO: CES 2024 is the cleared CC0 primary candidate for national/state/metro derived distributions. Pew public Religious Landscape data can supply national faith patterns with notices; its public file has no geography. A town comparison needs measured between-place spread, not a statewide margin of error. No files have been acquired and the answer-key file is intentionally empty. Territory-specific observations and missing coverage must be labeled rather than silently borrowing a state belief distribution.",
+    "sources": [
+      "data/research/views/source-register.json",
+      "data/research/views/mechanisms.json",
+      "https://github.com/lamontaes/Political-Game-Git/pull/3965#issuecomment-6105020215",
+      "docs/research/requests/where-a-persons-politics-comes-from.json"
+    ],
+    "answeredBy": "CODEX-VIEWS",
+    "answeredAt": "2026-10-11T04:07:00Z",
+    "stillOpen": "The original law-in-force question, effective dates and preemption belong to M1-laws and remain unaltered. No law rows are answered here. Belief distributions across the 56 jurisdictions, metro crosswalks, territory sources and local heterogeneity remain open pending cleared acquisition and reproducible aggregation."
+  }
 }

@@ -30,5 +30,18 @@
   ],
   "title": "What leans a party member toward each option on the body's four questions",
   "usableAnswer": "For each question and option, the recorded qualities, roles or relationships that lean a member toward it, with a direction and a firmness (subtle, moderate, strong). 'Nothing recorded bears on it; keep a per-person draw' is an acceptable answer for any question.",
-  "whyItMatters": "Whether a member dissents, and so whether a party can split, depends on how they vote on these questions. Today the vote is a seeded coin flip that reads nothing about the person."
+  "whyItMatters": "Whether a member dissents, and so whether a party can split, depends on how they vote on these questions. Today the vote is a seeded coin flip that reads nothing about the person.",
+  "answer": {
+    "status": "partial-causal-design-empirical-calibration-open",
+    "summary": "For cooperation, use actual shared goals, available coalition alternatives and relationships. For candidate selection, use recorded voice, roles, prospective candidates and evidence about how the actual selection process performed. For first priority, compare institutional reform, household costs and local services against the member's held issue salience and personally recorded stakes. For chapter autonomy, use held local-control/transparency values and the recorded consequences of local versus wider decisions. An election loss supplies new evidence only to people who learn it; it does not assign a fixed shift or universal blame. These are design constraints derived from the existing A06 answer and the owner's independent-decision requirement, not researched subtle/moderate/strong coefficients.",
+    "sources": [
+      "data/research/views/source-register.json",
+      "data/research/views/mechanisms.json",
+      "https://github.com/lamontaes/Political-Game-Git/pull/3965#issuecomment-6105020215",
+      "docs/research/requests/where-a-persons-politics-comes-from.json"
+    ],
+    "answeredBy": "CODEX-VIEWS",
+    "answeredAt": "2026-10-11T04:07:00Z",
+    "stillOpen": "No published numerical firmness mapping or U.S. causal estimate was obtained for the four procedural questions. Party organizations and procedural decisions are M2-08; this module exposes private held views and heard party positions, not a replacement party-body engine. A seeded per-person draw would violate the current no-dice rule even though the historical request allowed it."
+  }
 }

@@ -26,5 +26,18 @@
   ],
   "title": "What starts a political view, and how long it takes",
   "usableAnswer": "A list of life events, each with the policy domains it bears on (from the game's 13 state-and-local domains), whether it reaches only the person or also close family and friends who know, and a rough likelihood that it firms up or changes a view. A distribution for how long people take to settle a view after first meeting a question, including how often they never do until something else happens. The owner's own answers to which triggers belong in the game come first.",
-  "whyItMatters": "Views now form in play and can come back when something happens, but only two triggers exist and the pacing is a guess. The owner wants more ways, variable timing, and to be asked."
+  "whyItMatters": "Views now form in play and can come back when something happens, but only two triggers exist and the pacing is a guess. The owner wants more ways, variable timing, and to be asked.",
+  "answer": {
+    "status": "partial-causal-design-empirical-calibration-open",
+    "summary": "Recorded job loss or closure, eviction, serious illness, crime victimization, witnessed injustice, disaster, and a personally experienced law benefit/burden can bring relevant questions into view. Reach is restricted to the actual recipients of an event; known witnesses need a recorded relationship. Actual political messages carry their stated questions. Generic contact does not establish political exposure. Consistent parental cues are conditionally associated with alignment, rather than automatic inheritance of a party. Deliberation and existing conviction supply variable reconsideration timing through the existing module calendar. This settles a causal representation, not U.S. transition rates.",
+    "sources": [
+      "data/research/views/source-register.json",
+      "data/research/views/mechanisms.json",
+      "https://github.com/lamontaes/Political-Game-Git/pull/3965#issuecomment-6105020215",
+      "docs/research/requests/where-a-persons-politics-comes-from.json"
+    ],
+    "answeredBy": "CODEX-VIEWS",
+    "answeredAt": "2026-10-11T04:07:00Z",
+    "stillOpen": "Event-to-issue directions, numerical effect sizes, delayed-trigger rates and timing distributions are unmeasured under SG-M1-views-calibration. German plant-closure findings cannot establish U.S. coefficients. The owner list in the original notes remains unchanged; no new owner approval is inferred."
+  }
 }

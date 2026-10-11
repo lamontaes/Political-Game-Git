@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "views-mechanism-review/v1",
+  "ctoRuling": "https://github.com/lamontaes/Political-Game-Git/pull/3965#issuecomment-6105020215",
+  "calibrationStatus": "unmeasured-stopgap",
+  "microdataUsed": false,
+  "sources": [
+    {
+      "id": "family-transmission-2009",
+      "url": "https://www.journals.uchicago.edu/doi/10.1017/S0022381609090719",
+      "finding": "The publisher abstract reports stronger parent-child alignment with sustained, consistent parental cues in politicized families. This supports conditional known cues, not automatic inherited party.",
+      "use": "Qualitative structure and bibliographic citation only; no copyrighted article text, survey records or numerical coefficients are shipped.",
+      "rights": "Publisher identifies copyright Southern Political Science Association; no survey reuse permission is inferred."
+    },
+    {
+      "id": "plant-closures-germany-2018",
+      "url": "https://onlinelibrary.wiley.com/doi/10.1111/bjir.12292",
+      "finding": "The publisher abstract reports heterogeneous closure responses associated with skill and views of state responsibility. German findings do not establish a U.S. issue-position response coefficient.",
+      "use": "Qualitative warning about applicability only; no SOEP data or paper text is incorporated.",
+      "rights": "No underlying SOEP survey permission was checked or granted; its microdata and derived coefficients are excluded."
+    }
+  ],
+  "rules": [
+    "No demographic or party label selects a position.",
+    "Record the life fact, learned message, recipient, trust and existing conviction for each change.",
+    "A generic conversation or mere relationship does not prove that political content was communicated.",
+    "Only recipients of a recorded event or message receive political exposure.",
+    "Keep opinion absence, salience, conviction, engagement and public expression separate.",
+    "A state estimate sampling error is not town heterogeneity."
+  ]
+}

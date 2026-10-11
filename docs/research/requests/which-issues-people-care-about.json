@@ -25,5 +25,18 @@
   ],
   "title": "Which issues people care about, and how many",
   "usableAnswer": "A distribution for how many issues an adult cares about (with its spread), a relative weight for each of the 127 catalog issues or at least each of the 13 domains saying how commonly it is cared about, how that shifts with age, work, income, place and life events such as a job loss or a disaster, and a rough rate at which people hold a firm view on a matter of fact that is wrong. Survey data ('most important problem', issue salience) is enough; say where it comes from.",
-  "whyItMatters": "People can now form political views when they meet a proposal. How strongly a view is held depends on whether the question touches something they care about, and today that is a uniform draw from a guess. The owner wants most people to have few views, with heavy overlap on common concerns and a few niche ones."
+  "whyItMatters": "People can now form political views when they meet a proposal. How strongly a view is held depends on whether the question touches something they care about, and today that is a uniform draw from a guess. The owner wants most people to have few views, with heavy overlap on common concerns and a few niche ones.",
+  "answer": {
+    "status": "partial-causal-design-empirical-calibration-open",
+    "summary": "Maintain no-opinion, salience, conviction and engagement separately. Only an actual life stake or a learned issue message introduces an issue record. Repeated relevant evidence can increase salience; an explicit neutral opinion is distinct from having no opinion. Do not draw two to six uniformly selected issues or treat an unasked survey question as no opinion. This implements the owner direction structurally without inventing a measured count distribution.",
+    "sources": [
+      "data/research/views/source-register.json",
+      "data/research/views/mechanisms.json",
+      "https://github.com/lamontaes/Political-Game-Git/pull/3965#issuecomment-6105020215",
+      "docs/research/requests/where-a-persons-politics-comes-from.json"
+    ],
+    "answeredBy": "CODEX-VIEWS",
+    "answeredAt": "2026-10-11T04:07:00Z",
+    "stillOpen": "The distribution of cared-about issue counts, common versus niche concerns, subgroup salience and factual misunderstanding rates are still unmeasured. CES files and variable wording must be inspected before constructing any keys. ANES and GSS cannot supply these rates until commercial reuse is settled in writing."
+  }
 }

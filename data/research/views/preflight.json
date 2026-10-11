@@ -5,7 +5,7 @@
   "builder": "CODEX-VIEWS",
   "workspace": "/workspace/Political-Game-Git",
   "startedAtObservation": "2026-10-11T03:11:37Z",
-  "checkpointAt": "2026-10-11T03:28:20Z",
+  "checkpointAt": "2026-10-11T04:12:53Z",
   "model": {
     "reportedFamily": "GPT-6-based Codex",
     "servingVariant": "not exposed",
@@ -20,7 +20,7 @@
     "main": "48ab29c981f71dfb8398f1b749462cfec469455e"
   },
   "pr": "https://github.com/lamontaes/Political-Game-Git/pull/3965",
-  "status": "research-blocked",
+  "status": "blocked-test-corrections-calibration-pending",
   "observations": [
     {
       "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev npm run storage -- register --owner CODEX-VIEWS --path /workspace/Political-Game-Git",
@@ -132,6 +132,63 @@
       "exitCode": 0,
       "result": "All eight population tests passed. There is no standalone choice.test.ts; the earlier life tests exercise the chooser.",
       "durationSeconds": 35.27
+    },
+    {
+      "command": "official CES API retry on October 11, 2026 at 04:04 UTC",
+      "exitCode": 56,
+      "result": "Outbound proxy still returns CONNECT HTTP 403. No files or microdata acquired."
+    },
+    {
+      "command": "scoped strict tsc for modules/views.ts, views-world.ts, views-readers.ts and views-voter-groups.ts",
+      "exitCode": 0,
+      "result": "Production implementation types pass after final notice and finite-pressure checks. Separate test typing still reports two missing calendar API arguments and one PersonInput fixture inference error."
+    },
+    {
+      "command": "eslint modules/views.ts, views-*.ts and voter-groups.ts",
+      "exitCode": 0,
+      "result": "All new views production and test files and shared voter-group implementation pass lint."
+    },
+    {
+      "command": "vitest run views-engine, views-parties, views-checks, views-voter-groups and voter-groups tests, maxWorkers=1",
+      "exitCode": 1,
+      "durationSeconds": 37.87,
+      "result": "18/20 pass. Remaining failures: reflection test calls runModuleCalendar without CoreAPI; opinion-share key reuses invalid negative bounds. The pacing implementation now produces distinct reflection dates. Existing assertions are unchanged."
+    },
+    {
+      "command": "prettier check all views TypeScript, data, research and the four named research requests",
+      "exitCode": 0,
+      "result": "All matched files pass. Blocked fixtures were checked but not edited."
+    },
+    {
+      "command": "release:check --mode pr",
+      "exitCode": 0,
+      "result": "Declaration range passed at ecbd1e2325 with dirty implementation workspace."
+    },
+    {
+      "command": "npm run zero-dice",
+      "exitCode": 1,
+      "result": "Same six inherited P15 list-pick entries. No new views entries; no guard or allowlist modified."
+    },
+    {
+      "command": "git fetch origin pool/M0-core-pieces pool/P15-people-5 pool/P10-part-1",
+      "exitCode": 0,
+      "result": "Required dependency refs unchanged."
+    },
+    {
+      "command": "generated-proof.mjs first run",
+      "exitCode": 1,
+      "result": "Generated world and cause operations ran, but receipt serialization failed because JSON.stringify(input) exceeded the string limit. Replaced it with the existing streaming hashMeasuredJson helper; no acceptance claim from the failed run."
+    },
+    {
+      "command": "npm run report:check -- /tmp/M1-views-pr.md /tmp/M1-views-progress-entry.md data/research/views/integration.md",
+      "exitCode": 0,
+      "result": "All three have zero errors; PR has one warning. Required report reviewer returned PASS after the fourth report-review send-back."
+    },
+    {
+      "command": "storage-guarded node --max-old-space-size=8192 --import tsx data/research/views/generated-proof.mjs /tmp/M1-views-generated-proof.json",
+      "exitCode": 0,
+      "result": "Builder observation in Timberon, New Mexico drawn from all 56: 33,638 people, one actual event recipient changed, no other people changed. Three change records retain the cause. Opening input budget passes; comparisons missing-keys. Module memory, annual speed and empirical acceptance not proved. Dirty implementation hashes retained in generated-observation.json.",
+      "receipt": "data/research/views/generated-observation.json"
     }
   ],
   "integrationRepair": {
@@ -158,17 +215,56 @@
       "iteration": 3,
       "reason": "Progress entry lacked an explicit measured label. PR description passed.",
       "fixed": "Added Measured label to progress observations; corrected progress entry and PR description both returned PASS."
+    },
+    {
+      "kind": "CTO-build-direction",
+      "iteration": 1,
+      "reason": "Research-only checkpoint stopped before the machinery; CTO directed continued implementation while CES access is pending.",
+      "source": "https://github.com/lamontaes/Political-Game-Git/pull/3965#issuecomment-6105020215",
+      "fixed": "Continue the unchanged work order, register calibration as a stopgap, exclude ANES/GSS, and implement belief-side evidence only."
+    },
+    {
+      "kind": "automatic-approval-review",
+      "iteration": 1,
+      "reason": "Rejected narrow corrections to new unit tests because the task requires waiting before changing a test. No changes from the rejected command executed.",
+      "pending": "Owner approval of two calendar API arguments, nonnegative opinion-share bounds and explicit PersonInput fixture typing. Prepared patch /tmp/M1-views-fixture-corrections.patch remains unapplied.",
+      "source": "https://github.com/lamontaes/Political-Game-Git/pull/3965#issuecomment-6105287101"
+    },
+    {
+      "kind": "mechanical-report-check",
+      "iteration": 1,
+      "reason": "Draft lead paragraphs contained fixture/method details and an inline code marker.",
+      "fixed": "Moved method details out of the lead and removed the inline marker."
+    },
+    {
+      "kind": "civic-report-review",
+      "iteration": 4,
+      "reason": "Current reports lacked implementation/checker/guard evidence links, labels on API descriptions and one year in the time range. Progress lead omitted CES calibration.",
+      "fixed": "Added links, labels and complete date; required reviewer returned PASS. It also passed the added generated-world paragraph."
     }
   ],
   "finisherSendBacks": 0,
   "acceptance": {
-    "viewsModuleBuilt": false,
+    "viewsModuleBuilt": true,
     "surveyKeysDerived": false,
     "faithEducationCoverageProved": false,
     "benchPlayed": false,
     "annualSpeedMeasured": false,
-    "featurePassesChanged": false
+    "featurePassesChanged": false,
+    "viewsImplementationCommitted": false,
+    "focusedTestsPass": false,
+    "generatedCauseObserved": true
   },
-  "next": "Owner-approved CES source access and CTO source-term/request disposition; derive evidence before views implementation. Core life failures and merged-stack no-dice registration gap are visible for integration review.",
-  "elapsedFromFirstObservationMinutes": 16.7
+  "next": "Approve the concrete fixture corrections, then rerun relevant tests and commit the views unit. Acquire CES and derive keys before empirical calibration, paired performance and independent bench finishing.",
+  "elapsedFromFirstObservationMinutes": 61.3,
+  "implementation": {
+    "files": "Package-owned views module/helpers, data and tests remain in the working tree while fixture-change approval is pending. Shared core API is committed separately at ecbd1e232544f4f6937e34d9cb1d07eabb5c3efa.",
+    "keyCount": 0,
+    "valueCount": 14,
+    "issueCount": 79,
+    "scopeChanged": false,
+    "testAssertionsChanged": false,
+    "coarseTests": "8/8 passing (six existing core group cases plus two new view moment cases), 24.93 seconds."
+  },
+  "pendingApprovalArtifact": "data/research/views/fixture-corrections.patch"
 }

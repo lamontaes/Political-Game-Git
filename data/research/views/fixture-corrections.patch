@@ -1,0 +1,50 @@
+--- a/src/core2/views-engine.test.ts
++++ b/src/core2/views-engine.test.ts
+@@ -174,7 +174,7 @@
+     const due = calendar.get("reflection:peer")!.date;
+     while (core.date < due) {
+       advanceDate(core, addDays(makeIsoDate(core.date), 1));
+-      runModuleCalendar(core);
++      runModuleCalendar(core, api);
+     }
+     expect(
+       viewPerson(api, "peer")!.values["worker-protection"]!.position,
+@@ -183,7 +183,7 @@
+       "applied",
+     );
+     const after = api.moduleState("views").snapshot();
+-    runModuleCalendar(core);
++    runModuleCalendar(core, api);
+     expect(api.moduleState("views").snapshot()).toEqual(after);
+   });
+   it("replays an identical cause idempotently and rejects invalid evidence before changing views", () => {
+--- a/src/core2/views-fixture.ts
++++ b/src/core2/views-fixture.ts
+@@ -4,7 +4,7 @@
+ import { DEFAULT_VIEWS_DATA, withViews } from "./views-data";
+ import { formOpeningViews } from "./views-opening";
+ import { piecesSource } from "./core-pieces-fixture";
+-import type { CoreInput, Source } from "./types";
++import type { CoreInput, PersonInput, Source } from "./types";
+ import type { ViewsData } from "./views-types";
+ 
+ export const viewsFixtureSource: Source = {
+@@ -18,7 +18,7 @@
+   return {
+     seed: "views-contract-fixture",
+     startedAt: source.asOf,
+-    people: ["actor", "peer", "control"].map((id) => ({
++    people: ["actor", "peer", "control"].map((id): PersonInput => ({
+       id,
+       givenName: id,
+       familyName: "Fixture",
+--- a/src/core2/views-checks.test.ts
++++ b/src/core2/views-checks.test.ts
+@@ -73,6 +73,7 @@
+         target: "issue",
+         key: "fiscal.graduated-income-tax",
+         measure: "opinion-share",
++        bounds: [0, 1],
+         betweenPlaceSpread: [0, 0.2],
+       },
+     ]);

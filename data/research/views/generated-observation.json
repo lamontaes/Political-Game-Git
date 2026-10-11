@@ -1,0 +1,88 @@
+{
+  "schemaVersion": "views-generated-cause-observation/v1",
+  "revision": "ecbd1e232544f4f6937e34d9cb1d07eabb5c3efa",
+  "seed": "9b64784b3d61a7ac8151d4742ba6bb65bd9203b11f49d6c3c179fdc6d9ca6cb5",
+  "draw": {
+    "seed": "9b64784b3d61a7ac8151d4742ba6bb65bd9203b11f49d6c3c179fdc6d9ca6cb5",
+    "key": "3577950",
+    "name": "Timberon, New Mexico",
+    "state": "US-NM"
+  },
+  "place": {
+    "key": "3577950",
+    "name": "Timberon, New Mexico",
+    "countyNames": "Otero County, New Mexico",
+    "referencePopulation": "479"
+  },
+  "inputHash": "e73ebea227437986b22df8fd31862383e78460bb11e7f6f28166b932bbc44bf5",
+  "populationCount": 33638,
+  "openingBudget": {
+    "passed": true,
+    "maxBytesPerResident": 80554,
+    "maxSourceByteShare": 0.7491419523895138,
+    "sourceShareUsed": "declaredConservativeSourceByteShare",
+    "violations": []
+  },
+  "openingBytes": 1735207696,
+  "initializeMilliseconds": 33150.034951,
+  "eventId": "views-proof:recorded-closure:person_0049c1ad167ea988:2021-01-01",
+  "subject": "person_0049c1ad167ea988",
+  "affectedPersonIds": ["person_0049c1ad167ea988"],
+  "changedPersonIds": ["person_0049c1ad167ea988"],
+  "untouchedChangedPersonIds": [],
+  "causeIds": [
+    "[\"views-proof:recorded-closure:person_0049c1ad167ea988:2021-01-01\",\"person_0049c1ad167ea988\",\"experience\"]"
+  ],
+  "changeIds": [
+    "[\"[\\\"views-proof:recorded-closure:person_0049c1ad167ea988:2021-01-01\\\",\\\"person_0049c1ad167ea988\\\",\\\"experience\\\"]\",\"value\",\"collective-provision\"]",
+    "[\"[\\\"views-proof:recorded-closure:person_0049c1ad167ea988:2021-01-01\\\",\\\"person_0049c1ad167ea988\\\",\\\"experience\\\"]\",\"value\",\"worker-protection\"]",
+    "[\"[\\\"views-proof:recorded-closure:person_0049c1ad167ea988:2021-01-01\\\",\\\"person_0049c1ad167ea988\\\",\\\"experience\\\"]\",\"issue\",\"labor-workforce.city-minimum-wage\"]"
+  ],
+  "comparisons": {
+    "placeId": "jurisdiction_1f851149ef0faedd",
+    "coverage": {
+      "national": 0,
+      "state": 0,
+      "metro": 0,
+      "place": 0
+    },
+    "comparisons": [],
+    "status": "missing-keys"
+  },
+  "stopgapIds": [
+    "SG-P8-work-pay-terms",
+    "SG-P8-work-schedule-data",
+    "SG-P8-attendance-choice",
+    "SG-P8-opening-peer-network",
+    "SG-P15-coworker-groups",
+    "SG-M1-views-calibration",
+    "SG-P8-emotion-model"
+  ],
+  "limitations": [
+    "Run used uncommitted views implementation on the recorded revision; implementation hashes accompany this observation. This is not acceptance evidence for a published module commit.",
+    "Builder mechanism observation only; no independent bench finishing or empirical calibration.",
+    "Opening input budget excludes new module-state memory; retained views overhead is not a passed memory claim.",
+    "No paired annual performance measurement.",
+    "Recorded fallback event does not claim the business engine generated a closure."
+  ],
+  "workingTreeDirty": true,
+  "implementationFileHashes": {
+    "src/core2/data/stopgaps.json": "71825d84e4cae05eac4a4fc1602234a8fcfdb9c5bed62bb9648f05aee2297ea2",
+    "src/core2/data/views/answer-keys.json": "c3176d52bb7d4ade8efa3c1df9fb6bc84f9b4f750a28c9bdf2a5307853126bc1",
+    "src/core2/data/views/catalog.json": "df4dc8ca9b38dfb7de5e13257b7156474cce8258e0fe3b89be9755989512701d",
+    "src/core2/data/views/model.json": "cfa2355be0caa10f6591aa2dabae40f31e5bd5f08e6fe631b9ddddb5c5c294b2",
+    "src/core2/data/views/parameters.json": "a54f1c2454c7a130d6927c183558cf86bc9e198ebab9d982a84fc03bf4e396d2",
+    "src/core2/modules/views.ts": "3f85f1dec0b5916ca7b00550b0fdff3555a2fadfacc2f2a17234a2083ad9ba83",
+    "src/core2/views-checks.ts": "496dfe85d153426e60e56ab70e680ebc0d9ee5a911ce2fb888a875ef780fa93a",
+    "src/core2/views-data.ts": "eb90814cc135e573b44e89374ba281c2fff611e4253bfc30a12311d202b03c81",
+    "src/core2/views-engine.ts": "0d4c11c338493bd2099f71a16504841224ebcd2401118c0a7c0f462b9dfbac31",
+    "src/core2/views-inputs.ts": "7169d40f141e29095e07558f621f89d933103b84ed5045454b678e4ef5d4f36e",
+    "src/core2/views-opening.ts": "b107612f8b1e8457e022bcc3c79aefc50dc07347270deb98ad275243f9708f5c",
+    "src/core2/views-readers.ts": "faeb3db917a70d233d81c48c818ab05f303e5d75fc5357ee0e1e7986791528d0",
+    "src/core2/views-records.ts": "4f0d38dfb868b2de1c765969088ccaa014673e3daf06f45315be57b7cf06d94a",
+    "src/core2/views-types.ts": "38497402abba1d5f2ce1822dffb3e26f6fc4de2520407eeb603693f86403c388",
+    "src/core2/views-voter-groups.ts": "3bd116d3d610d47ab9dc8961fea3c9bc29f0a6fe5c01d04a45119b8e6bd8a61a",
+    "src/core2/views-world.ts": "acbd0778314662a1bfc9eaf2a6556d7eb1b6358e120e6caddf2a795e455cac2a",
+    "src/core2/voter-groups.ts": "1a733cb1ee0cb68950c63e2c579781ec80ad7b628bffa9ed1b82b2a209a3859d"
+  }
+}

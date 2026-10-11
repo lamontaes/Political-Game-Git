@@ -2,7 +2,7 @@
   "schemaVersion": "views-research-source-register/v1",
   "checkedAt": "2026-10-11T03:18:00Z",
   "author": "CODEX-VIEWS",
-  "status": "research-blocked-before-answer-keys",
+  "status": "machinery-build-calibration-pending",
   "scope": "M1-10",
   "datasetBytesAcquired": false,
   "derivedSpreads": [],
@@ -32,9 +32,9 @@
       "license": "publisher-terms",
       "commercialUse": "unclear-CTO-confirmation-required",
       "evidence": "Terms restrict use to research or statistical purposes, prohibit investigating/identifying respondents, require citation, and disclaim collector responsibility. Commercial game incorporation of derived calibration is not explicitly resolved.",
-      "runtimeUse": "excluded-pending-CTO",
+      "runtimeUse": "excluded-by-CTO",
       "coverage": "National calibration candidate. Public-use versus restricted geographic variables must be reviewed separately; the national sample is not automatically a state/metro answer key.",
-      "next": "Ask the CTO on this PR whether derived aggregates may be shipped under these terms. Do not use dataset values before clearance."
+      "next": "Excluded until intended commercial derivative reuse is settled in writing."
     },
     {
       "id": "GSS-PUBLIC",
@@ -45,9 +45,9 @@
       "license": "publisher-terms",
       "commercialUse": "unclear-CTO-confirmation-required",
       "evidence": "Data-access terms encourage responsible use and specify citations; the same page includes a broad NORC copyright reproduction restriction. Federal grant funding alone is not a public-domain license.",
-      "runtimeUse": "excluded-pending-CTO",
+      "runtimeUse": "excluded-by-CTO",
       "coverage": "National/region candidate. State/metro geography access and its separate agreements have not been inspected.",
-      "next": "Ask the CTO to resolve derived-data reuse before shipped calibration uses GSS. Do not infer permission from public download access."
+      "next": "Excluded until intended commercial derivative reuse is settled in writing."
     },
     {
       "id": "PEW-RLS-2023-24-PUF",
@@ -60,7 +60,8 @@
       "evidence": "Section 1 expressly permits commercial exploitation; section 13 governs non-ATP survey datasets and permits derivatives. Preserve notices, attribution, the section-13 disclaimer, excerpt limits, and absence of endorsement. Download requires an account; the enclosed readme has not been acquired.",
       "runtimeUse": "none-not-acquired",
       "coverage": "The publisher states that the PUF has no geography. It can be a national faith/politics check but cannot supply state or metro answer keys.",
-      "next": "Acquire through an authorized account or use permitted published summaries with notices. Read enclosed readme before deriving any data. Keep the RUF separate."
+      "next": "Acquire through an authorized account or use permitted published summaries with notices. Read enclosed readme before deriving any data. Keep the RUF separate.",
+      "ctoPermission": "https://github.com/lamontaes/Political-Game-Git/pull/3965#issuecomment-6105020215"
     },
     {
       "id": "PEW-RLS-2023-24-RUF",
@@ -109,11 +110,16 @@
     }
   ],
   "blockedBy": [
+    "CES access prevents calibration and empirical acceptance; it does not block machinery under the CTO ruling.",
     "Environment outbound policy excludes dataverse.harvard.edu; publisher dataset API returns HTTP 403. Approved source access is needed for CES-derived keys.",
-    "ANES and GSS derived-data incorporation need CTO interpretation of their terms before use.",
     "By-faith and by-education checks require recorded personal faith and attainment. Deep-past explicitly records missing faith and does not infer qualifications from school cohorts; the producer route remains to be established inside approved scope."
   ],
   "nonBlockingDependencies": [
     "Startup bench missing. M1-common at 48ab29c981 explicitly says to note it and continue; finishers use pool/M0-bench (#3940)."
-  ]
+  ],
+  "ctoRuling": {
+    "url": "https://github.com/lamontaes/Political-Game-Git/pull/3965#issuecomment-6105020215",
+    "at": "2026-10-11T03:27:55Z",
+    "decision": "Keep building machinery with calibration registered as a stopgap. CES primary; ANES/GSS excluded; Pew PUF national faith only with notices; beliefs side of law request only."
+  }
 }
