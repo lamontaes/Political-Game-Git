@@ -1,5 +1,5 @@
 /** Technical counterexamples. No ordinary world, act admission or migration proof. */
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { DEFAULT_DATA } from "./data";
 import { P } from "./parameters";
 import { createCore } from "./state";
@@ -12,6 +12,7 @@ import {
 } from "./journal-state";
 import {
   FinancePlanningSession,
+  FinanceReadGuard,
   guardWorkFinanceResult,
   prepareFinanceContract,
   prepareFinanceCredit,
@@ -1466,4 +1467,133 @@ describe("read-only indexed finance preparation", () => {
         expect(snapshot(f)).toBe(before);
       }
   });
+});
+
+/** Controlled trim counterexamples; no generated-world timing acceptance. */
+describe("bounded finance seal and owned immutable read trims", () => {
+  it("seals both logs once and replays both at each actual preflight", () => {
+    const f = fixture(),
+      s = session(f);
+    const replay = vi.spyOn(FinanceReadGuard.prototype, "verify");
+    try {
+      const plan = s.seal({ selectedReason: "technical-only" });
+      expect(replay).toHaveBeenCalledTimes(2);
+      plan.preflight.verify(f.core, f.journal, f.parameters);
+      plan.preflight.verify(f.core, f.journal, f.parameters);
+      expect(replay).toHaveBeenCalledTimes(6);
+    } finally {
+      replay.mockRestore();
+    }
+  });
+  it("public wrappers cannot capture a capability or bypass another draft's checks", () => {
+    const f = fixture(),
+      s = session(f),
+      seen: unknown[][] = [];
+    const cashFinish = s.cash.finish.bind(s.cash),
+      metadataFinish = s.metadata.finish.bind(s.metadata);
+    s.cash.finish = (...args: unknown[]) => {
+      seen.push(args);
+      return cashFinish();
+    };
+    s.metadata.finish = (...args: unknown[]) => {
+      seen.push(args);
+      return metadataFinish();
+    };
+    s.seal("no leaked capability");
+    expect(seen).toEqual([]);
+    const other = session(f);
+    f.core.date = next;
+    expect(() => other.cash.finish()).toThrow(/Stale finance/);
+    expect(() => other.metadata.finish()).toThrow(/Stale finance/);
+  });
+  it("checks owned frozen present fields without allocating another descriptor", () => {
+    const f = fixture(),
+      plan = session(f).seal({ value: unit }),
+      reads = new FinanceReadGuard();
+    expect(reads.field(plan.result, "value")).toBe(unit);
+    const descriptor = vi.spyOn(Object, "getOwnPropertyDescriptor");
+    try {
+      reads.verify();
+      expect(descriptor).not.toHaveBeenCalled();
+    } finally {
+      descriptor.mockRestore();
+    }
+  });
+  it("external frozen rows and proxies retain their ordinary checks", () => {
+    for (const row of [
+      Object.freeze({ value: unit }),
+      new Proxy(Object.freeze({ value: unit }), {}),
+    ]) {
+      const reads = new FinanceReadGuard();
+      reads.field(row, "value");
+      const descriptor = vi.spyOn(Object, "getOwnPropertyDescriptor");
+      try {
+        reads.verify();
+        expect(descriptor).toHaveBeenCalled();
+      } finally {
+        descriptor.mockRestore();
+      }
+    }
+  });
+  it("owned absent fields still reject a newly inherited field", () => {
+    const f = fixture(),
+      plan = session(f).seal({ value: unit }),
+      reads = new FinanceReadGuard();
+    const key = "__finance_trim_absent_fixture__";
+    reads.field(plan.result as Record<string, unknown>, key);
+    Object.defineProperty(Object.prototype, key, {
+      value: unit,
+      configurable: true,
+    });
+    try {
+      expect(() => reads.verify()).toThrow(/actual absence/);
+    } finally {
+      Reflect.deleteProperty(Object.prototype, key);
+    }
+  });
+  it.each(["map", "set"])(
+    "frozen %s content changes still fail next-payload preflight",
+    (kind) => {
+      const f = fixture(),
+        plan = session(f).seal({
+          mutable:
+            kind === "map" ? new Map([["owned", unit]]) : new Set([unit]),
+        });
+      if (plan.result.mutable instanceof Map)
+        plan.result.mutable.set("changed", unit);
+      else plan.result.mutable.add(unit + unit);
+      expect(() =>
+        plan.preflight.verify(f.core, f.journal, f.parameters),
+      ).toThrow(/Stale finance/);
+    },
+  );
+  it("mutable evidence accessors are rejected without executing their getter", () => {
+    const row = { citation: "original" },
+      reads = new FinanceReadGuard(),
+      getter = vi.fn(() => "original");
+    reads.field(row, "citation");
+    Object.defineProperty(row, "citation", { get: getter });
+    expect(() => reads.verify()).toThrow(/direct own data/);
+    expect(getter).not.toHaveBeenCalled();
+  });
+});
+
+it("owned detached rows are actually frozen even when the public freeze function is wrapped", () => {
+  const f = fixture(),
+    s = session(f);
+  const freeze = vi
+    .spyOn(Object, "freeze")
+    .mockImplementation(<T>(value: T) => value as Readonly<T>);
+  let plan: PreparedFinancePlan<{ value: number }>;
+  try {
+    plan = s.seal({ value: unit });
+  } finally {
+    freeze.mockRestore();
+  }
+  expect(Object.isFrozen(plan.result)).toBe(true);
+  expect(Reflect.set(plan.result, "value", P.zero)).toBe(false);
+  expect(plan.result.value).toBe(unit);
+  expect(() =>
+    plan.preflight.verify(f.core, f.journal, f.parameters),
+  ).not.toThrow();
 });

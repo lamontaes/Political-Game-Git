@@ -77,15 +77,7 @@
       "emotion": {
         "moodMultiplierParameter": "negativeOne",
         "stressMultiplierParameter": "one"
-      },
-      "reasonBindings": [
-        {
-          "id": "grief-pull",
-          "provider": "grief",
-          "weightParameter": "griefPullWeight",
-          "stopgapId": "SG-P15-grief-line"
-        }
-      ]
+      }
     },
     {
       "id": "contact-known-person",
@@ -107,12 +99,6 @@
           "provider": "tie-fading",
           "weightParameter": "tieMissingWeightPerHour",
           "stopgapId": "SG-P15-closeness-model"
-        },
-        {
-          "id": "grief-pull",
-          "provider": "grief",
-          "weightParameter": "griefPullWeight",
-          "stopgapId": "SG-P15-grief-line"
         }
       ]
     },
@@ -172,15 +158,7 @@
       "emotion": {
         "moodMultiplierParameter": "one",
         "stressMultiplierParameter": "one"
-      },
-      "reasonBindings": [
-        {
-          "id": "grief-hold",
-          "provider": "grief",
-          "weightParameter": "griefHoldWeight",
-          "stopgapId": "SG-P15-grief-line"
-        }
-      ]
+      }
     },
     {
       "id": "approach-office",

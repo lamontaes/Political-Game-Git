@@ -1,5 +1,15 @@
 /** P8 prototype boundary. No game screen or old-core clock imports this API. */
 import type { CashActSelection } from "./act-cash";
+import type {
+  WorkPayrollJournalReceipt,
+  WorkPayrollJobReceipt,
+  WorkPayrollCashSourceState,
+} from "./work-payroll-cash";
+import type {
+  WorkPayrollCalendarInput,
+  WorkPayrollLedger,
+  WorkEarnedPayPeriod,
+} from "./work-pay-period";
 import type { GeneratedHouseholdSourceBasis } from "./generated-household-source";
 import type {
   LegacyWorkCashInput,
@@ -86,6 +96,8 @@ export interface PersonInput {
   tier: Tier;
   traits: Readonly<Record<string, number>>;
   traitSources?: Readonly<Record<string, Source>>;
+  /** One complete generated upbringing Source shared by the person's recorded traits. */
+  sharedTraitSource?: Source;
   liquidMinor: number;
   livingCostDailyMinor: number;
   source: Source;
@@ -328,6 +340,8 @@ export interface DecisionContext {
 }
 
 export interface DecisionResult {
+  /** Root-issued client answer identity; retained with the original saved controlled trace. */
+  controlledChoice?: { readonly pauseId: string; readonly offerId: string };
   actorId: PersonId;
   date: IsoDate;
   selected?: ActOffer;
@@ -386,6 +400,8 @@ export interface WorkScheduleSlot {
   minutes: number;
 }
 export interface WorkCommitmentInput {
+  /** Actual separately admitted employer pay calendar; attendance recurrence is not payday evidence. */
+  payrollCalendarId?: string;
   publicPayAuthorityId?: string;
   id: string;
   jobId: string;
@@ -446,6 +462,16 @@ export type WorkResultInput = Omit<
   | "publicPayDue"
 >;
 
+/** Actual attendance/earned pay; no cash due, shortfall or balances are asserted here. */
+export type WorkAttendanceInput = Omit<WorkResultInput, "requestedMinor"> & {
+  earnedMinor: number;
+};
+export interface WorkAttendanceResult extends WorkAttendanceInput {
+  sourceActId: string;
+  payrollCalendarId: string;
+  earnedPayPeriodId: string;
+}
+
 export interface WorkRollup {
   weekStartedAt: IsoDate;
   jobId: string;
@@ -461,12 +487,26 @@ export interface WorkRollup {
   latestReasonKey: string;
 }
 export interface WorkTotals {
+  /** Requested is cumulative earned pay; actual due/paid/arrears live separately. */
+  earnedMinor?: number;
+  accruedMinor?: number;
+  dueRecognizedMinor?: number;
+  arrearsMinor?: number;
   plannedMinutes: number;
   attendedMinutes: number;
   requestedMinor: number;
   paidMinor: number;
   workedDays: number;
   missedDays: number;
+}
+/** Actual legacy discretionary paid-work completions; separate from scheduled job totals.
+ * Shortfall is a cumulative unretried remainder, never a scheduled arrears stock.
+ */
+export interface LegacyDiscretionaryWageTotals {
+  earnedMinor: number;
+  paidMinor: number;
+  shortfallMinor: number;
+  completedReceiptCount: number;
 }
 export interface ActivityTimeTotal {
   ageReferenceId: string;
@@ -475,10 +515,27 @@ export interface ActivityTimeTotal {
   source: Source;
 }
 export interface WorkRuntime {
+  payrollCalendars: Map<string, WorkPayrollCalendarInput>;
+  payrollCalendarByCommitment: Map<string, string>;
+  payrollCalendarByJob: Map<string, string>;
+  payrollLedgerByCommitment: Map<string, WorkPayrollLedger>;
+  earnedPayPeriods: Map<string, WorkEarnedPayPeriod>;
+  earnedPayPeriodByCommitmentIndex: Map<string, Map<number, string>>;
+  payrollPeriodsByDue: Map<IsoDate, Set<string>>;
+  payrollArrearsByDue: Map<IsoDate, Set<string>>;
+  payrollCashSources: Map<string, WorkPayrollCashSourceState>;
+  latestPayrollByJob: Map<string, WorkPayrollJobReceipt>;
+  detailedPayroll: Map<string, WorkPayrollJournalReceipt>;
+  /** Current attendance ID to actual job; focused history remains in detailedAttendance. */
+  currentAttendanceJobByRecordId: Map<string, string>;
+  lastAttendanceByJob: Map<string, WorkAttendanceResult>;
+  detailedAttendance: Map<string, WorkAttendanceResult>;
   /** Only current or player-visible canonical cash sources and selected acts. */
   cashActSelections: Map<string, CashActSelection>;
   cashSources: Map<string, WorkCashSourceState>;
   latestLegacyCashResultByPerson: Map<PersonId, LegacyWorkCashResult>;
+  /** Cumulative actual conserving legacy completions, including zero-line completion. */
+  legacyDiscretionaryWages: LegacyDiscretionaryWageTotals;
   commitments: Map<string, WorkCommitmentInput>;
   commitmentsByPerson: Map<PersonId, Set<string>>;
   /** Period then residue indexes only jobs with an intersecting date segment. */
@@ -502,7 +559,25 @@ export interface WorkData {
     commitment: string;
     publicPayDue: string;
     publicPayAuthority: string;
+    payroll: string;
+    payrollCalendar: string;
+    earnedPayPeriod: string;
+    publicPayrollGroupDue: string;
   };
+  payrollGroupReceiptIdPrefix: string;
+  payrollGroupReceiptCitation: string;
+  payrollGroupAttributionRule: "arrears-then-newly-due-commitment-id";
+  payrollGroupAttributionCitation: string;
+  publicPayrollGroupDueIdPrefix: string;
+  publicPayrollGroupDueCitation: string;
+  payrollCashModuleId: string;
+  payrollReceiptIdPrefix: string;
+  payrollReceiptCitation: string;
+  publicPayrollPayDueCitation: string;
+  payrollDispatchCitation: string;
+  payrollDeceasedHoldCitation: string;
+  payrollGroupHoldCitation: string;
+  payrollDispatchOrderRule: string;
   publicPayDueIdPrefix: string;
   publicPayDueCitation: string;
   stopgapId: string;
@@ -543,6 +618,7 @@ export interface CoreInput {
   households: readonly HouseholdInput[];
   jobs: readonly JobInput[];
   workCommitments?: readonly WorkCommitmentInput[];
+  workPayrollCalendars?: readonly WorkPayrollCalendarInput[];
   finance?: FinanceInput;
   organizations: readonly OrganizationInput[];
   publicOrganizations?: readonly PublicOrganization[];
@@ -724,6 +800,16 @@ export interface CoreModule {
   eventKinds?: readonly string[];
   /** Chronological indexed commitments precede remaining-time discretionary acts. */
   onWorkResult?: (api: CoreAPI, receipt: Readonly<WorkResult>) => void;
+  /** Attendance/earned accrual is not a paid/unpaid cash event. */
+  onWorkAttendance?: (
+    api: CoreAPI,
+    receipt: Readonly<WorkAttendanceResult>,
+  ) => void;
+  /** Actual completed payday cash/unpaid result; never attendance/accrual alone. */
+  onWorkPayroll?: (
+    api: CoreAPI,
+    receipt: Readonly<WorkPayrollJournalReceipt>,
+  ) => void;
   /** End-of-day settlement/closure observes all chronological work receipts. */
   onAfterDay?: (api: CoreAPI) => void;
   onDay?: (
@@ -836,6 +922,9 @@ export interface CoreAPI {
   ): EmployerClosure;
   finishFinanceDay(): void;
   addWorkCommitment(input: WorkCommitmentInput): void;
+  addWorkPayrollCalendar(input: WorkPayrollCalendarInput): void;
+  recordWorkAttendance(input: WorkAttendanceInput): WorkAttendanceResult;
+  settleWorkPayroll(commitmentId: string): WorkPayrollJournalReceipt;
   settleWorkResult(input: WorkResultInput): WorkResult;
   settleLegacyWorkResult(input: LegacyWorkCashInput): LegacyWorkCashResult;
   recordActivityTime(

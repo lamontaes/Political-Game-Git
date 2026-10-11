@@ -7,5 +7,35 @@
     "tag": "ESTIMATED",
     "asOf": "2002-11-01",
     "citation": "Bonanno, Wortman, Lehman, Tweed, Haring, Sonnega, Carr and Nesse (2002), Resilience to loss and chronic grief: a prospective study from preloss to 18-months postloss, Journal of Personality and Social Psychology 83(5):1150-1164. Of 205 widowed adults followed at 6 and 18 months: resilient 94 (45.9%), chronic grief 32 (15.6%), common grief 22 (10.7%), chronic depression 16 (7.8%), depressed-improved 21 (10.2%)."
-  }
+  },
+  "bindings": [
+    {
+      "actionId": "rest",
+      "binding": {
+        "id": "grief-pull",
+        "provider": "grief",
+        "weightParameter": "griefPullWeight",
+        "stopgapId": "SG-P15-grief-line"
+      }
+    },
+    {
+      "actionId": "contact-known-person",
+      "binding": {
+        "id": "grief-pull",
+        "provider": "grief",
+        "weightParameter": "griefPullWeight",
+        "stopgapId": "SG-P15-grief-line"
+      }
+    },
+    {
+      "actionId": "organize-meeting",
+      "binding": {
+        "id": "grief-hold",
+        "provider": "grief",
+        "weightParameter": "griefHoldWeight",
+        "stopgapId": "SG-P15-grief-line"
+      }
+    }
+  ],
+  "bindingsNote": "Added to these acts by withGrief when the people module, which provides the grief reason, is loaded (createLifeCore)."
 }

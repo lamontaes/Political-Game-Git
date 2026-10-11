@@ -8,16 +8,31 @@ import {
 import { affectAt } from "./emotion";
 import { compactQuietWorkResults } from "./work-state";
 import { chooseAct, decisionFromScores, scoreOffers } from "./choice";
-import { planFreeTime, takePlannedActs, type PlannedAct } from "./free-block";
+import {
+  planFreeTime,
+  registerPlannedActRunner,
+  takePlannedActs,
+  type PlannedAct,
+} from "./free-block";
+import {
+  isExplicitlyControlledPersonV1,
+  snapshotExplicitControlV1,
+} from "./player-control-state-v1";
 export { chooseAct } from "./choice";
 import {
   WORK_MODULE,
   discretionaryHours,
   recordDiscretionaryActivity,
   catchUpScheduledWork,
+  openingWorkCommitments,
 } from "./modules/work";
+import {
+  openingWorkPayrollCalendars,
+  OPENING_PAYROLL_CALENDAR_STOPGAP,
+} from "./opening-payroll-calendar";
 import { LIFE_MODULE } from "./modules/life";
 import { PEOPLE_MODULE } from "./modules/people";
+import { withGrief } from "./grief";
 import { FINANCE_MODULE } from "./modules/finance";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
@@ -49,26 +64,65 @@ export function createLifeCore(
   } = {},
 ): CoreState {
   const { scheduledWork = true, ...coreOptions } = options;
-  const core = createCore(
-    scheduledWork ? input : { ...input, workCommitments: [] },
-    {
-      ...coreOptions,
-      data: scheduledWork
-        ? options.data
-        : { ...(options.data ?? DEFAULT_DATA), work: undefined },
-      modules: [
-        LIFE_MODULE,
-        PEOPLE_MODULE,
-        // Modeled within-day order: actual work pay arrives before purchase budgets.
-        // Firms use their recorded working capital, not future customer receipts.
-        ...(scheduledWork ? [WORK_MODULE] : []),
-        ...(input.finance ? [FINANCE_MODULE] : []),
-        ...(options.modules ?? []),
-      ],
-    },
+  const data = options.data ?? DEFAULT_DATA;
+  const primaryJobByPerson = new Map(
+    input.people.map((person) => [person.id, person.jobId]),
   );
+  const payroll =
+    scheduledWork && data.work
+      ? openingWorkPayrollCalendars(
+          {
+            ...input,
+            workCommitments:
+              input.workCommitments ??
+              openingWorkCommitments(
+                input.jobs.filter(
+                  (job) =>
+                    primaryJobByPerson.get(job.personId) === job.id &&
+                    (job.endsAt === undefined || job.endsAt > input.startedAt),
+                ),
+                input.organizations,
+                input.startedAt,
+                data.work,
+                data.parameters,
+              ),
+          },
+          { parameters: data.parameters },
+        )
+      : undefined;
+  const preparedInput = scheduledWork
+    ? payroll
+      ? {
+          ...input,
+          workCommitments: payroll.workCommitments,
+          workPayrollCalendars: payroll.calendars,
+          gaps: [...input.gaps, ...payroll.gaps],
+        }
+      : input
+    : { ...input, workCommitments: [], workPayrollCalendars: [] };
+  const core = createCore(preparedInput, {
+    ...coreOptions,
+    // P15 part 4: the people module is always loaded here, so the acts grief
+    // bears on carry its reason (withGrief), as drives add their own acts.
+    data: withGrief(
+      scheduledWork
+        ? (options.data ?? DEFAULT_DATA)
+        : { ...(options.data ?? DEFAULT_DATA), work: undefined },
+    ),
+    modules: [
+      LIFE_MODULE,
+      PEOPLE_MODULE,
+      // Attendance accrues wages; recorded payday cash precedes purchase budgets.
+      // Firms use their recorded working capital, not future customer receipts.
+      ...(scheduledWork ? [WORK_MODULE] : []),
+      ...(input.finance ? [FINANCE_MODULE] : []),
+      ...(options.modules ?? []),
+    ],
+  });
+  if (payroll?.estimates.length)
+    coreAPI(core).stopgap(OPENING_PAYROLL_CALENDAR_STOPGAP);
   core.gaps.add(
-    "Recorded work is scored and settled on its scheduled dates; remaining free hours hold several scored acts from one scoring pass per activation, at most one per need a day. Sleep reserve and shift placement remain tunable; education, care, consumption and a complete diary are not modeled.",
+    "Recorded work is scored and earned on its scheduled dates; cash settles on separately recorded employer paydays. Remaining free hours hold several scored acts from one scoring pass per activation, at most one per need a day. Sleep reserve, shift placement and opening pay-calendar conventions remain tunable; education, care, consumption and a complete diary are not modeled.",
   );
   core.gaps.add(
     "Business receipts and standing purchases cover recorded counterparties only; missing suppliers, public budgets, hiring, nonwage income, demography, elections and law effects prevent realism claims.",
@@ -76,7 +130,11 @@ export function createLifeCore(
   return core;
 }
 
-function refreshNeeds(core: CoreState, api: CoreAPI, actor: PersonState): void {
+export function refreshNeeds(
+  core: CoreState,
+  api: CoreAPI,
+  actor: PersonState,
+): void {
   api.stopgap("SG-P8-life-utility");
   api.stopgap("SG-P8-emotion-model");
   api.updatePerson(actor.id, {
@@ -109,7 +167,7 @@ function refreshNeeds(core: CoreState, api: CoreAPI, actor: PersonState): void {
 }
 
 /** Routine attendance projects only its two current needs; it does not rewrite weekly actor state. */
-function projectWorkNeeds(
+export function projectWorkNeeds(
   core: CoreState,
   api: CoreAPI,
   actor: PersonState,
@@ -262,7 +320,7 @@ function plannedDecision(core: CoreState, act: PlannedAct): DecisionResult {
  * now; the rest of today's free hours and each later day up to the next
  * activation are filled from the same scores (free-block.ts).
  */
-function activate(
+export function activate(
   core: CoreState,
   personId: string,
   days: number,
@@ -324,6 +382,8 @@ function performPlanned(core: CoreState, act: PlannedAct): boolean {
   const api = coreAPI(core);
   const actor = core.people.get(act.personId);
   if (!actor?.alive) return false;
+  // A person under the player's control acts only on the player's answers.
+  if (isExplicitlyControlledPersonV1(core, act.personId)) return false;
   const target = core.people.get(act.offer.targetId);
   if (target && !target.alive) return false;
   if (act.offer.driveId && !actor.drives.has(act.offer.driveId)) return false;
@@ -340,6 +400,7 @@ function performPlanned(core: CoreState, act: PlannedAct): boolean {
   );
   return true;
 }
+registerPlannedActRunner(performPlanned);
 
 /** Routine statistics compact by indexed month; visible history and open callbacks are exempt. */
 export function compactRoutineMetrics(core: CoreState): void {
@@ -362,6 +423,10 @@ export function advanceCore(
   throughDate: string,
   options: { controller?: Controller } = {},
 ): { simulatedDays: number; decisions: number; acts: number } {
+  if (snapshotExplicitControlV1(core).personId !== undefined)
+    throw new Error(
+      "Use the resumable player clock while a person is controlled.",
+    );
   const target = makeIsoDate(throughDate);
   if (target < core.date) throw new Error("Core advance cannot move backward.");
   const p = (key: string) => parameter(key, core.data.parameters);
@@ -406,6 +471,8 @@ export function advanceCore(
 }
 
 export function catchUpLife(core: CoreState, personId: string): void {
+  if (isExplicitlyControlledPersonV1(core, personId))
+    throw new Error("Controlled choices require the resumable player clock.");
   // Chronological work was already settled at each indexed scheduled date.
   // This returns arithmetic/current records and never makes an endpoint choice for elapsed days.
   catchUpScheduledWork(coreAPI(core), personId);
