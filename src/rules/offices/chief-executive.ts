@@ -10,6 +10,7 @@ export interface ChiefParameters {
   readonly largeCityPopulation: number;
   readonly directElection: ChiefExecutiveValue<boolean>;
   readonly term: ChiefExecutiveValue<number>;
+  readonly title: ChiefExecutiveValue<string>;
 }
 const CHOSEN_BY_COUNCIL =
   /\b(chosen|selected|selects|elects?) (by the council|one of (its|their|them)|one of its own)|no separately elected executive/i;
@@ -68,7 +69,7 @@ export function localChiefExecutiveRules(
           : parameters.directElection,
     title: reading?.mayor?.title
       ? { value: reading.mayor.title, basis: "read" }
-      : { value: "Mayor", basis: "typical" },
+      : parameters.title,
     termYears: term !== null ? { value: term, basis: "read" } : parameters.term,
   };
 }

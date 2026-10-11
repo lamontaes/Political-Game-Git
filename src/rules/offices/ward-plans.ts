@@ -62,13 +62,17 @@ export function councilWardPlan(
   if (seats === null || seats < 1) return null;
   if (charter) return charter;
   const wardSeats =
-    seats < 3 || rank < NATIONAL.atLarge
+    seats < OFFICES_PARAMETERS.minimumCouncilSizeForWards.value ||
+    rank < NATIONAL.atLarge
       ? 0
       : rank < NATIONAL.atLarge + NATIONAL.wards
         ? seats
         : Math.min(
             seats - 1,
-            Math.max(2, Math.round(seats * NATIONAL.combinationWardShare)),
+            Math.max(
+              OFFICES_PARAMETERS.minimumWardSeats.value,
+              Math.round(seats * NATIONAL.combinationWardShare),
+            ),
           );
   return {
     seats,
@@ -90,9 +94,11 @@ export function redrawTownWards(input: {
   readonly drawnBy: WardDrawer;
   readonly onDate: string;
   readonly governingAnswer: string | null;
+  readonly alreadyRecorded: boolean;
 }) {
   const { plan, households, onDate, drawnBy } = input;
-  if (!plan || plan.wardSeats < 2) return null;
+  if (!plan || plan.wardSeats < OFFICES_PARAMETERS.minimumWardSeats.value)
+    return null;
   if (households < plan.wardSeats) return null;
   const homes = input.homes
     .filter((row) => isWardSeat(plan, row.seat))
@@ -142,6 +148,12 @@ export function redrawTownWards(input: {
   });
   const deviation =
     (Math.max(...sizes) - Math.min(...sizes)) / (households / plan.wardSeats);
+  // stopgapId: "offices.ward-same-date-key"
+  // Legacy record identity rejects a second map by the same drawer on this date.
+  if (input.alreadyRecorded)
+    throw new Error(
+      `event stable key already exists: town-wards:${input.unit.id}:${onDate}:${drawnBy}`,
+    );
 
   return {
     map: { ...draft, seatWards, paired: paired.map((row) => row.personId) },

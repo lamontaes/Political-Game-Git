@@ -31,7 +31,8 @@ export function planOrdinaryStateExecutiveTerm(facts: {
   )
     return null;
   return {
-    ...facts.dates,
+    startsAt: facts.dates.startsAt,
+    endsAt: facts.dates.endsAt,
     winnerPersonId: facts.winnerPersonId,
     qualify: facts.qualificationBlocks === 0,
   };
@@ -115,6 +116,37 @@ export function statutoryPresidentialSuccessor<
       };
   }
   return null;
+}
+export function presidentialSuccessionMembers(
+  seats: readonly {
+    readonly seatKey: string;
+    readonly occupant: {
+      readonly kind: string;
+      readonly member?: {
+        readonly personId: string;
+        readonly caucusOrganizationId: string | null;
+        readonly partyOrganizationId: string | null;
+        readonly serviceSince?: IsoDate | null;
+        readonly startedAt?: IsoDate | null;
+      };
+    };
+  }[],
+) {
+  return seats.flatMap((seat) => {
+    if (seat.occupant.kind !== "member" || !seat.occupant.member) return [];
+    const member = seat.occupant.member;
+    const caucus = member.caucusOrganizationId ?? member.partyOrganizationId;
+    return caucus
+      ? [
+          {
+            seatKey: seat.seatKey,
+            personId: member.personId,
+            party: caucus,
+            serviceSince: member.serviceSince ?? member.startedAt ?? null,
+          },
+        ]
+      : [];
+  });
 }
 export function seatHouseDelegates(
   seats: readonly {

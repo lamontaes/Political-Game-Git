@@ -5,7 +5,7 @@ export interface EnactedQualification {
   readonly value: number;
   readonly assessmentField: QualificationAssessment["field"];
 }
-export function assessEnactedQualification(
+function assessEnactedQualification(
   change: EnactedQualification,
   person: {
     readonly age: number;
@@ -41,4 +41,30 @@ export function assessEnactedQualification(
     verdict: meets ? "meets" : "fails",
     source: null,
   };
+}
+
+/** Replaces the same assessment fields that the public candidacy read overlays. */
+export function enactedQualificationAssessments(
+  changes: readonly EnactedQualification[],
+  person: {
+    readonly age: number;
+    readonly stateResidenceSince: IsoDate | null;
+    readonly districtResidenceSince: IsoDate | null;
+    readonly districtIsUnknown: boolean;
+    readonly onDate: IsoDate;
+  },
+) {
+  return changes.map((change) =>
+    assessEnactedQualification(change, {
+      age: person.age,
+      since:
+        change.field === "qualification.minimumAge"
+          ? null
+          : change.field === "qualification.stateResidenceYears"
+            ? person.stateResidenceSince
+            : person.districtResidenceSince,
+      districtIsUnknown: person.districtIsUnknown,
+      onDate: person.onDate,
+    }),
+  );
 }

@@ -5,9 +5,9 @@
     "name": "compiledQualificationForOffice",
     "inventoryEngine": "elections",
     "keepLines": 224,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`candidateQualificationRuleSet`, `makeIsoDate`, `OFFICE_QUALIFICATIONS_META`, `officeFamilyForChamberKey`, `stateLawHasBeenRead`, `standInQualification`, `knownRule`, `unknownRule`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "partial",
+    "lift": "src/rules/offices/compiled-qualification.ts",
+    "reason": "Candidate rule-set, dated source-row, stand-in and settled-row reads; source citation and residency wording. Numeric fallback and field-state decisions are lifted together with their helper closure."
   },
   {
     "sourceFile": "src/simulation/candidacy.ts",
@@ -15,9 +15,9 @@
     "name": "districtSeatMustBeNamed",
     "inventoryEngine": "elections",
     "keepLines": 36,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function resolves executive/congress/local identity catalogs, candidacyAuthority and districtIdentityCatalog, then applies an isTerritoryUsps branch. An unchanged copy would embed legacy catalog transport and place naming in logic; a verified data adapter is required under one-rule-all-places."
+    "status": "partial",
+    "lift": "src/rules/offices/continuity.ts",
+    "reason": "Executive, congressional, local and Gazetteer identity lookup. The supplied identity flags and district count feed every naming gate."
   },
   {
     "sourceFile": "src/simulation/candidacy.ts",
@@ -25,9 +25,9 @@
     "name": "assessEnactedQualification",
     "inventoryEngine": "elections",
     "keepLines": 55,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`plural`, `completedMonthsBetween`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "partial",
+    "lift": "src/rules/offices/enacted-qualification.ts",
+    "reason": "Law designation and English age/residence explanations. Minimum-age and completed-month residence comparisons are lifted through enactedQualificationAssessments."
   },
   {
     "sourceFile": "src/simulation/candidate-filing-terms.ts",
@@ -37,7 +37,7 @@
     "keepLines": 15,
     "status": "lifted",
     "lift": "src/rules/offices/filing-terms.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/candidate-petitions.ts",
@@ -45,9 +45,9 @@
     "name": "circulateCandidatePetition",
     "inventoryEngine": "elections",
     "keepLines": 67,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `campaignById`, `modelCampaignFieldReach`, `electionContestById`, `petitionAskedPersonIds`, `districtResidenceSince`, `residesForVoting`, `askToSign`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/petition-circulation.ts",
+    "reason": "Campaign/contest and residence reads, individual askToSign decisions, durable traces and signature/decline event writes. Field-rate conversion, bounded FNV roster walk, self/residence exclusion and deduplication are lifted."
   },
   {
     "sourceFile": "src/simulation/candidate-qualification.ts",
@@ -55,9 +55,9 @@
     "name": "ruleSetApplicableOn",
     "inventoryEngine": "elections",
     "keepLines": 50,
-    "status": "partial-not-liftable",
+    "status": "partial",
     "lift": "src/rules/offices/candidate-qualification.ts",
-    "reason": "Temporal decisions are lifted. The whole legacy function embeds reason/evidence wording in unavailable fields; that wording belongs to the English engine and is omitted from the rule output."
+    "reason": "Unavailable-field reason and evidence wording; dated applicability and field states are lifted."
   },
   {
     "sourceFile": "src/simulation/candidate-qualification.ts",
@@ -65,9 +65,9 @@
     "name": "durationRefusal",
     "inventoryEngine": "elections",
     "keepLines": 43,
-    "status": "partial-not-liftable",
+    "status": "partial",
     "lift": "src/rules/offices/candidate-qualification.ts",
-    "reason": "Duration/refusal decisions are lifted. The whole legacy helper formats refusal prose; the English engine owns that output and the shelf returns refusal categories."
+    "reason": "English refusal sentences; duration comparisons and ordered refusal categories are lifted."
   },
   {
     "sourceFile": "src/simulation/candidate-qualification.ts",
@@ -75,9 +75,9 @@
     "name": "assessCandidateQualification",
     "inventoryEngine": "elections",
     "keepLines": 47,
-    "status": "partial-not-liftable",
+    "status": "partial",
     "lift": "src/rules/offices/candidate-qualification.ts",
-    "reason": "Qualification decisions and ordered refusals are lifted. The whole legacy function includes generated refusal wording, which the English engine owns."
+    "reason": "English refusal explanations; minimum-age, date applicability and duration assessment are lifted."
   },
   {
     "sourceFile": "src/simulation/district-residence.ts",
@@ -85,9 +85,9 @@
     "name": "districtResidenceSince",
     "inventoryEngine": "elections",
     "keepLines": 29,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `resolveDistrictBinding`, `districtIdentityCatalog`, `districtResidenceIntervalsOf`, `isSupportedDistrictMembership`, `HOME_PLACEMENT_METHODS`, `membershipStartedOn`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/district-residence.ts",
+    "reason": "Person-index and district-identity resolution reads. Provenance admission, interval selection and household continuity dates are lifted."
   },
   {
     "sourceFile": "src/simulation/district-residence.ts",
@@ -95,9 +95,9 @@
     "name": "membershipStartedOn",
     "inventoryEngine": "elections",
     "keepLines": 18,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `homeJurisdictionResidenceSince`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/district-residence.ts",
+    "reason": "Household residence-history read; the canonical-placement date versus authored interval date decision is lifted."
   },
   {
     "sourceFile": "src/simulation/district-residence.ts",
@@ -105,9 +105,9 @@
     "name": "recordedDistrictMembership",
     "inventoryEngine": "elections",
     "keepLines": 20,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `districtResidenceIntervalsOf`, `isSupportedDistrictMembership`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/district-residence.ts",
+    "reason": "Person-index read; supported provenance, chamber, open/closed boundaries and ambiguity checks are lifted."
   },
   {
     "sourceFile": "src/simulation/governing/office-consequence.ts",
@@ -115,9 +115,9 @@
     "name": "officesHeldBy",
     "inventoryEngine": "governing",
     "keepLines": 35,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `currentGoverningOffices`, `projectCongress`, `congressSeats`, `congressSeatTitle`, `activeWorkRelationshipsAt`, `OFFICE_EMPLOYMENT_KINDS`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/held-offices.ts",
+    "reason": "Governing-office, Congress, active-work, seat-catalog and title reads; the office filtering and deduplication decisions are lifted."
   },
   {
     "sourceFile": "src/simulation/governing/office-consequence.ts",
@@ -125,9 +125,9 @@
     "name": "playerOfficeScope",
     "inventoryEngine": "governing",
     "keepLines": 87,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `currentGoverningOffices`, `jurisdictionOfficeLevel`, `currentPresidentOf`, `NATIONAL_ELECTION_JURISDICTION`, `projectCongress`, `congressSeats`, `congressSeatTitle`, `activeWorkRelationshipsAt`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/held-offices.ts",
+    "reason": "Governing-office, President, Congress, jurisdiction and active-work reads; scope precedence and office-level classification are lifted."
   },
   {
     "sourceFile": "src/simulation/governing/office-continuity.ts",
@@ -135,9 +135,9 @@
     "name": "nextCongressionalElectionAfter",
     "inventoryEngine": "governing",
     "keepLines": 7,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`congressionalElectionDay`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/offices/continuity.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/governing/office-continuity.ts",
@@ -145,9 +145,9 @@
     "name": "statutoryPresidentialSuccessor",
     "inventoryEngine": "governing",
     "keepLines": 77,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `projectCongress`, `electPresidingOfficer`, `recordPresidingOfficerVote`, `congressSeats`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/office-plans.ts",
+    "reason": "Congress projection, presiding-officer election/effect adapter and vote-event writes. The eligible sitting-member projection, service-date fallback, House-before-Senate precedence and catalog match are lifted; presiding-officer ballot math belongs to the legislature shelf, not an exclusion."
   },
   {
     "sourceFile": "src/simulation/governing/office-continuity.ts",
@@ -155,9 +155,9 @@
     "name": "ageOn",
     "inventoryEngine": "governing",
     "keepLines": 4,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted",
+    "lift": "src/rules/offices/continuity.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/governing/office-continuity.ts",
@@ -165,9 +165,9 @@
     "name": "congressSeatHeldBy",
     "inventoryEngine": "governing",
     "keepLines": 17,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `projectCongress`, `congressSeats`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/continuity.ts",
+    "reason": "Congress projection and catalog read; occupied-person selection and matching seat identity are lifted."
   },
   {
     "sourceFile": "src/simulation/government-units.ts",
@@ -175,9 +175,9 @@
     "name": "countyPopulationSharesForPlace",
     "inventoryEngine": "governing",
     "keepLines": 11,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`loadPlaceCountyParts`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "partial",
+    "lift": "src/rules/offices/county-shares.ts",
+    "reason": "County/place relation transport; population-share selection and normalization are lifted over supplied county parts."
   },
   {
     "sourceFile": "src/simulation/government-units.ts",
@@ -185,9 +185,9 @@
     "name": "countyGovernmentUnitsForPlace",
     "inventoryEngine": "governing",
     "keepLines": 16,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`loadPlaceCountyParts`, `countyGovernmentUnit`, `push`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "partial",
+    "lift": "src/rules/offices/county-shares.ts",
+    "reason": "County/place relation and unit catalog transport; county grouping, share totals and unit admission are lifted."
   },
   {
     "sourceFile": "src/simulation/government-units.ts",
@@ -195,9 +195,9 @@
     "name": "countyLandSharesForPlace",
     "inventoryEngine": "governing",
     "keepLines": 12,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`loadPlaceCountyParts`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "partial",
+    "lift": "src/rules/offices/county-shares.ts",
+    "reason": "County/place relation transport; land-share normalization, including the legacy zero-total result, is lifted."
   },
   {
     "sourceFile": "src/simulation/government-units.ts",
@@ -205,9 +205,9 @@
     "name": "countyGeoidsForPlace",
     "inventoryEngine": "governing",
     "keepLines": 7,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`loadPlaceCountyParts`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "partial",
+    "lift": "src/rules/offices/county-shares.ts",
+    "reason": "County/place relation transport; unique county selection and sorting are lifted."
   },
   {
     "sourceFile": "src/simulation/living-world/congress-seats.ts",
@@ -215,9 +215,9 @@
     "name": "seatTermWindow",
     "inventoryEngine": "elections",
     "keepLines": 23,
-    "status": "partial-not-liftable",
+    "status": "partial",
     "lift": "src/rules/offices/seat-term.ts",
-    "reason": "Term-window arithmetic is lifted over a supplied term reference. The whole legacy function resolves TERM_REFERENCE from seat/chamber/class; that corpus selection remains the port's data adapter."
+    "reason": "Term-rule corpus lookup and legacy evidence wording; the selected term calendar is lifted."
   },
   {
     "sourceFile": "src/simulation/living-world/house-delegates.ts",
@@ -225,9 +225,9 @@
     "name": "houseDelegateTermWindow",
     "inventoryEngine": "elections",
     "keepLines": 14,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`REFERENCE_YEAR`, `makeIsoDate`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/offices/delegate-terms.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/living-world/house-delegates.ts",
@@ -235,9 +235,9 @@
     "name": "seatHouseDelegates",
     "inventoryEngine": "elections",
     "keepLines": 24,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `HOUSE_DELEGATE_SEATS`, `houseDelegateTermWindow`, `SeededRng`, `memberKey`, `projectedCaucus`, `makeIsoDate`, `writeTerms`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/office-plans.ts",
+    "reason": "Seeded person/prior-service generation and delegate record writers. Cycle dates, prior-term service-year subtraction and outgoing term facts are lifted."
   },
   {
     "sourceFile": "src/simulation/living-world/house-delegates.ts",
@@ -245,9 +245,9 @@
     "name": "houseDelegateOccupant",
     "inventoryEngine": "elections",
     "keepLines": 44,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `houseDelegateSeat`, `recordsWithFieldValue`, `HOUSE_DELEGATE_TENURE_EVENT`, `tagValue`, `aliveOn`, `personName`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/delegate-occupant.ts",
+    "reason": "Seat, person, name and dated death reads; tenure-event precedence, tag dates and alive/ended classification are lifted."
   },
   {
     "sourceFile": "src/simulation/living-world/local-government-seats.ts",
@@ -255,9 +255,9 @@
     "name": "seatOne",
     "inventoryEngine": "elections",
     "keepLines": 49,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `municipalWorkspaceGovernmentForUnit`, `installMunicipalGovernment`, `municipalProcedureReading`, `municipalSeats`, `seatMunicipalMember`, `ensureLocalGovernmentOrganization`, `organizationIdFor`, `createOrganizationParticipation`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/continuity.ts",
+    "reason": "Municipal installation, seat and participation writers, and body/organization reads. Body-cap admission and compiled-versus-organization command decisions are lifted through localSeatCommand."
   },
   {
     "sourceFile": "src/simulation/living-world/town-wards.ts",
@@ -265,9 +265,9 @@
     "name": "sizeRank",
     "inventoryEngine": "elections",
     "keepLines": 17,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`ranks`, `governmentUnitsForState`, `population`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "partial",
+    "lift": "src/rules/offices/ward-plans.ts",
+    "reason": "Government-unit and population catalog reads and cache ownership; population sort, stable ties and midpoint ranks are lifted."
   },
   {
     "sourceFile": "src/simulation/living-world/town-wards.ts",
@@ -275,9 +275,9 @@
     "name": "charterWardSeats",
     "inventoryEngine": "elections",
     "keepLines": 21,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`municipalGovernmentForUnit`, `primaryReading`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "partial",
+    "lift": "src/rules/offices/ward-plans.ts",
+    "reason": "Compiled government and charter reading lookup; ward counts, caps and at-large remainder are lifted."
   },
   {
     "sourceFile": "src/simulation/living-world/town-wards.ts",
@@ -285,9 +285,9 @@
     "name": "councilWardPlan",
     "inventoryEngine": "elections",
     "keepLines": 27,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`localGoverningBodyIdentity`, `localGoverningBodyRules`, `charterWardSeats`, `sizeRank`, `NATIONAL`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "partial",
+    "lift": "src/rules/offices/ward-plans.ts",
+    "reason": "Identity, seat-count and national survey reads; charter precedence and population-rank ward composition are lifted."
   },
   {
     "sourceFile": "src/simulation/living-world/town-wards.ts",
@@ -297,7 +297,7 @@
     "keepLines": 6,
     "status": "lifted",
     "lift": "src/rules/offices/ward-seats.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/living-world/town-wards.ts",
@@ -307,7 +307,7 @@
     "keepLines": 5,
     "status": "lifted",
     "lift": "src/rules/offices/ward-seats.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/living-world/town-wards.ts",
@@ -317,7 +317,7 @@
     "keepLines": 8,
     "status": "lifted",
     "lift": "src/rules/offices/ward-seats.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/living-world/town-wards.ts",
@@ -327,7 +327,7 @@
     "keepLines": 39,
     "status": "lifted",
     "lift": "src/rules/offices/ward-seats.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/living-world/town-wards.ts",
@@ -335,9 +335,9 @@
     "name": "redrawTownWards",
     "inventoryEngine": "elections",
     "keepLines": 144,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `councilWardPlan`, `townRoster`, `isWardSeat`, `homePosition`, `drawWardCuts`, `wardAt`, `wardRange`, `WARD_COMMISSION_QUESTION`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/ward-plans.ts",
+    "reason": "Town roster, member-home and governing-law reads; map and drawn-out event writes and English explanations. All cut, pairing, seat assignment, deviation and attribution decisions are lifted, including the legacy same-date record-key failure fact."
   },
   {
     "sourceFile": "src/simulation/living-world/town-wards.ts",
@@ -345,9 +345,9 @@
     "name": "votingPrecinctPlan",
     "inventoryEngine": "elections",
     "keepLines": 79,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `lifePlaceByJurisdictionId`, `precinctCatalog`, `population`, `precinctStateCodes`, `placeReferencePopulation`, `primaryPrecinctHome`, `townRoster`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/precincts.ts",
+    "reason": "Place, jurisdiction, census VTD, reference-population and roster reads; admitted-row selection, donor averaging, population bounds and precinct counts are lifted."
   },
   {
     "sourceFile": "src/simulation/living-world/town-wards.ts",
@@ -355,9 +355,9 @@
     "name": "establishVotingPrecinctMembership",
     "inventoryEngine": "elections",
     "keepLines": 49,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `latestPrecinctMap`, `votingPrecinctPlan`, `primaryPrecinctHome`, `population`, `writePrecinctEvent`, `PRECINCT_MAP`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/precincts.ts",
+    "reason": "Prior-map/home reads and precinct map event serialization. Census/opening timing and largest-remainder assignment are lifted."
   },
   {
     "sourceFile": "src/simulation/living-world/town-wards.ts",
@@ -365,9 +365,9 @@
     "name": "syncVotingPrecinctArrival",
     "inventoryEngine": "elections",
     "keepLines": 40,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `primaryPrecinctHome`, `establishVotingPrecinctMembership`, `votingPrecinctOfPerson`, `latestPrecinctMap`, `precinctRecord`, `population`, `writePrecinctEvent`, `PRECINCT_ARRIVAL`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/precincts.ts",
+    "reason": "Primary-home and saved-map/membership reads, opening producer invocation and arrival event serialization. Largest-deficit assignment with stable ties is lifted."
   },
   {
     "sourceFile": "src/simulation/municipal-qualification-estimate.ts",
@@ -377,7 +377,7 @@
     "keepLines": 44,
     "status": "lifted",
     "lift": "src/rules/offices/municipal-age.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/municipal-seat-identity.ts",
@@ -385,9 +385,9 @@
     "name": "municipalSeatMustBeNamed",
     "inventoryEngine": "elections",
     "keepLines": 3,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "compiledChoices is hardwired to one office ID and its authored seat labels. Copying it unchanged would violate one-rule-all-places and the English output boundary. It needs caller-supplied recorded seat identities, not new hardcoded place logic."
+    "status": "partial",
+    "lift": "src/rules/offices/continuity.ts",
+    "reason": "Compiled seat-choice lookup; the nonempty choice-count decision is lifted."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/congress-candidacy-packs.ts",
@@ -395,9 +395,9 @@
     "name": "ordinal",
     "inventoryEngine": "elections",
     "keepLines": 14,
-    "status": "not-liftable",
+    "status": "excluded",
     "lift": null,
-    "reason": "Whole function interprets or produces legacy presentation/prose. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+    "reason": "Only formats an English ordinal suffix using last-digit/last-two-digit cases; no office, eligibility, term, seat or filing rule remains."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/local-chief-executive-rules.ts",
@@ -405,9 +405,9 @@
     "name": "localChiefExecutiveRules",
     "inventoryEngine": "governing",
     "keepLines": 28,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`municipalGovernmentForUnit`, `primaryReading`, `readDirectElection`, `OWNER_LARGE_CITY_POPULATION`, `readMayorTerm`, `MOST_COMMON_DIRECT_ELECTION`, `MOST_COMMON_TERM`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "partial",
+    "lift": "src/rules/offices/chief-executive.ts",
+    "reason": "Municipal reading and place-population lookup. Direct-election text classification, mayor-term admission, owner population gate and modal fallback are lifted with caller-supplied default title data."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/local-governing-body-candidacy-packs.ts",
@@ -415,9 +415,9 @@
     "name": "localGoverningBodyIdentityForOfficeKey",
     "inventoryEngine": "elections",
     "keepLines": 30,
-    "status": "not-liftable",
+    "status": "excluded",
     "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`OFFICE_PREFIX`, `ROW_INFIX`, `COUNTY_ROW_OFFICE_KEYS`, `OFFICE_SUFFIX`, `CHIEF_SUFFIX`, `municipioUnit`, `governmentUnit`, `localRowOfficeIdentity`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "reason": "Only parses a persisted office key suffix, routes municipio versus Census publisher identity lookup, constructs the selected catalog identity and checks that its key matches; no seat-count, eligibility, election or term decision remains."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/local-governments.ts",
@@ -425,9 +425,9 @@
     "name": "placeLocalGovernmentUnits",
     "inventoryEngine": "governing",
     "keepLines": 109,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`countyEquivalentTerm`, `countyGovernmentUnit`, `municipioUnit`, `governmentUnitsForPlace`, `townshipGovernmentUnitsForPlace`, `countyGovernmentUnitsForPlace`, `municipiosForPlace`, `countyRelationEmpty`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "partial",
+    "lift": "src/rules/offices/local-units.ts",
+    "reason": "Municipal, township, county-relation and municipio catalog reads; county explanatory text. Geographic scope, government selection and county-share decisions are lifted."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/residence-duration.ts",
@@ -435,9 +435,9 @@
     "name": "continuousResidenceSince",
     "inventoryEngine": "elections",
     "keepLines": 47,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `currentLifeCutoff`, `factsForPerson`, `homeCoveredOn`, `homeChangeDates`, `addDays`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/continuous-residence.ts",
+    "reason": "Residence, household membership, state and location history reads; uninterrupted-date ordering and one-day move continuity are lifted."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-terms.ts",
@@ -445,9 +445,9 @@
     "name": "wholeYears",
     "inventoryEngine": "governing",
     "keepLines": 5,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted",
+    "lift": "src/rules/offices/executive-terms.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-terms.ts",
@@ -455,9 +455,9 @@
     "name": "ordinaryStateExecutiveTermDates",
     "inventoryEngine": "governing",
     "keepLines": 26,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `stateExecutiveTermRuleForElectionYear`, `admittedTermDates`, `TERM_FIELDS`, `termDatesAfterElection`, `termRuleBasis`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/executive-terms.ts",
+    "reason": "Enacted-rule and capability-resolution reads; enacted-versus-admitted precedence, calendar composition and unknown-field decisions are lifted."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-terms.ts",
@@ -465,9 +465,9 @@
     "name": "admittedTermDates",
     "inventoryEngine": "governing",
     "keepLines": 56,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`resolveNationwideRuleCapability`, `TERM_FIELDS`, `unadmittedRuleFields`, `admittedRuleField`, `wholeYears`, `makeIsoDate`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "partial",
+    "lift": "src/rules/offices/executive-terms.ts",
+    "reason": "Capability-resolution read; verified field admission, whole-year validation and commencement/term-end math are lifted."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-terms.ts",
@@ -475,9 +475,9 @@
     "name": "planOrdinaryStateExecutiveTerm",
     "inventoryEngine": "governing",
     "keepLines": 40,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `electionContestById`, `electionContestResult`, `stateExecutiveIdentityForOfficeKey`, `isRegularStateExecutiveElection`, `ordinaryStateExecutiveTermDates`, `planElectedExecutiveOfficeTerm`, `termNote`, `routineQualificationBlocks`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/office-plans.ts",
+    "reason": "Contest/result/identity reads, eligibility reader and term/qualification writers. Regular-election guard, dated-term admission and zero-block routine qualification command are lifted."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-terms.ts",
@@ -485,9 +485,9 @@
     "name": "offCycleRecoveryDates",
     "inventoryEngine": "governing",
     "keepLines": 12,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`commencementInYear`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/offices/executive-terms.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executives.ts",
@@ -495,9 +495,9 @@
     "name": "wholeYears",
     "inventoryEngine": "governing",
     "keepLines": 5,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted",
+    "lift": "src/rules/offices/executive-terms.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executives.ts",
@@ -505,9 +505,9 @@
     "name": "stateExecutiveTermWindow",
     "inventoryEngine": "governing",
     "keepLines": 72,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`resolveNationwideRuleCapability`, `STATE_EXECUTIVE_TERM_FIELDS`, `unadmittedRuleFields`, `stateExecutiveTermRule`, `regularTermWindowOn`, `admittedRuleField`, `wholeYears`, `makeIsoDate`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "partial",
+    "lift": "src/rules/offices/executive-terms.ts",
+    "reason": "Capability and executive-rule reads and explanatory term-note text; admitted and fallback calendar selection is lifted."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executives.ts",
@@ -515,9 +515,9 @@
     "name": "seatOpeningGovernorElect",
     "inventoryEngine": "governing",
     "keepLines": 88,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `stateExecutiveTermRule`, `isElectionYear`, `generalElectionDay`, `stateExecutiveTermWindow`, `stateExecutiveTenureKeyPrefix`, `SeededRng`, `applyCharacterHistoryPlan`, `drawGeneratedPersonName`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/office-plans.ts",
+    "reason": "Executive-rule and term-window reads, tenure deduplication and generated holder/event writers. Backward election-year search, past-election and matching-commencement gates and dated tenure command are lifted."
   },
   {
     "sourceFile": "src/simulation/office-pay.ts",
@@ -525,9 +525,9 @@
     "name": "estimatedStatePay",
     "inventoryEngine": "governing",
     "keepLines": 53,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `ESTIMATED_OFFICE_PAY`, `publishedAnnualPay`, `stateHouseholdIncome2023`, `censusRegionOf`, `reciprocalRankedReferences`, `weightedReferenceMean`, `OFFICE_PAY_META`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/pay-estimate.ts",
+    "reason": "Salary, income and Census-region reads, cache and English estimate basis. Donor admission, regional/income closeness, reciprocal ranks, weighted mean and hundred-dollar rounding are lifted together."
   },
   {
     "sourceFile": "src/simulation/office-qualification-profile.ts",
@@ -535,9 +535,9 @@
     "name": "modalQualification",
     "inventoryEngine": "elections",
     "keepLines": 29,
-    "status": "partial-not-liftable",
+    "status": "partial",
     "lift": "src/rules/offices/qualification-profile.ts",
-    "reason": "Decision kernel is lifted over selected facts. Whole function closes over legacy module records, research transport or helper contracts (`qualificationRows`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "reason": "Source-row transport and estimate evidence wording; positive-value selection, mode and ties are lifted."
   },
   {
     "sourceFile": "src/simulation/office-qualification-profile.ts",
@@ -545,9 +545,9 @@
     "name": "qualificationRange",
     "inventoryEngine": "elections",
     "keepLines": 24,
-    "status": "partial-not-liftable",
+    "status": "partial",
     "lift": "src/rules/offices/qualification-profile.ts",
-    "reason": "Decision kernel is lifted over selected facts. Whole function closes over legacy module records, research transport or helper contracts (`qualificationRows`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "reason": "Source-row transport and estimate evidence wording; ordered numeric range selection is lifted."
   },
   {
     "sourceFile": "src/simulation/office-qualification-rules.ts",
@@ -555,9 +555,9 @@
     "name": "qualificationTemporalApplicability",
     "inventoryEngine": "elections",
     "keepLines": 38,
-    "status": "partial-not-liftable",
+    "status": "partial",
     "lift": "src/rules/offices/qualification.ts",
-    "reason": "Temporal decisions are lifted. The whole legacy function includes labels and evidence wording, which the English engine owns."
+    "reason": "Field date/evidence wording; date validity and availability decisions are lifted."
   },
   {
     "sourceFile": "src/simulation/office-qualification-rules.ts",
@@ -567,7 +567,7 @@
     "keepLines": 46,
     "status": "lifted",
     "lift": "src/rules/offices/qualification.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/office-qualification-rules.ts",
@@ -575,9 +575,9 @@
     "name": "residedLabel",
     "inventoryEngine": "elections",
     "keepLines": 7,
-    "status": "not-liftable",
+    "status": "excluded",
     "lift": null,
-    "reason": "Whole function interprets or produces legacy presentation/prose. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+    "reason": "Only formats completed years/months into an English residence-duration sentence; no residence admission or duration comparison remains."
   },
   {
     "sourceFile": "src/simulation/office-qualification-rules.ts",
@@ -585,9 +585,9 @@
     "name": "assessOfficeQualifications",
     "inventoryEngine": "elections",
     "keepLines": 227,
-    "status": "partial-not-liftable",
+    "status": "partial",
     "lift": "src/rules/offices/qualification.ts",
-    "reason": "Office qualification decisions are lifted over supplied rows. The whole legacy function also selects officeQualifications from the research corpus and formats player reasons; those DATA and English boundaries cannot be copied into this pure shelf."
+    "reason": "English assessment sentences and source-row assembly; every assessment verdict, duration, prior-term and temporal gate is lifted."
   },
   {
     "sourceFile": "src/simulation/office-salary.ts",
@@ -595,9 +595,9 @@
     "name": "annualPay",
     "inventoryEngine": "governing",
     "keepLines": 51,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `officePayInForce`, `workRoleAt`, `currentLifeCutoff`, `recordedWorkAnnualPay`, `weeklyHoursOf`, `daysBetween`, `townJobRate`, `townPayPercentile`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/salary.ts",
+    "reason": "Operative-pay, work-role, comparable-pay and wage-rate reads and English salary explanation. Salary precedence, minor-unit conversion, tenure and annual hourly-pay arithmetic are lifted."
   },
   {
     "sourceFile": "src/simulation/office-salary.ts",
@@ -605,9 +605,9 @@
     "name": "weeklyMinor",
     "inventoryEngine": "governing",
     "keepLines": 3,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted",
+    "lift": "src/rules/offices/salary.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/office-salary.ts",
@@ -615,9 +615,9 @@
     "name": "dueOfficePeriods",
     "inventoryEngine": "governing",
     "keepLines": 41,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `growingIndex`, `LAST_RECORDED_PERIOD`, `daysBetween`, `WEEK_DAYS`, `addDays`, `isActiveOn`, `paidOfficeOf`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/salary.ts",
+    "reason": "Latest recorded transfer, dated active-work and paid-office reads, plus transfer identity/provenance fields. Closed-week arithmetic, active-day stop and paid-period admission are lifted."
   },
   {
     "sourceFile": "src/simulation/office-transition.ts",
@@ -625,9 +625,9 @@
     "name": "datedTransitionServices",
     "inventoryEngine": "governing",
     "keepLines": 16,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`addDays`, `windowDate`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/offices/transition.ts",
+    "reason": "The complete decision/math is lifted, including its required date/helper closure."
   },
   {
     "sourceFile": "src/simulation/office-transition.ts",
@@ -635,9 +635,9 @@
     "name": "transitionServiceStatus",
     "inventoryEngine": "governing",
     "keepLines": 12,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `transitionServiceAttendance`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial",
+    "lift": "src/rules/offices/transition.ts",
+    "reason": "Current date and attended-event read; attended/window/availability status precedence is lifted."
   },
   {
     "sourceFile": "src/simulation/settled-qualifications.ts",
@@ -645,8 +645,8 @@
     "name": "settledQualification",
     "inventoryEngine": "elections",
     "keepLines": 29,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`SETTLED`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "partial",
+    "lift": "src/rules/offices/settled-qualifications.ts",
+    "reason": "Settled qualification table transport; family/field/state and valid-from date selection is lifted."
   }
 ]

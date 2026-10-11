@@ -1,63 +1,33 @@
-# P14 offices, seats, filing and qualifications
+# Offices, seats, filing and qualification rules
 
-RULES-2 owns this shelf under owner-approved REVIEW 25 and the October 10, 2026 branch hand-off. Local, state and federal rules are lifted together, before the elections shelf.
+RULES-2 owns this pure shelf under owner-approved REVIEW 25. Local, state and federal rules move together. The new core port supplies facts and applies the returned decisions through its own writers. No legacy engine is edited and no live core2 wiring is claimed here.
 
-## Contract
+## Contract and build order
 
-- Read the P11 row inventory and use only its RULE (KEEP) declarations. Audit prose does not override a DEAD, DATA, PLUMBING or REDESIGN row.
-- Lift pure decisions over caller-selected office, seat, person, qualification and filing facts. Research lookup, World/history assembly, writers and live wiring stay with the port.
-- Preserve legacy decisions, ordering, boundary dates and missing-fact behavior. Suspected defects remain unchanged, with a code marker and a core2-shaped stopgap registry entry, and are listed for the CTO.
-- Keep identifiers in American English. Player wording remains with the English engine.
-- Own only `src/rules/offices/`. Never edit old engines, `src/core2`, the director or another engine's shelf.
+Lift only P11 RULE (KEEP) declarations, preserving every comparison, date boundary, ordering rule and missing-fact result. Lift date helpers and KEEP dependencies together. Extract world-dependent functions into pure decisions over the values their readers returned; return the record facts or commands their writers would receive. Private helpers are checked through callers. Leave only specifically named transport, record writing and English with adapters.
 
-## Build order
+The offices slice precedes elections, then legislature/council procedure, laws in force and economy. Courts and press remain parked. The plan and validation receipts are in draft PR #3946.
 
-1. Qualification date applicability and age/residence/citizenship assessments.
-2. Qualification profiles over supplied sourced rows, with estimates registered.
-3. Office and seat eligibility, including local district and residence rules.
-4. Filing windows, fees and signature requirements from supplied place facts.
-5. Local, state and federal qualification composition using those same rules.
-6. Coverage and CTO hand-off, naming every partial lift and its remaining fact assembly.
+## Disposition
+
+The CTO send-back replaces the former whole-function blocker interpretation. [The complete ledger](KEEP-DISPOSITION.md) names all 65 scoped functions: 15 full lifts, 47 partial lifts and three exclusions. A partial lift contains the named function's decision and arithmetic; its ledger entry says exactly which reads, record writes or English remain. The exclusions contain only ordinal wording, residence-duration wording and persisted identity-key/catalog routing. A dependency or a private helper is never an exclusion reason.
+
+The extracted rules cover qualification compilation and enacted overlays, district and household residence, office scope, county shares, executive/delegate calendars, seating admission, ward plans and redraws, voting precinct allocation/arrival, petition shift contact order, salary estimation/periods and transition windows. Shared calendar and field-reach helpers travel with their callers. Presiding-officer ballot decisions are the next legislature slice; the offices kernel accepts the recorded vote winner and retains eligible-member projection and statutory chamber precedence.
 
 ## Verification
 
-Before code changes, run the existing bench smoke test and baseline gate in the registered cloud workspace. Each meaningful lift receives golden tests calling the unchanged legacy helper on identical inputs over all 56 jurisdiction identities. Include date boundaries, ties, missing facts and invalid or unavailable requirements. Draw and name a random place and seed for the filing/qualification path. Tests import legacy code only as an oracle; shelf implementation does not read World.
+The focused suite compares the shelf against unchanged legacy functions in all 56 places. Generated worlds come from `smallWorld`, with existing household, district, campaign, employment, legislative, executive and continuity producers/writers. Source facts select each place's rules. The tests check private helpers through public candidacy, salary, seating, nomination and succession callers. A nomination test observes the admission predicate at its decision boundary; it does not claim to prove appointee selection. Where an institution or filing is unavailable, its guard is checked rather than borrowing another place's authority.
 
-Run changed-file typecheck, ESLint and Prettier, focused golden tests, `release:check --mode pr`, `zero-dice` and the stopgap registry tripwire. Record baseline failures separately. Fully lifted and partially lifted KEEP lines are reported separately; a partial lift is not reported as a complete source function.
+Laws in the qualification proof go through the legislative steps and real executive desk. Salary proof compares recorded flow terms and newly written transfer periods. Ward proof asserts that real maps were drawn, compares their cuts/seat assignments/pairings and checks law attribution. The continuation also proves a counted executive contest leads to the same dated term and routine qualification, and an officeholder death leads to the same statutory successor and vacant congressional seat. These are legacy-world equivalence proofs; they do not advance the playable core2 golden path.
 
-## Lifted and remaining
+Run scoped typecheck, ESLint, Prettier, this shelf's tests, the registry tripwire, `release:check --mode pr` and `zero-dice`. The final PR body reports exact results and the randomly watched place/seed/record ids. Main contains no core2 bench; the unchanged generated-world replay smoke passes two tests.
 
-- Fully lifted: signature arithmetic (14 KEEP lines) and filing opening (3).
-- Partial: candidate applicability and assessment (140), office temporal applicability, duration and assessment (311), modal/range profile math (53), and selected seat-term window (23). Inputs select records; player wording stays in the English engine. Total source KEEP lines covered by partial lifts: 527.
-- Seat creation, district catalogs, filing offices/fees and petition history remain with the port; their wrappers are not imported into the shelf. No PLUMBING or DEAD wrapper is claimed as a rule lift.
-- Numeric date conversions and input validation support the lifted rules; they are not counted as engine KEEP coverage.
+## Preserved findings for the CTO
 
-## CTO findings
+Every shortcut has a marker and an OPEN entry in [stopgaps.json](stopgaps.json). Suspected defects remain unchanged: one 30-day elector residence period; leap-day age advancement by month/day string comparison; a delegate end-date tag cast that can retain null; and duplicate ward-map identity for a second map by the same drawer on the same date. The ward kernel retains that duplicate-key failure from a supplied existing-record fact.
 
-The elector assessment applies a single legacy 30-day residence period to every supplied elector requirement. It is preserved and registered as a suspected bug. The common July 1 filing opening and 1e-9 signature rounding tolerance are also retained with registered replacements. No decision behavior was corrected.
+Registered estimates/proxies include the common filing opening, signature tolerance, household ward geography/deviation, population-rank composition, address-free precinct allocation, unread chief-executive profile, bounded term search, 52-week/365.25-day salary conversion, regional/income reciprocal-rank salary estimates, stable FNV petition contact order and candidate-to-volunteer shift equivalence. None was repaired or recalibrated.
 
-Golden comparisons omit generated player wording; eligibility, ordering, field states, dates, source facts and refusal categories are compared. This is an output boundary change, not a new qualification rule.
+## Hand-off
 
-## Baseline and status
-
-The existing game smoke test is reproducible (seed `rules2-baseline-20261011`, six people and eleven events). The focused legacy baseline has 36 passes and one pre-existing failure: the qualification metadata test expects 69 records, and its corpus has 72. Main does not contain the core2 bench, so no playable golden-path advancement is claimed. The initial default-sandbox Vitest startup failed at Vite's git identity subprocess; the escalated run works.
-
-RULES-2: GPT-6 (Codex), configured variant/effort not exposed; repository default medium. No helpers. Usage not exposed; no finisher send-backs. Time receipts and final validation are in draft PR #3946.
-
-## Remaining-inventory continuation
-
-The complete scoped function list is in `KEEP-DISPOSITION.md` and its structured
-`keep-disposition.json`. It includes the offices/seats/filing/qualification rows
-from the elections inventory and the office/seat modules from governing; the
-rest of the governing engine (crises, executive programs and administration) is
-outside this area's scope. The elections ledger covers the complementary rows.
-Every entry distinguishes a full lift, a partial kernel whose whole function
-cannot be copied, or a concrete whole-function blocker. A blocker is not a
-reclassification of KEEP or a claim that a future core2 adapter is impossible.
-
-This continuation adds filing-term validation, municipal minimum-age estimation,
-ward-seat recognition, ward lookup/ranges and ward cut drawing. The unchanged
-ward drawer uses household roster positions as geography/population and a common
-10% deviation bound; its proxy is registered for the CTO. The tests compare all
-ward decisions and age estimates against legacy for all 56 identities and check
-the filing reader's accepted corpus rows for every office family.
+GPT-6 (Codex); exact configured variant and effort are not exposed, repository default medium. No helpers. Usage/cost are not visible. CTO send-backs: one, for overrestrictive exclusions. The send-back started at 2026-10-11 02:19 UTC; elapsed time and final validation are recorded in PR #3946. The finisher must play the eventual core2 wiring in the bench; this builder does not grade it.

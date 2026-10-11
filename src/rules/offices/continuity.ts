@@ -2,9 +2,16 @@
 // stopgapId: "offices.continuity-birthday"
 import { generalElectionDay } from "./executive-calendar";
 import type { IsoDate } from "./calendar";
-export function ageOn(birthDate: IsoDate, date: IsoDate): number {
+function ageOn(birthDate: IsoDate, date: IsoDate): number {
   const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
   return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
+}
+export function officeAgeQualification(
+  birthDate: IsoDate,
+  date: IsoDate,
+  minimumAge: number,
+): boolean {
+  return ageOn(birthDate, date) >= minimumAge;
 }
 export function congressSeatHeldBy<T extends { readonly seatKey: string }>(
   seats: readonly {
@@ -51,7 +58,7 @@ export function districtSeatMustBeNamed(facts: {
 export function municipalSeatMustBeNamed(choices: readonly unknown[]): boolean {
   return choices.length > 0;
 }
-export function seatOne(facts: {
+function seatOne(facts: {
   readonly compiled: boolean;
   readonly mayor: boolean;
   readonly bodySize: number | null;
@@ -68,6 +75,21 @@ export function seatOne(facts: {
     return "install-and-seat";
   }
   return facts.hasOrganization ? "participate" : "organization-only";
+}
+
+export function localSeatCommand(
+  facts: Parameters<typeof seatOne>[0],
+  member: { readonly personId: string; readonly seatLabel: string },
+) {
+  const action = seatOne(facts);
+  return {
+    action,
+    member:
+      action === "install-only" || action === "organization-only"
+        ? null
+        : member,
+    role: facts.mayor ? ("mayor" as const) : ("member" as const),
+  };
 }
 
 export function nextCongressionalElectionAfter(date: IsoDate): IsoDate {

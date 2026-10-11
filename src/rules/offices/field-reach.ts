@@ -19,7 +19,7 @@ export interface FieldBenchmarks {
     readonly sourceObservationIds: readonly string[];
   };
 }
-// stopgapId: "offices.petition-contact-order"
+// stopgapId: "offices.petition-field-equivalence"
 function forMinutes(
   rate: {
     readonly min: number;

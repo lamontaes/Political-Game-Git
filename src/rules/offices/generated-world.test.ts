@@ -1,3 +1,23 @@
+import {
+  candidacyAuthority,
+  districtSeatMustBeNamed as legacyDistrictRequired,
+} from "../../simulation/candidacy";
+import { stateExecutiveIdentityForOfficeKey } from "../../simulation/nationwide-world/state-executive-candidacy-packs";
+import { congressSeatIdentityForOfficeKey } from "../../simulation/nationwide-world/congress-candidacy-packs";
+import { localGoverningBodyIdentityForOfficeKey } from "../../simulation/nationwide-world/local-governing-body-candidacy-packs";
+import {
+  gazetteerChamberForOfficeChamberKey,
+  listDistrictIdentities,
+} from "../../districts/query";
+import { isTerritoryUsps } from "../../simulation/state-reference";
+import {
+  districtSeatMustBeNamed,
+  municipalSeatMustBeNamed,
+} from "./continuity";
+import {
+  municipalSeatChoices,
+  municipalSeatMustBeNamed as legacyMunicipalRequired,
+} from "../../simulation/municipal-seat-identity";
 import { createCharacterHistoryContextPerson } from "../../simulation/character-history";
 import { createWorkRelationship } from "../../simulation/life";
 import {
@@ -513,6 +533,7 @@ describe("RULES-2 send-back: facts and legacy caller from the same generated wor
             {
               largeCityPopulation: legacyChief.OWNER_LARGE_CITY_POPULATION,
               directElection: { value: true, basis: "typical" },
+              title: { value: "Mayor", basis: "typical" },
               term: { value: 4, basis: "typical" },
             },
           ),
@@ -561,13 +582,44 @@ describe("RULES-2 send-back: facts and legacy caller from the same generated wor
 it.each(places)(
   "qualification compilation and private source selectors in a generated %s world",
   (place) => {
-    const { world } = smallWorld({
+    const { world, jurisdictionId, personId } = smallWorld({
       place,
       seed: "rules2-sendback-compiled:" + place,
     });
     const key = "US-" + place;
     const pack = stateCandidacyPack(key);
     for (const option of pack?.offices ?? []) {
+      const authority = candidacyAuthority(jurisdictionId);
+      const gazetteer = gazetteerChamberForOfficeChamberKey(
+        option.officeKey.split(":").at(-1)!,
+      );
+      const stateKey = authority.stateJurisdictionKey;
+      expect(
+        districtSeatMustBeNamed({
+          executive: !!stateExecutiveIdentityForOfficeKey(option.officeKey),
+          congressional: !!congressSeatIdentityForOfficeKey(option.officeKey),
+          local: !!localGoverningBodyIdentityForOfficeKey(option.officeKey),
+          officeExists: !!authority.pack?.offices.some(
+            (row) => row.officeKey === option.officeKey,
+          ),
+          chamberExists: gazetteer !== null,
+          stateKeyKnown: stateKey !== null,
+          isTerritory:
+            stateKey !== null && isTerritoryUsps(stateKey.replace(/^US-/, "")),
+          districtCount:
+            gazetteer && stateKey
+              ? listDistrictIdentities(districtIdentityCatalog(), {
+                  stateUsps: stateKey.replace(/^US-/, ""),
+                  chamber: gazetteer,
+                }).length
+              : 0,
+        }),
+      ).toBe(legacyDistrictRequired(jurisdictionId, option.officeKey));
+      expect(
+        municipalSeatMustBeNamed(
+          municipalSeatChoices(world, personId, option.officeKey),
+        ),
+      ).toBe(legacyMunicipalRequired(option.officeKey));
       const chamber = option.officeKey.split(":").at(-1)!;
       const family = officeFamilyForChamberKey(chamber);
       const date = makeIsoDate(OFFICE_QUALIFICATIONS_META.asOf);

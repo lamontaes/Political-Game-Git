@@ -135,7 +135,7 @@
     "id": "offices.petition-contact-order",
     "kind": "proxy",
     "file": "src/rules/offices/petition-circulation.ts",
-    "line": 2,
+    "line": 3,
     "whatItFakes": "A stable-key FNV offset walks the whole person roster, rather than recorded contact geography.",
     "why": "This controls which conversations are offered, not the sign/decline decision; preserve the legacy order.",
     "addedBy": "RULES-2",
@@ -153,6 +153,30 @@
     "addedBy": "RULES-2",
     "addedAt": "2026-10-11",
     "replacement": "Reviewed record validation and explicit missing-term evidence handling.",
+    "status": "OPEN"
+  },
+  {
+    "id": "offices.petition-field-equivalence",
+    "kind": "proxy",
+    "file": "src/rules/offices/field-reach.ts",
+    "line": 22,
+    "whatItFakes": "A candidate minute counts as a volunteer-equivalent minute and petition circulation uses the door benchmark.",
+    "why": "The legacy field-reach model applies GOTV volunteer benchmark ranges to candidate petition shifts; retained without calibration changes.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Recorded staffing, participation and petition-specific contact evidence supplied as facts.",
+    "status": "OPEN"
+  },
+  {
+    "id": "offices.ward-same-date-key",
+    "kind": "suspected-bug",
+    "file": "src/rules/offices/ward-plans.ts",
+    "line": 151,
+    "whatItFakes": "A second map by the same drawer on the same date throws a duplicate record key error.",
+    "why": "The legacy redraw writer keys a map only by unit, date and drawer; preserve the suspected collision defect in the supplied deduplication fact.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "CTO decides whether distinct redraw acts require distinct record keys; no rule repair in this lift.",
     "status": "OPEN"
   }
 ]

@@ -85,4 +85,30 @@ export const OFFICES_PARAMETERS = {
     spread: [0, 1],
     stopgapId: "offices.ward-size-rank",
   },
+  fnvOffsetBasis: {
+    value: 2166136261,
+    tag: "SOURCED",
+    source:
+      "Legacy candidate-petitions.ts FNV-1a 32-bit offset basis; IETF FNV algorithm",
+  },
+  fnvPrime: {
+    value: 16777619,
+    tag: "SOURCED",
+    source:
+      "Legacy candidate-petitions.ts FNV-1a 32-bit prime; IETF FNV algorithm",
+  },
+  minimumWardSeats: {
+    value: 2,
+    tag: "TUNABLE",
+    source: "Legacy town-wards.ts minimum ward count",
+    spread: [2, 5],
+    stopgapId: "offices.ward-size-rank",
+  },
+  minimumCouncilSizeForWards: {
+    value: 3,
+    tag: "TUNABLE",
+    source: "Legacy town-wards.ts council composition guard",
+    spread: [2, 5],
+    stopgapId: "offices.ward-size-rank",
+  },
 } as const;
