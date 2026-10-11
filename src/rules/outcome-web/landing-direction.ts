@@ -6,6 +6,7 @@ export function outcomeLandingDirectionFromFacts(
   currentFactor: number,
   outcomeDirection: OutcomeDirection,
 ): LandingDirection {
+  // STOPGAP RULES4-OW-003: equal factors are a gain for higher-is-worse; retain legacy.
   const increased = currentFactor > previousFactor;
   const improved =
     outcomeDirection === "higher-is-better" ? increased : !increased;

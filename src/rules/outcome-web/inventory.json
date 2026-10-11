@@ -1,0 +1,832 @@
+{
+  "owner": "RULES-4",
+  "branch": "pool/P14-outcome-web",
+  "legacyHead": "e7e3cf8f9ae71de17ddb7fd50d7ac5f8f3b034b2",
+  "classificationHead": "3602172614",
+  "classificationSource": "docs/design/core2-porting-plan/units.csv.gz (RULE is KEEP); Laws audit overrides added explicitly",
+  "scope": {
+    "directories": [
+      "src/simulation/outcome-web/",
+      "src/simulation/law-consequences/"
+    ],
+    "files": [
+      "src/simulation/enacted-appropriations.ts",
+      "src/simulation/enacted-duties.ts",
+      "src/simulation/enacted-coverage.ts",
+      "src/simulation/enacted-eligibility.ts",
+      "src/simulation/enacted-program-terms.ts",
+      "src/simulation/enacted-law-effects.ts",
+      "src/simulation/law-consequence-amount.ts",
+      "src/simulation/law-effects-noticed.ts",
+      "src/simulation/law-exposure.ts",
+      "src/simulation/public-benefit-formulas.ts",
+      "src/simulation/paid-leave-benefits.ts",
+      "src/simulation/paid-leave-estimates.ts",
+      "src/simulation/state-paid-leave-law.ts"
+    ],
+    "exclusions": "Law hierarchy/in force, statutory and income tax, effective-date law, minimum-wage authority, institution rule changes, offices, elections, legislatures and economy remain RULES-2. No writes to other P14 branches."
+  },
+  "classifierKeepFunctions": 49,
+  "entries": [
+    {
+      "source": "src/simulation/enacted-appropriations.ts",
+      "function": "isAuthorizationCeiling",
+      "line": 116,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/clause-rules.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-appropriations.ts",
+      "function": "isFamilyAppropriation",
+      "line": 26,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/clause-rules.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-appropriations.ts",
+      "function": "statedTermYears",
+      "line": 106,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/clause-rules.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-coverage.ts",
+      "function": "always",
+      "line": 69,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/coverage.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-coverage.ts",
+      "function": "choice",
+      "line": 64,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/coverage.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-coverage.ts",
+      "function": "conditional",
+      "line": 73,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/coverage.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-coverage.ts",
+      "function": "isPurposeSection",
+      "line": 246,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/coverage.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-coverage.ts",
+      "function": "resolveCoverage",
+      "line": 193,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/coverage.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-coverage.ts",
+      "function": "unknown",
+      "line": 78,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/coverage.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-duties.ts",
+      "function": "datesStated",
+      "line": 139,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/clause-rules.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-duties.ts",
+      "function": "spokenDate",
+      "line": 130,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/clause-rules.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-duties.ts",
+      "function": "statedComplianceDate",
+      "line": 158,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/clause-rules.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-law-effects.ts",
+      "function": "applyEnactedLawEffects",
+      "line": 244,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/enactment.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-law-effects.ts",
+      "function": "applyLawConsequences",
+      "line": 802,
+      "sourceClass": "PLUMBING",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "Legacy registry/writer coordinator, classified PLUMBING: applies kind registrations, writes missing-term events, re-resolves and validates standing appropriation authority. Activity selection, cause identity and effective-date guards are lifted into enactment.ts; the rest needs core2 journal/module writers and belongs to integration, not a new dispatcher."
+    },
+    {
+      "source": "src/simulation/enacted-law-effects.ts",
+      "function": "applyNewlyEnactedLawEffects",
+      "line": 299,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/enactment.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-program-terms.ts",
+      "function": "firstDate",
+      "line": 56,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/sunset.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-program-terms.ts",
+      "function": "programHasEnded",
+      "line": 186,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/sunset.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-program-terms.ts",
+      "function": "programLastDay",
+      "line": 150,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/sunset.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-program-terms.ts",
+      "function": "programTermChangeOf",
+      "line": 90,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/sunset.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/enacted-program-terms.ts",
+      "function": "sameTarget",
+      "line": 136,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/sunset.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/law-consequence-amount.ts",
+      "function": "checked",
+      "line": 17,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/amount.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/law-consequence-amount.ts",
+      "function": "evaluateLawAmount",
+      "line": 26,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/amount.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/law-consequence-amount.ts",
+      "function": "sameUnit",
+      "line": 21,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/amount.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/law-consequences/legal-outcome.ts",
+      "function": "assertLegalOutcomeConsequenceIntegrity",
+      "line": 415,
+      "sourceClass": "RULE",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "Classifier false positive: whole-history validator of saved hearings, charge dispositions, effect records and source identity. It throws on old record invariants; no runtime rule to lift. Convert to port integrity tests when those records exist."
+    },
+    {
+      "source": "src/simulation/law-consequences/modules/lw08-development-incentive-cap/index.ts",
+      "function": "operativeAwardTerms",
+      "line": 89,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/award-terms.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/law-consequences/modules/snap-participation/index.ts",
+      "function": "applySnapParticipation",
+      "line": 293,
+      "sourceClass": "RULE",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "Classifier false positive: appends participation/effect and transfer records, emits events and schedules future effects. Needs core2 enrollment and journal writers, not another writer on the rules shelf."
+    },
+    {
+      "source": "src/simulation/law-consequences/modules/snap-participation/index.ts",
+      "function": "candidateFor",
+      "line": 44,
+      "sourceClass": "RULE",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "Assembles household members, effective household location, recorded monthly work pay, poverty rows, active jobs and prior SNAP participation. These are indexed queries in the port; no complete core2 household/participation reader contract exists in this package. Removal ordering is lifted separately."
+    },
+    {
+      "source": "src/simulation/law-consequences/modules/snap-participation/index.ts",
+      "function": "rankRemoval",
+      "line": 140,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/snap-order.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/law-consequences/modules/snap-participation/index.ts",
+      "function": "resolveSnapParticipation",
+      "line": 153,
+      "sourceClass": "RULE",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "Entangled cohort allocation plus saved legal-authority/effect assembly: scans state households, joins monthly outcomes, sets a target headcount and takes whole households until reached. Cannot lift intact as a pure individual benefit rule without inventing a core2 enrollment/index contract. Preserve the legacy allocation for its later port; see RULES4-OW-009."
+    },
+    {
+      "source": "src/simulation/law-consequences/pay.ts",
+      "function": "termUnits",
+      "line": 122,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/term-units.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/law-consequences/price-cost.ts",
+      "function": "applyPriceCostConsequence",
+      "line": 411,
+      "sourceClass": "RULE",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "Classifier false positive: resolves leases, prior resource-flow terms and tuition terms; writes amended price terms, law effect stamps and exposures. Needs existing core2 resource-contract writers. Amount evaluation and requiredTermUnits are lifted."
+    },
+    {
+      "source": "src/simulation/law-consequences/price-cost.ts",
+      "function": "requiredTermUnits",
+      "line": 46,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/term-units.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/law-consequences/service-delivered.ts",
+      "function": "exposeServiceRecipients",
+      "line": 603,
+      "sourceClass": "RULE",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "Classifier false positive: calls recordLawExposure for every saved delivered-service recipient and schedules reflection. Requires exposure/knowledge writers; felt-size math and recipient predicates are lifted."
+    },
+    {
+      "source": "src/simulation/law-consequences/service-delivered.ts",
+      "function": "paidServiceRecipients",
+      "line": 162,
+      "sourceClass": "RULE",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "Recipient record assembly joins payer/outturn, agency operations, school enrollments, households and dwelling/utility location with source ids. Requires the port's indexed activity recipients, not a copy of its World scan."
+    },
+    {
+      "source": "src/simulation/law-consequences/tax.ts",
+      "function": "resolveSavedTaxConsequences",
+      "line": 308,
+      "sourceClass": "RULE",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "Re-resolves saved policy, tax base, measure, legal coverage and assessed amounts and compares entire canonical result against persisted authority. Tax authority and policy readers belong to RULES-2; core2 saved tax/base contract is not in this package. No parallel authority reader is introduced."
+    },
+    {
+      "source": "src/simulation/law-effects-noticed.ts",
+      "function": "noticeLawPayChanges",
+      "line": 44,
+      "sourceClass": "RULE",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "Classifier false positive: joins pay events, flow-term editions, people and amounts, then writes exposures/family notices. Existing core2 pay/exposure writers must supply these facts. Cadence and monthly-pay rules are lifted."
+    },
+    {
+      "source": "src/simulation/law-effects-noticed.ts",
+      "function": "periodsPerYear",
+      "line": 32,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/law-exposure.ts",
+      "function": "lawExposureFeltSize",
+      "line": 86,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/exposure.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/law-exposure.ts",
+      "function": "monthlyPay",
+      "line": 295,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/exposure.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/law-exposure.ts",
+      "function": "rightsOrEligibilityLoss",
+      "line": 76,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/exposure.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/electricity-generation-mix.ts",
+      "function": "electricityGenerationMixOutcomeBases",
+      "line": 108,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/generation-bases.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "acuteWeight",
+      "line": 869,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "baselineOf",
+      "line": 555,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "drawnLinkSize",
+      "line": 779,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "lagged",
+      "line": 791,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "outcomeFactor",
+      "line": 801,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "outcomeLinkStatus",
+      "line": 591,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "outcomeLinksFedByQuestion",
+      "line": 445,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "outcomeMeasure",
+      "line": 475,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "outcomeRangeViolations",
+      "line": 690,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "outcomeWebStatus",
+      "line": 639,
+      "sourceClass": "DEAD",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "Developer inventory view, classified PLUMBING: maps catalog/classifier fields for display. Classification logic is lifted; no player or simulation rule remains."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "placeOutcomeMovedByCauses",
+      "line": 408,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "placeOutcomeOfPctOfStart",
+      "line": 393,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "placeOutcomePctMovedByCauses",
+      "line": 466,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "shapedLinkFactor",
+      "line": 735,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/link-factor.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "stateMinimumHourlyAt",
+      "line": 175,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/measure-values.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/index.ts",
+      "function": "validateOutcomeLinkInventory",
+      "line": 613,
+      "sourceClass": "PLUMBING",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "Catalog admission validator, classified PLUMBING: compares persisted status/blocker flags and rejects invalid flags. Classification logic is lifted; this validator remains a test/data-admission responsibility."
+    },
+    {
+      "source": "src/simulation/outcome-web/person-outcome-landings.ts",
+      "function": "educationEnrollmentsAt",
+      "line": 871,
+      "sourceClass": "RULE",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "Record/index construction joins organization profiles and latest enrollment status by effective date/sequence; old chronology and source ids cannot be made new facts by a pure helper. Core2 schooling query supplies recorded/active booleans."
+    },
+    {
+      "source": "src/simulation/outcome-web/person-outcome-landings.ts",
+      "function": "matchesOutcomeRecipientRule",
+      "line": 177,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/recipient.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/person-outcome-landings.ts",
+      "function": "outcomeLandingDirection",
+      "line": 267,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/landing-direction.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/person-outcome-landings.ts",
+      "function": "outcomeRecipientsAt",
+      "line": 291,
+      "sourceClass": "RULE",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "388-line fact assembler: global person scan plus schooling, health, dwelling/household, SNAP, pay, marriage, children, justice, loans and farm records. The full predicate is lifted; port must supply indexed fact bags without recreating these legacy stores."
+    },
+    {
+      "source": "src/simulation/outcome-web/person-outcome-landings.ts",
+      "function": "recordedFarmOperatorsAt",
+      "line": 812,
+      "sourceClass": "RULE",
+      "status": "not-liftable",
+      "destination": null,
+      "reason": "Fact/index construction over active work statuses, work relationships, organization profiles, business/farm ownership, household location and state identity. Port record identities differ; requires the land/business/household indexes. Predicate consumes the resulting boolean unchanged."
+    },
+    {
+      "source": "src/simulation/outcome-web/place-outcome-store.ts",
+      "function": "localWeights",
+      "line": 275,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/place-values.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/place-outcome-store.ts",
+      "function": "placeOutcomeValue",
+      "line": 180,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/place-values.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/place-outcomes.ts",
+      "function": "movedBy",
+      "line": 233,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/place-month.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/outcome-web/place-outcomes.ts",
+      "function": "placeOutcomesForMonth",
+      "line": 119,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/place-month.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/paid-leave-benefits.ts",
+      "function": "paidLeaveBenefitMinor",
+      "line": 153,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/paid-leave-benefits.ts",
+      "function": "paidLeaveBenefitRate",
+      "line": 86,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/paid-leave-benefits.ts",
+      "function": "paidLeaveCoveredDays",
+      "line": 136,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/paid-leave-estimates.ts",
+      "function": "rankedPaidLeaveEstimate",
+      "line": 46,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/ranked-leave-estimate.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/public-benefit-formulas.ts",
+      "function": "amortizedMonthlyPaymentMinor",
+      "line": 191,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/public-benefit-formulas.ts",
+      "function": "applyCostOfLivingRaiseMinor",
+      "line": 114,
+      "sourceClass": "DEAD",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/public-benefit-formulas.ts",
+      "function": "cappedAnnualRateBasisPoints",
+      "line": 237,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/public-benefit-formulas.ts",
+      "function": "foodAidBenefitMinor",
+      "line": 139,
+      "sourceClass": "DEAD",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/public-benefit-formulas.ts",
+      "function": "fullRetirementAgeMonths",
+      "line": 46,
+      "sourceClass": "DEAD",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/public-benefit-formulas.ts",
+      "function": "monthlyInterestMinor",
+      "line": 205,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/public-benefit-formulas.ts",
+      "function": "povertyLineMinor",
+      "line": 176,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/public-benefit-formulas.ts",
+      "function": "primaryInsuranceAmountMinor",
+      "line": 23,
+      "sourceClass": "DEAD",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/public-benefit-formulas.ts",
+      "function": "retiredWorkerBenefitMinor",
+      "line": 84,
+      "sourceClass": "DEAD",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/public-benefit-formulas.ts",
+      "function": "revolvingMinimumPaymentMinor",
+      "line": 217,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/public-benefit-formulas.ts",
+      "function": "withinPovertyShare",
+      "line": 164,
+      "sourceClass": "DEAD",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/state-paid-leave-law.ts",
+      "function": "collectsFrom",
+      "line": 163,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/state-paid-leave-law.ts",
+      "function": "estimatedPremium",
+      "line": 190,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/state-paid-leave-law.ts",
+      "function": "paidLeavePremium",
+      "line": 76,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/state-paid-leave-law.ts",
+      "function": "premiumOn",
+      "line": 212,
+      "sourceClass": "RULE",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    },
+    {
+      "source": "src/simulation/state-paid-leave-law.ts",
+      "function": "readPremium",
+      "line": 177,
+      "sourceClass": "PLUMBING",
+      "status": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts",
+      "reason": "Pure declaration or its complete rule over supplied facts/readers; old history selection, caches and writers stay with the port."
+    }
+  ],
+  "legacySourceSha256": {
+    "src/simulation/enacted-appropriations.ts": "fa2d7a4231f412f563c737cc53141576a283c1b5fdbb1b80e74078d7c752bfdc",
+    "src/simulation/enacted-coverage.ts": "0d33d59cd96e6ca8c6ca5aaaf8c61615c755a71923a637234a7515ed8f7116c9",
+    "src/simulation/enacted-duties.ts": "12dc72d7e12ebbbe38d029af5a7ae89bcb94621d7a84b0bfab5fd19f0f147816",
+    "src/simulation/enacted-law-effects.ts": "73ef14a47cb01027e313022b034a8a0a573646c8651729a4f0cc3f9a1c254242",
+    "src/simulation/enacted-program-terms.ts": "db077ed720e9477956149b0e6f8fe477ecd796c62304bb2afa7d7d746229a805",
+    "src/simulation/law-consequence-amount.ts": "e751ec43ba9f48bf21ce8557e783237ec31a9d33a743b87b344bcd637b49f919",
+    "src/simulation/law-consequences/legal-outcome.ts": "b7f3c39d08a2bfc4abb87125d17830bbdd10ab3edf695411b5c3482eb41d35f0",
+    "src/simulation/law-consequences/modules/lw08-development-incentive-cap/index.ts": "e2570f19c723662d12f6836c9ba31dacd6c5718c94b7aab79d8862e1b380ff75",
+    "src/simulation/law-consequences/modules/snap-participation/index.ts": "725985e90c6aae138ab203457aa0bc01cbc8b3db216e64cec6d81623b63b2794",
+    "src/simulation/law-consequences/pay.ts": "f9312eac91387032be94fcdc3726ba8f6a6b95b4cfe7f59f14f6bae90dafde0c",
+    "src/simulation/law-consequences/price-cost.ts": "3e566fb1fb8dc0b89745df9d80cbec14d0348d0aa62cd0ba4031f36430351f9d",
+    "src/simulation/law-consequences/service-delivered.ts": "65ff9549a0c298d814a94c908500d189ba421a664ef9804fe95df47fc7c3533d",
+    "src/simulation/law-consequences/tax.ts": "2194b2d740437f23a6d026ae673fa6f4ec57e0c2ccefa05869344b5d7ad28551",
+    "src/simulation/law-effects-noticed.ts": "c8b44ababa03b7810401a41e1a0e58edd197bc7419b29ac9e959833b1178e185",
+    "src/simulation/law-exposure.ts": "d3afba4161a87fc44ac661ea912614f96ce2986376c07e3b7ec1ccd5b259a4e5",
+    "src/simulation/outcome-web/electricity-generation-mix.ts": "510db2b36529c4da43a4415a6598bb0891c82f32b915fcca7eac850fd8a8a2c8",
+    "src/simulation/outcome-web/index.ts": "7dc2009a976129a872fa3d3dcfdaaae99a9dc88a2b2b96c670f4b04ffa51ce98",
+    "src/simulation/outcome-web/person-outcome-landings.ts": "869e4d69a83f01ac04946125e4d807ab75ce1d243dad678309c02202fe70f62d",
+    "src/simulation/outcome-web/place-outcome-store.ts": "8111cba294be2333439eb0c99f064c22d80033020f9d008ec4703a9fcaeba634",
+    "src/simulation/outcome-web/place-outcomes.ts": "8228e5fcd30e305e5abc4d68389ca38dd0364e0d658f02f4e2f00dcc44a2d308",
+    "src/simulation/paid-leave-benefits.ts": "f5d88fc8fbcd542dba537ef865926e2cfdea2f6b4b4bb65a559868e608f939c5",
+    "src/simulation/paid-leave-estimates.ts": "0e0db1036b8d5ee2b85dcca77b567f1f11b731c768210c146564973f4166a0ea",
+    "src/simulation/public-benefit-formulas.ts": "c2295490ac1c74677abf48a9d6a907b27242ed429571f4a472c81201f6b52f9c",
+    "src/simulation/state-paid-leave-law.ts": "7baafe743d1636d81c50c5b2668d3dd676ca328c867c1b13e83e006355aea70c"
+  }
+}

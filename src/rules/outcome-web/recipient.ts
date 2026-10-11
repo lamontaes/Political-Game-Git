@@ -100,19 +100,30 @@ export function matchesOutcomeRecipientFromFacts(
     case "recorded-farm-operator-resource-estimate":
       return person.hasRecordedFarmOperator === true;
     case "recorded-medicaid-expansion-recipient-estimate":
-    case "adult-school-completer-estimate":
+    case "adult-school-completer-estimate": {
+      if (
+        (rule === "adult-school-completer-estimate" &&
+          !person.completedSchooling) ||
+        (rule === "recorded-medicaid-expansion-recipient-estimate" &&
+          !person.hasRecordedMedicaidExpansionCoverage)
+      )
+        return false;
+      // STOPGAP RULES4-OW-010: legacy missing/unsupported age cohorts throw; do not turn them into false.
+      if (cohort === null)
+        throw new TypeError(
+          "Cannot read properties of undefined (reading 'minimumAge')",
+        );
       return (
-        cohort !== null &&
-        (rule !== "adult-school-completer-estimate" ||
-          person.completedSchooling) &&
-        (rule !== "recorded-medicaid-expansion-recipient-estimate" ||
-          person.hasRecordedMedicaidExpansionCoverage) &&
         person.age >= cohort.minimumAge &&
         (cohort.maximumAge === null || person.age <= cohort.maximumAge)
       );
+    }
     default:
+      if (cohort === null)
+        throw new TypeError(
+          "Cannot read properties of undefined (reading 'minimumAge')",
+        );
       return (
-        cohort !== null &&
         person.age >= cohort.minimumAge &&
         (cohort.maximumAge === null || person.age <= cohort.maximumAge) &&
         (rule === "adult-substance-use-condition-estimate"

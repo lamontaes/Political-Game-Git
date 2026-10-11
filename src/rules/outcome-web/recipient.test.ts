@@ -46,28 +46,33 @@ const cohorts = recipientAgeCohorts.cohortsByRule as Record<
 describe("standalone outcome recipient rules", () => {
   it.each(Object.keys(STATES))("matches legacy cohorts for US-%s", (usps) => {
     const code = usps.charCodeAt(0) + usps.charCodeAt(1);
-    const person: OutcomeRecipientFacts = {
-      age: 1 + (code % 90),
-      activeEducationEnrollment: code % 2 === 0,
-      hasRecordedEducationEnrollment: code % 3 === 0,
-      compulsorySchoolAge: { minimumAge: 5, maximumAge: 18 },
-      activeSubstanceUseCondition: code % 4 === 0,
-      hasCurrentHouseholdResidence: code % 5 === 0,
-      hasSnapEnrolledHousehold: code % 6 === 0,
-      hasRecordedWageHousehold: code % 7 === 0,
-      completedSchooling: code % 8 === 0,
-      hasActiveRenterHousehold: code % 9 === 0,
-      hasSnapEnrolledRenterHousehold: code % 10 === 0,
-      hasEvictedHouseholdWithoutHome: code % 11 === 0,
-      hasActiveLegalMarriage: code % 12 === 0,
-      hasRecordedFemaleIdentity: code % 13 === 0,
-      hasActiveParentOfYoungChild: code % 14 === 0,
-      hasActiveParentOfInfant: code % 15 === 0,
-      hasPolicyRestoredVotingRight: code % 16 === 0,
-      hasRecordedMedicaidExpansionCoverage: code % 17 === 0,
-      hasActivePaydayLoan: code % 18 === 0,
-      hasRecordedFarmOperator: code % 19 === 0,
-    };
+    const person: OutcomeRecipientFacts & Parameters<typeof legacyMatches>[1] =
+      {
+        age: 1 + (code % 90),
+        activeEducationEnrollment: code % 2 === 0,
+        hasRecordedEducationEnrollment: code % 3 === 0,
+        compulsorySchoolAge: {
+          minimumAge: 5,
+          maximumAge: 18,
+          estimatedFrom: "fixture cohort",
+        },
+        activeSubstanceUseCondition: code % 4 === 0,
+        hasCurrentHouseholdResidence: code % 5 === 0,
+        hasSnapEnrolledHousehold: code % 6 === 0,
+        hasRecordedWageHousehold: code % 7 === 0,
+        completedSchooling: code % 8 === 0,
+        hasActiveRenterHousehold: code % 9 === 0,
+        hasSnapEnrolledRenterHousehold: code % 10 === 0,
+        hasEvictedHouseholdWithoutHome: code % 11 === 0,
+        hasActiveLegalMarriage: code % 12 === 0,
+        hasRecordedFemaleIdentity: code % 13 === 0,
+        hasActiveParentOfYoungChild: code % 14 === 0,
+        hasActiveParentOfInfant: code % 15 === 0,
+        hasPolicyRestoredVotingRight: code % 16 === 0,
+        hasRecordedMedicaidExpansionCoverage: code % 17 === 0,
+        hasActivePaydayLoan: code % 18 === 0,
+        hasRecordedFarmOperator: code % 19 === 0,
+      };
     for (const rule of rules) {
       expect(
         matchesOutcomeRecipientFromFacts(rule, person, cohorts[rule] ?? null),

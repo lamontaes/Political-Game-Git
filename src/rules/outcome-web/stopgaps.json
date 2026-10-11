@@ -1,0 +1,137 @@
+{
+  "scope": "Rule equivalence shelf only; no legacy behavior repaired or core2 wiring claimed.",
+  "entries": [
+    {
+      "id": "RULES4-OW-001",
+      "status": "open",
+      "author": "RULES-4 (Codex GPT-6; runtime variant/effort unavailable)",
+      "date": "2026-10-10",
+      "path": "exposure.ts",
+      "marker": "NON_MONEY_FELT_SIZE",
+      "kind": "Existing estimate",
+      "reason": "Every non-money gain/loss feels like 0.1 months of pay regardless of the right or person.",
+      "replacement": "A researched per-effect felt-size rule accepted by the CTO.",
+      "ctoReviewRequired": true
+    },
+    {
+      "id": "RULES4-OW-002",
+      "status": "open",
+      "author": "RULES-4 (Codex GPT-6; runtime variant/effort unavailable)",
+      "date": "2026-10-10",
+      "path": "exposure.ts",
+      "marker": "monthlyPayFromFacts",
+      "kind": "Existing estimate and suspected currency bug",
+      "reason": "Pay uses the last 28 days scaled by 365.25/12; transferred minor units are summed across currencies and the last included currency wins.",
+      "replacement": "Indexed pay records with a researched pay window and explicit single-currency admission/conversion in the exposure port.",
+      "ctoReviewRequired": true
+    },
+    {
+      "id": "RULES4-OW-003",
+      "status": "open",
+      "author": "RULES-4 (Codex GPT-6; runtime variant/effort unavailable)",
+      "date": "2026-10-10",
+      "path": "landing-direction.ts",
+      "marker": "outcomeLandingDirectionFromFacts",
+      "kind": "Suspected bug",
+      "reason": "Equal factors count as a gain for higher-is-worse and as a cost for higher-is-better.",
+      "replacement": "CTO decision on neutral landings, then a separate behavior change in the owning integration port.",
+      "ctoReviewRequired": true
+    },
+    {
+      "id": "RULES4-OW-004",
+      "status": "open",
+      "author": "RULES-4 (Codex GPT-6; runtime variant/effort unavailable)",
+      "date": "2026-10-10",
+      "path": "outcome-readers.ts",
+      "marker": "lagged",
+      "kind": "Existing estimate and shape tension",
+      "reason": "Monthly lags use rounded 30.44-day months; threshold shapes and zero-scale/half-life edge arithmetic retain legacy discontinuities/NaN.",
+      "replacement": "CTO-approved calendar lag and continuous shape contracts in a separate change; keep golden reference unchanged until then.",
+      "ctoReviewRequired": true
+    },
+    {
+      "id": "RULES4-OW-005",
+      "status": "open",
+      "author": "RULES-4 (Codex GPT-6; runtime variant/effort unavailable)",
+      "date": "2026-10-10",
+      "path": "enactment.ts",
+      "marker": "applyEnactedLawEffectsFromReaders",
+      "kind": "Suspected timing bug and integration gap",
+      "reason": "Enactment dispatch uses currentDate, not enactment.effectiveAt; supplies every person. Actual source fan-out calls no explicit rule-change or program-term writer, despite the audit summary; those are read-derived in legacy. Family appropriation writer is state-only.",
+      "replacement": "Core2 effective-date event/calendar and indexed subjects, same existing writers at all three levels; separate review of legacy timing and family appropriation reach.",
+      "ctoReviewRequired": true
+    },
+    {
+      "id": "RULES4-OW-006",
+      "status": "open",
+      "author": "RULES-4 (Codex GPT-6; runtime variant/effort unavailable)",
+      "date": "2026-10-10",
+      "path": "sunset.ts",
+      "marker": "firstDate",
+      "kind": "Suspected malformed-text bug",
+      "reason": "The first Month Day Year token wins; parser admits impossible calendar dates. addDays later rejects them even at zero offset.",
+      "replacement": "Adopted typed date term readers and a separately approved invalid-date policy.",
+      "ctoReviewRequired": true
+    },
+    {
+      "id": "RULES4-OW-007",
+      "status": "open",
+      "author": "RULES-4 (Codex GPT-6; runtime variant/effort unavailable)",
+      "date": "2026-10-10",
+      "path": "sunset.ts",
+      "marker": "programTermChangeFromFacts",
+      "kind": "Existing omission",
+      "reason": "Program-life laws in bundles are ignored; last-day selection has no as-of enactment cutoff. A repeal only permits later changes that shorten the program.",
+      "replacement": "Core2 component-lineage lookup and date-indexed operative program terms, preserving the non-revival rule.",
+      "ctoReviewRequired": true
+    },
+    {
+      "id": "RULES4-OW-008",
+      "status": "open",
+      "author": "RULES-4 (Codex GPT-6; runtime variant/effort unavailable)",
+      "date": "2026-10-10",
+      "path": "paid-leave.ts",
+      "marker": "paidLeaveCoveredDays",
+      "kind": "Existing estimate",
+      "reason": "The own-condition waiting rule is seven days, caring counts from day one, and weekly caps assume five workdays.",
+      "replacement": "Sourced program-specific waiting and workweek parameters in the paid-leave port.",
+      "ctoReviewRequired": true
+    },
+    {
+      "id": "RULES4-OW-009",
+      "status": "open",
+      "author": "RULES-4 (Codex GPT-6; runtime variant/effort unavailable)",
+      "date": "2026-10-10",
+      "path": "snap-order.ts",
+      "marker": "rankRemoval",
+      "kind": "Suspected cohort allocation problem (not lifted intact)",
+      "reason": "The legacy SNAP resolver targets a population count and takes whole households in a ranked order, with fixed baseline eligibility allowances; this can overshoot and bypass individual application decisions.",
+      "replacement": "A recorded household benefit/application act and indexed recipient facts in core2; retain allocation unchanged for comparisons until the CTO rules.",
+      "ctoReviewRequired": true
+    },
+    {
+      "id": "RULES4-OW-010",
+      "status": "open",
+      "author": "RULES-4 (Codex GPT-6; runtime variant/effort unavailable)",
+      "date": "2026-10-10",
+      "path": "recipient.ts",
+      "marker": "matchesOutcomeRecipientFromFacts",
+      "kind": "Suspected missing-cohort bug",
+      "reason": "An age-based rule with missing cohort data, or an unsupported runtime rule key, can throw TypeError. RULES-1 shelf had silently returned false; RULES-4 restores the legacy throw including short-circuit behavior.",
+      "replacement": "Catalog admission must reject unsupported keys/missing age rows before the predicate; any runtime behavior fix requires separate CTO review.",
+      "ctoReviewRequired": true
+    },
+    {
+      "id": "RULES4-OW-011",
+      "status": "open",
+      "author": "RULES-4 (Codex GPT-6; runtime variant/effort unavailable)",
+      "date": "2026-10-10",
+      "path": "place-month.golden.test.ts",
+      "marker": "legacyDeclarations",
+      "kind": "Observed legacy loader initialization failure",
+      "reason": "Direct import of place-outcome-store in the golden monthly suite cycles through disaster/crisis initialization; PLACE_OUTCOME_BASES is undefined when Object.entries runs. The source-extracted oracle preserves the original arithmetic without editing the loader.",
+      "replacement": "A separately reviewed legacy module initialization contract in its owning port; retain source-extracted golden arithmetic until then.",
+      "ctoReviewRequired": true
+    }
+  ]
+}

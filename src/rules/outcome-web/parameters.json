@@ -1,0 +1,90 @@
+{
+  "note": "Provenance/coverage ledger for inherited constants. No coefficient is retuned. Spreads document boundary coverage, not runtime sampling. Formula arguments and catalog link sizes remain supplied facts. Retirement formulas retain exact legacy intermediate arithmetic.",
+  "entries": [
+    {
+      "key": "non-money-months-of-pay",
+      "value": 0.1,
+      "tag": "TUNABLE",
+      "spread": [0, 1],
+      "source": "Legacy law-exposure.ts NON_MONEY_FELT_SIZE; research question felt-size-of-non-money-law-effects; RULES4-OW-001"
+    },
+    {
+      "key": "pay-window-days",
+      "value": 28,
+      "tag": "TUNABLE",
+      "spread": [14, 60],
+      "source": "Legacy law-exposure.ts PAY_WINDOW_DAYS; RULES4-OW-002"
+    },
+    {
+      "key": "days-per-month",
+      "value": 30.4375,
+      "tag": "ESTIMATED",
+      "spread": [28, 31],
+      "source": "Legacy law-exposure.ts DAYS_PER_MONTH; average year calendar approximation; RULES4-OW-002"
+    },
+    {
+      "key": "lag-days-per-month",
+      "value": 30.44,
+      "tag": "ESTIMATED",
+      "spread": [28, 31],
+      "source": "Legacy outcome-web/index.ts lagged; calendar approximation; RULES4-OW-004"
+    },
+    {
+      "key": "paid-leave-own-wait-days",
+      "value": 7,
+      "tag": "ESTIMATED",
+      "spread": [0, 14],
+      "source": "Legacy paid-leave-benefits.ts PAID_LEAVE_BENEFIT_RULES; data/research/money/state-paid-leave-benefits-2026.json; RULES4-OW-008"
+    },
+    {
+      "key": "workdays-per-week",
+      "value": 5,
+      "tag": "TUNABLE",
+      "spread": [1, 7],
+      "source": "Legacy paidLeaveBenefitMinor weekly cap; RULES4-OW-008"
+    },
+    {
+      "key": "common-paid-leave-wage-cap-dollars",
+      "value": 184500,
+      "tag": "SOURCED",
+      "source": "Legacy state-paid-leave-law.ts COMMON_WAGE_CAP_DOLLARS; 2026 Social Security wage base; https://www.ssa.gov/oact/cola/cbb.html"
+    },
+    {
+      "key": "claiming-adjustment",
+      "tag": "SOURCED",
+      "value": {
+        "firstReductionPerMonthBasisPoints": "500/9",
+        "firstReductionMonths": 36,
+        "laterReductionPerMonthBasisPoints": "500/12",
+        "delayedCreditPerMonthBasisPoints": "200/3",
+        "earliestClaimAgeMonths": 744,
+        "latestCreditAgeMonths": 840
+      },
+      "source": "Legacy public-benefit-formulas.ts CURRENT_CLAIMING_ADJUSTMENT; https://www.ssa.gov/oact/quickcalc/early_late.html"
+    },
+    {
+      "key": "full-retirement-age-birth-year-bands",
+      "tag": "SOURCED",
+      "value": {
+        "through1937": 780,
+        "1938to1942": "780 + (birthYear-1937)*2",
+        "1943to1954": 792,
+        "1955to1959": "792 + (birthYear-1954)*2",
+        "from1960": 804
+      },
+      "source": "Legacy fullRetirementAgeMonths; https://www.ssa.gov/benefits/retirement/planner/agereduction.html"
+    },
+    {
+      "key": "money-units-and-rounding",
+      "tag": "SOURCED",
+      "value": {
+        "centsPerDollar": 100,
+        "basisPointsPerOne": 10000,
+        "millionthsPerOne": 1000000,
+        "monthsPerYear": 12,
+        "centsPerDime": 10
+      },
+      "source": "Legacy public-benefit-formulas.ts and state-paid-leave-law.ts premiumOn unit conversions; SNAP dollar and SSA dime rounding retained from those formulas."
+    }
+  ]
+}
