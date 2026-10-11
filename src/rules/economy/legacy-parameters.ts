@@ -830,8 +830,20 @@ export const ECONOMY_LEGACY_PARAMETERS = {
   "rent-and-eviction.ts": {
     values: [-1, 0, 1],
     provenance: "SOURCED",
+    source: "src/simulation/living-world/town-rent.ts:1490",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+  },
+  "rent-effects.ts": {
+    values: [
+      -365, -1, 0, 1e-9, 0.01, 0.03, 0.04, 0.051, 0.08, 0.2, 0.21, 0.3, 0.4,
+      0.42, 0.5, 0.55, 0.6, 0.66, 0.7, 0.78, 0.8, 0.9, 0.92, 1, 1.08, 1.16, 1.2,
+      1.24, 1.32, 1.5, 2, 3, 4, 5, 6, 7, 8, 12, 18, 24, 26, 30, 52, 100, 365,
+      5000,
+    ],
+    provenance: "SOURCED",
     source:
-      "src/simulation/living-world/town-rent.ts:1490; src/simulation/living-world/town-rent.ts:2290",
+      "src/simulation/living-world/town-rent.ts:540; src/simulation/living-world/town-rent.ts:1024; src/simulation/living-world/town-rent.ts:1175; src/simulation/living-world/town-rent.ts:1512; src/simulation/living-world/town-rent.ts:1608; src/simulation/living-world/town-rent.ts:1684; src/simulation/living-world/town-rent.ts:1847; src/simulation/living-world/town-rent.ts:1890; src/simulation/living-world/town-rent.ts:2079; src/simulation/living-world/town-rent.ts:2170; src/simulation/living-world/town-rent.ts:2224; src/simulation/living-world/town-rent.ts:2290; src/simulation/living-world/town-rent.ts:2533; src/simulation/living-world/town-rent.ts:2582; src/simulation/living-world/town-rent.ts:2634; src/simulation/living-world/town-rent.ts:2882; src/simulation/living-world/town-rent.ts:535; src/simulation/living-world/town-rent.ts:962; src/simulation/living-world/town-rent.ts:1113; src/simulation/living-world/town-rent.ts:1708; src/simulation/living-world/town-rent.ts:2030; src/simulation/household-pay.ts:84",
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
   },

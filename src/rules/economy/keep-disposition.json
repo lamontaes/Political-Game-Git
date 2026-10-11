@@ -1155,9 +1155,9 @@
     "name": "pick",
     "inventoryEngine": "economy",
     "keepLines": 13,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1215,9 +1215,9 @@
     "name": "monthsBetween",
     "inventoryEngine": "economy",
     "keepLines": 5,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1225,9 +1225,9 @@
     "name": "chooseLeaseholder",
     "inventoryEngine": "economy",
     "keepLines": 13,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1245,9 +1245,9 @@
     "name": "inclusionaryHome",
     "inventoryEngine": "economy",
     "keepLines": 50,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1265,9 +1265,9 @@
     "name": "chooseLandlord",
     "inventoryEngine": "economy",
     "keepLines": 56,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1285,9 +1285,9 @@
     "name": "renewTownLeases",
     "inventoryEngine": "economy",
     "keepLines": 162,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1295,9 +1295,9 @@
     "name": "dollarsOf",
     "inventoryEngine": "economy",
     "keepLines": 7,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1305,9 +1305,9 @@
     "name": "payTownRent",
     "inventoryEngine": "economy",
     "keepLines": 112,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1315,9 +1315,9 @@
     "name": "actOnArrears",
     "inventoryEngine": "economy",
     "keepLines": 89,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1325,9 +1325,9 @@
     "name": "fileAtMonths",
     "inventoryEngine": "economy",
     "keepLines": 7,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1335,9 +1335,9 @@
     "name": "evictionCaseFacts",
     "inventoryEngine": "economy",
     "keepLines": 64,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1345,9 +1345,9 @@
     "name": "decideEvictionCase",
     "inventoryEngine": "economy",
     "keepLines": 46,
-    "status": "pending-owned",
-    "lift": "src/rules/economy/rent-and-eviction.ts",
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1355,9 +1355,9 @@
     "name": "canPayRentOwed",
     "inventoryEngine": "economy",
     "keepLines": 21,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1365,9 +1365,9 @@
     "name": "payRentOwed",
     "inventoryEngine": "economy",
     "keepLines": 46,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1375,9 +1375,9 @@
     "name": "moveOutBeforeHearing",
     "inventoryEngine": "economy",
     "keepLines": 22,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/town-rent.ts",
@@ -1385,9 +1385,9 @@
     "name": "median",
     "inventoryEngine": "economy",
     "keepLines": 8,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/rent-effects.ts",
+    "reason": "Complete retained landlord/leaseholder/HUD/law/calendar/proration/cash/arrears/renewal/move/case decision closure and required helpers/constants travel. rent-effects-world.test.ts compares unchanged public startup/payment/renewal/snapshot/recovery/move parents in all 56 generated Worlds using canonical common work/flow/tenure/occupancy/cash records, repeated/exclusion controls and labeled due-date/case-source controls. Full typed effects use existing common writers; stamp DTOs check every public-parent saved field before canonical prefix intake. Courts/traits/legal/WHO identity generation remain separately owned raw receipts; no borrowed rental choice/math, production RNG, private evaluation or copied World writer. Bounded evidence, not ordinary NPC/actual adjudication/core2/finisher play."
   },
   {
     "sourceFile": "src/simulation/living-world/work-schedules.ts",
