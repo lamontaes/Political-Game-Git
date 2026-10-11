@@ -18,6 +18,7 @@ import { createWorld } from "../simulation/world";
 import { parameter as p } from "./parameters";
 import { buildPopulation, POPULATION_VERSION } from "./population";
 import { realLocalities } from "./places";
+import { recordedTraitSource } from "./trait-source";
 import type { CoreInput } from "./types";
 
 const seed = "p8-household-source-parity";
@@ -194,7 +195,7 @@ describe("real-place one-time population import", () => {
       );
       for (const [key, value] of Object.entries(person.traits)) {
         expect(Number.isFinite(value)).toBe(true);
-        expect(person.traitSources?.[key]?.estimatedFrom).toContain(
+        expect(recordedTraitSource(person, key)?.estimatedFrom).toContain(
           "Canonical sparse upbringing trait projection",
         );
       }

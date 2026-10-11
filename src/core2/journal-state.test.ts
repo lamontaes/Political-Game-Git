@@ -1,6 +1,11 @@
 /** Meaningful source-only counterexamples; NOT EXECUTED and no world proof is claimed. */
 import { describe, expect, it } from "vitest";
 import { P } from "./parameters";
+import { createCore } from "./state";
+import {
+  registerControlledPersonV1,
+  retireControlledPersonV1,
+} from "./player-control-state-v1";
 import {
   cashJournalFieldWrite,
   cashJournalFieldDelete,
@@ -2435,4 +2440,139 @@ describe("canonical zero-cash completion without a cash journal", () => {
     expect(Object.keys(f.runtime)).not.toContain("completedSourceIds");
     expect(Object.keys(f.runtime)).not.toContain("usedSources");
   });
+});
+
+// Additive actual-CoreState control identity cases. SOURCE ONLY; UNEXECUTED.
+function controlledJournalFixture(withCash: boolean) {
+  const f = fixture(),
+    originalProvider = f.runtime.sourceProviders.get(sourceKind)!,
+    core = createCore({
+      seed: "actual-core-final-journal-control",
+      startedAt: date,
+      people: [
+        {
+          id: ownerA,
+          givenName: "Actual",
+          familyName: "Control fixture",
+          birthDate: "1980-01-01",
+          placeId: "fixture:place",
+          householdId: "fixture:home",
+          tier: "weekly",
+          traits: {},
+          liquidMinor: f.host.state.people.get(ownerA)!.liquidMinor,
+          livingCostDailyMinor: P.zero,
+          familyIds: [],
+          knownIds: [],
+          source,
+        },
+      ],
+      households: [
+        {
+          id: "fixture:home",
+          placeId: "fixture:place",
+          memberIds: [ownerA],
+          source,
+        },
+      ],
+      jobs: [],
+      organizations: [
+        {
+          id: ownerB,
+          placeId: "fixture:place",
+          name: "Actual fixture owner",
+          kind: "employer",
+          liquidMinor: f.host.state.organizations.get(ownerB)!.liquidMinor,
+          source,
+        },
+      ],
+      focusPersonIds: [],
+      focusPlaceIds: [],
+      calendarDates: [],
+      gaps: [],
+    });
+  // Reuse only the existing canonical source/lookup fixture; cash comes from this actual CoreState's own runtime.
+  f.host.state = core;
+  f.runtime = core.cashJournal;
+  registerCashJournalSourceProviders(f.runtime, {
+    [sourceKind]: originalProvider,
+  });
+  const current = f.addSource(
+    withCash
+      ? payment(
+          undefined,
+          f.runtime.residualAccountByOwner.get(ownerA)!,
+          f.runtime.residualAccountByOwner.get(ownerB)!,
+        )
+      : [],
+  );
+  return { f, core, ...current };
+}
+describe("final native factory control identity on actual journal hosts", () => {
+  it.each([true, false])(
+    "rejects retirement or first registration during AFTER-provider metadata reflection (cash: %s)",
+    (withCash) => {
+      for (const initiallyControlled of [true, false]) {
+        const { f, core, input, canonical } =
+            controlledJournalFixture(withCash),
+          token = initiallyControlled
+            ? registerControlledPersonV1(core, ownerA)
+            : undefined,
+          counter = { count: P.zero };
+        let late = false,
+          changed = false;
+        const target = new Proxy(counter, {
+          getOwnPropertyDescriptor(row, key) {
+            if (late && key === "count" && !changed) {
+              changed = true;
+              if (token) retireControlledPersonV1(core, token);
+              else registerControlledPersonV1(core, ownerA);
+            }
+            return Reflect.getOwnPropertyDescriptor(row, key);
+          },
+        });
+        canonical.metadata = [cashJournalFieldWrite(target, "count", P.one)];
+        f.control.beforeResolve = (count) => {
+          if (count === P.one + P.one) late = true;
+        };
+        const before = snapshot(f);
+        expect(() =>
+          withCash
+            ? postCashJournal(f.runtime, f.host, input)
+            : completeCashJournalSource(f.runtime, f.host, input.sourceRef),
+        ).toThrow(/Explicit control changed/);
+        expect(changed).toBe(true);
+        expect(f.control.calls).toBe(P.one + P.one);
+        expect(counter.count).toBe(P.zero);
+        expect(canonical.postedJournalSequence).toBeUndefined();
+        expect(canonical.completedAt).toBeUndefined();
+        expect(snapshot(f)).toBe(before);
+      }
+    },
+  );
+  it.each([true, false])(
+    "commits the same actual cash or zero completion with stable control and no focus writes (cash: %s)",
+    (withCash) => {
+      const { f, core, input, canonical } = controlledJournalFixture(withCash);
+      registerControlledPersonV1(core, ownerA);
+      const beforeCash = core.people.get(ownerA)!.liquidMinor,
+        amount = withCash ? -input.postings[P.zero]!.deltaMinor : P.zero,
+        counter = { count: P.zero };
+      canonical.metadata = [cashJournalFieldWrite(counter, "count", P.one)];
+      if (withCash) postCashJournal(f.runtime, f.host, input);
+      else completeCashJournalSource(f.runtime, f.host, input.sourceRef);
+      expect(core.people.get(ownerA)!.liquidMinor).toBe(beforeCash - amount);
+      expect(counter.count).toBe(P.one);
+      expect(f.control.calls).toBe(P.one + P.one);
+      if (withCash) expect(canonical.postedJournalSequence).toBe(P.zero);
+      else {
+        expect(canonical.completedAt).toBe(date);
+        expect(f.runtime.nextSequence).toBe(P.zero);
+        expect(f.runtime.totals.count).toBe(P.zero);
+        expect(f.runtime.detailedReceipts.size).toBe(P.zero);
+      }
+      expect(core.playerId).toBeUndefined();
+      expect(core.focusPersonIds.size).toBe(P.zero);
+      expect(core.people.get(ownerA)!.tier).toBe("weekly");
+    },
+  );
 });

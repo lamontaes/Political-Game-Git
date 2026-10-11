@@ -45,6 +45,7 @@ describe("opening-only employment source and preservation", () => {
         after.looks,
         after.traits,
         after.traitSources,
+        after.sharedTraitSource,
       ]).toEqual([
         before.id,
         before.givenName,
@@ -58,6 +59,7 @@ describe("opening-only employment source and preservation", () => {
         before.looks,
         before.traits,
         before.traitSources,
+        before.sharedTraitSource,
       ]);
       for (const fact of before.pastFacts ?? [])
         expect(after.pastFacts).toContainEqual(fact);

@@ -1,5 +1,9 @@
 /** Actual selected-act admission and typed consequences for one coupled cash occurrence. */
 import { makeIsoDate } from "../simulation/dates";
+import {
+  isExplicitlyControlledPersonV1,
+  prepareControlledActTraceV1,
+} from "./player-control-state-v1";
 import type { FinancePlanningSession } from "./finance-plan";
 import type { CashJournalPostedMarker } from "./journal-state";
 import type {
@@ -11,6 +15,10 @@ import type {
   LogRecord,
   Source,
 } from "./types";
+
+const nativeSelectionSet = Map.prototype.set,
+  nativeSelectionHas = Map.prototype.has,
+  nativeSelectionDelete = Map.prototype.delete;
 
 /** A current module-owned selection, present before its payment; markers record completion. */
 export interface CashActSelection extends CashJournalPostedMarker {
@@ -54,6 +62,16 @@ export function admitSelectedCashAct(
   decision: DecisionResult,
   cashSourceId: string,
 ): CashActSelection {
+  const controlled = isExplicitlyControlledPersonV1(core, actorId),
+    originalOffer = offer,
+    originalDecision = decision,
+    controlledEvidence = controlled
+      ? prepareControlledActTraceV1(core, actorId, offer, date, decision)
+      : undefined;
+  if (controlledEvidence) {
+    offer = controlledEvidence.offer;
+    decision = controlledEvidence.decision;
+  }
   api.validateAct(actorId, offer, date, decision);
   if (
     decision.selected !== offer ||
@@ -69,6 +87,11 @@ export function admitSelectedCashAct(
     actor = r.mapGet(people, actorId);
   if (!actor || !r.field(actor, "alive") || r.field(actor, "id") !== actorId)
     throw new Error("Coupled cash act requires its actual living actor.");
+  // Preserve the original caller graphs in the sealed plan's late mutation guard.
+  if (controlledEvidence) {
+    r.payload(originalOffer, zero, one);
+    r.payload(originalDecision, zero, one);
+  }
   r.payload(offer, zero, one);
   r.payload(decision, zero, one);
   const work = r.field(core, "work"),
@@ -78,7 +101,11 @@ export function admitSelectedCashAct(
   const actionId = r.field(r.field(offer, "definition"), "id"),
     targetId = r.field(offer, "targetId");
   const id = `act:${date}:${actorId}:${after}`;
-  if (selections.has(id))
+  if (
+    controlledEvidence
+      ? nativeSelectionHas.call(selections, id)
+      : selections.has(id)
+  )
     throw new Error("Duplicate current cash act selection.");
   const selection: CashActSelection = {
     id,
@@ -98,7 +125,10 @@ export function admitSelectedCashAct(
         "Actual shared-score selection admitted before its coupled payment; the canonical completion marker records settlement.",
     },
   };
-  selections.set(id, selection);
+  if (controlledEvidence) {
+    controlledEvidence.verify();
+    nativeSelectionSet.call(selections, id, selection);
+  } else selections.set(id, selection);
   try {
     if (r.mapGet(selections, id) !== selection)
       throw new Error("Selected cash act was not admitted.");
@@ -163,7 +193,8 @@ export function admitSelectedCashAct(
     const focused =
       r.field(core, "observer") ||
       r.field(core, "playerId") === actorId ||
-      r.member(r.field(core, "focusPersonIds"), actorId);
+      r.member(r.field(core, "focusPersonIds"), actorId) ||
+      controlled;
     if (focused) {
       const logs = r.field(core, "durableLog");
       if (m.mapHas(logs, id))
@@ -195,7 +226,8 @@ export function admitSelectedCashAct(
     }
     return selection;
   } catch (error) {
-    selections.delete(id);
+    if (controlledEvidence) nativeSelectionDelete.call(selections, id);
+    else selections.delete(id);
     throw error;
   }
 }
