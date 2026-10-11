@@ -161,7 +161,8 @@ export function voterGroups(core: CoreState): VoterGroups {
       const spread = moduleData(input);
       moduleKey(spread.id);
       moduleSource(spread.source, core.date);
-      if (spread.source.tag !== "SOURCED") throw new Error("Voter checks require sourced reference spreads.");
+      if (spread.source.tag !== "SOURCED")
+        throw new Error("Voter checks require sourced reference spreads.");
       moduleSource({ ...spread.source, asOf: spread.asOf }, core.date);
       const observed = summary(spread.placeId, spread.ageBand);
       const comparisons: VoterSpreadCheck["comparisons"][number][] = [];
