@@ -5,9 +5,10 @@
     "name": "largestPopulationShareDistrict",
     "inventoryEngine": "elections",
     "keepLines": 38,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`catalog`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/district-population.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/district-population.ts"]
   },
   {
     "sourceFile": "src/simulation/election-contests.ts",
@@ -17,7 +18,7 @@
     "keepLines": 3,
     "status": "not-liftable",
     "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "reason": "Formats a vote-share percentage string for the result sentence. No institutional threshold or counting decision remains."
   },
   {
     "sourceFile": "src/simulation/election-contests.ts",
@@ -27,7 +28,7 @@
     "keepLines": 18,
     "status": "not-liftable",
     "lift": null,
-    "reason": "Whole function interprets or produces legacy presentation/prose through `sharePercent`. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+    "reason": "Builds the English sentence naming a winner/tie and printing totals from an already resolved contest. The contest counting kernel lives in ballots.ts."
   },
   {
     "sourceFile": "src/simulation/governing/senate-selection.ts",
@@ -37,7 +38,8 @@
     "keepLines": 5,
     "status": "lifted",
     "lift": "src/rules/elections/intake-and-calendars.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/intake-and-calendars.ts"]
   },
   {
     "sourceFile": "src/simulation/legislative-election-rules.ts",
@@ -47,7 +49,8 @@
     "keepLines": 10,
     "status": "lifted",
     "lift": "src/rules/elections/intake-and-calendars.ts",
-    "reason": "Complete supplied-rule election-date arithmetic is copied unchanged and uses the already-lifted isElectionYear/generalElectionDay helpers; all-place golden tests verify the result."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/intake-and-calendars.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/congress-candidates.ts",
@@ -55,9 +58,10 @@
     "name": "congressCandidateIntakeDay",
     "inventoryEngine": "elections",
     "keepLines": 9,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`addDays`, `makeIsoDate`, `CONGRESS_CANDIDATE_PROFILE`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/candidate-intake.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/candidate-intake.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/congress-candidates.ts",
@@ -65,9 +69,10 @@
     "name": "partyShareFor",
     "inventoryEngine": "elections",
     "keepLines": 13,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `seatStartingCondition`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/candidate-intake.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/candidate-intake.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/congress-candidates.ts",
@@ -75,9 +80,10 @@
     "name": "prospectDecision",
     "inventoryEngine": "elections",
     "keepLines": 30,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `seatStartingCondition`, `recordProspectRunChoice`, `slateKey`, `CONGRESS_CANDIDATE_PROFILE`, `seatTermWindow`, `makeIsoDate`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/prospect-decision.ts",
+    "reason": "Residual: invokes the agency decision recorder using the pure prospect command. Opportunity arithmetic, key/term choices and intake facts are lifted; actor deliberation remains agency-owned.",
+    "kernels": ["src/rules/elections/prospect-decision.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/congress-turnover.ts",
@@ -87,7 +93,8 @@
     "keepLines": 7,
     "status": "lifted",
     "lift": "src/rules/elections/intake-and-calendars.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/intake-and-calendars.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/congress-turnover.ts",
@@ -95,9 +102,10 @@
     "name": "decideSeat",
     "inventoryEngine": "elections",
     "keepLines": 248,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `SEAT_TENURE_EVENT`, `tagValue`, `SEAT_PARTY_TAG`, `SEAT_CAUCUS_TAG`, `aliveOn`, `legislatureChooses`, `recordedSeatContest`, `seatStartingCondition`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/congress-decision.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/congress-decision.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/congress-turnover.ts",
@@ -105,9 +113,13 @@
     "name": "holdCongressElection",
     "inventoryEngine": "elections",
     "keepLines": 168,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `hasStableKey`, `resultsKey`, `congressionalElectionDay`, `makeIsoDate`, `congressSeats`, `seatTermWindow`, `seatRecordsOn`, `prepareCongressIntake`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/congress-decision.ts",
+    "reason": "Residual: invokes intake and ballot writers, generates successor identities, serializes winner/vote events, and builds the result sentence. Due-seat, candidacy intent, seat outcome, outcome grouping and winner-priority decisions are kernels.",
+    "kernels": [
+      "src/rules/elections/congress-decision.ts",
+      "src/rules/elections/turnover-phases.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/living-world/congress-turnover.ts",
@@ -115,9 +127,14 @@
     "name": "holdCongressNominations",
     "inventoryEngine": "elections",
     "keepLines": 49,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `congressSeats`, `holdFiledNominations`, `SLATE_EVENT`, `slateKey`, `congressSeatTitle`, `stateJurisdictionForKey`, `livingWorldOrganizationId`, `LIVING_WORLD_KEYS`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/turnover-phases.ts",
+    "reason": "Residual: looks up seats/jurisdictions/organizations and calls nomination writers; chamber titles are English. Field validation, date gates, party-share calculation and nomination decisions are kernels.",
+    "kernels": [
+      "src/rules/elections/turnover-phases.ts",
+      "src/rules/elections/filed-nominations.ts",
+      "src/rules/elections/nomination-plan.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/living-world/congress-turnover.ts",
@@ -125,9 +142,14 @@
     "name": "applyCongressTurnover",
     "inventoryEngine": "elections",
     "keepLines": 61,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `livingWorldEstablished`, `filingWindowOpens`, `congressionalElectionDay`, `makeIsoDate`, `congressSeats`, `seatTermWindow`, `congressCandidateIntakeDay`, `congressNominationPlan`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/turnover-phases.ts",
+    "reason": "Residual: loops over pure cycle/field/phase plans, performs intake/ballot/election/seating writes, and rereads facts between those writes.",
+    "kernels": [
+      "src/rules/elections/turnover-phases.ts",
+      "src/rules/elections/candidate-intake.ts",
+      "src/rules/elections/territorial-turnover.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/living-world/house-delegates.ts",
@@ -135,9 +157,10 @@
     "name": "twoCaucusShare",
     "inventoryEngine": "elections",
     "keepLines": 6,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`results`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/delegate-projection.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/delegate-projection.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/house-delegates.ts",
@@ -145,9 +168,13 @@
     "name": "applyHouseDelegateTurnover",
     "inventoryEngine": "elections",
     "keepLines": 56,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `recordByStableKey`, `OPENING_KEY`, `HOUSE_DELEGATE_SEATS`, `latestTenure`, `makeIsoDate`, `REFERENCE_YEAR`, `termKey`, `aliveOn`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/territorial-turnover.ts",
+    "reason": "Residual: loops through pure term-start and renewal decisions, reads existence/alive facts and applies writeTerms after each decision.",
+    "kernels": [
+      "src/rules/elections/territorial-turnover.ts",
+      "src/rules/elections/delegate-projection.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/living-world/house-delegates.ts",
@@ -155,9 +182,10 @@
     "name": "houseDelegateProjectedCaucus",
     "inventoryEngine": "elections",
     "keepLines": 9,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`houseDelegateSeat`, `projectedCaucus`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/delegate-projection.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/delegate-projection.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/local-council-term-limits.ts",
@@ -165,9 +193,10 @@
     "name": "yearsBetween",
     "inventoryEngine": "elections",
     "keepLines": 8,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`DAY_MS`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/council-term-limits.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/council-term-limits.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/local-council-term-limits.ts",
@@ -175,9 +204,10 @@
     "name": "councilTermLimitBar",
     "inventoryEngine": "elections",
     "keepLines": 25,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `councilTermLimitInForce`, `MOST_COMMON_COUNCIL_TERM_LIMIT`, `consecutiveCouncilYears`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/council-term-limits.ts",
+    "reason": "Residual: reads dated council participation states and formats the English bar message. Service clipping/continuity and the limit decision are kernels.",
+    "kernels": ["src/rules/elections/council-term-limits.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/local-elections.ts",
@@ -185,9 +215,10 @@
     "name": "firstTuesday",
     "inventoryEngine": "elections",
     "keepLines": 9,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`novemberGeneralElectionDay`, `makeIsoDate`, `pad`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/local-calendar.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/local-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/local-elections.ts",
@@ -195,9 +226,10 @@
     "name": "yearFits",
     "inventoryEngine": "elections",
     "keepLines": 6,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted",
+    "lift": "src/rules/elections/local-calendar.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/local-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/local-elections.ts",
@@ -205,9 +237,10 @@
     "name": "nextTownElectionDay",
     "inventoryEngine": "elections",
     "keepLines": 34,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`P`, `nextTownElection`, `addDays`, `resolveMunicipalElectionTiming`, `SEASONS`, `yearFits`, `firstTuesday`, `CADENCE`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/local-calendar.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/local-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/local-elections.ts",
@@ -217,7 +250,8 @@
     "keepLines": 10,
     "status": "lifted",
     "lift": "src/rules/elections/seat-and-candidate.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/seat-and-candidate.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/local-elections.ts",
@@ -225,9 +259,10 @@
     "name": "localCampaignSeat",
     "inventoryEngine": "elections",
     "keepLines": 36,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `localGoverningBodyRules`, `nextTownElectionDay`, `addDays`, `seatIsUp`, `councilWardPlan`, `townWardMap`, `homePosition`, `wardAt`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/local-seat.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/local-seat.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/local-elections.ts",
@@ -235,9 +270,10 @@
     "name": "redistrictAfterCensus",
     "inventoryEngine": "elections",
     "keepLines": 17,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `establishVotingPrecinctMembership`, `townWardMap`, `redrawTownWards`, `wardDrawerInForce`, `wardMembers`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/local-seat.ts",
+    "reason": "Residual: establishes precinct membership, reads ward-map/member facts and calls the ward writer with an English census reason. Decennial timing and member projection are kernels.",
+    "kernels": ["src/rules/elections/local-seat.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/local-elections.ts",
@@ -245,9 +281,10 @@
     "name": "wardMembers",
     "inventoryEngine": "elections",
     "keepLines": 5,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `seatsOf`, `sittingLocalOfficers`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/local-seat.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/local-seat.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/party-chapters.ts",
@@ -255,9 +292,10 @@
     "name": "openInvitationExists",
     "inventoryEngine": "elections",
     "keepLines": 13,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `homePartyChapters`, `invitationsFrom`, `meetingForInvitation`, `scheduledActivityState`, `compareSimulationMoments`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/chapter-rules.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/chapter-rules.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/party-chapters.ts",
@@ -265,9 +303,10 @@
     "name": "nextMeetingDate",
     "inventoryEngine": "elections",
     "keepLines": 6,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`OUTREACH`, `addDays`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/chapter-rules.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/chapter-rules.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/party-chapters.ts",
@@ -275,9 +314,10 @@
     "name": "daysBetween",
     "inventoryEngine": "elections",
     "keepLines": 6,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted",
+    "lift": "src/rules/elections/chapter-rules.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/chapter-rules.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/party-chapters.ts",
@@ -285,9 +325,10 @@
     "name": "canJoinPartyChapter",
     "inventoryEngine": "elections",
     "keepLines": 17,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `controlled`, `ageOnDate`, `OUTREACH`, `homePartyChapters`, `activeChapterMembership`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/chapter-rules.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/chapter-rules.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/party-evolution.ts",
@@ -295,9 +336,10 @@
     "name": "partyPlatformAt",
     "inventoryEngine": "elections",
     "keepLines": 16,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `partyRecords`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/party-history.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/party-history.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/party-evolution.ts",
@@ -305,9 +347,10 @@
     "name": "firstOfMonthAfter",
     "inventoryEngine": "elections",
     "keepLines": 7,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`makeIsoDate`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/party-history.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/party-history.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/party-registry.ts",
@@ -315,9 +358,10 @@
     "name": "evolutionFor",
     "inventoryEngine": "elections",
     "keepLines": 19,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `partyRecords`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/party-history.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/party-history.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/party-registry.ts",
@@ -325,9 +369,10 @@
     "name": "partyUnitStatusAt",
     "inventoryEngine": "elections",
     "keepLines": 17,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `partyUnit`, `evolutionFor`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/party-history.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/party-history.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/statehood-seats.ts",
@@ -335,9 +380,10 @@
     "name": "statehoodSeats",
     "inventoryEngine": "elections",
     "keepLines": 35,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`cachedSeats`, `SENATE_CLASSES_BY_STATE`, `statehood`, `PLACE`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/territorial-turnover.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/territorial-turnover.ts"]
   },
   {
     "sourceFile": "src/simulation/living-world/statehood-seats.ts",
@@ -345,9 +391,13 @@
     "name": "applyStatehoodTurnover",
     "inventoryEngine": "elections",
     "keepLines": 79,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `recordByStableKey`, `LIVING_WORLD_OPENING_KEY`, `statehoodAdmittedOn`, `statehoodSeats`, `termKey`, `seatTermWindow`, `houseDelegateOccupant`, `projected`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/territorial-turnover.ts",
+    "reason": "Residual: reads admission/seat records, loops within the preserved 200-iteration bound, generates identities and applies writeTerms. Seat allocation, initial admission and subsequent term decisions are kernels.",
+    "kernels": [
+      "src/rules/elections/territorial-turnover.ts",
+      "src/rules/elections/delegate-projection.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/measure-numbering.ts",
@@ -355,9 +405,10 @@
     "name": "openingBillNumber",
     "inventoryEngine": "elections",
     "keepLines": 15,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`BILL_INTRODUCTION_ROWS`, `MIDDLE_BILLS_INTRODUCED`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/measure-numbering.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/measure-numbering.ts"]
   },
   {
     "sourceFile": "src/simulation/measure-numbering.ts",
@@ -367,7 +418,8 @@
     "keepLines": 5,
     "status": "lifted",
     "lift": "src/rules/elections/measure-periods.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/measure-periods.ts"]
   },
   {
     "sourceFile": "src/simulation/measure-numbering.ts",
@@ -377,7 +429,7 @@
     "keepLines": 14,
     "status": "not-liftable",
     "lift": null,
-    "reason": "Whole function interprets or produces legacy presentation/prose. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+    "reason": "Formats an integer as an English ordinal for a session label. The numeric session and bill-number arithmetic is lifted in measure-numbering.ts."
   },
   {
     "sourceFile": "src/simulation/measure-numbering.ts",
@@ -386,8 +438,12 @@
     "inventoryEngine": "elections",
     "keepLines": 3,
     "status": "lifted",
-    "lift": "src/rules/elections/measure-periods.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "lift": "src/rules/elections/measure-numbering.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": [
+      "src/rules/elections/measure-numbering.ts",
+      "src/rules/elections/measure-periods.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/measure-numbering.ts",
@@ -395,9 +451,10 @@
     "name": "dcCouncilPeriodForYear",
     "inventoryEngine": "elections",
     "keepLines": 3,
-    "status": "partial-not-liftable",
-    "lift": "src/rules/elections/measure-periods.ts",
-    "reason": "Period arithmetic is lifted as councilPeriodForYear over caller-supplied reference year and cycle length, and golden-compared with the unchanged original anchor. Whole original names one council and fixes its 1975 anchor; that place-specific identity/record cannot be copied into shared all-place logic."
+    "status": "lifted",
+    "lift": "src/rules/elections/measure-numbering.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/measure-numbering.ts"]
   },
   {
     "sourceFile": "src/simulation/measure-numbering.ts",
@@ -405,9 +462,10 @@
     "name": "schemeFor",
     "inventoryEngine": "elections",
     "keepLines": 86,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`annualSession`, `FROM_ONE`, `congressNumberForYear`, `ordinal`, `isFederalDistrictUsps`, `DC_COUNCIL_TEMPLATE`, `dcCouncilPeriodForYear`, `stateBillNumberingStyle`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/measure-numbering.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/measure-numbering.ts"]
   },
   {
     "sourceFile": "src/simulation/measure-numbering.ts",
@@ -415,9 +473,10 @@
     "name": "nextMeasureNumbering",
     "inventoryEngine": "elections",
     "keepLines": 78,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `packOrNull`, `schemeFor`, `yearOf`, `sessionKeyOf`, `numberOf`, `councilOpeningNumber`, `openingBillNumber`, `formatDesignation`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/measure-numbering.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/measure-numbering.ts"]
   },
   {
     "sourceFile": "src/simulation/municipal-ballot-rules.ts",
@@ -427,7 +486,8 @@
     "keepLines": 10,
     "status": "lifted",
     "lift": "src/rules/elections/modal-value.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/modal-value.ts"]
   },
   {
     "sourceFile": "src/simulation/municipal-ballot-rules.ts",
@@ -435,9 +495,10 @@
     "name": "modalOption",
     "inventoryEngine": "elections",
     "keepLines": 11,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`municipalBallotRuleNationalSpread`, `modalValue`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/modal-value.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/modal-value.ts"]
   },
   {
     "sourceFile": "src/simulation/municipal-ballot-rules.ts",
@@ -447,7 +508,8 @@
     "keepLines": 13,
     "status": "lifted",
     "lift": "src/rules/elections/ballots.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/ballots.ts"]
   },
   {
     "sourceFile": "src/simulation/municipal-ballot-rules.ts",
@@ -457,7 +519,8 @@
     "keepLines": 71,
     "status": "lifted",
     "lift": "src/rules/elections/ballots.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/ballots.ts"]
   },
   {
     "sourceFile": "src/simulation/municipal-ballot-rules.ts",
@@ -467,7 +530,8 @@
     "keepLines": 44,
     "status": "lifted",
     "lift": "src/rules/elections/ballots.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/ballots.ts"]
   },
   {
     "sourceFile": "src/simulation/municipal-election-rules.ts",
@@ -475,9 +539,10 @@
     "name": "resolveRequiredSignatures",
     "inventoryEngine": "elections",
     "keepLines": 14,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`assertPetitionThreshold`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/offices/signatures.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/offices/signatures.ts"]
   },
   {
     "sourceFile": "src/simulation/national-election-rules.ts",
@@ -487,7 +552,8 @@
     "keepLines": 5,
     "status": "lifted",
     "lift": "src/rules/elections/national-calendar.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/national-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/national-election-rules.ts",
@@ -497,7 +563,8 @@
     "keepLines": 3,
     "status": "lifted",
     "lift": "src/rules/elections/national-calendar.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/national-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/national-election-rules.ts",
@@ -507,7 +574,8 @@
     "keepLines": 4,
     "status": "lifted",
     "lift": "src/rules/elections/national-calendar.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/national-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/national-election-rules.ts",
@@ -517,7 +585,8 @@
     "keepLines": 4,
     "status": "lifted",
     "lift": "src/rules/elections/national-calendar.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/national-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/national-election-rules.ts",
@@ -525,9 +594,10 @@
     "name": "buildNationalElectionRules",
     "inventoryEngine": "elections",
     "keepLines": 49,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`isNationalElectionCycle`, `ELECTORAL_ALLOCATION`, `STATES`, `NATIONAL_ALLOCATION_VERSION`, `CARRIED_FORWARD_ALLOCATION_VERSION`, `makeIsoDate`, `presidentialElectionDay`, `electorMeetingDay`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/national-rules.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/national-rules.ts"]
   },
   {
     "sourceFile": "src/simulation/national-elections.ts",
@@ -535,9 +605,10 @@
     "name": "nationalCountProposal",
     "inventoryEngine": "elections",
     "keepLines": 37,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `nationalAllocation`, `nationalRecords`, `ballotTotals`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/national-count.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/national-count.ts"]
   },
   {
     "sourceFile": "src/simulation/national-elections.ts",
@@ -545,9 +616,10 @@
     "name": "constitutionalChoiceList",
     "inventoryEngine": "elections",
     "keepLines": 23,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `nationalCountProposal`, `ballotTotals`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/national-count.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/national-count.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/county-election-calendar.ts",
@@ -555,9 +627,10 @@
     "name": "weekday",
     "inventoryEngine": "elections",
     "keepLines": 12,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`makeIsoDate`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/county-calendar.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/county-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/county-election-calendar.ts",
@@ -565,9 +638,10 @@
     "name": "stateRowRead",
     "inventoryEngine": "elections",
     "keepLines": 54,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`addDays`, `weekday`, `makeIsoDate`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/county-calendar.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/county-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/county-election-calendar.ts",
@@ -575,9 +649,10 @@
     "name": "nextCountyElection",
     "inventoryEngine": "elections",
     "keepLines": 93,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`calendarProfiles`, `makeIsoDate`, `weekday`, `stateSchedule`, `stateRowRead`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/county-calendar.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/county-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/executive-term-limits.ts",
@@ -587,7 +662,8 @@
     "keepLines": 22,
     "status": "lifted",
     "lift": "src/rules/elections/executive-term-limits.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/executive-term-limits.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/executive-term-limits.ts",
@@ -597,7 +673,8 @@
     "keepLines": 51,
     "status": "partial-not-liftable",
     "lift": "src/rules/elections/executive-term-limits.ts",
-    "reason": "Decision kernel is lifted over selected facts. Whole function depends on legacy World/history or effect orchestration through `executiveTermLimitInWorld`, `datedTermsInOffice`, `addDays`, `consecutiveRunBefore`, `plural`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "reason": "Residual: reads the compiled or enacted limit and service intervals, then formats the refusal. Limit math is unchanged in the pure kernel.",
+    "kernels": ["src/rules/elections/executive-term-limits.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/executive-term-rules-in-world.ts",
@@ -605,9 +682,10 @@
     "name": "governingTermYearChanges",
     "inventoryEngine": "governing",
     "keepLines": 23,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `enactedRuleChanges`, `ruleChangeInForce`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/executive-law-calendar.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/executive-law-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/executive-term-rules-in-world.ts",
@@ -615,9 +693,10 @@
     "name": "firstElectionYearWithTermFrom",
     "inventoryEngine": "governing",
     "keepLines": 15,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`segmentForElectionYear`, `isElectionYear`, `generalElectionDay`, `commencementAfter`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/executive-law-calendar.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/executive-law-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/executive-term-rules-in-world.ts",
@@ -625,9 +704,10 @@
     "name": "segmentForElectionYear",
     "inventoryEngine": "governing",
     "keepLines": 13,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted",
+    "lift": "src/rules/elections/executive-law-calendar.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/executive-law-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/executive-term-rules-in-world.ts",
@@ -635,9 +715,10 @@
     "name": "nextRegularElectionInWorld",
     "inventoryEngine": "governing",
     "keepLines": 16,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `termSegments`, `segmentForElectionYear`, `isElectionYear`, `generalElectionDay`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/executive-law-calendar.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/executive-law-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/presidential-turnover.ts",
@@ -645,9 +726,10 @@
     "name": "nextPresidentialCycle",
     "inventoryEngine": "elections",
     "keepLines": 7,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `FIRST_NATIONAL_CYCLE`, `nationalElectionRules`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/presidential-terms.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/presidential-terms.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/presidential-turnover.ts",
@@ -655,9 +737,10 @@
     "name": "presidentialTermBar",
     "inventoryEngine": "elections",
     "keepLines": 15,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `presidentialTermLimitAt`, `presidentialTermsCounted`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/presidential-terms.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/presidential-terms.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/presidential-turnover.ts",
@@ -665,9 +748,10 @@
     "name": "presidentialElectionDayHandler",
     "inventoryEngine": "elections",
     "keepLines": 103,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `electionForDue`, `done`, `cycleKey`, `nationalElectionRules`, `nationalMoodDemocraticShift`, `nationalRecords`, `calibrationRow`, `roundTo`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/presidential-count.ts",
+    "reason": "Residual: reads the registered election and calibration records, appends unit results, and formats the public summary. State vote math, district fallback, tie handling and electoral aggregation are kernels. National mood is a supplied outcome-web measurement; presidential cycles are zero under that dependency\u2019s cycle gate.",
+    "kernels": ["src/rules/elections/presidential-count.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/presidential-turnover.ts",
@@ -675,9 +759,10 @@
     "name": "contingentVote",
     "inventoryEngine": "elections",
     "keepLines": 19,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `publicPartyAffiliation`, `PARTIES`, `livingWorldOrganizationId`, `LIVING_WORLD_KEYS`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/presidential-count.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/presidential-count.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/presidential-turnover.ts",
@@ -685,9 +770,13 @@
     "name": "holdContingentElections",
     "inventoryEngine": "elections",
     "keepLines": 126,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `nationalRecords`, `projectCongress`, `PRESIDENTIAL_TURNOVER_PROFILE`, `CONTINGENT_STATES`, `contingentVote`, `recordContingentChoice`, `nationalOutcome`, `recordPublicEvent`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/presidential-count.ts",
+    "reason": "Residual: reads Congress and affiliations, invokes the national contingent-choice recorder, and writes public English summaries. Vote assignment, House state plurality/ties and Senate whole-number math are kernels; the recorder's quorum and majority decision is contingentChoice in national-count.ts.",
+    "kernels": [
+      "src/rules/elections/presidential-count.ts",
+      "src/rules/elections/national-count.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/senate-vacancy-law.ts",
@@ -695,9 +784,10 @@
     "name": "senateAppointmentTiming",
     "inventoryEngine": "elections",
     "keepLines": 41,
-    "status": "partial-not-liftable",
+    "status": "lifted",
     "lift": "src/rules/elections/vacancy.ts",
-    "reason": "Appointment arithmetic is lifted over a supplied SenateVacancyLaw row. The whole legacy function resolves ROWS by place and calculates its median appointment deadline; research-row selection must be supplied by the port."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/vacancy.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-term-rules.ts",
@@ -707,7 +797,7 @@
     "keepLines": 11,
     "status": "not-liftable",
     "lift": null,
-    "reason": "Whole function interprets or produces legacy presentation/prose through `dayOfMonth`, `ORDINAL_NAMES`, `WEEKDAY_NAMES`. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+    "reason": "Formats an already compiled commencement rule as English; date calculation is lifted in executive-calendar.ts."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-term-rules.ts",
@@ -717,7 +807,8 @@
     "keepLines": 8,
     "status": "lifted",
     "lift": "src/rules/elections/executive-calendar.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/executive-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-term-rules.ts",
@@ -727,7 +818,8 @@
     "keepLines": 10,
     "status": "lifted",
     "lift": "src/rules/elections/executive-calendar.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/executive-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-term-rules.ts",
@@ -737,7 +829,8 @@
     "keepLines": 10,
     "status": "lifted",
     "lift": "src/rules/elections/executive-calendar.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/executive-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-term-rules.ts",
@@ -747,7 +840,8 @@
     "keepLines": 14,
     "status": "lifted",
     "lift": "src/rules/elections/executive-calendar.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/executive-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-term-rules.ts",
@@ -757,7 +851,8 @@
     "keepLines": 13,
     "status": "lifted",
     "lift": "src/rules/elections/executive-calendar.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/executive-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-turnover-calendar.ts",
@@ -765,9 +860,10 @@
     "name": "nextFieldClose",
     "inventoryEngine": "elections",
     "keepLines": 16,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `nextRegularElectionInWorld`, `fieldClosingDate`, `addDays`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/governor-turnover.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/governor-turnover.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-turnover-calendar.ts",
@@ -775,9 +871,10 @@
     "name": "applyGovernorTurnover",
     "inventoryEngine": "elections",
     "keepLines": 18,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `materializedOffices`, `scheduleNextFieldClose`, `scheduleGoverningSeasons`, `chiefExecutiveJurisdictionId`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/governor-turnover.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/governor-turnover.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-turnover-calendar.ts",
@@ -785,9 +882,10 @@
     "name": "regularFieldClosed",
     "inventoryEngine": "elections",
     "keepLines": 6,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `fieldClosingDate`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/governor-turnover.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/governor-turnover.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-executive-turnover.ts",
@@ -795,9 +893,10 @@
     "name": "incumbentGovernorStandingAgain",
     "inventoryEngine": "elections",
     "keepLines": 14,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `stateExecutiveOffice`, `decideIncumbentGovernor`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/governor-turnover.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/governor-turnover.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislative-election-calendar.ts",
@@ -805,9 +904,10 @@
     "name": "cohortIncludes",
     "inventoryEngine": "elections",
     "keepLines": 10,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted",
+    "lift": "src/rules/elections/legislative-calendar.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/legislative-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislative-election-calendar.ts",
@@ -815,9 +915,10 @@
     "name": "nextStateLegislativeElection",
     "inventoryEngine": "elections",
     "keepLines": 23,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`stateLegislativeSeatElectionRule`, `stateLegislativeElectionRule`, `isElectionYear`, `generalElectionDay`, `fieldClosingDate`, `STATE_LEGISLATIVE_CALENDAR_PROFILE`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/legislative-calendar.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/legislative-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislative-term-limits.ts",
@@ -825,9 +926,10 @@
     "name": "yearsBetween",
     "inventoryEngine": "elections",
     "keepLines": 8,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`DAY_MS`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/legislative-term-limits.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/legislative-term-limits.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislative-term-limits.ts",
@@ -835,9 +937,10 @@
     "name": "countedYears",
     "inventoryEngine": "elections",
     "keepLines": 23,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`yearsBetween`, `addDays`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/legislative-term-limits.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/legislative-term-limits.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislative-term-limits.ts",
@@ -845,9 +948,10 @@
     "name": "legislativeTermLimitBar",
     "inventoryEngine": "elections",
     "keepLines": 48,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `legislativeTermLimitInForce`, `yearsBetween`, `addDays`, `legislativeService`, `countedYears`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/legislative-term-limits.ts",
+    "reason": "Residual: reads work/contest/participation facts and formats the English bar message. Chamber/whole-body service and both limit decisions are kernels.",
+    "kernels": ["src/rules/elections/legislative-term-limits.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislature-candidates.ts",
@@ -855,9 +959,10 @@
     "name": "stateCandidateIntakeDay",
     "inventoryEngine": "elections",
     "keepLines": 8,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`addDays`, `makeIsoDate`, `STATE_LEGISLATURE_CANDIDATE_PROFILE`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/candidate-intake.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/candidate-intake.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislature-candidates.ts",
@@ -865,9 +970,10 @@
     "name": "selfStarterParties",
     "inventoryEngine": "elections",
     "keepLines": 14,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`drawsSelfStarter`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/candidate-standing.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/candidate-standing.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislature-candidates.ts",
@@ -875,9 +981,10 @@
     "name": "satisfiesKnownQualifications",
     "inventoryEngine": "elections",
     "keepLines": 89,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `stateResidenceSince`, `districtResidenceSince`, `candidateQualificationRuleSet`, `assessCandidateQualification`, `officeFamilyForChamberKey`, `officeQualifications`, `ageOnDate`, `standInQualification`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/candidate-standing.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/candidate-standing.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislature-opening.ts",
@@ -885,9 +992,10 @@
     "name": "buildStateChamberPlan",
     "inventoryEngine": "elections",
     "keepLines": 67,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`districtIdentityCatalog`, `gazetteerChamberForOfficeChamberKey`, `listDistrictIdentities`, `seatsByDistrict`, `AT_LARGE_SEATS`, `bindDistricts`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/chamber-plan.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/chamber-plan.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislature-opening.ts",
@@ -895,9 +1003,10 @@
     "name": "bindDistricts",
     "inventoryEngine": "elections",
     "keepLines": 23,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`seatsByDistrict`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/chamber-plan.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/chamber-plan.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislature-opening.ts",
@@ -905,9 +1014,10 @@
     "name": "ensureStateLegislatureOpening",
     "inventoryEngine": "elections",
     "keepLines": 427,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `stateCandidacyPack`, `stateLegislatureEstablished`, `politicalStartingConditions`, `stateJurisdictionForKey`, `SeededRng`, `STATE_LEGISLATURE_KEYS`, `planStateChambers`, `congressSeats`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/state-opening.ts",
+    "reason": "Residual: generates names/identities/birthdays with allowed generation facts, writes organizations/work/affiliations/institution bindings and opening tags, and formats seat titles. Chamber/district sizing, lean, service, party allocation and binding validation/grouping are kernels.",
+    "kernels": ["src/rules/elections/state-opening.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislature-opening.ts",
@@ -915,9 +1025,10 @@
     "name": "affiliationIndexes",
     "inventoryEngine": "elections",
     "keepLines": 38,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`PARTY_AFFILIATION_KIND`, `indexFollowingAppends`, `AFFILIATION_INDEXES`, `RECENT_AFFILIATIONS`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/state-opening.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/state-opening.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislature-opening.ts",
@@ -925,9 +1036,10 @@
     "name": "stateSeatsInDistrict",
     "inventoryEngine": "elections",
     "keepLines": 19,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`seatedPlans`, `stateSeatTitle`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/chamber-plan.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/chamber-plan.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislature-queue.ts",
@@ -937,7 +1049,7 @@
     "keepLines": 27,
     "status": "not-liftable",
     "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`signatures`, `createStableId`, `indexFollowingAppends`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "reason": "Builds append-cache revision fingerprints with createStableId and JSON serialization. It invalidates a storage/cache answer; it contains no institutional calendar, eligibility or election math."
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislature-turnover.ts",
@@ -945,9 +1057,10 @@
     "name": "nextStateSeatFilling",
     "inventoryEngine": "elections",
     "keepLines": 74,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `candidacyPackById`, `stateLegislativeElectionRule`, `isStateLegislativeSeatDue`, `generalElectionDay`, `legislativeTermDates`, `makeIsoDate`, `recordByStableKey`, `resultsKey`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/state-filling.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/state-filling.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislature-turnover.ts",
@@ -955,9 +1068,13 @@
     "name": "holdStateLegislativeNominations",
     "inventoryEngine": "elections",
     "keepLines": 80,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `stateLegislativeSeats`, `holdFiledNominations`, `STATE_SLATE_EVENT`, `tagValue`, `stateSlateKey`, `candidacyPackById`, `stateJurisdictionForKey`, `createStableId`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/turnover-phases.ts",
+    "reason": "Residual: retrieves packs/seats/title/jurisdiction/organization records and calls nomination writers. Year gates, field identity/ordinal/pack filtering, admission guards, party share and primary/runoff math are kernels.",
+    "kernels": [
+      "src/rules/elections/turnover-phases.ts",
+      "src/rules/elections/filed-nominations.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislature-turnover.ts",
@@ -965,9 +1082,14 @@
     "name": "applyStateLegislatureTurnover",
     "inventoryEngine": "elections",
     "keepLines": 108,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `holdStateLegislativeNominations`, `filingWindowOpens`, `addDays`, `makeIsoDate`, `STATE_BALLOT_SET_DAYS`, `stateBallotsSet`, `seatedPacks`, `candidacyPackById`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/turnover-phases.ts",
+    "reason": "Residual: iterates pure year/window/field/phase plans, resolves record facts, and invokes intake/ballot/election/seating writers.",
+    "kernels": [
+      "src/rules/elections/turnover-phases.ts",
+      "src/rules/elections/candidate-intake.ts",
+      "src/rules/elections/state-filling.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/state-legislature-turnover.ts",
@@ -975,9 +1097,13 @@
     "name": "stateWakeEventPackKeys",
     "inventoryEngine": "elections",
     "keepLines": 12,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`tagValue`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/state-filling.ts",
+    "reason": "Complete prefix selector and lifted public wake-calendar caller are present; generated all-place tests compare the native public stateLegislatureWakePlan against raw events and supplied rule facts.",
+    "kernels": [
+      "src/rules/elections/state-filling.ts",
+      "src/rules/elections/state-wake.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/town-election-calendar.ts",
@@ -987,7 +1113,8 @@
     "keepLines": 9,
     "status": "lifted",
     "lift": "src/rules/elections/town-calendar.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/town-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nationwide-world/town-election-calendar.ts",
@@ -997,7 +1124,8 @@
     "keepLines": 17,
     "status": "partial-not-liftable",
     "lift": "src/rules/elections/town-calendar.ts",
-    "reason": "Municipal November scheduling is lifted over supplied timing facts. The whole legacy function resolves municipal timing/cadence from module research rows; its DATA adapter remains outside the shelf."
+    "reason": "Residual: passes the resolved timing/date row as facts; source English notes and citations are not rule outputs.",
+    "kernels": ["src/rules/elections/town-calendar.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/candidate-pool.ts",
@@ -1005,9 +1133,10 @@
     "name": "addPastCandidates",
     "inventoryEngine": "elections",
     "keepLines": 23,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `CONTEXT_PREFIX`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/past-candidates.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/past-candidates.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/candidate-pool.ts",
@@ -1017,7 +1146,8 @@
     "keepLines": 26,
     "status": "lifted",
     "lift": "src/rules/elections/seat-and-candidate.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/seat-and-candidate.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/date-rules.ts",
@@ -1027,7 +1157,8 @@
     "keepLines": 3,
     "status": "lifted",
     "lift": "src/rules/elections/date-rules.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/date-rules.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/date-rules.ts",
@@ -1037,7 +1168,8 @@
     "keepLines": 18,
     "status": "lifted",
     "lift": "src/rules/elections/date-rules.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/date-rules.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/date-rules.ts",
@@ -1047,7 +1179,8 @@
     "keepLines": 33,
     "status": "lifted",
     "lift": "src/rules/elections/date-rules.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/date-rules.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/date-rules.ts",
@@ -1057,7 +1190,7 @@
     "keepLines": 20,
     "status": "not-liftable",
     "lift": null,
-    "reason": "Whole function interprets or produces legacy presentation/prose through `ordinalWord`, `WEEKDAYS`, `MONTHS`. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+    "reason": "Formats an already compiled date rule as English; executable date rules are lifted in date-rules.ts."
   },
   {
     "sourceFile": "src/simulation/nominations/date-rules.ts",
@@ -1065,9 +1198,10 @@
     "name": "whole",
     "inventoryEngine": "elections",
     "keepLines": 8,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted",
+    "lift": "src/rules/elections/date-rules.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/date-rules.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/field-entry.ts",
@@ -1075,9 +1209,10 @@
     "name": "filingWindowOpens",
     "inventoryEngine": "elections",
     "keepLines": 3,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`makeIsoDate`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/offices/filing-window.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/offices/filing-window.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/field-entry.ts",
@@ -1087,7 +1222,8 @@
     "keepLines": 11,
     "status": "lifted",
     "lift": "src/rules/elections/intake-and-calendars.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/intake-and-calendars.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/field-entry.ts",
@@ -1097,7 +1233,8 @@
     "keepLines": 15,
     "status": "lifted",
     "lift": "src/rules/elections/self-starter.ts",
-    "reason": "The complete recruitment opportunity predicate is copied unchanged, with the 55% share gate in tagged parameters and a CTO stopgap. This predicate never decides whether the person runs."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/self-starter.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/nomination-rules.ts",
@@ -1105,9 +1242,10 @@
     "name": "filingPlan",
     "inventoryEngine": "elections",
     "keepLines": 27,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`dateFor`, `MEDIAN_FILING_GAP_DAYS`, `addDays`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/nomination-plan.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/nomination-plan.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/nomination-rules.ts",
@@ -1115,9 +1253,10 @@
     "name": "patternOf",
     "inventoryEngine": "elections",
     "keepLines": 9,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted",
+    "lift": "src/rules/elections/nomination-plan.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/nomination-plan.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/nomination-rules.ts",
@@ -1125,9 +1264,10 @@
     "name": "presidentialYear",
     "inventoryEngine": "elections",
     "keepLines": 3,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted",
+    "lift": "src/rules/elections/nomination-plan.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/nomination-plan.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/nomination-rules.ts",
@@ -1135,9 +1275,10 @@
     "name": "compiledPrimaryDate",
     "inventoryEngine": "elections",
     "keepLines": 29,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`dateFor`, `presidentialYear`, `anyDate`, `patternOf`, `MOST_COMMON_DATE_RULE`, `dateFromElectionRule`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/nomination-plan.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/nomination-plan.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/nomination-rules.ts",
@@ -1145,9 +1286,10 @@
     "name": "nominationPlan",
     "inventoryEngine": "elections",
     "keepLines": 90,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `nominationRuleRow`, `generalElectionDay`, `electionLawOfficeKey`, `ruleValueInWorld`, `MOST_COMMON_METHOD`, `isElectionDateRule`, `dateFromElectionRule`, `compiledPrimaryDate`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/nomination-plan.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/nomination-plan.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/nomination-rules.ts",
@@ -1155,9 +1297,10 @@
     "name": "runoffPlan",
     "inventoryEngine": "elections",
     "keepLines": 58,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`dateFor`, `dateFromElectionRule`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/nomination-plan.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/nomination-plan.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/party-nominations.ts",
@@ -1167,7 +1310,8 @@
     "keepLines": 12,
     "status": "lifted",
     "lift": "src/rules/elections/primary.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/primary.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/party-nominations.ts",
@@ -1177,7 +1321,8 @@
     "keepLines": 20,
     "status": "lifted",
     "lift": "src/rules/elections/primary.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/primary.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/party-nominations.ts",
@@ -1187,7 +1332,8 @@
     "keepLines": 5,
     "status": "lifted",
     "lift": "src/rules/elections/primary.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/primary.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/party-nominations.ts",
@@ -1197,7 +1343,8 @@
     "keepLines": 9,
     "status": "lifted",
     "lift": "src/rules/elections/primary.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/primary.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/party-nominations.ts",
@@ -1207,7 +1354,8 @@
     "keepLines": 138,
     "status": "partial-not-liftable",
     "lift": "src/rules/elections/primary.ts",
-    "reason": "Decision kernel is lifted over selected facts. Whole function depends on legacy World/history or effect orchestration through `primaryKey`, `eventByKey`, `tally`, `isAllParty`, `pullOf`, `tiedAtLine`, `reachesThreshold`, `runnerUpAsks`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "reason": "Residual: applies agency concession facts, writes the primary event and formats its summary. Tally, thresholds, advancement, ties and runoff decisions are kernels.",
+    "kernels": ["src/rules/elections/primary.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/party-nominations.ts",
@@ -1217,7 +1365,8 @@
     "keepLines": 93,
     "status": "partial-not-liftable",
     "lift": "src/rules/elections/primary.ts",
-    "reason": "countNominationRunoff lifts the tally and qualifier kernel. The whole original function reads World entrant/campaign histories and writes the runoff event; it cannot be copied into a pure shelf."
+    "reason": "Residual: supplies dated primary and entrant viability facts, then writes the runoff event and summary. Finalist, pull, ordering, tie and nomination decisions are kernels.",
+    "kernels": ["src/rules/elections/primary.ts"]
   },
   {
     "sourceFile": "src/simulation/nominations/party-nominations.ts",
@@ -1225,9 +1374,10 @@
     "name": "holdFiledNominations",
     "inventoryEngine": "elections",
     "keepLines": 68,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `tagOf`, `nominationPrimaryRecord`, `runoffDateOf`, `holdNominationPrimary`, `holdNominationRunoff`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/filed-nominations.ts",
+    "reason": "Residual: retrieves fields and pending primary records, supplies plan/alive/share facts, and applies primary then runoff writers sequentially. All date/filter/entrant decisions are kernels.",
+    "kernels": ["src/rules/elections/filed-nominations.ts"]
   },
   {
     "sourceFile": "src/simulation/petition-signers.ts",
@@ -1235,9 +1385,10 @@
     "name": "nextGeneralElection",
     "inventoryEngine": "elections",
     "keepLines": 5,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`generalElectionDay`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/intake-and-calendars.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/intake-and-calendars.ts"]
   },
   {
     "sourceFile": "src/simulation/recall.ts",
@@ -1245,9 +1396,10 @@
     "name": "recordedPetitionSignatures",
     "inventoryEngine": "elections",
     "keepLines": 106,
-    "status": "partial-not-liftable",
+    "status": "lifted",
     "lift": "src/rules/elections/petition-signatures.ts",
-    "reason": "Decision kernel is lifted over selected facts. Whole function depends on legacy World/history or effect orchestration through `PETITION_SIGNED`, `PETITION_ASKED`, `tagValue`, `petitionSignerEligibility`, `petitionStateUsps`, `PETITION_SIGNATURE_REVIEWED`, `isEligibleVoterIn`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/petition-signatures.ts"]
   },
   {
     "sourceFile": "src/simulation/recall.ts",
@@ -1255,9 +1407,13 @@
     "name": "recallPetitionClosesHandler",
     "inventoryEngine": "elections",
     "keepLines": 189,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `petitionForDue`, `done`, `PETITION_ASKED`, `askToSign`, `recordedPetitionSignatures`, `closingEvent`, `PETITION_SIGNATURE_REVIEWED`, `personName`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "partial-not-liftable",
+    "lift": "src/rules/elections/recall-close.ts",
+    "reason": "Residual: invokes signer agency responses, retrieves petition/seat/filing-law/calendar facts, writes closure events and future due items, and formats English. Pending-request and review filtering, signature certification, threshold math and every closure/refusal branch are kernels.",
+    "kernels": [
+      "src/rules/elections/recall-close.ts",
+      "src/rules/elections/petition-signatures.ts"
+    ]
   },
   {
     "sourceFile": "src/simulation/statewide-electorate.ts",
@@ -1265,9 +1421,10 @@
     "name": "neitherMajorShareOf",
     "inventoryEngine": "elections",
     "keepLines": 9,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`ELECTORAL_CALIBRATION`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted",
+    "lift": "src/rules/elections/electorate.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/electorate.ts"]
   },
   {
     "sourceFile": "src/simulation/statewide-electorate.ts",
@@ -1275,9 +1432,10 @@
     "name": "statewideElectorate",
     "inventoryEngine": "elections",
     "keepLines": 27,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `stateForJurisdiction`, `calibrationRows`, `politicalStartingConditions`, `applySwing`, `sharedSwing`, `neitherMajorShareOf`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/electorate.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/electorate.ts"]
   },
   {
     "sourceFile": "src/simulation/statewide-electorate.ts",
@@ -1285,9 +1443,10 @@
     "name": "majorPartyOf",
     "inventoryEngine": "elections",
     "keepLines": 18,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `publicPartyAffiliation`, `livingWorldOrganizationId`, `LIVING_WORLD_KEYS`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/electorate.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/electorate.ts"]
   },
   {
     "sourceFile": "src/simulation/statewide-electorate.ts",
@@ -1295,8 +1454,9 @@
     "name": "congressSeatElectorate",
     "inventoryEngine": "elections",
     "keepLines": 25,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `calibrationRow`, `seatStartingCondition`, `neitherMajorShareOf`, `seatHolderOn`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted",
+    "lift": "src/rules/elections/electorate.ts",
+    "reason": "All institutional decisions and arithmetic are present in the named kernel, including KEEP helper/constant closure. Caller supplies the raw research or record facts read by the unchanged source; English-only labels are outside numeric rule outputs.",
+    "kernels": ["src/rules/elections/electorate.ts"]
   }
 ]
