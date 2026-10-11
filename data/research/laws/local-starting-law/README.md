@@ -2,7 +2,7 @@
 
 Builder: CODEX-LAWS, Codex (GPT-6; exact deployment identifier unavailable).
 Work order effort: high, because later engines depend on law in force.
-Started: 2026-10-10 11:08:30 p.m. America/New_York (2026-10-11T03:08:30Z).
+Started (approximate): 2026-10-10 11:08:30 p.m. America/New_York (2026-10-11T03:08:30Z).
 Finisher send-backs: 0. Usage: unavailable.
 
 ## Contract
@@ -15,7 +15,7 @@ Starting base: `pool/M0-core-pieces` at `8249aaba6473ea2ca7ac483199d8f55b547bd70
 ## Source intake, checked October 10, 2026 (America/New_York)
 
 - HHS FY2026 Medicaid notice, [89 FR 94742](https://www.govinfo.gov/content/pkg/FR-2024-11-29/html/2024-27910.htm): full notice opened; Table 1 covers all 56 jurisdictions. Effective October 1, 2025 through September 30, 2026. Preserve the disaster-adjusted and regular rates separately; Medicaid matching percentages are not benefits paid to residents.
-- HHS FY2027 notice, [90 FR 54696](https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm): notice located; values need transcription and validation. Effective October 1, 2026 through September 30, 2027.
+- HHS FY2027 notice, [90 FR 54696](https://www.govinfo.gov/content/pkg/FR-2025-11-28/html/2025-21332.htm): notice located; all 56 numerical matching rates transcribed and structurally checked. Effective October 1, 2026 through September 30, 2027.
 - USDA [FY2026 SNAP memorandum](https://www.usda.gov/sites/default/files/guidance-documents/fns.snap-cola-fy26memo.pdf): full official PDF opened. Maximum allotments by household size appear on pages 4 and 5, including three distinct Alaska areas. Effective October 1, 2025 through September 30, 2026.
 - DOL [Significant Provisions, July 2026](https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf): official PDF opened from the [state law index](https://oui.doleta.gov/unemploy/statelaws.asp). Do not silently apply July figures to a January start; earlier dated editions and state changes still need checking.
 - Census [ACS five-year developer documentation](https://www.census.gov/data/developers/data-sets/acs-5year.html): latest available release is 2024. ACS covers the states, D.C. and Puerto Rico, not the other four territories. County property-tax research must distinguish survey effective-rate estimates from statutory assessment rules. The API documentation currently requires a key; downloadable Census files are a possible alternative.
@@ -38,7 +38,7 @@ State and local source terms must be checked individually. No blanket federal-pu
 | Local income tax | Not researched |
 | Local minimum wage | Existing matrix needs primary-source and coverage check |
 | Married-filer and territory income-tax systems | Not researched |
-| UI bounds, SNAP household tables, Medicaid match | Primary federal sources opened; transcription in progress |
+| UI bounds, SNAP household tables, Medicaid match | 112 Medicaid phases and 110 SNAP area phases transcribed; UI still open |
 | Default effective dates and emergency clauses | Existing metadata needs statute verification |
 
 No missing fact has been entered as zero or permission. Research intake is not shipped starting law, and the feature remains `passes:false`.
@@ -48,3 +48,17 @@ No missing fact has been entered as zero or permission. Research intake is not s
 The supplied checkout is `97ffc169508e0f4d5ff7a12726a2ef76b28668b7`, with no `src/core2`, no M1 packages and no installed dependencies. `npm run bench -- --help` fails with “Missing script: bench.” The required base is absent from the local object store. `git fetch origin main pool/M0-core-pieces pool/P14-laws` and HTTPS to GitHub both fail to connect to the configured proxy on port 8080. DNS resolves the proxy, but its endpoint is unavailable. GitHub connector reads/writes and connected-browser research work. No engine implementation or runtime proof has been attempted on this stale checkout.
 
 The storage workspace command also fails creating the absent home registry directory. Reuse the supplied checkout when repaired; do not provision another repository.
+
+## Completed intake and checks
+
+`medicaid-match.json`: 56 place IDs, each with FY2026 and FY2027 phases (112 rows). FY2026 preserves the disaster-adjusted Medicaid match and its regular base as separate terms.
+
+`snap-maximums.json`: 53 place IDs and 110 area phases across FY2026/FY2027. Each phase records households 1–8; FY2027 records the additional-person range and published cap at 18 or more. Area membership and nutrition assistance in the other three territories still need research. These are omissions in research, not shipped defaults.
+
+Source tables were opened in full; USDA pages 4–5 were also checked visually in the official PDFs. Each row has a primary citation, retrieval date, estimate flag, effective/end dates and recorded reuse terms. Data remains unintegrated.
+
+A dependency-free Node diagnostic passed exact Medicaid coverage against the existing 56-place matrix, provenance fields, date continuity, numerical bounds, the disaster adjustment and SNAP household monotonicity. Two earlier diagnostic attempts failed because they assumed the USDA cap and increment could be reproduced exactly from already-rounded allotments. Visual source checking confirmed the transcribed numbers; preserve the independent published amounts. The relaxed arithmetic sanity check allows a one-dollar rounding difference; it is not a change to M1-01's feature test.
+
+`npm run zero-dice` passes on the supplied checkout. `npm run release:check -- --mode pr` cannot load `tsx`; no dependencies are installed. Typecheck, formatting tooling, the required base's bench and the paired year were not run. No M1-01 acceptance evidence or worker record exists.
+
+Blocked at approximately six minutes of elapsed session work, including environment startup. No finisher send-backs. Owner action: repair the configured cloud proxy and supply a usable registered workspace/dependencies so the required base can be fetched and baseline checks can run. No scope or test change is requested.

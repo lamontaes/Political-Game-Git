@@ -2,6 +2,10 @@
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
+## 2026-10-10 23:14 (America/New_York)
+
+- **CODEX-LAWS (M1-01), research begun; infrastructure blocked.** Draft #3958 on `pool/M1-laws`, stacked at `8249aaba6473ea2ca7ac483199d8f55b547bd704`, contains the exact contract. Official HHS/USDA tables and recorded terms now give 112 Medicaid phases for all 56 jurisdictions and 110 SNAP area phases for 53; data checks and zero-dice pass. Two arithmetic diagnostics failed on USDA's independent rounding; visually checked published values were preserved. No player behavior changed, and the feature stays false. The supplied checkout predates core2; its proxy refuses HTTPS/git connections; no dependencies are installed; bench is missing and release check cannot load tsx. Project mutations are unavailable. Next: owner repairs cloud access/workspace, then the remaining research and port. Builder: Codex GPT-6 (exact deployment identifier unavailable), requested high; runtime effort and usage unavailable; about six minutes including startup; helpers none; finisher send-backs 0.
+
 ## 2026-10-11
 
 - **SOL-1258 (M0-core), repeated opening evidence:** storing one complete upbringing Source per person reduced the opening from 387.5 MB to 238.7 MB in the guard’s original random place. Source share fell from 75.84% to 61.73%, below the unchanged 74.91% limit. Expanding the shared sources reproduced the exact prior input hash. All 49 focused cases and static checks passed. Next: compact saved explanations, then runtime timing and the judged year. No annual speed result is available. [Receipt](../../src/core2/receipts/m0-opening-source-compaction-20261011.json).
