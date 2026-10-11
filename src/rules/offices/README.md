@@ -43,3 +43,21 @@ Golden comparisons omit generated player wording; eligibility, ordering, field s
 The existing game smoke test is reproducible (seed `rules2-baseline-20261011`, six people and eleven events). The focused legacy baseline has 36 passes and one pre-existing failure: the qualification metadata test expects 69 records, and its corpus has 72. Main does not contain the core2 bench, so no playable golden-path advancement is claimed. The initial default-sandbox Vitest startup failed at Vite's git identity subprocess; the escalated run works.
 
 RULES-2: GPT-6 (Codex), configured variant/effort not exposed; repository default medium. No helpers. Usage not exposed; no finisher send-backs. Time receipts and final validation are in draft PR #3946.
+
+## Remaining-inventory continuation
+
+The complete scoped function list is in `KEEP-DISPOSITION.md` and its structured
+`keep-disposition.json`. It includes the offices/seats/filing/qualification rows
+from the elections inventory and the office/seat modules from governing; the
+rest of the governing engine (crises, executive programs and administration) is
+outside this area's scope. The elections ledger covers the complementary rows.
+Every entry distinguishes a full lift, a partial kernel whose whole function
+cannot be copied, or a concrete whole-function blocker. A blocker is not a
+reclassification of KEEP or a claim that a future core2 adapter is impossible.
+
+This continuation adds filing-term validation, municipal minimum-age estimation,
+ward-seat recognition, ward lookup/ranges and ward cut drawing. The unchanged
+ward drawer uses household roster positions as geography/population and a common
+10% deviation bound; its proxy is registered for the CTO. The tests compare all
+ward decisions and age estimates against legacy for all 56 identities and check
+the filing reader's accepted corpus rows for every office family.

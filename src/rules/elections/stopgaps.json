@@ -106,5 +106,41 @@
     "addedAt": "2026-10-11",
     "replacement": "Approved support model and zero-share semantics.",
     "status": "OPEN"
+  },
+  {
+    "id": "elections.self-starter-share-gate",
+    "kind": "estimated-number",
+    "file": "src/rules/elections/parameters.ts",
+    "line": 65,
+    "whatItFakes": "Uses a common 55% two-party share to open self-starter consideration; missing shares count as zero.",
+    "why": "Preserve the legacy field-recruitment gate; it does not decide whether the person runs.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Reviewed recruitment opportunity derived from supplied district facts with sourced calibration.",
+    "status": "OPEN"
+  },
+  {
+    "id": "elections.ordinance-numbering-pace",
+    "kind": "estimated-number",
+    "file": "src/rules/elections/parameters.ts",
+    "line": 73,
+    "whatItFakes": "One council ordinance per week before world opening determines the opening measure number.",
+    "why": "Legacy has no measured council legislative-volume series; preserve numbering unchanged.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Recorded introduced-measure counts for the council and session.",
+    "status": "OPEN"
+  },
+  {
+    "id": "elections.empty-modal-result",
+    "kind": "placeholder",
+    "file": "src/rules/elections/modal-value.ts",
+    "line": 11,
+    "whatItFakes": "Empty or mismatched modal inputs can return undefined despite the declared T return type.",
+    "why": "The unchanged legacy helper indexes values[best] without validating parallel input sizes. Preserve its missing-result behavior.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Reviewed explicit empty-result and parallel-array contract.",
+    "status": "OPEN"
   }
 ]

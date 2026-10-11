@@ -35,4 +35,12 @@ export const OFFICES_PARAMETERS = {
     spread: [0, 1e-9],
     stopgapId: "SG-P14-offices-signature-tolerance",
   },
+  wardPopulationDeviation: {
+    value: 0.1,
+    tag: "ESTIMATED",
+    source:
+      "Legacy town-wards.ts DEVIATION; equal-population deviation proxy over household positions",
+    spread: [0, 0.1],
+    stopgapId: "offices.ward-household-population-proxy",
+  },
 } as const;
