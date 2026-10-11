@@ -4,6 +4,8 @@ Newest first. One short entry per event: what changed for the player, the measur
 
 ## 2026-10-11
 
+SOL-1258: Measured: one warmup and three baseline years are complete. The three-run median is **1.83 days per minute**: 365 days in 11,968.08 seconds. The baseline exceeds the collector's annual time budget. All three act and finance summary hashes match; these are aggregate checks. The receipt includes each run and the monthly interval medians. The candidate comparison, original random-place money judgment, local follow-up checks, and M0 acceptance remain pending. [Three-run baseline receipt](../../src/core2/receipts/m0-baseline-three-measured-years-20261011.json).
+
 SOL-1258: Measured: the second baseline year completed 365 days in 10,917.71 seconds, or **2.01 days per minute**. Its act and finance summary hashes match the first measurement; this is an aggregate check, with financial judgment still pending. The third baseline measurement has started. The three-run median and candidate comparison remain pending. [Second measured-year receipt](../../src/core2/receipts/m0-second-baseline-measured-year-20261011.json).
 
 SOL-1258: The finance measurement consumer now uses the source-reviewed chunk reader locally. The life tests explicitly retain their original discretionary-work setup. Both changes are unpublished and untested. A separate four-file check will cover the reader and these fixtures after the annual collection, original nineteen-file gates, and financial judgments finish. The original finance-writer checks and assertions remain included. The first measured baseline year remains **1.83 days per minute**; the three-run median and candidate comparison are pending.
