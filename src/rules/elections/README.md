@@ -57,3 +57,20 @@ main has no new-core bench. End of implementation: 2026-10-11 00:37 UTC, about
 eight minutes. Model/effort recorded above; usage/cost not exposed. The GitHub
 Project claim was attempted but the API's GraphQL endpoint returned Forbidden;
 ownership is recorded in this PR's contract instead.
+
+## Remaining-inventory continuation
+
+`KEEP-DISPOSITION.md` and `keep-disposition.json` account for every election
+KEEP function outside the offices ledger, plus the governing inventory's
+executive calendar functions. These two ledgers partition the election
+inventory; no row is silently reclassified. Whole-function blockers name the
+World/history writers, corpus closures or English contract that prevents an
+unchanged pure copy; partial kernels retain their actual destinations.
+
+This continuation adds standalone seat-cycle and returning-candidate rules,
+legislative/Senate/congressional dates, intake bounds, self-starter opportunity,
+modal selection and measure period/number arithmetic. Three CTO registrations
+preserve the 55% self-starter opportunity gate, estimated weekly ordinance pace,
+and modalValue's undefined result for empty inputs despite its declared type.
+All new calculations are golden-compared over all 56 identities. Measured
+validation, the seeded audit draw and model/effort/time are recorded in #3948.
