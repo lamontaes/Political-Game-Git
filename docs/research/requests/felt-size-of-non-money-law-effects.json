@@ -21,9 +21,22 @@
     {
       "source": "Sommers et al., Medicaid Work Requirements: Results from the First Year in Arkansas, New England Journal of Medicine, 2019",
       "whatItDidNotSettle": "How many people lost coverage and what followed for them; it does not value the loss or measure how strongly they reacted against the law."
+    },
+    {
+      "source": "https://www.fns.usda.gov/research/snap/national-participation-rates/fy20and22",
+      "whatItDidNotSettle": "Rights-specific reaction/valuation table remains open; no invented dollar-equivalent adopted."
     }
   ],
   "title": "How big a lost right or eligibility feels",
   "usableAnswer": "Willingness-to-pay or willingness-to-accept figures, or survey reaction strengths, for losing named eligibilities and rights, as a share of monthly income by income band, so NON_MONEY_FELT_SIZE can become a table by kind of loss.",
-  "whyItMatters": "A law that strips an eligibility moves no money on the record, so without a size the people it hurts would never blame its sponsors or organize against it, and a player who passes such a law would face no response."
+  "whyItMatters": "A law that strips an eligibility moves no money on the record, so without a size the people it hurts would never blame its sponsors or organize against it, and a player who passes such a law would face no response.",
+  "answer": {
+    "summary": "Program eligibility/take-up and willingness to pay for rights are different concepts. No commercially cleared primary willingness-to-pay/accept distribution by lost right and income band was established; income-based dollars cannot be inferred from an eligibility count.",
+    "sources": [
+      "https://www.fns.usda.gov/research/snap/national-participation-rates/fy20and22"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:08:19.065837+00:00",
+    "stillOpen": "Rights-specific reaction/valuation table remains open; no invented dollar-equivalent adopted."
+  }
 }
