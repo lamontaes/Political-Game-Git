@@ -3311,5 +3311,18 @@
     "value": 18,
     "tag": "SOURCED",
     "citation": "BLS American Time Use Survey: household children are those under 18 (ATUS glossary, 'household children'); https://www.bls.gov/tus/glossary.htm"
+  },
+  "unmodeledLeisureValuePerHour": {
+    "value": 0.46,
+    "tag": "TUNABLE",
+    "citation": "Score an hour of the leisure the game does not model is worth; an act added to a free block after the activation's pick must score above its hours times this. Calibrated so visits fall on the ATUS 2025 share of people who socialize or communicate on a given day (30.4%, Table 1); no direct source for the value itself. Calibrated on two generated towns of 1,000 residents over 28 days (seeds p15-visit-a and -b: Albertville, Alabama; Kennedale, Texas): 0.4 gave 33.9% and 0.5 gave 28.6% of adult-days with a visit.",
+    "stopgapId": "SG-P15-free-block-plan",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibrated to one ATUS share; no empirical range for the value of an hour of leisure in these score units."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
   }
 }
