@@ -62,3 +62,26 @@ A dependency-free Node diagnostic passed exact Medicaid coverage against the exi
 `npm run zero-dice` passes on the supplied checkout. `npm run release:check -- --mode pr` cannot load `tsx`; no dependencies are installed. Typecheck, formatting tooling, the required base's bench and the paired year were not run. No M1-01 acceptance evidence or worker record exists.
 
 Blocked at approximately six minutes of elapsed session work, including environment startup. No finisher send-backs. Owner action: repair the configured cloud proxy and supply a usable registered workspace/dependencies so the required base can be fetched and baseline checks can run. No scope or test change is requested.
+
+
+## Continuation — 2026-10-11 04:58 UTC
+
+GitHub fetch now succeeds. Reused the existing checkout, selected `pool/M1-laws` at `c4f8d11b402270af556a11a32c33db80be81af8e`, and confirmed its core-pieces base is still `8249aaba6473ea2ca7ac483199d8f55b547bd704`. Read the current M1-laws/M1-common contract from main, PR discussion, saved research, progress and branch log. Startup bench skipped per owner instruction.
+
+Registered CODEX-LAWS's existing workspace with `OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev`. Initial npm install failed because the default home cache did not exist (`ENOENT: no such file or directory, mkdir '/home/agent/.npm/_cacache'`); the storage-guarded retry with `/workspace/.npm-cache` installed 182 packages and changed one, with no tracked lockfile change. No registry policy bypass or repository copy.
+
+Added research-only `unemployment-weekly-bounds.json`: 53 January 2026 DOL jurisdiction rows, primary source, PDF hash/page/excerpt, retrieval date and checked DOL public-domain terms. Dependent-allowance ranges, alternative earnings caps, and the uncapped allowance are distinguished. Three omitted territories remain explicit research gaps; no zero-benefit assumption. The diagnostic passed all-56 coverage partition, bounds and amounts against retained excerpts. Its first attempt rejected amounts followed by the PDF's superscript footnote 6; the diagnostic was corrected to recognize the footnote separately, preserving published values. No feature test changed. Census property API returned HTML titled `Missing Key`, not county data; no such data was incorporated.
+
+The next state-tax source request failed. Command:
+```sh
+curl --fail --show-error --location --max-time 30 https://www.azdor.gov/business/transaction-privilege-tax --output /tmp/M1-laws-state-sales-second-source.html
+```
+Exit code: 22. Exact error:
+```text
+curl: (22) The requested URL returned error: 403
+```
+This is a source HTTP denial, not a recurrence of the old GitHub proxy connection failure. Stopped further research, implementation and validation at this failure as instructed; only preservation and this PR report followed. No live module, generated-world proof, local gate or paired-year result is claimed. M1-01 remains **not ready for its finisher**.
+
+Model/effort/time/send-backs: CODEX-LAWS / Codex, GPT-6 family per session instructions; exact deployment identifier, runtime reasoning setting and usage unavailable. Package-requested effort high because later engines depend on this law read; no runtime setting verification. Helpers none. First captured UTC timestamp `2026-10-11T04:55:58Z`; stop/report timestamp `2026-10-11T04:58:27Z` (2 minutes 29 seconds between them, excluding earlier startup and reads; total elapsed unavailable). Finisher/owner review send-backs this continuation: 0. Infrastructure events: missing storage home resolved with supported workspace state-directory selection; missing npm cache resolved with workspace cache; missing Census API key unresolved; state-source HTTP 403 caused this required stop. Earlier PR startup blockers and send-back reports remain preserved.
+
+Next: resolve access to the denied primary source (or a usable official endpoint), finish the remaining eight-kind research gaps, then import lifted rules and implement the approved module. No scope, owned-path or feature-test change requested.
