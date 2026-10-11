@@ -5,6 +5,7 @@ import { performance } from "node:perf_hooks";
 import { execFileSync } from "node:child_process";
 import { hostname, platform, arch, cpus } from "node:os";
 import { resolve } from "node:path";
+import { getHeapStatistics } from "node:v8";
 import { pathToFileURL } from "node:url";
 // The runner may be copied to /tmp while the single checkout switches named
 // revisions. All runtime modules load from cwd, not from the copied runner.
@@ -123,6 +124,8 @@ if (args.includes("--prepare")) {
       arch: arch(),
       cpu: cpus()[0]?.model,
       node: process.versions.node,
+      execArgv: process.execArgv,
+      heapLimitMiB: getHeapStatistics().heap_size_limit / 1048576,
     },
     peakRssMiB: process.resourceUsage().maxRSS / 1024,
     inputSha256: hash(bytes),
