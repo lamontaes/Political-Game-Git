@@ -44,17 +44,19 @@ Codex builds; a separate Claude session finishes (Opus for judgment calls, Sonne
 
 ### M1 · The world runs
 
-- Ports: laws in force; the rest of the economy (labor market, housing, credit, the national economy and central bank).
-- Public budgets for federal, state and local government at once, including federal programs and grants that pay into states and towns.
-- Renewal: hiring, new businesses, births, moves.
-- Political views (the owner's approved design: deep values plus drifting stances).
-- Drives answer job loss, eviction and the economy.
+Fifteen work orders, owner-approved Oct 10, 2026, in `docs/packages/M1-*.md` (every one follows `M1-common.md`):
 
-**Done when:** a year in a random place shows the national economy moving; federal, state and local budgets paying, with federal money reaching the town; businesses opening and closing at real rates; births, moves and job changes; and views drifting. The bench's world panel is live.
+- **Laws and the economy:** laws in force at every level (M1-laws); the national economy and central bank (M1-macro); state and metro economies (M1-regional); banks and credit (M1-credit); jobs (M1-jobs); housing (M1-housing).
+- **Government money:** treasuries, taxes and budgets for federal, state and local government at once (M1-budgets-taxes), and federal and state money reaching named people and towns (M1-budgets-programs). Until M3, budgets are adopted by the old budget rules, as a registered placeholder.
+- **Renewal:** businesses start, grow, add locations and close (M1-business); births, moves and new residents (M1-renewal).
+- **People and politics:** political views on the owner's design (M1-views); every office and seat with fictional holders as full people (M1-officials, which builds M2-01 in M1 with M1-12); drives from job loss, eviction and closures (M1-drives-economy); other places at a coarser level (M1-other-places); the world opening on its start date with a coarse run of the years before it (M1-history).
+- **Owner calls (Oct 10):** other councils legislating stays in M3-10 and news delivery in M2-09; elections' and lawmaking's history join M1-history with M2 and M3; each M1 work order may add at most 5% to a year's run time; while courts are parked, evictions follow each place's legal steps with no judge's discretion, as a registered placeholder.
+
+**Done when:** a year in a random place shows the national and regional economy moving; federal, state and local budgets paying, with federal money reaching named residents; businesses opening and closing at real rates; births, moves and job changes; views drifting from causes; every official a full person in a real seat; and the world opening on its start date with a past. The bench's world panel is live.
 
 ### M2 · Running for office
 
-- Ports: offices and seats; elections with the one ballot rule, for local, state and federal offices at once (real voters in the places in focus, voter groups everywhere else); filing with each place's own filing office and rules; campaigns, where meeting people changes what voters know and think, and other candidates file too.
+- Ports: elections with the one ballot rule (offices and seats are built in M1, by M1-officials), for local, state and federal offices at once (real voters in the places in focus, voter groups everywhere else); filing with each place's own filing office and rules; campaigns, where meeting people changes what voters know and think, and other candidates file too.
 - Screen design talks with the owner start here, opening sequence first.
 
 **Done when:** in a random place you file for a local seat with that place's filing office, campaign and win or lose on real ballots; state legislative, governor, congressional and presidential races run in the world with real candidates.
@@ -103,7 +105,7 @@ Codex builds; a separate Claude session finishes (Opus for judgment calls, Sonne
 ## Always running
 
 - **Weekly with the owner:** a fresh playable build and a reschedule.
-- **Every merge:** speed and memory checked against the budget.
+- **Every merge:** speed and memory checked against the budget (a year may get at most 20% slower per change; each M1 work order at most 5%).
 - **Art in parallel:** modular people, poses, backgrounds.
 - **Specialist roles:** speed, placeholder clearing, docs.
 
