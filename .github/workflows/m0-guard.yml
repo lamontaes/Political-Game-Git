@@ -1,0 +1,90 @@
+name: M0 guards
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: m0-guard-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  golden-path:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35 # policies.json goldenJobMinutes; includes dependency setup
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - name: Detector contract tests
+        run: node --import tsx --test tests/golden-path/runner.node-test.mjs scripts/core2-guard/compare.node-test.mjs scripts/core2-guard/paired.node-test.mjs
+      - name: Golden-path commands
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+        run: |
+          mode=""
+          if [ "$EVENT_NAME" = "schedule" ]; then mode="--nightly"; fi
+          node --import tsx tests/golden-path/runner.mjs $mode --output "$RUNNER_TEMP/golden-path.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: golden-path
+          path: ${{ runner.temp }}/golden-path.json
+  core-changes:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.paths.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - id: paths
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          changed=false
+          if [ "$EVENT_NAME" = "schedule" ] || [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            changed=true
+          elif [ "$EVENT_NAME" = "pull_request" ]; then
+            if git diff --name-only "$BASE_SHA" "$HEAD_SHA" -- src/core2/ | rg -q .; then changed=true; fi
+          fi
+          echo "changed=$changed" >> "$GITHUB_OUTPUT"
+  paired-performance:
+    needs: core-changes
+    if: needs.core-changes.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 50 # policies.json performanceJobMinutes; includes dependency setup
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "24"
+          cache: npm
+      - run: npm ci
+      - name: Sequential same-host month comparison
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          base="$BASE_SHA"
+          if [ -z "$base" ]; then base=$(git rev-parse "$HEAD_SHA^"); fi
+          node --import tsx scripts/core2-guard/paired.mjs --base "$base" --head "$HEAD_SHA" --output "$RUNNER_TEMP/core2-paired.json"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: core2-paired
+          path: ${{ runner.temp }}/core2-paired.json
