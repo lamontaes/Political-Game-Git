@@ -26,6 +26,85 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: ["economy.bank-shape-nearest-assets"],
   },
+  "budget-deadline.ts": {
+    values: [0, 1, 4, 30, 90, 86400000],
+    provenance: "TUNABLE",
+    source: "src/simulation/governing/budget-stakes.ts:69",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.budget-deadline-bands"],
+  },
+  "budget-fiscal.ts": {
+    values: [-1, 0, 1, 2, 4, 5, 7],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/public-budgets/fiscal.ts:66; src/simulation/public-budgets/fiscal.ts:92; src/simulation/public-budgets/fiscal.ts:309",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.budget-local-balanced-fallback",
+      "economy.budget-own-authority-date",
+    ],
+  },
+  "budget-opening.ts": {
+    values: [0, 1, 2, 5, 100, 1000, 10000, 1000000],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/public-budgets/opening.ts:312; src/simulation/public-budgets/opening.ts:663; src/simulation/public-budgets/opening.ts:670; src/simulation/public-budgets/opening.ts:772",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.budget-opening-source-proxies",
+      "economy.budget-pension-source-medians",
+      "economy.budget-local-fiscal-year-proxy",
+      "economy.budget-native-English",
+    ],
+  },
+  "budget-pension.ts": {
+    values: [0, 1],
+    provenance: "SOURCED",
+    source:
+      "src/simulation/public-budgets/opening.ts:590; src/simulation/public-budgets/opening.ts:615; src/simulation/public-budgets/opening.ts:635",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+  },
+  "budget-policy.ts": {
+    values: [
+      0, 0.05, 0.07, 0.08, 0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5, 0.6,
+      0.65, 0.7, 0.85, 30, 90,
+    ],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/public-budgets/rules.ts:1; src/simulation/public-budgets/store.ts:1; src/simulation/legislative-effective-date.ts:16",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.budget-local-program-split",
+      "economy.budget-interest-source-fallback",
+      "economy.budget-pension-assumptions",
+    ],
+  },
+  "budget-road.ts": {
+    values: [0, 1, 30.44, 365.25],
+    provenance: "SOURCED",
+    source:
+      "src/simulation/public-budgets/road-usage-charge.ts:29; src/simulation/public-budgets/road-usage-charge.ts:47",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+  },
+  "budget-tax-policy.ts": {
+    values: [-1, 0.21, 1, 2, 11, 24, 28, 40.7, 100],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/public-budgets/rules.ts:130; src/simulation/public-budgets/road-usage-charge-constants.ts:1",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.budget-road-national-projection",
+      "economy.budget-road-first-bill-lag",
+      "economy.budget-cannabis-tax-calibration",
+    ],
+  },
   "business-book-math.ts": {
     values: [0, 1],
     provenance: "SOURCED",

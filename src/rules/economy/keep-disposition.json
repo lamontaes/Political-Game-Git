@@ -165,9 +165,9 @@
     "name": "budgetDeadlineConsideration",
     "inventoryEngine": "economy",
     "keepLines": 23,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-deadline.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence across all 56 generated places is recorded in budget-road-deadline-world.test.ts. Whole candidate/source-selected opening records prove private helpers, with calendar/pension and labeled saved enacted-law controls. Raw records and separately owned source geography/authority/final-term receipts remain distinct; no writer, ordinary-play, exhaustive or core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/home-down-payment.ts",
@@ -2035,9 +2035,9 @@
     "name": "fiscalYearContaining",
     "inventoryEngine": "economy",
     "keepLines": 11,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-fiscal.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence across all 56 generated places is recorded in budget-opening-world.test.ts. Whole candidate/source-selected opening records prove private helpers, with calendar/pension and labeled saved enacted-law controls. Raw records and separately owned source geography/authority/final-term receipts remain distinct; no writer, ordinary-play, exhaustive or core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/fiscal.ts",
@@ -2045,9 +2045,9 @@
     "name": "firstOfPreviousMonth",
     "inventoryEngine": "economy",
     "keepLines": 9,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-fiscal.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence across all 56 generated places is recorded in budget-opening-world.test.ts. Whole candidate/source-selected opening records prove private helpers, with calendar/pension and labeled saved enacted-law controls. Raw records and separately owned source geography/authority/final-term receipts remain distinct; no writer, ordinary-play, exhaustive or core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/fiscal.ts",
@@ -2055,9 +2055,9 @@
     "name": "budgetObligationPayment",
     "inventoryEngine": "economy",
     "keepLines": 19,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-fiscal.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence across all 56 generated places is recorded in budget-opening-world.test.ts. Whole candidate/source-selected opening records prove private helpers, with calendar/pension and labeled saved enacted-law controls. Raw records and separately owned source geography/authority/final-term receipts remain distinct; no writer, ordinary-play, exhaustive or core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/month.ts",
@@ -2225,9 +2225,9 @@
     "name": "budgetCandidates",
     "inventoryEngine": "economy",
     "keepLines": 100,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-opening.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence across all 56 generated places is recorded in budget-opening-world.test.ts. Whole candidate/source-selected opening records prove private helpers, with calendar/pension and labeled saved enacted-law controls. Raw records and separately owned source geography/authority/final-term receipts remain distinct; no writer, ordinary-play, exhaustive or core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/opening.ts",
@@ -2235,9 +2235,9 @@
     "name": "openingPension",
     "inventoryEngine": "economy",
     "keepLines": 17,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-pension.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence across all 56 generated places is recorded in budget-opening-world.test.ts. Whole candidate/source-selected opening records prove private helpers, with calendar/pension and labeled saved enacted-law controls. Raw records and separately owned source geography/authority/final-term receipts remain distinct; no writer, ordinary-play, exhaustive or core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/opening.ts",
@@ -2245,9 +2245,9 @@
     "name": "actuarialContribution",
     "inventoryEngine": "economy",
     "keepLines": 9,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-pension.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence across all 56 generated places is recorded in budget-opening-world.test.ts. Whole candidate/source-selected opening records prove private helpers, with calendar/pension and labeled saved enacted-law controls. Raw records and separately owned source geography/authority/final-term receipts remain distinct; no writer, ordinary-play, exhaustive or core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/opening.ts",
@@ -2255,9 +2255,9 @@
     "name": "carvePension",
     "inventoryEngine": "economy",
     "keepLines": 15,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-pension.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence across all 56 generated places is recorded in budget-opening-world.test.ts. Whole candidate/source-selected opening records prove private helpers, with calendar/pension and labeled saved enacted-law controls. Raw records and separately owned source geography/authority/final-term receipts remain distinct; no writer, ordinary-play, exhaustive or core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/opening.ts",
@@ -2265,9 +2265,9 @@
     "name": "interestNote",
     "inventoryEngine": "economy",
     "keepLines": 6,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-opening.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence across all 56 generated places is recorded in budget-opening-world.test.ts. Whole candidate/source-selected opening records prove private helpers, with calendar/pension and labeled saved enacted-law controls. Raw records and separately owned source geography/authority/final-term receipts remain distinct; no writer, ordinary-play, exhaustive or core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/opening.ts",
@@ -2275,9 +2275,9 @@
     "name": "stateOpening",
     "inventoryEngine": "economy",
     "keepLines": 101,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-opening.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence across all 56 generated places is recorded in budget-opening-world.test.ts. Whole candidate/source-selected opening records prove private helpers, with calendar/pension and labeled saved enacted-law controls. Raw records and separately owned source geography/authority/final-term receipts remain distinct; no writer, ordinary-play, exhaustive or core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/opening.ts",
@@ -2285,9 +2285,9 @@
     "name": "localOpening",
     "inventoryEngine": "economy",
     "keepLines": 82,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-opening.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence across all 56 generated places is recorded in budget-opening-world.test.ts. Whole candidate/source-selected opening records prove private helpers, with calendar/pension and labeled saved enacted-law controls. Raw records and separately owned source geography/authority/final-term receipts remain distinct; no writer, ordinary-play, exhaustive or core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/road-usage-charge.ts",
@@ -2295,9 +2295,9 @@
     "name": "yearsBetween",
     "inventoryEngine": "economy",
     "keepLines": 3,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-road.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence across all 56 generated places is recorded in budget-road-deadline-world.test.ts. Whole candidate/source-selected opening records prove private helpers, with calendar/pension and labeled saved enacted-law controls. Raw records and separately owned source geography/authority/final-term receipts remain distinct; no writer, ordinary-play, exhaustive or core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/road-usage-charge.ts",
@@ -2305,9 +2305,9 @@
     "name": "roadChargeFactor",
     "inventoryEngine": "economy",
     "keepLines": 40,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-road.ts",
+    "reason": "Physical retained KEEP closure and necessary helper/constants are present; bounded unchanged-native-public-owner equivalence across all 56 generated places is recorded in budget-road-deadline-world.test.ts. Whole candidate/source-selected opening records prove private helpers, with calendar/pension and labeled saved enacted-law controls. Raw records and separately owned source geography/authority/final-term receipts remain distinct; no writer, ordinary-play, exhaustive or core2/finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/staffing.ts",
