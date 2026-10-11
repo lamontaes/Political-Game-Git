@@ -1,0 +1,279 @@
+{
+  "version": "p15-closeness-v1",
+  "seed": "570b0855-60a3-4a8a-8326-51e74f707f3c",
+  "place": "Bloomington, Illinois",
+  "startedAt": "2021-01-01",
+  "days": 91,
+  "residents": 10001,
+  "adults": 7815,
+  "people": 45902,
+  "relationships": 92724,
+  "circle": {
+    "residentsWithAcquaintances": 9452,
+    "meanAcquaintances": 20.2
+  },
+  "openingCloseness": {
+    "aunt-or-uncle": {
+      "pairs": 10021,
+      "mean": 0.407,
+      "p10": 0.351,
+      "median": 0.351,
+      "p90": 0.581
+    },
+    "child": {
+      "pairs": 8217,
+      "mean": 0.807,
+      "p10": 0.647,
+      "median": 0.825,
+      "p90": 0.965
+    },
+    "grandchild": {
+      "pairs": 9702,
+      "mean": 0.46,
+      "p10": 0.351,
+      "median": 0.351,
+      "p90": 0.581
+    },
+    "grandparent": {
+      "pairs": 7107,
+      "mean": 0.46,
+      "p10": 0.351,
+      "median": 0.351,
+      "p90": 0.581
+    },
+    "household family": {
+      "pairs": 8922,
+      "mean": 0.986,
+      "p10": 0.986,
+      "median": 0.986,
+      "p90": 0.986
+    },
+    "other-parent": {
+      "pairs": 1002,
+      "mean": 0.456,
+      "p10": 0.351,
+      "median": 0.351,
+      "p90": 0.581
+    },
+    "parent": {
+      "pairs": 7467,
+      "mean": 0.798,
+      "p10": 0.648,
+      "median": 0.825,
+      "p90": 0.95
+    },
+    "sibling": {
+      "pairs": 15568,
+      "mean": 0.683,
+      "p10": 0.571,
+      "median": 0.588,
+      "p90": 0.915
+    }
+  },
+  "closenessAfter": {
+    "acquaintance": {
+      "pairs": 1703,
+      "mean": 0.031,
+      "p10": 0.019,
+      "median": 0.019,
+      "p90": 0.02
+    },
+    "aunt-or-uncle": {
+      "pairs": 10021,
+      "mean": 0.409,
+      "p10": 0.338,
+      "median": 0.355,
+      "p90": 0.589
+    },
+    "child": {
+      "pairs": 8217,
+      "mean": 0.805,
+      "p10": 0.643,
+      "median": 0.825,
+      "p90": 0.963
+    },
+    "grandchild": {
+      "pairs": 9702,
+      "mean": 0.455,
+      "p10": 0.338,
+      "median": 0.364,
+      "p90": 0.585
+    },
+    "grandparent": {
+      "pairs": 7107,
+      "mean": 0.467,
+      "p10": 0.338,
+      "median": 0.388,
+      "p90": 0.599
+    },
+    "household family": {
+      "pairs": 8922,
+      "mean": 0.986,
+      "p10": 0.986,
+      "median": 0.986,
+      "p90": 0.987
+    },
+    "housemate": {
+      "pairs": 449,
+      "mean": 0.863,
+      "p10": 0.863,
+      "median": 0.863,
+      "p90": 0.863
+    },
+    "other-parent": {
+      "pairs": 1002,
+      "mean": 0.467,
+      "p10": 0.338,
+      "median": 0.396,
+      "p90": 0.609
+    },
+    "parent": {
+      "pairs": 7467,
+      "mean": 0.796,
+      "p10": 0.644,
+      "median": 0.823,
+      "p90": 0.947
+    },
+    "sibling": {
+      "pairs": 15568,
+      "mean": 0.681,
+      "p10": 0.561,
+      "median": 0.6,
+      "p90": 0.912
+    }
+  },
+  "contactRates": {
+    "acquaintance": {
+      "contacts": 1573,
+      "perAdultPerYear": 0.81,
+      "perTiePerYear": 0.04,
+      "ties": 176746
+    },
+    "aunt-or-uncle": {
+      "contacts": 7088,
+      "perAdultPerYear": 3.64,
+      "perTiePerYear": 9.86,
+      "ties": 2884
+    },
+    "child": {
+      "contacts": 96101,
+      "perAdultPerYear": 49.36,
+      "perTiePerYear": 46.94,
+      "ties": 8217
+    },
+    "grandchild": {
+      "contacts": 18015,
+      "perAdultPerYear": 9.25,
+      "perTiePerYear": 7.45,
+      "ties": 9702
+    },
+    "grandparent": {
+      "contacts": 5004,
+      "perAdultPerYear": 2.57,
+      "perTiePerYear": 15.97,
+      "ties": 1258
+    },
+    "household family": {
+      "contacts": 116932,
+      "perAdultPerYear": 60.05,
+      "perTiePerYear": 43.35,
+      "ties": 10827
+    },
+    "other-parent": {
+      "contacts": 1662,
+      "perAdultPerYear": 0.85,
+      "perTiePerYear": 17.15,
+      "ties": 389
+    },
+    "parent": {
+      "contacts": 73333,
+      "perAdultPerYear": 37.66,
+      "perTiePerYear": 39.42,
+      "ties": 7467
+    },
+    "sibling": {
+      "contacts": 83007,
+      "perAdultPerYear": 42.63,
+      "perTiePerYear": 22.66,
+      "ties": 14703
+    }
+  },
+  "encounters": {
+    "factsByKind": {
+      "social:met-visiting": 1672
+    },
+    "residentsWhoMetSomeone": 941,
+    "shareOfResidents": 0.094,
+    "adultsWithATieGrownCloser": 6456,
+    "player": {
+      "id": "person_d553a7b3b25cc1d9",
+      "name": "Elliott Chan",
+      "met": [],
+      "tiesGrownCloser": 0
+    }
+  },
+  "mostContactsWithOnePerson": {
+    "pairs": 7815,
+    "mean": 28.854,
+    "p10": 9,
+    "median": 17,
+    "p90": 85
+  },
+  "actsPerResidentDay": {
+    "care": 0.235,
+    "contact": 0.386,
+    "join": 0,
+    "recover": 0.869
+  },
+  "answerKeys": {
+    "gss": {
+      "id": "gss-social-evening",
+      "citation": "General Social Survey 1972-2024 Cumulative Datafile, Release 3, SDA codebook (sda.berkeley.edu/sdaweb/docs/gss24rel3/DOC/hcbk0040.htm): \"How often do you spend a social evening with ...\", pooled over the years asked, percent of valid answers.",
+      "categories": [
+        "almost daily",
+        "once or twice a week (several times a week for parents and siblings)",
+        "several times a month",
+        "about once a month",
+        "several times a year",
+        "about once a year",
+        "never"
+      ],
+      "rows": {
+        "parents": {
+          "percent": [6.2, 14.3, 10, 9.9, 13.1, 8.1, 9.1],
+          "noSuchPeople": 29.1,
+          "variable": "SOCPARS"
+        },
+        "siblings": {
+          "percent": [5.3, 13.1, 12, 13.3, 21.9, 15.3, 9.9],
+          "noSuchPeople": 9.2,
+          "variable": "SOCSIBS"
+        },
+        "relatives": {
+          "percent": [9.8, 25.3, 18.3, 16.3, 18.5, 7.2, 4.6],
+          "variable": "SOCREL"
+        },
+        "neighbors": {
+          "percent": [5.3, 16.9, 11.4, 14.4, 12.8, 9.6, 29.7],
+          "variable": "SOCOMMUN"
+        },
+        "friends": {
+          "percent": [3, 17.7, 20, 21.8, 19.3, 7.8, 10.5],
+          "variable": "SOCFREND"
+        }
+      },
+      "limits": "A social evening, not any meeting; not restricted to relatives living elsewhere; pooled years."
+    },
+    "hall": {
+      "id": "hall-2019-friendship-hours",
+      "citation": "Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4), doi:10.1177/0265407518761225; University of Kansas release, March 6, 2018.",
+      "findings": "Roughly 50 hours from acquaintance to casual friend, 90 hours to friend and more than 200 hours to close friend; combined across both studies 40-60, 80-100 and more than 200 hours. Hours spent working together count less than time socializing.",
+      "limits": "Release figures; the article's coefficients were not read."
+    }
+  },
+  "seconds": {
+    "build": 18,
+    "createWithDeepPast": 37.9,
+    "simulate": 281.5
+  }
+}
