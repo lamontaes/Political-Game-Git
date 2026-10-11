@@ -1,3 +1,5 @@
+2026-10-11 — R23: data/research/public-costs/roadmap-r23-labor-transit-and-fiscal-notes.json + 0 request answers; coverage national 2025 wages/2026 compensation; 2023 rural transit; MN fiscal-note rule; gaps regional civil-works unit bids, fixed-route bus, parks/water mains and all-state drafting/manual terms; terms questions none; model GPT-6 (Codex), effort not exposed, 61 seconds.
+
 2026-10-11 — R22: data/research/legislatures/roadmap-r22-throughput.json + 2 request answers; coverage Congress, four 2024 state sessions, TX off-year rule and three municipal/county observations; gaps remaining jurisdictions, committee kills, roll-call distribution, subject series and causal voting weights; terms questions none; model GPT-6 (Codex), effort not exposed, 54 seconds.
 
 2026-10-11 — R21: data/research/legislatures/roadmap-r21-procedure.json + 11 request answers; coverage Congress and D.C. legal procedure; state/local quantitative examples separately in R22; gaps full56 state/territory procedure and five-kind council samples; committee calendars/assignments; terms questions none; model GPT-6 (Codex), effort not exposed, 90 seconds.
