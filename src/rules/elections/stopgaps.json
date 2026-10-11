@@ -1,0 +1,110 @@
+[
+  {
+    "id": "SG-P14-elections-appointment-deadline-proxy",
+    "kind": "estimated-number",
+    "file": "src/rules/elections/vacancy.ts",
+    "line": 42,
+    "whatItFakes": "Uses the median legal appointment deadline as appointment pacing.",
+    "why": "A legal maximum is not an observed appointment duration; preserve the existing proxy.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Sourced appointment chronology or an approved pacing model.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-elections-partial-term-count",
+    "kind": "missing-law",
+    "file": "src/rules/elections/executive-term-limits.ts",
+    "line": 9,
+    "whatItFakes": "Every recorded partial executive tenure counts as a full term; missing end dates imply continuity.",
+    "why": "The old checker does not implement jurisdiction-specific partial-service rules.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Dated partial-service counting facts selected by the caller.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-elections-runoff-pull",
+    "kind": "tunable-number",
+    "file": "src/rules/elections/parameters.ts",
+    "line": 8,
+    "whatItFakes": "Every runoff finalist receives at least one permille of primary pull.",
+    "why": "Legacy positive floor preserves otherwise zero-weight candidates.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Approved treatment of zero recorded primary support.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-elections-term-search",
+    "kind": "tunable-number",
+    "file": "src/rules/elections/parameters.ts",
+    "line": 15,
+    "whatItFakes": "Searches at most 16 past years for a regular executive term.",
+    "why": "Legacy bounded search can reject a valid longer cycle.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Validated cycle bounds or a direct equivalent term calculation.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-elections-consecutive-gap",
+    "kind": "estimated-number",
+    "file": "src/rules/elections/parameters.ts",
+    "line": 28,
+    "whatItFakes": "90 days determines whether executive terms are consecutive.",
+    "why": "Legacy placeholder is not researched law.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Per-office dated consecutive-service rule.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-elections-year-days",
+    "kind": "estimated-number",
+    "file": "src/rules/elections/parameters.ts",
+    "line": 35,
+    "whatItFakes": "365.25 days approximates every lookback year.",
+    "why": "The legacy checker rounds this conversion instead of using legal anniversary dates.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Sourced lookback-date interpretation and calendar arithmetic.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-elections-primary-pull",
+    "kind": "estimated-number",
+    "file": "src/rules/elections/parameters.ts",
+    "line": 43,
+    "whatItFakes": "Incumbent 1.5, party-backed 1.25, other 1 determine primary support.",
+    "why": "Hand-set standing estimates; preserve rather than recalibrate.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Evidence-based support factors admitted through the outcome-web port.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-elections-primary-share",
+    "kind": "estimated-number",
+    "file": "src/rules/elections/parameters.ts",
+    "line": 50,
+    "whatItFakes": "Missing party share becomes 0.5.",
+    "why": "The legacy tally fabricates a neutral share for missing district evidence.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Caller-supplied dated district shares with explicit missing-evidence policy.",
+    "status": "OPEN"
+  },
+  {
+    "id": "SG-P14-elections-primary-share-floor",
+    "kind": "tunable-number",
+    "file": "src/rules/elections/parameters.ts",
+    "line": 57,
+    "whatItFakes": "Every party receives at least 0.01 share in primary pull.",
+    "why": "The positive floor can give entrants support despite recorded zero share.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Approved support model and zero-share semantics.",
+    "status": "OPEN"
+  }
+]
