@@ -1,7 +1,7 @@
 {
   "schema": "m0-compact-explanations-cost/v1",
-  "status": "MEASURED_COPY_REPAIR_COST_FAIL_FOCUS_ONLY_POLICY_PENDING",
-  "collectedAtUtc": "2026-10-11T02:42:39.443603+00:00",
+  "status": "MEASURED_FOCUS_ONLY_MONTH_COST_PASS_YEAR_RUNNING",
+  "collectedAtUtc": "2026-10-11T03:52:36.527Z",
   "publicBase": "f6701d45bdade9604cffb7f1469b687c1097520d",
   "comparison": {
     "baseline": {
@@ -78,5 +78,110 @@
     ]
   },
   "sourcePinsHeld": true,
-  "nextPolicy": "CTO comment6104804832: save explanations only for the controlled person and actual daily circle, plus observer mode. No measured result for that policy yet."
+  "nextPolicy": "Focus-only policy executed and passed month cost/numeric checks; judged365daymoneyyear running on immutable copy. No annual result yet.",
+  "focusOnlySpeedResult": {
+    "schema": "p16-focus-only-compact-month-cost/v3",
+    "baseline": {
+      "seconds": 103.31104806599998,
+      "daysPerMinute": 18.003882787170486
+    },
+    "candidate": {
+      "seconds": 95.29907361299999,
+      "daysPerMinute": 19.517503470739644
+    },
+    "candidateOverBaseline": 0.9224480382012816,
+    "limit": 1.2,
+    "costPass": true,
+    "actualNumericTotalsMatch": true,
+    "numericComparisons": {
+      "outcomes": true,
+      "workResultCount": true,
+      "payrollMoneyTotals": true,
+      "workTotalsByJob": true,
+      "externalFlowsByOwner": true
+    },
+    "pass": true,
+    "inputSha256": "821f2934e37922f8c1718d89c5091a3359f38243e63c0a9b3b4634b4189ee82c",
+    "simulatedDaysPerRun": 31,
+    "candidateWarmupRuns": 1,
+    "candidateMeasuredRuns": 3,
+    "retainedBaselineWarmupRuns": 1,
+    "retainedBaselineMeasuredRuns": 3,
+    "baselineCollectedAtUtc": "2026-10-11T02:23:55.565Z",
+    "candidateCollectedAtUtc": "2026-10-11T03:52:36.527Z",
+    "retainedBaselineReceiptPin": {
+      "path": "/workspace/p8-review-artifacts/m0-resume/compact-choice-month-cost-v1/accepted-part1-source.json",
+      "sha256": "d3dabd8a4f9c9c10a3cbb3d386b302cb9a4ba1c5be1c85e25d07b2767c4ccd4c"
+    },
+    "baselineMethod": "Accepted Part1 SOURCE input recipe and retained original one warmup plus three fresh measured worlds; no baseline rerun in this focus-policy window",
+    "withinVariantCollectorOutcomesMatch": true,
+    "crossVariantDomainHashComparison": {
+      "performed": false,
+      "reason": "Focus-only policy intentionally removes saved explanation metadata; no whole-domain or across-variant outcome-hash equality is asserted"
+    },
+    "numericBaseline": {
+      "allTimeActs": 71180,
+      "people": 10001,
+      "alive": 10001,
+      "jobs": 1781,
+      "endedJobs": 0,
+      "contracts": 0,
+      "organizationCashMinor": 2420336392,
+      "residentCashMinor": 1477313068
+    },
+    "numericCandidate": {
+      "allTimeActs": 71180,
+      "people": 10001,
+      "alive": 10001,
+      "jobs": 1781,
+      "endedJobs": 0,
+      "contracts": 0,
+      "organizationCashMinor": 2420336392,
+      "residentCashMinor": 1477313068
+    },
+    "payrollBaseline": {
+      "earnedMinor": 327052241,
+      "dueRecognizedMinor": 210193244,
+      "paidMinor": 208434472,
+      "accruedMinor": 116858997,
+      "arrearsMinor": 1758772
+    },
+    "payrollCandidate": {
+      "earnedMinor": 327052241,
+      "dueRecognizedMinor": 210193244,
+      "paidMinor": 208434472,
+      "accruedMinor": 116858997,
+      "arrearsMinor": 1758772
+    },
+    "annualResult": null,
+    "scope": "Matched month performance and stated actual numeric outcomes only; separate circle equality/reference proof, no full-world or financial-year/M0 grade",
+    "actualRuns": [
+      {
+        "index": 1,
+        "seconds": 95.29907361299999,
+        "daysPerMinute": 19.517503470739644,
+        "workResultCount": 31176
+      },
+      {
+        "index": 2,
+        "seconds": 93.28620507899998,
+        "daysPerMinute": 19.9386393564284,
+        "workResultCount": 31176
+      },
+      {
+        "index": 3,
+        "seconds": 97.09771719,
+        "daysPerMinute": 19.155960138180877,
+        "workResultCount": 31176
+      }
+    ],
+    "warmup": {
+      "index": 0,
+      "seconds": 119.100185291,
+      "daysPerMinute": 15.61710416701219,
+      "workResultCount": 31176
+    },
+    "comparisonSha256": "234a727b431cb9d23093a817406b3368a0c8d8d63ae05dffa0130f18431c11a1",
+    "receiptSha256": "c24732cf9dc07ca95665e572bfe131de78bd72a7e32a613f79a453a851f0dd5d"
+  }
 }

@@ -1,3 +1,11 @@
+import { validateCompactChoice } from "./compact-choice";
+import {
+  prepareModuleState,
+  installModuleState,
+  moduleState,
+} from "./module-state";
+import { moduleCalendar } from "./module-calendar";
+import { voterGroups } from "./voter-groups";
 import {
   emptyWorkRuntime,
   admitWorkCommitment,
@@ -59,6 +67,7 @@ import { stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
 import type {
   ActOffer,
+  CompactChoiceTraceV1,
   DecisionResult,
   CoreAPI,
   CoreData,
@@ -72,6 +81,7 @@ import type {
   PersonInput,
   PersonState,
   Relationship,
+  RelationshipChangeEvidence,
   RelationshipMeasureChange,
   Source,
 } from "./types";
@@ -85,6 +95,64 @@ const actualCore = new WeakSet<CoreState>(),
 export function assertFactoryCoreV1(core: CoreState): void {
   if (!nativeFactoryCoreHas.call(actualCore, core))
     throw new Error("Part1b requires its actual factory-owned core.");
+}
+
+const freezeRelationshipEvidence = Object.freeze,
+  defineRelationshipEvidence = Object.defineProperty,
+  createRelationshipEvidence = Object.create;
+
+// Copy original evidence before changing a tie; do not invoke caller getters or retain aliases.
+function copyRelationshipEvidence<T>(value: T, active = new Set<object>()): T {
+  if (
+    value === null ||
+    value === undefined ||
+    typeof value === "string" ||
+    typeof value === "boolean"
+  )
+    return value;
+  if (typeof value === "number" && Number.isFinite(value)) return value;
+  if (typeof value !== "object" || active.has(value))
+    throw new Error("Invalid relationship evidence value or cycle.");
+  const array = Array.isArray(value),
+    prototype = Object.getPrototypeOf(value);
+  if (
+    prototype !== (array ? Array.prototype : Object.prototype) &&
+    prototype !== null
+  )
+    throw new Error("Relationship evidence requires plain saved data.");
+  if (array) {
+    const length = Object.getOwnPropertyDescriptor(value, "length")?.value;
+    if (
+      prototype !== Array.prototype ||
+      !Number.isSafeInteger(length) ||
+      length < 0 ||
+      Reflect.ownKeys(value).length !== length + 1
+    )
+      throw new Error(
+        "Relationship evidence arrays must be ordinary dense arrays.",
+      );
+    for (let index = 0; index < length; index++)
+      if (!Object.prototype.hasOwnProperty.call(value, String(index)))
+        throw new Error(
+          "Relationship evidence array has a missing recorded element.",
+        );
+  }
+  active.add(value);
+  const result = array ? [] : createRelationshipEvidence(null);
+  for (const key of Reflect.ownKeys(value)) {
+    if (typeof key !== "string")
+      throw new Error("Invalid relationship evidence key.");
+    const descriptor = Object.getOwnPropertyDescriptor(value, key);
+    if (!descriptor || !("value" in descriptor))
+      throw new Error("Relationship evidence requires own data fields.");
+    if (array && key === "length") continue;
+    defineRelationshipEvidence(result, key, {
+      value: copyRelationshipEvidence(descriptor.value, active),
+      enumerable: descriptor.enumerable,
+    });
+  }
+  active.delete(value);
+  return freezeRelationshipEvidence(result) as T;
 }
 
 function index<K>(map: Map<K, Set<string>>, key: K, id: string): void {
@@ -211,6 +279,8 @@ export function createCore(
     membershipsByPerson: new Map(),
     pendingCallbacks: new Map(),
     durableLog: new Map(),
+    quietChoices: new Map(),
+    quietChoiceByPerson: new Map(),
     logByPerson: new Map(),
     logByKind: new Map(),
     logByPlace: new Map(),
@@ -375,6 +445,19 @@ export function createCore(
     }
   }
   for (const module of options.modules ?? []) registerModule(core, module);
+  const restoredModules = new Set<string>();
+  for (const snapshot of input.moduleState ?? []) {
+    if (restoredModules.has(snapshot.moduleId))
+      throw new Error("Duplicate opening module snapshot.");
+    moduleState(core, snapshot.moduleId).restore(snapshot);
+    restoredModules.add(snapshot.moduleId);
+  }
+  const openingGroups = voterGroups(core);
+  for (const row of input.voterGroups ?? []) {
+    if (openingGroups.get(row.id))
+      throw new Error("Duplicate opening voter group.");
+    openingGroups.put(row);
+  }
   assertCoreIntegrity(core);
   nativeFactoryCoreAdd.call(actualCore, core);
   return core;
@@ -435,6 +518,12 @@ function admitPerson(core: CoreState, row: PersonInput): PersonState {
 
 export function registerModule(core: CoreState, module: CoreModule): void {
   if (!module.id.trim()) throw new Error("Module identity is empty.");
+  const preparedState = prepareModuleState(module);
+  if (
+    module.onCalendarWork !== undefined &&
+    typeof module.onCalendarWork !== "function"
+  )
+    throw new Error("Invalid institutional calendar handler.");
   if (core.modules.has(module.id))
     throw new Error(`Duplicate module: ${module.id}`);
   if (module.onEvent && !module.eventKinds)
@@ -496,6 +585,7 @@ export function registerModule(core: CoreState, module: CoreModule): void {
     );
   registerModuleNotifications(core, module);
   core.modules.set(module.id, module);
+  installModuleState(core, preparedState);
   for (const [name, provider] of Object.entries(module.reasonProviders ?? {}))
     core.reasonProviders.set(name, provider);
 }
@@ -681,6 +771,9 @@ export function coreAPI(core: CoreState): CoreAPI {
   };
   const journalHost = cashJournalHost(core);
   const api: CoreAPI = {
+    moduleState: (moduleId) => moduleState(core, moduleId),
+    moduleCalendar: (moduleId) => moduleCalendar(core, moduleId),
+    voterGroups: () => voterGroups(core),
     version: core.apiVersion,
     state: core,
     parameter: p,
@@ -772,7 +865,7 @@ export function coreAPI(core: CoreState): CoreAPI {
     recordDiscretionaryTime(personId, minutes) {
       recordDiscretionaryTime(core, api, personId, minutes);
     },
-    relationship(actorId, otherId, kind, change) {
+    relationship(actorId, otherId, kind, change, decision) {
       if (
         !core.people.has(actorId) ||
         !core.people.has(otherId) ||
@@ -792,9 +885,121 @@ export function coreAPI(core: CoreState): CoreAPI {
         level: p("zero"),
         lastContactDate: core.date,
       };
+      const at = core.date,
+        nextLevel = Math.tanh(row.level + change),
+        actualActor = core.people.get(actorId),
+        actualOther = core.people.get(otherId),
+        storedKind = row.kind;
+      const originalDecision =
+        decision === undefined ? undefined : copyRelationshipEvidence(decision);
+      const selected = originalDecision?.selected,
+        compact = originalDecision?.compactChoice;
+      if (compact) {
+        validateCompactChoice(compact);
+        const reasons = originalDecision!.selectedReasons;
+        if (
+          !reasons ||
+          Object.keys(reasons).length !==
+            Object.keys(compact.chosen.contributions).length ||
+          Object.keys(reasons).some(
+            (key) =>
+              reasons[key as keyof typeof reasons] !==
+              compact.chosen.contributions[key as keyof typeof reasons],
+          )
+        )
+          throw new Error(
+            "Relationship compact choice differs from its selected reasons.",
+          );
+      }
+      if (
+        originalDecision &&
+        (originalDecision.actorId !== actorId ||
+          originalDecision.date !== at ||
+          !selected?.definition?.id ||
+          selected.targetId !== otherId ||
+          typeof originalDecision.reasonKey !== "string" ||
+          !originalDecision.reasonKey.trim() ||
+          (compact &&
+            (compact.version !== "core2-compact-choice-v1" ||
+              compact.actorId !== actorId ||
+              compact.date !== at ||
+              compact.chosen?.actionId !== selected.definition.id ||
+              compact.chosen?.targetId !== otherId)))
+      )
+        throw new Error(
+          "Invalid relationship decision identity, date or selected target.",
+        );
+      const fullTrace =
+        core.observer ||
+        actorId === core.playerId ||
+        core.focusPersonIds.has(actorId) ||
+        isExplicitlyControlledPersonV1(core, actorId);
+      const savedDecision = !originalDecision
+        ? undefined
+        : fullTrace
+          ? originalDecision
+          : copyRelationshipEvidence({
+              actorId,
+              date: at,
+              reasonKey: originalDecision.reasonKey,
+              ...(originalDecision.selectedReasons
+                ? { selectedReasons: originalDecision.selectedReasons }
+                : {}),
+              ...(!compact && originalDecision.selectedReasonTerms
+                ? { selectedReasonTerms: originalDecision.selectedReasonTerms }
+                : {}),
+              ...(compact ? { compactChoice: compact } : {}),
+              ...(originalDecision.controlledChoice
+                ? { controlledChoice: originalDecision.controlledChoice }
+                : {}),
+            });
+      const retainRelationshipEvidence =
+        fullTrace ||
+        otherId === core.playerId ||
+        core.focusPersonIds.has(otherId) ||
+        isExplicitlyControlledPersonV1(core, otherId);
+      const latestChange = retainRelationshipEvidence
+        ? copyRelationshipEvidence({
+            version: "core2-relationship-change-v1",
+            date: at,
+            actorId,
+            otherId,
+            kind: row.kind,
+            requestedKind: kind,
+            requestedChange: change,
+            created: previous === undefined,
+            before: {
+              level: beforeLevel,
+              ...(beforeContactDate === undefined
+                ? {}
+                : { lastContactDate: beforeContactDate }),
+            },
+            after: { level: nextLevel, lastContactDate: at },
+            cause: originalDecision
+              ? "chosen-act"
+              : "recorded-relationship-update",
+            ...(selected ? { actionId: selected.definition.id } : {}),
+            sourceRecordRefs: [
+              { kind: "person", id: actorId },
+              { kind: "person", id: otherId },
+            ],
+            ...(savedDecision ? { decision: savedDecision } : {}),
+          } satisfies RelationshipChangeEvidence)
+        : undefined;
+      if (
+        core.date !== at ||
+        core.people.get(actorId) !== actualActor ||
+        core.people.get(otherId) !== actualOther ||
+        core.relationships.get(id) !== previous ||
+        row.level !== beforeLevel ||
+        row.lastContactDate !== (beforeContactDate ?? at) ||
+        row.kind !== storedKind
+      )
+        throw new Error("Stale relationship change basis.");
       api.stopgap("SG-P8-relationship-closeness-update");
-      row.level = Math.tanh(row.level + change);
-      row.lastContactDate = core.date;
+      row.level = nextLevel;
+      row.lastContactDate = at;
+      row.latestChange = latestChange;
       core.relationships.set(id, row);
       index(core.relationshipsByPerson, actorId, id);
       index(core.relationshipsByPerson, otherId, id);
@@ -887,6 +1092,61 @@ export function coreAPI(core: CoreState): CoreAPI {
         throw new Error("Acts must be recorded on the current date.");
       const actor = prepared?.actor ?? core.people.get(actorId);
       if (!actor) throw new Error("Act actor is absent.");
+      const fullTrace =
+        core.observer ||
+        core.focusPersonIds.has(actorId) ||
+        actorId === core.playerId ||
+        controlled;
+      const originalCount = actor.actCount,
+        originalDate = core.date;
+      // Dropping outsider storage does not waive admission of supplied evidence.
+      const decisionPrototype = Object.getPrototypeOf(reason);
+      if (decisionPrototype !== Object.prototype && decisionPrototype !== null)
+        throw new Error("Saved compact choice requires an ordinary decision.");
+      const compactDescriptor = Object.getOwnPropertyDescriptor(
+        reason,
+        "compactChoice",
+      );
+      if (compactDescriptor && !("value" in compactDescriptor))
+        throw new Error("Saved compact choice requires an own data field.");
+      const compact =
+        !fullTrace && compactDescriptor?.value !== undefined
+          ? copyRelationshipEvidence(
+              compactDescriptor.value as Readonly<CompactChoiceTraceV1>,
+            )
+          : undefined;
+      if (compact) {
+        validateCompactChoice(compact);
+        const contributions = reason.selectedReasons;
+        if (
+          compact.actorId !== actorId ||
+          compact.date !== date ||
+          compact.chosen.actionId !== offer.definition.id ||
+          compact.chosen.targetId !== offer.targetId ||
+          compact.chosen.driveId !== offer.driveId ||
+          compact.chosen.availableHours !== offer.availableHours ||
+          compact.chosen.effortHours !==
+            (offer.effortHours ?? p(offer.definition.effortParameter)) ||
+          !contributions ||
+          Object.keys(contributions).length !==
+            Object.keys(compact.chosen.contributions).length ||
+          Object.keys(contributions).some(
+            (key) =>
+              contributions[key as keyof typeof contributions] !==
+              compact.chosen.contributions[key as keyof typeof contributions],
+          )
+        )
+          throw new Error(
+            "Saved quiet choice differs from its actual committed selection.",
+          );
+      }
+      const committedId = `act:${date}:${actorId}:${originalCount + p("one")}`;
+      if (
+        core.date !== originalDate ||
+        core.people.get(actorId) !== actor ||
+        actor.actCount !== originalCount
+      )
+        throw new Error("Stale saved quiet choice basis.");
       prepared?.verify();
       actor.lastChoice = offer.definition.id;
       actor.lastReason = reason.reasonKey;
@@ -895,7 +1155,6 @@ export function coreAPI(core: CoreState): CoreAPI {
         offer.definition.id,
         (actor.actsByKind.get(offer.definition.id) ?? p("zero")) + p("one"),
       );
-      const committedId = `act:${date}:${actorId}:${actor.actCount}`;
       const month = date.slice(p("zero"), p("isoMonthCharacters"));
       const totalKey = `${month}:${offer.definition.id}`;
       core.actsByMonthKind.set(
@@ -922,12 +1181,7 @@ export function coreAPI(core: CoreState): CoreAPI {
       count.goalContribution += reason.selectedReasons?.goal ?? p("zero");
       count.driveContribution += reason.selectedReasons?.drive ?? p("zero");
       index(core.actCountersByMonth, month, key);
-      if (
-        core.observer ||
-        core.focusPersonIds.has(actorId) ||
-        actorId === core.playerId ||
-        controlled
-      )
+      if (fullTrace)
         retainLog(core, {
           id: committedId,
           date,
