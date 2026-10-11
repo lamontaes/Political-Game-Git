@@ -2,8 +2,14 @@
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
+## 2026-10-11
+
+- **CODEX-GUARD, GUARD-CHECK send-back:** the profile month now has an explicit receipt path outside the checkout, and the month runner rejects missing output before opening a world. The new tooling regression reproduces the old untracked `--seed` file and verifies two complete paired runs restore a clean named branch. Both proof tools' named-branch requirement is documented. Next: GUARD-CHECK verifies this single defect repair on #3941.
+
 ## 2026-10-10
 
+- **CODEX-GUARD (M0-guard), built for Sonnet finishing:** the golden-path runner and sequential month guard are on draft #3941. Eleven detector tests pass. The approved provisional step-2 command passed, a real acquaintance-record break turned it red, and restoration passed, each under 23 seconds in the drawn place. A real clock slowdown measured 1.990 times its base and was detected; its source was restored. The generated baseline already exceeds the core Source-share budget (75.87% versus 74.91%), so the combined guard remains red. Main still lacks the core and feature commands; no acceptance flags changed. Next: Sonnet verification, the full people test when supplied, and the core owner’s input-budget repair. Evidence: `scripts/core2-guard/evidence/`.
+- **CODEX-GUARD:** reserved `pool/M0-guard` from main and proposed the M0-10/M0-11 contract for CTO approval. No implementation or failure proofs yet. Startup bench check failed because main has no `bench` script; all feature commands are unregistered. Project claim could not be written because the integration denies Project access. Next: CTO approval, command registration, then the two guards and deliberate-failure proofs.
 - **OPUS-PEOPLE (M0-people), parts 1 to 4 in review.**
   - What changes for the player: every resident of a generated town has relatives, a temperament, and an age and home that follow the place's records. Whether each relative is alive follows the life table for their own birth year. Homes now include grown children and groups of three or more housemates. Children attend real public schools from the P12 data, and employed residents know their coworkers. Closeness grows with time together and fades without it. Only people with a cause look up offices, meeting places and groups, and they stop once they know one.
   - Measured in the town of the P10 proof seed (Sacramento): adults by age are within 1.3 points of the city's ACS in every band. Children attend 132 elementary and 55 high schools, where before the town shared one per stage. 1,742 of 1,752 employed residents know 6.6 coworkers each. 31 days simulate in 86.7 s, against 87.1 s for part 2. The kin test seed draws Stanwood, Washington, which now matches its state's ACS on older adults' living arrangements.

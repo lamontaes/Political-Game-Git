@@ -1,0 +1,572 @@
+{
+  "schema": "m0-performance-proof-v1",
+  "revision": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+  "place": {
+    "seed": "8e96db7479d2ebb31cef318c45dc2d1cb82df04c780be8af8515dab8c0bcde4d",
+    "key": "2259165",
+    "name": "Parks, Louisiana",
+    "state": "US-LA"
+  },
+  "mutation": "Temporary CPU loop at the real advanceCore boundary, removed after measurement",
+  "injectedMilliseconds": 31538,
+  "baseline": {
+    "schema": "core2-paired-v1",
+    "passed": false,
+    "speedPassed": true,
+    "openingBudgetPassed": false,
+    "baseRevision": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+    "headRevision": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+    "seed": "8e96db7479d2ebb31cef318c45dc2d1cb82df04c780be8af8515dab8c0bcde4d",
+    "placeKey": "2259165",
+    "place": {
+      "key": "2259165",
+      "name": "Parks, Louisiana",
+      "countyNames": "St. Martin Parish, Louisiana",
+      "referencePopulation": "671"
+    },
+    "baseMillisecondsPerDay": 1017.3350185806452,
+    "headMillisecondsPerDay": 1017.3350185806452,
+    "ratio": 1,
+    "maximumRatio": 1.2,
+    "peakRssMiB": {
+      "base": 2973.92578125,
+      "head": 2973.92578125
+    },
+    "opening": {
+      "base": {
+        "bytes": 386660087,
+        "residents": 10001,
+        "bytesPerResident": 38662.14248575143,
+        "sourceShare": 0.758677657360585,
+        "budget": {
+          "passed": false,
+          "maxBytesPerResident": 80554,
+          "maxSourceByteShare": 0.7491419523895138,
+          "sourceShareUsed": "declaredConservativeSourceByteShare",
+          "violations": [
+            "Opening input declared conservative Source-byte share exceeds the registered budget."
+          ]
+        }
+      },
+      "head": {
+        "bytes": 386660087,
+        "residents": 10001,
+        "bytesPerResident": 38662.14248575143,
+        "sourceShare": 0.758677657360585,
+        "budget": {
+          "passed": false,
+          "maxBytesPerResident": 80554,
+          "maxSourceByteShare": 0.7491419523895138,
+          "sourceShareUsed": "declaredConservativeSourceByteShare",
+          "violations": [
+            "Opening input declared conservative Source-byte share exceeds the registered budget."
+          ]
+        }
+      }
+    },
+    "yearEstimateScope": "Relative estimate from identical 31-day windows; not a full-year two-minute proof"
+  },
+  "comparison": {
+    "schema": "core2-paired-v1",
+    "passed": false,
+    "speedPassed": false,
+    "openingBudgetPassed": false,
+    "baseRevision": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+    "headRevision": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+    "seed": "8e96db7479d2ebb31cef318c45dc2d1cb82df04c780be8af8515dab8c0bcde4d",
+    "placeKey": "2259165",
+    "place": {
+      "key": "2259165",
+      "name": "Parks, Louisiana",
+      "countyNames": "St. Martin Parish, Louisiana",
+      "referencePopulation": "671"
+    },
+    "baseMillisecondsPerDay": 1017.3350185806452,
+    "headMillisecondsPerDay": 2024.2115278387098,
+    "ratio": 1.9897196998711675,
+    "maximumRatio": 1.2,
+    "peakRssMiB": {
+      "base": 2973.92578125,
+      "head": 2984.921875
+    },
+    "opening": {
+      "base": {
+        "bytes": 386660087,
+        "residents": 10001,
+        "bytesPerResident": 38662.14248575143,
+        "sourceShare": 0.758677657360585,
+        "budget": {
+          "passed": false,
+          "maxBytesPerResident": 80554,
+          "maxSourceByteShare": 0.7491419523895138,
+          "sourceShareUsed": "declaredConservativeSourceByteShare",
+          "violations": [
+            "Opening input declared conservative Source-byte share exceeds the registered budget."
+          ]
+        }
+      },
+      "head": {
+        "bytes": 386660087,
+        "residents": 10001,
+        "bytesPerResident": 38662.14248575143,
+        "sourceShare": 0.758677657360585,
+        "budget": {
+          "passed": false,
+          "maxBytesPerResident": 80554,
+          "maxSourceByteShare": 0.7491419523895138,
+          "sourceShareUsed": "declaredConservativeSourceByteShare",
+          "violations": [
+            "Opening input declared conservative Source-byte share exceeds the registered budget."
+          ]
+        }
+      }
+    },
+    "yearEstimateScope": "Relative estimate from identical 31-day windows; not a full-year two-minute proof"
+  },
+  "base": [
+    {
+      "schema": "core2-month-v1",
+      "revision": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+      "sourcePatchSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "seed": "8e96db7479d2ebb31cef318c45dc2d1cb82df04c780be8af8515dab8c0bcde4d",
+      "placeKey": "2259165",
+      "place": {
+        "key": "2259165",
+        "name": "Parks, Louisiana",
+        "countyNames": "St. Martin Parish, Louisiana",
+        "referencePopulation": "671"
+      },
+      "inputHash": "c058da6e0779955e1b3fcff6db5840c72a287ed40837aedbebf2de7706591d0a",
+      "startedAt": "2021-01-01",
+      "days": 31,
+      "settings": {
+        "openingEmployment": true,
+        "scheduledWork": true,
+        "monthDays": 31
+      },
+      "host": {
+        "hostname": "9d570aa31b71",
+        "node": "v24.19.0",
+        "platform": "linux",
+        "architecture": "x64",
+        "cpu": "AMD EPYC 9V45 96-Core Processor"
+      },
+      "phases": {
+        "population": 2479.0968350000003,
+        "deepPast": 324.93703800000003,
+        "civicInputs": 3.470965000000433,
+        "openingPeers": 96.82589999999982
+      },
+      "initializeMilliseconds": 233.64741200000026,
+      "advanceMilliseconds": 31642.201954999997,
+      "millisecondsPerDay": 1020.7161920967741,
+      "peakRssMiB": 2143.5703125,
+      "opening": {
+        "bytes": 386660087,
+        "residents": 10001,
+        "bytesPerResident": 38662.14248575143,
+        "sourceShare": 0.758677657360585,
+        "budget": {
+          "passed": false,
+          "maxBytesPerResident": 80554,
+          "maxSourceByteShare": 0.7491419523895138,
+          "sourceShareUsed": "declaredConservativeSourceByteShare",
+          "violations": [
+            "Opening input declared conservative Source-byte share exceeds the registered budget."
+          ]
+        }
+      },
+      "acts": 86936
+    },
+    {
+      "schema": "core2-month-v1",
+      "revision": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+      "sourcePatchSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "seed": "8e96db7479d2ebb31cef318c45dc2d1cb82df04c780be8af8515dab8c0bcde4d",
+      "placeKey": "2259165",
+      "place": {
+        "key": "2259165",
+        "name": "Parks, Louisiana",
+        "countyNames": "St. Martin Parish, Louisiana",
+        "referencePopulation": "671"
+      },
+      "inputHash": "c058da6e0779955e1b3fcff6db5840c72a287ed40837aedbebf2de7706591d0a",
+      "startedAt": "2021-01-01",
+      "days": 31,
+      "settings": {
+        "openingEmployment": true,
+        "scheduledWork": true,
+        "monthDays": 31
+      },
+      "host": {
+        "hostname": "9d570aa31b71",
+        "node": "v24.19.0",
+        "platform": "linux",
+        "architecture": "x64",
+        "cpu": "AMD EPYC 9V45 96-Core Processor"
+      },
+      "phases": {
+        "population": 2350.309771,
+        "deepPast": 388.6075000000001,
+        "civicInputs": 2.876118999999562,
+        "openingPeers": 88.09375600000021
+      },
+      "initializeMilliseconds": 279.5653079999993,
+      "advanceMilliseconds": 31330.328631000004,
+      "millisecondsPerDay": 1010.6557622903227,
+      "peakRssMiB": 2973.92578125,
+      "opening": {
+        "bytes": 386660087,
+        "residents": 10001,
+        "bytesPerResident": 38662.14248575143,
+        "sourceShare": 0.758677657360585,
+        "budget": {
+          "passed": false,
+          "maxBytesPerResident": 80554,
+          "maxSourceByteShare": 0.7491419523895138,
+          "sourceShareUsed": "declaredConservativeSourceByteShare",
+          "violations": [
+            "Opening input declared conservative Source-byte share exceeds the registered budget."
+          ]
+        }
+      },
+      "acts": 86936
+    },
+    {
+      "schema": "core2-month-v1",
+      "revision": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+      "sourcePatchSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "seed": "8e96db7479d2ebb31cef318c45dc2d1cb82df04c780be8af8515dab8c0bcde4d",
+      "placeKey": "2259165",
+      "place": {
+        "key": "2259165",
+        "name": "Parks, Louisiana",
+        "countyNames": "St. Martin Parish, Louisiana",
+        "referencePopulation": "671"
+      },
+      "inputHash": "c058da6e0779955e1b3fcff6db5840c72a287ed40837aedbebf2de7706591d0a",
+      "startedAt": "2021-01-01",
+      "days": 31,
+      "settings": {
+        "openingEmployment": true,
+        "scheduledWork": true,
+        "monthDays": 31
+      },
+      "host": {
+        "hostname": "9d570aa31b71",
+        "node": "v24.19.0",
+        "platform": "linux",
+        "architecture": "x64",
+        "cpu": "AMD EPYC 9V45 96-Core Processor"
+      },
+      "phases": {
+        "population": 2203.63871,
+        "deepPast": 332.41727299999957,
+        "civicInputs": 2.4749799999999595,
+        "openingPeers": 82.73936200000026
+      },
+      "initializeMilliseconds": 240.4412569999986,
+      "advanceMilliseconds": 31537.385576,
+      "millisecondsPerDay": 1017.3350185806452,
+      "peakRssMiB": 2869.7421875,
+      "opening": {
+        "bytes": 386660087,
+        "residents": 10001,
+        "bytesPerResident": 38662.14248575143,
+        "sourceShare": 0.758677657360585,
+        "budget": {
+          "passed": false,
+          "maxBytesPerResident": 80554,
+          "maxSourceByteShare": 0.7491419523895138,
+          "sourceShareUsed": "declaredConservativeSourceByteShare",
+          "violations": [
+            "Opening input declared conservative Source-byte share exceeds the registered budget."
+          ]
+        }
+      },
+      "acts": 86936
+    }
+  ],
+  "deliberatelySlow": [
+    {
+      "schema": "core2-month-v1",
+      "revision": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+      "sourcePatchSha256": "86d65a574cbffb802e0683c24567c68d26aaf362e694038196d90967d953bd9d",
+      "seed": "8e96db7479d2ebb31cef318c45dc2d1cb82df04c780be8af8515dab8c0bcde4d",
+      "placeKey": "2259165",
+      "place": {
+        "key": "2259165",
+        "name": "Parks, Louisiana",
+        "countyNames": "St. Martin Parish, Louisiana",
+        "referencePopulation": "671"
+      },
+      "inputHash": "c058da6e0779955e1b3fcff6db5840c72a287ed40837aedbebf2de7706591d0a",
+      "startedAt": "2021-01-01",
+      "days": 31,
+      "settings": {
+        "openingEmployment": true,
+        "scheduledWork": true,
+        "monthDays": 31
+      },
+      "host": {
+        "hostname": "9d570aa31b71",
+        "node": "v24.19.0",
+        "platform": "linux",
+        "architecture": "x64",
+        "cpu": "AMD EPYC 9V45 96-Core Processor"
+      },
+      "phases": {
+        "population": 2478.1614849999996,
+        "deepPast": 326.36495399999967,
+        "civicInputs": 2.971711000000141,
+        "openingPeers": 85.43810900000062
+      },
+      "initializeMilliseconds": 248.80674900000122,
+      "advanceMilliseconds": 62750.55736300001,
+      "millisecondsPerDay": 2024.2115278387098,
+      "peakRssMiB": 2984.921875,
+      "opening": {
+        "bytes": 386660087,
+        "residents": 10001,
+        "bytesPerResident": 38662.14248575143,
+        "sourceShare": 0.758677657360585,
+        "budget": {
+          "passed": false,
+          "maxBytesPerResident": 80554,
+          "maxSourceByteShare": 0.7491419523895138,
+          "sourceShareUsed": "declaredConservativeSourceByteShare",
+          "violations": [
+            "Opening input declared conservative Source-byte share exceeds the registered budget."
+          ]
+        }
+      },
+      "acts": 86936
+    },
+    {
+      "schema": "core2-month-v1",
+      "revision": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+      "sourcePatchSha256": "86d65a574cbffb802e0683c24567c68d26aaf362e694038196d90967d953bd9d",
+      "seed": "8e96db7479d2ebb31cef318c45dc2d1cb82df04c780be8af8515dab8c0bcde4d",
+      "placeKey": "2259165",
+      "place": {
+        "key": "2259165",
+        "name": "Parks, Louisiana",
+        "countyNames": "St. Martin Parish, Louisiana",
+        "referencePopulation": "671"
+      },
+      "inputHash": "c058da6e0779955e1b3fcff6db5840c72a287ed40837aedbebf2de7706591d0a",
+      "startedAt": "2021-01-01",
+      "days": 31,
+      "settings": {
+        "openingEmployment": true,
+        "scheduledWork": true,
+        "monthDays": 31
+      },
+      "host": {
+        "hostname": "9d570aa31b71",
+        "node": "v24.19.0",
+        "platform": "linux",
+        "architecture": "x64",
+        "cpu": "AMD EPYC 9V45 96-Core Processor"
+      },
+      "phases": {
+        "population": 2254.0274980000004,
+        "deepPast": 302.428578,
+        "civicInputs": 2.7157600000000457,
+        "openingPeers": 86.1289539999998
+      },
+      "initializeMilliseconds": 273.41770499999984,
+      "advanceMilliseconds": 63729.356072999995,
+      "millisecondsPerDay": 2055.7856797741933,
+      "peakRssMiB": 2280.578125,
+      "opening": {
+        "bytes": 386660087,
+        "residents": 10001,
+        "bytesPerResident": 38662.14248575143,
+        "sourceShare": 0.758677657360585,
+        "budget": {
+          "passed": false,
+          "maxBytesPerResident": 80554,
+          "maxSourceByteShare": 0.7491419523895138,
+          "sourceShareUsed": "declaredConservativeSourceByteShare",
+          "violations": [
+            "Opening input declared conservative Source-byte share exceeds the registered budget."
+          ]
+        }
+      },
+      "acts": 86936
+    },
+    {
+      "schema": "core2-month-v1",
+      "revision": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+      "sourcePatchSha256": "86d65a574cbffb802e0683c24567c68d26aaf362e694038196d90967d953bd9d",
+      "seed": "8e96db7479d2ebb31cef318c45dc2d1cb82df04c780be8af8515dab8c0bcde4d",
+      "placeKey": "2259165",
+      "place": {
+        "key": "2259165",
+        "name": "Parks, Louisiana",
+        "countyNames": "St. Martin Parish, Louisiana",
+        "referencePopulation": "671"
+      },
+      "inputHash": "c058da6e0779955e1b3fcff6db5840c72a287ed40837aedbebf2de7706591d0a",
+      "startedAt": "2021-01-01",
+      "days": 31,
+      "settings": {
+        "openingEmployment": true,
+        "scheduledWork": true,
+        "monthDays": 31
+      },
+      "host": {
+        "hostname": "9d570aa31b71",
+        "node": "v24.19.0",
+        "platform": "linux",
+        "architecture": "x64",
+        "cpu": "AMD EPYC 9V45 96-Core Processor"
+      },
+      "phases": {
+        "population": 2306.642447,
+        "deepPast": 308.2324779999999,
+        "civicInputs": 2.7705910000004224,
+        "openingPeers": 84.88640099999975
+      },
+      "initializeMilliseconds": 295.0129619999989,
+      "advanceMilliseconds": 62201.887314,
+      "millisecondsPerDay": 2006.512494,
+      "peakRssMiB": 2801.77734375,
+      "opening": {
+        "bytes": 386660087,
+        "residents": 10001,
+        "bytesPerResident": 38662.14248575143,
+        "sourceShare": 0.758677657360585,
+        "budget": {
+          "passed": false,
+          "maxBytesPerResident": 80554,
+          "maxSourceByteShare": 0.7491419523895138,
+          "sourceShareUsed": "declaredConservativeSourceByteShare",
+          "violations": [
+            "Opening input declared conservative Source-byte share exceeds the registered budget."
+          ]
+        }
+      },
+      "acts": 86936
+    }
+  ],
+  "slowestFunctions": [
+    {
+      "name": "m0DeliberateSlowdown src/core2/life.ts:1",
+      "ms": 31052,
+      "pct": 41.5
+    },
+    {
+      "name": "detach src/core2/finance-plan.ts:1",
+      "ms": 8472,
+      "pct": 11.3
+    },
+    {
+      "name": "(garbage collector) :0",
+      "ms": 4021,
+      "pct": 5.4
+    },
+    {
+      "name": "verify src/core2/finance-plan.ts:1",
+      "ms": 3251,
+      "pct": 4.3
+    },
+    {
+      "name": "(anonymous) src/core2/journal-state.ts:1",
+      "ms": 2431,
+      "pct": 3.3
+    },
+    {
+      "name": "directRead src/core2/finance-plan.ts:1",
+      "ms": 1785,
+      "pct": 2.4
+    },
+    {
+      "name": "submit src/core2/work-cash.ts:1",
+      "ms": 1688,
+      "pct": 2.3
+    },
+    {
+      "name": "chooseAct src/core2/choice.ts:1",
+      "ms": 1584,
+      "pct": 2.1
+    },
+    {
+      "name": "structuredClone node:internal/worker/js_transferable:113",
+      "ms": 1472,
+      "pct": 2
+    },
+    {
+      "name": "(anonymous) src/core2/tooling/opening-input-budget.ts:1",
+      "ms": 1417,
+      "pct": 1.9
+    }
+  ],
+  "restored": {
+    "schema": "core2-month-v1",
+    "revision": "7fd9ac312d982bf1ecb20b558ee20181bf79be08",
+    "sourcePatchSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "seed": "8e96db7479d2ebb31cef318c45dc2d1cb82df04c780be8af8515dab8c0bcde4d",
+    "placeKey": "2259165",
+    "place": {
+      "key": "2259165",
+      "name": "Parks, Louisiana",
+      "countyNames": "St. Martin Parish, Louisiana",
+      "referencePopulation": "671"
+    },
+    "inputHash": "c058da6e0779955e1b3fcff6db5840c72a287ed40837aedbebf2de7706591d0a",
+    "startedAt": "2021-01-01",
+    "days": 31,
+    "settings": {
+      "openingEmployment": true,
+      "scheduledWork": true,
+      "monthDays": 31
+    },
+    "host": {
+      "hostname": "9d570aa31b71",
+      "node": "v24.19.0",
+      "platform": "linux",
+      "architecture": "x64",
+      "cpu": "AMD EPYC 9V45 96-Core Processor"
+    },
+    "phases": {
+      "population": 2373.717592,
+      "deepPast": 317.4252470000001,
+      "civicInputs": 3.4355829999994967,
+      "openingPeers": 94.42700400000012
+    },
+    "initializeMilliseconds": 237.81902100000116,
+    "advanceMilliseconds": 30781.346571000002,
+    "millisecondsPerDay": 992.9466635806452,
+    "peakRssMiB": 3408.4609375,
+    "opening": {
+      "bytes": 386660087,
+      "residents": 10001,
+      "bytesPerResident": 38662.14248575143,
+      "sourceShare": 0.758677657360585,
+      "budget": {
+        "passed": false,
+        "maxBytesPerResident": 80554,
+        "maxSourceByteShare": 0.7491419523895138,
+        "sourceShareUsed": "declaredConservativeSourceByteShare",
+        "violations": [
+          "Opening input declared conservative Source-byte share exceeds the registered budget."
+        ]
+      }
+    },
+    "acts": 86936
+  },
+  "openingOversizeFixture": {
+    "passed": false,
+    "maxBytesPerResident": 80554,
+    "maxSourceByteShare": 0.7491419523895138,
+    "sourceShareUsed": "declaredConservativeSourceByteShare",
+    "violations": [
+      "Opening input bytes per resident exceed the registered budget."
+    ]
+  },
+  "elapsedMilliseconds": 579565.857111,
+  "driverRevision": "6acbe59b1a90fa57484970011c66f90fa46b9d01",
+  "rawReceiptSha256": "ac09440fec90645e2dfde5ff6d9ee7722fe2ca4caeab1800f2ec23ac4639e552"
+}
