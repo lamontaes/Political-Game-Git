@@ -1,6 +1,6 @@
 // Lifted unchanged from src/simulation/office-transition.ts; RULES-3, 2026-10-11.
 import { addDays } from "./dates";
-import type { EntityId, IsoDate, World } from "../../simulation/types";
+import type { EntityId, IsoDate } from "../../simulation/types";
 
 export const OFFICE_TRANSITION_SERVICE_ATTENDED =
   "election.transition-service-attended";
@@ -86,22 +86,6 @@ export function datedTransitionServices(
 export type TransitionServiceStatus =
   "upcoming" | "open" | "attended" | "missed";
 
-export function transitionServiceAttendance(
-  world: World,
-  personId: EntityId,
-  contestId: EntityId,
-  serviceKey: string,
-) {
-  return (
-    world.history.events.find(
-      (event) =>
-        event.type === OFFICE_TRANSITION_SERVICE_ATTENDED &&
-        event.stableKey ===
-          transitionAttendanceKey(personId, contestId, serviceKey),
-    ) ?? null
-  );
-}
-
 export function transitionAttendanceKey(
   personId: EntityId,
   contestId: EntityId,
@@ -111,14 +95,12 @@ export function transitionAttendanceKey(
 }
 
 export function transitionServiceStatus(
-  world: World,
-  personId: EntityId,
-  contestId: EntityId,
+  today: IsoDate,
+  hasAttended: boolean,
   service: DatedTransitionService,
 ): TransitionServiceStatus {
-  if (transitionServiceAttendance(world, personId, contestId, service.key))
-    return "attended";
-  if (world.currentDate < service.opensOn) return "upcoming";
-  if (world.currentDate > service.closesOn) return "missed";
+  if (hasAttended) return "attended";
+  if (today < service.opensOn) return "upcoming";
+  if (today > service.closesOn) return "missed";
   return "open";
 }

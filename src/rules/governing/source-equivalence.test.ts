@@ -8,6 +8,12 @@ const adapted = new Set([
   "budgetDeadlineConsideration",
   "procedureApplicability",
   "personnelAuthority",
+  "buildEstimatedPack",
+  "exactAge",
+  "transitionServiceStatus",
+  "validateSurfaceSlotsRule",
+  "validateRasterRule",
+  "validatePresentationRule",
 ]);
 const printer = ts.createPrinter({ removeComments: true });
 it("preserves every lifted function body against the independent legacy source", () => {
@@ -63,5 +69,30 @@ it("has no runtime import of legacy engine logic", () => {
       if (module.includes("/simulation/"))
         expect(module, `${file} runtime dependency`).toContain(".generated");
     }
+  }
+});
+
+it("accepts selected facts rather than an old World parameter", () => {
+  for (const file of readdirSync(directory).filter(
+    (f) => f.endsWith(".ts") && !f.endsWith(".test.ts"),
+  )) {
+    const sf = ts.createSourceFile(
+      file,
+      readFileSync(join(directory, file), "utf8"),
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    function visit(node: ts.Node) {
+      if (
+        ts.isFunctionDeclaration(node) ||
+        ts.isArrowFunction(node) ||
+        ts.isFunctionExpression(node)
+      )
+        for (const parameter of node.parameters)
+          if (parameter.type && ts.isTypeReferenceNode(parameter.type))
+            expect(parameter.type.typeName.getText(sf), file).not.toBe("World");
+      ts.forEachChild(node, visit);
+    }
+    visit(sf);
   }
 });

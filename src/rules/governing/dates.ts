@@ -126,3 +126,24 @@ export function ageOnDate(birthDate: IsoDate, comparisonDate: IsoDate): number {
   }
   return age;
 }
+
+export function dateAtAge(birthDate: IsoDate, age: number): IsoDate {
+  if (!Number.isSafeInteger(age) || age < 0) {
+    throw new Error("Age must be a non-negative safe integer.");
+  }
+
+  const validatedBirthDate = makeIsoDate(birthDate);
+  const targetYear = yearOf(validatedBirthDate) + age;
+  const month = Number(validatedBirthDate.slice(5, 7));
+  const day = Number(validatedBirthDate.slice(8, 10));
+
+  if (month === 2 && day === 29) {
+    try {
+      return isoDateFromParts(targetYear, month, day);
+    } catch {
+      return isoDateFromParts(targetYear, month, 28);
+    }
+  }
+
+  return isoDateFromParts(targetYear, month, day);
+}
