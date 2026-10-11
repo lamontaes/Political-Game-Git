@@ -1,4 +1,5 @@
 import { daysBetween, makeIsoDate } from "../../simulation/dates";
+import { ENCOUNTERS, meetAtJoin, meetAtVisit } from "../encounters";
 import { plannedWorkMinutesOnDate } from "./work";
 import { currentCloseness } from "../closeness";
 import { appraiseEvent, affectAt } from "../emotion";
@@ -259,15 +260,17 @@ export const LIFE_MODULE: CoreModule = {
       api.updatePerson(actorId, { affect });
     },
     contact: (api, actorId, chosen) => {
-      // P15: the visit's hours are time together.
-      api.relationship(
-        actorId,
-        chosen.targetId,
-        "contact",
-        chosen.effortHours ?? p(api, chosen.definition.effortParameter),
-      );
+      // P15: the visit's hours are time together, saved with their reason.
+      const hours =
+        chosen.effortHours ?? p(api, chosen.definition.effortParameter);
+      api.relationship(actorId, chosen.targetId, "contact", hours, {
+        cause: ENCOUNTERS.causes.visit,
+        sourceId: `visit:${api.state.date}:${actorId}:${chosen.targetId}`,
+      });
       api.updatePerson(actorId, { lastContactDate: api.state.date });
       api.updatePerson(chosen.targetId, { lastContactDate: api.state.date });
+      // P15 part 5: the visitor meets the people who live with the host.
+      meetAtVisit(api, actorId, chosen.targetId, hours);
     },
     care: (api, actorId, chosen) => {
       api.relationship(
@@ -275,6 +278,7 @@ export const LIFE_MODULE: CoreModule = {
         chosen.targetId,
         "family",
         chosen.effortHours ?? p(api, chosen.definition.effortParameter),
+        { cause: ENCOUNTERS.causes.care },
       );
       const actor = api.state.people.get(actorId)!;
       api.updatePerson(actorId, {
@@ -292,6 +296,13 @@ export const LIFE_MODULE: CoreModule = {
       const event = civicEvent(api, actorId, chosen, "association.requested");
       api.join(actorId, chosen.targetId, chosen.driveId);
       api.emit(event);
+      // P15 part 5: joining a group meets its other members.
+      meetAtJoin(
+        api,
+        actorId,
+        chosen.targetId,
+        chosen.effortHours ?? p(api, chosen.definition.effortParameter),
+      );
     },
     organize: (api, actorId, chosen) => {
       api.stopgap("SG-P8-grief-action-response");
