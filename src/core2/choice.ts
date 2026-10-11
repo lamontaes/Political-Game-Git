@@ -1,4 +1,5 @@
 import { parameter } from "./parameters";
+import { isExplicitlyControlledPersonV1 } from "./player-control-state-v1";
 import { coreAPI } from "./state";
 import type {
   ActOffer,
@@ -89,7 +90,8 @@ export function chooseAct(
   const traced =
     core.observer ||
     actor.id === core.playerId ||
-    core.focusPersonIds.has(actor.id);
+    core.focusPersonIds.has(actor.id) ||
+    isExplicitlyControlledPersonV1(core, actor.id);
   const scores: NonNullable<DecisionResult["scores"]>[number][] | undefined =
     traced ? [] : undefined;
   for (const offer of offers) {

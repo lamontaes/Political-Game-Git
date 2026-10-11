@@ -15,6 +15,10 @@ import { validateDatedWorkResult } from "./work-state";
 import { ensureWorkCashModule } from "./work-cash";
 import { ensureFinanceCashModule } from "./finance-cash";
 import { parameter as p } from "./parameters";
+import {
+  registerControlledPersonV1,
+  retireControlledPersonV1,
+} from "./player-control-state-v1";
 import type {
   CoreAPI,
   CoreInput,
@@ -932,5 +936,63 @@ describe("selective attendance validation retains actual authority and atomicity
       originalDecision,
     );
     expect(Object.isFrozen(receipt.decision)).toBe(true);
+  });
+});
+
+// Additive explicit control retention fixtures. SOURCE ONLY; UNEXECUTED.
+describe("explicitly controlled quiet attendance retention", () => {
+  it("retains actual original scored attendance while preserving zero-cash earned/time outcomes", () => {
+    const core = fresh(),
+      baseline = fresh(),
+      beforeMoney = money(core);
+    registerControlledPersonV1(core, "worker");
+    const provided = input(core),
+      decisionBefore = structuredClone(provided.decision!),
+      row = coreAPI(core).recordWorkAttendance(provided),
+      ordinary = coreAPI(baseline).recordWorkAttendance(input(baseline));
+    expect(provided.decision!.scores).toHaveLength(p("one"));
+    expect(row.decision).toEqual(decisionBefore);
+    expect(row.decision).not.toBe(provided.decision);
+    expect(core.work.detailedAttendance.get(row.id)).toBe(row);
+    expect(Object.isFrozen(row.decision)).toBe(true);
+    expect(Object.isFrozen(row.decision!.scores)).toBe(true);
+    expect(core.durableLog.get(row.sourceActId)!.decision).toBe(row.decision);
+    expect(core.logByPerson.get("worker")).toContain(row.sourceActId);
+    expect(row.earnedMinor).toBe(ordinary.earnedMinor);
+    expect(core.work.payrollLedgerByCommitment).toEqual(
+      baseline.work.payrollLedgerByCommitment,
+    );
+    expect(core.work.totalsByJob).toEqual(baseline.work.totalsByJob);
+    expect(core.work.timeByPerson).toEqual(baseline.work.timeByPerson);
+    expect(money(core)).toEqual(beforeMoney);
+    expect(core.playerId).toBeUndefined();
+    expect(core.focusPersonIds.size).toBe(p("zero"));
+    expect(core.people.get("worker")!.tier).toBe("weekly");
+    provided.decision!.reasonKey = "caller-rewrite-after-attendance";
+    expect(core.work.detailedAttendance.get(row.id)!.decision).toEqual(
+      decisionBefore,
+    );
+    expect(core.durableLog.get(row.sourceActId)!.decision).toEqual(
+      decisionBefore,
+    );
+  });
+  it("rejects private control retirement during final reflected attendance validation before native writes", () => {
+    const core = fresh(),
+      token = registerControlledPersonV1(core, "worker"),
+      provided = input(core),
+      before = saved(core);
+    let calls = p("zero");
+    const raw = new Proxy(provided, {
+      ownKeys(target) {
+        calls += p("one");
+        if (calls === p("two")) retireControlledPersonV1(core, token);
+        return Reflect.ownKeys(target);
+      },
+    });
+    expect(() => coreAPI(core).recordWorkAttendance(raw)).toThrow(
+      /Explicit control changed/,
+    );
+    expect(calls).toBeGreaterThanOrEqual(p("two"));
+    expect(saved(core)).toEqual(before);
   });
 });

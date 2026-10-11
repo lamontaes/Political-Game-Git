@@ -16,6 +16,10 @@ import {
   verifyCurrentWorkPayrollGroup,
 } from "./work-payroll-cash";
 import { ensureFinanceCashModule } from "./finance-cash";
+import {
+  registerControlledPersonV1,
+  retireControlledPersonV1,
+} from "./player-control-state-v1";
 import type {
   WorkPayrollGroupReceipt,
   WorkPayrollGroupSourceState,
@@ -823,5 +827,73 @@ it("reads grouped wages once in payroll, finance and original-roster observation
     kind: "work-payroll",
     requestedMinor: unit * p("two"),
     paidMinor: half,
+  });
+});
+
+// Additive explicit control retention fixtures. SOURCE ONLY; UNEXECUTED.
+describe("explicitly controlled quiet aggregate payroll retention", () => {
+  it("retains the canonical aggregate and exact per-job component identities with the unchanged single conserving journal", () => {
+    const f = fixture(),
+      baseline = fixture(),
+      token = registerControlledPersonV1(f.core, worker);
+    earned(f);
+    earned(baseline);
+    const result = group(f),
+      ordinary = group(baseline),
+      row = f.core.work.payrollCashSources.get(
+        result.id,
+      ) as WorkPayrollGroupSourceState;
+    expect(result.paidMinor).toBe(ordinary.paidMinor);
+    expect(result.requestedMinor).toBe(ordinary.requestedMinor);
+    expect(f.core.work.payrollLedgerByCommitment).toEqual(
+      baseline.core.work.payrollLedgerByCommitment,
+    );
+    expect(f.core.work.detailedPayroll.get(row.id)).toBe(row.result);
+    for (
+      let index = p("zero");
+      index < row.componentStates.length;
+      index += p("one")
+    ) {
+      const component = row.componentStates[index]!.result;
+      expect(row.result.components[index]).toBe(component);
+      expect(f.core.work.latestPayrollByJob.get(component.jobId)).toBe(
+        component,
+      );
+    }
+    const journalId = f.core.cashJournal.requiredBySource
+      .get(row.kind)!
+      .get(row.id)!;
+    expect(
+      f.core.cashJournal.detailedReceipts.get(journalId)!.sourceRef.id,
+    ).toBe(row.id);
+    expect(f.core.cashJournal.nextSequence).toBe(p("one"));
+    expect(f.core.work.detailedAttendance.size).toBe(p("two"));
+    expect(f.core.playerId).toBeUndefined();
+    expect(f.core.focusPersonIds.size).toBe(p("zero"));
+    expect(f.core.people.get(worker)!.tier).toBe("weekly");
+    retireControlledPersonV1(f.core, token);
+    expect(
+      workPayrollCashSourceProvider(f.api, { kind: row.kind, id: row.id })!
+        .retainFull,
+    ).toBe(true);
+    expect(() =>
+      verifyCurrentWorkPayrollGroup(f.api, row.result),
+    ).not.toThrow();
+  });
+  it("rejects control retirement between actual aggregate lookups without a split or partial commit", () => {
+    const f = fixture(),
+      token = registerControlledPersonV1(f.core, worker);
+    earned(f);
+    const before = snapshot(f.core),
+      hook = betweenLookups(
+        f,
+        () => retireControlledPersonV1(f.core, token),
+        () => undefined,
+      );
+    expect(() => settleWorkPayrollJournal(f.core, hook.api, a)).toThrow(
+      /Explicit control changed/,
+    );
+    expect(hook.calls()).toBeGreaterThanOrEqual(p("two"));
+    expect(snapshot(f.core)).toEqual(before);
   });
 });

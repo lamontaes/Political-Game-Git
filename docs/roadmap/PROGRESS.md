@@ -2,6 +2,12 @@
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
+## 2026-10-11
+
+- **SOL-1258, Part 1b:** the core now waits for issued player answers and reports exact stops and saved explanations. In randomly drawn Pleasant View, Utah, seven days produced eleven controlled acts and 18,081 NPC acts. Twenty real record lookups preserved the inspected state; nineteen had no saved full scores and twelve Source references were missing. The latest file-set union has 323 passing cases across recorded source versions; final static checks passed. Bench screens and finisher acceptance remain pending. Next: the judged money year. [API](../../src/core2/player-v1.md), [proof](../../src/core2/receipts/m0-part1b-seven-days-20261011.json).
+
+- **SOL-1258 (M0-core): Part 1 speed debt accepted by the owner.** The payday month measured 19.61 simulated days per minute against the previous 40.69 baseline, or 2.075 times its duration. The CTO accepted this cost for now; later changes retain the 20% limit against this new base. Part 1b's player choice, exact-stop and saved-trace hooks are in verification. Next: publish the usable API, then run the judged money year. [Ruling](https://github.com/lamontaes/Political-Game-Git/pull/3918#issuecomment-6103614128).
+
 ## 2026-10-10
 
 - **SOL-1258, Part 1:** shifts accrue earned pay; cash settles on recorded paydays, including grouped jobs and retained ended-job debt. The matched 31-day cloud median is **19.61 days per minute** versus **40.69** at cb6cf69d; speed fails at 2.075 times baseline duration. There are 249 passing cases across the combined and affected recheck, and types/lint/format/release/no-dice checks passed. The judged year and player hooks remain pending; one-day profiling is next. [Measured receipt](../../src/core2/receipts/m0-part1-payday-month-20261010.json).

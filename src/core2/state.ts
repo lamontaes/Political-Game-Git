@@ -51,6 +51,10 @@ import type { CashJournalSourceRef } from "./journal";
 import { makeIsoDate } from "../simulation/dates";
 import { CORE_API_VERSION, CORE_SCHEMA_VERSION, DEFAULT_DATA } from "./data";
 import { parameter, parameterValues } from "./parameters";
+import {
+  isExplicitlyControlledPersonV1,
+  prepareControlledActTraceV1,
+} from "./player-control-state-v1";
 import { stopgap } from "./stopgaps";
 import { initialFocusPeople } from "./focus";
 import type {
@@ -71,6 +75,17 @@ import type {
   RelationshipMeasureChange,
   Source,
 } from "./types";
+
+// Exact successful factory identity, private to this module. No caller can admit a host.
+const actualCore = new WeakSet<CoreState>(),
+  nativeFactoryCoreAdd = WeakSet.prototype.add,
+  nativeFactoryCoreHas = WeakSet.prototype.has;
+
+/** Part1b boundary only; legacy writer/fixture hosts keep their existing contracts. */
+export function assertFactoryCoreV1(core: CoreState): void {
+  if (!nativeFactoryCoreHas.call(actualCore, core))
+    throw new Error("Part1b requires its actual factory-owned core.");
+}
 
 function index<K>(map: Map<K, Set<string>>, key: K, id: string): void {
   let ids = map.get(key);
@@ -361,6 +376,7 @@ export function createCore(
   }
   for (const module of options.modules ?? []) registerModule(core, module);
   assertCoreIntegrity(core);
+  nativeFactoryCoreAdd.call(actualCore, core);
   return core;
 }
 
@@ -542,7 +558,12 @@ export function resolveOperation<
 
 export function retainLog(core: CoreState, event: LogRecord): void {
   const circle = [...event.personIds, ...(event.witnessIds ?? [])].some(
-    (id) => core.focusPersonIds.has(id) || id === core.playerId,
+    (id) =>
+      core.focusPersonIds.has(id) ||
+      id === core.playerId ||
+      (event.kind === "person.acted" &&
+        event.actorId === id &&
+        isExplicitlyControlledPersonV1(core, id)),
   );
   const publicRecord =
     event.publicRecord && core.visiblePlaceIds.has(event.placeId);
@@ -853,11 +874,20 @@ export function coreAPI(core: CoreState): CoreAPI {
       validateCommittedAct(core, actorId, offer, date, reason);
     },
     recordAct(actorId, offer, date, reason) {
+      const controlled = isExplicitlyControlledPersonV1(core, actorId),
+        prepared = controlled
+          ? prepareControlledActTraceV1(core, actorId, offer, date, reason)
+          : undefined;
+      if (prepared) {
+        offer = prepared.offer;
+        reason = prepared.decision;
+      }
       validateCommittedAct(core, actorId, offer, date, reason);
       if (makeIsoDate(date) !== core.date)
         throw new Error("Acts must be recorded on the current date.");
-      const actor = core.people.get(actorId);
+      const actor = prepared?.actor ?? core.people.get(actorId);
       if (!actor) throw new Error("Act actor is absent.");
+      prepared?.verify();
       actor.lastChoice = offer.definition.id;
       actor.lastReason = reason.reasonKey;
       actor.actCount += p("one");
@@ -895,7 +925,8 @@ export function coreAPI(core: CoreState): CoreAPI {
       if (
         core.observer ||
         core.focusPersonIds.has(actorId) ||
-        actorId === core.playerId
+        actorId === core.playerId ||
+        controlled
       )
         retainLog(core, {
           id: committedId,

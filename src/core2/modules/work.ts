@@ -1,3 +1,4 @@
+import { isExplicitlyControlledPersonV1 } from "../player-control-state-v1";
 /** Opening terms and chronological scheduled work; no legacy World or tick. */
 import { DEFAULT_WORK_DATA } from "../work-data";
 import {
@@ -8,6 +9,7 @@ import {
 } from "../../simulation/dates";
 import { parameter, PARAMETERS } from "../parameters";
 import { runWorkPayrollDay } from "../work-payroll-dispatch";
+import { FinanceReadGuard } from "../finance-plan";
 import type { Parameter } from "../parameters";
 import type {
   ActOffer,
@@ -20,6 +22,7 @@ import type {
   PersonState,
   Source,
   WorkCommitmentInput,
+  WorkAttendanceResult,
   WorkData,
   WorkScheduleSlot,
 } from "../types";
@@ -279,6 +282,7 @@ export function hasDailyWorkRefresh(
   const core = api.state;
   return (
     core.observer ||
+    isExplicitlyControlledPersonV1(core, actor.id) ||
     actor.id === core.playerId ||
     core.focusPersonIds.has(actor.id) ||
     core.focusPlaceIds.has(actor.placeId) ||
@@ -293,9 +297,481 @@ export function isWorkFocus(
 ): boolean {
   return (
     api.state.observer ||
+    isExplicitlyControlledPersonV1(api.state, actor.id) ||
     actor.id === api.state.playerId ||
     api.state.focusPersonIds.has(actor.id)
   );
+}
+
+/** Engine-owned continuation state. Root projects client offers; clients never supply these objects. */
+export interface PreparedWorkChoice {
+  readonly personId: string;
+  readonly commitmentId: string;
+  readonly date: string;
+  readonly plannedMinutes: number;
+  readonly offers: readonly ActOffer[];
+  readonly context: DecisionContext | undefined;
+}
+
+type WorkRefresh = (
+  actor: PersonState,
+  needIds?: readonly string[],
+) => DecisionContext | undefined;
+type WorkChoiceBinding = {
+  api: CoreAPI;
+  core: CoreAPI["state"];
+  reads: FinanceReadGuard;
+  actorReads: FinanceReadGuard;
+  commitmentId: string;
+  jobId: string;
+  organizationId: string;
+  personId: string;
+  date: string;
+  planned: number;
+  hourlyMinor: number;
+  previousCarry: number;
+  attendanceEffect: string;
+  zero: number;
+  minutesPerHour: number;
+  offers: readonly ActOffer[];
+  status: "ready" | "committing" | "committed";
+  committed?: WorkAttendanceResult;
+  notified: boolean;
+};
+const workChoices = new WeakMap<PreparedWorkChoice, WorkChoiceBinding>();
+const workChoiceGet = WeakMap.prototype.get;
+const workChoiceSet = WeakMap.prototype.set;
+const workChoiceFreeze = Object.freeze;
+const workChoicePrototypeWitness = Symbol("work-choice-data-prototype");
+
+/** Bounded Source/offer/decision data only; no getter or executable payload is evaluated. */
+function captureWorkChoiceData(
+  reads: FinanceReadGuard,
+  value: unknown,
+  zero: number,
+  one: number,
+  active = new Set<object>(),
+): void {
+  if (
+    typeof value === "function" ||
+    typeof value === "symbol" ||
+    typeof value === "bigint"
+  )
+    throw new Error("Work continuation requires saved ordinary data.");
+  if (value === null || typeof value !== "object") return;
+  if (active.has(value)) throw new Error("Work continuation data has a cycle.");
+  const prototype = Object.getPrototypeOf(value);
+  if (
+    Array.isArray(value)
+      ? prototype !== Array.prototype
+      : prototype !== Object.prototype && prototype !== null
+  )
+    throw new Error(
+      "Work continuation requires ordinary data rows and arrays.",
+    );
+  reads.field(
+    value as Record<PropertyKey, unknown>,
+    workChoicePrototypeWitness,
+  );
+  active.add(value);
+  try {
+    for (const key of reads.keys(value))
+      captureWorkChoiceData(
+        reads,
+        reads.field(value as Record<PropertyKey, unknown>, key),
+        zero,
+        one,
+        active,
+      );
+    if (Array.isArray(value)) reads.array(value, zero, one);
+  } finally {
+    active.delete(value);
+  }
+}
+
+/** Same indexed due set and same employer/job order as the autonomous work loop. */
+export function enumerateDueWorkItems(
+  api: CoreAPI,
+): readonly WorkCommitmentInput[] {
+  if (!api.state.data.work) return [];
+  const elapsed = daysBetween(
+    makeIsoDate(api.state.startedAt),
+    makeIsoDate(api.state.date),
+  );
+  const due = new Set<string>();
+  for (const [period, residues] of api.state.work.byPeriodResidue)
+    for (const id of residues.get(remainder(elapsed, period)) ?? [])
+      due.add(id);
+  // Dated same-payer order is stable and explicitly a prototype accounting policy.
+  return [...due]
+    .map((id) => api.state.work.commitments.get(id)!)
+    .sort(
+      (a, b) =>
+        a.organizationId.localeCompare(b.organizationId) ||
+        a.jobId.localeCompare(b.jobId),
+    );
+}
+
+/** Refreshes once and presents actual work offers; never chooses or records attendance. */
+export function prepareWorkChoice(
+  api: CoreAPI,
+  actualItem: WorkCommitmentInput,
+  refresh: WorkRefresh,
+): PreparedWorkChoice | undefined {
+  const reads = new FinanceReadGuard(),
+    beforeActorReads = new FinanceReadGuard(),
+    core = reads.field(api, "state"),
+    dataOwner = reads.field(core, "data"),
+    data = reads.field(dataOwner, "work"),
+    work = reads.field(core, "work"),
+    date = reads.field(core, "date"),
+    startedAt = reads.field(core, "startedAt");
+  if (!data) return undefined;
+  const id = reads.field(actualItem, "id"),
+    row = reads.mapGet(reads.field(work, "commitments"), id);
+  if (!row || row !== actualItem)
+    throw new Error("Work continuation requires the actual owned commitment.");
+  const personId = reads.field(row, "personId"),
+    jobId = reads.field(row, "jobId"),
+    organizationId = reads.field(row, "organizationId"),
+    people = reads.field(core, "people"),
+    actor = beforeActorReads.mapGet(people, personId),
+    job = reads.mapGet(reads.field(core, "jobs"), jobId);
+  if (
+    !actor ||
+    !beforeActorReads.field(actor, "alive") ||
+    beforeActorReads.field(actor, "jobId") !== jobId ||
+    !job ||
+    reads.field(job, "personId") !== beforeActorReads.field(actor, "id")
+  )
+    return undefined;
+  const previous = reads.mapGet(
+    reads.field(work, "lastAttendanceByJob"),
+    jobId,
+  );
+  if (previous && reads.field(previous, "date") === date) return undefined;
+  const zero = api.parameter("zero"),
+    one = api.parameter("one"),
+    period = reads.field(row, "periodDays"),
+    residue = remainder(
+      daysBetween(makeIsoDate(startedAt), makeIsoDate(date)),
+      period,
+    ),
+    residues = reads.mapGet(reads.field(work, "byPeriodResidue"), period),
+    due = residues ? reads.mapGet(residues, residue) : undefined;
+  if (!due || !reads.member(due, id))
+    throw new Error("Work continuation is not in its actual dated due index.");
+  for (const key of ["startsAt", "endsAt", "anchorDate"] as const)
+    reads.field(row, key);
+  captureWorkChoiceData(reads, reads.field(row, "slots"), zero, one);
+  const plannedMap = reads.mapGet(
+    reads.field(work, "plannedByCommitmentResidue"),
+    id,
+  );
+  if (plannedMap) reads.mapGet(plannedMap, residue);
+  const planned = plannedWorkMinutesOnDate(api, row);
+  if (planned <= zero) return undefined;
+  reads.field(job, "id");
+  reads.field(job, "organizationId");
+  reads.field(job, "endsAt");
+  const employer = reads.mapGet(
+    reads.field(core, "organizations"),
+    organizationId,
+  );
+  if (!employer)
+    throw new Error("Work continuation actual employer is absent.");
+  reads.field(employer, "id");
+  for (const source of [
+    reads.field(row, "scheduleSource"),
+    reads.field(row, "paySource"),
+    reads.field(job, "source"),
+    reads.field(employer, "source"),
+  ])
+    captureWorkChoiceData(reads, source, zero, one);
+  const calendarId = reads.field(row, "payrollCalendarId"),
+    calendar = calendarId
+      ? reads.mapGet(reads.field(work, "payrollCalendars"), calendarId)
+      : undefined;
+  reads.mapGet(reads.field(work, "payrollCalendarByCommitment"), id);
+  reads.mapGet(reads.field(work, "payrollCalendarByJob"), jobId);
+  if (calendar) captureWorkChoiceData(reads, calendar, zero, one);
+  const attendance = reads.field(data, "attendanceAction"),
+    absenceAction = reads.field(data, "absenceAction"),
+    sleepParameter = reads.field(data, "sleepReserveParameter"),
+    registry = reads.field(dataOwner, "parameters");
+  captureWorkChoiceData(reads, attendance, zero, one);
+  captureWorkChoiceData(reads, absenceAction, zero, one);
+  for (const key of [
+    "zero",
+    "one",
+    "minutesPerHour",
+    "hoursPerDay",
+    "daysPerWeek",
+    sleepParameter,
+    "needWeight",
+    "goalWeight",
+    "driveWeight",
+    "traitWeight",
+    "emotionWeight",
+    "effortWeight",
+    "traitScale",
+    attendance.emotion?.moodMultiplierParameter ?? "zero",
+    attendance.emotion?.stressMultiplierParameter ?? "zero",
+    absenceAction.emotion?.moodMultiplierParameter ?? "zero",
+    absenceAction.emotion?.stressMultiplierParameter ?? "zero",
+    ...(attendance.reasonBindings ?? []).map(
+      (binding) => binding.weightParameter,
+    ),
+    ...(absenceAction.reasonBindings ?? []).map(
+      (binding) => binding.weightParameter,
+    ),
+  ])
+    captureWorkChoiceData(reads, reads.field(registry, key), zero, one);
+  const previousCarry = previous
+      ? reads.field(previous, "payRemainderMinor")
+      : zero,
+    hourlyMinor = reads.field(row, "hourlyMinor"),
+    today = reads.mapGet(reads.field(work, "timeByPerson"), personId);
+  if (today)
+    for (const key of ["date", "workMinutes", "discretionaryMinutes"] as const)
+      reads.field(today, key);
+  // Full refresh may replace the actor; only stable work/date/terms survive it.
+  const actorId = beforeActorReads.field(actor, "id"),
+    placeId = beforeActorReads.field(actor, "placeId"),
+    countyId = beforeActorReads.field(actor, "countyId");
+  reads.field(core, "observer");
+  reads.field(core, "playerId");
+  reads.member(reads.field(core, "focusPersonIds"), actorId);
+  reads.member(reads.field(core, "focusPlaceIds"), placeId);
+  if (countyId !== undefined)
+    reads.member(reads.field(core, "focusPlaceIds"), countyId);
+  beforeActorReads.verify();
+  reads.verify();
+  api.stopgap("SG-P8-attendance-choice");
+  api.stopgap("SG-P8-work-pay-terms");
+  const context = hasDailyWorkRefresh(api, actor)
+    ? refresh(actor)
+    : refresh(actor, [attendance.need, absenceAction.need]);
+  reads.verify();
+  const actorReads = new FinanceReadGuard(),
+    currentActor = actorReads.mapGet(people, personId);
+  if (
+    !currentActor ||
+    actorReads.field(currentActor, "id") !== personId ||
+    !actorReads.field(currentActor, "alive") ||
+    actorReads.field(currentActor, "jobId") !== jobId
+  )
+    throw new Error("Work continuation owner changed during refresh.");
+  for (const key of ["traits", "needs", "affect", "source"] as const)
+    captureWorkChoiceData(
+      actorReads,
+      actorReads.field(currentActor, key),
+      zero,
+      one,
+    );
+  for (const key of ["goals", "drives"] as const)
+    actorReads.payload(actorReads.field(currentActor, key), zero, one);
+  const traits = actorReads.field(currentActor, "traits"),
+    pulls = reads.field(dataOwner, "traitPulls");
+  for (const key of actorReads.keys(traits))
+    if (typeof key === "string")
+      captureWorkChoiceData(reads, reads.field(pulls, key), zero, one);
+  for (const binding of [
+    ...(attendance.reasonBindings ?? []),
+    ...(absenceAction.reasonBindings ?? []),
+  ])
+    reads.mapGet(reads.field(core, "reasonProviders"), binding.provider);
+  captureWorkChoiceData(reads, context, zero, one);
+  const available = discretionaryHours(api, personId),
+    minutesPerHour = api.parameter("minutesPerHour"),
+    hours = planned / minutesPerHour,
+    absence: ActOffer = {
+      definition: absenceAction,
+      targetId: id,
+      availableHours: available,
+      effortHours: zero,
+    },
+    attendanceOffer: ActOffer = {
+      definition: attendance,
+      targetId: id,
+      availableHours: available,
+      effortHours: hours,
+    },
+    offers =
+      hours <= available && available > zero
+        ? [attendanceOffer, absence]
+        : [absence];
+  for (const offer of offers) workChoiceFreeze(offer);
+  workChoiceFreeze(offers);
+  captureWorkChoiceData(reads, offers, zero, one);
+  const attendanceEffect = reads.field(attendance, "effect");
+  reads.field(api, "recordWorkAttendance");
+  reads.seal();
+  actorReads.seal();
+  const prepared: PreparedWorkChoice = workChoiceFreeze({
+    personId,
+    commitmentId: id,
+    date,
+    plannedMinutes: planned,
+    offers,
+    context,
+  });
+  workChoiceSet.call(workChoices, prepared, {
+    api,
+    core,
+    reads,
+    actorReads,
+    commitmentId: id,
+    jobId,
+    organizationId,
+    personId,
+    date,
+    planned,
+    hourlyMinor,
+    previousCarry,
+    attendanceEffect,
+    zero,
+    minutesPerHour,
+    offers,
+    status: "ready",
+    notified: false,
+  } satisfies WorkChoiceBinding);
+  return prepared;
+}
+
+/** Preserve the existing dated-work domain rejection while identifying stale continuation reads. */
+function verifyPreparedWorkChoice(binding: WorkChoiceBinding): void {
+  try {
+    binding.actorReads.verify();
+    binding.reads.verify();
+  } catch (error) {
+    throw new Error(
+      "Invalid or duplicate dated work result. " +
+        (error instanceof Error
+          ? error.message
+          : "Stale work continuation reads."),
+    );
+  }
+}
+
+/** Read-only root continuation preflight, before accepting a client ID or progressing time. */
+export function verifyWorkChoiceV1(
+  api: CoreAPI,
+  prepared: PreparedWorkChoice,
+): void {
+  const binding = workChoiceGet.call(workChoices, prepared) as
+    WorkChoiceBinding | undefined;
+  if (!binding || binding.api !== api || binding.status !== "ready")
+    throw new Error("Work continuation is foreign or already consumed.");
+  verifyPreparedWorkChoice(binding);
+}
+
+/** Root passes its original saved decision, never client amounts, durations, Source or score payloads. */
+export function commitWorkChoice(
+  api: CoreAPI,
+  prepared: PreparedWorkChoice,
+  originalSavedDecision: DecisionResult,
+): WorkAttendanceResult {
+  const binding = workChoiceGet.call(workChoices, prepared) as
+    WorkChoiceBinding | undefined;
+  if (!binding || binding.api !== api || binding.status !== "ready")
+    throw new Error("Work continuation is foreign or already consumed.");
+  verifyPreparedWorkChoice(binding);
+  const decisionReads = new FinanceReadGuard(),
+    one = api.parameter("one");
+  captureWorkChoiceData(
+    decisionReads,
+    originalSavedDecision,
+    binding.zero,
+    one,
+  );
+  const selected = decisionReads.field(originalSavedDecision, "selected");
+  if (!selected) throw new Error("Work attendance has no admitted decision.");
+  if (
+    !binding.offers.includes(selected) ||
+    decisionReads.field(originalSavedDecision, "actorId") !==
+      binding.personId ||
+    decisionReads.field(originalSavedDecision, "date") !== binding.date
+  )
+    throw new Error(
+      "Work continuation decision does not select its original actual offer.",
+    );
+  const effect = decisionReads.field(
+      decisionReads.field(selected, "definition"),
+      "effect",
+    ),
+    attended =
+      effect === binding.attendanceEffect ? binding.planned : binding.zero,
+    exact =
+      binding.previousCarry +
+      (binding.hourlyMinor * attended) / binding.minutesPerHour,
+    requested = Math.floor(exact),
+    carry = exact - requested,
+    result = {
+      id: `work-result:${binding.date}:${binding.commitmentId}`,
+      commitmentId: binding.commitmentId,
+      jobId: binding.jobId,
+      personId: binding.personId,
+      organizationId: binding.organizationId,
+      date: binding.date,
+      plannedMinutes: binding.planned,
+      attendedMinutes: attended,
+      absentMinutes: binding.planned - attended,
+      earnedMinor: requested,
+      payRemainderMinor: carry,
+      reasonKey: decisionReads.field(originalSavedDecision, "reasonKey"),
+      decision: originalSavedDecision,
+      source: {
+        tag: "SOURCED" as const,
+        asOf: binding.date,
+        citation:
+          "Actual prototype owned-job attendance decision, occupied minutes and earned pay; cash follows the separately recorded employer payday. Fictional schedule/pay inputs retain their own source estimates.",
+      },
+    };
+  // No stale answer can enter the canonical writer. The writer retains every final guard.
+  decisionReads.verify();
+  verifyPreparedWorkChoice(binding);
+  binding.status = "committing";
+  const committed = api.recordWorkAttendance(result);
+  binding.committed = committed;
+  binding.status = "committed";
+  return committed;
+}
+
+/** Separate cursor step, preserving the original callback order without replaying attendance. */
+export function notifyWorkChoice(
+  api: CoreAPI,
+  prepared: PreparedWorkChoice,
+): void {
+  const binding = workChoiceGet.call(workChoices, prepared) as
+    WorkChoiceBinding | undefined;
+  if (
+    !binding ||
+    binding.api !== api ||
+    binding.status !== "committed" ||
+    binding.notified
+  )
+    throw new Error(
+      "Work continuation notification is absent, foreign or already delivered.",
+    );
+  const reads = new FinanceReadGuard(),
+    core = reads.field(api, "state");
+  if (
+    core !== binding.core ||
+    reads.field(core, "date") !== binding.date ||
+    reads.mapGet(
+      reads.field(reads.field(core, "work"), "lastAttendanceByJob"),
+      binding.jobId,
+    ) !== binding.committed
+  )
+    throw new Error(
+      "Work continuation notification no longer owns its current attendance.",
+    );
+  reads.verify();
+  binding.notified = true;
+  for (const module of api.state.modules.values())
+    module.onWorkAttendance?.(api, binding.committed!);
+  // No financial-pressure event or civic drive is synthesized by this module.
 }
 
 /** Work decisions use the same recorded named reasons and trait pulls as other acts. */
@@ -310,6 +786,7 @@ export function runScheduledWork(
     actor: PersonState,
     needIds?: readonly string[],
   ) => DecisionContext | undefined,
+  excludePersonId?: string,
 ): { decisions: number; acts: number } {
   const data = api.state.data.work;
   if (!data)
@@ -334,6 +811,8 @@ export function runScheduledWork(
         a.jobId.localeCompare(b.jobId),
     );
   for (const row of ordered) {
+    if (excludePersonId !== undefined && row.personId === excludePersonId)
+      continue;
     const actor = api.state.people.get(row.personId);
     const job = api.state.jobs.get(row.jobId);
     if (

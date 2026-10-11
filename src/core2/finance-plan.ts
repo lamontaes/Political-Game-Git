@@ -416,7 +416,11 @@ function exact(value: bigint, zero: number, field: string): number {
 }
 
 /** Detached data only. Frozen Map/Set contents also get an independent payload snapshot. */
-function detach<T>(value: T, copies = new WeakMap<object, object>()): T {
+function detach<T>(
+  value: T,
+  copies = new WeakMap<object, object>(),
+  owned?: WeakSet<object>,
+): T {
   if (
     typeof value === "number" &&
     (!Number.isFinite(value) ||
@@ -428,6 +432,7 @@ function detach<T>(value: T, copies = new WeakMap<object, object>()): T {
       "Prepared finance payload cannot contain executable values.",
     );
   if (value === null || typeof value !== "object") return value;
+  if (owned && nativeWeakSetHas.call(owned, value)) return value;
   const prior = copies.get(value);
   if (prior) return prior as T;
   if (value instanceof Map) {
@@ -435,7 +440,7 @@ function detach<T>(value: T, copies = new WeakMap<object, object>()): T {
     const result = new Map();
     copies.set(value, result);
     for (const [key, entry] of nativeMapEntries.call(value))
-      result.set(detach(key, copies), detach(entry, copies));
+      result.set(detach(key, copies, owned), detach(entry, copies, owned));
     return Object.freeze(result) as T;
   }
   if (value instanceof Set) {
@@ -443,7 +448,7 @@ function detach<T>(value: T, copies = new WeakMap<object, object>()): T {
     const result = new Set();
     copies.set(value, result);
     for (const entry of nativeSetValues.call(value))
-      result.add(detach(entry, copies));
+      result.add(detach(entry, copies, owned));
     return Object.freeze(result) as T;
   }
   const prototype = Object.getPrototypeOf(value);
@@ -461,7 +466,7 @@ function detach<T>(value: T, copies = new WeakMap<object, object>()): T {
     if (Array.isArray(value) && key === "length") continue;
     const descriptor = directRead(value, key)!;
     nativeDefineProperty(result, key, {
-      value: detach(descriptor.value, copies),
+      value: detach(descriptor.value, copies, owned),
       enumerable: descriptor.enumerable,
       writable: true,
       configurable: true,
@@ -508,7 +513,7 @@ export class FinanceMetadataComposer {
     const next =
       value !== null && typeof value === "object" && this.#detached.has(value)
         ? value
-        : detach(value);
+        : detach(value, new WeakMap<object, object>(), this.#detached);
     this.nextReads.payload(next, this.zero, this.one);
     if (next !== null && typeof next === "object") this.#detached.add(next);
     return next;
@@ -565,7 +570,7 @@ export class FinanceMetadataComposer {
     return staged ? staged.nextPresent : this.reads.mapHas(target, key);
   }
 
-  mapSet<K, V>(target: Map<K, V>, key: K, value: V): V {
+  mapSet<K, V, T extends V>(target: Map<K, V>, key: K, value: T): T {
     this.#open();
     this.reads.mapGet(target, key);
     const next = this.#next(value),

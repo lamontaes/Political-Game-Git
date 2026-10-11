@@ -338,6 +338,8 @@ export interface DecisionContext {
 }
 
 export interface DecisionResult {
+  /** Root-issued client answer identity; retained with the original saved controlled trace. */
+  controlledChoice?: { readonly pauseId: string; readonly offerId: string };
   actorId: PersonId;
   date: IsoDate;
   selected?: ActOffer;
@@ -513,6 +515,8 @@ export interface WorkRuntime {
   payrollCashSources: Map<string, WorkPayrollCashSourceState>;
   latestPayrollByJob: Map<string, WorkPayrollJobReceipt>;
   detailedPayroll: Map<string, WorkPayrollJournalReceipt>;
+  /** Current attendance ID to actual job; focused history remains in detailedAttendance. */
+  currentAttendanceJobByRecordId: Map<string, string>;
   lastAttendanceByJob: Map<string, WorkAttendanceResult>;
   detailedAttendance: Map<string, WorkAttendanceResult>;
   /** Only current or player-visible canonical cash sources and selected acts. */

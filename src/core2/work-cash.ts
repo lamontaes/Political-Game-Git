@@ -1,6 +1,7 @@
 /** The recorded work owner composes the act, wage, credit and time in one journal. */
 import { daysBetween, makeIsoDate } from "../simulation/dates";
 import { cashJournalParameters } from "./cash-host";
+import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import { registerModule } from "./state";
 import {
   FinancePlanningSession,
@@ -93,9 +94,11 @@ export interface WorkCashSourceState extends CashJournalPostedMarker {
   commitmentReference?: ResolvedCashJournalSource["relatedRecords"][number];
   publicAuthorityReference?: ResolvedCashJournalSource["relatedRecords"][number];
 }
+type ControlSnapshot = ReturnType<typeof snapshotExplicitControlV1>;
 type Pending = {
   plan: PreparedFinancePlan<WorkResult | LegacyWorkCashResult>;
   selection: CashActSelection;
+  controlSnapshot: ControlSnapshot;
 };
 const registered = new WeakMap<
   CoreState,
@@ -149,9 +152,34 @@ export function ensureWorkCashModule(core: CoreState): void {
   });
 }
 
-const pending = new WeakMap<WorkCashSourceState, Pending>();
+const pending = new WeakMap<WorkCashSourceState, Pending>(),
+  sessionControl = new WeakMap<FinancePlanningSession, ControlSnapshot>(),
+  retainedControlledSources = new WeakSet<WorkCashSourceState>();
 const mapSet = Map.prototype.set,
-  mapDelete = Map.prototype.delete;
+  mapDelete = Map.prototype.delete,
+  controlGet = WeakMap.prototype.get,
+  controlSet = WeakMap.prototype.set,
+  retainedHas = WeakSet.prototype.has,
+  retainedAdd = WeakSet.prototype.add;
+function controlledWorkSession(core: CoreState): FinancePlanningSession {
+  const snapshot = snapshotExplicitControlV1(core),
+    s = new FinancePlanningSession(
+      core,
+      core.cashJournal,
+      cashJournalParameters(core),
+    );
+  controlSet.call(sessionControl, s, snapshot);
+  return s;
+}
+function workControl(s: FinancePlanningSession): ControlSnapshot {
+  const snapshot = controlGet.call(sessionControl, s) as
+    ControlSnapshot | undefined;
+  if (!snapshot)
+    throw new Error(
+      "Work cash writer lost its original explicit-control preimage.",
+    );
+  return snapshot;
+}
 
 function finite(value: number, field: string): number {
   if (!Number.isFinite(value))
@@ -169,7 +197,8 @@ function focus(session: FinancePlanningSession, personId: string): boolean {
   return (
     r.field(core, "observer") ||
     r.field(core, "playerId") === personId ||
-    r.member(r.field(core, "focusPersonIds"), personId)
+    r.member(r.field(core, "focusPersonIds"), personId) ||
+    workControl(session).personId === personId
   );
 }
 
@@ -535,14 +564,18 @@ export function workCashSourceProvider(
     marker: row,
     metadata: bundle?.plan.metadata ?? [],
     secondaryMarkers: related.secondaryMarkers,
-    retainFull: false,
+    retainFull: retainedHas.call(retainedControlledSources, row),
   };
-  if (bundle)
+  if (bundle) {
+    bundle.controlSnapshot.verify();
     bundle.plan.preflight.verify(
       core,
       core.cashJournal,
       cashJournalParameters(core),
     );
+    // Native private identity only, after the original reflective preflight.
+    bundle.controlSnapshot.verify();
+  }
   return slot;
 }
 
@@ -555,6 +588,7 @@ function prunePriorSource(
   const prior = core.work.cashSources.get(priorId);
   if (
     !prior ||
+    retainedHas.call(retainedControlledSources, prior) ||
     core.work.detailedResults.has(priorId) ||
     core.durableLog.has(prior.selectionId)
   )
@@ -620,7 +654,10 @@ function submit(
     const plan = session.seal(returned),
       callerResult = structuredClone(plan.result);
     row.postings = plan.postings;
-    pending.set(row, { plan, selection });
+    const controlSnapshot = workControl(session);
+    if (controlSnapshot.personId === row.personId)
+      retainedAdd.call(retainedControlledSources, row);
+    pending.set(row, { plan, selection, controlSnapshot });
     if (plan.postings.length > session.zero)
       api.postJournal({
         id: `journal:${core.date}:${core.cashJournal.nextSequence}`,
@@ -654,11 +691,7 @@ export function settleWorkResultJournal(
 ): WorkResult {
   ensureWorkCashModule(core);
   ensureFinanceCashModule(core);
-  const s = new FinancePlanningSession(
-    core,
-    core.cashJournal,
-    cashJournalParameters(core),
-  );
+  const s = controlledWorkSession(core);
   captureWorkContext(s, api, input);
   const row = core.work.commitments.get(input.commitmentId)!,
     actor = core.people.get(input.personId)!,
@@ -873,11 +906,7 @@ export function settleLegacyWorkResultJournal(
 ): LegacyWorkCashResult {
   ensureWorkCashModule(core);
   ensureFinanceCashModule(core);
-  const s = new FinancePlanningSession(
-      core,
-      core.cashJournal,
-      cashJournalParameters(core),
-    ),
+  const s = controlledWorkSession(core),
     r = s.reads,
     m = s.metadata;
   r.payload(input, s.zero, s.one);

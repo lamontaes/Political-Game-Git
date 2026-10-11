@@ -3,6 +3,10 @@ import { advanceDate, duePeople, catchUpPerson } from "./calendar";
 import { affectAt } from "./emotion";
 import { compactQuietWorkResults } from "./work-state";
 import { chooseAct } from "./choice";
+import {
+  isExplicitlyControlledPersonV1,
+  snapshotExplicitControlV1,
+} from "./player-control-state-v1";
 export { chooseAct } from "./choice";
 import {
   WORK_MODULE,
@@ -108,7 +112,11 @@ export function createLifeCore(
   return core;
 }
 
-function refreshNeeds(core: CoreState, api: CoreAPI, actor: PersonState): void {
+export function refreshNeeds(
+  core: CoreState,
+  api: CoreAPI,
+  actor: PersonState,
+): void {
   api.stopgap("SG-P8-life-utility");
   api.stopgap("SG-P8-emotion-model");
   api.updatePerson(actor.id, {
@@ -141,7 +149,7 @@ function refreshNeeds(core: CoreState, api: CoreAPI, actor: PersonState): void {
 }
 
 /** Routine attendance projects only its two current needs; it does not rewrite weekly actor state. */
-function projectWorkNeeds(
+export function projectWorkNeeds(
   core: CoreState,
   api: CoreAPI,
   actor: PersonState,
@@ -248,7 +256,7 @@ export function availableActs(
   return offers;
 }
 
-function activate(
+export function activate(
   core: CoreState,
   personId: string,
   days: number,
@@ -318,6 +326,10 @@ export function advanceCore(
   throughDate: string,
   options: { controller?: Controller } = {},
 ): { simulatedDays: number; decisions: number; acts: number } {
+  if (snapshotExplicitControlV1(core).personId !== undefined)
+    throw new Error(
+      "Use the resumable player clock while a person is controlled.",
+    );
   const target = makeIsoDate(throughDate);
   if (target < core.date) throw new Error("Core advance cannot move backward.");
   const p = (key: string) => parameter(key, core.data.parameters);
@@ -361,6 +373,8 @@ export function advanceCore(
 }
 
 export function catchUpLife(core: CoreState, personId: string): void {
+  if (isExplicitlyControlledPersonV1(core, personId))
+    throw new Error("Controlled choices require the resumable player clock.");
   // Chronological work was already settled at each indexed scheduled date.
   // This returns arithmetic/current records and never makes an endpoint choice for elapsed days.
   catchUpScheduledWork(coreAPI(core), personId);

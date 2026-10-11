@@ -1,6 +1,7 @@
 /** Attendance and earned wages only. Cash settlement belongs to the recorded payday. */
 import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { FinanceReadGuard } from "./finance-plan";
+import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import { carryTraitScores } from "./choice";
 import { workWeekStart } from "./modules/work";
 import { validateDatedWorkResult } from "./work-state";
@@ -26,6 +27,7 @@ import type {
 } from "./types";
 
 const nativeSet = Map.prototype.set,
+  nativeDelete = Map.prototype.delete,
   nativeGet = Map.prototype.get,
   nativeEntries = Map.prototype.entries,
   nativeAdd = Set.prototype.add,
@@ -33,6 +35,7 @@ const nativeSet = Map.prototype.set,
   nativeWeakSet = WeakMap.prototype.set;
 type Operation =
   | { kind: "map"; target: Map<unknown, unknown>; key: unknown; next: unknown }
+  | { kind: "delete"; target: Map<unknown, unknown>; key: unknown }
   | { kind: "set"; target: Set<unknown>; value: unknown };
 
 function tables(r: FinanceReadGuard, core: CoreState) {
@@ -47,6 +50,7 @@ function tables(r: FinanceReadGuard, core: CoreState) {
     r.field(core, "logByKind"),
     r.field(core, "logByPlace"),
     r.field(core, "knowledgeByPerson"),
+    r.field(w, "currentAttendanceJobByRecordId"),
     r.field(w, "lastAttendanceByJob"),
     r.field(w, "detailedAttendance"),
     r.field(w, "totalsByJob"),
@@ -139,7 +143,7 @@ class AttendanceBatch {
     if (
       this.operations.some(
         (row) =>
-          row.kind === "map" &&
+          (row.kind === "map" || row.kind === "delete") &&
           row.target === target &&
           Object.is(row.key, key),
       )
@@ -152,17 +156,36 @@ class AttendanceBatch {
       next,
     });
   }
+  delete<K, V>(target: Map<K, V>, key: K): void {
+    this.reads.mapGet(target, key);
+    if (
+      this.operations.some(
+        (row) =>
+          (row.kind === "map" || row.kind === "delete") &&
+          row.target === target &&
+          Object.is(row.key, key),
+      )
+    )
+      throw new Error("Duplicate attendance mutation target.");
+    this.operations.push({
+      kind: "delete",
+      target: target as Map<unknown, unknown>,
+      key,
+    });
+  }
   index<K, V>(target: Map<K, Set<V>>, key: K, value: V): void {
     const old = this.reads.mapGet(target, key);
     if (!old) this.map(target, key, new Set([value]));
     else if (!this.reads.member(old, value))
       this.operations.push({ kind: "set", target: old, value });
   }
-  commit(): void {
-    // LAST rejection-capable source check. No callbacks/getters/row writes below.
+  commit(controlSnapshot?: ReturnType<typeof snapshotExplicitControlV1>): void {
+    // Original reflective preflight, then the factory's native-only identity check.
     this.reads.verify();
+    controlSnapshot?.verify();
     for (const row of this.operations)
       if (row.kind === "map") nativeSet.call(row.target, row.key, row.next);
+      else if (row.kind === "delete") nativeDelete.call(row.target, row.key);
       else nativeAdd.call(row.target, row.value);
   }
 }
@@ -512,7 +535,8 @@ export function recordWorkAttendance(
   api: CoreAPI,
   raw: WorkAttendanceInput,
 ): WorkAttendanceResult {
-  const batch = new AttendanceBatch(core, api),
+  const controlSnapshot = snapshotExplicitControlV1(core),
+    batch = new AttendanceBatch(core, api),
     r = batch.reads,
     input = shallow(r, raw),
     work = r.field(core, "work"),
@@ -589,7 +613,8 @@ export function recordWorkAttendance(
   const detailed =
     r.field(core, "observer") ||
     r.field(core, "playerId") === actorView.id ||
-    r.member(r.field(core, "focusPersonIds"), actorView.id);
+    r.member(r.field(core, "focusPersonIds"), actorView.id) ||
+    controlSnapshot.personId === actorView.id;
   if (!input.decision)
     throw new Error("Attendance needs its actual shared-score choice.");
   ordinaryRow(input.decision);
@@ -865,6 +890,18 @@ export function recordWorkAttendance(
     dueRecognizedMinor: earned.ledger.dueRecognizedMinor,
     arrearsMinor: earned.ledger.arrearsMinor,
   });
+  const currentAttendanceIds = r.field(work, "currentAttendanceJobByRecordId");
+  if (previous) {
+    const previousId = r.field(previous, "id");
+    if (r.mapGet(currentAttendanceIds, previousId) !== input.jobId)
+      throw new Error(
+        "Current attendance record index differs from its actual previous owner.",
+      );
+    batch.delete(currentAttendanceIds, previousId);
+  }
+  if (r.mapHas(currentAttendanceIds, input.id))
+    throw new Error("Current attendance record identity already exists.");
+  batch.map(currentAttendanceIds, input.id, input.jobId);
   batch.map(r.field(work, "lastAttendanceByJob"), input.jobId, stored);
   if (detailed)
     batch.map(r.field(work, "detailedAttendance"), input.id, stored);
@@ -1009,6 +1046,6 @@ export function recordWorkAttendance(
     });
     batch.map(r.field(core, "knowledgeByPerson"), actorView.id, nextKnown);
   }
-  batch.commit();
+  batch.commit(controlSnapshot);
   return caller;
 }

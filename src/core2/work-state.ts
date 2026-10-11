@@ -31,6 +31,7 @@ export function emptyWorkRuntime(): WorkRuntime {
     payrollCashSources: new Map(),
     latestPayrollByJob: new Map(),
     detailedPayroll: new Map(),
+    currentAttendanceJobByRecordId: new Map(),
     lastAttendanceByJob: new Map(),
     detailedAttendance: new Map(),
     cashActSelections: new Map(),

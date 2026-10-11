@@ -6,6 +6,10 @@ import { advanceDate } from "./calendar";
 import { createLifeCore, chooseAct } from "./life";
 import { coreAPI } from "./state";
 import {
+  registerControlledPersonV1,
+  retireControlledPersonV1,
+} from "./player-control-state-v1";
+import {
   ensureWorkPayrollCashModule,
   settleWorkPayrollJournal,
   workPayrollCashSourceProvider,
@@ -801,4 +805,85 @@ it("returns a frozen payday result that cannot corrupt retained monetary evidenc
     workPayrollCashSourceProvider(f.api, { kind: row.kind, id: row.id })!
       .marker,
   ).toBe(row);
+});
+
+// Additive explicit control retention fixtures. SOURCE ONLY; UNEXECUTED.
+describe("explicitly controlled quiet single payroll retention", () => {
+  it("keeps the actual canonical job receipt and full journal after retirement without changing payment", () => {
+    const f = fixture(),
+      baseline = fixture(),
+      token = registerControlledPersonV1(f.core, worker);
+    advanceDate(f.core, "2021-01-08");
+    advanceDate(baseline.core, "2021-01-08");
+    const result = settleWorkPayrollJournal(f.core, f.api, commitment),
+      ordinary = settleWorkPayrollJournal(
+        baseline.core,
+        baseline.api,
+        commitment,
+      ),
+      canonical = f.core.work.payrollCashSources.get(result.id)!;
+    expect(result.paidMinor).toBe(ordinary.paidMinor);
+    expect(result.requestedMinor).toBe(ordinary.requestedMinor);
+    expect(f.core.work.payrollLedgerByCommitment).toEqual(
+      baseline.core.work.payrollLedgerByCommitment,
+    );
+    expect(f.core.work.detailedPayroll.get(result.id)).toBe(canonical.result);
+    expect(f.core.work.latestPayrollByJob.get(job)).toBe(canonical.result);
+    const journalId = f.core.cashJournal.requiredBySource
+      .get(canonical.kind)!
+      .get(result.id)!;
+    expect(journalId).toBeDefined();
+    expect(
+      f.core.cashJournal.detailedReceipts.get(journalId)!.sourceRef.id,
+    ).toBe(result.id);
+    expect(f.core.playerId).toBeUndefined();
+    expect(f.core.focusPersonIds.size).toBe(p("zero"));
+    expect(f.core.people.get(worker)!.tier).toBe("weekly");
+    retireControlledPersonV1(f.core, token);
+    expect(
+      workPayrollCashSourceProvider(f.api, {
+        kind: canonical.kind,
+        id: canonical.id,
+      })!.retainFull,
+    ).toBe(true);
+    expect(
+      f.core.cashJournal.requiredBySource.get(canonical.kind)!.get(result.id),
+    ).toBe(journalId);
+  });
+  it("retains an actual zero-payment completion and arrears without a fake journal", () => {
+    const f = fixture(p("zero"));
+    registerControlledPersonV1(f.core, worker);
+    advanceDate(f.core, "2021-01-08");
+    const before = structuredClone(f.core.cashJournal.totals),
+      sequence = f.core.cashJournal.nextSequence,
+      result = settleWorkPayrollJournal(f.core, f.api, commitment),
+      canonical = f.core.work.payrollCashSources.get(result.id)!;
+    expect(result.paidMinor).toBe(p("zero"));
+    expect(result.shortfallMinor).toBe(unit);
+    expect(f.core.work.detailedPayroll.get(result.id)).toBe(canonical.result);
+    expect(canonical.completedAt).toBe(f.core.date);
+    expect(canonical.postedJournalSequence).toBeUndefined();
+    expect(f.core.cashJournal.totals).toEqual(before);
+    expect(f.core.cashJournal.nextSequence).toBe(sequence);
+    expect(f.core.cashJournal.detailedReceipts.size).toBe(p("zero"));
+    expect(
+      f.core.work.payrollLedgerByCommitment.get(commitment)!.arrearsMinor,
+    ).toBe(unit);
+  });
+  it("rejects control retirement between genuine payroll provider lookups without changing any money or work row", () => {
+    const f = fixture(),
+      token = registerControlledPersonV1(f.core, worker);
+    advanceDate(f.core, "2021-01-08");
+    const before = state(f.core),
+      hook = betweenLookups(
+        f,
+        () => retireControlledPersonV1(f.core, token),
+        () => undefined,
+      );
+    expect(() =>
+      settleWorkPayrollJournal(f.core, hook.guarded, commitment),
+    ).toThrow(/Explicit control changed/);
+    expect(hook.calls()).toBeGreaterThanOrEqual(p("two"));
+    expect(state(f.core)).toEqual(before);
+  });
 });

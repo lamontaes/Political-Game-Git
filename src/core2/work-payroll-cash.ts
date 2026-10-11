@@ -1,6 +1,7 @@
 /** Proposed recorded-payday cash owner. Attendance creates no cash or choice here. */
 import { addDays, makeIsoDate } from "../simulation/dates";
 import { cashJournalParameters } from "./cash-host";
+import { snapshotExplicitControlV1 } from "./player-control-state-v1";
 import { registerModule } from "./state";
 import {
   FinanceReadGuard,
@@ -236,8 +237,35 @@ const pending = new WeakMap<
   WorkPayrollCashSourceState,
   PreparedFinancePlan<WorkPayrollJournalReceipt>
 >();
+type ControlSnapshot = ReturnType<typeof snapshotExplicitControlV1>;
+const sessionControl = new WeakMap<FinancePlanningSession, ControlSnapshot>(),
+  pendingControl = new WeakMap<WorkPayrollCashSourceState, ControlSnapshot>(),
+  retainedControlledSources = new WeakSet<WorkPayrollCashSourceState>();
 const nativeSet = Map.prototype.set,
-  nativeDelete = Map.prototype.delete;
+  nativeDelete = Map.prototype.delete,
+  controlGet = WeakMap.prototype.get,
+  controlSet = WeakMap.prototype.set,
+  retainedHas = WeakSet.prototype.has,
+  retainedAdd = WeakSet.prototype.add;
+function controlledPayrollSession(core: CoreState): FinancePlanningSession {
+  const snapshot = snapshotExplicitControlV1(core),
+    s = new FinancePlanningSession(
+      core,
+      core.cashJournal,
+      cashJournalParameters(core),
+    );
+  controlSet.call(sessionControl, s, snapshot);
+  return s;
+}
+function payrollControl(s: FinancePlanningSession): ControlSnapshot {
+  const snapshot = controlGet.call(sessionControl, s) as
+    ControlSnapshot | undefined;
+  if (!snapshot)
+    throw new Error(
+      "Payroll writer lost its original explicit-control preimage.",
+    );
+  return snapshot;
+}
 
 function identity(value: string): void {
   if (typeof value !== "string" || !value || value !== value.trim())
@@ -1063,7 +1091,8 @@ function stage<T extends WorkPayrollJobReceipt>(
     detailed =
       r.field(s.core, "observer") ||
       r.field(s.core, "playerId") === c.basis.personId ||
-      r.member(r.field(s.core, "focusPersonIds"), c.basis.personId);
+      r.member(r.field(s.core, "focusPersonIds"), c.basis.personId) ||
+      payrollControl(s).personId === c.basis.personId;
   if (detailed && retainDetailed)
     m.mapSet(
       r.field(work, "detailedPayroll"),
@@ -1685,15 +1714,16 @@ function stageGroup(
       return Object.freeze({ ...item, result: stored });
     }),
     components = Object.freeze(states.map((item) => item.result)),
-    base = copy(r, { ...actual.result, components: [] }, s.zero, s.one),
-    result: WorkPayrollGroupReceipt = Object.freeze({ ...base, components }),
-    first = contexts[s.zero]!,
+    base = copy(r, { ...actual.result, components: [] }, s.zero, s.one);
+  let result: WorkPayrollGroupReceipt = Object.freeze({ ...base, components });
+  const first = contexts[s.zero]!,
     detailed =
       r.field(s.core, "observer") ||
       r.field(s.core, "playerId") === first.basis.personId ||
-      r.member(r.field(s.core, "focusPersonIds"), first.basis.personId);
+      r.member(r.field(s.core, "focusPersonIds"), first.basis.personId) ||
+      payrollControl(s).personId === first.basis.personId;
   if (detailed)
-    s.metadata.mapSet(
+    result = s.metadata.mapSet(
       r.field(first.work, "detailedPayroll"),
       result.id,
       result,
@@ -1846,8 +1876,12 @@ function settleWorkPayrollGroupJournal(
       id: row.id,
     });
     const plan = s.seal(stored.result),
-      caller = plan.result;
+      caller = plan.result,
+      controlSnapshot = payrollControl(s);
     row.postings = plan.postings;
+    controlSet.call(pendingControl, row, controlSnapshot);
+    if (controlSnapshot.personId === row.result.personId)
+      retainedAdd.call(retainedControlledSources, row);
     pending.set(row, plan);
     if (plan.postings.length > s.zero)
       post.call(api, {
@@ -1913,6 +1947,8 @@ export function workPayrollCashSourceProvider(
       "Payroll provider no longer has its actual owning registration.",
     );
   const bundle = pending.get(row),
+    controlSnapshot = controlGet.call(pendingControl, row) as
+      ControlSnapshot | undefined,
     result = r.field(row, "result"),
     date = r.field(row, "date");
   r.payload(result, s.zero, s.one);
@@ -2126,17 +2162,25 @@ export function workPayrollCashSourceProvider(
       marker: row,
       metadata: bundle?.metadata ?? [],
       secondaryMarkers: bundle ? credit.secondaryMarkers : [],
-      retainFull: false,
+      retainFull: retainedHas.call(retainedControlledSources, row),
     };
   apiReads.verify();
   s.reads.verify();
   s.nextReads.verify();
-  if (bundle)
+  if (bundle) {
+    if (!controlSnapshot)
+      throw new Error(
+        "Payroll source lost its original explicit-control preimage.",
+      );
+    controlSnapshot.verify();
     bundle.preflight.verify(
       core,
       core.cashJournal,
       cashJournalParameters(core),
     );
+    // Native private identity only, after the original reflective preflight.
+    controlSnapshot.verify();
+  }
   return slot;
 }
 
@@ -2217,11 +2261,7 @@ export function settleWorkPayrollJournal(
   apiReads.verify();
   ensureWorkPayrollCashModule(core);
   ensureFinanceCashModule(core);
-  const s = new FinancePlanningSession(
-      core,
-      core.cashJournal,
-      cashJournalParameters(core),
-    ),
+  const s = controlledPayrollSession(core),
     c = currentContext(s, commitmentId),
     contexts = groupContexts(s, c);
   if (contexts.length > s.one)
@@ -2286,8 +2326,12 @@ export function settleWorkPayrollJournal(
       id: row.id,
     });
     const plan = s.seal(stored),
-      caller = plan.result;
+      caller = plan.result,
+      controlSnapshot = payrollControl(s);
     row.postings = plan.postings;
+    controlSet.call(pendingControl, row, controlSnapshot);
+    if (controlSnapshot.personId === row.result.personId)
+      retainedAdd.call(retainedControlledSources, row);
     pending.set(row, plan);
     if (plan.postings.length > s.zero)
       post.call(api, {
