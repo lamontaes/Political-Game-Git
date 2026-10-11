@@ -1,3 +1,5 @@
+2026-10-11 — R27: data/research/interest-groups/roadmap-r27-disclosure-measurement.json + 1 request answers; coverage federal lobbying disclosure rules; California official data entrypoint; gaps all56 issue/spending counts, group formation and corrupt-approach incidence; terms questions none; model GPT-6 (Codex), effort not exposed, 26 seconds.
+
 2026-10-11 — R26: data/research/executive/roadmap-r26-staff-boundaries.json + 1 request answers; coverage federal House legal staffing; national public workforce wage/turnover methods; gaps state/council executive staff size/pay and office-specific hiring duration; terms questions none; model GPT-6 (Codex), effort not exposed, 31 seconds.
 
 2026-10-11 — R25: data/research/executive/roadmap-r25-powers-source-filter.json + 6 request answers; coverage 26 historical direct-government item-veto rows plus federal/AK examples; other jurisdictions excluded explicitly; gaps 29 excluded/mirror source rows, current verification, executive cadence/cabinet/veto-driver data and local samples; terms questions none; model GPT-6 (Codex), effort not exposed, 62 seconds.
