@@ -1111,6 +1111,16 @@ export interface CoreAPI {
   /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
   rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
   addOrganization(input: OrganizationInput): void;
+  /** v11: zero-stock newborn admission through the canonical person writer. */
+  addBornPersonV1(
+    input: PersonInput,
+    parents: readonly [PersonId, PersonId],
+    relations: readonly {
+      otherId: PersonId;
+      relation: string;
+      inverse: string;
+    }[],
+  ): PersonState;
   lookupPublicOrganization(personId: PersonId, organizationId: string): void;
   updateNeeds(
     personId: PersonId,
