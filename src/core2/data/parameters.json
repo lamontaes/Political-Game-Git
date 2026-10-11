@@ -3390,10 +3390,10 @@
     }
   },
   "favorRatePerNeed": {
-    "value": 0.425,
+    "value": 0.169,
     "tag": "ESTIMATED",
     "citation": "Talker Research for Safeway Moving, March 19-25, 2025, 2,000 U.S. adults (opt-in commercial poll): 39% first ask friends for help moving; https://talkerresearch.com/more-than-a-third-secretly-hate-being-asked-to-help-with-moving/",
-    "estimatedFrom": "Solved so 39% of residents' recorded moves draw a favor from at least one person they shared a class or workgroup with; asking friends first is not the same as receiving a favor, and the poll is opt-in. Solved pooled over six generated towns (seeds p15-fall-a to -f; 6,613 recorded moves into the county, 1.02 favors per move).",
+    "estimatedFrom": "Solved so 39% of residents' recorded moves draw a favor from at least one person they shared a class or workgroup with, each sampled peer standing for the missing members of a full group; pooled over six generated towns (seeds p15-fall-a to -f; 6,613 recorded moves into the county, 0.71 favors per move). Asking friends first is not the same as receiving a favor, and the poll is opt-in.",
     "stopgapId": "SG-P15-favors"
   }
 }

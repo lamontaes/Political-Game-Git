@@ -85,7 +85,7 @@ function pairLine(seed: string, key: string): number {
  * workgroup holds fewer generated members than a full group. Each generated
  * peer stands for the full group's peers over the generated ones.
  */
-function peersRepresented(input: CoreInput): Map<string, number> {
+export function peersRepresented(input: CoreInput): Map<string, number> {
   const members = new Map<string, Set<PersonId>>();
   for (const person of input.people)
     for (const fact of person.pastFacts ?? []) {

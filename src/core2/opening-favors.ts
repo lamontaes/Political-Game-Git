@@ -6,7 +6,8 @@
  * shared a class or workgroup with before the move may help. Closeness at the
  * time is their shared years as hours together, faded since their shared time
  * ended at the half-life for people outside the family; the chance of a favor
- * rises smoothly with it. Each pair carries its own line, keyed to the pair
+ * rises smoothly with it, and a generated town's sampled peer stands for the
+ * missing members of a full class or workgroup. Each pair carries its own line, keyed to the pair
  * and the move. A favor is a dated fact on both people, kept forever.
  */
 import data from "./data/opening-favors.json" with { type: "json" };
@@ -16,7 +17,7 @@ import { stableHash } from "../simulation/ids";
 import { CLOSENESS, halfLifeDays, levelFromHours } from "./closeness";
 import { PARAMETERS, parameter } from "./parameters";
 import { stopgap } from "./stopgaps";
-import { sharedYears } from "./opening-falling-outs";
+import { peersRepresented, sharedYears } from "./opening-falling-outs";
 import type { CoreInput, IsoDate, PersonId, PersonInput } from "./types";
 
 export const OPENING_FAVORS = data;
@@ -62,6 +63,8 @@ export function addOpeningFavors(input: CoreInput): CoreInput {
   const marker = stopgap(data.stopgapId);
   const opening = makeIsoDate(input.startedAt);
   const byId = new Map(input.people.map((person) => [person.id, person]));
+  // A generated peer stands for the missing members of a full group.
+  const represented = peersRepresented(input);
   const added = new Map<PersonId, PriorFact[]>();
   const add = (id: PersonId, fact: PriorFact) =>
     added.set(id, [...(added.get(id) ?? []), fact]);
@@ -75,7 +78,13 @@ export function addOpeningFavors(input: CoreInput): CoreInput {
         const closeness = closenessAt(person, fact, need.date, opening);
         if (closeness <= p("zero")) continue;
         const key = `${need.id}|${helper.id}|${fact.facts?.contextKey ?? fact.kind}`;
-        if (p("favorRatePerNeed") * closeness < pairLine(input.seed, key))
+        const weight =
+          represented.get(`${fact.kind}|${fact.facts?.peerGroupId}`) ??
+          p("one");
+        if (
+          p("favorRatePerNeed") * closeness * weight <
+          pairLine(input.seed, key)
+        )
           continue;
         const pairId = stableHash(key);
         const name = (row: PersonInput) =>
