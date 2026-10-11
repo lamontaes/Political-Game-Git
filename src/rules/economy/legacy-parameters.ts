@@ -1,5 +1,13 @@
 /** Frozen numeric table. SOURCED means retained unit/calendar/schema contract; legal or empirical sourcing is not inferred from native code. ESTIMATED/TUNABLE preserve the cited registered assumptions. Big integers are lossless literal strings. */
 export const ECONOMY_LEGACY_PARAMETERS = {
+  "another-term.ts": {
+    values: [0],
+    provenance: "TUNABLE",
+    source: "src/simulation/careers/another-term.ts:213",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.another-term-reason-rank"],
+  },
   "bank-credit.ts": {
     values: [0],
     provenance: "TUNABLE",
@@ -201,6 +209,13 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
   },
+  "cost-money.ts": {
+    values: [0],
+    provenance: "SOURCED",
+    source: "src/simulation/resources.ts:79; src/simulation/currency-code.ts:1",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+  },
   "county-home-values.ts": {
     values: [0, 1, 2],
     provenance: "ESTIMATED",
@@ -305,6 +320,18 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     source: "src/simulation/job-market.ts:747",
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+  },
+  "household-costs.ts": {
+    values: [-1, 0, 1, 2, 3, 12, 100, 240],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/cost-of-living.ts:130; src/simulation/cost-of-living.ts:266; src/simulation/cost-of-living.ts:273; src/simulation/cost-of-living.ts:330; src/simulation/cost-of-living.ts:511",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.household-cost-average-basket",
+      "economy.household-cost-settlement-cap",
+    ],
   },
   "household-pay-math.ts": {
     values: [-1, 0, 1, 3, 12, 24, 26, 52, 100],
@@ -497,6 +524,18 @@ export const ECONOMY_LEGACY_PARAMETERS = {
     spread:
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: ["economy.mortgage-saved-rate-pass-through"],
+  },
+  "office-life.ts": {
+    values: [-1, 0, 0.04, 0.08, 0.15, 0.3, 1, 2, 119, 365, 1000000, 86400000],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/careers/another-term.ts:327; src/simulation/careers/another-term.ts:363; src/simulation/careers/another-term.ts:439; src/simulation/crisis/mortality-table.ts:1",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: [
+      "economy.office-life-mortality-approximation",
+      "economy.office-life-authored-weights",
+    ],
   },
   "operating-income.ts": {
     values: [0],

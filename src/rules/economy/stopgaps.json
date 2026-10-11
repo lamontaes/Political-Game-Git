@@ -874,5 +874,65 @@
     "addedBy": "RULES-2",
     "addedAt": "2026-10-11",
     "status": "OPEN"
+  },
+  {
+    "id": "economy.office-life-mortality-approximation",
+    "kind": "estimated-number",
+    "file": "src/rules/economy/office-life.ts",
+    "line": 172,
+    "whatItFakes": "SSA 2023 annual probabilities use 365-day age segments, an age-119 cap and a multiplier observed only at the interval start; annual probability is multiplied and clamped instead of integrating dated hazard changes.",
+    "why": "Exact native mortality approximation travels unchanged, including leap-day/birthday and later-change boundaries; it is not a new individualized prognosis.",
+    "replacement": "Reviewed dated survival integration and admitted cohort calibration with uncertainty.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.office-life-authored-weights",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/office-life.ts",
+    "line": 127,
+    "whatItFakes": "Authored health, aging probability bands and primary/shared care weights rank leaving office; explanations remain native English literals.",
+    "why": "Native discrete consideration bands and text are retained for golden equivalence; no legal or empirical strength calibration is asserted.",
+    "replacement": "Admitted cause-sensitive consideration strengths and English-engine realization.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.another-term-reason-rank",
+    "kind": "placeholder",
+    "file": "src/rules/economy/another-term.ts",
+    "line": 51,
+    "whatItFakes": "Displayed reason filters the chosen option then ranks importance, ignoring direction/confidence; ties retain insertion order and an absent reason uses native English. Cached decisions use the first saved stable-key trace.",
+    "why": "Native selection/cache behavior is retained as a suspected explanation edge; the all-place parent comparisons do not claim an ordinary-play defect.",
+    "replacement": "Reviewed directional reason attribution, cache contract and English realization.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.household-cost-average-basket",
+    "kind": "estimated-number",
+    "file": "src/rules/economy/household-costs.ts",
+    "line": 325,
+    "whatItFakes": "Missing provider categories use source size-times-region CES averages, five-plus size cap, average amounts without an actor spread, cent rounding and an aggregate outside-sellers counterparty.",
+    "why": "The current native drawn-link helper returns the supplied average; no spread or named local seller is invented during the lift. Native source availability and basket coverage remain unchanged.",
+    "replacement": "Admitted dated household category bills and source distributions/counterparties.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
+  },
+  {
+    "id": "economy.household-cost-settlement-cap",
+    "kind": "tunable-number",
+    "file": "src/rules/economy/household-costs.ts",
+    "line": 287,
+    "whatItFakes": "One transition catches up at most 240 months, orders equal-date bills by flow sequence and records only the first household shortfall story. Native dollar/month/reason text remains literal.",
+    "why": "Native catch-up, payment priority and first-story behavior are preserved; old payments remain immutable and no cure or priority policy is added.",
+    "replacement": "Reviewed bounded catch-up/payment priority contract and English-engine records.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "status": "OPEN"
   }
 ]

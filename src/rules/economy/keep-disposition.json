@@ -15,9 +15,9 @@
     "name": "weightiestReason",
     "inventoryEngine": "economy",
     "keepLines": 13,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/another-term.ts",
+    "reason": "Full retained KEEP closure plus necessary helpers/constants is physically present. office-life-world.test.ts compares complete unchanged-native-public-owner results across all 56 generated places from raw saved records and separately owned life/source receipts. Ordered DTOs use unchanged shared writers; chooser/trait/press/math producers stay with their owners. Saved care/health/age/cash/provider/calendar controls are labeled edges, not ordinary NPC or playable core2 evidence. No production RNG, parallel writer, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/careers/another-term.ts",
@@ -25,9 +25,9 @@
     "name": "healthConsiderations",
     "inventoryEngine": "economy",
     "keepLines": 30,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/office-life.ts",
+    "reason": "Full retained KEEP closure plus necessary helpers/constants is physically present. office-life-world.test.ts compares complete unchanged-native-public-owner results across all 56 generated places from raw saved records and separately owned life/source receipts. Ordered DTOs use unchanged shared writers; chooser/trait/press/math producers stay with their owners. Saved care/health/age/cash/provider/calendar controls are labeled edges, not ordinary NPC or playable core2 evidence. No production RNG, parallel writer, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/careers/another-term.ts",
@@ -35,9 +35,9 @@
     "name": "chanceOfDyingBefore",
     "inventoryEngine": "economy",
     "keepLines": 34,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/office-life.ts",
+    "reason": "Full retained KEEP closure plus necessary helpers/constants is physically present. office-life-world.test.ts compares complete unchanged-native-public-owner results across all 56 generated places from raw saved records and separately owned life/source receipts. Ordered DTOs use unchanged shared writers; chooser/trait/press/math producers stay with their owners. Saved care/health/age/cash/provider/calendar controls are labeled edges, not ordinary NPC or playable core2 evidence. No production RNG, parallel writer, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/careers/another-term.ts",
@@ -55,9 +55,9 @@
     "name": "agingConsiderations",
     "inventoryEngine": "economy",
     "keepLines": 26,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/office-life.ts",
+    "reason": "Full retained KEEP closure plus necessary helpers/constants is physically present. office-life-world.test.ts compares complete unchanged-native-public-owner results across all 56 generated places from raw saved records and separately owned life/source receipts. Ordered DTOs use unchanged shared writers; chooser/trait/press/math producers stay with their owners. Saved care/health/age/cash/provider/calendar controls are labeled edges, not ordinary NPC or playable core2 evidence. No production RNG, parallel writer, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/completed-hourly-gross.ts",
@@ -75,9 +75,9 @@
     "name": "estimatedHouseholdLivingCostsAt",
     "inventoryEngine": "economy",
     "keepLines": 53,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/household-costs.ts",
+    "reason": "Full retained KEEP closure plus necessary helpers/constants is physically present. household-costs-world.test.ts compares complete unchanged-native-public-owner results across all 56 generated places from raw saved records and separately owned life/source receipts. Ordered DTOs use unchanged shared writers; chooser/trait/press/math producers stay with their owners. Saved care/health/age/cash/provider/calendar controls are labeled edges, not ordinary NPC or playable core2 evidence. No production RNG, parallel writer, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/cost-of-living.ts",
@@ -85,9 +85,9 @@
     "name": "dollars",
     "inventoryEngine": "economy",
     "keepLines": 6,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/household-costs.ts",
+    "reason": "Full retained KEEP closure plus necessary helpers/constants is physically present. household-costs-world.test.ts compares complete unchanged-native-public-owner results across all 56 generated places from raw saved records and separately owned life/source receipts. Ordered DTOs use unchanged shared writers; chooser/trait/press/math producers stay with their owners. Saved care/health/age/cash/provider/calendar controls are labeled edges, not ordinary NPC or playable core2 evidence. No production RNG, parallel writer, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/cost-of-living.ts",
@@ -95,9 +95,9 @@
     "name": "householdBills",
     "inventoryEngine": "economy",
     "keepLines": 25,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/household-costs.ts",
+    "reason": "Full retained KEEP closure plus necessary helpers/constants is physically present. household-costs-world.test.ts compares complete unchanged-native-public-owner results across all 56 generated places from raw saved records and separately owned life/source receipts. Ordered DTOs use unchanged shared writers; chooser/trait/press/math producers stay with their owners. Saved care/health/age/cash/provider/calendar controls are labeled edges, not ordinary NPC or playable core2 evidence. No production RNG, parallel writer, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/cost-of-living.ts",
@@ -105,9 +105,9 @@
     "name": "prepareHouseholdCosts",
     "inventoryEngine": "economy",
     "keepLines": 171,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/household-costs.ts",
+    "reason": "Full retained KEEP closure plus necessary helpers/constants is physically present. household-costs-world.test.ts compares complete unchanged-native-public-owner results across all 56 generated places from raw saved records and separately owned life/source receipts. Ordered DTOs use unchanged shared writers; chooser/trait/press/math producers stay with their owners. Saved care/health/age/cash/provider/calendar controls are labeled edges, not ordinary NPC or playable core2 evidence. No production RNG, parallel writer, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/cost-of-living.ts",
@@ -115,9 +115,9 @@
     "name": "settleLivingCosts",
     "inventoryEngine": "economy",
     "keepLines": 32,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/household-costs.ts",
+    "reason": "Full retained KEEP closure plus necessary helpers/constants is physically present. household-costs-world.test.ts compares complete unchanged-native-public-owner results across all 56 generated places from raw saved records and separately owned life/source receipts. Ordered DTOs use unchanged shared writers; chooser/trait/press/math producers stay with their owners. Saved care/health/age/cash/provider/calendar controls are labeled edges, not ordinary NPC or playable core2 evidence. No production RNG, parallel writer, exhaustive proof or finisher claim."
   },
   {
     "sourceFile": "src/simulation/county-home-value.ts",
