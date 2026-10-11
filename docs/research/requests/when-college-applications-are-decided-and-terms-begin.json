@@ -10,7 +10,9 @@
   "priority": "P2",
   "question": "When a person applies to a US college for an associate's, bachelor's or master's degree, how long after applying do they usually hear back (regular decision, early decision or action, rolling admission, open-admission community colleges)? On what dates do fall, spring and other terms (winter, summer, quarter-system terms) usually begin? Is starting in the middle of the academic year, in January or at a quarter start, common for a new student, and does that differ between community colleges, public four-year colleges and graduate programs?",
   "questionId": "when-college-applications-are-decided-and-terms-begin",
-  "relatedQuestionIds": ["who-gets-into-college-and-what-it-costs"],
+  "relatedQuestionIds": [
+    "who-gets-into-college-and-what-it-costs"
+  ],
   "requestVersion": "research-request/v1",
   "requestedBy": "ordinary adult life thread",
   "sourcesChecked": [
@@ -21,9 +23,22 @@
     {
       "source": "The game's own K-12 calendar in src/simulation/school-stages.ts",
       "whatItDidNotSettle": "Gives when a child's high school ends (a placeholder between May 20 and June 15), which is when a senior's college place may begin. Says nothing about the college's own calendar."
+    },
+    {
+      "source": "https://nces.ed.gov/ipeds/datacenter/data/HD2025.zip",
+      "whatItDidNotSettle": "No net-price/aid-share distribution, causal credits-work response, comprehensive admissions/calendar rules, actual school closure hazard or all56 regional cost model."
     }
   ],
   "title": "When colleges answer applications and when their terms begin",
   "usableAnswer": "For each of community college, public four-year and graduate admission: a typical wait, or range, between applying and the decision, and whether it depends on when in the year the application is sent. For semester and quarter calendars: the usual start date, or window, of each term. A yes or no, by college type, on whether a new student may begin at a spring or other mid-year term.",
-  "whyItMatters": "Every college now answers an application 45 days after it is sent (src/education/study-provider.ts:154, ADMISSION_DECISION_DAYS at line 157), and every new student starts on August 25, with no spring or quarter start (src/education/study-provider.ts:162, COLLEGE_FALL_TERM_START at line 166). A grown applicant who misses the fall waits most of a year, which may be wrong for community colleges and rolling admission."
+  "whyItMatters": "Every college now answers an application 45 days after it is sent (src/education/study-provider.ts:154, ADMISSION_DECISION_DAYS at line 157), and every new student starts on August 25, with no spring or quarter start (src/education/study-provider.ts:162, COLLEGE_FALL_TERM_START at line 166). A grown applicant who misses the fall waits most of a year, which may be wrong for community colleges and rolling admission.",
+  "answer": {
+    "summary": "IPEDS CALSYS dictionaries distinguish two-semester and three-quarter/trimester academic years; they do not supply application decision dates or actual start dates. Institution/program-specific future calendars and midyear entry frequency remain open.",
+    "sources": [
+      "https://nces.ed.gov/ipeds/datacenter/data/HD2025.zip"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:17:44.514865+00:00",
+    "stillOpen": "No net-price/aid-share distribution, causal credits-work response, comprehensive admissions/calendar rules, actual school closure hazard or all56 regional cost model."
+  }
 }

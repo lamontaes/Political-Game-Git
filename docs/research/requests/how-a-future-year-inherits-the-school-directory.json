@@ -10,16 +10,36 @@
   "priority": "P2",
   "question": "When a game moves years past the most recent school and college directory, how should the directory for a later year be inherited? Specifically: (1) what share of U.S. colleges and K-12 schools close, merge or open per year, by sector (public, private nonprofit, for-profit; community college, four-year) and by state where it differs; (2) how often a college adds or drops a degree level or program in a year; (3) whether a simple rule (carry every row forward, or apply sector closure rates) is defensible for a game spanning decades.",
   "questionId": "how-a-future-year-inherits-the-school-directory",
-  "relatedQuestionIds": ["who-gets-into-college-and-what-it-costs"],
+  "relatedQuestionIds": [
+    "who-gets-into-college-and-what-it-costs"
+  ],
   "requestVersion": "research-request/v1",
   "requestedBy": "The coordinator relaying a playtest blocker, 2026-09-23 (about 12:56 a.m. Eastern): nobody who starts young can go to college. The coordinator's default: carry the latest directory row forward as a marked placeholder and file this question.",
   "sourcesChecked": [
     {
       "source": "docs/research/requests/who-gets-into-college-and-what-it-costs.json",
       "whatItDidNotSettle": "Asks about admission and cost. It does not ask how the list of institutions changes over the years."
+    },
+    {
+      "source": "https://nces.ed.gov/ipeds/datacenter/data/HD2024.zip",
+      "whatItDidNotSettle": "No net-price/aid-share distribution, causal credits-work response, comprehensive admissions/calendar rules, actual school closure hazard or all56 regional cost model."
+    },
+    {
+      "source": "https://nces.ed.gov/ipeds/datacenter/data/HD2025.zip",
+      "whatItDidNotSettle": "No net-price/aid-share distribution, causal credits-work response, comprehensive admissions/calendar rules, actual school closure hazard or all56 regional cost model."
     }
   ],
   "title": "How a future year inherits the school and college directory",
   "usableAnswer": "Annual closure, merger and opening rates by sector (and state where they differ), and annual rates of programs added or dropped, as national defaults. 'Carry rows forward for N years, then apply a rate' is an acceptable shape.",
-  "whyItMatters": "Every player who starts as a child reaches college age years after the shipped directory. Until this is answered, every listed school and college stays open with the same offerings forever."
+  "whyItMatters": "Every player who starts as a child reaches college age years after the shipped directory. Until this is answered, every listed school and college stays open with the same offerings forever.",
+  "answer": {
+    "summary": "Compared2024–25 and2025–26 official corpus identifier sets and recorded common/unique counts. Differences are not validated closure/merger/opening events; carry-forward past the last edition must remain a labeled scenario. No annual closure hazard derived.",
+    "sources": [
+      "https://nces.ed.gov/ipeds/datacenter/data/HD2024.zip",
+      "https://nces.ed.gov/ipeds/datacenter/data/HD2025.zip"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:17:44.514865+00:00",
+    "stillOpen": "No net-price/aid-share distribution, causal credits-work response, comprehensive admissions/calendar rules, actual school closure hazard or all56 regional cost model."
+  }
 }
