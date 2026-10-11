@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { DEFAULT_DATA, extendData } from "./data";
-import { chooseAct, createLifeCore } from "./life";
+import { compactOriginalAnswer, validateCompactChoice } from "./compact-choice";
+import { activate, chooseAct, createLifeCore } from "./life";
 import { parameter as p } from "./parameters";
 import { coreAPI } from "./state";
 import type { ActOffer, ActionDefinition, CoreState, Source } from "./types";
@@ -204,4 +205,100 @@ describe("chooser offer qualification and trace ownership", () => {
       ]),
     ).toThrow(/Non-finite choice utility/);
   });
+});
+
+describe("compact original choice evidence", () => {
+  it("retains a distinct runner-up when concatenated tie keys collide", () => {
+    const core = world(),
+      definition = action();
+    const offers = [
+      offered({ ...definition, id: "fixture:qualified-act:part" }, "target:a"),
+      offered(definition, "part:target:a"),
+    ];
+    const result = chooseAct(core, actorId, offers);
+    expect(result.selected).toBe(offers[0]);
+    expect(result.scores).toHaveLength(offers.length);
+    expect(result.compactChoice).toMatchObject({
+      runnerUpStatus: "saved",
+      chosen: {
+        actionId: offers[0]!.definition.id,
+        targetId: offers[0]!.targetId,
+      },
+      runnerUp: {
+        actionId: offers[1]!.definition.id,
+        targetId: offers[1]!.targetId,
+      },
+    });
+    expect(() => validateCompactChoice(result.compactChoice!)).not.toThrow();
+  });
+  it("captures a non-best answer from the original score pass without provider reevaluation", () => {
+    const core = world(),
+      definition = action();
+    const offers = [
+      offered(definition, "target:a", { effortHours: 1 }),
+      offered(definition, "target:b", { effortHours: 2 }),
+      offered(definition, "target:c", { effortHours: 3 }),
+    ];
+    const original = chooseAct(core, actorId, offers);
+    const answer = compactOriginalAnswer(original, offers, 2);
+    expect(answer.selection).toBe("controlled-answer");
+    expect(answer.chosen.contributions).toEqual(original.scores![2]!.reasons);
+    expect(answer.chosen.targetId).toBe("target:c");
+    expect(answer.runnerUp?.targetId).toBe("target:a");
+    expect(original.selected).toBe(offers[0]);
+    expect(() => validateCompactChoice(answer)).not.toThrow();
+  });
+});
+
+describe("synchronous controller original score integrity", () => {
+  it("rejects callback edits to the original evaluated scores before committing an act", () => {
+    const core = world(),
+      before = core.people.get(actorId)!.actCount;
+    expect(() =>
+      activate(core, actorId, 1, (decision, offers) => {
+        decision.scores![0]!.score += 1;
+        return `${offers[0]!.definition.id}:${offers[0]!.targetId}`;
+      }),
+    ).toThrow(/changed|stale/i);
+    expect(core.people.get(actorId)!.actCount).toBe(before);
+  });
+});
+
+it("retains differently timed original offers with the same action and target as real alternatives", () => {
+  const core = world(),
+    definition = action();
+  const offers = [
+    offered(definition, "same-target", { effortHours: 1 }),
+    offered(definition, "same-target", { effortHours: 3 }),
+  ];
+  const quiet = chooseAct(core, actorId, offers);
+  expect(quiet.compactChoice).toMatchObject({
+    chosen: { offerIndex: 0, effortHours: 1 },
+    runnerUp: { offerIndex: 1, effortHours: 3 },
+    runnerUpStatus: "saved",
+  });
+  expect(() => validateCompactChoice(quiet.compactChoice!)).not.toThrow();
+  const full = chooseAct(core, actorId, offers, undefined, true);
+  const forced = compactOriginalAnswer(full, offers, 1);
+  expect(forced).toMatchObject({
+    chosen: { offerIndex: 1, effortHours: 3 },
+    runnerUp: { offerIndex: 0, effortHours: 1 },
+  });
+});
+
+it("keeps the same outsider result and short reason without allocating a compact explanation", () => {
+  const quiet = world(false),
+    focused = world();
+  const offers = [
+    offered(action(), "target:a"),
+    offered(action(), "target:z", { effortHours: 3 }),
+  ];
+  const outsider = chooseAct(quiet, actorId, offers),
+    circle = chooseAct(focused, actorId, offers);
+  expect(outsider.selected).toBe(circle.selected);
+  expect(outsider.selectedReasons).toEqual(circle.selectedReasons);
+  expect(outsider.reasonKey).toBe(circle.reasonKey);
+  expect(outsider.scores).toBeUndefined();
+  expect(outsider.compactChoice).toBeUndefined();
+  expect(circle.compactChoice).toBeDefined();
 });
