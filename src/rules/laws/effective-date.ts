@@ -99,6 +99,7 @@ export function stateStatuteOperativeAt(
     case "days-after-session-end": {
       // GAME ASSUMPTION retained: when the calendar rule would take effect on
       // or before enactment, count from enactment instead.
+      // stopgapId: "laws.session-end-effective-date-fallback"
       const counted = (end: DateValue): DateValue => {
         const operative = addDays(addMonths(end, rule.months ?? 0), rule.days);
         return rule.notBefore

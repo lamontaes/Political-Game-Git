@@ -78,7 +78,7 @@ describe("effective tax policy rule", () => {
           taxProposals: proposals,
           taxPolicies: legacyPolicies,
         },
-      } as typeof world;
+      } as unknown as typeof world;
       expect(
         effectiveTaxPolicyFromFacts(
           policies,

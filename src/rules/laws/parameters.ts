@@ -13,8 +13,9 @@ export const LAWS_PARAMETERS = {
     range: { minimum: 1, maximum: 100_000 },
   },
   jointScheduleThresholdMultiplier: {
+    stopgapId: "laws.joint-state-tax-multiplier",
     value: 2,
-    basis: "SOURCED",
+    basis: "ESTIMATED",
     source:
       "Married filing jointly applies double single-filer federal bracket thresholds in this state schedule estimate",
     range: { minimum: 1, maximum: 4 },
@@ -32,13 +33,15 @@ export const LAWS_PARAMETERS = {
     range: { minimum: 2, maximum: 2 },
   },
   nonMoneyFeltSizeMonthsOfPay: {
+    stopgapId: "laws.non-money-felt-size",
     value: 0.1,
-    basis: "PLACEHOLDER",
+    basis: "ESTIMATED",
     source:
       "Fable audit card L3; research question felt-size-of-non-money-law-effects",
     range: { minimum: 0, maximum: 1 },
   },
   referenceWeightExponent: {
+    stopgapId: "laws.reciprocal-reference-weights",
     value: 1,
     basis: "TUNABLE",
     source:
@@ -59,12 +62,16 @@ export const LAWS_PARAMETERS = {
     range: { minimum: 1, maximum: 100_000_000 },
   },
   defaultEnactmentDays: {
+    stopgapId: "laws.default-enactment-days",
     value: 90,
+    source: "Legacy enactment date fallback, not sourced law",
     basis: "TUNABLE",
     range: { minimum: 0, maximum: 365 },
   },
   startingStateNoYieldOffset: {
+    stopgapId: "laws.starting-no-yield-offset",
     value: 0.5,
+    source: "Legacy rank offset for non-preemptive starting state no",
     basis: "TUNABLE",
     range: { minimum: 0, maximum: 1 },
   },

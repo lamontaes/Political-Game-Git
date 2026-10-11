@@ -1,3 +1,4 @@
+import { makeCurrencyCode } from "../../simulation/resources";
 import { describe, expect, it } from "vitest";
 import { lawExposureFeltSize as legacyFeltSize } from "../../simulation/law-exposure";
 import { STATES } from "../../simulation/state-reference";
@@ -18,7 +19,10 @@ describe("standalone law exposure felt size", () => {
                 amount:
                   amountMinor === null
                     ? null
-                    : { minorUnits: amountMinor, currency: "USD" },
+                    : {
+                        minorUnits: amountMinor,
+                        currency: makeCurrencyCode("USD"),
+                      },
               },
               monthlyPayMinor,
             ),

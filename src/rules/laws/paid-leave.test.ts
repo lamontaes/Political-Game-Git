@@ -43,6 +43,7 @@ describe("standalone paid-leave benefit rules", () => {
       ).toBe(legacyBenefit(rate, periodPayMinor, workdays, covered));
 
       const premium = {
+        kind: "premium",
         employeeRatePerMillion: 4_400 + base,
         annualWageCapMinor: 8_000_000 + base * 10_000,
         sourceUrl: null,

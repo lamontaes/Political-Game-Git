@@ -1,32 +1,98 @@
 [
   {
-    "id": "laws.federal-mfs-tax-schedule",
-    "behavior": "The bundled 2026 federal tax schedule omits married filing separately; the standalone rule estimates it from the single-filer schedule under IRS Revenue Procedure 2025-32 and carries an estimate label.",
-    "source": "src/rules/laws/federal-income-tax-schedule.ts",
-    "status": "PLACEHOLDER"
-  },
-  {
-    "id": "laws.non-money-felt-size",
-    "behavior": "A non-money rights or eligibility effect is estimated at 0.1 months of pay until research answers felt-size-of-non-money-law-effects.",
-    "source": "src/simulation/law-exposure.ts",
-    "status": "PLACEHOLDER"
-  },
-  {
-    "id": "laws.reciprocal-reference-weights",
-    "behavior": "Similar-state tax deduction estimates use reciprocal competition-rank weights, an authored estimation rule.",
-    "source": "src/simulation/income-tax-withholding.ts",
-    "status": "GAME ASSUMPTION"
+    "id": "laws.session-end-effective-date-fallback",
+    "kind": "placeholder",
+    "file": "src/rules/laws/effective-date.ts",
+    "line": 102,
+    "whatItFakes": "A session-end effective date on or before enactment is instead counted from enactment.",
+    "why": "Legacy fallback keeps a date without researching the exact late-enactment rule.",
+    "addedBy": "RULES-2 (inherited RULES-1 behavior)",
+    "addedAt": "2026-10-11",
+    "replacement": "Dated jurisdiction-specific late-enactment effective-date provisions.",
+    "status": "OPEN"
   },
   {
     "id": "laws.floor-preemption",
-    "behavior": "Conflicts between higher and lower law levels are resolved by rank; floor preemption is not modeled.",
-    "source": "src/simulation/governing/law-in-force.ts",
-    "status": "GAME ASSUMPTION"
+    "kind": "missing-law",
+    "file": "src/rules/laws/law-in-force.ts",
+    "line": 86,
+    "whatItFakes": "All enacted conflicts are resolved by legal level rank.",
+    "why": "The legacy selector does not implement floor preemption.",
+    "addedBy": "RULES-2 (inherited RULES-1 behavior)",
+    "addedAt": "2026-10-11",
+    "replacement": "Dated scope and floor-preemption facts with a reviewed conflict resolver.",
+    "status": "OPEN"
   },
   {
-    "id": "laws.session-end-effective-date-fallback",
-    "behavior": "If a session-end rule would make an act effective on or before its enactment date, count the interval from the enactment date.",
-    "source": "src/simulation/governing/statute-effective-date.ts",
-    "status": "GAME ASSUMPTION"
+    "id": "laws.federal-mfs-tax-schedule",
+    "kind": "missing-data",
+    "file": "src/rules/laws/federal-income-tax-schedule.ts",
+    "line": 34,
+    "whatItFakes": "Missing married-filing-separately schedule returns undefined in a recorded year and throws TypeError for an estimated year.",
+    "why": "The bundled legacy corpus omits this status. Preserve the bug; do not substitute another schedule.",
+    "addedBy": "RULES-2 (inherited RULES-1 behavior)",
+    "addedAt": "2026-10-11",
+    "replacement": "Research-admitted filing-status schedule and CTO-approved behavior correction.",
+    "status": "OPEN"
+  },
+  {
+    "id": "laws.joint-state-tax-multiplier",
+    "kind": "estimated-number",
+    "file": "src/rules/laws/parameters.ts",
+    "line": 16,
+    "whatItFakes": "Every state joint tax schedule doubles single bracket thresholds.",
+    "why": "This is a shared state estimate, not sourced law for all 56 places.",
+    "addedBy": "RULES-2 (inherited RULES-1 behavior)",
+    "addedAt": "2026-10-11",
+    "replacement": "Per-place filing-status schedules selected by the port.",
+    "status": "OPEN"
+  },
+  {
+    "id": "laws.non-money-felt-size",
+    "kind": "estimated-number",
+    "file": "src/rules/laws/parameters.ts",
+    "line": 36,
+    "whatItFakes": "Non-money rights or eligibility effects count as 0.1 months of pay.",
+    "why": "Inherited placeholder is not empirical felt-size evidence.",
+    "addedBy": "RULES-2 (inherited RULES-1 behavior)",
+    "addedAt": "2026-10-11",
+    "replacement": "Research answering felt-size-of-non-money-law-effects.",
+    "status": "OPEN"
+  },
+  {
+    "id": "laws.reciprocal-reference-weights",
+    "kind": "tunable-number",
+    "file": "src/rules/laws/parameters.ts",
+    "line": 44,
+    "whatItFakes": "Similar-state tax estimates use reciprocal competition-rank weights.",
+    "why": "Inherited authored reference weighting substitutes for calibrated closeness.",
+    "addedBy": "RULES-2 (inherited RULES-1 behavior)",
+    "addedAt": "2026-10-11",
+    "replacement": "Evidence-backed reference weighting admitted by the port.",
+    "status": "OPEN"
+  },
+  {
+    "id": "laws.default-enactment-days",
+    "kind": "tunable-number",
+    "file": "src/rules/laws/parameters.ts",
+    "line": 65,
+    "whatItFakes": "Enactments with no explicit date, profile or resolvable state rule become operative after 90 days.",
+    "why": "Preserve the inherited generic effective-date fallback.",
+    "addedBy": "RULES-2 (inherited RULES-1 behavior)",
+    "addedAt": "2026-10-11",
+    "replacement": "Admitted effective-date rules for each instrument and jurisdiction.",
+    "status": "OPEN"
+  },
+  {
+    "id": "laws.starting-no-yield-offset",
+    "kind": "tunable-number",
+    "file": "src/rules/laws/parameters.ts",
+    "line": 72,
+    "whatItFakes": "A non-preemptive starting state no ranks half a level below local ordinances.",
+    "why": "The offset implements the legacy yield order through arithmetic ranks.",
+    "addedBy": "RULES-2 (inherited RULES-1 behavior)",
+    "addedAt": "2026-10-11",
+    "replacement": "Explicit sourced conflict precedence rather than a numerical offset.",
+    "status": "OPEN"
   }
 ]

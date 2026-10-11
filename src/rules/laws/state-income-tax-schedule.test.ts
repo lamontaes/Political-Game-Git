@@ -3,6 +3,7 @@ import { lifePlaceStateIdentities } from "../../simulation/life-places";
 import {
   stateScheduleForFilingStatus as legacyStateScheduleForFilingStatus,
   type IncomeTaxSchedule,
+  type FilingStatus,
 } from "../../simulation/income-tax-withholding";
 import { stateIncomeTaxScheduleFromSingleFact } from "./state-income-tax-schedule";
 
@@ -31,7 +32,7 @@ describe("state filing-status schedule rule", () => {
         sourceUrl: "https://example.invalid/schedule-source",
       };
       expect(stateIncomeTaxScheduleFromSingleFact(single, status)).toEqual(
-        legacyStateScheduleForFilingStatus(single, status),
+        legacyStateScheduleForFilingStatus(single, status as FilingStatus),
       );
     },
   );

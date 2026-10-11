@@ -83,6 +83,7 @@ export function governs(
   candidate: LawCandidate,
   current: LawCandidate,
 ): boolean {
+  // stopgapId: "laws.floor-preemption"
   const rank = governingRank(candidate) - governingRank(current);
   if (rank !== 0) return rank > 0;
   if (candidate.origin !== current.origin)

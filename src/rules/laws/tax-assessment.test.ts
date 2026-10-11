@@ -1,3 +1,4 @@
+import { makeCurrencyCode } from "../../simulation/resources";
 import { describe, expect, it } from "vitest";
 import { previewTax as legacyPreviewTax } from "../../simulation/tax-policy";
 import { STATES } from "../../simulation/state-reference";
@@ -18,7 +19,7 @@ describe("standalone taxable-base assessment", () => {
         rateDenominator: 10_000,
         exemptBaseKeys: [`tax-base:exempt-${usps.toLowerCase()}`],
         allowanceMinorUnits: 25_000,
-        currency: "USD",
+        currency: makeCurrencyCode("USD"),
         collectionLagDays: 1,
         publicPurpose: "selected program",
         assumptionNote: "test facts",
@@ -26,7 +27,7 @@ describe("standalone taxable-base assessment", () => {
       };
       const amount = {
         minorUnits: 250_000 + usps.charCodeAt(1) * 100,
-        currency: "USD",
+        currency: makeCurrencyCode("USD"),
       };
       const expected = legacyPreviewTax(terms, baseKey, amount);
       const actual = taxAssessmentFromFacts(terms, baseKey, {
