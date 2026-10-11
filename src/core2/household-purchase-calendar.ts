@@ -12,9 +12,170 @@ import type {
   OpeningPurchaseCalendarData,
 } from "./opening-purchase-calendar";
 import { stopgap } from "./stopgaps";
+import { admittedWorkPayrollCalendarMatches } from "./work-attendance";
+import {
+  nextWorkPayrollPeriod,
+  validateRetainedWorkPayrollObligation,
+  workPayPeriodAtIndex,
+} from "./work-pay-period";
+import type { WorkPayrollBasis, WorkPayrollLedger } from "./work-pay-period";
+import type {
+  WorkPayrollCashSourceState,
+  WorkPayrollGroupSourceState,
+  SingleWorkPayrollCashSourceState,
+  WorkPayrollJobReceipt,
+} from "./work-payroll-cash";
+import type { IsoDate } from "../simulation/types";
 import type { Source } from "./types";
 
 const ruleId = "generated-household-income-calendar-at-or-after-nominal";
+
+/** Preserve complete actual Source data, including optional typed household basis children. */
+function copyPurchaseCalendarSource(
+  r: FinancePlanningSession["reads"],
+  source: Source,
+  availableAt: IsoDate,
+  zero: number,
+  one: number,
+): Source {
+  const active = new Set<object>(),
+    copied = new WeakMap<object, object>();
+  const copy = (value: unknown): unknown => {
+    if (value === null || typeof value !== "object") {
+      if (
+        typeof value === "function" ||
+        typeof value === "symbol" ||
+        typeof value === "bigint" ||
+        (typeof value === "number" && !Number.isFinite(value))
+      )
+        throw new Error(
+          "Purchase calendar Source requires nonexecutable finite data.",
+        );
+      return value;
+    }
+    if (active.has(value))
+      throw new Error("Purchase calendar Source cannot contain a cycle.");
+    const prior = copied.get(value);
+    if (prior) return prior;
+    const array = Array.isArray(value),
+      prototype = Object.getPrototypeOf(value);
+    if (
+      array
+        ? prototype !== Array.prototype
+        : prototype !== Object.prototype && prototype !== null
+    )
+      throw new Error(
+        "Purchase calendar Source requires ordinary owned records or arrays.",
+      );
+    const result = array ? [] : Object.create(null);
+    active.add(value);
+    copied.set(value, result);
+    try {
+      if (array) r.array(value as readonly unknown[], zero, one);
+      for (const key of r.keys(value)) {
+        if (typeof key !== "string")
+          throw new Error(
+            "Purchase calendar Source requires named own data fields.",
+          );
+        if (array && key === "length") continue;
+        const field = r.field(value as Record<string, unknown>, key),
+          descriptor = Object.getOwnPropertyDescriptor(value, key);
+        if (
+          !descriptor ||
+          !("value" in descriptor) ||
+          !Object.is(descriptor.value, field)
+        )
+          throw new Error(
+            "Purchase calendar Source descriptor changed during copying.",
+          );
+        Object.defineProperty(result, key, {
+          value: copy(field),
+          enumerable: descriptor.enumerable,
+          writable: false,
+          configurable: false,
+        });
+      }
+      return Object.freeze(result);
+    } finally {
+      active.delete(value);
+    }
+  };
+  // Keep the original scalar Source envelope; the public optional typed basis is the sole structured exception.
+  for (const key of r.keys(source)) {
+    if (typeof key !== "string")
+      throw new Error(
+        "Purchase calendar Source requires named own data fields.",
+      );
+    const value = r.field(source as unknown as Record<string, unknown>, key);
+    if (key === "generatedHouseholdBasis") {
+      if (
+        value !== undefined &&
+        (value === null || typeof value !== "object" || Array.isArray(value))
+      )
+        throw new Error(
+          "Purchase calendar typed Source basis requires an owned record.",
+        );
+    } else if (value !== undefined && typeof value !== "string")
+      throw new Error(
+        "Purchase calendar Source requires scalar provenance outside its optional typed basis.",
+      );
+  }
+  const result = copy(source) as Source,
+    basis = result.generatedHouseholdBasis;
+  if (basis !== undefined) {
+    const keys = [
+      "schema",
+      "domain",
+      "catalogVersion",
+      "householdId",
+      "ownerSourceDigest",
+      "key",
+      "region",
+      "sizeColumn",
+      "parameterRefs",
+      "calendarDueAt",
+      "calendarBasisIds",
+      "missingIncome",
+    ];
+    if (
+      Reflect.ownKeys(basis).length !== keys.length ||
+      keys.some((key) => !Object.hasOwn(basis, key)) ||
+      basis.schema !== "p8-hh-source-basis/v1" ||
+      !["category", "service"].includes(basis.domain) ||
+      [
+        basis.catalogVersion,
+        basis.householdId,
+        basis.ownerSourceDigest,
+        basis.key,
+        basis.region,
+        basis.sizeColumn,
+      ].some((value) => typeof value !== "string" || !value.trim()) ||
+      typeof basis.missingIncome !== "boolean" ||
+      typeof basis.calendarDueAt !== "string" ||
+      makeIsoDate(basis.calendarDueAt) !== basis.calendarDueAt ||
+      ![basis.parameterRefs, basis.calendarBasisIds].every(
+        (value) =>
+          Array.isArray(value) &&
+          Array.prototype.every.call(
+            value,
+            (id: unknown) => typeof id === "string" && id.trim(),
+          ),
+      )
+    )
+      throw new Error(
+        "Purchase calendar typed Source basis has an unsupported shape.",
+      );
+  }
+  if (
+    !["SOURCED", "ESTIMATED"].includes(result.tag) ||
+    !result.citation?.trim() ||
+    makeIsoDate(result.asOf) > availableAt
+  )
+    throw new Error(
+      "Purchase renewal requires actual available source evidence.",
+    );
+  return result;
+}
 
 /** Only fresh generated household budgets call this factory; supplied bills omit it. */
 export function createHouseholdPurchaseCalendarMarker(
@@ -102,31 +263,8 @@ export function nextHouseholdPurchaseDate(
     nominal = makeIsoDate(nextNominalDueAt),
     following = makeIsoDate(followingNominalDueAt),
     previousNominal = m.field(row, "nominalDueAt");
-  const copySource = (source: Source, availableAt = session.date): Source => {
-    const tag = r.field(source, "tag"),
-      asOf = makeIsoDate(r.field(source, "asOf")),
-      citation = r.field(source, "citation");
-    if (
-      !["SOURCED", "ESTIMATED"].includes(tag) ||
-      !citation.trim() ||
-      asOf > availableAt
-    )
-      throw new Error(
-        "Purchase renewal requires actual available source evidence.",
-      );
-    const copy: Record<string, unknown> = {};
-    for (const key of r.keys(source)) {
-      if (typeof key !== "string")
-        throw new Error("Purchase calendar Source requires named data fields.");
-      const value = r.field(source as unknown as Record<string, unknown>, key);
-      if (value !== undefined && typeof value !== "string")
-        throw new Error(
-          "Purchase calendar Source requires plain scalar provenance.",
-        );
-      copy[key] = value;
-    }
-    return copy as unknown as Source;
-  };
+  const copySource = (source: Source, availableAt = session.date): Source =>
+    copyPurchaseCalendarSource(r, source, makeIsoDate(availableAt), zero, one);
   const originalSource = copySource(r.field(marker, "source")),
     openingIds = r.array(r.field(marker, "openingBasisIds"), zero, one);
   if (
@@ -232,6 +370,440 @@ export function nextHouseholdPurchaseDate(
         r.field(job, "personId") !== personId)
     )
       throw new Error("Purchase renewal owned job identity is stale.");
+    if (r.field(person, "alive")) {
+      // Only this household member's retained current commitments/periods, never a world or history scan.
+      const retainedTotals = new Map<
+        string,
+        {
+          earned: bigint;
+          paid: bigint;
+          accrued: bigint;
+          due: bigint;
+          arrears: bigint;
+        }
+      >();
+      for (const id of indexed ? r.members(indexed) : []) {
+        const commitment = r.mapGet(commitments, id);
+        if (
+          !commitment ||
+          r.field(commitment, "id") !== id ||
+          r.field(commitment, "personId") !== personId
+        )
+          throw new Error(
+            "Purchase renewal retained commitment index is stale.",
+          );
+        const ledger = r.mapGet(r.field(work, "payrollLedgerByCommitment"), id),
+          indices = r.mapGet(
+            r.field(work, "earnedPayPeriodByCommitmentIndex"),
+            id,
+          );
+        // Snapshot only the bounded current index, as the original payroll owning path does.
+        if (indices) r.payload(indices, zero, one);
+        if (!ledger) {
+          const latest = r.mapGet(
+            r.field(work, "lastAttendanceByJob"),
+            r.field(commitment, "jobId"),
+          );
+          if (
+            (indices &&
+              Map.prototype.entries.call(indices).next().done !== true) ||
+            (latest && r.field(latest, "commitmentId") === id)
+          )
+            throw new Error(
+              "Purchase renewal retained earned index or actual attendance lost its owning ledger.",
+            );
+          continue;
+        }
+        const retainedJobId = r.field(commitment, "jobId"),
+          employerId = r.field(commitment, "organizationId"),
+          retainedJob = r.mapGet(r.field(session.core, "jobs"), retainedJobId),
+          employer = r.mapGet(
+            r.field(session.core, "organizations"),
+            employerId,
+          ),
+          calendarId = r.field(commitment, "payrollCalendarId"),
+          calendar = calendarId
+            ? r.mapGet(r.field(work, "payrollCalendars"), calendarId)
+            : undefined;
+        if (
+          !retainedJob ||
+          !employer ||
+          !calendar ||
+          r.field(retainedJob, "id") !== retainedJobId ||
+          r.field(retainedJob, "personId") !== personId ||
+          r.field(retainedJob, "organizationId") !== employerId ||
+          r.field(employer, "id") !== employerId ||
+          r.field(calendar, "id") !== calendarId ||
+          r.field(calendar, "organizationId") !== employerId ||
+          r.mapGet(r.field(work, "payrollCalendarByCommitment"), id) !==
+            calendarId ||
+          r.mapGet(r.field(work, "payrollCalendarByJob"), retainedJobId) !==
+            calendarId ||
+          !admittedWorkPayrollCalendarMatches(
+            session.core,
+            calendarId!,
+            calendar,
+          ) ||
+          !r
+            .array(r.field(calendar, "workCommitmentIds"), zero, one)
+            .includes(id)
+        )
+          throw new Error(
+            "Purchase renewal retained wage requires its genuinely admitted actual calendar ownership.",
+          );
+        const jobSource = copySource(r.field(retainedJob, "source")),
+          paySource = copySource(r.field(commitment, "paySource")),
+          scheduleSource = copySource(r.field(commitment, "scheduleSource")),
+          calendarSource = copySource(r.field(calendar, "source")),
+          basis: WorkPayrollBasis = {
+            calendarId: calendarId!,
+            commitmentId: id,
+            jobId: retainedJobId,
+            personId,
+            organizationId: employerId,
+            jobSource,
+            paySource,
+            scheduleSource,
+          },
+          units = {
+            zero,
+            one,
+            monthsPerYear: session.parameter("monthsPerYear"),
+          };
+        copySource(r.field(employer, "source"));
+        validateRetainedWorkPayrollObligation(
+          r,
+          calendar,
+          basis,
+          ledger,
+          undefined,
+          session.date,
+          units,
+        );
+        const cohort = retainedTotals.get(retainedJobId) ?? {
+          earned: BigInt(zero),
+          paid: BigInt(zero),
+          accrued: BigInt(zero),
+          due: BigInt(zero),
+          arrears: BigInt(zero),
+        };
+        cohort.earned += BigInt(r.field(ledger, "earnedMinor"));
+        cohort.paid += BigInt(r.field(ledger, "paidMinor"));
+        cohort.accrued += BigInt(r.field(ledger, "accruedMinor"));
+        cohort.due += BigInt(r.field(ledger, "dueRecognizedMinor"));
+        cohort.arrears += BigInt(r.field(ledger, "arrearsMinor"));
+        retainedTotals.set(retainedJobId, cohort);
+        const latestAt = r.field(ledger, "lastEarnedAt"),
+          latestId = r.field(ledger, "lastWorkResultId"),
+          actualAttendance = r.mapGet(
+            r.field(work, "lastAttendanceByJob"),
+            retainedJobId,
+          );
+        if (
+          latestAt !== undefined &&
+          (!actualAttendance ||
+            r.field(actualAttendance, "id") !== latestId ||
+            r.field(actualAttendance, "date") !== latestAt ||
+            r.field(actualAttendance, "commitmentId") !== id ||
+            r.field(actualAttendance, "jobId") !== retainedJobId ||
+            r.field(actualAttendance, "personId") !== personId ||
+            r.field(actualAttendance, "organizationId") !== employerId ||
+            r.field(actualAttendance, "payrollCalendarId") !== calendarId)
+        )
+          throw new Error(
+            "Purchase renewal retained earned ledger lost its actual latest owned attendance.",
+          );
+        if (actualAttendance) {
+          const amount = r.field(actualAttendance, "earnedMinor");
+          if (
+            !Number.isSafeInteger(amount) ||
+            amount < zero ||
+            amount > r.field(ledger, "earnedMinor")
+          )
+            throw new Error(
+              "Purchase renewal actual latest attendance exceeds its retained earned stock.",
+            );
+          copySource(
+            r.field(actualAttendance, "source"),
+            makeIsoDate(r.field(actualAttendance, "date")),
+          );
+        }
+        const references: Reference[] = [
+          { kind: "job", id: retainedJobId, source: jobSource },
+          { kind: "commitment", id, source: scheduleSource, paySource },
+          { kind: "payroll-calendar", id: calendarId!, source: calendarSource },
+        ];
+        let accrued = BigInt(zero);
+        for (const [index, periodId] of indices
+          ? (Map.prototype.entries.call(indices) as IterableIterator<
+              [number, string]
+            >)
+          : []) {
+          if (r.mapGet(indices!, index) !== periodId)
+            throw new Error("Purchase renewal retained period index changed.");
+          const period = r.mapGet(r.field(work, "earnedPayPeriods"), periodId);
+          if (
+            !period ||
+            r.field(period, "id") !== periodId ||
+            r.field(period, "index") !== index
+          )
+            throw new Error(
+              "Purchase renewal retained period index is absent or foreign.",
+            );
+          validateRetainedWorkPayrollObligation(
+            r,
+            calendar,
+            basis,
+            ledger,
+            period,
+            session.date,
+            units,
+          );
+          const due = makeIsoDate(r.field(period, "dueAt")),
+            dueIds = r.mapGet(r.field(work, "payrollPeriodsByDue"), due),
+            first = makeIsoDate(r.field(period, "firstEarnedAt")),
+            last = makeIsoDate(r.field(period, "lastEarnedAt")),
+            start = makeIsoDate(r.field(commitment, "startsAt")),
+            end = r.field(commitment, "endsAt"),
+            jobEnd = r.field(retainedJob, "endsAt"),
+            amount = r.field(period, "earnedMinor");
+          if (
+            !dueIds ||
+            !r.member(dueIds, periodId) ||
+            first < start ||
+            (end !== undefined && last > makeIsoDate(end)) ||
+            (jobEnd !== undefined && last > makeIsoDate(jobEnd))
+          )
+            throw new Error(
+              "Purchase renewal retained earning bounds or actual due membership changed.",
+            );
+          accrued += BigInt(amount);
+          if (amount > zero && due >= nominal && due < following)
+            wages.push({
+              date: due,
+              references: [
+                ...references,
+                {
+                  kind: "earned-pay-period",
+                  id: periodId,
+                  source: copySource(r.field(period, "source"), last),
+                },
+              ],
+            });
+        }
+        if (accrued !== BigInt(r.field(ledger, "accruedMinor")))
+          throw new Error(
+            "Purchase renewal retained open periods disagree with actual accrued wages.",
+          );
+        const arrears = r.field(ledger, "arrearsMinor"),
+          priorId = r.field(ledger, "lastPayrollReceiptId");
+        if (priorId !== undefined) {
+          const canonical = r.mapGet(
+              r.field(work, "payrollCashSources"),
+              priorId,
+            ),
+            aggregate = canonical && r.field(canonical, "result"),
+            lastSettledAt = r.field(ledger, "lastSettledAt"),
+            latest = r.mapGet(
+              r.field(work, "latestPayrollByJob"),
+              retainedJobId,
+            );
+          if (
+            !canonical ||
+            !aggregate ||
+            !latest ||
+            lastSettledAt === undefined ||
+            r.field(canonical, "id") !== priorId ||
+            r.field(canonical, "date") !== lastSettledAt ||
+            r.field(aggregate, "id") !== priorId ||
+            r.field(aggregate, "date") !== lastSettledAt ||
+            (r.field(canonical, "postedJournalSequence") === undefined &&
+              r.field(canonical, "completedAt") === undefined)
+          )
+            throw new Error(
+              "Purchase renewal retained arrears lost its actual completed payday Source.",
+            );
+          r.payload(aggregate, zero, one);
+          const grouped = r.field(
+            canonical as WorkPayrollCashSourceState,
+            "group",
+          );
+          let receipt: WorkPayrollJobReceipt, after: WorkPayrollLedger;
+          if (grouped === true) {
+            const group = canonical as WorkPayrollGroupSourceState,
+              result = r.field(group, "result"),
+              states = r.array(r.field(group, "componentStates"), zero, one),
+              components = r.array(r.field(result, "components"), zero, one);
+            r.payload(states, zero, one);
+            if (
+              r.field(result, "group") !== true ||
+              states.length <= one ||
+              states.length !== components.length ||
+              r.field(result, "calendarId") !== calendarId ||
+              r.field(result, "personId") !== personId ||
+              r.field(result, "organizationId") !== employerId
+            )
+              throw new Error(
+                "Purchase renewal retained group has changed its actual aggregate ownership.",
+              );
+            const seenCommitments = new Set<string>(),
+              seenJobs = new Set<string>();
+            let selected: (typeof states)[number] | undefined;
+            for (
+              let position = zero;
+              position < states.length;
+              position += one
+            ) {
+              const state = states[position]!,
+                component = r.field(state, "result"),
+                componentId = r.field(component, "commitmentId"),
+                componentJobId = r.field(component, "jobId");
+              if (
+                !componentId?.trim() ||
+                !componentJobId?.trim() ||
+                seenCommitments.has(componentId) ||
+                seenJobs.has(componentJobId) ||
+                components[position] !== component ||
+                r.field(component, "id") !== priorId ||
+                r.field(component, "groupReceiptId") !== priorId ||
+                r.field(component, "date") !== lastSettledAt ||
+                r.field(component, "calendarId") !== calendarId ||
+                r.field(component, "personId") !== personId ||
+                r.field(component, "organizationId") !== employerId
+              )
+                throw new Error(
+                  "Purchase renewal retained group lost its unique actual component identities.",
+                );
+              seenCommitments.add(componentId);
+              seenJobs.add(componentJobId);
+              if (componentId === id) selected = state;
+            }
+            if (
+              !selected ||
+              r.field(r.field(selected, "result"), "jobId") !== retainedJobId
+            )
+              throw new Error(
+                "Purchase renewal retained group lost its exact owned job component.",
+              );
+            receipt = r.field(selected, "result");
+            after = r.field(selected, "ledgerAfter");
+          } else {
+            if (grouped !== undefined && grouped !== false)
+              throw new Error(
+                "Purchase renewal retained payday has an invalid owning shape.",
+              );
+            const single = canonical as SingleWorkPayrollCashSourceState;
+            receipt = r.field(single, "result");
+            after = r.field(single, "ledgerAfter");
+          }
+          if (
+            !receipt ||
+            !after ||
+            receipt !== latest ||
+            r.field(receipt, "id") !== priorId ||
+            r.field(receipt, "date") !== lastSettledAt
+          )
+            throw new Error(
+              "Purchase renewal retained payday lost its genuine latest job view.",
+            );
+          r.payload(after, zero, one);
+          for (const key of [
+            "calendarId",
+            "commitmentId",
+            "jobId",
+            "personId",
+            "organizationId",
+            "dueRecognizedMinor",
+            "paidMinor",
+            "arrearsMinor",
+            "lastSettledPeriodIndex",
+            "lastSettledAt",
+            "lastPayrollReceiptId",
+          ] as const)
+            if (r.field(after, key) !== r.field(ledger, key))
+              throw new Error(
+                "Purchase renewal retained stocks changed from actual payday recognition.",
+              );
+          for (const key of [
+            "calendarId",
+            "commitmentId",
+            "jobId",
+            "personId",
+            "organizationId",
+          ] as const)
+            if (r.field(receipt, key) !== r.field(ledger, key))
+              throw new Error(
+                "Purchase renewal retained payday receipt has a foreign owner.",
+              );
+          // The component keeps its full Source; the owning reference ID names the canonical aggregate.
+          copySource(r.field(receipt, "source"), makeIsoDate(lastSettledAt));
+          const receiptSource = copySource(
+            r.field(aggregate, "source"),
+            makeIsoDate(lastSettledAt),
+          );
+          if (arrears > zero) {
+            const retry = nextWorkPayrollPeriod(
+                r,
+                calendar,
+                addDays(makeIsoDate(lastSettledAt), one),
+                session.date,
+                units,
+              ),
+              retryIds = r.mapGet(
+                r.field(work, "payrollArrearsByDue"),
+                makeIsoDate(retry.dueAt),
+              );
+            if (!retryIds || !r.member(retryIds, id))
+              throw new Error(
+                "Purchase renewal retained arrears lost its exact recorded retry index.",
+              );
+            if (retry.dueAt >= nominal && retry.dueAt < following)
+              wages.push({
+                date: retry.dueAt,
+                references: [
+                  ...references,
+                  {
+                    kind: "payroll-receipt",
+                    id: priorId,
+                    source: receiptSource,
+                  },
+                ],
+              });
+          }
+        } else if (arrears > zero)
+          throw new Error(
+            "Purchase renewal cannot invent unrecognized wage debt.",
+          );
+      }
+      for (const [retainedJobId, cohort] of retainedTotals) {
+        const totals = r.mapGet(r.field(work, "totalsByJob"), retainedJobId);
+        if (
+          !totals ||
+          !Number.isSafeInteger(r.field(totals, "requestedMinor")) ||
+          !Number.isSafeInteger(r.field(totals, "paidMinor")) ||
+          BigInt(r.field(totals, "requestedMinor")) !== cohort.earned ||
+          BigInt(r.field(totals, "paidMinor")) !== cohort.paid
+        )
+          throw new Error(
+            "Purchase renewal retained wages disagree with actual cumulative earned/paid work totals.",
+          );
+        for (const [key, value] of [
+          ["earnedMinor", cohort.earned],
+          ["accruedMinor", cohort.accrued],
+          ["dueRecognizedMinor", cohort.due],
+          ["arrearsMinor", cohort.arrears],
+        ] as const) {
+          const amount = r.field(totals, key);
+          if (
+            amount !== undefined &&
+            (!Number.isSafeInteger(amount) || BigInt(amount) !== value)
+          )
+            throw new Error(
+              "Purchase renewal retained stock fields disagree with actual work totals.",
+            );
+        }
+      }
+    }
     if (job && r.field(person, "alive")) {
       const employerId = r.field(job, "organizationId"),
         employer = r.mapGet(r.field(session.core, "organizations"), employerId);
@@ -271,8 +843,50 @@ export function nextHouseholdPurchaseDate(
           (end && makeIsoDate(end) < start)
         )
           throw new Error("Purchase renewal periodic work terms are invalid.");
-        const spans: { start: number; minutes: number }[] = [];
-        let earliest: string | undefined;
+        const calendarId = r.field(commitment, "payrollCalendarId"),
+          calendars = r.field(work, "payrollCalendars"),
+          binding = r.mapGet(r.field(work, "payrollCalendarByCommitment"), id),
+          jobBinding = r.mapGet(r.field(work, "payrollCalendarByJob"), jobId!),
+          calendar = calendarId ? r.mapGet(calendars, calendarId) : undefined;
+        if (
+          !calendar ||
+          calendarId !== binding ||
+          calendarId !== jobBinding ||
+          r.field(calendar, "id") !== calendarId ||
+          !admittedWorkPayrollCalendarMatches(
+            session.core,
+            calendarId!,
+            calendar,
+          ) ||
+          r.field(calendar, "organizationId") !== employerId ||
+          !r
+            .array(r.field(calendar, "workCommitmentIds"), zero, one)
+            .includes(id)
+        )
+          throw new Error(
+            "Purchase renewal requires the owning admitted employer payday calendar.",
+          );
+        const calendarSource = copySource(r.field(calendar, "source")),
+          units = {
+            zero,
+            one,
+            monthsPerYear: session.parameter("monthsPerYear"),
+          },
+          firstAdvancedAt = addDays(
+            makeIsoDate(r.field(session.core, "startedAt")),
+            one,
+          ),
+          earningFrom = [
+            firstAdvancedAt,
+            makeIsoDate(r.field(calendar, "effectiveFrom")),
+            makeIsoDate(r.field(calendar, "firstPeriodStartsAt")),
+          ]
+            .sort()
+            .at(-one)!,
+          earningUntil = r.field(calendar, "effectiveUntil"),
+          spans: { start: number; minutes: number }[] = [],
+          segments: { offset: number; notBefore: string }[] = [];
+        // Validate every original slot and overlap before considering any payday.
         for (const slot of slots) {
           const offset = r.field(slot, "offsetDays"),
             minute = r.field(slot, "startMinute"),
@@ -299,20 +913,10 @@ export function nextHouseholdPurchaseDate(
               : []),
           ]) {
             if (segment.minutes <= zero || rate <= zero) continue;
-            const from = [nominal, addDays(start, segment.offset - offset)]
-                .sort()
-                .at(-one)!,
-              residue =
-                ((daysBetween(anchor, from) % period) + period) % period,
-              delay = ((segment.offset % period) - residue + period) % period,
-              date = addDays(makeIsoDate(from), delay);
-            if (
-              date < following &&
-              (!end || date <= makeIsoDate(end)) &&
-              (!jobEnd || date < makeIsoDate(jobEnd)) &&
-              (!earliest || date < earliest)
-            )
-              earliest = date;
+            segments.push({
+              offset: segment.offset,
+              notBefore: addDays(start, segment.offset - offset),
+            });
           }
         }
         spans.sort((left, right) => left.start - right.start);
@@ -322,14 +926,62 @@ export function nextHouseholdPurchaseDate(
             (spans[position + one]?.start ?? spans[zero]!.start + period * day)
           )
             throw new Error("Purchase renewal work slots overlap.");
-        if (earliest)
-          wages.push({
-            date: earliest,
-            references: [
-              { kind: "job", id: jobId!, source: jobSource },
-              { kind: "commitment", id, source: scheduleSource, paySource },
-            ],
-          });
+        let payPeriod = nextWorkPayrollPeriod(
+          r,
+          calendar,
+          nominal,
+          session.date,
+          units,
+        );
+        // Only this cadence window is searched; no yearly attendance/invoice rows are created.
+        while (payPeriod.dueAt < following) {
+          let earliest: string | undefined;
+          for (const segment of segments) {
+            const from = [payPeriod.fromAt, earningFrom, segment.notBefore]
+                .sort()
+                .at(-one)!,
+              residue =
+                ((daysBetween(anchor, makeIsoDate(from)) % period) + period) %
+                period,
+              delay = ((segment.offset % period) - residue + period) % period,
+              date = addDays(makeIsoDate(from), delay);
+            if (
+              date <= payPeriod.throughAt &&
+              (!earningUntil || date < makeIsoDate(earningUntil)) &&
+              (!end || date <= makeIsoDate(end)) &&
+              (!jobEnd || date < makeIsoDate(jobEnd)) &&
+              (!earliest || date < earliest)
+            )
+              earliest = date;
+          }
+          if (earliest) {
+            wages.push({
+              date: payPeriod.dueAt,
+              references: [
+                { kind: "job", id: jobId!, source: jobSource },
+                { kind: "commitment", id, source: scheduleSource, paySource },
+                {
+                  kind: "payroll-calendar",
+                  id: calendarId!,
+                  source: calendarSource,
+                },
+              ],
+            });
+            break;
+          }
+          const next = workPayPeriodAtIndex(
+            r,
+            calendar,
+            payPeriod.index + one,
+            session.date,
+            units,
+          );
+          if (next.dueAt <= payPeriod.dueAt)
+            throw new Error(
+              "Recorded payday periods must advance within the purchase cadence window.",
+            );
+          payPeriod = next;
+        }
       }
     }
     const incomeIds = r.mapGet(incomeIndex, personId);
@@ -462,7 +1114,7 @@ export function nextHouseholdPurchaseDate(
       ...originalSource,
       tag: "ESTIMATED",
       asOf: session.date,
-      estimatedFrom: `${originalSource.estimatedFrom} Renewal rule ${selectedRule}; household ${homeId}; nominal ${nominal}, following nominal ${following}, effective ${effectiveDueAt}, mode ${mode}. Relevant current record IDs: ${selected?.references.map((ref) => ref.id).join(", ") || "none in this cadence window"}. ${selected ? "An owned scheduled or qualified income calendar opportunity predicts neither attendance nor payment." : "No eligible positive income opportunity exists in [nominal, following nominal); retain nominal with an explicit missing-income basis, not an invented job, award or paycheck."} This estimated bounded phase preserves the original amount and monthly cadence without weekend/short-month drift. ${gap}`,
+      estimatedFrom: `${originalSource.estimatedFrom} Renewal rule ${selectedRule}; household ${homeId}; nominal ${nominal}, following nominal ${following}, effective ${effectiveDueAt}, mode ${mode}. Relevant current record IDs: ${selected?.references.map((ref) => ref.id).join(", ") || "none in this cadence window"}. ${selected ? "An owned recorded payday or qualified income calendar opportunity predicts neither attendance nor payment." : "No eligible positive income opportunity exists in [nominal, following nominal); retain nominal with an explicit missing-income basis, not an invented job, award or paycheck."} This estimated bounded phase preserves the original amount and monthly cadence without weekend/short-month drift. ${gap}`,
     },
   };
 }
@@ -492,25 +1144,14 @@ export function currentHouseholdPurchaseCalendarBasis(
     throw new Error(
       "Current household calendar basis contradicts actual nominal/effective dates.",
     );
-  const source = (value: Source): Source => {
-    const copy: Record<string, unknown> = {};
-    for (const key of r.keys(value)) {
-      if (typeof key !== "string")
-        throw new Error("Calendar Source requires named own fields.");
-      const field = r.field(value as unknown as Record<string, unknown>, key);
-      if (field !== undefined && typeof field !== "string")
-        throw new Error("Calendar Source requires scalar provenance.");
-      copy[key] = field;
-    }
-    const result = copy as unknown as Source;
-    if (
-      !["SOURCED", "ESTIMATED"].includes(result.tag) ||
-      !result.citation.trim() ||
-      makeIsoDate(result.asOf) > session.date
-    )
-      throw new Error("Current household calendar Source is invalid.");
-    return result;
-  };
+  const source = (value: Source): Source =>
+    copyPurchaseCalendarSource(
+      r,
+      value,
+      makeIsoDate(session.date),
+      session.zero,
+      session.one,
+    );
   const basisSource = source(r.field(basis, "source"));
   if (basisSource.tag !== "ESTIMATED" || !basisSource.estimatedFrom?.trim())
     throw new Error(
@@ -533,6 +1174,9 @@ export function currentHouseholdPurchaseCalendarBasis(
             "opening-basis",
             "job",
             "commitment",
+            "payroll-calendar",
+            "earned-pay-period",
+            "payroll-receipt",
             "income-contract",
             "income-award",
           ].includes(kind)

@@ -110,7 +110,17 @@ function governmentIdentity(
 /** No employer name, deficit, projected salary or free-standing flag grants authority. */
 export function resolvePublicWorkPayDue(
   session: FinancePlanningSession,
-  input: WorkResultInput,
+  input: Pick<
+    WorkResultInput,
+    | "id"
+    | "date"
+    | "organizationId"
+    | "commitmentId"
+    | "jobId"
+    | "personId"
+    | "requestedMinor"
+  >,
+  occurrence: "dated-work" | "recorded-payroll" = "dated-work",
 ): PublicWorkPayDue | undefined {
   const r = session.reads,
     core = session.core,
@@ -175,7 +185,12 @@ export function resolvePublicWorkPayDue(
   const kinds = r.field(cfg, "journalSourceKinds"),
     kind = r.field(kinds, "publicPayDue"),
     prefix = r.field(cfg, "publicPayDueIdPrefix"),
-    citation = r.field(cfg, "publicPayDueCitation");
+    citation = r.field(
+      cfg,
+      occurrence === "recorded-payroll"
+        ? "publicPayrollPayDueCitation"
+        : "publicPayDueCitation",
+    );
   identity(kind);
   identity(prefix);
   if (!citation?.trim())

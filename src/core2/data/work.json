@@ -370,8 +370,26 @@
     "result": "work.result",
     "commitment": "work.commitment",
     "publicPayDue": "work.public-pay-due",
-    "publicPayAuthority": "work.public-pay-authority"
+    "publicPayAuthority": "work.public-pay-authority",
+    "payroll": "work-payroll",
+    "payrollCalendar": "work-payroll-calendar",
+    "earnedPayPeriod": "work-earned-pay-period",
+    "publicPayrollGroupDue": "work.public-payroll-group-due"
   },
   "publicPayDueIdPrefix": "public-pay-due:",
-  "publicPayDueCitation": "The owning work module records this date's actual attended minutes and current hourly terms with fractional carry. This modeled public wage obligation does not establish an observed appropriation or a future payroll guarantee."
+  "publicPayDueCitation": "The owning work module records this date's actual attended minutes and current hourly terms with fractional carry. This modeled public wage obligation does not establish an observed appropriation or a future payroll guarantee.",
+  "payrollCashModuleId": "work-payroll-cash",
+  "payrollReceiptIdPrefix": "work-payroll:",
+  "payrollGroupReceiptIdPrefix": "work-payroll-group:",
+  "payrollGroupReceiptCitation": "One actual worker/employer/calendar/payday group requests every independently validated retained earned component and prior unpaid balance. Actual paid wages and finite funding are conserved once in one journal; each job retains its own component amounts and full dated Sources.",
+  "payrollGroupAttributionRule": "arrears-then-newly-due-commitment-id",
+  "payrollGroupAttributionCitation": "Explicit modeled bookkeeping attribution among the same payee, employer, calendar and payday: apply actual aggregate cash to all already recognized arrears before newly due wages, then attribute within each class by ascending commitment ID. Cumulative component ledgers do not establish individual debt age. This is neither legal debt-age priority nor an empirically calibrated ordering.",
+  "publicPayrollGroupDueIdPrefix": "public-payroll-group-due:",
+  "publicPayrollGroupDueCitation": "One modeled zero-stock public owner authorizes only this aggregate of separately owned, fully qualified retained wage requests on the actual recorded payday. Every component keeps its own actual commitment, job, payee, request amount and authority Source. This does not establish an observed appropriation or an employer-deficit refill.",
+  "payrollReceiptCitation": "Actual requested newly due earned wages plus preserved older wage arrears, with actual cash/finite credit/public due flows prepared and conserved in one payday journal. Requested wages, earned work and cash paid are separate facts; no fresh person choice or guaranteed employer funding is created.",
+  "publicPayrollPayDueCitation": "Actual original validated earned work and preserved prior unpaid wages are currently requested on this separately recorded employer payday. Only that outstanding request is the modeled paying obligation; this is not an observed appropriation or legal payroll authority and funds no separate deficit.",
+  "payrollDispatchCitation": "Actual current recorded-payday routing from owning earned-period and arrears-retry indexes after attendance, with no additional person choice or act. Cash is settled only through the canonical conserving payroll journal.",
+  "payrollDeceasedHoldCitation": "Actual original due earnings and debt remain unchanged while independent deceased-payee beneficiary or estate authority is pending. This hold creates no payment, cash failure, new wage recognition or employer closure.",
+  "payrollGroupHoldCitation": "Actual compatible retained earned payroll components are held unchanged pending one worker/employer/calendar/payday conserving group journal. The present single-primary writer does not split this unresolved group into separate payments or cancel any debt.",
+  "payrollDispatchOrderRule": "organization-job-commitment-id"
 }
