@@ -1,5 +1,6 @@
 ---
-releaseImpact: none
+id: p14-elections-rules
+impact: none
 ---
 
 Lift election KEEP rules into a pure shelf with legacy golden tests; no runtime
