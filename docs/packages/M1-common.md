@@ -35,6 +35,10 @@ Register every shortcut as a stopgap: an ID, a marker in the code, the reason, t
 - Never scan the whole world, every person or the whole history on a schedule. Monthly and quarterly work reads indexes, or acts on the day something changed.
 - Stay inside the opening size budget the core already enforces.
 
+## Until the bench merges
+
+The test bench is on `pool/M0-bench` (#3940), not `main`, so the startup bench check in `AGENTS.md` can't run yet. Note that in the PR and continue; it isn't a blocker. Finishers run the bench from that branch.
+
 ## Done
 
 A spec passes only when its finisher has run its test in the test bench in a randomly drawn place, from a generated world, naming the head, seed, place and record ids. Every hand-off records the model and effort, the time taken, and each send-back and its reason. Log one line per event at the top of `docs/roadmap/PROGRESS.md` (via your PR) and in the PR body.
