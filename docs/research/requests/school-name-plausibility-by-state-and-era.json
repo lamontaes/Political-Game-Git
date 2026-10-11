@@ -27,9 +27,108 @@
     {
       "source": "docs/playtest/generated-school-names-2026-09-22.md, the walk that produced this",
       "whatItDidNotSettle": "Records what the surface said before and after, across twelve towns. It establishes that the names read as schools rather than placeholders. It cannot establish that the mix matches any real state's."
+    },
+    {
+      "source": "SSAterritorymethodology",
+      "url": "https://www.ssa.gov/OACT/babynames/territories.html",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "PR",
+        "GU",
+        "VI",
+        "AS",
+        "MP"
+      ]
+    },
+    {
+      "source": "NCESpublicschooldirectory",
+      "url": "https://nces.ed.gov/programs/edge/Geographic/SchoolLocations",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "PR",
+        "GU",
+        "VI",
+        "AS",
+        "MP"
+      ]
     }
   ],
   "title": "What an American school in a given state and era is actually called",
   "usableAnswer": "A rough mix — what share of American public schools carry a person's name, the town's, a compass point, a landscape feature or a county — with any variation by region and by the decade the school was named, and whether the level of the school moves it. Plus a short read on which figures are in wide use on school buildings now, and whether the exclusion of Confederate names is correct. Approximate is fine; the build needs weights, not a census.",
-  "whyItMatters": "Every character whose earlier life the game summarizes goes to three of these schools, and the player reads them on the Personal screen as their own past. Named against the wrong convention they will all be plausible one at a time and wrong as a set, which is the failure no test in the repository can see: the generator works either way. It is also the first generated institution name, so whatever convention it settles on is the pattern the next one copies."
+  "whyItMatters": "Every character whose earlier life the game summarizes goes to three of these schools, and the player reads them on the Personal screen as their own past. Named against the wrong convention they will all be plausible one at a time and wrong as a set, which is the failure no test in the repository can see: the generator works either way. It is also the first generated institution name, so whatever convention it settles on is the pattern the next one copies.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/core-figures/P0-13/ssastate-cohort-patterns.json",
+        "data/research/core-figures/P0-13/ssaterr-cohort-patterns.json",
+        "data/research/core-figures/P0-13/surname-patterns-2020.json",
+        "data/research/core-figures/P0-13/school-name-shapes-2024-25.json"
+      ],
+      "result": "SSAstatebirthcohort1940–2025andPR/pooledotherterritorycohorts; suppressedsmallcountsnottreatedaszero. Census2020nationaltop1000surnamesandNCES2024–25state/territoryschoolname-tokenpatterns. Individualislandsurnameandhistoricalschoolnamingeragapsremain."
+    }
+  }
 }

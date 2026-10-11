@@ -31,9 +31,108 @@
     {
       "source": "public/education, the CCD 2025-26 school file, measured by scripts/source/school-name-patterns.ts",
       "whatItDidNotSettle": "One recent year only, so it cannot show how naming changed over time; its unclassified remainder is large and mixed."
+    },
+    {
+      "source": "SSAterritorymethodology",
+      "url": "https://www.ssa.gov/OACT/babynames/territories.html",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "PR",
+        "GU",
+        "VI",
+        "AS",
+        "MP"
+      ]
+    },
+    {
+      "source": "NCESpublicschooldirectory",
+      "url": "https://nces.ed.gov/programs/edge/Geographic/SchoolLocations",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "PR",
+        "GU",
+        "VI",
+        "AS",
+        "MP"
+      ]
     }
   ],
   "title": "How school naming differed by era, and what the unclassified names are",
   "usableAnswer": "Either a source giving school-name shapes or honorees by decade (even for a sample of states), or an estimate of the split of the unclassified remainder into landscape, local-person and district or county names, by town size.",
-  "whyItMatters": "A character's schooling decades ago is named with today's patterns, and the landscape stand-in covers names the game cannot yet generate, such as a school named for its district."
+  "whyItMatters": "A character's schooling decades ago is named with today's patterns, and the landscape stand-in covers names the game cannot yet generate, such as a school named for its district.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/core-figures/P0-13/ssastate-cohort-patterns.json",
+        "data/research/core-figures/P0-13/ssaterr-cohort-patterns.json",
+        "data/research/core-figures/P0-13/surname-patterns-2020.json",
+        "data/research/core-figures/P0-13/school-name-shapes-2024-25.json"
+      ],
+      "result": "SSAstatebirthcohort1940–2025andPR/pooledotherterritorycohorts; suppressedsmallcountsnottreatedaszero. Census2020nationaltop1000surnamesandNCES2024–25state/territoryschoolname-tokenpatterns. Individualislandsurnameandhistoricalschoolnamingeragapsremain."
+    }
+  }
 }
