@@ -92,4 +92,154 @@ export function scoreOffers(
   const traced =
     core.observer ||
     actor.id === core.playerId ||
+    core.focusPersonIds.has(actor.id) ||
+    isExplicitlyControlledPersonV1(core, actor.id);
   const scored: ScoredOffer[] = [];
+  for (const offer of offers) {
+    const action = offer.definition;
+    const effortHours = offer.effortHours ?? p(action.effortParameter);
+    if (!Number.isFinite(offer.availableHours) || !Number.isFinite(effortHours))
+      throw new Error("Non-finite choice utility.");
+    if (offer.availableHours < p("zero") || effortHours < p("zero"))
+      throw new Error("Invalid choice time budget.");
+    const drive = offer.driveId ? actor.drives.get(offer.driveId) : undefined;
+    const goal = [...actor.goals.values(), ...(context?.goalRows ?? [])].reduce(
+      (strength, row) =>
+        action.goalKinds.includes(row.kind)
+          ? Math.max(strength, context?.goalUrgencies?.[row.id] ?? row.urgency)
+          : strength,
+      p("zero"),
+    );
+    const reasons: DecisionReason = {
+      need:
+        (context?.needValues?.[action.need] ??
+          actor.needs[action.need] ??
+          p("zero")) * p("needWeight"),
+      goal: goal * p("goalWeight"),
+      drive: (drive?.strength ?? p("zero")) * p("driveWeight"),
+      trait: traitScore(core, actor, offer) * p("traitWeight"),
+      emotion:
+        p("emotionWeight") *
+        ((context?.affect ?? actor.affect).mood *
+          p(action.emotion?.moodMultiplierParameter ?? "zero") +
+          (context?.affect ?? actor.affect).stress *
+            p(action.emotion?.stressMultiplierParameter ?? "zero")),
+      effort:
+        offer.availableHours > p("zero")
+          ? (-effortHours / offer.availableHours) * p("effortWeight")
+          : p("zero"),
+    };
+    const bindings = [
+      ...(action.reasonBindings ?? []),
+      ...(offer.reasonBindings ?? []),
+    ];
+    const reasonTerms: WeightedReason[] | undefined = traced ? [] : undefined;
+    if (bindings.length) {
+      const api = coreAPI(core),
+        ids = new Set<string>();
+      let contribution = p("zero");
+      for (const binding of bindings) {
+        if (!binding.id.trim() || ids.has(binding.id))
+          throw new Error(
+            "Reason bindings require distinct nonempty identities.",
+          );
+        ids.add(binding.id);
+        const provide = core.reasonProviders.get(binding.provider);
+        if (!provide)
+          throw new Error(`Unregistered reason provider: ${binding.provider}`);
+        const weight = api.parameter(binding.weightParameter);
+        if (binding.stopgapId) api.stopgap(binding.stopgapId);
+        const result = provide(api, actor, offer, binding, context);
+        if (!result) continue;
+        const weighted = result.value * weight;
+        if (
+          !Number.isFinite(result.value) ||
+          !Number.isFinite(weighted) ||
+          result.sourceIds?.some((id) => !id.trim())
+        )
+          throw new Error("Invalid module reason value or source identity.");
+        contribution += weighted;
+        if (!Number.isFinite(contribution))
+          throw new Error("Non-finite module reason sum.");
+        reasonTerms?.push({
+          ...binding,
+          arguments: binding.arguments ? { ...binding.arguments } : undefined,
+          value: result.value,
+          sourceIds: result.sourceIds ? [...result.sourceIds] : undefined,
+          contribution: weighted,
+        });
+      }
+      reasons.module = contribution;
+    }
+    const score = Object.values(reasons).reduce(
+      (sum, value) => sum + value,
+      p("zero"),
+    );
+    if (!Number.isFinite(score)) throw new Error("Non-finite choice utility.");
+    scored.push({
+      offer,
+      score,
+      reasons,
+      reasonTerms,
+      key: `${action.id}:${offer.targetId}`,
+    });
+  }
+  return scored;
+}
+
+export function chooseAct(
+  core: CoreState,
+  personId: string,
+  offers: readonly ActOffer[],
+  context?: DecisionContext,
+): DecisionResult {
+  return decisionFromScores(
+    core,
+    personId,
+    scoreOffers(core, personId, offers, context),
+  );
+}
+
+/** The chooser's pick from a scoring pass: the highest score, ties to the lowest key. */
+export function decisionFromScores(
+  core: CoreState,
+  personId: string,
+  scored: readonly ScoredOffer[],
+): DecisionResult {
+  const actor = core.people.get(personId);
+  if (!actor) throw new Error("Decision actor is absent.");
+  const traced =
+    core.observer ||
+    actor.id === core.playerId ||
+    core.focusPersonIds.has(actor.id) ||
+    isExplicitlyControlledPersonV1(core, actor.id);
+  let best: ScoredOffer | undefined;
+  for (const row of scored)
+    if (
+      !best ||
+      row.score > best.score ||
+      (row.score === best.score && row.key < best.key)
+    )
+      best = row;
+  return {
+    actorId: personId,
+    date: core.date,
+    selected: best?.offer,
+    selectedReasons: best?.reasons,
+    selectedReasonTerms: best?.reasonTerms?.length
+      ? best.reasonTerms
+      : undefined,
+    reasonKey: best
+      ? `utility:${best.offer.definition.need}:${best.offer.driveId ?? best.offer.definition.effect}`
+      : "no-available-act",
+    scores: traced
+      ? scored.map((row) => ({
+          actionId: row.offer.definition.id,
+          targetId: row.offer.targetId,
+          score: row.score,
+          reasons: row.reasons,
+          ...(row.reasonTerms?.length ? { reasonTerms: row.reasonTerms } : {}),
+        }))
+      : undefined,
+  };
+}

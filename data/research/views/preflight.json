@@ -1,0 +1,108 @@
+{
+  "schemaVersion": "views-preflight/v1",
+  "package": "M1-views",
+  "contract": "M1-10",
+  "builder": "CODEX-VIEWS",
+  "workspace": "/workspace/Political-Game-Git",
+  "startedAtObservation": "2026-10-11T03:11:37Z",
+  "checkpointAt": "2026-10-11T03:21:00Z",
+  "model": {
+    "reportedFamily": "GPT-6-based Codex",
+    "servingVariant": "not exposed",
+    "packageEffort": "high",
+    "runtimeEffort": "not exposed",
+    "usage": "not visible"
+  },
+  "base": "8249aaba6473ea2ca7ac483199d8f55b547bd704",
+  "dependencies": {
+    "people": "3a3e98935e3b2f2a8270755ee01183efe45734a8",
+    "drives": "d2f4b432f647aad7cf6262f627dd95807049af6c",
+    "main": "9ff1b4ef4c"
+  },
+  "pr": "https://github.com/lamontaes/Political-Game-Git/pull/3965",
+  "status": "research-blocked",
+  "observations": [
+    {
+      "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev npm run storage -- register --owner CODEX-VIEWS --path /workspace/Political-Game-Git",
+      "exitCode": 0,
+      "result": "Existing checkout registered and reused. No clone or second worktree."
+    },
+    {
+      "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev npm run agent:preflight",
+      "exitCode": 0,
+      "result": "Valid named branch, one worktree. 30 GiB free, 25 GiB reserve. Initial default-sandbox subprocess check failed; supported network permission resolved it."
+    },
+    {
+      "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev npm_config_cache=/workspace/.npm-cache npm run storage -- run install -- npm install --ignore-scripts --no-audit --no-fund --loglevel=error",
+      "exitCode": 0,
+      "result": "Install succeeded. Prior attempt failed creating cache under absent /home/agent. No package/lockfile changes."
+    },
+    {
+      "command": "npm run bench",
+      "exitCode": 1,
+      "result": "Missing script: bench. No bench play or initial playable-game claim."
+    },
+    {
+      "command": "gh project list --owner lamontaes --format json",
+      "exitCode": 1,
+      "result": "unknown owner type. Task not claimed in Project."
+    },
+    {
+      "command": "curl --head --max-time 15 https://dataverse.harvard.edu/api/datasets/:persistentId/?persistentId=doi:10.7910/DVN/X11EP6",
+      "exitCode": 56,
+      "result": "HTTP/1.1 403 Forbidden; CONNECT tunnel failed. Enforced network-policy hosts exclude dataverse.harvard.edu. No bypass attempted."
+    },
+    {
+      "command": "npx eslint src/core2/choice.ts src/core2/life.ts src/core2/population.ts src/core2/population.test.ts",
+      "exitCode": 0,
+      "result": "Four integration files passed."
+    },
+    {
+      "command": "node node_modules/typescript/bin/tsc --noEmit --strict --skipLibCheck --target ES2022 --module ESNext --moduleResolution Bundler --resolveJsonModule --allowArbitraryExtensions --allowSyntheticDefaultImports --esModuleInterop --types node src/core2/choice.ts src/core2/life.ts src/core2/population.ts",
+      "exitCode": 0,
+      "result": "Scoped implementation typecheck passed. Earlier command omitted allowArbitraryExtensions and included an existing branded-ID error in population.test.ts; no test was changed to hide it."
+    },
+    {
+      "command": "OCD_STORAGE_STATE_DIR=/workspace/.ocd-dev npm_config_cache=/workspace/.npm-cache VITE_CONFIG_NATIVE_IGNORE_WARNING=true npm run storage -- run build -- npx vitest run src/core2/life.test.ts src/core2/free-block.test.ts src/core2/modules/people.test.ts src/core2/player-v1.test.ts src/core2/module-state.test.ts src/core2/module-calendar.test.ts src/core2/voter-groups.test.ts --maxWorkers=1",
+      "exitCode": 1,
+      "result": "49 tests: 43 passed, 6 failed in life.test.ts. Other six files passed. Two earlier attempts failed collection because of a builder merge-script defect; full chooser restored before this completed run.",
+      "durationSeconds": 59.29,
+      "baselineComparison": "pending"
+    },
+    {
+      "command": "npm run report:check -- /tmp/M1-views-pr.md",
+      "exitCode": 0,
+      "result": "0 errors; 1 code-reference warning. Required read-only reviewer returned PASS after two send-backs."
+    }
+  ],
+  "integrationRepair": {
+    "initialCommit": "a514096aaf",
+    "problem": "A greedy conflict-resolution regular expression truncated choice.ts and left P15 markers. An intermediate local integration commit recorded the damage.",
+    "repaired": "Markers resolved with bounded expressions; full people chooser restored from its branch, with core cache-transfer and explicit-control additions. Final scoped typecheck passes; runtime baseline comparison remains pending.",
+    "historyRewritten": false
+  },
+  "sendBacks": [
+    {
+      "kind": "civic-report-review",
+      "iteration": 1,
+      "reason": "Measured/inferred labels and links missing; tool history outside method section.",
+      "fixed": "Added evidence labels/links and moved method details."
+    },
+    {
+      "kind": "civic-report-review",
+      "iteration": 2,
+      "reason": "Three remaining claims lacked labels/direct evidence links.",
+      "fixed": "Added direct receipt/register/request links; subsequent review PASS."
+    }
+  ],
+  "finisherSendBacks": 0,
+  "acceptance": {
+    "viewsModuleBuilt": false,
+    "surveyKeysDerived": false,
+    "faithEducationCoverageProved": false,
+    "benchPlayed": false,
+    "annualSpeedMeasured": false,
+    "featurePassesChanged": false
+  },
+  "next": "Approved CES source access and CTO source-term/request disposition; resolve baseline stack failures before views implementation."
+}

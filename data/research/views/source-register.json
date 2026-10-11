@@ -1,0 +1,117 @@
+{
+  "schemaVersion": "views-research-source-register/v1",
+  "checkedAt": "2026-10-11T03:18:00Z",
+  "author": "CODEX-VIEWS",
+  "status": "research-blocked-before-answer-keys",
+  "scope": "M1-10",
+  "datasetBytesAcquired": false,
+  "derivedSpreads": [],
+  "sources": [
+    {
+      "id": "CES-2024-COMMON",
+      "publisher": "Cooperative Election Study / Harvard Dataverse",
+      "title": "Cooperative Election Study Common Content, 2024",
+      "citation": "Schaffner, Brian; Shih, Marissa; Ansolabehere, Stephen; Pope, Jeremy (2025). Cooperative Election Study Common Content, 2024. Harvard Dataverse. DOI:10.7910/DVN/X11EP6.",
+      "url": "https://doi.org/10.7910/DVN/X11EP6",
+      "termsUrl": "https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/X11EP6",
+      "license": "CC0-1.0",
+      "licenseUrl": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "commercialUse": "permitted-by-listed-CC0-license",
+      "evidence": "Primary dataset search result lists CC0 and version V9. Direct page access returned a JavaScript verification page. The dataset API is blocked by the environment proxy. Confirm applicable file/version metadata and hashes on acquisition.",
+      "acquisition": "blocked-http-policy",
+      "runtimeUse": "none",
+      "coverage": "National/state survey candidate. State, county/metro fields, weights, subgroup cell sizes, and actual geography coverage have not been inspected. Do not claim all 56 jurisdictions or metro keys yet.",
+      "next": "Acquire the publisher's files and metadata through an approved route; keep microdata outside tracked/shipped paths and retain only derived, disclosure-safe aggregates."
+    },
+    {
+      "id": "ANES-PUBLIC",
+      "publisher": "American National Election Studies",
+      "title": "ANES public-use datasets",
+      "url": "https://electionstudies.org/data-center/",
+      "termsUrl": "https://electionstudies.org/data-center/",
+      "license": "publisher-terms",
+      "commercialUse": "unclear-CTO-confirmation-required",
+      "evidence": "Terms restrict use to research or statistical purposes, prohibit investigating/identifying respondents, require citation, and disclaim collector responsibility. Commercial game incorporation of derived calibration is not explicitly resolved.",
+      "runtimeUse": "excluded-pending-CTO",
+      "coverage": "National calibration candidate. Public-use versus restricted geographic variables must be reviewed separately; the national sample is not automatically a state/metro answer key.",
+      "next": "Ask the CTO on this PR whether derived aggregates may be shipped under these terms. Do not use dataset values before clearance."
+    },
+    {
+      "id": "GSS-PUBLIC",
+      "publisher": "NORC at the University of Chicago",
+      "title": "General Social Survey public-use datasets",
+      "url": "https://gss.norc.org/",
+      "termsUrl": "https://gss.norc.org/terms-and-conditions.html",
+      "license": "publisher-terms",
+      "commercialUse": "unclear-CTO-confirmation-required",
+      "evidence": "Data-access terms encourage responsible use and specify citations; the same page includes a broad NORC copyright reproduction restriction. Federal grant funding alone is not a public-domain license.",
+      "runtimeUse": "excluded-pending-CTO",
+      "coverage": "National/region candidate. State/metro geography access and its separate agreements have not been inspected.",
+      "next": "Ask the CTO to resolve derived-data reuse before shipped calibration uses GSS. Do not infer permission from public download access."
+    },
+    {
+      "id": "PEW-RLS-2023-24-PUF",
+      "publisher": "Pew Research Center",
+      "title": "2023-24 Religious Landscape Study public-use file",
+      "url": "https://www.pewresearch.org/dataset/2023-24-religious-landscape-study-rls-dataset/",
+      "termsUrl": "https://www.pewresearch.org/about/terms-and-conditions/",
+      "license": "publisher-terms-sections-1-2-13-14",
+      "commercialUse": "conditional-derivative-use-permitted-under-public-terms",
+      "evidence": "Section 1 expressly permits commercial exploitation; section 13 governs non-ATP survey datasets and permits derivatives. Preserve notices, attribution, the section-13 disclaimer, excerpt limits, and absence of endorsement. Download requires an account; the enclosed readme has not been acquired.",
+      "runtimeUse": "none-not-acquired",
+      "coverage": "The publisher states that the PUF has no geography. It can be a national faith/politics check but cannot supply state or metro answer keys.",
+      "next": "Acquire through an authorized account or use permitted published summaries with notices. Read enclosed readme before deriving any data. Keep the RUF separate."
+    },
+    {
+      "id": "PEW-RLS-2023-24-RUF",
+      "publisher": "Pew Research Center / ICPSR",
+      "title": "2023-24 Religious Landscape Study restricted-use file",
+      "url": "https://www.pewresearch.org/dataset/2023-24-religious-landscape-study-rls-dataset/",
+      "termsUrl": "https://www.icpsr.umich.edu/web/ICPSR/studies/39498/versions/V1",
+      "license": "separate-restricted-data-use-agreement",
+      "commercialUse": "not-cleared",
+      "evidence": "Publisher distinguishes geographic/sensitive RUF variables from the PUF and requires a separate agreement. Its actual agreement has not been obtained; PUF permissions do not clear the RUF.",
+      "runtimeUse": "excluded",
+      "coverage": "Geographic calibration candidate only if approved agreement and access permit the intended derived use.",
+      "next": "CTO must establish applicable permission before any use; prefer CES or permitted publisher summary tables."
+    }
+  ],
+  "methodRequirements": [
+    "Answer keys measure positions, engagement, no-opinion, issue salience, and within-group spread separately; ideology and election returns are not interchangeable with fourteen values.",
+    "Age, education, faith, race, income and geography need defined denominators, survey years, actual question wording/codes and weights before deriving aggregates.",
+    "Record raw unweighted cell counts, weighted denominators and effective sample size. Sampling uncertainty is separate from between-place heterogeneity.",
+    "Define metros from published geographic crosswalks. Never treat statewide margin of error as a town-spread bound.",
+    "Do not infer personal faith or educational attainment from a town share or a school-cohort attendance proxy.",
+    "Retain aggregate derivation scripts and input hashes in owned research paths; do not commit microdata, respondent identifiers, or real officeholder identity fields.",
+    "Each territory election/poll source needs its own terms check. Election returns alone do not identify issue/value distributions.",
+    "Qualitative mechanism literature may guide causal structure; numerical weights require inspected estimates with population, uncertainty and applicability limits."
+  ],
+  "researchRequests": [
+    {
+      "questionId": "what-starts-and-paces-a-political-view",
+      "status": "open-numerical-evidence-needed",
+      "finding": "Owner-approved triggers and variable timing are recorded. Existing 50/35/15 pacing is an acknowledged placeholder; it is not an empirical answer. Retrieve panel/event evidence before setting rates or time constants."
+    },
+    {
+      "questionId": "which-issues-people-care-about",
+      "status": "open-answer-key-needed",
+      "finding": "Owner's few-salient-issues direction is established. Most-important-problem answers do not directly measure the count of firm issue opinions; nonresponse, no-opinion and salience must be distinguished."
+    },
+    {
+      "questionId": "where-each-place-stands-on-each-policy-question",
+      "status": "open-scope-meaning-needs-CTO",
+      "finding": "The request asks for laws in force, with statutes/effective dates, rather than residents' beliefs. The M1-views work order explicitly assigns the request but M1-laws owns law records. Coordinate disposition; do not rewrite its question or answer it with survey opinion."
+    },
+    {
+      "questionId": "what-leans-a-party-member-on-each-question",
+      "status": "open-procedural-evidence-needed",
+      "finding": "The request concerns four internal procedural alternatives, not party-platform issue positions. Existing stable seeded choices conflict with no-dice. Actual goals, roles, information and trust are the settled shape; empirical procedural weights remain unresearched."
+    }
+  ],
+  "blockedBy": [
+    "Environment outbound policy excludes dataverse.harvard.edu; publisher dataset API returns HTTP 403. Approved source access is needed for CES-derived keys.",
+    "ANES and GSS derived-data incorporation need CTO interpretation of their terms before use.",
+    "The approved stack has no npm bench script; bench startup cannot be demonstrated until M0-bench integration is supplied.",
+    "By-faith and by-education checks require recorded personal faith and attainment. Deep-past explicitly records missing faith and does not infer qualifications from school cohorts; the producer route remains to be established inside approved scope."
+  ]
+}
