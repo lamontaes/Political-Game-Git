@@ -360,6 +360,14 @@ export function planFreeTime(
     else byNeed.set(candidate.need, [index]);
   });
   const flexible = new Set<string>(FREE_BLOCK_DATA.flexibleEffects);
+  // An act after the pick must be worth more than its hours spent in the
+  // leisure the game does not model; leisure itself (rest) needs only to be
+  // worth doing at all.
+  const leisureValue = p("unmodeledLeisureValuePerHour");
+  const leisure = (candidate: Candidate) =>
+    flexible.has(candidate.row.offer.definition.effect)
+      ? zero
+      : candidate.effortHours * leisureValue;
   let hours = zero;
   const fits = (candidate: Candidate) =>
     flexible.has(candidate.row.offer.definition.effect) && hours > zero;
@@ -421,7 +429,7 @@ export function planFreeTime(
           ? (-candidate.effortHours / effortHours) * effortWeight
           : zero);
       if (
-        scores[index]! > zero &&
+        scores[index]! > leisure(candidate) &&
         !used.has(candidate.need) &&
         (candidate.effortHours <= hours || fits(candidate)) &&
         better(index, winners.get(candidate.need) ?? -one)
@@ -441,7 +449,7 @@ export function planFreeTime(
         let next = -one;
         for (const index of byNeed.get(need)!)
           if (
-            scores[index]! > zero &&
+            scores[index]! > leisure(pool[index]!) &&
             (pool[index]!.effortHours <= hours || fits(pool[index]!)) &&
             better(index, next)
           )
