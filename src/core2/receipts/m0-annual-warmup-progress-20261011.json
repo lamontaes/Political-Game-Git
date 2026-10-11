@@ -4,8 +4,8 @@
   "batch": "accepted-part1-source-benchmark-year",
   "warmup": 1,
   "place": "La Homa, Texas",
-  "throughDate": "2021-02-28",
-  "completedSimulatedDays": 58,
+  "throughDate": "2021-05-31",
+  "completedSimulatedDays": 150,
   "sourceNativeCommit": "16e247d50fdec3cb5a7ee12ac37a7e719732ad20",
   "sourceManifestSha256": "20482b1d737e2703a33bbbfc27a72e72963ce8622340650581659b733f33bfca",
   "annualPlanSha256": "f038cc5dd0604bee108eb4a235f2de5030514f13c48a337217031b322064cbaf",
@@ -31,6 +31,39 @@
       "seconds": 592.215216399,
       "daysPerMinute": 2.8368065417422743,
       "rawLine": "[2026-10-11T04:11:44.437Z] month-advanced {\"throughDate\":\"2021-02-28\",\"simulatedDays\":28,\"elapsedMilliseconds\":592215.216399,\"decisions\":63343,\"acts\":63343}"
+    },
+    {
+      "observedAt": "2026-10-11T04:21:55.471Z",
+      "throughDate": "2021-03-31",
+      "simulatedDays": 31,
+      "elapsedMilliseconds": 610888.134231,
+      "decisions": 68277,
+      "acts": 68277,
+      "seconds": 610.888134231,
+      "daysPerMinute": 3.0447473044167257,
+      "rawLine": "[2026-10-11T04:21:55.471Z] month-advanced {\"throughDate\":\"2021-03-31\",\"simulatedDays\":31,\"elapsedMilliseconds\":610888.134231,\"decisions\":68277,\"acts\":68277}"
+    },
+    {
+      "observedAt": "2026-10-11T04:31:53.449Z",
+      "throughDate": "2021-04-30",
+      "simulatedDays": 30,
+      "elapsedMilliseconds": 597832.4035500002,
+      "decisions": 75285,
+      "acts": 75285,
+      "seconds": 597.8324035500002,
+      "daysPerMinute": 3.010877278165896,
+      "rawLine": "[2026-10-11T04:31:53.449Z] month-advanced {\"throughDate\":\"2021-04-30\",\"simulatedDays\":30,\"elapsedMilliseconds\":597832.4035500002,\"decisions\":75285,\"acts\":75285}"
+    },
+    {
+      "observedAt": "2026-10-11T04:41:23.507Z",
+      "throughDate": "2021-05-31",
+      "simulatedDays": 31,
+      "elapsedMilliseconds": 569999.3274320001,
+      "decisions": 66070,
+      "acts": 66070,
+      "seconds": 569.9993274320001,
+      "daysPerMinute": 3.263161745084506,
+      "rawLine": "[2026-10-11T04:41:23.507Z] month-advanced {\"throughDate\":\"2021-05-31\",\"simulatedDays\":31,\"elapsedMilliseconds\":569999.3274320001,\"decisions\":66070,\"acts\":66070}"
     }
   ],
   "timingScope": "Existing month chunk: advance, focus affect capture, financial/economy snapshots. Excludes later month-counter hashing; not the complete annual timer.",
