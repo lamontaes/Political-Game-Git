@@ -2,6 +2,12 @@
 
 Approved by the owner on October 10, 2026. This replaces the old-core engineering roadmap. Work is tracked on the GitHub Project "Our Civic Duty: Road to Early Access" (https://github.com/users/lamontaes/projects/2). The owner's new ideas go into its "Next" list and get scheduled at the weekly reschedule.
 
+## Now (owner, Oct 11, 2026)
+
+- **Keep it simple** (see `AGENTS.md`): two-level population with people filled in on click, debug bookkeeping off in play, one run and one number, build only what the golden path needs, and a playable step at the end of every day.
+- **Steam:** the store page goes up by Friday, October 16, with screenshots of real gameplay. The early-access date is set once the owner has played the golden path end to end and wants to keep going; his target is October 30.
+- **Monday, October 12:** the Claude engineering account starts on the two-level population, lean play (fast days), and the money closures (`docs/packages/M0-population.md`, `M0-lean-play.md`, `M0-money-fix.md`), alongside the golden path work already under way.
+
 ## What early access means
 
 Progress is measured on the golden path, with the world running around it.
