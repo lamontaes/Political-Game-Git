@@ -82,5 +82,53 @@
     "addedAt": "2026-10-11",
     "replacement": "Validated recurrence bounds or unbounded direct calculation.",
     "status": "OPEN"
+  },
+  {
+    "id": "legislatures.pending-council-items",
+    "kind": "placeholder",
+    "file": "src/rules/legislatures/council-items.ts",
+    "line": 11,
+    "whatItFakes": "Matter-bearing council items remain pending and playedMeasureIds is always empty.",
+    "why": "Preserve the unchanged legacy behavior while lifting only its pure decision kernel.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Core2 council scene/effect consumer recording actual played items.",
+    "status": "OPEN"
+  },
+  {
+    "id": "legislatures.fractional-authored-vote-counts",
+    "kind": "placeholder",
+    "file": "src/rules/legislatures/vote-dispositions.ts",
+    "line": 6,
+    "whatItFakes": "Authored fractional or negative disposition counts are not validated and can disagree with the reported total.",
+    "why": "Preserve the unchanged legacy behavior while lifting only its pure decision kernel.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Reviewed integer, nonnegative, bounded vote-count input contract.",
+    "status": "OPEN"
+  },
+  {
+    "id": "legislatures.review-calendar-weekends-only",
+    "kind": "placeholder",
+    "file": "src/rules/legislatures/review-calendar.ts",
+    "line": 7,
+    "whatItFakes": "Congressional review counts every weekday, omitting holidays and Congress recess exclusions.",
+    "why": "Preserve the unchanged legacy behavior while lifting only its pure decision kernel.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Supplied lawful review calendar with holidays and applicable recess intervals.",
+    "status": "OPEN"
+  },
+  {
+    "id": "legislatures.unclassified-seat-district-fallback",
+    "kind": "placeholder",
+    "file": "src/rules/legislatures/council-items.ts",
+    "line": 23,
+    "whatItFakes": "Missing, invalid and unclassified council seat composition returns district.",
+    "why": "Preserve the unchanged legacy behavior while lifting only its pure decision kernel.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Explicit supplied seat identity or an unresolved classification preserving missing facts.",
+    "status": "OPEN"
   }
 ]

@@ -48,3 +48,23 @@ pass. Owned TypeScript diagnostics zero; imported legacy graph retains the 101
 baseline diagnostics. Main smoke evidence is in #3946; no new-core bench exists
 on main. RULES-2 implementation interval 2026-10-11 00:38–00:43 UTC (~5 minutes).
 Model/effort above; usage/cost not exposed. Next: the authorized laws branch.
+
+## Complete scoped KEEP disposition
+
+`KEEP-DISPOSITION.md` and `keep-disposition.json` account for every one of the
+138 legislature/council inventory KEEP functions. Each whole-function blocker
+names its specific legacy World effects, research closure, private owning
+pipeline or English/old evaluator contract. Partial windows and overrides keep
+their destinations. This does not reclassify KEEP or claim future adapters are
+impossible.
+
+The continuation adds agenda/caucus selection, joint-assembly candidates,
+positioned bill answers, chamber/floor progression, session gates, elected-member
+validation, authored disposition assignment, council-item routing and seat
+classification, modal council shares and review/general-election calendars.
+Private supporting validation and chamber sequence lookup are not counted as
+KEEP functions. New CTO registrations preserve pending/unplayed council items,
+noninteger/negative authored vote counts, weekday-only congressional review and
+the district fallback for unknown seat composition. No legacy engine is edited.
+Golden comparisons exercise every new rule across all 56 identities; real state
+packs are used where present without inventing territorial legislatures.
