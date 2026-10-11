@@ -10,16 +10,94 @@
   "priority": "P2",
   "question": "With age held equal, how much do a young adult's own earnings against local rent, employment, school enrollment, a partner, and their family's income change the odds that they live in a parent's home, and how many leave home to another county?",
   "questionId": "why-young-adults-leave-home",
-  "relatedQuestionIds": ["why-americans-move-causes-and-strengths"],
+  "relatedQuestionIds": [
+    "why-americans-move-causes-and-strengths"
+  ],
   "requestVersion": "research-request/v1",
   "requestedBy": "Standby Claude Team 5",
   "sourcesChecked": [
     {
       "source": "Census Bureau, 'Living Arrangements Varied Across Age Groups', America Counts, May 2024 (Current Population Survey, 2022)",
       "whatItDidNotSettle": "Raw shares in a parent's home by age and sex; no effect of pay, rent, work, school or a partner with age held equal, and no share of those leaving home who move to another county."
+    },
+    {
+      "source": "Census CPS ASEC2023 reasons Table14",
+      "url": "https://www2.census.gov/programs-surveys/demo/tables/geographic-mobility/2023/cps-2023/mig_14_2023_1yr.xlsx",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "public-domain-US",
+        "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
+        "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
+      ]
     }
   ],
   "title": "Why young adults leave a parent's home, or stay",
   "usableAnswer": "Shares or odds ratios for living in a parent's home by age, own earnings against local rent, employment, enrollment and partnership, from a named Current Population Survey or American Community Survey analysis, plus the share of home-leavers who cross a county line, so each placeholder weight can be read as data.",
-  "whyItMatters": "Whether a grown child leaves home decides how many new households a town forms, who needs a home, and who has a reason to move away."
+  "whyItMatters": "Whether a grown child leaves home decides how many new households a town forms, who needs a home, and who has a reason to move away.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/renewal/moves/roadmap-r9-manifest-and-gaps.json",
+        "data/research/renewal/moves/roadmap-r9-reasons-table13-2023.json",
+        "data/research/renewal/moves/roadmap-r9-reasons-table14-2023.json"
+      ],
+      "finding": "IRS2022–23 reported address flows, Census2021–25 county components and CPS2023 mover reason tables supplied. Reasons are conditional on moving; net components are not gross flows. Disaster return timing, local causal chooser weights and young-adult exit hazards remain gaps."
+    }
+  }
 }
