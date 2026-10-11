@@ -1,0 +1,52 @@
+[
+  {
+    "id": "RULES3-GOV-001",
+    "path": "src/rules/governing/term-limits.ts",
+    "reason": "The inherited 90-day consecutive gap, counting any partial term, and counting prior service under a silent enacted law are game assumptions.",
+    "author": "RULES-3",
+    "date": "2026-10-11",
+    "replacement": "Sourced per-office partial-term, interruption and transition rules.",
+    "status": "open-inherited",
+    "behavior": "preserved unchanged"
+  },
+  {
+    "id": "RULES3-GOV-002",
+    "path": "src/rules/governing/budget-stakes.ts",
+    "reason": "Budget urgency uses fixed 30/90-day importance steps and treats the fiscal-year starting day as next year. Preserve this suspected boundary bug and threshold behavior.",
+    "author": "RULES-3",
+    "date": "2026-10-11",
+    "replacement": "CTO-reviewed continuous deadline weighting and an explicit start-day ruling.",
+    "status": "open-inherited",
+    "behavior": "preserved unchanged"
+  },
+  {
+    "id": "RULES3-GOV-003",
+    "path": "src/rules/governing/action-authority.ts",
+    "reason": "Management authority checks known supervisory kind without validating its value; inherited allowance may overstate authority.",
+    "author": "RULES-3",
+    "date": "2026-10-11",
+    "replacement": "CTO ruling and explicit supervisory-value authorization.",
+    "status": "open-inherited",
+    "behavior": "preserved unchanged"
+  },
+  {
+    "id": "RULES3-GOV-004",
+    "path": "src/rules/governing/installment.ts",
+    "reason": "Legacy installment semantics accept exact cash and allow upstream payment reasons to be overridden by appropriation lapse; no automatic currency correction.",
+    "author": "RULES-3",
+    "date": "2026-10-11",
+    "replacement": "Core journal integration with reviewed denomination and precedence contracts.",
+    "status": "open-inherited",
+    "behavior": "preserved unchanged"
+  },
+  {
+    "id": "RULES3-GOV-005",
+    "path": "src/rules/governing/personnel-rules.ts",
+    "reason": "Estimated jurisdiction procedure rows waive the observed-date gate; preserve acquired-data estimates without converting them into researched facts.",
+    "author": "RULES-3",
+    "date": "2026-10-11",
+    "replacement": "Sourced procedure dates for each jurisdiction.",
+    "status": "open-inherited",
+    "behavior": "preserved unchanged"
+  }
+]

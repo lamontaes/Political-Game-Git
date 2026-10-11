@@ -1,0 +1,1070 @@
+{
+  "source": "docs/design/core2-porting-plan/units.csv.gz RULE plus manual audit KEEP; RULE is the inventory spelling of KEEP",
+  "baseline": "20118081ecd7628aaa9b61ac7151477aae58d689",
+  "rows": [
+    {
+      "file": "src/environment/environment-scene-spec.ts",
+      "name": "isNonEmptyString",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Asset validation or presentation-source query; outside the governing/executive golden-path rules scope."
+    },
+    {
+      "file": "src/environment/environment-scene-spec.ts",
+      "name": "isPercent",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Asset validation or presentation-source query; outside the governing/executive golden-path rules scope."
+    },
+    {
+      "file": "src/environment/environment-scene-spec.ts",
+      "name": "isPositiveNumber",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Asset validation or presentation-source query; outside the governing/executive golden-path rules scope."
+    },
+    {
+      "file": "src/environment/environment-scene-spec.ts",
+      "name": "validateSurfaceSlots",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Asset validation or presentation-source query; outside the governing/executive golden-path rules scope."
+    },
+    {
+      "file": "src/environment/environment-scene-spec.ts",
+      "name": "validateRaster",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Asset validation or presentation-source query; outside the governing/executive golden-path rules scope."
+    },
+    {
+      "file": "src/environment/environment-scene-spec.ts",
+      "name": "validatePresentation",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Asset validation or presentation-source query; outside the governing/executive golden-path rules scope."
+    },
+    {
+      "file": "src/environment/environment-scene-spec.ts",
+      "name": "compareCanonicalStrings",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Asset validation or presentation-source query; outside the governing/executive golden-path rules scope."
+    },
+    {
+      "file": "src/environment/environment-sources.ts",
+      "name": "environmentSourceBulkCounts",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Asset validation or presentation-source query; outside the governing/executive golden-path rules scope."
+    },
+    {
+      "file": "src/simulation/civil-personnel-actions.ts",
+      "name": "procedureApplicability",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/procedure-applicability.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/civil-personnel-actions.ts",
+      "name": "personnelAuthority",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/personnel-authority.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/civil-personnel-actions.ts",
+      "name": "yearsAfter",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-years-after.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/civil-personnel-actions.ts",
+      "name": "assessPersonnelReinstatement",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "assessPersonnelReinstatement requires the legacy civil-personnel-actions.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { personnelJurisdictionRule, personnelProcedureApplies } from \"../../simulation/civil-personnel-rules\";; import { CIVIL_PERSONNEL_SOURCE_PROJECTION } from \"../../simulation/civil-personnel-sources.generated\";; import { makeIsoDate } from \"./dates\";; import { activeOrganizationParticipationsAt, currentLifeCutoff, workStatusAt } from \"../../simulation/life-queries\";; import { isPersonAliveAt } from \"../../simulation/vitality-integrity\";; import { personnelRecords } from \"../../simulation/civil-personnel-integrity\";"
+    },
+    {
+      "file": "src/simulation/civil-personnel-rules.ts",
+      "name": "personnelProcedureApplies",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/personnel-rules.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/civil-personnel-start.ts",
+      "name": "yearsBefore",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-years-before.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/constituent-casework-routing.ts",
+      "name": "holdsPublicOffice",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "holdsPublicOffice requires the legacy constituent-casework-routing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { activeOrganizationParticipationsAt, activeWorkRelationshipsAt } from \"../../simulation/life-queries\";; import { OFFICE_EMPLOYMENT_KINDS } from \"../../simulation/governing/office-consequence\";; import { publicOfficesHeldBy } from \"../../simulation/crisis/offices\";"
+    },
+    {
+      "file": "src/simulation/crisis/disaster-warrants.ts",
+      "name": "stateRequestWarranted",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/disaster-warrants.ts",
+      "name": "federalDeclarationWarranted",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/disaster.ts",
+      "name": "disasterStateReviewHandler",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/disaster.ts",
+      "name": "disasterRepairCycleHandler",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "peopleOutSick",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "schoolDecisions",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "epidemicCouncilMeetingDecision",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "exactAge",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "turn",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "epidemicSeriousness",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "between",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "epidemicCaseSeverity",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "peopleAlreadyIll",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "epidemicSusceptibilityAtAge",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "susceptibility",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "epidemicSeasonOn",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "residentsByTown",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "sampleEpidemicWeek",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "workdaysBetween",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "jobPaysSickLeave",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "weeklyHoursHeld",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "caregiverFor",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/epidemic.ts",
+      "name": "epidemicWorkAbsences",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/fixed-point.ts",
+      "name": "FIXED_SCALE",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Classifier false positive: parameter, parsed research rows, or scheduler/phase key rather than a KEEP function. Leave data/plumbing for its owning module."
+    },
+    {
+      "file": "src/simulation/crisis/fixed-point.ts",
+      "name": "THREE_HALVES",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Classifier false positive: parameter, parsed research rows, or scheduler/phase key rather than a KEEP function. Leave data/plumbing for its owning module."
+    },
+    {
+      "file": "src/simulation/crisis/fixed-point.ts",
+      "name": "THREE_QUARTERS",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Classifier false positive: parameter, parsed research rows, or scheduler/phase key rather than a KEEP function. Leave data/plumbing for its owning module."
+    },
+    {
+      "file": "src/simulation/crisis/fixed-point.ts",
+      "name": "twiceAtanh",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/fixed-point.ts",
+      "name": "FIXED_LN2",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Classifier false positive: parameter, parsed research rows, or scheduler/phase key rather than a KEEP function. Leave data/plumbing for its owning module."
+    },
+    {
+      "file": "src/simulation/crisis/fixed-point.ts",
+      "name": "fixedLn",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/fixed-point.ts",
+      "name": "fixedFromDecimal",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/fixed-point.ts",
+      "name": "hazardFromAnnualProbability",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/hazard-producer.ts",
+      "name": "magnitudeFor",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/hazard-producer.ts",
+      "name": "representedRate",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/hazard-producer.ts",
+      "name": "recordedDurationDays",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/hazard-producer.ts",
+      "name": "hazardSampleHandler",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/hazard.ts",
+      "name": "thresholdUnits",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/hazard.ts",
+      "name": "ageAt",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/hazard.ts",
+      "name": "multiplierAt",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/hazard.ts",
+      "name": "nextMultiplierChange",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/hazard.ts",
+      "name": "segments",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/hazard.ts",
+      "name": "cumulativeHazardUnits",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/hazard.ts",
+      "name": "firstThresholdDay",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/hazard.ts",
+      "name": "scanThresholdDay",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/international.ts",
+      "name": "internationalCrisisState",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/international.ts",
+      "name": "internationalDecisionHandler",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/notices.ts",
+      "name": "crisisProtectedDecisions",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/crisis/offices.ts",
+      "name": "officeTable",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Cross-engine crisis/health dependency: hazard, illness or international records and handlers belong to later crisis/health ports; not a governing-office pure rule. Dice/redesign remains excluded."
+    },
+    {
+      "file": "src/simulation/executive-action-authority.ts",
+      "name": "decideExecutiveActionAuthority",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/action-authority.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/executive-authority-game-profile.ts",
+      "name": "middleOfReadSpread",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-middle-of-read-spread.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/executive-authority-game-profile.ts",
+      "name": "buildEstimatedPack",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "buildEstimatedPack requires the legacy executive-authority-game-profile.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { executiveKnown, executiveUnknown, type ExecutiveAuthorityRulePack, type ExecutiveBranchStructure, type ExecutiveRuleValue, type PluralExecutiveConstraint } from \"../../simulation/executive-authority-rules\";; import { EXECUTIVE_AUTHORITY_RULE_PACKS } from \"../../simulation/executive-authority-rule-packs\";; import { STATES } from \"../../simulation/state-reference\";; import { DISTRICT_OF_COLUMBIA_JURISDICTION_KEY, DISTRICT_OF_COLUMBIA_OFFICE_DISPLAY_NAME, DISTRICT_OF_COLUMBIA_OFFICE_KEY, DISTRICT_OF_COLUMBIA_OFFICE_TITLE } from \"../../simulation/nationwide-world/district-of-columbia-identity\";"
+    },
+    {
+      "file": "src/simulation/executive-governing-kernels.ts",
+      "name": "compileExecutiveGoverningPlan",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "compileExecutiveGoverningPlan requires the legacy executive-governing-kernels.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { createStableId } from \"../../simulation/ids\";; import { type ExecutiveActionInput } from \"../../simulation/legislation\";; import { rulePackById } from \"../../simulation/legislature-rule-packs\";; import { isKnown, type LegislativeRulePack } from \"../../simulation/legislature-rules\";; import { type CreateScheduledActivityInput, type CreateWorkItemInput } from \"../../simulation/time-work\";"
+    },
+    {
+      "file": "src/simulation/executive-work.ts",
+      "name": "spendExecutiveWorkTime",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "spendExecutiveWorkTime requires the legacy executive-work.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { addSimulationMinutes } from \"./dates\";; import { assertWorldIntegrity } from \"../../simulation/world\";; import { advanceWorldMinutes } from \"../../simulation/time-work\";; import { resolveExecutiveOffice, executiveStaffRoles } from \"../../simulation/executive-work-context\";; import { executiveTermHandlers } from \"../../simulation/executive-work-entry\";; import { EXECUTIVE_GOVERNING_CYCLE_TRANSITION_KEY, executiveGoverningCycleTransitionHandler } from \"../../simulation/executive-governing-kernels\";; import { composeFutureTransitionHandlerRegistries, createFutureTransitionHandlerRegistry } from \"../../simulation/future-transitions\";"
+    },
+    {
+      "file": "src/simulation/governing/constituent-views.ts",
+      "name": "distinguishable",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-distinguishable.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/governing/constituent-views.ts",
+      "name": "constituentsConsideration",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "constituentsConsideration requires the legacy governing/constituent-views.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { UNRESEARCHED_ISSUE_RECORD } from \"../../simulation/issue-record\";; import { whoCaresAbout } from \"../../simulation/provision-public-face\";; import { civicMessagesForPropositions, type CivicMessageRecord } from \"../../simulation/living-world/civic-actions\";; import { personName } from \"../../simulation/people\";"
+    },
+    {
+      "file": "src/simulation/governing/executive-budget-requests.ts",
+      "name": "modeledExecutiveBudgetBaseline",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "modeledExecutiveBudgetBaseline requires the legacy governing/executive-budget-requests.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { publicGovernmentIdentityForRecord, samePublicGovernmentIdentity } from \"../../simulation/public-government-identity\";; import { BUDGET_PROGRAMS } from \"../../simulation/public-budgets/store\";; import { money } from \"../../simulation/resources\";"
+    },
+    {
+      "file": "src/simulation/governing/executive-budget-requests.ts",
+      "name": "parseExecutiveBudgetDollars",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "parseExecutiveBudgetDollars requires the legacy governing/executive-budget-requests.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { money } from \"../../simulation/resources\";"
+    },
+    {
+      "file": "src/simulation/governing/office-consequence.ts",
+      "name": "officesHeldBy",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "officesHeldBy requires the legacy governing/office-consequence.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { activeWorkRelationshipsAt } from \"../../simulation/life-queries\";; import { currentGoverningOffices } from \"../../simulation/governing/state-governing\";; import { congressSeats } from \"../../simulation/living-world/congress-seats\";; import { projectCongress } from \"../../simulation/living-world/congress\";; import { congressSeatTitle } from \"../../simulation/living-world/opening\";"
+    },
+    {
+      "file": "src/simulation/governing/office-consequence.ts",
+      "name": "playerOfficeScope",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "playerOfficeScope requires the legacy governing/office-consequence.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { activeWorkRelationshipsAt } from \"../../simulation/life-queries\";; import { currentPresidentOf } from \"../../simulation/crisis/offices\";; import { currentGoverningOffices } from \"../../simulation/governing/state-governing\";; import { congressSeats } from \"../../simulation/living-world/congress-seats\";; import { projectCongress } from \"../../simulation/living-world/congress\";; import { congressSeatTitle } from \"../../simulation/living-world/opening\";; import { NATIONAL_ELECTION_JURISDICTION } from \"../../simulation/national-election-geography\";"
+    },
+    {
+      "file": "src/simulation/governing/office-continuity.ts",
+      "name": "nextCongressionalElectionAfter",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "nextCongressionalElectionAfter requires the legacy governing/office-continuity.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { congressionalElectionDay } from \"../../simulation/living-world/congress-turnover\";"
+    },
+    {
+      "file": "src/simulation/governing/office-continuity.ts",
+      "name": "statutoryPresidentialSuccessor",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "statutoryPresidentialSuccessor requires the legacy governing/office-continuity.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { congressSeats } from \"../../simulation/living-world/congress-seats\";; import { projectCongress } from \"../../simulation/living-world/congress\";; import { electPresidingOfficer, recordPresidingOfficerVote } from \"../../simulation/governing/presiding-officers\";"
+    },
+    {
+      "file": "src/simulation/governing/office-continuity.ts",
+      "name": "ageOn",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-age-on.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/governing/office-continuity.ts",
+      "name": "congressSeatHeldBy",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "congressSeatHeldBy requires the legacy governing/office-continuity.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { congressSeats } from \"../../simulation/living-world/congress-seats\";; import { projectCongress } from \"../../simulation/living-world/congress\";"
+    },
+    {
+      "file": "src/simulation/governing/officeholder-principles.ts",
+      "name": "principledLeaning",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "principledLeaning requires the legacy governing/officeholder-principles.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { indexFollowingAppends } from \"../../simulation/history-index\";"
+    },
+    {
+      "file": "src/simulation/governing/officeholder-principles.ts",
+      "name": "principleAnswersConsideration",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "principleAnswersConsideration requires the legacy governing/officeholder-principles.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { indexFollowingAppends } from \"../../simulation/history-index\";"
+    },
+    {
+      "file": "src/simulation/governing/officeholder-principles.ts",
+      "name": "principleView",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "principleView requires the legacy governing/officeholder-principles.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { indexFollowingAppends } from \"../../simulation/history-index\";"
+    },
+    {
+      "file": "src/simulation/governing/officeholder-principles.ts",
+      "name": "holdsPrinciples",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "holdsPrinciples requires the legacy governing/officeholder-principles.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { indexFollowingAppends } from \"../../simulation/history-index\";"
+    },
+    {
+      "file": "src/simulation/governing/officeholder-principles.ts",
+      "name": "spendingPrincipleConsideration",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "spendingPrincipleConsideration requires the legacy governing/officeholder-principles.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { indexFollowingAppends } from \"../../simulation/history-index\";"
+    },
+    {
+      "file": "src/simulation/governing/program-governing.ts",
+      "name": "appropriationFromEnactedMeasure",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "appropriationFromEnactedMeasure requires the legacy governing/program-governing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { finalTermProvisions } from \"../../simulation/governing/final-law-term-query\";; import { measureAnswersAt } from \"../../simulation/vote-bundle\";; import { PASSENGER_RAIL_PROGRAM_KEY, EXPAND_PASSENGER_RAIL_QUESTION } from \"../../simulation/federal-passenger-rail\";; import { addDays } from \"./dates\";; import { draftLineageComponents, draftLineageForMeasure, draftParameterValues } from \"../../simulation/legislation-draft-lineage\";; import { addYears } from \"../../simulation/legislation-drafting\";; import { currentMeasureProvisions } from \"../../simulation/legislative-politics\";; import { programHasEnded } from \"../../simulation/enacted-program-terms\";; import { operativeDateInWorld } from \"../../simulation/governing/law-in-force\";; import { stateJurisdictionForKey } from \"../../simulation/life-places\";; import { US_STATE_USPS } from \"../../simulation/nationwide-world/state-executive-candidacy-packs\";; import { STATE_TRANSIT_VARIANT_KEY, TRANSIT_FAMILY_KEY, TRANSIT_FAMILY_VERSION, TRANSIT_PROGRAM_KEY, TRANSIT_VARIANT_KEY, LEGACY_TRANSIT_COMPILED_STATE } from \"../../simulation/legislation-transit-families\";; import { stateTransitServiceProfileForMeasure } from \"../../simulation/state-transit-service-profile\";; import { packMayEnactVariant } from \"../../simulation/legislation-drafting\";; import { rulePackById } from \"../../simulation/legislature-rule-packs\";; import { localFiscalAuthorityScopeForRulePackId } from \"../../simulation/municipal-government\";; import { admitLocalFiscalMeasure } from \"../../simulation/local-fiscal-authority\";; import { NATIONAL_ELECTION_JURISDICTION } from \"../../simulation/national-election-geography\";; import { stableHash } from \"../../simulation/ids\";; import { programVariant, legalInstrumentRule, standingAuthority, npcEligibleProgramConfigurationsFor, type ProgramVariant } from \"../../simulation/legislation-program-families\";; import { ensurePublicGovernmentAccount, publicTaxAccountForIdentity } from \"../../simulation/tax-policy\";; import { money } from \"../../simulation/resources\";; import { canonicalJson } from \"../../simulation/canonical-json\";; import { stateTaxServiceProfileForJurisdictionId } from \"../../simulation/world-setup/state-tax-service-profiles\";; import { assertPublicGovernmentIdentity, samePublicGovernmentIdentity } from \"../../simulation/public-government-identity\";; import { programCapacity, recordProgramAppropriation, declareProgramCapacity } from \"../../simulation/governing/public-program\";"
+    },
+    {
+      "file": "src/simulation/governing/program-governing.ts",
+      "name": "npcProgramServiceCapacityProfileForEnactment",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "npcProgramServiceCapacityProfileForEnactment requires the legacy governing/program-governing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { draftLineageForMeasure } from \"../../simulation/legislation-draft-lineage\";; import { currentMeasureProvisions } from \"../../simulation/legislative-politics\";; import { operativeDateInWorld } from \"../../simulation/governing/law-in-force\";; import { STATE_TRANSIT_VARIANT_KEY, TRANSIT_FAMILY_KEY, TRANSIT_FAMILY_VERSION, TRANSIT_PROGRAM_KEY } from \"../../simulation/legislation-transit-families\";; import { stateTransitServiceProfileForMeasure } from \"../../simulation/state-transit-service-profile\";; import { rulePackById } from \"../../simulation/legislature-rule-packs\";; import { localFiscalAuthorityScopeForRulePackId } from \"../../simulation/municipal-government\";; import { NATIONAL_ELECTION_JURISDICTION } from \"../../simulation/national-election-geography\";; import { stableHash } from \"../../simulation/ids\";; import { programVariant, type ProgramVariant } from \"../../simulation/legislation-program-families\";; import { canonicalJson } from \"../../simulation/canonical-json\";"
+    },
+    {
+      "file": "src/simulation/governing/program-governing.ts",
+      "name": "eligibleStandingOperator",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "eligibleStandingOperator requires the legacy governing/program-governing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { lifePlaceByJurisdictionId, stateKeyForJurisdiction } from \"../../simulation/life-places\";; import { organizationProfileAt } from \"../../simulation/life-queries\";; import { isCountyServiceProgram, standingServiceProgram } from \"../../simulation/law-consequences/service-delivered-data\";; import { organizationServesCounty } from \"../../simulation/county-service-authority\";"
+    },
+    {
+      "file": "src/simulation/governing/program-governing.ts",
+      "name": "programAlternativesFor",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "programAlternativesFor requires the legacy governing/program-governing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { money } from \"../../simulation/resources\";; import { publicGovernmentIdentityForRecord } from \"../../simulation/public-government-identity\";; import { programCapacity, programPosition, type PublicProgramAlternative } from \"../../simulation/governing/public-program\";"
+    },
+    {
+      "file": "src/simulation/governing/question-authority.ts",
+      "name": "jurisdictionPowersLevels",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "jurisdictionPowersLevels requires the legacy governing/question-authority.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { lifePlaceByJurisdictionId, stateJurisdictionForKey } from \"../../simulation/life-places\";; import { NATIONAL_ELECTION_JURISDICTION } from \"../../simulation/national-election-geography\";; import { isFederalDistrictJurisdictionKey, STATES } from \"../../simulation/state-reference\";"
+    },
+    {
+      "file": "src/simulation/governing/staff-evidence.ts",
+      "name": "yearsBetween",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-years-between.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/governing/staff-evidence.ts",
+      "name": "staffAssessment",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "staffAssessment requires the legacy governing/staff-evidence.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { educationHistoryEvidenceForPerson, organizationProfileAt, workRelationshipHistoryForPerson, workRoleHistory, workStatusHistory } from \"../../simulation/life-queries\";; import { personName } from \"../../simulation/people\";"
+    },
+    {
+      "file": "src/simulation/governing/state-governing.ts",
+      "name": "openPresidentBillMatter",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "openPresidentBillMatter requires the legacy governing/state-governing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { applyItemVetoes, type ExecutiveItemVetoSelection } from \"../../simulation/governing/item-veto\";; import { addDays, makeIsoDate } from \"./dates\";; import { scheduleFutureDueItem } from \"../../simulation/future-transitions\";; import { createStableId } from \"../../simulation/ids\";; import { createWorkRelationship, recordWorkStatus } from \"../../simulation/life\";; import { currentLifeCutoff, workRelationshipHistoryForOrganization, workRoleAt, workStatusAt } from \"../../simulation/life-queries\";; import { currentPresidentOf } from \"../../simulation/crisis/offices\";; import { currentFederalTenure } from \"../../simulation/federal-tenures\";; import { nationalOfficeHolder } from \"../../simulation/national-election-consumer\";; import { municipalOrganizationFor, municipalGovernmentJurisdictionId, municipalSeats } from \"../../simulation/municipal-public-work\";; import { municipalExecutiveHolder, recordCouncilExecutiveDecision, recordCouncilExecutiveInaction } from \"../../simulation/municipal-ordinance-procedure\";; import { municipalGovernmentByKey, primaryReading } from \"../../simulation/municipal-government\";; import { recordsByKey, recordById } from \"../../simulation/history-index\";; import { publicGovernmentIdentityForRecord } from \"../../simulation/public-government-identity\";; import { NATIONAL_ELECTION_JURISDICTION } from \"../../simulation/national-election-geography\";; import { personName } from \"../../simulation/people\";; import { recordExecutiveInaction, issueExecutiveInstrument, measurePosition } from \"../../simulation/legislation\";; import { createWorkItem, workItemState } from \"../../simulation/time-work\";; import { assertWorldIntegrity, recordWorldEvent } from \"../../simulation/world\";; import { executiveBillActionWindow } from \"../../simulation/governing/governor-bill-decision\";; import { advanceClemencyPetition } from \"../../simulation/justice/clemency\";; import { CLEMENCY_KIND_TAG } from \"../../simulation/justice/jail-terms\";; import { CLEMENCY_DENY, CLEMENCY_GRANT } from \"../../simulation/justice/clemency-reasoning\";; import { currentStateExecutiveHolders, type StateExecutiveHolderRecord } from \"../../simulation/nationwide-world/state-executives\";; import { stateExecutiveTermRule, stateExecutiveTermRuleNote } from \"../../simulation/nationwide-world/state-executive-term-rules\";; import { governingJurisdictionIdFor } from \"../../simulation/nationwide-world/government-jurisdiction\";; import { recordGovernorDecisionOnMeasure, scheduleInstitutionStep, type ExecutiveDeskHandler } from \"../../simulation/governing/legislative-clock\";; import { BUDGET_DOLLARS, BUDGET_DOLLARS_VERSION } from \"../../simulation/governing/executive-budget-requests\";; import { decideExecutiveActionAuthority } from \"../../simulation/executive-action-authority\";; import { executiveRulePackForJurisdiction } from \"../../simulation/executive-authority-rule-packs\";; import { legislatureProfilePackId } from \"../../simulation/legislature-game-profile\";; import { staffAssessment } from \"../../simulation/governing/staff-evidence\";; import { programFamilyTitle } from \"../../simulation/governing/program-families\";; import { programAlternativesFor, programOperatorOrganization, standingProgramUnsupported } from \"../../simulation/governing/program-governing\";; import { commitPublicProgram, forecastProgramAlternative, programAuthority, type PublicProgramOffice } from \"../../simulation/governing/public-program\";; import { recordOfficeStaffIncumbency } from \"../../simulation/governing/office-staffing\";"
+    },
+    {
+      "file": "src/simulation/governing/state-governing.ts",
+      "name": "chiefOfStaffWork",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "chiefOfStaffWork requires the legacy governing/state-governing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { currentLifeCutoff, workRelationshipHistoryForOrganization, workRoleAt, workStatusAt } from \"../../simulation/life-queries\";"
+    },
+    {
+      "file": "src/simulation/governing/state-governing.ts",
+      "name": "completedGoverningMatterWork",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "completedGoverningMatterWork requires the legacy governing/state-governing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { eventById } from \"../../simulation/event-index\";; import { addDays, compareSimulationMoments, makeIsoDate } from \"./dates\";; import { currentLifeCutoff, workRelationshipHistoryForOrganization, workRoleAt, workStatusAt } from \"../../simulation/life-queries\";; import { personName } from \"../../simulation/people\";; import { workItemState } from \"../../simulation/time-work\";; import { executiveBillActionWindow } from \"../../simulation/governing/governor-bill-decision\";; import { CLEMENCY_KIND_TAG } from \"../../simulation/justice/jail-terms\";; import { CLEMENCY_DENY, CLEMENCY_GRANT } from \"../../simulation/justice/clemency-reasoning\";; import { BUDGET_DOLLARS, BUDGET_DOLLARS_VERSION } from \"../../simulation/governing/executive-budget-requests\";; import { staffAssessment } from \"../../simulation/governing/staff-evidence\";; import { programFamilyTitle } from \"../../simulation/governing/program-families\";; import { programAlternativesFor } from \"../../simulation/governing/program-governing\";; import { forecastProgramAlternative } from \"../../simulation/governing/public-program\";"
+    },
+    {
+      "file": "src/simulation/governing/state-governing.ts",
+      "name": "billOpposedByOwnParty",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "billOpposedByOwnParty requires the legacy governing/state-governing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { ownPartyPassageVote } from \"../../simulation/governing/governor-bill-decision\";; import { publicPartyOf } from \"../../simulation/governing/chamber-votes\";; import { type PublicProgramOffice } from \"../../simulation/governing/public-program\";"
+    },
+    {
+      "file": "src/simulation/governing/state-governing.ts",
+      "name": "supportedAgendaOption",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "supportedAgendaOption requires the legacy governing/state-governing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { considerationScore } from \"../../simulation/decisions\";"
+    },
+    {
+      "file": "src/simulation/governing/state-governing.ts",
+      "name": "staffRecommendation",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "staffRecommendation requires the legacy governing/state-governing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { createStableId } from \"../../simulation/ids\";; import { currentLifeCutoff, workRelationshipHistoryForOrganization, workRoleAt, workStatusAt } from \"../../simulation/life-queries\";; import { currentPresidentOf } from \"../../simulation/crisis/offices\";; import { currentFederalTenure } from \"../../simulation/federal-tenures\";; import { nationalOfficeHolder } from \"../../simulation/national-election-consumer\";; import { municipalOrganizationFor, municipalGovernmentJurisdictionId, municipalSeats } from \"../../simulation/municipal-public-work\";; import { municipalExecutiveHolder } from \"../../simulation/municipal-ordinance-procedure\";; import { municipalGovernmentByKey, primaryReading } from \"../../simulation/municipal-government\";; import { recordsByKey, recordById } from \"../../simulation/history-index\";; import { publicGovernmentIdentityForRecord } from \"../../simulation/public-government-identity\";; import { NATIONAL_ELECTION_JURISDICTION } from \"../../simulation/national-election-geography\";; import { considerationScore, evaluateDecision } from \"../../simulation/decisions\";; import { currentHistoricalCutoff } from \"../../simulation/queries\";; import { npcEligibleProgramConfigurations } from \"../../simulation/legislation-program-families\";; import { ownPartyPassageVote } from \"../../simulation/governing/governor-bill-decision\";; import { currentStateExecutiveHolders, type StateExecutiveHolderRecord } from \"../../simulation/nationwide-world/state-executives\";; import { stateExecutiveTermRule, stateExecutiveTermRuleNote } from \"../../simulation/nationwide-world/state-executive-term-rules\";; import { governingJurisdictionIdFor } from \"../../simulation/nationwide-world/government-jurisdiction\";; import { principleAnswersConsideration } from \"../../simulation/governing/officeholder-principles\";; import { publicPartyOf } from \"../../simulation/governing/chamber-votes\";; import { staffAssessment } from \"../../simulation/governing/staff-evidence\";; import { programAuthority, type PublicProgramOffice } from \"../../simulation/governing/public-program\";"
+    },
+    {
+      "file": "src/simulation/governing/state-governing.ts",
+      "name": "orderDelegatedRuleDrafts",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "orderDelegatedRuleDrafts requires the legacy governing/state-governing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { currentPresidentOf } from \"../../simulation/crisis/offices\";; import { currentFederalTenure } from \"../../simulation/federal-tenures\";; import { nationalOfficeHolder } from \"../../simulation/national-election-consumer\";; import { municipalOrganizationFor, municipalGovernmentJurisdictionId, municipalSeats } from \"../../simulation/municipal-public-work\";; import { municipalExecutiveHolder } from \"../../simulation/municipal-ordinance-procedure\";; import { municipalGovernmentByKey, primaryReading } from \"../../simulation/municipal-government\";; import { recordsByKey, recordById } from \"../../simulation/history-index\";; import { publicGovernmentIdentityForRecord } from \"../../simulation/public-government-identity\";; import { NATIONAL_ELECTION_JURISDICTION } from \"../../simulation/national-election-geography\";; import { currentStateExecutiveHolders, type StateExecutiveHolderRecord } from \"../../simulation/nationwide-world/state-executives\";; import { stateExecutiveTermRule, stateExecutiveTermRuleNote } from \"../../simulation/nationwide-world/state-executive-term-rules\";; import { governingJurisdictionIdFor } from \"../../simulation/nationwide-world/government-jurisdiction\";; import { programAuthority, type PublicProgramOffice } from \"../../simulation/governing/public-program\";"
+    },
+    {
+      "file": "src/simulation/governing/state-governing.ts",
+      "name": "createCandidates",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "createCandidates requires the legacy governing/state-governing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { inventedPersonBirthDate } from \"../../simulation/invented-person-age\";; import { applyCharacterHistoryPlan } from \"../../simulation/character-history\";; import { makeIsoDate } from \"./dates\";; import { createStableId } from \"../../simulation/ids\";; import { drawCanonicalNamedIdentity } from \"../../simulation/people\";; import { generatePersonIdentity } from \"../../simulation/person-identity\";; import { SeededRng } from \"../../simulation/rng\";; import { type PublicProgramOffice } from \"../../simulation/governing/public-program\";"
+    },
+    {
+      "file": "src/simulation/governing/state-governing.ts",
+      "name": "openProgramMatter",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "openProgramMatter requires the legacy governing/state-governing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { addDays } from \"./dates\";; import { scheduleFutureDueItem } from \"../../simulation/future-transitions\";; import { createWorkItem } from \"../../simulation/time-work\";; import { recordWorldEvent } from \"../../simulation/world\";; import { executiveBillActionWindow } from \"../../simulation/governing/governor-bill-decision\";; import { BUDGET_DOLLARS_VERSION } from \"../../simulation/governing/executive-budget-requests\";; import { programFamilyTitle } from \"../../simulation/governing/program-families\";; import { programAuthority, type PublicProgramOffice } from \"../../simulation/governing/public-program\";"
+    },
+    {
+      "file": "src/simulation/governing/state-governing.ts",
+      "name": "decisionSummary",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "decisionSummary requires the legacy governing/state-governing.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { currentLifeCutoff, workRelationshipHistoryForOrganization, workRoleAt, workStatusAt } from \"../../simulation/life-queries\";; import { personName } from \"../../simulation/people\";; import { CLEMENCY_GRANT } from \"../../simulation/justice/clemency-reasoning\";; import { currentStateExecutiveHolders } from \"../../simulation/nationwide-world/state-executives\";; import { BUDGET_DOLLARS } from \"../../simulation/governing/executive-budget-requests\";; import { decideExecutiveActionAuthority } from \"../../simulation/executive-action-authority\";; import { executiveRulePackForJurisdiction } from \"../../simulation/executive-authority-rule-packs\";; import { programFamilyTitle } from \"../../simulation/governing/program-families\";; import { type PublicProgramOffice } from \"../../simulation/governing/public-program\";"
+    },
+    {
+      "file": "src/simulation/government-units.ts",
+      "name": "countyPopulationSharesForPlace",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-county-population-shares-for-place.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/government-units.ts",
+      "name": "countyGovernmentUnitsForPlace",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-county-government-units-for-place.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/government-units.ts",
+      "name": "countyLandSharesForPlace",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-county-land-shares-for-place.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/government-units.ts",
+      "name": "countyGeoidsForPlace",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-county-geoids-for-place.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/municipal-government.ts",
+      "name": "buildFloorStages",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "buildFloorStages requires the legacy municipal-government.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { LOCAL_ORDINANCE_GAME_PROFILE_VERSION } from \"../../simulation/local-ordinance-game-profile\";; import { knownRule, unknownRule } from \"../../simulation/legislature-rules\";"
+    },
+    {
+      "file": "src/simulation/municipal-public-work.ts",
+      "name": "corpusProvenance",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-corpus-provenance.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/municipal-public-work.ts",
+      "name": "evaluateMunicipalManagerElection",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "evaluateMunicipalManagerElection requires the legacy municipal-public-work.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { recordsByStringField } from \"../../simulation/history-index\";; import { organizationProfileAt } from \"../../simulation/life-queries\";; import { governmentUnit, governmentUnitJurisdictionId } from \"../../simulation/government-units\";; import { LOCAL_ORDINANCE_GAME_PROFILE_VERSION, localFiscalGameAuthorityForRulePackId } from \"../../simulation/local-ordinance-game-profile\";; import { municipalGovernmentByKey, municipalGovernmentForPlaceGeoid, municipalRulePackFor, municipalRuleSourceRef, municipalVoteThresholdRule, primaryReading } from \"../../simulation/municipal-government\";; import { resolveRequiredVotes } from \"../../simulation/legislature-rules\";; import { tallyDispositions } from \"../../simulation/legislation\";"
+    },
+    {
+      "file": "src/simulation/nationwide-world/executive-term-rules-in-world.ts",
+      "name": "governingTermYearChanges",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "governingTermYearChanges requires the legacy nationwide-world/executive-term-rules-in-world.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { enactedRuleChanges, ruleChangeInForce } from \"../../simulation/enacted-rule-changes\";"
+    },
+    {
+      "file": "src/simulation/nationwide-world/executive-term-rules-in-world.ts",
+      "name": "firstElectionYearWithTermFrom",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "firstElectionYearWithTermFrom requires the legacy nationwide-world/executive-term-rules-in-world.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { commencementAfter, generalElectionDay, isElectionYear } from \"../../simulation/nationwide-world/state-executive-term-rules\";"
+    },
+    {
+      "file": "src/simulation/nationwide-world/executive-term-rules-in-world.ts",
+      "name": "segmentForElectionYear",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-segment-for-election-year.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/nationwide-world/executive-term-rules-in-world.ts",
+      "name": "nextRegularElectionInWorld",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "nextRegularElectionInWorld requires the legacy nationwide-world/executive-term-rules-in-world.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { enactedRuleChanges, ruleChangeInForce } from \"../../simulation/enacted-rule-changes\";; import { stateExecutiveIdentity } from \"../../simulation/nationwide-world/state-executive-candidacy-packs\";; import { commencementAfter, generalElectionDay, isElectionYear, stateExecutiveTermRule } from \"../../simulation/nationwide-world/state-executive-term-rules\";"
+    },
+    {
+      "file": "src/simulation/nationwide-world/government-unit-names.ts",
+      "name": "governmentUnitRecordedName",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-government-unit-recorded-name.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/nationwide-world/government-unit-names.ts",
+      "name": "governmentUnitDisplayName",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-government-unit-display-name.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/nationwide-world/local-chief-executive-rules.ts",
+      "name": "localChiefExecutiveRules",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "localChiefExecutiveRules requires the legacy nationwide-world/local-chief-executive-rules.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { primaryReading } from \"../../simulation/municipal-government\";; import { municipalGovernmentForUnit } from \"../../simulation/rule-capability-resolver\";; import { placePopulation } from \"../../simulation/nationwide-world/place-population\";"
+    },
+    {
+      "file": "src/simulation/nationwide-world/local-governments.ts",
+      "name": "placeLocalGovernmentUnits",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "placeLocalGovernmentUnits requires the legacy nationwide-world/local-governments.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { countyEquivalentTerm } from \"../../simulation/nationwide-world/government-unit-names\";; import { countyGovernmentUnit, countyGovernmentUnitsForPlace, governmentUnitsForPlace } from \"../../simulation/government-units\";; import { type LifePlace } from \"../../simulation/life-places\";; import { municipioUnit, municipiosForPlace } from \"../../simulation/nationwide-world/county-governing-body-rules\";; import { townshipGovernmentUnitsForPlace } from \"../../simulation/nationwide-world/township-governing-body-rules\";"
+    },
+    {
+      "file": "src/simulation/nationwide-world/place-population.ts",
+      "name": "populationAtRank",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-population-at-rank.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-executive-term-rules.ts",
+      "name": "commencementDescription",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-commencement-description.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-executive-term-rules.ts",
+      "name": "generalElectionDay",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/term-calendar.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-executive-term-rules.ts",
+      "name": "isElectionYear",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/term-calendar.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-executive-term-rules.ts",
+      "name": "nextRegularElection",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/term-calendar.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-executive-term-rules.ts",
+      "name": "commencementInYear",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/term-calendar.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-executive-term-rules.ts",
+      "name": "regularTermWindowOn",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/term-calendar.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-executive-terms.ts",
+      "name": "wholeYears",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-whole-years.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-executive-terms.ts",
+      "name": "ordinaryStateExecutiveTermDates",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "ordinaryStateExecutiveTermDates requires the legacy nationwide-world/state-executive-terms.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { makeIsoDate } from \"./dates\";; import { admittedRuleField, resolveNationwideRuleCapability, unadmittedRuleFields } from \"../../simulation/nationwide-world/rule-capability-port\";; import { stateExecutiveTermRuleForElectionYear } from \"../../simulation/nationwide-world/executive-term-rules-in-world\";; import { termDatesAfterElection, termRuleBasis, type TermRuleBasis } from \"../../simulation/nationwide-world/state-executive-term-rules\";"
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-executive-terms.ts",
+      "name": "admittedTermDates",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "admittedTermDates requires the legacy nationwide-world/state-executive-terms.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { makeIsoDate } from \"./dates\";; import { admittedRuleField, resolveNationwideRuleCapability, unadmittedRuleFields } from \"../../simulation/nationwide-world/rule-capability-port\";; import { type TermRuleBasis } from \"../../simulation/nationwide-world/state-executive-term-rules\";"
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-executive-terms.ts",
+      "name": "planOrdinaryStateExecutiveTerm",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "planOrdinaryStateExecutiveTerm requires the legacy nationwide-world/state-executive-terms.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { candidacyEligibility } from \"../../simulation/candidacy\";; import { makeIsoDate } from \"./dates\";; import { electionContestById, electionContestResult } from \"../../simulation/election-contests\";; import { planElectedExecutiveOfficeTerm, recordElectedExecutiveQualification } from \"../../simulation/executive-work-entry\";; import { chiefExecutiveJurisdiction } from \"../../simulation/nationwide-world/government-jurisdiction\";; import { admittedRuleField, resolveNationwideRuleCapability, unadmittedRuleFields } from \"../../simulation/nationwide-world/rule-capability-port\";; import { stateExecutiveTermRuleForElectionYear } from \"../../simulation/nationwide-world/executive-term-rules-in-world\";; import { stateExecutiveIdentityForOfficeKey } from \"../../simulation/nationwide-world/state-executive-candidacy-packs\";; import { STATE_EXECUTIVE_GAME_PROFILE_NOTE, generalElectionDay, isElectionYear, termDatesAfterElection, termRuleBasis, type TermRuleBasis } from \"../../simulation/nationwide-world/state-executive-term-rules\";"
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-executive-terms.ts",
+      "name": "offCycleRecoveryDates",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "offCycleRecoveryDates requires the legacy nationwide-world/state-executive-terms.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { commencementInYear, type StateExecutiveTermRule } from \"../../simulation/nationwide-world/state-executive-term-rules\";"
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-executives.ts",
+      "name": "wholeYears",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/keep-whole-years.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-executives.ts",
+      "name": "stateExecutiveTermWindow",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "stateExecutiveTermWindow requires the legacy nationwide-world/state-executives.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { makeIsoDate } from \"./dates\";; import { admittedRuleField, resolveNationwideRuleCapability, unadmittedRuleFields } from \"../../simulation/nationwide-world/rule-capability-port\";; import { regularTermWindowOn, stateExecutiveTermRule } from \"../../simulation/nationwide-world/state-executive-term-rules\";"
+    },
+    {
+      "file": "src/simulation/nationwide-world/state-executives.ts",
+      "name": "seatOpeningGovernorElect",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "seatOpeningGovernorElect requires the legacy nationwide-world/state-executives.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { inventedPersonBirthDate } from \"../../simulation/invented-person-age\";; import { applyCharacterHistoryPlan } from \"../../simulation/character-history\";; import { makeIsoDate } from \"./dates\";; import { createStableId } from \"../../simulation/ids\";; import { drawGeneratedPersonName, personName } from \"../../simulation/people\";; import { SeededRng } from \"../../simulation/rng\";; import { recordWorldEvent } from \"../../simulation/world\";; import { admittedRuleField, resolveNationwideRuleCapability, unadmittedRuleFields } from \"../../simulation/nationwide-world/rule-capability-port\";; import { generalElectionDay, isElectionYear, regularTermWindowOn, stateExecutiveTermRule } from \"../../simulation/nationwide-world/state-executive-term-rules\";"
+    },
+    {
+      "file": "src/simulation/office-pay.ts",
+      "name": "estimatedStatePay",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "estimatedStatePay requires the legacy office-pay.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { reciprocalRankedReferences, weightedReferenceMean } from \"../../simulation/income-tax-withholding\";; import { GOVERNOR_SALARY_ROWS, LEGISLATOR_SALARY_ROWS, OFFICE_PAY_META, TRIAL_JUDGE_SALARY_ROWS } from \"../../simulation/office-pay.generated\";; import stateHouseholdIncome2023 from \"../../../data/research/money/state-household-income-cps-2023.json\" with { type: \"json\" };; import { censusRegionOf } from \"../../simulation/world-setup/census-regions\";"
+    },
+    {
+      "file": "src/simulation/office-salary.ts",
+      "name": "annualPay",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "annualPay requires the legacy office-salary.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { daysBetween } from \"./dates\";; import { currentLifeCutoff, workRoleAt } from \"../../simulation/life-queries\";; import { recordedWorkAnnualPay } from \"../../simulation/recorded-work-pay\";; import { officePayInForce } from \"../../simulation/office-pay\";; import { townJobRate, townMinimumHourlyAt, townPayPercentile, weeklyHoursOf } from \"../../simulation/living-world/town-pay\";"
+    },
+    {
+      "file": "src/simulation/office-salary.ts",
+      "name": "weeklyMinor",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/salary.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/office-salary.ts",
+      "name": "dueOfficePeriods",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "dueOfficePeriods requires the legacy office-salary.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { type TownCompensationPeriod } from \"../../simulation/living-world/town-pay\";; import { growingIndex, type GrowingIndexKind } from \"../../simulation/history-index\";; import { addDays, daysBetween } from \"./dates\";; import { currentLifeCutoff, workStatusAt } from \"../../simulation/life-queries\";; import { paidOfficeOf } from \"../../simulation/office-pay\";"
+    },
+    {
+      "file": "src/simulation/office-transition.ts",
+      "name": "datedTransitionServices",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/transition-services.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/office-transition.ts",
+      "name": "transitionServiceStatus",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/governing/transition-services.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/public-service-producer.ts",
+      "name": "residentsOf",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "residentsOf requires the legacy public-service-producer.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { ageOnDate } from \"./dates\";; import { livesInServiceArea } from \"../../simulation/public-service-requests\";"
+    },
+    {
+      "file": "src/simulation/public-service-requests.ts",
+      "name": "eligibleHouseholdServiceChildren",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "eligibleHouseholdServiceChildren requires the legacy public-service-requests.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { ageOnDate } from \"./dates\";; import { isPersonAliveAt } from \"../../simulation/vitality-integrity\";; import { activeEducationEnrollmentsAt, householdMembershipsAt, currentLifeCutoff, kinshipRelationshipsAt } from \"../../simulation/life-queries\";; import { type ServiceRequestForm } from \"../../simulation/law-consequences/service-delivered-data\";"
+    },
+    {
+      "file": "src/simulation/record-in-office.ts",
+      "name": "unemploymentOn",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "unemploymentOn requires the legacy record-in-office.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { macroConditionsAt, macroHistoryStart, macroScopeForJurisdiction } from \"../../simulation/macro-economy/readers\";"
+    },
+    {
+      "file": "src/simulation/record-in-office.ts",
+      "name": "startingSupportAdjustment",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "startingSupportAdjustment requires the legacy record-in-office.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { disasterHandlingWeight } from \"../../simulation/crisis/handling-reactions\";; import { governingOfficeForPerson } from \"../../simulation/governing/state-governing\";; import { judgeIssueRecord } from \"../../simulation/issue-record\";; import { macroConditionsAt, macroHistoryStart, macroScopeForJurisdiction } from \"../../simulation/macro-economy/readers\";; import { rememberedAdverseFindingsAgainst, RECORDED_FINDING_EFFECTS } from \"../../simulation/press/findings\";"
+    },
+    {
+      "file": "src/simulation/transit-service.ts",
+      "name": "serviceHoursText",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "serviceHoursText requires the legacy transit-service.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { TRANSIT_CONTRACT_PRICE_MINOR_UNITS_PER_HOUR } from \"../../simulation/legislation-transit-families\";"
+    },
+    {
+      "file": "src/simulation/nationwide-world/executive-term-limits.ts",
+      "name": "parseTermLimitCode",
+      "inventoryClass": "manual-KEEP",
+      "status": "lifted",
+      "reason": "src/rules/governing/term-limits.ts"
+    },
+    {
+      "file": "src/simulation/nationwide-world/executive-term-limits.ts",
+      "name": "checkExecutiveTermLimit",
+      "inventoryClass": "manual-KEEP",
+      "status": "lifted",
+      "reason": "src/rules/governing/term-limits.ts"
+    },
+    {
+      "file": "src/simulation/governing/question-authority.ts",
+      "name": "questionAuthority",
+      "inventoryClass": "manual-KEEP",
+      "status": "not-liftable-unchanged",
+      "reason": "Manual audit keeper: questionAuthority is entangled with the legacy record/query or writer contract in src/simulation/governing/question-authority.ts. Copying the entire function unchanged would import old-engine execution. Requires an explicit core input contract; retain old behavior until that port."
+    },
+    {
+      "file": "src/simulation/governing/budget-stakes.ts",
+      "name": "daysToFiscalYear",
+      "inventoryClass": "manual-KEEP",
+      "status": "lifted",
+      "reason": "src/rules/governing/budget-stakes.ts"
+    },
+    {
+      "file": "src/simulation/governing/budget-stakes.ts",
+      "name": "budgetDeadlineConsideration",
+      "inventoryClass": "manual-KEEP",
+      "status": "lifted",
+      "reason": "src/rules/governing/budget-stakes.ts"
+    },
+    {
+      "file": "src/simulation/governing/governor-bill-decision.ts",
+      "name": "governorConsiderations",
+      "inventoryClass": "manual-KEEP",
+      "status": "not-liftable-unchanged",
+      "reason": "Manual audit keeper: governorConsiderations is entangled with the legacy record/query or writer contract in src/simulation/governing/governor-bill-decision.ts. Copying the entire function unchanged would import old-engine execution. Requires an explicit core input contract; retain old behavior until that port."
+    },
+    {
+      "file": "src/simulation/governing/governor-bill-decision.ts",
+      "name": "evaluateGovernorBill",
+      "inventoryClass": "manual-KEEP",
+      "status": "not-liftable-unchanged",
+      "reason": "Manual audit keeper: evaluateGovernorBill is entangled with the legacy record/query or writer contract in src/simulation/governing/governor-bill-decision.ts. Copying the entire function unchanged would import old-engine execution. Requires an explicit core input contract; retain old behavior until that port."
+    },
+    {
+      "file": "src/simulation/governing/committee-assignment.ts",
+      "name": "committeeRosters",
+      "inventoryClass": "manual-KEEP",
+      "status": "lifted",
+      "reason": "src/rules/governing/committee-rosters.ts"
+    },
+    {
+      "file": "src/simulation/governing/public-program.ts",
+      "name": "forecastProgramAlternative",
+      "inventoryClass": "manual-KEEP",
+      "status": "not-liftable-unchanged",
+      "reason": "Manual audit keeper: forecastProgramAlternative is entangled with the legacy record/query or writer contract in src/simulation/governing/public-program.ts. Copying the entire function unchanged would import old-engine execution. Requires an explicit core input contract; retain old behavior until that port."
+    },
+    {
+      "file": "src/simulation/governing/public-program.ts",
+      "name": "programAuthority",
+      "inventoryClass": "manual-KEEP",
+      "status": "not-liftable-unchanged",
+      "reason": "Manual audit keeper: programAuthority is entangled with the legacy record/query or writer contract in src/simulation/governing/public-program.ts. Copying the entire function unchanged would import old-engine execution. Requires an explicit core input contract; retain old behavior until that port."
+    },
+    {
+      "file": "src/simulation/governing/public-program.ts",
+      "name": "settleProgramInstallment",
+      "inventoryClass": "manual-KEEP",
+      "status": "not-liftable-unchanged",
+      "reason": "Not liftable as a whole: creates resource flows, appends installment/outturn history, binds federal claims and schedules delivery. The unchanged lapse/cash decision is lifted as installmentRefusal in installment.ts; journal and calendar integration belongs to the core module."
+    },
+    {
+      "file": "src/simulation/civil-personnel-actions.ts",
+      "name": "assessPersonnelDiscipline",
+      "inventoryClass": "manual-KEEP",
+      "status": "not-liftable-unchanged",
+      "reason": "Manual audit keeper: assessPersonnelDiscipline is entangled with the legacy record/query or writer contract in src/simulation/civil-personnel-actions.ts. Copying the entire function unchanged would import old-engine execution. Requires an explicit core input contract; retain old behavior until that port."
+    }
+  ]
+}
