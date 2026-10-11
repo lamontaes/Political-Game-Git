@@ -22,9 +22,7 @@
   "priority": "P1",
   "answer": {
     "summary": "DOJ Table I supplies federal prosecution totals by official level, not a state-law matrix, sentence distribution, case-amount threshold or per-official risk. Unread jurisdiction rules remain UNKNOWN; no named cases are included.",
-    "sources": [
-      "https://www.justice.gov/criminal/media/1384436/dl"
-    ],
+    "sources": ["https://www.justice.gov/criminal/media/1384436/dl"],
     "answeredBy": "CODEX-RESEARCH-2",
     "answeredAt": "2026-10-11T05:14:26.080114+00:00",
     "stillOpen": "Requested current state-by-state controlling procedures, deadlines, sanctions, conviction consequences, amounts, causal electoral effects and repeat-offense rules require additional direct-primary research; no numeric fallback supported."

@@ -8,9 +8,7 @@
   "priority": "P1",
   "question": "When an ordinary adult applies to a US college for an associate's, bachelor's or master's degree, what realistically decides whether they are admitted (open admission, high-school diploma or GED, test scores, grades, a bachelor's first), what does a year of tuition and fees cost at a community college, a public four-year college in state and a private college, and how many hours a week does full-time and part-time study take? How long does each degree really take for someone who works?",
   "questionId": "who-gets-into-college-and-what-it-costs",
-  "relatedQuestionIds": [
-    "what-a-person-spends-to-live"
-  ],
+  "relatedQuestionIds": ["what-a-person-spends-to-live"],
   "requestVersion": "research-request/v1",
   "requestedBy": "ordinary adult life thread",
   "sourcesChecked": [

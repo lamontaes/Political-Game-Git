@@ -40,9 +40,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "Project existing CSG-derived sources"
-      ],
+      "places": ["Project existing CSG-derived sources"],
       "measure": "verified commercial restriction",
       "finding": "Book of the States terms limit licensed data to noncommercial purposes. Existing salary/session/power-derived facts require independent official replacement or permission; no deletion or runtime change authorized by research task.",
       "source": "Council of State Governments",
@@ -52,9 +50,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Project release worldwide"
-      ],
+      "places": ["Project release worldwide"],
       "measure": "3947 unresolved image/institution scope",
       "reviewHead": "3ea466ae8e0c69d2b41b21bb1f352a4fe1e63185",
       "finding": "Draft review leaves actual photo grants, adaptation/ShareAlike, AI generation-time input rights, ContentCredentials, real institution depictions, seals and marketing/build assessment open. Federal textual facts do not clear those images/marks.108 recorded reference photos reviewed there; its review is not release clearance.",
@@ -63,6 +59,16 @@
       "sourceTerms": "Read-only project source-permission review; not attorney clearance and no report text or person identities copied.",
       "retrievedAt": "2026-10-11",
       "estimated": false
+    },
+    {
+      "source": "PNAS publisher",
+      "sourceUrl": "https://doi.org/10.1073/pnas.2421982122",
+      "retrievedAt": "2026-10-11",
+      "places": ["Study conversations; not all56"],
+      "estimated": false,
+      "measure": "explicit noncommercial restriction",
+      "sourceTerms": "CC BY-NC-ND4.0. No study findings/data adopted in this research pass.",
+      "finding": "Public access on PMC does not remove publisher noncommercial and no-derivatives restrictions."
     }
   ],
   "gaps": [
@@ -95,5 +101,34 @@
     "data/research/licenses/roadmap-r37-url-register-03.json",
     "data/research/licenses/roadmap-r37-url-register-04.json",
     "data/research/licenses/roadmap-r37-url-register-05.json"
+  ],
+  "inventoryScope": {
+    "head": "d0994e3588",
+    "trackedFiles": 910,
+    "units": 106,
+    "urlCandidates": 6670,
+    "note": "Includes navigation/non-source URLs. Binary contents indexed, not reopened. URL hashes locate unchanged source originals; every host classification is a triage flag, not item clearance."
+  },
+  "supplementCoverage": [
+    "data/research/speech-sources/roadmap-r31-state-local-catalog.json",
+    "data/research/talk/roadmap-r32-lying-study-supplement.json"
+  ],
+  "supplementRights": [
+    {
+      "source": "PLOS ONE",
+      "sourceUrl": "https://journals.plos.org/plosone/article?id=10.1371/journal.pone.0225566",
+      "retrievedAt": "2026-10-11",
+      "places": ["Convenience adult sample, not all56"],
+      "estimated": false,
+      "sourceTerms": "CC BY4.0; Verigin, Meijer, Bogaard and Vrij2019 attribution, DOI/title retained in R32 supplement."
+    },
+    {
+      "source": "Official California/NYC catalog metadata",
+      "sourceUrl": "https://clerk.assembly.ca.gov/legislative-publications/daily-journals",
+      "retrievedAt": "2026-10-11",
+      "places": ["US-CA Assembly", "New York City, US-NY"],
+      "estimated": false,
+      "sourceTerms": "Catalog descriptions only; non-edict transcript/prose commercial grants unverified, no text imported."
+    }
   ]
 }

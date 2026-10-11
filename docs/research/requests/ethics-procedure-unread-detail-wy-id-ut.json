@@ -11,9 +11,7 @@
   "priority": "P2",
   "question": "The state legislative ethics procedure package reached 51 jurisdictions with none unresearched, and carries three jurisdictions whose detail its own record says could not be read. Wyoming: the current Joint Rule 22-1 intake, screening and confidentiality text. Idaho: the current House rule and committee procedural detail, which could not be read from the official host. Utah: the consolidated JR6 text and the disposition of 2026 SJR016. For each, what does the current instrument actually say about who receives a complaint, who screens it, what is confidential and for how long, and what dispositions are available? Citations to the rule number and its current text.",
   "questionId": "ethics-procedure-unread-detail-wy-id-ut",
-  "relatedQuestionIds": [
-    "state-legislative-ethics-procedure"
-  ],
+  "relatedQuestionIds": ["state-legislative-ethics-procedure"],
   "requestVersion": "research-request/v1",
   "requestedBy": "nationwide government lane (technical team lead)",
   "sourcesChecked": [

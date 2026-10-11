@@ -25,9 +25,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "US-WA"
-      ],
+      "places": ["US-WA"],
       "measure": "surviving spouse or registered domestic partner intestate share",
       "community": "all decedent net community share",
       "separateWhenIssue": "one half",
@@ -41,9 +39,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-FL"
-      ],
+      "places": ["US-FL"],
       "measure": "spouse share732.102",
       "noDecedentDescendants": "all",
       "allDescendantsCommonAndSpouseNoOtherDescendants": "all",
@@ -57,9 +53,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US employer businesses"
-      ],
+      "places": ["US employer businesses"],
       "measure": "family ownership versus succession",
       "finding": "ABS FAMOWN reports majority family ownership; survey collection year differs from reference year. A stock of family-owned firms does not measure the flow passing at death or transfer to a relative; no succession hazard adopted.",
       "source": "US Census Bureau",

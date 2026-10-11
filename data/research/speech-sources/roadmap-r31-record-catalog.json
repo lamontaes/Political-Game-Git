@@ -30,17 +30,11 @@
   ],
   "findings": [
     {
-      "places": [
-        "Federal Congress"
-      ],
+      "places": ["Federal Congress"],
       "measure": "daily record catalog",
       "coverage": "1994(volume140)–present",
       "register": "formal floor proceedings/debates; House, Senate, Extensions of Remarks and Daily Digest",
-      "formats": [
-        "PDF",
-        "text",
-        "metadata"
-      ],
+      "formats": ["PDF", "text", "metadata"],
       "finding": "Prepared and revised remarks are not verbatim ordinary conversation. Catalog only; no real-person identifiers or excerpts copied.",
       "source": "Government Publishing Office",
       "sourceUrl": "https://www.govinfo.gov/help/crec",
@@ -49,9 +43,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal Congress"
-      ],
+      "places": ["Federal Congress"],
       "measure": "bound edition distinction",
       "finding": "Permanent bound edition differs from daily edition and can consolidate/revise material. Preserve edition, date, section and package identifiers; do not mix editions as independent utterances.",
       "source": "Government Publishing Office",
@@ -61,9 +53,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal Congress"
-      ],
+      "places": ["Federal Congress"],
       "measure": "access and storage plan",
       "finding": "Developer hub documents APIs and bulk data. Retain source URLs, package IDs, download checksum and version when selected; no raw corpus downloaded or committed in this topic.",
       "source": "Government Publishing Office",
@@ -73,9 +63,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal Congress"
-      ],
+      "places": ["Federal Congress"],
       "measure": "rights gate",
       "finding": "A federal publication is not a blanket license for third-party articles/letters inserted in proceedings. Government-authored passages require separation from third-party inserts before corpus use; seals/photos are not licensed by text availability.",
       "source": "Government Publishing Office",

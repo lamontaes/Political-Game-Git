@@ -1,3 +1,5 @@
+2026-10-11 — validation/handoff: docs/research/roadmap-research-summary-2.md; all28 topics researched with gaps,96 mapped request responses retaining stillOpen; source audit6670 URL candidates across910 pre-audit files/106 units, URLs stored as hashes to preserve originals without repeating named portrait links; all added files under5MB, estimate metadata and request-field preservation checked; request validation retains4 baseline errors from main; release impact none declared; GPT-6(Codex), effort/usage not exposed.
+
 2026-10-11 — R31: data/research/speech-sources/roadmap-r31-state-local-catalog.json + 0 request answers; coverage California Assembly daily journals; NewYorkCityCouncil legislative/transcript routes; gaps No verified commercial transcript/prose corpus grant; formal proceedings are not ordinary conversation; other states/local samples missing.; terms questions see source-specific terms and gaps; model GPT-6 (Codex), effort not exposed, 1 seconds.
 
 2026-10-11 — R32: data/research/talk/roadmap-r32-lying-study-supplement.json + 0 request answers; coverage 2019 convenience MTurk sample194 adults,175US citizens/19India; gaps Retrospective24-hour self-report, not probability sample or repeated diary; no national actor-frequency, detection or event-memory curve.; terms questions see source-specific terms and gaps; model GPT-6 (Codex), effort not exposed, 0 seconds.
@@ -32,7 +34,7 @@
 
 2026-10-11 — R26: data/research/executive/roadmap-r26-staff-boundaries.json + 1 request answers; coverage federal House legal staffing; national public workforce wage/turnover methods; gaps state/council executive staff size/pay and office-specific hiring duration; terms questions none; model GPT-6 (Codex), effort not exposed, 31 seconds.
 
-2026-10-11 — R25: data/research/executive/roadmap-r25-powers-source-filter.json + 6 request answers; coverage 26 historical direct-government item-veto rows plus federal/AK examples; other jurisdictions excluded explicitly; gaps 29 excluded/mirror source rows, current verification, executive cadence/cabinet/veto-driver data and local samples; terms questions none; model GPT-6 (Codex), effort not exposed, 62 seconds.
+2026-10-11 — R25: data/research/executive/roadmap-r25-powers-source-filter.json + 6 request answers; coverage 26 historical direct-government item-veto rows plus federal/AK examples; other jurisdictions excluded explicitly; gaps 30 excluded/mirror source rows, current verification, executive cadence/cabinet/veto-driver data and local samples; terms questions none; model GPT-6 (Codex), effort not exposed, 62 seconds.
 
 2026-10-11 — R24: data/research/implementation/roadmap-r24-delivery-incidence.json + 7 request answers; coverage federal procurement/program/tariff studies; CDC surveillance limitations nationwide; gaps all56 local baselines, project delays, privacy pass-through, rights valuation and voter distance; terms questions privacy retail study commercial reuse unclear; no coefficients adopted; model GPT-6 (Codex), effort not exposed, 69 seconds.
 
@@ -74,31 +76,31 @@ Research only for Priorities 2, 3, 3b and 4 (R13–R40). Add derived source-back
 
 [Roadmap Rule 3](ROADMAP-RESEARCH.md) says: “the folder each topic names below, new files only in folders that already exist.” The fresh fetched main has the following missing required destinations. Existing similarly named directories are not the prescribed destinations. Creating these folders or silently redirecting findings would depart from the instruction to follow the rules exactly.
 
-| Topic | Missing required destination |
-| --- | --- |
-| R14 | `data/research/campaigns/` |
-| R16 | `data/research/campaigns/` |
-| R17 | `data/research/campaigns/` |
-| R19 | `data/research/parties/` |
-| R20 | `data/research/news/` |
-| R21 | `data/research/legislatures/` |
-| R22 | `data/research/legislatures/` |
-| R23 | `data/research/public-costs/` |
-| R24 | `data/research/implementation/` |
-| R25 | `data/research/executive/` |
-| R26 | `data/research/executive/` |
-| R27 | `data/research/interest-groups/` |
-| R28 | `data/research/constituent-cases/` |
-| R29 | `data/research/corruption/` |
-| R30 | `data/research/direct-democracy/` |
-| R38 | `data/research/crime/` |
-| R39 | `data/research/constitutions/` |
-| R31 | `data/research/speech-sources/` |
-| R32 | `data/research/talk/` |
-| R34 | `data/research/offices/` |
-| R35 | `data/research/succession/` |
-| R36 | `docs/research/release/` |
-| R37 | `data/research/licenses/` |
+| Topic | Missing required destination       |
+| ----- | ---------------------------------- |
+| R14   | `data/research/campaigns/`         |
+| R16   | `data/research/campaigns/`         |
+| R17   | `data/research/campaigns/`         |
+| R19   | `data/research/parties/`           |
+| R20   | `data/research/news/`              |
+| R21   | `data/research/legislatures/`      |
+| R22   | `data/research/legislatures/`      |
+| R23   | `data/research/public-costs/`      |
+| R24   | `data/research/implementation/`    |
+| R25   | `data/research/executive/`         |
+| R26   | `data/research/executive/`         |
+| R27   | `data/research/interest-groups/`   |
+| R28   | `data/research/constituent-cases/` |
+| R29   | `data/research/corruption/`        |
+| R30   | `data/research/direct-democracy/`  |
+| R38   | `data/research/crime/`             |
+| R39   | `data/research/constitutions/`     |
+| R31   | `data/research/speech-sources/`    |
+| R32   | `data/research/talk/`              |
+| R34   | `data/research/offices/`           |
+| R35   | `data/research/succession/`        |
+| R36   | `docs/research/release/`           |
+| R37   | `data/research/licenses/`          |
 
 Existing destinations cover R13, R15, R18, R33 and R40. Those topics remain pending, not completed or answered. This audit is not a missing factual source and supplies no research estimates. No request records were changed.
 

@@ -20,9 +20,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "US-CA Assembly"
-      ],
+      "places": ["US-CA Assembly"],
       "measure": "journal catalog",
       "coverage": "daily dated entries, including2026",
       "register": "formal record of transacted legislative business",
@@ -34,9 +32,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "New York City, US-NY"
-      ],
+      "places": ["New York City, US-NY"],
       "measure": "local proceedings catalog",
       "coverage": "Legistar proposed/passed legislation, hearings and stated meetings; API released2017",
       "register": "formal legislative meeting record",
@@ -57,5 +53,6 @@
   "termsQuestions": [
     "Commercial reuse of non-edict journal/transcript material not settled; catalog metadata and original descriptions only."
   ],
-  "interpretation": "Aggregate observations calibrate totals; they do not choose an individual actor outcome. Legal rules apply only to the stated jurisdiction and vintage. Missing coverage is not legal permission. No excluded source or real-person name is included."
+  "interpretation": "Aggregate observations calibrate totals; they do not choose an individual actor outcome. Legal rules apply only to the stated jurisdiction and vintage. Missing coverage is not legal permission. No excluded source or real-person name is included.",
+  "timingScope": "Timer covers supplement writing/publication preparation only. Source search preceded timer; full supplement research time not captured. Earlier topic time is recorded separately."
 }

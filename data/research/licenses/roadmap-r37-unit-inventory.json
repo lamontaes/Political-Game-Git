@@ -3,32 +3,24 @@
   "researchedAt": "2026-10-11T05:24:22.394197+00:00",
   "units": {
     "data/research/apportionment": {
-      "files": [
-        "data/research/apportionment/apportionment-2020.json"
-      ],
+      "files": ["data/research/apportionment/apportionment-2020.json"],
       "urlHashes": [
         "a09f5ada1491d71d71ba30cabb52e42564804a36ade51a988c1a133240a1e711"
       ],
       "binaryOrUnreadFiles": []
     },
     "data/research/assumption-markers.json": {
-      "files": [
-        "data/research/assumption-markers.json"
-      ],
+      "files": ["data/research/assumption-markers.json"],
       "urlHashes": [],
       "binaryOrUnreadFiles": []
     },
     "data/research/authored-life-places.json": {
-      "files": [
-        "data/research/authored-life-places.json"
-      ],
+      "files": ["data/research/authored-life-places.json"],
       "urlHashes": [],
       "binaryOrUnreadFiles": []
     },
     "data/research/bill-numbering-starts.json": {
-      "files": [
-        "data/research/bill-numbering-starts.json"
-      ],
+      "files": ["data/research/bill-numbering-starts.json"],
       "urlHashes": [
         "0592c3db55f58ca38844ddc4110d6e7dc85d4bf1b62310bfec1877ff65f9a602",
         "0705e23d59f9a64f403b7a71568e1049aa9b8c7f2889bd33e9ffc2ef9e5a0afe",
@@ -365,9 +357,7 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/campaign-compliance": {
-      "files": [
-        "data/research/campaign-compliance/pack-records-by-place.json"
-      ],
+      "files": ["data/research/campaign-compliance/pack-records-by-place.json"],
       "urlHashes": [
         "33f5c7fce866e0e717f3d5551ac37ba74b9bf3fb68a385e7b03aaa89c9e4b909",
         "aa38710f554c2b3ff65eb81c115bcd099d5256483649b39b41341e79adb9ff2c"
@@ -455,16 +445,12 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/civil-personnel-jurisdiction-rules.json": {
-      "files": [
-        "data/research/civil-personnel-jurisdiction-rules.json"
-      ],
+      "files": ["data/research/civil-personnel-jurisdiction-rules.json"],
       "urlHashes": [],
       "binaryOrUnreadFiles": []
     },
     "data/research/clemency": {
-      "files": [
-        "data/research/clemency/clemency-gates-2026.json"
-      ],
+      "files": ["data/research/clemency/clemency-gates-2026.json"],
       "urlHashes": [],
       "binaryOrUnreadFiles": []
     },
@@ -512,9 +498,7 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/crime": {
-      "files": [
-        "data/research/crime/roadmap-r38-victimization-reporting.json"
-      ],
+      "files": ["data/research/crime/roadmap-r38-victimization-reporting.json"],
       "urlHashes": [
         "71039248850936169a9a73351d8e26ce8edb2817b98e54ec4bd6d44765397ddf",
         "ea1792ce92c2f55eccb515009fa2f9490cefc6b0e923b3825d7562ac23384a40",
@@ -574,9 +558,7 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/economic-context-reviewed-bindings.json": {
-      "files": [
-        "data/research/economic-context-reviewed-bindings.json"
-      ],
+      "files": ["data/research/economic-context-reviewed-bindings.json"],
       "urlHashes": [],
       "binaryOrUnreadFiles": []
     },
@@ -811,9 +793,7 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/family-shape": {
-      "files": [
-        "data/research/family-shape/census-two-parent-share.json"
-      ],
+      "files": ["data/research/family-shape/census-two-parent-share.json"],
       "urlHashes": [
         "d8d9cfcdd8af1cbea08c80451696873c69670c0fe2d9cdbab256f53f2ecde70e"
       ],
@@ -839,9 +819,7 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/glossary": {
-      "files": [
-        "data/research/glossary/terms.json"
-      ],
+      "files": ["data/research/glossary/terms.json"],
       "urlHashes": [
         "23ec6abe441c03b604b0ac162a34fdd10e51a3ceb1e0b0669e81625b18d48494",
         "6306b97cd0a20a15cae5a17c802bdb5a6c0132d29e3dce173cb19dd244099079",
@@ -1027,16 +1005,12 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/jurisdiction-rule-tables.d.json.ts": {
-      "files": [
-        "data/research/jurisdiction-rule-tables.d.json.ts"
-      ],
+      "files": ["data/research/jurisdiction-rule-tables.d.json.ts"],
       "urlHashes": [],
       "binaryOrUnreadFiles": []
     },
     "data/research/jurisdiction-rule-tables.json": {
-      "files": [
-        "data/research/jurisdiction-rule-tables.json"
-      ],
+      "files": ["data/research/jurisdiction-rule-tables.json"],
       "urlHashes": [
         "01c765e513a61ec21e46643ee1ec2ade3106a982510aad4aeda8ed05fcab5498",
         "0454d5f667732e2a33b74f1daa1a62a836b94a47a9003938b9a32ae9d5263d18",
@@ -3470,9 +3444,7 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/levers": {
-      "files": [
-        "data/research/levers/lever-table.json"
-      ],
+      "files": ["data/research/levers/lever-table.json"],
       "urlHashes": [],
       "binaryOrUnreadFiles": []
     },
@@ -3532,9 +3504,7 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/migration": {
-      "files": [
-        "data/research/migration/mover-rates-acs-2024.json"
-      ],
+      "files": ["data/research/migration/mover-rates-acs-2024.json"],
       "urlHashes": [
         "18d0bae8f91640698a14fad3389bfee7a024591e9eac4bfc728a80e35d781718",
         "643b98b064d9fbbd08914111d7e011fe96c272cf9747f5d47100c92b58768b00",
@@ -3868,9 +3838,7 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/nationwide1": {
-      "files": [
-        "data/research/nationwide1/chief-executive-baseline-51.json"
-      ],
+      "files": ["data/research/nationwide1/chief-executive-baseline-51.json"],
       "urlHashes": [
         "46e9c4828266954ed0f16a80cc82df54974997c10ffa9d0a208c792a173aad18",
         "53d6d66dec6088505738866681aefa90d73f5bd90e0f506a18479459c8561090"
@@ -3878,16 +3846,12 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/new-game-geography-defaults.json": {
-      "files": [
-        "data/research/new-game-geography-defaults.json"
-      ],
+      "files": ["data/research/new-game-geography-defaults.json"],
       "urlHashes": [],
       "binaryOrUnreadFiles": []
     },
     "data/research/news": {
-      "files": [
-        "data/research/news/roadmap-r20-local-news.json"
-      ],
+      "files": ["data/research/news/roadmap-r20-local-news.json"],
       "urlHashes": [
         "31c94277fc8734b526aa8abfd72c4a18047c57dbee446e470431b9763a3a3601",
         "893440037d1c82f735257bc4ba3b90f1d940e1f19e05afd5881de417f9f11c9b",
@@ -3914,9 +3878,7 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/offices": {
-      "files": [
-        "data/research/offices/roadmap-r34-pay-and-transition.json"
-      ],
+      "files": ["data/research/offices/roadmap-r34-pay-and-transition.json"],
       "urlHashes": [
         "2ceb5f4cfdd3e019866c539587ce4cd389a816ae9b8f0180ce6155e254904817",
         "41b354b0db3225619715791fe14e318be77d71c472b8ae926dc2753be171ef0c",
@@ -4058,16 +4020,12 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/p2-law-estimate-ledger.json": {
-      "files": [
-        "data/research/p2-law-estimate-ledger.json"
-      ],
+      "files": ["data/research/p2-law-estimate-ledger.json"],
       "urlHashes": [],
       "binaryOrUnreadFiles": []
     },
     "data/research/p2-personnel-estimate-ledger.json": {
-      "files": [
-        "data/research/p2-personnel-estimate-ledger.json"
-      ],
+      "files": ["data/research/p2-personnel-estimate-ledger.json"],
       "urlHashes": [],
       "binaryOrUnreadFiles": []
     },
@@ -4084,9 +4042,7 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/people": {
-      "files": [
-        "data/research/people/age-of-majority.json"
-      ],
+      "files": ["data/research/people/age-of-majority.json"],
       "urlHashes": [
         "8ddc2ca325c0cb0160875600ee35b75dea94e534d7e633be9ec20da0d3f5e341"
       ],
@@ -4205,9 +4161,7 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/speech-sources": {
-      "files": [
-        "data/research/speech-sources/roadmap-r31-record-catalog.json"
-      ],
+      "files": ["data/research/speech-sources/roadmap-r31-record-catalog.json"],
       "urlHashes": [
         "281915c94d05a08dd5fb921d161a0d0f79091d0959308c929e4645ee5862f504",
         "9f326420d8f0ab073b37a12592b20f3307db48f9701d0d6710ebd9db2254e00b",
@@ -4311,9 +4265,7 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/succession": {
-      "files": [
-        "data/research/succession/roadmap-r35-intestacy-examples.json"
-      ],
+      "files": ["data/research/succession/roadmap-r35-intestacy-examples.json"],
       "urlHashes": [
         "a38c2c22aca4df5daa74d97357a695caf81351e546847e6d0e0b6d0ca16b6a0a",
         "b4ead47a0faf2c01055c786741c54cb54b69e6c3fa13a14782a2db8caaf50564",
@@ -4322,9 +4274,7 @@
       "binaryOrUnreadFiles": []
     },
     "data/research/talk": {
-      "files": [
-        "data/research/talk/roadmap-r32-conversation-and-rights.json"
-      ],
+      "files": ["data/research/talk/roadmap-r32-conversation-and-rights.json"],
       "urlHashes": [
         "9179ccf880f72e083063425c62296e480be73845ff4d38a3d4bd7840fc178af2",
         "cab317ed5cfb0ae1f3e3864fdb87a81ae6613f2a97359cd2ebf671b2e18d458a"
@@ -4352,9 +4302,7 @@
       "binaryOrUnreadFiles": []
     },
     "data/source/MANIFEST.json": {
-      "files": [
-        "data/source/MANIFEST.json"
-      ],
+      "files": ["data/source/MANIFEST.json"],
       "urlHashes": [],
       "binaryOrUnreadFiles": []
     },
@@ -7578,9 +7526,7 @@
       ]
     },
     "data/source/office-pay-updates": {
-      "files": [
-        "data/source/office-pay-updates/updates.json"
-      ],
+      "files": ["data/source/office-pay-updates/updates.json"],
       "urlHashes": [],
       "binaryOrUnreadFiles": []
     },

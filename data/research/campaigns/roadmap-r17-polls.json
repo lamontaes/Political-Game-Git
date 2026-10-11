@@ -25,9 +25,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "U.S. national telephone surveys by Pew; 2017–2018"
-      ],
+      "places": ["U.S. national telephone surveys by Pew; 2017–2018"],
       "measure": "historical telephone survey response rate percent",
       "2017": 7,
       "2018": 6,
@@ -39,9 +37,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "U.S. national survey practice"
-      ],
+      "places": ["U.S. national survey practice"],
       "measure": "weighting mechanism",
       "finding": "Political weighting adjusts sample composition; results depend on reference distributions and accuracy of recalled past votes. Weighting can reduce some composition errors without eliminating nonresponse, measurement or likely-voter error. Do not assign an accuracy score solely from poll sponsor or cost.",
       "source": "Pew Research Center",

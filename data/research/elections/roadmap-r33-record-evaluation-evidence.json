@@ -15,14 +15,12 @@
     {
       "publisher": "Cambridge University Press, American Political Science Review",
       "url": "https://www.cambridge.org/core/journals/american-political-science-review/article/rollcall-vote-selection-implications-for-the-study-of-legislative-politics/FFAD60FB9CA9BBD54F02DE44A1FF0264",
-      "terms": "Publisher displays CC BY; attribution: Carrubba, Gabel and Hug (2020), Roll-Call Vote Selection: Implications for the Study of Legislative Politics. Only methodological finding adopted."
+      "terms": "CC BY4.0. Attribution: Ainsley, Carrubba, Crisp, Demirkaya, Gabel and Hadzic(2020), Roll-Call Vote Selection: Implications for the Study of Legislative Politics, American Political Science Review114(3),691–706, DOI10.1017/S0003055420000192. Only original methodological summary adopted."
     }
   ],
   "findings": [
     {
-      "places": [
-        "Australia experiment; not US calibration"
-      ],
+      "places": ["Australia experiment; not US calibration"],
       "measure": "belief versus electoral attitude response",
       "finding": "Fact corrections changed misinformation beliefs without corresponding reliable politician feeling/voting-intention shifts in this study. This is not evidence that every lie has zero electoral cost or that a US reporter revelation has the same treatment.",
       "source": "Royal Society Open Science",
@@ -32,14 +30,12 @@
       "estimated": false
     },
     {
-      "places": [
-        "Legislative roll-call studies; methodological"
-      ],
+      "places": ["Legislative roll-call studies; methodological"],
       "measure": "record selection",
       "finding": "Recorded roll calls are selected from legislative voting and can differ from voice/unrecorded decisions. Recorded votes alone are not a representative set of every decision; study does not supply an individual constituent support coefficient.",
       "source": "Cambridge University Press, American Political Science Review",
       "sourceUrl": "https://www.cambridge.org/core/journals/american-political-science-review/article/rollcall-vote-selection-implications-for-the-study-of-legislative-politics/FFAD60FB9CA9BBD54F02DE44A1FF0264",
-      "sourceTerms": "Publisher displays CC BY; attribution: Carrubba, Gabel and Hug (2020), Roll-Call Vote Selection: Implications for the Study of Legislative Politics. Only methodological finding adopted.",
+      "sourceTerms": "CC BY4.0. Attribution: Ainsley, Carrubba, Crisp, Demirkaya, Gabel and Hadzic(2020), Roll-Call Vote Selection: Implications for the Study of Legislative Politics, American Political Science Review114(3),691–706, DOI10.1017/S0003055420000192. Only original methodological summary adopted.",
       "retrievedAt": "2026-10-11",
       "estimated": false
     }

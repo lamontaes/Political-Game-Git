@@ -23,9 +23,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "US-AL"
-      ],
+      "places": ["US-AL"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -42,9 +40,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-AK"
-      ],
+      "places": ["US-AK"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -61,9 +57,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-AS"
-      ],
+      "places": ["US-AS"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -80,9 +74,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-AZ"
-      ],
+      "places": ["US-AZ"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -99,9 +91,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-AR"
-      ],
+      "places": ["US-AR"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -118,9 +108,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-CA"
-      ],
+      "places": ["US-CA"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -137,9 +125,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-CO"
-      ],
+      "places": ["US-CO"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -156,9 +142,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-CT"
-      ],
+      "places": ["US-CT"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -175,9 +159,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-DE"
-      ],
+      "places": ["US-DE"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -194,9 +176,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-DC"
-      ],
+      "places": ["US-DC"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -213,9 +193,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-FL"
-      ],
+      "places": ["US-FL"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -232,9 +210,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-GA"
-      ],
+      "places": ["US-GA"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -251,9 +227,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-GU"
-      ],
+      "places": ["US-GU"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -270,9 +244,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-HI"
-      ],
+      "places": ["US-HI"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -289,9 +261,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-ID"
-      ],
+      "places": ["US-ID"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -308,9 +278,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-IL"
-      ],
+      "places": ["US-IL"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -327,9 +295,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-IN"
-      ],
+      "places": ["US-IN"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -346,9 +312,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-IA"
-      ],
+      "places": ["US-IA"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -365,9 +329,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-KS"
-      ],
+      "places": ["US-KS"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -384,9 +346,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-KY"
-      ],
+      "places": ["US-KY"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -403,9 +363,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-LA"
-      ],
+      "places": ["US-LA"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -422,9 +380,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-ME"
-      ],
+      "places": ["US-ME"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -441,9 +397,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MD"
-      ],
+      "places": ["US-MD"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -460,9 +414,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MA"
-      ],
+      "places": ["US-MA"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -479,9 +431,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MI"
-      ],
+      "places": ["US-MI"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -498,9 +448,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MN"
-      ],
+      "places": ["US-MN"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -517,9 +465,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MS"
-      ],
+      "places": ["US-MS"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -536,9 +482,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MO"
-      ],
+      "places": ["US-MO"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -555,9 +499,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MT"
-      ],
+      "places": ["US-MT"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -574,9 +516,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NE"
-      ],
+      "places": ["US-NE"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -593,9 +533,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NV"
-      ],
+      "places": ["US-NV"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -612,9 +550,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NH"
-      ],
+      "places": ["US-NH"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -631,9 +567,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NJ"
-      ],
+      "places": ["US-NJ"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -650,9 +584,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NM"
-      ],
+      "places": ["US-NM"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -669,9 +601,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NY"
-      ],
+      "places": ["US-NY"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -688,9 +618,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NC"
-      ],
+      "places": ["US-NC"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -707,9 +635,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-ND"
-      ],
+      "places": ["US-ND"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -726,9 +652,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MP"
-      ],
+      "places": ["US-MP"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -745,9 +669,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-OH"
-      ],
+      "places": ["US-OH"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -764,9 +686,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-OK"
-      ],
+      "places": ["US-OK"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -783,9 +703,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-OR"
-      ],
+      "places": ["US-OR"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -802,9 +720,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-PA"
-      ],
+      "places": ["US-PA"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -821,9 +737,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-PR"
-      ],
+      "places": ["US-PR"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -840,9 +754,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-RI"
-      ],
+      "places": ["US-RI"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -859,9 +771,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-SC"
-      ],
+      "places": ["US-SC"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -878,9 +788,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-SD"
-      ],
+      "places": ["US-SD"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -897,9 +805,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-TN"
-      ],
+      "places": ["US-TN"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -916,9 +822,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-TX"
-      ],
+      "places": ["US-TX"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -935,9 +839,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-VI"
-      ],
+      "places": ["US-VI"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -954,9 +856,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-UT"
-      ],
+      "places": ["US-UT"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -973,9 +873,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-VT"
-      ],
+      "places": ["US-VT"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -992,9 +890,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-VA"
-      ],
+      "places": ["US-VA"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -1011,9 +907,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-WA"
-      ],
+      "places": ["US-WA"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -1030,9 +924,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-WV"
-      ],
+      "places": ["US-WV"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -1049,9 +941,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-WI"
-      ],
+      "places": ["US-WI"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -1068,9 +958,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-WY"
-      ],
+      "places": ["US-WY"],
       "measure": "2024 EAVS executive-summary turnout table",
       "sourcePages": "vi–vii",
       "scope": "Administrative counts as reported; missing denominator is not zero. State footnotes in original remain material; percentages printed at 0.1-point resolution.",
@@ -1087,9 +975,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "ALABAMA"
-      ],
+      "places": ["ALABAMA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1104,9 +990,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "ALASKA"
-      ],
+      "places": ["ALASKA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1121,9 +1005,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "ARIZONA"
-      ],
+      "places": ["ARIZONA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1138,9 +1020,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "ARKANSAS"
-      ],
+      "places": ["ARKANSAS"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1155,9 +1035,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "CALIFORNIA"
-      ],
+      "places": ["CALIFORNIA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1172,9 +1050,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "COLORADO"
-      ],
+      "places": ["COLORADO"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1189,9 +1065,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "CONNECTICUT"
-      ],
+      "places": ["CONNECTICUT"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1206,9 +1080,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "DELAWARE"
-      ],
+      "places": ["DELAWARE"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1223,9 +1095,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "DISTRICT OF COLUMBIA"
-      ],
+      "places": ["DISTRICT OF COLUMBIA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1240,9 +1110,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "FLORIDA"
-      ],
+      "places": ["FLORIDA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1257,9 +1125,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "GEORGIA"
-      ],
+      "places": ["GEORGIA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1274,9 +1140,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "HAWAII"
-      ],
+      "places": ["HAWAII"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1291,9 +1155,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "IDAHO"
-      ],
+      "places": ["IDAHO"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1308,9 +1170,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "ILLINOIS"
-      ],
+      "places": ["ILLINOIS"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1325,9 +1185,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "INDIANA"
-      ],
+      "places": ["INDIANA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1342,9 +1200,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "IOWA"
-      ],
+      "places": ["IOWA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1359,9 +1215,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "KANSAS"
-      ],
+      "places": ["KANSAS"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1376,9 +1230,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "KENTUCKY"
-      ],
+      "places": ["KENTUCKY"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1393,9 +1245,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "LOUISIANA"
-      ],
+      "places": ["LOUISIANA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1410,9 +1260,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "MAINE"
-      ],
+      "places": ["MAINE"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1427,9 +1275,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "MARYLAND"
-      ],
+      "places": ["MARYLAND"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1444,9 +1290,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "MASSACHUSETTS"
-      ],
+      "places": ["MASSACHUSETTS"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1461,9 +1305,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "MICHIGAN"
-      ],
+      "places": ["MICHIGAN"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1478,9 +1320,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "MINNESOTA"
-      ],
+      "places": ["MINNESOTA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1495,9 +1335,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "MISSISSIPPI"
-      ],
+      "places": ["MISSISSIPPI"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1512,9 +1350,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "MISSOURI"
-      ],
+      "places": ["MISSOURI"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1529,9 +1365,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "MONTANA"
-      ],
+      "places": ["MONTANA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1546,9 +1380,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "NEBRASKA"
-      ],
+      "places": ["NEBRASKA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1563,9 +1395,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "NEVADA"
-      ],
+      "places": ["NEVADA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1580,9 +1410,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "NEW HAMPSHIRE"
-      ],
+      "places": ["NEW HAMPSHIRE"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1597,9 +1425,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "NEW JERSEY"
-      ],
+      "places": ["NEW JERSEY"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1614,9 +1440,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "NEW MEXICO"
-      ],
+      "places": ["NEW MEXICO"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1631,9 +1455,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "NEW YORK"
-      ],
+      "places": ["NEW YORK"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1648,9 +1470,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "NORTH CAROLINA"
-      ],
+      "places": ["NORTH CAROLINA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1665,9 +1485,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "NORTH DAKOTA"
-      ],
+      "places": ["NORTH DAKOTA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1682,9 +1500,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "OHIO"
-      ],
+      "places": ["OHIO"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1699,9 +1515,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "OKLAHOMA"
-      ],
+      "places": ["OKLAHOMA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1716,9 +1530,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "OREGON"
-      ],
+      "places": ["OREGON"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1733,9 +1545,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "PENNSYLVANIA"
-      ],
+      "places": ["PENNSYLVANIA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1750,9 +1560,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "RHODE ISLAND"
-      ],
+      "places": ["RHODE ISLAND"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1767,9 +1575,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "SOUTH CAROLINA"
-      ],
+      "places": ["SOUTH CAROLINA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1784,9 +1590,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "SOUTH DAKOTA"
-      ],
+      "places": ["SOUTH DAKOTA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1801,9 +1605,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "TENNESSEE"
-      ],
+      "places": ["TENNESSEE"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1818,9 +1620,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "TEXAS"
-      ],
+      "places": ["TEXAS"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1835,9 +1635,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "UNITED STATES"
-      ],
+      "places": ["UNITED STATES"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1852,9 +1650,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "UTAH"
-      ],
+      "places": ["UTAH"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1869,9 +1665,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "VERMONT"
-      ],
+      "places": ["VERMONT"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1886,9 +1680,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "VIRGINIA"
-      ],
+      "places": ["VIRGINIA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1903,9 +1695,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "WASHINGTON"
-      ],
+      "places": ["WASHINGTON"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1920,9 +1710,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "WEST VIRGINIA"
-      ],
+      "places": ["WEST VIRGINIA"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1937,9 +1725,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "WISCONSIN"
-      ],
+      "places": ["WISCONSIN"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",
@@ -1954,9 +1740,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "WYOMING"
-      ],
+      "places": ["WYOMING"],
       "measure": "2024 CPS reported citizen voting/registration percent",
       "universe": "civilian-noninstitutionalized-age-18-and-over",
       "scope": "Sample estimate with published 90-percent margins of error; cannot equate to EAVS administrative turnout.",

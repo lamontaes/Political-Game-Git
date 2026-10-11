@@ -11,9 +11,7 @@
   "priority": "P2",
   "question": "How large is the effect of finishing high school on committing ordinary offenses (assault, robbery, burglary, vandalism), as distinct from being arrested or incarcerated, in terms that can set one additive weight beside age, work, a past record and knowing the victim?",
   "questionId": "does-a-diploma-change-who-offends",
-  "relatedQuestionIds": [
-    "who-commits-crime-and-what-changes-it"
-  ],
+  "relatedQuestionIds": ["who-commits-crime-and-what-changes-it"],
   "requestVersion": "research-request/v1",
   "requestedBy": "Standby Claude Team 5, for the Fable Part 5 Social audit card W-J37",
   "sourcesChecked": [

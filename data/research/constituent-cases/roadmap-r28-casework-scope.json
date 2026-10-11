@@ -20,9 +20,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "Federal congressional offices"
-      ],
+      "places": ["Federal congressional offices"],
       "measure": "casework scope",
       "finding": "Constituent assistance involves federal-agency matters, including benefits, immigration/passport, military/veterans and other administrative requests. Privacy releases/authorization and referral to the responsible agency differ from legislative voting; an inquiry does not guarantee favorable adjudication.",
       "source": "Congressional Research Service",
@@ -32,9 +30,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal congressional offices"
-      ],
+      "places": ["Federal congressional offices"],
       "measure": "resolution/status distinction",
       "finding": "Office assistance can obtain information, request explanation or check administrative delay; office closure of a case is not proof that an agency granted benefits or that the underlying problem disappeared. Track constituent request, agency referral, response and verified outcome separately.",
       "source": "Congressional Research Service",

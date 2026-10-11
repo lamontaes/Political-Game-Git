@@ -25,9 +25,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "U.S. adults in national 2024 sample"
-      ],
+      "places": ["U.S. adults in national 2024 sample"],
       "measure": "follows local news very closely percent",
       "allAdults": 22,
       "age18to29": 9,
@@ -41,9 +39,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "U.S. adults in national 2024 sample"
-      ],
+      "places": ["U.S. adults in national 2024 sample"],
       "measure": "often/sometimes source use percent",
       "dailyNewspaper": 33,
       "onlineForums": 52,
@@ -55,9 +51,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "U.S. adults Jan22–28 2024 survey"
-      ],
+      "places": ["U.S. adults Jan22–28 2024 survey"],
       "measure": "local political news survey scope",
       "sampleN": 5146,
       "finding": "Survey measures self-reported sources/quality of local-government news, not a census of newsroom output or local officials named correctly.",

@@ -25,9 +25,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "US nationwide"
-      ],
+      "places": ["US nationwide"],
       "measure": "federal public corruption prosecution counts",
       "year": 2023,
       "category": "Federal officials",
@@ -42,9 +40,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US nationwide"
-      ],
+      "places": ["US nationwide"],
       "measure": "federal public corruption prosecution counts",
       "year": 2023,
       "category": "State officials",
@@ -59,9 +55,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US nationwide"
-      ],
+      "places": ["US nationwide"],
       "measure": "federal public corruption prosecution counts",
       "year": 2023,
       "category": "Local officials",
@@ -76,9 +70,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US nationwide"
-      ],
+      "places": ["US nationwide"],
       "measure": "federal public corruption prosecution counts",
       "year": 2023,
       "category": "Others involved",
@@ -93,9 +85,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US nationwide"
-      ],
+      "places": ["US nationwide"],
       "measure": "federal public corruption prosecution counts",
       "year": 2023,
       "category": "Total",
@@ -110,9 +100,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US Senate"
-      ],
+      "places": ["US Senate"],
       "measure": "ethics allegations and inquiry counts",
       "year": 2025,
       "newAllegations": 181,
@@ -129,9 +117,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal candidates/committees"
-      ],
+      "places": ["Federal candidates/committees"],
       "measure": "complaints and sanctions",
       "finding": "Anyone may complain; matters are confidential until resolved. Possible outcomes range from compliance reminders to conciliation agreements with monetary civil penalties; this establishes possible dispositions, not frequencies or an automatic escalation schedule.",
       "source": "Federal Election Commission",

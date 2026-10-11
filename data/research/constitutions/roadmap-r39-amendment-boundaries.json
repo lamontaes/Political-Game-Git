@@ -30,9 +30,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "Federal;50 states"
-      ],
+      "places": ["Federal;50 states"],
       "measure": "ArticleV proposal and ratification",
       "congressChamberVote": "two thirds",
       "conventionApplicationsStates": 34,
@@ -46,14 +44,9 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "proposed amendment archive",
-      "coverageYears": [
-        1787,
-        2014
-      ],
+      "coverageYears": [1787, 2014],
       "entriesMoreThan": 11000,
       "finding": "Proposal records include repeated attempts and varying metadata.27 ratifications/11000 introduced entries is not a probability for an amendment submitted to states; raw5.16MB CSV is not committed.",
       "source": "National Archives",
@@ -63,9 +56,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-CA"
-      ],
+      "places": ["US-CA"],
       "measure": "ArticleXVIII historical amendment procedure",
       "historicalObservedOn": "2026-09-13",
       "proposal": "two-thirds membership of each house; electors may amend by initiative",
@@ -79,9 +70,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XI",
       "proposed": "1794-03-04",
@@ -95,9 +84,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XII",
       "proposed": "1803-12-09",
@@ -111,9 +98,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XIII",
       "proposed": "1865-01-31",
@@ -127,9 +112,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XIV",
       "proposed": "1866-06-13",
@@ -143,9 +126,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XV",
       "proposed": "1869-02-26",
@@ -159,9 +140,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XVI",
       "proposed": "1909-07-02",
@@ -175,9 +154,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XVII",
       "proposed": "1912-05-13",
@@ -191,9 +168,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XVIII",
       "proposed": "1917-12-18",
@@ -207,9 +182,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XIX",
       "proposed": "1919-06-04",
@@ -223,9 +196,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XX",
       "proposed": "1932-03-02",
@@ -239,9 +210,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XXI",
       "proposed": "1933-02-20",
@@ -255,9 +224,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XXII",
       "proposed": "1947-03-21",
@@ -271,9 +238,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XXIII",
       "proposed": "1960-06-16",
@@ -287,9 +252,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XXIV",
       "proposed": "1962-08-27",
@@ -303,9 +266,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XXV",
       "proposed": "1965-07-06",
@@ -319,9 +280,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal"
-      ],
+      "places": ["Federal"],
       "measure": "successful amendment ratification interval",
       "amendment": "XXVI",
       "proposed": "1971-03-23",
@@ -333,6 +292,20 @@
       "sourceTerms": "US federal government work, public domain; factual aggregates only, no names or third-party content.",
       "retrievedAt": "2026-10-11",
       "estimated": false
+    },
+    {
+      "source": "National Archives",
+      "sourceUrl": "https://www.archives.gov/founding-docs/amendments-11-27",
+      "sourceTerms": "Federal government work, public domain; factual dates only.",
+      "retrievedAt": "2026-10-11",
+      "places": ["Federal"],
+      "estimated": false,
+      "measure": "successful amendment ratification interval",
+      "amendment": "XXVII",
+      "proposed": "1789-09-25",
+      "ratified": "1992-05-07",
+      "elapsedDays": 74003,
+      "finding": "Successful survivor cohort only; source labels originally proposed, unlike Congress-passage labels for11–26. No future ratification hazard implied."
     }
   ],
   "gaps": [

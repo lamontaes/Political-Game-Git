@@ -8,9 +8,7 @@
   "priority": "P1",
   "question": "What is each US public office actually paid, by office and by jurisdiction, for governors, lieutenant governors, other statewide officers, state legislators (including per diem and whether the job is part-time), state judges, mayors, city and county council members, county officials, members of Congress, and ordinary state and local civil servants? How is it paid (salary, per diem, stipend), how often, and can the officeholder decline or donate it?",
   "questionId": "what-public-officials-are-paid",
-  "relatedQuestionIds": [
-    "what-a-person-spends-to-live"
-  ],
+  "relatedQuestionIds": ["what-a-person-spends-to-live"],
   "requestVersion": "research-request/v1",
   "requestedBy": "ordinary adult life thread",
   "sourcesChecked": [

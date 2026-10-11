@@ -57,9 +57,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal candidates nationwide"
-      ],
+      "places": ["Federal candidates nationwide"],
       "measure": "registration triggers",
       "triggerUSD": "more than 5000 raised or spent",
       "statementOfCandidacy": "FEC Form 2 within 15 days after threshold; designate principal committee",
@@ -72,9 +70,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal campaigns nationwide"
-      ],
+      "places": ["Federal campaigns nationwide"],
       "measure": "2023-2024 aggregate receipts and disbursements, millions USD",
       "presidentialReceipts": 2012.0,
       "presidentialDisbursements": 1796.7,
@@ -93,9 +89,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MN"
-      ],
+      "places": ["US-MN"],
       "measure": "principal committee requirement",
       "rule": "10A.105 requires a single principal campaign committee for each office sought and designation/forming it before the covered campaign activity; see operative statutory exceptions. No inference to other states.",
       "source": "Minnesota Revisor of Statutes",
@@ -105,9 +99,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NE"
-      ],
+      "places": ["US-NE"],
       "measure": "committee financial custody",
       "rule": "49-1446 requires a treasurer/depository and separates receipt by treasurer/agent from deposit timing; no commingling with personal funds. Locked original read, not revalidated current law.",
       "source": "Nebraska Legislature",

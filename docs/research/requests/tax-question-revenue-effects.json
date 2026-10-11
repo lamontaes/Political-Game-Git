@@ -5,9 +5,7 @@
   "priority": "P2",
   "question": "For a state that (1) adopts a broad personal income tax where it had none, (2) moves from a flat to a graduated income tax, (3) exempts groceries from its general sales tax, or (4) caps annual growth in property-tax levies: the typical change in the affected revenue source as a share of that source, with the range across states and the years it takes to reach full effect. Cite fiscal notes or studies (for example Massachusetts' 2022 surtax, Illinois' 2020 graduated-tax fiscal note, grocery exemptions in Mississippi, Tennessee and Arkansas, and property-tax caps such as California's Proposition 13 and Massachusetts' Proposition 2½).",
   "questionId": "tax-question-revenue-effects",
-  "relatedQuestionIds": [
-    "which-local-governments-can-tax-income"
-  ],
+  "relatedQuestionIds": ["which-local-governments-can-tax-income"],
   "requestVersion": "research-request/v1",
   "requestedBy": "filed by Build 12 · Public Budgets",
   "sourcesChecked": [

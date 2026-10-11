@@ -35,30 +35,12 @@
   ],
   "findings": [
     {
-      "places": [
-        "US TitleIV borrowers"
-      ],
+      "places": ["US TitleIV borrowers"],
       "measure": "annual undergraduate Direct Loan limits effectiveJuly2026",
-      "dependent": [
-        5500,
-        6500,
-        7500
-      ],
-      "independent": [
-        9500,
-        10500,
-        12500
-      ],
-      "subsidizedMaximum": [
-        3500,
-        4500,
-        5500
-      ],
-      "studyYears": [
-        "first",
-        "second",
-        "third+"
-      ],
+      "dependent": [5500, 6500, 7500],
+      "independent": [9500, 10500, 12500],
+      "subsidizedMaximum": [3500, 4500, 5500],
+      "studyYears": ["first", "second", "third+"],
       "aggregateDependent": 31000,
       "aggregateIndependent": 57500,
       "aggregateSubsidizedMaximum": 23000,
@@ -70,9 +52,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US TitleIV borrowers without interim exception"
-      ],
+      "places": ["US TitleIV borrowers without interim exception"],
       "measure": "graduate professional and ParentPLUS limits effectiveJuly2026",
       "graduateAnnual": 20500,
       "graduateAggregate": 100000,
@@ -89,9 +69,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US federal credit-hour framework"
-      ],
+      "places": ["US federal credit-hour framework"],
       "measure": "credit hour workload equivalence",
       "classroomHoursPerWeek": 1,
       "outsideHoursPerWeek": 2,
@@ -103,9 +81,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US institutions in matched IPEDS files"
-      ],
+      "places": ["US institutions in matched IPEDS files"],
       "measure": "illustrative sticker tuition+required fee fallback",
       "sector": "public2year",
       "academicYear": "2023–24",
@@ -124,9 +100,7 @@
       "retrievedAt": "2026-10-11"
     },
     {
-      "places": [
-        "US institutions in matched IPEDS files"
-      ],
+      "places": ["US institutions in matched IPEDS files"],
       "measure": "illustrative sticker tuition+required fee fallback",
       "sector": "public4year",
       "academicYear": "2023–24",
@@ -145,9 +119,7 @@
       "retrievedAt": "2026-10-11"
     },
     {
-      "places": [
-        "US institutions in matched IPEDS files"
-      ],
+      "places": ["US institutions in matched IPEDS files"],
       "measure": "illustrative sticker tuition+required fee fallback",
       "sector": "privateNonprofit4year",
       "academicYear": "2023–24",
@@ -166,9 +138,7 @@
       "retrievedAt": "2026-10-11"
     },
     {
-      "places": [
-        "US and territories represented in existing IPEDS corpus"
-      ],
+      "places": ["US and territories represented in existing IPEDS corpus"],
       "measure": "directory identifier comparison",
       "earlierRows": 0,
       "laterRows": 0,

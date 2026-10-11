@@ -22,9 +22,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "50 states; excludes delegates/resident commissioner for age"
-      ],
+      "places": ["50 states; excludes delegates/resident commissioner for age"],
       "measure": "119th Congress beginning-of-term mean age, years",
       "allHouse": 57.9,
       "newHouse": 50.2,
@@ -38,9 +36,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal Congress including delegates where noted"
-      ],
+      "places": ["Federal Congress including delegates where noted"],
       "measure": "May 21 2025 profile aggregates",
       "womenHouseIncludingFourDelegates": 129,
       "womenSenate": 26,
@@ -57,9 +53,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal Congress"
-      ],
+      "places": ["Federal Congress"],
       "measure": "new-member share at start of 119th Congress, percent",
       "House": 14.1,
       "Senate": 12,
@@ -71,9 +65,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal House/Senate; no state/local inference"
-      ],
+      "places": ["Federal House/Senate; no state/local inference"],
       "measure": "bounded fallback for mean newly elected age, years",
       "estimated": true,
       "value": {
@@ -81,14 +73,8 @@
         "Senate": 55.1
       },
       "spread": {
-        "House": [
-          47.8,
-          50.6
-        ],
-        "Senate": [
-          50.4,
-          58.1
-        ]
+        "House": [47.8, 50.6],
+        "Senate": [50.4, 58.1]
       },
       "basis": "Range of observed congressional-cohort means across 116th–119th Congress, not individual age percentiles.",
       "source": "Congressional Research Service",

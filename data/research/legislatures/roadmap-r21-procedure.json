@@ -31,9 +31,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "U.S. Congress"
-      ],
+      "places": ["U.S. Congress"],
       "measure": "constitutional enactment constraints",
       "quorum": "majority of each house, Article I section5",
       "vetoReturnWindow": "10 days excluding Sundays, Article I section7",
@@ -47,9 +45,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-DC"
-      ],
+      "places": ["US-DC"],
       "measure": "Congressional review",
       "ordinaryActWindow": 30,
       "criminalActWindow": 60,
@@ -62,9 +58,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-DC"
-      ],
+      "places": ["US-DC"],
       "measure": "Council institutional procedure",
       "rules": "Rule302 regular meetings; Rule303 additional/special meetings and notice; Rule304 majority quorum; Rule306 recess and committee work; Rules401–404 introduction and referral; Rule502 committee quorum.",
       "scope": "Referrals/hearings/reporting are real stages; a universal committee-free two-reading model omits them. Verify rule-specific exceptions and amendments rather than infer a fixed duration.",
@@ -75,9 +69,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "U.S. Congress"
-      ],
+      "places": ["U.S. Congress"],
       "measure": "118th Congress historical throughput",
       "HouseBillsIntroduced": 10555,
       "SenateBillsIntroduced": 5646,

@@ -37,9 +37,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "US-AL"
-      ],
+      "places": ["US-AL"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "Senate and House districts 3,4,5": "2026-05-19",
@@ -57,9 +55,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-AK"
-      ],
+      "places": ["US-AK"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-18"
@@ -76,9 +72,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-AZ"
-      ],
+      "places": ["US-AZ"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-07-21"
@@ -95,9 +89,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-AR"
-      ],
+      "places": ["US-AR"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-03-03"
@@ -114,9 +106,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-CA"
-      ],
+      "places": ["US-CA"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-02"
@@ -133,9 +123,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-CO"
-      ],
+      "places": ["US-CO"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-30"
@@ -152,9 +140,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-CT"
-      ],
+      "places": ["US-CT"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-11"
@@ -171,9 +157,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-DE"
-      ],
+      "places": ["US-DE"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-09-15"
@@ -190,9 +174,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-DC"
-      ],
+      "places": ["US-DC"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-16"
@@ -209,9 +191,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-FL"
-      ],
+      "places": ["US-FL"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-18"
@@ -228,9 +208,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-GA"
-      ],
+      "places": ["US-GA"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-05-19"
@@ -247,9 +225,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-HI"
-      ],
+      "places": ["US-HI"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-08"
@@ -266,9 +242,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-ID"
-      ],
+      "places": ["US-ID"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-05-19"
@@ -285,9 +259,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-IL"
-      ],
+      "places": ["US-IL"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-03-17"
@@ -304,9 +276,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-IN"
-      ],
+      "places": ["US-IN"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-05-05"
@@ -323,9 +293,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-IA"
-      ],
+      "places": ["US-IA"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-02"
@@ -342,9 +310,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-KS"
-      ],
+      "places": ["US-KS"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-04"
@@ -361,9 +327,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-KY"
-      ],
+      "places": ["US-KY"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-05-19"
@@ -380,9 +344,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-LA"
-      ],
+      "places": ["US-LA"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "Senate": "2026-05-16",
@@ -401,9 +363,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-ME"
-      ],
+      "places": ["US-ME"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-09"
@@ -420,9 +380,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MD"
-      ],
+      "places": ["US-MD"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-23"
@@ -439,9 +397,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MA"
-      ],
+      "places": ["US-MA"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-09-01"
@@ -458,9 +414,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MI"
-      ],
+      "places": ["US-MI"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-04"
@@ -477,9 +431,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MN"
-      ],
+      "places": ["US-MN"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-11"
@@ -496,9 +448,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MS"
-      ],
+      "places": ["US-MS"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-03-10"
@@ -515,9 +465,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MO"
-      ],
+      "places": ["US-MO"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-04"
@@ -534,9 +482,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MT"
-      ],
+      "places": ["US-MT"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-02"
@@ -553,9 +499,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NE"
-      ],
+      "places": ["US-NE"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-05-12"
@@ -572,9 +516,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NV"
-      ],
+      "places": ["US-NV"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-09"
@@ -591,9 +533,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NH"
-      ],
+      "places": ["US-NH"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-09-08"
@@ -610,9 +550,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NJ"
-      ],
+      "places": ["US-NJ"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-02"
@@ -629,9 +567,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NM"
-      ],
+      "places": ["US-NM"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-02"
@@ -648,9 +584,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NY"
-      ],
+      "places": ["US-NY"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-23"
@@ -667,9 +601,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NC"
-      ],
+      "places": ["US-NC"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-03-03"
@@ -686,9 +618,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-ND"
-      ],
+      "places": ["US-ND"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-09"
@@ -705,9 +635,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-OH"
-      ],
+      "places": ["US-OH"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-05-05"
@@ -724,9 +652,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-OK"
-      ],
+      "places": ["US-OK"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-16"
@@ -743,9 +669,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-OR"
-      ],
+      "places": ["US-OR"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-05-19"
@@ -762,9 +686,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-PA"
-      ],
+      "places": ["US-PA"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-05-19"
@@ -781,9 +703,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-RI"
-      ],
+      "places": ["US-RI"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-09-09"
@@ -800,9 +720,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-SC"
-      ],
+      "places": ["US-SC"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-09"
@@ -819,9 +737,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-SD"
-      ],
+      "places": ["US-SD"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-02"
@@ -838,9 +754,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-TN"
-      ],
+      "places": ["US-TN"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-06"
@@ -857,9 +771,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-TX"
-      ],
+      "places": ["US-TX"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-03-03"
@@ -876,9 +788,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-UT"
-      ],
+      "places": ["US-UT"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-06-23"
@@ -895,9 +805,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-VT"
-      ],
+      "places": ["US-VT"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-11"
@@ -914,9 +822,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-VA"
-      ],
+      "places": ["US-VA"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-04"
@@ -934,9 +840,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-WA"
-      ],
+      "places": ["US-WA"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-04"
@@ -953,9 +857,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-WV"
-      ],
+      "places": ["US-WV"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-05-12"
@@ -972,9 +874,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-WI"
-      ],
+      "places": ["US-WI"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-11"
@@ -991,9 +891,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-WY"
-      ],
+      "places": ["US-WY"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-18"
@@ -1010,9 +908,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-GU"
-      ],
+      "places": ["US-GU"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-01"
@@ -1029,9 +925,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-VI"
-      ],
+      "places": ["US-VI"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "all": "2026-08-01"
@@ -1046,9 +940,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-PR"
-      ],
+      "places": ["US-PR"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "FEC congressional primary": "not applicable"
@@ -1065,9 +957,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-AS"
-      ],
+      "places": ["US-AS"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "FEC congressional primary": "not applicable"
@@ -1084,9 +974,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MP"
-      ],
+      "places": ["US-MP"],
       "measure": "2026 congressional primary and primary-ballot filing dates",
       "primaryDates": {
         "FEC congressional primary": "not applicable"
@@ -1103,9 +991,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "50 states; House/Senate only"
-      ],
+      "places": ["50 states; House/Senate only"],
       "measure": "constitutional qualifications",
       "House": {
         "minimumAge": 25,
@@ -1125,17 +1011,10 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-AZ"
-      ],
+      "places": ["US-AZ"],
       "measure": "regular municipal election dates",
       "rule": "Even-numbered years; first election second-to-last Tuesday in July starting 2026; general/runoff first Tuesday after first Monday in November; single-round elections in November. Special vacancy and recall elections excluded from regular-candidate rule.",
-      "nextCycles": [
-        "2026-07-21",
-        "2026-11-03",
-        "2028-07-18",
-        "2028-11-07"
-      ],
+      "nextCycles": ["2026-07-21", "2026-11-03", "2028-07-18", "2028-11-07"],
       "citation": "ARS 16-204(E)",
       "source": "Arizona Legislature",
       "sourceUrl": "https://www.azleg.gov/ars/16/00204.htm",
@@ -1144,9 +1023,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-ME"
-      ],
+      "places": ["US-ME"],
       "measure": "town election frequency",
       "rule": "Annual town meeting elects moderator, select board and school committee. Section 2525 itself sets no uniform month; read town records rather than infer November.",
       "citation": "30-A MRSA 2525",
@@ -1157,9 +1034,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-FL"
-      ],
+      "places": ["US-FL"],
       "measure": "resign-to-run",
       "rule": "99.012(3) requires resignation for another overlapping state, district, county or municipal term; resignation irrevocable, submitted at least 10 days before qualifying starts, effective by the earlier statutory start/take-office date. Exceptions and federal candidacy must be checked in current subsection text; no nationwide automatic resignation rule.",
       "source": "Florida Legislature",

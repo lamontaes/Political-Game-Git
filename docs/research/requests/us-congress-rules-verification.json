@@ -37,9 +37,7 @@
   "filedAt": "2026-09-23T02:00:00.000Z",
   "priority": "P2",
   "notes": [],
-  "relatedQuestionIds": [
-    "how-congress-moves-bills"
-  ],
+  "relatedQuestionIds": ["how-congress-moves-bills"],
   "answer": {
     "summary": "Article I section5 supplies majority quorum; section7 supplies bicameral enactment, 10-day presidential return window excluding Sundays and two-thirds override in each house. House revenue origination is section7. Constitution alone does not supply current committee jurisdictions, staff counts or Senate debate/cloture exceptions.",
     "sources": [

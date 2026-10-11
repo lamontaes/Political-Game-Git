@@ -25,9 +25,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "US national household population age12+"
-      ],
+      "places": ["US national household population age12+"],
       "year": 2024,
       "measure": "victimizations per1000 persons and percent reported to police",
       "kind": "all violent",
@@ -41,9 +39,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US national household population age12+"
-      ],
+      "places": ["US national household population age12+"],
       "year": 2024,
       "measure": "victimizations per1000 persons and percent reported to police",
       "kind": "robbery",
@@ -57,9 +53,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US national household population age12+"
-      ],
+      "places": ["US national household population age12+"],
       "year": 2024,
       "measure": "victimizations per1000 persons and percent reported to police",
       "kind": "aggravated assault",
@@ -73,9 +67,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US national household population age12+"
-      ],
+      "places": ["US national household population age12+"],
       "year": 2024,
       "measure": "victimizations per1000 persons and percent reported to police",
       "kind": "simple assault",
@@ -89,9 +81,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US households"
-      ],
+      "places": ["US households"],
       "year": 2024,
       "measure": "burglary victimization",
       "ratePer1000Households": 8.2,
@@ -104,9 +94,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US household population age12+"
-      ],
+      "places": ["US household population age12+"],
       "measure": "reasons for nonreporting",
       "finding": "Report identifies fear of reprisal, concern for offender, belief police cannot help, personal matters and triviality as reasons. Descriptive differences by injury/weapon and relationship do not identify a seriousness-held-constant causal effect.",
       "source": "Bureau of Justice Statistics",
@@ -116,9 +104,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US nationwide FBI estimates"
-      ],
+      "places": ["US nationwide FBI estimates"],
       "year": 2025,
       "measure": "known-to-police violent crime estimate",
       "offenses": 1119768,
@@ -132,9 +118,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-CA"
-      ],
+      "places": ["US-CA"],
       "measure": "bail schedules scope",
       "vintage": 2026,
       "finding": "Rule4.102 addresses uniformity in traffic and listed regulatory misdemeanor/infraction categories, while courts adopt countywide schedules under Penal Code1269b. This is not a universal statewide felony bail-price table.",

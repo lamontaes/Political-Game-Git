@@ -40,9 +40,7 @@
     "Only party names, seat shares and relationships are wanted; the game generates its own people.",
     "Chamber sizes are already asked in state-legislature-chamber-sizes-and-quorum."
   ],
-  "relatedQuestionIds": [
-    "state-legislature-chamber-sizes-and-quorum"
-  ],
+  "relatedQuestionIds": ["state-legislature-chamber-sizes-and-quorum"],
   "answer": {
     "summary": "Official Senate roster uses Partido Nuevo Progresista, Partido Popular Democrático and Partido Independentista Puertorriqueño. These are island parties and must remain distinct data labels; a national caucus or candidate affiliation does not merge them with U.S. national parties. Raw roster occurrences were not used as seat counts because the returned page was not a reconciled complete membership table.",
     "sources": [

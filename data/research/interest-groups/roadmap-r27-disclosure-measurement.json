@@ -25,18 +25,11 @@
   ],
   "findings": [
     {
-      "places": [
-        "Federal LDA registrants"
-      ],
+      "places": ["Federal LDA registrants"],
       "measure": "quarterly disclosure deadline",
       "daysAfterQuarter": 20,
       "businessDayException": "First business day if day20 is not a business day",
-      "quarterStarts": [
-        "January1",
-        "April1",
-        "July1",
-        "October1"
-      ],
+      "quarterStarts": ["January1", "April1", "July1", "October1"],
       "scope": "Registration/activity reports differ from semiannual contributions reports and from state systems.",
       "source": "U.S. Senate",
       "sourceUrl": "https://www.senate.gov/legislative/Lobbying/Lobby_Disclosure_Act/5_Reports_by_Registered_Lobbyists.htm",
@@ -45,9 +38,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal LDA reporting calendar"
-      ],
+      "places": ["Federal LDA reporting calendar"],
       "measure": "2026 Q2 example",
       "deadline": "2026-07-20",
       "coveredPeriod": "2026-04-01 through2026-06-30",
@@ -59,9 +50,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-CA"
-      ],
+      "places": ["US-CA"],
       "measure": "lobbying data unit",
       "finding": "Official system separates lobbyists, firms, employers and other report types; their reported payments/receipts can refer to the same activity. Aggregate issue/spending comparisons require coverage period, amendment deduplication and expense/income distinction.",
       "source": "California Secretary of State",

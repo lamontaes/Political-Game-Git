@@ -10,9 +10,7 @@
   "priority": "P2",
   "question": "How does the number of hours a college student works or spends caregiving each week change the share of attempted credits they complete in a term, and what credit totals do certificate, associate, bachelor's and master's programs require across U.S. colleges?",
   "questionId": "credits-earned-and-outside-hours",
-  "relatedQuestionIds": [
-    "who-gets-into-college-and-what-it-costs"
-  ],
+  "relatedQuestionIds": ["who-gets-into-college-and-what-it-costs"],
   "requestVersion": "research-request/v1",
   "requestedBy": "Standby Claude Team 5 (A141)",
   "sourcesChecked": [

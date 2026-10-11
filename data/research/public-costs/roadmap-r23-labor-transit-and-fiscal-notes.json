@@ -40,9 +40,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "U.S. national occupation; not regional wage table"
-      ],
+      "places": ["U.S. national occupation; not regional wage table"],
       "measure": "May2025 median annual wage USD",
       "role": "firefighter",
       "wageUSD": 59280,
@@ -54,17 +52,12 @@
       "estimated": false
     },
     {
-      "places": [
-        "Unread U.S. public employer labor-cost calibration only"
-      ],
+      "places": ["Unread U.S. public employer labor-cost calibration only"],
       "measure": "illustrative wage-plus-benefits annual USD",
       "role": "firefighter",
       "estimated": true,
       "value": 96856.55,
-      "spread": [
-        84693.46,
-        96856.55
-      ],
+      "spread": [84693.46, 96856.55],
       "basis": "Multiply OOH national occupational median by June2026 ECEC public total/wage factor1.634. Spread compares private1.429/public1.634 ownership averages, not measured local percentiles. Workforce composition differs; excludes equipment, facilities and other service costs.",
       "additionalSourceUrl": "https://www.bls.gov/ooh/protective-service/firefighters.htm",
       "source": "BLS",
@@ -73,9 +66,7 @@
       "retrievedAt": "2026-10-11"
     },
     {
-      "places": [
-        "U.S. national occupation; not regional wage table"
-      ],
+      "places": ["U.S. national occupation; not regional wage table"],
       "measure": "May2025 median annual wage USD",
       "role": "police/detective",
       "wageUSD": 77310,
@@ -87,17 +78,12 @@
       "estimated": false
     },
     {
-      "places": [
-        "Unread U.S. public employer labor-cost calibration only"
-      ],
+      "places": ["Unread U.S. public employer labor-cost calibration only"],
       "measure": "illustrative wage-plus-benefits annual USD",
       "role": "police/detective",
       "estimated": true,
       "value": 126315.45,
-      "spread": [
-        110452.95,
-        126315.45
-      ],
+      "spread": [110452.95, 126315.45],
       "basis": "Multiply OOH national occupational median by June2026 ECEC public total/wage factor1.634. Spread compares private1.429/public1.634 ownership averages, not measured local percentiles. Workforce composition differs; excludes equipment, facilities and other service costs.",
       "additionalSourceUrl": "https://www.bls.gov/ooh/protective-service/police-and-detectives.htm",
       "source": "BLS",
@@ -106,9 +92,7 @@
       "retrievedAt": "2026-10-11"
     },
     {
-      "places": [
-        "U.S. national occupation; not regional wage table"
-      ],
+      "places": ["U.S. national occupation; not regional wage table"],
       "measure": "May2025 median annual wage USD",
       "role": "high-school teacher",
       "wageUSD": 72040,
@@ -120,17 +104,12 @@
       "estimated": false
     },
     {
-      "places": [
-        "Unread U.S. public employer labor-cost calibration only"
-      ],
+      "places": ["Unread U.S. public employer labor-cost calibration only"],
       "measure": "illustrative wage-plus-benefits annual USD",
       "role": "high-school teacher",
       "estimated": true,
       "value": 117704.89,
-      "spread": [
-        102923.69,
-        117704.89
-      ],
+      "spread": [102923.69, 117704.89],
       "basis": "Multiply OOH national occupational median by June2026 ECEC public total/wage factor1.634. Spread compares private1.429/public1.634 ownership averages, not measured local percentiles. Workforce composition differs; excludes equipment, facilities and other service costs.",
       "additionalSourceUrl": "https://www.bls.gov/ooh/education-training-and-library/high-school-teachers.htm",
       "source": "BLS",
@@ -139,9 +118,7 @@
       "retrievedAt": "2026-10-11"
     },
     {
-      "places": [
-        "U.S. state/local-government workforce, June2026"
-      ],
+      "places": ["U.S. state/local-government workforce, June2026"],
       "measure": "employer hourly compensation USD",
       "total": 66.45,
       "wages": 40.67,
@@ -154,16 +131,11 @@
       "estimated": false
     },
     {
-      "places": [
-        "U.S. NTD 2023 rural demand-response service sample"
-      ],
+      "places": ["U.S. NTD 2023 rural demand-response service sample"],
       "measure": "operating USD per vehicle revenue hour fallback",
       "estimated": true,
       "value": 62.326705293652886,
-      "spread": [
-        34.57555927351502,
-        116.14416007061259
-      ],
+      "spread": [34.57555927351502, 116.14416007061259],
       "basis": "1,025 valid rural demand-response service rows; median62.3267, p10–p90 34.5756–116.1442; excludes four invalid rows. Not fixed-route bus or capital cost. Existing table contains aggregate agency data only.",
       "source": "Federal Transit Administration",
       "sourceUrl": "https://www.transit.dot.gov/sites/fta.dot.gov/files/2024-10/2023%20Operating%20Expenses.xlsx",
@@ -171,9 +143,7 @@
       "retrievedAt": "2026-10-11"
     },
     {
-      "places": [
-        "US-MN"
-      ],
+      "places": ["US-MN"],
       "measure": "fiscal-note production",
       "finding": "Section3.98 requires department/agency heads to prepare requested fiscal notes consistent with Legislative Budget Office standards. A fiscal note estimates consequences; it does not itself appropriate or authorize spending.",
       "source": "Minnesota Revisor of Statutes",

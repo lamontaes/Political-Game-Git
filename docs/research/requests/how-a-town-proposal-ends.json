@@ -8,9 +8,7 @@
   "priority": "P2",
   "question": "When a small town or city posts a proposal, such as a park shelter repair or a road repair schedule, and opens public comment, what share are adopted, amended, tabled or withdrawn, and how long does each take? Who decides, and how does public comment change the outcome?",
   "questionId": "how-a-town-proposal-ends",
-  "relatedQuestionIds": [
-    "local-executive-and-council-rules"
-  ],
+  "relatedQuestionIds": ["local-executive-and-council-rules"],
   "requestVersion": "research-request/v1",
   "requestedBy": "long playthrough thread (Fatima Erickson and Seth Woodward)",
   "sourcesChecked": [

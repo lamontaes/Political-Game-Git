@@ -40,9 +40,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "Steam release worldwide"
-      ],
+      "places": ["Steam release worldwide"],
       "measure": "AI content survey",
       "finding": "Disclose development-time AI-assisted content shipped for player consumption and runtime AI-generated content. Runtime generation additionally requires describing safeguards against illegal output. AI assistance used solely for internal workflow must be evaluated against current survey scope; no project-specific answer invented. Rights/noninfringement and marketing consistency obligations remain.",
       "source": "Valve Steamworks",
@@ -52,9 +50,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Steam release worldwide"
-      ],
+      "places": ["Steam release worldwide"],
       "measure": "onboarding prerequisites",
       "appFeeUSD": 100,
       "waitingDaysFromAppFee": 30,
@@ -67,14 +63,9 @@
       "estimated": false
     },
     {
-      "places": [
-        "Steam release worldwide"
-      ],
+      "places": ["Steam release worldwide"],
       "measure": "review scheduling",
-      "typicalStoreReviewBusinessDays": [
-        3,
-        5
-      ],
+      "typicalStoreReviewBusinessDays": [3, 5],
       "recommendedSubmissionLeadBusinessDays": 7,
       "finding": "Store presence and build reviewed separately; typical service times are guidance, not guaranteed approval dates.",
       "source": "Valve Steamworks",
@@ -84,9 +75,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Steam EarlyAccess"
-      ],
+      "places": ["Steam EarlyAccess"],
       "measure": "EarlyAccess expectations",
       "finding": "Offer a playable build worth its present price, describe current unfinished state and plans clearly, avoid guaranteed future completion/features, include required EarlyAccess branding where sold, maintain Steam availability and price parity obligations. Proposed plans do not substitute for present gameplay screenshots.",
       "source": "Valve Steamworks",
@@ -96,9 +85,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Steam US USD"
-      ],
+      "places": ["Steam US USD"],
       "measure": "comparable PC listing",
       "game": "Democracy4",
       "regularUSD": 29.99,
@@ -116,9 +103,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Steam US USD"
-      ],
+      "places": ["Steam US USD"],
       "measure": "comparable PC listing",
       "game": "Suzerain",
       "regularUSD": 19.99,

@@ -30,9 +30,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "U.S. House members under MRA"
-      ],
+      "places": ["U.S. House members under MRA"],
       "measure": "staff legal ceiling",
       "permanentEmployeesMaximum": 18,
       "additionalEmployeesMaximum": 4,
@@ -45,9 +43,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "U.S. House"
-      ],
+      "places": ["U.S. House"],
       "measure": "office employment/compensation boundary",
       "finding": "Member office employment governed by MRA/House rules and handbook; employment arrangement does not erase ethics/compensation rules. Personal offices, committee staff and chamber-wide support are separate populations.",
       "source": "House Committee on Ethics",
@@ -57,9 +53,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "U.S. state/local government workforce June2026"
-      ],
+      "places": ["U.S. state/local government workforce June2026"],
       "measure": "hourly compensation benchmark USD",
       "total": 66.45,
       "wage": 40.67,
@@ -72,9 +66,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "U.S. JOLTS state/local government industries"
-      ],
+      "places": ["U.S. JOLTS state/local government industries"],
       "measure": "turnover denominator",
       "finding": "Hires and separations are monthly flows relative to industry employment; neither is time-to-fill, retained office staff after election, or an individual employee’s exit probability.",
       "source": "BLS",

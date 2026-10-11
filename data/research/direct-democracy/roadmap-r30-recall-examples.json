@@ -20,9 +20,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "US-CA"
-      ],
+      "places": ["US-CA"],
       "measure": "state recall signatures",
       "vintage": 2024,
       "statewidePercent": 12,
@@ -37,9 +35,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-CA"
-      ],
+      "places": ["US-CA"],
       "measure": "local officer recall signature tier",
       "vintage": 2024,
       "registeredVoterRanges": [
@@ -49,13 +45,7 @@
         "50000–99999",
         "100000or more"
       ],
-      "percent": [
-        30,
-        25,
-        20,
-        15,
-        10
-      ],
+      "percent": [30, 25, 20, 15, 10],
       "denominator": "registered voters in jurisdiction",
       "source": "California Secretary of State",
       "sourceUrl": "https://elections.cdn.sos.ca.gov/recalls/recall-procedures-guide.pdf",
@@ -64,9 +54,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-CA"
-      ],
+      "places": ["US-CA"],
       "measure": "local recall circulation deadline",
       "vintage": 2024,
       "registeredVoterRanges": [
@@ -76,13 +64,7 @@
         "10000–49999",
         "50000or more"
       ],
-      "days": [
-        40,
-        60,
-        90,
-        120,
-        160
-      ],
+      "days": [40, 60, 90, 120, 160],
       "anchor": "approval of petition form; not date of initial notice",
       "source": "California Secretary of State",
       "sourceUrl": "https://elections.cdn.sos.ca.gov/recalls/recall-procedures-guide.pdf",
@@ -91,9 +73,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-WA"
-      ],
+      "places": ["US-WA"],
       "measure": "RCW29A.56.180 signature thresholds",
       "stateOfficerFirstClassCityAndLargeCountyPercent": 25,
       "stateLegislatorAndOtherSubdivisionPercent": 35,

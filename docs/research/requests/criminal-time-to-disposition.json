@@ -29,9 +29,7 @@
   "whyItMatters": "How long a case runs decides how long a defendant held on bail sits in jail, when a trial lands against an election or a session, and what a speedy-trial or bail law changes. Hand-set national days make every place's courts identical and give a court-reform law nothing real to move.",
   "answer": {
     "summary": "The existing disposition file uses NCSC research and a hand-set60-day charging estimate. These are not a verified national or state current arrest-to-charge cohort; no additional numeric duration is adopted from the present victimization sources.",
-    "sources": [
-      "https://bjs.ojp.gov/document/cv24.pdf"
-    ],
+    "sources": ["https://bjs.ojp.gov/document/cv24.pdf"],
     "answeredBy": "CODEX-RESEARCH-2",
     "answeredAt": "2026-10-11T05:15:52.611668+00:00",
     "stillOpen": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."

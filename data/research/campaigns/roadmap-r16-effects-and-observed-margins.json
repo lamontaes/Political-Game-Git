@@ -21,9 +21,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "50 states; federal house"
-      ],
+      "places": ["50 states; federal house"],
       "measure": "larger major-party share percent, not certified winner share in all systems",
       "sampleN": 396,
       "median": 63.045,
@@ -46,9 +44,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "50 states; federal senate"
-      ],
+      "places": ["50 states; federal senate"],
       "measure": "larger major-party share percent, not certified winner share in all systems",
       "sampleN": 96,
       "median": 58.301,

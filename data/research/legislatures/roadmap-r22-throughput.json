@@ -151,9 +151,7 @@
         "senate": 1.61
       },
       "caveat": "House and Senate bill shares use enacted bills from each originating chamber divided by that chamber's introduced bills. Joint resolutions are excluded from those shares. The 274 laws include five House joint resolutions; dividing 274 by only House bills would mix origins and measure types. Vetoed measures include joint resolutions.",
-      "places": [
-        "United States Congress"
-      ],
+      "places": ["United States Congress"],
       "measure": "us-118th-congress",
       "source": "Clerk of the U.S. House of Representatives",
       "sourceUrl": "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf",
@@ -174,9 +172,7 @@
       "lineItemsVetoed": 44,
       "lineItemVetoesSustained": 37,
       "caveat": "Law total includes bills introduced in 2023 and carried into 2024. Do not divide 111 by the 605 bills introduced only in 2024. Bill vetoes and line-item vetoes have different denominators. Special session is excluded.",
-      "places": [
-        "Kansas"
-      ],
+      "places": ["Kansas"],
       "measure": "kansas-2024-regular",
       "source": "Kansas Legislative Research Department",
       "sourceUrl": "https://www.kslegislature.gov/li/b2025_26/committees/ctte_s_ed_1/documents/testimony/20250114_06.pdf",
@@ -194,9 +190,7 @@
       "vetoShareOfPassedPercent": 4.17,
       "vetoOverrides": null,
       "caveat": "Appendix A's bill action summary gives 583 introduced, 72 passed, 69 enacted, and 3 vetoed. Its adjacent table separately labels five partial vetoes in an enacted category that does not reconcile arithmetically with the 72 passed bills; use the bill action summary for these figures and do not add five to 69. No override count is established here.",
-      "places": [
-        "New Mexico"
-      ],
+      "places": ["New Mexico"],
       "measure": "new-mexico-2024-regular",
       "source": "New Mexico Legislative Council Service",
       "sourceUrl": "https://www.nmlegis.gov/Publications/Session/24/highlights.pdf",
@@ -215,9 +209,7 @@
       "billsWithLineItemVeto": 1,
       "vetoOverrides": null,
       "caveat": "Filed is the report's term and may include bills withdrawn before formal introduction. General and local bills are separate; joint resolutions, memorials, and one-chamber resolutions are excluded from these bill counts. The one line-item veto is separately identified and must not be added to the 14 whole-bill vetoes.",
-      "places": [
-        "Florida"
-      ],
+      "places": ["Florida"],
       "measure": "florida-2024-regular",
       "source": "Florida Legislature",
       "sourceUrl": "https://www.leg.state.fl.us/data/session/2024/citator/Daily/stats.pdf",
@@ -232,9 +224,7 @@
       "billsVetoed": 26,
       "billVetoesOverridden": 24,
       "caveat": "The 212 enacted bills comprise 55 Senate bills and 157 House bills. The governor vetoed seven Senate bills and 19 House bills; six and 18, respectively, were overridden. Joint and concurrent resolution vetoes and overrides are excluded from these bill counts.",
-      "places": [
-        "Kentucky"
-      ],
+      "places": ["Kentucky"],
       "measure": "kentucky-2024-regular",
       "source": "Kentucky Legislative Research Commission",
       "sourceUrl": "https://legislature.ky.gov/LRC/Publications/Informational%20Bulletins/IB266.pdf",
@@ -248,9 +238,7 @@
       "introducedRegularSessionBills": null,
       "regularSessionBillsBecameLaw": null,
       "caveat": "Texas regular sessions begin in odd-numbered years. A 2024 regular-session passage rate is not zero; it is undefined because no regular session was scheduled. Special sessions are a separate event.",
-      "places": [
-        "Texas"
-      ],
+      "places": ["Texas"],
       "measure": "texas-2024-no-regular-session",
       "source": "Texas Legislature",
       "sourceUrl": "https://statutes.capitol.texas.gov/Docs/GV/htm/GV.301.htm",
@@ -265,9 +253,7 @@
       "ordinancesCodified": 17,
       "resolutionsAdopted": 449,
       "caveat": "The city's session-statistics counts are activity totals, not necessarily a same-cohort introduction-to-enactment rate. Enacted is different from codified; resolutions and other actions are separate. This large city's count is not a typical U.S. city rate.",
-      "places": [
-        "Minneapolis, Minnesota"
-      ],
+      "places": ["Minneapolis, Minnesota"],
       "measure": "minneapolis-2024",
       "source": "City of Minneapolis",
       "sourceUrl": "https://lims.minneapolismn.gov/Download/RCAV2/48613/Council-Tracking-Report_COW_2024-Session-Complete.pdf",
@@ -279,9 +265,7 @@
       "period": "Calendar year 2024 list",
       "listedOrdinances": 44,
       "caveat": "Counted the county's numbered entries 2024-001 through 2024-045 with 033 absent. The page is an ordinance list; it does not establish introduced-versus-adopted statuses or a general county-size rate. Many entries amend appropriations or staffing.",
-      "places": [
-        "Cleburne County, Arkansas"
-      ],
+      "places": ["Cleburne County, Arkansas"],
       "measure": "cleburne-county-2024",
       "source": "Cleburne County, Arkansas",
       "sourceUrl": "https://www.cleburnecountyar.com/copy-of-2023-ordinances",
@@ -293,9 +277,7 @@
       "period": "Calendar year 2024 adoption dates on the 2024 list",
       "numberedOrdinancesAdoptedIn2024": 13,
       "caveat": "Counted 13 main numbered ordinances with 2024 Date Adopted; 24-15 was adopted in 2025. Lettered amendment entries are excluded. This is a list count, not a general county-size rate.",
-      "places": [
-        "Queen Anne's County, Maryland"
-      ],
+      "places": ["Queen Anne's County, Maryland"],
       "measure": "queen-annes-county-2024",
       "source": "Queen Anne's County, Maryland",
       "sourceUrl": "https://qac.org/1703/2024-Ordinances",
@@ -304,16 +286,11 @@
       "estimated": false
     },
     {
-      "places": [
-        "Unread state session calibration only; not legal rule"
-      ],
+      "places": ["Unread state session calibration only; not legal rule"],
       "measure": "bounded sample enactment share fallback percent",
       "estimated": true,
       "value": 13.742944201562295,
-      "spread": [
-        8.80952380952381,
-        17.4055829228243
-      ],
+      "spread": [8.80952380952381, 17.4055829228243],
       "basis": "Unweighted mean and observed minimum/maximum of KS eligible-bill cohort, NM introduced cohort, FL filed cohort and KY introduced cohort. Convenience sample and denominators differ; not a national rate or probability a particular bill passes. Per-world calibration needs legislature-specific histories when available.",
       "source": "New Mexico Legislative Council Service",
       "sourceUrl": "https://www.nmlegis.gov/Publications/Session/24/highlights.pdf",

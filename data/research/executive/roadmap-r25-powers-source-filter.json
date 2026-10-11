@@ -207,9 +207,7 @@
   ],
   "findings": [
     {
-      "places": [
-        "US-AZ"
-      ],
+      "places": ["US-AZ"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -225,9 +223,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-DE"
-      ],
+      "places": ["US-DE"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -245,9 +241,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-FL"
-      ],
+      "places": ["US-FL"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -264,9 +258,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-HI"
-      ],
+      "places": ["US-HI"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -284,9 +276,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-ID"
-      ],
+      "places": ["US-ID"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -304,9 +294,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-IL"
-      ],
+      "places": ["US-IL"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -324,9 +312,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-KY"
-      ],
+      "places": ["US-KY"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -344,9 +330,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MN"
-      ],
+      "places": ["US-MN"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -363,9 +347,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MO"
-      ],
+      "places": ["US-MO"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -383,9 +365,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MT"
-      ],
+      "places": ["US-MT"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -403,9 +383,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NE"
-      ],
+      "places": ["US-NE"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -423,9 +401,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NV"
-      ],
+      "places": ["US-NV"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "no",
@@ -443,9 +419,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NJ"
-      ],
+      "places": ["US-NJ"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -463,9 +437,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-NC"
-      ],
+      "places": ["US-NC"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "no",
@@ -483,9 +455,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-ND"
-      ],
+      "places": ["US-ND"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -503,9 +473,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-OH"
-      ],
+      "places": ["US-OH"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -521,9 +489,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-OR"
-      ],
+      "places": ["US-OR"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -541,9 +507,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-SC"
-      ],
+      "places": ["US-SC"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -561,9 +525,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-SD"
-      ],
+      "places": ["US-SD"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -581,9 +543,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-TX"
-      ],
+      "places": ["US-TX"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -600,9 +560,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-UT"
-      ],
+      "places": ["US-UT"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -620,9 +578,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-VT"
-      ],
+      "places": ["US-VT"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "no",
@@ -640,9 +596,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-VA"
-      ],
+      "places": ["US-VA"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -659,9 +613,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-WA"
-      ],
+      "places": ["US-WA"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -679,9 +631,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-DC"
-      ],
+      "places": ["US-DC"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -697,9 +647,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-MP"
-      ],
+      "places": ["US-MP"],
       "measure": "historical official-source-only item veto interpretation",
       "facts": {
         "itemVeto": "yes",
@@ -717,9 +665,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "Federal executive"
-      ],
+      "places": ["Federal executive"],
       "measure": "appointment channel",
       "finding": "ArticleII section2: President nominates with Senate advice/consent for covered officers; Congress may vest inferior-officer appointment as specified. This is not a governor/council manager appointment rule.",
       "source": "National Archives",
@@ -729,9 +675,7 @@
       "estimated": false
     },
     {
-      "places": [
-        "US-AK"
-      ],
+      "places": ["US-AK"],
       "measure": "department organization ceiling",
       "maximumPrincipalDepartments": 20,
       "citation": "ArticleIII section22",
