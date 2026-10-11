@@ -1,0 +1,57 @@
+{
+  "topic": "R33",
+  "researchedAt": "2026-10-11T05:19:25.459410+00:00",
+  "status": "researched-with-gaps",
+  "model": "GPT-6 (Codex)",
+  "effort": "not exposed by runtime; no escalation or helpers",
+  "startedAt": "2026-10-11T05:18:45+00:00",
+  "elapsedSeconds": 40,
+  "sources": [
+    {
+      "publisher": "Royal Society Open Science",
+      "url": "https://royalsocietypublishing.org/doi/10.1098/rsos.180593",
+      "terms": "CC BY4.0, credited to Aird, Ecker, Swire, Berinsky and Lewandowsky (2018), Does truth matter to voters? DOI10.1098/rsos.180593. Aggregated qualitative interpretation only; no politician names/statements copied."
+    },
+    {
+      "publisher": "Cambridge University Press, American Political Science Review",
+      "url": "https://www.cambridge.org/core/journals/american-political-science-review/article/rollcall-vote-selection-implications-for-the-study-of-legislative-politics/FFAD60FB9CA9BBD54F02DE44A1FF0264",
+      "terms": "Publisher displays CC BY; attribution: Carrubba, Gabel and Hug (2020), Roll-Call Vote Selection: Implications for the Study of Legislative Politics. Only methodological finding adopted."
+    }
+  ],
+  "findings": [
+    {
+      "places": [
+        "Australia experiment; not US calibration"
+      ],
+      "measure": "belief versus electoral attitude response",
+      "finding": "Fact corrections changed misinformation beliefs without corresponding reliable politician feeling/voting-intention shifts in this study. This is not evidence that every lie has zero electoral cost or that a US reporter revelation has the same treatment.",
+      "source": "Royal Society Open Science",
+      "sourceUrl": "https://royalsocietypublishing.org/doi/10.1098/rsos.180593",
+      "sourceTerms": "CC BY4.0, credited to Aird, Ecker, Swire, Berinsky and Lewandowsky (2018), Does truth matter to voters? DOI10.1098/rsos.180593. Aggregated qualitative interpretation only; no politician names/statements copied.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    },
+    {
+      "places": [
+        "Legislative roll-call studies; methodological"
+      ],
+      "measure": "record selection",
+      "finding": "Recorded roll calls are selected from legislative voting and can differ from voice/unrecorded decisions. Recorded votes alone are not a representative set of every decision; study does not supply an individual constituent support coefficient.",
+      "source": "Cambridge University Press, American Political Science Review",
+      "sourceUrl": "https://www.cambridge.org/core/journals/american-political-science-review/article/rollcall-vote-selection-implications-for-the-study-of-legislative-politics/FFAD60FB9CA9BBD54F02DE44A1FF0264",
+      "sourceTerms": "Publisher displays CC BY; attribution: Carrubba, Gabel and Hug (2020), Roll-Call Vote Selection: Implications for the Study of Legislative Politics. Only methodological finding adopted.",
+      "retrievedAt": "2026-10-11",
+      "estimated": false
+    }
+  ],
+  "gaps": [
+    {
+      "scope": "Published fact-checking experiment; roll-call selection methodological study",
+      "finding": "US all-level economy/disaster/scandal/record effects, donor/endorsement losses, duration and broken-promise coefficients not established."
+    }
+  ],
+  "termsQuestions": [
+    "Healy/Malhotra2009 disaster study DOI10.1017/S0003055409990104 and Rogers2017 state accountability article found at original publisher; commercial reuse terms not settled, no coefficients adopted."
+  ],
+  "interpretation": "Aggregate observations calibrate totals; they do not choose an individual actor outcome. Legal rules apply only to the stated jurisdiction and vintage. Missing coverage is not legal permission. No excluded source or real-person name is included."
+}

@@ -20,5 +20,14 @@
   ],
   "title": "How voters, family, party and the President react to a governor's disaster handling",
   "usableAnswer": "(1) Vote-share effect of good and of bad disaster handling, current race and later, with a memory length. (2) The typical public reactions and who makes them. (3) How often and in what form the President or national figures comment on a state's handling.",
-  "whyItMatters": "The owner asked on 2026-09-22 for responses to bad and good disaster handling from family, party, people who know the official and voters, and for the President to be asked. In a replay a governor let thirteen requests for federal help lapse and the only consequence was a line in the paper. The game now judges the decision against its own standard and moves support and relationships by placeholders."
+  "whyItMatters": "The owner asked on 2026-09-22 for responses to bad and good disaster handling from family, party, people who know the official and voters, and for the President to be asked. In a replay a governor let thirteen requests for federal help lapse and the only consequence was a line in the paper. The game now judges the decision against its own standard and moves support and relationships by placeholders.",
+  "answer": {
+    "summary": "Original-publisher disaster-accountability study was located, but commercial terms not settled, so no numerical electoral reward, punishment or decay is adopted. A presidential-party spending study would also require separate evidence for a governor declaration-request decision.",
+    "sources": [
+      "https://doi.org/10.1017/S0003055409990104"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:19:25.459410+00:00",
+    "stillOpen": "US all-level economy/disaster/scandal/record effects, donor/endorsement losses, duration and broken-promise coefficients not established."
+  }
 }
