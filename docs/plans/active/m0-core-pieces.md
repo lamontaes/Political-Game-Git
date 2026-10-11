@@ -4,6 +4,10 @@ Before: Engines cannot register indexed tables or keyed institutional work. Vote
 
 After: Three additions will give ports these boundaries while preserving the player clock. Accounts remain owned by SOL-1258.
 
+## Baseline evidence
+
+Inferred: The current facade has fixed state writers and a one-event callback writer, without registered table or voter-group methods. Module registration installs handlers and providers. See [the facade](../../../src/core2/types.ts#L885) and [module registration](../../../src/core2/state.ts#L436).
+
 ## Contract and plan
 
 1. Register module tables with a positive schema version, immutable rows, named indexes, write-time validation, and explicit snapshot/restore checks. Test isolation, index replacement, rejected writes, and schema mismatch.
