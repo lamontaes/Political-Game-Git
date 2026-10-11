@@ -11,8 +11,8 @@ A political and government RPG with a full life simulation underneath. Every Cla
 
 ## Who does what
 
-- **Codex builds.** Modules, ports, data and tests, on draft PRs, from a package spec in `docs/packages/`.
-- **A separate Claude session finishes.** Opus for judgment calls, Sonnet for agreed designs. It checks the build against the package, clears or justifies every placeholder, wires it to the world, fixes defects and writes the owner's report. A builder never grades its own work.
+- **Codex and the Claude engineering account build** (owner, Oct 11), on draft PRs, from a package spec in `docs/packages/`. Codex takes broad and data-heavy work (research, ports, data, tests). The Claude engineering account takes the critical path and work where mistakes cost most (core speed, money, people modeling, and work orders the CTO assigns to it).
+- **A separate Claude session finishes every package; a builder never checks its own work.** Opus for judgment calls, Sonnet for agreed designs. It checks the build against the package, clears or justifies every placeholder, wires it to the world, fixes defects and writes the owner's report.
 - **The CTO merges.** Nobody merges their own PR. The owner approves designs and package text before anything is sent to a session.
 - **One writer per area.** Stack branches on the core; never push to another session's branch. Claim a task on the GitHub Project before starting it.
 - **Helpers.** A helper needs an independently useful bounded output and explicit path/tool ownership; no recursive delegation or duplicate full-repo review. Preserve configured concurrency limits. Model effort is proportional to the actual task (see `model-effort`).
@@ -22,6 +22,7 @@ A political and government RPG with a full life simulation underneath. Every Cla
 Every package names its model and effort with a one-line reason. Balance usage against effectiveness: normally lean toward saving usage (about 60–65% thrift, 35–40% raw power); near or right after a usage reset, about even, or tilted toward effectiveness. Not the cheapest possible, and nothing runs at the top level just because it's available.
 
 - **Codex builds at medium** by default (OpenAI's recommended default for coding). **High** only when the package says why: core architecture, money conservation, or rules every port depends on. **Extra-high only after high has failed** at a named task.
+- **The Claude engineering account builds with Sonnet at high** by default, and **Opus at high** for judgment-heavy design.
 - **Claude finishes with Sonnet at high** for agreed designs, test and tooling checks, and playing features in the bench, where careful checking matters. **Opus at high** only for judgment-heavy finishing: core design, modeling people, or a disputed result. **Max** only after high has failed at a named task. Medium is fine for small, clear fixes.
 - **Helpers:** none by default. At most two for Codex (the repository setting) and three for Claude, and only when the work splits cleanly: independent research, reading many files, or a fresh-context review. Each gets a clear objective, an output format, allowed paths and tools, and is read-only unless the package says otherwise.
 - **One package per session**, then a fresh session. Stop and report instead of escalating when a package keeps failing.
