@@ -58,9 +58,6 @@ function offer(target: string): ActOffer {
   return {
     definition: {
       ...DEFAULT_DATA.actions.find((row) => row.effect === "recover")!,
-      // The fixture tests offer-level bindings; the rest act's own bindings
-      // (P15 grief) need the people module, which this world does not load.
-      reasonBindings: undefined,
       id: "fixture:offer",
       goalKinds: [],
       actKinds: [],
