@@ -3375,5 +3375,25 @@
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
+  },
+  "favorSharedHoursPerYear": {
+    "value": 50,
+    "tag": "TUNABLE",
+    "citation": "Hours of time together a year of sharing a class or workgroup counts for when judging closeness at a later need; Hall (2019) finds about 50 hours make a casual friend and that hours working together count less than socializing; no direct source for a year's worth.",
+    "stopgapId": "SG-P15-favors",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range for hours of friendship time per shared school or work year."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "favorRatePerNeed": {
+    "value": 0.425,
+    "tag": "ESTIMATED",
+    "citation": "Talker Research for Safeway Moving, March 19-25, 2025, 2,000 U.S. adults (opt-in commercial poll): 39% first ask friends for help moving; https://talkerresearch.com/more-than-a-third-secretly-hate-being-asked-to-help-with-moving/",
+    "estimatedFrom": "Solved so 39% of residents' recorded moves draw a favor from at least one person they shared a class or workgroup with; asking friends first is not the same as receiving a favor, and the poll is opt-in. Solved pooled over six generated towns (seeds p15-fall-a to -f; 6,613 recorded moves into the county, 1.02 favors per move).",
+    "stopgapId": "SG-P15-favors"
   }
 }

@@ -1,5 +1,6 @@
 import { OPENING_KIN } from "./opening-kin";
 import { addOpeningFallingOuts } from "./opening-falling-outs";
+import { addOpeningFavors } from "./opening-favors";
 import {
   buildOpeningPeerContacts,
   DEFAULT_OPENING_PEER_DATA,
@@ -603,6 +604,8 @@ export function buildDeepPast(
     }).input;
   // P15 part 3: pairs who shared a class or workgroup may have fallen out.
   withPast = addOpeningFallingOuts(withPast);
+  // P15 part 3: at a recorded move, people the mover knew may have helped.
+  withPast = addOpeningFavors(withPast);
   const result: CoreInput & {
     priorFactsSource: readonly DeepPastFieldSource[];
   } = { ...withPast, priorFactsSource: reports };

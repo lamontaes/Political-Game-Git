@@ -38,7 +38,7 @@ function stageYears(stage: string): number {
 }
 
 /** The years a pair shared, from the date their context began. */
-function sharedYears(
+export function sharedYears(
   person: PersonInput,
   fact: PriorFact,
   opening: ReturnType<typeof makeIsoDate>,
