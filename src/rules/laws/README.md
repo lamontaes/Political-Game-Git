@@ -1,55 +1,17 @@
-# P14 laws — RULES-2 continuation
+# P14 laws — RULES-2 hand-off
 
-Owner-approved REVIEW 25: after offices #3946, elections #3948 and procedure
-#3950, continue the transferred RULES-1 draft #3931, then economy #3932. Own this
-shelf and its release declaration. Old engines unchanged; courts/press parked.
+Owner-approved REVIEW 25 covers local, state and federal together. Draft #3931 continues RULES-1's laws shelf after offices #3946, elections #3948 and legislature/council #3950. The next authorized work is economy #3932. Courts and press remain parked. This is a retained rule shelf; no playable core2 step or independent finisher grade is claimed.
 
-Plan posted in the PR before work: restore missing federal schedule equivalence;
-convert inherited stopgaps to exact core2 fields/markers; correct provenance tags
-without changing values; repair test fixture typing; run scoped golden tests and
-gates. Inherited coverage remains 270 fully lifted KEEP lines plus the partial
-rules listed in the PR. No new World reader/writer or live port is added.
+The CTO's first send-back withdrew stock World/private-helper exclusions. The [source ledger](KEEP-DISPOSITION.md) now records 84 owned physical closures: 19 inherited full rules and 65 newly retained math/helper closures, with no pending owned row. Forty-nine other source functions remain with RULES-4 #3933; twelve of that external owner's receipts are exclusions, not our lifted code or verification. No absent declaration is called lifted.
 
-The inherited married-filing-separately repair was removed. With the bundled
-facts, both the shelf and legacy return `undefined` in 2026 and throw `TypeError`
-for an unread year such as 2030. The retired branch's legacy type union does not
-declare this status; the golden test explicitly exercises the runtime missing-key
-behavior. It is a CTO bug to fix later, not a schedule invented by the KEEP lift.
+The closure includes dated starting/enacted/constitutional law and section precedence; authority and amendments; private tax peer estimation; wage settings and earned-assessment integrity; withholding chronology and ordered allocation requests; housing/student-aid facts and financing requests; teacher/pay/privacy rules; adopted loan terms and federal spending; congressional membership and issue-record judgments; and exact policy/forecast/delivery mathematics. Raw facts come from the same generated World/source corpus as the unchanged native public caller. Separately owned legislature authority, final terms, life/resource/actor outputs remain explicit dated receipts. Native writers apply output requests in their original order, rereading facts between stages. No second World writer, scheduler or evaluator is introduced.
 
-Eight registered stopgaps: missing federal filing-status schedule; 0.1 months of
-pay for non-money effects; reciprocal rank reference weights; rank-only enacted
-preemption; late session-end effective-date fallback; doubled state joint tax
-thresholds; default 90-day enactment interval; half-level starting-law yield offset.
-All have the exact core2 fields and shelf markers. Joint state multiplier and
-non-money felt size are tagged ESTIMATED; their numeric values are unchanged.
+Fourteen new all-56-place golden files compare those public callers, including positive adopted taxes/repeals/shape changes, state minimum and saved-rule overrides, covered loan caps, cuts/aid/defense, section revision/item-veto timing, effective tax-policy ordering, real paycheck and program writers, and earned-work validation. Authored saved-law/monthly-budget/rule/corruption controls are explicitly labeled edge cases. They do not prove spontaneous NPC enactment, exhaustive branch coverage or ordinary core2 effects.
 
-Main's smoke baseline is recorded in #3946. No new-core golden path is claimed.
-The laws shelf and old engine still require caller-owned fact selection, dates,
-authority checks and history integration. Separate finisher and CTO merge.
+Builder gate: **1,978 tests pass in 34 owned files (85.52 seconds)**. Strict scoped TypeScript has zero owned and imported-dependency errors. Scoped eslint/prettier, zero-dice, release PR mode and diff checks pass. One additional assertion initially used the wrong staged-result discriminator; correcting the assertion produced the complete clean rerun. Earlier controlled fixtures needed native national-jurisdiction setup, compensation terms, dated cash cutoffs and nonoverlapping periods; those fixes are in the tests, not old engines.
 
-RULES-2; GPT-6 (Codex), exact runtime variant/configured effort not exposed;
-repository default medium. Start 2026-10-11 00:43 UTC. Usage/cost not exposed.
+The randomly drawn read-only law watch used **US-HI**, seed `rules2-laws-dated:HI`, World `world_70c4d23efde6c098`, on 2026-01-05. The receipt contains local/state/federal jurisdiction and canonical starting-law record IDs. This is a native source-boundary watch, not ordinary NPC passage or a finisher's bench play.
 
-Validation: 1,138 tests in 19 files pass, including all 56 identities. Random draw
-WV, seed `rules2-laws-20261011`. Owned TypeScript diagnostics zero after correcting
-inherited fixture types; the retired branch's imported legacy graph has 102
-baseline diagnostics. Scoped ESLint, Prettier, diff and zero-dice checks pass.
-Implementation ended 2026-10-11 00:47 UTC (~4 minutes). Next: economy #3932.
+All **28 OPEN stopgaps** have exact registry fields and code markers. [The CTO list](CTO-SUSPECTED-BUGS.md) preserves suspected defects and estimates without fixing them: the missing married-filing-separately schedule, rank-only hierarchy, historical former-executive attribution, flow-based teacher counts, minimum-setting cache dependencies, privacy/peer/aid estimates, policy implementation and service-restoration models, coverage gaps, and prior effect/floor/calendar assumptions. Numeric source contracts and tested bounds remain in `parameters.ts` and `legacy-parameters.ts`.
 
-## Complete KEEP disposition continuation
-
-`KEEP-DISPOSITION.md` and `keep-disposition.json` account for all 133 functions
-in the Laws KEEP inventory. Full and partial lifts name their actual renamed
-shelf functions. Whole-function blockers identify their World/history/effect,
-research-transport, private-pipeline or English contracts. Consequence and
-outcome-web functions additionally name the active RULES-4 ownership in #3933;
-this law-in-force branch does not duplicate that work. KEEP rows are not
-reclassified, and blockers do not imply future core2 adapters are impossible.
-
-This continuation adds enacted-rule rank selection, payroll taxable wages and
-tax rounding, monthly interest/revolving payment/rate caps, and teacher school
-year opening. New registrations preserve the floor overwriting a prior wage cap,
-the asymmetric negative payroll rounding, and a common July 1 school year.
-Golden checks compare outputs and errors over all 56 identities. Supporting date
-validation is isolated and not counted as engine KEEP coverage. No old engine is
-edited or wired.
+Hand-off: RULES-2; GPT-6 (Codex), exact runtime variant/configured effort not exposed, repository default medium; no helpers, usage/cost unavailable. Laws rework about **2026-10-11 06:28–07:30 UTC (62 minutes)**, including scoped checks and stack refresh. Shared send-back began 02:19 UTC; one CTO send-back for exclusions that left KEEP math behind. Separate finishing and CTO merge remain pending. Continue economy without waiting for draft review.

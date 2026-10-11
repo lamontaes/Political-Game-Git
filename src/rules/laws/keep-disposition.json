@@ -5,9 +5,14 @@
     "name": "consumerLoanCapAt",
     "inventoryEngine": "laws",
     "keepLines": 23,
-    "status": "partial-not-liftable",
-    "lift": "src/rules/laws/loan-rate-cap.ts",
-    "reason": "Rate-cap decision is already lifted over supplied cap facts. Whole legacy law/World lookup belongs to the core2 data adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/consumer-cap.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/earned-law-pay-integrity.ts",
@@ -15,9 +20,14 @@
     "name": "validateEarnedLawPayAssessment",
     "inventoryEngine": "laws",
     "keepLines": 126,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `recordById`, `makeIsoDate`, `payPayerAt`, `recordsWithFieldValue`, `simulationMinutesBetween`, `resourceFlowTermsAt`, `sameMoney`, `workStatusAt`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/earned-pay-integrity.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["earned-pay-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/enacted-appropriations.ts",
@@ -25,9 +35,16 @@
     "name": "isFamilyAppropriation",
     "inventoryEngine": "laws",
     "keepLines": 12,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Whole function interprets or produces legacy presentation/prose through `APPROPRIATES`. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/clause-rules.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/enacted-appropriations.ts",
@@ -35,9 +52,16 @@
     "name": "statedTermYears",
     "inventoryEngine": "laws",
     "keepLines": 8,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Whole function interprets or produces legacy presentation/prose through `YEAR_WORDS`. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/clause-rules.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/enacted-appropriations.ts",
@@ -45,9 +69,16 @@
     "name": "isAuthorizationCeiling",
     "inventoryEngine": "laws",
     "keepLines": 11,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Whole function interprets or produces legacy presentation/prose through `APPROPRIATES`. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/clause-rules.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/enacted-duties.ts",
@@ -55,9 +86,16 @@
     "name": "spokenDate",
     "inventoryEngine": "laws",
     "keepLines": 8,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Whole function interprets or produces legacy presentation/prose through `MONTHS`. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/clause-rules.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/enacted-duties.ts",
@@ -65,9 +103,16 @@
     "name": "datesStated",
     "inventoryEngine": "laws",
     "keepLines": 13,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Whole function interprets or produces legacy presentation/prose through `MONTHS`. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/clause-rules.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/enacted-duties.ts",
@@ -75,9 +120,16 @@
     "name": "statedComplianceDate",
     "inventoryEngine": "laws",
     "keepLines": 12,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Whole function interprets or produces legacy presentation/prose through `datesStated`. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/clause-rules.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/enacted-program-terms.ts",
@@ -85,9 +137,16 @@
     "name": "firstDate",
     "inventoryEngine": "laws",
     "keepLines": 7,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Whole function interprets or produces legacy presentation/prose through `MONTHS`. Player text belongs to the English engine; migrating that contract would exceed this pure rule lift."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/sunset.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/enacted-program-terms.ts",
@@ -95,9 +154,16 @@
     "name": "programHasEnded",
     "inventoryEngine": "laws",
     "keepLines": 8,
-    "status": "partial-not-liftable",
+    "status": "externally-owned",
     "lift": "src/rules/laws/program-term.ts",
-    "reason": "Date/sunset decision is already lifted as programEndedAtDate. Whole legacy function selects enacted program history and the program date from World; RULES-4 owns new consequence integration."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/sunset.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/enacted-rule-changes.ts",
@@ -105,9 +171,17 @@
     "name": "institutionOfficeBindingAt",
     "inventoryEngine": "laws",
     "keepLines": 30,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `ruleChangeConsequenceBindingHistoryRecords`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/recorded-rule-changes.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": [
+        "rule-issue-history-world.test.ts",
+        "enacted-terms-world.test.ts"
+      ],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/enacted-rule-changes.ts",
@@ -115,9 +189,14 @@
     "name": "wholeOrNull",
     "inventoryEngine": "laws",
     "keepLines": 6,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/rule-value.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["rule-authority-native.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/enacted-rule-changes.ts",
@@ -125,9 +204,17 @@
     "name": "enactedRuleChanges",
     "inventoryEngine": "laws",
     "keepLines": 97,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `ruleChangeProvisionHistoryRecords`, `FEDERAL_JURISDICTION_KEY`, `enactmentStatuteDateContext`, `operativeDateForEnactment`, `SILENT`, `stateRuleBasis`, `requireMeasure`, `constitutionalStateUsps`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/recorded-rule-changes.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": [
+        "rule-issue-history-world.test.ts",
+        "enacted-terms-world.test.ts"
+      ],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/enacted-rule-changes.ts",
@@ -135,9 +222,17 @@
     "name": "enactedRuleChangeAt",
     "inventoryEngine": "laws",
     "keepLines": 20,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `isAmendableRuleField`, `enactedRuleChanges`, `ruleChangeInForce`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/recorded-rule-changes.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": [
+        "rule-issue-history-world.test.ts",
+        "enacted-terms-world.test.ts"
+      ],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/enacted-rule-changes.ts",
@@ -155,9 +250,14 @@
     "name": "initialPrivacyComplianceEstimate",
     "inventoryEngine": "laws",
     "keepLines": 26,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`ccpaCosts`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/privacy-estimate.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["withholding-native.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/federal-data-privacy-law.ts",
@@ -165,9 +265,14 @@
     "name": "dataPrivacyInitialCostOn",
     "inventoryEngine": "laws",
     "keepLines": 108,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `organizationProfileAt`, `ESTIMATED_PRIVACY_REVENUE_THRESHOLD_DOLLARS`, `NATIONAL_DATA_PRIVACY_QUESTION`, `lawInForce`, `NATIONAL_ELECTION_JURISDICTION`, `startingLawTerms`, `startingLawScope`, `recordsWithFieldValue`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/privacy-cost.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["privacy-teacher-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/federal-defense-spending.ts",
@@ -175,9 +280,14 @@
     "name": "defenseBuildUpShare",
     "inventoryEngine": "laws",
     "keepLines": 39,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `federalLawInForceAt`, `GROW_DEFENSE_SPENDING_QUESTION`, `readFinalEnactedLawTerm`, `recordedFederalAnnualSpendingBefore`, `FEDERAL_OUTLAYS`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/recorded-outlays.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-outlay-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/federal-outlay-laws.ts",
@@ -185,9 +295,14 @@
     "name": "federalLawAmountAt",
     "inventoryEngine": "laws",
     "keepLines": 22,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `federalLawInForceAt`, `readFinalEnactedLawTerm`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/recorded-outlays.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-outlay-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/federal-outlay-laws.ts",
@@ -195,9 +310,14 @@
     "name": "recordedFederalAnnualSpendingBefore",
     "inventoryEngine": "laws",
     "keepLines": 33,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `(world.publicBudgets?.federalGovernment?.months ?? [])\n    .filter((row) => row.month < before && row.month <= world.currentDate)\n    .slice`, `(world.publicBudgets?.federalGovernment?.months ?? [])\n    .filter`, `date.slice`, `rows.some`, `ordinal`, `rows.map`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/recorded-outlays.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-outlay-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/federal-outlay-laws.ts",
@@ -205,9 +325,14 @@
     "name": "federalOutlayChangeAt",
     "inventoryEngine": "laws",
     "keepLines": 39,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `federalLawAmountAt`, `DEBT_LIMIT_CUTS_QUESTION`, `INCREASE_FOREIGN_AID_QUESTION`, `recordedFederalAnnualSpendingBefore`, `FEDERAL_OUTLAYS`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/recorded-outlays.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-outlay-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/federal-outlay-laws.ts",
@@ -215,9 +340,14 @@
     "name": "federalOutlayLawLineChangesAt",
     "inventoryEngine": "laws",
     "keepLines": 64,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `federalLawAmountAt`, `INCREASE_FOREIGN_AID_QUESTION`, `FEDERAL_OUTLAYS`, `recordedFederalAnnualSpendingBefore`, `DEBT_LIMIT_CUTS_QUESTION`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/recorded-outlays.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-outlay-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/federal-outlay-laws.ts",
@@ -225,9 +355,14 @@
     "name": "federalDeficitChangePctOfGdp",
     "inventoryEngine": "laws",
     "keepLines": 9,
-    "status": "partial-not-liftable",
-    "lift": "src/rules/laws/federal-outlay.ts",
-    "reason": "Deficit/GDP arithmetic is lifted over supplied spending/output facts. Whole legacy World law and account selection remains with the adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/recorded-outlays.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-outlay-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/federal-outlay-laws.ts",
@@ -235,9 +370,14 @@
     "name": "federalAidFactor",
     "inventoryEngine": "laws",
     "keepLines": 14,
-    "status": "partial-not-liftable",
-    "lift": "src/rules/laws/federal-outlay.ts",
-    "reason": "Aid-factor arithmetic is lifted over supplied current/reference outlay facts. Whole legacy World law selection remains with the adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/recorded-outlays.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-outlay-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/federal-top-income-tax-law.ts",
@@ -245,9 +385,14 @@
     "name": "federalIncomeTaxUnderLaw",
     "inventoryEngine": "laws",
     "keepLines": 48,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `federalIncomeTaxScheduleFor`, `RAISE_TOP_FEDERAL_RATE_QUESTION`, `lawInForce`, `NATIONAL_ELECTION_JURISDICTION`, `readFinalEnactedLawTerm`, `withTopRate`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/federal-tax-law.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-outlay-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/governing/institution-authority.ts",
@@ -255,9 +400,14 @@
     "name": "congressChamberOf",
     "inventoryEngine": "laws",
     "keepLines": 17,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `projectCongress`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/institution-membership.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["institution-membership-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/governing/law-in-force.ts",
@@ -265,9 +415,14 @@
     "name": "lawInForce",
     "inventoryEngine": "laws",
     "keepLines": 114,
-    "status": "partial-not-liftable",
-    "lift": "src/rules/laws/law-in-force.ts",
-    "reason": "Rank/preemption/starting-law selection kernel is lifted as lawInForceFromCandidates. Whole legacy reader performs authority, place, operative-date and judicial-history selection; those old World reads cannot be copied into the pure shelf."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/dated-law.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["dated-law-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/governing/law-in-force.ts",
@@ -275,9 +430,14 @@
     "name": "startingLawRowAt",
     "inventoryEngine": "laws",
     "keepLines": 31,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`makeIsoDate`, `STARTING_LAW`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/dated-law.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["dated-law-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/governing/law-in-force.ts",
@@ -285,9 +445,14 @@
     "name": "startingLawTerms",
     "inventoryEngine": "laws",
     "keepLines": 22,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`selectedStartingLawRow`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/dated-law.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["dated-law-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/governing/law-in-force.ts",
@@ -295,9 +460,14 @@
     "name": "startingLawScope",
     "inventoryEngine": "laws",
     "keepLines": 14,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`selectedStartingLawRow`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/dated-law.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["dated-law-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/governing/law-in-force.ts",
@@ -325,9 +495,14 @@
     "name": "dollars",
     "inventoryEngine": "laws",
     "keepLines": 7,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Currency formatting with toLocaleString produces player wording. It belongs to the English/presentation engine, not a pure law-in-force shelf."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/program-forecast.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["program-preview-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/governing/public-program.ts",
@@ -335,9 +510,14 @@
     "name": "forecastProgramAlternative",
     "inventoryEngine": "laws",
     "keepLines": 101,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `publicGovernmentIdentityForRecord`, `programCapacity`, `appropriationCommittedMinorUnits`, `resourcePositionAt`, `dollars`, `money`, `addDays`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/program-forecast.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["program-preview-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/governing/public-program.ts",
@@ -345,9 +525,14 @@
     "name": "programDeliveryHandler",
     "inventoryEngine": "laws",
     "keepLines": 57,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `dueTarget`, `resolved`, `programInstallments`, `publicGovernmentIdentityForRecord`, `programOutturns`, `recordCapacityOutturn`, `applyPublicProgramCapacityOutturnReceivers`, `closeWorkIfDone`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/program-delivery.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["program-delivery-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/governing/statute-effective-date.ts",
@@ -375,9 +560,19 @@
     "name": "stateStatuteOperativeAt",
     "inventoryEngine": "laws",
     "keepLines": 74,
-    "status": "partial-not-liftable",
-    "lift": "src/rules/laws/effective-date.ts",
-    "reason": "Operative-date arithmetic is lifted over supplied statute rule/session rows. The whole original resolves statuteEffectiveRule and stateSessionEnds from research, which the caller must supply."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/shared-legislature-rules.ts",
+    "reason": "Physical reexports of the preceding own legislature/laws kernels, not delegation to old rule implementations. Native-public-caller all-56 proof is the preceding upstream 3,875-test gate plus inherited tax-schedule goldens. No duplicate outcome ownership or independent finisher claim.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": [
+        "../legislatures/research-native.test.ts",
+        "../legislatures/admission-world.test.ts",
+        "../legislatures/research-native.test.ts",
+        "federal-income-tax-schedule.test.ts"
+      ],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/governing/statute-effective-date.ts",
@@ -425,9 +620,14 @@
     "name": "housingVoucherIncomeScope",
     "inventoryEngine": "laws",
     "keepLines": 93,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `householdMembershipsAt`, `householdLocationAt`, `lifePlaceByJurisdictionId`, `stateKeysById`, `incomeScope`, `peopleInHouseholdAt`, `recordedMonthlyPayByPerson`, `ageOnDate`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/housing-income.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["household-aid-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/income-tax-withholding.ts",
@@ -435,9 +635,19 @@
     "name": "federalIncomeTaxScheduleFor",
     "inventoryEngine": "laws",
     "keepLines": 37,
-    "status": "partial-not-liftable",
-    "lift": "src/rules/laws/federal-income-tax-schedule.ts",
-    "reason": "Complete schedule decision/error kernel is lifted from caller-selected records, including missing-status undefined/TypeError behavior. The whole legacy function captures FEDERAL_SCHEDULE_DATA research transport; that reader stays outside."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/shared-legislature-rules.ts",
+    "reason": "Physical reexports of the preceding own legislature/laws kernels, not delegation to old rule implementations. Native-public-caller all-56 proof is the preceding upstream 3,875-test gate plus inherited tax-schedule goldens. No duplicate outcome ownership or independent finisher claim.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": [
+        "../legislatures/research-native.test.ts",
+        "../legislatures/admission-world.test.ts",
+        "../legislatures/research-native.test.ts",
+        "federal-income-tax-schedule.test.ts"
+      ],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/income-tax-withholding.ts",
@@ -465,9 +675,14 @@
     "name": "stateDeductionEstimate",
     "inventoryEngine": "laws",
     "keepLines": 47,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`DEDUCTION_ESTIMATES`, `STATE_PLACES`, `householdIncomeDollars`, `censusRegionOf`, `reciprocalRankedReferences`, `weightedReferenceMean`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/withholding-facts.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["withholding-native.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/income-tax-withholding.ts",
@@ -485,9 +700,14 @@
     "name": "stateIncomeTaxSchedule",
     "inventoryEngine": "laws",
     "keepLines": 52,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`STATE_PLACES`, `stateDeductionEstimate`, `STATE_FILING_STATUS_NOTE`, `STATE_SOURCE`, `stateScheduleForFilingStatus`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/withholding-facts.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["withholding-native.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/income-tax-withholding.ts",
@@ -495,9 +715,14 @@
     "name": "filingStatusAt",
     "inventoryEngine": "laws",
     "keepLines": 23,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `activePartnershipsAt`, `householdMembershipsAt`, `childrenOf`, `daysBetween`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/withholding-facts.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["withholding-native.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/income-tax-withholding.ts",
@@ -505,9 +730,14 @@
     "name": "payPeriodsPerYear",
     "inventoryEngine": "laws",
     "keepLines": 11,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`daysBetween`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/withholding-facts.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["withholding-native.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/income-tax-withholding.ts",
@@ -535,9 +765,14 @@
     "name": "judgeIssueRecord",
     "inventoryEngine": "laws",
     "keepLines": 71,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `issueStandingsFor`, `isEligibleVoterIn`, `UNRESEARCHED_ISSUE_RECORD`, `heldBeliefOn`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/issue-judgment.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["rule-issue-history-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/law-consequence-amount.ts",
@@ -545,9 +780,16 @@
     "name": "evaluateLawAmount",
     "inventoryEngine": "laws",
     "keepLines": 77,
-    "status": "lifted",
+    "status": "externally-owned",
     "lift": "src/rules/laws/law-amount.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/amount.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/law-consequences/legal-outcome.ts",
@@ -555,9 +797,16 @@
     "name": "assertLegalOutcomeConsequenceIntegrity",
     "inventoryEngine": "laws",
     "keepLines": 68,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "not-liftable",
+      "destination": null
+    }
   },
   {
     "sourceFile": "src/simulation/law-consequences/modules/lw08-development-incentive-cap/index.ts",
@@ -565,9 +814,16 @@
     "name": "operativeAwardTerms",
     "inventoryEngine": "laws",
     "keepLines": 37,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/award-terms.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/law-consequences/modules/snap-participation/index.ts",
@@ -575,9 +831,16 @@
     "name": "candidateFor",
     "inventoryEngine": "laws",
     "keepLines": 71,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "not-liftable",
+      "destination": null
+    }
   },
   {
     "sourceFile": "src/simulation/law-consequences/modules/snap-participation/index.ts",
@@ -585,9 +848,16 @@
     "name": "rankRemoval",
     "inventoryEngine": "laws",
     "keepLines": 12,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its records/links are supplied by that separately owned outcome module."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/snap-order.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/law-consequences/modules/snap-participation/index.ts",
@@ -595,9 +865,16 @@
     "name": "resolveSnapParticipation",
     "inventoryEngine": "laws",
     "keepLines": 139,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "not-liftable",
+      "destination": null
+    }
   },
   {
     "sourceFile": "src/simulation/law-consequences/modules/snap-participation/index.ts",
@@ -605,9 +882,16 @@
     "name": "applySnapParticipation",
     "inventoryEngine": "laws",
     "keepLines": 112,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "not-liftable",
+      "destination": null
+    }
   },
   {
     "sourceFile": "src/simulation/law-consequences/price-cost.ts",
@@ -615,9 +899,16 @@
     "name": "applyPriceCostConsequence",
     "inventoryEngine": "laws",
     "keepLines": 117,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "not-liftable",
+      "destination": null
+    }
   },
   {
     "sourceFile": "src/simulation/law-consequences/service-delivered.ts",
@@ -625,9 +916,16 @@
     "name": "paidServiceRecipients",
     "inventoryEngine": "laws",
     "keepLines": 130,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "not-liftable",
+      "destination": null
+    }
   },
   {
     "sourceFile": "src/simulation/law-consequences/service-delivered.ts",
@@ -635,9 +933,16 @@
     "name": "exposeServiceRecipients",
     "inventoryEngine": "laws",
     "keepLines": 36,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "not-liftable",
+      "destination": null
+    }
   },
   {
     "sourceFile": "src/simulation/law-consequences/tax.ts",
@@ -645,9 +950,16 @@
     "name": "resolveSavedTaxConsequences",
     "inventoryEngine": "laws",
     "keepLines": 129,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "not-liftable",
+      "destination": null
+    }
   },
   {
     "sourceFile": "src/simulation/law-effects-noticed.ts",
@@ -655,9 +967,16 @@
     "name": "noticeLawPayChanges",
     "inventoryEngine": "laws",
     "keepLines": 62,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `addDays`, `LOOK_BACK_DAYS`, `recordById`, `LAW_EFFECTS_NOTICED_VERSION`, `periodsPerYear`, `recordLawExposure`, `money`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "not-liftable",
+      "destination": null
+    }
   },
   {
     "sourceFile": "src/simulation/law-exposure.ts",
@@ -665,9 +984,16 @@
     "name": "lawExposureFeltSize",
     "inventoryEngine": "laws",
     "keepLines": 15,
-    "status": "lifted",
+    "status": "externally-owned",
     "lift": "src/rules/laws/law-exposure.ts",
-    "reason": "Complete felt-size formula is already lifted as lawExposureFeltSizeFromFacts; the amount is projected to its minor-unit value without changing decisions. The non-money proxy is registered."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/exposure.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/law-hierarchy.ts",
@@ -695,9 +1021,14 @@
     "name": "governmentMayEnactVariant",
     "inventoryEngine": "laws",
     "keepLines": 30,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`programVariant`, `declaredLevels`, `GOVERNMENT_LEVELS`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/variant-authority.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["rule-authority-native.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/legislative-effective-date.ts",
@@ -705,9 +1036,14 @@
     "name": "operativeDateForEnactment",
     "inventoryEngine": "laws",
     "keepLines": 50,
-    "status": "partial-not-liftable",
-    "lift": "src/rules/laws/effective-date.ts",
-    "reason": "Operative-date decision is lifted over supplied state rule/session facts, including the registered default interval. The whole original resolves state law rows through the legacy reader."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/enactment-calendar.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["dated-law-world.test.ts", "rule-issue-history-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/minimum-wage.ts",
@@ -715,9 +1051,14 @@
     "name": "startingStateMinimumHourly",
     "inventoryEngine": "laws",
     "keepLines": 9,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`TOWN_MINIMUM_WAGES`, `FEDERAL_MINIMUM_HOURLY`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/minimum-hourly.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["withholding-native.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/minimum-wage.ts",
@@ -725,9 +1066,14 @@
     "name": "minimumHourlyAt",
     "inventoryEngine": "laws",
     "keepLines": 8,
-    "status": "partial-not-liftable",
-    "lift": "src/rules/laws/minimum-wage-setting.ts",
-    "reason": "Highest applicable floor selection is already lifted over supplied law facts. Whole legacy place, enactment and effective-date World lookup cannot be copied."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/minimum-hourly.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["withholding-native.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/electricity-generation-mix.ts",
@@ -735,9 +1081,16 @@
     "name": "electricityGenerationMixOutcomeBases",
     "inventoryEngine": "laws",
     "keepLines": 52,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its records/links are supplied by that separately owned outcome module."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/generation-bases.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/index.ts",
@@ -745,9 +1098,16 @@
     "name": "stateMinimumHourlyAt",
     "inventoryEngine": "laws",
     "keepLines": 17,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/measure-values.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/index.ts",
@@ -755,9 +1115,16 @@
     "name": "outcomeMeasure",
     "inventoryEngine": "laws",
     "keepLines": 79,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its records/links are supplied by that separately owned outcome module."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/index.ts",
@@ -765,9 +1132,16 @@
     "name": "outcomeRangeViolations",
     "inventoryEngine": "laws",
     "keepLines": 39,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its records/links are supplied by that separately owned outcome module."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/index.ts",
@@ -775,9 +1149,16 @@
     "name": "shapedLinkFactor",
     "inventoryEngine": "laws",
     "keepLines": 40,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Owned by the active Laws consequence/outcome-web continuation RULES-4 in #3933, src/rules/outcome-web/. Copying it here would duplicate the separately owned consequence rule. Its lift/disposition belongs in that PR."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/link-factor.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/index.ts",
@@ -785,9 +1166,16 @@
     "name": "lagged",
     "inventoryEngine": "laws",
     "keepLines": 4,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its records/links are supplied by that separately owned outcome module."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/index.ts",
@@ -795,9 +1183,16 @@
     "name": "outcomeFactor",
     "inventoryEngine": "laws",
     "keepLines": 66,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/index.ts",
@@ -805,9 +1200,16 @@
     "name": "acuteWeight",
     "inventoryEngine": "laws",
     "keepLines": 8,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its records/links are supplied by that separately owned outcome module."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/outcome-readers.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/person-outcome-landings.ts",
@@ -815,9 +1217,16 @@
     "name": "matchesOutcomeRecipientRule",
     "inventoryEngine": "laws",
     "keepLines": 88,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its records/links are supplied by that separately owned outcome module."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/recipient.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/person-outcome-landings.ts",
@@ -825,9 +1234,16 @@
     "name": "outcomeLandingDirection",
     "inventoryEngine": "laws",
     "keepLines": 10,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Owned by active RULES-4 consequence/outcome-web #3933, src/rules/outcome-web/. Law-in-force scope does not own landing direction; no duplicate is added."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/landing-direction.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/person-outcome-landings.ts",
@@ -835,9 +1251,16 @@
     "name": "outcomeRecipientsAt",
     "inventoryEngine": "laws",
     "keepLines": 388,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "not-liftable",
+      "destination": null
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/person-outcome-landings.ts",
@@ -845,9 +1268,16 @@
     "name": "recordedFarmOperatorsAt",
     "inventoryEngine": "laws",
     "keepLines": 58,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "not-liftable",
+      "destination": null
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/person-outcome-landings.ts",
@@ -855,9 +1285,16 @@
     "name": "educationEnrollmentsAt",
     "inventoryEngine": "laws",
     "keepLines": 44,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "not-liftable",
+      "destination": null
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/place-outcome-store.ts",
@@ -865,9 +1302,16 @@
     "name": "localWeights",
     "inventoryEngine": "laws",
     "keepLines": 57,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its records/links are supplied by that separately owned outcome module."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/place-values.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/outcome-web/place-outcomes.ts",
@@ -875,9 +1319,16 @@
     "name": "placeOutcomesForMonth",
     "inventoryEngine": "laws",
     "keepLines": 113,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Consequence/outcome function belongs to active RULES-4 #3933 and src/rules/outcome-web/, outside this law-in-force branch ownership. Its whole legacy World/effect pipeline also requires a fact/effect adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/place-month.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/paid-leave-benefits.ts",
@@ -885,9 +1336,16 @@
     "name": "paidLeaveBenefitRate",
     "inventoryEngine": "laws",
     "keepLines": 44,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `paidLeavePremium`, `MAX_WEEKLY`, `chiefExecutiveJurisdiction`, `PAID_LEAVE_QUESTION`, `lawInForce`, `readFinalEnactedLawTerm`, `PLACES`, `rankedPaidLeaveEstimate`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/paid-leave-benefits.ts",
@@ -895,9 +1353,16 @@
     "name": "paidLeaveCoveredDays",
     "inventoryEngine": "laws",
     "keepLines": 12,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`PAID_LEAVE_BENEFIT_RULES`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/paid-leave-benefits.ts",
@@ -905,9 +1370,16 @@
     "name": "paidLeaveBenefitMinor",
     "inventoryEngine": "laws",
     "keepLines": 14,
-    "status": "lifted",
+    "status": "externally-owned",
     "lift": "src/rules/laws/paid-leave.ts",
-    "reason": "Complete supplied-rate benefit formula is already lifted as paidLeaveBenefitFromFacts. RULES-4 owns additional consequence/outcome integration on #3933; no new duplicate is added."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/paid-leave-estimates.ts",
@@ -915,9 +1387,16 @@
     "name": "rankedPaidLeaveEstimate",
     "inventoryEngine": "laws",
     "keepLines": 46,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`CACHE`, `INCOMES`, `censusRegionOf`, `SOURCES`, `reciprocalRankedReferences`, `weightedReferenceMean`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/ranked-leave-estimate.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/policy-provisions.ts",
@@ -925,9 +1404,19 @@
     "name": "constitutionalPolicyProvisions",
     "inventoryEngine": "laws",
     "keepLines": 59,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `constitutionalStateUsps`, `constitutionalPosition`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/shared-legislature-rules.ts",
+    "reason": "Physical reexports of the preceding own legislature/laws kernels, not delegation to old rule implementations. Native-public-caller all-56 proof is the preceding upstream 3,875-test gate plus inherited tax-schedule goldens. No duplicate outcome ownership or independent finisher claim.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": [
+        "../legislatures/research-native.test.ts",
+        "../legislatures/admission-world.test.ts",
+        "../legislatures/research-native.test.ts",
+        "federal-income-tax-schedule.test.ts"
+      ],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/policy-semantics.ts",
@@ -935,9 +1424,14 @@
     "name": "operationResult",
     "inventoryEngine": "laws",
     "keepLines": 45,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `cloneMetricValue`, `negateMetricValue`, `addMetricValues`, `scaleMetricValue`, `requirePolicyBaseline`, `compareMetricValues`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/policy-math.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["policy-native-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/policy-semantics.ts",
@@ -945,9 +1439,14 @@
     "name": "triggerSatisfied",
     "inventoryEngine": "laws",
     "keepLines": 11,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `requirePolicyBaseline`, `compareMetricValues`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/policy-math.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["policy-native-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/policy-semantics.ts",
@@ -955,9 +1454,14 @@
     "name": "isCanonicalRealizedPolicyEffect",
     "inventoryEngine": "laws",
     "keepLines": 31,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`metricValueSign`, `sameMetricScope`, `absoluteMetricValue`, `effectMagnitudeBasisMatchesOperation`, `sameEntityIds`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/policy-math.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["policy-native-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/policy-semantics.ts",
@@ -965,9 +1469,14 @@
     "name": "constrainedFactorReasonKeys",
     "inventoryEngine": "laws",
     "keepLines": 10,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`createExactQuantity`, `canonicalSemanticKeys`, `compareExactQuantities`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/policy-math.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["policy-native-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/policy-semantics.ts",
@@ -975,9 +1484,14 @@
     "name": "coverageShare",
     "inventoryEngine": "laws",
     "keepLines": 24,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`assertCompatibleMetricValues`, `assertNonnegativeMetricValue`, `isZeroMetricValue`, `createExactQuantity`, `compareMetricValues`, `divideExactQuantities`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/policy-math.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["policy-native-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/policy-semantics.ts",
@@ -985,9 +1499,14 @@
     "name": "absoluteMetricValue",
     "inventoryEngine": "laws",
     "keepLines": 5,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`metricValueSign`, `negateMetricValue`, `cloneMetricValue`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/policy-math.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["policy-native-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/policy-semantics.ts",
@@ -995,9 +1514,14 @@
     "name": "compareMetricValues",
     "inventoryEngine": "laws",
     "keepLines": 17,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`assertCompatibleMetricValues`, `compareExactQuantities`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/policy-math.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["policy-native-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/policy-semantics.ts",
@@ -1005,9 +1529,14 @@
     "name": "metricValueSign",
     "inventoryEngine": "laws",
     "keepLines": 5,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/policy-math.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["policy-native-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/policy-semantics.ts",
@@ -1015,9 +1544,14 @@
     "name": "policyRecordAvailable",
     "inventoryEngine": "laws",
     "keepLines": 9,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/policy-math.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["policy-native-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/public-benefit-formulas.ts",
@@ -1025,9 +1559,16 @@
     "name": "povertyLineMinor",
     "inventoryEngine": "laws",
     "keepLines": 9,
-    "status": "lifted",
+    "status": "externally-owned",
     "lift": "src/rules/laws/public-benefits.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/public-benefit-formulas.ts",
@@ -1035,9 +1576,16 @@
     "name": "amortizedMonthlyPaymentMinor",
     "inventoryEngine": "laws",
     "keepLines": 12,
-    "status": "lifted",
+    "status": "externally-owned",
     "lift": "src/rules/laws/public-benefits.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/public-benefit-formulas.ts",
@@ -1045,9 +1593,16 @@
     "name": "monthlyInterestMinor",
     "inventoryEngine": "laws",
     "keepLines": 7,
-    "status": "lifted",
+    "status": "externally-owned",
     "lift": "src/rules/laws/loan-arithmetic.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/public-benefit-formulas.ts",
@@ -1055,9 +1610,16 @@
     "name": "revolvingMinimumPaymentMinor",
     "inventoryEngine": "laws",
     "keepLines": 14,
-    "status": "lifted",
+    "status": "externally-owned",
     "lift": "src/rules/laws/loan-arithmetic.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/public-benefit-formulas.ts",
@@ -1065,9 +1627,16 @@
     "name": "cappedAnnualRateBasisPoints",
     "inventoryEngine": "laws",
     "keepLines": 8,
-    "status": "lifted",
+    "status": "externally-owned",
     "lift": "src/rules/laws/loan-arithmetic.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/benefits.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/state-income-tax-law.ts",
@@ -1075,9 +1644,14 @@
     "name": "stateIncomeTaxUnderLaw",
     "inventoryEngine": "laws",
     "keepLines": 175,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `STATE_PLACES`, `chiefExecutiveJurisdiction`, `governingLaw`, `ADOPT_STATE_INCOME_TAX_QUESTION`, `GRADUATED_STATE_INCOME_TAX_QUESTION`, `readFinalEnactedLawSchedule`, `stateScheduleForFilingStatus`, `readFinalEnactedLawTerm`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/tax-law-schedules.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-outlay-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/state-income-tax-law.ts",
@@ -1085,9 +1659,14 @@
     "name": "bracketsOf",
     "inventoryEngine": "laws",
     "keepLines": 5,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Private helper has no independently callable unchanged legacy oracle and its owning pipeline is not lifted. Copying it alone would leave an unverified detached helper; exposing it in the old engine is forbidden. It must be lifted with a golden-tested owning rule."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/tax-law-schedules.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-outlay-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/state-income-tax-law.ts",
@@ -1095,9 +1674,14 @@
     "name": "scheduleReferences",
     "inventoryEngine": "laws",
     "keepLines": 32,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`HOUSEHOLD_INCOMES`, `censusRegionOf`, `STATE_PLACES`, `reciprocalRankedReferences`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/tax-law-schedules.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-outlay-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/state-income-tax-law.ts",
@@ -1105,9 +1689,14 @@
     "name": "estimatedSchedule",
     "inventoryEngine": "laws",
     "keepLines": 80,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`ESTIMATED_SCHEDULES`, `scheduleReferences`, `weightedReferenceMean`, `annualTax`, `bracketsOf`, `GRADUATED_STEPS_DOLLARS`, `HOUSEHOLD_INCOMES`, `STATE_SOURCE`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/tax-law-schedules.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-outlay-world.test.ts", "enacted-terms-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/state-paid-leave-law.ts",
@@ -1115,9 +1704,16 @@
     "name": "paidLeavePremium",
     "inventoryEngine": "laws",
     "keepLines": 82,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `chiefExecutiveJurisdiction`, `PAID_LEAVE_QUESTION`, `PLACES`, `lawInForce`, `lawInForceAtStart`, `ANY_START`, `collectsFrom`, `readPremium`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/state-paid-leave-law.ts",
@@ -1125,9 +1721,16 @@
     "name": "collectsFrom",
     "inventoryEngine": "laws",
     "keepLines": 13,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `lawInForceAtStart`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/state-paid-leave-law.ts",
@@ -1135,9 +1738,16 @@
     "name": "estimatedPremium",
     "inventoryEngine": "laws",
     "keepLines": 20,
-    "status": "not-liftable",
+    "status": "externally-owned",
     "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `rankedPaidLeaveEstimate`, `COMMON_WAGE_CAP_DOLLARS`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/state-paid-leave-law.ts",
@@ -1145,9 +1755,16 @@
     "name": "premiumOn",
     "inventoryEngine": "laws",
     "keepLines": 19,
-    "status": "lifted",
+    "status": "externally-owned",
     "lift": "src/rules/laws/paid-leave.ts",
-    "reason": "Complete cap and premium calculation is lifted as paidLeavePremiumOnFromFacts over the same supplied numeric facts; unchanged legacy golden tests cover all 56 identities."
+    "reason": "Existing separate outcome/consequence ownership, not our lift or validation claim. External receipt includes unlifted exclusions; do not count absent code as lifted.",
+    "externalReceipt": {
+      "owner": "RULES-4",
+      "pr": 3933,
+      "head": "e2a04b9e27fb135af3a60f0b6cacc4ee7dd57186",
+      "disposition": "lifted",
+      "destination": "src/rules/outcome-web/paid-leave.ts"
+    }
   },
   {
     "sourceFile": "src/simulation/statutory-tax.ts",
@@ -1155,9 +1772,14 @@
     "name": "federalCoverageGap",
     "inventoryEngine": "laws",
     "keepLines": 19,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `FIRST_VERIFIED_TAX_YEAR`, `isTerritory`, `organizationProfileAt`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/payroll-records.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-occurrence-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/statutory-tax.ts",
@@ -1165,9 +1787,14 @@
     "name": "wagesPaidEarlierThisYear",
     "inventoryEngine": "laws",
     "keepLines": 27,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `resourceFlowsTouching`, `sameOwner`, `resourceTransferOutcomesOfFlows`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/payroll-records.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-occurrence-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/statutory-tax.ts",
@@ -1195,9 +1822,14 @@
     "name": "withholdTo",
     "inventoryEngine": "laws",
     "keepLines": 84,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `NATIONAL_ELECTION_JURISDICTION`, `ensureTaxPublicAccount`, `ensureNationalElectionJurisdiction`, `publicOrganizationKey`, `resourcePositionAt`, `createResourceFlow`, `money`, `PAYROLL_WITHHOLDING_BASIS`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/withholding-plan.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-occurrence-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/student-aid-facts.ts",
@@ -1205,9 +1837,14 @@
     "name": "recordedStudentAidFacts",
     "inventoryEngine": "laws",
     "keepLines": 66,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `educationEnrollmentStateAt`, `SOURCE_AVAILABLE_BY`, `studyProgressSummary`, `activePartnershipsAt`, `ageOnDate`, `LIMITS`, `money`, `LIMITS_SOURCE`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/student-aid.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["household-aid-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/student-aid-facts.ts",
@@ -1215,9 +1852,14 @@
     "name": "financeStudentTuitionWithSavedAidFacts",
     "inventoryEngine": "laws",
     "keepLines": 63,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `validateRecordedStudentFinancingInput`, `recordedStudentAidFacts`, `householdLoansOf`, `loanBalanceComponentsAt`, `financeRecordedStudentTuition`, `money`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/student-aid.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["household-aid-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/tax-policy.ts",
@@ -1225,9 +1867,19 @@
     "name": "taxPolicyEffectiveDate",
     "inventoryEngine": "laws",
     "keepLines": 19,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`addDays`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/shared-legislature-rules.ts",
+    "reason": "Physical reexports of the preceding own legislature/laws kernels, not delegation to old rule implementations. Native-public-caller all-56 proof is the preceding upstream 3,875-test gate plus inherited tax-schedule goldens. No duplicate outcome ownership or independent finisher claim.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": [
+        "../legislatures/research-native.test.ts",
+        "../legislatures/admission-world.test.ts",
+        "../legislatures/research-native.test.ts",
+        "federal-income-tax-schedule.test.ts"
+      ],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/tax-policy.ts",
@@ -1235,9 +1887,14 @@
     "name": "effectiveTaxPolicy",
     "inventoryEngine": "laws",
     "keepLines": 15,
-    "status": "partial-not-liftable",
-    "lift": "src/rules/laws/effective-tax-policy.ts",
-    "reason": "Effective-policy selection is lifted over supplied history/enactment facts. Whole legacy World history and source lookup cannot be copied into a pure shelf."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/tax-preview.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["program-preview-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/tax-policy.ts",
@@ -1245,9 +1902,14 @@
     "name": "previewTax",
     "inventoryEngine": "laws",
     "keepLines": 55,
-    "status": "partial-not-liftable",
-    "lift": "src/rules/laws/tax-assessment.ts",
-    "reason": "Assessment arithmetic is lifted as taxAssessmentFromFacts. The whole legacy preview also validates legacy TaxTerms and serializes unavailable/errors through canonicalJson and player reasons; those output contracts are not copied."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/tax-preview.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["program-preview-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/tax-policy.ts",
@@ -1255,9 +1917,14 @@
     "name": "taxBaseOccurrenceSource",
     "inventoryEngine": "laws",
     "keepLines": 163,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `eventById`, `NATIONAL_ELECTION_JURISDICTION`, `stateJurisdictionForKey`, `recordById`, `recordedPaycheckTaxInput`, `recordsByStringField`, `publicTaxAccountForJurisdiction`, `canonicalJson`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/tax-occurrence.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-occurrence-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/tax-policy.ts",
@@ -1265,9 +1932,14 @@
     "name": "taxBaseMatchesOccurrenceSource",
     "inventoryEngine": "laws",
     "keepLines": 40,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function closes over legacy module records, research transport or helper contracts (`canonicalJson`, `isTaxQuantity`). Those inputs are not caller-supplied facts. Copying the closure would carry DATA/PLUMBING or old-core behavior into this shelf; its port must supply and verify the record adapter."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/tax-occurrence.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-occurrence-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/tax-policy.ts",
@@ -1275,9 +1947,14 @@
     "name": "recordedPaycheckTaxInput",
     "inventoryEngine": "laws",
     "keepLines": 90,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `recordById`, `recordsByStringField`, `canonicalJson`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/tax-occurrence.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-occurrence-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/tax-policy.ts",
@@ -1285,9 +1962,14 @@
     "name": "taxEntityAvailableAt",
     "inventoryEngine": "laws",
     "keepLines": 12,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `taxRecordLists`, `recordsByStringField`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/tax-occurrence.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["tax-occurrence-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/teacher-salary-floor.ts",
@@ -1295,9 +1977,14 @@
     "name": "recordedTeacherSalaryMedian",
     "inventoryEngine": "laws",
     "keepLines": 81,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `stateOf`, `workStatusAt`, `workRoleAt`, `organizationProfileAt`, `resourceFlowTermsAt`, `TEACHER_FLOOR_OCCUPATION`, `TEACHER_FLOOR_EMPLOYER`, `periodsPerYear`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/teacher-floor.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["privacy-teacher-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/teacher-salary-floor.ts",
@@ -1305,9 +1992,14 @@
     "name": "requestedTeacherSalaryFloor",
     "inventoryEngine": "laws",
     "keepLines": 24,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `teacherFloorProposition`, `principledLeaning`, `recordedTeacherSalaryMedian`, `teacherSalaryFloorAt`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/teacher-floor.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["privacy-teacher-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   },
   {
     "sourceFile": "src/simulation/teacher-salary-floor.ts",
@@ -1325,8 +2017,13 @@
     "name": "teacherSalaryFloorAt",
     "inventoryEngine": "laws",
     "keepLines": 34,
-    "status": "not-liftable",
-    "lift": null,
-    "reason": "Whole function depends on legacy World/history or effect orchestration through `teacherFloorProposition`, `lawInForce`, `schoolYearStartOnOrAfter`, `addDays`, `readFinalEnactedLawTerm`, `TEACHER_SALARY_FLOOR_QUESTION`. Copying it would carry old-core reads/writes into the pure shelf. A core2 fact/effect adapter is required; no legacy engine is edited."
+    "status": "lifted-math",
+    "lift": "src/rules/laws/teacher-floor.ts",
+    "reason": "Retained KEEP math, guards, helper/constant closure and exact outputs are physically present. World reads become explicit raw facts or separately owned producer receipts; ordered native writer applications are output requests. English/catalog/record transport is not a new rule producer. Named goldens prove the described paths, not exhaustive branch coverage, ordinary NPC passage, playable core2 wiring or a finisher grade.",
+    "validation": {
+      "kind": "bounded unchanged-native-public-caller equivalence, all 56 places",
+      "tests": ["privacy-teacher-world.test.ts"],
+      "privateHelpers": "Travel with their public owning rule; compared transitively through that caller, never by evaluating old private declarations."
+    }
   }
 ]
