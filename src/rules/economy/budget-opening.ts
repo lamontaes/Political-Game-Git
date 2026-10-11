@@ -86,6 +86,14 @@ export function openGovernmentBudget(
 ) {
   return reader(facts.views).opening(facts, candidate, today);
 }
+export function servingGovernment(
+  facts: Pick<OpeningBudgetFacts, "views">,
+  placeGeoid: string,
+  stateKey: string,
+  id: EntityId,
+) {
+  return reader(facts.views).serving(placeGeoid, stateKey, id);
+}
 function compileOpening(views: BudgetGeographyViews) {
   const {
     allGovernmentUnits,
@@ -967,6 +975,7 @@ function compileOpening(views: BudgetGeographyViews) {
     };
   }
   return {
+    serving: servingGovernment,
     candidates: computeBudgetCandidates,
     opening: computeGovernmentOpening,
   };

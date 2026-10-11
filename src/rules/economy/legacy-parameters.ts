@@ -34,6 +34,24 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
     registeredStopgaps: ["economy.bank-shape-nearest-assets"],
   },
+  "budget-accounts.ts": {
+    values: [-1, 0, 1, 2, 5, 100],
+    provenance: "TUNABLE",
+    source:
+      "src/simulation/public-budgets/opening-government-accounts.ts:399; src/simulation/public-budgets/opening-government-accounts.ts:1; src/simulation/tax-policy.ts:1",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.opening-account-crosswalk"],
+  },
+  "budget-cash-profile.ts": {
+    values: [0, 100],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/public-budgets/opening-cash-profile.ts:19; src/simulation/public-budgets/opening-cash-profile.ts:1",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.public-opening-cash-cohort"],
+  },
   "budget-deadline.ts": {
     values: [0, 1, 4, 30, 90, 86400000],
     provenance: "TUNABLE",
@@ -53,6 +71,23 @@ export const ECONOMY_LEGACY_PARAMETERS = {
       "economy.budget-local-balanced-fallback",
       "economy.budget-own-authority-date",
     ],
+  },
+  "budget-flows.ts": {
+    values: [0, 1, 7, 100],
+    provenance: "TUNABLE",
+    source: "src/simulation/public-budgets/month.ts:186",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.budget-flow-currency-frontier"],
+  },
+  "budget-local-cash.ts": {
+    values: [0, 2],
+    provenance: "ESTIMATED",
+    source:
+      "src/simulation/public-budgets/opening-government-accounts.ts:332; src/simulation/public-budgets/opening-government-accounts.ts:1",
+    spread:
+      "Frozen native values including structural indices, guards and units; no recalibration. Bounded all-56 native public-caller coverage is documented per source row. Source here identifies the retained implementation contract, not a new legal or empirical citation.",
+    registeredStopgaps: ["economy.peer-cash-bracket-estimate"],
   },
   "budget-opening.ts": {
     values: [0, 1, 2, 5, 100, 1000, 10000, 1000000],

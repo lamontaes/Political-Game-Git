@@ -2195,9 +2195,9 @@
     "name": "researchedPublicCashOpeningProfile",
     "inventoryEngine": "economy",
     "keepLines": 81,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-cash-profile.ts",
+    "reason": "Full retained KEEP closure and required helpers/constants travel. budget-cash-profile-world.test.ts compares complete unchanged Native public-owner outputs across all 56 places using raw same-World source/account/flow/cutoff facts. Repeated account opening, complete source profiles and peer cash/cursor controls are bounded evidence. Ordered requests use existing canonical writers; parked custody and separately owned account/law-ledger source receipts contain no delegated budget selection math. No private evaluation, copied writer, ordinary NPC play, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/opening-government-accounts.ts",
@@ -2205,9 +2205,9 @@
     "name": "estimateLocalOpeningCash",
     "inventoryEngine": "economy",
     "keepLines": 65,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-local-cash.ts",
+    "reason": "Full retained KEEP closure and required helpers/constants travel. budget-flows-cash-world.test.ts compares complete unchanged Native public-owner outputs across all 56 places using raw same-World source/account/flow/cutoff facts. Repeated account opening, complete source profiles and peer cash/cursor controls are bounded evidence. Ordered requests use existing canonical writers; parked custody and separately owned account/law-ledger source receipts contain no delegated budget selection math. No private evaluation, copied writer, ordinary NPC play, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/opening-government-accounts.ts",
@@ -2215,9 +2215,9 @@
     "name": "ensureOpeningGovernmentAccounts",
     "inventoryEngine": "economy",
     "keepLines": 64,
-    "status": "pending-owned",
-    "lift": null,
-    "reason": "Authorized CTO send-back continuation: former stock World/private-helper whole blockers are withdrawn. Existing partial math remains at its destination; remaining raw-fact/source/output closure and all-place native-public proof are pending. No absent code is claimed lifted."
+    "status": "lifted-math",
+    "lift": "src/rules/economy/budget-accounts.ts",
+    "reason": "Full retained KEEP closure and required helpers/constants travel. budget-accounts-world.test.ts compares complete unchanged Native public-owner outputs across all 56 places using raw same-World source/account/flow/cutoff facts. Repeated account opening, complete source profiles and peer cash/cursor controls are bounded evidence. Ordered requests use existing canonical writers; parked custody and separately owned account/law-ledger source receipts contain no delegated budget selection math. No private evaluation, copied writer, ordinary NPC play, core2 integration or finisher claim."
   },
   {
     "sourceFile": "src/simulation/public-budgets/opening.ts",
