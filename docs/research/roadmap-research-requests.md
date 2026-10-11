@@ -176,7 +176,7 @@ Generated Oct 11, 2026 from the 209 requests in `docs/research/requests/` that h
 - `how-much-coverage-an-election-result-gets` P1: coverage weight by event
 - `what-a-real-newspaper-covers-in-a-week` P1: story mix of real papers (R18 only covers outlets, not mix)
 - `what-newsrooms-cover-a-town-and-a-state` P1: which outlet kinds cover towns/capitols
-- `who-talks-to-reporters-and-what-they-say` P1: source behaviour with reporters
+- `who-talks-to-reporters-and-what-they-say` P1: source behavior with reporters
 
 ## R21 (11)
 

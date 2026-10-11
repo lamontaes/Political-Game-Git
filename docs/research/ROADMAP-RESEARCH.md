@@ -6,7 +6,7 @@ Owner-requested Oct 11, 2026: one research session works through the real-world 
 
 1. **Research only.** No game code, no changes to `src/`. Findings are data files and short notes.
 2. **Stay out of running sessions' folders.** Don't write in `data/research/laws/` (CODEX-LAWS), `data/research/macro/` (CODEX-MACRO), `data/research/views/` (CODEX-VIEWS), or `data/research/renewal/` outside its `moves/` subfolder (CODEX-RENEWAL). Their topics aren't on this list.
-3. **Where findings go:** the folder each topic names below, new files only in folders that already exist. Every row carries its source, URL, retrieval date, the source's terms, which of the 56 places it covers, and whether it's an estimate (with its spread and basis).
+3. **Where findings go:** the folder each topic names below. **Create the folder if it doesn't exist.** In a folder that already exists, add new files and don't change existing ones. Every row carries its source, URL, retrieval date, the source's terms, which of the 56 places it covers, and whether it's an estimate (with its spread and basis). Research sessions skip the startup bench check in `AGENTS.md`; there's no game code to check.
 4. **Depth:** federal and state facts are exact. Local facts come from a representative sample of real places of each kind in every state (largest city, a mid-size city, a small town, a county, an unincorporated area), then an estimate with a spread for the rest. The 56 places are the 50 states, D.C., Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands.
 5. **Sources:** the agency or government that publishes the fact, not a mirror. Check and record every source's terms first. U.S. government data is free to use. **Don't use:** the Council of State Governments' Book of the States, Zillow research data, Eviction Lab, S&P Case-Shiller, Freddie Mac's survey, ANES or GSS, or Ballotpedia, unless the CTO confirms permission. Pew is allowed with its notices, attribution and disclaimer. If terms are unclear, record the question in the log and move on.
 6. **Store derived tables, not raw dumps.** Keep each committed file under 5 MB; reference large raw files by URL and checksum.
@@ -18,7 +18,7 @@ Owner-requested Oct 11, 2026: one research session works through the real-world 
 
 ## Where to log
 
-Branch `pool/research-roadmap` from `main`, one draft PR. After each topic, add one line at the top of `docs/research/roadmap-research-log.md` (topic id, files written, places covered, gaps, terms questions) and commit. Put the same line at the top of the PR body. The CTO merges finished topics as they land.
+Branch `pool/research-roadmap` from `main` (Priorities 0 and 1) or `pool/research-roadmap-2` (Priorities 2 to 4), one draft PR each. After each topic, add one line at the top of `docs/research/roadmap-research-log.md` (topic id, files written, places covered, gaps, terms questions) and commit. Put the same line at the top of the PR body. The CTO merges finished topics as they land.
 
 ## The list, in priority order
 
