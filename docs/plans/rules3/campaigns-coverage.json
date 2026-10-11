@@ -1,0 +1,538 @@
+{
+  "source": "docs/design/core2-porting-plan/units.csv.gz RULE plus manual audit KEEP; RULE is the inventory spelling of KEEP",
+  "baseline": "20118081ecd7628aaa9b61ac7151477aae58d689",
+  "rows": [
+    {
+      "file": "src/simulation/campaign-canvass.ts",
+      "name": "CANVASS_DOORS_PER_HOUR",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/canvass-pacing.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-canvass.ts",
+      "name": "CANVASS_SESSION_MINUTES",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/canvass-pacing.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-canvass.ts",
+      "name": "CANVASS_SUPPORT_EFFECT",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Classifier false positive: parameter, parsed research rows, or scheduler/phase key rather than a KEEP function. Leave data/plumbing for its owning module."
+    },
+    {
+      "file": "src/simulation/campaign-canvass.ts",
+      "name": "walkCampaignCanvass",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "walkCampaignCanvass requires the legacy campaign-canvass.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import calibration from \"../../../data/research/campaign-reality/campaign-calibration.json\" with { type: \"json\" };; import { addSimulationMinutes, ageOnDate, simulationMinutesBetween } from \"./dates\";; import { evaluateDecision, isSelectedDecision } from \"../../simulation/decisions\";; import { feltDebtConsiderations } from \"../../simulation/favors\";; import { currentLifeCutoff, householdMembershipsAt, peopleInHouseholdAt } from \"../../simulation/life-queries\";; import { materializeSettledTownHousehold, playerTown, townHouseholdSkeleton, townResidentId, townRoster } from \"../../simulation/living-world/town-residents\";; import { doorResponse, doorSubject, placeConditions, type DoorResponse, type DoorSubject } from \"../../simulation/door-conversations\";; import { contestIncumbentPersonId } from \"../../simulation/election-contests\";; import { majorPartyOf } from \"../../simulation/statewide-electorate\";; import { outcomeRecipientsAt } from \"../../simulation/outcome-web/person-outcome-landings\";; import { whereaboutsAt } from \"../../simulation/living-world/work-schedules\";; import { scheduledActivityState } from \"../../simulation/time-work\";; import { traitRegistryFor } from \"../../simulation/trait-registry\";; import { registeredTraitConsiderations } from \"../../simulation/trait-readings\";; import { isPersonAliveAt } from \"../../simulation/vitality-integrity\";; import { withWorldIntegrityDeferred } from \"../../simulation/world\";"
+    },
+    {
+      "file": "src/simulation/campaign-compliance-rules.ts",
+      "name": "temporalApplicability",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/contribution-dates.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-compliance-rules.ts",
+      "name": "assessContribution",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "assessContribution requires the legacy campaign-compliance-rules.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { CAMPAIGN_COMPLIANCE_ROWS } from \"../../simulation/campaign-compliance.generated\";; import { campaigns } from \"../../simulation/campaign-queries\";; import { resourceFlowsForEndpoint, resourceFlowTermsAt } from \"../../simulation/resource-queries\";; import { lifePlaceByJurisdictionId, stateKeyForJurisdiction } from \"../../simulation/life-places\";"
+    },
+    {
+      "file": "src/simulation/campaign-compliance.ts",
+      "name": "reviewedValue",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/keep-reviewed-value.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-compliance.ts",
+      "name": "federalCampaignCompliancePack",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/keep-federal-campaign-compliance-pack.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-compliance.ts",
+      "name": "campaignStatementStatus",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "campaignStatementStatus requires the legacy campaign-compliance.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { addDays } from \"./dates\";; import { lifePlaceByJurisdictionId } from \"../../simulation/life-places\";; import { campaignStateJurisdictionKey } from \"../../simulation/campaign-compliance-rules\";; import { requireCampaign } from \"../../simulation/campaign-queries\";; import reviewedPacksByPlace from \"../../../data/research/campaign-compliance/pack-records-by-place.json\" with { type: \"json\" };"
+    },
+    {
+      "file": "src/simulation/campaign-contact-calibration.ts",
+      "name": "forMinutes",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/field-reach.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-life-activities.ts",
+      "name": "CAMPAIGN_LIFE_LATEST_END_MINUTE",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Classifier false positive: parameter, parsed research rows, or scheduler/phase key rather than a KEEP function. Leave data/plumbing for its owning module."
+    },
+    {
+      "file": "src/simulation/campaign-life-activities.ts",
+      "name": "oldEnoughForCampaignLife",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/keep-old-enough-for-campaign-life.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-life-activities.ts",
+      "name": "offerIsOpen",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "offerIsOpen requires the legacy campaign-life-activities.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { type CampaignLifeActivityRecord, type CampaignLifeOutcomeRecord } from \"../../simulation/campaign-life-types\";; import { campaignLifeOutcomeRecords } from \"../../simulation/campaign-queries\";; import { compareSimulationMoments } from \"./dates\";; import { scheduledActivityState } from \"../../simulation/time-work\";"
+    },
+    {
+      "file": "src/simulation/campaign-life-activities.ts",
+      "name": "returnMinutes",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "returnMinutes requires the legacy campaign-life-activities.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { simulationMinutesBetween } from \"./dates\";; import { scheduledActivityState } from \"../../simulation/time-work\";"
+    },
+    {
+      "file": "src/simulation/campaign-life-activities.ts",
+      "name": "timingProblem",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "timingProblem requires the legacy campaign-life-activities.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { type CampaignLifeCatalogEntry } from \"../../simulation/campaign-life-types\";; import { compareSimulationMoments, makeIsoDate, simulationMomentAtLocalTime } from \"./dates\";; import { requireElectionContest } from \"../../simulation/election-contests\";"
+    },
+    {
+      "file": "src/simulation/campaign-life-activities.ts",
+      "name": "planAcceptance",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "planAcceptance requires the legacy campaign-life-activities.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { campaignLifeCatalogEntry } from \"../../simulation/campaign-life-catalog\";; import { type CampaignLifeActivityRecord, type CampaignLifeCatalogEntry, type CampaignLifeOutcomeRecord } from \"../../simulation/campaign-life-types\";; import { campaignLifeActivityRecords, campaignLifeOutcomeRecords } from \"../../simulation/campaign-queries\";; import { addSimulationMinutes, compareSimulationMoments, simulationMinutesBetween } from \"./dates\";; import { scheduledActivityState } from \"../../simulation/time-work\";"
+    },
+    {
+      "file": "src/simulation/campaign-life-activities.ts",
+      "name": "sharedCampaignLifeStart",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "sharedCampaignLifeStart requires the legacy campaign-life-activities.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { type CampaignLifeCatalogEntry } from \"../../simulation/campaign-life-types\";; import { addDays, addSimulationMinutes, compareSimulationMoments, makeIsoDate, simulationMinutesBetween, simulationMomentAtLocalTime } from \"./dates\";; import { requireElectionContest } from \"../../simulation/election-contests\";; import { scheduledActivityState } from \"../../simulation/time-work\";"
+    },
+    {
+      "file": "src/simulation/campaign-managers.ts",
+      "name": "campaignWorkDays",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "campaignWorkDays requires the legacy campaign-managers.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { workRelationshipHistoryForPerson, workRoleHistory, workStatusHistory } from \"../../simulation/life-queries\";"
+    },
+    {
+      "file": "src/simulation/campaign-managers.ts",
+      "name": "campaignManagerCandidates",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "campaignManagerCandidates requires the legacy campaign-managers.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { requireCampaign } from \"../../simulation/campaign-queries\";; import { homePartyChapters } from \"../../simulation/living-world/party-chapters\";; import { peopleKnownTo } from \"../../simulation/living-world/official-views\";; import { workRelationshipHistoryForPerson, workRoleHistory, workStatusHistory } from \"../../simulation/life-queries\";"
+    },
+    {
+      "file": "src/simulation/campaign-managers.ts",
+      "name": "campaignManagerOffer",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "campaignManagerOffer requires the legacy campaign-managers.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { requireCampaign } from \"../../simulation/campaign-queries\";; import { requireElectionContest } from \"../../simulation/election-contests\";; import { homePartyChapters } from \"../../simulation/living-world/party-chapters\";; import { peopleKnownTo } from \"../../simulation/living-world/official-views\";; import { workRelationshipHistoryForPerson, workRoleHistory, workStatusHistory } from \"../../simulation/life-queries\";; import { resourcePositionAt } from \"../../simulation/resource-queries\";"
+    },
+    {
+      "file": "src/simulation/campaign-money-sources.ts",
+      "name": "candidatePersonalMoney",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "candidatePersonalMoney requires the legacy campaign-money-sources.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { activeCampaignForCandidate } from \"../../simulation/campaign-queries\";; import { ensureLifePathPersonalPosition } from \"../../simulation/life-paths2-resources\";; import { resourcePositionAt } from \"../../simulation/resource-queries\";; import { estimatedPersonalBalance } from \"../../simulation/starting-money\";"
+    },
+    {
+      "file": "src/simulation/campaign-money-sources.ts",
+      "name": "dollars",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/keep-dollars.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-operating-costs.ts",
+      "name": "spendableMinorUnits",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "spendableMinorUnits requires the legacy campaign-operating-costs.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { campaignActionResult, campaignActions } from \"../../simulation/campaign-queries\";; import { resourcePositionAt } from \"../../simulation/resource-queries\";; import { scheduledActivityState } from \"../../simulation/time-work\";"
+    },
+    {
+      "file": "src/simulation/campaign-opponents.ts",
+      "name": "daysBetween",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/keep-days-between.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-opponents.ts",
+      "name": "nextEvaluationDate",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/keep-next-evaluation-date.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-opponents.ts",
+      "name": "comparableCampaignCommitteeBalance",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "comparableCampaignCommitteeBalance requires the legacy campaign-opponents.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { campaignOpponentRecords, campaigns as campaignRecords } from \"../../simulation/campaign-queries\";; import { electionContestById } from \"../../simulation/election-contests\";; import { resourcePositionAt } from \"../../simulation/resource-queries\";"
+    },
+    {
+      "file": "src/simulation/campaign-opponents.ts",
+      "name": "writeMessaging",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "writeMessaging requires the legacy campaign-opponents.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { recordCampaignFundraiserReceipts } from \"../../simulation/campaign-money-sources\";; import { requestedCampaignAdvertisingGainBasisPoints, recordCampaignAdvertisingExpenditure } from \"../../simulation/campaigns\";; import { suggestedAdvertising } from \"../../simulation/campaign-weekly-plans\";; import { contestDistrictGeography } from \"../../simulation/campaign-geography\";; import { type CampaignOpponentRecord, type CampaignOpponentStepKind, type CampaignOpponentStepRecord } from \"../../simulation/campaign-life-types\";; import { recordSupportShift } from \"../../simulation/campaign-support\";; import { requireElectionContest } from \"../../simulation/election-contests\";; import { personName } from \"../../simulation/people\";; import { resourcePositionAt } from \"../../simulation/resource-queries\";; import { recordWorldEvent } from \"../../simulation/world\";"
+    },
+    {
+      "file": "src/simulation/campaign-polling-estimate.ts",
+      "name": "summarizePeers",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/keep-summarize-peers.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-polling.ts",
+      "name": "surveyWorkDays",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "surveyWorkDays requires the legacy campaign-polling.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { daysBetween } from \"./dates\";; import { workRelationshipHistoryForPerson, workRoleHistory, workStatusHistory } from \"../../simulation/life-queries\";"
+    },
+    {
+      "file": "src/simulation/campaign-polling.ts",
+      "name": "campaignPollingQuality",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "campaignPollingQuality requires the legacy campaign-polling.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { daysBetween } from \"./dates\";; import { workRelationshipHistoryForPerson, workRoleHistory, workStatusHistory, workStatusAt } from \"../../simulation/life-queries\";"
+    },
+    {
+      "file": "src/simulation/campaign-routine.ts",
+      "name": "validateBlocks",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/keep-validate-blocks.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-routine.ts",
+      "name": "describeCampaignRoutine",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/keep-describe-campaign-routine.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-routine.ts",
+      "name": "campaignRoutineSlots",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "campaignRoutineSlots requires the legacy campaign-routine.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { campaignRoutineRecords } from \"../../simulation/campaign-queries\";; import { addDays, addSimulationMinutes, compareSimulationMoments, simulationMomentAtLocalTime } from \"./dates\";; import { requireElectionContest } from \"../../simulation/election-contests\";"
+    },
+    {
+      "file": "src/simulation/campaign-stands.ts",
+      "name": "liveQuestionsIn",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "liveQuestionsIn requires the legacy campaign-stands.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { measurePosition, measuresForJurisdiction } from \"../../simulation/legislation\";; import { measurePropositionAnswer, type PropositionAnswer } from \"../../simulation/issue-record\";"
+    },
+    {
+      "file": "src/simulation/campaign-week-actions.ts",
+      "name": "weekEnd",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "weekEnd requires the legacy campaign-week-actions.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { addDays } from \"./dates\";; import { requireElectionContest } from \"../../simulation/election-contests\";"
+    },
+    {
+      "file": "src/simulation/campaign-weekly-plans.ts",
+      "name": "CAMPAIGN_WEEKLY_SLOT_MINUTES",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "Classifier false positive: parameter, parsed research rows, or scheduler/phase key rather than a KEEP function. Leave data/plumbing for its owning module."
+    },
+    {
+      "file": "src/simulation/campaign-weekly-plans.ts",
+      "name": "daysBetween",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/keep-days-between.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-weekly-plans.ts",
+      "name": "weekContext",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "weekContext requires the legacy campaign-weekly-plans.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { campaignTreasuryPosition, campaignWeeklyPlanRecords } from \"../../simulation/campaign-queries\";; import { type CampaignWeeklyPlanRecord } from \"../../simulation/campaign-life-types\";; import { addDays } from \"./dates\";; import { requireElectionContest } from \"../../simulation/election-contests\";; import { workRoleHistory, workStatusAt } from \"../../simulation/life-queries\";"
+    },
+    {
+      "file": "src/simulation/campaign-weekly-plans.ts",
+      "name": "cheapestChannel",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "cheapestChannel requires the legacy campaign-weekly-plans.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { type CampaignAdChannel } from \"../../simulation/campaign-life-types\";"
+    },
+    {
+      "file": "src/simulation/campaign-weekly-plans.ts",
+      "name": "suggestedAdvertising",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "suggestedAdvertising requires the legacy campaign-weekly-plans.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { type CampaignAdChannel, type CampaignWeeklyAdvertising } from \"../../simulation/campaign-life-types\";"
+    },
+    {
+      "file": "src/simulation/campaign-weekly-plans.ts",
+      "name": "proposedEmphasis",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "proposedEmphasis requires the legacy campaign-weekly-plans.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { campaignResultsFor } from \"../../simulation/campaign-queries\";; import { type CampaignAdChannel, type CampaignPlanEmphasis, type CampaignWeeklyAdvertising, type CampaignWeeklyAllocation, type CampaignWeeklyPlanRecord } from \"../../simulation/campaign-life-types\";; import { campaignWorkDays } from \"../../simulation/campaign-managers\";; import { personTrait } from \"../../simulation/people-traits\";"
+    },
+    {
+      "file": "src/simulation/campaign-weekly-plans.ts",
+      "name": "sessionView",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "sessionView requires the legacy campaign-weekly-plans.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { campaignActionResult } from \"../../simulation/campaign-queries\";; import { compareSimulationMoments } from \"./dates\";; import { scheduledActivityState } from \"../../simulation/time-work\";"
+    },
+    {
+      "file": "src/simulation/campaign-weekly-plans.ts",
+      "name": "projectCampaignWeek",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "projectCampaignWeek requires the legacy campaign-weekly-plans.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { contestDistrictGeography } from \"../../simulation/campaign-geography\";; import { activeCampaignForCandidate, campaignActionById, campaignActionResult, campaignResultsFor, campaignTreasuryPosition, campaignWeeklyPlanRecords } from \"../../simulation/campaign-queries\";; import { type CampaignAdChannel, type CampaignPlanEmphasis, type CampaignWeeklyAdvertising, type CampaignWeeklyAllocation, type CampaignWeeklyPlanRecord, type CampaignWeeklyRefusal } from \"../../simulation/campaign-life-types\";; import { addDays, compareSimulationMoments } from \"./dates\";; import { electionContestStatus, requireElectionContest } from \"../../simulation/election-contests\";; import { workRoleHistory, workStatusAt } from \"../../simulation/life-queries\";; import { personName } from \"../../simulation/people\";; import { scheduledActivityState } from \"../../simulation/time-work\";; import { moneyText } from \"../../simulation/money-text\";; import { campaignWorkDays } from \"../../simulation/campaign-managers\";; import { personTrait } from \"../../simulation/people-traits\";"
+    },
+    {
+      "file": "src/simulation/campaign-weekly-plans.ts",
+      "name": "placeSessions",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "placeSessions requires the legacy campaign-weekly-plans.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { type CampaignWeeklyPlanRecord } from \"../../simulation/campaign-life-types\";; import { scheduleCampaignAction } from \"../../simulation/campaigns\";; import { addDays, addSimulationMinutes, compareSimulationMoments, simulationMomentAtLocalTime } from \"./dates\";; import { scheduledActivityState } from \"../../simulation/time-work\";"
+    },
+    {
+      "file": "src/simulation/campaign-weekly-plans.ts",
+      "name": "releaseEarlierWeekSessions",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "releaseEarlierWeekSessions requires the legacy campaign-weekly-plans.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { campaignActionById, campaignActionResult, campaignWeeklyPlanRecords } from \"../../simulation/campaign-queries\";; import { type CampaignWeeklyPlanRecord } from \"../../simulation/campaign-life-types\";; import { cancelScheduledActivity, scheduledActivityState } from \"../../simulation/time-work\";; import { assertWorldIntegrity, recordWorldEvent } from \"../../simulation/world\";"
+    },
+    {
+      "file": "src/simulation/campaigns.ts",
+      "name": "daysUntilElection",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "daysUntilElection requires the legacy campaigns.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { addDays } from \"./dates\";; import { requireElectionContest } from \"../../simulation/election-contests\";"
+    },
+    {
+      "file": "src/simulation/campaigns.ts",
+      "name": "campaignActionIsStale",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "campaignActionIsStale requires the legacy campaigns.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { compareSimulationMoments } from \"./dates\";; import { scheduledActivityState } from \"../../simulation/time-work\";"
+    },
+    {
+      "file": "src/simulation/door-conversations.ts",
+      "name": "median",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/keep-median.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/door-conversations.ts",
+      "name": "placeConditions",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "placeConditions requires the legacy door-conversations.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { personOutcomeLandingRows, type OutcomeRecipientRule } from \"../../simulation/outcome-web/person-outcome-landings\";; import { placeOutcomeAt, placeOutcomeKey } from \"../../simulation/outcome-web/place-outcome-store\";"
+    },
+    {
+      "file": "src/simulation/door-conversations.ts",
+      "name": "doorSubject",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "doorSubject requires the legacy door-conversations.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { matchesOutcomeRecipientRule, type OutcomeLandingPerson, type OutcomeRecipientRule } from \"../../simulation/outcome-web/person-outcome-landings\";"
+    },
+    {
+      "file": "src/simulation/filing-visit.ts",
+      "name": "firstOpenSlot",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "firstOpenSlot requires the legacy filing-visit.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import filingOfficeData from \"../../../data/research/elections/filing-office.json\" with { type: \"json\" };; import { addDays, addSimulationMinutes, compareSimulationMoments, simulationMomentAtLocalTime } from \"./dates\";; import { type FilingOffice } from \"../../simulation/filing-office\";; import { scheduledConflictExists } from \"../../simulation/time-work\";"
+    },
+    {
+      "file": "src/simulation/living-world/civic-actions.ts",
+      "name": "civicStake",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "civicStake requires the legacy living-world/civic-actions.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { addDays, daysBetween } from \"./dates\";; import { activeWorkRelationshipsAt } from \"../../simulation/life-queries\";; import { homeJurisdictionResidenceSince } from \"../../simulation/nationwide-world/residence-duration\";; import { strongestOfficialStanding } from \"../../simulation/official-view-reads\";; import { reactionLens } from \"../../simulation/living-world/official-views\";; import { livedOutcomesOf } from \"../../simulation/living-world/lived-outcomes\";"
+    },
+    {
+      "file": "src/simulation/living-world/civic-actions.ts",
+      "name": "passesMeasure",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "passesMeasure requires the legacy living-world/civic-actions.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { daysBetween } from \"./dates\";; import { strongestOfficialStanding } from \"../../simulation/official-view-reads\";"
+    },
+    {
+      "file": "src/simulation/living-world/movement-succession.ts",
+      "name": "firstOfMonthAfter",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/keep-first-of-month-after.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/living-world/movement-succession.ts",
+      "name": "recordedRelationship",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "recordedRelationship requires the legacy living-world/movement-succession.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { relationshipHistory } from \"../../simulation/queries\";"
+    },
+    {
+      "file": "src/simulation/living-world/movement-succession.ts",
+      "name": "temperamentConsiderations",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "temperamentConsiderations requires the legacy living-world/movement-succession.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { relationshipHistory } from \"../../simulation/queries\";; import { personTraits } from \"../../simulation/people-traits\";"
+    },
+    {
+      "file": "src/simulation/living-world/movement-succession.ts",
+      "name": "succeedDeceasedLeader",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "succeedDeceasedLeader requires the legacy living-world/movement-succession.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { makeIsoDate } from \"./dates\";; import { evaluateDecision, recordDurableDecisionTrace } from \"../../simulation/decisions\";; import { scheduleFutureDueItem } from \"../../simulation/future-transitions\";; import { createOrganizationParticipation, recordOrganizationParticipationState } from \"../../simulation/life\";; import { organizationParticipationStateAt, kinshipRelationshipsAt } from \"../../simulation/life-queries\";; import { relationshipHistory } from \"../../simulation/queries\";; import { partyRecords } from \"../../simulation/world-setup/integrity\";; import { personTraits } from \"../../simulation/people-traits\";; import { recordWorldEvent } from \"../../simulation/world\";; import { partyUnits } from \"../../simulation/living-world/party-registry\";"
+    },
+    {
+      "file": "src/simulation/living-world/movement-succession.ts",
+      "name": "succeedRetiredLeader",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "succeedRetiredLeader requires the legacy living-world/movement-succession.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { makeIsoDate } from \"./dates\";; import { evaluateDecision, recordDurableDecisionTrace } from \"../../simulation/decisions\";; import { scheduleFutureDueItem } from \"../../simulation/future-transitions\";; import { createOrganizationParticipation, recordOrganizationParticipationState } from \"../../simulation/life\";; import { organizationParticipationStateAt, kinshipRelationshipsAt } from \"../../simulation/life-queries\";; import { relationshipHistory } from \"../../simulation/queries\";; import { partyRecords } from \"../../simulation/world-setup/integrity\";; import { personTraits } from \"../../simulation/people-traits\";; import { recordWorldEvent } from \"../../simulation/world\";; import { partyUnits } from \"../../simulation/living-world/party-registry\";"
+    },
+    {
+      "file": "src/simulation/pressure/anger.ts",
+      "name": "angerCausesInPeriod",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "angerCausesInPeriod requires the legacy pressure/anger.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { handlingVerdict } from \"../../simulation/crisis/handling-reactions\";; import { crisisRecords } from \"../../simulation/crisis/records\";; import { macroReleasesAt } from \"../../simulation/macro-economy/readers\";; import { homeStateKey as homeStateKeyOf } from \"../../simulation/state-jurisdiction-id\";"
+    },
+    {
+      "file": "src/simulation/pressure/causes.ts",
+      "name": "causesInPeriod",
+      "inventoryClass": "RULE",
+      "status": "not-liftable-unchanged",
+      "reason": "causesInPeriod requires the legacy pressure/causes.ts record/query/projection contract; copying its body unchanged retains old history indexes, writers or UI projection semantics. The core module must supply an explicit input contract before this whole function can lift. Pure subrules already listed separately stay lifted. Concrete unresolved dependencies: legacy runtime dependency: import { TOWN_POLICE_LOG, type CrimeOffense } from \"../../simulation/crime/contract\";; import { CRIME_EVENT_TYPES, offenseOf } from \"../../simulation/crime/producer\";; import { lifePlaceByJurisdictionId, stateKeyForJurisdiction } from \"../../simulation/life-places\";; import { angerCausesInPeriod } from \"../../simulation/pressure/anger\";"
+    },
+    {
+      "file": "src/simulation/pressure/flows.ts",
+      "name": "pullOf",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/pressure-flows.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/pressure/flows.ts",
+      "name": "flowsForYear",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/pressure-flows.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/pressure/step.ts",
+      "name": "round",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/pressure-fade.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/pressure/step.ts",
+      "name": "largestPushedFlow",
+      "inventoryClass": "RULE",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/pressure-fade.ts; behavior unchanged; record reads supplied explicitly where noted."
+    },
+    {
+      "file": "src/simulation/campaign-recognition.ts",
+      "name": "racesWonBefore",
+      "inventoryClass": "manual-KEEP",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/recognition.ts"
+    },
+    {
+      "file": "src/simulation/campaign-recognition.ts",
+      "name": "doorKnockingReturn",
+      "inventoryClass": "manual-KEEP",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/recognition.ts"
+    },
+    {
+      "file": "src/simulation/campaign-contact-calibration.ts",
+      "name": "modelCampaignFieldReach",
+      "inventoryClass": "manual-KEEP",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/field-reach.ts"
+    },
+    {
+      "file": "src/simulation/campaign-donors.ts",
+      "name": "assessCampaignContribution",
+      "inventoryClass": "manual-KEEP",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/contribution-limits.ts"
+    },
+    {
+      "file": "src/simulation/campaign-donors.ts",
+      "name": "askCampaignDonor",
+      "inventoryClass": "manual-KEEP",
+      "status": "excluded-redesign",
+      "reason": "CTO ruling supersedes earlier manual keeper sample: labeled chooser decision, rejected support-share model, or political-violence ladder. An unchanged lift would preserve the rejected design."
+    },
+    {
+      "file": "src/simulation/campaign-helpers.ts",
+      "name": "helperAskConsiderations",
+      "inventoryClass": "manual-KEEP",
+      "status": "not-liftable-unchanged",
+      "reason": "Manual audit keeper: helperAskConsiderations is entangled with the legacy record/query or writer contract in src/simulation/campaign-helpers.ts. Copying the entire function unchanged would import old-engine execution. Requires an explicit core input contract; retain old behavior until that port."
+    },
+    {
+      "file": "src/simulation/campaign-opponents.ts",
+      "name": "chooseStep",
+      "inventoryClass": "manual-KEEP",
+      "status": "excluded-redesign",
+      "reason": "CTO ruling supersedes earlier manual keeper sample: labeled chooser decision, rejected support-share model, or political-violence ladder. An unchanged lift would preserve the rejected design."
+    },
+    {
+      "file": "src/simulation/speech-reception.ts",
+      "name": "speechReactionOf",
+      "inventoryClass": "manual-KEEP",
+      "status": "excluded-redesign",
+      "reason": "CTO ruling supersedes earlier manual keeper sample: labeled chooser decision, rejected support-share model, or political-violence ladder. An unchanged lift would preserve the rejected design."
+    },
+    {
+      "file": "src/simulation/pressure/flows.ts",
+      "name": "pushOf",
+      "inventoryClass": "manual-KEEP",
+      "status": "lifted",
+      "reason": "src/rules/campaigns/pressure-flows.ts"
+    },
+    {
+      "file": "src/simulation/pressure/step.ts",
+      "name": "stepPressure",
+      "inventoryClass": "manual-KEEP",
+      "status": "not-liftable-unchanged",
+      "reason": "Manual audit keeper: stepPressure is entangled with the legacy record/query or writer contract in src/simulation/pressure/step.ts. Copying the entire function unchanged would import old-engine execution. Requires an explicit core input contract; retain old behavior until that port."
+    },
+    {
+      "file": "src/simulation/pressure/ladder.ts",
+      "name": "threatStrain",
+      "inventoryClass": "manual-KEEP",
+      "status": "excluded-redesign",
+      "reason": "CTO ruling supersedes earlier manual keeper sample: labeled chooser decision, rejected support-share model, or political-violence ladder. An unchanged lift would preserve the rejected design."
+    },
+    {
+      "file": "src/simulation/door-conversations.ts",
+      "name": "doorResponse",
+      "inventoryClass": "manual-KEEP",
+      "status": "excluded-redesign",
+      "reason": "CTO ruling supersedes earlier manual keeper sample: labeled chooser decision, rejected support-share model, or political-violence ladder. An unchanged lift would preserve the rejected design."
+    }
+  ]
+}
