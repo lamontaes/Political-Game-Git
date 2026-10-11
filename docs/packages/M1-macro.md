@@ -16,7 +16,7 @@
 
 ## Research first
 
-No national time series is in the repo. Gather monthly history, at least 1990 to the latest month, from the publishing agencies: unemployment (BLS), consumer prices (BLS), output (BEA, quarterly), payroll jobs (BLS), the policy rate (Federal Reserve H.15), the 30-year mortgage rate (Freddie Mac's weekly survey; check its terms), and household and business credit (Federal Reserve G.19 and Z.1). Answer `docs/research/requests/mortgage-rate-passthrough-from-policy-rate.json`: how much, and how fast, loan rates follow the policy rate. Record what real central bank members weigh (the published statements and minutes), as reasons to calibrate against, never as names.
+No national time series is in the repo. Gather monthly history, at least 1990 to the latest month, from the publishing agencies: unemployment (BLS), consumer prices (BLS), output (BEA, quarterly), payroll jobs (BLS), the policy rate (Federal Reserve H.15), mortgage rates and their spread over Treasuries (loan-level rates from the Home Mortgage Disclosure Act data, CFPB/FFIEC, 2018 onward; FHFA's published mortgage rate statistics for earlier years if their terms allow; not Freddie Mac's survey, whose terms don't clearly allow this use), and household and business credit (Federal Reserve G.19 and Z.1). Answer `docs/research/requests/mortgage-rate-passthrough-from-policy-rate.json`: how much, and how fast, loan rates follow the policy rate. Record what real central bank members weigh (the published statements and minutes), as reasons to calibrate against, never as names.
 
 ## Build
 
