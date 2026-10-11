@@ -1,13 +1,13 @@
 /**
  * GENERATED — do not edit by hand.
  * Official salary facts from data/source/official-office-pay/facts.json.
- * Historical reference periods are explicit. Missing annual figures are absent,
+ * Current-pay effective years and terms are explicit. Missing annual figures are absent,
  * never zero; the existing salary reader estimates them from official facts.
  */
 
 export const OFFICE_PAY_META = {
-  "source": "Official government statutes, compensation schedules and legislative records; each fact cites its own reference period. Missing annual figures use the existing labeled official-source estimate.",
-  "journalSha256": "51e2c10ab97fcd3f70e2602f15ef2887adc4693b68fe10c45d64e1d56d1b631e",
+  "source": "Current official office pay checked October 11, 2026, including applicable statutory adjustments; each fact cites its effective year and term. Missing annual figures use the existing labeled official-source estimate.",
+  "journalSha256": "ac661f42749457f58f2078d422d4ba12d470956d9b744d788413a3ece4c71f81",
   "asOf": "2026-10-11",
   "governors": 51,
   "legislators": 29,
@@ -16,281 +16,281 @@ export const OFFICE_PAY_META = {
     {
       "state": "AK",
       "office": "governor",
-      "annualDollars": 145000,
+      "annualDollars": 176016,
       "status": "SOURCED",
-      "sourceUrl": "https://doa.alaska.gov/dop/fileadmin/socc/pdf/AmendedFindingsandRec2022.pdf",
-      "locator": "Discussion: governor salary before the 2023 recommendation",
-      "referencePeriod": "2022"
+      "sourceUrl": "https://doa.alaska.gov/dop/fileadmin/socc/pdf/meetingMinutes121522.pdf",
+      "locator": "Final December 15, 2022 commission minutes adopt $176,016 after CPI adjustment of prior $145,000 salary; cents removed by commission. March 16, 2023 amended final findings retain Governor adjustment: https://doa.alaska.gov/dop/fileadmin/socc/pdf/AmendedFindingsandRec2022.pdf . Subsequent CPI recommendations begin 2027, excluded from current term.",
+      "referencePeriod": "2026 (2023 commission adjustment)"
     },
     {
       "state": "AK",
       "office": "state-legislator",
-      "annualDollars": 50400,
+      "annualDollars": 84000,
       "status": "SOURCED",
-      "sourceUrl": "https://doa.alaska.gov/dop/fileadmin/socc/pdf/bkgrnd_socc24.pdf",
-      "locator": "Recommendations: ordinary legislator annual salary, excluding leadership and allowances",
-      "referencePeriod": "2009 commission determination"
+      "sourceUrl": "https://doa.alaska.gov/dop/fileadmin/socc/pdf/Final-Findings-and-Recommendations-2024.pdf",
+      "locator": "January 29, 2025 final report pages 2-3 confirms $84,000 became law; page 4 places future automatic CPI adjustments in 2027, not 2026.",
+      "referencePeriod": "2026 (effective 2024)"
     },
     {
       "state": "AK",
       "office": "trial-court-judge",
-      "annualDollars": 199193,
+      "annualDollars": 228306,
       "status": "SOURCED",
-      "sourceUrl": "https://ajc.alaska.gov/selection/docs/aug2023_announcewithposdescrip.pdf",
-      "locator": "Page 2: Anchorage Superior Court annual salary, without geographic supplement",
-      "referencePeriod": "March 30, 2023"
+      "sourceUrl": "https://ajc.alaska.gov/selection/docs/feb27_announcewithposdescrip.pdf",
+      "locator": "Alaska Judicial Council current superior-court position description: Anchorage and Palmer ordinary Superior Court Judge annual salary $228,306. Uses statewide ordinary location base, excluding rural geographic differentials.",
+      "referencePeriod": "2026 (September 25, 2026)"
     },
     {
       "state": "AL",
       "office": "state-legislator",
-      "annualDollars": 53913,
+      "annualDollars": 66659,
       "status": "SOURCED",
-      "sourceUrl": "https://alison.legislature.state.al.us/files/pdf/lsa/Fiscal/BudgetFactBook/2023_Budget_Fact_Book.pdf",
-      "locator": "Legislature: ordinary member annual compensation set by State Personnel Board",
-      "referencePeriod": "2023"
+      "sourceUrl": "https://alison.legislature.state.al.us/files/pdf/lsa/Fiscal/BudgetFactBook/2026-BFB.pdf",
+      "locator": "2026 Budget Fact Book printed page 17 publishes State Personnel Board certified $66,659 ordinary annual compensation. Alabama Constitution section 49.01 ties January annual pay to ACS one-year median household income; 2024 ACS median $66,659 establishes January 2026 rate. Fact Book labels the certification year 2025; excludes leadership and travel supplements.",
+      "referencePeriod": "2026"
     },
     {
       "state": "AL",
       "office": "trial-court-judge",
-      "annualDollars": 148512,
+      "annualDollars": 157602,
       "status": "SOURCED",
-      "sourceUrl": "https://alison.legislature.state.al.us/files/pdf/lsa/Fiscal/BudgetFactBook/2023_Budget_Fact_Book.pdf",
-      "locator": "Printed page 69: minimum listed annual circuit judge salary",
-      "referencePeriod": "FY 2023"
+      "sourceUrl": "https://www.rsa-al.gov/uploads/files/Act_2026-608_%28SB154%29_State_Employee_Pay_Raise_and_Retiree_Bonus.pdf",
+      "locator": "Act 2026-608 section 1(a) grants all state judicial personnel/officers 2% beginning first pay day on or after October 1, 2026. Prior ordinary Circuit Judge base $154,512 in 2026 Budget Fact Book printed page 70: https://alison.legislature.state.al.us/files/pdf/lsa/Fiscal/BudgetFactBook/2026-BFB.pdf . Compute 154512 × 1.02 = $157,602.24; excludes 7.5% bench-experience and local supplements. Section 12-10B grandfather protection affects incumbents; simulation uses current ordinary base.",
+      "referencePeriod": "2026 (effective October 1, 2026)"
     },
     {
       "state": "AR",
       "office": "governor",
-      "annualDollars": 158739,
+      "annualDollars": 168439,
       "status": "SOURCED",
-      "sourceUrl": "https://media.ark.org/citcom/Independent-Citizens-Commission-2024-Presentation.pdf",
-      "locator": "Page 11: commission history, Governor row, October 1, 2021 column (Arkansas government's official media host)",
-      "referencePeriod": "October 1, 2021"
+      "sourceUrl": "https://media.ark.org/citcom/Salary-Adjustment-Resolution.pdf",
+      "locator": "Independent Citizens Commission signed November 14, 2025 final resolution pages 1-2, effective next full pay period ten days after filing: published new annual salary, replacing prior base with 1% increase. Excludes leadership, prosecutorial and expense amounts. Rounded published cents once to whole annual dollars.",
+      "referencePeriod": "2026 (November 2025 resolution)"
     },
     {
       "state": "AR",
       "office": "state-legislator",
-      "annualDollars": 44357,
+      "annualDollars": 45696,
       "status": "SOURCED",
-      "sourceUrl": "https://media.ark.org/citcom/Independent-Citizens-Commission-2024-Presentation.pdf",
-      "locator": "Page 9: ordinary General Assembly salary $44,356.86, rounded to whole dollars",
-      "referencePeriod": "October 1, 2021"
+      "sourceUrl": "https://media.ark.org/citcom/Salary-Adjustment-Resolution.pdf",
+      "locator": "Independent Citizens Commission signed November 14, 2025 final resolution pages 1-2, effective next full pay period ten days after filing: published new annual salary, replacing prior base with 1% increase. Excludes leadership, prosecutorial and expense amounts. Rounded published cents once to whole annual dollars.",
+      "referencePeriod": "2026 (November 2025 resolution)"
     },
     {
       "state": "AR",
       "office": "trial-court-judge",
-      "annualDollars": 192919,
+      "annualDollars": 210628,
       "status": "SOURCED",
-      "sourceUrl": "https://media.ark.org/citcom/Independent-Citizens-Commission-2024-Presentation.pdf",
-      "locator": "Page 13: Circuit Judges row, last listed revision $192,918.54, rounded to whole dollars",
-      "referencePeriod": "November 18, 2022 revision"
+      "sourceUrl": "https://media.ark.org/citcom/Salary-Adjustment-Resolution.pdf",
+      "locator": "Independent Citizens Commission signed November 14, 2025 final resolution pages 1-2, effective next full pay period ten days after filing: published new annual salary, replacing prior base with 3% increase. Excludes leadership, prosecutorial and expense amounts. Rounded published cents once to whole annual dollars.",
+      "referencePeriod": "2026 (November 2025 resolution)"
     },
     {
       "state": "AZ",
       "office": "governor",
       "annualDollars": 95000,
       "status": "SOURCED",
-      "sourceUrl": "https://www.azleg.gov/legtext/56leg/2R/summary/S.1480APPROP.DOCX.htm",
-      "locator": "Background: FY 2024 budget governor annual salary",
-      "referencePeriod": "FY 2024"
+      "sourceUrl": "https://www.azjlbc.gov/budget/454.pdf",
+      "locator": "JLBC enacted salary-adjustment table, printed page 454, January 1, 2026 column. Superior Court base $180,000 January 2024 plus $10,000 January 2025 and $10,000 January 2026 = $200,000. Governor $95,000 and ordinary legislators $24,000 unchanged; excludes future terms and allowances.",
+      "referencePeriod": "2026"
     },
     {
       "state": "AZ",
       "office": "state-legislator",
       "annualDollars": 24000,
       "status": "SOURCED",
-      "sourceUrl": "https://www.azleg.gov/legtext/57leg/1R/summary/S.SCR1003APPROP_ASPASSEDCOW.DOCX.htm",
-      "locator": "Background: existing salary established by Proposition 302; use existing enacted amount, not the proposed formula",
-      "referencePeriod": "1998 statutory salary"
+      "sourceUrl": "https://www.azjlbc.gov/budget/454.pdf",
+      "locator": "JLBC enacted salary-adjustment table, printed page 454, January 1, 2026 column. Superior Court base $180,000 January 2024 plus $10,000 January 2025 and $10,000 January 2026 = $200,000. Governor $95,000 and ordinary legislators $24,000 unchanged; excludes future terms and allowances.",
+      "referencePeriod": "2026"
     },
     {
       "state": "AZ",
       "office": "trial-court-judge",
       "annualDollars": 200000,
       "status": "SOURCED",
-      "sourceUrl": "https://www.azleg.gov/legtext/56leg/2R/summary/S.1735-2897APPROP_ASENACTED.DOCX.htm",
-      "locator": "Item 128: Superior Court annual salary effective January 1, 2026",
-      "referencePeriod": "January 1, 2026"
+      "sourceUrl": "https://www.azjlbc.gov/budget/454.pdf",
+      "locator": "JLBC enacted salary-adjustment table, printed page 454, January 1, 2026 column. Superior Court base $180,000 January 2024 plus $10,000 January 2025 and $10,000 January 2026 = $200,000. Governor $95,000 and ordinary legislators $24,000 unchanged; excludes future terms and allowances.",
+      "referencePeriod": "2026"
     },
     {
       "state": "CA",
       "office": "governor",
-      "annualDollars": 224020,
+      "annualDollars": 245929,
       "status": "SOURCED",
       "sourceUrl": "https://www.calhr.ca.gov/california-citizens-compensation-commission/cccc-salaries/",
-      "locator": "Past salaries of elected officials, 2022-2023: governor",
-      "referencePeriod": "2022-2023"
+      "locator": "Current salaries section: governor annual salary; ordinary member, excluding leadership supplements.",
+      "referencePeriod": "2026 (effective December 1, 2025)"
     },
     {
       "state": "CA",
       "office": "state-legislator",
-      "annualDollars": 128215,
+      "annualDollars": 134694,
       "status": "SOURCED",
       "sourceUrl": "https://www.calhr.ca.gov/california-citizens-compensation-commission/cccc-salaries/",
-      "locator": "Past salaries of elected officials, 2023-2024: ordinary members, excluding leadership",
-      "referencePeriod": "December 4, 2023"
+      "locator": "Current salaries section: state-legislator annual salary; ordinary member, excluding leadership supplements.",
+      "referencePeriod": "2026 (effective December 1, 2025)"
     },
     {
       "state": "CA",
       "office": "trial-court-judge",
-      "annualDollars": 231174,
+      "annualDollars": 244727,
       "status": "SOURCED",
-      "sourceUrl": "https://sf.courts.ca.gov/system/files/general/salary-schedule-070123.pdf",
-      "locator": "Page 7, class 990C: state annual salary; excludes the separate $9,500 local supplement",
-      "referencePeriod": "July 1, 2022"
+      "sourceUrl": "https://www.gov.ca.gov/2026/09/18/governor-newsom-announces-judicial-appointments-9-18-2026/",
+      "locator": "September 18, 2026 Governor’s official appointments notice, Superior Court positions: current annual compensation $244,727; excludes the separate $280,052 appellate appointments. Published final rate includes statutory Government Code 68203 salary adjustments, replacing the old July 2022 rate.",
+      "referencePeriod": "2026"
     },
     {
       "state": "CO",
       "office": "governor",
       "annualDollars": 134632,
       "status": "SOURCED",
-      "sourceUrl": "https://content.leg.colorado.gov/sites/default/files/r22-687_update_statewide_elected_officials_salaries_final_accessible.pdf",
-      "locator": "Governor row: annual salary for term beginning January 11, 2023; 66 percent of Chief Justice salary, rounded by publisher",
-      "referencePeriod": "January 2023"
+      "sourceUrl": "https://content.leg.colorado.gov/agencies/legislative-council-staff/salaries-legislators-statewide-elected-officials-and-county",
+      "locator": "Legislative Council current 2026 annual salary column: Governor $134,632. New 2027 $149,230 and future inflation adjustments excluded.",
+      "referencePeriod": "2026"
     },
     {
       "state": "CO",
       "office": "state-legislator",
-      "annualDollars": 40242,
+      "annualDollars": 47561,
       "status": "SOURCED",
-      "sourceUrl": "https://leg.colorado.gov/bills/HB20-1423",
-      "locator": "Summary as enacted: annual base compensation during 2021 legislative session",
-      "referencePeriod": "2021"
+      "sourceUrl": "https://content.leg.colorado.gov/agencies/legislative-council-staff/salaries-legislators-statewide-elected-officials-and-county",
+      "locator": "Legislative Council current 2026 table: ordinary House member and Senate member with term beginning on or after January 8, 2025 annual salary $47,561. Senators on earlier terms retain $43,977; simulation uses current newly filled ordinary office rate. Future January 2027 $50,802 excluded.",
+      "referencePeriod": "2026 (terms beginning January 8, 2025)"
     },
     {
       "state": "CO",
       "office": "trial-court-judge",
-      "annualDollars": 183816,
+      "annualDollars": 203768,
       "status": "SOURCED",
-      "sourceUrl": "https://content.leg.colorado.gov/sites/default/files/fy2023-24_judfig2.pdf",
-      "locator": "Judicial salary table: District Court Judge current salary before proposed FY2024 increase",
-      "referencePeriod": "FY2023"
+      "sourceUrl": "https://leg.colorado.gov/laws/session-laws/HB26-1410/436/download",
+      "locator": "Enacted HB26-1410 chapter 436 Long Bill footnote 53 under C.R.S. 13-30-104(3): District Court Judge annual salary $203,768, FY2026-27 increase $0; excludes county court and administrative supplements.",
+      "referencePeriod": "FY 2026-2027"
     },
     {
       "state": "CT",
       "office": "governor",
       "annualDollars": 226711,
       "status": "SOURCED",
-      "sourceUrl": "https://www.cga.ct.gov/2022/SUM/PDF/2022SUM00085-R02HB-05406-SUM.PDF",
-      "locator": "Public Act 22-85 summary: Governor equals Supreme Court chief justice salary in force at term start; future judicial increases excluded",
-      "referencePeriod": "January 4, 2023"
+      "sourceUrl": "https://www.cga.ct.gov/Current/pub/chap_031.htm",
+      "locator": "Section 3-2(a): Chief Justice salary at January 4, 2023 ($226,711 under section 51-47), with subsequent Chief Justice increases deferred until the January following the next gubernatorial election. Thus July 2026 Chief Justice rate does not raise this term’s Governor salary. Base corroborated by https://www.cga.ct.gov/ofa/Documents/year/SMF/2026SMF-20260923_History%20of%20Judicial%20Compensation%20%28September%202026%29.pdf Table 1 FY23.",
+      "referencePeriod": "2026 (current 2023-2026 term)"
     },
     {
       "state": "CT",
       "office": "state-legislator",
-      "annualDollars": 40000,
+      "annualDollars": 43600,
       "status": "SOURCED",
-      "sourceUrl": "https://cga.ct.gov/current/pub/chap_016.htm",
-      "locator": "Section 2-8: ordinary member annual salary beginning January 4, 2023; excludes leadership and expenses",
-      "referencePeriod": "January 2023"
+      "sourceUrl": "https://portal.ct.gov/sots/register-manual/section-iii/ct-general-assembly",
+      "locator": "Current Secretary of State register: ordinary General Assembly member annual salary $43,600. Base $40,000 under CGS 2-8, biennial employment-cost adjustment under CGS 2-9c https://cga.ct.gov/current/pub/chap_016.htm : 40000 + 3600 = 43600; next adjustment is January 2027. Excludes leadership and expenses.",
+      "referencePeriod": "2025-2026"
     },
     {
       "state": "CT",
       "office": "trial-court-judge",
-      "annualDollars": 189483,
+      "annualDollars": 217109,
       "status": "SOURCED",
-      "sourceUrl": "https://www.cga.ct.gov/2022/SUM/PDF/2022SUM00085-R02HB-05406-SUM.PDF",
-      "locator": "Governor and constitutional officers table: Superior Court judge actual July 1, 2022 rate",
-      "referencePeriod": "July 1, 2022"
+      "sourceUrl": "https://www.cga.ct.gov/ofa/Documents/year/SMF/2026SMF-20260923_History%20of%20Judicial%20Compensation%20%28September%202026%29.pdf",
+      "locator": "OFA September 2026 History of Judicial Compensation, Table 1 Superior Court Judge, FY27 column: implemented current statutory annual salary $217,109; excludes deputy chief administrator and trial referee rates.",
+      "referencePeriod": "2026 (effective July 1, 2026)"
     },
     {
       "state": "DC",
       "office": "trial-court-judge",
-      "annualDollars": 232600,
+      "annualDollars": 249900,
       "status": "SOURCED",
       "sourceUrl": "https://www.uscourts.gov/about-federal-courts/about-federal-judges/judicial-compensation",
-      "locator": "2023 District Judges annual salary; D.C. Code 11-904(b) fixes ordinary Superior Court salary at federal district judge rate",
-      "referencePeriod": "2023"
+      "locator": "2026 District Judges column; D.C. Superior Court salary parity under https://code.dccouncil.gov/us/dc/council/code/sections/11-904 .",
+      "referencePeriod": "2026"
     },
     {
       "state": "DE",
       "office": "governor",
-      "annualDollars": 171000,
+      "annualDollars": 185096,
       "status": "SOURCED",
-      "sourceUrl": "https://legis.delaware.gov/SessionLaws/Chapter/GetPdfDocument?fileAttachmentId=644834",
-      "locator": "Printed page 100: budget unit 10-01-01 Governor annual salary, benefits excluded",
-      "referencePeriod": "FY 2025"
+      "sourceUrl": "https://legis.delaware.gov/json/BillDetail/GetPdfDocument?fileAttachmentId=655594",
+      "locator": "Enacted SB335 section 10(a), replacement table printed page 104: Governor current annual salary $185,096. Prior term $171,000 no longer applies; current four-year term rate is unchanged by FY27 increase.",
+      "referencePeriod": "FY 2026-2027"
     },
     {
       "state": "DE",
       "office": "state-legislator",
-      "annualDollars": 49202,
+      "annualDollars": 54308,
       "status": "SOURCED",
-      "sourceUrl": "https://legis.delaware.gov/SessionLaws/Chapter/GetPdfDocument?fileAttachmentId=628734",
-      "locator": "Printed page 96, Section 10(a): Representative and Senator same annual salary, first full pay cycle of fiscal year",
-      "referencePeriod": "FY2024"
+      "sourceUrl": "https://legis.delaware.gov/json/BillDetail/GetPdfDocument?fileAttachmentId=655594",
+      "locator": "Enacted SB335 section 10(a), replacement table printed page 103: Representative and Senator current annual salary $54,308. Supersedes struck $52,726 table on page 98; first full pay cycle of FY2027. Excludes leadership and expenses.",
+      "referencePeriod": "FY 2026-2027"
     },
     {
       "state": "DE",
       "office": "trial-court-judge",
-      "annualDollars": 199612,
+      "annualDollars": 233022,
       "status": "SOURCED",
-      "sourceUrl": "https://legis.delaware.gov/SessionLaws/Chapter/GetPdfDocument?fileAttachmentId=628734",
-      "locator": "Printed page 96, Section 10(a): ordinary Associate Judge, Superior Court annual salary; presiding judge excluded",
-      "referencePeriod": "FY2024"
+      "sourceUrl": "https://legis.delaware.gov/json/BillDetail/GetPdfDocument?fileAttachmentId=655594",
+      "locator": "Enacted SB335 section 10(a), replacement table printed page 103: Associate Judge, Superior Court current annual salary $233,022. Supersedes struck $221,926 table on page 98; first full pay cycle of FY2027. Excludes presiding and commissioner salaries.",
+      "referencePeriod": "FY 2026-2027"
     },
     {
       "state": "FL",
       "office": "governor",
       "annualDollars": 141400,
       "status": "SOURCED",
-      "sourceUrl": "https://www.flsenate.gov/usercontent/session/archive/journals/2022/2022-sj-bound-vII.pdf",
-      "locator": "March 14, 2022, printed page 1156: Governor annual salary in appropriations conference report",
-      "referencePeriod": "FY 2022-2023"
+      "sourceUrl": "https://laws.flrules.org/2026/232",
+      "locator": "Enacted chapter 2026-232, section 8(1) employee and officer compensation, signed June 29, 2026: current annual Governor $141,400 and ordinary Circuit Court Judge $200,836. Uses enacted table, excluding proposed and conference-offer rates, voluntary reductions and local supplements.",
+      "referencePeriod": "2026 (FY 2026-2027)"
     },
     {
       "state": "FL",
       "office": "trial-court-judge",
-      "annualDollars": 182060,
+      "annualDollars": 200836,
       "status": "SOURCED",
-      "sourceUrl": "https://www.flsenate.gov/usercontent/session/archive/journals/2022/2022-sj-bound-vII.pdf",
-      "locator": "March 14, 2022, printed page 1156: Judges - Circuit Courts annual salary",
-      "referencePeriod": "FY 2022-2023"
+      "sourceUrl": "https://laws.flrules.org/2026/232",
+      "locator": "Enacted chapter 2026-232, section 8(1) employee and officer compensation, signed June 29, 2026: current annual Governor $141,400 and ordinary Circuit Court Judge $200,836. Uses enacted table, excluding proposed and conference-offer rates, voluntary reductions and local supplements.",
+      "referencePeriod": "2026 (FY 2026-2027)"
     },
     {
       "state": "GA",
       "office": "governor",
-      "annualDollars": 175000,
+      "annualDollars": 185000,
       "status": "SOURCED",
-      "sourceUrl": "https://www.senate.ga.gov/sro/Documents/Major%20Adopted%20Legislation/2017MajorAdoptedLegislation.pdf",
-      "locator": "Adopted HB202: Governor annual base salary beginning January 2019, before subsequent adjustments",
-      "referencePeriod": "January 2019"
+      "sourceUrl": "https://www.open.georgia.gov/openga/salaryTravel/searchByPerson",
+      "locator": "State Auditor Open Georgia FY2025 full-year Governor salary record publishes $184,999.92, rounded to $185,000; search Governor, Office of the, current term holder. Current O.C.G.A. 45-7-4(a)(1) base $175,000 and subsection (b) appropriated adjustments: https://www.legis.ga.gov/api/document/docs/default-source/joint-features-document-library/t45-%28v33%29-pdf.pdf . Current term amount incorporates $10,000 adjustment; no intra-term increase under state Constitution Article V section I paragraph III. Excludes travel and one-time bonuses.",
+      "referencePeriod": "2026 (current 2023-2026 term)"
     },
     {
       "state": "GU",
       "office": "governor",
-      "annualDollars": 130000,
+      "annualDollars": 90000,
       "status": "SOURCED",
-      "sourceUrl": "https://www.opaguam.org/sites/default/files/15-03.pdf",
-      "locator": "Government auditor report Table 6: actual annual Governor salary after 2014 change, not pension amounts or projections",
-      "referencePeriod": "2014"
+      "sourceUrl": "https://col.guamcourts.gov/sites/default/files/05gc001_Q.pdf",
+      "locator": "Current Compiler of Laws 5 GCA 1517: Governor annual salary $90,000 under P.L. 34-009 section 3 (May 23, 2017), originally numbered 1103. Supersedes older Competitive Wage Act $130,000; excludes allowances. Current compilation independently checked.",
+      "referencePeriod": "2026"
     },
     {
       "state": "HI",
       "office": "governor",
-      "annualDollars": 184860,
+      "annualDollars": 226620,
       "status": "SOURCED",
-      "sourceUrl": "https://data.capitol.hawaii.gov/sessions/session2026/Bills/DC169_.pdf",
-      "locator": "2019 Commission salary history Table 1: Governor July 1, 2023 scheduled annual salary",
-      "referencePeriod": "July 1, 2023"
+      "sourceUrl": "https://dhrd.hawaii.gov/wp-content/uploads/2025/03/2025-0313-COS-FINAL-Report-Appendices-1.pdf",
+      "locator": "Final March 13, 2025 Commission report printed pages 17-18, Figure 1: 2025 adopted salary $217,908 with 4% increase in July 2026, using published monthly-rounded annual schedule $226,620. Article XVI section 3.5 makes recommendations effective absent disapproval; proposed HCR83 remained referred on March 14, 2025 per official deadline report. Excludes draft recommendations and future 2027 increase.",
+      "referencePeriod": "2026 (effective July 1, 2026)"
     },
     {
       "state": "HI",
       "office": "state-legislator",
-      "annualDollars": 72348,
+      "annualDollars": 74160,
       "status": "SOURCED",
-      "sourceUrl": "https://dhrd.hawaii.gov/wp-content/uploads/2025/01/2025-0130-COS-DRAFT-Rec_Margery-Bronster_Updated.pdf",
-      "locator": "Legislator compensation history: ordinary members January 1, 2023; historical column only, future proposals excluded",
-      "referencePeriod": "January 1, 2023"
+      "sourceUrl": "https://dhrd.hawaii.gov/wp-content/uploads/2025/03/2025-0313-COS-FINAL-Report-Appendices-1.pdf",
+      "locator": "Final Commission report printed pages 22-23 prescribes no increase in 2025-2026. Appendix D ordinary representative/senator historical 2024 annual salary $74,160 remains current; excludes leadership, allowances, and future January 2027 $97,896.",
+      "referencePeriod": "2026"
     },
     {
       "state": "HI",
       "office": "trial-court-judge",
-      "annualDollars": 213096,
+      "annualDollars": 267468,
       "status": "SOURCED",
-      "sourceUrl": "https://dhrd.hawaii.gov/wp-content/uploads/2024/11/2024-1107-COS-Initial-Binder_FINAL.pdf",
-      "locator": "PDF page 160: own Judicial Salaries from 1990 history, Circuit Court Judge actual July 1, 2022 column, not proposed schedule",
-      "referencePeriod": "July 1, 2022"
+      "sourceUrl": "https://dhrd.hawaii.gov/wp-content/uploads/2025/03/2025-0313-COS-FINAL-Report-Appendices-1.pdf",
+      "locator": "Final March 13, 2025 Commission report printed page 21 Figure 2: ordinary Circuit Court Judge, $243,156 in July 2025, 10% in July 2026, published monthly-rounded annual rate $267,468. Excludes district/family court and administrative supplements.",
+      "referencePeriod": "2026 (effective July 1, 2026)"
     },
     {
       "state": "IA",
@@ -298,98 +298,98 @@ export const OFFICE_PAY_META = {
       "annualDollars": 130000,
       "status": "SOURCED",
       "sourceUrl": "https://www.legis.iowa.gov/publications/fiscal/salaryBook?aid=350&cFY=true",
-      "locator": "Department of Management, Governor position: annual salary rate, not fiscal-year total paid",
-      "referencePeriod": "FY 2025"
+      "locator": "Official Legislature current Salary Book Governor annual base $130,000 under 2005 Iowa Acts chapter 177 section 2. Uses full-year entitled base, excluding proposals and future January 2027 rates.",
+      "referencePeriod": "2026"
     },
     {
       "state": "IA",
       "office": "state-legislator",
       "annualDollars": 25000,
       "status": "SOURCED",
-      "sourceUrl": "https://www.legis.iowa.gov/docs/publications/LG/15815.pdf",
-      "locator": "Legislative guide section 11(a): ordinary member annual salary, excluding leadership",
-      "referencePeriod": "2015-2016"
+      "sourceUrl": "https://www.legis.iowa.gov/docs/code/2026/2.10.pdf",
+      "locator": "Iowa Code 2026 section 2.10(1): ordinary General Assembly member annual salary $25,000; subsection 8 fixes prior COLA and does not prescribe recurring annual increases. Excludes leadership salaries and per diem.",
+      "referencePeriod": "2026"
     },
     {
       "state": "IA",
       "office": "trial-court-judge",
-      "annualDollars": 158056,
+      "annualDollars": 174531,
       "status": "SOURCED",
-      "sourceUrl": "https://www.legis.iowa.gov/docs/publications/LGE/89/attachments/HF2558.html",
-      "locator": "HF 2558 enacted judicial appropriations: ordinary district judge excluding chief judge",
-      "referencePeriod": "FY 2023"
+      "sourceUrl": "https://www.iowacourts.gov/static/media/cms/FY27_SCA_Final_Budget_Letter_7D076DFA6322D.pdf",
+      "locator": "Supreme Court approved final June 3, 2026 salary letter page 2: all judicial officers receive 2.6% FY27 increase. Ordinary district judge base $170,108 in enacted 2025 chapter 158 section 6, documented by Legislature NOBA: https://www.legis.iowa.gov/docs/publications/NOBA/1527483.pdf . Current section 602.1401 authority under 2026 chapter 1200 sections 65-75 supersedes earlier statutory rates; 170108 × 1.026 = $174,530.808, rounded once. Excludes chiefs and magistrates.",
+      "referencePeriod": "2026 (FY 2027)"
     },
     {
       "state": "ID",
       "office": "governor",
       "annualDollars": 151400,
       "status": "SOURCED",
-      "sourceUrl": "https://archive.legmt.gov/content/Committees/Interim/2023-2024/Senate-Select-Committee-on-Judicial-Oversight-Reform/Meetings/240927-September-2024/Elected_Officials_Salary_Table%20_07-2024.pdf",
-      "locator": "Governor row, ID current salary column; independent contiguous-state survey by Montana State Human Resources, under sections 2-16-403 and 2-16-405 MCA",
-      "referencePeriod": "June 2024"
+      "sourceUrl": "https://legislature.idaho.gov/statutesrules/idstat/Title59/T59CH5/SECT59-501/",
+      "locator": "Section 59-501(1)(a): Governor annual salary $151,400 from first Monday January 2023 until first Monday January 2027. Future 2027 term changes excluded.",
+      "referencePeriod": "2026 (2023-2026 term)"
     },
     {
       "state": "ID",
       "office": "trial-court-judge",
-      "annualDollars": 151212,
+      "annualDollars": 172508,
       "status": "SOURCED",
-      "sourceUrl": "https://archive.legmt.gov/content/Committees/Interim/2023-2024/Senate-Select-Committee-on-Judicial-Oversight-Reform/Meetings/240927-September-2024/Elected_Officials_Salary_Table%20_07-2024.pdf",
-      "locator": "District Judge row, ID current salary column; independent contiguous-state survey by Montana State Human Resources, under sections 2-16-403 and 2-16-405 MCA",
-      "referencePeriod": "June 2024"
+      "sourceUrl": "https://legislature.idaho.gov/statutesrules/idstat/Title59/T59CH5/SECT59-502/",
+      "locator": "Current section 59-502(1)-(3): July 2025 Supreme Court base $186,508 less $8,000 appellate differential and $6,000 district differential = $172,508. Official State Controller 2026 Legislative Handbook Exhibit C confirms ordinary District Judge annual rate: https://www.sco.idaho.gov/viewerfiles/LegislativeHandbook2026/2026%20Legislative%20Handbook.pdf . Excludes administrative supplements.",
+      "referencePeriod": "2026"
     },
     {
       "state": "IL",
       "office": "governor",
-      "annualDollars": 205700,
+      "annualDollars": 245600,
       "status": "SOURCED",
-      "sourceUrl": "https://www.ilga.gov/documents/legislation/ilcs/documents/000502900K1.htm",
-      "locator": "5 ILCS 290/1(2): Governor annual salary, public act 102-1115",
-      "referencePeriod": "January 9, 2023"
+      "sourceUrl": "https://www.ilga.gov/documents/legislation/104/HB/PDF/10400HB0111enr.pdf",
+      "locator": "Enacted HB111/Public Act 104-0464 Article 29 section 25 current annual Governor salary $245,600. Includes statutory COLAs since $205,700 January 2023 base in 5 ILCS 290/1: https://ilga.gov/legislation/ilcs/fulltext?DocName=000502900K1 . FY26 $237,900 replaced by FY27 published $245,600; excludes mansion and voluntary refusal.",
+      "referencePeriod": "2026 (FY 2027)"
     },
     {
       "state": "IL",
       "office": "state-legislator",
-      "annualDollars": 85000,
+      "annualDollars": 101450,
       "status": "SOURCED",
-      "sourceUrl": "https://www.ilga.gov/legislation/ilcs/fulltext?DocName=002501150K1",
-      "locator": "25 ILCS 115/1: ordinary member rate for 103rd General Assembly, excluding leadership",
-      "referencePeriod": "January 2023"
+      "sourceUrl": "https://www.ilga.gov/documents/legislation/104/HB/PDF/10400HB0111enr.pdf",
+      "locator": "Enacted HB111/Public Act 104-0464 Article 29 section 35, printed page 172: ordinary member annual base $101,450. Current House FOIA publication confirms: https://www.ilga.gov/Documents/house/FOIA.pdf . Includes annual COLA under 25 ILCS 115/1 since 2023 $85,000 base; excludes leadership stipends, per diem and mileage.",
+      "referencePeriod": "2026 (FY 2027)"
     },
     {
       "state": "IN",
       "office": "trial-court-judge",
-      "annualDollars": 165276,
+      "annualDollars": 183513,
       "status": "SOURCED",
-      "sourceUrl": "https://www.in.gov/ccaa/files/CJ-letter-to-SBA-May-2023-Final-05.09.23.pdf",
-      "locator": "Chief Justice letter May 9, 2023: Judge current rate before July 2023 increase; magistrates excluded",
-      "referencePeriod": "FY 2023"
+      "sourceUrl": "https://www.in.gov/ccaa/files/FY27-Judicial-Salary-Increases-6.23.26.pdf",
+      "locator": "Current $183,513 trial court rate from 2024 Indiana Judicial Service Report https://www.in.gov/courts/iocs/files/2024-indiana-judicial-service-report.pdf page 14. Adjusted 2023 rate $178,168 × 1.03 = $183,513.04, implemented $183,513 under https://www.in.gov/ccaa/files/CJ-letter-to-SBA-MAR-2024-03.05.24-FINAL.pdf . 2026 CCAA compensation schedule reports no authorized increase; June 23, 2026 State Budget Agency letter certifies FY27 statutory adjustment 0%. Excludes county supplements.",
+      "referencePeriod": "2026 (FY 2026-2027)"
     },
     {
       "state": "KS",
       "office": "governor",
-      "annualDollars": 110707,
+      "annualDollars": 174000,
       "status": "SOURCED",
-      "sourceUrl": "https://www.kslegresearch.org/KLRD-web/Publications/FiscalFacts/2023-Fiscal-Facts.pdf",
-      "locator": "Executive compensation: governor annual salary",
-      "referencePeriod": "2023"
+      "sourceUrl": "https://www.kslegislature.gov/b2025_26/laws/075_000_0000_chapter/075_031_0000_article/075_031_0001a_section/075_031_0001a_k/",
+      "locator": "Current K.S.A. 75-3101a(a)(1): annual Governor salary equals ordinary member of Congress as of January 1 each year. U.S. Senate official 2026 salary table publishes $174,000: https://www.senate.gov/senators/SenateSalariesSince1789.htm . Supersedes prior $110,707 rate; excludes leadership and expenses.",
+      "referencePeriod": "2026"
     },
     {
       "state": "KS",
       "office": "trial-court-judge",
-      "annualDollars": 148912,
+      "annualDollars": 187425,
       "status": "SOURCED",
-      "sourceUrl": "https://www.kslegresearch.org/KLRD-web/Publications/FiscalFacts/2023-Fiscal-Facts.pdf",
-      "locator": "District Court: ordinary judge annual salary",
-      "referencePeriod": "2023"
+      "sourceUrl": "https://www.kslegislature.gov/b2023_24/laws/075_000_0000_chapter/075_031_0000_article/075_031_0020n_section/075_031_0020n_k/",
+      "locator": "Current K.S.A. 75-3120n(a)(1): ordinary District Judge receives 75% of U.S. District Judge annual salary at January 1. Federal 2026 published base $249,900: https://www.uscourts.gov/about-federal-courts/about-federal-judges/judicial-compensation . Compute 249900 × 0.75 = $187,425. Excludes chief and magistrate rates.",
+      "referencePeriod": "2026"
     },
     {
       "state": "LA",
       "office": "governor",
       "annualDollars": 130000,
       "status": "SOURCED",
-      "sourceUrl": "https://www.legis.la.gov/Legis/ViewDocument.aspx?d=1461010",
-      "locator": "Fiscal note page 2: present salary only; proposed salary and allowances excluded",
-      "referencePeriod": "April 2026 existing law"
+      "sourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=92688",
+      "locator": "Current R.S. 36:10(A) annual Governor salary $130,000. 2026 HB1201 proposed $174,000 is expressly effective January 10, 2028, not current 2026; excludes allowances.",
+      "referencePeriod": "2026"
     },
     {
       "state": "LA",
@@ -397,17 +397,17 @@ export const OFFICE_PAY_META = {
       "annualDollars": 16800,
       "status": "SOURCED",
       "sourceUrl": "https://www.legis.la.gov/legis/Law.aspx?d=84089",
-      "locator": "RS 24:31.1: ordinary member salary, excluding expense allowance and leadership",
-      "referencePeriod": "Statutory annual rate"
+      "locator": "R.S. 24:31.1(A): ordinary member annual salary, excluding presiding officers, per diem and allowances; current statute independently checked.",
+      "referencePeriod": "2026"
     },
     {
       "state": "MA",
       "office": "governor",
-      "annualDollars": 185000,
+      "annualDollars": 243493,
       "status": "SOURCED",
-      "sourceUrl": "https://malegislature.gov/Laws/SessionLaws/Acts/2017/Chapter1",
-      "locator": "Sections 4, 37(c) and 45: annual salary starting January 2017, before first 2019 biennial adjustment; housing allowance excluded",
-      "referencePeriod": "2017-2018"
+      "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartI/TitleII/Chapter6/Section1",
+      "locator": "M.G.L. c.6 section 1(a): $185,000 base plus biennial wage adjustment. MWRA June 18, 2025 board materials, PDF page 188, Governor 2025 annual rate $243,493: https://www.mwra.com/media/file/2025-06-18-mwra-board-directors-meeting-materials . Adjustment component = 243493 - 185000 = 58493; adjusted annual salary = 185000 + 58493 = 243493. Excludes separate $65,000 housing allowance under section 1(b).",
+      "referencePeriod": "2025-2026"
     },
     {
       "state": "MA",
@@ -415,116 +415,116 @@ export const OFFICE_PAY_META = {
       "annualDollars": 207855,
       "status": "SOURCED",
       "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartIII/TitleI/Chapter211B/Section4",
-      "locator": "Chapter 211B section 4: ordinary associate justice of the trial court annual salary",
-      "referencePeriod": "Statute accessed October 2026"
+      "locator": "Current M.G.L. c.211B section 4: ordinary associate trial court justice annual salary $207,855; excludes chief justice supplements. Independently checked FY2027 final budget (2026 chapter 137) against proposed judicial-pay amendments; no enacted replacement salary in that budget.",
+      "referencePeriod": "2026"
     },
     {
       "state": "MD",
       "office": "governor",
-      "annualDollars": 184000,
+      "annualDollars": 195000,
       "status": "SOURCED",
       "sourceUrl": "https://dls.maryland.gov/pubs/prod/NoPblTabMtg/GovSalCmsn/2026_Governors_Salary_Commission_Report.pdf",
-      "locator": "Maryland Governor salary history: Maryland actual 2023 rate only; comparative third-party state tables excluded",
-      "referencePeriod": "2023"
+      "locator": "Appendix 3 adopted 2023-2026 term: fourth year $195,000; Appendix 4 calendar 2026 column confirms the current rate. Later term recommendations do not govern 2026.",
+      "referencePeriod": "2026"
     },
     {
       "state": "MD",
       "office": "state-legislator",
-      "annualDollars": 52343,
+      "annualDollars": 56636,
       "status": "SOURCED",
       "sourceUrl": "https://dls.maryland.gov/pubs/prod/NoPblTabMtg/GenAsmComp/2026-Report-of-the-General-Assembly-Compensation-Commission.pdf",
-      "locator": "Exhibit 18: actual General Assembly Member salary fiscal 2023, excluding presiding officers",
-      "referencePeriod": "FY 2023"
+      "locator": "Printed page 10 and Appendix 1: current ordinary legislator salary for calendar 2026 is $56,636, excluding presiding-officer pay and expense allowances.",
+      "referencePeriod": "2026"
     },
     {
       "state": "MD",
       "office": "trial-court-judge",
-      "annualDollars": 184433,
+      "annualDollars": 220333,
       "status": "SOURCED",
-      "sourceUrl": "https://mgaleg.maryland.gov/2022RS/Chapters_noln/JR_3_sj0004f.pdf",
-      "locator": "Enacted Joint Resolution 3: Circuit Courts ordinary Judge annual salary beginning July 1, 2022",
-      "referencePeriod": "July 1, 2022"
+      "sourceUrl": "https://www.mdcourts.gov/judgeselect/judicialsalaries",
+      "locator": "Maryland Courts current salary table: ordinary Circuit Court Judge $220,333. Joint Resolution 2 enacted March 13, 2026 under Courts Article 1-708 replaces prior $214,433 with $220,333: https://mgaleg.maryland.gov/mgawebsite/Legislation/Details/sj0002?ys=2026RS . Excludes chief, appellate and magistrate salaries.",
+      "referencePeriod": "2026 (effective July 1, 2026)"
     },
     {
       "state": "ME",
       "office": "governor",
       "annualDollars": 70000,
       "status": "SOURCED",
-      "sourceUrl": "https://www.legislature.maine.gov/legis/statutes/2/title2sec1.html",
-      "locator": "Title 2 section 1: annual salary before the first Wednesday of January 2027",
-      "referencePeriod": "January 1987 through 2026"
+      "sourceUrl": "https://legislature.maine.gov/statutes/2/title2sec1.html",
+      "locator": "Title 2 section 1: current salary $70,000; enacted $125,000 begins the first Wednesday of January 2027 and is excluded from the 2026 rate.",
+      "referencePeriod": "2026"
     },
     {
       "state": "MI",
       "office": "governor",
       "annualDollars": 159300,
       "status": "SOURCED",
-      "sourceUrl": "https://www.michigan.gov/mdcs/-/media/Project/Websites/mdcs/SOCC/2013REPORT.pdf",
-      "locator": "Executive summary: governor, unchanged salary determination",
-      "referencePeriod": "2015-2016"
+      "sourceUrl": "https://www.michigan.gov/mdcs/-/media/Project/Websites/mdcs/SOCC/SOCC-2025-Determination.pdf",
+      "locator": "2025 SOCC determination Executive Summary: previously approved current governor annual salary; proposed 25% increases apply to 2027-2028 only if adopted, excluding current 2026. Excludes allowances and legislative supplements.",
+      "referencePeriod": "2026"
     },
     {
       "state": "MI",
       "office": "state-legislator",
       "annualDollars": 71685,
       "status": "SOURCED",
-      "sourceUrl": "https://www.michigan.gov/mdcs/-/media/Project/Websites/mdcs/SOCC/2013REPORT.pdf",
-      "locator": "Executive summary: ordinary legislator, excluding expense allowance",
-      "referencePeriod": "2015-2016"
+      "sourceUrl": "https://www.michigan.gov/mdcs/-/media/Project/Websites/mdcs/SOCC/SOCC-2025-Determination.pdf",
+      "locator": "2025 SOCC determination Executive Summary: previously approved current state-legislator annual salary; proposed 25% increases apply to 2027-2028 only if adopted, excluding current 2026. Excludes allowances and legislative supplements.",
+      "referencePeriod": "2026"
     },
     {
       "state": "MI",
       "office": "trial-court-judge",
-      "annualDollars": 168759,
+      "annualDollars": 191748,
       "status": "SOURCED",
-      "sourceUrl": "https://www.house.mi.gov/hfa/Archives/PDF/Briefings/Judiciary_BudgetBriefing_fy22-23.pdf",
-      "locator": "Judges and Justices: circuit court annual salary",
-      "referencePeriod": "December 1, 2022"
+      "sourceUrl": "https://legislature.mi.gov/Laws/MCL?objectName=mcl-600-555",
+      "locator": "MCL 600.555 ties circuit judge salary increases to nonexclusively represented executive/administrator pay on the same effective date. FY2026 published salary $186,163: https://www.house.mi.gov/hfa/PDF/Judiciary/Judiciary_Data_History_of_Judicial_Salaries.pdf . Approved 3% October 1, 2026 increase: https://www.michigan.gov/mdcs/-/media/Project/Websites/mdcs/SPDOC/2026/SPDOC-26-08.pdf . Compute 186163 × 1.03 = 191747.89, round to $191,748; includes ordinary combined circuit judge pay, excluding administrative supplements.",
+      "referencePeriod": "2026 (effective October 1, 2026)"
     },
     {
       "state": "MN",
       "office": "governor",
-      "annualDollars": 127629,
+      "annualDollars": 200000,
       "status": "SOURCED",
-      "sourceUrl": "https://www.lcc.mn.gov/compcouncil/meetings/230309/elected-official-salaries-2-1-2023.pdf",
-      "locator": "Table 1: Governor, January 1, 2016 increase, unchanged through July 2021",
-      "referencePeriod": "2016-2021"
+      "sourceUrl": "https://www.lcc.mn.gov/compcouncil/reports/comp-council-final-report-3-31-2025.pdf",
+      "locator": "Determinations, Constitutional Officer Salaries, printed page 9: prescribed Governor salary $200,000 effective July 1, 2026. Uses official office entitlement regardless of an incumbent voluntarily declining the increase; excludes recommended judicial rates.",
+      "referencePeriod": "2026 (effective July 1, 2026)"
     },
     {
       "state": "MN",
       "office": "state-legislator",
-      "annualDollars": 48250,
+      "annualDollars": 51750,
       "status": "SOURCED",
-      "sourceUrl": "https://www.lcc.mn.gov/compcouncil/meetings/230309/elected-official-salaries-2-1-2023.pdf",
-      "locator": "Table 3: ordinary legislator, July 1, 2021",
-      "referencePeriod": "July 2021"
+      "sourceUrl": "https://www.lcc.mn.gov/legsalarycouncil/reports/lsc-final-report-3-5-2025.pdf",
+      "locator": "2025 Legislative Salary Council determination maintains the ordinary annual salary at $51,750; excludes per diem and expenses.",
+      "referencePeriod": "2026 (effective July 1, 2025)"
     },
     {
       "state": "MN",
       "office": "trial-court-judge",
-      "annualDollars": 169264,
+      "annualDollars": 190117,
       "status": "SOURCED",
-      "sourceUrl": "https://www.lcc.mn.gov/compcouncil/meetings/230309/elected-official-salaries-2-1-2023.pdf",
-      "locator": "Table 2: ordinary District Court Judge, July 1, 2021",
-      "referencePeriod": "July 2021"
+      "sourceUrl": "https://www.lcc.mn.gov/compcouncil/meetings/260716/2026-Compensation-Council-Presentation-updated-7-16-26",
+      "locator": "July 16, 2026 Judicial Branch presentation, page 4: current District Court Judge annual salary $190,117 for FY25-FY27. Pages 2 and 5 confirm 0% adjustments in FY26/FY27; proposed 2025 council 6% recommendations were not adopted. Excludes chief judge supplements.",
+      "referencePeriod": "2026 (FY 2026-2027)"
     },
     {
       "state": "MO",
       "office": "governor",
-      "annualDollars": 140596,
+      "annualDollars": 145095,
       "status": "SOURCED",
-      "sourceUrl": "https://revisor.mo.gov/main/Info.aspx?doc=2023AppendicesTablesCumSupp.pdf",
-      "locator": "Appendix G section 2: commission annual Governor salary FY 2023",
-      "referencePeriod": "FY 2023"
+      "sourceUrl": "https://www.sos.mo.gov/CMSImages/AdRules/moreg/2026/v51n5March1/v51n5.pdf",
+      "locator": "Office of Administration certified compensation schedule published March 2, 2026 Register printed page 371: Governor $145,095. Statutory $75,000 base under RSMo 26.010 adjusted under 105.005. July 2026 official Salary Adjustment History confirms no funded general adjustment: https://pers.oa.mo.gov/sites/g/files/zuston146/files/media/pdf/2026/08/2026-07-01%20Salary%20Adjustment%20History_0.pdf . Excludes service differentials.",
+      "referencePeriod": "2026 (FY 2027)"
     },
     {
       "state": "MO",
       "office": "state-legislator",
-      "annualDollars": 37711,
+      "annualDollars": 42188,
       "status": "SOURCED",
-      "sourceUrl": "https://revisor.mo.gov/main/Info.aspx?doc=2023AppendicesTablesCumSupp.pdf",
-      "locator": "Appendix G section 1: Senators and Representatives, excluding leaders, FY 2023",
-      "referencePeriod": "FY 2023"
+      "sourceUrl": "https://www.sos.mo.gov/CMSImages/AdRules/moreg/2026/v51n5March1/v51n5.pdf",
+      "locator": "Certified FY26 ordinary member base $41,770 in March 2, 2026 Register printed page 371. January 2020 Compensation Commission schedule ties annual legislative adjustment to circuit-judge percentage; FY27 judicial/federal COLA is 1%, yielding 41770 × 1.01 = $42,187.70. September 30, 2026 official payroll confirms ordinary State Representative semi-monthly gross $1,757.81, consistent with adjusted annual rate: https://mapyourtaxes.mo.gov/MAP/Employees/Agency/EmployeeDetails.aspx?letter=0&agency=010&row=201127&year=2026 . Excludes leadership and expenses.",
+      "referencePeriod": "2026 (FY 2027, July 1, 2026)"
     },
     {
       "state": "MP",
@@ -532,188 +532,188 @@ export const OFFICE_PAY_META = {
       "annualDollars": 120000,
       "status": "SOURCED",
       "sourceUrl": "https://cnmilaw.org/pdf/cmc_section/T1/8244.pdf",
-      "locator": "1 CMC 8244(a): annual Governor salary; corroborated by FY2025 Governor position-costing schedule",
-      "referencePeriod": "2017 statute and FY2025 budget"
+      "locator": "Current Commonwealth Code 1 CMC 8244(a), Law Revision Commission official compilation: Governor annual salary $120,000 under P.L. 19-83 section 4, January 20, 2017; no recurring statutory adjustment. Excludes lieutenant governor and benefits.",
+      "referencePeriod": "2026"
     },
     {
       "state": "MS",
       "office": "governor",
-      "annualDollars": 122160,
+      "annualDollars": 160000,
       "status": "SOURCED",
-      "sourceUrl": "https://legislature.ms.gov/media/1289/senate-summary_2022.pdf",
-      "locator": "Page 70: HB1426 existing Governor salary before January 2024 increase",
-      "referencePeriod": "2022-2023"
+      "sourceUrl": "https://www.mspb.ms.gov/sites/mspb/files/MSPB_File/Resources%20for%20HR/Policies/FY%202026%20Policies/CY2026ElectedMax.pdf",
+      "locator": "State Personnel Board CY2026 elected-official table Governor row: current salary and maximum both $160,000 under section 25-3-31. Enacted January 2024 replacement of the older $122,160 rate; excludes allowances.",
+      "referencePeriod": "2026"
     },
     {
       "state": "MS",
       "office": "trial-court-judge",
       "annualDollars": 158000,
       "status": "SOURCED",
-      "sourceUrl": "https://legislature.ms.gov/media/1289/senate-summary_2022.pdf",
-      "locator": "Page 70: enacted increase for ordinary circuit judges",
-      "referencePeriod": "July 1, 2022"
+      "sourceUrl": "https://billstatus.ls.state.ms.us/documents/2026/html/HB/1700-1799/HB1752SG.htm",
+      "locator": "Section 25-3-35(3), current ordinary circuit/chancery salary $158,000 through December 31, 2026. CY2026 State Personnel Board table confirms current salary separately from recommended maximum; future January 2027 $171,063 does not govern 2026. Current-pay corroboration: https://www.mspb.ms.gov/sites/mspb/files/MSPB_File/Resources%20for%20HR/Policies/FY%202026%20Policies/CY2026ElectedMax.pdf .",
+      "referencePeriod": "2026"
     },
     {
       "state": "MT",
       "office": "governor",
-      "annualDollars": 124821,
+      "annualDollars": 141517,
       "status": "SOURCED",
       "sourceUrl": "https://archive.legmt.gov/content/Committees/Interim/2023-2024/Senate-Select-Committee-on-Judicial-Oversight-Reform/Meetings/240927-September-2024/Elected_Officials_Salary_Table%20_07-2024.pdf",
-      "locator": "Governor row, MT current salary column; independent contiguous-state survey by Montana State Human Resources, under sections 2-16-403 and 2-16-405 MCA",
-      "referencePeriod": "June 2024"
+      "locator": "Official State Human Resources Division elected-official salary survey, published July 2024: New Montana Salaries 7/1/2025 column, effective through June 30, 2027. Applies neighboring-state mean under MCA 2-16-403 and 2-16-405; replaces prior June 2024 rate. District Judge for general trial court; excludes expenses.",
+      "referencePeriod": "2026 (July 1, 2025-June 30, 2027)"
     },
     {
       "state": "MT",
       "office": "trial-court-judge",
-      "annualDollars": 148872,
+      "annualDollars": 159813,
       "status": "SOURCED",
       "sourceUrl": "https://archive.legmt.gov/content/Committees/Interim/2023-2024/Senate-Select-Committee-on-Judicial-Oversight-Reform/Meetings/240927-September-2024/Elected_Officials_Salary_Table%20_07-2024.pdf",
-      "locator": "District Judge row, MT current salary column; independent contiguous-state survey by Montana State Human Resources, under sections 2-16-403 and 2-16-405 MCA",
-      "referencePeriod": "June 2024"
+      "locator": "Official State Human Resources Division elected-official salary survey, published July 2024: New Montana Salaries 7/1/2025 column, effective through June 30, 2027. Applies neighboring-state mean under MCA 2-16-403 and 2-16-405; replaces prior June 2024 rate. District Judge for general trial court; excludes expenses.",
+      "referencePeriod": "2026 (July 1, 2025-June 30, 2027)"
     },
     {
       "state": "NC",
       "office": "governor",
-      "annualDollars": 165750,
+      "annualDollars": 209165,
       "status": "SOURCED",
-      "sourceUrl": "https://www.ncleg.gov/EnactedLegislation/SessionLaws/HTML/2021-2022/SL2022-74.html",
-      "locator": "Section 39.3: enacted Governor annual salary, excluding struck former amount",
-      "referencePeriod": "July 1, 2022"
+      "sourceUrl": "https://www3.ncleg.gov/EnactedLegislation/SessionLaws/HTML/2025-2026/SL2026-41.html",
+      "locator": "Enacted S.L. 2026-41 section 41.4(a) supersedes codified G.S. 147-11(a), replacing $203,073 with $209,165 annual salary July 1, 2026. Excludes expenses and separate one-time bonus.",
+      "referencePeriod": "2026 (effective July 1, 2026)"
     },
     {
       "state": "NC",
       "office": "state-legislator",
       "annualDollars": 13951,
       "status": "SOURCED",
-      "sourceUrl": "https://house.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_120/GS_120-3.html",
-      "locator": "GS 120-3(b): ordinary member annual salary, excluding expense allowances and leadership",
-      "referencePeriod": "Statutory annual rate"
+      "sourceUrl": "https://sites.ncleg.gov/library/faq/",
+      "locator": "General Assembly current FAQ salary table: ordinary senators and representatives annual salary $13,951 under G.S. 120-3(b): https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_120/GS_120-3.html . Excludes separate $559 monthly expense allowance and per diem; no current increase adopted.",
+      "referencePeriod": "2026"
     },
     {
       "state": "NC",
       "office": "trial-court-judge",
-      "annualDollars": 152188,
+      "annualDollars": 174199,
       "status": "SOURCED",
-      "sourceUrl": "https://www.ncleg.gov/EnactedLegislation/SessionLaws/HTML/2021-2022/SL2022-74.html",
-      "locator": "Section 39.5: ordinary Judge Superior Court annual salary, excluding struck former amount",
-      "referencePeriod": "July 1, 2022"
+      "sourceUrl": "https://www3.ncleg.gov/EnactedLegislation/SessionLaws/HTML/2025-2026/SL2026-41.html",
+      "locator": "Enacted S.L. 2026-41 section 41.6(a): ordinary Superior Court Judge annual salary $174,199 effective July 1, 2026. Excludes senior resident, district-court and administrative salaries and one-time bonus.",
+      "referencePeriod": "2026 (effective July 1, 2026)"
     },
     {
       "state": "ND",
       "office": "governor",
-      "annualDollars": 152265,
+      "annualDollars": 168000,
       "status": "SOURCED",
-      "sourceUrl": "https://archive.legmt.gov/content/Committees/Interim/2023-2024/Senate-Select-Committee-on-Judicial-Oversight-Reform/Meetings/240927-September-2024/Elected_Officials_Salary_Table%20_07-2024.pdf",
-      "locator": "Governor row, ND current salary column; independent contiguous-state survey by Montana State Human Resources, under sections 2-16-403 and 2-16-405 MCA",
-      "referencePeriod": "June 2024"
+      "sourceUrl": "https://ndlegis.gov/cencode/t54c07.pdf",
+      "locator": "N.D.C.C. 54-07-04: $163,107 through June 30, 2026, $168,000 thereafter; uses current post-July rate.",
+      "referencePeriod": "2026 (effective July 1, 2026)"
     },
     {
       "state": "ND",
       "office": "trial-court-judge",
-      "annualDollars": 164532,
+      "annualDollars": 184366,
       "status": "SOURCED",
-      "sourceUrl": "https://archive.legmt.gov/content/Committees/Interim/2023-2024/Senate-Select-Committee-on-Judicial-Oversight-Reform/Meetings/240927-September-2024/Elected_Officials_Salary_Table%20_07-2024.pdf",
-      "locator": "District Judge row, ND current salary column; independent contiguous-state survey by Montana State Human Resources, under sections 2-16-403 and 2-16-405 MCA",
-      "referencePeriod": "June 2024"
+      "sourceUrl": "https://ndlegis.gov/cencode/t27c05.pdf",
+      "locator": "N.D.C.C. 27-05-03: current ordinary district judge annual salary, excluding the presiding judge addition of $5,162.",
+      "referencePeriod": "2026"
     },
     {
       "state": "NE",
       "office": "governor",
       "annualDollars": 105000,
       "status": "SOURCED",
-      "sourceUrl": "https://nebraskalegislature.gov/pdf/bluebook/bluebook_2010.pdf",
-      "locator": "Elected executive officers: statutory annual Governor salary, with section 84-101 reference",
-      "referencePeriod": "2010"
+      "sourceUrl": "https://update.legislature.ne.gov/?p=41125",
+      "locator": "Official May 15, 2026 session review: existing Governor salary $105,000 remains; proposed increase to $130,000 failed by a 21-18 vote and did not become law.",
+      "referencePeriod": "2026"
     },
     {
       "state": "NE",
       "office": "state-legislator",
       "annualDollars": 12000,
       "status": "SOURCED",
-      "sourceUrl": "https://www.nebraskalegislature.gov/FloorDocs/107/PDF/Transcripts/FloorDebate/r1day57.pdf",
-      "locator": "Page 6: appropriations discussion explicitly states existing annual salary for each senator",
-      "referencePeriod": "2021"
+      "sourceUrl": "https://nebraskalegislature.gov/laws/articles.php?article=III-7",
+      "locator": "Current Nebraska Constitution Article III section 7: $1,000 monthly ordinary legislator salary, annualized 1000 × 12 = $12,000; excludes expense reimbursement.",
+      "referencePeriod": "2026"
     },
     {
       "state": "NE",
       "office": "trial-court-judge",
-      "annualDollars": 183545,
+      "annualDollars": 214468,
       "status": "SOURCED",
-      "sourceUrl": "https://nebraskalegislature.gov/FloorDocs/107/PDF/FN/LB386_20210308-134808.pdf",
-      "locator": "Fiscal note judicial salary schedule: District and Juvenile row, July 1, 2022 column",
-      "referencePeriod": "July 1, 2022"
+      "sourceUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=24-301.01",
+      "locator": "Section 24-301.01: district judge salary is 92.5% of Supreme Court salary. Current Supreme Court base under https://nebraskalegislature.gov/laws/statutes.php?statute=24-201.01 is $231,857.65 effective July 1, 2026; compute 231857.65 × 0.925 = 214468.326250; round once to whole annual dollars.",
+      "referencePeriod": "2026 (effective July 1, 2026)"
     },
     {
       "state": "NH",
       "office": "governor",
-      "annualDollars": 161791,
+      "annualDollars": 165027,
       "status": "SOURCED",
-      "sourceUrl": "https://gc.nh.gov/bill_status/legacy/bs2016/billText.aspx?id=1081&sy=2023&txtFormat=html&v=HA",
-      "locator": "Section 170: RSA 94:1-a grade MM sole nonzero step; Governor is grade MM under RSA 94:1-a I(b)",
-      "referencePeriod": "July 14, 2023"
+      "sourceUrl": "https://gc.nh.gov/rsa/html/VI/94/94-1-a.htm",
+      "locator": "RSA 94:1-a(I)(b): Governor is grade MM; current salary table I(a), grade MM step 07 sole nonzero salary is $165,027.",
+      "referencePeriod": "2026"
     },
     {
       "state": "NH",
       "office": "trial-court-judge",
-      "annualDollars": 168761,
+      "annualDollars": 189350,
       "status": "SOURCED",
-      "sourceUrl": "https://gc.nh.gov/bill_status/legacy/bs2016/billText.aspx?id=1080&sy=2021&txtFormat=pdf&v=current",
-      "locator": "Chapter 91, Section 345, printed page 164: ordinary Superior Court associate justice annual salary",
-      "referencePeriod": "July 1, 2022"
+      "sourceUrl": "https://gc.nh.gov/rsa/html/LI/491-A/491-A-mrg.htm",
+      "locator": "Current RSA 491-A:1: ordinary Associate Justice of Superior Court annual salary $189,350. Last scheduled adjustment July 12, 2024 under 2023 chapter 79 section 184. Excludes chief and administrative judge rates.",
+      "referencePeriod": "2026"
     },
     {
       "state": "NJ",
       "office": "governor",
-      "annualDollars": 175000,
+      "annualDollars": 210000,
       "status": "SOURCED",
       "sourceUrl": "https://pub.njleg.state.nj.us/Bills/2022/PL23/349_.HTM",
-      "locator": "Section 52:14-15.104: existing salary through 2025; future term increase is excluded",
-      "referencePeriod": "2002-2025"
+      "locator": "P.L. 2023 c.349 section 4: annual salary from the January 2026 gubernatorial term; excludes allowances.",
+      "referencePeriod": "2026"
     },
     {
       "state": "NJ",
       "office": "state-legislator",
-      "annualDollars": 49000,
+      "annualDollars": 82000,
       "status": "SOURCED",
       "sourceUrl": "https://pub.njleg.state.nj.us/Bills/2022/PL23/349_.HTM",
-      "locator": "Section 52:10A-1: ordinary annual member salary through 2025; future increase is excluded",
-      "referencePeriod": "2002-2025"
+      "locator": "P.L. 2023 c.349 section 2: ordinary Senate and General Assembly member annual salary beginning with the 2026 legislative year; excludes leadership and staff allowances.",
+      "referencePeriod": "2026"
     },
     {
       "state": "NJ",
       "office": "trial-court-judge",
-      "annualDollars": 204167,
+      "annualDollars": 212415,
       "status": "SOURCED",
       "sourceUrl": "https://pub.njleg.state.nj.us/Bills/2022/PL23/349_.HTM",
-      "locator": "Section 2B:2-4: ordinary Superior Court salary $204,166.50, rounded, excluding assignment/presiding/appellate supplements",
-      "referencePeriod": "2024"
+      "locator": "P.L. 2023 c.349 section 1: $204,166.50 base in 2024. Treasury-certified 2% CPI increases in 2025 and 2026, confirmed by Local Finance Notice 2025-16R pages 1-3: https://www.nj.gov/dca/dlgs/lfns/2025/2025-16R.pdf . 204166.50 × 1.02 × 1.02 = 212414.8266; Treasury publishes $212,414.83, rounded to $212,415 for the game.",
+      "referencePeriod": "2026"
     },
     {
       "state": "NM",
       "office": "governor",
       "annualDollars": 110000,
       "status": "SOURCED",
-      "sourceUrl": "https://www.nmlegis.gov/Sessions/02%20Regular/FinalVersions/S0064.PDF",
-      "locator": "Final SB 64 section 1, section 8-1-1(A) NMSA 1978: Governor annual compensation",
-      "referencePeriod": "2002 statutory rate"
+      "sourceUrl": "https://www.nmlegis.gov/Sessions/23%20Regular/bills/senate/SB0442.HTML",
+      "locator": "Section 8-1-1 prior Governor annual salary $110,000. Enacted 2023 chapter 131 (SB442) section 3 restricts Governor increase to terms beginning January 1, 2027; current term retains $110,000. Official enacted-session highlights confirm applicability: https://www.nmlegis.gov/Publications/Session/23/highlights.pdf . Future $169,714 excluded.",
+      "referencePeriod": "2026 (current term through 2026)"
     },
     {
       "state": "NM",
       "office": "trial-court-judge",
-      "annualDollars": 172994,
+      "annualDollars": 227118,
       "status": "SOURCED",
-      "sourceUrl": "https://www.nmlegis.gov/Sessions/24%20Regular/AgencyAnalysis/HB0113_218.pdf",
-      "locator": "Judicial Branch agency analysis: ordinary District Judge FY2024 Current Annual Rate 172993.76, rounded; benefits and proposed amount excluded",
-      "referencePeriod": "FY2024"
+      "sourceUrl": "https://humanresources.nmcourts.gov/wp-content/uploads/sites/63/2026/08/FY25-NMJB-Classifcation-Compensation-Plan-FINAL-7-23-26.pdf",
+      "locator": "New Mexico Judicial Branch current Classification and Compensation Plan, printed page 12 FY2027: ordinary District Judges $227,118.49, reflecting approximately 1% increase. Court of Appeals base $239,072.09 × 95% = $227,118.49; excludes chief supplements. Rounded once to annual whole dollars.",
+      "referencePeriod": "2026 (FY 2027, effective July 4, 2026)"
     },
     {
       "state": "NV",
       "office": "governor",
       "annualDollars": 170062,
       "status": "SOURCED",
-      "sourceUrl": "https://archive.leg.state.nv.us/Session/82nd2023/Minutes/Assembly/WM/Final/749.pdf",
-      "locator": "April 13, 2023 joint budget hearing minutes, page 3: actual Governor salary under NRS 223.050",
-      "referencePeriod": "2023"
+      "sourceUrl": "https://www.leg.state.nv.us/division/legal/lawlibrary/nrs/NRS-223.html",
+      "locator": "NRS 223.050(2) adjusts official Governor salary only at the first Monday of January of each new four-year term. Current 2023 rate $170,062 is documented in https://archive.leg.state.nv.us/Session/82nd2023/Minutes/Assembly/WM/Final/749.pdf ; classified employee increases during this term apply at the next term in 2027, not in 2026.",
+      "referencePeriod": "2026 (2023-2026 term)"
     },
     {
       "state": "NV",
@@ -721,17 +721,17 @@ export const OFFICE_PAY_META = {
       "annualDollars": 160000,
       "status": "SOURCED",
       "sourceUrl": "https://www.leg.state.nv.us/division/legal/lawlibrary/nrs/NRS-003.html",
-      "locator": "NRS 3.030: District Judge salary before first Monday of January 2027",
-      "referencePeriod": "Through 2026"
+      "locator": "NRS 3.030(1): $160,000 remains the current ordinary district judge salary until the first Monday of January 2027. Excludes future cumulative classified-employee increase and service-dependent longevity additions under subsection 3.",
+      "referencePeriod": "2026"
     },
     {
       "state": "NY",
       "office": "governor",
       "annualDollars": 250000,
       "status": "SOURCED",
-      "sourceUrl": "https://www.nysenate.gov/legislation/resolutions/2019/2019-b958?page=1",
-      "locator": "Adopted concurrent resolution, third resolved clause: January 1, 2021 annual salary",
-      "referencePeriod": "2021"
+      "sourceUrl": "https://www.nysenate.gov/legislation/resolutions/2019/2019-b958",
+      "locator": "Adopted concurrent resolution B958/C243 under Constitution Article IV section 3 fixes Governor annual salary $250,000 from January 1, 2021; no recurring COLA. Current office entitlement, excluding executive residence and other allowances.",
+      "referencePeriod": "2026 (effective January 1, 2021)"
     },
     {
       "state": "NY",
@@ -739,44 +739,44 @@ export const OFFICE_PAY_META = {
       "annualDollars": 142000,
       "status": "SOURCED",
       "sourceUrl": "https://www.nysenate.gov/legislation/laws/LEG/5",
-      "locator": "Legislative Law section 5(1): ordinary annual member salary",
-      "referencePeriod": "January 1, 2023"
+      "locator": "Current Legislative Law section 5(1), latest revision January 6, 2023: ordinary member annual salary $142,000; excludes leadership allowances and per diem.",
+      "referencePeriod": "2026"
     },
     {
       "state": "NY",
       "office": "trial-court-judge",
-      "annualDollars": 210900,
+      "annualDollars": 237300,
       "status": "SOURCED",
-      "sourceUrl": "https://www.osc.ny.gov/state-agencies/payroll-bulletins/unified-court-system/ucs-341-april-2024-salary-increase-judges-justices-and-new-york-city",
-      "locator": "OSC rate chart: Supreme Court Justice current April 1, 2019 rate; not appellate Supreme Court or new April 2024 rate",
-      "referencePeriod": "April 2019-March 2024"
+      "sourceUrl": "https://www.osc.ny.gov/state-agencies/payroll-bulletins/unified-court-system/ucs-360-april-2026-salary-increase-judges-justices-and-new-york-city",
+      "locator": "UCS-360 OSC Actions: Supreme Court Justice 2026 published annual rate $237,300; 2% adjustment on the April 2024 salary of $232,600 (232600 × 1.02 = 237252, rounded to published schedule increment $237,300). Base confirmed in UCS-341: https://www.osc.ny.gov/state-agencies/payroll-bulletins/unified-court-system/ucs-341-april-2024-salary-increase-judges-justices-and-new-york-city . Uses the implemented payroll schedule, not an unrounded approximation.",
+      "referencePeriod": "2026 (effective April 1, 2026; payroll March 26)"
     },
     {
       "state": "OH",
       "office": "governor",
-      "annualDollars": 171064,
+      "annualDollars": 180203,
       "status": "SOURCED",
       "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/section-141.011",
-      "locator": "Sections 141.01(A) and 141.011(A): 2019 base 154248 times 1.04 (2020), 1.03 (2021), 1.0175 twice (2022,2023), nearest dollar",
-      "referencePeriod": "2023"
+      "locator": "2019 base $154,248 under https://codes.ohio.gov/ohio-revised-code/section-141.01(A); adjustment schedule at https://codes.ohio.gov/ohio-revised-code/section-141.011: 4% in 2020, 3% in 2021, then 1.75% each year 2022-2026. Compute 154248 × 1.04 × 1.03 × 1.0175^5 = 180203.073991; round once to whole annual dollars.",
+      "referencePeriod": "2026"
     },
     {
       "state": "OH",
       "office": "state-legislator",
-      "annualDollars": 69876,
+      "annualDollars": 73609,
       "status": "SOURCED",
       "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/section-101.27",
-      "locator": "Subsections A(1), B: 2019 ordinary base 63007 times 1.04, 1.03, 1.0175 twice, nearest dollar",
-      "referencePeriod": "2023"
+      "locator": "2019 base $63,007 under section 101.27(A)(1); adjustment schedule at https://codes.ohio.gov/ohio-revised-code/section-101.27: 4% in 2020, 3% in 2021, then 1.75% each year 2022-2026. Compute 63007 × 1.04 × 1.03 × 1.0175^5 = 73609.091093; round once to whole annual dollars.",
+      "referencePeriod": "2026"
     },
     {
       "state": "OH",
       "office": "trial-court-judge",
-      "annualDollars": 158206,
+      "annualDollars": 171982,
       "status": "SOURCED",
       "sourceUrl": "https://codes.ohio.gov/ohio-revised-code/section-141.04",
-      "locator": "Subsection A(4): common pleas total annual compensation 2019 base 147600 times 1.0175 four times (2020-2023), nearest dollar; state/county portions together",
-      "referencePeriod": "2023"
+      "locator": "Section 141.04(A)(4): $147,600 base in 2019; six 1.75% increases 2020-2025 and 5% increase in 2026: 147600 × 1.0175^6 × 1.05 = 171981.670856, rounded once. Total annual common-pleas compensation before allocating county and state shares under section 141.05.",
+      "referencePeriod": "2026"
     },
     {
       "state": "OK",
@@ -784,8 +784,8 @@ export const OFFICE_PAY_META = {
       "annualDollars": 147000,
       "status": "SOURCED",
       "sourceUrl": "https://oklahoma.gov/content/dam/ok/en/omes/documents/lcb-omes-presentation-2025-10-21-UA.pdf",
-      "locator": "Statewide salary survey: own Oklahoma Governor, 2023 column; not the separate interstate comparison",
-      "referencePeriod": "2023"
+      "locator": "OMES official October 21, 2025 current salary survey: Governor annual salary $147,000. Statewide Officers Compensation Commission November 18, 2025 order changes only the next elected term: Future January 2027 rates excluded.",
+      "referencePeriod": "2026 (current term through January 2027)"
     },
     {
       "state": "OK",
@@ -793,62 +793,62 @@ export const OFFICE_PAY_META = {
       "annualDollars": 47500,
       "status": "SOURCED",
       "sourceUrl": "https://oklahoma.gov/content/dam/ok/en/omes/documents/lcb-omes-presentation-2025-10-21-UA.pdf",
-      "locator": "Statewide salary survey: own ordinary Oklahoma legislator, 2023 column; excludes leadership and per diem",
-      "referencePeriod": "2023"
+      "locator": "OMES official October 21, 2025 survey and 2023 final compensation order confirm ordinary annual salary $47,500: https://oklahoma.gov/content/dam/ok/en/omes/documents/2023LegislativeCompensationOrder.pdf . November 18, 2025 order applies fifteenth day after succeeding November 2026 general election, so its future rate is excluded: https://oklahoma.gov/content/dam/ok/en/omes/documents/lcb-2025-compensation-order.pdf .",
+      "referencePeriod": "2026 (through November 17, 2026)"
     },
     {
       "state": "OK",
       "office": "trial-court-judge",
-      "annualDollars": 156732,
+      "annualDollars": 167703,
       "status": "SOURCED",
       "sourceUrl": "https://oklahoma.gov/content/dam/ok/en/omes/documents/lcb-omes-presentation-2025-10-21-UA.pdf",
-      "locator": "Statewide salary survey: own Oklahoma District Court Judge, 2023 column",
-      "referencePeriod": "2023"
+      "locator": "OMES official current ordinary District Court Judge annual salary $167,703. Oklahoma State Courts Network current 20 O.S. 92.1(A), amended by 2025 HB2770 chapter 458 effective July 1, 2025, confirms published amount: https://www.oscn.net/applications/oscn/DeliverDocument.asp?CiteID=68728 . Excludes associate district, appellate and administrative supplements.",
+      "referencePeriod": "2026 (effective July 1, 2025)"
     },
     {
       "state": "OR",
       "office": "governor",
       "annualDollars": 98600,
       "status": "SOURCED",
-      "sourceUrl": "https://olis.oregonlegislature.gov/liz/2026R1/Downloads/MeasureDocument/SB1601/A-Engrossed",
-      "locator": "ORS 292.311(1) existing dollar amount reproduced by bill; proposed payment-frequency edits excluded",
-      "referencePeriod": "2014 annual statutory rate"
+      "sourceUrl": "https://www.oregonlegislature.gov/bills_laws/lawsstatutes/2026orLaw0135.pdf",
+      "locator": "Enacted 2026 Oregon Laws chapter 135, section 6 reproduces current ORS 292.311(1): Governor annual salary $98,600, effective January 2014 and each year thereafter. Excludes separate $1,000 monthly expenses. Uses enacted law, replacing prior A-engrossed bill citation.",
+      "referencePeriod": "2026"
     },
     {
       "state": "OR",
       "office": "trial-court-judge",
-      "annualDollars": 163476,
+      "annualDollars": 209160,
       "status": "SOURCED",
-      "sourceUrl": "https://olis.oregonlegislature.gov/liz/2022R1/Downloads/PublicTestimonyDocument/35099",
-      "locator": "Oregon Judicial Department testimony December 6, 2021, page 2: own Circuit Court Judge salary after authorized 2021-2023 COLAs; proposal excluded",
-      "referencePeriod": "2023 after authorized COLAs"
+      "sourceUrl": "https://www.oregonlegislature.gov/bills_laws/ors/ors292.html",
+      "locator": "ORS 292.416(3) current Circuit Judge annual base $204,060; ORS 292.428 requires management-service COLAs. DAS Workday February 4, 2026 release item 1267 confirms judicial 2.5% COLA February 1: https://www.oregon.gov/das/workday/pages/workday-wednesday.aspx . Monthly base 204060/12 = 17005; 17005 × 1.025 = 17430.125, payroll monthly whole-dollar $17,430 × 12 = $209,160. July 2026 NCSC state-court salary survey independently confirms annual $209,160: https://nationalcenterforstatecourts.app.box.com/s/neqcoyxyeynkhkscld6gsftscum3fa1u . Future January/July 2027 increases excluded.",
+      "referencePeriod": "2026 (effective February 1, 2026)"
     },
     {
       "state": "PA",
       "office": "governor",
-      "annualDollars": 229642,
+      "annualDollars": 253870,
       "status": "SOURCED",
-      "sourceUrl": "https://www.pacodeandbulletin.gov/secure/pabulletin/data/vol53/53-50/1746.html",
-      "locator": "Governor row: salary prior to January 1, 2024 COLA",
-      "referencePeriod": "2023"
+      "sourceUrl": "https://www.pacodeandbulletin.gov/secure/pabulletin/data/vol55/55-51/1735.html",
+      "locator": "Official COLA notice under Public Official Compensation Act section 3(e): prior salary $245,760 × 1.033 = $253,870.08, rounded to published annual salary $253,870. Notice records both prior base and statutory adjustment.",
+      "referencePeriod": "2026 (effective January 1, 2026)"
     },
     {
       "state": "PA",
       "office": "state-legislator",
-      "annualDollars": 102844,
+      "annualDollars": 113591,
       "status": "SOURCED",
-      "sourceUrl": "https://www.pacodeandbulletin.gov/secure/pabulletin/data/vol52/52-48/52_48_ga.pdf",
-      "locator": "Printed page 7251: ordinary General Assembly member annual salary 102844.07, rounded; leadership excluded",
-      "referencePeriod": "December 1, 2022-November 30, 2023"
+      "sourceUrl": "https://www.pacodeandbulletin.gov/secure/pabulletin/data/vol55/55-49/1628.html",
+      "locator": "55 Pa.B. 8226, ordinary General Assembly member: published annual rate $113,591.40 includes statutory 3.2503% CPI-U adjustment under section 4(d). Published final rate rounded to whole dollars for the game; excludes leadership compensation.",
+      "referencePeriod": "2026 (December 1, 2025-November 30, 2026)"
     },
     {
       "state": "PA",
       "office": "trial-court-judge",
-      "annualDollars": 212495,
+      "annualDollars": 234916,
       "status": "SOURCED",
-      "sourceUrl": "https://www.pacodeandbulletin.gov/secure/pabulletin/data/vol52/52-48/52-48.pdf",
-      "locator": "Printed page 7252, section 211.2(d)(1): ordinary Court of Common Pleas judge",
-      "referencePeriod": "January 1, 2023"
+      "sourceUrl": "https://www.pacodeandbulletin.gov/secure/pabulletin/data/vol55/55-50/1663.html",
+      "locator": "204 Pa. Code section 211.2(d)(1), ordinary common pleas judge; section 211.1a records statutory 3.3% CPI adjustment reflected in the published final annual rate, excluding president judge supplements.",
+      "referencePeriod": "2026 (effective January 1, 2026)"
     },
     {
       "state": "PR",
@@ -856,8 +856,8 @@ export const OFFICE_PAY_META = {
       "annualDollars": 70000,
       "status": "SOURCED",
       "sourceUrl": "https://bvirtualogp.pr.gov/ogp/Bvirtual/LeyesOrganicas/PDF/13-1989.pdf",
-      "locator": "Law 13-1989 article 1, 3 LPRA 2(a): Governor annual salary",
-      "referencePeriod": "Law 13-1989 as amended"
+      "locator": "Current Office of Management and Budget compilation of Law 13-1989 as amended, Article 1: Governor annual salary $70,000. Published compilation revision April 16, 2024, latest incorporated amendment Law 75-2017; excludes benefits and payroll deductions.",
+      "referencePeriod": "2026"
     },
     {
       "state": "RI",
@@ -865,263 +865,263 @@ export const OFFICE_PAY_META = {
       "annualDollars": 163295,
       "status": "SOURCED",
       "sourceUrl": "https://omb.ri.gov/sites/g/files/xkgbur751/files/2026-01/FY%202027%20Volume%20I_FINAL_0.pdf",
-      "locator": "Governor department personnel detail: one Governor, prior-year enacted salary column; proposed changes excluded",
-      "referencePeriod": "FY 2026 enacted"
+      "locator": "Official FY27 budget volume I Governor authorized salary line publishes $163,295 in both current FY26 and FY27 columns. R.I. 36-6-1 uses $95,000 base and beginning-of-term CPI adjustment capped at 12%: https://webserver.rilegislature.gov/Statutes/TITLE36/36-6/36-6-1.htm . No annual intra-term adjustment; excludes future January 2027 rate.",
+      "referencePeriod": "2026 (2023-2026 term)"
     },
     {
       "state": "SC",
       "office": "governor",
       "annualDollars": 106078,
       "status": "SOURCED",
-      "sourceUrl": "https://www.scstatehouse.gov/sess125_2023-2024/appropriations2023/tap1a.htm",
-      "locator": "Ratified appropriations, section 92A: one Governor, annual salary line, separate benefits excluded",
-      "referencePeriod": "FY 2023-2024"
+      "sourceUrl": "https://www.scstatehouse.gov/sess126_2025-2026/bills/5018.htm",
+      "locator": "Act 239 of 2026 section 1-1-1210(A)-(B): $98,000 statutory base with four 2% increases in July 1991-1994: 98000 × 1.02^4 = 106078.35168, rounded to $106,078. Subsection E defers commission-based rates until the January 2027 term.",
+      "referencePeriod": "2026"
     },
     {
       "state": "SC",
       "office": "state-legislator",
       "annualDollars": 10400,
       "status": "SOURCED",
-      "sourceUrl": "https://www.scstatehouse.gov/man24/03_Con-StatProv.pdf",
-      "locator": "Legislative Manual constitutional and statutory provisions: annual member compensation, excluding subsistence and travel",
-      "referencePeriod": "2024"
+      "sourceUrl": "https://www.scstatehouse.gov/sess126_2025-2026/fiscalimpactstatements/S0933%202026-03-31%20amended.pdf",
+      "locator": "Official fiscal analysis confirms current member legislative compensation $10,400 (40 × $260); separate $12,000 district allowance excluded. Enacted Act 200 of 2026 applies $15,000 only beginning 128th General Assembly in 2029: https://www.scstatehouse.gov/sess126_2025-2026/bills/933.htm . Excludes leadership, per diem and expenses.",
+      "referencePeriod": "2026"
     },
     {
       "state": "SD",
       "office": "governor",
-      "annualDollars": 139100,
+      "annualDollars": 148523,
       "status": "SOURCED",
-      "sourceUrl": "https://archive.legmt.gov/content/Committees/Interim/2023-2024/Senate-Select-Committee-on-Judicial-Oversight-Reform/Meetings/240927-September-2024/Elected_Officials_Salary_Table%20_07-2024.pdf",
-      "locator": "Governor row, SD current salary column; independent contiguous-state survey by Montana State Human Resources, under sections 2-16-403 and 2-16-405 MCA",
-      "referencePeriod": "June 2024"
+      "sourceUrl": "https://dot.sd.gov/media/moxnfn1g/march-2026-newsletter.pdf",
+      "locator": "SDDOT official March 2026 newsletter page 2 confirms enacted general appropriations 1.4% salary increase. SDCL 3-8-2.1 applies same annual increase to Governor and circuit judges: https://sdlegislature.gov/Statutes/3-8-2.1 . Current pre-increase base published under SDCL 4-7-10.1 in FY27 Executive Salaries table printed page 33: https://bfm.sd.gov/budget/FY2027/SD_Rec_2027_entire.pdf . 146472 × 1.014, rounded once. Ordinary Circuit Judge category; excludes housing and local supplements.",
+      "referencePeriod": "2026 (FY 2027, July 1, 2026)"
     },
     {
       "state": "SD",
       "office": "trial-court-judge",
-      "annualDollars": 174448,
+      "annualDollars": 186266,
       "status": "SOURCED",
-      "sourceUrl": "https://archive.legmt.gov/content/Committees/Interim/2023-2024/Senate-Select-Committee-on-Judicial-Oversight-Reform/Meetings/240927-September-2024/Elected_Officials_Salary_Table%20_07-2024.pdf",
-      "locator": "District Judge row, SD current salary column; independent contiguous-state survey by Montana State Human Resources, under sections 2-16-403 and 2-16-405 MCA",
-      "referencePeriod": "June 2024"
+      "sourceUrl": "https://dot.sd.gov/media/moxnfn1g/march-2026-newsletter.pdf",
+      "locator": "SDDOT official March 2026 newsletter page 2 confirms enacted general appropriations 1.4% salary increase. SDCL 3-8-2.1 applies same annual increase to Governor and circuit judges: https://sdlegislature.gov/Statutes/3-8-2.1 . Current pre-increase base published under SDCL 4-7-10.1 in FY27 Executive Salaries table printed page 28: https://bfm.sd.gov/budget/FY2027/SD_Rec_2027_entire.pdf . 183694 × 1.014, rounded once. Ordinary Circuit Judge category; excludes housing and local supplements.",
+      "referencePeriod": "2026 (FY 2027, July 1, 2026)"
     },
     {
       "state": "TN",
       "office": "governor",
-      "annualDollars": 239760,
+      "annualDollars": 246104,
       "status": "SOURCED",
       "sourceUrl": "https://www.capitol.tn.gov/Bills/114/Fiscal/FM3081.pdf",
-      "locator": "Page 2: current Chief Justice annual salary February 21, 2026; Governor receives same salary under TCA 8-1-102, also confirmed by 2025 Tennessee Budget Volume 1 page B-16",
-      "referencePeriod": "February 21, 2026"
+      "locator": "TCA 8-1-102 sets Governor salary equal to Chief Justice. TCA 8-23-103(1)(B)(ii) adds fixed $5,000 chief supplement to Supreme Court associate salary. NCSC July 2026 court-administrator salary survey publishes current Tennessee Supreme Court associate $241,104: https://nationalcenterforstatecourts.app.box.com/s/neqcoyxyeynkhkscld6gsftscum3fa1u . 241104 + 5000 = $246,104. Current FY27 budget confirms statutory July 2026 2.7% CPI adjustment: https://www.tn.gov/content/dam/tn/finance/budget/documents/2027BudgetDocumentVol1.pdf . Prior $239,760 fiscal-note rate is superseded; no proposed September 2030 pay reform included.",
+      "referencePeriod": "2026 (FY 2027, July 1, 2026)"
     },
     {
       "state": "TN",
       "office": "state-legislator",
-      "annualDollars": 22667,
+      "annualDollars": 33062,
       "status": "SOURCED",
-      "sourceUrl": "https://www.capitol.tn.gov/Bills/110/Fiscal/HB1973.pdf",
-      "locator": "Fiscal note assumptions: existing senator annual salary, not proposed convention compensation",
-      "referencePeriod": "2018"
+      "sourceUrl": "https://capitol.tn.gov/Bills/114/Fiscal/HB2117.pdf",
+      "locator": "Official Fiscal Review Committee current member compensation base for retirement $48,662; current Office of Legislative Administration monthly allowance $1,300 separately confirmed in March 2026 FM2692: https://capitol.tn.gov/Bills/114/Fiscal/FM2692.pdf . Ordinary annual salary excluding district allowance = 48662 - 1300 × 12 = $33,062. TCA 3-1-107(c) salary adjustments during term take effect at election of next assembly; November 2026 increases excluded. Excludes per diem and leadership pay.",
+      "referencePeriod": "2026 (114th General Assembly term)"
     },
     {
       "state": "TN",
       "office": "trial-court-judge",
-      "annualDollars": 219120,
+      "annualDollars": 225048,
       "status": "SOURCED",
-      "sourceUrl": "https://www.capitol.tn.gov/Bills/114/Fiscal/FM3081.pdf",
-      "locator": "Page 3: current Chancellors, Circuit Court and Criminal Court Judges annual salary, excluding benefits and proposed 2030 pay",
-      "referencePeriod": "February 21, 2026"
+      "sourceUrl": "https://www.ctas.tennessee.edu/sites/default/files/2026-03/GS%20Judges%20COLA%202026.pdf",
+      "locator": "Administrative Office of the Courts February 17, 2026 memorandum publishes current $225,048 General Sessions maximum, equal by TCA 16-15-5003(g) to ordinary Circuit Court Judge pay. Incorporates 2.7% current CPI adjustment under 8-23-103 to prior published $219,120: https://www.capitol.tn.gov/Bills/114/Fiscal/FM3081.pdf . Uses published resulting amount; excludes county supplements and chiefs.",
+      "referencePeriod": "2026 (FY 2027, July 1, 2026)"
     },
     {
       "state": "TX",
       "office": "governor",
       "annualDollars": 153750,
       "status": "SOURCED",
-      "sourceUrl": "https://www.lbb.texas.gov/Documents/HAC_Summary_Recs/88R/Agency%20301.pdf",
-      "locator": "Appendix C: actual/budgeted Governor Group 6 annual exempt salary cap 2021-2023; proposed future columns excluded",
-      "referencePeriod": "2021-2023"
+      "sourceUrl": "https://www.lbb.texas.gov/Documents/GAA/General_Appropriations_Act_2026_2027.pdf",
+      "locator": "Enacted General Appropriations Act, Article I Office of the Governor, Schedule of Exempt Positions: Governor Group 6 $153,750 in each fiscal year. Uses authorized official office salary, excluding voluntary reductions and allowances.",
+      "referencePeriod": "FY 2026-2027"
     },
     {
       "state": "TX",
       "office": "state-legislator",
       "annualDollars": 7200,
       "status": "SOURCED",
-      "sourceUrl": "https://statutes.capitol.texas.gov/Docs/CN/pdf/CN.3.pdf",
-      "locator": "Texas Constitution article III section 24(a): ordinary member monthly salary 600 times 12; per diem excluded",
-      "referencePeriod": "Constitutional annual rate"
+      "sourceUrl": "https://statutes.capitol.texas.gov/Docs/CN/pdf/CN.3/CN.3.24.pdf",
+      "locator": "Current Texas Constitution Article III section 24(a): $600 monthly ordinary member salary, 600 × 12 = $7,200 annual. Excludes Ethics Commission per diem and mileage; no adopted voter-approved higher salary in the current provision.",
+      "referencePeriod": "2026"
     },
     {
       "state": "UT",
       "office": "governor",
-      "annualDollars": 182900,
+      "annualDollars": 249250,
       "status": "SOURCED",
-      "sourceUrl": "https://le.utah.gov/interim/2023/pdf/00003676.pdf",
-      "locator": "Elected Officials FY 24: Governor, S.B. 0003 item 187",
-      "referencePeriod": "FY 2024"
+      "sourceUrl": "https://le.utah.gov/Session/2026/bills/enrolled/SB0235.pdf",
+      "locator": "Enacted SB235 section 1 ties Governor to Supreme Court Chief Justice base plus leadership supplement starting July 1, 2026. SB8 Item 175 publishes District Judge $224,750 and Supreme Court rate 110%, rounded to nearest $50: https://le.utah.gov/Session/2026/bills/enrolled/SB0008.pdf . 224750 × 1.10 = 247225, rounded = 247250, plus $2,000 chief supplement under 78A-3-101(3)(g) = $249,250. Excludes benefits.",
+      "referencePeriod": "2026 (FY 2027, July 1, 2026)"
     },
     {
       "state": "UT",
       "office": "trial-court-judge",
-      "annualDollars": 185200,
+      "annualDollars": 224750,
       "status": "SOURCED",
-      "sourceUrl": "https://le.utah.gov/interim/2023/pdf/00003676.pdf",
-      "locator": "Judicial Salaries FY 23: District Court Judge, S.B. 0008 item 13",
-      "referencePeriod": "FY 2023"
+      "sourceUrl": "https://le.utah.gov/Session/2026/bills/enrolled/SB0008.pdf",
+      "locator": "Enacted SB8 Item 175, lines 1738-1744 printed page 52: ordinary District Court Judge annual salary $224,750 July 1, 2026-June 30, 2027. Replaces FY26 $219,250; excludes judicial leadership supplements.",
+      "referencePeriod": "2026 (FY 2027)"
     },
     {
       "state": "VA",
       "office": "governor",
       "annualDollars": 175000,
       "status": "SOURCED",
-      "sourceUrl": "https://budget.lis.virginia.gov/item/2024/2/HB6001/Chapter/1/44/",
-      "locator": "Enacted Chapter 2, Item 44(A): annual salary of sole Governor; discretionary expenses excluded",
-      "referencePeriod": "FY2025-2026"
+      "sourceUrl": "https://budget.lis.virginia.gov/item/2026/2/HB30/Chapter/1/44/",
+      "locator": "Enacted 2026 Special Session I HB30 Chapter 1 Item 44(A): Governor annual salary $175,000 in each year. Excludes $75,000 discretionary expenses.",
+      "referencePeriod": "2026 (FY 2027)"
     },
     {
       "state": "VA",
       "office": "trial-court-judge",
-      "annualDollars": 193848,
+      "annualDollars": 227964,
       "status": "SOURCED",
-      "sourceUrl": "https://budget.lis.virginia.gov/get/budget/4779/HB6001/",
-      "locator": "2023 Acts of Assembly: Circuit Courts appropriation, ordinary judge annual salary July 10, 2022-June 30, 2023",
-      "referencePeriod": "FY2023"
+      "sourceUrl": "https://budget.lis.virginia.gov/item/2026/2/HB30/Chapter/1/33/",
+      "locator": "Enacted 2026 Special Session I HB30 Chapter 1 Item 33(A)(1): Circuit Court Judge $227,964 July 25, 2026-June 9, 2027, replacing $220,255 July 1-July 24. Future June 2027 $235,943 excluded; current amount is total compensation from all sources.",
+      "referencePeriod": "2026 (effective July 25, 2026)"
     },
     {
       "state": "VI",
       "office": "governor",
       "annualDollars": 150000,
       "status": "SOURCED",
-      "sourceUrl": "https://www.dopusvi.org/wp-content/uploads/2025/06/VIPOCC-Report-8012024.pdf",
-      "locator": "Page 18 Table 10: own Virgin Islands Governor current salary column, excluding proposed increase and benefits",
-      "referencePeriod": "2024"
+      "sourceUrl": "https://legvi.org/committeemeetings/Session/June%204%2C%202025/Bills/Bill_36-0085.pdf",
+      "locator": "Bill 36-0085 (Act 8996) restores statutory Governor annual salary $150,000 by rescinding 2024 commission increases. Legislature officially confirms veto override June 27, 2025: https://legvi.org/lawmakers-approve-lease-agreements-resolutions-and-bills-override-governors-vetoes-in-legislative-session/ . Supersedes January 2025 proposed/implemented $192,088 rate; excludes benefits.",
+      "referencePeriod": "2026 (Act 8996, June 2025)"
     },
     {
       "state": "VT",
       "office": "governor",
-      "annualDollars": 201136,
+      "annualDollars": 243520,
       "status": "SOURCED",
-      "sourceUrl": "https://legislature.vermont.gov/Documents/2024/WorkGroups/House%20Appropriations/FY%202024%20Budget/2.%20General%20Government/W~Hardy%20Merrill~Executive%20Office%20of%20the%20Governor-FY24%20Budget%20Presentation~2-21-2023.pdf",
-      "locator": "Position Summary: one Governor, gross scheduled annual salary, benefits excluded",
-      "referencePeriod": "February 21, 2023"
+      "sourceUrl": "https://legislature.vermont.gov/Documents/2026/Docs/ACTS/ACT144/ACT144%20As%20Enacted.pdf",
+      "locator": "Enacted Act 144 section F.103, printed page 227: Governor current annual salary $243,520, replacing July 2025 $234,379. Future January and July 2027 rates excluded; ordinary entitlement regardless of voluntary refusal.",
+      "referencePeriod": "2026 (effective July 12, 2026)"
     },
     {
       "state": "VT",
       "office": "trial-court-judge",
-      "annualDollars": 175654,
+      "annualDollars": 212653,
       "status": "SOURCED",
-      "sourceUrl": "https://legislature.vermont.gov/Documents/2022/Docs/ACTS/ACT185/ACT185%20As%20Enacted.pdf",
-      "locator": "Act 185, section F.104: each Superior Judge, July 3, 2022 column",
-      "referencePeriod": "July 3, 2022"
+      "sourceUrl": "https://legislature.vermont.gov/Documents/2026/Docs/ACTS/ACT144/ACT144%20As%20Enacted.pdf",
+      "locator": "Enacted Act 144 section F.104, printed page 237: Each Superior Judge current annual salary $212,653, replacing July 2025 $204,671. Future January and July 2027 rates and chief supplements excluded.",
+      "referencePeriod": "2026 (effective July 12, 2026)"
     },
     {
       "state": "WA",
       "office": "governor",
-      "annualDollars": 198257,
+      "annualDollars": 234275,
       "status": "SOURCED",
-      "sourceUrl": "https://salaries.wa.gov/sites/default/files/public/2023%202024%20FInal%20Salary%20Schedule.pdf",
-      "locator": "Final schedule: Governor annual salary effective July 1, 2023",
-      "referencePeriod": "July 1, 2023"
+      "sourceUrl": "https://salaries.wa.gov/sites/default/files/public/2025%202026%20Final%20Salary%20Schedule.pdf",
+      "locator": "Final 2025-2026 salary schedule: governor row, Salary Effective 7/1/2026 column; Superior Court for general trial judge; ordinary legislator excludes leadership additions.",
+      "referencePeriod": "2026 (effective July 1, 2026)"
     },
     {
       "state": "WA",
       "office": "state-legislator",
-      "annualDollars": 57876,
+      "annualDollars": 72494,
       "status": "SOURCED",
-      "sourceUrl": "https://salaries.wa.gov/sites/default/files/public/2023%202024%20FInal%20Salary%20Schedule.pdf",
-      "locator": "Final schedule: ordinary Legislator current annual salary before July 1, 2023; supplements excluded",
-      "referencePeriod": "July 2022-June 2023"
+      "sourceUrl": "https://salaries.wa.gov/sites/default/files/public/2025%202026%20Final%20Salary%20Schedule.pdf",
+      "locator": "Final 2025-2026 salary schedule: state-legislator row, Salary Effective 7/1/2026 column; Superior Court for general trial judge; ordinary legislator excludes leadership additions.",
+      "referencePeriod": "2026 (effective July 1, 2026)"
     },
     {
       "state": "WA",
       "office": "trial-court-judge",
-      "annualDollars": 203169,
+      "annualDollars": 244631,
       "status": "SOURCED",
-      "sourceUrl": "https://salaries.wa.gov/sites/default/files/public/2023%202024%20FInal%20Salary%20Schedule.pdf",
-      "locator": "Final schedule: Superior Court Judge current annual salary before July 1, 2023; District Court is limited jurisdiction",
-      "referencePeriod": "July 2022-June 2023"
+      "sourceUrl": "https://salaries.wa.gov/sites/default/files/public/2025%202026%20Final%20Salary%20Schedule.pdf",
+      "locator": "Final 2025-2026 salary schedule: trial-court-judge row, Salary Effective 7/1/2026 column; Superior Court for general trial judge; ordinary legislator excludes leadership additions.",
+      "referencePeriod": "2026 (effective July 1, 2026)"
     },
     {
       "state": "WI",
       "office": "governor",
       "annualDollars": 165568,
       "status": "SOURCED",
-      "sourceUrl": "https://dpm.wi.gov/Documents/BCER/Compensation/Section_B_23-25.pdf",
-      "locator": "Section B 2.03(2): Governor incumbent annual pay October 21, 2023",
-      "referencePeriod": "October 2023"
+      "sourceUrl": "https://dpm.wi.gov/Documents/BCER/Compensation/2025-27%20Comp%20Plan.pdf",
+      "locator": "Section B 2.03 printed B-4: current constitutional-officer term salary $165,568. June 2026 rate for a future office term $184,684 does not increase pay during the current term; next term January 4, 2027.",
+      "referencePeriod": "2026 (2023-2026 term)"
     },
     {
       "state": "WI",
       "office": "state-legislator",
-      "annualDollars": 57408,
+      "annualDollars": 60924,
       "status": "SOURCED",
-      "sourceUrl": "https://dpm.wi.gov/Documents/BCER/Compensation/Section_B_23-25.pdf",
-      "locator": "Section B 2.02(2): Legislative Member incumbent annual pay October 21, 2023",
-      "referencePeriod": "October 2023"
+      "sourceUrl": "https://dpm.wi.gov/Documents/BCER/Compensation/2025-27%20Comp%20Plan.pdf",
+      "locator": "Section B 2.02 printed B-3: ordinary Legislative Member current term annual salary $60,924. June 2026 office rate $64,023 applies after the next general election beginning with the new assembly term, not to the current 2026 term. Excludes allowances.",
+      "referencePeriod": "2026 (2025-2026 legislative term)"
     },
     {
       "state": "WI",
       "office": "trial-court-judge",
-      "annualDollars": 164487,
+      "annualDollars": 183352,
       "status": "SOURCED",
-      "sourceUrl": "https://dpm.wi.gov/Documents/BCER/Compensation/Section_B_23-25.pdf",
-      "locator": "Section B 2.01(2): Circuit Court Judge incumbent annual pay October 21, 2023",
-      "referencePeriod": "October 2023"
+      "sourceUrl": "https://dpm.wi.gov/Documents/BCER/Compensation/2025-27%20Comp%20Plan.pdf",
+      "locator": "Section B 2.01 printed B-3: Circuit Court Judge current rate for office $183,352, replacing August 2025 $179,754 and prior $174,512. Incumbents retain their term rate until oath of a new term under Article IV section 26; simulation uses the published current rate for a newly filled ordinary office.",
+      "referencePeriod": "2026 (effective June 28, 2026)"
     },
     {
       "state": "WV",
       "office": "governor",
-      "annualDollars": 150000,
+      "annualDollars": 190424,
       "status": "SOURCED",
       "sourceUrl": "https://code.wvlegislature.gov/6-7-2/",
-      "locator": "Subsection b(1): historical Governor annual salary, before 2025 locality-pay formula",
-      "referencePeriod": "2009-2024"
+      "locator": "Section 6-7-2(c) supersedes the old $150,000 base. Governor pay equals OPM Rest of U.S. Grade 15 Step 10 at the beginning of the 2025 term, fixed for four years. Official 2025-RUS table publishes $190,424: https://www.opm.gov/policy-data-oversight/pay-leave/salaries-wages/salary-tables/pdf/2025/RUS.pdf . Excludes later annual federal raises.",
+      "referencePeriod": "2026 (2025-2028 term)"
     },
     {
       "state": "WV",
       "office": "state-legislator",
-      "annualDollars": 20000,
+      "annualDollars": 23000,
       "status": "SOURCED",
-      "sourceUrl": "https://code.wvlegislature.gov/signed_bills/2017/2017-RS-SB523-SUB1%20ENR_signed.pdf",
-      "locator": "Signed SB523, section 4-2A-2(a): basic annual member compensation; extra session amounts excluded",
-      "referencePeriod": "2009-2024"
+      "sourceUrl": "https://www.wvlegislature.gov/Interims/JCC-Report-2025.pdf",
+      "locator": "Current W.Va. Code 4-2A-2: member annual salary 75% of most recent Census ACS five-year statewide per capita income available June 30 of previous year, rounded down to nearest $1,000. Official 2025 JCC report publishes 2023 ACS per capita $31,462; 31462 × .75 = 23596.50, floor = $23,000. 2024 ACS released December 2025 affects 2027, excluded. Statute: https://code.wvlegislature.gov/4-2A-2/ .",
+      "referencePeriod": "2026"
     },
     {
       "state": "WV",
       "office": "trial-court-judge",
-      "annualDollars": 132300,
+      "annualDollars": 138600,
       "status": "SOURCED",
       "sourceUrl": "https://code.wvlegislature.gov/51-2-13/",
-      "locator": "Section 51-2-13: historical circuit judge annual salary July 2021 before July 2022 increase",
-      "referencePeriod": "July 2021-June 2022"
+      "locator": "Section 51-2-13: circuit judge annual salary effective July 1, 2022 remains $138,600 through June 30, 2027. Future increases in July 2027 and 2028 are excluded.",
+      "referencePeriod": "2026"
     },
     {
       "state": "WY",
       "office": "governor",
       "annualDollars": 140000,
       "status": "SOURCED",
-      "sourceUrl": "https://archive.legmt.gov/content/Committees/Interim/2023-2024/Senate-Select-Committee-on-Judicial-Oversight-Reform/Meetings/240927-September-2024/Elected_Officials_Salary_Table%20_07-2024.pdf",
-      "locator": "Governor row, WY current salary column; independent contiguous-state survey by Montana State Human Resources, under sections 2-16-403 and 2-16-405 MCA",
-      "referencePeriod": "June 2024"
+      "sourceUrl": "https://wyoleg.gov/InterimCommittee/2026/02-2026062211-01_salariesSetbyStatute.pdf",
+      "locator": "LSO June 8, 2026 statutory salaries memorandum, Table 1 confirms current Governor salary $140,000 under W.S. 9-3-101; most recent change in 2022. Excludes inflation-adjusted comparison values.",
+      "referencePeriod": "2026"
     },
     {
       "state": "WY",
       "office": "trial-court-judge",
-      "annualDollars": 160000,
+      "annualDollars": 171200,
       "status": "SOURCED",
-      "sourceUrl": "https://archive.legmt.gov/content/Committees/Interim/2023-2024/Senate-Select-Committee-on-Judicial-Oversight-Reform/Meetings/240927-September-2024/Elected_Officials_Salary_Table%20_07-2024.pdf",
-      "locator": "District Judge row, WY current salary column; independent contiguous-state survey by Montana State Human Resources, under sections 2-16-403 and 2-16-405 MCA",
-      "referencePeriod": "June 2024"
+      "sourceUrl": "https://wyoleg.gov/InterimCommittee/2026/02-2026062211-01_salariesSetbyStatute.pdf",
+      "locator": "LSO June 8, 2026 memorandum printed pages 7-8 Table 3 and text: $160,000 statutory base plus 2023 appropriations increase to $171,200; 2024 appropriation sustains that rate for FY2025-2026 and subsequent biennia under W.S. 5-1-110(b). Excludes inflation-adjusted comparison values.",
+      "referencePeriod": "2026"
     }
   ]
 } as const;
 
 /** State or territory postal code:governor annual salary in dollars. */
 export const GOVERNOR_SALARY_ROWS =
-  "AK:145000;AR:158739;AZ:95000;CA:224020;CO:134632;CT:226711;DE:171000;FL:141400;GA:175000;GU:130000;HI:184860;IA:130000;ID:151400;IL:205700;KS:110707;LA:130000;MA:185000;MD:184000;ME:70000;MI:159300;MN:127629;MO:140596;MP:120000;MS:122160;MT:124821;NC:165750;ND:152265;NE:105000;NH:161791;NJ:175000;NM:110000;NV:170062;NY:250000;OH:171064;OK:147000;OR:98600;PA:229642;PR:70000;RI:163295;SC:106078;SD:139100;TN:239760;TX:153750;UT:182900;VA:175000;VI:150000;VT:201136;WA:198257;WI:165568;WV:150000;WY:140000";
+  "AK:176016;AR:168439;AZ:95000;CA:245929;CO:134632;CT:226711;DE:185096;FL:141400;GA:185000;GU:90000;HI:226620;IA:130000;ID:151400;IL:245600;KS:174000;LA:130000;MA:243493;MD:195000;ME:70000;MI:159300;MN:200000;MO:145095;MP:120000;MS:160000;MT:141517;NC:209165;ND:168000;NE:105000;NH:165027;NJ:210000;NM:110000;NV:170062;NY:250000;OH:180203;OK:147000;OR:98600;PA:253870;PR:70000;RI:163295;SC:106078;SD:148523;TN:246104;TX:153750;UT:249250;VA:175000;VI:150000;VT:243520;WA:234275;WI:165568;WV:190424;WY:140000";
 
 /** State or territory postal code:legislator annual salary in dollars. */
 export const LEGISLATOR_SALARY_ROWS =
-  "AK:50400;AL:53913;AR:44357;AZ:24000;CA:128215;CO:40242;CT:40000;DE:49202;HI:72348;IA:25000;IL:85000;LA:16800;MD:52343;MI:71685;MN:48250;MO:37711;NC:13951;NE:12000;NJ:49000;NY:142000;OH:69876;OK:47500;PA:102844;SC:10400;TN:22667;TX:7200;WA:57876;WI:57408;WV:20000";
+  "AK:84000;AL:66659;AR:45696;AZ:24000;CA:134694;CO:47561;CT:43600;DE:54308;HI:74160;IA:25000;IL:101450;LA:16800;MD:56636;MI:71685;MN:51750;MO:42188;NC:13951;NE:12000;NJ:82000;NY:142000;OH:73609;OK:47500;PA:113591;SC:10400;TN:33062;TX:7200;WA:72494;WI:60924;WV:23000";
 
 /** State or territory postal code:general trial court judge annual salary in dollars. */
 export const TRIAL_JUDGE_SALARY_ROWS =
-  "AK:199193;AL:148512;AR:192919;AZ:200000;CA:231174;CO:183816;CT:189483;DC:232600;DE:199612;FL:182060;HI:213096;IA:158056;ID:151212;IN:165276;KS:148912;MA:207855;MD:184433;MI:168759;MN:169264;MS:158000;MT:148872;NC:152188;ND:164532;NE:183545;NH:168761;NJ:204167;NM:172994;NV:160000;NY:210900;OH:158206;OK:156732;OR:163476;PA:212495;SD:174448;TN:219120;UT:185200;VA:193848;VT:175654;WA:203169;WI:164487;WV:132300;WY:160000";
+  "AK:228306;AL:157602;AR:210628;AZ:200000;CA:244727;CO:203768;CT:217109;DC:249900;DE:233022;FL:200836;HI:267468;IA:174531;ID:172508;IN:183513;KS:187425;MA:207855;MD:220333;MI:191748;MN:190117;MS:158000;MT:159813;NC:174199;ND:184366;NE:214468;NH:189350;NJ:212415;NM:227118;NV:160000;NY:237300;OH:171982;OK:167703;OR:209160;PA:234916;SD:186266;TN:225048;UT:224750;VA:227964;VT:212653;WA:244631;WI:183352;WV:138600;WY:171200";

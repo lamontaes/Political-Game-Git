@@ -34,13 +34,13 @@ describe("what states pay for an office", () => {
   });
 
   it("holds the independently cited legislator salary and its reference period", () => {
-    expect(statePayFor("state-legislator", "CA")?.annualDollars).toBe(128_215);
+    expect(statePayFor("state-legislator", "CA")?.annualDollars).toBe(134_694);
     expect(OFFICE_PAY_META.citations).toContainEqual(
       expect.objectContaining({
         office: "state-legislator",
         state: "CA",
-        annualDollars: 128_215,
-        referencePeriod: "December 4, 2023",
+        annualDollars: 134_694,
+        referencePeriod: "2026 (effective December 1, 2025)",
         sourceUrl:
           "https://www.calhr.ca.gov/california-citizens-compensation-commission/cccc-salaries/",
       }),
@@ -48,7 +48,7 @@ describe("what states pay for an office", () => {
   });
 
   it("holds a trial court judge's and a member of Congress's salary", () => {
-    expect(statePayFor("trial-court-judge", "NY")?.annualDollars).toBe(210_900);
+    expect(statePayFor("trial-court-judge", "NY")?.annualDollars).toBe(237_300);
     expect(statePayFor("member-of-congress", "US")?.annualDollars).toBe(
       174_000,
     );

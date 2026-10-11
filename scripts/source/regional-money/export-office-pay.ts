@@ -36,6 +36,10 @@ const LEGACY_OFFICIAL_HOSTS = new Set([
   "www.kslegresearch.org",
   "media.ark.org",
   "www.dopusvi.org",
+  "laws.flrules.org",
+  "legvi.org",
+  "www.ctas.tennessee.edu",
+  "billstatus.ls.state.ms.us",
 ]);
 export function validateSalaryJournal(journal: OfficialSalaryJournal): void {
   if (journal.schema !== "official-office-pay/v1" || !journal.accessedAt)
@@ -79,7 +83,7 @@ export function renderOfficePayModule(): string {
       .join(";");
   const meta = {
     source:
-      "Official government statutes, compensation schedules and legislative records; each fact cites its own reference period. Missing annual figures use the existing labeled official-source estimate.",
+      "Current official office pay checked October 11, 2026, including applicable statutory adjustments; each fact cites its effective year and term. Missing annual figures use the existing labeled official-source estimate.",
     journalSha256: createHash("sha256").update(raw).digest("hex"),
     asOf: journal.accessedAt,
     governors: journal.facts.filter((fact) => fact.office === "governor")
@@ -102,7 +106,7 @@ export function renderOfficePayModule(): string {
   return `/**
  * GENERATED — do not edit by hand.
  * Official salary facts from data/source/official-office-pay/facts.json.
- * Historical reference periods are explicit. Missing annual figures are absent,
+ * Current-pay effective years and terms are explicit. Missing annual figures are absent,
  * never zero; the existing salary reader estimates them from official facts.
  */
 

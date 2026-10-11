@@ -54,6 +54,28 @@ describe("official annual salary inputs", () => {
       expect(() => validateSalaryJournal({ ...journal, facts })).toThrow();
   });
 
+  it("uses adjusted current pay and excludes future-term raises", () => {
+    const massachusetts = journal.facts.find(
+      (fact: { state: string; office: string }) =>
+        fact.state === "MA" && fact.office === "governor",
+    );
+    expect(statePayFor("governor", "MA")?.annualDollars).toBe(243493);
+    expect(massachusetts.adjustment).toMatchObject({
+      baseAnnualDollars: 185000,
+      adjustmentAnnualDollars: 58493,
+      year: 2026,
+    });
+    expect(massachusetts.sourceUrl).toBe(
+      massachusetts.adjustment.baseSourceUrl,
+    );
+    expect(massachusetts.locator).toContain(
+      massachusetts.adjustment.adjustmentSourceUrl,
+    );
+    expect(statePayFor("governor", "NM")?.annualDollars).toBe(110000);
+    expect(statePayFor("governor", "AZ")?.annualDollars).toBe(95000);
+    expect(statePayFor("governor", "SC")?.annualDollars).toBe(106078);
+  });
+
   it("provides sourced pay or the existing labeled estimate in all 56 places", () => {
     expect(Object.keys(STATES)).toHaveLength(56);
     const world = { seed: "data-fix-all-56-official-salaries" } as World;
