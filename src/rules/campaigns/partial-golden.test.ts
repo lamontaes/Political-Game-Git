@@ -1,3 +1,4 @@
+import type { World, CampaignRecord } from "../../simulation/types";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import ts from "typescript";
@@ -36,6 +37,7 @@ function oracle(
     .sort((a, b) => b.start - a.start);
   for (const span of spans) {
     expect(source(row.file).slice(span.start, span.end)).toBe(span.source);
+    expect(span.source.startsWith("..."), kernel.name).toBe(false);
     expression =
       expression.slice(0, span.start - kernel.start) +
       "facts[" +
@@ -135,23 +137,25 @@ describe("explicit-fact expression equivalence for all 56 places", () => {
         const facts: Record<string, unknown> = {};
         entry.kernel.inputs.forEach((input, index) => {
           const position = (placeIndex + index) % numeric.length;
-          facts[input.name] = input.type.startsWith("number")
-            ? numeric[position]
-            : input.type.startsWith("bigint")
-              ? bigint[(placeIndex + index) % bigint.length]
-              : input.type.startsWith("boolean")
-                ? (placeIndex + index) % 2 === 0
-                : input.type.startsWith("string")
-                  ? /date|Day|At|Start|End/.test(input.source)
-                    ? world.currentDate
-                    : /state|usps/i.test(input.source)
-                      ? place.usps
-                      : strings[(placeIndex + index) % strings.length]
-                  : (placeIndex + index) % 3 === 0
-                    ? null
-                    : (placeIndex + index) % 3 === 1
-                      ? undefined
-                      : { id: "selected:" + place.usps };
+          facts[input.name] = input.type.includes("[]")
+            ? [numeric[position], numeric[(position + 1) % numeric.length]]
+            : input.type.startsWith("number")
+              ? numeric[position]
+              : input.type.startsWith("bigint")
+                ? bigint[(placeIndex + index) % bigint.length]
+                : input.type.startsWith("boolean")
+                  ? (placeIndex + index) % 2 === 0
+                  : input.type.startsWith("string")
+                    ? /date|Day|At|Start|End/.test(input.source)
+                      ? world.currentDate
+                      : /state|usps/i.test(input.source)
+                        ? place.usps
+                        : strings[(placeIndex + index) % strings.length]
+                    : (placeIndex + index) % 3 === 0
+                      ? null
+                      : (placeIndex + index) % 3 === 1
+                        ? undefined
+                        : { id: "selected:" + place.usps };
         });
         check(entry, facts);
       }
@@ -162,28 +166,32 @@ it("preserves nullable inputs, arithmetic boundaries, short-circuiting, and thro
     const base: Record<string, unknown> = Object.fromEntries(
       entry.kernel.inputs.map((input) => [
         input.name,
-        input.type.startsWith("bigint")
-          ? 1n
-          : input.type.startsWith("number")
-            ? 1
-            : input.type.startsWith("string")
-              ? "2026-10-11"
-              : input.type.startsWith("boolean")
-                ? true
-                : {},
+        input.type.includes("[]")
+          ? [1, 2]
+          : input.type.startsWith("bigint")
+            ? 1n
+            : input.type.startsWith("number")
+              ? 1
+              : input.type.startsWith("string")
+                ? "2026-10-11"
+                : input.type.startsWith("boolean")
+                  ? true
+                  : {},
       ]),
     );
     check(entry, base);
     for (const input of entry.kernel.inputs) {
-      const values = input.type.startsWith("bigint")
-        ? bigint
-        : input.type.startsWith("number")
-          ? numeric
-          : input.type.startsWith("string")
-            ? strings
-            : input.type.startsWith("boolean")
-              ? [false, true]
-              : [null, undefined, false, true, {}, []];
+      const values = input.type.includes("[]")
+        ? [[], [0], [1], [1, 2], [-1, 10001], [NaN, 1], [Infinity, -Infinity]]
+        : input.type.startsWith("bigint")
+          ? bigint
+          : input.type.startsWith("number")
+            ? numeric
+            : input.type.startsWith("string")
+              ? strings
+              : input.type.startsWith("boolean")
+                ? [false, true]
+                : [null, undefined, false, true, {}, []];
       for (const value of [
         ...values,
         ...(input.type.includes("null") ? [null] : []),
@@ -254,4 +262,113 @@ it("preserves the retirement policy gate for both settings in all 56 places", as
         called,
       );
     }
+});
+
+it("compares explicit birth-date eligibility and prior-win counts with original World readers across all 56 places", async () => {
+  const { oldEnoughForCampaignLife } =
+    await import("./keep-old-enough-for-campaign-life");
+  const { racesWonBefore } = await import("./recognition");
+  const dates = await import("../../simulation/dates");
+  function declaration(file: string, name: string) {
+    const sf = ts.createSourceFile(
+      file,
+      source(file),
+      ts.ScriptTarget.Latest,
+      true,
+    );
+    return sf.statements
+      .find(
+        (node) => ts.isFunctionDeclaration(node) && node.name?.text === name,
+      )!
+      .getText(sf)
+      .replace(/^export /, "");
+  }
+  const lifeFile = "src/simulation/campaign-life-activities.ts";
+  const lifeSf = ts.createSourceFile(
+    lifeFile,
+    source(lifeFile),
+    ts.ScriptTarget.Latest,
+    true,
+  );
+  const life = lifeSf.statements
+    .filter(ts.isVariableStatement)
+    .find((node) =>
+      node.declarationList.declarations.some(
+        (d) => d.name.getText(lifeSf) === "LIFE",
+      ),
+    )!
+    .getText(lifeSf)
+    .replace(/^export /, "");
+  const eligibilityText = ts.transpileModule(
+    life + "\n" + declaration(lifeFile, "oldEnoughForCampaignLife"),
+    { compilerOptions: { target: ts.ScriptTarget.ES2022 } },
+  ).outputText;
+  const oldEligibility = new Function(
+    "ageOnDate",
+    eligibilityText + "; return oldEnoughForCampaignLife;",
+  )(dates.ageOnDate) as (world: unknown, id: string) => boolean;
+  const racesText = ts.transpileModule(
+    declaration("src/simulation/campaign-recognition.ts", "racesWonBefore"),
+    { compilerOptions: { target: ts.ScriptTarget.ES2022 } },
+  ).outputText;
+  const oldWins = new Function(racesText + "; return racesWonBefore;")() as (
+    world: unknown,
+    campaign: unknown,
+  ) => number;
+  for (const place of lifePlaceStateIdentities()) {
+    const personId = "person:" + place.usps;
+    const today = dates.makeIsoDate("2026-10-11");
+    for (const birth of [
+      null,
+      "2008-10-12",
+      "2008-10-11",
+      "2008-10-10",
+      "2000-02-29",
+    ]) {
+      const birthDate = birth === null ? null : dates.makeIsoDate(birth);
+      const world = {
+        currentDate: today,
+        people: birthDate === null ? {} : { [personId]: { birthDate } },
+      };
+      expect(oldEnoughForCampaignLife(birthDate, today), place.usps).toBe(
+        oldEligibility(world, personId),
+      );
+    }
+    const campaign = { contestId: "current", candidatePersonId: personId };
+    const contests = [{ id: "current", electionDate: "2026-11-03" }];
+    const results = [
+      {
+        winnerPersonId: personId,
+        contestId: "prior",
+        resolvedAt: "2022-11-08",
+      },
+      {
+        winnerPersonId: personId,
+        contestId: "current",
+        resolvedAt: "2026-11-02",
+      },
+      {
+        winnerPersonId: personId,
+        contestId: "future",
+        resolvedAt: "2030-11-05",
+      },
+      { winnerPersonId: "other", contestId: "other", resolvedAt: "2022-11-08" },
+    ];
+    for (const [electionContests, electionContestResults] of [
+      [contests, results],
+      [[], results],
+      [contests, []],
+      [undefined, undefined],
+    ] as const) {
+      const world = { history: { electionContests, electionContestResults } };
+      expect(
+        racesWonBefore(
+          electionContests as unknown as World["history"]["electionContests"],
+          electionContestResults as unknown as World["history"]["electionContestResults"],
+          campaign as unknown as CampaignRecord,
+        ),
+        place.usps,
+      ).toBe(oldWins(world, campaign));
+    }
+  }
 });

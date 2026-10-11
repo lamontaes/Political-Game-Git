@@ -143,12 +143,15 @@
       "file": "src/simulation/campaign-life-activities.ts",
       "name": "oldEnoughForCampaignLife",
       "inventoryClass": "RULE",
-      "status": "lifted",
-      "reason": "src/rules/campaigns/keep-old-enough-for-campaign-life.ts; behavior unchanged; record reads supplied explicitly where noted.",
+      "status": "partially-lifted",
+      "reason": "Additional first-pass audit correction: removed the broad World parameter. Pure math and eligibility take selected birth/date, electorate/person, contest/result and contact records. Original record order, age limits, prior-win exclusions, deduplication and recognition percentages are unchanged and compared with actual legacy readers in all 56 places.",
       "secondPass": false,
-      "partiallyLifted": false,
-      "purePart": [],
-      "coreContracts": []
+      "partiallyLifted": true,
+      "purePart": ["src/rules/campaigns/keep-old-enough-for-campaign-life.ts"],
+      "coreContracts": [
+        "journal: indexed selected birth/person/household, contest/result, action/contact/event records with source ordering; offices: candidate and contest facts; calendar: effective date. No recognition/count/age math delegated."
+      ],
+      "additionalAuditCorrection": true
     },
     {
       "file": "src/simulation/campaign-life-activities.ts",
@@ -706,12 +709,12 @@
       "name": "civicStake",
       "inventoryClass": "RULE",
       "status": "partially-lifted",
-      "reason": "Existing explicit-input lift was incorrectly deferred in the first-pass ledger. The independently tested pure rule already preserves the original arithmetic and decisions.",
+      "reason": "Removed all remaining direct World reads from the existing partial adapter. Civic stake now takes selected birth/current/start dates, law exposures, organization participation/organization records and previously selected employment/view/outcome facts. Math, reason precedence and membership joins are unchanged; full old/new source-reader goldens cover all 56 places.",
       "secondPass": true,
       "partiallyLifted": true,
       "purePart": ["src/rules/campaigns/civic-stake.ts"],
       "coreContracts": [
-        "journal: select dated source records and persist results; offices: select jurisdiction/office facts; calendar: resolve effective dates."
+        "journal: select linked birth/residence, law exposure, organization/participation, employment/view/outcome records; offices: town and group identities; calendar: today and record opening date. Pure stake math and reason precedence remain in the shelf."
       ]
     },
     {
@@ -742,15 +745,13 @@
       "file": "src/simulation/living-world/movement-succession.ts",
       "name": "recordedRelationship",
       "inventoryClass": "RULE",
-      "status": "partially-lifted",
-      "reason": "Extracted 1 arithmetic/decision expressions with explicit selected-fact inputs; exact source spans and operand contracts in campaigns-kernels.json. Inputs referring to local results must come from preceding kernels, never duplicate the calculations in core. Enclosing traversal, guards and record projection remain caller orchestration.",
+      "status": "pure-plumbing",
+      "reason": "The complete body only reads the existing relationship history for a pair of person IDs and filters it to records occurredAt <= currentDate. That is an indexed as-of journal read: no score, strength, temperament, math, new relationship decision or write occurs in the function.",
       "secondPass": true,
-      "partiallyLifted": true,
-      "purePart": ["src/rules/campaigns/parts-recorded-relationship.ts"],
+      "partiallyLifted": false,
+      "purePart": [],
       "coreContracts": [
-        "journal: resolve/read the named operands, preserve source order, provenance and joins, create records and persist resulting effects; do not recompute lifted expressions.",
-        "offices: select the office, jurisdiction, effective law and officeholder facts named by this function; consume the pure decision outputs.",
-        "calendar: resolve instants, availability and activity state; preserve enclosing chronological iteration and guard order, reserve/release schedules and post due items. Pure arithmetic and comparisons stay in the kernels."
+        "journal: relationship records indexed by person pair and as-of cutoff; calendar: effective read date. This query does not compute or decide relationship strength."
       ]
     },
     {
@@ -871,23 +872,29 @@
       "file": "src/simulation/campaign-recognition.ts",
       "name": "racesWonBefore",
       "inventoryClass": "manual-KEEP",
-      "status": "lifted",
-      "reason": "src/rules/campaigns/recognition.ts",
+      "status": "partially-lifted",
+      "reason": "Additional first-pass audit correction: removed the broad World parameter. Pure math and eligibility take selected birth/date, electorate/person, contest/result and contact records. Original record order, age limits, prior-win exclusions, deduplication and recognition percentages are unchanged and compared with actual legacy readers in all 56 places.",
       "secondPass": false,
-      "partiallyLifted": false,
-      "purePart": [],
-      "coreContracts": []
+      "partiallyLifted": true,
+      "purePart": ["src/rules/campaigns/recognition.ts"],
+      "coreContracts": [
+        "journal: indexed selected birth/person/household, contest/result, action/contact/event records with source ordering; offices: candidate and contest facts; calendar: effective date. No recognition/count/age math delegated."
+      ],
+      "additionalAuditCorrection": true
     },
     {
       "file": "src/simulation/campaign-recognition.ts",
       "name": "doorKnockingReturn",
       "inventoryClass": "manual-KEEP",
-      "status": "lifted",
-      "reason": "src/rules/campaigns/recognition.ts",
+      "status": "partially-lifted",
+      "reason": "Additional first-pass audit correction: removed the broad World parameter. Pure math and eligibility take selected birth/date, electorate/person, contest/result and contact records. Original record order, age limits, prior-win exclusions, deduplication and recognition percentages are unchanged and compared with actual legacy readers in all 56 places.",
       "secondPass": false,
-      "partiallyLifted": false,
-      "purePart": [],
-      "coreContracts": []
+      "partiallyLifted": true,
+      "purePart": ["src/rules/campaigns/recognition.ts"],
+      "coreContracts": [
+        "journal: indexed selected birth/person/household, contest/result, action/contact/event records with source ordering; offices: candidate and contest facts; calendar: effective date. No recognition/count/age math delegated."
+      ],
+      "additionalAuditCorrection": true
     },
     {
       "file": "src/simulation/campaign-contact-calibration.ts",
@@ -1014,12 +1021,18 @@
     "model": "GPT-6 Codex",
     "effort": "Repository medium default; served variant and runtime effort not exposed",
     "originalDeferrals": 46,
-    "kernelExpressions": 264,
+    "kernelExpressions": 267,
     "counts": {
       "lifted": 4,
-      "partially-lifted": 41,
-      "pure-plumbing": 1
+      "partially-lifted": 40,
+      "pure-plumbing": 2
     },
-    "equivalenceScope": "Original expression text versus new kernels with selected facts across 56 places and boundary/nullable/error cases, plus prior whole-rule golden tests. This is controlled fixture equivalence, not generated-world integration or finisher acceptance."
+    "equivalenceScope": "Original expression text versus new kernels with selected facts across 56 places and boundary/nullable/error cases, plus prior whole-rule golden tests. This is controlled fixture equivalence, not generated-world integration or finisher acceptance.",
+    "additionalAuditCorrections": [
+      "oldEnoughForCampaignLife",
+      "racesWonBefore",
+      "doorKnockingReturn"
+    ],
+    "completedAt": "2026-10-11 02:26 UTC (combined session continues with governing recheck)"
   }
 }

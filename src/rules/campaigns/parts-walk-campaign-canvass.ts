@@ -93,7 +93,7 @@ export function walkCampaignCanvassRule10(facts: {
 /** Legacy line 371: householdId       ? peopleInHouseholdAt(scratch, householdId)       : [] */
 export function walkCampaignCanvassRule11(facts: {
   readonly householdId: string | null;
-  readonly peopleInHouseholdAtScratchHouseholdId: unknown;
+  readonly peopleInHouseholdAtScratchHouseholdId: unknown[];
 }) {
   return facts.householdId! ? facts.peopleInHouseholdAtScratchHouseholdId : [];
 }

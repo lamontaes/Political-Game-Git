@@ -39,7 +39,7 @@ export function planAcceptanceRule4(facts: {
 /** Legacy line 887: journey ? [journey.id] : [] */
 export function planAcceptanceRule5(facts: {
   readonly journey: unknown;
-  readonly journeyId: unknown;
+  readonly journeyId: unknown[];
 }) {
   return facts.journey ? facts.journeyId : [];
 }

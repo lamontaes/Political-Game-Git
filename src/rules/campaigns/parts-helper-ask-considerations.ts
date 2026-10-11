@@ -1,4 +1,4 @@
-// STOPGAP RULES3-CAM-044: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-CAM-043: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/campaign-helpers.ts :: helperAskConsiderations.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/campaigns-kernels.json.
@@ -81,7 +81,7 @@ export function helperAskConsiderationsRule9(facts: {
 /** Legacy line 114: interactionId         ? [{ kind: "relationship-interaction", interactionId }]         : [] */
 export function helperAskConsiderationsRule10(facts: {
   readonly interactionId: string | undefined;
-  readonly kindRelationshipInteractionInteractionId: unknown;
+  readonly kindRelationshipInteractionInteractionId: unknown[];
 }) {
   return facts.interactionId!
     ? facts.kindRelationshipInteractionInteractionId

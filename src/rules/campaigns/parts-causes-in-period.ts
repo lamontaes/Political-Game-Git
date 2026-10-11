@@ -1,4 +1,4 @@
-// STOPGAP RULES3-CAM-043: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-CAM-042: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/pressure/causes.ts :: causesInPeriod.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/campaigns-kernels.json.
@@ -291,7 +291,7 @@ export function causesInPeriodRule36(facts: {
 /** Legacy line 192: key ? [key] : [] */
 export function causesInPeriodRule37(facts: {
   readonly key: string | null;
-  readonly key2: unknown;
+  readonly key2: string[];
 }) {
   return facts.key! ? facts.key2 : [];
 }

@@ -1,5 +1,5 @@
 {
   "description": "Normalized inherited-stopgap register. These are preserved behavior, not new policy. They remain open for independent finishing.",
   "registry": "src/rules/campaigns/stopgaps.json",
-  "count": 45
+  "count": 47
 }

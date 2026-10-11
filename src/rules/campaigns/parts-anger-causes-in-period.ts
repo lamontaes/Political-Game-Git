@@ -1,4 +1,4 @@
-// STOPGAP RULES3-CAM-042: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-CAM-041: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/pressure/anger.ts :: angerCausesInPeriod.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/campaigns-kernels.json.
@@ -22,7 +22,7 @@ export function angerCausesInPeriodRule2(facts: {
 /** Legacy line 82: record.kind === "hazard-episode" ? [[record.id, record] as const] : [] */
 export function angerCausesInPeriodRule3(facts: {
   readonly recordKind: string;
-  readonly recordIdRecordAsConst: unknown;
+  readonly recordIdRecordAsConst: unknown[];
 }) {
   return facts.recordKind === "hazard-episode"
     ? facts.recordIdRecordAsConst

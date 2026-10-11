@@ -18,8 +18,26 @@ export function spendableMinorUnitsRule2(facts: {
   return facts.committeeOwn ? facts.campaignActionsResult : 0;
 }
 
-/** Legacy line 187: sum + action.plannedSpend!.minorUnits */
+/** Legacy line 179: action.plannedSpend !== null &&             campaignActionResult(world, action.id) === null &&             // A buy let go, called off, or whose time passed will never run.             scheduledActivityState(world, action.scheduledActivityId).status  */
 export function spendableMinorUnitsRule3(facts: {
+  readonly actionPlannedSpend: unknown;
+  readonly campaignActionResultWorldActionId: unknown;
+  readonly scheduledActivityStateWorldActionScheduledActivityIdStatus: string;
+  readonly scheduledActivityStateWorldActionScheduledActivityIdStartDate: string;
+  readonly currentDate: string;
+}) {
+  return (
+    facts.actionPlannedSpend !== null &&
+    facts.campaignActionResultWorldActionId === null &&
+    facts.scheduledActivityStateWorldActionScheduledActivityIdStatus ===
+      "scheduled" &&
+    facts.scheduledActivityStateWorldActionScheduledActivityIdStartDate >=
+      facts.currentDate
+  );
+}
+
+/** Legacy line 187: sum + action.plannedSpend!.minorUnits */
+export function spendableMinorUnitsRule4(facts: {
   readonly sum: number;
   readonly actionPlannedSpendMinorUnits: number;
 }) {
@@ -27,7 +45,7 @@ export function spendableMinorUnitsRule3(facts: {
 }
 
 /** Legacy line 189: position.liquidBalance.minorUnits - committed */
-export function spendableMinorUnitsRule4(facts: {
+export function spendableMinorUnitsRule5(facts: {
   readonly positionLiquidBalanceMinorUnits: number;
   readonly committed: number;
 }) {

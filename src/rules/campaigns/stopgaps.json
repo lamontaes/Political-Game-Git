@@ -470,18 +470,6 @@
   {
     "id": "RULES3-CAM-040",
     "kind": "inherited",
-    "file": "src/rules/campaigns/parts-recorded-relationship.ts",
-    "line": 1,
-    "whatItFakes": "Legacy recordedRelationship formulas, discrete gates, defaults and selected operand assumptions are retained exactly. The source anchors and literals are in campaigns-kernels.json; this lift does not source, smooth or repair these decisions.",
-    "why": "The authorized task requires equivalence and forbids repairs to inherited behavior. The caller must preserve original guards/order and obtain intermediate results from the named pure kernels.",
-    "addedBy": "RULES-3",
-    "addedAt": "2026-10-11",
-    "replacement": "Independent finisher inspects the original src/simulation/living-world/movement-succession.ts contract, supplies actual office/journal/calendar facts, and separately clears or sources any inherited estimate/threshold before integration.",
-    "status": "open"
-  },
-  {
-    "id": "RULES3-CAM-041",
-    "kind": "inherited",
     "file": "src/rules/campaigns/parts-temperament-considerations.ts",
     "line": 1,
     "whatItFakes": "Legacy temperamentConsiderations formulas, discrete gates, defaults and selected operand assumptions are retained exactly. The source anchors and literals are in campaigns-kernels.json; this lift does not source, smooth or repair these decisions.",
@@ -492,7 +480,7 @@
     "status": "open"
   },
   {
-    "id": "RULES3-CAM-042",
+    "id": "RULES3-CAM-041",
     "kind": "inherited",
     "file": "src/rules/campaigns/parts-anger-causes-in-period.ts",
     "line": 1,
@@ -504,7 +492,7 @@
     "status": "open"
   },
   {
-    "id": "RULES3-CAM-043",
+    "id": "RULES3-CAM-042",
     "kind": "inherited",
     "file": "src/rules/campaigns/parts-causes-in-period.ts",
     "line": 1,
@@ -516,7 +504,7 @@
     "status": "open"
   },
   {
-    "id": "RULES3-CAM-044",
+    "id": "RULES3-CAM-043",
     "kind": "inherited",
     "file": "src/rules/campaigns/parts-helper-ask-considerations.ts",
     "line": 1,
@@ -528,7 +516,7 @@
     "status": "open"
   },
   {
-    "id": "RULES3-CAM-045",
+    "id": "RULES3-CAM-044",
     "kind": "inherited",
     "file": "src/rules/campaigns/parts-step-pressure.ts",
     "line": 1,
@@ -537,6 +525,42 @@
     "addedBy": "RULES-3",
     "addedAt": "2026-10-11",
     "replacement": "Independent finisher inspects the original src/simulation/pressure/step.ts contract, supplies actual office/journal/calendar facts, and separately clears or sources any inherited estimate/threshold before integration.",
+    "status": "open"
+  },
+  {
+    "id": "RULES3-CAM-045",
+    "kind": "inherited",
+    "file": "src/rules/campaigns/pure-canvass-support-effect.ts",
+    "line": 1,
+    "whatItFakes": "Copied inventory CANVASS_SUPPORT_EFFECT preserves its original constants, formulas and validation boundaries. No new source or model claim is made by the lift.",
+    "why": "Literal preservation is required; exact source is recorded in the file header. Any source estimate/shortcut requires independent finishing.",
+    "addedBy": "RULES-3",
+    "addedAt": "2026-10-11",
+    "replacement": "Finisher distinguishes sourced conversion/schema bounds from inherited model assumptions and sources or explicitly clears those assumptions before core integration.",
+    "status": "open"
+  },
+  {
+    "id": "RULES3-CAM-046",
+    "kind": "inherited",
+    "file": "src/rules/campaigns/pure-campaign-life-latest-end-minute.ts",
+    "line": 1,
+    "whatItFakes": "Copied inventory CAMPAIGN_LIFE_LATEST_END_MINUTE preserves its original constants, formulas and validation boundaries. No new source or model claim is made by the lift.",
+    "why": "Literal preservation is required; exact source is recorded in the file header. Any source estimate/shortcut requires independent finishing.",
+    "addedBy": "RULES-3",
+    "addedAt": "2026-10-11",
+    "replacement": "Finisher distinguishes sourced conversion/schema bounds from inherited model assumptions and sources or explicitly clears those assumptions before core integration.",
+    "status": "open"
+  },
+  {
+    "id": "RULES3-CAM-047",
+    "kind": "inherited",
+    "file": "src/rules/campaigns/pure-campaign-weekly-slot-minutes.ts",
+    "line": 1,
+    "whatItFakes": "Copied inventory CAMPAIGN_WEEKLY_SLOT_MINUTES preserves its original constants, formulas and validation boundaries. No new source or model claim is made by the lift.",
+    "why": "Literal preservation is required; exact source is recorded in the file header. Any source estimate/shortcut requires independent finishing.",
+    "addedBy": "RULES-3",
+    "addedAt": "2026-10-11",
+    "replacement": "Finisher distinguishes sourced conversion/schema bounds from inherited model assumptions and sources or explicitly clears those assumptions before core integration.",
     "status": "open"
   }
 ]

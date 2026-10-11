@@ -43,11 +43,16 @@ export interface CivicStake {
 }
 
 export function civicStake(
-  world: World,
   personId: EntityId,
   town: EntityId,
   groupMembers: ReadonlySet<EntityId>,
   facts: {
+    readonly birthDate: IsoDate;
+    readonly today: IsoDate;
+    readonly startedAt: IsoDate;
+    readonly lawExposures: World["history"]["lawExposures"];
+    readonly organizationParticipations: World["history"]["organizationParticipations"];
+    readonly organizations: World["history"]["organizations"];
     readonly recordedResidenceSince: IsoDate | null;
     readonly employed: boolean;
     readonly view: ReturnType<typeof strongestOfficialStanding>;
@@ -59,15 +64,14 @@ export function civicStake(
     readonly reactionLens: number;
   },
 ): CivicStake {
-  const person = world.people[personId]!;
-  const today = world.currentDate;
-  const adultOn = addDays(person.birthDate, Math.round(18 * 365.25));
+  const today = facts.today;
+  const adultOn = addDays(facts.birthDate, Math.round(18 * 365.25));
   // The record of where people lived begins with the world. A resident
   // already in town when it began counts as living there since adulthood (a
   // game assumption: the years before the record are not read).
   const recorded = facts.recordedResidenceSince;
   const arrived =
-    recorded === null || recorded <= world.startedAt ? adultOn : recorded;
+    recorded === null || recorded <= facts.startedAt ? adultOn : recorded;
   const since = adultOn > arrived ? adultOn : arrived;
   const years = (from: IsoDate) =>
     Math.max(0, daysBetween(from, today) / 365.25);
@@ -83,7 +87,7 @@ export function civicStake(
       ? STRONG_VIEW_FACTOR
       : 1;
   const yearAgo = addDays(today, -365);
-  const lawCost = (world.history.lawExposures ?? []).some(
+  const lawCost = (facts.lawExposures ?? []).some(
     (row) =>
       row.personId === personId &&
       row.relation === "own" &&
@@ -94,7 +98,7 @@ export function civicStake(
     ? STAKE.lawCost
     : 0;
   const member = groupMembers.has(personId) ? STAKE.groupMember : 0;
-  const costExposures = (world.history.lawExposures ?? []).filter(
+  const costExposures = (facts.lawExposures ?? []).filter(
     (row) =>
       row.personId === personId &&
       row.relation === "own" &&
@@ -108,11 +112,11 @@ export function civicStake(
       outcome.at <= today &&
       outcome.direction === "cost",
   );
-  const oppositionMemberships = world.history.organizationParticipations.filter(
+  const oppositionMemberships = facts.organizationParticipations.filter(
     (row) =>
       row.personId === personId &&
       groupMembers.has(personId) &&
-      world.history.organizations.some(
+      facts.organizations.some(
         (group) =>
           group.id === row.organizationId &&
           group.stableKey.startsWith(`law-interest:${town}:`),

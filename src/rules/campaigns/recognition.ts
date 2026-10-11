@@ -1,7 +1,12 @@
 // STOPGAP(RULES3-CAM-004): see docs/plans/rules3/campaigns-stopgaps.json.
 // Lifted unchanged from src/simulation/campaign-recognition.ts; RULES-3, 2026-10-11.
 import { ageOnDate } from "./dates";
-import type { CampaignRecord, EntityId, World } from "../../simulation/types";
+import type {
+  CampaignRecord,
+  EntityId,
+  IsoDate,
+  World,
+} from "../../simulation/types";
 
 export const CAMPAIGN_RECOGNITION_PROFILE =
   "campaign-contact-share-of-adults/v2";
@@ -19,11 +24,15 @@ export interface DoorReturn {
   readonly basis: typeof CAMPAIGN_RECOGNITION_PROFILE;
 }
 
-export function racesWonBefore(world: World, campaign: CampaignRecord): number {
-  const contests = world.history.electionContests ?? [];
+export function racesWonBefore(
+  electionContests: World["history"]["electionContests"],
+  electionContestResults: World["history"]["electionContestResults"],
+  campaign: CampaignRecord,
+): number {
+  const contests = electionContests ?? [];
   const own = contests.find((contest) => contest.id === campaign.contestId);
   if (!own) return 0;
-  return (world.history.electionContestResults ?? []).filter(
+  return (electionContestResults ?? []).filter(
     (result) =>
       result.winnerPersonId === campaign.candidatePersonId &&
       result.contestId !== own.id &&
@@ -32,10 +41,21 @@ export function racesWonBefore(world: World, campaign: CampaignRecord): number {
 }
 
 export function doorKnockingReturn(
-  world: World,
   campaign: CampaignRecord,
   excludingActionId: EntityId | null,
   facts: {
+    readonly today: IsoDate;
+    readonly jurisdictionKind: string | undefined;
+    readonly personOrder: readonly EntityId[];
+    readonly peopleById: Readonly<
+      Record<
+        EntityId,
+        | Pick<World["people"][string], "birthDate" | "homeJurisdictionId">
+        | undefined
+      >
+    >;
+    readonly electionContests: World["history"]["electionContests"];
+    readonly electionContestResults: World["history"]["electionContestResults"];
     readonly results: NonNullable<World["history"]["campaignActionResults"]>;
     readonly actions: NonNullable<World["history"]["campaignActions"]>;
     readonly homesByPerson: ReadonlyMap<
@@ -61,13 +81,17 @@ export function doorKnockingReturn(
       action.id !== excludingActionId &&
       finished.has(action.id),
   ).length;
-  const won = racesWonBefore(world, campaign);
-  const adultResidentIds = [...new Set(world.personOrder)].filter((id) => {
-    const person = world.people[id];
+  const won = racesWonBefore(
+    facts.electionContests,
+    facts.electionContestResults,
+    campaign,
+  );
+  const adultResidentIds = [...new Set(facts.personOrder)].filter((id) => {
+    const person = facts.peopleById[id];
     if (
       !person ||
       id === campaign.candidatePersonId ||
-      ageOnDate(person.birthDate, world.currentDate) < 18
+      ageOnDate(person.birthDate, facts.today) < 18
     )
       return false;
     const homes = (facts.homesByPerson.get(id) ?? []).flatMap((row) =>
@@ -90,7 +114,7 @@ export function doorKnockingReturn(
     if (
       !contact.tags.includes("campaign.contact") ||
       !contact.eventId ||
-      contact.occurredAt > world.currentDate ||
+      contact.occurredAt > facts.today ||
       excludedEvents.has(contact.eventId)
     )
       continue;
@@ -98,7 +122,7 @@ export function doorKnockingReturn(
     if (
       !event ||
       event.occurredAt !== contact.occurredAt ||
-      event.occurredAt > world.currentDate
+      event.occurredAt > facts.today
     )
       continue;
     const other = contact.personIds.find(
@@ -127,14 +151,13 @@ export function doorKnockingReturn(
   for (const result of facts.results) {
     if (
       !actions.has(result.campaignActionId) ||
-      result.completedAt > world.currentDate
+      result.completedAt > facts.today
     )
       continue;
     for (const personId of result.canvass?.storyPersonIds ?? [])
-      if (!world.people[personId]) recognized.add(personId);
+      if (!facts.peopleById[personId]) recognized.add(personId);
   }
-  const kind: string | undefined =
-    world.jurisdictions[campaign.jurisdictionId]?.kind;
+  const kind: string | undefined = facts.jurisdictionKind;
   const electorate = Math.max(
     residents.size,
     kind === "census-place" || kind === "territory-place"

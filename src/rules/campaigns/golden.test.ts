@@ -132,6 +132,12 @@ describe(`campaign golden equivalence; watched=${watched.jurisdictionKey}; seed=
           history: { ...small.world.history, campaigns: [campaign] },
         } as World;
         const facts = {
+          today: world.currentDate,
+          jurisdictionKind: world.jurisdictions[campaign.jurisdictionId]?.kind,
+          personOrder: world.personOrder,
+          peopleById: world.people,
+          electionContests: world.history.electionContests,
+          electionContestResults: world.history.electionContestResults,
           results: campaignActionResultRecords(world),
           actions: campaignActions(world, campaign.id),
           homesByPerson: new Map(
@@ -149,7 +155,7 @@ describe(`campaign golden equivalence; watched=${watched.jurisdictionKey}; seed=
           eventsById: new Map(world.history.events.map((e) => [e.id, e])),
           townAdultEstimate: townAdultEstimate(campaign.jurisdictionId),
         };
-        expect(doorKnockingReturn(world, campaign, null, facts)).toEqual(
+        expect(doorKnockingReturn(campaign, null, facts)).toEqual(
           oldRecognition(world, campaign),
         );
         const other = oldRecognition(world, campaign).adultResidentIds[0]!;
@@ -184,12 +190,7 @@ describe(`campaign golden equivalence; watched=${watched.jurisdictionKey}; seed=
           contacts: [...facts.contacts, contact],
           eventsById: new Map(observed.history.events.map((e) => [e.id, e])),
         };
-        const recognition = doorKnockingReturn(
-          observed,
-          campaign,
-          null,
-          observedFacts,
-        );
+        const recognition = doorKnockingReturn(campaign, null, observedFacts);
         expect(recognition).toEqual(oldRecognition(observed, campaign));
         expect(recognition.recognizedPersonIds).toContain(other);
         expect(recognition.percent).toBeGreaterThan(0);
@@ -240,25 +241,24 @@ describe(`campaign golden equivalence; watched=${watched.jurisdictionKey}; seed=
           small.jurisdictionId,
           group,
         );
-        const fresh = civicStake(
-          world,
-          small.personId,
-          small.jurisdictionId,
-          group,
-          {
-            recordedResidenceSince: homeJurisdictionResidenceSince(
-              world,
-              small.personId,
-              small.jurisdictionId,
-              world.currentDate,
-            ),
-            employed:
-              activeWorkRelationshipsAt(world, small.personId).length > 0,
-            view: strongestOfficialStanding(world, small.personId),
-            outcomes: livedOutcomesOf(world, small.personId),
-            reactionLens: reactionLens(world, small.personId),
-          },
-        );
+        const fresh = civicStake(small.personId, small.jurisdictionId, group, {
+          birthDate: world.people[small.personId]!.birthDate,
+          today: world.currentDate,
+          startedAt: world.startedAt,
+          lawExposures: world.history.lawExposures,
+          organizationParticipations: world.history.organizationParticipations,
+          organizations: world.history.organizations,
+          recordedResidenceSince: homeJurisdictionResidenceSince(
+            world,
+            small.personId,
+            small.jurisdictionId,
+            world.currentDate,
+          ),
+          employed: activeWorkRelationshipsAt(world, small.personId).length > 0,
+          view: strongestOfficialStanding(world, small.personId),
+          outcomes: livedOutcomesOf(world, small.personId),
+          reactionLens: reactionLens(world, small.personId),
+        });
         expect(fresh).toEqual(old);
         for (const action of ["contacted", "attended"] as const)
           for (const date of [

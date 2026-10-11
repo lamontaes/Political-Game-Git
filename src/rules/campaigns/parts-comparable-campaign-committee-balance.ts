@@ -27,7 +27,7 @@ export function comparableCampaignCommitteeBalanceRule2(facts: {
 /** Legacy line 368: account ? [account] : [] */
 export function comparableCampaignCommitteeBalanceRule3(facts: {
   readonly account: unknown;
-  readonly account2: unknown;
+  readonly account2: unknown[];
 }) {
   return facts.account ? facts.account2 : [];
 }

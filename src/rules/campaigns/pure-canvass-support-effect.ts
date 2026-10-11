@@ -1,3 +1,4 @@
+// STOPGAP RULES3-CAM-045: copied legacy policy/calibration, preserved pending independent finishing.
 // Lifted unchanged from src/simulation/campaign-canvass.ts; RULES-3, 2026-10-11.
 import calibration from "../../../data/research/campaign-reality/campaign-calibration.json" with { type: "json" };
 

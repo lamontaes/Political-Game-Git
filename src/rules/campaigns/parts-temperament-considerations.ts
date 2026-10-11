@@ -1,4 +1,4 @@
-// STOPGAP RULES3-CAM-041: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-CAM-040: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/living-world/movement-succession.ts :: temperamentConsiderations.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/campaigns-kernels.json.

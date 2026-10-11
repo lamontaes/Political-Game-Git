@@ -366,7 +366,7 @@
             {
               "name": "peopleInHouseholdAtScratchHouseholdId",
               "source": "peopleInHouseholdAt(scratch, householdId)",
-              "type": "unknown",
+              "type": "unknown[]",
               "start": 14078,
               "end": 14119,
               "occurrences": [
@@ -1188,7 +1188,7 @@
             {
               "name": "journeyId",
               "source": "[journey.id]",
-              "type": "unknown",
+              "type": "unknown[]",
               "start": 30140,
               "end": 30152,
               "occurrences": [
@@ -2203,6 +2203,80 @@
         },
         {
           "name": "spendableMinorUnitsRule3",
+          "source": "action.plannedSpend !== null &&\n            campaignActionResult(world, action.id) === null &&\n            // A buy let go, called off, or whose time passed will never run.\n            scheduledActivityState(world, action.scheduledActivityId).status ===\n              \"scheduled\" &&\n            scheduledActivityState(world, action.scheduledActivityId).start\n              .date >= world.currentDate",
+          "start": 5430,
+          "end": 5829,
+          "line": 179,
+          "inputs": [
+            {
+              "name": "actionPlannedSpend",
+              "source": "action.plannedSpend",
+              "type": "unknown",
+              "start": 5430,
+              "end": 5449,
+              "occurrences": [
+                {
+                  "start": 5430,
+                  "end": 5449
+                }
+              ]
+            },
+            {
+              "name": "campaignActionResultWorldActionId",
+              "source": "campaignActionResult(world, action.id)",
+              "type": "unknown",
+              "start": 5474,
+              "end": 5512,
+              "occurrences": [
+                {
+                  "start": 5474,
+                  "end": 5512
+                }
+              ]
+            },
+            {
+              "name": "scheduledActivityStateWorldActionScheduledActivityIdStatus",
+              "source": "scheduledActivityState(world, action.scheduledActivityId).status",
+              "type": "string",
+              "start": 5615,
+              "end": 5679,
+              "occurrences": [
+                {
+                  "start": 5615,
+                  "end": 5679
+                }
+              ]
+            },
+            {
+              "name": "scheduledActivityStateWorldActionScheduledActivityIdStartDate",
+              "source": "scheduledActivityState(world, action.scheduledActivityId).start\n              .date",
+              "type": "string",
+              "start": 5725,
+              "end": 5808,
+              "occurrences": [
+                {
+                  "start": 5725,
+                  "end": 5808
+                }
+              ]
+            },
+            {
+              "name": "currentDate",
+              "source": "world.currentDate",
+              "type": "string",
+              "start": 5812,
+              "end": 5829,
+              "occurrences": [
+                {
+                  "start": 5812,
+                  "end": 5829
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "spendableMinorUnitsRule4",
           "source": "sum + action.plannedSpend!.minorUnits",
           "start": 5874,
           "end": 5911,
@@ -2237,7 +2311,7 @@
           ]
         },
         {
-          "name": "spendableMinorUnitsRule4",
+          "name": "spendableMinorUnitsRule5",
           "source": "position.liquidBalance.minorUnits - committed",
           "start": 5934,
           "end": 5979,
@@ -2397,7 +2471,7 @@
             {
               "name": "account2",
               "source": "[account]",
-              "type": "unknown",
+              "type": "unknown[]",
               "start": 13145,
               "end": 13154,
               "occurrences": [
@@ -4063,7 +4137,7 @@
             {
               "name": "orderedSessionsWorldCommitted",
               "source": "orderedSessions(world, committed)",
-              "type": "unknown",
+              "type": "unknown[]",
               "start": 25114,
               "end": 25147,
               "occurrences": [
@@ -4283,6 +4357,50 @@
         },
         {
           "name": "projectCampaignWeekRule13",
+          "source": "nextSession(sessions)?.actionId ?? null",
+          "start": 26844,
+          "end": 26883,
+          "line": 791,
+          "inputs": [
+            {
+              "name": "nextSessionSessionsActionId",
+              "source": "nextSession(sessions)?.actionId",
+              "type": "string | undefined",
+              "start": 26844,
+              "end": 26875,
+              "occurrences": [
+                {
+                  "start": 26844,
+                  "end": 26875
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "projectCampaignWeekRule14",
+          "source": "sessions.find(\n              (session) =>\n                session.status === \"scheduled\" &&\n                compareSimulationMoments(session.start, world.currentMoment) <=\n                  0 &&\n                compareSimulationMoments(world.currentMoment, session.end) < 0,\n            )?.actionId ?? null",
+          "start": 26924,
+          "end": 27230,
+          "line": 793,
+          "inputs": [
+            {
+              "name": "sessionsfindResult",
+              "source": "sessions.find(\n              (session) =>\n                session.status === \"scheduled\" &&\n                compareSimulationMoments(session.start, world.currentMoment) <=\n                  0 &&\n                compareSimulationMoments(world.currentMoment, session.end) < 0,\n            )?.actionId",
+              "type": "string | undefined",
+              "start": 26924,
+              "end": 27222,
+              "occurrences": [
+                {
+                  "start": 26924,
+                  "end": 27222
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "projectCampaignWeekRule15",
           "source": "session.status === \"scheduled\" &&\n                compareSimulationMoments(session.start, world.currentMoment) <=\n                  0 &&\n                compareSimulationMoments(world.currentMoment, session.end) < 0",
           "start": 26982,
           "end": 27197,
@@ -4330,7 +4448,7 @@
           ]
         },
         {
-          "name": "projectCampaignWeekRule14",
+          "name": "projectCampaignWeekRule16",
           "source": "latest && latest.status === \"refused\" && latest.refusal\n        ? {\n            planId: latest.id,\n            refusal: latest.refusal,\n            explanation: refusalExplanation(latest.refusal),\n            decidedOn: latest.createdAt,\n            treasuryAtDecision: { ...latest.treasuryAtDecision },\n          }\n        : null",
           "start": 27279,
           "end": 27609,
@@ -5493,48 +5611,6 @@
     },
     {
       "file": "src/simulation/living-world/movement-succession.ts",
-      "name": "recordedRelationship",
-      "purePart": "src/rules/campaigns/parts-recorded-relationship.ts",
-      "kernels": [
-        {
-          "name": "recordedRelationshipRule1",
-          "source": "interaction.occurredAt <= world.currentDate",
-          "start": 3238,
-          "end": 3281,
-          "line": 98,
-          "inputs": [
-            {
-              "name": "interactionOccurredAt",
-              "source": "interaction.occurredAt",
-              "type": "string",
-              "start": 3238,
-              "end": 3260,
-              "occurrences": [
-                {
-                  "start": 3238,
-                  "end": 3260
-                }
-              ]
-            },
-            {
-              "name": "currentDate",
-              "source": "world.currentDate",
-              "type": "string",
-              "start": 3264,
-              "end": 3281,
-              "occurrences": [
-                {
-                  "start": 3264,
-                  "end": 3281
-                }
-              ]
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "file": "src/simulation/living-world/movement-succession.ts",
       "name": "temperamentConsiderations",
       "purePart": "src/rules/campaigns/parts-temperament-considerations.ts",
       "kernels": [
@@ -5932,7 +6008,7 @@
             {
               "name": "recordIdRecordAsConst",
               "source": "[[record.id, record] as const]",
-              "type": "unknown",
+              "type": "unknown[]",
               "start": 3215,
               "end": 3245,
               "occurrences": [
@@ -7441,7 +7517,7 @@
             {
               "name": "key2",
               "source": "[key]",
-              "type": "unknown",
+              "type": "string[]",
               "start": 7364,
               "end": 7369,
               "occurrences": [
@@ -7697,7 +7773,7 @@
             {
               "name": "kindRelationshipInteractionInteractionId",
               "source": "[{ kind: \"relationship-interaction\", interactionId }]",
-              "type": "unknown",
+              "type": "unknown[]",
               "start": 4030,
               "end": 4083,
               "occurrences": [
@@ -8526,6 +8602,41 @@
         },
         {
           "name": "stepPressureRule9",
+          "source": "entry.kind === kind",
+          "start": 4039,
+          "end": 4058,
+          "line": 108,
+          "inputs": [
+            {
+              "name": "entryKind",
+              "source": "entry.kind",
+              "type": "string",
+              "start": 4039,
+              "end": 4049,
+              "occurrences": [
+                {
+                  "start": 4039,
+                  "end": 4049
+                }
+              ]
+            },
+            {
+              "name": "kind",
+              "source": "kind",
+              "type": "string",
+              "start": 4054,
+              "end": 4058,
+              "occurrences": [
+                {
+                  "start": 4054,
+                  "end": 4058
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "stepPressureRule10",
           "source": "sum + entry.amount",
           "start": 4098,
           "end": 4116,
@@ -8560,7 +8671,7 @@
           ]
         },
         {
-          "name": "stepPressureRule10",
+          "name": "stepPressureRule11",
           "source": "contributions.length === 0 &&\n      PRESSURE_KINDS.every((kind) => levels[kind] === 0)",
           "start": 4197,
           "end": 4283,
@@ -8595,7 +8706,7 @@
           ]
         },
         {
-          "name": "stepPressureRule11",
+          "name": "stepPressureRule12",
           "source": "levels[kind] === 0",
           "start": 4264,
           "end": 4282,
@@ -8617,7 +8728,7 @@
           ]
         },
         {
-          "name": "stepPressureRule12",
+          "name": "stepPressureRule13",
           "source": "ordinal % QUARTERS_PER_FLOW_YEAR === 0",
           "start": 4609,
           "end": 4647,
@@ -8652,7 +8763,7 @@
           ]
         },
         {
-          "name": "stepPressureRule13",
+          "name": "stepPressureRule14",
           "source": "closesYear && current.size > 0 && states.length > 1\n      ? flowsForYear(\n          states.map((state) => state.stateKey),\n          current,\n          Number(periodEnd.slice(0, 4)),\n          ordinal / QUARTERS_PER_FLOW_YEAR,\n        )\n      : []",
           "start": 4697,
           "end": 4944,
@@ -8700,7 +8811,7 @@
             {
               "name": "flowsForYearResult",
               "source": "flowsForYear(\n          states.map((state) => state.stateKey),\n          current,\n          Number(periodEnd.slice(0, 4)),\n          ordinal / QUARTERS_PER_FLOW_YEAR,\n        )",
-              "type": "unknown",
+              "type": "unknown[]",
               "start": 4757,
               "end": 4933,
               "occurrences": [
@@ -8713,7 +8824,7 @@
           ]
         },
         {
-          "name": "stepPressureRule14",
+          "name": "stepPressureRule15",
           "source": "Number(periodEnd.slice(0, 4))",
           "start": 4849,
           "end": 4878,
@@ -8735,7 +8846,7 @@
           ]
         },
         {
-          "name": "stepPressureRule15",
+          "name": "stepPressureRule16",
           "source": "ordinal / QUARTERS_PER_FLOW_YEAR",
           "start": 4890,
           "end": 4922,
@@ -8770,7 +8881,7 @@
           ]
         },
         {
-          "name": "stepPressureRule16",
+          "name": "stepPressureRule17",
           "source": "flows.length > 0 ? largestPushedFlow(readings, flows) : null",
           "start": 5201,
           "end": 5261,

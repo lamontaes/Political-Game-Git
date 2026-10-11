@@ -52,7 +52,7 @@ export function projectCampaignWeekRule5(facts: {
 /** Legacy line 748: committed ? orderedSessions(world, committed) : [] */
 export function projectCampaignWeekRule6(facts: {
   readonly committed: unknown;
-  readonly orderedSessionsWorldCommitted: unknown;
+  readonly orderedSessionsWorldCommitted: unknown[];
 }) {
   return facts.committed ? facts.orderedSessionsWorldCommitted : [];
 }
@@ -109,8 +109,22 @@ export function projectCampaignWeekRule12(facts: {
     : null;
 }
 
-/** Legacy line 795: session.status === "scheduled" &&                 compareSimulationMoments(session.start, world.currentMoment) <=                   0 &&                 compareSimulationMoments(world.currentMoment, session.end) < 0 */
+/** Legacy line 791: nextSession(sessions)?.actionId ?? null */
 export function projectCampaignWeekRule13(facts: {
+  readonly nextSessionSessionsActionId: string | undefined;
+}) {
+  return facts.nextSessionSessionsActionId! ?? null;
+}
+
+/** Legacy line 793: sessions.find(               (session) =>                 session.status === "scheduled" &&                 compareSimulationMoments(session.start, world.currentMoment) <=                   0 &&                 compareSimulationMoments(world.currentM */
+export function projectCampaignWeekRule14(facts: {
+  readonly sessionsfindResult: string | undefined;
+}) {
+  return facts.sessionsfindResult! ?? null;
+}
+
+/** Legacy line 795: session.status === "scheduled" &&                 compareSimulationMoments(session.start, world.currentMoment) <=                   0 &&                 compareSimulationMoments(world.currentMoment, session.end) < 0 */
+export function projectCampaignWeekRule15(facts: {
   readonly sessionStatus: string;
   readonly compareSimulationMomentsSessionStartWorldCurrentMoment: number;
   readonly compareSimulationMomentsWorldCurrentMomentSessionEnd: number;
@@ -123,7 +137,7 @@ export function projectCampaignWeekRule13(facts: {
 }
 
 /** Legacy line 803: latest && latest.status === "refused" && latest.refusal         ? {             planId: latest.id,             refusal: latest.refusal,             explanation: refusalExplanation(latest.refusal),             decidedOn: latest.createdAt,              */
-export function projectCampaignWeekRule14(facts: {
+export function projectCampaignWeekRule16(facts: {
   readonly latest: unknown;
   readonly latestStatus: string;
   readonly latestRefusal: string | null;

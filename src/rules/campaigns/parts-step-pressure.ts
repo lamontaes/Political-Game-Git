@@ -1,4 +1,4 @@
-// STOPGAP RULES3-CAM-045: inherited policy expressions; preserve pending independent finishing.
+// STOPGAP RULES3-CAM-044: inherited policy expressions; preserve pending independent finishing.
 // Pure expression kernels from src/simulation/pressure/step.ts :: stepPressure.
 // Caller supplies selected facts; preserve the legacy evaluation order and guards.
 // Source anchors and input contracts: docs/plans/rules3/campaigns-kernels.json.
@@ -72,8 +72,16 @@ export function stepPressureRule8(facts: {
   );
 }
 
-/** Legacy line 109: sum + entry.amount */
+/** Legacy line 108: entry.kind === kind */
 export function stepPressureRule9(facts: {
+  readonly entryKind: string;
+  readonly kind: string;
+}) {
+  return facts.entryKind === facts.kind;
+}
+
+/** Legacy line 109: sum + entry.amount */
+export function stepPressureRule10(facts: {
   readonly sum: number;
   readonly entryAmount: number;
 }) {
@@ -81,7 +89,7 @@ export function stepPressureRule9(facts: {
 }
 
 /** Legacy line 114: contributions.length === 0 &&       PRESSURE_KINDS.every((kind) => levels[kind] === 0) */
-export function stepPressureRule10(facts: {
+export function stepPressureRule11(facts: {
   readonly contributionsLength: number;
   readonly PRESSURE_KINDSEveryKindLevelsKind0: boolean;
 }) {
@@ -91,12 +99,12 @@ export function stepPressureRule10(facts: {
 }
 
 /** Legacy line 115: levels[kind] === 0 */
-export function stepPressureRule11(facts: { readonly levelsKind: number }) {
+export function stepPressureRule12(facts: { readonly levelsKind: number }) {
   return facts.levelsKind === 0;
 }
 
 /** Legacy line 131: ordinal % QUARTERS_PER_FLOW_YEAR === 0 */
-export function stepPressureRule12(facts: {
+export function stepPressureRule13(facts: {
   readonly ordinal: number;
   readonly QUARTERS_PER_FLOW_YEAR: number;
 }) {
@@ -104,11 +112,11 @@ export function stepPressureRule12(facts: {
 }
 
 /** Legacy line 133: closesYear && current.size > 0 && states.length > 1       ? flowsForYear(           states.map((state) => state.stateKey),           current,           Number(periodEnd.slice(0, 4)),           ordinal / QUARTERS_PER_FLOW_YEAR,         )       : [] */
-export function stepPressureRule13(facts: {
+export function stepPressureRule14(facts: {
   readonly closesYear: boolean;
   readonly currentSize: number;
   readonly statesLength: number;
-  readonly flowsForYearResult: unknown;
+  readonly flowsForYearResult: unknown[];
 }) {
   return facts.closesYear && facts.currentSize > 0 && facts.statesLength > 1
     ? facts.flowsForYearResult
@@ -116,14 +124,14 @@ export function stepPressureRule13(facts: {
 }
 
 /** Legacy line 137: Number(periodEnd.slice(0, 4)) */
-export function stepPressureRule14(facts: {
+export function stepPressureRule15(facts: {
   readonly periodEndSlice04: string;
 }) {
   return Number(facts.periodEndSlice04);
 }
 
 /** Legacy line 138: ordinal / QUARTERS_PER_FLOW_YEAR */
-export function stepPressureRule15(facts: {
+export function stepPressureRule16(facts: {
   readonly ordinal: number;
   readonly QUARTERS_PER_FLOW_YEAR: number;
 }) {
@@ -131,7 +139,7 @@ export function stepPressureRule15(facts: {
 }
 
 /** Legacy line 152: flows.length > 0 ? largestPushedFlow(readings, flows) : null */
-export function stepPressureRule16(facts: {
+export function stepPressureRule17(facts: {
   readonly flowsLength: number;
   readonly largestPushedFlowReadingsFlows: unknown;
 }) {
