@@ -52,55 +52,56 @@ export function offerPlannedAmendment(
     (member) => member.personId === plan.authorPersonId,
   )!;
   const heading = proposition.name;
-  const dispositions = decideChamberVote(facts.voteFacts!, {
-    stableKey: `${stableKey}:vote`,
-    question: amendmentQuestion(
-      input,
-      plan.part,
+  if (!facts.adoptedPlan) {
+    const dispositions = decideChamberVote(facts.voteFacts!, {
+      stableKey: `${stableKey}:vote`,
+      question: amendmentQuestion(
+        input,
+        plan.part,
+        stableKey,
+        plan.authorPersonId,
+        undefined,
+      ),
+      members: input.members,
+      nonpartisan: input.nonpartisan ?? false,
+      playerPersonId: facts.playerPersonId,
+      playerBallot: null,
+    });
+    const offer = {
       stableKey,
-      plan.authorPersonId,
-      undefined,
-    ),
-    members: input.members,
-    nonpartisan: input.nonpartisan ?? false,
-    playerPersonId: facts.playerPersonId,
-    playerBallot: null,
-  });
-  const offer = {
-    stableKey,
-    measureId: input.measureId,
-    description:
-      plan.part.answer === "yes"
-        ? `Adds a section: ${heading}.`
-        : `Adds a section barring: ${heading}.`,
-    offeredByPersonId: plan.authorPersonId,
-    offeredByLabel: author.name,
-    dispositions,
-    presentMembers: dispositions.filter(
-      (row) => row.disposition !== "absent" && row.disposition !== "excused",
-    ).length,
-    electedMembers: input.members.length,
-    provenance: {
-      method: "member-decisions",
-      note: `Members' recorded decisions on an amendment offered for this reason: ${plan.reasoning}`,
-      sourceEntityIds: [plan.authorPersonId],
-    },
-    proposedSections: [
-      {
-        provisionKey: partKey(plan.part),
-        heading,
-        supersedesProvisionId: null,
-        answers: plan.part,
+      measureId: input.measureId,
+      description:
+        plan.part.answer === "yes"
+          ? `Adds a section: ${heading}.`
+          : `Adds a section barring: ${heading}.`,
+      offeredByPersonId: plan.authorPersonId,
+      offeredByLabel: author.name,
+      dispositions,
+      presentMembers: dispositions.filter(
+        (row) => row.disposition !== "absent" && row.disposition !== "excused",
+      ).length,
+      electedMembers: input.members.length,
+      provenance: {
+        method: "member-decisions",
+        note: `Members' recorded decisions on an amendment offered for this reason: ${plan.reasoning}`,
+        sourceEntityIds: [plan.authorPersonId],
       },
-    ],
-    authorMotive: plan.motive,
-  };
-  if (!facts.adoptedPlan)
+      proposedSections: [
+        {
+          provisionKey: partKey(plan.part),
+          heading,
+          supersedesProvisionId: null,
+          answers: plan.part,
+        },
+      ],
+      authorMotive: plan.motive,
+    };
     return {
       kind: "applied",
       commands: [{ command: "offerFloorAmendment", input: offer }],
       resumePlan: plan,
     } as AmendmentOfferPlan;
+  }
   const amendment = facts.amendments.find(
     (record) => record.stableKey === stableKey,
   );

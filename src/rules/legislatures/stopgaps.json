@@ -219,7 +219,7 @@
     "id": "SG-P14-legislatures-amendment-offer-text",
     "kind": "preserved-legacy",
     "file": "src/rules/legislatures/amendment-offers.ts",
-    "line": 141,
+    "line": 142,
     "whatItFakes": "Offer/revision requests retain native static English clause/question placeholders pending realization by the English adapter.",
     "why": "This shelf preserves request semantics and does not add a parallel English producer.",
     "addedBy": "RULES-2",
