@@ -169,6 +169,28 @@ describe("births Part 1", () => {
     expect(core.people.size).toBe(size);
   });
 
+  it("retains a deceased parent's kin without teaching them a posthumous name", () => {
+    const core = createRenewalCore(family(), { scheduledWork: false });
+    const api = coreAPI(core);
+    api.updatePerson("father", { alive: false });
+    const generated = buildNewborn(
+      api,
+      "posthumous-pregnancy",
+      ["mother", "father"],
+      source,
+    );
+    const baby = api.addBornPersonV1(
+      generated.person,
+      ["mother", "father"],
+      generated.kin,
+    );
+    expect(core.people.get("father")!.familyIds.has(baby.id)).toBe(true);
+    expect(core.people.get("father")!.knownIds.has(baby.id)).toBe(false);
+    expect(api.knows("father", `person:${baby.id}:name`)).toBeUndefined();
+    expect(api.knows("mother", `person:${baby.id}:name`)).toBeDefined();
+    assertCoreIntegrity(core);
+  });
+
   it("requires both partners' own agreement and preserves both alternatives and reasons", () => {
     const core = createRenewalCore(family(), { scheduledWork: false });
     core.people.get("father")!.affect.stress = 10;
