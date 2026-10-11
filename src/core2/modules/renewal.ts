@@ -1,3 +1,4 @@
+import { RENEWAL_PARAMETERS, renewalParameter } from "../births-parameters";
 import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import {
   BIRTHS_STOPGAP,
@@ -96,7 +97,7 @@ function review(
   if (agreed) {
     const dueDate = addDays(
       makeIsoDate(asOf),
-      api.parameter("renewalGestationDays"),
+      renewalParameter(api, "renewalGestationDays"),
     );
     const pregnancyId = `${planId}:pregnancy`;
     table(api, "pregnancies").put({
@@ -131,7 +132,7 @@ function review(
     scheduleReview(
       api,
       row,
-      dateAfter(api, api.parameter("renewalReviewDays")),
+      dateAfter(api, renewalParameter(api, "renewalReviewDays")),
     );
 }
 
@@ -209,11 +210,19 @@ function deliver(api: CoreAPI, pregnancyId: string): void {
       planId: String(row.planId),
     },
   });
-  scheduleReview(api, next, dateAfter(api, api.parameter("renewalReviewDays")));
+  scheduleReview(
+    api,
+    next,
+    dateAfter(api, renewalParameter(api, "renewalReviewDays")),
+  );
 }
 
 /** One opening index build; subsequent reviews read one candidate, never the world/history. */
 function initialize(api: CoreAPI): void {
+  for (const [key, row] of Object.entries(RENEWAL_PARAMETERS)) {
+    const configured = api.state.data.parameters[key] ?? row;
+    table(api, "parameters").put({ id: key, ...configured });
+  }
   const children = new Map<string, string[]>();
   for (const link of api.state.familyLinks.values())
     if (link.kind === "parent-child") {
@@ -256,8 +265,8 @@ function initialize(api: CoreAPI): void {
     });
     // SG-M1-opening-pregnancies: reconstruct only still-pregnant plans. Opening
     // cash, housing, health and temperament are proxies for this short prehistory.
-    const gestation = api.parameter("renewalGestationDays");
-    const cadence = api.parameter("renewalReviewDays");
+    const gestation = renewalParameter(api, "renewalGestationDays");
+    const cadence = renewalParameter(api, "renewalReviewDays");
     const latestChild = row.childIds
       .map((id) => api.state.people.get(id)!.birthDate)
       .sort()
@@ -297,6 +306,7 @@ export const RENEWAL_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
+      parameters: {},
       couples: {
         indexes: {
           byMother: { fields: ["motherId"] },
@@ -343,7 +353,7 @@ export const RENEWAL_MODULE: CoreModule = {
                   binding.arguments?.asOf ?? api.state.date,
                 ),
               ).reduce((sum, value) => sum + value, api.parameter("zero"))
-            : api.parameter("renewalWaitPull"),
+            : renewalParameter(api, "renewalWaitPull"),
         sourceIds: [row.id, actor.id, actor.householdId],
       };
     },

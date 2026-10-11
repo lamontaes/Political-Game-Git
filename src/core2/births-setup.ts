@@ -1,19 +1,20 @@
-import parameters from "./data/renewal/parameters.json" with { type: "json" };
-import { DEFAULT_DATA, extendData } from "./data";
+import { DEFAULT_DATA } from "./data";
 import { createLifeCore } from "./life";
 import { RENEWAL_MODULE } from "./modules/renewal";
 import { registerModule } from "./state";
-import type { Parameter } from "./parameters";
 import type { CoreData, CoreInput, CoreState } from "./types";
 
 export function renewalData(base: CoreData = DEFAULT_DATA): CoreData {
-  return extendData(base, {
-    parameters: parameters as Readonly<Record<string, Parameter>>,
-    tiers: [{ id: "newborn", cadence: "inactive" }],
+  return {
+    ...base,
+    tiers: [
+      ...base.tiers.filter((tier) => tier.id !== "newborn"),
+      { id: "newborn", cadence: "inactive" },
+    ],
     discretionaryIneligibleTiersV1: [
       ...new Set([...(base.discretionaryIneligibleTiersV1 ?? []), "newborn"]),
     ],
-  });
+  };
 }
 
 /** Production integration entry: same engine, scheduler, people module and writers. */

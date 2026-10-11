@@ -1,4 +1,5 @@
 import { ageOnDate, daysBetween, makeIsoDate } from "../simulation/dates";
+import { renewalParameter } from "./births-parameters";
 import { scoreOffers, decisionFromScores } from "./choice";
 import type { ActOffer, ActionDefinition, CoreAPI, PersonState } from "./types";
 
@@ -18,7 +19,7 @@ export function birthCircumstances(
   couple: BirthCouple,
   asOf = api.state.date,
 ) {
-  const p = (key: string) => api.parameter(key);
+  const p = (key: string) => renewalParameter(api, key);
   const mother = api.state.people.get(couple.motherId)!;
   const partner = api.state.people.get(couple.otherParentId)!;
   const age = ageOnDate(makeIsoDate(mother.birthDate), makeIsoDate(asOf));
