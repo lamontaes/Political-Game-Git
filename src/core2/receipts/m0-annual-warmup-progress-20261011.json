@@ -4,8 +4,8 @@
   "batch": "accepted-part1-source-benchmark-year",
   "warmup": 1,
   "place": "La Homa, Texas",
-  "throughDate": "2021-05-31",
-  "completedSimulatedDays": 150,
+  "throughDate": "2021-08-31",
+  "completedSimulatedDays": 242,
   "sourceNativeCommit": "16e247d50fdec3cb5a7ee12ac37a7e719732ad20",
   "sourceManifestSha256": "20482b1d737e2703a33bbbfc27a72e72963ce8622340650581659b733f33bfca",
   "annualPlanSha256": "f038cc5dd0604bee108eb4a235f2de5030514f13c48a337217031b322064cbaf",
@@ -64,11 +64,57 @@
       "seconds": 569.9993274320001,
       "daysPerMinute": 3.263161745084506,
       "rawLine": "[2026-10-11T04:41:23.507Z] month-advanced {\"throughDate\":\"2021-05-31\",\"simulatedDays\":31,\"elapsedMilliseconds\":569999.3274320001,\"decisions\":66070,\"acts\":66070}"
+    },
+    {
+      "observedAt": "2026-10-11T04:51:05.363Z",
+      "throughDate": "2021-06-30",
+      "simulatedDays": 30,
+      "elapsedMilliseconds": 581797.987435,
+      "decisions": 65103,
+      "acts": 65103,
+      "seconds": 581.797987435,
+      "daysPerMinute": 3.093857384993276,
+      "rawLine": "[2026-10-11T04:51:05.363Z] month-advanced {\"throughDate\":\"2021-06-30\",\"simulatedDays\":30,\"elapsedMilliseconds\":581797.987435,\"decisions\":65103,\"acts\":65103}"
+    },
+    {
+      "observedAt": "2026-10-11T05:02:34.679Z",
+      "throughDate": "2021-07-31",
+      "simulatedDays": 31,
+      "elapsedMilliseconds": 689226.1158759999,
+      "decisions": 76092,
+      "acts": 76092,
+      "seconds": 689.2261158759999,
+      "daysPerMinute": 2.6986789344683455,
+      "rawLine": "[2026-10-11T05:02:34.679Z] month-advanced {\"throughDate\":\"2021-07-31\",\"simulatedDays\":31,\"elapsedMilliseconds\":689226.1158759999,\"decisions\":76092,\"acts\":76092}"
+    },
+    {
+      "observedAt": "2026-10-11T05:14:48.489Z",
+      "throughDate": "2021-08-31",
+      "simulatedDays": 31,
+      "elapsedMilliseconds": 733702.1001010002,
+      "decisions": 66878,
+      "acts": 66878,
+      "seconds": 733.7021001010002,
+      "daysPerMinute": 2.5350888320259077,
+      "rawLine": "[2026-10-11T05:14:48.489Z] month-advanced {\"throughDate\":\"2021-08-31\",\"simulatedDays\":31,\"elapsedMilliseconds\":733702.1001010002,\"decisions\":66878,\"acts\":66878}"
     }
   ],
   "timingScope": "Existing month chunk: advance, focus affect capture, financial/economy snapshots. Excludes later month-counter hashing; not the complete annual timer.",
   "annualMedianSeconds": null,
   "annualDaysPerMinute": null,
   "annualFinancialJudgment": null,
-  "limitation": "One partial warmup only. Complete source/input stability and repeated-run judgments remain pending; no year result or extrapolation."
+  "limitation": "One partial warmup only. Complete source/input stability and repeated-run judgments remain pending; no year result or extrapolation.",
+  "unpublishedFollowups": {
+    "status": "SOURCE_REVIEWED_LOCAL_ONLY_RUNTIME_STATIC_UNEXECUTED",
+    "accountsCandidateManifestSha256": "727219d1f01ffa34a0f4a73cf2039c9f3cfba1be0a265071e76a94b1e1ecf515",
+    "accountsIndependentSourceReviewSha256": "41f00875376f1388983297deb8325adf29c32a0c4949ddcea8bed7f41c1a478c",
+    "nativeRegressionIndependentSourceReviewSha256": "ac37af5620e89e42daf2c87a8fe1c16640bf1a7447e0f190f6e31e18cfd6cc8a",
+    "queuedRuntimePlanSha256": "785145a213f394927e9d0ff7b58f9490e239bae589bbf16fefc28b93723027c0",
+    "localSourceFiles": 14,
+    "queuedFocusedTestFiles": 19,
+    "annualLeaseIncludesFollowups": false,
+    "runtimeResults": null,
+    "staticResults": null,
+    "acceptance": null
+  }
 }
