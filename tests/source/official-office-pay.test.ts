@@ -67,8 +67,9 @@ describe("official annual salary inputs", () => {
         expect(pay!.annualDollars, `${state}:${office}`).toBeGreaterThan(0);
         if (!sourced) {
           estimated++;
-          expect(pay!.basis).toMatch(/^ESTIMATED FROM AVERAGE:/);
-          expect(pay!.basis).toContain("not statutory salary authority");
+          const estimate = estimatedStatePay(world, office, state)!;
+          expect(estimate.basis).toMatch(/^ESTIMATED FROM AVERAGE:/);
+          expect(estimate.basis).toContain("not statutory salary authority");
         }
         checked++;
       }
