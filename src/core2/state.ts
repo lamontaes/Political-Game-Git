@@ -714,6 +714,91 @@ export function coreAPI(core: CoreState): CoreAPI {
   };
   const journalHost = cashJournalHost(core);
   const api: CoreAPI = {
+    addBornPersonV1(input, parents, relations) {
+      const zero = parameter("zero", core.data.parameters);
+      const household = core.households.get(input.householdId);
+      if (
+        input.birthDate !== core.date ||
+        input.liquidMinor !== zero ||
+        input.livingCostDailyMinor !== zero ||
+        input.jobId !== undefined ||
+        parents[0] === parents[1] ||
+        !household ||
+        household.placeId !== input.placeId ||
+        household.memberIds.includes(input.id) ||
+        core.husks.has(input.id) ||
+        parents.some(
+          (id) =>
+            !core.people.has(id) ||
+            core.people.get(id)!.householdId !== input.householdId ||
+            !household.memberIds.includes(id),
+        ) ||
+        relations.some(
+          (row) => row.otherId === input.id || !core.people.has(row.otherId),
+        ) ||
+        new Set(relations.map((row) => row.otherId)).size !==
+          relations.length ||
+        input.familyIds.some(
+          (id) => !relations.some((row) => row.otherId === id),
+        ) ||
+        relations.some((row) => !input.familyIds.includes(row.otherId)) ||
+        new Set(input.familyIds).size !== input.familyIds.length ||
+        parents.some(
+          (id) =>
+            !relations.some(
+              (row) =>
+                row.otherId === id &&
+                row.relation === "parent" &&
+                row.inverse === "child",
+            ),
+        ) ||
+        input.knownIds.some((id) => !core.people.has(id))
+      )
+        throw new Error("Invalid newborn family admission.");
+      const links = parents.map((parentId) => ({
+        id: `${input.id}:parent:${parentId}`,
+        kind: "parent-child" as const,
+        personIds: [parentId, input.id] as const,
+      }));
+      if (links.some((row) => core.familyLinks.has(row.id)))
+        throw new Error("Duplicate newborn parent link.");
+      // admitPerson validates identity, cash, tier, traits and knowledge before indexing.
+      const child = admitPerson(core, input);
+      core.households.set(household.id, {
+        ...household,
+        memberIds: [...household.memberIds, child.id],
+      });
+      for (const link of links) core.familyLinks.set(link.id, link);
+      for (const row of relations) {
+        const relative = core.people.get(row.otherId)!;
+        relative.familyIds.add(child.id);
+        relative.pastFacts = [
+          ...(relative.pastFacts ?? []),
+          {
+            id: `${child.id}:kin:${relative.id}:inverse`,
+            date: core.date,
+            kind: `family:${row.inverse}`,
+            summary: row.inverse,
+            source: input.source,
+            facts: { otherPersonId: child.id },
+          },
+        ];
+        api.relationship(child.id, relative.id, "family", zero);
+      }
+      // Names are learned by household adults from the birth, never by the infant.
+      for (const parentId of parents) {
+        const parent = core.people.get(parentId)!;
+        parent.knownIds.add(child.id);
+        api.observe(parentId, {
+          key: `person:${child.id}:name`,
+          value: `${child.givenName} ${child.familyName}`,
+          learnedAt: core.date,
+          sourceId: `${child.id}:birth`,
+          access: "perceived",
+        });
+      }
+      return child;
+    },
     moduleState: (moduleId) => moduleState(core, moduleId),
     moduleCalendar: (moduleId) => moduleCalendar(core, moduleId),
     voterGroups: () => voterGroups(core),

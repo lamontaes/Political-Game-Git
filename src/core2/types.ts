@@ -1006,6 +1006,16 @@ export interface CoreAPI {
     >,
   ): void;
   addOrganization(input: OrganizationInput): void;
+  /** v11: zero-stock newborn admission through the canonical person writer. */
+  addBornPersonV1(
+    input: PersonInput,
+    parents: readonly [PersonId, PersonId],
+    relations: readonly {
+      otherId: PersonId;
+      relation: string;
+      inverse: string;
+    }[],
+  ): PersonState;
   lookupPublicOrganization(personId: PersonId, organizationId: string): void;
   updateNeeds(
     personId: PersonId,
