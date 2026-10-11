@@ -1,4 +1,4 @@
-/* global process, console */
+/* global process, console, Buffer */
 import { createHash, randomInt } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import { performance } from "node:perf_hooks";
