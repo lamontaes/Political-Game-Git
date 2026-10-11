@@ -1050,17 +1050,11 @@
     }
   },
   "workWakingRecoveryHours": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "No measured bound for the duration of a prototype waking-recovery offer; separate from sleep and the reported sleep mean.",
-    "stopgapId": "SG-P8-work-time-reserve",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical offer-duration range or matched microdata calibration is established."
-    },
-    "checkRange": {
-      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
-    }
+    "value": 5.16,
+    "tag": "ESTIMATED",
+    "citation": "BLS American Time Use Survey 2025, Table 3: leisure and sports, 5.16 hours per day for people 15 and over (src/core2/data/time-use-reference.json).",
+    "estimatedFrom": "The rest act stands for an evening of leisure, so it takes the ATUS daily leisure and sports time, averaged over everyone 15 and over (CTO, October 10, 2026: rest gets a real leisure length so it competes for the evening). ATUS leisure ranges from 3.89 hours (35 to 44) to 7.39 (75 and over); one value serves every age here.",
+    "stopgapId": "SG-P8-work-time-reserve"
   },
   "employmentCountyAge22": {
     "value": 22,
