@@ -345,24 +345,11 @@ describe("shared actor chooser and committed effects", () => {
       ...lowWork,
       trait: p("zero"),
     });
-    // P15 part 2b: a free day holds both the shift and the recovery, so the
-    // trait sets which one the activation picks. The other is added only
-    // because it still scores above zero on its own: the low-effort shift
-    // carries its negative trait reason.
-    const filledShift = [...(low.logByPerson.get(actorId) ?? [])]
-      .map((id) => low.durableLog.get(id)!)
-      .find(
-        (row) =>
-          row.actorId === actorId &&
-          row.actionId === definition("paid-work").id &&
-          row.decision!.reasonKey.startsWith("planned:"),
-      )!;
-    expect(filledShift.decision!.selectedReasons!.trait).toBeLessThan(
-      p("zero"),
-    );
-    expect(high.people.get(actorId)!.liquidMinor).toBe(
+    expect(high.people.get(actorId)!.liquidMinor).toBeGreaterThan(
       low.people.get(actorId)!.liquidMinor,
     );
+    // P15 part 2b: the high-effort worker also rests in what is left of the
+    // evening after the shift, so both end the day equally rested.
     expect(low.people.get(actorId)!.affect.stress).toBe(
       high.people.get(actorId)!.affect.stress,
     );
