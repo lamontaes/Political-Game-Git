@@ -34,5 +34,17 @@
     "addedAt": "2026-10-11",
     "replacement": "Sourced signature rounding rule and a checked exact arithmetic implementation.",
     "status": "OPEN"
+  },
+  {
+    "id": "offices.ward-household-population-proxy",
+    "kind": "proxy",
+    "file": "src/rules/offices/parameters.ts",
+    "line": 44,
+    "whatItFakes": "Contiguous household roster positions stand in for ward geography and population, with a common ten-percent deviation bound.",
+    "why": "Legacy drawWardCuts uses household counts and positions, not geographic population. Preserve its output and member protection unchanged.",
+    "addedBy": "RULES-2",
+    "addedAt": "2026-10-11",
+    "replacement": "Caller-supplied geographic population units and place-specific legal deviation bounds.",
+    "status": "OPEN"
   }
 ]
