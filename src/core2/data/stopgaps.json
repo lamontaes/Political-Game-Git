@@ -831,7 +831,7 @@
     "id": "SG-P8-shared-past-history",
     "kind": "shared-past-generation-gap",
     "file": "src/core2/deep-past.ts",
-    "line": 138,
+    "line": 139,
     "whatItFakes": "Historical acquaintances are seeded for the player alone and carry no dated shared moments keyed to both people. Other residents have no generated acquaintance history for a reunion to read.",
     "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player’s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here.",
     "addedBy": "SOL-1258",
@@ -1101,6 +1101,18 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-10",
     "replacement": "A complete daily time budget that reserves the ATUS time of activities the game does not model, needs that evolve on each planned day from their own causes, and plans saved with the world.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-favors",
+    "kind": "behavior-model-gap",
+    "file": "src/core2/data/opening-favors.json",
+    "line": 3,
+    "whatItFakes": "Favors in the shared past come only at a resident's recorded move into the county, from people they shared a class or workgroup with, by closeness at the time from a tunable hours-per-shared-year; the rate is solved to an opt-in commercial poll (39% first ask friends for help moving). Residents' birthplaces are all their own town, so an adult move reads as moving back; job losses and illness come in part 5's lived years.",
+    "why": "CTO, October 10, 2026, 8:12 p.m. (#3938): generate dated moves first, then favors from close classmates or coworkers at the time of a move.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-11",
+    "replacement": "A probability-sample source on help received at a move, closeness at the time from a measured friendship model, out-of-town birthplaces from ACS place of birth, and favors at job losses and illness.",
     "status": "open"
   }
 ]
