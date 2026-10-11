@@ -773,6 +773,8 @@ export interface CoreData {
   needs: readonly NeedDefinition[];
   actions: readonly ActionDefinition[];
   tiers: readonly TierDefinition[];
+  /** v12: capability exclusions before discretionary offer providers, including focused actors. */
+  discretionaryIneligibleTiersV1?: readonly string[];
   actKinds: readonly string[];
   traitPulls: Readonly<
     Record<
