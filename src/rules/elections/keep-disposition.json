@@ -395,9 +395,9 @@
     "name": "dcCouncilPeriodForYear",
     "inventoryEngine": "elections",
     "keepLines": 3,
-    "status": "lifted",
+    "status": "partial-not-liftable",
     "lift": "src/rules/elections/measure-periods.ts",
-    "reason": "Rule decision kernel is present; see golden tests and README for its caller-fact/output boundary."
+    "reason": "Period arithmetic is lifted as councilPeriodForYear over caller-supplied reference year and cycle length, and golden-compared with the unchanged original anchor. Whole original names one council and fixes its 1975 anchor; that place-specific identity/record cannot be copied into shared all-place logic."
   },
   {
     "sourceFile": "src/simulation/measure-numbering.ts",

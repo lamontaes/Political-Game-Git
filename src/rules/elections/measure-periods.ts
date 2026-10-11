@@ -14,6 +14,10 @@ export function congressNumberForYear(year: number): number {
   return Math.floor((year - P.congressPeriodAnchor.value) / 2) + 1;
 }
 
-export function dcCouncilPeriodForYear(year: number): number {
-  return Math.floor((year - P.councilPeriodAnchor.value) / 2) + 1;
+export function councilPeriodForYear(
+  year: number,
+  referenceYear: number,
+  cycleYears: number,
+): number {
+  return Math.floor((year - referenceYear) / cycleYears) + 1;
 }
