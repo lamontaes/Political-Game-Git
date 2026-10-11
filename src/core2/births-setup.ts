@@ -11,9 +11,6 @@ export function renewalData(base: CoreData = DEFAULT_DATA): CoreData {
       ...base.tiers.filter((tier) => tier.id !== "newborn"),
       { id: "newborn", cadence: "inactive" },
     ],
-    discretionaryIneligibleTiersV1: [
-      ...new Set([...(base.discretionaryIneligibleTiersV1 ?? []), "newborn"]),
-    ],
   };
 }
 
