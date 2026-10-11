@@ -17,6 +17,8 @@ import type {
   Source,
 } from "./types";
 
+const TEST_REASON = { key: "closeness:test", basisRecordIds: [] };
+
 const date = "2021-01-01";
 const actorId = "person:appraisal-reader";
 const otherId = "person:appraisal-subject";
@@ -111,7 +113,13 @@ describe("actual learned-event appraisal subscriptions", () => {
     const core = world(),
       api = coreAPI(core),
       input = event();
-    api.relationship(actorId, otherId, "contact", parameter("one"));
+    api.relationship(
+      actorId,
+      otherId,
+      "contact",
+      parameter("one"),
+      TEST_REASON,
+    );
     const level = core.relationships.get(
       [actorId, otherId].sort().join(":"),
     )!.level;
@@ -424,7 +432,13 @@ describe("actual learned-event appraisal subscriptions", () => {
     });
     for (const core of [plain, watched]) {
       const writer = coreAPI(core);
-      writer.relationship(actorId, otherId, "contact", parameter("one"));
+      writer.relationship(
+        actorId,
+        otherId,
+        "contact",
+        parameter("one"),
+        TEST_REASON,
+      );
       writer.emit(event());
     }
     expect([...watched.people]).toEqual([...plain.people]);
@@ -487,11 +501,23 @@ describe("ordered relationship mutation notices", () => {
         seen.push(notice);
       },
     );
-    api.relationship(actorId, otherId, "contact", parameter("one"));
+    api.relationship(
+      actorId,
+      otherId,
+      "contact",
+      parameter("one"),
+      TEST_REASON,
+    );
     const firstLevel = core.relationships.get(
       [actorId, otherId].sort().join(":"),
     )!.level;
-    api.relationship(otherId, actorId, "contact", -parameter("one"));
+    api.relationship(
+      otherId,
+      actorId,
+      "contact",
+      -parameter("one"),
+      TEST_REASON,
+    );
     expect(seen).toHaveLength(2);
     expect(seen[0]!.actorId).toBe(actorId);
     expect(seen[1]!.actorId).toBe(otherId);
@@ -525,7 +551,7 @@ describe("ordered relationship mutation notices", () => {
       api = coreAPI(core),
       seen: Readonly<RelationshipChangeNotice>[] = [],
       wrong: string[] = [];
-    api.relationship(actorId, otherId, "family", parameter("one"));
+    api.relationship(actorId, otherId, "family", parameter("one"), TEST_REASON);
     registerModule(core, {
       id: "fixture:family-reader",
       relationshipKinds: ["family"],
@@ -540,7 +566,13 @@ describe("ordered relationship mutation notices", () => {
         wrong.push(notice.relationshipId);
       },
     );
-    api.relationship(actorId, otherId, "coworker", parameter("one"));
+    api.relationship(
+      actorId,
+      otherId,
+      "coworker",
+      parameter("one"),
+      TEST_REASON,
+    );
     expect(seen).toHaveLength(1);
     expect(seen[0]!.kind).toBe("family");
     expect(seen[0]!.requestedKind).toBe("coworker");
@@ -554,25 +586,55 @@ describe("ordered relationship mutation notices", () => {
     const core = world([]),
       api = coreAPI(core),
       seen: Readonly<RelationshipChangeNotice>[] = [];
-    api.relationship(actorId, otherId, "contact", parameter("zero"));
+    api.relationship(
+      actorId,
+      otherId,
+      "contact",
+      parameter("zero"),
+      TEST_REASON,
+    );
     api.subscribeRelationshipChanges("director", ["*"], (_api, notice) => {
       seen.push(notice);
     });
-    api.relationship(actorId, otherId, "contact", parameter("zero"));
+    api.relationship(
+      actorId,
+      otherId,
+      "contact",
+      parameter("zero"),
+      TEST_REASON,
+    );
     expect(seen).toEqual([]);
     advanceDate(core, "2021-01-02");
-    api.relationship(actorId, otherId, "contact", parameter("zero"));
+    api.relationship(
+      actorId,
+      otherId,
+      "contact",
+      parameter("zero"),
+      TEST_REASON,
+    );
     expect(seen[0]!.changes).toEqual([
       { measure: "lastContactDate", before: date, after: "2021-01-02" },
     ]);
     expect(() =>
-      api.relationship(actorId, actorId, "contact", parameter("one")),
+      api.relationship(
+        actorId,
+        actorId,
+        "contact",
+        parameter("one"),
+        TEST_REASON,
+      ),
     ).toThrow(/invalid/i);
     expect(() =>
-      api.relationship(actorId, "person:absent", "contact", parameter("one")),
+      api.relationship(
+        actorId,
+        "person:absent",
+        "contact",
+        parameter("one"),
+        TEST_REASON,
+      ),
     ).toThrow(/invalid/i);
     expect(() =>
-      api.relationship(actorId, otherId, "contact", Number.NaN),
+      api.relationship(actorId, otherId, "contact", Number.NaN, TEST_REASON),
     ).toThrow(/invalid/i);
     expect(seen).toHaveLength(1);
   });
@@ -646,7 +708,13 @@ describe("bounded explicit notification registration", () => {
     );
     firstA();
     firstR();
-    api.relationship(actorId, otherId, "contact", parameter("one"));
+    api.relationship(
+      actorId,
+      otherId,
+      "contact",
+      parameter("one"),
+      TEST_REASON,
+    );
     api.emit(event());
     expect(seen).toEqual(["relationship", "appraisal", "appraisal"]);
     expect(() =>

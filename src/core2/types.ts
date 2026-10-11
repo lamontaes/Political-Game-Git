@@ -213,6 +213,23 @@ export interface Relationship {
   level: number;
   lastContactDate: IsoDate;
   promise?: string;
+  /**
+   * P15: why closeness last changed, saved by the closeness writer so the
+   * "why" view can show it. The reason names its cause; the basis names the
+   * records behind it (an act, a household, a group, an event); the hours are
+   * the time together added and the level before is the closeness that day
+   * just before the change (faded since the previous contact).
+   */
+  reasonKey: string;
+  basisRecordIds: readonly string[];
+  changeHours: number;
+  levelBefore: number;
+}
+
+/** P15: what a closeness change records as its cause. */
+export interface ClosenessReason {
+  key: string;
+  basisRecordIds: readonly string[];
 }
 
 export interface ActionDefinition {
@@ -850,6 +867,7 @@ export interface CoreAPI {
     otherId: PersonId,
     kind: Relationship["kind"],
     change: number,
+    reason: ClosenessReason,
   ): void;
   join(personId: PersonId, organizationId: string, driveId?: string): void;
   emit(event: CoreEventInput): void;

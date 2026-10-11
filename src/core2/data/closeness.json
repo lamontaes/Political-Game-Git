@@ -39,6 +39,16 @@
   },
   "familyFactPrefix": "family:",
   "kinFactMarker": ":family:",
+  "reasonKeys": {
+    "openingFamily": "closeness:opening-family",
+    "openingHousemate": "closeness:opening-housemate",
+    "sharedHome": "closeness:shared-home-week",
+    "contact": "closeness:contact",
+    "care": "closeness:care",
+    "metVisiting": "closeness:met-visiting",
+    "metJoining": "closeness:met-joining-group",
+    "metAtMeeting": "closeness:met-at-meeting"
+  },
   "gaps": [
     "Opening closeness uses the average visit rate for the tie, not each pair's own history of visits.",
     "Relatives outside the town make no decisions, so they never start contact themselves.",

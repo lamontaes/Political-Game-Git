@@ -1,6 +1,6 @@
 import { daysBetween, makeIsoDate } from "../../simulation/dates";
 import { plannedWorkMinutesOnDate } from "./work";
-import { currentCloseness } from "../closeness";
+import { CLOSENESS, currentCloseness } from "../closeness";
 import { appraiseEvent, affectAt } from "../emotion";
 import { parameterValues } from "../parameters";
 import type {
@@ -258,23 +258,27 @@ export const LIFE_MODULE: CoreModule = {
       affect.stress *= Math.exp(-p(api, chosen.definition.effectParameter));
       api.updatePerson(actorId, { affect });
     },
-    contact: (api, actorId, chosen) => {
-      // P15: the visit's hours are time together.
-      api.relationship(
-        actorId,
-        chosen.targetId,
-        "contact",
-        chosen.effortHours ?? p(api, chosen.definition.effortParameter),
-      );
+    contact: (api, actorId, chosen, date, _days, decision) => {
+      // P15: the visit's hours are time together, saved with the act as the reason.
+      const actId = api.recordAct(actorId, chosen, date, decision);
+      const hours =
+        chosen.effortHours ?? p(api, chosen.definition.effortParameter);
+      api.relationship(actorId, chosen.targetId, "contact", hours, {
+        key: CLOSENESS.reasonKeys.contact,
+        basisRecordIds: [actId],
+      });
       api.updatePerson(actorId, { lastContactDate: api.state.date });
       api.updatePerson(chosen.targetId, { lastContactDate: api.state.date });
+      return { recordedActId: actId };
     },
-    care: (api, actorId, chosen) => {
+    care: (api, actorId, chosen, date, _days, decision) => {
+      const actId = api.recordAct(actorId, chosen, date, decision);
       api.relationship(
         actorId,
         chosen.targetId,
         "family",
         chosen.effortHours ?? p(api, chosen.definition.effortParameter),
+        { key: CLOSENESS.reasonKeys.care, basisRecordIds: [actId] },
       );
       const actor = api.state.people.get(actorId)!;
       api.updatePerson(actorId, {
@@ -285,6 +289,7 @@ export const LIFE_MODULE: CoreModule = {
             Math.exp(-p(api, chosen.definition.effectParameter)),
         },
       });
+      return { recordedActId: actId };
     },
     "public-lookup": (api, actorId, chosen) =>
       api.lookupPublicOrganization(actorId, chosen.targetId),

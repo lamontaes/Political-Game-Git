@@ -1,4 +1,9 @@
-import { closenessAfter, openingClosenessHours } from "./closeness";
+import {
+  CLOSENESS,
+  closenessAfter,
+  currentCloseness,
+  openingClosenessHours,
+} from "./closeness";
 import {
   emptyWorkRuntime,
   admitWorkCommitment,
@@ -51,6 +56,7 @@ import { initialFocusPeople } from "./focus";
 import type {
   ActOffer,
   DecisionResult,
+  ClosenessReason,
   CoreAPI,
   CoreData,
   CoreEventInput,
@@ -60,6 +66,7 @@ import type {
   CoreState,
   KnownFact,
   LogRecord,
+  PersonId,
   PersonInput,
   PersonState,
   Relationship,
@@ -126,6 +133,30 @@ function assertKnownIdSources(
     )
       throw new Error(`Invalid opening name provenance: ${row.id}:${id}`);
   }
+}
+
+/**
+ * P15: opening closeness between relatives rests on the person's family fact
+ * about the relative (when the deep past wrote one), their shared home, and
+ * the two people's own records.
+ */
+function openingFamilyReason(
+  core: CoreState,
+  actor: PersonState,
+  otherId: PersonId,
+): ClosenessReason {
+  const factId = `${actor.id}${CLOSENESS.kinFactMarker}${otherId}`;
+  const fact = actor.pastFacts?.some((row) => row.id === factId);
+  const shared = core.people.get(otherId)?.householdId === actor.householdId;
+  return {
+    key: CLOSENESS.reasonKeys.openingFamily,
+    basisRecordIds: [
+      ...(fact ? [factId] : []),
+      ...(shared ? [actor.householdId] : []),
+      actor.id,
+      otherId,
+    ],
+  };
 }
 
 function initialNameProvenance(
@@ -318,6 +349,7 @@ export function createCore(
           id,
           "family",
           openingClosenessHours(core, actor.id, id),
+          openingFamilyReason(core, actor, id),
         );
     }
     for (const id of actor.knownIds) {
@@ -739,7 +771,7 @@ export function coreAPI(core: CoreState): CoreAPI {
     recordDiscretionaryTime(personId, minutes) {
       recordDiscretionaryTime(core, api, personId, minutes);
     },
-    relationship(actorId, otherId, kind, change) {
+    relationship(actorId, otherId, kind, change, reason) {
       if (
         !core.people.has(actorId) ||
         !core.people.has(otherId) ||
@@ -747,6 +779,8 @@ export function coreAPI(core: CoreState): CoreAPI {
         !Number.isFinite(change)
       )
         throw new Error("Invalid relationship endpoints or change.");
+      if (!reason?.key.trim() || reason.basisRecordIds.some((id) => !id.trim()))
+        throw new Error("A closeness change requires a saved reason.");
       const id = [actorId, otherId].sort().join(":");
       const previous = core.relationships.get(id);
       const beforeLevel = previous?.level ?? p("zero");
@@ -758,11 +792,20 @@ export function coreAPI(core: CoreState): CoreAPI {
         kind,
         level: p("zero"),
         lastContactDate: core.date,
+        reasonKey: reason.key,
+        basisRecordIds: [],
+        changeHours: p("zero"),
+        levelBefore: p("zero"),
       };
       api.stopgap("SG-P8-relationship-closeness-update");
       // P15: `change` is hours of time together; closeness fades between contacts.
+      row.levelBefore = previous ? currentCloseness(core, previous) : p("zero");
       row.level = closenessAfter(core, previous, row.kind, change);
       row.lastContactDate = core.date;
+      // The "why" view shows the latest change's cause and the records behind it.
+      row.reasonKey = reason.key;
+      row.basisRecordIds = [...new Set(reason.basisRecordIds)];
+      row.changeHours = change;
       core.relationships.set(id, row);
       index(core.relationshipsByPerson, actorId, id);
       index(core.relationshipsByPerson, otherId, id);
@@ -1188,6 +1231,7 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
       id,
       "family",
       openingClosenessHours(core, actor.id, id),
+      openingFamilyReason(core, actor, id),
     );
   for (const id of actor.knownIds) {
     const other = core.people.get(id) ?? core.husks.get(id)!;

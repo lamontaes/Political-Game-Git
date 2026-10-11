@@ -72,6 +72,10 @@ function shareHomeTime(api: CoreAPI): void {
               b.id,
               CLOSENESS.householdKind as Relationship["kind"],
               openingClosenessHours(core, a.id, b.id),
+              {
+                key: CLOSENESS.reasonKeys.openingHousemate,
+                basisRecordIds: [household.id],
+              },
             );
           continue;
         }
@@ -87,6 +91,10 @@ function shareHomeTime(api: CoreAPI): void {
             ? CLOSENESS.familyKind
             : CLOSENESS.householdKind) as Relationship["kind"],
           (minutes / p("minutesPerHour")) * week,
+          {
+            key: CLOSENESS.reasonKeys.sharedHome,
+            basisRecordIds: [household.id],
+          },
         );
       }
   }

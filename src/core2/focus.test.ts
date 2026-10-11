@@ -4,6 +4,8 @@ import { duePeople } from "./calendar";
 import { coreAPI } from "./state";
 import type { CoreInput, PersonInput, Source } from "./types";
 
+const TEST_REASON = { key: "closeness:test", basisRecordIds: [] };
+
 const home = "place:focus-fixture";
 const county = "county:focus-fixture";
 const source: Source = {
@@ -169,7 +171,7 @@ describe("normal play circle and tier scope", () => {
 
   it("admits a newly recorded player relationship to daily detail", () => {
     const core = createLifeCore(input());
-    coreAPI(core).relationship("town", "player", "contact", 0.1);
+    coreAPI(core).relationship("town", "player", "contact", 0.1, TEST_REASON);
     expect(
       duePeople(core, "2021-01-02").some((row) => row.personId === "town"),
     ).toBe(true);
