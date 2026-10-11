@@ -1,6 +1,10 @@
+2026-10-11 — R13: data/research/elections/roadmap-r13-calendars-2026.json + 6 request answers; coverage 56 jurisdictions for 2026 congressional dates; federal qualifications in 50 states; municipal statutory examples ME/AZ and FL incompatibility only; gaps 2028 primaries, complete state-office rules and five-kind local samples remain unverified; terms questions candidate-guide web prose not licensed; GA annotated supplement excluded; model GPT-6 (Codex), effort not exposed, 419 seconds.
+
 2026-10-11 — SETUP BLOCKED: destination audit; 0 research files written; 0 places researched; 23/28 topics have missing required folders under Rule 3; no source-terms questions; model GPT-6 (Codex), effort not exposed by runtime, setup about 10 minutes; no topic completed.
 
 # CODEX-RESEARCH-2 handoff
+
+The setup blocker below is historical: resolved by #3971, merged 2026-10-11 before R13. Startup bench is now explicitly skipped for research.
 
 Base: `main` at `19767f3c0b1f043297c9301d5f30a89982a70f6d`. Branch: `pool/research-roadmap-2`.
 
