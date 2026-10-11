@@ -88,3 +88,46 @@ export function dateFromElectionRule(
       return anchors.primaryDay ? addDays(anchors.primaryDay, rule.days) : null;
   }
 }
+
+function whole(value: unknown, min: number, max: number): boolean {
+  return (
+    typeof value === "number" &&
+    Number.isInteger(value) &&
+    value >= min &&
+    value <= max
+  );
+}
+
+export function isElectionDateRule(value: unknown): value is ElectionDateRule {
+  if (typeof value !== "object" || value === null) return false;
+  const rule = value as Record<string, unknown>;
+  const keys = Object.keys(rule).sort().join(",");
+  switch (rule.kind) {
+    case "nth-weekday":
+      return (
+        (keys === "kind,month,nth,weekday" ||
+          keys === "kind,month,nth,offsetDays,weekday") &&
+        whole(rule.month, 1, 12) &&
+        whole(rule.weekday, 0, 6) &&
+        whole(rule.nth, -2, 5) &&
+        rule.nth !== 0 &&
+        (rule.offsetDays === undefined || whole(rule.offsetDays, -27, 27))
+      );
+    case "weekday-after":
+      return (
+        (keys === "anchorNth,anchorWeekday,kind,month,weekday" ||
+          keys === "anchorNth,anchorWeekday,kind,month,ordinal,weekday") &&
+        whole(rule.month, 1, 12) &&
+        whole(rule.anchorWeekday, 0, 6) &&
+        whole(rule.anchorNth, 1, 4) &&
+        whole(rule.weekday, 0, 6) &&
+        (rule.ordinal === undefined || whole(rule.ordinal, 1, 4))
+      );
+    case "days-before-general":
+      return keys === "days,kind" && whole(rule.days, 1, 300);
+    case "days-after-primary":
+      return keys === "days,kind" && whole(rule.days, 1, 120);
+    default:
+      return false;
+  }
+}

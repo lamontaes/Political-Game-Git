@@ -2,6 +2,14 @@
 
 Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting (see `AGENTS.md`).
 
+## 2026-10-11
+
+- **RULES-2, P14 offices and elections send-back 1 in draft review.** The rule shelves now carry helper/constant closures and World-reader/writer arithmetic as supplied-fact kernels. Offices accounts for 65 functions (15 complete, 47 math kernels, three prose/catalog exclusions); elections accounts for 130 (104 complete, 20 math kernels, six prose/cache exclusions). Old engines and fixtures are unchanged. The player-facing core2 golden path awaits the port and separate finisher.
+  - Checks: offices 1,013 tests; elections 1,011 unique tests across 13 owned files and targeted reruns, generated in all 56 places. Watched native congressional election: MA, seed `rules2-sendback-congress:MA`, 467 winners. Owned TypeScript and imported dependency graph are clean; scoped lint/format, release PR mode and zero-dice pass.
+  - Failed and why: the CTO rejected the prior stock World/private-helper blockers, so each area is being redone. Fixture repairs moved moments with dates, used native session gates, reused already drawn wards and preserved binding source-record order. The earlier 101 TypeScript errors came from the local compiler configuration; the corrected scoped configuration reports zero.
+  - Next: legislature/council vote, quorum, committee, veto/override and presiding-election math, then laws and economy. Courts and press remain parked. Drafts #3946 and #3948 remain for the finisher/CTO.
+  - Hand-off: GPT-6 (Codex); exact runtime variant/effort unavailable, repository default medium. Send-back began 02:19 UTC; offices handed off 02:58, elections 03:49 (about 50 minutes for elections). Usage/cost unavailable. One CTO send-back, for leaving liftable rule math behind.
+
 ## 2026-10-10
 
 - **OPUS-PEOPLE (M0-people), parts 1 to 4 in review.**

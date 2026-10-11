@@ -36,3 +36,9 @@ export function fieldIntakeDay(
   const opens = filingWindowOpens(year);
   return day < opens ? opens : day;
 }
+
+export function nextGeneralElection(on: IsoDate): IsoDate {
+  const year = Number(on.slice(0, 4));
+  const thisYear = congressionalElectionDay(year);
+  return thisYear >= on ? thisYear : congressionalElectionDay(year + 1);
+}

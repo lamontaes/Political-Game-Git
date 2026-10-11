@@ -1,82 +1,81 @@
-# P14 elections — RULES-2 contract
+# P14 elections — RULES-2 send-back 1
 
-Owner-approved REVIEW 25: after offices, lift election KEEP rules across local,
-state and federal levels together. Courts and press remain parked.
+Owner-approved REVIEW 25 covers local, state and federal rules together. This
+shelf stacks on `pool/P14-offices`. Legacy engines and fixtures are unchanged.
+Courts and press remain parked. These kernels need port adapters and a separate
+finisher's golden-path play before anyone claims playable core2 progress.
 
-This branch stacks on `pool/P14-offices` and reuses its isolated date arithmetic.
-Own `src/rules/elections/` and the required release declaration. Never edit a
-legacy engine. Inventory `RULE` means KEEP; corpus lookup, World/history writes,
-wording and units classified PLUMBING remain with the port.
+Plan: lift all institutional arithmetic and decisions from the frozen election
+KEEP inventory, including helper/constant closures; compare raw facts from the
+same generated World with the unchanged public caller in all 56 places. Preserve
+suspected bugs, register stopgaps, then continue legislature/council procedure,
+laws and economy without waiting for review.
 
-Plan: calendar formulas; plurality/majority/top-two/ranked counting; nomination
-primary/runoff decisions; supplied term-limit service; vacancy deadlines and
-recall petition decisions. Compare lifted decisions with unchanged legacy
-functions across all 56 jurisdiction identities, including a seeded random draw.
-Retain suspected bugs unchanged and register each temporary assumption for CTO
-review. No playable new-core path is claimed until ports consume these shelves.
+`keep-disposition.json` accounts for 130 functions: 104 complete rule kernels,
+20 mathematical kernels with specifically named prose/record-writer residuals,
+and six exclusions. The exclusions are percentage/result sentences, ordinal and
+commencement/date descriptions, and append-cache fingerprints. World readers,
+private helpers and research constants are supplied-fact boundaries.
 
-Separate finisher and CTO merge. Continue to legislature/council, then the
-authorized laws and economy branches without waiting for review.
+The shelf includes full nomination date/method/modal closures, executive term
+changes, legislative seat cohorts, county and town calendars, congressional seat
+decisions, territorial renewal/admission math, state opening lean/service/party
+allocation and institution bindings, chamber/council term-limit service,
+national allocation/count/contingent choice, candidate qualification/intake,
+filed primary/runoff decisions, recall/proposition certification and closure,
+ward/at-large seat choice, census timing, electorate math and bill numbering.
 
-Model: GPT-6 (Codex); exact runtime variant/configured effort not exposed;
-repository default medium. Start: 2026-10-11 00:29 UTC.
+Turnover adapters apply a pure phase or seat command, perform its native write,
+and supply fresh facts for the next command. Identity generation and RNG draws
+of who exists stay with the generator. The rule shelf consumes generated values;
+it adds no actor decision roll. Date-to-time-zone encoding is a supplied generic
+clock conversion in the national rule builder. English-only titles/session labels
+are omitted from numeric outputs. Native writer sorting is applied only where
+that writer sorts; institution source-record order is preserved.
 
-## Lift and boundary
+Dependencies owned by other shelves: offices supplies qualification, filing and
+signature rules. Legislature/council must complete joint-assembly vote and
+governing-season math; this shelf consumes their recorded vote/schedule facts.
+National mood is an outcome-web measurement; the dependency's presidential-year
+gate produces zero. Outcome-web PR #3933 is parked. No missing dependency is
+claimed as implemented by this shelf.
 
-330 KEEP lines fully lifted: statutory date formulas, state executive calendars,
-national cycle/dates, November municipal date, ballot counting and pure nomination
-tally/threshold helpers, plus consecutive-term counting. 546 KEEP lines partially
-lifted: town date selection, Senate appointment timing, executive limit check,
-primary/runoff outcomes and shared recall/proposition signature certification.
-World lookup, history writes and record serialization remain with the caller.
+CTO review items are exact code markers in `stopgaps.json`. New items include the
+0.03 incumbency share bonus, unresolved local/state calendar defaults, fixed
+service-day conventions and continuity gaps, opening service/lean generation,
+missing district member counts, statewide district-elector proxies, 365-day
+presidential partial-service counting, future deaths filtering pending state
+winners, broad wake prefixes, the statehood renewal bound/duplicate House keys,
+linear opening bill pace, historical petition denominators, national nomination
+fallbacks and electoral allocations carried forward after 2028. Values are
+unchanged. `parameters.ts` and `legacy-parameters.ts` record provenance and the
+frozen comparison domain; they do not assert new observed uncertainty ranges.
 
-Primary rows retain tally order; the legacy event writer's participant-ID sorting
-is applied in the golden projection. Refusal wording is projected to keys for
-petition certification; source record IDs and decisions remain exact. Hypothetical
-plan fixtures exercise counters where the old plan reader declines a primary
-stage; these fixtures do not assert that the place holds that stage. Territories
-likewise exercise null Senate-law inputs without asserting they have Senate seats.
+Validation is restricted to this shelf: owned strict TypeScript, ESLint,
+Prettier, election Vitest files, release PR mode and zero-dice. Native generated
+world tests cover state and congressional writers, presidential counts and a
+tied electoral count with contingent votes, town wards, petitions, numbering,
+electorates, candidate predicates, party reviews and chapter scheduling. Tests
+assert reachable refusals/absence where a place has no corresponding institution.
+A randomly selected generated congressional writer receipt is saved under
+`/tmp/rules2-elections-watch.json`. Main has no core2 bench.
 
-Registered CTO items: deadline-as-appointment pacing; partial terms counted whole
-and missing ends treated as continuous; 90-day continuity gap; 365.25-day lookback
-years; primary standing weights, missing-share fallback and positive share floor;
-runoff positive weight floor; 16-year executive term search bound. They are lifted
-unchanged, with exact core2 registry fields and parameter provenance/spreads.
+Model: GPT-6 (Codex); exact runtime variant/configured effort are unavailable;
+repository default medium. Careful source closure and native caller comparisons
+are needed after the CTO rejected the stock blocker ledger. Send-back count: 1,
+for leaving liftable rule math behind. Office send-back hand-off: 02:58 UTC;
+election send-back started 02:59 UTC on 2026-10-11. Usage/cost are unavailable.
+Hand-off: 2026-10-11 03:49 UTC, about 50 minutes for this area.
+1,011 unique tests in 13 owned files pass across the full slice and targeted
+reruns. All bounded gates pass; strict TypeScript has zero owned/dependency
+diagnostics. Watched place MA, seed `rules2-sendback-congress:MA`, world
+`world_907e528069336889`, results `event_34ba4e986287a537`, 467 winners.
+32 preserved stopgaps are registered. The contingent-vote bloc and fixed-state
+denominator proxy includes a possible statehood mismatch for CTO review.
 
-This slice does not finish the whole elections inventory. Legislative/local term
-limit adapters, recall closure/referral, special-election proximity laws and other
-World orchestration are still unported. Courts and press remain parked.
-
-## Validation / hand-off
-
-395 tests in two files pass. Random jurisdiction SD, seed
-`rules2-elections-20261011`. Scoped ESLint, Prettier and zero-dice pass. Owned
-TypeScript diagnostics are zero; the imported legacy graph still has the same
-101 baseline diagnostics. Main smoke evidence is recorded in the offices draft;
-main has no new-core bench. End of implementation: 2026-10-11 00:37 UTC, about
-eight minutes. Model/effort recorded above; usage/cost not exposed. The GitHub
-Project claim was attempted but the API's GraphQL endpoint returned Forbidden;
-ownership is recorded in this PR's contract instead.
-
-## Remaining-inventory continuation
-
-`KEEP-DISPOSITION.md` and `keep-disposition.json` account for every election
-KEEP function outside the offices ledger, plus the governing inventory's
-executive calendar functions. These two ledgers partition the election
-inventory; no row is silently reclassified. Whole-function blockers name the
-World/history writers, corpus closures or English contract that prevents an
-unchanged pure copy; partial kernels retain their actual destinations.
-
-This continuation adds standalone seat-cycle and returning-candidate rules,
-legislative/Senate/congressional dates, intake bounds, self-starter opportunity,
-modal selection and measure period/number arithmetic. Three CTO registrations
-preserve the 55% self-starter opportunity gate, estimated weekly ordinance pace,
-and modalValue's undefined result for empty inputs despite its declared type.
-All new calculations are golden-compared over all 56 identities. Measured
-validation, the seeded audit draw and model/effort/time are recorded in #3948.
-
-Final boundary check: the council period formula accepts a supplied reference
-year and cycle length. The original place-specific function/1975 anchor remains
-an explicit whole-function blocker; its arithmetic is golden-compared through
-this shared helper. The complete legislative date function is a full lift
-because its calendar helpers are already lifted, not an unresolved dependency.
+Fixture failures were corrected without editing engines: canonical moments must
+move with dates; bills use the native session gate; already drawn ward maps must
+not be drawn again on the same date; binding source IDs keep native order. The
+old claim of 101 dependency diagnostics came from an incorrect local compiler
+configuration. The corrected scoped compiler reports zero owned and dependency
+diagnostics.
