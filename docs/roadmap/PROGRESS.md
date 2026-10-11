@@ -4,6 +4,8 @@ Newest first. One short entry per event: what changed for the player, the measur
 
 ## 2026-10-11
 
+SOL-1258: Measured: the second baseline year completed 365 days in 10,917.71 seconds, or **2.01 days per minute**. Its act and finance summary hashes match the first measurement; this is an aggregate check, with financial judgment still pending. The third baseline measurement has started. The three-run median and candidate comparison remain pending. [Second measured-year receipt](../../src/core2/receipts/m0-second-baseline-measured-year-20261011.json).
+
 SOL-1258: The finance measurement consumer now uses the source-reviewed chunk reader locally. The life tests explicitly retain their original discretionary-work setup. Both changes are unpublished and untested. A separate four-file check will cover the reader and these fixtures after the annual collection, original nineteen-file gates, and financial judgments finish. The original finance-writer checks and assertions remain included. The first measured baseline year remains **1.83 days per minute**; the three-run median and candidate comparison are pending.
 
 SOL-1258: The prepared-input export and matching chunk reader are applied locally after independent source review. They preserve the opening records; runtime and static checks remain unexecuted, and this code is unpublished. The annual run uses unchanged frozen copies. [Local tooling status](../../src/core2/receipts/m0-opening-streaming-local-status-20261011.json). The annual median, candidate comparison, and money-year judgment remain pending.
