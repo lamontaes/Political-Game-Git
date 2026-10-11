@@ -217,6 +217,12 @@ export interface HouseholdInput {
   source: Source;
 }
 
+/** Why a closeness changed: the cause, the hours together and the record behind it. */
+export interface RelationshipReason {
+  cause: string;
+  sourceId?: string;
+}
+
 export interface Relationship {
   id: string;
   actorId: PersonId;
@@ -225,6 +231,19 @@ export interface Relationship {
   level: number;
   lastContactDate: IsoDate;
   promise?: string;
+  /** P15: the saved reason for the latest closeness change, for the "why" view. */
+  lastChange?: RelationshipReason & { date: IsoDate; hours: number };
+}
+
+/** P15 part 5: a real shared moment where two people first meet. */
+export interface Encounter {
+  /** Where they met: the host's home (household ID) or the group's place. */
+  placeId: string;
+  /** The record of the moment (a visit, a membership). */
+  sourceId: string;
+  cause: string;
+  /** Hours spent together, the first tie's time together. */
+  hours: number;
 }
 
 export interface ActionDefinition {
@@ -305,6 +324,8 @@ export interface RelationshipChangeNotice {
   requestedKind: Relationship["kind"];
   created: boolean;
   changes: readonly RelationshipMeasureChange[];
+  /** P15: the saved reason for this change, when the writer recorded one. */
+  reason?: RelationshipReason;
 }
 
 export type CoreRelationshipListener = (
@@ -939,7 +960,15 @@ export interface CoreAPI {
     otherId: PersonId,
     kind: Relationship["kind"],
     change: number,
+    reason?: RelationshipReason,
   ): void;
+  /**
+   * P15 part 5: two people who did not know each other meet in a real shared
+   * moment. Each enters the other's circle, learns the name and the dated
+   * meeting, and their first tie holds the hours spent together. Returns
+   * false when they already knew each other.
+   */
+  meet(actorId: PersonId, otherId: PersonId, encounter: Encounter): boolean;
   join(personId: PersonId, organizationId: string, driveId?: string): void;
   emit(event: CoreEventInput): void;
   /** External consumers can subscribe without owning or scanning world state. */

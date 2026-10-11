@@ -120,6 +120,11 @@ function admitOwnerCashAccount(
   });
 }
 
+/** A closeness change whose writer gave no reason. */
+const RELATIONSHIP_UNRECORDED_CAUSE = "unrecorded";
+/** Opening family ties: closeness from the kind of tie (P15 part 2). */
+const OPENING_FAMILY_CAUSE = "opening-family";
+
 function assertKnownIdSources(
   core: CoreState,
   row: Pick<
@@ -342,6 +347,7 @@ export function createCore(
           id,
           "family",
           openingClosenessHours(core, actor.id, id),
+          { cause: OPENING_FAMILY_CAUSE },
         );
     }
     for (const id of actor.knownIds) {
@@ -778,7 +784,7 @@ export function coreAPI(core: CoreState): CoreAPI {
     recordDiscretionaryTime(personId, minutes) {
       recordDiscretionaryTime(core, api, personId, minutes);
     },
-    relationship(actorId, otherId, kind, change) {
+    relationship(actorId, otherId, kind, change, reason) {
       if (
         !core.people.has(actorId) ||
         !core.people.has(otherId) ||
@@ -802,6 +808,13 @@ export function coreAPI(core: CoreState): CoreAPI {
       // P15: `change` is hours of time together; closeness fades between contacts.
       row.level = closenessAfter(core, previous, row.kind, change);
       row.lastContactDate = core.date;
+      // P15: the reason is saved with the change for the "why" view.
+      row.lastChange = {
+        date: core.date,
+        hours: change,
+        cause: reason?.cause ?? RELATIONSHIP_UNRECORDED_CAUSE,
+        ...(reason?.sourceId ? { sourceId: reason.sourceId } : {}),
+      };
       core.relationships.set(id, row);
       index(core.relationshipsByPerson, actorId, id);
       index(core.relationshipsByPerson, otherId, id);
@@ -830,7 +843,45 @@ export function coreAPI(core: CoreState): CoreAPI {
         requestedKind: kind,
         created: previous === undefined,
         changes,
+        ...(reason ? { reason } : {}),
       });
+    },
+    meet(actorId, otherId, encounter) {
+      const actor = core.people.get(actorId);
+      const other = core.people.get(otherId);
+      if (!actor || !other || actorId === otherId)
+        throw new Error("Invalid meeting endpoints.");
+      if (!encounter.placeId.trim() || !encounter.sourceId.trim())
+        throw new Error("A meeting needs its place and its record.");
+      if (!Number.isFinite(encounter.hours) || encounter.hours < p("zero"))
+        throw new Error("Invalid meeting hours.");
+      if (actor.knownIds.has(otherId) && other.knownIds.has(actorId))
+        return false;
+      for (const [self, peer] of [
+        [actor, other],
+        [other, actor],
+      ] as const) {
+        self.knownIds.add(peer.id);
+        api.observe(self.id, {
+          key: `person:${peer.id}:name`,
+          value: `${peer.givenName} ${peer.familyName}`,
+          learnedAt: core.date,
+          sourceId: encounter.sourceId,
+          access: "perceived",
+        });
+        api.observe(self.id, {
+          key: `person:${peer.id}:met`,
+          value: encounter.placeId,
+          learnedAt: core.date,
+          sourceId: encounter.sourceId,
+          access: "perceived",
+        });
+      }
+      api.relationship(actorId, otherId, "contact", encounter.hours, {
+        cause: encounter.cause,
+        sourceId: encounter.sourceId,
+      });
+      return true;
     },
     join(personId, organizationId, driveId) {
       if (
@@ -1237,6 +1288,7 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
       id,
       "family",
       openingClosenessHours(core, actor.id, id),
+      { cause: OPENING_FAMILY_CAUSE },
     );
   for (const id of actor.knownIds) {
     const other = core.people.get(id) ?? core.husks.get(id)!;
