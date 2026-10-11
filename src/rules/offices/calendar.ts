@@ -1,6 +1,10 @@
 /** Date arithmetic retained from simulation/dates.ts; no World access. */
+import type { IsoDate as ValidatedIsoDate } from "../../simulation/types";
+
 export type IsoDate = string;
+
 const ISO_DATE_PATTERN = /^(\d{4})-(\d{2})-(\d{2})$/;
+
 function utcDate(year: number, month: number, day: number): Date {
   const date = new Date(0);
   date.setUTCHours(0, 0, 0, 0);
@@ -8,7 +12,7 @@ function utcDate(year: number, month: number, day: number): Date {
   return date;
 }
 
-function validateIsoDate(value: string): IsoDate {
+export function validateIsoDate(value: string): ValidatedIsoDate {
   const match = ISO_DATE_PATTERN.exec(value);
   if (!match) {
     throw new Error(`Invalid ISO date: ${value}`);
@@ -24,14 +28,14 @@ function validateIsoDate(value: string): IsoDate {
   ) {
     throw new Error(`Invalid calendar date: ${value}`);
   }
-  return value as IsoDate;
+  return value as ValidatedIsoDate;
 }
 
 export function isoDateFromParts(
   year: number,
   month: number,
   day: number,
-): IsoDate {
+): ValidatedIsoDate {
   return validateIsoDate(
     `${year.toString().padStart(4, "0")}-${month.toString().padStart(2, "0")}-${day
       .toString()
@@ -39,7 +43,7 @@ export function isoDateFromParts(
   );
 }
 
-export function addDays(date: IsoDate, days: number): IsoDate {
+export function addDays(date: IsoDate, days: number): ValidatedIsoDate {
   if (!Number.isSafeInteger(days)) {
     throw new Error("Days must be a safe integer.");
   }
@@ -94,4 +98,22 @@ export function completedMonthsBetween(start: IsoDate, end: IsoDate): number {
     if (startDay <= daysInEndMonth) months -= 1;
   }
   return months;
+}
+
+function epochDayOf(date: string): number {
+  const valid = validateIsoDate(date);
+  const parts = ISO_DATE_PATTERN.exec(valid);
+  if (!parts) throw new Error("Unable to compare invalid ISO dates.");
+  return (
+    utcDate(Number(parts[1]), Number(parts[2]), Number(parts[3])).getTime() /
+    86_400_000
+  );
+}
+
+export function daysBetween(start: IsoDate, end: IsoDate): number {
+  const difference = epochDayOf(end) - epochDayOf(start);
+  if (!Number.isSafeInteger(difference)) {
+    throw new Error("Date difference exceeds safe integer precision.");
+  }
+  return difference;
 }
