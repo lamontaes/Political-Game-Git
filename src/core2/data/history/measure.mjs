@@ -2,7 +2,6 @@
 /** Developer proof only: sequential same-checkout comparisons; no daily history replay. */
 import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
-import { execFileSync } from "node:child_process";
 import { performance } from "node:perf_hooks";
 import { hostname, cpus } from "node:os";
 import { resolve } from "node:path";
@@ -14,9 +13,14 @@ const output = option("--output");
 if (!output || output.startsWith("--"))
   throw new Error("Supply --output outside the checkout.");
 const hash = (data) => createHash("sha256").update(data).digest("hex");
-const head = execFileSync("git", ["rev-parse", "HEAD"], {
-  encoding: "utf8",
-}).trim();
+let head = readFileSync(".git/HEAD", "utf8").trim();
+if (head.startsWith("ref: "))
+  head = readFileSync(
+    resolve(".git", head.slice("ref: ".length)),
+    "utf8",
+  ).trim();
+if (!/^[a-f0-9]{40}$/.test(head))
+  throw new Error("Expected a recorded checkout revision.");
 const median = (values) =>
   [...values].sort((a, b) => a - b)[Math.floor(values.length / 2)];
 const identity = {
