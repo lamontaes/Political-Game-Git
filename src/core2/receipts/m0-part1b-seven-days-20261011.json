@@ -14,9 +14,7 @@
       "value": 11423,
       "source": "census-estimate-2025"
     },
-    "countyKeys": [
-      "county:49057"
-    ],
+    "countyKeys": ["county:49057"],
     "actualContextSha256": "9c5a86c8780fac3f97711d35655fc1b215f3281925612052a3c03dc962887839"
   },
   "state": {
@@ -28,9 +26,7 @@
     "id": "person_9a748ca1fa28d7c8",
     "tier": "weekly",
     "jobId": "work-relationship_dfee01746e6cf0c2",
-    "ownedCommitmentIds": [
-      "work-commitment:work-relationship_dfee01746e6cf0c2"
-    ]
+    "ownedCommitmentIds": ["work-commitment:work-relationship_dfee01746e6cf0c2"]
   },
   "opening": {
     "sha256": "f6f498974e9fba2d11c13de335a6acea67443dc7536b9c58b026df17a98e90bd",
