@@ -1,3 +1,10 @@
+import type {
+  ModuleStateDefinition,
+  ModuleStateStore,
+  ModuleStateSnapshot,
+} from "./module-state";
+import type { ModuleCalendar, ModuleCalendarWork } from "./module-calendar";
+import type { VoterGroup, VoterGroups } from "./voter-groups";
 /** P8 prototype boundary. No game screen or old-core clock imports this API. */
 import type { CashActSelection } from "./act-cash";
 import type {
@@ -217,10 +224,32 @@ export interface HouseholdInput {
   source: Source;
 }
 
-/** Why a closeness changed: the cause, the hours together and the record behind it. */
+/** P15: why a closeness changed, the cause and the record behind it. */
 export interface RelationshipReason {
   cause: string;
   sourceId?: string;
+}
+
+/** Latest committed tie change; scores exist only when supplied by the actual choice. */
+export interface RelationshipChangeEvidence {
+  version: "core2-relationship-change-v1";
+  date: IsoDate;
+  actorId: PersonId;
+  otherId: PersonId;
+  kind: Relationship["kind"];
+  requestedKind: Relationship["kind"];
+  requestedChange: number;
+  created: boolean;
+  before: Readonly<{ level: number; lastContactDate?: IsoDate }>;
+  after: Readonly<{ level: number; lastContactDate: IsoDate }>;
+  cause: "chosen-act" | "recorded-relationship-update";
+  actionId?: string;
+  /** Existing endpoints. Provider source IDs remain in their original decision terms. */
+  sourceRecordRefs: readonly Readonly<{ kind: "person"; id: PersonId }>[];
+  /** Full only under the existing chooser trace policy; quiet choices retain the compact pair. */
+  decision?: Readonly<DecisionResult>;
+  /** P15: the cause and record of the change (a visit, a meeting), for the "why" view. */
+  reason?: Readonly<RelationshipReason>;
 }
 
 export interface Relationship {
@@ -231,8 +260,7 @@ export interface Relationship {
   level: number;
   lastContactDate: IsoDate;
   promise?: string;
-  /** P15: the saved reason for the latest closeness change, for the "why" view. */
-  lastChange?: RelationshipReason & { date: IsoDate; hours: number };
+  latestChange?: Readonly<RelationshipChangeEvidence>;
 }
 
 /** P15 part 5: a real shared moment where two people first meet. */
@@ -360,7 +388,52 @@ export interface DecisionContext {
   goalRows?: readonly Goal[];
 }
 
+/** Small original-score evidence. It is not a copied actor/offer/config graph or payment authority. */
+export interface CompactChoiceScoreV1 {
+  /** Position in the actual original offered list, including differently qualified offers. */
+  offerIndex: number;
+  actionId: string;
+  targetId: string;
+  availableHours: number;
+  effortHours: number;
+  driveId?: string;
+  score: number;
+  contributions: Readonly<DecisionReason>;
+  reasonTerms?: readonly Readonly<{
+    bindingId: string;
+    provider: string;
+    weightParameter: string;
+    value: number;
+    contribution: number;
+    sourceIds?: readonly string[];
+  }>[];
+}
+export interface CompactChoiceTraceV1 {
+  version: "core2-compact-choice-v1";
+  actorId: PersonId;
+  date: IsoDate;
+  selection: "utility-max" | "controlled-answer";
+  chosen: Readonly<CompactChoiceScoreV1>;
+  runnerUp?: Readonly<CompactChoiceScoreV1>;
+  runnerUpStatus: "saved" | "no-distinct-alternative";
+  /** Actual saved actor; base need/goal/trait/emotion/time values are the saved contributions above. */
+  sourceRecordRefs: readonly Readonly<{ kind: string; id: string }>[];
+}
+
+/** One latest ordinary discretionary selection per outsider, not a full act trace. */
+export interface CompactActSelectionV1 {
+  id: string;
+  actorId: PersonId;
+  date: IsoDate;
+  actionId: string;
+  targetId: string;
+  reasonKey: string;
+  compactChoice: Readonly<CompactChoiceTraceV1>;
+}
+
 export interface DecisionResult {
+  /** Captured from the original evaluation. No query or writer may score again. */
+  compactChoice?: Readonly<CompactChoiceTraceV1>;
   /** Root-issued client answer identity; retained with the original saved controlled trace. */
   controlledChoice?: { readonly pauseId: string; readonly offerId: string };
   actorId: PersonId;
@@ -488,6 +561,7 @@ export type WorkAttendanceInput = Omit<WorkResultInput, "requestedMinor"> & {
   earnedMinor: number;
 };
 export interface WorkAttendanceResult extends WorkAttendanceInput {
+  compactChoice?: Readonly<CompactChoiceTraceV1>;
   sourceActId: string;
   payrollCalendarId: string;
   earnedPayPeriodId: string;
@@ -633,6 +707,9 @@ export interface WorkData {
 }
 
 export interface CoreInput {
+  /** Explicit exact-version module snapshots; absent tables start empty. */
+  moduleState?: readonly ModuleStateSnapshot[];
+  voterGroups?: readonly VoterGroup[];
   seed: string;
   startedAt: IsoDate;
   people: readonly PersonInput[];
@@ -716,6 +793,8 @@ export interface CoreState {
   membershipsByPerson: Map<PersonId, Set<string>>;
   pendingCallbacks: Map<string, CoreEventInput>;
   durableLog: Map<string, LogRecord>;
+  quietChoices: Map<string, Readonly<CompactActSelectionV1>>;
+  quietChoiceByPerson: Map<PersonId, string>;
   logByPerson: Map<PersonId, Set<string>>;
   logByKind: Map<string, Set<string>>;
   logByPlace: Map<PlaceId, Set<string>>;
@@ -812,6 +891,9 @@ export interface CoreData {
 
 export interface CoreModule {
   id: string;
+  state?: ModuleStateDefinition;
+  /** Dated institutional work, before day hooks; emits/effects use the canonical API. */
+  onCalendarWork?: (api: CoreAPI, work: Readonly<ModuleCalendarWork>) => void;
   reasonProviders?: Readonly<Record<string, ReasonProvider>>;
   /** Open named kinds resolve actual canonical payment/reclassification records. */
   journalSourceProviders?: Readonly<
@@ -904,6 +986,9 @@ export interface CoreModule {
 
 /** All engine changes enter through this versioned facade. */
 export interface CoreAPI {
+  moduleState(moduleId: string): ModuleStateStore;
+  moduleCalendar(moduleId: string): ModuleCalendar;
+  voterGroups(): VoterGroups;
   version: string;
   readonly state: Readonly<CoreState>;
   parameter(key: string): number;
@@ -960,6 +1045,7 @@ export interface CoreAPI {
     otherId: PersonId,
     kind: Relationship["kind"],
     change: number,
+    decision?: DecisionResult,
     reason?: RelationshipReason,
   ): void;
   /**

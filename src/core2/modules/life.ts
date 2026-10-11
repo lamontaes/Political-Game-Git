@@ -259,11 +259,11 @@ export const LIFE_MODULE: CoreModule = {
       affect.stress *= Math.exp(-p(api, chosen.definition.effectParameter));
       api.updatePerson(actorId, { affect });
     },
-    contact: (api, actorId, chosen) => {
+    contact: (api, actorId, chosen, _date, _days, decision) => {
       // P15: the visit's hours are time together, saved with their reason.
       const hours =
         chosen.effortHours ?? p(api, chosen.definition.effortParameter);
-      api.relationship(actorId, chosen.targetId, "contact", hours, {
+      api.relationship(actorId, chosen.targetId, "contact", hours, decision, {
         cause: ENCOUNTERS.causes.visit,
         sourceId: `visit:${api.state.date}:${actorId}:${chosen.targetId}`,
       });
@@ -272,12 +272,13 @@ export const LIFE_MODULE: CoreModule = {
       // P15 part 5: the visitor meets the people who live with the host.
       meetAtVisit(api, actorId, chosen.targetId, hours);
     },
-    care: (api, actorId, chosen) => {
+    care: (api, actorId, chosen, _date, _days, decision) => {
       api.relationship(
         actorId,
         chosen.targetId,
         "family",
         chosen.effortHours ?? p(api, chosen.definition.effortParameter),
+        decision,
         { cause: ENCOUNTERS.causes.care },
       );
       const actor = api.state.people.get(actorId)!;

@@ -118,16 +118,22 @@ describe(`meeting people over ${DAYS} days in ${input.placeMetadata?.placeName} 
   });
 
   it("saves a reason with every closeness change", () => {
+    let changed = 0;
     for (const id of core.relationshipsByPerson.get(player.id) ?? []) {
       const row = core.relationships.get(id)!;
-      expect(row.lastChange?.cause).toBeDefined();
-      expect(row.lastChange!.cause).not.toBe("unrecorded");
+      if (row.lastContactDate <= input.startedAt) continue;
+      changed += 1;
+      const change = row.latestChange!;
+      expect(change.date).toBe(row.lastContactDate);
+      expect(change.after.level).toBe(row.level);
+      expect(change.reason?.cause ?? change.decision?.reasonKey).toBeTruthy();
     }
+    expect(changed).toBeGreaterThan(0);
     expect(
-      met.some(
-        (id) =>
-          tieWith(id)!.lastChange!.cause === ENCOUNTERS.causes.metOnVisit ||
-          tieWith(id)!.lastChange!.cause === ENCOUNTERS.causes.visit,
+      met.some((id) =>
+        [ENCOUNTERS.causes.metOnVisit, ENCOUNTERS.causes.visit].includes(
+          tieWith(id)!.latestChange!.reason!.cause,
+        ),
       ),
     ).toBe(true);
   });

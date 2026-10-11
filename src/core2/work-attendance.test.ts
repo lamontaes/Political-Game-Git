@@ -911,6 +911,24 @@ describe("selective attendance validation retains actual authority and atomicity
     expect(saved(core)).toEqual(before);
   });
 
+  it("rejects caller-frozen decision evidence getters without invoking them or partially writing", () => {
+    const core = fresh(undefined, true),
+      provided = input(core),
+      before = saved(core);
+    let reads = p("zero");
+    const annotation = Object.freeze({
+      get sourceRecordIds() {
+        reads++;
+        return ["work"];
+      },
+    });
+    Object.assign(provided.decision!, { fixtureAnnotation: annotation });
+    Object.freeze(provided.decision!);
+    expect(() => coreAPI(core).recordWorkAttendance(provided)).toThrow();
+    expect(reads).toBe(p("zero"));
+    expect(saved(core)).toEqual(before);
+  });
+
   it("retains the full focused original decision graph and detaches it from caller mutation", () => {
     const core = fresh(undefined, true),
       api = coreAPI(core),
@@ -920,6 +938,8 @@ describe("selective attendance validation retains actual authority and atomicity
       note: "Actual recorded fixture evidence",
     };
     Object.assign(provided.decision!, { fixtureAnnotation: annotation });
+    // Freezing a caller's outer record does not make its nested evidence owned.
+    Object.freeze(provided.decision!);
     const originalDecision = structuredClone(provided.decision);
     const receipt = api.recordWorkAttendance(provided);
     expect(receipt.decision).toEqual(originalDecision);

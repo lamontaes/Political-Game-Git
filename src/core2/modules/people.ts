@@ -74,6 +74,7 @@ function shareHomeTime(api: CoreAPI): void {
               b.id,
               CLOSENESS.householdKind as Relationship["kind"],
               openingClosenessHours(core, a.id, b.id),
+              undefined,
               { cause: ENCOUNTERS.causes.openingHome },
             );
           continue;
@@ -90,6 +91,7 @@ function shareHomeTime(api: CoreAPI): void {
             ? CLOSENESS.familyKind
             : CLOSENESS.householdKind) as Relationship["kind"],
           (minutes / p("minutesPerHour")) * week,
+          undefined,
           { cause: ENCOUNTERS.causes.homeTime, sourceId: household.id },
         );
       }
