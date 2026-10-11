@@ -348,9 +348,6 @@ export const RENEWAL_MODULE: CoreModule = {
       };
     },
   },
-  eligibilityRules: {
-    "renewal-dependent": (_api, actor) => actor.tier !== "newborn",
-  },
   onDay(api) {
     if (!initialized.has(api.state)) {
       initialized.add(api.state);

@@ -34,7 +34,8 @@
       "observationYear": 2023,
       "terms": "https://www2.census.gov/foia/ds_policies/ds027.pdf#page=9",
       "permission": "Census employee works generally have no US copyright; aggregate official survey tables only.",
-      "finding": "Table 7 publishes household income and income per member among women with births by marital status, not conditional birth probabilities. XLS link retrieval failed in browser and cloud proxy; numeric cells not transcribed or used. ACS sampling error is required for a later estimate."
+      "finding": "Table 7 publishes household income and income per member among women with births by marital status, not conditional birth probabilities. Exact XLS URL resolved; connected browser cannot read XLS content type and cloud proxy rejects its download (403). Numeric cells not transcribed or used. ACS sampling error is required for a later estimate.",
+      "downloadUrl": "https://www2.census.gov/programs-surveys/demo/tables/fertility/2024/am-women-fertility/t7.xlsx"
     },
     {
       "id": "spacing",

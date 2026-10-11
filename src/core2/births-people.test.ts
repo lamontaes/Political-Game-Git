@@ -3,7 +3,7 @@ import { piecesInput, piecesSource as source } from "./core-pieces-fixture";
 import { coreAPI, assertCoreIntegrity } from "./state";
 import { createRenewalCore } from "./births-setup";
 import { buildNewborn } from "./births-people";
-import { advanceCore } from "./life";
+import { advanceCore, availableActs } from "./life";
 import { RENEWAL_MODULE_ID } from "./modules/renewal";
 import { addDays, makeIsoDate } from "../simulation/dates";
 import type { CoreInput } from "./types";
@@ -236,6 +236,7 @@ describe("births Part 1", () => {
     expect(log?.facts?.pregnancyId).toBe(pregnancy.id);
     advanceCore(core, addDays(makeIsoDate(core.date), 7));
     expect(store.table("births").size).toBe(1);
+    expect(availableActs(core, baby.id)).toEqual([]);
     expect(baby.actCount).toBe(0);
     expect(
       [...core.relationships.values()].some(

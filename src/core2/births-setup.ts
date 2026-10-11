@@ -10,13 +10,9 @@ export function renewalData(base: CoreData = DEFAULT_DATA): CoreData {
   return extendData(base, {
     parameters: parameters as Readonly<Record<string, Parameter>>,
     tiers: [{ id: "newborn", cadence: "inactive" }],
-    actions: base.actions.map((action) => ({
-      ...action,
-      prerequisites: [
-        ...(action.prerequisites ?? []),
-        { operation: "renewal-dependent" },
-      ],
-    })),
+    discretionaryIneligibleTiersV1: [
+      ...new Set([...(base.discretionaryIneligibleTiersV1 ?? []), "newborn"]),
+    ],
   });
 }
 
