@@ -60,6 +60,42 @@ function sameSignals(actual: Affect, expected: Affect): void {
 }
 
 describe("P8 continuous affect", () => {
+  it("preserves appraisal contributions and their full shared upbringing Source", () => {
+    const traitId = "fixture:shared-trait";
+    const traitSource: Source = {
+      ...source,
+      citation: "Shared complete upbringing evidence",
+    };
+    const person = {
+      ...actor("person:shared"),
+      traits: { [traitId]: parameter("one") },
+      traitSources: { [traitId]: traitSource },
+    };
+    const loss = event();
+    const definitions = [
+      {
+        traitId,
+        weightParameter: "appraisalDistressTraitWeight",
+        oneSided: false,
+      },
+    ];
+    const before = appraiseEvent(
+      person,
+      loss,
+      parameter("zero"),
+      P,
+      definitions,
+    );
+    const after = appraiseEvent(
+      { ...person, traitSources: {}, sharedTraitSource: traitSource },
+      loss,
+      parameter("zero"),
+      P,
+      definitions,
+    );
+    expect(after).toEqual(before);
+    expect(after.traitContributions[0]!.source).toEqual(traitSource);
+  });
   it("gives the same signals across equivalent observation partitions", () => {
     for (const middle of ["2026-10-02", "2026-10-04", "2026-10-10"]) {
       const anchor = affect();
