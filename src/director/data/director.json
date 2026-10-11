@@ -335,6 +335,7 @@
   ],
   "broadEventFlags": ["publicRecord", "news"],
   "eventKinds": ["*"],
+  "relationshipKinds": ["*"],
   "kinTies": [
     {
       "relation": "parent",

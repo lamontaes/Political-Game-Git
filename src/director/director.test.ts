@@ -6,6 +6,8 @@ import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { P } from "../core2/parameters";
 import { advancePlayerV1, resumePlayerV1 } from "../core2/player-v1";
+import { comparePlayerMomentsV1 } from "../core2/player-stops-v1";
+import { resolveSavedTraceV1 } from "../core2/saved-trace-v1";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import type {
   CoreInput,
@@ -930,5 +932,162 @@ describe("story director on the new core", () => {
       .schedule.find((row) => row.momentId === momentId)!;
     expect(uncontrolled.interrupt).toBe(true);
     expect(uncontrolled.stop).toBeUndefined();
+  });
+
+  it("stops the player's clock at the moment's own time when its event is recorded mid-day", () => {
+    const place = "place:director-fixture";
+    const day = "2021-01-10";
+    /**
+     * The fixture world, not the director: the store closes while the worker
+     * calls the spouse on 2021-01-10, so the closure is recorded the minute
+     * the worker's own call ends, before the day closes.
+     */
+    const midDayClosure = (): CoreModule => {
+      let closed = false;
+      return {
+        id: "fixture-midday-closure",
+        relationshipKinds: ["*"],
+        onRelationshipChange(api, notice) {
+          if (closed || api.state.date !== day) return;
+          if (notice.actorId !== "person:worker") return;
+          closed = true;
+          (api.state.jobs.get("job:worker") as { endsAt?: string }).endsAt =
+            day;
+          delete (api.state.people.get("person:worker") as { jobId?: string })
+            .jobId;
+          api.emit({
+            id: `fixture-closed-midday:${day}`,
+            date: day,
+            kind: "organization.closed",
+            personIds: ["person:worker"],
+            placeId: place,
+            publicRecord: true,
+            source,
+          });
+        },
+      };
+    };
+    const director = createDirector({
+      watch: ["person:worker", "person:spouse"],
+    });
+    const core = createLifeCore(town(place), {
+      scheduledWork: false,
+      modules: [midDayClosure(), director.module],
+    });
+    director.start(core);
+    const through = { date: "2021-01-12", minuteOfDay: P.zero };
+    const packets: PlayerPacketV1[] = [];
+    let actEnd: { date: string; minuteOfDay: number } | undefined;
+    let packet = advancePlayerV1(core, {
+      controlledPersonId: "person:worker",
+      through,
+    });
+    while (packet.kind !== "complete") {
+      packets.push(packet);
+      if (packet.kind === "stop") {
+        packet = resumePlayerV1(core, {
+          kind: "stop",
+          pauseId: packet.pauseId,
+        });
+        continue;
+      }
+      // The worker calls the spouse, an act that records an event.
+      const offer =
+        packet.offers.find(
+          (row) =>
+            row.actionId === "contact-known-person" &&
+            row.durationMinutes > P.zero,
+        ) ?? packet.offers[P.zero]!;
+      if (packet.at.date === day && !actEnd)
+        actEnd = {
+          date: day,
+          minuteOfDay: packet.at.minuteOfDay + offer.durationMinutes,
+        };
+      packet = resumePlayerV1(core, {
+        kind: "choice",
+        pauseId: packet.pauseId,
+        offerId: offer.offerId,
+      });
+    }
+    expect(actEnd!.minuteOfDay).toBeGreaterThan(P.zero);
+    const directorStops = packets.filter(
+      (row): row is Extract<PlayerPacketV1, { kind: "stop" }> =>
+        row.kind === "stop" &&
+        row.stop.modules.some((stop) => stop.moduleId === "p13-story-director"),
+    );
+    // One stop, at the minute the closure was recorded, not the next midnight.
+    expect(directorStops).toHaveLength(1);
+    expect(directorStops[0]!.at).toEqual(actEnd);
+    const momentId = `person:worker:${day}:fixture-closed-midday:${day}`;
+    expect(directorStops[0]!.stop.modules).toEqual([
+      expect.objectContaining({ recordId: momentId, kind: "interrupt" }),
+    ]);
+    const worker = director.ledger.people.get("person:worker")!;
+    expect(worker.momentsById.get(momentId)!.impact).toBeGreaterThanOrEqual(
+      DEFAULT_DIRECTOR_DATA.parameters.directorInterruptImpact!.value,
+    );
+    // Nothing the player did after the closure ran before the stop.
+    const stopIndex = packets.indexOf(directorStops[0]!);
+    expect(
+      packets
+        .slice(P.zero, stopIndex)
+        .every((row) => comparePlayerMomentsV1(row.at, actEnd!) <= P.zero),
+    ).toBe(true);
+    expect(
+      worker.schedule.find((row) => row.momentId === momentId),
+    ).toMatchObject({
+      interrupt: true,
+      stop: { recordId: momentId, at: actEnd },
+    });
+  });
+
+  it("cites only causes the core's saved-trace resolver holds", () => {
+    const place = "place:director-fixture";
+    const director = createDirector({
+      watch: ["person:worker", "person:spouse"],
+    });
+    // The core logs events that name a focus person. Logging every event that
+    // names the controlled person is requested from the core on #3918.
+    const input = { ...town(place), focusPersonIds: ["person:worker"] };
+    const core = createLifeCore(input, {
+      scheduledWork: false,
+      modules: [fixtureWorld(place), director.module],
+    });
+    director.start(core);
+    let packet = advancePlayerV1(core, {
+      controlledPersonId: "person:worker",
+      through: { date: "2021-01-15", minuteOfDay: P.zero },
+    });
+    while (packet.kind !== "complete")
+      packet =
+        packet.kind === "stop"
+          ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
+          : resumePlayerV1(core, {
+              kind: "choice",
+              pauseId: packet.pauseId,
+              offerId: packet.offers[P.zero]!.offerId,
+            });
+    const moments = director.ledger.people.get("person:worker")!.moments;
+    // The recorded past, the closure and the day's contacts.
+    expect(moments.some((row) => row.past)).toBe(true);
+    expect(moments.some((row) => !row.past)).toBe(true);
+    const unresolved = moments
+      .map((row) => [
+        row.causeId,
+        resolveSavedTraceV1(core, row.causeId).status,
+      ])
+      .filter(([, status]) => status === "record-not-found");
+    expect(unresolved).toEqual([]);
+    // A recorded-past moment cites the person record and names the fact in it.
+    const school = moments.find((row) => row.past)!;
+    expect(school).toMatchObject({
+      causeId: "person:worker",
+      causeFactId: "fact:worker:high-school",
+    });
+    expect(
+      core.people
+        .get("person:worker")!
+        .pastFacts!.some((fact) => fact.id === school.causeFactId),
+    ).toBe(true);
   });
 });
