@@ -5,168 +5,212 @@
   "startedAt": "2021-01-01",
   "days": 91,
   "residents": 10001,
-  "adults": 7573,
-  "people": 47783,
-  "relationships": 90772,
+  "adults": 7701,
+  "people": 44554,
+  "relationships": 88944,
   "circle": {
-    "residentsWithAcquaintances": 9212,
-    "meanAcquaintances": 19.2
+    "residentsWithAcquaintances": 9417,
+    "meanAcquaintances": 19.6
   },
   "openingCloseness": {
     "aunt-or-uncle": {
-      "pairs": 7275,
-      "mean": 0.432,
+      "pairs": 10031,
+      "mean": 0.422,
       "p10": 0.351,
       "median": 0.351,
       "p90": 0.581
     },
     "child": {
-      "pairs": 7821,
-      "mean": 0.805,
+      "pairs": 7524,
+      "mean": 0.819,
       "p10": 0.646,
-      "median": 0.824,
-      "p90": 0.963
+      "median": 0.826,
+      "p90": 0.969
     },
     "grandchild": {
-      "pairs": 6981,
-      "mean": 0.481,
+      "pairs": 7640,
+      "mean": 0.476,
       "p10": 0.351,
       "median": 0.581,
       "p90": 0.581
     },
     "grandparent": {
-      "pairs": 6448,
+      "pairs": 6992,
       "mean": 0.479,
       "p10": 0.351,
       "median": 0.581,
       "p90": 0.581
     },
     "household family": {
-      "pairs": 7358,
+      "pairs": 8790,
       "mean": 0.986,
       "p10": 0.986,
       "median": 0.986,
       "p90": 0.986
     },
     "other-parent": {
-      "pairs": 872,
-      "mean": 0.488,
+      "pairs": 1303,
+      "mean": 0.48,
       "p10": 0.351,
       "median": 0.581,
       "p90": 0.581
     },
     "parent": {
-      "pairs": 10428,
-      "mean": 0.833,
-      "p10": 0.656,
-      "median": 0.845,
-      "p90": 0.958
+      "pairs": 7886,
+      "mean": 0.809,
+      "p10": 0.65,
+      "median": 0.828,
+      "p90": 0.948
     },
     "sibling": {
-      "pairs": 16075,
-      "mean": 0.718,
+      "pairs": 15534,
+      "mean": 0.701,
       "p10": 0.571,
-      "median": 0.716,
-      "p90": 0.929
+      "median": 0.632,
+      "p90": 0.923
     }
   },
   "closenessAfter": {
+    "acquaintance": {
+      "pairs": 3,
+      "mean": 0.598,
+      "p10": 0.592,
+      "median": 0.595,
+      "p90": 0.608
+    },
     "aunt-or-uncle": {
-      "pairs": 7275,
-      "mean": 0.422,
+      "pairs": 10031,
+      "mean": 0.427,
       "p10": 0.338,
-      "median": 0.338,
-      "p90": 0.578
+      "median": 0.356,
+      "p90": 0.606
     },
     "child": {
-      "pairs": 7821,
-      "mean": 0.798,
-      "p10": 0.635,
-      "median": 0.819,
-      "p90": 0.961
+      "pairs": 7524,
+      "mean": 0.82,
+      "p10": 0.646,
+      "median": 0.833,
+      "p90": 0.968
     },
     "grandchild": {
-      "pairs": 6981,
-      "mean": 0.469,
+      "pairs": 7640,
+      "mean": 0.479,
       "p10": 0.338,
-      "median": 0.567,
-      "p90": 0.571
+      "median": 0.578,
+      "p90": 0.596
     },
     "grandparent": {
-      "pairs": 6448,
-      "mean": 0.471,
+      "pairs": 6992,
+      "mean": 0.491,
       "p10": 0.338,
-      "median": 0.567,
-      "p90": 0.582
+      "median": 0.578,
+      "p90": 0.612
     },
     "household family": {
-      "pairs": 7358,
+      "pairs": 8790,
       "mean": 0.986,
       "p10": 0.986,
       "median": 0.986,
-      "p90": 0.986
+      "p90": 0.987
     },
     "housemate": {
-      "pairs": 1009,
+      "pairs": 743,
       "mean": 0.863,
       "p10": 0.863,
       "median": 0.863,
       "p90": 0.863
     },
     "other-parent": {
-      "pairs": 872,
-      "mean": 0.481,
+      "pairs": 1303,
+      "mean": 0.493,
       "p10": 0.338,
-      "median": 0.571,
-      "p90": 0.582
+      "median": 0.578,
+      "p90": 0.618
     },
     "parent": {
-      "pairs": 10428,
-      "mean": 0.828,
-      "p10": 0.646,
-      "median": 0.84,
-      "p90": 0.956
+      "pairs": 7886,
+      "mean": 0.81,
+      "p10": 0.649,
+      "median": 0.833,
+      "p90": 0.947
     },
     "sibling": {
-      "pairs": 16075,
-      "mean": 0.71,
-      "p10": 0.557,
-      "median": 0.705,
-      "p90": 0.926
+      "pairs": 15534,
+      "mean": 0.701,
+      "p10": 0.565,
+      "median": 0.637,
+      "p90": 0.922
     }
   },
   "contactRates": {
+    "acquaintance": {
+      "contacts": 219,
+      "perAdultPerYear": 0.11,
+      "perTiePerYear": 0.01,
+      "ties": 159055
+    },
+    "aunt-or-uncle": {
+      "contacts": 9453,
+      "perAdultPerYear": 4.93,
+      "perTiePerYear": 12.5,
+      "ties": 3035
+    },
     "child": {
-      "contacts": 26917,
-      "perAdultPerYear": 14.27,
-      "perTiePerYear": 13.81,
-      "ties": 7821
+      "contacts": 159031,
+      "perAdultPerYear": 82.88,
+      "perTiePerYear": 84.83,
+      "ties": 7524
     },
     "grandchild": {
-      "contacts": 2602,
-      "perAdultPerYear": 1.38,
-      "perTiePerYear": 1.5,
-      "ties": 6981
+      "contacts": 29221,
+      "perAdultPerYear": 15.23,
+      "perTiePerYear": 15.35,
+      "ties": 7640
+    },
+    "grandparent": {
+      "contacts": 6212,
+      "perAdultPerYear": 3.24,
+      "perTiePerYear": 20.73,
+      "ties": 1203
+    },
+    "household family": {
+      "contacts": 173434,
+      "perAdultPerYear": 90.39,
+      "perTiePerYear": 66.88,
+      "ties": 10408
+    },
+    "other-parent": {
+      "contacts": 2582,
+      "perAdultPerYear": 1.35,
+      "perTiePerYear": 21.82,
+      "ties": 475
     },
     "parent": {
-      "contacts": 37727,
-      "perAdultPerYear": 20,
-      "perTiePerYear": 14.52,
-      "ties": 10428
+      "contacts": 136848,
+      "perAdultPerYear": 71.32,
+      "perTiePerYear": 69.65,
+      "ties": 7886
     },
     "sibling": {
-      "contacts": 22210,
-      "perAdultPerYear": 11.77,
-      "perTiePerYear": 5.88,
-      "ties": 15155
+      "contacts": 135924,
+      "perAdultPerYear": 70.84,
+      "perTiePerYear": 37.51,
+      "ties": 14546
     }
   },
   "mostContactsWithOnePerson": {
-    "pairs": 7556,
-    "mean": 5.399,
-    "p10": 3,
-    "median": 5,
-    "p90": 9
+    "pairs": 7666,
+    "mean": 42.308,
+    "p10": 8,
+    "median": 31,
+    "p90": 85
+  },
+  "actsPerResidentDay": {
+    "care": 0.368,
+    "contact": 0.649,
+    "join": 0.003,
+    "public-lookup": 0.274,
+    "recover": 0.933
   },
   "answerKeys": {
     "gss": {
@@ -215,8 +259,8 @@
     }
   },
   "seconds": {
-    "build": 14.8,
-    "createWithDeepPast": 10,
-    "simulate": 307.9
+    "build": 14.5,
+    "createWithDeepPast": 9,
+    "simulate": 348.6
   }
 }

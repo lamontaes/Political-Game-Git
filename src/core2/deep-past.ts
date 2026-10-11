@@ -1,4 +1,5 @@
 import { OPENING_KIN } from "./opening-kin";
+import { addOpeningFallingOuts } from "./opening-falling-outs";
 import {
   buildOpeningPeerContacts,
   DEFAULT_OPENING_PEER_DATA,
@@ -600,6 +601,8 @@ export function buildDeepPast(
         ? { contextValues: jobContext }
         : {}),
     }).input;
+  // P15 part 3: pairs who shared a class or workgroup may have fallen out.
+  withPast = addOpeningFallingOuts(withPast);
   const result: CoreInput & {
     priorFactsSource: readonly DeepPastFieldSource[];
   } = { ...withPast, priorFactsSource: reports };

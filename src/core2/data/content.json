@@ -39,6 +39,13 @@
       "goalKind": "security",
       "parameters": {},
       "stopgapId": "SG-P8-life-utility"
+    },
+    {
+      "id": "dependents",
+      "evaluator": "dependent-care",
+      "goalKind": "care",
+      "parameters": {},
+      "stopgapId": "SG-P15-free-block-plan"
     }
   ],
   "actions": [
@@ -113,10 +120,10 @@
       "id": "care-for-relative",
       "actKinds": ["help-others", "commit"],
       "goalKinds": ["care"],
-      "need": "health",
+      "need": "dependents",
       "effortParameter": "careHours",
       "effectParameter": "careEffect",
-      "targetKind": "family",
+      "targetKind": "dependent-at-home",
       "effect": "care",
       "stopgapId": "SG-P8-life-utility",
       "emotion": {
