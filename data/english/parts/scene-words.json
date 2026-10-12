@@ -66,7 +66,34 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 132
+    "notAttested": 132,
+    "secondRun": {
+      "read": {
+        "chrg": 2500,
+        "dcpd": 17712,
+        "eac": 330,
+        "eisenhower": 15,
+        "fec": 288,
+        "federal-counter": 330,
+        "florida": 420,
+        "house": 300,
+        "nasa": 1388,
+        "news-energy": 1507,
+        "news-epa": 3009,
+        "news-faa": 1383,
+        "news-fda": 1199,
+        "news-justice": 5265,
+        "news-nasa": 1446,
+        "news-noaa": 484,
+        "news-nps": 2506,
+        "news-nws": 3072,
+        "news-treasury": 2504,
+        "senate": 51,
+        "sotu-gutenberg": 222,
+        "usa-gov": 260
+      },
+      "note": "Parts the rebuilt corpus attests that the first run's corpus did not, merged into the first run's parts."
+    }
   },
   "parts": [
     {
@@ -450,6 +477,91 @@
         "date": "2022-08-09",
         "granule": "DCPD-202200702",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202200702/html/DCPD-202200702.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.setting-public-out.you-are-in-place",
+      "move": "setting-public-out",
+      "kind": "spoken",
+      "text": "You are in {place}.",
+      "uses": [
+        {
+          "move": "setting-public-out",
+          "subject": "setting",
+          "role": "public",
+          "choice": "out"
+        },
+        {
+          "move": "setting-venue-venue",
+          "subject": "setting",
+          "role": "venue",
+          "choice": "venue"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "chrg": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "Nomination Of Hon. Sean Duffy, Nominee To Be Secretary, U.S. Department Of Transportation",
+        "date": "2025-01-15",
+        "granule": "CHRG-119shrg61928",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119shrg61928",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.setting-public-out.youre-outside",
+      "move": "setting-public-out",
+      "kind": "spoken",
+      "text": "You're outside.",
+      "uses": [
+        {
+          "move": "setting-public-out",
+          "subject": "setting",
+          "role": "public",
+          "choice": "out"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history interview with Mark S. Geyer",
+        "date": "2020-12-03",
+        "granule": "geyerms-12-3-20",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-12-3-20.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.cause-money:job-started-started.you-got-a-job",
+      "move": "cause-money:job-started-started",
+      "kind": "spoken",
+      "text": "You got a job.",
+      "uses": [
+        {
+          "move": "cause-money:job-started-started",
+          "subject": "cause",
+          "role": "money:job-started",
+          "choice": "started"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Departments Of Labor, Health And Human Services, Education, And Related Agencies Appropriations For 2020",
+        "date": "2019-02-06",
+        "granule": "CHRG-116hhrg37614",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg37614",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }
