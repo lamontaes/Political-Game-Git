@@ -726,7 +726,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       contest,
       filings,
     );
-    const t = atThePolls(api, voter, date, cycleCost);
+    const t = atThePolls(api, voter, contest.electionDate, cycleCost);
     const ranked = Object.entries(appeal).sort(
       (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
     );
@@ -786,7 +786,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       const party = candidateFacts(api, f, contest).party;
       appeal[f.personId] = { total: party ? lean * partySide(party) : 0 };
     }
-    const t = atThePolls(api, voter, date, cycleCost, voter.weeklyMinutes);
+    const t = atThePolls(
+      api,
+      voter,
+      contest.electionDate,
+      cycleCost,
+      voter.weeklyMinutes,
+    );
     if (!t.votes) continue;
     countedVoted += 1;
     const ranked = Object.entries(appeal).sort(
