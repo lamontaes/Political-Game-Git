@@ -297,7 +297,7 @@ The specs and their tests are in `docs/roadmap/features.json`. **Where a work or
 
 - **Approved (owner, Oct 12):** build from the work order `docs/packages/M7-early-access.md`; the spec and its test are in `features.json`.
 - **Owner:** Anyone free
-- **Does:** Confirm no real politicians appear (the owner's Sept 26 ruling), and clear real places, schools and institutions, data licenses and photo and art licenses. A research review now; an attorney before release.
+- **Does:** Confirm no real politicians appear (the owner's Sept 26 ruling), and clear real places, schools and institutions, data licenses and photo and art licenses. A research review by the team. There is no attorney (owner, Oct 12); a one-time outside legal review is optional and blocks nothing.
 - **Passes when:** The review is done and its fixes are made.
 
 ### M7-06 · Steam
