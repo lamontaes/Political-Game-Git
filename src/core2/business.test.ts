@@ -272,6 +272,8 @@ async function foundingCore(owner: boolean, cook = false) {
         residentsId,
         placeId: place2,
         amountMinor: 300_000,
+        // The counted households' own parts, as a generated world records them.
+        amountByContract: { [`household:counted-${id}`]: 300_000 },
         firstAt: "2026-10-12",
         cadence: { kind: "months" as const, every: 1, day: 12 },
         salesReceipt: true,
