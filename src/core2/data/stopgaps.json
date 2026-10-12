@@ -1176,6 +1176,18 @@
     "status": "open"
   },
   {
+    "id": "SG-GOV-presidential-environment",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/world-races.ts",
+    "line": 222,
+    "whatItFakes": "A presidential year's national environment is a fixed shift against the party holding the presidency, with no economy or presidential record behind it.",
+    "why": "WORLD's economy and the president's record don't feed the race yet; the shift is the campaign parameter presidentialIncumbentPartyShift (TUNABLE).",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "A national environment read from the economy (WORLD macro) and the president's record, replacing the fixed incumbent-party shift.",
+    "status": "open"
+  },
+  {
     "id": "SG-GOV-voter-registration-assumed",
     "kind": "missing-record",
     "file": "src/core2/modules/elections.ts",
