@@ -690,6 +690,16 @@ export const FEDERAL_SENATE = "federal:us-senate";
  * the offices module); every other seat is a named official the world hasn't
  * built yet, voting by its party (SG-GOV-official-identity-only).
  */
+/** The party a seat's coarse race elected, once its winner is seated (world-races). */
+function worldSeatParty(api: CoreAPI, seatId: string): string | null {
+  if (!api.state.modules.has("core2-world-races-v1")) return null;
+  const row = api
+    .moduleState("core2-world-races-v1")
+    .table("seats")
+    .get(seatId) as unknown as { party: string; since: string } | undefined;
+  return row && row.since <= api.state.date ? row.party : null;
+}
+
 function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
   const congress = (
     partyCounts as unknown as {
@@ -729,7 +739,7 @@ function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
                 birthDate: "",
                 homeState: state,
               },
-              party,
+              party: worldSeatParty(api, seatId) ?? party,
               startDate: api.state.date,
               endDate: null,
               endEstimated: true,

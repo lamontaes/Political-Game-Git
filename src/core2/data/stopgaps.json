@@ -2070,5 +2070,41 @@
     "addedAt": "2026-10-12",
     "replacement": "Opening kin moves dated on or before the opening day (OPUS-PEOPLE), so every town takes the closures route; then this fallback is removed.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-staff-unpaid",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/staff.ts",
+    "line": 140,
+    "whatItFakes": "A hired staffer takes the post without a pay commitment: no wage flows from the government's treasury to them, and they keep any job they had.",
+    "why": "Public payroll from government treasuries isn't wired in core2 yet (requested from OPUS-CORE).",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "A work commitment at the post's pay, paid from the government's treasury through the journal, ending any job the staffer leaves for it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-world-race-lean",
+    "kind": "missing-data",
+    "file": "src/core2/modules/world-races.ts",
+    "line": 527,
+    "whatItFakes": "A race the town doesn't vote in is decided by the seat's whole electorate at once: its 2024 lean (House district or state presidential vote; a state legislative district without a read result leans to its holder's party at the typical margin), the midterm environment and incumbency; candidates are a party, not people with records.",
+    "why": "District-level voter groups and fictional candidates with records for every seat in the country aren't built (CORE voter groups; PEOPLE's who runs).",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "Each race run on the election engine with fictional candidates who have records and campaigns, and voter groups by district.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-presidential-environment",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/world-races.ts",
+    "line": 223,
+    "whatItFakes": "States other than the town's vote for president by their 2024 lean plus one tunable shift against the party holding the presidency; Maine's and Nebraska's district electors go with the statewide winner; nominees are a party's fictional candidate without a primary season.",
+    "why": "The national economy (OPUS-WORLD), the president's record and the primary calendar don't feed the race yet.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "Each state's vote from its voter groups reacting to the economy, the record and the campaigns; nominees from state-by-state primaries; district electors in Maine and Nebraska.",
+    "status": "open"
   }
 ]

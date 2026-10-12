@@ -45,6 +45,12 @@ export function townBusinessLaysOff(
   return reader(facts).layoff(books, staff);
 }
 // stopgapId: "economy.business-book-kind-source-mean"
+export interface TownBusinessKindBooks {
+  readonly margin: number;
+  readonly payShare: number;
+  readonly salesCostShare: number;
+  readonly industry: string;
+}
 function compile(facts: BusinessBookSourceFacts) {
   const IRS_TOWN_BUSINESS_BOOKS = facts.rows;
   const TOWN_BUSINESS_INDUSTRIES: Readonly<Record<string, string>> = {
@@ -70,12 +76,6 @@ function compile(facts: BusinessBookSourceFacts) {
     "personal-care": "Personal and laundry services",
     "*": "All industries",
   };
-  interface TownBusinessKindBooks {
-    readonly margin: number;
-    readonly payShare: number;
-    readonly salesCostShare: number;
-    readonly industry: string;
-  }
   const TOWN_BUSINESS_KIND_BOOKS: Readonly<
     Record<string, TownBusinessKindBooks>
   > = Object.fromEntries(

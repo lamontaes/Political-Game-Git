@@ -169,6 +169,10 @@ describe("M2-08 parties", () => {
         (f) => f.party === party.name,
       );
       expect(left).toHaveLength(1);
+      // The primary counts the party's wider electorate, not only the
+      // town's named voters (audit 2, item 1).
+      const total = Object.values(votes).reduce((a, b) => a + b, 0);
+      expect(total).toBeGreaterThan(members.length);
       govReport(
         "parties",
         JSON.stringify({
@@ -176,6 +180,8 @@ describe("M2-08 parties", () => {
           seed,
           primary: primaryContest,
           votes,
+          total: Object.values(votes).reduce((a, b) => a + b, 0),
+          named: members.length,
           nominee: left[0]!.personId,
         }),
       );

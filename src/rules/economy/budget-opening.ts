@@ -100,6 +100,31 @@ export function servingGovernment(
 ) {
   return reader(facts.views).serving(placeGeoid, stateKey, id);
 }
+export interface BudgetCandidate extends PublicGovernmentIdentityCarrier {
+  readonly key: string;
+  readonly jurisdictionId: EntityId;
+  readonly lawJurisdictionId: EntityId;
+  readonly level: BudgetLevel;
+  readonly name: string;
+  readonly stateKey: string;
+  readonly geoid: string | null;
+}
+
+export interface PensionFlows {
+  readonly normalCostShare: number;
+  readonly benefitShare: number;
+  readonly normalCostBasis: "reported" | "estimated-from-average";
+  readonly benefitBasis: "reported" | "estimated-from-average";
+}
+
+export interface ServingGovernment extends PublicGovernmentIdentityCarrier {
+  readonly lawJurisdictionId?: EntityId;
+  readonly key: string;
+  readonly level: BudgetLevel;
+  readonly geoid: string | null;
+  readonly jurisdictionId: EntityId;
+  readonly name: string;
+}
 function compileOpening(views: BudgetGeographyViews) {
   const {
     allGovernmentUnits,
@@ -277,15 +302,6 @@ function compileOpening(views: BudgetGeographyViews) {
   const ACS_TOWN_POPULATION = acsTowns.townPopulation as Readonly<
     Record<string, number>
   >;
-  interface BudgetCandidate extends PublicGovernmentIdentityCarrier {
-    readonly key: string;
-    readonly jurisdictionId: EntityId;
-    readonly lawJurisdictionId: EntityId;
-    readonly level: BudgetLevel;
-    readonly name: string;
-    readonly stateKey: string;
-    readonly geoid: string | null;
-  }
   function computeBudgetCandidates(facts: OpeningBudgetFacts): {
     readonly candidates: readonly BudgetCandidate[];
     readonly unknown: PublicBudgetStore["unknown"];
@@ -384,14 +400,6 @@ function compileOpening(views: BudgetGeographyViews) {
       }),
       unknown,
     };
-  }
-  interface ServingGovernment extends PublicGovernmentIdentityCarrier {
-    readonly lawJurisdictionId?: EntityId;
-    readonly key: string;
-    readonly level: BudgetLevel;
-    readonly geoid: string | null;
-    readonly jurisdictionId: EntityId;
-    readonly name: string;
   }
   function servingGovernment(
     placeGeoid: string,
@@ -953,12 +961,6 @@ function compileOpening(views: BudgetGeographyViews) {
       row,
     ]),
   );
-  interface PensionFlows {
-    readonly normalCostShare: number;
-    readonly benefitShare: number;
-    readonly normalCostBasis: "reported" | "estimated-from-average";
-    readonly benefitBasis: "reported" | "estimated-from-average";
-  }
   function pensionFlows(
     government: Pick<PublicBudgetGovernment, "stateKey" | "level" | "name">,
   ): PensionFlows {

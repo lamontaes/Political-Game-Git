@@ -2,6 +2,20 @@
   "id": "federal-executive-2026",
   "about": "The party holding the presidency and vice presidency at the start date. The officeholders themselves are fictional; only the office's party is real.",
   "retrieved": "2026-10-12",
-  "president": { "party": "Republican", "termEnds": "2029-01-20", "source": "https://www.whitehouse.gov/administration/", "cite": "Inaugurated January 20, 2025 (U.S. Const. amend. XX, § 1)", "estimate": false },
-  "vicePresident": { "party": "Republican", "termEnds": "2029-01-20", "source": "https://www.whitehouse.gov/administration/", "cite": "Inaugurated January 20, 2025", "estimate": false }
+  "president": {
+    "party": "Republican",
+    "termEnds": "2029-01-20",
+    "source": "https://www.whitehouse.gov/administration/",
+    "cite": "Inaugurated January 20, 2025 (U.S. Const. amend. XX, \u00a7 1)",
+    "estimate": false,
+    "termNumber": 2,
+    "termNumberCite": "The incumbent's second term (first served 2017\u20132021); U.S. Const. amend. XXII bars election to a third"
+  },
+  "vicePresident": {
+    "party": "Republican",
+    "termEnds": "2029-01-20",
+    "source": "https://www.whitehouse.gov/administration/",
+    "cite": "Inaugurated January 20, 2025",
+    "estimate": false
+  }
 }

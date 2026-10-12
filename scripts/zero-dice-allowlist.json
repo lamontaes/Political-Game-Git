@@ -1860,6 +1860,28 @@
       "keyedBy": "school id (place and stage)",
       "reason": "Generated name pattern for a school that has no record; who exists, not what anyone does.",
       "replacement": null
+    },
+    {
+      "file": "src/core2/deep-past.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const institution = choices.length ? rng.pick(choices) : undefined;",
+      "class": "DECISION",
+      "keyedBy": "data version + place id + school stage",
+      "reason": "Chooses which recorded campus a child attended by seed; where a child went to school follows from where the family lived and the child's age, so it is a decision, not generation.",
+      "replacement": "the campus whose recorded attendance area or district serves the child's recorded address and grade, with no seeded choice among local campuses"
+    },
+    {
+      "file": "src/core2/deep-past.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "stage.namedCampus && institution ? institution.name : `${rng.pick(SCHOOL_NAMES_V3.features)} ${stage.nameSuffix}`;",
+      "class": "IDENTITY",
+      "keyedBy": "data version + place id + school stage",
+      "reason": "Picks a landscape feature word for the name of a school with no indexed campus; a name, with no effect on what happens to anyone.",
+      "replacement": null
     }
   ]
 }
