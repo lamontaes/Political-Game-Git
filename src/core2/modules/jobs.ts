@@ -13,6 +13,7 @@ import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import { chooseAct } from "../choice";
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
+import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { ownerOf } from "./business";
@@ -422,9 +423,29 @@ function openPositions(api: CoreAPI, organizationId: string): PositionRow[] {
 }
 
 /** Each open business: the staff its demand calls for against the staff it has. */
+/** An industry's employment this month against the opening month's, from BLS CES seasonal factors; 1 for kinds with no series. */
+export function seasonalStaffing(
+  kindId: string,
+  date: string,
+  openedAt: string,
+): number {
+  const code = (seasonal.kinds as Record<string, string>)[kindId];
+  const factors = code
+    ? (seasonal.factors as Record<string, number[]>)[code]
+    : undefined;
+  if (!factors) return 1;
+  const month = (iso: string) => Number(iso.slice(5, 7)) - 1;
+  return factors[month(date)]! / factors[month(openedAt)]!;
+}
+
 function reviewEmployers(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
+  const opened =
+    (
+      store(api).table("state").get("jobs:state") as
+        { openedAt?: string } | undefined
+    )?.openedAt ?? c.date;
   for (const row of store(api)
     .table("employers")
     .query("all", [true]) as unknown as EmployerRow[]) {
@@ -434,11 +455,13 @@ function reviewEmployers(api: CoreAPI): void {
       positions = [...openPositions(api, row.id)];
     if (!jobs.length && !positions.length && !row.templateFromId) continue;
     const target =
-      book.capacityMinor > 0
+      (book.capacityMinor > 0
         ? // Real demand: the books' demand in the business's own opening prices.
           (row.openingStaff * book.annualDemandMinor) /
           ((book.price / book.anchorPrice || 1) * book.capacityMinor)
-        : row.openingStaff;
+        : row.openingStaff) *
+      // The season: the industry's staffing this month against the opening's (BLS CES seasonal factors).
+      seasonalStaffing(book.kindId, c.date, opened);
     const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
     const cash = c.organizations.get(row.id)!.liquidMinor;
     // Hiring leans on the cash in reach of a few months of payroll; a gap below staff needs no cash to act on.
