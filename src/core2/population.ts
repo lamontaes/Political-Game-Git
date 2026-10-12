@@ -1427,12 +1427,21 @@ function openingFamilies(input: OpeningFamilyInput): {
     traitSources: Record<string, Source> | undefined,
   ) => {
     const core = temperament.get(id) ?? {};
+    // A recorded facet from upbringing outranks the generated estimate; the
+    // five temperament dimensions always come from the temperament model.
+    const recorded = Object.fromEntries(
+      Object.entries(traits).filter(
+        ([key]) => !key.startsWith(`${PEOPLE_MIND_VERSION}:`),
+      ),
+    );
     return {
-      traits: { ...traits, ...core },
+      traits: { ...traits, ...core, ...recorded },
       traitSources: {
         ...(traitSources ?? {}),
         ...Object.fromEntries(
-          Object.keys(core).map((key) => [key, temperamentSource]),
+          Object.keys(core)
+            .filter((key) => !(key in recorded))
+            .map((key) => [key, temperamentSource]),
         ),
       },
     };
