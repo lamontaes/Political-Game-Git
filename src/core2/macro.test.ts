@@ -1,6 +1,6 @@
 /** M1-02 module checks on a small recorded fixture; the generated-world proof is tooling/macro-proof.ts. */
 import { describe, expect, it } from "vitest";
-import { advanceCore } from "./life";
+import { advanceCore, createLifeCore } from "./life";
 import { coreAPI, createCore } from "./state";
 import {
   MACRO_MODULE,
@@ -186,5 +186,45 @@ describe("history before the start (M1-14, the economy's part)", () => {
       if (source.payrollJobsThousands !== undefined)
         expect(row.payrollJobsThousands).toBe(source.payrollJobsThousands);
     }
+  });
+  it("fills a governor's seat when the term ends and reappoints reserve bank presidents under the retirement age", () => {
+    const core = createLifeCore(opening("2021-01-01"), {
+        data,
+        modules: [MACRO_MODULE],
+      }),
+      api = coreAPI(core);
+    advanceCore(core, "2021-01-02");
+    const members = () =>
+      api.moduleState("macro").table("members").query("all", [true]);
+    const before = new Map(members().map((row) => [row.seatId, row]));
+    advanceCore(core, "2022-03-01");
+    const after = members();
+    expect(after).toHaveLength(19);
+    for (const row of after)
+      expect(String(row.termEndsAt) >= core.date).toBe(true);
+    // Governor seat 1's term ended January 31, 2022: a new member for 14 years.
+    const seat = after.find((row) => row.seatId === "governor:1")!;
+    expect(seat.personId).not.toBe(before.get("governor:1")!.personId);
+    expect(seat).toMatchObject({
+      appointedAt: "2022-02-01",
+      termEndsAt: "2036-01-31",
+    });
+    expect(core.people.get(String(seat.personId))).toBeTruthy();
+    expect(
+      core.eventIds.has(
+        `event:economy.board-appointment:2022-02-01:governor:1`,
+      ),
+    ).toBe(true);
+    // Presidents' five-year terms ran to February 28, 2021: each is reappointed or replaced at 65.
+    for (const row of after.filter((r) => r.seatKind === "president")) {
+      expect(row.termEndsAt).toBe("2026-02-28");
+      const old = before.get(String(row.seatId))!;
+      const person = core.people.get(String(old.personId))!;
+      const age = 2021 - Number(person.birthDate.slice(0, 4));
+      if (row.personId === old.personId) expect(age).toBeLessThanOrEqual(65);
+    }
+    const leans = after.map((row) => Number(row.inflationLean));
+    expect(Math.min(...leans)).toBeLessThan(0);
+    expect(Math.max(...leans)).toBeGreaterThan(0);
   });
 });

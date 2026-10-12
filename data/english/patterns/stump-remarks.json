@@ -15,7 +15,7 @@
       "kind": "spoken",
       "text": "I'm asking for your vote.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks at a Campaign Rally in San Francisco",
         "date": "2012-10-08",
@@ -28,7 +28,7 @@
       "kind": "spoken",
       "text": "I ask for your support.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks at a Laurel County Rally in London, Kentucky",
         "date": "1992-10-23",
@@ -41,7 +41,7 @@
       "kind": "spoken",
       "text": "I ask you to come stand with me.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks in Burgettstown, Pennsylvania",
         "date": "2004-11-01",
@@ -54,7 +54,7 @@
       "kind": "spoken",
       "text": "Your vote is your voice, and your voice is your power.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks by the Vice President at a Campaign Event in Allentown, Pennsylvania",
         "date": "2024-11-04",
@@ -67,7 +67,7 @@
       "kind": "spoken",
       "text": "I offer a different path, and I ask for your vote.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks by the Vice President at a Campaign Event on The Ellipse",
         "date": "2024-10-29",
@@ -80,7 +80,7 @@
       "kind": "spoken",
       "text": "We are not going back, we are moving forward.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks at a Campaign Rally in San Francisco",
         "date": "2012-10-08",
@@ -93,12 +93,13 @@
       "kind": "spoken",
       "text": "We are going to win together.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks at a Campaign Rally in Butler, Pennsylvania",
         "date": "2024-10-05",
         "url": "https://www.presidency.ucsb.edu/documents/remarks-campaign-rally-butler-pennsylvania"
       }
     }
-  ]
+  ],
+  "patternsOnly": "Patterns and counts only, never shipped word for word: the sources are not public domain (campaign remarks archived by the American Presidency Project; court transcripts before 2015). OPUS-WORDS moved this bank out of data/english/parts on Oct 12, 2026; speeches and court lines are re-mined from the Congressional Record and federal transcripts."
 }

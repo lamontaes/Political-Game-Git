@@ -15,7 +15,7 @@
       "kind": "spoken",
       "text": "Thank you so much.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks at an Election Victory Celebration in Chicago, Illinois",
         "date": "2012-11-07",
@@ -28,7 +28,7 @@
       "kind": "spoken",
       "text": "I want to thank every American who participated in this election.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks at an Election Victory Celebration in Chicago, Illinois",
         "date": "2012-11-07",
@@ -41,7 +41,7 @@
       "kind": "spoken",
       "text": "Thank you for what you did for America.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks at a Victory Celebration in Little Rock, Arkansas",
         "date": "1996-11-05",
@@ -54,7 +54,7 @@
       "kind": "spoken",
       "text": "Today the American people have spoken.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks at a Victory Celebration in Little Rock, Arkansas",
         "date": "1996-11-05",
@@ -67,7 +67,7 @@
       "kind": "spoken",
       "text": "The results of the election speak for themselves.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Statement Conceding the Presidential Election",
         "date": "1924-11-05",
@@ -80,7 +80,7 @@
       "kind": "spoken",
       "text": "I accept the outcome without any vain regret or bitterness.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Statement Conceding the Presidential Election",
         "date": "1924-11-05",
@@ -93,7 +93,7 @@
       "kind": "spoken",
       "text": "The people have rendered their verdict and I gladly accept it.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks Conceding the Presidential Election in Springfield, Illinois",
         "date": "1952-11-05",
@@ -106,7 +106,7 @@
       "kind": "spoken",
       "text": "But we must accept the results of this election.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Address Conceding the 2024 Presidential Election",
         "date": "2024-11-06",
@@ -119,7 +119,7 @@
       "kind": "spoken",
       "text": "It is equally traditional to close ranks as soon as the people have spoken.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks Conceding the Presidential Election in Springfield, Illinois",
         "date": "1952-11-05",
@@ -132,7 +132,7 @@
       "kind": "spoken",
       "text": "The people have made their choice and I congratulate you.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Remarks Conceding the Presidential Election in Springfield, Illinois",
         "date": "1952-11-05",
@@ -145,12 +145,13 @@
       "kind": "spoken",
       "text": "The outcome of this election is not what we wanted, not what we fought for, not what we voted for.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "Address Conceding the 2024 Presidential Election",
         "date": "2024-11-06",
         "url": "https://www.presidency.ucsb.edu/documents/address-conceding-the-2024-presidential-election"
       }
     }
-  ]
+  ],
+  "patternsOnly": "Patterns and counts only, never shipped word for word: the sources are not public domain (campaign remarks archived by the American Presidency Project; court transcripts before 2015). OPUS-WORDS moved this bank out of data/english/parts on Oct 12, 2026; speeches and court lines are re-mined from the Congressional Record and federal transcripts."
 }

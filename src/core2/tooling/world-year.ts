@@ -70,6 +70,26 @@ console.log(
       buildSeconds: Math.round((t1 - t0) / 1000),
       yearSeconds: Math.round((performance.now() - t1) / 1000),
       everyDollarBalances: cashNow() === opening - outsideNet,
+      unemploymentClaims: (() => {
+        const rows = (jobs.claims ?? []) as unknown as {
+          open: boolean;
+          paidMinor: number;
+          payeeAccountOwnerId: string;
+          personId: string;
+          endReason?: string;
+        }[];
+        const ends: Record<string, number> = {};
+        for (const row of rows)
+          ends[row.endReason ?? "open"] =
+            (ends[row.endReason ?? "open"] ?? 0) + 1;
+        return {
+          filed: rows.length,
+          full: rows.filter((row) => row.payeeAccountOwnerId === row.personId)
+            .length,
+          paidMinor: rows.reduce((n, row) => n + row.paidMinor, 0),
+          ends,
+        };
+      })(),
       townCash: { opening, closing: cashNow(), outsideNet },
       outsideBuyersWeekly: {
         opening: outsideSalesOpening,
