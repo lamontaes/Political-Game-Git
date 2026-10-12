@@ -7,6 +7,7 @@
  */
 import { addDays, makeIsoDate } from "../../simulation/dates";
 import { chooseAct } from "../choice";
+import { reviewBoardTerms } from "../central-bank-appointments";
 import { DEFAULT_DATA, extendData } from "../data";
 import macroParameters from "../data/macro/parameters.json" with { type: "json" };
 import {
@@ -105,7 +106,7 @@ function firstOfNextMonth(date: string, p: MacroParameter): string {
   return `${shiftMonth(monthKey(date), p("one"), p)}-01`;
 }
 
-/** Paid income in the town's places over the same month a year before, annual percent; null when not yet recorded. */
+/** Paid income in the town's places over the last twelve months against the twelve before, annual percent; null when not yet recorded. */
 function townIncomeGrowth(
   api: CoreAPI,
   places: readonly string[],
@@ -118,8 +119,18 @@ function townIncomeGrowth(
       const value = paid.get(`${at}:${place}`);
       return value === undefined ? total : (total ?? p("zero")) + value;
     }, null);
-  const now = sum(month),
-    before = sum(shiftMonth(month, -p("macroMonthsPerYear"), p));
+  // Twelve months against the twelve before, so a month's count of paydays doesn't read as growth.
+  const year = (end: string) => {
+    let total = p("zero");
+    for (let k = 0; k < p("macroMonthsPerYear"); k++) {
+      const value = sum(shiftMonth(end, -k, p));
+      if (value === null) return null;
+      total += value;
+    }
+    return total;
+  };
+  const now = year(month),
+    before = year(shiftMonth(month, -p("macroMonthsPerYear"), p));
   if (now === null || before === null || before <= p("zero")) return null;
   return (now / before - p("one")) * p("macroHundred");
 }
@@ -145,8 +156,12 @@ function publishConditions(
         ((one + row.outputGapPct / hundred) /
           (one + opening.outputGapPct / hundred)) *
         region.demand;
-    // Buyers outside the town spend with the nation's prices and the region's demand.
-    scaleOutsideSales(api.state as CoreState, placeId, prices * demand);
+    // Buyers outside the town spend with the nation's prices and real output (its trend and its cycle), and the region's demand.
+    scaleOutsideSales(
+      api.state as CoreState,
+      placeId,
+      prices * (row.realOutput / opening.realOutput) * region.demand,
+    );
     api.addFinanceCondition({
       id: `macro-condition:${placeId}:${api.state.date}`,
       placeId,
@@ -195,6 +210,7 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
   const next = { ...state, latestMonth: row.month };
   store(api).table("state").put(next);
   publishConditions(api, next, row);
+  reviewBoardTerms(api, store(api).table("members"), p, recordSource(api));
   api.moduleCalendar(MACRO_MODULE_ID).schedule({
     key: `month:${shiftMonth(row.month, p("one"), p)}`,
     date: firstOfNextMonth(api.state.date, p),
