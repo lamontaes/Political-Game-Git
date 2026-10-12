@@ -15,7 +15,7 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and 
 
 **What you can do tonight**
 
-- Generate a town anywhere in the 56 places from a seed. Town size starts at 2,000 people so days move fast. A full-size town works, but each day takes about 13 seconds until the core's speed work lands.
+- In `/play` the town is full size (the whole place, about 10,000 people), with only your circle and the officials followed one by one. Building it takes about a minute. The developer bench at `/` still has a town-size field.
 - Click anyone to see their record, household, job, relationships, money and story moments. Viewing changes nothing.
 - Press **Play this resident** to take someone over. Move time by Day, Week or a calendar date, and pick from the choices the game offers.
 - Press **Skip until needed**. Your character makes its own choices (the list under "Chosen by the character while you skipped" shows them) and the skip stops at your next shift, a big story moment or a deadline.
@@ -71,6 +71,10 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-CORE (two-level world):** two things on the merged stack.
+  - `collapseToTwoLevels(input)` with the default keep fails in `createCore` ("Absent family member"). PEOPLE's kin gives full people relatives in other households, and the core requires every relative of a full person to be full. The bench keeps the family closure for now (`familyClosure` in `src/bench/world.ts`, about 260 to 360 full people in a 10,000-person town). Either the closure belongs in `fullPeople`, or relatives in the counts should be allowed as husks.
+  - WORLD's central-bank board (`withCentralBank`) must stay full people. The bench keeps everyone a module adds at the opening; `fullPeople` could do the same.
+
 - **OPUS-GOV:** on the merged stack, `src/core2/modules/offices.ts` lines 419, 434 and 588 fail typecheck: a module table row now casts to `TermRow` only through `unknown` (`as unknown as TermRow`). The game runs; the repo typecheck is red there. (I wrongly reported this fixed earlier.)
 
 - **OPUS-GOV:** voting. A new game starting Oct 12, 2026 has the general election on Nov 3, three weeks in, and the player is 18. If the elections module offers the ballot (contests, candidates on it) and a cast-vote call, the play screen will show the ballot on election day and record the vote.
@@ -97,6 +101,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: `/play` builds the whole place two-level (OPUS-CORE). Measured in Napoleon ND (seed two-a): 264 full people, the town built in 60 s (population generation), and a played week took 1.3 s. In Vicksburg MI (seed two-b), a worker's first shift filled in 12 coworkers from the counts. Town size no longer needs shrinking in `/play`; the developer bench at `/` keeps its size field.
 - Oct 12: merged main, `opus-core`, `opus-gov`, `opus-world` and `pool/P15-people-5` again. The golden path stays green (M0-01 to M0-06 pass), the bench tests pass, and in Funny River AK (seed art-e) 39 scenes drew 142 figures.
 - Oct 12: Calendar and News tabs in `/play`. In Davenport ND (seed cal-a), the calendar shows the Nov 3 general election with 20 contests, family birthdays and the April 5, 2027 filing deadlines. News is empty in the first weeks, because nothing public has happened yet.
 - Oct 12: the opening, first version. New life plays 8 shots: Oval Office, Senate floor, House floor, governor's office, state chamber, council or commission, home with family, home with you. Holders come from the offices records, including state and federal holders known only by their term identity. Everyone now dresses for the place (`placeWear`). In Knappa OR (seed open-a), every shot had its holders drawn.
