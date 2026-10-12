@@ -25,6 +25,7 @@ import moverRates from "../../../data/research/migration/mover-rates-acs-2024.js
 import destinations from "../data/moves/destinations.json" with { type: "json" };
 import rows from "../data/moves/parameters.json" with { type: "json" };
 import { decisionFromScores, scoreOffers } from "../choice";
+import { decisionLean } from "../trait-decisions";
 import { MORTGAGE_PREFIX } from "../housing-mortgages";
 import type { Parameter } from "../parameters";
 import type { EntityId } from "../../simulation/types";
@@ -48,7 +49,6 @@ const STOPGAP = "SG-P15-moves-weights";
 const PLACE_STOPGAP = "SG-P15-moves-place-kept";
 const OWNER_STOPGAP = "SG-P15-moves-owners-stay";
 const INACTIVE_TIER = "husk";
-const RISK_TRAIT = "people-mind-v1:risk";
 const PINNED_STOPGAP = "SG-P15-moves-pinned-jobs";
 
 type Rates = Readonly<Record<string, number>>;
@@ -282,14 +282,15 @@ export function holdsOf(
         ageOf(api, core.people.get(id)!) < minimum
       ),
   ).length;
-  const risk = person.traits[RISK_TRAIT];
-  const temperament =
-    risk === undefined
-      ? zero
-      : Math.max(
-          api.parameter("negativeOne"),
-          Math.min(api.parameter("one"), risk / api.parameter("traitScale")),
-        );
+  // Every trait's lean toward moving away over staying put, through the
+  // shared trait table (about -1 to 1).
+  const temperament = decisionLean(
+    api.state,
+    person,
+    "moves.move-away",
+    "move-away",
+    "stay-put",
+  );
   return {
     owner:
       !childAtHome && ownsHome(api, person.householdId)
@@ -299,7 +300,8 @@ export function holdsOf(
     kin:
       m(api, "movesKinHold") * Math.min(relatives, m(api, "movesKinHoldCap")),
     job: person.jobId ? m(api, "movesJobHold") : zero,
-    // A taste for risk loosens the hold; caution tightens it.
+    // A lean toward change and risk loosens the hold; one toward keeping
+    // things the same tightens it.
     temperament: -m(api, "movesRiskWeight") * temperament,
   };
 }
