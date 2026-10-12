@@ -434,6 +434,7 @@ describe("shared actor chooser and committed effects", () => {
       actionId: actor.lastChoice,
       count: p("one"),
     });
+    const work = counters.find((row) => row.actionId === actor.lastChoice)!;
     expect(work.needContribution).toBeGreaterThan(p("zero"));
     expect(work.goalContribution).toBeGreaterThan(p("zero"));
     expect(money(core)).toBe(openingMoney);
