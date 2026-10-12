@@ -100,6 +100,8 @@ import type {
   RelationshipChangeEvidence,
   RelationshipMeasureChange,
   Source,
+  IsoDate,
+  PlaceId,
 } from "./types";
 
 // Exact successful factory identity, private to this module. No caller can admit a host.
@@ -1777,6 +1779,93 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     }
   }
   return core.people.get(personId)!;
+}
+
+/** A recorded identity from another engine (e.g. an officeholder in GOV's offices table). */
+export interface RecordedIdentity {
+  id: PersonId;
+  givenName: string;
+  familyName: string;
+  birthDate: IsoDate;
+  placeId: PlaceId;
+  countyId?: PlaceId;
+  gender?: string;
+  party?: string;
+  seatKey?: string;
+  source: Source;
+}
+
+/**
+ * Fill in a named person who exists only as a recorded identity (state and
+ * federal officials): a full person in their own household at their place,
+ * with their identity, party and seat as past facts. Traits stay neutral until
+ * PEOPLE's builder supplies them (stopgap SG-CORE-identity-fill-in-traits).
+ * Returns the existing person if already full.
+ */
+export function fillInIdentity(
+  core: CoreState,
+  identity: RecordedIdentity,
+): PersonState {
+  const existing = core.people.get(identity.id);
+  if (existing) return existing;
+  if (takeResidentHousehold(core, identity.id))
+    throw new Error("A counted resident is filled in with fillInPerson.");
+  coreAPI(core).stopgap("SG-CORE-identity-fill-in-traits");
+  makeIsoDate(identity.birthDate);
+  const householdId = `household:${identity.id}`;
+  if (core.households.has(householdId))
+    throw new Error(`Identity household already present: ${householdId}`);
+  core.households.set(householdId, {
+    id: householdId,
+    placeId: identity.placeId,
+    memberIds: [identity.id],
+    source: identity.source,
+  });
+  core.husks.delete(identity.id);
+  const facts: NonNullable<PersonInput["pastFacts"]>[number][] = [
+    ...(identity.party
+      ? [
+          {
+            id: `${identity.id}:party`,
+            date: core.date,
+            kind: "identity:party",
+            summary: identity.party,
+            source: identity.source,
+            facts: { party: identity.party },
+          },
+        ]
+      : []),
+    ...(identity.seatKey
+      ? [
+          {
+            id: `${identity.id}:seat`,
+            date: core.date,
+            kind: "identity:seat",
+            summary: identity.seatKey,
+            source: identity.source,
+            facts: { seatKey: identity.seatKey },
+          },
+        ]
+      : []),
+  ];
+  return admitPerson(core, {
+    id: identity.id,
+    givenName: identity.givenName,
+    familyName: identity.familyName,
+    birthDate: identity.birthDate,
+    placeId: identity.placeId,
+    ...(identity.countyId ? { countyId: identity.countyId } : {}),
+    householdId,
+    tier: "monthly",
+    traits: {},
+    liquidMinor: 0,
+    livingCostDailyMinor: 0,
+    source: identity.source,
+    familyIds: [],
+    knownIds: [],
+    ...(identity.gender ? { looks: { gender: identity.gender } } : {}),
+    pastFacts: facts,
+  });
 }
 
 export function promoteHusk(core: CoreState, input: PersonInput): PersonState {

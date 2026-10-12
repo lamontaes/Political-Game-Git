@@ -1054,5 +1054,17 @@
     "addedAt": "2026-10-12",
     "replacement": "OPUS-WORLD's housing engine (rent and mortgages to owners and lenders) and outside-spending model (category location-quotient leakage); turn this off with collapseToTwoLevels(input, { outsideLivingCosts: false }).",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-identity-fill-in-traits",
+    "kind": "neutral-traits",
+    "file": "src/core2/state.ts",
+    "line": 1,
+    "whatItFakes": "A named person filled in from a recorded identity (e.g. a state or federal official) gets neutral traits, no family or acquaintances, no cash and a monthly cadence.",
+    "why": "Traits, kin and past come from the opening's generation world, which a running core doesn't have; GOV needs full officials now (SG-GOV-official-identity-only).",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-13",
+    "replacement": "PEOPLE's trait, kin and past builders seeded from the world seed and the identity (as fill-in of counted residents does), and the official's pay from the public payroll.",
+    "status": "open"
   }
 ]
