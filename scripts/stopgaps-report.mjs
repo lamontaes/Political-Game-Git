@@ -3,6 +3,7 @@
 // Read-only: it never edits the registries. Output is Markdown for BOARD.md's "Open stand-ins".
 import { readFileSync, existsSync } from "node:fs";
 import { dirname, join } from "node:path";
+import process from "node:process";
 import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
