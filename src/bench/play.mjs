@@ -41,7 +41,10 @@ function drawPeople(people) {
       const visible = Math.max(bottom - f.topPercent, 0.1);
       const img = el("img", { src: person.figureUrl, alt: person.name });
       img.style.height = `${(f.heightPercent / visible) * 100}%`;
+      // A whole figure turns to face the room, with a soft shadow at its feet.
+      if (f.mirrored) img.style.transform = "scaleX(-1)";
       const box = el("div", { className: "figure", title: person.name }, img);
+      if (f.shadow) box.prepend(el("div", { className: "shadow" }));
       Object.assign(box.style, {
         left: `${f.leftPercent}%`,
         top: `${f.topPercent}%`,
@@ -101,7 +104,10 @@ async function renderScene() {
       const visible = Math.max(bottom - f.topPercent, 0.1);
       const img = el("img", { src: person.figureUrl, alt: person.name });
       img.style.height = `${(f.heightPercent / visible) * 100}%`;
+      // A whole figure turns to face the room, with a soft shadow at its feet.
+      if (f.mirrored) img.style.transform = "scaleX(-1)";
       const box = el("div", { className: "figure", title: person.name }, img);
+      if (f.shadow) box.prepend(el("div", { className: "shadow" }));
       Object.assign(box.style, {
         left: `${f.leftPercent}%`,
         top: `${f.topPercent}%`,

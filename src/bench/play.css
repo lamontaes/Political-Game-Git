@@ -625,3 +625,18 @@ select {
   width: 2%;
   transition: width 0.4s ease-out;
 }
+
+/* A soft contact shadow under a whole figure's feet. */
+#people .figure .shadow {
+  position: absolute;
+  left: 15%;
+  right: 15%;
+  bottom: -1.2%;
+  height: 3%;
+  background: radial-gradient(
+    ellipse at center,
+    rgb(0 0 0 / 38%),
+    transparent 70%
+  );
+  pointer-events: none;
+}

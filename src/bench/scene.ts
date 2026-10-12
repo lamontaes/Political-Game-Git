@@ -28,6 +28,7 @@ import { dwellingKind } from "../core2/modules/housing";
 import { realLocalities } from "../core2/places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
+import { wholeFigureFor } from "./whole-figures";
 
 type Person = Parameters<typeof engineRecipeFor>[0];
 type Occupation = Parameters<typeof workplacePlaceFor>[0];
@@ -58,8 +59,13 @@ export interface BenchScenePerson {
   personId: string;
   name: string;
   spotId: string;
-  figure: ReturnType<typeof spotFigure>;
+  figure: ReturnType<typeof spotFigure> & {
+    mirrored?: boolean;
+    shadow?: boolean;
+  };
   figureUrl: string;
+  /** "whole" for an owner-approved whole figure, "engine" for the layered people engine. */
+  art?: "whole" | "engine";
 }
 
 export function orgPlace(
@@ -324,6 +330,18 @@ function recipeFor(
 
 const packFile = (file: string) => existsSync(new URL(file, PACK_DIR));
 
+/** Where the people engine stood in for a whole figure (place:pose), for the log. */
+export const wholeFallbacks = new Set<string>();
+
+/** An official: someone known only by their term, or a resident holding a seat. */
+function isOfficial(core: CoreState, id: string): boolean {
+  if (!core.people.has(id)) return true;
+  const terms = coreAPI(core).moduleState(OFFICES).table("terms");
+  return (
+    terms.query("byPerson", [id]) as unknown as { status: string }[]
+  ).some((row) => row.status === "serving");
+}
+
 /** Puts each id on the place's spots: the first on the hero spot, the rest behind. */
 export function stagePeople(
   core: CoreState,
@@ -351,16 +369,49 @@ export function stagePeople(
       unplaced.push({ personId: id, reason: "no-spot" });
       continue;
     }
+    const spotId = spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`;
+    // The whole figure first (owner, Oct 12); the people engine where none fits.
+    const looks = looksOf(core, id);
+    const whole = looks
+      ? wholeFigureFor(
+          core,
+          {
+            id,
+            birthDate: looks.birthDate,
+            ...(looks.gender ? { gender: looks.gender } : {}),
+            official: isOfficial(core, id),
+          },
+          place,
+          stage,
+          spot,
+        )
+      : null;
+    if (whole) {
+      people.push({
+        personId: id,
+        name,
+        spotId,
+        figure: whole.figure,
+        figureUrl: whole.url,
+        art: "whole",
+      });
+      continue;
+    }
+    const fallback = `${place}:${spot.pose ?? "stand"}`;
+    if (!wholeFallbacks.has(fallback)) {
+      wholeFallbacks.add(fallback);
+      console.log(`whole figure: people engine stands in at ${fallback}`);
+    }
     const recipe = recipeFor(core, id, spot, place);
     if (!recipe) {
       unplaced.push({ personId: id, reason: "no-adult-artwork" });
       continue;
     }
-    const spotId = spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`;
     people.push({
       personId: id,
       name,
       spotId,
+      art: "engine",
       figure: spotFigure(stage, spot, recipe),
       figureUrl: `/api/figure?person=${encodeURIComponent(id)}&place=${encodeURIComponent(place)}&spot=${encodeURIComponent(spotId)}&date=${core.date}`,
     });

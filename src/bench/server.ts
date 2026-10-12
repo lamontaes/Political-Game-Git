@@ -227,9 +227,10 @@ const server = createServer(async (request, response) => {
         // drawn now, so the opening plays with nothing popping in.
         figures.clear();
         opening = openingShots(world.core, entrant.personId);
-        const urls = opening.flatMap((shot) =>
-          shot.people.map((person) => person.figureUrl),
-        );
+        // Whole figures are files already; engine figures are drawn here.
+        const urls = opening
+          .flatMap((shot) => shot.people.map((person) => person.figureUrl))
+          .filter((figureUrl) => figureUrl.startsWith("/api/figure?"));
         buildProgress = { stage: "opening", done: 0, total: urls.length };
         for (const figureUrl of urls) {
           figureFor(new URL(figureUrl, "http://bench"));
@@ -247,6 +248,21 @@ const server = createServer(async (request, response) => {
       } finally {
         building = false;
       }
+      return;
+    }
+    if (
+      request.method === "GET" &&
+      /^\/art\/people-whole\/[\w.-]+\.png$/.test(url.pathname)
+    ) {
+      // Whole-figure people: the owner-approved cutouts, served as they are.
+      const content = await readFile(
+        new URL(`../..${url.pathname}`, import.meta.url),
+      );
+      response.writeHead(200, {
+        "Content-Type": "image/png",
+        "Cache-Control": "public, max-age=3600",
+      });
+      response.end(content);
       return;
     }
     if (
