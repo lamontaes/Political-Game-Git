@@ -155,6 +155,18 @@ function renderPacket(value) {
       }),
     );
   if (packet) $("card-clock").textContent = clock(packet.at);
+  $("card-why").textContent = endedBy(packet);
+}
+
+/** What stopped the clock, from the stop's own records. */
+function endedBy(value) {
+  const words = controls.endedBy ?? {};
+  if (value?.kind === "choice") return words.choice ?? "";
+  if (value?.kind !== "stop") return "";
+  const work = value.stop.work?.reasons?.[0];
+  if (work)
+    return `${words[work.boundary] ?? ""} · ${me.names?.[work.owner.organizationId] ?? ""}`;
+  return value.stop.modules.length ? (words.moment ?? "") : "";
 }
 
 async function refresh() {
@@ -217,7 +229,10 @@ $("skip").addEventListener("click", async () => {
       if (result.packet.kind !== "complete") break;
       // Election day needs you: a skip ends when new results are in.
       const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
-      if (races.length > seenResults) break;
+      if (races.length > seenResults) {
+        $("card-why").textContent = controls.endedBy?.results ?? "";
+        break;
+      }
       await renderScene();
     }
   } catch (error) {
@@ -960,6 +975,15 @@ const sheets = {
           { className: `day${iso === date ? " today" : ""}` },
           el("b", { textContent: String(day) }),
         );
+        // A later day: live until it, stopping early for anything that needs you.
+        if (iso > date) {
+          cell.classList.add("jump");
+          cell.title = iso;
+          cell.addEventListener("click", () => {
+            closeSheet();
+            act(`/api/advance?mode=calendar&date=${iso}`);
+          });
+        }
         const kinds = new Map();
         for (const item of byDate.get(iso) ?? [])
           kinds.set(item.kind, [...(kinds.get(item.kind) ?? []), item.title]);

@@ -105,8 +105,7 @@ export class BenchPlayer {
     this.packet = packet;
   }
 
-  // Stopgap SG-PLAY-skip-own-choice-attribution: the core's own pick is
-  // resumed as a player answer, so its saved act reads "controlled:".
+  /** The character makes the core's own pick, saved as its own decision. */
   private answerForSelf(packet: ChoicePacket, why: SelfChosenAnswer["why"]) {
     const offer = ownPick(packet);
     if (!offer)
@@ -121,9 +120,8 @@ export class BenchPlayer {
       why,
     });
     return resumePlayerV1(this.core, {
-      kind: "choice",
+      kind: "own-choice",
       pauseId: packet.pauseId,
-      offerId: offer.offerId,
     });
   }
 
@@ -152,7 +150,10 @@ export class BenchPlayer {
             date: addDays(makeIsoDate(at.date), days),
             minuteOfDay: at.minuteOfDay,
           };
-    this.director.setMode(mode === "skip" ? "skipping" : "live");
+    // A calendar jump lives like a skip: only what needs the player stops it.
+    this.director.setMode(
+      mode === "skip" || mode === "calendar" ? "skipping" : "live",
+    );
     const earliest = earliestPlayerStopV1(this.core, {
       controlledPersonId: this.personId,
       through,
@@ -175,6 +176,7 @@ export class BenchPlayer {
    */
   private run(start: PlayerPacketV1 | undefined, from: PlayerMomentV1) {
     const { through, mode } = this.destination!;
+    const skipping = mode === "skip" || mode === "calendar";
     let packet = start;
     while (true) {
       if (!packet || packet.kind === "complete") {
@@ -194,7 +196,7 @@ export class BenchPlayer {
       // While skipping, the character answers its own choices with the
       // core's selection; only a stop (a big moment, a fixed commitment or a
       // deadline) ends the skip, at that stop's own time.
-      if (packet.kind === "choice" && mode === "skip") {
+      if (packet.kind === "choice" && skipping) {
         packet = this.answerForSelf(packet, "skipping");
         continue;
       }
@@ -202,7 +204,7 @@ export class BenchPlayer {
       // skip (owner, Oct 12): the character answers the shift's choice itself.
       if (
         packet.kind === "stop" &&
-        mode === "skip" &&
+        skipping &&
         !packet.stop.modules.length &&
         packet.stop.work
       ) {

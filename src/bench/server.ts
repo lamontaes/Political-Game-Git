@@ -86,6 +86,20 @@ function namesFor(value: unknown): Record<string, string> {
     if (person) out[targetId] = `${person.givenName} ${person.familyName}`;
     else if (org) out[targetId] = org.name;
   }
+  // The employer whose shift a stop falls on, so the screen can say so.
+  const work = (
+    value as
+      | {
+          stop?: {
+            work?: { reasons: { owner: { organizationId: string } }[] } | null;
+          };
+        }
+      | undefined
+  )?.stop?.work;
+  for (const { owner } of work?.reasons ?? []) {
+    const org = current.organizations.get(owner.organizationId);
+    if (org) out[owner.organizationId] = org.name;
+  }
   return out;
 }
 const serialize = (value: unknown) =>

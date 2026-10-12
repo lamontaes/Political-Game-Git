@@ -559,3 +559,13 @@ select {
   justify-content: space-between;
   gap: 8px;
 }
+
+.month .day.jump {
+  cursor: pointer;
+}
+.month .day.jump:hover {
+  outline: 1px solid var(--brass);
+}
+#card-why:empty {
+  display: none;
+}
