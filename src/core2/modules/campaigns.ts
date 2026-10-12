@@ -17,6 +17,7 @@ import { registerElectorate } from "../electorate";
 import { partySide } from "../appointments";
 import { residentsRuntime } from "./residents";
 import { fillInPerson } from "../state";
+import { parameter } from "../parameters";
 import { decisionLean } from "../trait-decisions";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
@@ -558,7 +559,9 @@ export function knockDoors(
       traits: Readonly<Record<string, number>>;
       birthDate: string;
     }) =>
-      decisionLean(api.state, a, "campaigns.open-door", "open", "ignore") +
+      // Every trait's lean, on the trait scale the threshold was set on.
+      parameter("traitScale") *
+        decisionLean(api.state, a, "campaigns.open-door", "open", "ignore") +
       (ageOn(a, api.state.date) - campaignParameter("doorAnswerPivotAge")) /
         campaignParameter("doorAnswerAgeSpan");
     const opener = athome
@@ -680,13 +683,14 @@ export function askToVolunteer(
   const drive =
     warmth +
     campaignParameter("volunteerClosenessWeight") * (tie + family) +
-    decisionLean(
-      api.state,
-      person,
-      "campaigns.volunteer",
-      "volunteer",
-      "decline",
-    ) -
+    parameter("traitScale") *
+      decisionLean(
+        api.state,
+        person,
+        "campaigns.volunteer",
+        "volunteer",
+        "decline",
+      ) -
     weeklyWork / campaignParameter("turnoutWorkWeekMinutes");
   const yes = drive > campaignParameter("volunteerThreshold");
   if (yes && !campaign.volunteerIds.includes(personId))
@@ -1210,8 +1214,14 @@ export function commissionPoll(
   for (const person of dialed) {
     if (respondents.length >= affordable) break;
     const willing =
-      (person.traits["people-mind-v1:sociability"] ?? 0) +
-      (person.traits["people-mind-v1:reliability"] ?? 0) / 2 +
+      parameter("traitScale") *
+        decisionLean(
+          api.state,
+          person,
+          "campaigns.answer-poll",
+          "answer",
+          "no-opinion",
+        ) +
       (ageOn(person, date) - campaignParameter("doorAnswerPivotAge")) /
         campaignParameter("doorAnswerAgeSpan");
     if (willing > campaignParameter("pollAnswerThreshold"))
