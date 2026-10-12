@@ -27,12 +27,7 @@ function el(tag, props = {}, ...children) {
   return node;
 }
 function row(label, value) {
-  return el(
-    "div",
-    { className: "row" },
-    termLabel(label),
-    String(value ?? ""),
-  );
+  return el("div", { className: "row" }, termLabel(label), String(value ?? ""));
 }
 function show(id, on) {
   $(id).hidden = !on;
