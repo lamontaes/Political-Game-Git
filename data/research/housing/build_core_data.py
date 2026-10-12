@@ -39,5 +39,7 @@ doc["mortgage"] = {
     "movedIn": [{"fromYear": r["fromYear"], "toYear": r["toYear"], "share": round(r["owners"] / moved["ownerOccupied"], 4)} for r in moved["periods"]],
     "downPayment": {"firstTime": nar["firstTime"]["medianShare"], "repeat": nar["repeat"]["medianShare"]},
 }
+hpi = json.load(open(HERE / "fhfa-hpi-state-2026q2.json"))
+doc["housePriceIndex"] = {"source": hpi["table"], "states": hpi["states"]}
 (ROOT / "src/core2/data/housing/housing.json").write_text(json.dumps(doc, separators=(",", ":")) + "\n")
 print(defaults, sum(1 for s in steps.values() if s["confidence"] == "high"))
