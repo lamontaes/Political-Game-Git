@@ -1,4 +1,5 @@
 import { personOrFillIn } from "../core2/state";
+import { bringItUp } from "../director/bring-it-up";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
@@ -51,10 +52,20 @@ let placeId = "";
 let building = false;
 let conversation: Conversation | undefined;
 let filingVisit: BenchFilingVisit | undefined;
+// What the other person brought up when the conversation opened (OPUS-PEOPLE's
+// "bring it up"): their lines come first in the conversation.
+let broughtUp: { text: string; sourceRecordIds: readonly string[] }[] = [];
 const talkView = (value: Conversation | undefined) =>
   value && {
     otherId: value.otherId,
-    lines: value.lines.map((line) => ({
+    lines: [
+      ...broughtUp.map((line) => ({
+        ...line,
+        speakerId: value.otherId,
+        act: "tell",
+      })),
+      ...value.lines,
+    ].map((line) => ({
       ...line,
       speaker: (() => {
         const person = requireCore().people.get(line.speakerId);
@@ -243,6 +254,9 @@ const server = createServer(async (request, response) => {
       if (!personOrFillIn(requireCore(), otherId)?.alive)
         throw new Error("Talk to a living resident.");
       conversation = openConversation(requireCore(), player.personId, otherId);
+      // They mention the newest change they know of, and who they blame.
+      broughtUp =
+        bringItUp(requireCore(), otherId, player.personId)?.lines ?? [];
       send(200, talkView(conversation));
       return;
     }
