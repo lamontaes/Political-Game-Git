@@ -116,7 +116,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Was: Bring in people, drives and the story director; fix switching residents; while you skip, your character chooses for itself; big moments stop the skip at their own time.
   - Verified by: M0-01 to M0-05 in random places; you play it.
   - Needs: PEOPLE, CORE
-- [ ] **Use the art we already have (owner, Oct 12).** Wire the tagged art library into every scene and screen now:
+- [x] **Use the art we already have (owner, Oct 12).** Done Oct 12. Story moments now pick their picture by situation: a funeral at the funeral home, a date at the coffee shop or tavern, a hospital visit in a patient room, a homecoming at the front door, an argument in the kitchen. School scenes go by age, from an elementary classroom to a college lecture hall. A union meets in the union hall. Election night shows the returns party with your household if you ran, or the polling place if you voted. New check `src/bench/art-check.ts` walks every scene the screens can show in a drawn place (the opening, home and work for the household, every place in Go to, each filing office, the body rooms, speech venues and story pictures) and fails on a missing backdrop or an undrawable figure. Result: 0 failures in two drawn places. Painted places a town never reaches are mostly other states' capitols and the courts, which come after early access. Wire the tagged art library into every scene and screen now:
   - backdrops by their tags in `art/backdrops/manifest.json`;
   - people from `art/people-engine/v1` (poses, outfits, expressions);
   - capitols and campuses.

@@ -1,7 +1,6 @@
 import { composeScene } from "../director/scene";
-import { homePlaceFor } from "../presentation/place-backdrops";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import { backdropFile, orgPlace, stagePeople } from "./scene";
+import { backdropFile, homeOf, orgPlace, stagePeople } from "./scene";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
 import type { Director } from "../director/ledger";
@@ -12,6 +11,14 @@ const PICTURED = new Set(
     .map((row) => row.place),
 );
 const SETTINGS = scenePlaces.sceneSettings as Record<string, string[]>;
+const SITUATIONS = scenePlaces.situationPlaces as Record<string, string[]>;
+const SCHOOLS = scenePlaces.schoolPlacesByAge;
+
+/** Whole years of age on a date. */
+function ageOn(birthDate: string, date: string): number {
+  const years = Number(date.slice(0, 4)) - Number(birthDate.slice(0, 4));
+  return date.slice(5) < birthDate.slice(5) ? years - 1 : years;
+}
 
 /** A big moment, staged: its setting's picture, the people there, the narration. */
 export function storyScene(
@@ -26,17 +33,26 @@ export function storyScene(
   if (!entry) throw new Error("No scheduled moment with that id.");
   const scene = composeScene(core, director, personId, entry);
   if (!scene) throw new Error("This moment has no scene.");
+  const person = core.people.get(personId)!;
+  const age = ageOn(person.birthDate, core.date);
+  const steps = [
+    ...(SITUATIONS[`${scene.typeKey}:${scene.setting.kind}`] ?? []),
+    ...(scene.setting.kind === "school"
+      ? (SCHOOLS.find((row) => age < row.underAge)?.places ?? [])
+      : []),
+    ...(SETTINGS[scene.setting.kind] ?? ["@home"]),
+  ];
   const place =
-    (SETTINGS[scene.setting.kind] ?? ["@home"])
+    steps
       .map((step) =>
         step === "@home"
-          ? homePlaceFor(null)
+          ? homeOf(core, personId)
           : step === "@org"
             ? orgPlace(core, scene.setting.recordId)
             : step,
       )
       .find((row): row is string => !!row && PICTURED.has(row)) ??
-    homePlaceFor(null);
+    homeOf(core, personId);
   const ids = [
     personId,
     ...scene.presentIds.filter(

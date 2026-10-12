@@ -15,7 +15,7 @@ import { calendarItems, heardItems, newsItems } from "./calendar";
 import { campaignAct, campaignView } from "./campaign";
 import { storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
-import { electionResults } from "./results";
+import { electionResults, resultsScene } from "./results";
 import { bodyScene, seatAct, seatView } from "./legislature";
 import { budgetView, setPriority } from "./budget";
 import { familyView } from "./family";
@@ -486,6 +486,10 @@ const server = createServer(async (request, response) => {
         200,
         electionResults(requireCore(), url.searchParams.get("id") ?? ""),
       );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/results/scene") {
+      send(200, resultsScene(requireCore(), url.searchParams.get("id") ?? ""));
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/economy") {

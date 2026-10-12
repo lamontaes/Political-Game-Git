@@ -221,6 +221,14 @@ async function refresh() {
   const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
   if (races.length > seenResults) {
     seenResults = races.length;
+    // Seen where you watched the returns: the party if you ran, else the polls.
+    const night = await api(
+      `/api/results/scene?id=${encodeURIComponent(me.id)}`,
+    );
+    if (night) {
+      $("backdrop").src = night.backdrop.url;
+      drawPeople(night.people);
+    }
     await openSheet("results");
     return;
   }
