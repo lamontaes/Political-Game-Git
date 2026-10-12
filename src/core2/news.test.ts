@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import { buildDeepPast } from "./deep-past";
 import { advanceCore, createLifeCore } from "./life";
-import { newsKey, newsModule } from "./modules/news";
+import { newsKey, newsModule, trustOf } from "./modules/news";
 import { viewOf, viewsModule } from "./modules/views";
 import { buildPopulation } from "./population";
 import { applyCoreEvent, coreAPI } from "./state";
@@ -59,7 +59,13 @@ describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
       const days = daysBetween(makeIsoDate(start), makeIsoDate(fact.learnedAt));
       if (fact.access === "public") {
         outlet += 1;
-        expect(days).toBe(Math.ceil(1 / viewOf(api, id)!.engagement));
+        const view = viewOf(api, id)!;
+        expect(days).toBe(
+          Math.ceil(1 / (view.engagement * (trustOf(api, view.lean) / 0.31))),
+        );
+        expect(api.knows(id, `${newsKey(storyId)}:outlet`)?.value).toBe(
+          `outlet:${subject.placeId}`,
+        );
       } else {
         expect(fact.access).toBe("told");
         told += 1;
@@ -81,5 +87,35 @@ describe(`news in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
           daysBetween(makeIsoDate(start), makeIsoDate(fact.learnedAt)),
         ).toBeGreaterThan(2);
     }
+  });
+
+  it("trusts the media by lean, as Gallup found, so conservatives hear later", () => {
+    expect(trustOf(api, -1)).toBeCloseTo(0.54);
+    expect(trustOf(api, 0)).toBeCloseTo(0.27);
+    expect(trustOf(api, 1)).toBeCloseTo(0.12);
+    expect(trustOf(api, -0.5)).toBeGreaterThan(trustOf(api, 0.5));
+  });
+
+  it("carries a county's story to the residents inside it", () => {
+    const countyId = subject.countyId;
+    if (!countyId) return;
+    applyCoreEvent(core, {
+      id: "fixture-county-story",
+      date: core.date,
+      kind: "county.budget-passed",
+      personIds: [],
+      placeId: countyId,
+      publicRecord: true,
+      source: {
+        tag: "SOURCED",
+        citation: "Fixture county record.",
+        asOf: core.date,
+      },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 10));
+    const heard = residents.filter((id) =>
+      api.knows(id, newsKey("fixture-county-story")),
+    );
+    expect(heard.length).toBeGreaterThan(0);
   });
 });
