@@ -14,6 +14,7 @@
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
 import { registerElectorate } from "../electorate";
+import { decisionLean } from "../trait-decisions";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
@@ -437,6 +438,12 @@ function retell(
   teller: Readonly<PersonState>,
   cause: CauseRow,
 ): void {
+  const telling = Math.max(
+    0,
+    1 +
+      api.parameter("traitDecisionWeight") *
+        decisionLean(api.state, teller, "campaigns.retell", "tell", "keep"),
+  );
   for (const id of teller.familyIds) {
     const listener = api.state.people.get(id);
     if (!listener?.alive || ageOn(listener, api.state.date) < 18) continue;
@@ -445,7 +452,8 @@ function retell(
       weight:
         campaignParameter("secondhandWeight") *
         Math.abs(cause.warmthAfter - cause.warmthBefore) *
-        2,
+        2 *
+        telling,
       rapport: 0,
       target: cause.warmthAfter,
     });
@@ -503,7 +511,9 @@ export function knockDoors(
           a.id.localeCompare(b.id),
       );
     const answers = adults.find(
-      (p) => (p.traits["people-mind-v1:sociability"] ?? 0) >= 0,
+      (p) =>
+        decisionLean(api.state, p, "campaigns.open-door", "open", "ignore") >=
+        0,
     );
     if (!answers) continue;
     const cause = reach(
@@ -549,9 +559,17 @@ export function askToVolunteer(
   const close =
     person.familyIds.has(campaign.candidateId) ||
     person.knownIds.has(campaign.candidateId);
-  const yes = close
-    ? warmth >= 0
-    : warmth > 0 && (person.traits["people-mind-v1:sociability"] ?? 0) > 0;
+  const leaned =
+    warmth +
+    api.parameter("traitDecisionWeight") *
+      decisionLean(
+        api.state,
+        person,
+        "campaigns.volunteer",
+        "volunteer",
+        "decline",
+      );
+  const yes = close ? leaned >= 0 : leaned > 0;
   if (yes && !campaign.volunteerIds.includes(personId))
     save(api, {
       ...campaign,
@@ -640,7 +658,11 @@ export function askForDonation(
   const donor = api.state.people.get(donorId);
   if (!donor?.alive || ageOn(donor, api.state.date) < 18) return 0;
   const warmth = impressionOf(api, donorId, campaign.candidateId)?.warmth ?? 0;
-  if (warmth <= 0 || donor.liquidMinor <= 0) return 0;
+  const leaned =
+    warmth +
+    api.parameter("traitDecisionWeight") *
+      decisionLean(api.state, donor, "campaigns.donate", "give", "keep");
+  if (leaned <= 0 || donor.liquidMinor <= 0) return 0;
   const limit = contributionLimit(api, campaign.contestId);
   const given = (table(api, "money").rows() as unknown as MoneyRecord[])
     .filter(
@@ -652,7 +674,7 @@ export function askForDonation(
     .reduce((sum, m) => sum + Math.max(0, m.postings[1]!.deltaMinor), 0);
   const want = Math.floor(
     donor.liquidMinor *
-      warmth *
+      Math.min(1, leaned) *
       campaignParameter("donationShareOfCashPerWarmth"),
   );
   const amount = Math.max(
@@ -924,7 +946,17 @@ export function askForEndorsement(
   const endorser = api.state.people.get(endorserId);
   if (!endorser?.alive) return false;
   const lean = personLean(api.state.people, endorser, townRow(api).lean);
-  const mine = platformAgreement(lean, campaign.platform);
+  const raw = platformAgreement(lean, campaign.platform);
+  const mine =
+    raw +
+    api.parameter("traitDecisionWeight") *
+      decisionLean(
+        api.state,
+        endorser,
+        "campaigns.endorse",
+        "endorse",
+        "decline",
+      );
   const rivals = (
     table(api, "campaigns").query("byContest", [
       campaign.contestId,
@@ -932,7 +964,7 @@ export function askForEndorsement(
   )
     .filter((c) => c.id !== campaign.id)
     .map((c) => platformAgreement(lean, c.platform));
-  if (mine <= 0 || rivals.some((r) => r >= mine)) return false;
+  if (mine <= 0 || rivals.some((r) => r >= raw)) return false;
   for (const id of [...endorser.knownIds, ...endorser.familyIds]) {
     const listener = api.state.people.get(id);
     if (!listener) continue;
@@ -984,7 +1016,13 @@ export function commissionPoll(
     const answer =
       !best || best.warmth <= 0
         ? "undecided"
-        : (person.traits["people-mind-v1:conflict"] ?? 0) < 0
+        : decisionLean(
+              api.state,
+              person,
+              "campaigns.answer-poll",
+              "answer",
+              "no-opinion",
+            ) < 0
           ? "no-opinion"
           : best.candidateId;
     answers[answer] = (answers[answer] ?? 0) + 1;
@@ -1050,9 +1088,22 @@ export function rivalCampaignDay(
     if (campaign.candidateId === exceptPersonId) continue;
     const candidate = api.state.people.get(campaign.candidateId);
     if (!candidate?.alive) continue;
-    const hours = candidate.jobId
-      ? campaignParameter("rivalHoursWithJob")
-      : campaignParameter("rivalHoursWithoutJob");
+    const hours =
+      (candidate.jobId
+        ? campaignParameter("rivalHoursWithJob")
+        : campaignParameter("rivalHoursWithoutJob")) *
+      Math.max(
+        0,
+        1 +
+          api.parameter("traitDecisionWeight") *
+            decisionLean(
+              api.state,
+              candidate,
+              "campaigns.rival-hours",
+              "campaign",
+              "rest",
+            ),
+      );
     reached += knockDoors(api, {
       filingId: campaign.filingId,
       canvasserId: campaign.candidateId,
