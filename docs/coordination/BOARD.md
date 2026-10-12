@@ -15,6 +15,56 @@ Only the CTO writes this file. Each session keeps its own status file in this fo
 
 All six start at 3:07 a.m. Monday from one-off routines on the coordinator account.
 
+## Audit priorities (owner, Oct 12, 9:15 a.m.): fix before building on
+
+The CTO's code audit (`docs/reports/audit-2026-10-12/`) found that many items ticked overnight are first slices, work only in tests, or aren't wired into `/play`. **The owner's ruling: each session fixes its audit findings first (correctness bugs, then the thin spots), then continues.** A checklist item counts as done only when it works in `/play` and its test covers more than one narrow case.
+
+- **OPUS-CORE (audit 4):**
+  1. Replace the outside-buyer residual (`max(floor, 1 − local/projected)`, a top-up) with real outside demand.
+  2. Explain or fix the cash growth (Absecon $59.8M → $202.8M).
+  3. With WORLD, switch off the core stand-ins (outside rent, owner payouts, unplaced pay) when the WORLD engines run.
+  4. Wire click-to-fill (`/api/resident`, `/api/scene` and `/api/talk/open` throw for counted people).
+  5. Measure a whole year on `/play` with all modules, record it, and make the speed guard time that path.
+  6. Fill-in from the seed; no past until filled in.
+- **OPUS-GOV (audits 2 and 3):**
+  1. Primaries with the wider electorate.
+  2. A next contest each cycle (one contest per seat ever blocks step 11).
+  3. Unreached voter bands must not vote on platforms they never heard.
+  4. No winner on 0 votes.
+  5. Off-cycle and midterm turnout.
+  6. Independent filing terms; formula fees.
+  7. Federal acts take effect.
+  8. City income tax collects (the "percent" unit).
+  9. Council authority (no SNAP or Medicare tax).
+  10. Ties by real rules.
+  11. Deals: no effect when declined, recorded, with a cost.
+  12. The player casts their own vote and chooses to sign or veto.
+  13. Breadth: 6 of 74 policies reach people. Wire the rest and test every policy.
+  14. President: an Electoral College and a joint ticket.
+- **OPUS-PEOPLE (audit 1):**
+  1. Conversations: distinct choices, four guaranteed; lies change beliefs and can be found out by others.
+  2. Talking records contact and closeness, and passes news.
+  3. Register the speech module and "bring it up" in play.
+  4. News: what the player heard, outlets, trust, other places.
+  5. Journal lines for deaths, marriages, elections and filing; the death look-back in play.
+  6. Schools by era.
+  7. Template banks fire their stopgaps until composed from mined speech.
+- **OPUS-PLAY (audits 1–4):**
+  1. Remove the office list and File buttons; the filing visit plus overlay only.
+  2. Platform and party at filing.
+  3. Show schools, real relation words and action names (no raw keys).
+  4. Calendar jump, and say which stop ended a skip.
+  5. Fix the Lie control (tip only on a lie, soft red, no word "Lie").
+  6. Use the closures path in the bench opening.
+  7. Store screenshots by Friday.
+- **OPUS-WORLD (audit 4):**
+  1. Counted workers quit, look and are laid off.
+  2. Double counting of rent and owner pay (with CORE).
+  3. M1-02 re-proved in a drawn town with town feedback and the town bank's line.
+  4. Dwellings, prices, buying, mortgages and property tax.
+  5. Founders and loans from counted households.
+  6. Settle the eviction sources (26 vs 51 of 56).
+
 ## Order of work right now
 
 1. **OPUS-CORE: speed first** (bookkeeping off in play, no copying of worker memory each shift), then the two-level population, then the business closures.
