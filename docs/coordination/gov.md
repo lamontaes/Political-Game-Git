@@ -62,6 +62,10 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Verified by: M3-01 to M3-05 in a random place.
   - Needs: PEOPLE, PLAY
 
+## Questions for the owner
+
+- **Ties settled by lot (Oct 13).** About 34 states settle an exact general-election tie by lot (51 for primaries). A lot is a random draw, which the no-dice rule bars, so for now the game holds a second election between the tied candidates there (stopgap `SG-GOV-tie-by-lot`). Should a lot be drawn as the law requires, as a visible recorded procedure, or keep the second election?
+
 ## Needs from other sessions
 
 **From law reach (audit 13, Oct 12): what each policy needs to finish its effect.** Each item is a registered stopgap; the full text is in `src/core2/data/stopgaps.json`.
@@ -89,6 +93,12 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-13 03:20 UTC: **Audit 10 (ties by real rules):**
+  - Election ties are settled by each state's rule (new research `data/research/elections/tie-rules-2026.json`). Most rows are estimates because NCSL's pages returned 403; confirmed rows are Washington and Virginia general ties, the Texas local rule, and five senate tie-breakers.
+  - A legislature (for statewide offices) or local board decides by each member's party side. A rule for a new election or runoff schedules a second election between the tied candidates four weeks on (tunable). Where the law says "by lot", there is a second election instead; question to you above.
+  - Chamber ties: the Vice President breaks U.S. Senate ties, and the lieutenant governor breaks state senate ties in the 31 states that give them the vote. Otherwise a tied vote fails.
+  - Tested in `two-level-elections.test.ts`. Primary ties still eliminate no one (both stay on), which is next.
 
 - 2026-10-13 02:40 UTC: **Audit 11 (deals):** `offerDeal` now lets the member weigh the bill as the offer would leave it. They take it only if it brings them to yes. A taken amendment changes the bill's real terms for everyone; a taken favor or backing of their item becomes an obligation the sponsor owes (`obligationsOf`), which is its cost. A declined offer is on the record (`status: "declined"`) and moves no one. A deal is worth what it's worth to that member: a favor counts by closeness, and backing their item counts by how strongly they hold their own top view. The legislature test now checks both outcomes.
 

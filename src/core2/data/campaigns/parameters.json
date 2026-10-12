@@ -468,6 +468,12 @@
       "tag": "SOURCED",
       "source": "Share of registered voters who voted in November 2024: 65.3% of citizens voted and 73.6% were registered (U.S. Census Bureau, Voting and Registration in the Election of November 2024, CPS), so about 0.89.",
       "spread": [0.8, 0.92]
+    },
+    "tieElectionDays": {
+      "value": 28,
+      "tag": "ESTIMATED",
+      "source": "Days from a tied election to the second election between the tied candidates, where the law calls for one: states set special or runoff elections three to six weeks out (e.g. Georgia runoffs four weeks after the general).",
+      "spread": [21, 45]
     }
   }
 }

@@ -21,6 +21,7 @@
  * OPUS-PEOPLE's and OPUS-PLAY's; these are the engine calls they drive.
  */
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
+import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
 import lawAgricultureNaturalResources from "../../../data/research/laws/starting-law-2026/agriculture-natural-resources.json" with { type: "json" };
 import lawBusinessCommerce from "../../../data/research/laws/starting-law-2026/business-commerce.json" with { type: "json" };
@@ -844,6 +845,56 @@ export function memberPosition(
   );
 }
 
+const tieRules = (
+  ties as unknown as {
+    states: Record<string, { stateSenateTieBreaker?: { who: string } }>;
+  }
+).states;
+
+/**
+ * Who breaks a tie in a chamber: the Vice President in the U.S. Senate
+ * (U.S. Const. art. I, § 3, cl. 4); in a state senate, the lieutenant
+ * governor where the state's law gives them the vote
+ * (`data/research/elections/tie-rules-2026.json`). Null where no one does.
+ */
+function tieBreaker(api: CoreAPI, chamber: string): string | null {
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const serving = (seatId: string) =>
+    (
+      offices
+        .table("terms")
+        .query("bySeatStatus", [seatId, "serving"]) as unknown as TermRow[]
+    )[0];
+  if (chamber === FEDERAL_SENATE) {
+    const vp = serving("seat:US:vice-president");
+    return vp ? memberKey(vp) : null;
+  }
+  const office = offices.table("offices").get(chamber) as unknown as
+    { kind: string; jurisdiction: string } | undefined;
+  if (office?.kind !== "legislature-upper") return null;
+  if (
+    tieRules[office.jurisdiction]?.stateSenateTieBreaker?.who !==
+    "lieutenant governor"
+  )
+    return null;
+  const lg = (
+    offices
+      .table("offices")
+      .query("byJurisdiction", [office.jurisdiction]) as unknown as {
+      id: string;
+      kind: string;
+    }[]
+  ).find((o) => o.kind === "lieutenant-governor");
+  if (!lg) return null;
+  const seat = (
+    offices.table("seats").query("byOffice", [lg.id]) as unknown as {
+      id: string;
+    }[]
+  )[0];
+  const term = seat ? serving(seat.id) : undefined;
+  return term ? memberKey(term) : null;
+}
+
 /** A member's position on a bill's terms (the bill as recorded, or as an offer would leave it). */
 function positionOn(
   api: CoreAPI,
@@ -1328,7 +1379,31 @@ export function holdVote(api: CoreAPI, billId: string): BillRow {
       table(api, "bills").put(held as unknown as ModuleRow);
       return held;
     }
-    const tally = chamberVote(api, bill, chamber);
+    const counted = chamberVote(api, bill, chamber);
+    // A tie: the presiding officer who may break one does (the Vice President
+    // in the U.S. Senate, a lieutenant governor where the state's law says);
+    // otherwise a tied vote fails.
+    const breaker =
+      counted.yes === counted.no ? tieBreaker(api, chamber) : null;
+    const breakerYes =
+      breaker !== null && memberPosition(api, bill.id, breaker).total > 0;
+    const tally =
+      breaker === null
+        ? counted
+        : {
+            yes: counted.yes + (breakerYes ? 1 : 0),
+            no: counted.no + (breakerYes ? 0 : 1),
+          };
+    if (breaker !== null)
+      table(api, "votes").put({
+        id: `vote:${bill.id}:${breaker}:tie`,
+        billId: bill.id,
+        memberId: breaker,
+        chamber,
+        vote: breakerYes ? "yes" : "no",
+        position: memberPosition(api, bill.id, breaker),
+        tieBreak: true,
+      } as unknown as ModuleRow);
     tallies.push(tally);
     // The Senate first needs three fifths of its sworn members to end debate.
     const cloture =
