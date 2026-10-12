@@ -1,3 +1,5 @@
+import process from "node:process";
+import console from "node:console";
 // Walks static and dynamic imports (ts, tsx, mjs, js, json) from the new game's
 // entry points and prints what is reachable. Also follows quoted repo paths
 // that reachable code names as strings (data files).
@@ -9,7 +11,7 @@ import {
   readdirSync,
   writeFileSync,
 } from "node:fs";
-import { join, dirname, resolve, relative, extname } from "node:path";
+import { join, dirname, resolve, relative } from "node:path";
 
 const root = process.cwd();
 const EXTS = [".ts", ".tsx", ".mts", ".mjs", ".js", ".json", ".css"];
