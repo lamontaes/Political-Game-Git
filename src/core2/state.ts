@@ -423,7 +423,11 @@ export function createCore(
     if (!core.households.get(actor.householdId)?.memberIds.includes(actor.id))
       throw new Error(`Person has no consistent household: ${actor.id}`);
     for (const id of actor.familyIds) {
-      if (!core.people.has(id)) throw new Error(`Absent family member: ${id}`);
+      // Relatives in the counts are husks until met (two-level population).
+      if (!core.people.has(id)) {
+        if (core.husks.has(id)) continue;
+        throw new Error(`Absent family member: ${id}`);
+      }
       const relationshipId = [actor.id, id].sort().join(":");
       if (!core.relationships.has(relationshipId))
         api.relationship(actor.id, id, "family", p("relationInitial"));
@@ -1737,6 +1741,22 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       householdPurchaseCalendar: undefined,
     });
   }
+  // Full people who already name a newcomer as family (it was their husk).
+  const newcomers = new Set(admitted.map((actor) => actor.id));
+  for (const other of core.people.values())
+    if (!newcomers.has(other.id))
+      for (const id of other.familyIds)
+        if (newcomers.has(id)) {
+          core.people.get(id)!.familyIds.add(other.id);
+          const relationshipId = [other.id, id].sort().join(":");
+          if (!core.relationships.has(relationshipId))
+            api.relationship(
+              other.id,
+              id,
+              "family",
+              api.parameter("relationInitial"),
+            );
+        }
   for (const actor of admitted) {
     for (const id of [...actor.familyIds, ...actor.knownIds]) husk(id);
     for (const id of actor.familyIds)

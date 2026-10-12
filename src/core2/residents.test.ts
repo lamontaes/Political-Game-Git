@@ -248,4 +248,37 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(core.organizations.get(treasury.id)!.liquidMinor).toBe(remitted);
     expect(remitted).toBeGreaterThan(0.04 * sales);
   }, 300_000);
+
+  it("lets a full person's relative wait in the counts as a husk", () => {
+    const full = two.people.find((row) => row.id === two.playerId)!;
+    const relative = two.residents!.households[0]!.people[0]!;
+    const input = {
+      ...two,
+      people: two.people.map((row) =>
+        row.id === full.id
+          ? { ...row, familyIds: [...row.familyIds, relative.id] }
+          : row,
+      ),
+      husks: [
+        ...(two.husks ?? []),
+        {
+          id: relative.id,
+          givenName: relative.givenName,
+          familyName: relative.familyName,
+          placeId: relative.placeId,
+          looks: {},
+          said: [],
+          birthDate: relative.birthDate,
+          source: relative.source,
+        },
+      ],
+    };
+    const core = createLifeCore(input);
+    expect(core.husks.has(relative.id)).toBe(true);
+    fillInPerson(core, relative.id);
+    expect(core.husks.has(relative.id)).toBe(false);
+    expect(
+      core.relationships.has([full.id, relative.id].sort().join(":")),
+    ).toBe(true);
+  }, 300_000);
 });
