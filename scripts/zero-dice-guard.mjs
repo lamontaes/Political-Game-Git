@@ -645,7 +645,7 @@ function main(argv) {
       for (const finding of added)
         console.error(`new ${describeAdded(finding)}`);
       console.error(
-        "zero-dice: the allowlist only shrinks. Rewrite each new line as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice).",
+        "zero-dice: the allowlist only shrinks. Rewrite each new line as a result of the actor's traits, law, place and relationships (see .agents/rules/standing-skills/no-dice).",
       );
       return 1;
     }
@@ -672,7 +672,7 @@ function main(argv) {
   }
   if (added.length > 0 || stale.length > 0 || unclassifiedPicks.length > 0) {
     console.error(
-      `zero-dice: ${added.length} new, ${stale.length} gone, ${unclassifiedPicks.length} unclassified. A new list-pick is replaced by a decision from the actor's reasons (a pick that names or draws who someone is may be IDENTITY, PRESENTATION or GENERATION only when its entry says why; see docs/design/list-pick-inventory.md). A new line is rewritten as a result of the actor's traits, law, place and relationships (see .claude/skills/no-dice); a removed or reworded one is recorded with \`npm run zero-dice -- --update\`.`,
+      `zero-dice: ${added.length} new, ${stale.length} gone, ${unclassifiedPicks.length} unclassified. A new list-pick is replaced by a decision from the actor's reasons (a pick that names or draws who someone is may be IDENTITY, PRESENTATION or GENERATION only when its entry says why; see docs/design/list-pick-inventory.md). A new line is rewritten as a result of the actor's traits, law, place and relationships (see .agents/rules/standing-skills/no-dice); a removed or reworded one is recorded with \`npm run zero-dice -- --update\`.`,
     );
     return 1;
   }

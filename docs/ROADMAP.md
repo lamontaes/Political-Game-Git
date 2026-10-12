@@ -2,6 +2,13 @@
 
 Approved by the owner on October 10, 2026. This replaces the old-core engineering roadmap. Work is tracked on the GitHub Project "Our Civic Duty: Road to Early Access" (https://github.com/users/lamontaes/projects/2). The owner's new ideas go into its "Next" list and get scheduled at the weekly reschedule.
 
+## Now (owner, Oct 11, 2026)
+
+- **Keep it simple** (see `AGENTS.md`): two-level population with people filled in on click, debug bookkeeping off in play, one run and one number, build only what the golden path needs, and a playable step at the end of every day.
+- **Steam:** the store page goes up by Friday, October 16, with screenshots of real gameplay. The early-access date is set once the owner has played the golden path end to end and wants to keep going; his target is October 30.
+- **From Monday, October 12, 3 a.m.:** five Opus pillars and a standby fixer ("The team" in `AGENTS.md`; checklists in `docs/coordination/`). Speed is OPUS-CORE's first item, then the two-level population and the money closures (`docs/packages/M0-lean-play.md`, `M0-population.md`, `M0-money-fix.md`). No session is capped: each continues into its area's next roadmap items.
+- **Checks stay light:** builders test their own work; the golden-path suite, the speed guard and every dollar balancing are automatic and the only blockers; the owner plays the evening build.
+
 ## What early access means
 
 Progress is measured on the golden path, with the world running around it.
@@ -122,4 +129,4 @@ Fifteen work orders, owner-approved Oct 10, 2026, in `docs/packages/M1-*.md` (ev
 
 ## Specs and packages
 
-Exact specs for every milestone, each with its test, are in `docs/roadmap/features.json` (failing until proven). Build packages are in `docs/packages/`. The progress file is `docs/roadmap/PROGRESS.md`.
+Exact specs for M0 and M1, each with its test, are in `docs/roadmap/features.json` (failing until proven). Draft specs for M2 to M7 are in `docs/roadmap/later-specs-draft.md`; the pillars build from them under "No stopping" (owner, Oct 12) until the owner approves them. Build packages are in `docs/packages/`. The progress file is `docs/roadmap/PROGRESS.md`.

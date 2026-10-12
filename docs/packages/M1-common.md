@@ -2,6 +2,10 @@
 
 M1 is "the world runs" (`docs/ROADMAP.md`). Every M1 work order follows `AGENTS.md`, `docs/packages/README.md` and this page. Where a work order and this page disagree, the work order wins.
 
+## Keep it simple first
+
+The owner's Oct 11 rules in `AGENTS.md` ("Keep it simple") override anything heavier here or in a work order. Every M1 engine works on the two-level population: it acts on the modeled wider population as counts and groups, and on full people only where they exist or get filled in. Build the simplest version that follows the owner's rules and that he can play.
+
 ## Where the work goes
 
 - **Branch.** Each work order has its own branch, stacked on the latest `pool/M0-core-pieces` (the four core pieces on top of SOL-1258's `pool/P8-part-1`), or on the M1 branch it names. Rebase on its base regularly. Once M0 merges to `main`, the base becomes `main`.

@@ -25,7 +25,8 @@ reason in the package.
   mistakes cost most: core speed, money, people modeling, and work orders the
   CTO assigns to it (owner, Oct 11). Default effort: **Sonnet at high**;
   **Opus at high** for judgment-heavy design.
-- **A separate Claude session finishes**, never the session that built it. **Sonnet at high** checks agreed
+- **The pillars** (owner, Oct 11; "The team" in `AGENTS.md`): OPUS-CORE and OPUS-PEOPLE at Opus high, OPUS-GOV, OPUS-PLAY and OPUS-WORLD at Opus medium (Opus 5.5's medium matches the previous Opus at high), FIXER at Sonnet high.
+- **A separate Claude session finishes**, never the session that built it. Checks stay light: checkers play the evening build and file bugs; they don't hold builders up. **Sonnet at high** checks agreed
   designs, tests and tooling, and plays features in the bench. **Opus at
   high** is for judgment calls: core design, people modeling, disputed
   results. **Max** only after high failed at a named task. Medium for small,

@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "vite",
     "build": "node scripts/storage/cli.mjs run build -- npm run build:steps",
-    "build:steps": "npm run typecheck && npm run export:state-voting-context && node scripts/clean-build.mjs && vite build && node scripts/prepare-sites-build.mjs && node scripts/stamp-client-provenance.mjs",
+    "build:steps": "npm run typecheck && npm run export:state-voting-context && node scripts/clean-build.mjs && vite build && node scripts/prepare-sites-build.mjs && node scripts/stamp-client-provenance.mjs && npm run check:data-shipping -- dist test-results/data-shipping-scan.json",
     "preview": "vite preview",
     "demo": "node --import tsx src/cli/demo.ts",
     "playtest:mass": "node --import tsx scripts/playtest/mass-play/run.ts",
@@ -150,7 +150,8 @@
     "test:modular:public": "node scripts/art-asset-factory/modular_fit/verify.mjs public",
     "test:modular:private": "node scripts/art-asset-factory/modular_fit/verify.mjs private",
     "secrets:scan": "node scripts/secrets/scan-tracked-secrets.mjs",
-    "bench": "node scripts/storage/cli.mjs run test -- node --max-old-space-size=8192 --import tsx src/bench/server.ts"
+    "bench": "node scripts/storage/cli.mjs run test -- node --max-old-space-size=8192 --import tsx src/bench/server.ts",
+    "check:data-shipping": "node scripts/world/check-data-shipping.mjs"
   },
   "dependencies": {
     "react": "19.2.6",
