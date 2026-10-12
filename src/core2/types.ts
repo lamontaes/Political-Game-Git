@@ -1,3 +1,4 @@
+import type { MarketEntry } from "./modules/residents";
 import type { ResidentsInput } from "./residents";
 import type { Accounts } from "./accounts";
 import type {
@@ -1137,7 +1138,7 @@ export interface CoreAPI {
    * households' purchases (by capacity and price); returns each kind's yearly sales.
    */
   enterMarket(
-    entry: import("./modules/residents").MarketEntry,
+    entry: MarketEntry,
   ): { financeKind: string; annualDemandMinor: number }[];
   addOrganization(input: OrganizationInput): void;
   /** v11: zero-stock newborn admission through the canonical person writer. */
