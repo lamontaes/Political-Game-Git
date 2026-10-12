@@ -30,7 +30,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [x] **Assigned by the CTO, Oct 12, 8:25 a.m. (both done: #4014 and #4015, merged).** Run `npm ci` first. One PR each, against `main`:
   1. **Release pipeline: "The built client does not carry version 0.6.0."** On main (9387bca), the Release workflow's "Validate candidate, repository" job fails at the step that runs `grep -rqF "v${NEXT_VERSION}" dist/client/assets` (the title screen should show `v` and the number, `displayVersion`). Everything before it passes, including the data-shipping scan. Find why the built client no longer carries the version string (the title screen label may have been removed in the menu reset, or `displayVersion` no longer reaches the bundle), and put it back where the release check expects it, or align the check with where the version now lives. A version number is record data, not hand-written text.
   2. **Golden-path runner** (open work on BOARD.md): run the registered vitest specs in one process; raise the PR budget to 600 s only if still needed. Never trim a check.
-- [ ] **Assigned by the CTO, Oct 12, 9:50 a.m.** Run `npm ci` first. One PR against `main`:
+- [x] **Assigned by the CTO, Oct 12, 9:50 a.m. (done on `fixer/stopgaps-report`).** Run `npm ci` first. One PR against `main`:
   1. **Stand-in lister.** Write `scripts/stopgaps-report.mjs`: it reads `src/core2/data/stopgaps.json` and `src/director/data/stopgaps.json` and prints every open stopgap grouped by owning session (from the id prefix: SG-GOV, SG-WORLD, SG-CORE, SG-PLAY, SG-P8, SG-P10, SG-P15 and so on), then by kind: behavior (a simplified rule), figure (a number standing in for a researched value), text (wording) or art. Classify from each row's existing fields; count a row you can't classify as `unclassified` rather than guessing. Don't edit the registries: every pillar edits them, so changes would conflict at merge. Output plain Markdown the CTO can paste into BOARD.md's "Open stand-ins". Add `npm run stopgaps:report` and a test that a row with no owner or no clear kind is reported as such.
   - Verified by: the script's test; its output on `opus-play` matches the registry's open row count.
 - [ ] **When no bug is assigned:** take open work from `BOARD.md` (write "Taking <item>" here first).
@@ -44,6 +44,8 @@ None yet.
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- Oct 12 (FIXER): stand-in lister on `fixer/stopgaps-report`: `npm run stopgaps:report` prints open stand-ins by owner prefix, then behavior, figure, text, art or unclassified, as Markdown for BOARD.md. On `opus-play`'s registries it lists 182 open (159 core + 19 director + 4 core rows that have no status, counted open and flagged); 17 kinds are still `unclassified` and shown as such. Test (3 cases) passes; ran with a bare vitest config because the storage guard refuses `npm ci` here. The registries live on pillar branches, not `main`, so the script prints nothing there until they merge. Next: BOARD.md open work.
 
 - Oct 12 (FIXER): golden-path runner on `fixer/golden-path-one-process`: plain `vitest run <files>` specs now run together in one vitest process (JSON report tells files apart; commands with flags still run alone); they share one drawn place and seed (`vitest-batch`). PR budget left at 300 s, since I can't measure here (no node_modules; the storage guard refuses `npm ci`). Checked the batching with a stub; CI to confirm and the CTO to say if 600 s is needed. The version fix is on `fixer/title-version`.
 
