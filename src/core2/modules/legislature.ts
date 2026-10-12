@@ -43,9 +43,11 @@ import { campaignParameter, personLean, personStance } from "../campaign-views";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./laws";
 import { localAuthority } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
-import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
+import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote } from "./record";
 import { amendBudget } from "./budgets";
+import { partySide } from "../appointments";
+import { stateActEffectiveDate } from "../state-effective-date";
 
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
 
@@ -333,7 +335,19 @@ export function draftBill(
     readonly provisions: readonly Provision[];
   },
 ): BillRow {
-  const authority = input.provisions.map((p) => authorityFor(api, p));
+  // A state chamber legislates within the state's own power; a town's body
+  // within what the state allows it.
+  const stateBody = input.bodyOfficeId.includes(":legislature-");
+  const authority = input.provisions.map((p) =>
+    stateBody
+      ? ({
+          allowed: true,
+          warning: "none",
+          reason: "within the state's own power",
+          source: "",
+        } as Authority)
+      : authorityFor(api, p),
+  );
   const bill: BillRow = {
     id: `bill:${input.bodyOfficeId}:${api.state.date}:${input.sponsorId}:${table(api, "bills").size}`,
     number: nextNumber(api, input.bodyOfficeId),
@@ -350,10 +364,39 @@ export function draftBill(
   return bill;
 }
 
+/** Everyone serving in a body: every seat of the office, the town's or not. */
 function members(api: CoreAPI, officeId: string): readonly TermRow[] {
-  return townSeats(api)
-    .filter((s) => s.office.id === officeId && s.holder?.personId)
-    .map((s) => s.holder!);
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  return (
+    offices.table("seats").query("byOffice", [officeId]) as unknown as {
+      id: string;
+    }[]
+  ).flatMap(
+    (seat) =>
+      offices
+        .table("terms")
+        .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[],
+  );
+}
+
+/** A member's key: their person id, or the named official's id until they're filled in. */
+export function memberKey(term: TermRow): string {
+  return term.personId ?? `official:${term.id}`;
+}
+
+/**
+ * A member's lean: a full person's own, or, for a named official not filled
+ * in yet, their seat's party side at the identity scale (stand-in until
+ * CORE's fill-in gives them a life: SG-GOV-official-identity-only).
+ */
+function leanOf(api: CoreAPI, memberId: string): number {
+  const person = api.state.people.get(memberId);
+  if (person) return personLean(api.state.people, person, townLean(api));
+  const term = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("terms")
+    .get(memberId.slice("official:".length)) as unknown as TermRow | undefined;
+  return partySide(term?.party) * campaignParameter("identityLeanScale");
 }
 
 function townLean(api: CoreAPI): number {
@@ -374,16 +417,17 @@ export function memberPosition(
   memberId: string,
 ): MemberPosition {
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
-  const member = api.state.people.get(memberId)!;
-  const lean = personLean(api.state.people, member, townLean(api));
+  const lean = leanOf(api, memberId);
+  // A town member answers to the town; a state member to their district,
+  // read as their own seat's lean until district views are modeled.
+  const home = api.state.people.has(memberId) ? townLean(api) : lean;
   let views = 0;
   let constituents = 0;
   for (const provision of bill.provisions) {
     const stance = provisionStance(api, provision);
     if (!stance) continue;
     views += personStance(lean, stance.question) * stance.position;
-    constituents +=
-      personStance(townLean(api), stance.question) * stance.position;
+    constituents += personStance(home, stance.question) * stance.position;
   }
   const relationship = (api.state as CoreState).relationships.get(
     [memberId, bill.sponsorId].sort().join(":"),
@@ -477,26 +521,58 @@ export function offerDeal(
   return { accepted: after.total > 0 && before.total <= 0, before, after };
 }
 
-/**
- * The body votes: each member yes for a positive position, no for a
- * negative one, abstaining with nothing either way; a majority of those
- * voting passes it. Every vote is on the record.
- */
-export function holdVote(api: CoreAPI, billId: string): BillRow {
-  const bill = table(api, "bills").get(billId) as unknown as BillRow;
-  if (bill.status !== "drafted") return bill;
+/** The bill's chambers, in order: the town's body, or the state's chambers starting where it was introduced. */
+function chambersOf(api: CoreAPI, bill: BillRow): readonly string[] {
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(bill.bodyOfficeId) as unknown as
+    { kind: string; jurisdiction: string } | undefined;
+  if (!office?.kind.startsWith("legislature-")) return [bill.bodyOfficeId];
+  const others = (
+    api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("offices")
+      .query("byJurisdiction", [office.jurisdiction]) as unknown as {
+      id: string;
+      kind: string;
+    }[]
+  )
+    .filter(
+      (o) => o.kind.startsWith("legislature-") && o.id !== bill.bodyOfficeId,
+    )
+    .map((o) => o.id)
+    .sort();
+  return [bill.bodyOfficeId, ...others];
+}
+
+function isState(api: CoreAPI, bill: BillRow): boolean {
+  return (
+    chambersOf(api, bill).length > 1 ||
+    bill.bodyOfficeId.includes(":legislature-")
+  );
+}
+
+/** One chamber's vote: each member yes for a positive position, no for a negative one, abstaining with nothing either way. */
+function chamberVote(
+  api: CoreAPI,
+  bill: BillRow,
+  officeId: string,
+): { yes: number; no: number } {
   let yes = 0;
   let no = 0;
-  for (const member of members(api, bill.bodyOfficeId)) {
-    const position = memberPosition(api, billId, member.personId!);
+  for (const member of members(api, officeId)) {
+    const key = memberKey(member);
+    const position = memberPosition(api, bill.id, key);
     const vote =
       position.total > 0 ? "yes" : position.total < 0 ? "no" : "abstain";
     if (vote === "yes") yes += 1;
     if (vote === "no") no += 1;
     table(api, "votes").put({
-      id: `vote:${billId}:${member.personId}`,
-      billId,
-      memberId: member.personId,
+      id: `vote:${bill.id}:${key}`,
+      billId: bill.id,
+      memberId: key,
+      chamber: officeId,
       vote,
       position,
     } as unknown as ModuleRow);
@@ -504,8 +580,8 @@ export function holdVote(api: CoreAPI, billId: string): BillRow {
       const stance = provisionStance(api, provision);
       if (stance && vote !== "abstain")
         recordVote(api, {
-          personId: member.personId!,
-          body: bill.bodyOfficeId,
+          personId: key,
+          body: officeId,
           measureId: bill.number,
           stance: {
             question: stance.question,
@@ -515,14 +591,13 @@ export function holdVote(api: CoreAPI, billId: string): BillRow {
         });
     }
   }
-  const passed = yes > no;
-  const next: BillRow = { ...bill, status: passed ? "passed" : "failed" };
-  table(api, "bills").put(next as unknown as ModuleRow);
   api.emit({
-    id: `bill-vote:${billId}`,
+    id: `bill-vote:${bill.id}:${officeId}`,
     date: api.state.date,
-    kind: "council-vote",
-    personIds: members(api, bill.bodyOfficeId).map((m) => m.personId!),
+    kind: "legislative-vote",
+    personIds: members(api, officeId).flatMap((m) =>
+      m.personId ? [m.personId] : [],
+    ),
     placeId: lawChain(api).townPlaceId,
     source: {
       tag: "SOURCED",
@@ -532,48 +607,97 @@ export function holdVote(api: CoreAPI, billId: string): BillRow {
     publicRecord: true,
     news: true,
     facts: {
-      billId,
+      billId: bill.id,
       number: bill.number,
+      chamber: officeId,
       yes: String(yes),
       no: String(no),
-      passed: String(passed),
     },
   });
-  return passed ? executiveAction(api, next, yes, no) : next;
+  return { yes, no };
 }
 
 /**
- * The executive's turn: a directly elected mayor (or other chief executive
- * with a veto) signs or vetoes from their own position; where the form of
- * government gives no veto, a passed bill is law. An override needs two
- * thirds of the members (the common rule; estimated: SG-GOV-veto-override-rule).
+ * The bill's votes: each chamber in turn (a town has one body); a majority of
+ * those voting passes it in each. Every vote is on the record.
+ */
+export function holdVote(api: CoreAPI, billId: string): BillRow {
+  const bill = table(api, "bills").get(billId) as unknown as BillRow;
+  if (bill.status !== "drafted") return bill;
+  const tallies: { yes: number; no: number }[] = [];
+  for (const chamber of chambersOf(api, bill)) {
+    const tally = chamberVote(api, bill, chamber);
+    tallies.push(tally);
+    if (tally.yes <= tally.no) {
+      const failed: BillRow = { ...bill, status: "failed" };
+      table(api, "bills").put(failed as unknown as ModuleRow);
+      return failed;
+    }
+  }
+  const passed: BillRow = { ...bill, status: "passed" };
+  table(api, "bills").put(passed as unknown as ModuleRow);
+  return executiveAction(api, passed, tallies);
+}
+
+/**
+ * The executive's turn: a governor, or a directly elected mayor (or other
+ * chief executive with a veto), signs or vetoes from their own position;
+ * where the form of government gives no veto, a passed bill is law. An
+ * override needs two thirds of those voting in every chamber (the common
+ * rule; estimated: SG-GOV-veto-override-rule).
  */
 function executiveAction(
   api: CoreAPI,
   bill: BillRow,
-  yes: number,
-  no: number,
+  tallies: readonly { yes: number; no: number }[],
 ): BillRow {
-  const executive = townSeats(api).find(
-    (s) =>
-      s.office.jurisdiction ===
-        townSeats(api).find((t) => t.office.id === bill.bodyOfficeId)?.office
-          .jurisdiction &&
-      /mayor|executive/.test(s.office.kind) &&
-      s.office.elected,
+  const offices = api.moduleState(OFFICES_MODULE_ID);
+  const body = offices.table("offices").get(bill.bodyOfficeId) as unknown as {
+    jurisdiction: string;
+  };
+  const executiveOffice = (
+    offices
+      .table("offices")
+      .query("byJurisdiction", [body.jurisdiction]) as unknown as {
+      id: string;
+      kind: string;
+      elected: boolean;
+    }[]
+  ).find(
+    (o) => o.elected && /^(mayor|governor|county-executive)$/.test(o.kind),
   );
+  const executive = executiveOffice
+    ? (
+        offices
+          .table("seats")
+          .query("byOffice", [executiveOffice.id]) as unknown as {
+          id: string;
+        }[]
+      ).flatMap(
+        (seat) =>
+          offices
+            .table("terms")
+            .query("bySeatStatus", [
+              seat.id,
+              "serving",
+            ]) as unknown as TermRow[],
+      )[0]
+    : undefined;
   let status: BillRow["status"] = "enacted";
-  if (executive?.holder?.personId) {
-    const position = memberPosition(api, bill.id, executive.holder.personId);
+  if (executive) {
+    const key = memberKey(executive);
+    const position = memberPosition(api, bill.id, key);
     if (position.total < 0) {
       // stopgapId: SG-GOV-veto-override-rule
       api.stopgap("SG-GOV-veto-override-rule");
-      status = yes * 3 >= (yes + no) * 2 ? "overridden" : "vetoed";
+      status = tallies.every((t) => t.yes * 3 >= (t.yes + t.no) * 2)
+        ? "overridden"
+        : "vetoed";
     } else status = "signed";
     table(api, "votes").put({
-      id: `vote:${bill.id}:${executive.holder.personId}`,
+      id: `vote:${bill.id}:${key}`,
       billId: bill.id,
-      memberId: executive.holder.personId,
+      memberId: key,
       vote: status === "signed" ? "sign" : "veto",
       position,
     } as unknown as ModuleRow);
@@ -584,22 +708,38 @@ function executiveAction(
   return enact(api, next);
 }
 
-/** Put each provision into law on its effective date (thirty days after enactment by default). */
+/**
+ * Put each provision into law on its effective date: an ordinance thirty days
+ * after enactment unless it names a date; a state act by its state's default
+ * rule.
+ */
 function enact(api: CoreAPI, bill: BillRow): BillRow {
   const chain = lawChain(api);
-  const city = chain.levels[chain.levels.length - 1]!.jurisdiction;
-  const defaultDate = new Date(
-    Date.parse(`${api.state.date}T00:00:00Z`) +
-      campaignParameter("ordinanceEffectiveDays") * 86_400_000,
-  )
-    .toISOString()
-    .slice(0, 10);
+  const state = isState(api, bill);
+  const jurisdiction = state
+    ? chain.stateKey
+    : chain.levels[chain.levels.length - 1]!.jurisdiction;
+  const level = state ? "state" : "city";
+  const stateDate = state
+    ? stateActEffectiveDate(chain.stateKey, api.state.date)
+    : null;
+  const defaultDate =
+    stateDate?.date ??
+    new Date(
+      Date.parse(`${api.state.date}T00:00:00Z`) +
+        campaignParameter("ordinanceEffectiveDays") * 86_400_000,
+    )
+      .toISOString()
+      .slice(0, 10);
+  const citation = state
+    ? `Act ${bill.number}${stateDate ? ` (effective by ${stateDate.cite})` : ""}`
+    : `Ordinance ${bill.number}`;
   for (const provision of bill.provisions) {
     const effectiveDate = provision.effectiveDate ?? defaultDate;
     if (provision.kind === "law-amount" && provision.series)
       enactLaw(api, {
-        jurisdiction: city,
-        level: "city",
+        jurisdiction,
+        level,
         series: provision.series,
         value: provision.value,
         unit:
@@ -607,24 +747,24 @@ function enact(api: CoreAPI, bill: BillRow): BillRow {
           (provision.series === "minimum-wage" ? "minor/hour" : "percent"),
         effectiveDate,
         measureId: bill.number,
-        citation: `Ordinance ${bill.number}`,
+        citation,
       });
     if (provision.kind === "budget-line" && provision.line)
       amendBudget(api, {
-        governmentId: city,
+        governmentId: jurisdiction,
         line: provision.line,
         deltaMinor: provision.value,
         measureId: bill.number,
       });
     if (provision.kind === "policy-question" && provision.question)
       enactLaw(api, {
-        jurisdiction: city,
-        level: "city",
+        jurisdiction,
+        level,
         series: provision.question,
         value: provision.value > 0 ? 1 : 0,
         effectiveDate,
         measureId: bill.number,
-        citation: `Ordinance ${bill.number}`,
+        citation,
       });
   }
   const next: BillRow = {

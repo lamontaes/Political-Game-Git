@@ -234,6 +234,90 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
     );
   });
 
+  it("a state bill moves through both chambers on the same engine, the governor acts, and members' votes are on their records", () => {
+    const states = Object.keys(authority)
+      .filter(
+        (k) =>
+          ![
+            "US-NE",
+            "US-DC",
+            "US-AS",
+            "US-GU",
+            "US-MP",
+            "US-VI",
+            "US-PR",
+          ].includes(k),
+      )
+      .sort();
+    const { core, api } = town(states, "state");
+    const lower = townSeats(api).find(
+      (s) => s.office.kind === "legislature-lower",
+    )!;
+    const sponsor = lower.holder!;
+    const sponsorKey = sponsor.personId ?? `official:${sponsor.id}`;
+    const floor = lawInForce(api, "minimum-wage").value!;
+    const bill = draftBill(api, {
+      bodyOfficeId: lower.office.id,
+      sponsorId: sponsorKey,
+      provisions: [
+        {
+          kind: "law-amount",
+          series: "minimum-wage",
+          value: floor + 100,
+          unit: "minor/hour",
+        },
+      ],
+    });
+    expect(bill.status).toBe("drafted");
+    const after = holdVote(api, bill.id);
+    const votes = votesOn(api, bill.id) as unknown as {
+      memberId: string;
+      vote: string;
+      chamber?: string;
+    }[];
+    const chambers = new Set(votes.map((v) => v.chamber).filter(Boolean));
+    if (after.status !== "failed") expect(chambers.size).toBe(2);
+    expect(
+      votesOf(api, sponsorKey).some((r) => r.measureId === bill.number),
+    ).toBe(true);
+    if (["enacted", "signed", "overridden"].includes(after.status)) {
+      const row = (
+        api
+          .moduleState(LAWS_MODULE_ID)
+          .table("laws")
+          .query("bySeriesOnly", ["minimum-wage"]) as unknown as {
+          effectiveDate: string;
+          level: string;
+          terms?: { enactedBy?: string };
+        }[]
+      ).find((r) => r.terms?.enactedBy === bill.number)!;
+      expect(row.level).toBe("state");
+      advanceCore(
+        core,
+        new Date(Date.parse(`${row.effectiveDate}T00:00:00Z`) + 86_400_000)
+          .toISOString()
+          .slice(0, 10),
+      );
+      expect(lawInForce(api, "minimum-wage").value).toBeGreaterThanOrEqual(
+        floor + 100,
+      );
+    }
+    govReport(
+      "legislature",
+      JSON.stringify({
+        stateBill: bill.number,
+        status: after.status,
+        chambers: [...chambers],
+        yesNo: [...chambers].map(
+          (c) =>
+            `${c}: ${votes.filter((v) => v.chamber === c && v.vote === "yes").length}-${votes.filter((v) => v.chamber === c && v.vote === "no").length}`,
+        ),
+        executive: votes.find((v) => v.vote === "sign" || v.vote === "veto")
+          ?.vote,
+      }),
+    );
+  });
+
   it("a town whose state preempts local minimum wages gets the block in the rule's words", () => {
     const preempting = Object.keys(authority)
       .filter((s) => authority[s]!.preempts === true)

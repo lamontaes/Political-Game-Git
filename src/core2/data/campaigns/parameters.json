@@ -191,6 +191,13 @@
       "tag": "TUNABLE",
       "source": "How much knowing a candidate adds to an appointing official's choice, beside alignment and qualification. Checked against patronage studies (Lewis 2008: personal and campaign ties shape appointments, most of all to lower-profile posts).",
       "spread": [0, 0.5]
+    },
+    "identityLeanScale": {
+      "value": 0.6,
+      "tag": "ESTIMATED",
+      "source": "A named official not filled in yet leans this far toward their seat's party: state legislators' ideal points sit well inside their party's side (Shor and McCarty 2011, state legislative ideology: party medians near +/-0.6 to 0.9 of the scale).",
+      "spread": [0.4, 0.9],
+      "stopgapId": "SG-GOV-official-identity-only"
     }
   }
 }
