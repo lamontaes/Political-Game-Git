@@ -9,413 +9,1763 @@
     "window": "2001-01 to 2019-12 for industries, 2001-01 to 2019-12 for states; monthly rates, percent of employment (openings: of employment plus openings), seasonally adjusted",
     "industries": {
       "construction": {
-        "hires": { "mean": 5.835, "p05": 4.7, "p95": 7.1, "months": 228 },
-        "openings": { "mean": 2.163, "p05": 1.0, "p95": 3.865, "months": 228 },
-        "layoffs": { "mean": 3.554, "p05": 2.235, "p95": 5.065, "months": 228 },
-        "quits": { "mean": 2.002, "p05": 1.3, "p95": 2.7, "months": 228 }
+        "hires": {
+          "mean": 5.835,
+          "p05": 4.7,
+          "p95": 7.1,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.163,
+          "p05": 1.0,
+          "p95": 3.865,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 3.554,
+          "p05": 2.235,
+          "p95": 5.065,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.002,
+          "p05": 1.3,
+          "p95": 2.7,
+          "months": 228
+        }
       },
       "education-health": {
-        "hires": { "mean": 2.814, "p05": 2.4, "p95": 3.165, "months": 228 },
-        "openings": { "mean": 3.852, "p05": 2.6, "p95": 5.1, "months": 228 },
-        "layoffs": { "mean": 0.813, "p05": 0.7, "p95": 1.0, "months": 228 },
-        "quits": { "mean": 1.597, "p05": 1.2, "p95": 2.0, "months": 228 }
+        "hires": {
+          "mean": 2.814,
+          "p05": 2.4,
+          "p95": 3.165,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.852,
+          "p05": 2.6,
+          "p95": 5.1,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 0.813,
+          "p05": 0.7,
+          "p95": 1.0,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.597,
+          "p05": 1.2,
+          "p95": 2.0,
+          "months": 228
+        }
       },
       "financial": {
-        "hires": { "mean": 2.555, "p05": 2.0, "p95": 3.1, "months": 228 },
-        "openings": { "mean": 3.275, "p05": 2.1, "p95": 4.565, "months": 228 },
-        "layoffs": { "mean": 0.83, "p05": 0.5, "p95": 1.3, "months": 228 },
-        "quits": { "mean": 1.372, "p05": 0.9, "p95": 1.9, "months": 228 }
+        "hires": {
+          "mean": 2.555,
+          "p05": 2.0,
+          "p95": 3.1,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.275,
+          "p05": 2.1,
+          "p95": 4.565,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 0.83,
+          "p05": 0.5,
+          "p95": 1.3,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.372,
+          "p05": 0.9,
+          "p95": 1.9,
+          "months": 228
+        }
       },
       "government": {
-        "hires": { "mean": 1.469, "p05": 1.2, "p95": 1.7, "months": 228 },
-        "openings": { "mean": 1.98, "p05": 1.4, "p95": 2.9, "months": 228 },
-        "layoffs": { "mean": 0.509, "p05": 0.4, "p95": 0.6, "months": 228 },
-        "quits": { "mean": 0.67, "p05": 0.5, "p95": 0.8, "months": 228 }
+        "hires": {
+          "mean": 1.469,
+          "p05": 1.2,
+          "p95": 1.7,
+          "months": 228
+        },
+        "openings": {
+          "mean": 1.98,
+          "p05": 1.4,
+          "p95": 2.9,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 0.509,
+          "p05": 0.4,
+          "p95": 0.6,
+          "months": 228
+        },
+        "quits": {
+          "mean": 0.67,
+          "p05": 0.5,
+          "p95": 0.8,
+          "months": 228
+        }
       },
       "information": {
-        "hires": { "mean": 2.754, "p05": 2.0, "p95": 3.4, "months": 228 },
-        "openings": { "mean": 3.346, "p05": 1.9, "p95": 4.965, "months": 228 },
-        "layoffs": { "mean": 1.128, "p05": 0.7, "p95": 1.6, "months": 228 },
-        "quits": { "mean": 1.497, "p05": 1.0, "p95": 2.0, "months": 228 }
+        "hires": {
+          "mean": 2.754,
+          "p05": 2.0,
+          "p95": 3.4,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.346,
+          "p05": 1.9,
+          "p95": 4.965,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.128,
+          "p05": 0.7,
+          "p95": 1.6,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.497,
+          "p05": 1.0,
+          "p95": 2.0,
+          "months": 228
+        }
       },
       "leisure-hospitality": {
-        "hires": { "mean": 6.325, "p05": 4.935, "p95": 7.3, "months": 228 },
-        "openings": { "mean": 3.896, "p05": 2.1, "p95": 5.7, "months": 228 },
-        "layoffs": { "mean": 2.133, "p05": 1.635, "p95": 2.7, "months": 228 },
-        "quits": { "mean": 3.846, "p05": 2.735, "p95": 4.7, "months": 228 }
+        "hires": {
+          "mean": 6.325,
+          "p05": 4.935,
+          "p95": 7.3,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.896,
+          "p05": 2.1,
+          "p95": 5.7,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 2.133,
+          "p05": 1.635,
+          "p95": 2.7,
+          "months": 228
+        },
+        "quits": {
+          "mean": 3.846,
+          "p05": 2.735,
+          "p95": 4.7,
+          "months": 228
+        }
       },
       "manufacturing": {
-        "hires": { "mean": 2.417, "p05": 2.0, "p95": 2.9, "months": 228 },
-        "openings": { "mean": 2.182, "p05": 1.3, "p95": 3.4, "months": 228 },
-        "layoffs": { "mean": 1.143, "p05": 0.8, "p95": 1.8, "months": 228 },
-        "quits": { "mean": 1.195, "p05": 0.8, "p95": 1.7, "months": 228 }
+        "hires": {
+          "mean": 2.417,
+          "p05": 2.0,
+          "p95": 2.9,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.182,
+          "p05": 1.3,
+          "p95": 3.4,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.143,
+          "p05": 0.8,
+          "p95": 1.8,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.195,
+          "p05": 0.8,
+          "p95": 1.7,
+          "months": 228
+        }
       },
       "mining-logging": {
-        "hires": { "mean": 3.718, "p05": 2.635, "p95": 5.065, "months": 228 },
-        "openings": { "mean": 2.292, "p05": 1.0, "p95": 4.0, "months": 228 },
-        "layoffs": { "mean": 1.53, "p05": 0.835, "p95": 2.5, "months": 228 },
-        "quits": { "mean": 1.747, "p05": 1.0, "p95": 2.765, "months": 228 }
+        "hires": {
+          "mean": 3.718,
+          "p05": 2.635,
+          "p95": 5.065,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.292,
+          "p05": 1.0,
+          "p95": 4.0,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.53,
+          "p05": 0.835,
+          "p95": 2.5,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.747,
+          "p05": 1.0,
+          "p95": 2.765,
+          "months": 228
+        }
       },
       "other-services": {
-        "hires": { "mean": 3.562, "p05": 2.9, "p95": 4.2, "months": 228 },
-        "openings": { "mean": 3.015, "p05": 1.9, "p95": 4.4, "months": 228 },
-        "layoffs": { "mean": 1.332, "p05": 0.835, "p95": 1.9, "months": 228 },
-        "quits": { "mean": 1.981, "p05": 1.4, "p95": 2.6, "months": 228 }
+        "hires": {
+          "mean": 3.562,
+          "p05": 2.9,
+          "p95": 4.2,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.015,
+          "p05": 1.9,
+          "p95": 4.4,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.332,
+          "p05": 0.835,
+          "p95": 1.9,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.981,
+          "p05": 1.4,
+          "p95": 2.6,
+          "months": 228
+        }
       },
       "professional-business": {
-        "hires": { "mean": 5.253, "p05": 4.435, "p95": 5.9, "months": 228 },
-        "openings": { "mean": 4.347, "p05": 2.7, "p95": 5.965, "months": 228 },
-        "layoffs": { "mean": 2.272, "p05": 1.8, "p95": 2.8, "months": 228 },
-        "quits": { "mean": 2.56, "p05": 1.8, "p95": 3.2, "months": 228 }
+        "hires": {
+          "mean": 5.253,
+          "p05": 4.435,
+          "p95": 5.9,
+          "months": 228
+        },
+        "openings": {
+          "mean": 4.347,
+          "p05": 2.7,
+          "p95": 5.965,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 2.272,
+          "p05": 1.8,
+          "p95": 2.8,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.56,
+          "p05": 1.8,
+          "p95": 3.2,
+          "months": 228
+        }
       },
       "total": {
-        "hires": { "mean": 3.621, "p05": 3.035, "p95": 4.0, "months": 228 },
-        "openings": { "mean": 3.132, "p05": 2.0, "p95": 4.6, "months": 228 },
-        "layoffs": { "mean": 1.394, "p05": 1.2, "p95": 1.7, "months": 228 },
-        "quits": { "mean": 1.906, "p05": 1.4, "p95": 2.3, "months": 228 }
+        "hires": {
+          "mean": 3.621,
+          "p05": 3.035,
+          "p95": 4.0,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.132,
+          "p05": 2.0,
+          "p95": 4.6,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.394,
+          "p05": 1.2,
+          "p95": 1.7,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.906,
+          "p05": 1.4,
+          "p95": 2.3,
+          "months": 228
+        }
       },
       "trade-transport-utilities": {
-        "hires": { "mean": 3.947, "p05": 3.2, "p95": 4.6, "months": 228 },
-        "openings": { "mean": 2.965, "p05": 1.8, "p95": 4.865, "months": 228 },
-        "layoffs": { "mean": 1.404, "p05": 1.1, "p95": 1.8, "months": 228 },
-        "quits": { "mean": 2.23, "p05": 1.6, "p95": 2.7, "months": 228 }
+        "hires": {
+          "mean": 3.947,
+          "p05": 3.2,
+          "p95": 4.6,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.965,
+          "p05": 1.8,
+          "p95": 4.865,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.404,
+          "p05": 1.1,
+          "p95": 1.8,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.23,
+          "p05": 1.6,
+          "p95": 2.7,
+          "months": 228
+        }
       }
     },
     "states": {
       "01": {
-        "hires": { "mean": 3.744, "p05": 2.835, "p95": 4.6, "months": 228 },
-        "openings": { "mean": 3.095, "p05": 2.0, "p95": 4.4, "months": 228 },
-        "layoffs": { "mean": 1.363, "p05": 1.0, "p95": 1.8, "months": 228 },
-        "quits": { "mean": 2.016, "p05": 1.3, "p95": 2.6, "months": 228 }
+        "hires": {
+          "mean": 3.744,
+          "p05": 2.835,
+          "p95": 4.6,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.095,
+          "p05": 2.0,
+          "p95": 4.4,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.363,
+          "p05": 1.0,
+          "p95": 1.8,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.016,
+          "p05": 1.3,
+          "p95": 2.6,
+          "months": 228
+        }
       },
       "02": {
-        "hires": { "mean": 5.871, "p05": 4.8, "p95": 7.1, "months": 228 },
-        "openings": { "mean": 4.512, "p05": 3.235, "p95": 6.5, "months": 228 },
-        "layoffs": { "mean": 2.328, "p05": 1.8, "p95": 3.1, "months": 228 },
-        "quits": { "mean": 3.056, "p05": 1.9, "p95": 4.0, "months": 228 }
+        "hires": {
+          "mean": 5.871,
+          "p05": 4.8,
+          "p95": 7.1,
+          "months": 228
+        },
+        "openings": {
+          "mean": 4.512,
+          "p05": 3.235,
+          "p95": 6.5,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 2.328,
+          "p05": 1.8,
+          "p95": 3.1,
+          "months": 228
+        },
+        "quits": {
+          "mean": 3.056,
+          "p05": 1.9,
+          "p95": 4.0,
+          "months": 228
+        }
       },
       "04": {
-        "hires": { "mean": 4.132, "p05": 3.1, "p95": 5.0, "months": 228 },
-        "openings": { "mean": 3.537, "p05": 2.3, "p95": 5.1, "months": 228 },
-        "layoffs": { "mean": 1.456, "p05": 1.0, "p95": 2.1, "months": 228 },
-        "quits": { "mean": 2.327, "p05": 1.5, "p95": 3.0, "months": 228 }
+        "hires": {
+          "mean": 4.132,
+          "p05": 3.1,
+          "p95": 5.0,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.537,
+          "p05": 2.3,
+          "p95": 5.1,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.456,
+          "p05": 1.0,
+          "p95": 2.1,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.327,
+          "p05": 1.5,
+          "p95": 3.0,
+          "months": 228
+        }
       },
       "05": {
-        "hires": { "mean": 3.929, "p05": 3.1, "p95": 4.6, "months": 228 },
-        "openings": { "mean": 3.089, "p05": 2.1, "p95": 4.4, "months": 228 },
-        "layoffs": { "mean": 1.395, "p05": 1.1, "p95": 1.8, "months": 228 },
-        "quits": { "mean": 2.16, "p05": 1.5, "p95": 2.765, "months": 228 }
+        "hires": {
+          "mean": 3.929,
+          "p05": 3.1,
+          "p95": 4.6,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.089,
+          "p05": 2.1,
+          "p95": 4.4,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.395,
+          "p05": 1.1,
+          "p95": 1.8,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.16,
+          "p05": 1.5,
+          "p95": 2.765,
+          "months": 228
+        }
       },
       "06": {
-        "hires": { "mean": 3.31, "p05": 2.6, "p95": 3.865, "months": 228 },
-        "openings": { "mean": 3.064, "p05": 2.0, "p95": 4.2, "months": 228 },
-        "layoffs": { "mean": 1.366, "p05": 1.0, "p95": 1.765, "months": 228 },
-        "quits": { "mean": 1.713, "p05": 1.2, "p95": 2.1, "months": 228 }
+        "hires": {
+          "mean": 3.31,
+          "p05": 2.6,
+          "p95": 3.865,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.064,
+          "p05": 2.0,
+          "p95": 4.2,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.366,
+          "p05": 1.0,
+          "p95": 1.765,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.713,
+          "p05": 1.2,
+          "p95": 2.1,
+          "months": 228
+        }
       },
       "08": {
-        "hires": { "mean": 4.252, "p05": 3.4, "p95": 5.2, "months": 228 },
-        "openings": { "mean": 3.393, "p05": 2.1, "p95": 5.1, "months": 228 },
-        "layoffs": { "mean": 1.572, "p05": 1.1, "p95": 2.3, "months": 228 },
-        "quits": { "mean": 2.373, "p05": 1.5, "p95": 3.1, "months": 228 }
+        "hires": {
+          "mean": 4.252,
+          "p05": 3.4,
+          "p95": 5.2,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.393,
+          "p05": 2.1,
+          "p95": 5.1,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.572,
+          "p05": 1.1,
+          "p95": 2.3,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.373,
+          "p05": 1.5,
+          "p95": 3.1,
+          "months": 228
+        }
       },
       "09": {
-        "hires": { "mean": 2.989, "p05": 2.3, "p95": 3.8, "months": 228 },
-        "openings": { "mean": 2.843, "p05": 2.1, "p95": 3.8, "months": 228 },
-        "layoffs": { "mean": 1.333, "p05": 0.9, "p95": 1.9, "months": 228 },
-        "quits": { "mean": 1.411, "p05": 1.0, "p95": 1.865, "months": 228 }
+        "hires": {
+          "mean": 2.989,
+          "p05": 2.3,
+          "p95": 3.8,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.843,
+          "p05": 2.1,
+          "p95": 3.8,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.333,
+          "p05": 0.9,
+          "p95": 1.9,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.411,
+          "p05": 1.0,
+          "p95": 1.865,
+          "months": 228
+        }
       },
       "10": {
-        "hires": { "mean": 4.351, "p05": 3.3, "p95": 5.1, "months": 228 },
-        "openings": { "mean": 3.431, "p05": 1.97, "p95": 4.7, "months": 228 },
-        "layoffs": { "mean": 1.555, "p05": 1.2, "p95": 2.1, "months": 228 },
-        "quits": { "mean": 2.299, "p05": 1.6, "p95": 2.865, "months": 228 }
+        "hires": {
+          "mean": 4.351,
+          "p05": 3.3,
+          "p95": 5.1,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.431,
+          "p05": 1.97,
+          "p95": 4.7,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.555,
+          "p05": 1.2,
+          "p95": 2.1,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.299,
+          "p05": 1.6,
+          "p95": 2.865,
+          "months": 228
+        }
       },
       "11": {
-        "hires": { "mean": 2.754, "p05": 2.2, "p95": 3.5, "months": 228 },
-        "openings": { "mean": 2.755, "p05": 1.9, "p95": 3.7, "months": 228 },
-        "layoffs": { "mean": 0.961, "p05": 0.8, "p95": 1.3, "months": 228 },
-        "quits": { "mean": 1.421, "p05": 1.0, "p95": 1.9, "months": 228 }
+        "hires": {
+          "mean": 2.754,
+          "p05": 2.2,
+          "p95": 3.5,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.755,
+          "p05": 1.9,
+          "p95": 3.7,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 0.961,
+          "p05": 0.8,
+          "p95": 1.3,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.421,
+          "p05": 1.0,
+          "p95": 1.9,
+          "months": 228
+        }
       },
       "12": {
-        "hires": { "mean": 3.825, "p05": 3.035, "p95": 4.665, "months": 228 },
-        "openings": { "mean": 3.326, "p05": 2.035, "p95": 4.6, "months": 228 },
-        "layoffs": { "mean": 1.415, "p05": 1.0, "p95": 1.9, "months": 228 },
-        "quits": { "mean": 2.055, "p05": 1.5, "p95": 2.7, "months": 228 }
+        "hires": {
+          "mean": 3.825,
+          "p05": 3.035,
+          "p95": 4.665,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.326,
+          "p05": 2.035,
+          "p95": 4.6,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.415,
+          "p05": 1.0,
+          "p95": 1.9,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.055,
+          "p05": 1.5,
+          "p95": 2.7,
+          "months": 228
+        }
       },
       "13": {
-        "hires": { "mean": 3.9, "p05": 2.9, "p95": 4.9, "months": 228 },
-        "openings": { "mean": 3.181, "p05": 1.835, "p95": 4.8, "months": 228 },
-        "layoffs": { "mean": 1.475, "p05": 1.0, "p95": 2.1, "months": 228 },
-        "quits": { "mean": 2.117, "p05": 1.4, "p95": 2.8, "months": 228 }
+        "hires": {
+          "mean": 3.9,
+          "p05": 2.9,
+          "p95": 4.9,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.181,
+          "p05": 1.835,
+          "p95": 4.8,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.475,
+          "p05": 1.0,
+          "p95": 2.1,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.117,
+          "p05": 1.4,
+          "p95": 2.8,
+          "months": 228
+        }
       },
       "15": {
-        "hires": { "mean": 3.354, "p05": 2.7, "p95": 4.065, "months": 228 },
-        "openings": { "mean": 2.967, "p05": 1.9, "p95": 4.4, "months": 228 },
-        "layoffs": { "mean": 1.214, "p05": 0.9, "p95": 1.6, "months": 228 },
-        "quits": { "mean": 1.796, "p05": 1.2, "p95": 2.4, "months": 228 }
+        "hires": {
+          "mean": 3.354,
+          "p05": 2.7,
+          "p95": 4.065,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.967,
+          "p05": 1.9,
+          "p95": 4.4,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.214,
+          "p05": 0.9,
+          "p95": 1.6,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.796,
+          "p05": 1.2,
+          "p95": 2.4,
+          "months": 228
+        }
       },
       "16": {
-        "hires": { "mean": 4.531, "p05": 3.7, "p95": 5.3, "months": 228 },
-        "openings": { "mean": 3.597, "p05": 2.4, "p95": 5.0, "months": 228 },
-        "layoffs": { "mean": 1.702, "p05": 1.1, "p95": 2.4, "months": 228 },
-        "quits": { "mean": 2.365, "p05": 1.7, "p95": 3.0, "months": 228 }
+        "hires": {
+          "mean": 4.531,
+          "p05": 3.7,
+          "p95": 5.3,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.597,
+          "p05": 2.4,
+          "p95": 5.0,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.702,
+          "p05": 1.1,
+          "p95": 2.4,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.365,
+          "p05": 1.7,
+          "p95": 3.0,
+          "months": 228
+        }
       },
       "17": {
-        "hires": { "mean": 3.443, "p05": 2.7, "p95": 4.0, "months": 228 },
-        "openings": { "mean": 2.904, "p05": 1.7, "p95": 4.465, "months": 228 },
-        "layoffs": { "mean": 1.329, "p05": 0.9, "p95": 1.7, "months": 228 },
-        "quits": { "mean": 1.717, "p05": 1.1, "p95": 2.3, "months": 228 }
+        "hires": {
+          "mean": 3.443,
+          "p05": 2.7,
+          "p95": 4.0,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.904,
+          "p05": 1.7,
+          "p95": 4.465,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.329,
+          "p05": 0.9,
+          "p95": 1.7,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.717,
+          "p05": 1.1,
+          "p95": 2.3,
+          "months": 228
+        }
       },
       "18": {
-        "hires": { "mean": 3.739, "p05": 2.9, "p95": 4.7, "months": 228 },
-        "openings": { "mean": 2.864, "p05": 1.7, "p95": 4.965, "months": 228 },
-        "layoffs": { "mean": 1.476, "p05": 0.9, "p95": 2.2, "months": 228 },
-        "quits": { "mean": 2.004, "p05": 1.3, "p95": 2.8, "months": 228 }
+        "hires": {
+          "mean": 3.739,
+          "p05": 2.9,
+          "p95": 4.7,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.864,
+          "p05": 1.7,
+          "p95": 4.965,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.476,
+          "p05": 0.9,
+          "p95": 2.2,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.004,
+          "p05": 1.3,
+          "p95": 2.8,
+          "months": 228
+        }
       },
       "19": {
-        "hires": { "mean": 3.391, "p05": 2.8, "p95": 3.9, "months": 228 },
-        "openings": { "mean": 2.902, "p05": 1.835, "p95": 4.6, "months": 228 },
-        "layoffs": { "mean": 1.264, "p05": 0.9, "p95": 1.8, "months": 228 },
-        "quits": { "mean": 1.812, "p05": 1.4, "p95": 2.33, "months": 228 }
+        "hires": {
+          "mean": 3.391,
+          "p05": 2.8,
+          "p95": 3.9,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.902,
+          "p05": 1.835,
+          "p95": 4.6,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.264,
+          "p05": 0.9,
+          "p95": 1.8,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.812,
+          "p05": 1.4,
+          "p95": 2.33,
+          "months": 228
+        }
       },
       "20": {
-        "hires": { "mean": 3.574, "p05": 2.9, "p95": 4.365, "months": 228 },
-        "openings": { "mean": 3.027, "p05": 2.0, "p95": 5.065, "months": 228 },
-        "layoffs": { "mean": 1.343, "p05": 1.0, "p95": 1.9, "months": 228 },
-        "quits": { "mean": 1.94, "p05": 1.3, "p95": 2.5, "months": 228 }
+        "hires": {
+          "mean": 3.574,
+          "p05": 2.9,
+          "p95": 4.365,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.027,
+          "p05": 2.0,
+          "p95": 5.065,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.343,
+          "p05": 1.0,
+          "p95": 1.9,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.94,
+          "p05": 1.3,
+          "p95": 2.5,
+          "months": 228
+        }
       },
       "21": {
-        "hires": { "mean": 4.026, "p05": 3.2, "p95": 4.8, "months": 228 },
-        "openings": { "mean": 3.261, "p05": 2.135, "p95": 4.6, "months": 228 },
-        "layoffs": { "mean": 1.457, "p05": 1.1, "p95": 1.9, "months": 228 },
-        "quits": { "mean": 2.2, "p05": 1.5, "p95": 2.765, "months": 228 }
+        "hires": {
+          "mean": 4.026,
+          "p05": 3.2,
+          "p95": 4.8,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.261,
+          "p05": 2.135,
+          "p95": 4.6,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.457,
+          "p05": 1.1,
+          "p95": 1.9,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.2,
+          "p05": 1.5,
+          "p95": 2.765,
+          "months": 228
+        }
       },
       "22": {
-        "hires": { "mean": 4.125, "p05": 3.3, "p95": 5.165, "months": 228 },
-        "openings": { "mean": 3.267, "p05": 2.0, "p95": 4.4, "months": 228 },
-        "layoffs": { "mean": 1.512, "p05": 1.1, "p95": 2.0, "months": 228 },
-        "quits": { "mean": 2.295, "p05": 1.6, "p95": 3.0, "months": 228 }
+        "hires": {
+          "mean": 4.125,
+          "p05": 3.3,
+          "p95": 5.165,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.267,
+          "p05": 2.0,
+          "p95": 4.4,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.512,
+          "p05": 1.1,
+          "p95": 2.0,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.295,
+          "p05": 1.6,
+          "p95": 3.0,
+          "months": 228
+        }
       },
       "23": {
-        "hires": { "mean": 3.927, "p05": 3.2, "p95": 4.6, "months": 228 },
-        "openings": { "mean": 3.489, "p05": 2.6, "p95": 4.8, "months": 228 },
-        "layoffs": { "mean": 1.718, "p05": 1.135, "p95": 2.5, "months": 228 },
-        "quits": { "mean": 1.853, "p05": 1.3, "p95": 2.4, "months": 228 }
+        "hires": {
+          "mean": 3.927,
+          "p05": 3.2,
+          "p95": 4.6,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.489,
+          "p05": 2.6,
+          "p95": 4.8,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.718,
+          "p05": 1.135,
+          "p95": 2.5,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.853,
+          "p05": 1.3,
+          "p95": 2.4,
+          "months": 228
+        }
       },
       "24": {
-        "hires": { "mean": 3.486, "p05": 2.8, "p95": 4.3, "months": 228 },
-        "openings": { "mean": 3.387, "p05": 2.2, "p95": 4.7, "months": 228 },
-        "layoffs": { "mean": 1.344, "p05": 0.9, "p95": 1.9, "months": 228 },
-        "quits": { "mean": 1.834, "p05": 1.3, "p95": 2.3, "months": 228 }
+        "hires": {
+          "mean": 3.486,
+          "p05": 2.8,
+          "p95": 4.3,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.387,
+          "p05": 2.2,
+          "p95": 4.7,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.344,
+          "p05": 0.9,
+          "p95": 1.9,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.834,
+          "p05": 1.3,
+          "p95": 2.3,
+          "months": 228
+        }
       },
       "25": {
-        "hires": { "mean": 3.078, "p05": 2.4, "p95": 3.8, "months": 228 },
-        "openings": { "mean": 3.089, "p05": 2.135, "p95": 4.43, "months": 228 },
-        "layoffs": { "mean": 1.354, "p05": 0.8, "p95": 2.2, "months": 228 },
-        "quits": { "mean": 1.445, "p05": 1.1, "p95": 1.9, "months": 228 }
+        "hires": {
+          "mean": 3.078,
+          "p05": 2.4,
+          "p95": 3.8,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.089,
+          "p05": 2.135,
+          "p95": 4.43,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.354,
+          "p05": 0.8,
+          "p95": 2.2,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.445,
+          "p05": 1.1,
+          "p95": 1.9,
+          "months": 228
+        }
       },
       "26": {
-        "hires": { "mean": 3.434, "p05": 2.7, "p95": 4.165, "months": 228 },
-        "openings": { "mean": 2.869, "p05": 1.635, "p95": 4.8, "months": 228 },
-        "layoffs": { "mean": 1.487, "p05": 1.0, "p95": 2.2, "months": 228 },
-        "quits": { "mean": 1.725, "p05": 1.2, "p95": 2.4, "months": 228 }
+        "hires": {
+          "mean": 3.434,
+          "p05": 2.7,
+          "p95": 4.165,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.869,
+          "p05": 1.635,
+          "p95": 4.8,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.487,
+          "p05": 1.0,
+          "p95": 2.2,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.725,
+          "p05": 1.2,
+          "p95": 2.4,
+          "months": 228
+        }
       },
       "27": {
-        "hires": { "mean": 3.275, "p05": 2.635, "p95": 4.1, "months": 228 },
-        "openings": { "mean": 2.998, "p05": 1.735, "p95": 5.1, "months": 228 },
-        "layoffs": { "mean": 1.196, "p05": 0.9, "p95": 1.7, "months": 228 },
-        "quits": { "mean": 1.702, "p05": 1.2, "p95": 2.2, "months": 228 }
+        "hires": {
+          "mean": 3.275,
+          "p05": 2.635,
+          "p95": 4.1,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.998,
+          "p05": 1.735,
+          "p95": 5.1,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.196,
+          "p05": 0.9,
+          "p95": 1.7,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.702,
+          "p05": 1.2,
+          "p95": 2.2,
+          "months": 228
+        }
       },
       "28": {
-        "hires": { "mean": 3.771, "p05": 3.0, "p95": 4.665, "months": 228 },
-        "openings": { "mean": 3.046, "p05": 1.935, "p95": 4.4, "months": 228 },
-        "layoffs": { "mean": 1.388, "p05": 1.1, "p95": 1.9, "months": 228 },
-        "quits": { "mean": 2.089, "p05": 1.4, "p95": 2.8, "months": 228 }
+        "hires": {
+          "mean": 3.771,
+          "p05": 3.0,
+          "p95": 4.665,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.046,
+          "p05": 1.935,
+          "p95": 4.4,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.388,
+          "p05": 1.1,
+          "p95": 1.9,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.089,
+          "p05": 1.4,
+          "p95": 2.8,
+          "months": 228
+        }
       },
       "29": {
-        "hires": { "mean": 3.731, "p05": 3.0, "p95": 4.865, "months": 228 },
-        "openings": { "mean": 3.033, "p05": 1.8, "p95": 5.065, "months": 228 },
-        "layoffs": { "mean": 1.36, "p05": 1.0, "p95": 1.965, "months": 228 },
-        "quits": { "mean": 2.031, "p05": 1.435, "p95": 2.9, "months": 228 }
+        "hires": {
+          "mean": 3.731,
+          "p05": 3.0,
+          "p95": 4.865,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.033,
+          "p05": 1.8,
+          "p95": 5.065,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.36,
+          "p05": 1.0,
+          "p95": 1.965,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.031,
+          "p05": 1.435,
+          "p95": 2.9,
+          "months": 228
+        }
       },
       "30": {
-        "hires": { "mean": 5.073, "p05": 4.2, "p95": 6.165, "months": 228 },
-        "openings": { "mean": 3.929, "p05": 2.57, "p95": 5.365, "months": 228 },
-        "layoffs": { "mean": 1.925, "p05": 1.3, "p95": 2.6, "months": 228 },
-        "quits": { "mean": 2.664, "p05": 1.9, "p95": 3.3, "months": 228 }
+        "hires": {
+          "mean": 5.073,
+          "p05": 4.2,
+          "p95": 6.165,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.929,
+          "p05": 2.57,
+          "p95": 5.365,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.925,
+          "p05": 1.3,
+          "p95": 2.6,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.664,
+          "p05": 1.9,
+          "p95": 3.3,
+          "months": 228
+        }
       },
       "31": {
-        "hires": { "mean": 3.57, "p05": 2.8, "p95": 4.2, "months": 228 },
-        "openings": { "mean": 3.057, "p05": 1.9, "p95": 4.765, "months": 228 },
-        "layoffs": { "mean": 1.284, "p05": 1.0, "p95": 1.7, "months": 228 },
-        "quits": { "mean": 1.901, "p05": 1.3, "p95": 2.5, "months": 228 }
+        "hires": {
+          "mean": 3.57,
+          "p05": 2.8,
+          "p95": 4.2,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.057,
+          "p05": 1.9,
+          "p95": 4.765,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.284,
+          "p05": 1.0,
+          "p95": 1.7,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.901,
+          "p05": 1.3,
+          "p95": 2.5,
+          "months": 228
+        }
       },
       "32": {
-        "hires": { "mean": 4.285, "p05": 3.435, "p95": 5.2, "months": 228 },
-        "openings": { "mean": 3.323, "p05": 2.0, "p95": 4.6, "months": 228 },
-        "layoffs": { "mean": 1.675, "p05": 1.0, "p95": 2.565, "months": 228 },
-        "quits": { "mean": 2.293, "p05": 1.635, "p95": 2.9, "months": 228 }
+        "hires": {
+          "mean": 4.285,
+          "p05": 3.435,
+          "p95": 5.2,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.323,
+          "p05": 2.0,
+          "p95": 4.6,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.675,
+          "p05": 1.0,
+          "p95": 2.565,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.293,
+          "p05": 1.635,
+          "p95": 2.9,
+          "months": 228
+        }
       },
       "33": {
-        "hires": { "mean": 3.956, "p05": 3.235, "p95": 4.8, "months": 228 },
-        "openings": { "mean": 3.358, "p05": 2.5, "p95": 4.6, "months": 228 },
-        "layoffs": { "mean": 1.695, "p05": 1.2, "p95": 2.4, "months": 228 },
-        "quits": { "mean": 1.903, "p05": 1.3, "p95": 2.5, "months": 228 }
+        "hires": {
+          "mean": 3.956,
+          "p05": 3.235,
+          "p95": 4.8,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.358,
+          "p05": 2.5,
+          "p95": 4.6,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.695,
+          "p05": 1.2,
+          "p95": 2.4,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.903,
+          "p05": 1.3,
+          "p95": 2.5,
+          "months": 228
+        }
       },
       "34": {
-        "hires": { "mean": 3.218, "p05": 2.6, "p95": 4.0, "months": 228 },
-        "openings": { "mean": 3.082, "p05": 2.135, "p95": 4.3, "months": 228 },
-        "layoffs": { "mean": 1.461, "p05": 0.935, "p95": 2.1, "months": 228 },
-        "quits": { "mean": 1.506, "p05": 1.0, "p95": 2.165, "months": 228 }
+        "hires": {
+          "mean": 3.218,
+          "p05": 2.6,
+          "p95": 4.0,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.082,
+          "p05": 2.135,
+          "p95": 4.3,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.461,
+          "p05": 0.935,
+          "p95": 2.1,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.506,
+          "p05": 1.0,
+          "p95": 2.165,
+          "months": 228
+        }
       },
       "35": {
-        "hires": { "mean": 3.895, "p05": 3.1, "p95": 4.9, "months": 228 },
-        "openings": { "mean": 3.452, "p05": 2.2, "p95": 5.165, "months": 228 },
-        "layoffs": { "mean": 1.451, "p05": 0.935, "p95": 2.065, "months": 228 },
-        "quits": { "mean": 2.115, "p05": 1.5, "p95": 2.7, "months": 228 }
+        "hires": {
+          "mean": 3.895,
+          "p05": 3.1,
+          "p95": 4.9,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.452,
+          "p05": 2.2,
+          "p95": 5.165,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.451,
+          "p05": 0.935,
+          "p95": 2.065,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.115,
+          "p05": 1.5,
+          "p95": 2.7,
+          "months": 228
+        }
       },
       "36": {
-        "hires": { "mean": 2.958, "p05": 2.5, "p95": 3.465, "months": 228 },
-        "openings": { "mean": 2.753, "p05": 1.9, "p95": 3.9, "months": 228 },
-        "layoffs": { "mean": 1.315, "p05": 0.935, "p95": 1.8, "months": 228 },
-        "quits": { "mean": 1.363, "p05": 1.0, "p95": 1.7, "months": 228 }
+        "hires": {
+          "mean": 2.958,
+          "p05": 2.5,
+          "p95": 3.465,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.753,
+          "p05": 1.9,
+          "p95": 3.9,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.315,
+          "p05": 0.935,
+          "p95": 1.8,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.363,
+          "p05": 1.0,
+          "p95": 1.7,
+          "months": 228
+        }
       },
       "37": {
-        "hires": { "mean": 3.886, "p05": 3.0, "p95": 4.9, "months": 228 },
-        "openings": { "mean": 3.275, "p05": 1.8, "p95": 5.465, "months": 228 },
-        "layoffs": { "mean": 1.454, "p05": 1.0, "p95": 2.065, "months": 228 },
-        "quits": { "mean": 2.11, "p05": 1.4, "p95": 2.9, "months": 228 }
+        "hires": {
+          "mean": 3.886,
+          "p05": 3.0,
+          "p95": 4.9,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.275,
+          "p05": 1.8,
+          "p95": 5.465,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.454,
+          "p05": 1.0,
+          "p95": 2.065,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.11,
+          "p05": 1.4,
+          "p95": 2.9,
+          "months": 228
+        }
       },
       "38": {
-        "hires": { "mean": 4.187, "p05": 3.5, "p95": 4.865, "months": 228 },
-        "openings": { "mean": 3.364, "p05": 2.1, "p95": 5.2, "months": 228 },
-        "layoffs": { "mean": 1.636, "p05": 1.3, "p95": 2.1, "months": 228 },
-        "quits": { "mean": 2.109, "p05": 1.4, "p95": 2.7, "months": 228 }
+        "hires": {
+          "mean": 4.187,
+          "p05": 3.5,
+          "p95": 4.865,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.364,
+          "p05": 2.1,
+          "p95": 5.2,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.636,
+          "p05": 1.3,
+          "p95": 2.1,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.109,
+          "p05": 1.4,
+          "p95": 2.7,
+          "months": 228
+        }
       },
       "39": {
-        "hires": { "mean": 3.458, "p05": 2.7, "p95": 4.1, "months": 228 },
-        "openings": { "mean": 2.989, "p05": 1.8, "p95": 4.7, "months": 228 },
-        "layoffs": { "mean": 1.36, "p05": 1.0, "p95": 1.9, "months": 228 },
-        "quits": { "mean": 1.877, "p05": 1.3, "p95": 2.5, "months": 228 }
+        "hires": {
+          "mean": 3.458,
+          "p05": 2.7,
+          "p95": 4.1,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.989,
+          "p05": 1.8,
+          "p95": 4.7,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.36,
+          "p05": 1.0,
+          "p95": 1.9,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.877,
+          "p05": 1.3,
+          "p95": 2.5,
+          "months": 228
+        }
       },
       "40": {
-        "hires": { "mean": 3.995, "p05": 3.0, "p95": 4.8, "months": 228 },
-        "openings": { "mean": 3.331, "p05": 2.1, "p95": 4.6, "months": 228 },
-        "layoffs": { "mean": 1.38, "p05": 1.0, "p95": 1.9, "months": 228 },
-        "quits": { "mean": 2.259, "p05": 1.6, "p95": 3.0, "months": 228 }
+        "hires": {
+          "mean": 3.995,
+          "p05": 3.0,
+          "p95": 4.8,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.331,
+          "p05": 2.1,
+          "p95": 4.6,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.38,
+          "p05": 1.0,
+          "p95": 1.9,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.259,
+          "p05": 1.6,
+          "p95": 3.0,
+          "months": 228
+        }
       },
       "41": {
-        "hires": { "mean": 3.993, "p05": 3.2, "p95": 5.0, "months": 228 },
-        "openings": { "mean": 3.23, "p05": 2.2, "p95": 4.8, "months": 228 },
-        "layoffs": { "mean": 1.585, "p05": 1.0, "p95": 2.4, "months": 228 },
-        "quits": { "mean": 2.084, "p05": 1.3, "p95": 2.8, "months": 228 }
+        "hires": {
+          "mean": 3.993,
+          "p05": 3.2,
+          "p95": 5.0,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.23,
+          "p05": 2.2,
+          "p95": 4.8,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.585,
+          "p05": 1.0,
+          "p95": 2.4,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.084,
+          "p05": 1.3,
+          "p95": 2.8,
+          "months": 228
+        }
       },
       "42": {
-        "hires": { "mean": 3.277, "p05": 2.7, "p95": 4.0, "months": 228 },
-        "openings": { "mean": 3.071, "p05": 2.1, "p95": 4.5, "months": 228 },
-        "layoffs": { "mean": 1.374, "p05": 0.935, "p95": 1.9, "months": 228 },
-        "quits": { "mean": 1.638, "p05": 1.2, "p95": 2.1, "months": 228 }
+        "hires": {
+          "mean": 3.277,
+          "p05": 2.7,
+          "p95": 4.0,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.071,
+          "p05": 2.1,
+          "p95": 4.5,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.374,
+          "p05": 0.935,
+          "p95": 1.9,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.638,
+          "p05": 1.2,
+          "p95": 2.1,
+          "months": 228
+        }
       },
       "44": {
-        "hires": { "mean": 3.565, "p05": 3.0, "p95": 4.2, "months": 228 },
-        "openings": { "mean": 3.232, "p05": 2.3, "p95": 4.6, "months": 228 },
-        "layoffs": { "mean": 1.549, "p05": 1.2, "p95": 2.1, "months": 228 },
-        "quits": { "mean": 1.688, "p05": 1.3, "p95": 2.2, "months": 228 }
+        "hires": {
+          "mean": 3.565,
+          "p05": 3.0,
+          "p95": 4.2,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.232,
+          "p05": 2.3,
+          "p95": 4.6,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.549,
+          "p05": 1.2,
+          "p95": 2.1,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.688,
+          "p05": 1.3,
+          "p95": 2.2,
+          "months": 228
+        }
       },
       "45": {
-        "hires": { "mean": 4.127, "p05": 3.3, "p95": 4.9, "months": 228 },
-        "openings": { "mean": 3.335, "p05": 2.2, "p95": 5.1, "months": 228 },
-        "layoffs": { "mean": 1.512, "p05": 1.1, "p95": 2.065, "months": 228 },
-        "quits": { "mean": 2.178, "p05": 1.6, "p95": 2.9, "months": 228 }
+        "hires": {
+          "mean": 4.127,
+          "p05": 3.3,
+          "p95": 4.9,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.335,
+          "p05": 2.2,
+          "p95": 5.1,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.512,
+          "p05": 1.1,
+          "p95": 2.065,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.178,
+          "p05": 1.6,
+          "p95": 2.9,
+          "months": 228
+        }
       },
       "46": {
-        "hires": { "mean": 3.97, "p05": 3.2, "p95": 4.8, "months": 228 },
-        "openings": { "mean": 3.23, "p05": 2.135, "p95": 4.8, "months": 228 },
-        "layoffs": { "mean": 1.496, "p05": 1.1, "p95": 2.0, "months": 228 },
-        "quits": { "mean": 2.058, "p05": 1.5, "p95": 2.6, "months": 228 }
+        "hires": {
+          "mean": 3.97,
+          "p05": 3.2,
+          "p95": 4.8,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.23,
+          "p05": 2.135,
+          "p95": 4.8,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.496,
+          "p05": 1.1,
+          "p95": 2.0,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.058,
+          "p05": 1.5,
+          "p95": 2.6,
+          "months": 228
+        }
       },
       "47": {
-        "hires": { "mean": 3.987, "p05": 3.1, "p95": 4.9, "months": 228 },
-        "openings": { "mean": 3.1, "p05": 1.835, "p95": 4.6, "months": 228 },
-        "layoffs": { "mean": 1.419, "p05": 1.0, "p95": 1.965, "months": 228 },
-        "quits": { "mean": 2.159, "p05": 1.5, "p95": 2.9, "months": 228 }
+        "hires": {
+          "mean": 3.987,
+          "p05": 3.1,
+          "p95": 4.9,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.1,
+          "p05": 1.835,
+          "p95": 4.6,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.419,
+          "p05": 1.0,
+          "p95": 1.965,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.159,
+          "p05": 1.5,
+          "p95": 2.9,
+          "months": 228
+        }
       },
       "48": {
-        "hires": { "mean": 3.957, "p05": 3.2, "p95": 4.7, "months": 228 },
-        "openings": { "mean": 3.183, "p05": 1.9, "p95": 4.465, "months": 228 },
-        "layoffs": { "mean": 1.35, "p05": 1.0, "p95": 1.7, "months": 228 },
-        "quits": { "mean": 2.293, "p05": 1.6, "p95": 2.8, "months": 228 }
+        "hires": {
+          "mean": 3.957,
+          "p05": 3.2,
+          "p95": 4.7,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.183,
+          "p05": 1.9,
+          "p95": 4.465,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.35,
+          "p05": 1.0,
+          "p95": 1.7,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.293,
+          "p05": 1.6,
+          "p95": 2.8,
+          "months": 228
+        }
       },
       "49": {
-        "hires": { "mean": 4.296, "p05": 3.4, "p95": 5.4, "months": 228 },
-        "openings": { "mean": 3.313, "p05": 2.1, "p95": 4.965, "months": 228 },
-        "layoffs": { "mean": 1.571, "p05": 1.1, "p95": 2.3, "months": 228 },
-        "quits": { "mean": 2.311, "p05": 1.5, "p95": 3.3, "months": 228 }
+        "hires": {
+          "mean": 4.296,
+          "p05": 3.4,
+          "p95": 5.4,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.313,
+          "p05": 2.1,
+          "p95": 4.965,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.571,
+          "p05": 1.1,
+          "p95": 2.3,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.311,
+          "p05": 1.5,
+          "p95": 3.3,
+          "months": 228
+        }
       },
       "50": {
-        "hires": { "mean": 4.173, "p05": 3.5, "p95": 4.9, "months": 228 },
-        "openings": { "mean": 3.555, "p05": 2.6, "p95": 5.1, "months": 228 },
-        "layoffs": { "mean": 1.791, "p05": 1.3, "p95": 2.4, "months": 228 },
-        "quits": { "mean": 2.004, "p05": 1.3, "p95": 2.6, "months": 228 }
+        "hires": {
+          "mean": 4.173,
+          "p05": 3.5,
+          "p95": 4.9,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.555,
+          "p05": 2.6,
+          "p95": 5.1,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.791,
+          "p05": 1.3,
+          "p95": 2.4,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.004,
+          "p05": 1.3,
+          "p95": 2.6,
+          "months": 228
+        }
       },
       "51": {
-        "hires": { "mean": 3.629, "p05": 2.9, "p95": 4.3, "months": 228 },
-        "openings": { "mean": 3.505, "p05": 2.3, "p95": 5.0, "months": 228 },
-        "layoffs": { "mean": 1.254, "p05": 0.8, "p95": 1.865, "months": 228 },
-        "quits": { "mean": 1.98, "p05": 1.4, "p95": 2.5, "months": 228 }
+        "hires": {
+          "mean": 3.629,
+          "p05": 2.9,
+          "p95": 4.3,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.505,
+          "p05": 2.3,
+          "p95": 5.0,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.254,
+          "p05": 0.8,
+          "p95": 1.865,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.98,
+          "p05": 1.4,
+          "p95": 2.5,
+          "months": 228
+        }
       },
       "53": {
-        "hires": { "mean": 3.628, "p05": 2.8, "p95": 4.6, "months": 228 },
-        "openings": { "mean": 3.166, "p05": 1.8, "p95": 4.5, "months": 228 },
-        "layoffs": { "mean": 1.404, "p05": 0.9, "p95": 2.1, "months": 228 },
-        "quits": { "mean": 1.89, "p05": 1.3, "p95": 2.5, "months": 228 }
+        "hires": {
+          "mean": 3.628,
+          "p05": 2.8,
+          "p95": 4.6,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.166,
+          "p05": 1.8,
+          "p95": 4.5,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.404,
+          "p05": 0.9,
+          "p95": 2.1,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.89,
+          "p05": 1.3,
+          "p95": 2.5,
+          "months": 228
+        }
       },
       "54": {
-        "hires": { "mean": 4.2, "p05": 3.235, "p95": 5.0, "months": 228 },
-        "openings": { "mean": 3.487, "p05": 2.3, "p95": 5.2, "months": 228 },
-        "layoffs": { "mean": 1.498, "p05": 1.1, "p95": 1.9, "months": 228 },
-        "quits": { "mean": 2.283, "p05": 1.5, "p95": 2.9, "months": 228 }
+        "hires": {
+          "mean": 4.2,
+          "p05": 3.235,
+          "p95": 5.0,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.487,
+          "p05": 2.3,
+          "p95": 5.2,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.498,
+          "p05": 1.1,
+          "p95": 1.9,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.283,
+          "p05": 1.5,
+          "p95": 2.9,
+          "months": 228
+        }
       },
       "55": {
-        "hires": { "mean": 3.37, "p05": 2.8, "p95": 4.0, "months": 228 },
-        "openings": { "mean": 3.067, "p05": 1.9, "p95": 4.965, "months": 228 },
-        "layoffs": { "mean": 1.33, "p05": 0.9, "p95": 1.9, "months": 228 },
-        "quits": { "mean": 1.759, "p05": 1.2, "p95": 2.3, "months": 228 }
+        "hires": {
+          "mean": 3.37,
+          "p05": 2.8,
+          "p95": 4.0,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.067,
+          "p05": 1.9,
+          "p95": 4.965,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.33,
+          "p05": 0.9,
+          "p95": 1.9,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.759,
+          "p05": 1.2,
+          "p95": 2.3,
+          "months": 228
+        }
       },
       "56": {
-        "hires": { "mean": 5.126, "p05": 4.1, "p95": 6.365, "months": 228 },
-        "openings": { "mean": 3.811, "p05": 2.635, "p95": 5.5, "months": 228 },
-        "layoffs": { "mean": 1.968, "p05": 1.4, "p95": 2.8, "months": 228 },
-        "quits": { "mean": 2.7, "p05": 1.7, "p95": 3.4, "months": 228 }
+        "hires": {
+          "mean": 5.126,
+          "p05": 4.1,
+          "p95": 6.365,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.811,
+          "p05": 2.635,
+          "p95": 5.5,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.968,
+          "p05": 1.4,
+          "p95": 2.8,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.7,
+          "p05": 1.7,
+          "p95": 3.4,
+          "months": 228
+        }
       },
       "MW": {
-        "hires": { "mean": 3.539, "p05": 3.0, "p95": 4.0, "months": 228 },
-        "openings": { "mean": 2.998, "p05": 1.835, "p95": 4.8, "months": 228 },
-        "layoffs": { "mean": 1.381, "p05": 1.1, "p95": 1.7, "months": 228 },
-        "quits": { "mean": 1.855, "p05": 1.4, "p95": 2.4, "months": 228 }
+        "hires": {
+          "mean": 3.539,
+          "p05": 3.0,
+          "p95": 4.0,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.998,
+          "p05": 1.835,
+          "p95": 4.8,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.381,
+          "p05": 1.1,
+          "p95": 1.7,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.855,
+          "p05": 1.4,
+          "p95": 2.4,
+          "months": 228
+        }
       },
       "NE": {
-        "hires": { "mean": 3.163, "p05": 2.8, "p95": 3.665, "months": 228 },
-        "openings": { "mean": 2.983, "p05": 2.1, "p95": 4.2, "months": 228 },
-        "layoffs": { "mean": 1.39, "p05": 1.1, "p95": 1.7, "months": 228 },
-        "quits": { "mean": 1.5, "p05": 1.1, "p95": 1.8, "months": 228 }
+        "hires": {
+          "mean": 3.163,
+          "p05": 2.8,
+          "p95": 3.665,
+          "months": 228
+        },
+        "openings": {
+          "mean": 2.983,
+          "p05": 2.1,
+          "p95": 4.2,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.39,
+          "p05": 1.1,
+          "p95": 1.7,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.5,
+          "p05": 1.1,
+          "p95": 1.8,
+          "months": 228
+        }
       },
       "SO": {
-        "hires": { "mean": 3.861, "p05": 3.2, "p95": 4.3, "months": 228 },
-        "openings": { "mean": 3.244, "p05": 1.97, "p95": 4.665, "months": 228 },
-        "layoffs": { "mean": 1.386, "p05": 1.2, "p95": 1.7, "months": 228 },
-        "quits": { "mean": 2.119, "p05": 1.5, "p95": 2.6, "months": 228 }
+        "hires": {
+          "mean": 3.861,
+          "p05": 3.2,
+          "p95": 4.3,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.244,
+          "p05": 1.97,
+          "p95": 4.665,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.386,
+          "p05": 1.2,
+          "p95": 1.7,
+          "months": 228
+        },
+        "quits": {
+          "mean": 2.119,
+          "p05": 1.5,
+          "p95": 2.6,
+          "months": 228
+        }
       },
       "WE": {
-        "hires": { "mean": 3.693, "p05": 3.1, "p95": 4.3, "months": 228 },
-        "openings": { "mean": 3.21, "p05": 2.1, "p95": 4.5, "months": 228 },
-        "layoffs": { "mean": 1.451, "p05": 1.1, "p95": 1.9, "months": 228 },
-        "quits": { "mean": 1.949, "p05": 1.4, "p95": 2.4, "months": 228 }
+        "hires": {
+          "mean": 3.693,
+          "p05": 3.1,
+          "p95": 4.3,
+          "months": 228
+        },
+        "openings": {
+          "mean": 3.21,
+          "p05": 2.1,
+          "p95": 4.5,
+          "months": 228
+        },
+        "layoffs": {
+          "mean": 1.451,
+          "p05": 1.1,
+          "p95": 1.9,
+          "months": 228
+        },
+        "quits": {
+          "mean": 1.949,
+          "p05": 1.4,
+          "p95": 2.4,
+          "months": 228
+        }
       }
     },
     "unemploymentDurationWeeks": {
-      "mean": { "mean": 21.362, "p05": 12.495, "p95": 39.005, "months": 360 },
-      "median": { "mean": 10.415, "p05": 5.8, "p95": 20.8, "months": 360 },
+      "mean": {
+        "mean": 21.362,
+        "p05": 12.495,
+        "p95": 39.005,
+        "months": 360
+      },
+      "median": {
+        "mean": 10.415,
+        "p05": 5.8,
+        "p95": 20.8,
+        "months": 360
+      },
       "series": "CPS LNS13008275 (mean), LNS13008276 (median), 1990-2019"
     }
   },
@@ -446,16 +1796,40 @@
     "reliability": "people-mind-v1:reliability",
     "restless": "personality-v1:facet-restless",
     "ambitious": "personality-v1:facet-ambitious",
-    "risk": "people-mind-v1:risk"
+    "risk": "people-mind-v1:risk",
+    "acquisitive": "personality-v1:facet-acquisitive",
+    "contented": "personality-v1:facet-contented",
+    "dutyBound": "personality-v1:facet-duty-bound"
   },
   "actions": {
-    "stay": { "id": "jobs-stay", "actKinds": ["keep-same", "commit"] },
-    "look": { "id": "jobs-look", "actKinds": ["change", "take-risk"] },
-    "leave": { "id": "jobs-leave-work", "actKinds": ["withdraw"] },
-    "apply": { "id": "jobs-apply", "actKinds": ["engage", "change"] },
-    "wait": { "id": "jobs-wait", "actKinds": ["delay"] },
-    "accept": { "id": "jobs-accept", "actKinds": ["commit", "change"] },
-    "decline": { "id": "jobs-decline", "actKinds": ["refuse", "keep-same"] }
+    "stay": {
+      "id": "jobs-stay",
+      "actKinds": ["keep-same", "commit"]
+    },
+    "look": {
+      "id": "jobs-look",
+      "actKinds": ["change", "take-risk"]
+    },
+    "leave": {
+      "id": "jobs-leave-work",
+      "actKinds": ["withdraw"]
+    },
+    "apply": {
+      "id": "jobs-apply",
+      "actKinds": ["engage", "change"]
+    },
+    "wait": {
+      "id": "jobs-wait",
+      "actKinds": ["delay"]
+    },
+    "accept": {
+      "id": "jobs-accept",
+      "actKinds": ["commit", "change"]
+    },
+    "decline": {
+      "id": "jobs-decline",
+      "actKinds": ["refuse", "keep-same"]
+    }
   },
   "need": "money",
   "effortParameter": "zero",
@@ -470,6 +1844,7 @@
     "leftWork": "left-work",
     "hired": "hired",
     "opening": "work-beyond-staff",
-    "retired": "retired"
+    "retired": "retired",
+    "lookingAround": "looking-around"
   }
 }

@@ -189,5 +189,27 @@
       "unit": "score per year",
       "citation": "BLS CPS participation by age, 2015-2019."
     }
+  },
+  "jobsCountedRestlessWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How much a counted worker's taste for risk and gain against contentment and duty adds to their pull toward looking around; checked against JOLTS 2001-2019 quits (1.9 percent a month).",
+    "spread": {
+      "low": 0.2,
+      "high": 1.5,
+      "unit": "score per trait point",
+      "citation": "How much a counted worker's taste for risk and gain against contentment and duty adds to their pull toward looking around; checked against JOLTS 2001-2019 quits (1.9 percent a month)."
+    }
+  },
+  "jobsOnTheJobSearchMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How long an employed person keeps looking before giving up for now; on-the-job search spells are short (Faberman, Mueller, Sahin and Topa 2022, Survey of Consumer Expectations job search supplement).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months",
+      "citation": "How long an employed person keeps looking before giving up for now; on-the-job search spells are short (Faberman, Mueller, Sahin and Topa 2022, Survey of Consumer Expectations job search supplement)."
+    }
   }
 }

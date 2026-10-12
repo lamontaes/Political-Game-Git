@@ -1275,7 +1275,7 @@
     "id": "SG-WORLD-jobs-counted-choices",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 835,
+    "line": 836,
     "whatItFakes": "Counted workers (the wider population) retire by the same reasons as full people but without the shared chooser, apply to every opening in their place and accept the offer they get.",
     "why": "The shared chooser needs a full person; filling in everyone who makes a job decision would undo the two-level population.",
     "addedBy": "OPUS-WORLD",
