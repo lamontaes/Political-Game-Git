@@ -28,6 +28,7 @@ import {
   prepareFinanceProcurement,
   admitCreditFacility,
   repriceCreditFacility,
+  attachBusinessCredit,
   admitBusinessBooks,
   admitFinanceCondition,
   settleFinanceContract,
@@ -818,6 +819,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     addCreditFacility(row) {
       admitCreditFacility(core, api, row);
+    },
+    attachBusinessCredit(id, facilityId) {
+      attachBusinessCredit(core, api, id, facilityId);
     },
     startJob(job, commitment, calendar) {
       startRecordedJob(core, api, job, commitment, calendar);

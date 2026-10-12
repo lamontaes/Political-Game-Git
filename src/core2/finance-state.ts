@@ -818,6 +818,27 @@ export function admitCreditFacility(
   });
 }
 
+/** core2-api-v13: a line a bank approved mid-run becomes the business's credit for its bills and payroll. */
+export function attachBusinessCredit(
+  core: CoreState,
+  api: CoreAPI,
+  organizationId: string,
+  facilityId: string,
+): void {
+  const book = core.finance.businesses.get(organizationId),
+    facility = core.finance.facilities.get(facilityId);
+  if (
+    !book ||
+    book.closedAt ||
+    !facility ||
+    !facility.active ||
+    facility.borrowerId !== organizationId
+  )
+    throw new Error("Business credit must be the open firm's own active line.");
+  policy(api);
+  book.creditFacilityId = facilityId;
+}
+
 /** core2-api-v11: a dated rate change; interest before today stays at the old rate. */
 export function repriceCreditFacility(
   core: CoreState,
