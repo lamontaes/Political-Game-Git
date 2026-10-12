@@ -9,6 +9,7 @@
 import { DEFAULT_DATA, extendData } from "../data";
 import type { CoreData, CoreInput } from "../types";
 import { WORLD_TRANSFER_MODULE } from "../world-transfer";
+import { withOutsideSpending } from "../outside-spending";
 import { BUSINESS_MODULE, BUSINESS_PARAMETERS } from "./business";
 import { CREDIT_MODULE, CREDIT_PARAMETERS, withTownBank } from "./credit";
 import { HOUSING_MODULE, HOUSING_PARAMETERS, withHousing } from "./housing";
@@ -27,7 +28,7 @@ export const WORLD_MODULES = [
 ] as const;
 
 export function withWorldEconomy(input: CoreInput): CoreInput {
-  return withHousing(withTownBank(withCentralBank(input)));
+  return withOutsideSpending(withHousing(withTownBank(withCentralBank(input))));
 }
 
 export function worldCoreData(base: CoreData = DEFAULT_DATA): CoreData {
