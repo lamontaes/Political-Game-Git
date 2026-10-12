@@ -77,7 +77,7 @@ From the CTO's screens playtest (12:45 p.m., Meridian, Idaho):
 - [x] **A law screen.** Politics → **Law here** lists each law series in force where you live, from GOV's `lawHere`: the combined value (marked if estimated), each level's own value and date (federal, state, county, city), and any later phases. Checked in a North Carolina town (seed law-a): minimum wage $7.25 an hour (federal and state), sales tax 7% (state 4.75%, city 2.25%), property tax 0.584% (county, estimated). One label is misleading: the bill catalog names `income-tax` "Local income tax rate", so the combined federal and state row borrows that name.
 - Sub-agents so far: one read-only Explore helper (Opus) inventoried the old UI to keep and `/play`'s old imports for FIXER.
 - [x] **What changed after an enactment.** The sheet now also lists laws a body has enacted that haven't taken effect yet, with the measure number and the date they will. A new enactment opens the sheet, and so does the day it takes effect. Checked with an ordinance enacted through GOV's `enactLaw` in a North Carolina town (seed law-a): a 3.25% city sales tax listed as 2026-001 ahead, then as taken effect on November 11. Its previous value can't show yet, because the city's starting rate isn't a row in the laws table.
-- [ ] The opening's mayor shot is an empty chamber (no figure).
+- [x] The opening's mayor shot was an empty chamber: its figure was still being drawn while the shot showed. Fixed by preparing the opening during loading (below). In Meridian, Idaho, the mayor is staged and drawn (211 KB figure).
 - [x] Until needed stopped 7 times in a row on "A choice". Not reproduced on this evening's head: in Melvin Village, New Hampshire (seed skip-a), six week-long skips ran without stopping, the character making 7 choices itself in each.
 - [ ] Seed `playtest-0712` hangs New life. On this evening's head it fails in 67 s with a two-level collapse error instead (see Needs, CORE and WORLD).
 - [ ] Internal ids left on screen: Budgets lines (`individualIncomeTax`), News records. The draft dropdown is fixed: law amounts and policies by name. The loading bar has no step text.
@@ -85,8 +85,8 @@ From the CTO's screens playtest (12:45 p.m., Meridian, Idaho):
 
 From the owner, via the CTO:
 
-- [ ] Loading shows steady progress through every step to the end (no stall at "finalizing your life").
-- [ ] The opening is prepared during loading: every shot's people, looks, drawn figures and picture ready, so nothing pops in.
+- [x] **Loading shows every step to the end.** The server builds the world in named stages and answers the loading screen's polls between them: building the town, writing everyone's past, opening the economy, starting the world, seating the government, preparing the opening (counting each figure), then loading the pictures (counting each one), then Ready. The bar follows the real stage.
+- [x] **The opening is prepared during loading, with no pop-in.** Every opening figure is drawn on the server during loading and cached by day. The screen then loads every shot's picture and figure before the opening starts. Measured in Chromium (seed load-a): 6 shots and 9 figures, none still loading when its shot appeared. This also fixes the CTO's empty mayor shot: the figure had been rendering while the shot was already showing.
 - [ ] History before the start (D1): officials' careers and past results in Politics, and the loading screen shows the history passes as they run (once GOV, PEOPLE, WORLD and CORE land them).
 - [ ] Use every painted place in the art library somewhere (meeting rooms, rallies, Go to), best-tagged match.
 - [ ] The bill menu offers all 18 law areas, as GOV's law reach lands.

@@ -619,3 +619,9 @@ select {
   text-underline-offset: 3px;
   cursor: help;
 }
+
+.progress span.steady {
+  animation: none;
+  width: 2%;
+  transition: width 0.4s ease-out;
+}

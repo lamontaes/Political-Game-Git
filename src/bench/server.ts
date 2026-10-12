@@ -8,7 +8,7 @@ import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { BenchPlayer } from "./player";
-import { buildBenchWorld } from "./world";
+import { buildBenchWorld, buildBenchWorldInStages } from "./world";
 import { knownCard, personCard } from "./card";
 import { openingShots } from "./opening";
 import { calendarItems, heardItems, newsItems } from "./calendar";
@@ -56,6 +56,29 @@ let placeId = "";
 let building = false;
 let conversation: Conversation | undefined;
 let filingVisit: BenchFilingVisit | undefined;
+// Where the build is, for the loading screen's polls.
+let buildProgress: { stage: string; done: number; total: number } = {
+  stage: "done",
+  done: 0,
+  total: 0,
+};
+// The opening, prepared during loading, and every figure drawn so far.
+let opening: ReturnType<typeof openingShots> | undefined;
+const figures = new Map<string, Buffer>();
+/** A figure picture, drawn once per person, place and spot. */
+function figureFor(url: URL): Buffer {
+  const person = url.searchParams.get("person") ?? "";
+  const place = url.searchParams.get("place") ?? "";
+  const spot = url.searchParams.get("spot") ?? "";
+  // Clothes follow the date, so a figure is kept for the day it was drawn.
+  const key = `${requireCore().date}|${person}|${place}|${spot}`;
+  let png = figures.get(key);
+  if (!png) {
+    png = figurePng(requireCore(), person, place, spot);
+    figures.set(key, png);
+  }
+  return png;
+}
 // What the other person brought up when the conversation opened (OPUS-PEOPLE's
 // "bring it up"): their lines come first in the conversation.
 let broughtUp: { text: string; sourceRecordIds: readonly string[] }[] = [];
@@ -176,7 +199,8 @@ const server = createServer(async (request, response) => {
       try {
         // The whole town, two-level (OPUS-CORE): full people for the
         // player's circle and officials, counts for everyone else.
-        const world = buildBenchWorld(
+        buildProgress = { stage: "people", done: 0, total: 0 };
+        const world = await buildBenchWorldInStages(
           url.searchParams.get("seed") ?? "",
           url.searchParams.get("date") ?? "",
           {
@@ -188,6 +212,9 @@ const server = createServer(async (request, response) => {
               ? { placeKey: url.searchParams.get("placeKey")! }
               : {}),
           },
+          (stage) => {
+            buildProgress = { stage, done: 0, total: 0 };
+          },
         );
         core = world.core;
         director = world.director;
@@ -196,6 +223,20 @@ const server = createServer(async (request, response) => {
         placeId = world.placeId;
         const entrant = { personId: world.playerId! };
         player.select(entrant.personId);
+        // The opening is prepared during loading: every shot's figures are
+        // drawn now, so the opening plays with nothing popping in.
+        figures.clear();
+        opening = openingShots(world.core, entrant.personId);
+        const urls = opening.flatMap((shot) =>
+          shot.people.map((person) => person.figureUrl),
+        );
+        buildProgress = { stage: "opening", done: 0, total: urls.length };
+        for (const figureUrl of urls) {
+          figureFor(new URL(figureUrl, "http://bench"));
+          buildProgress = { ...buildProgress, done: buildProgress.done + 1 };
+          await new Promise((resolve) => setImmediate(resolve));
+        }
+        buildProgress = { stage: "done", done: 0, total: 0 };
         send(200, {
           personId: entrant.personId,
           placeName: world.place.displayName,
@@ -223,15 +264,11 @@ const server = createServer(async (request, response) => {
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/figure") {
-      const png = figurePng(
-        requireCore(),
-        url.searchParams.get("person") ?? "",
-        url.searchParams.get("place") ?? "",
-        url.searchParams.get("spot") ?? "",
-      );
+      const png = figureFor(url);
       response.writeHead(200, {
         "Content-Type": "image/png",
-        "Cache-Control": "no-store",
+        // Kept briefly so a picture loaded during loading isn't fetched again.
+        "Cache-Control": "private, max-age=600",
       });
       response.end(png);
       return;
@@ -372,6 +409,10 @@ const server = createServer(async (request, response) => {
           }),
         ),
       );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/newlife/progress") {
+      send(200, buildProgress);
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/controls") {
@@ -530,7 +571,13 @@ const server = createServer(async (request, response) => {
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/opening") {
-      send(200, openingShots(requireCore(), url.searchParams.get("id") ?? ""));
+      const id = url.searchParams.get("id") ?? "";
+      send(
+        200,
+        opening && player?.personId === id
+          ? opening
+          : openingShots(requireCore(), id),
+      );
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/known") {
@@ -645,6 +692,8 @@ const server = createServer(async (request, response) => {
       building = true;
       try {
         const world = buildBenchWorld(seed, date, { minimumPeople: size });
+        figures.clear();
+        opening = undefined;
         const { place, residents } = world;
         const next = world.core,
           nextDirector = world.director;

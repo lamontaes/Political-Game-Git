@@ -331,7 +331,7 @@ export function stagePeople(
       name,
       spotId,
       figure: spotFigure(stage, spot, recipe),
-      figureUrl: `/api/figure?person=${encodeURIComponent(id)}&place=${encodeURIComponent(place)}&spot=${encodeURIComponent(spotId)}`,
+      figureUrl: `/api/figure?person=${encodeURIComponent(id)}&place=${encodeURIComponent(place)}&spot=${encodeURIComponent(spotId)}&date=${core.date}`,
     });
   }
   return { people, unplaced };

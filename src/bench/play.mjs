@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, window */
+/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, Image, window */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 const $ = (id) => document.getElementById(id);
@@ -56,8 +56,13 @@ function drawPeople(people) {
 // The opening: each level of government over the player's town, then home.
 const SHOT_MS = 4500;
 let skipOpening;
+// The opening's shots, fetched and their pictures loaded during loading.
+let openingShotsReady;
 async function playOpening() {
-  const shots = await api(`/api/opening?id=${encodeURIComponent(me.id)}`);
+  const shots =
+    openingShotsReady ??
+    (await api(`/api/opening?id=${encodeURIComponent(me.id)}`));
+  openingShotsReady = undefined;
   show("caption", true);
   $("game").classList.add("letterbox");
   for (const shot of shots) {
@@ -1517,9 +1522,65 @@ $("new-life").addEventListener("click", async () => {
   try {
     const chosen = placeRows.find((row) => row.name === $("place").value);
     const settings = worldSettings();
-    const life = await post(
-      `/api/newlife?${new URLSearchParams({ seed: $("seed").value, date: $("date").value, ...(chosen ? { placeKey: chosen.key } : {}), ...(settings ? { settings: JSON.stringify(settings) } : {}) })}`,
+    // Real progress through every step, from the server's build.
+    const bar = document.querySelector("#front .progress span");
+    bar.classList.add("steady");
+    const STEPS = [
+      "people",
+      "past",
+      "economy",
+      "core",
+      "government",
+      "opening",
+    ];
+    const poll = setInterval(async () => {
+      const p = await api("/api/newlife/progress").catch(() => undefined);
+      if (!p) return;
+      const at =
+        p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
+      const within = p.total ? p.done / p.total : 0;
+      bar.style.width = `${Math.round(((at + within) / (STEPS.length + 1)) * 100)}%`;
+      $("front-status").textContent =
+        `${controls.loading?.[p.stage] ?? ""}${p.total ? ` ${p.done} / ${p.total}` : ""}`;
+    }, 400);
+    let life;
+    try {
+      life = await post(
+        `/api/newlife?${new URLSearchParams({ seed: $("seed").value, date: $("date").value, ...(chosen ? { placeKey: chosen.key } : {}), ...(settings ? { settings: JSON.stringify(settings) } : {}) })}`,
+      );
+    } finally {
+      clearInterval(poll);
+    }
+    // Every picture the opening shows is loaded before it plays.
+    const shots = await api(
+      `/api/opening?id=${encodeURIComponent(life.personId)}`,
     );
+    const urls = [
+      ...new Set(
+        shots.flatMap((shot) => [
+          shot.backdrop.url,
+          ...shot.people.map((person) => person.figureUrl),
+        ]),
+      ),
+    ];
+    let loaded = 0;
+    await Promise.all(
+      urls.map(
+        (src) =>
+          new Promise((resolve) => {
+            const img = new Image();
+            img.onload = img.onerror = () => {
+              loaded++;
+              bar.style.width = `${Math.round(((STEPS.length + loaded / urls.length) / (STEPS.length + 1)) * 100)}%`;
+              $("front-status").textContent =
+                `${controls.loading?.pictures ?? ""} ${loaded} / ${urls.length}`;
+              resolve();
+            };
+            img.src = src;
+          }),
+      ),
+    );
+    openingShotsReady = shots;
     me = {
       id: life.personId,
       placeName: life.placeName,
