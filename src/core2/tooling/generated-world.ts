@@ -1,6 +1,10 @@
 /** A generated opening in a place drawn from all 56, the same route as the speed guard's month. */
 import { releaseRecentHistory } from "../../simulation/history-index";
-import { forgetLastValidatedWorld } from "../../simulation/world";
+import {
+  forgetLastValidatedWorld,
+  withoutWorldChecks,
+} from "../../simulation/world";
+import { bookkeeping } from "../bookkeeping";
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { buildPopulation } from "../population";
 import { buildDeepPast } from "../deep-past";
@@ -80,6 +84,17 @@ export function generatedOpening(
 ): CoreInput {
   const settings = options.settings ?? {};
   checkSettings(settings);
+  // World integrity checks are bookkeeping: on in tests and the bench only.
+  if (!bookkeeping())
+    return withoutWorldChecks(() => buildOpening(place, options, settings));
+  return buildOpening(place, options, settings);
+}
+
+function buildOpening(
+  place: { seed: string; key: string },
+  options: { economy?: boolean; twoLevel?: boolean },
+  settings: WorldSettings,
+): CoreInput {
   const population = buildPopulation({
     seed: place.seed,
     placeKey: place.key,
