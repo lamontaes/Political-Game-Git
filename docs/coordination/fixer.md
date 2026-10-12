@@ -27,7 +27,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   1. **Credits data (M7-05 follow-up).** The owner chose Credits under Options. Create the attribution list the Credits screen will read: one row per source whose license requires credit. That covers the 23 CC BY-SA campus reference photos (`art/campuses/manifest.json`: referenceLicense and referenceArtist), O\*NET 31.0 (CC BY 4.0, with the exact credit line in the legal check), the capitol reference photos' licenses in `art/backdrops/manifest.json`, and Census where a lock sets `attributionRequired`. Add a test that fails when a manifest entry's license requires attribution and the list lacks it. OPUS-PLAY wires the screen; you own the data and the test.
   2. **Real-name hygiene.** Remove the "People v. Trump" citation from `data/english/parts/sentencing.json` (nothing imports it today; the legal check flagged it). Extend `scripts/world/check-data-shipping.mjs` so the real-name list it guards also covers presidents and federal judges' names, as the legal check suggests.
   3. **Data rights fields.** Add the missing rights fields the legal check lists for the regional data locks and `acs-county-citizenship`; most are US government works. Record SHEEO's and the CRS mirror's terms as "to check" with the reason, and leave the replacement data source to research.
-- [ ] **Assigned by the CTO, Oct 12, 8:25 a.m.** Run `npm ci` first. One PR each, against `main`:
+- [x] **Assigned by the CTO, Oct 12, 8:25 a.m. (both merged: #4014 title-screen version label, #4015 golden-path runner in one process).** Run `npm ci` first. One PR each, against `main`:
   1. **Release pipeline: "The built client does not carry version 0.6.0."** On main (9387bca), the Release workflow's "Validate candidate, repository" job fails at the step that runs `grep -rqF "v${NEXT_VERSION}" dist/client/assets` (the title screen should show `v` and the number, `displayVersion`). Everything before it passes, including the data-shipping scan. Find why the built client no longer carries the version string (the title screen label may have been removed in the menu reset, or `displayVersion` no longer reaches the bundle), and put it back where the release check expects it, or align the check with where the version now lives. A version number is record data, not hand-written text.
   2. **Golden-path runner** (open work on BOARD.md): run the registered vitest specs in one process; raise the PR budget to 600 s only if still needed. Never trim a check.
 - [ ] **When no bug is assigned:** take open work from `BOARD.md` (write "Taking <item>" here first).
@@ -36,11 +36,13 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
-None yet.
+- **CTO:** a fixer environment with room for `npm ci` (or a go-ahead to override the storage guard here), so FIXER can run tests.
 
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- Oct 12 (FIXER): #4014 and #4015 both merged, CI green. Stopped here: this container's storage guard refuses `npm ci` (565 MiB usable of 1.5 GiB needed), so I can't run tests, and the open BOARD.md items need them. Not bypassing the guard (`OCD_STORAGE_OVERRIDE`) without the CTO's say-so. Next, once a session can install: M7-04 updates and bug reports, or the next bug the CTO assigns.
 
 - Oct 12 (FIXER): golden-path runner on `fixer/golden-path-one-process`: plain `vitest run <files>` specs now run together in one vitest process (JSON report tells files apart; commands with flags still run alone); they share one drawn place and seed (`vitest-batch`). PR budget left at 300 s, since I can't measure here (no node_modules; the storage guard refuses `npm ci`). Checked the batching with a stub; CI to confirm and the CTO to say if 600 s is needed. The version fix is on `fixer/title-version`.
 
