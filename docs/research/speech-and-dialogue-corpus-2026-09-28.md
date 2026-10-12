@@ -21,6 +21,7 @@ Copied on Oct 12, 2026 from the Drive document "07 RESEARCH FOR CTO REVIEW, Sept
 ## The register cards
 
 Each card lists moves, not finished lines. "Measured" means counted from the sources below; "use in the game" is an inference.
+
 - **May ship word for word:** formulas from the Congressional Record, federal hearings and White House briefings, which are public domain.
 - **Patterns only:** formulas from the Pennsylvania Journal and MeetingBank.
 
@@ -77,6 +78,7 @@ Each card lists moves, not finished lines. "Measured" means counted from the sou
 9. **Infamy works the same way:** a gaffe replayed on TV travels through the same carriers.
 
 **Test cases the system should be able to produce:**
+
 - RFK in Indianapolis, 1968; counter-test: the same speech on a quiet evening is forgotten within months.
 - Gettysburg, 1863: modest reception, then growth through later quotation.
 - The fireside chats: scarcity raises the impact of each address.
@@ -101,12 +103,14 @@ Each card lists moves, not finished lines. "Measured" means counted from the sou
 ## Sources
 
 **Public domain (formulas may ship):**
+
 - Congressional Record daily edition (govinfo.gov).
 - House and Senate committee hearing transcripts (govinfo.gov; ship only members' formulas).
 - White House press briefing transcripts (archived site) and the American Presidency Project.
 - House and Senate historians' oral histories.
 
 **Study only (patterns and counts, never shipped lines):**
+
 - MeetingBank (city council meetings).
 - Santa Barbara Corpus of Spoken American English (CC BY-ND 3.0).
 - CORAAL (CC BY-NC-SA 4.0).
@@ -115,6 +119,7 @@ Each card lists moves, not finished lines. "Measured" means counted from the sou
 - Pennsylvania Legislative Journal (public-domain status not checked).
 
 **Research on how talk works:**
+
 - Pomerantz (1984); Heritage (1984).
 - Sacks, Schegloff and Jefferson (1974).
 - Atkinson (1984); Heritage and Greatbatch (1986); Bull, "Claps and Claptrap."
