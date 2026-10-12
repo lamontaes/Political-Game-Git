@@ -176,9 +176,9 @@
   },
   "careHours": {
     "value": 2.23,
-    "tag": "ESTIMATED",
-    "citation": "BLS American Time Use Survey 2025, Table 1: caring for and helping household members, 2.23 hours per day among people who did it that day (22.0% of people); https://www.bls.gov/news.release/atus.t01.htm",
-    "estimatedFrom": "The ATUS average for people who gave care that day is used as the length of one act of caring for a relative, inside or outside the home; ATUS counts household members only, and an act stands for a day's caregiving, not one task (CTO, October 10, 2026)."
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population engaging in each activity, averages per day' (released 2026-06-25), https://www.bls.gov/news.release/atus.t01.htm: caring for and helping household members, 2.23 hours per participant-day (22.0% of people on an average day); nonhousehold members 1.97 hours.",
+    "estimatedFrom": "One completed care act is one participant-day of household care; the 22.0% participation share is the outcome check, not a bound."
   },
   "civicHours": {
     "value": 2.18,
@@ -190,11 +190,11 @@
     "value": 0.25,
     "tag": "TUNABLE",
     "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-stressBaseline",
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
     },
+    "stopgapId": "SG-P8-param-stressBaseline",
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
@@ -659,13 +659,15 @@
     }
   },
   "openingPeerGroupSize": {
-    "value": 24,
-    "tag": "TUNABLE",
-    "citation": "Prototype author choice, not an observed US school-class size, personal-network size, or empirically estimated bound. Recorded school context supplies eligible identities only; roster grouping still requires calibration.",
-    "estimatedFrom": "Maximum intended size of a generated peer group; balanced partitioning can yield smaller groups, and isolated/missing contexts yield no added contacts. No minimum player-circle size is enforced.",
+    "value": 20,
+    "tag": "ESTIMATED",
+    "citation": "NCES National Teacher and Principal Survey 2020-21, average public school class size by school level, https://nces.ed.gov/surveys/ntps/estable/table/ntps/ntps2021_fl07_t1n: class-sized groups average 17 to 22 across school levels.",
+    "estimatedFrom": "Maximum intended size of a generated peer group, set to the class-size average (about 20). A class is not an acquaintance circle (the real circle is the whole grade cohort and no source gives a remembered-peer circle size), so the generated-prior stopgap stays open. Balanced partitioning can yield smaller groups.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical bounds or measured opening-circle spread have been established for this peer-roster parameter. Actual group size follows eligible recorded cohort size and the deterministic partition."
+      "low": 17,
+      "high": 22,
+      "unit": "people per class-sized group",
+      "citation": "NCES NTPS 2020-21 average class sizes across school levels (17 to 22)."
     },
     "stopgapId": "SG-P8-opening-peer-network",
     "checkRange": {
@@ -934,17 +936,20 @@
     }
   },
   "workSleepReserveHours": {
-    "value": 8,
-    "tag": "TUNABLE",
-    "citation": "No measured bound for this prototype parameter. Daily time reserved for sleep in the finite prototype. This does not claim an individual sleep observation.",
+    "value": 9.03,
+    "tag": "ESTIMATED",
+    "citation": "BLS American Time Use Survey 2025, Table 1 (https://www.bls.gov/news.release/atus.t01.htm) and Table 2 (https://www.bls.gov/news.release/atus.t02.htm): sleeping (primary activity, naps included) averages 9.03 hours per diary day for all days; 8.76 weekdays, 9.68 weekends and holidays; men 8.93, women 9.13.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+      "low": 8.76,
+      "high": 9.68,
+      "unit": "hours per diary day",
+      "citation": "BLS ATUS 2025 Table 2: weekdays 8.76 to weekends and holidays 9.68."
     },
     "stopgapId": "SG-P8-work-time-reserve",
     "checkRange": {
       "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
-    }
+    },
+    "estimatedFrom": "Daily time reserved for sleep is the ATUS all-days population mean of primary-activity sleep. Standard BLS tables do not cut sleep by employment status, so the all-population mean is used for workers."
   },
   "workRoutineRetentionWeeks": {
     "value": 4,
@@ -1717,7 +1722,7 @@
   "openingRetirementClaimAgeYears": {
     "value": 64,
     "tag": "ESTIMATED",
-    "citation": "SSA Annual Statistical Supplement 2022, Table 6.B5, 'Number and average age of retired-worker awardees, and percentage distribution by age, by sex and year of award action, 1940–2021' (Master Beneficiary Record): average age at award 63.4–65.1 across award years 1985–2021; in 2021 about 25% claimed at 62 and about 8% at 70 or later.",
+    "citation": "Calibration target, no longer the claim age itself: SSA's average age at entitlement for claims made 2000–2020 was 63.4–65.0 (Annual Statistical Supplement 2021, Table 6.B5.1). The claim is a decision inside the law (src/core2/retirement-claim.ts).",
     "estimatedFrom": "The opening retiree stock claimed over about 1985–2020, when the average award age was 63.4–65.0; awards at full retirement age include disability conversions the generator doesn't model.",
     "spread": {
       "low": 62,
@@ -1730,18 +1735,18 @@
     }
   },
   "openingRetirementClaimTraitPullYears": {
-    "value": 0.25,
+    "value": 4,
     "tag": "TUNABLE",
-    "citation": "Authored modest signed reliability-context adjustment to generated claim timing; no causal trait-retirement coefficient or bound is known.",
+    "citation": "SSA Annual Statistical Supplement 2022, Table 6.B5: claim ages spread from 62 (about 25% in 2021) to 70 and later (about 8%); one unit of patience (mean of deliberation, reliability and less risk) moves a claim about a year and a half.",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
     },
-    "stopgapId": "SG-P8-param-openingRetirementClaimTraitPullYears",
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
+    },
+    "checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4–65.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) is not reached yet."
   },
   "openingRetirementCoveredFraction": {
     "value": 0.65,
@@ -3302,7 +3307,7 @@
   "openingCoworkerGroupSize": {
     "value": 8,
     "tag": "TUNABLE",
-    "citation": "Largest generated workgroup of residents at one employer whose members know each other by name; prototype choice pending a US source on how many coworkers people know. A survey of 3,000 full-time US workers (Olivet Nazarene University, 2019) found five friends at work on average, a lower bound on coworkers known by name.",
+    "citation": "Typical generated workgroup of residents at one employer (groups are drawn person by person, so sizes vary around it) whose members know each other by name; prototype choice pending a US source on how many coworkers people know. A survey of 3,000 full-time US workers (Olivet Nazarene University, 2019) found five friends at work on average, a lower bound on coworkers known by name.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -4273,7 +4278,7 @@
   "driveClosureImpulse": {
     "value": 0.47,
     "tag": "ESTIMATED",
-    "citation": "Losing one's job when the employer closes: the Social Readjustment Rating Scale's 'Fired at work', 47 life-change units divided by 100 (Holmes and Rahe 1967, Journal of Psychosomatic Research 11(2):213-218), the same anchor the story director uses for a lost job.",
+    "citation": "Losing one's job, to a closure or a layoff: the Social Readjustment Rating Scale's 'Fired at work', 47 life-change units divided by 100 (Holmes and Rahe 1967, Journal of Psychosomatic Research 11(2):213-218), the same anchor the story director uses for a lost job.",
     "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.39 to 0.47 (the scale's 'business readjustment' to 'fired at work')"
   },
   "ownerDistributionBufferMultiple": {
@@ -4371,6 +4376,74 @@
     },
     "checkRange": {
       "ref": "M0-08"
+    }
+  },
+  "driveEvictionImpulse": {
+    "value": 0.47,
+    "tag": "ESTIMATED",
+    "citation": "Losing one's home to eviction, sized like losing one's job: the Social Readjustment Rating Scale has no eviction item (its nearest, 'Foreclosure of mortgage or loan', is 30 life-change units; 'Fired at work' is 47; Holmes and Rahe 1967), and Desmond and Kimbro (2015, Social Forces 94(1):295-324) find evicted mothers' depression twice that of matched mothers, so the foreclosure item understates it. At 0.30 no one of 101 evicted residents in a drawn town formed a drive; at 0.47, 6 to 8% hold a grudge against the landlord.",
+    "estimatedFrom": "Holmes and Rahe (1967) and Desmond and Kimbro (2015); spread 0.3 to 0.47"
+  },
+  "schoolCohortPopulationShare": {
+    "value": 0.0129,
+    "tag": "ESTIMATED",
+    "citation": "Share of a place's residents in one year of age at school ages: the 2020 Census counted 42.6 million people aged 5 to 14 of 331.4 million, about 1.29% per single year (U.S. Census Bureau, 2020 Census Demographic and Housing Characteristics, Table P12). Sizes a place's catchment of schools when its own schools are not recorded.",
+    "estimatedFrom": "2020 Census DHC P12, national; spread 0.011 to 0.015 across places (older and younger places)"
+  },
+  "sellerCapacityUtilization": {
+    "value": 0.796,
+    "tag": "ESTIMATED",
+    "citation": "Board of Governors of the Federal Reserve System, G.17 Industrial Production and Capacity Utilization: total industry capacity utilization averaged 79.6% over 1972–2023; https://www.federalreserve.gov/releases/g17/current/",
+    "estimatedFrom": "A seller's monthly capacity is its projected sales divided by this rate; spending beyond it buys the same thing outside the town (residents travel to the next town). Industrial utilization stands in for retail and service capacity.",
+    "spread": {
+      "low": 0.7,
+      "high": 0.85,
+      "unit": "share of capacity in use",
+      "citation": "G.17 range over business cycles, 1972–2023."
+    }
+  },
+  "openingRetirementClaimAnchorYearsBeforeFull": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Calibrated so the opening's retirees claimed at SSA's average age at entitlement, 63.4–65.0 for claims made 2000–2020 (SSA Annual Statistical Supplement 2021, Table 6.B5.1).",
+    "spread": {
+      "low": 0,
+      "high": 3,
+      "unit": "years before full retirement age",
+      "citation": "From claiming at full retirement age to the earliest claim."
+    },
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    },
+    "checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4–65.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) is not reached yet."
+  },
+  "openingRetirementClaimNeedPullYears": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "People with little saved claim early: in 2021 about a quarter of new retired workers claimed at 62 (SSA Annual Statistical Supplement 2022, Table 6.B5).",
+    "spread": {
+      "low": 0,
+      "high": 4,
+      "unit": "years earlier with no savings",
+      "citation": "From no effect to claiming at 62 from any full retirement age."
+    },
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    },
+    "checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4–65.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) is not reached yet."
+  },
+  "openingRetirementClaimFullBufferMonths": {
+    "value": 24,
+    "tag": "TUNABLE",
+    "citation": "Months of living costs in cash at which savings no longer push an early claim; Federal Reserve SHED 2020: 64% of adults could cover a $400 emergency with cash.",
+    "spread": {
+      "low": 6,
+      "high": 60,
+      "unit": "months of living costs",
+      "citation": "From an emergency fund to several years of costs."
+    },
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     }
   }
 }

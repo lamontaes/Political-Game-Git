@@ -2,8 +2,10 @@ import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { drivesReport } from "../core2/modules/drives";
 import { effectsOn } from "../core2/modules/law-effects";
 import { coreAPI } from "../core2/state";
+import { HOUSING_MODULE_ID } from "../core2/modules/housing";
 import type { CoreState } from "../core2/types";
 import { relationWord, schoolsOf } from "./words";
+import { scenePlace, stagePeople } from "./scene";
 
 // Engineering page size for the card's closest people, not a model value.
 const CLOSEST = 8;
@@ -84,6 +86,20 @@ export function personCard(core: CoreState, personId: string) {
       hoursDaily: job.hoursDaily,
     },
     liquidMinor: person.liquidMinor,
+    // The household's home, from OPUS-WORLD's housing records.
+    dwelling: core.modules.has(HOUSING_MODULE_ID)
+      ? ((coreAPI(core)
+          .moduleState(HOUSING_MODULE_ID)
+          .table("dwellings")
+          .get(`dwelling:${person.householdId}`) as
+          | {
+              tenure: string;
+              kind?: string;
+              valueMinor?: number;
+              rentMinor?: number;
+            }
+          | undefined) ?? null)
+      : null,
     affect: person.affect,
     needs: person.needs,
     ties,
@@ -111,5 +127,66 @@ export function personCard(core: CoreState, personId: string) {
         kind: fact.kind,
         summary: fact.summary,
       })),
+  };
+}
+
+/**
+ * What the viewer could know about someone (M6-02 person card): their name,
+ * how they're related, the tie between you, and, for family and coworkers,
+ * where they work. Nothing private (money, mood, drives) shows.
+ */
+export function knownCard(core: CoreState, viewerId: string, otherId: string) {
+  const viewer = core.people.get(viewerId);
+  const other = core.people.get(otherId);
+  if (!viewer || !other) throw new Error("No such person.");
+  const kin = (viewer.pastFacts ?? []).find(
+    (fact) =>
+      fact.kind.startsWith("family:") && fact.facts?.otherPersonId === otherId,
+  );
+  const family = viewer.familyIds.has(otherId) || Boolean(kin);
+  const housemate = viewer.householdId === other.householdId;
+  const job = other.jobId ? core.jobs.get(other.jobId) : undefined;
+  const viewerJob = viewer.jobId ? core.jobs.get(viewer.jobId) : undefined;
+  const coworker = Boolean(
+    job && viewerJob && job.organizationId === viewerJob.organizationId,
+  );
+  const tie = [...(core.relationshipsByPerson.get(viewerId) ?? [])]
+    .map((id) => core.relationships.get(id))
+    .find(
+      (row) =>
+        row &&
+        ((row.actorId === viewerId && row.otherId === otherId) ||
+          (row.otherId === viewerId && row.actorId === otherId)),
+    );
+  return {
+    personId: otherId,
+    name: `${other.givenName} ${other.familyName}`,
+    relation: relationWord(core, otherId, kin?.kind.slice("family:".length)),
+    // Family and housemates know each other's ages; others are known by sight.
+    age:
+      family || housemate
+        ? ageOnDate(makeIsoDate(other.birthDate), makeIsoDate(core.date))
+        : null,
+    alive: other.alive,
+    work:
+      (family || housemate || coworker) && job
+        ? {
+            title: job.title,
+            employer: core.organizations.get(job.organizationId)?.name ?? null,
+          }
+        : null,
+    tie: tie
+      ? {
+          kind: tie.kind,
+          level: tie.level,
+          lastContactDate: tie.lastContactDate,
+        }
+      : null,
+    known: viewer.knownIds.has(otherId) || family,
+    // A large standing figure: the person on the lead spot of the room you're in.
+    figureUrl:
+      stagePeople(core, scenePlace(core, viewerId).place, [
+        { id: otherId, name: `${other.givenName} ${other.familyName}` },
+      ]).people[0]?.figureUrl ?? null,
   };
 }

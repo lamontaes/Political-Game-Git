@@ -107,8 +107,8 @@
         <button type="button" data-tab="who">Who you are</button>
         <button type="button" data-tab="money">Money and property</button>
         <button type="button" data-tab="jobs">Jobs and study</button>
-        <button type="button" data-tab="guide" disabled>Guide</button>
-        <button type="button" data-tab="options" disabled>Options</button>
+        <button type="button" data-tab="guide">Guide</button>
+        <button type="button" data-tab="options">Options</button>
       </nav>
 
       <section id="sheet" class="panel corners" hidden>
@@ -140,6 +140,16 @@
           >Party
           <select id="filing-party"></select
         ></label>
+      </section>
+
+      <section id="person" class="panel corners" hidden>
+        <img id="person-figure" alt="" />
+        <div>
+          <h2 id="person-name"></h2>
+          <div id="person-facts"></div>
+          <button id="person-talk" type="button">Talk</button>
+          <button id="person-close" type="button">Close</button>
+        </div>
       </section>
 
       <section id="card" class="panel corners" hidden>

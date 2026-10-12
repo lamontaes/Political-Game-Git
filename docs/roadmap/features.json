@@ -88,7 +88,7 @@
       "golden_path": "core",
       "package": "M0-core",
       "test": "A full year in a random place: under 10% of businesses close; sales pay more than half of all wages; every dollar balances; outside money is reported next to real public spending and Social Security per resident; national conditions flat and labeled until M1.",
-      "command": null,
+      "command": "CORE2_BOOKKEEPING=0 node --import tsx scripts/core2-year/closures.mjs",
       "passes": false
     },
     {
@@ -148,7 +148,7 @@
       "golden_path": "world",
       "package": "M1-macro",
       "test": "A one-year run keeps national figures within real historical spreads (each month's 12-month change in unemployment, prices and payroll jobs, and each quarter's output growth, inside the 5th to 95th percentile of 1990 to the latest year); a rate decision changes what loans cost in the town; every decision is traceable to the members' reasons, with no random draws.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts",
       "passes": false
     },
     {

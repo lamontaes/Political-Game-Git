@@ -209,4 +209,52 @@ describe("jobs", () => {
     expect(api.moduleState("jobs").table("seekers").get("w1")).toBeTruthy();
     expect(money(core)).toBe(total);
   });
+  it("pays a laid-off worker unemployment insurance from the state's fund after the waiting week", () => {
+    const opening = input();
+    const outside = "organization:outside";
+    const core = createLifeCore(
+        {
+          ...opening,
+          organizations: [
+            ...opening.organizations!,
+            {
+              id: outside,
+              placeId: place,
+              name: "Outside the town",
+              kind: "outside",
+              liquidMinor: 0,
+              outsideFlow: src(),
+              source: src(),
+            },
+          ],
+        } as CoreInput,
+        { data, modules: [JOBS_MODULE] },
+      ),
+      api = coreAPI(core);
+    withBooks(core, 0.25);
+    advanceCore(core, "2021-06-30");
+    const claims = api.moduleState("jobs").table("claims").rows();
+    const w1 = claims.find((row) => row.personId === "w1");
+    // Half of $840 a week, under the $611 maximum; the waiting week unpaid.
+    expect(w1).toMatchObject({
+      weeklyMinor: 42_000,
+      reasonKey: "demand-below-staff",
+    });
+    expect(Number(w1!.paidMinor)).toBeGreaterThan(0);
+    expect(Number(w1!.paidMinor) % 42_000).toBe(0);
+    expect(String(w1!.nextPayAt) > String(w1!.filedAt)).toBe(true);
+    // Nobody who kept their job has a claim.
+    const laidOff = new Set(
+      api
+        .moduleState("jobs")
+        .table("changes")
+        .query("byKind", ["layoff"])
+        .map((row) => row.personId),
+    );
+    for (const row of claims) expect(laidOff.has(row.personId)).toBe(true);
+    const flows = core.cashJournal.externalFlowsByOwner.get(outside);
+    expect(flows?.netMinor).toBe(
+      -claims.reduce((sum, row) => sum + Number(row.paidMinor), 0),
+    );
+  });
 });

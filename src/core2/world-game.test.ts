@@ -39,6 +39,14 @@ describe("a new game with the world economy", () => {
     const opening = cash();
     advanceCore(core, "2021-02-01");
     expect(ownedHomes(coreAPI(core)).length).toBeGreaterThan(0);
+    const kinds = new Set(
+      coreAPI(core)
+        .moduleState("housing")
+        .table("dwellings")
+        .rows()
+        .map((row) => row.kind),
+    );
+    expect(kinds.has("house")).toBe(true);
     let outside = 0;
     for (const row of core.cashJournal.externalFlowsByOwner.values())
       outside += row.netMinor;

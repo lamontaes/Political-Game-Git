@@ -88,6 +88,7 @@ export function newsItems(core: CoreState) {
       id: row.id,
       date: row.date,
       kind: row.kind,
+      visibility: row.visibility,
       facts: (row as { facts?: Record<string, unknown> }).facts ?? {},
     }));
 }

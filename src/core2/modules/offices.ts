@@ -24,6 +24,7 @@
  * SG-GOV-special-election-appointee).
  */
 import { registerElectorate } from "../electorate";
+import { partyName } from "../appointments";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -222,12 +223,23 @@ function seatNamedOfficial(
   const role = /legislature|us-house|us-senate/.test(office.kind)
     ? "sitting-legislator-at-opening"
     : "executive-officeholder-at-opening";
+  // A vice president isn't related to the president: no shared family name.
+  const president =
+    seat.id === "seat:US:vice-president"
+      ? (
+          table(api, "terms").query("bySeatStatus", [
+            "seat:US:president",
+            "serving",
+          ]) as unknown as TermRow[]
+        )[0]
+      : undefined;
   const identity = drawOfficialIdentity({
     worldSeed,
     seatKey: seat.id,
     stateUsps,
     role,
     referenceDate: date,
+    ...(president ? { avoidFamilyNames: [president.identity.familyName] } : {}),
     ...(role === "sitting-legislator-at-opening"
       ? {
           legalMinimumAge:
@@ -253,7 +265,7 @@ function seatNamedOfficial(
       birthDate: identity.birthDate,
       homeState: office.jurisdiction,
     },
-    party: seat.party,
+    party: partyName(seat.party),
     startDate: date,
     endDate: termEnd(office, seat, date),
     endEstimated: true,
@@ -285,7 +297,7 @@ function seatResident(
       birthDate: person.birthDate,
       homeState: office.jurisdiction,
     },
-    party: seat.party,
+    party: partyName(seat.party),
     startDate: date,
     endDate: termEnd(office, seat, date),
     endEstimated: true,
@@ -604,7 +616,7 @@ function officesCalendarWork(
     ({
       endDate: null,
       endEstimated: true,
-      party: seat.party,
+      party: partyName(seat.party),
     } as unknown as TermRow);
   const filled = fillVacancy(
     api,

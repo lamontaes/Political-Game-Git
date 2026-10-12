@@ -16,7 +16,8 @@
     "my_when": "When the player last saw that person, from a contact record, said the same way.",
     "relation": "How the speaker is related to someone, with the possessive, from the family record.",
     "topic": "What happened, from a news record the speaker heard.",
-    "first": "The given name of someone both people know, from the person's record."
+    "first": "The given name of someone both people know, from the person's record.",
+    "year": "A year from a dated record."
   },
   "maxWords": 10,
   "minDocuments": 2,
@@ -129,7 +130,18 @@
         "Still working there?",
         "Still there?",
         "Are you still working for them?",
-        "Still with {employer}?"
+        "Still with {employer}?",
+        "You're still at {employer}?",
+        "You're still working at {employer}?",
+        "You're still working for {employer}?",
+        "You're still with {employer}?",
+        "You're still working there?",
+        "You're still working now?",
+        "You still work at {employer}?",
+        "You still work for {employer}?",
+        "You still with {employer}?",
+        "And you're still at {employer}?",
+        "So you're still at {employer}?"
       ]
     },
     {
@@ -394,14 +406,14 @@
       "choice": "none",
       "stages": ["none"],
       "candidates": [
+        "Not at the moment.",
         "Not right now.",
         "I'm not working right now.",
         "I'm not working.",
-        "Not at the moment.",
         "I'm looking for work.",
-        "I'm between jobs.",
-        "No, not right now."
-      ]
+        "I'm between jobs."
+      ],
+      "note": "Kept although it fits a yes/no question better than \"What do you do?\": no transcript says \"I'm not working right now.\" twice, and without a reply the conversation ends."
     },
     {
       "move": "other-work-answer-ack",
@@ -496,13 +508,18 @@
         "You still living in {place}?",
         "Are you still living there?",
         "Do you still live there?",
-        "How's {place}?",
-        "How do you like {place}?",
-        "How do you like living in {place}?",
         "Still in {place}?",
         "Still living in {place}?",
         "You still live there?",
-        "Still living there?"
+        "Still living there?",
+        "You still live in {place}?",
+        "You're still in {place}?",
+        "You're still living in {place}?",
+        "You're still living there?",
+        "And you still live in {place}?",
+        "So you still live in {place}?",
+        "You live in {place} now?",
+        "You're living in {place} now?"
       ]
     },
     {
@@ -516,8 +533,7 @@
         "Yes, I still live there.",
         "I still live there.",
         "I still live in {place}.",
-        "Still in {place}.",
-        "Yes, I am."
+        "Still in {place}."
       ]
     },
     {
@@ -580,12 +596,7 @@
       "role": "answer",
       "choice": "brief",
       "raises": "next",
-      "candidates": [
-        "Still here.",
-        "I'm still here.",
-        "Still there.",
-        "Same place."
-      ]
+      "candidates": ["Still here.", "I'm still here.", "Same place."]
     },
     {
       "move": "home-lie-moved",
@@ -629,29 +640,14 @@
       "subject": "home-new",
       "role": "ask",
       "choice": "where",
-      "candidates": [
-        "Where do you live?",
-        "Where do you live now?",
-        "Where are you living now?",
-        "Where are you living?",
-        "Where are you from?",
-        "Where do you come from?",
-        "Where are you living these days?"
-      ]
+      "candidates": ["Where are you from?", "Where do you come from?"]
     },
     {
       "move": "home-new-answer-plain",
       "subject": "home-new",
       "role": "answer",
       "choice": "plain",
-      "candidates": [
-        "In {place}.",
-        "I live in {place}.",
-        "I'm in {place}.",
-        "I'm from {place}.",
-        "{place}.",
-        "I'm living in {place}."
-      ]
+      "candidates": ["I'm from {place}.", "{place}."]
     },
     {
       "move": "home-new-answer-years",
@@ -662,10 +658,7 @@
       "candidates": [
         "I've lived in {place} for {years} years.",
         "I've been in {place} for {years} years.",
-        "I've lived in {place} {years} years.",
-        "For {years} years now.",
-        "{years} years now.",
-        "I've been here {years} years."
+        "I've lived in {place} {years} years."
       ]
     },
     {
@@ -866,7 +859,12 @@
         "You still at {employer}?",
         "Are you still there?",
         "Are you still working there?",
-        "Do you still work there?"
+        "Do you still work there?",
+        "You're still at {employer}?",
+        "You're still working at {employer}?",
+        "You're still with {employer}?",
+        "You still work at {employer}?",
+        "Still with {employer}?"
       ]
     },
     {
@@ -953,10 +951,6 @@
         "Have you seen {name} recently?",
         "Have you heard from {name} lately?",
         "Have you seen {name} around?",
-        "Do you know {name}?",
-        "You know {name}?",
-        "Do you remember {name}?",
-        "Remember {name}?",
         "How's {name} been?",
         "Seen {first} lately?",
         "Have you seen {first} lately?",
@@ -1021,13 +1015,7 @@
       "subject": "mutual",
       "role": "answer",
       "choice": "ack",
-      "candidates": [
-        "{name}, right.",
-        "Oh, {name}.",
-        "Oh, okay.",
-        "Okay.",
-        "Really?"
-      ]
+      "candidates": ["Oh, okay.", "Okay.", "Really?"]
     },
     {
       "move": "mutual-answer-mine-saw",
@@ -1081,14 +1069,7 @@
         "Have you met {name}?",
         "Did you ever meet {relation}?",
         "You've met {relation}, haven't you?",
-        "This is {relation}, {name}.",
-        "This is {relation}.",
-        "I want you to meet {relation}.",
-        "Do you know {relation}?",
-        "Do you know {name}?",
-        "Have you ever met {relation}?",
-        "You know {relation}, {name}.",
-        "This is {name}."
+        "Have you ever met {relation}?"
       ]
     },
     {
@@ -1116,13 +1097,7 @@
         "{name}'s {relation}.",
         "That's {relation}.",
         "That's {relation}, {name}.",
-        "{name}? That's {relation}.",
-        "{name} is my sister.",
-        "{name} is my brother.",
-        "{name} is my son.",
-        "{name} is my daughter.",
-        "{name} is my mother.",
-        "{name} is my father."
+        "{name}? That's {relation}."
       ]
     },
     {
@@ -1137,7 +1112,12 @@
         "She lives with me.",
         "He lives with me.",
         "She lives with us.",
-        "He lives with us."
+        "He lives with us.",
+        "{name} still lives with me.",
+        "{name} still lives with us.",
+        "{name} lives here.",
+        "{name} lives here with me.",
+        "{name} lives at home."
       ]
     },
     {
@@ -1574,7 +1554,12 @@
         "Still in {place}?",
         "Are you still living there?",
         "Do you still live there?",
-        "Are you still there?"
+        "Are you still there?",
+        "You still live in {place}?",
+        "You're still in {place}?",
+        "You're still living in {place}?",
+        "You live in {place} now?",
+        "You're living in {place} now?"
       ]
     },
     {
@@ -1622,7 +1607,6 @@
         "What do you do now?",
         "Where do you work now?",
         "Where are you working now?",
-        "What are you doing?",
         "What do you do?"
       ]
     },
@@ -1762,7 +1746,7 @@
       "role": "answer",
       "choice": "brief",
       "raises": "next",
-      "candidates": ["That's right.", "That's it.", "Yep.", "Right."]
+      "candidates": ["That's right.", "Yep.", "Right."]
     },
     {
       "move": "home-reply-answer-own",
@@ -1872,7 +1856,13 @@
         "No, not lately.",
         "No, not in a while.",
         "I haven't seen {name} in a while.",
-        "I haven't seen {name} lately."
+        "I haven't seen {name} lately.",
+        "Not for a while.",
+        "Not for a long time.",
+        "Not in years.",
+        "Not since {year}.",
+        "I haven't.",
+        "No, I haven't."
       ]
     },
     {

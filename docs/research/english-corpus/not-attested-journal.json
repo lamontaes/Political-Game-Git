@@ -1,27 +1,60 @@
 {
   "register": "journal",
   "read": {
+    "Air Force Historical Research Agency, USAF Oral History Program": 4,
+    "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
     "Federal Election Commission (fec.gov)": 253,
     "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+    "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+    "National Archives History Office oral history project": 57,
+    "National Archives History Office oral history project (brooks-oral-histories)": 26,
+    "National Archives History Office oral history project (nprc-oral-histories)": 12,
+    "National Archives History Office oral history project (nyc-oral-histories)": 6,
+    "National Archives History Office oral history project (ross-oral-histories)": 22,
+    "National Archives History Office oral history project (veterans-oral-histories)": 9,
+    "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+    "Naval History and Heritage Command, Navy strategy oral histories": 2,
+    "Richard Nixon Presidential Library (NARA) oral history project": 82,
+    "U.S. Army Center of Military History": 1,
     "U.S. Election Assistance Commission (eac.gov)": 65,
+    "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+    "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "blm": 817,
+    "briefing": 1499,
     "crec": 445,
+    "dcpd": 4730,
+    "doi": 674,
+    "doj": 1621,
+    "dol-osha": 501,
+    "eeoc": 594,
+    "epa": 1964,
+    "fdic": 700,
     "hearings": 1617,
     "house": 115,
+    "hud": 996,
     "nasa": 317,
+    "nasa2": 349,
+    "ncua": 683,
+    "nih": 52,
+    "nps": 515,
+    "nps.gov": 1728,
+    "nps.gov (PDF)": 164,
+    "ntia": 371,
+    "sba": 577,
+    "usa.gov": 312,
+    "usfa.fema.gov": 106,
+    "usgs": 742,
+    "va": 317,
+    "weather.gov": 34,
     "wpa": 38
   },
   "notAttested": [
     {
       "move": "school-line-started",
       "text": "I started at {school}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "school-line-started",
-      "text": "I went to school at {school}.",
-      "documents": 1,
+      "documents": 6,
       "modern": 0
     },
     {
@@ -33,43 +66,31 @@
     {
       "move": "school-line-started",
       "text": "I enrolled at {school}.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
       "move": "work-line-started",
       "text": "I started working at {employer}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "work-line-started",
-      "text": "I went to work at {employer}.",
       "documents": 1,
       "modern": 1
     },
     {
       "move": "work-line-started",
-      "text": "I went to work for {employer}.",
-      "documents": 5,
-      "modern": 0
-    },
-    {
-      "move": "work-line-started",
       "text": "I got a job at {employer}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
       "move": "work-line-started",
       "text": "I got a job with {employer}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "work-line-started",
       "text": "I started at {employer}.",
-      "documents": 0,
+      "documents": 6,
       "modern": 0
     },
     {
@@ -80,38 +101,20 @@
     },
     {
       "move": "work-line-started",
-      "text": "I got a job.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "work-line-started",
       "text": "I took a job at {employer}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
       "move": "work-line-started",
       "text": "I took a job with {employer}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "work-line-started",
-      "text": "I was hired by {employer}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
       "move": "work-line-started",
       "text": "I was hired at {employer}.",
       "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "work-line-started",
-      "text": "I started working for {employer}.",
-      "documents": 1,
       "modern": 0
     },
     {
@@ -129,13 +132,13 @@
     {
       "move": "work-line-lost",
       "text": "I got laid off.",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
       "move": "work-line-lost",
       "text": "I was let go.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -147,7 +150,7 @@
     {
       "move": "work-line-lost",
       "text": "I was fired.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -165,7 +168,7 @@
     {
       "move": "work-line-lost",
       "text": "They let me go.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -177,8 +180,8 @@
     {
       "move": "work-other-started",
       "text": "{other} got a job.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "work-other-started",
@@ -189,8 +192,8 @@
     {
       "move": "work-other-started",
       "text": "{relation} got a job.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "work-other-lost",
@@ -231,61 +234,49 @@
     {
       "move": "family-line-born",
       "text": "Then {relation} was born.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
       "move": "family-line-born",
       "text": "We had a baby.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
       "move": "family-line-married",
       "text": "I married {other}.",
-      "documents": 16,
+      "documents": 18,
       "modern": 0
     },
     {
       "move": "family-line-married",
       "text": "We were married.",
-      "documents": 0,
+      "documents": 4,
       "modern": 0
     },
     {
       "move": "family-line-married",
       "text": "We were married in {place}.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
       "move": "home-line-moved",
       "text": "Then we moved to {place}.",
-      "documents": 1,
+      "documents": 14,
       "modern": 0
     },
     {
       "move": "home-line-moved",
       "text": "Then I moved to {place}.",
-      "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "home-line-moved",
-      "text": "We moved.",
-      "documents": 0,
+      "documents": 4,
       "modern": 0
     },
     {
       "move": "home-line-moved",
       "text": "I moved.",
       "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "home-line-moved",
-      "text": "I moved back to {place}.",
-      "documents": 0,
       "modern": 0
     },
     {
@@ -302,14 +293,8 @@
     },
     {
       "move": "money-line-short",
-      "text": "I didn't get paid.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "money-line-short",
       "text": "We didn't get paid.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -333,7 +318,7 @@
     {
       "move": "money-line-raise",
       "text": "I made {wage} an hour.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -347,12 +332,6 @@
       "text": "I got {wage} an hour.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "contact-line-saw",
-      "text": "I ran into {other}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "contact-line-saw-often",
@@ -369,7 +348,7 @@
     {
       "move": "contact-line-saw-often",
       "text": "I saw a lot of {other}.",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -387,7 +366,7 @@
     {
       "move": "death-line-died",
       "text": "Then {relation} died.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -453,7 +432,7 @@
     {
       "move": "health-other-ill",
       "text": "{relation} got sick.",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -465,8 +444,8 @@
     {
       "move": "health-other-ill",
       "text": "{relation} was very sick.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "health-other-ill",
@@ -506,18 +485,6 @@
     },
     {
       "move": "office-line-filed",
-      "text": "I ran for office.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "office-line-filed",
-      "text": "I decided to run.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "office-line-filed",
       "text": "I filed.",
       "documents": 0,
       "modern": 0
@@ -543,38 +510,14 @@
     {
       "move": "office-other-filed",
       "text": "{other} decided to run.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
-    },
-    {
-      "move": "office-line-won",
-      "text": "I won the election.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "office-line-won",
-      "text": "I got elected.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "office-line-won",
-      "text": "I was elected to {office}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "office-line-lost",
       "text": "I lost the election.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "office-line-lost",
-      "text": "I didn't win.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "office-line-lost",
@@ -615,7 +558,7 @@
     {
       "move": "look-back-line-died",
       "text": "I've lived in {place} all my life.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     }
   ]

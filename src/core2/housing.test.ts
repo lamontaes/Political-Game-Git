@@ -2,7 +2,7 @@
 import { describe, expect, it } from "vitest";
 import housingData from "./data/housing/housing.json" with { type: "json" };
 import { advanceCore, createLifeCore } from "./life";
-import { HOUSING_MODULE } from "./modules/housing";
+import { HOUSING_MODULE, setRightToCounsel } from "./modules/housing";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
 import { transferCash } from "./world-transfer";
@@ -245,5 +245,58 @@ describe("buying a home", () => {
         .get("dwelling:household:payer"),
     ).toMatchObject({ tenure: "own", basis: "purchase" });
     expect(cash()).toBe(opening - outsideNet());
+  });
+});
+
+describe("right to counsel in eviction", () => {
+  it("where the law gives tenants a lawyer, a working household behind on rent settles for a payment plan and stays", () => {
+    const opening = input("TX");
+    const core = createLifeCore(
+        {
+          ...opening,
+          people: opening.people.map((row) =>
+            row.id === "broke" ? { ...row, jobId: "job:broke" } : row,
+          ),
+          jobs: [
+            {
+              id: "job:broke",
+              personId: "broke",
+              organizationId: landlord,
+              title: "Clerk",
+              wageDailyMinor: 10_000,
+              hoursDaily: 8,
+              source: src,
+            },
+          ],
+        },
+        { data: worldCoreData(), modules: [HOUSING_MODULE] },
+      ),
+      api = coreAPI(core);
+    advanceCore(core, "2021-01-01");
+    setRightToCounsel(api, place, true);
+    advanceCore(core, "2021-03-01");
+    const cases = () =>
+      api.moduleState("housing").snapshot().tables.cases as unknown as Record<
+        string,
+        string | number | boolean
+      >[];
+    const settled = cases().find((row) => row.stage === "settled")!;
+    // A tenth of $3,000 a month in pay carries the arrears inside a year.
+    expect(settled).toMatchObject({
+      leaseId: "lease:household:broke",
+      reasonKey: "counsel-negotiated-payment-plan",
+    });
+    expect(Number(settled.planMonths)).toBeLessThanOrEqual(12);
+    // The household's pay arrives; it keeps up rent and the plan.
+    transferCash(api, "fixture:pay", "payer", "broke", 2_000_000, src);
+    advanceCore(core, "2022-03-01");
+    const done = cases().find((row) => row.id === settled.id)!;
+    expect(done).toMatchObject({ stage: "plan-paid", open: false });
+    expect(core.finance.contracts.get("lease:household:broke")!.endedAt).toBe(
+      undefined,
+    );
+    expect(core.eventIds.has(`event:housing.eviction:${settled.id}`)).toBe(
+      false,
+    );
   });
 });

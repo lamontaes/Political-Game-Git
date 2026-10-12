@@ -177,8 +177,9 @@ function store(api: CoreAPI) {
 const core = (api: CoreAPI) => api.state as CoreState;
 
 function bankOf(api: CoreAPI) {
-  return store(api).table("banks").get("credit:bank") as
+  const row = store(api).table("banks").get("credit:bank") as
     { organizationId: string; openingEquityMinor: number } | undefined;
+  return row?.organizationId ? row : undefined;
 }
 
 /** A bank's capital in a one-ledger world: its cash plus what open borrowers still owe it. */
@@ -197,12 +198,53 @@ function equity(api: CoreAPI, bankId: string) {
     }
   }
   // Loans it made from its cash (household loans, startup loans, mortgages) are owed back to it.
+  let loans = 0;
   for (const row of store(api)
     .table("loans")
     .query("open", [true]) as unknown as LoanRow[])
-    if (row.lenderId === bankId) principal += row.balanceMinor;
+    if (row.lenderId === bankId) loans += row.balanceMinor;
+  // The opening's mortgages it holds were funded by deposits the core doesn't model yet: only the
+  // change in what they owe since the opening counts, so a repayment moves cash, not capital.
+  const held = heldMortgages(api, bankId);
   const cash = c.organizations.get(bankId)!.liquidMinor;
-  return { cash, principal, limits, lost, equity: cash + principal };
+  return {
+    cash,
+    principal,
+    loans,
+    limits,
+    lost,
+    equity: cash + principal + loans + held.now - held.opening,
+  };
+}
+
+const openingHeld = new WeakMap<CoreState, number>();
+
+/** What the opening's mortgages held by the bank owe now, and owed at the opening. */
+function heldMortgages(api: CoreAPI, bankId: string) {
+  const c = core(api);
+  if (!c.modules.has("housing")) return { now: 0, opening: 0 };
+  let opening = openingHeld.get(c);
+  if (opening === undefined) {
+    opening = 0;
+    const raw = c.placeMetadata?.housingMortgages;
+    for (const row of raw
+      ? (JSON.parse(raw) as { holderId: string; balanceMinor: number }[])
+      : [])
+      if (row.holderId === bankId) opening += row.balanceMinor;
+    openingHeld.set(c, opening);
+  }
+  let now = 0;
+  const rows = api
+    .moduleState("housing")
+    .table("mortgages")
+    .rows() as unknown as {
+    holderId: string;
+    balanceMinor: number;
+  }[];
+  // Before housing opens its table, the opening balances stand.
+  if (!rows.length) return { now: opening, opening };
+  for (const row of rows) if (row.holderId === bankId) now += row.balanceMinor;
+  return { now, opening };
 }
 
 /** How willing the town bank is to lend today: falls smoothly as its capital falls below where it opened. */
@@ -258,7 +300,7 @@ export function lendMortgage(
   const book = equity(api, bank.organizationId);
   const room = Math.max(
     0,
-    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.principal,
+    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
   );
   const amount = Math.min(input.principalMinor, room);
   if (amount <= 0) return 0;
@@ -325,7 +367,7 @@ function review(api: CoreAPI): void {
   serviceLoans(api, bank.organizationId);
   let room = Math.max(
     0,
-    book.equity * p("creditMaxLimitsPerEquity") - book.limits,
+    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
   );
   // Owners decide to borrow once businesses have them (M1-08); until then the books decide.
   stopgap("SG-WORLD-credit-business-applies");
@@ -536,8 +578,11 @@ function serviceLoans(api: CoreAPI, bankId: string): void {
     const interest =
       (loan.balanceMinor * loan.annualRate) / p("macroMonthsPerYear");
     const due =
-      Math.min(loan.balanceMinor + interest, loan.paymentMinor) +
-      loan.pastDueMinor;
+      // Past-due amounts are still in the balance: never bill more than is owed.
+      Math.min(
+        loan.balanceMinor + interest,
+        loan.paymentMinor + loan.pastDueMinor,
+      );
     const paid = transferCash(
       api,
       `loan-payment:${loan.id}:${c.date}`,
@@ -652,6 +697,8 @@ function householdApplications(
       members.reduce((s, row) => s + row!.livingCostDailyMinor, 0) *
       p("businessDaysPerMonth");
     if (costs <= 0) continue;
+    // Only a real shortfall pulls toward borrowing: cash below a month of costs, by how far below.
+    if (cash >= costs) continue;
     const income = monthlyIncome(api, household.memberIds);
     const amount = costs * p("creditPersonalMonthsOfCosts");
     const payment = amortizedPayment(
@@ -693,7 +740,9 @@ function householdApplications(
           Math.exp(p("creditDtiSlope") * (dti - p("creditDtiReferencePct")))) /
         (1 + Math.exp(-p("creditDtiSlope") * residualPct))
       : 0;
-    const principal = Math.floor(Math.min(amount * yes, room));
+    // Below the smallest loan the bank writes, there is no loan.
+    const offered = Math.floor(Math.min(amount * yes, room));
+    const principal = offered >= p("creditMinimumLoanMinor") ? offered : 0;
     store(api)
       .table("applications")
       .put({
@@ -794,7 +843,7 @@ export function lendForFounding(
   const book = equity(api, bank.organizationId);
   const room = Math.max(
     0,
-    book.equity * p("creditMaxLimitsPerEquity") - book.limits,
+    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
   );
   const prime = (
     api.moduleState("macro").table("state").get("macro:state") as

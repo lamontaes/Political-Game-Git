@@ -65,7 +65,7 @@ P = {
     "macroMortgageIntercept": sourced(0.1092, "OLS of the FHFA MIRS 30-year fixed contract rate on its previous month and the effective funds rate, 1990-2019, SE 0.042. This product uses FHFA data but is neither endorsed nor certified by FHFA.", 0.025, 0.193, "percent"),
     "macroMortgagePersistence": sourced(0.9728, "Same mortgage regression, own-lag coefficient, SE 0.009.", 0.955, 0.991, "monthly coefficient"),
     "macroMortgagePerPolicy": sourced(0.0166, f"Same mortgage regression, policy-rate coefficient, SE 0.007. The unconditional 12-month pass-through is {passthrough['coefficient']:.2f} (HAC SE {passthrough['standardErrorHAC12']:.2f}).", 0.003, 0.030, "points per point"),
-    "macroMortgageSpreadOverTreasuryPct": {"value": 1.768, "tag": "ESTIMATED", "citation": "FHFA MIRS 30-year fixed contract rate less the H.15 10-year Treasury yield, monthly 1990-2019: mean 1.77, 5th-95th 1.22 to 2.33. This product uses FHFA data but is neither endorsed nor certified by FHFA.", "estimatedFrom": "The 1990-2019 mean spread, applied to months after FHFA's survey ended (CTO ruling on #3959).", "stopgapId": "SG-WORLD-macro-mortgage-spread", "spread": {"low": 1.22, "high": 2.33, "unit": "percentage points", "citation": "FHFA MIRS table 26 and H.15, 1990-2019."}},
+    "macroMortgageSpreadOverTreasuryPct": {"value": 2.22, "tag": "ESTIMATED", "citation": "Freddie Mac PMMS 30-year fixed less the 10-year Treasury, monthly May 2019 to September 2026: mean 2.22 points (min 1.34, max 2.96; 2025 mean 2.31). The CTO's stand-in research (data/research/stand-in-figures-2026-10-12.json).", "estimatedFrom": "Only months past the published series use the spread.", "stopgapId": "SG-WORLD-macro-mortgage-spread", "spread": {"low": 1.34, "high": 2.96, "unit": "percentage points", "citation": "Freddie Mac PMMS and H.15 GS10, 2019-2026."}},
     "macroPrimeSpreadPct": sourced(3.08, prime_note, 2.85, 3.61, "percentage points"),
     "macroInflationGoalPct": sourced(2.0, "FOMC Statement on Longer-Run Goals and Monetary Policy Strategy (2% PCE inflation), https://www.federalreserve.gov/monetarypolicy/files/fomc_longerrungoals.pdf"),
     "macroCpiOverPceWedgePct": tunable(0.4, 0.3, 0.6, "percentage points", "CPI-U has run above PCE inflation; BEA NIPA table 2.8.7 and BLS CPI-U, 1990-2019 averages differ by about 0.3 to 0.6 points."),
@@ -77,7 +77,7 @@ P = {
     "macroNeutralRealRatePct": tunable(0.5, -0.5, 1.5, "percent", "Laubach-Williams and Holston-Laubach-Williams estimates of the neutral real rate, 2016-2024, Federal Reserve Bank of New York."),
     "macroPhillipsSlope": tunable(0.01, 0.0, 0.03, "12-month inflation points per month per gap point", "The 1990-2019 Phillips slope is flat (OLS on unemployment, -0.008, SE 0.013); kept small and positive."),
     "macroTownWeightPerPerson": sourced(3.0e-9, "One resident's share of the national population, Census 2020 count 331.4 million."),
-    "macroPublicBudgetImpulse": {"value": 0, "tag": "ESTIMATED", "citation": "Until M1-07 budgets land, public money adds no impulse beyond its real average, which the trend already carries.", "estimatedFrom": "Trend growth 1990-2019 includes average public spending.", "stopgapId": "SG-WORLD-macro-public-budget", "spread": {"low": -0.5, "high": 0.5, "unit": "gap points per year", "citation": "CBO fiscal impulse estimates outside recessions."}},
+    "macroPublicBudgetImpulse": {"value": 0, "tag": "ESTIMATED", "citation": "Until M1-07 budgets land, public money adds no impulse beyond its real average, which the trend already carries.", "estimatedFrom": "Trend growth 1990-2019 includes average public spending.", "stopgapId": "SG-WORLD-macro-public-budget", "spread": {"low": -0.5, "high": 0.5, "unit": "gap points per year", "citation": "Bounds outside recessions; when budgets land, the impulse is the change in real public purchases as a share of output times a multiplier of about 1.2 at one year and 1.5 at two (Monacelli, Perotti and Trigari 2010), below 1 for own-financed state and local spending (Clemens and Miran 2012). CTO stand-in research, data/research/stand-in-figures-2026-10-12.json."}},
     # The board.
     "macroTaylorInflationResponse": sourced(0.5, "Taylor (1993), Discretion versus policy rules in practice, Carnegie-Rochester 39."),
     "macroTaylorGapResponse": sourced(0.5, "Taylor (1993): 0.5 on the output gap; the balanced-approach rule uses 1.0 (Federal Reserve Monetary Policy Report, policy rules box)."),
@@ -97,6 +97,11 @@ P = {
     "macroTraitScaleBoard": sourced(3, "The recorded trait scale (traitScale)."),
 }
 
+# After FHFA's MIRS ended (2019), Freddie Mac's PMMS 30-year fixed, monthly average of weekly rates.
+pmms = json.loads((HERE / "series" / "pmms-monthly.json").read_text())
+for r in monthly:
+    if "mortgage30Pct" not in r and r["month"] in pmms:
+        r["mortgage30Pct"] = pmms[r["month"]]
 history = []
 for r in monthly:
     history.append({k: r[k] for k in ["month", "unemploymentPct", "priceIndex", "payrollJobsThousands", "hourlyEarnings", "policyRatePct", "treasury10Pct", "mortgage30Pct"] if k in r})
@@ -104,7 +109,7 @@ qindex = {r["quarter"]: r["realOutput"] for r in quarterly}
 
 doc = {
     "version": "macro-data-v1",
-    "source": {"tag": "SOURCED", "asOf": "2026-10-12", "citation": BLS + "; FHFA MIRS table 26 (This product uses FHFA data but is neither endorsed nor certified by FHFA.)"},
+    "source": {"tag": "SOURCED", "asOf": "2026-10-12", "citation": BLS + "; FHFA MIRS table 26 (This product uses FHFA data but is neither endorsed nor certified by FHFA.); Freddie Mac Primary Mortgage Market Survey after 2019"},
     "monthly": history,
     "quarterlyRealOutput": [{"quarter": q, "realOutput": v} for q, v in sorted(qindex.items())],
     "annualCpi": [{"year": y, "index": v} for y, v in sorted(annual.items())],

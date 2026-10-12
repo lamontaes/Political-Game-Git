@@ -1,27 +1,56 @@
 {
   "register": "choice-names",
   "read": {
+    "Air Force Historical Research Agency, USAF Oral History Program": 4,
+    "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
     "Federal Election Commission (fec.gov)": 253,
     "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+    "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+    "National Archives History Office oral history project": 57,
+    "National Archives History Office oral history project (brooks-oral-histories)": 26,
+    "National Archives History Office oral history project (nprc-oral-histories)": 12,
+    "National Archives History Office oral history project (nyc-oral-histories)": 6,
+    "National Archives History Office oral history project (ross-oral-histories)": 22,
+    "National Archives History Office oral history project (veterans-oral-histories)": 9,
+    "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+    "Naval History and Heritage Command, Navy strategy oral histories": 2,
+    "Richard Nixon Presidential Library (NARA) oral history project": 82,
+    "U.S. Army Center of Military History": 1,
     "U.S. Election Assistance Commission (eac.gov)": 65,
+    "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+    "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "blm": 817,
+    "briefing": 1499,
     "crec": 445,
-    "fda": 8,
+    "dcpd": 4730,
+    "doi": 674,
+    "doj": 1621,
+    "dol-osha": 501,
+    "eeoc": 594,
+    "epa": 1964,
+    "fdic": 700,
     "hearings": 1617,
     "house": 115,
+    "hud": 996,
     "nasa": 317,
-    "nasa2": 330,
-    "nih": 15,
-    "nps": 317,
+    "nasa2": 349,
+    "ncua": 683,
+    "nih": 52,
+    "nps": 515,
+    "nps.gov": 1728,
+    "nps.gov (PDF)": 164,
+    "ntia": 371,
+    "sba": 577,
+    "usa.gov": 312,
+    "usfa.fema.gov": 106,
+    "usgs": 742,
+    "va": 317,
+    "weather.gov": 34,
     "wpa": 38
   },
   "notAttested": [
-    {
-      "move": "work-shift",
-      "text": "Go to work.",
-      "documents": 0,
-      "modern": 0
-    },
     {
       "move": "work-shift",
       "text": "Go to work at {employer}.",
@@ -67,19 +96,13 @@
     {
       "move": "rest",
       "text": "Get some rest.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "rest",
       "text": "Take the day off.",
       "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "rest",
-      "text": "Rest.",
-      "documents": 4,
       "modern": 0
     },
     {
@@ -93,12 +116,6 @@
       "text": "Stay in bed.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "contact-known-person",
-      "text": "Go see {name}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "contact-known-person",
@@ -123,12 +140,6 @@
       "text": "Stop by and see {name}.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "care-for-relative",
-      "text": "Take care of {relation}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "care-for-relative",
@@ -163,12 +174,6 @@
     {
       "move": "care-for-relative",
       "text": "Take {relation} to the doctor.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "join-association",
-      "text": "Join {group}.",
       "documents": 0,
       "modern": 0
     },
@@ -248,12 +253,6 @@
       "move": "approach-office",
       "text": "Go to {office}.",
       "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "approach-office",
-      "text": "Call {office}.",
-      "documents": 1,
       "modern": 1
     },
     {
@@ -283,7 +282,7 @@
     {
       "move": "approach-office",
       "text": "Contact your representative.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -342,12 +341,6 @@
     },
     {
       "move": "look-up-local-institution",
-      "text": "Find out more.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "look-up-local-institution",
       "text": "Look into it.",
       "documents": 0,
       "modern": 0
@@ -366,12 +359,6 @@
     },
     {
       "move": "take-up-cause",
-      "text": "Take a stand.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "take-up-cause",
       "text": "Fight back.",
       "documents": 0,
       "modern": 0
@@ -379,8 +366,8 @@
     {
       "move": "take-up-cause",
       "text": "Speak out.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "take-up-cause",
@@ -421,8 +408,8 @@
     {
       "move": "guard-family",
       "text": "Take care of your family.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "guard-family",
@@ -451,8 +438,8 @@
     {
       "move": "prove-oneself",
       "text": "Show them.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "prove-oneself",
@@ -469,7 +456,7 @@
     {
       "move": "prove-oneself",
       "text": "Go back to school.",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -529,8 +516,8 @@
     {
       "move": "answer-calling",
       "text": "Do your part.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "answer-calling",
@@ -540,31 +527,7 @@
     },
     {
       "move": "carry-on",
-      "text": "Move on.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "carry-on",
-      "text": "Carry on.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "carry-on",
       "text": "Get on with your life.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "carry-on",
-      "text": "Stay the course.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "carry-on",
-      "text": "Keep your head down.",
       "documents": 0,
       "modern": 0
     },
@@ -591,18 +554,6 @@
       "text": "Tell {name}.",
       "documents": 1,
       "modern": 1
-    },
-    {
-      "move": "share-cause",
-      "text": "Tell your friends.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "share-cause",
-      "text": "Spread the word.",
-      "documents": 0,
-      "modern": 0
     },
     {
       "move": "share-cause",
@@ -642,12 +593,6 @@
     },
     {
       "move": "join-cause-group",
-      "text": "Join {group}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "join-cause-group",
       "text": "Join the group.",
       "documents": 1,
       "modern": 1
@@ -659,22 +604,10 @@
       "modern": 0
     },
     {
-      "move": "join-cause-group",
-      "text": "Sign up.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "join-cause-group",
-      "text": "Join them.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
       "move": "donate-to-cause",
       "text": "Donate to {group}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "donate-to-cause",
@@ -685,12 +618,6 @@
     {
       "move": "donate-to-cause",
       "text": "Make a donation.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "donate-to-cause",
-      "text": "Donate.",
       "documents": 0,
       "modern": 0
     },
@@ -757,7 +684,7 @@
     {
       "move": "confront-grudge-target",
       "text": "Go talk to {name}.",
-      "documents": 0,
+      "documents": 3,
       "modern": 0
     },
     {
@@ -771,12 +698,6 @@
       "text": "Call {name} out.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "seek-standing",
-      "text": "Meet {name}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "seek-standing",
@@ -799,7 +720,7 @@
     {
       "move": "seek-standing",
       "text": "Network.",
-      "documents": 2,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -887,12 +808,6 @@
       "modern": 0
     },
     {
-      "move": "run-for-office",
-      "text": "Run.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
       "move": "lobby-legislator",
       "text": "Lobby {name}.",
       "documents": 0,
@@ -907,8 +822,8 @@
     {
       "move": "lobby-legislator",
       "text": "Meet with {name}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "lobby-legislator",
@@ -948,12 +863,6 @@
     },
     {
       "move": "stance-question",
-      "text": "What's your position on {topic}?",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "stance-question",
       "text": "Is {topic} a problem here?",
       "documents": 0,
       "modern": 0
@@ -967,24 +876,12 @@
     {
       "move": "stance-answer",
       "text": "I'm against it.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "stance-answer",
-      "text": "I haven't decided.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "stance-answer",
       "text": "I'm undecided.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "stance-answer",
-      "text": "I'm in favor of it.",
       "documents": 0,
       "modern": 0
     },

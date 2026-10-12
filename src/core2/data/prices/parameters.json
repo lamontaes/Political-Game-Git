@@ -1,0 +1,101 @@
+{
+  "pricesElasticityElectricity": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: necessities rise far less than income across quintiles.",
+    "spread": {
+      "low": 0.15,
+      "high": 0.4,
+      "unit": "income elasticity",
+      "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: necessities rise far less than income across quintiles."
+    }
+  },
+  "pricesElasticityFuel": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: necessities rise far less than income across quintiles.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.7,
+      "unit": "income elasticity",
+      "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: necessities rise far less than income across quintiles."
+    }
+  },
+  "pricesElasticityTransit": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: necessities rise far less than income across quintiles.",
+    "spread": {
+      "low": 0,
+      "high": 0.6,
+      "unit": "income elasticity",
+      "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: necessities rise far less than income across quintiles."
+    }
+  },
+  "pricesElasticityBroadband": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: necessities rise far less than income across quintiles.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.5,
+      "unit": "income elasticity",
+      "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: necessities rise far less than income across quintiles."
+    }
+  },
+  "pricesElasticityBeverages": {
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: necessities rise far less than income across quintiles.",
+    "spread": {
+      "low": 0.2,
+      "high": 0.6,
+      "unit": "income elasticity",
+      "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: necessities rise far less than income across quintiles."
+    }
+  },
+  "pricesElasticityVehicles": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: necessities rise far less than income across quintiles.",
+    "spread": {
+      "low": 0.4,
+      "high": 0.9,
+      "unit": "income elasticity",
+      "citation": "BLS Consumer Expenditure Survey 2024, spending by income quintile: necessities rise far less than income across quintiles."
+    }
+  },
+  "pricesIncomeFloorShare": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "BLS Consumer Expenditure Survey 2024: the lowest income quintile's mean income is about a seventh of all consumer units'; households with no pay still spend from savings and benefits.",
+    "spread": {
+      "low": 0.1,
+      "high": 0.2,
+      "unit": "share of average income",
+      "citation": "BLS Consumer Expenditure Survey 2024: the lowest income quintile's mean income is about a seventh of all consumer units'; households with no pay still spend from savings and benefits."
+    }
+  },
+  "pricesBusinessElectricityShare": {
+    "value": 0.03,
+    "tag": "TUNABLE",
+    "citation": "BEA input-output Use tables: utilities are a few percent of industries' intermediate inputs.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.06,
+      "unit": "share of other operating costs",
+      "citation": "BEA input-output Use tables: utilities are a few percent of industries' intermediate inputs."
+    }
+  },
+  "pricesBusinessFuelShare": {
+    "value": 0.03,
+    "tag": "TUNABLE",
+    "citation": "BEA input-output Use tables: petroleum products are a few percent of industries' intermediate inputs, more in transportation.",
+    "spread": {
+      "low": 0.01,
+      "high": 0.08,
+      "unit": "share of other operating costs",
+      "citation": "BEA input-output Use tables: petroleum products are a few percent of industries' intermediate inputs, more in transportation."
+    }
+  }
+}

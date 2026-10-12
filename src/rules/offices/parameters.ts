@@ -100,7 +100,7 @@ export const OFFICES_PARAMETERS = {
   minimumWardSeats: {
     value: 2,
     tag: "TUNABLE",
-    source: "Legacy town-wards.ts minimum ward count",
+    source: "Legacy town-wards.ts minimum seat count",
     spread: [2, 5],
     stopgapId: "offices.ward-size-rank",
   },

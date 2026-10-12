@@ -45,7 +45,7 @@ SLOT_PATTERNS = {
     "place": PROPER + r"(?:, " + PROPER + r")?",
     "my_place": PROPER + r"(?:, " + PROPER + r")?",
     "school": r"(?:the )?" + PROPER,
-    "name": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
+    "name": r"[A-Z][a-z]+(?: [A-Z]\.)?(?: [A-Z][a-z']+){0,2}(?:,? (?:Jr|Sr)\.)?",
     "first": r"[A-Z][a-z]+",
     "other": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
     "who": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
@@ -85,6 +85,22 @@ SLOT_PATTERNS = {
     "did": r"[a-z][\w' ,-]{3,60}",
     "opponent": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
     "date": r"(?:" + MONTH + r" \d{1,2}(?:st|nd|rd|th)?|Tuesday|November \d{1,2})",
+    "pronoun_sub": r"(?:he|she|they)",
+    "percent": r"\d{1,2}(?:\.\d)?",
+    "count": r"(?:\d{1,3}|" + NUMBER_WORD + r") to (?:\d{1,3}|" + NUMBER_WORD + r"|nothing)",
+    "measure": r"(?:the |a |an )?[a-z][\w' -]{2,50}|(?:the )?[A-Z][\w'.-]*(?: [A-Z][\w'.-]*| of| and| for| to)*",
+    "action": r"[a-z][\w' ,-]{3,60}",
+    "money": r"\$\d[\d,.]*(?: (?:million|billion|thousand))?",
+    "purpose": r"[a-z][\w' ,-]{3,50}",
+    "law": r"(?:the )?[A-Z][\w'.-]*(?: [A-Z][\w'.-]*| of| and| for| to)* (?:Act|Law|Rule|Ordinance)(?: of (?:19|20)\d\d)?",
+    "term": r"(?:\d{1,3}|" + NUMBER_WORD + r")(?:[- ](?:and[- ]a[- ]half[- ])?)?(?:Years?|Months?|years?|months?)",
+    "crime": r"[A-Za-z][\w' ,-]{3,60}",
+    "body": r"(?:the )?[A-Z][\w'.&-]*(?: [A-Z][\w'.&-]*| of| for)*",
+    "matter": r"[A-Za-z][\w' ,-]{3,60}",
+    "occasion": r"[A-Za-z][\w' ,-]{3,60}",
+    "state": r"[a-z]+(?: and [a-z]+)?",
+    "claim": r"[a-z][\w' ,-]{3,60}",
+    "experience": r"[a-z][\w' ,-]{3,60}",
     "cause": r"(?:the |our |your |their )?[a-z][\w' -]{2,40}",
     "change": r"[a-z][\w' ,-]{3,60}",
     "topic": r"(?:the |that |this )?[A-Za-z][\w' -]{2,40}",
@@ -147,8 +163,11 @@ PROPER_NOUNS = {}
 
 def count_capitals(path):
     capital, lower = collections.Counter(), collections.Counter()
-    with open(path, encoding="utf-8", errors="replace") as handle:
-        text = handle.read()
+    try:
+        with open(path, encoding="utf-8", errors="replace") as handle:
+            text = handle.read()
+    except OSError:
+        return capital, lower
     for match in re.finditer(r"(?<=[a-z,;] )([A-Za-z][a-z']+)", text):
         word = match.group(1)
         if word[0].isupper():
@@ -171,7 +190,12 @@ def learn_proper_nouns(root, pool):
 CLAUSE_BREAK = re.compile(r",? (?:and|but|so|because|when|where|until|after|before) |[,;:] | -- | \[")
 TITLE_ABBREVIATIONS = re.compile(r"\b(Mr|Mrs|Ms|Dr|St|Jr|Sr|Gen|Sen|Rep|Gov|Lt|Col|Capt|Sgt|No|Mt|Ft|Inc|Co|Corp|Bros|U\.S)\.")
 SENTENCE_END = re.compile(r"(?<=[.?!])[\"']?\s+(?=[\"']?[A-Z])")
-SPEAKER_LABEL = re.compile(r"^(?:(?:Mr|Mrs|Ms|Dr|Chairman|Chairwoman|Senator|Representative)\.? )?[A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+)?\s?[.:]\s+")
+# A transcript's speaker label: "Mr. SMITH." in hearings, "ABBOTT:" or "Smith:" in oral histories.
+SPEAKER_LABEL = re.compile(
+    r"^(?:(?:(?:Mr|Mrs|Ms|Dr|Chairman|Chairwoman|Senator|Representative)\.? )?[A-Z][A-Z'\-]+(?: [A-Z][A-Z'\-]+)?\s?[.:]\s+"
+    r"|[A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+)?:\s+)"
+)
+MIDDLE_INITIAL = re.compile(r"(\b[A-Z][a-z]+ [A-Z])\.(?= [A-Z][a-z])")
 QUOTED = re.compile(r"\"([^\"]{2,200})\"")
 
 
@@ -204,6 +228,7 @@ def sentences(text):
     text = text.replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
     text = text.replace("—", " -- ").replace(" ", " ")
     protected = TITLE_ABBREVIATIONS.sub(lambda m: m.group(1).replace(".", "․") + "․", text)
+    protected = MIDDLE_INITIAL.sub(lambda m: m.group(1) + "\u2024", protected)
     for para in re.split(r"\n\s*\n", protected):
         para = re.sub(r"\s+", " ", para).strip()
         if not para:
@@ -220,11 +245,12 @@ def sentences(text):
                 stripped = SPEAKER_LABEL.sub("", sentence, count=1)
                 if stripped != sentence:
                     yield stripped
-                # A sentence's opening clause is also said on its own:
+                # A sentence's opening clauses are also said on their own:
                 # "I went to work for Lockheed, and ..." says "I went to work for Lockheed."
-                clause = CLAUSE_BREAK.split(sentence, maxsplit=1)[0]
-                if clause != sentence and len(clause.split()) >= 3:
-                    yield clause + ("?" if sentence.endswith("?") else ".")
+                for cut in list(CLAUSE_BREAK.finditer(sentence))[:4]:
+                    clause = sentence[: cut.start()].rstrip(",")
+                    if len(clause.split()) >= 3:
+                        yield clause + ("?" if sentence.endswith("?") else ".")
                 # A quoted line inside a sentence may close with a comma: He said, "Still at the mill?"
                 for lead in ("Well, ", "Oh, ", "Yeah, ", "Yes, ", "No, ", "And ", "So "):
                     if sentence.startswith(lead) and len(sentence) > len(lead) + 2:
@@ -246,24 +272,33 @@ def documents_in(root):
 
 CANDIDATES = []
 BY_FIRST = {}
+# Each candidate's longest literal word: a sentence without it can't match.
+NEEDS = []
 
 
 def scan(paths):
     """The candidates one document says as whole sentences."""
     text_path, meta_path = paths
-    with open(meta_path, encoding="utf-8") as handle:
-        meta = json.load(handle)
-    with open(text_path, encoding="utf-8", errors="replace") as handle:
-        text = handle.read()
+    # A document still being written (a helper mid-download) is skipped.
+    try:
+        with open(meta_path, encoding="utf-8") as handle:
+            meta = json.load(handle)
+        with open(text_path, encoding="utf-8", errors="replace") as handle:
+            text = handle.read()
+    except (OSError, ValueError):
+        return None, set()
     found = set()
     for sentence in set(sentences(text)):
         if len(sentence) > 160:
             continue
+        lowered = sentence.lower()
         first = re.match(r"[A-Za-z']+", sentence)
         keys = ["*"] + ([first.group(0).lower()] if first else [])
         for key in keys:
             for index in BY_FIRST.get(key, ()):
                 if index in found:
+                    continue
+                if NEEDS[index] not in lowered:
                     continue
                 match = CANDIDATES[index][3].match(sentence)
                 if match and all(
@@ -273,19 +308,35 @@ def scan(paths):
     return meta, found
 
 
+ORAL_HISTORY = re.compile(r"oral histor|interview|\b(?:nasa2?|house|nps|nih|senate|nara|military|wpa)\b", re.I)
+
+
+def is_oral_history(meta):
+    return bool(ORAL_HISTORY.search(f"{meta.get('source', '')} {meta.get('title', '')}"))
+
+
+# Words the repository's American-English guard flags even in a source title
+# (tests/american-english.test.ts); such a title is replaced by its collection.
+GUARDED = re.compile(
+    r"\b(?:councillors?|(?:dis|multi)?colour\w*|neighbour\w*|favour\w*|behaviour\w*|honour\w*|labour\w*|centres?|programmes?|licences?|defences?|travell\w*|cheques?|kerbs?|tyres?|grey\w*|fortnights?|rotas?|mum\w*|petrol|high streets?|car parks?|local authorit\w*|elected members?|minist(?:ers?|ry|ries)|wards?)\b",
+    re.IGNORECASE,
+)
+
+
+def document_name(meta):
+    title = meta.get("title") or meta.get("source") or ""
+    if not GUARDED.search(title):
+        return title
+    return f"{meta.get('source', 'Federal record')} of {meta.get('date') or 'unknown date'}"
+
+
 def spoken_in_era(meta):
     """A hearing is dated by when it was printed; its Congress says when it was held."""
     congress = re.match(r"CHRG-(\d+)", meta.get("id", ""))
     return not congress or int(congress.group(1)) >= 114
 
 
-def main():
-    shapes_path, corpus_root = sys.argv[1], sys.argv[2]
-    with multiprocessing.get_context("fork").Pool() as pool:
-        learn_proper_nouns(corpus_root, pool)
-    with open(shapes_path, encoding="utf-8") as handle:
-        spec = json.load(handle)
-    minimum = spec.get("minDocuments", 2)
+def load_candidates(spec):
     candidates = []
     for group in spec["groups"]:
         for candidate in group["candidates"]:
@@ -294,28 +345,23 @@ def main():
             if not re.sub(r"\{\w+\}|[\s.,?!]", "", text):
                 continue
             extra = {} if isinstance(candidate, str) else {k: v for k, v in candidate.items() if k != "text"}
-            candidates.append((group, text, extra, template_regex(text)))
-    # A quick first-word index keeps the scan linear in the corpus.
-    for index, (_, text, _, _) in enumerate(candidates):
-        first = re.match(r"[A-Za-z']+", text)
-        BY_FIRST.setdefault(first.group(0).lower() if first and not text.startswith("{") else "*", []).append(index)
-    CANDIDATES.extend(candidates)
+            pattern = template_regex(text)
+            if spec.get("ignoreCase"):
+                pattern = re.compile(pattern.pattern, re.IGNORECASE)
+            candidates.append((group, text, extra, pattern))
+    return candidates
 
-    seen = collections.defaultdict(dict)  # candidate index -> doc id -> meta
-    documents = collections.Counter()
-    with multiprocessing.get_context("fork").Pool() as pool:
-        for meta, found in pool.imap_unordered(scan, list(documents_in(corpus_root)), chunksize=8):
-            documents[meta.get("source", "?")] += 1
-            for index in found:
-                seen[index][meta["id"]] = meta
 
+def build_bank(spec, shapes_path, candidates, seen, documents):
+    """The bank for one shapes file, and the shapes no record says enough."""
+    minimum = spec.get("minDocuments", 2)
     # One part per sentence: a sentence that serves several groups (the same
     # "I'm still at {employer}." raising work and replying about it) is one
     # part listing every use, so each text ships once.
     parts, rejected = [], []
     by_text = {}
     used_keys = collections.Counter()
-    for index, (group, text, extra, _) in enumerate(candidates):
+    for index, (group, text, extra, _) in candidates:
         use = {k: v for k, v in group.items() if k not in ("kind", "candidates", "note")}
         use.update(extra)
         if text in by_text:
@@ -332,7 +378,10 @@ def main():
                 and "public domain" in d.get("license", "").lower()
                 and spoken_in_era(d)
             ),
-            key=lambda d: (d["date"], d["id"]),
+            # Cite a record the government wrote or said itself (hearings, the
+            # Record, agency releases and meetings) before an oral history,
+            # whose interviewee may have given rather than lacked their rights.
+            key=lambda d: (not is_oral_history(d), d["date"], d["id"]),
             reverse=True,
         )
         if len(docs) < minimum or not modern:
@@ -353,7 +402,7 @@ def main():
             "bySource": dict(sorted(by_source.items())),
             "shippable": True,
             "source": {
-                "document": source.get("title") or source.get("source"),
+                "document": document_name(source),
                 "date": source["date"],
                 "granule": source["id"],
                 "url": source["url"],
@@ -362,7 +411,6 @@ def main():
         }
         by_text[text] = part
         parts.append(part)
-
     bank = {
         "schema": "english-parts/1",
         "register": spec["register"],
@@ -378,13 +426,63 @@ def main():
         },
         "parts": parts,
     }
-    json.dump(bank, sys.stdout, indent=2, ensure_ascii=False)
-    sys.stdout.write("\n")
-    # The shapes no record says twice go to a report beside the research notes.
-    if len(sys.argv) > 3:
-        with open(sys.argv[3], "w", encoding="utf-8") as handle:
-            json.dump({"register": spec["register"], "read": bank["mining"]["read"], "notAttested": rejected}, handle, indent=1)
-            handle.write("\n")
+    return bank, {"register": spec["register"], "read": bank["mining"]["read"], "notAttested": rejected}
+
+
+def main():
+    # Several banks in one pass over the corpus:
+    #   mine-shapes.py --many <bank-dir> <report-dir> <corpus-dir> <shapes.json> ...
+    # One bank to standard output:
+    #   mine-shapes.py <shapes.json> <corpus-dir> [report.json] > bank.json
+    many = sys.argv[1] == "--many"
+    if many:
+        bank_dir, report_dir, corpus_root = sys.argv[2:5]
+        shapes_paths = sys.argv[5:]
+    else:
+        shapes_paths, corpus_root = [sys.argv[1]], sys.argv[2]
+    with multiprocessing.get_context("fork").Pool() as pool:
+        learn_proper_nouns(corpus_root, pool)
+    specs = []
+    for shapes_path in shapes_paths:
+        with open(shapes_path, encoding="utf-8") as handle:
+            spec = json.load(handle)
+        start = len(CANDIDATES)
+        CANDIDATES.extend(load_candidates(spec))
+        specs.append((shapes_path, spec, range(start, len(CANDIDATES))))
+    # A quick first-word index and a required word keep the scan fast.
+    for index, (_, text, _, _) in enumerate(CANDIDATES):
+        first = re.match(r"[A-Za-z']+", text)
+        BY_FIRST.setdefault(first.group(0).lower() if first and not text.startswith("{") else "*", []).append(index)
+        words = re.findall(r"[A-Za-z']+", re.sub(r"\{\w+\}", " ", text))
+        NEEDS.append(max(words, key=len).lower() if words else "")
+
+    seen = collections.defaultdict(dict)  # candidate index -> doc id -> meta
+    documents = collections.Counter()
+    with multiprocessing.get_context("fork").Pool() as pool:
+        for meta, found in pool.imap_unordered(scan, list(documents_in(corpus_root)), chunksize=8):
+            if meta is None:
+                continue
+            documents[meta.get("source", "?")] += 1
+            for index in found:
+                seen[index][meta["id"]] = meta
+
+    for shapes_path, spec, indices in specs:
+        bank, report = build_bank(spec, shapes_path, [(i, CANDIDATES[i]) for i in indices], seen, documents)
+        if many:
+            with open(os.path.join(bank_dir, spec["register"] + ".json"), "w", encoding="utf-8") as handle:
+                json.dump(bank, handle, indent=2, ensure_ascii=False)
+                handle.write("\n")
+            with open(os.path.join(report_dir, f"not-attested-{spec['register']}.json"), "w", encoding="utf-8") as handle:
+                json.dump(report, handle, indent=1)
+                handle.write("\n")
+            continue
+        json.dump(bank, sys.stdout, indent=2, ensure_ascii=False)
+        sys.stdout.write("\n")
+        # The shapes no record says twice go to a report beside the research notes.
+        if len(sys.argv) > 3:
+            with open(sys.argv[3], "w", encoding="utf-8") as handle:
+                json.dump(report, handle, indent=1)
+                handle.write("\n")
 
 
 def slug(text):

@@ -17,6 +17,7 @@ import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { ownerOf } from "./business";
 import { residentPerson, residentsRuntime } from "./residents";
+import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
 import {
   addCountedJob,
   countedJobsOf,
@@ -42,6 +43,7 @@ export const JOBS_PARAMETERS = jobsParameters as unknown as Readonly<
 export const JOBS_DATA = jobsData;
 const PULL = "jobs:pull";
 const MONDAY = 1;
+const DAYS_PER_WEEK = 7;
 
 type Kind = keyof typeof jobsData.actions;
 interface PositionRow {
@@ -236,8 +238,6 @@ function startSeeking(
     referenceHourlyMinor,
   });
   if (!employed) {
-    // Unemployment benefits come from the budgets engine (M1-07).
-    stopgap("SG-WORLD-jobs-benefits");
     store(api)
       .table("spells")
       .put({
@@ -251,6 +251,7 @@ function startSeeking(
 }
 
 function endSpell(api: CoreAPI, personId: string): void {
+  endClaim(api, store(api).table("claims"), personId);
   for (const row of store(api)
     .table("spells")
     .query("open", [personId, true])) {
@@ -450,6 +451,8 @@ function reviewEmployers(api: CoreAPI): void {
     const from =
       jobs.length || !row.templateFromId ? row.id : row.templateFromId;
     const fromJobs = from === row.id ? jobs : currentJobs(api, from);
+    // With no role to copy, a business can't open positions; its need waits, never past its gap.
+    if (!fromJobs.length && need > 0) need = Math.min(need, Math.max(0, gap));
     while (need >= 1 && fromJobs.length) {
       // A full person's job gives a new position its schedule and payday; counted jobs only when there is none.
       const full = fullJobs(api, from);
@@ -544,6 +547,8 @@ function layOff(
   if (!job) return;
   const keepScore = keep(job);
   const counted = isCounted(api, job.personId);
+  const weeksWorked =
+    (tenureYears(api, job) * api.parameter("jobsDaysPerYear")) / DAYS_PER_WEEK;
   if (counted) endCountedJob(c, job.id);
   else api.endJob(job.id, `jobs:layoff:${api.state.date}`);
   // The owner decides; a business without a recorded owner decides as itself.
@@ -570,6 +575,14 @@ function layOff(
     publicRecord: false,
     topic: organizationId,
   });
+  // Laid off through no choice of their own: a claim under the state's program.
+  fileClaim(
+    api,
+    store(api).table("claims"),
+    job,
+    jobsData.reasons.layoff,
+    weeksWorked,
+  );
   if (counted)
     store(api)
       .table("countedSeekers")
@@ -660,22 +673,23 @@ function reviewWorkers(api: CoreAPI): void {
     ]);
     const chosen = result.selected!.definition.id;
     if (chosen === jobsData.actions.look.id)
-      startSeeking(api, person.id, true, "looking-around", pay);
-    else if (chosen === jobsData.actions.leave.id) {
-      const retiring = result.selected!.targetId.startsWith("retire:");
-      api.endJob(job.id, `jobs:left-work:${api.state.date}`);
-      record(api, {
-        personId: person.id,
-        organizationId: job.organizationId,
-        jobId: job.id,
-        kind: "left-work",
-        reasonKey: retiring
-          ? jobsData.reasons.retired
-          : jobsData.reasons.leftWork,
-        decidedBy: person.id,
-        values: { bufferMonths, strain, age },
-      });
-    }
+      if (ownerOf(api, job.organizationId) !== person.id)
+        startSeeking(api, person.id, true, "looking-around", pay);
+      else if (chosen === jobsData.actions.leave.id) {
+        const retiring = result.selected!.targetId.startsWith("retire:");
+        api.endJob(job.id, `jobs:left-work:${api.state.date}`);
+        record(api, {
+          personId: person.id,
+          organizationId: job.organizationId,
+          jobId: job.id,
+          kind: "left-work",
+          reasonKey: retiring
+            ? jobsData.reasons.retired
+            : jobsData.reasons.leftWork,
+          decidedBy: person.id,
+          values: { bufferMonths, strain, age },
+        });
+      }
   }
   reviewJobless(api);
   reviewCountedRetirements(api);
@@ -871,19 +885,30 @@ function runWeek(api: CoreAPI): void {
         );
       return value;
     };
-    let best = applicants[0]!;
-    for (const row of applicants) {
-      const gap = fit(row) - fit(best);
-      if (gap > 0 || (gap === 0 && row.id.localeCompare(best.id) < 0))
-        best = row;
-    }
-    if (isCounted(api, best.personId)) {
-      if (hireCounted(api, position, best, fit(best)))
+    const pick = (pool: readonly SeekerRow[]) => {
+      let top = pool[0]!;
+      for (const row of pool) {
+        const gap = fit(row) - fit(top);
+        if (gap > 0 || (gap === 0 && row.id.localeCompare(top.id) < 0))
+          top = row;
+      }
+      return top;
+    };
+    // A counted applicant who can't be placed gives way to the next best.
+    let pool = [...applicants];
+    let best = pick(pool);
+    while (isCounted(api, best.personId)) {
+      if (hireCounted(api, position, best, fit(best))) {
         for (const row of applications.values())
           for (let i = row.length - 1; i >= 0; i--)
             if (row[i]!.personId === best.personId) row.splice(i, 1);
-      continue;
+        break;
+      }
+      pool = pool.filter((row) => row !== best);
+      if (!pool.length) break;
+      best = pick(pool);
     }
+    if (isCounted(api, best.personId) || !pool.length) continue;
     const reference = best.referenceHourlyMinor;
     const answer = chooseAct(c, best.personId, [
       offer("decline", position.id, {}),
@@ -967,6 +992,7 @@ function hireCounted(
     .table("positions")
     .put({ ...position, status: "filled", filledBy: seeker.personId });
   store(api).table("countedSeekers").remove(seeker.personId);
+  endClaim(api, store(api).table("claims"), seeker.personId);
   record(api, {
     personId: seeker.personId,
     organizationId: position.organizationId,
@@ -1011,6 +1037,8 @@ function reviewCountedRetirements(api: CoreAPI): void {
   for (const [organizationId] of c.finance.businesses) {
     for (const job of countedJobsOf(c, organizationId)) {
       if (pinned(c).has(job.id)) continue;
+      // An owner retires through their business (the business module's closing choice), not off its payroll.
+      if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
       if (!person) continue;
       const age =
@@ -1068,6 +1096,8 @@ function reviewCountedLooking(api: CoreAPI): void {
   for (const [organizationId] of c.finance.businesses) {
     for (const job of countedJobsOf(c, organizationId)) {
       if (pinned(c).has(job.id) || seekers.get(job.personId)) continue;
+      // An owner runs their own business; they don't look for a job elsewhere.
+      if (ownerOf(api, organizationId) === job.personId) continue;
       const person = residentPerson(c, job.personId);
       const pay = job.hourlyMinor ?? 0;
       if (!person || pay <= 0) continue;
@@ -1252,6 +1282,12 @@ export const JOBS_MODULE: CoreModule = {
       pay: {},
       countedSeekers: { indexes: { all: { fields: ["isSeeker"] } } },
       spells: { indexes: { open: { fields: ["personId", "open"] } } },
+      claims: {
+        indexes: {
+          open: { fields: ["open"] },
+          byPerson: { fields: ["personId", "open"] },
+        },
+      },
       changes: {
         indexes: {
           byPerson: { fields: ["personId"] },
@@ -1283,14 +1319,31 @@ export const JOBS_MODULE: CoreModule = {
         decidedBy: ownerOf(api, organizationId) ?? organizationId,
       });
       startSeeking(api, personId, false, jobsData.reasons.closure, 0);
+      const lost = [
+        ...(core(api).finance.jobsByOrganization.get(organizationId) ?? []),
+      ]
+        .map((id) => core(api).jobs.get(id))
+        .find((job) => job?.personId === personId);
+      if (lost)
+        fileClaim(
+          api,
+          store(api).table("claims"),
+          lost,
+          jobsData.reasons.closure,
+          (tenureYears(api, lost) * api.parameter("jobsDaysPerYear")) /
+            DAYS_PER_WEEK,
+        );
     }
   },
   onCalendarWork(api, work) {
     if (work.kind === "jobs-review") {
+      // Agreements made since last month may name jobs too.
+      pinnedByCore.delete(core(api));
       reviewEmployers(api);
       reviewWorkers(api);
       scheduleReview(api);
     } else if (work.kind === "jobs-week") {
+      payClaims(api, store(api).table("claims"));
       runWeek(api);
       scheduleWeek(api);
     }

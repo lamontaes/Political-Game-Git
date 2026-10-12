@@ -29,6 +29,22 @@ import {
 } from "../housing-mortgages";
 import { endFlowPart } from "../residents-economy";
 import { withoutOutsideShelter } from "../housing-shelter";
+import housingConstruction from "../data/housing/construction.json" with { type: "json" };
+import { billPropertyTax, stateEffectiveRate } from "../housing-property-tax";
+import {
+  buildMonth,
+  openStock,
+  rentalVacancy,
+  setZoning,
+  takeNewHome,
+  type ProjectRow,
+  type Zoning,
+} from "../housing-construction";
+import {
+  ACS_VALUE_DATE,
+  homePriceRatio,
+  type PriceLevel,
+} from "../housing-prices";
 import { residentsRuntime } from "./residents";
 import type {
   ActOffer,
@@ -135,6 +151,83 @@ function townOf(input: CoreInput): Town | undefined {
   if (!placeId || !usps) return undefined;
   // A place no county table covers (the island areas) uses the nation's figures, estimated.
   return { geoid, county: county || `${NATION}:${usps}`, usps, placeId };
+}
+
+const UNITS = housingData.unitsInStructure as unknown as {
+  kinds: string[];
+  counties: Record<string, { own: number[]; rent: number[] }>;
+  nation: { own: number[]; rent: number[] };
+};
+
+/**
+ * What kind of home each household lives in: its county's mix of houses,
+ * rowhouses, apartments and mobile homes for owners and for renters (ACS
+ * B25032). Within each, the lowest incomes live in mobile homes, then
+ * apartments, then rowhouses, the rest in houses; an owned house where
+ * someone works on a farm is a farmhouse.
+ */
+function withKinds(
+  input: CoreInput,
+  county: string,
+  households: readonly {
+    id: string;
+    income: number;
+    memberIds: readonly string[];
+  }[],
+  dwellings: readonly [string, "own" | "rent", number][],
+): [string, "own" | "rent", number, string][] {
+  const mix = UNITS.counties[county] ?? UNITS.nation;
+  const income = new Map(households.map((row) => [row.id, row.income]));
+  const farms = new Set(
+    (input.finance?.businesses ?? [])
+      .filter((row) => row.kindId === "farm")
+      .map((row) => row.organizationId),
+  );
+  const farmers = new Set(
+    [
+      ...input.jobs,
+      ...(input.residents?.households ?? []).flatMap((row) => row.jobs),
+    ]
+      .filter((job) => farms.has(job.organizationId))
+      .map((job) => job.personId),
+  );
+  const farmHomes = new Set(
+    households
+      .filter((row) => row.memberIds.some((id) => farmers.has(id)))
+      .map((row) => row.id),
+  );
+  const out: [string, "own" | "rent", number, string][] = [];
+  for (const tenure of ["own", "rent"] as const) {
+    const rows = dwellings
+      .filter((row) => row[1] === tenure)
+      .sort(
+        (a, b) =>
+          (income.get(a[0]) ?? 0) - (income.get(b[0]) ?? 0) ||
+          a[0].localeCompare(b[0]),
+      );
+    const [house, row, apartment, mobile] = mix[tenure];
+    const total = house! + row! + apartment! + mobile! || 1;
+    // Lowest incomes first: mobile homes, apartments, rowhouses, then houses.
+    const bounds = [
+      mobile!,
+      mobile! + apartment!,
+      mobile! + apartment! + row!,
+    ].map((n) => (n / total) * rows.length);
+    rows.forEach((dwelling, i) => {
+      const kind =
+        i < bounds[0]!
+          ? "mobile-home"
+          : i < bounds[1]!
+            ? "apartment"
+            : i < bounds[2]!
+              ? "rowhouse"
+              : tenure === "own" && farmHomes.has(dwelling[0])
+                ? "farmhouse"
+                : "house";
+      out.push([...dwelling, kind]);
+    });
+  }
+  return out;
 }
 
 /** Annual pay of a household's members from their recorded current jobs. */
@@ -267,6 +360,8 @@ export function withHousing(input: CoreInput): CoreInput {
       valueMinor: Math.round(
         medianValue *
           100 *
+          // ACS values are dated mid-2022; the state's house price index moves them to the start.
+          homePriceRatio(town.usps, ACS_VALUE_DATE, input.startedAt) *
           ((row.income + offset) / (medianIncome + offset || 1)) **
             pv("housingRentIncomeElasticity"),
       ),
@@ -279,6 +374,7 @@ export function withHousing(input: CoreInput): CoreInput {
           startedAt: makeIsoDate(input.startedAt),
           dueAt: makeIsoDate(dueAt),
           bankId: bank.id,
+          usps: town.usps,
           // Loans the bank's capital carries, of the residential-mortgage share of community bank loans.
           bankRoomMinor:
             bank.liquidMinor *
@@ -347,6 +443,15 @@ export function withHousing(input: CoreInput): CoreInput {
   for (const flow of flows)
     if (flow.id.startsWith("rent:"))
       add(flow.id.slice("rent:".length), flow.amountMinor);
+  // Owners' property tax is billed by the housing engine, so it comes out of the outside living cost too.
+  for (const row of ownerRows)
+    add(
+      row.id,
+      Math.round(
+        (row.valueMinor * stateEffectiveRate(town.usps)) /
+          housingMacroParameter("macroMonthsPerYear"),
+      ),
+    );
   const billed = new Set(mortgages.contracts.map((row) => row.householdId));
   for (const row of mortgages.terms)
     if (!billed.has(row.householdId)) add(row.householdId, row.paymentMinor);
@@ -385,7 +490,9 @@ export function withHousing(input: CoreInput): CoreInput {
         ...input.placeMetadata,
         housingState: town.usps,
         housingCounty: town.county,
-        [DWELLINGS_KEY]: JSON.stringify(dwellings),
+        [DWELLINGS_KEY]: JSON.stringify(
+          withKinds(input, town.county, households, dwellings),
+        ),
         ...(mortgages.terms.length
           ? { [MORTGAGE_TERMS_KEY]: JSON.stringify(mortgages.terms) }
           : {}),
@@ -439,10 +546,15 @@ function scheduleReview(api: CoreAPI): void {
 }
 
 /** On a lease's anniversary the landlord renews it at the rent moved with the region's pay since the last renewal. */
+function vacancyNow(api: CoreAPI, placeId: string): { vacancy?: number } {
+  const v = rentalVacancy(store(api).table("stock"), placeId);
+  return v === undefined ? {} : { vacancy: v };
+}
+
 function renew(api: CoreAPI): void {
   const c = core(api);
   if (!regionalRegistered(api)) return;
-  // The town's vacancy does not yet move rents; see the stopgap.
+  // Vacancy moves rents, but nobody new arrives to fill vacant homes yet; see the stopgap.
   stopgap("SG-WORLD-housing-vacancy");
   for (const [id, row] of c.finance.contracts) {
     if (!id.startsWith("lease:") || row.endedAt || !row.householdId) continue;
@@ -452,12 +564,15 @@ function renew(api: CoreAPI): void {
     const last = store(api).table("renewals").get(id) as
       { id: string; regionPay: number; renewedAt: string } | undefined;
     if (!last) {
-      store(api).table("renewals").put({
-        id,
-        regionPay: level.hourlyEarnings,
-        renewedAt: c.date,
-        rentMinor: row.amountMinor,
-      });
+      store(api)
+        .table("renewals")
+        .put({
+          id,
+          regionPay: level.hourlyEarnings,
+          renewedAt: c.date,
+          rentMinor: row.amountMinor,
+          ...vacancyNow(api, household!.placeId),
+        });
       continue;
     }
     const months =
@@ -465,17 +580,30 @@ function renew(api: CoreAPI): void {
       Number(c.date.slice(5, 7)) -
       Number(last.renewedAt.slice(5, 7));
     if (months < api.parameter("macroMonthsPerYear")) continue;
+    // Rents follow the region's pay and, against the last renewal, the town's rental vacancy.
+    const vacancy = rentalVacancy(
+      store(api).table("stock"),
+      household!.placeId,
+    );
+    const before = (last as { vacancy?: number }).vacancy ?? vacancy;
+    const vacancyFactor =
+      vacancy && before
+        ? (vacancy / before) ** -api.parameter("housingRentVacancyElasticity")
+        : 1;
     const rent = Math.round(
-      row.amountMinor * (level.hourlyEarnings / last.regionPay),
+      row.amountMinor * (level.hourlyEarnings / last.regionPay) * vacancyFactor,
     );
     api.setStandingContractAmount(id, rent);
-    store(api).table("renewals").put({
-      id,
-      regionPay: level.hourlyEarnings,
-      renewedAt: c.date,
-      rentMinor: rent,
-      previousRentMinor: row.amountMinor,
-    });
+    store(api)
+      .table("renewals")
+      .put({
+        id,
+        regionPay: level.hourlyEarnings,
+        renewedAt: c.date,
+        rentMinor: rent,
+        previousRentMinor: row.amountMinor,
+        ...vacancyNow(api, household!.placeId),
+      });
   }
 }
 
@@ -495,6 +623,9 @@ function amortize(api: CoreAPI): void {
     id: string;
   })[]) {
     if (row.monthsLeft <= 0) continue;
+    // A full household's bill in arrears paid no principal this month (counted households pay from the pool).
+    const bill = c.finance.contracts.get(row.id);
+    if (bill && !bill.endedAt && bill.arrearsMinor > 0) continue;
     const interest = Math.round((row.balanceMinor * row.rate) / months);
     const balance = Math.max(
       0,
@@ -560,6 +691,17 @@ function landlordPayout(api: CoreAPI): void {
 }
 
 const BUY_PULL = "housing:pull";
+
+/** The economy's consumer price level by month (history and simulated), for prices past the published data. */
+function macroPrices(api: CoreAPI): PriceLevel | undefined {
+  if (!(api.state as CoreState).modules.has("macro")) return undefined;
+  const months = api.moduleState("macro").table("months");
+  return (date) =>
+    (
+      months.get(`macro-month:${date.slice(0, "YYYY-MM".length)}`) as
+        { priceIndex: number } | undefined
+    )?.priceIndex;
+}
 
 function buyOffer(
   buy: boolean,
@@ -643,10 +785,12 @@ function buyHomes(api: CoreAPI): void {
     const income = monthlyIncome(api, household.memberIds);
     if (income <= 0) continue;
     const cash = members.reduce((n, row) => n + row!.liquidMinor, 0);
-    const prices =
-      (c.finance.conditionsByPlace.get(household.placeId) ?? [])
-        .filter((row) => row.at <= c.date)
-        .at(-1)?.generalPriceFactor ?? 1;
+    const prices = homePriceRatio(
+      c.placeMetadata?.housingState ?? "",
+      ACS_VALUE_DATE,
+      c.date,
+      macroPrices(api),
+    );
     // The home the household's income would buy at the county's median, as rent scales with income.
     const value =
       town[1] *
@@ -673,6 +817,13 @@ function buyHomes(api: CoreAPI): void {
       (value - down) * bankYes(api, payment, income),
     );
     if (principal <= 0) continue;
+    // A finished new house in town is bought from its builder; otherwise from a seller leaving the town.
+    const seller =
+      takeNewHome(
+        store(api).table("stock"),
+        store(api).table("projects"),
+        household.placeId,
+      ) ?? outside.id;
     const source = {
       tag: "ESTIMATED" as const,
       asOf: c.date,
@@ -689,7 +840,7 @@ function buyHomes(api: CoreAPI): void {
         api,
         `down-payment:${household.id}:${member!.id}:${c.date}`,
         member!.id,
-        outside.id,
+        seller,
         owed,
         source,
       );
@@ -697,7 +848,7 @@ function buyHomes(api: CoreAPI): void {
     const lent = lendMortgage(api, {
       householdId: household.id,
       borrowerId: head!.id,
-      sellerId: outside.id,
+      sellerId: seller,
       principalMinor: principal,
       annualRate: rate,
       termMonths: term,
@@ -723,6 +874,8 @@ function buyHomes(api: CoreAPI): void {
         id: `dwelling:${household.id}`,
         householdId: household.id,
         tenure: "own",
+        // A first home bought here is a house (the seller's unit kind isn't recorded yet).
+        kind: "house",
         valueMinor: Math.round(down) - owed + lent,
         loanHolderId:
           lent > 0
@@ -752,6 +905,8 @@ function review(api: CoreAPI): void {
     law = steps(api);
   renew(api);
   amortize(api);
+  billPropertyTax(api, store(api).table("assessments"), ownedHomes(api));
+  build(api);
   landlordPayout(api);
   buyHomes(api);
   for (const [id, row] of c.finance.contracts) {
@@ -868,53 +1023,377 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
         closedAt: c.date,
         reasonKey: housingData.reasons.cured,
       });
-    const removalAt = addDays(makeIsoDate(c.date), row.law.stayDays);
+    const placeId = c.households.get(row.householdId)?.placeId;
+    if (placeId) payCounsel(api, caseId, placeId);
+    const plan = counselPlan(api, row.householdId, owed);
+    if (!plan) return judge(api, caseId, owed);
     put({
+      stage: "settled",
+      settledAt: c.date,
+      owedAtSettlementMinor: owed,
+      planInstallmentMinor: plan.installmentMinor,
+      planMonths: plan.months,
+      planPaymentsMade: 0,
+      reasonKey: housingData.reasons.settled,
+    });
+    schedule(
+      api,
+      `plan:${caseId}:1`,
+      addDays(makeIsoDate(c.date), daysPerMonth(api)),
+      "housing-plan-payment",
+      caseId,
+    );
+  } else if (kind === "housing-plan-payment") {
+    const due = Math.min(owed, Number(row.planInstallmentMinor));
+    const paid = due > 0 ? payArrears(api, row.leaseId, due) : 0;
+    const left = c.finance.contracts.get(row.leaseId)!.arrearsMinor;
+    if (left <= 0)
+      return put({
+        open: false,
+        stage: "plan-paid",
+        closedAt: c.date,
+        reasonKey: housingData.reasons.planPaid,
+      });
+    // A missed installment sends the case back to the court for judgment.
+    if (paid < due)
+      return judge(api, caseId, left, housingData.reasons.planMissed);
+    const made = Number(row.planPaymentsMade ?? 0) + 1;
+    put({ planPaymentsMade: made });
+    schedule(
+      api,
+      `plan:${caseId}:${made + 1}`,
+      addDays(makeIsoDate(c.date), daysPerMonth(api)),
+      "housing-plan-payment",
+      caseId,
+    );
+  } else if (kind === "housing-removal") remove(api, caseId, owed);
+}
+
+function daysPerMonth(api: CoreAPI): number {
+  return Math.round(
+    api.parameter("jobsDaysPerYear") / api.parameter("macroMonthsPerYear"),
+  );
+}
+
+const median = (values: number[]) => {
+  const sorted = values.filter((v) => v > 0).sort((a, b) => a - b);
+  return sorted.length ? sorted[Math.floor(sorted.length / 2)]! : 0;
+};
+
+/** A town's typical home value, monthly rent and monthly pay today, and its renters. */
+function townFigures(
+  api: CoreAPI,
+  placeId: string,
+): {
+  homeValueMinor: number;
+  rentMinor: number;
+  monthlyPayMinor: number;
+  renters: number;
+} {
+  const c = core(api);
+  const values = ownedHomes(api)
+    .filter((row) => row.placeId === placeId)
+    .map((row) => row.valueMinor);
+  const rents: number[] = [];
+  let renters = 0;
+  for (const row of store(api).table("dwellings").rows() as unknown as {
+    householdId: string;
+    tenure: string;
+    rentMinor?: number;
+  }[]) {
+    if (row.tenure !== "rent") continue;
+    const at =
+      c.households.get(row.householdId)?.placeId ??
+      residentsRuntime(c)?.households.get(row.householdId)?.household.placeId;
+    if (at !== placeId) continue;
+    renters += 1;
+    const lease = c.finance.contracts.get(`lease:${row.householdId}`);
+    rents.push(
+      lease && !lease.endedAt ? lease.amountMinor : (row.rentMinor ?? 0),
+    );
+  }
+  const pay: number[] = [];
+  for (const job of c.jobs.values())
+    if (
+      job.endsAt === undefined &&
+      c.organizations.get(job.organizationId)?.placeId === placeId
+    )
+      pay.push(
+        (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) /
+          api.parameter("macroMonthsPerYear"),
+      );
+  return {
+    homeValueMinor: median(values),
+    rentMinor: median(rents),
+    monthlyPayMinor: median(pay),
+    renters,
+  };
+}
+
+/** What the law allows builders here (OPUS-GOV's handlers): apartments' land share, inclusionary set-aside, all-electric code, farmland protection. */
+export function setHousingZoning(
+  api: CoreAPI,
+  placeId: string,
+  change: Partial<Zoning>,
+): void {
+  setZoning(store(api).table("stock"), placeId, change);
+}
+
+/** Each town's builders for the month, and what's finished. */
+function build(api: CoreAPI): void {
+  const c = core(api);
+  for (const landlord of c.organizations.values()) {
+    if (!landlord.id.startsWith("organization:landlord:")) continue;
+    const town = townFigures(api, landlord.placeId);
+    if (!town.homeValueMinor || !town.rentMinor) continue;
+    buildMonth(
+      api,
+      {
+        stock: store(api).table("stock"),
+        projects: store(api).table("projects"),
+      },
+      {
+        placeId: landlord.placeId,
+        usps: c.placeMetadata?.housingState ?? "",
+        landlordId: landlord.id,
+        homeValueMinor: town.homeValueMinor,
+        rentMinor: town.rentMinor,
+        priceLevel: macroPrices(api)?.(c.date) ?? 1,
+        medianMonthlyPayMinor: town.monthlyPayMinor,
+        source: {
+          tag: "ESTIMATED",
+          asOf: c.date,
+          citation: housingData.source.citation,
+          estimatedFrom:
+            "A month's share of a new home's construction cost, from Census and NAHB 2024 cost figures.",
+        },
+      },
+      (project) => finish(api, project, town.monthlyPayMinor),
+    );
+  }
+}
+
+/** A finished project is a public record; an apartment building's set-aside units go to the lowest-paid eligible renters at 30% of their pay. */
+function finish(
+  api: CoreAPI,
+  project: ProjectRow,
+  medianPayMinor: number,
+): void {
+  const c = core(api);
+  const moved: string[] = [];
+  if (project.affordableUnits > 0) {
+    const limit = housingConstruction.inclusionary.amiShare * medianPayMinor;
+    const eligible: { householdId: string; pay: number; leaseId: string }[] =
+      [];
+    for (const [id, lease] of c.finance.contracts) {
+      if (!id.startsWith("lease:") || lease.endedAt || !lease.householdId)
+        continue;
+      const household = c.households.get(lease.householdId);
+      if (household?.placeId !== project.placeId) continue;
+      if (store(api).table("affordable").get(lease.householdId)) continue;
+      let pay = 0;
+      for (const pid of household.memberIds) {
+        const job = c.jobs.get(c.people.get(pid)?.jobId ?? "");
+        if (job && job.endsAt === undefined)
+          pay +=
+            (job.wageDailyMinor * api.parameter("jobsDaysPerYear")) /
+            api.parameter("macroMonthsPerYear");
+      }
+      if (pay > 0 && pay < limit)
+        eligible.push({ householdId: lease.householdId, pay, leaseId: id });
+    }
+    eligible.sort(
+      (a, b) => a.pay - b.pay || a.householdId.localeCompare(b.householdId),
+    );
+    for (const row of eligible.slice(0, project.affordableUnits)) {
+      const rent = Math.round(
+        housingConstruction.inclusionary.rentShareOfIncome * row.pay,
+      );
+      const lease = c.finance.contracts.get(row.leaseId)!;
+      if (rent >= lease.amountMinor) continue;
+      api.setStandingContractAmount(row.leaseId, rent);
+      store(api).table("affordable").put({
+        id: row.householdId,
+        householdId: row.householdId,
+        projectId: project.id,
+        since: c.date,
+        rentMinor: rent,
+        previousRentMinor: lease.amountMinor,
+      });
+      moved.push(row.householdId);
+    }
+  }
+  const household = (id: string) => c.households.get(id)?.memberIds ?? [];
+  api.emit({
+    id: `event:housing.completed:${project.id}`,
+    date: c.date,
+    kind: "housing.completed",
+    personIds: moved.flatMap(household).filter((id) => c.people.has(id)),
+    placeId: project.placeId,
+    source: {
+      tag: "ESTIMATED",
+      asOf: c.date,
+      citation: housingData.source.citation,
+      estimatedFrom: `${project.units} new ${project.kind === "multi" ? "apartments" : "house"} finished, started ${project.startedAt}${project.affordableUnits ? `, ${project.affordableUnits} set aside below market` : ""}.`,
+    },
+    publicRecord: true,
+    topic: project.builderId,
+    facts: {
+      kind: project.kind,
+      units: String(project.units),
+      affordableUnits: String(project.affordableUnits),
+    },
+  });
+}
+
+/** Right to counsel in eviction where the law gives it, by place; OPUS-GOV's policy handler sets it from the law in force. */
+export function setRightToCounsel(
+  api: CoreAPI,
+  placeId: string,
+  inForce: boolean,
+  /** The government that pays the tenants' lawyers (the city's treasury). */
+  fundedById?: string,
+): void {
+  store(api)
+    .table("counsel")
+    .put({ id: placeId, inForce, ...(fundedById ? { fundedById } : {}) });
+}
+
+/** The funding government pays the legal services provider for the case, through the ledger. */
+function payCounsel(api: CoreAPI, caseId: string, placeId: string): void {
+  const c = core(api);
+  const row = store(api).table("counsel").get(placeId) as
+    { inForce?: boolean; fundedById?: string } | undefined;
+  if (!row?.inForce || !row.fundedById) return;
+  const provider = [...c.organizations.values()].find(
+    (org) => org.placeId === placeId && org.outsideFlow !== undefined,
+  );
+  if (!provider) return;
+  transferCash(
+    api,
+    `counsel:${caseId}`,
+    row.fundedById,
+    provider.id,
+    api.parameter("housingCounselCostPerCaseMinor"),
+    {
+      tag: "ESTIMATED",
+      asOf: c.date,
+      citation: housingData.source.citation,
+      estimatedFrom: `A tenant's lawyer for ${caseId}, paid by the city at the program's average cost per case.`,
+    },
+  );
+}
+
+/**
+ * With a lawyer, a tenant who owes rent settles for monthly installments on
+ * the arrears the household's pay can carry, instead of a judgment. Nothing
+ * when there's no right to counsel here, or the household's pay can't clear
+ * the arrears within the longest plan.
+ */
+function counselPlan(
+  api: CoreAPI,
+  householdId: string,
+  owed: number,
+): { installmentMinor: number; months: number } | undefined {
+  const c = core(api),
+    household = c.households.get(householdId);
+  if (!household) return undefined;
+  const counsel = store(api).table("counsel").get(household.placeId) as
+    { inForce?: boolean } | undefined;
+  if (!counsel?.inForce) return undefined;
+  let daily = 0;
+  for (const id of household.memberIds) {
+    const job = c.jobs.get(c.people.get(id)?.jobId ?? "");
+    if (job && job.endsAt === undefined) daily += job.wageDailyMinor;
+  }
+  const affordable =
+    daily * daysPerMonth(api) * api.parameter("housingCounselPlanShareOfPay");
+  if (!(affordable > 0)) return undefined;
+  const months = Math.ceil(owed / affordable);
+  if (months > api.parameter("housingCounselPlanMaxMonths")) return undefined;
+  return { installmentMinor: Math.ceil(owed / months), months };
+}
+
+/** Judgment for possession: removal after the state's stay. */
+function judge(
+  api: CoreAPI,
+  caseId: string,
+  owed: number,
+  reasonKey: string = housingData.reasons.judgment,
+): void {
+  const c = core(api);
+  const row = store(api).table("cases").get(caseId) as unknown as {
+    id: string;
+    law: Steps;
+    [key: string]: unknown;
+  };
+  const removalAt = addDays(makeIsoDate(c.date), row.law.stayDays);
+  store(api)
+    .table("cases")
+    .put({
+      ...row,
       stage: "judgment",
       judgmentAt: c.date,
       removalAt,
       owedAtJudgmentMinor: owed,
-      reasonKey: housingData.reasons.judgment,
+      reasonKey,
     });
-    schedule(api, `removal:${caseId}`, removalAt, "housing-removal", caseId);
-  } else if (kind === "housing-removal") {
-    api.endStandingContract(row.leaseId);
-    put({
+  schedule(api, `removal:${caseId}`, removalAt, "housing-removal", caseId);
+}
+
+/** The household leaves on the removal date; the lease ends and the eviction is a public record. */
+function remove(api: CoreAPI, caseId: string, owed: number): void {
+  const c = core(api);
+  const row = store(api).table("cases").get(caseId) as unknown as {
+    id: string;
+    leaseId: string;
+    householdId: string;
+    landlordId: string;
+    law: Steps;
+    [key: string]: unknown;
+  };
+  api.endStandingContract(row.leaseId);
+  store(api)
+    .table("cases")
+    .put({
+      ...row,
       open: false,
       stage: "removed",
       removedAt: c.date,
       reasonKey: housingData.reasons.removal,
       owedAtRemovalMinor: owed,
     });
-    store(api)
-      .table("dwellings")
-      .put({
-        id: `dwelling:${row.householdId}`,
-        householdId: row.householdId,
-        tenure: "removed",
-        since: c.date,
-        basis: "eviction",
-      });
-    const household = c.households.get(row.householdId);
-    api.emit({
-      id: `event:housing.eviction:${caseId}`,
-      date: c.date,
-      kind: "housing.eviction",
-      personIds: (household?.memberIds ?? []).filter((id) => c.people.has(id)),
-      placeId:
-        household?.placeId ??
-        c.organizations.get(row.landlordId)?.placeId ??
-        "",
-      source: {
-        tag: "ESTIMATED",
-        asOf: c.date,
-        citation: String(row.law.statute ?? housingData.source.citation),
-        estimatedFrom: `Removal after ${row.leaseId}'s rent went unpaid, through notice, filing, hearing and judgment.`,
-      },
-      publicRecord: true,
-      topic: row.landlordId,
+  store(api)
+    .table("dwellings")
+    .put({
+      id: `dwelling:${row.householdId}`,
+      householdId: row.householdId,
+      tenure: "removed",
+      kind:
+        (
+          store(api).table("dwellings").get(`dwelling:${row.householdId}`) as
+            { kind?: string } | undefined
+        )?.kind ?? "house",
+      since: c.date,
+      basis: "eviction",
     });
-  }
+  const household = c.households.get(row.householdId);
+  api.emit({
+    id: `event:housing.eviction:${caseId}`,
+    date: c.date,
+    kind: "housing.eviction",
+    personIds: (household?.memberIds ?? []).filter((id) => c.people.has(id)),
+    placeId:
+      household?.placeId ?? c.organizations.get(row.landlordId)?.placeId ?? "",
+    source: {
+      tag: "ESTIMATED",
+      asOf: c.date,
+      citation: String(row.law.statute ?? housingData.source.citation),
+      estimatedFrom: `Removal after ${row.leaseId}'s rent went unpaid, through notice, filing, hearing and judgment.`,
+    },
+    publicRecord: true,
+    topic: row.landlordId,
+  });
 }
 
 export const HOUSING_MODULE: CoreModule = {
@@ -928,6 +1407,11 @@ export const HOUSING_MODULE: CoreModule = {
       mortgages: {},
       purchases: {},
       dwellings: {},
+      counsel: {},
+      assessments: {},
+      stock: {},
+      projects: { indexes: { all: { fields: ["isProject"] } } },
+      affordable: {},
     },
   },
   reasonProviders: {
@@ -951,8 +1435,8 @@ export const HOUSING_MODULE: CoreModule = {
     const loans = new Map(
       (terms0(api) ?? []).map((row) => [row.householdId, row.holderId]),
     );
-    for (const [householdId, tenure, amount] of homes
-      ? (JSON.parse(homes) as [string, "own" | "rent", number][])
+    for (const [householdId, tenure, amount, kind] of homes
+      ? (JSON.parse(homes) as [string, "own" | "rent", number, string?][])
       : [])
       store(api)
         .table("dwellings")
@@ -960,6 +1444,7 @@ export const HOUSING_MODULE: CoreModule = {
           id: `dwelling:${householdId}`,
           householdId,
           tenure,
+          kind: kind ?? "house",
           ...(tenure === "own"
             ? { valueMinor: amount, loanHolderId: loans.get(householdId) ?? "" }
             : { rentMinor: amount }),
@@ -971,6 +1456,18 @@ export const HOUSING_MODULE: CoreModule = {
       store(api)
         .table("mortgages")
         .put({ id: `${MORTGAGE_PREFIX}${row.householdId}`, ...row });
+    for (const landlord of api.state.organizations.values()) {
+      if (!landlord.id.startsWith("organization:landlord:")) continue;
+      const town = townFigures(api, landlord.placeId);
+      openStock(
+        store(api).table("stock"),
+        landlord.placeId,
+        town.renters,
+        town.homeValueMinor,
+        town.rentMinor,
+        macroPrices(api)?.(api.state.date) ?? 1,
+      );
+    }
     scheduleReview(api);
   },
 };
@@ -981,10 +1478,18 @@ export function ownedHomes(
 ): { householdId: string; placeId: string; valueMinor: number }[] {
   const c = api.state as CoreState;
   if (!c.modules.has(HOUSING_MODULE_ID)) return [];
-  const prices = (placeId: string) =>
-    (c.finance.conditionsByPlace.get(placeId) ?? [])
-      .filter((row) => row.at <= c.date)
-      .at(-1)?.generalPriceFactor ?? 1;
+  const opened =
+    (
+      store(api).table("state").get("housing:state") as
+        { openedAt: string } | undefined
+    )?.openedAt ?? c.date;
+  const prices = () =>
+    homePriceRatio(
+      c.placeMetadata?.housingState ?? "",
+      opened,
+      c.date,
+      macroPrices(api),
+    );
   const out: { householdId: string; placeId: string; valueMinor: number }[] =
     [];
   for (const row of store(api).table("dwellings").rows() as unknown as {
@@ -1003,9 +1508,22 @@ export function ownedHomes(
       householdId: row.householdId,
       placeId,
       valueMinor: Math.round(
-        row.valueMinor * (row.basis === "opening" ? prices(placeId) : 1),
+        row.valueMinor * (row.basis === "opening" ? prices() : 1),
       ),
     });
   }
   return out;
+}
+
+/** The kind of home a household lives in (house, rowhouse, apartment, mobile-home, farmhouse), for the home picture. */
+export function dwellingKind(
+  api: CoreAPI,
+  householdId: string,
+): string | undefined {
+  if (!(api.state as CoreState).modules.has(HOUSING_MODULE_ID))
+    return undefined;
+  return (
+    store(api).table("dwellings").get(`dwelling:${householdId}`) as
+      { kind?: string } | undefined
+  )?.kind;
 }

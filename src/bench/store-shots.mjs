@@ -53,14 +53,21 @@ for (const seed of seeds.length ? seeds : ["store-a", "store-b"]) {
   await page.waitForTimeout(1500);
   await shot(`${seed}-opening-president`);
   await page.waitForTimeout(4500);
-  await shot(`${seed}-opening-senate`);
+  await shot(`${seed}-opening-congress`);
+  // Escape opens options; skip the rest of the opening from there.
   await page.keyboard.press("Escape");
+  await page.click('#sheet-body button:text-is("Skip opening")');
   await page.waitForSelector("#card:not([hidden])", { timeout: 60000 });
   await page.waitForTimeout(2500);
   await shot(`${seed}-home`);
   const other = await page.$("#people .figure[style*='pointer']");
   if (other) {
     await other.evaluate((e) => e.click());
+    // Their card first (only what you could know), then talk.
+    await page.waitForSelector("#person:not([hidden])");
+    await settle();
+    await shot(`${seed}-person`);
+    await page.click("#person-talk");
     await page.waitForSelector("#talk:not([hidden])");
     await shot(`${seed}-talk`);
     await page.click("#talk-leave");
