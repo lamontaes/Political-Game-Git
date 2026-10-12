@@ -12,7 +12,10 @@
           "id": "work-shift",
           "from": "src/core2/data/content.json#/actions/0"
         },
-        { "id": "rest", "from": "src/core2/data/content.json#/actions/1" },
+        {
+          "id": "rest",
+          "from": "src/core2/data/content.json#/actions/1"
+        },
         {
           "id": "contact-known-person",
           "from": "src/core2/data/content.json#/actions/2"
@@ -93,7 +96,8 @@
           "id": "decline-scheduled-work-date-segment",
           "from": "src/core2/data/work.json#/absenceAction"
         }
-      ]
+      ],
+      "via": "src/core2/life.ts"
     },
     {
       "id": "drives.respond",
@@ -121,7 +125,10 @@
           "id": "answer-calling",
           "from": "src/core2/data/drives.json#/responses/4"
         },
-        { "id": "carry-on", "from": "src/core2/data/drives.json#/responses/5" }
+        {
+          "id": "carry-on",
+          "from": "src/core2/data/drives.json#/responses/5"
+        }
       ]
     },
     {
@@ -310,8 +317,14 @@
       "owner": "OPUS-PEOPLE",
       "route": "chooser",
       "options": [
-        { "id": "speech-keep", "actKinds": ["stay-quiet", "keep-same"] },
-        { "id": "speech-retell", "actKinds": ["speak-out", "engage"] }
+        {
+          "id": "speech-keep",
+          "actKinds": ["stay-quiet", "keep-same"]
+        },
+        {
+          "id": "speech-retell",
+          "actKinds": ["speak-out", "engage"]
+        }
       ]
     },
     {
@@ -336,7 +349,10 @@
       "owner": "OPUS-GOV",
       "route": "chooser",
       "options": [
-        { "id": "corruption-take-no", "actKinds": ["follow-rules", "refuse"] },
+        {
+          "id": "corruption-take-no",
+          "actKinds": ["follow-rules", "refuse"]
+        },
         {
           "id": "corruption-take-yes",
           "actKinds": ["self-interest", "bend-rules", "trust"]
@@ -349,7 +365,10 @@
       "owner": "OPUS-GOV",
       "route": "chooser",
       "options": [
-        { "id": "corruption-tell-no", "actKinds": ["stay-quiet", "keep-same"] },
+        {
+          "id": "corruption-tell-no",
+          "actKinds": ["stay-quiet", "keep-same"]
+        },
         {
           "id": "corruption-tell-yes",
           "actKinds": ["speak-out", "confront", "self-interest"]
@@ -362,7 +381,10 @@
       "owner": "OPUS-PEOPLE",
       "route": "chooser",
       "options": [
-        { "id": "renewal-wait", "actKinds": ["play-safe", "delay"] },
+        {
+          "id": "renewal-wait",
+          "actKinds": ["play-safe", "delay"]
+        },
         {
           "id": "renewal-plan-child",
           "actKinds": ["help-others", "commit", "change"]
@@ -471,7 +493,10 @@
       "owner": "OPUS-PEOPLE",
       "route": "formula",
       "options": [
-        { "id": "withhold-blame", "actKinds": ["trust", "delay", "concede"] },
+        {
+          "id": "withhold-blame",
+          "actKinds": ["trust", "delay", "concede"]
+        },
         {
           "id": "blame-official",
           "actKinds": ["distrust", "confront", "speak-out"]
@@ -484,9 +509,69 @@
       "owner": "OPUS-PEOPLE",
       "route": "formula",
       "options": [
-        { "id": "doubt", "actKinds": ["distrust", "refuse"] },
-        { "id": "believe", "actKinds": ["trust", "concede"] }
+        {
+          "id": "doubt",
+          "actKinds": ["distrust", "refuse"]
+        },
+        {
+          "id": "believe",
+          "actKinds": ["trust", "concede"]
+        }
       ]
+    }
+  ],
+  "outside": [
+    {
+      "site": "src/core2/choice.ts",
+      "why": "The chooser itself."
+    },
+    {
+      "site": "src/core2/trait-decisions.ts",
+      "why": "The shared trait-decision helpers."
+    },
+    {
+      "site": "src/core2/player-v1.ts",
+      "why": "The player's own choices and the same work and daily-act decisions listed above, scored through the chooser for people the player controls."
+    },
+    {
+      "site": "src/core2/opening-income.ts",
+      "why": "The opening run of retirement.claim-age, through the same helper."
+    },
+    {
+      "site": "src/core2/modules/drives.ts traceAct and predict",
+      "why": "Read-back of a choice already made or predicted, not a new decision."
+    },
+    {
+      "site": "src/core2/free-block.ts",
+      "why": "Re-ranks the daily-act scores, trait term included."
+    },
+    {
+      "site": "src/core2/modules/jobs.ts employer pick, layOff, reviewEmployers, raisePay",
+      "why": "The employer's staffing rules from its books (stopgap until owners decide); not one person's choice yet."
+    },
+    {
+      "site": "src/core2/modules/credit.ts bankYes and business credit lines",
+      "why": "Bank underwriting by debt-to-income rules, an institution's rule."
+    },
+    {
+      "site": "src/core2/modules/housing.ts eviction notices and arrears",
+      "why": "Landlord filing is a registered stopgap (every landlord files); arrears are paid from what the household has, not chosen."
+    },
+    {
+      "site": "src/core2/modules/business.ts successorOf and market pick",
+      "why": "Succession order and which market gets a founder are rules, not one person's choice."
+    },
+    {
+      "site": "src/core2/finance-state.ts forced closure",
+      "why": "A business with no cash or credit closes; nobody chooses it."
+    },
+    {
+      "site": "src/core2/central-bank-board.ts committeeDecision",
+      "why": "The median of the members' own votes (macro.rate-vote)."
+    },
+    {
+      "site": "src/director/conversation.ts otherAsks and otherRaises",
+      "why": "Which subject comes up follows shared records; OPUS-PEOPLE's conversation rework (audit 1) owns topic choice."
     }
   ]
 }
