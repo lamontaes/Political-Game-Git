@@ -42,6 +42,8 @@ None yet.
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12 (FIXER): #4015 (golden-path runner in one process) merged by the CTO. #4014 (title-screen version label) is waiting on CI after two release-note fixes (`section` and `title` are needed for a patch). Next: BOARD.md open work once #4014 is green.
+
 - Oct 12 (FIXER): release version fix on `fixer/title-version`: nothing in the player UI used `displayVersion()` any more, so the built client lacked `v<version>`. The title screen now shows it (small label, `title-version`), with a render test. Not run here: `npm ci` is refused by the storage guard (565 MiB usable of 1.5 GiB needed), so CI must confirm. Next: golden-path runner in one process.
 
 - Oct 12 (FIXER): credits data done on `fixer/credits-data`: `data/credits/credits.json` (86 rows: 83 CC BY and CC BY-SA reference photos, O\*NET with its exact credit line, Census finances and employment) and `tests/credits-list.test.ts` (fails when a manifest or lock needs credit and the list lacks it). Seven photos have no artist in the manifest, so their rows point to the source page; OPUS-PLAY can fill names later. The sweep failure on `fixer.md` (Harbour, Centre) is #4006's exemption, not this branch. Next: real-name hygiene.
