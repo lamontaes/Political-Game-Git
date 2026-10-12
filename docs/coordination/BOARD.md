@@ -65,6 +65,22 @@ The CTO's code audit (`docs/reports/audit-2026-10-12/`) found that many items ti
   5. Founders and loans from counted households.
   6. Settle the eviction sources (26 vs 51 of 56).
 
+## Next, after your audit items (owner's questions, Oct 12, 9:20 a.m.)
+
+The owner asked what history, meetings, groups, places, interviews and laws the game has. The CTO checked the code (answers: https://claude.ai/artifact/NV5EmoFMjrYeDkMZfg5CqG). These are the gaps. Each session takes its own once its audit items above are fixed.
+
+- **OPUS-GOV:**
+  1. Campaign interviews: the place's real outlets (newspaper, TV, radio) from its media data; you ask for an interview or a reporter asks you; questions come from the race's issues and your record; answers go on the record and into the news; readers and viewers react. Start from the old game's logic (`src/simulation/press-interviews.ts`); words from OPUS-PEOPLE.
+  2. Public meetings you attend: council and county commission meetings with public comment, hearings you can testify at (the `testify-at-hearing` act is a stopgap never offered), town halls and debates.
+  3. The bill catalog (`docs/design/legislative-content-menus-v1.md`, all 18 subject menus) reachable from the bench, plus your own vote and signing or vetoing when you hold those offices.
+  4. Load the 59 researched yes/no policy answers as law rows.
+  5. Pre-start history: past elections and officials' careers of real length, so terms don't all start on the opening day (M1-14 part 2, with OPUS-CORE's run).
+- **OPUS-PEOPLE:** group kinds as data with each town's counts from real sources (clubs, PTAs, service clubs, veterans' posts, neighborhood associations, volunteer groups, leagues); joining or switching parties for a reason; church and club gatherings; the words for interviews.
+- **OPUS-PLAY:** a "Go to" list of the town's places (from its organizations and the art library), showing who's there and what you can do; meeting scenes using the existing art (council chamber, school board room, rally stage); open `world-legislating` in `src/bench/world.ts` so councils, legislatures and Congress act on their own; the town visibly changing after a law passes.
+- **OPUS-WORLD:** a 20-year drift report in random places with town feedback on: every exit from the 1990–2026 bands with when, how far and its cause; business founding and closures before the start (M1-14 part 2).
+- **OPUS-CORE:** the pre-start history run (adopt #3961's `runPreStartHistory`, economy, people, then governments) so the other sessions' history passes plug in.
+- **FIXER:** a script that lists every open stopgap by session and kind (behavior, figure, text, art) from `src/core2/data/stopgaps.json` and `src/director/data/stopgaps.json`, so the CTO can keep "Open stand-ins" below complete.
+
 ## Order of work right now
 
 1. **OPUS-CORE: speed first** (bookkeeping off in play, no copying of worker memory each shift), then the two-level population, then the business closures.
@@ -93,7 +109,11 @@ The whole game gets built, not just tonight's list (owner, Oct 12; "No stopping"
 
 ## Open stand-ins
 
-The CTO lists every registered stand-in here, by session, at each check-in (owner, Oct 12): what it fakes and which session's work replaces it. As of Oct 12, 4:25 a.m.:
+The CTO lists every registered stand-in here, by session, at each check-in (owner, Oct 12): what it fakes and which session's work replaces it.
+
+**Count, Oct 12, 9:40 a.m. (CTO, from the code):** about 180 open in what the bench runs: 159 open rows on `opus-play` (91 simplified rules, 65 figures, 2 text, 1 art; 8 resolved) plus 19 in `src/director/data/stopgaps.json` (3 rules, 11 figures, 5 text). The list below is the earlier, partial one; the full list by session replaces it once FIXER's script lands.
+
+As of Oct 12, 4:25 a.m.:
 
 - **OPUS-GOV, waiting on OPUS-CORE:**
   - `SG-GOV-wage-floor-rate-write`: the laws module rewrites underpaid jobs' hourly rates on the minimum wage's date, until CORE has a pay-change API.
