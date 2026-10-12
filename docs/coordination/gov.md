@@ -94,6 +94,11 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-13 05:10 UTC: PLAY's filing routes:
+  - **Colorado's U.S. Senate route:** it had come out free with no petition. It now needs 1,500 signatures from each of the state's 8 districts (12,000), via the new per-district and "N or X%, whichever is less" forms in `filing-formulas.ts`, with district counts from the 2024 House results.
+  - **A Mississippi county office:** it now pays its fee (the research gives "$100 to $300 (estimate)", read as $100 and marked an estimate).
+  - **Still open:** the party-assembly alternative (Colorado), which is a party convention; a question for after early access.
+
 - 2026-10-13 04:50 UTC: PLAY's small items:
   - Party labels read "Democratic" everywhere (`partyName` in `appointments.ts`); the rosters' "Democrat" is normalized where holders and Congress members are created.
   - The Vice President, and an elected running mate, never shares the President's family name (`avoidFamilyNames` in `drawOfficialIdentity`), asserted in the offices test.

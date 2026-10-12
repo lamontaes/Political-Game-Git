@@ -83,3 +83,16 @@ export function registeredFromVotes(votes: number): number {
 export function stateVotes2024(stateKey: string): number | null {
   return stateVotes.get(stateKey.slice(3)) ?? null;
 }
+
+const districtCounts = new Map<string, number>();
+for (const row of (calibration as unknown as { house: { stateUsps: string }[] })
+  .house)
+  districtCounts.set(
+    row.stateUsps,
+    (districtCounts.get(row.stateUsps) ?? 0) + 1,
+  );
+
+/** The state's congressional districts (2024 House results). */
+export function congressionalDistricts(stateKey: string): number {
+  return districtCounts.get(stateKey.slice(3)) ?? 1;
+}
