@@ -1594,5 +1594,17 @@
     "addedAt": "2026-10-12",
     "replacement": "Opening owners from Census Annual Business Survey owner shares by industry and size, with owners who do not work in the business, and founders recorded at founding.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-views-first-version",
+    "kind": "partial-model",
+    "file": "src/core2/modules/views.ts",
+    "line": 1,
+    "whatItFakes": "Opening views read only the person's state and age band (the CES cell) and a household heritage; education, faith and urbanicity are not yet on person records, and the 14 values and issue stances at the opening are not formed. Stances move only on events with a topic.",
+    "why": "First version of views on the new core, built while the people records gain education and faith.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Opening views from the person's education, faith, place type and upbringing through CES-derived weights; the 14 values; conversations and news moving stances (M1-10, M2-09).",
+    "status": "open"
   }
 ]

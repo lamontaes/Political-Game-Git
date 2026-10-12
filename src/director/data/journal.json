@@ -4,49 +4,49 @@
   "about": "The words of the 'My life' journal on the new core: which moments it writes, the reviewed templates the English engine fills from records, and the relation words for naming family. Templates copy only recorded facts and carry no feeling words; a moment no line covers is left out.",
   "relationWords": {
     "parent": {
-      "female": "my mother",
-      "male": "my father",
-      "other": "my parent"
+      "female": "mother",
+      "male": "father",
+      "other": "parent"
     },
     "other-parent": {
-      "female": "my mother",
-      "male": "my father",
-      "other": "my parent"
+      "female": "mother",
+      "male": "father",
+      "other": "parent"
     },
     "child": {
-      "female": "my daughter",
-      "male": "my son",
-      "other": "my child"
+      "female": "daughter",
+      "male": "son",
+      "other": "child"
     },
     "sibling": {
-      "female": "my sister",
-      "male": "my brother",
-      "other": "my sibling"
+      "female": "sister",
+      "male": "brother",
+      "other": "sibling"
     },
     "grandparent": {
-      "female": "my grandmother",
-      "male": "my grandfather",
-      "other": "my grandparent"
+      "female": "grandmother",
+      "male": "grandfather",
+      "other": "grandparent"
     },
     "grandchild": {
-      "female": "my granddaughter",
-      "male": "my grandson",
-      "other": "my grandchild"
+      "female": "granddaughter",
+      "male": "grandson",
+      "other": "grandchild"
     },
     "aunt-or-uncle": {
-      "female": "my aunt",
-      "male": "my uncle",
-      "other": "my relative"
+      "female": "aunt",
+      "male": "uncle",
+      "other": "relative"
     },
     "niece-or-nephew": {
-      "female": "my niece",
-      "male": "my nephew",
-      "other": "my relative"
+      "female": "niece",
+      "male": "nephew",
+      "other": "relative"
     },
     "partner": {
-      "female": "my partner",
-      "male": "my partner",
-      "other": "my partner"
+      "female": "partner",
+      "male": "partner",
+      "other": "partner"
     }
   },
   "countWords": [
@@ -204,5 +204,17 @@
       "key": "start",
       "text": "{{place}}"
     }
-  ]
+  ],
+  "possessive": {
+    "journal": "my",
+    "scene": "your"
+  },
+  "lookBack": {
+    "died": [
+      {
+        "key": "died",
+        "text": "I died in {{place}} at {{age}}."
+      }
+    ]
+  }
 }

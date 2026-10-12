@@ -190,5 +190,17 @@
     "addedAt": "2026-10-12",
     "replacement": "Lines composed from the mined speech corpus and register cards, refined by the owner's grades (M4-02).",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-scene-banks",
+    "kind": "hand-written-bank",
+    "file": "src/director/data/scene-words.json",
+    "line": 1,
+    "whatItFakes": "Scene narration templates written by hand instead of composed from mined real speech and narration.",
+    "why": "The first new-core scenes need words now; each template copies only recorded facts.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Narration composed from the mined corpus, refined by the owner's grades (M4-03).",
+    "status": "open"
   }
 ]
