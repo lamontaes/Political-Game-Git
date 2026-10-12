@@ -855,6 +855,19 @@ const AGE_BANDS = [
   [65, "65-plus"],
 ] as const;
 
+/** The account that pays and receives for a place's counted residents (benefits, taxes). */
+export function residentsAccountFor(
+  core: CoreState,
+  placeId: PlaceId,
+): string | undefined {
+  const row = runtimes
+    .get(core)
+    ?.input.accounts.find((account) => account.placeId === placeId);
+  return row
+    ? core.cashJournal.residualAccountByOwner.get(row.accountId)
+    : undefined;
+}
+
 /** Counts of the wider population by place, age and employer, from its records. */
 export function residentCounts(core: CoreState): ResidentCounts[] {
   const rt = runtimes.get(core);
