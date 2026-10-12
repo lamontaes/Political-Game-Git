@@ -15,7 +15,7 @@
  * named voters leaving the polls and report what they said.
  */
 import federalExecutive from "../../../data/research/offices/federal-executive-2026.json" with { type: "json" };
-import { countedResidents } from "../electorate";
+import { countedResidents, type CountedVoter } from "../electorate";
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -305,6 +305,8 @@ export function turnout(
   appeal: Record<string, { total: number }>,
   /** A counted resident's scheduled weekly work, from their record. */
   recordedWeeklyMinutes?: number,
+  /** What this election adds to the cost of voting (a primary's lower salience). */
+  extraCost = 0,
 ) {
   const duty =
     (voter.traits["personality-v1:facet-duty-bound"] ?? 0) +
@@ -327,7 +329,8 @@ export function turnout(
     duty,
     interest,
     cost,
-    votes: duty + interest + campaignParameter("turnoutBase") > cost,
+    votes:
+      duty + interest + campaignParameter("turnoutBase") > cost + extraCost,
   };
 }
 
@@ -455,20 +458,71 @@ export function holdPrimary(
   const access = parties[0]?.voterAccess ?? "";
   const date = api.state.date;
   const { townPlaceId } = town(api);
-  const voters = [...api.state.people.values()]
+  const lean0 = townLean(api);
+  const named = [...api.state.people.values()]
     .filter((p) => p.alive && p.placeId === townPlaceId && ageOn(p, date) >= 18)
     .sort((a, b) => a.id.localeCompare(b.id));
+  const counted = countedResidents(api.state as CoreState).filter(
+    (v) => v.placeId === townPlaceId && ageOn(v, date) >= 18,
+  );
+  // Who identifies with a party: the firmest leans in town, at the real
+  // identifier share (the same rule the parties engine ties named people by).
+  const leanOf = new Map<string, number>(
+    [...named, ...counted].map((v) => [
+      v.id,
+      personLean(api.state.people, v, lean0),
+    ]),
+  );
+  const firm = [...leanOf.values()].map(Math.abs).sort((a, b) => b - a);
+  const cut =
+    firm[
+      Math.max(
+        0,
+        Math.round(firm.length * campaignParameter("partyIdentifierShare")) - 1,
+      )
+    ] ?? 0;
+  const extraCost = campaignParameter("primaryTurnoutCost");
   const votes: Record<string, number> = {};
-  const count = (field: readonly FilingRow[], who: readonly PersonState[]) => {
+  let townVoted = 0;
+  // Named voters: what reached them, as on election day.
+  const countNamed = (
+    field: readonly FilingRow[],
+    who: readonly PersonState[],
+  ) => {
     for (const voter of who) {
       const { appeal } = appealFor(api, voter, contest, field);
-      if (!turnout(api, voter, appeal).votes) continue;
+      const t = turnout(api, voter, appeal, undefined, extraCost);
+      if (!t.votes) continue;
+      townVoted += 1;
       const ranked = Object.entries(appeal).sort(
         (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
       );
       if (ranked.length > 1 && ranked[0]![1].total === ranked[1]![1].total)
         continue;
       if (ranked[0]) votes[ranked[0][0]] = (votes[ranked[0][0]] ?? 0) + 1;
+    }
+  };
+  // Counted voters: no campaign reached them; the ballot names the
+  // incumbent, and with no incumbent in the field they leave it blank.
+  const countCounted = (
+    field: readonly FilingRow[],
+    who: readonly CountedVoter[],
+  ) => {
+    const incumbent = field.find(
+      (f) => candidateFacts(api, f, contest).isIncumbent,
+    );
+    for (const voter of who) {
+      const appeal: Record<string, { total: number }> = {};
+      for (const f of field)
+        appeal[f.personId] = {
+          total:
+            f === incumbent ? campaignParameter("incumbentRecognition") : 0,
+        };
+      const t = turnout(api, voter, appeal, voter.weeklyMinutes, extraCost);
+      if (!t.votes) continue;
+      townVoted += 1;
+      if (incumbent)
+        votes[incumbent.personId] = (votes[incumbent.personId] ?? 0) + 1;
     }
   };
   const lose = (filing: FilingRow) =>
@@ -478,7 +532,9 @@ export function holdPrimary(
       .put({ ...filing, status: "withdrawn" } as unknown as ModuleRow);
   const advancing = method === "top-two" ? 2 : method === "top-four" ? 4 : 0;
   if (advancing) {
-    count(filings, voters);
+    countNamed(filings, named);
+    countCounted(filings, counted);
+    addPrimaryGroups(api, contest, filings, null, votes, townVoted);
     filings
       .slice()
       .sort(
@@ -495,14 +551,30 @@ export function holdPrimary(
     for (const [party, field] of byParty) {
       if (field.length < 2) continue;
       const open = /open|unaffiliated|independ/i.test(access);
-      const electorate = voters.filter((v) => {
-        const tie = partyTie(api, v.id);
-        return (
-          (tie?.partyId?.endsWith(slug(party)) ?? false) ||
-          (open && tie?.tie !== "party")
-        );
-      });
-      count(field, electorate);
+      const side = partySide(party);
+      const before = townVoted;
+      countNamed(
+        field,
+        named.filter((v) => {
+          const tie = partyTie(api, v.id);
+          return (
+            (tie?.partyId?.endsWith(slug(party)) ?? false) ||
+            (open && tie?.tie !== "party")
+          );
+        }),
+      );
+      countCounted(
+        field,
+        counted.filter((v) => {
+          const lean = leanOf.get(v.id) ?? 0;
+          const identifies = Math.abs(lean) >= cut && lean !== 0;
+          return (
+            (identifies && side !== 0 && Math.sign(lean) === side) ||
+            (open && !identifies)
+          );
+        }),
+      );
+      addPrimaryGroups(api, contest, field, side, votes, townVoted - before);
       const ranked = field
         .slice()
         .sort(
@@ -538,6 +610,37 @@ export function holdPrimary(
     facts: { contestId, method, votes: JSON.stringify(votes) },
   });
   return votes;
+}
+
+/**
+ * The primary's wider electorate beyond the town's own voters: the party's
+ * share of the race's electorate (its 2024 lean) at primary turnout, voting
+ * in the proportions the town's primary voters chose. With no town choices
+ * to follow, they add nothing.
+ */
+function addPrimaryGroups(
+  api: CoreAPI,
+  contest: ContestRow,
+  field: readonly FilingRow[],
+  side: number | null,
+  votes: Record<string, number>,
+  townVoted: number,
+): void {
+  const chose = field.reduce((n, f) => n + (votes[f.personId] ?? 0), 0);
+  if (!chose) return;
+  const right = electorateRightShare(api, contest) ?? (1 + townLean(api)) / 2;
+  const partyShare =
+    side === null ? 1 : side > 0 ? right : side < 0 ? 1 - right : 0;
+  const electorate = Math.round(
+    electorateSize(api, contest, townVoted) *
+      partyShare *
+      campaignParameter("primaryShareOfGeneral"),
+  );
+  const unnamed = Math.max(0, electorate - townVoted);
+  const counts = field.map((f) => votes[f.personId] ?? 0);
+  for (const [index, f] of field.entries())
+    votes[f.personId] =
+      counts[index]! + Math.round((unnamed * counts[index]!) / chose);
 }
 
 /** Count a contest: named ballots, then the wider electorate's groups. */
