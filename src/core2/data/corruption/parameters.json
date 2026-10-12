@@ -24,9 +24,9 @@
     "stopgapId": "SG-P15-corruption-weights"
   },
   "corruptionHonestPull": {
-    "value": 2,
+    "value": 3,
     "tag": "TUNABLE",
-    "citation": "The pull of not offering or not taking, against which the bribe is weighed. Checked so a corrupt act happens only where traits and circumstances support it. Spread 1.5 to 3.",
+    "citation": "The pull of not offering or not taking, against which the bribe is weighed. Transparency International's Global Corruption Barometer (2019) found about 6% of Americans paid a bribe for a public service in the past year, so most people neither offer nor take even when it would pay. At 3, with a $500,000 contract at stake, 28 of 158 of a generated town's wealthiest residents offered and 7 strained residents took (src/core2/corruption.test.ts, seed corruption-a); at 2 almost everyone offered, at 3.5 almost no one. Spread 2.5 to 3.5.",
     "stopgapId": "SG-P15-corruption-weights"
   },
   "corruptionTellWeight": {
