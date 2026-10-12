@@ -6,13 +6,12 @@
     "U.S. Election Assistance Commission (eac.gov)": 65,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "crec": 445,
-    "fda": 8,
     "hearings": 1617,
     "house": 115,
     "nasa": 317,
-    "nasa2": 330,
-    "nih": 53,
-    "nps": 479,
+    "nasa2": 349,
+    "nih": 52,
+    "nps": 515,
     "wpa": 38
   },
   "notAttested": [
@@ -78,14 +77,26 @@
     },
     {
       "move": "rest",
+      "text": "Stay home.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "rest",
       "text": "Rest.",
-      "documents": 4,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "rest",
       "text": "Sleep in.",
       "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "rest",
+      "text": "Take it easy.",
+      "documents": 1,
       "modern": 0
     },
     {
@@ -247,14 +258,8 @@
     {
       "move": "approach-office",
       "text": "Go to {office}.",
-      "documents": 1,
+      "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "approach-office",
-      "text": "Call {office}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "approach-office",
@@ -375,6 +380,12 @@
       "text": "Fight back.",
       "documents": 0,
       "modern": 0
+    },
+    {
+      "move": "take-up-cause",
+      "text": "Get involved.",
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "take-up-cause",
@@ -523,8 +534,8 @@
     {
       "move": "answer-calling",
       "text": "Volunteer.",
-      "documents": 1,
-      "modern": 1
+      "documents": 0,
+      "modern": 0
     },
     {
       "move": "answer-calling",
@@ -541,14 +552,14 @@
     {
       "move": "carry-on",
       "text": "Move on.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
       "move": "carry-on",
       "text": "Carry on.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "carry-on",
@@ -721,8 +732,8 @@
     {
       "move": "volunteer-for-cause",
       "text": "Volunteer.",
-      "documents": 1,
-      "modern": 1
+      "documents": 0,
+      "modern": 0
     },
     {
       "move": "volunteer-for-cause",
@@ -799,7 +810,7 @@
     {
       "move": "seek-standing",
       "text": "Network.",
-      "documents": 2,
+      "documents": 1,
       "modern": 0
     },
     {

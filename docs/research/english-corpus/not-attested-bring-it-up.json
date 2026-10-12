@@ -6,13 +6,12 @@
     "U.S. Election Assistance Commission (eac.gov)": 65,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "crec": 445,
-    "fda": 8,
     "hearings": 1617,
     "house": 115,
     "nasa": 317,
-    "nasa2": 330,
-    "nih": 53,
-    "nps": 474,
+    "nasa2": 349,
+    "nih": 52,
+    "nps": 515,
     "wpa": 38
   },
   "notAttested": [
@@ -115,14 +114,8 @@
     {
       "move": "change-organization.closed-closed",
       "text": "They closed down {subject}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "blame-record-record",
-      "text": "That was {whose} doing.",
       "documents": 1,
-      "modern": 1
+      "modern": 0
     },
     {
       "move": "blame-record-record",
@@ -132,8 +125,14 @@
     },
     {
       "move": "blame-record-record",
+      "text": "That's on {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-record-record",
       "text": "{who} made that decision.",
-      "documents": 1,
+      "documents": 0,
       "modern": 0
     },
     {
@@ -379,7 +378,7 @@
     {
       "move": "blame-hearer-react",
       "text": "I heard that too.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {

@@ -21,13 +21,12 @@
       "U.S. Election Assistance Commission (eac.gov)": 65,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
       "crec": 445,
-      "fda": 8,
       "hearings": 1617,
       "house": 115,
       "nasa": 317,
-      "nasa2": 352,
-      "nih": 53,
-      "nps": 787,
+      "nasa2": 349,
+      "nih": 52,
+      "nps": 515,
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
@@ -74,11 +73,11 @@
           "choice": "out"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 4,
       "bySource": {
         "hearings": 2,
         "nasa2": 1,
-        "nps": 2
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -245,15 +244,15 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 87,
+      "transcriptsUsing": 70,
       "bySource": {
         "crec": 1,
         "hearings": 1,
         "house": 14,
         "nasa": 16,
-        "nasa2": 16,
+        "nasa2": 15,
         "nih": 4,
-        "nps": 34,
+        "nps": 18,
         "wpa": 1
       },
       "shippable": true,
@@ -278,21 +277,21 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 19,
+      "transcriptsUsing": 11,
       "bySource": {
         "crec": 1,
         "house": 1,
         "nasa": 1,
         "nasa2": 1,
         "nih": 1,
-        "nps": 14
+        "nps": 6
       },
       "shippable": true,
       "source": {
-        "document": "Christine (Meyer) and David F. Wallace, Jr., Oral History Interviews",
-        "date": "2022-11-03",
-        "granule": "npsweb-christine-meyer-and-david-f-wallace-jr-oral-history-interviews",
-        "url": "https://www.nps.gov/articles/000/christine-meyer-and-david-f-wallace-jr-oral-history-interviews.htm",
+        "document": "Congressional Record, House section, 2022-09-20",
+        "date": "2022-09-20",
+        "granule": "CREC-2022-09-20-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2022-09-20",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },

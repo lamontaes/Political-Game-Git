@@ -21,17 +21,16 @@
       "U.S. Election Assistance Commission (eac.gov)": 65,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
       "crec": 445,
-      "fda": 8,
       "hearings": 1617,
       "house": 115,
       "nasa": 317,
-      "nasa2": 352,
-      "nih": 53,
-      "nps": 597,
+      "nasa2": 349,
+      "nih": 52,
+      "nps": 515,
       "wpa": 38
     },
     "rule": "A shape is kept when at least 1 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 122
+    "notAttested": 121
   },
   "parts": [
     {
@@ -77,11 +76,12 @@
           "choice": "which"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 6,
       "bySource": {
         "house": 1,
         "nasa": 2,
-        "nasa2": 2
+        "nasa2": 2,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -105,12 +105,12 @@
           "choice": "which"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 6,
       "bySource": {
         "crec": 1,
         "nasa": 2,
         "nasa2": 1,
-        "nps": 1
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -264,11 +264,12 @@
           "choice": "short-fee"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
         "hearings": 1,
         "nasa": 1,
-        "nasa2": 1
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -307,6 +308,32 @@
       }
     },
     {
+      "key": "filing-visit.clerk-close-next.sign-right-here",
+      "move": "clerk-close-next",
+      "kind": "spoken",
+      "text": "Sign right here.",
+      "uses": [
+        {
+          "move": "clerk-close-next",
+          "subject": "clerk",
+          "role": "close",
+          "choice": "next"
+        }
+      ],
+      "transcriptsUsing": 1,
+      "bySource": {
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NPS History Collection oral history: arnberger rob oct 28 2016",
+        "date": "2016-10-28",
+        "granule": "npgallery-5ee1b208",
+        "url": "https://npgallery.nps.gov/AssetDetail/5ee1b208-0e68-4a67-8880-f0d9d44d0bdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "filing-visit.clerk-close-next.thats-it",
       "move": "clerk-close-next",
       "kind": "spoken",
@@ -319,16 +346,15 @@
           "choice": "next"
         }
       ],
-      "transcriptsUsing": 128,
+      "transcriptsUsing": 129,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 13,
-        "fda": 2,
         "hearings": 18,
         "house": 8,
         "nasa": 27,
         "nasa2": 17,
-        "nih": 1,
-        "nps": 42
+        "nih": 2,
+        "nps": 44
       },
       "shippable": true,
       "source": {
@@ -352,13 +378,12 @@
           "choice": "next"
         }
       ],
-      "transcriptsUsing": 26,
+      "transcriptsUsing": 22,
       "bySource": {
         "crec": 6,
         "hearings": 11,
         "nasa": 4,
-        "nasa2": 1,
-        "nps": 4
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
@@ -441,14 +466,14 @@
           "choice": "next"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 13,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 2,
         "nasa": 3,
         "nasa2": 1,
-        "nps": 1
+        "nps": 5
       },
       "shippable": true,
       "source": {
@@ -498,7 +523,7 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 263,
+      "transcriptsUsing": 265,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 7,
         "crec": 10,
@@ -507,7 +532,7 @@
         "nasa": 11,
         "nasa2": 8,
         "nih": 1,
-        "nps": 14
+        "nps": 16
       },
       "shippable": true,
       "source": {
@@ -531,18 +556,17 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 1702,
+      "transcriptsUsing": 1763,
       "bySource": {
         "Federal Election Commission (fec.gov)": 3,
         "U.S. Election Assistance Commission (eac.gov)": 54,
         "crec": 28,
-        "fda": 2,
         "hearings": 901,
         "house": 75,
         "nasa": 215,
         "nasa2": 189,
         "nih": 13,
-        "nps": 222
+        "nps": 285
       },
       "shippable": true,
       "source": {
@@ -566,18 +590,17 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 1261,
+      "transcriptsUsing": 1294,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 38,
         "crec": 12,
-        "fda": 4,
         "hearings": 971,
         "house": 18,
         "nasa": 73,
         "nasa2": 49,
         "nih": 8,
-        "nps": 86,
+        "nps": 123,
         "wpa": 1
       },
       "shippable": true,
@@ -602,7 +625,7 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 134,
+      "transcriptsUsing": 146,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 8,
         "crec": 1,
@@ -611,7 +634,7 @@
         "nasa": 1,
         "nasa2": 1,
         "nih": 1,
-        "nps": 7
+        "nps": 19
       },
       "shippable": true,
       "source": {
@@ -635,17 +658,16 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 246,
+      "transcriptsUsing": 230,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 5,
         "crec": 1,
-        "fda": 1,
         "hearings": 100,
         "house": 6,
         "nasa": 3,
         "nasa2": 4,
         "nih": 12,
-        "nps": 114
+        "nps": 99
       },
       "shippable": true,
       "source": {
@@ -669,7 +691,7 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 2174,
+      "transcriptsUsing": 2204,
       "bySource": {
         "Federal Election Commission (fec.gov)": 11,
         "U.S. Election Assistance Commission (eac.gov)": 61,
@@ -678,8 +700,8 @@
         "house": 70,
         "nasa": 101,
         "nasa2": 102,
-        "nih": 15,
-        "nps": 128,
+        "nih": 14,
+        "nps": 159,
         "wpa": 2
       },
       "shippable": true,
@@ -704,7 +726,7 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 491,
+      "transcriptsUsing": 495,
       "bySource": {
         "Federal Election Commission (fec.gov)": 2,
         "U.S. Election Assistance Commission (eac.gov)": 36,
@@ -714,7 +736,7 @@
         "nasa": 16,
         "nasa2": 14,
         "nih": 1,
-        "nps": 18
+        "nps": 22
       },
       "shippable": true,
       "source": {
@@ -738,14 +760,14 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 172,
+      "transcriptsUsing": 174,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 13,
         "hearings": 147,
         "nasa": 1,
         "nasa2": 4,
         "nih": 1,
-        "nps": 6
+        "nps": 8
       },
       "shippable": true,
       "source": {
@@ -769,7 +791,7 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 58,
+      "transcriptsUsing": 62,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 2,
@@ -778,7 +800,7 @@
         "house": 1,
         "nasa": 15,
         "nasa2": 6,
-        "nps": 4
+        "nps": 8
       },
       "shippable": true,
       "source": {

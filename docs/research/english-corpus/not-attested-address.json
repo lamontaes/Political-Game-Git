@@ -6,13 +6,12 @@
     "U.S. Election Assistance Commission (eac.gov)": 65,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "crec": 445,
-    "fda": 8,
     "hearings": 1617,
     "house": 115,
     "nasa": 317,
-    "nasa2": 330,
-    "nih": 50,
-    "nps": 465,
+    "nasa2": 349,
+    "nih": 52,
+    "nps": 515,
     "wpa": 38
   },
   "notAttested": [
@@ -493,8 +492,8 @@
     {
       "move": "public-comment-story",
       "text": "I work here.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "public-comment-story",
@@ -705,12 +704,6 @@
       "text": "I'm a teacher.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "campaign-self",
-      "text": "I'm a nurse.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "campaign-self",
@@ -967,7 +960,7 @@
     {
       "move": "campaign-ask",
       "text": "Get out and vote.",
-      "documents": 1,
+      "documents": 0,
       "modern": 0
     },
     {

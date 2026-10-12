@@ -1,0 +1,499 @@
+{
+  "register": "interview",
+  "read": {
+    "Federal Election Commission (fec.gov)": 253,
+    "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "U.S. Election Assistance Commission (eac.gov)": 65,
+    "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "crec": 445,
+    "hearings": 1617,
+    "house": 115,
+    "nasa": 317,
+    "nasa2": 349,
+    "nih": 52,
+    "nps": 515,
+    "wpa": 38
+  },
+  "notAttested": [
+    {
+      "move": "reporter-open",
+      "text": "Thanks for talking with us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-open",
+      "text": "Thank you for talking with us.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "reporter-open",
+      "text": "Thanks for taking the time.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "reporter-why-run",
+      "text": "Why are you running?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-why-run",
+      "text": "Why are you running for {office}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-why-run",
+      "text": "Why do you want to be {office}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-why-run",
+      "text": "Why did you decide to run?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "reporter-why-run",
+      "text": "What made you decide to run?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-issue",
+      "text": "What would you do about {issue}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-issue",
+      "text": "What's your plan for {issue}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-issue",
+      "text": "How would you pay for it?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-issue",
+      "text": "How are you going to pay for it?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-issue",
+      "text": "Where does the money come from?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-issue",
+      "text": "What do you say to people who are worried about {issue}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-issue",
+      "text": "What do you say to your critics?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-issue",
+      "text": "What do you say to people who disagree?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-issue",
+      "text": "What's the biggest issue facing {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-issue",
+      "text": "What is the biggest problem facing {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-record",
+      "text": "Why did you vote for {bill}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-record",
+      "text": "Why did you vote against {bill}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-record",
+      "text": "Do you regret that vote?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-record",
+      "text": "Would you vote the same way again?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-record",
+      "text": "Was that a mistake?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "reporter-opponent",
+      "text": "What do you think of your opponent?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-opponent",
+      "text": "What's the difference between you and your opponent?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-opponent",
+      "text": "{opponent} says you {claim}. Is that true?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-opponent",
+      "text": "Your opponent says you {claim}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-opponent",
+      "text": "What's your response?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "reporter-opponent",
+      "text": "How do you respond?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "reporter-future",
+      "text": "Will you run again?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-future",
+      "text": "Are you going to run again?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-future",
+      "text": "What's next for you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-future",
+      "text": "Do you plan to run for reelection?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-future",
+      "text": "Are you running for reelection?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-press",
+      "text": "But you didn't answer the question.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "reporter-press",
+      "text": "You didn't answer the question.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "reporter-press",
+      "text": "So is that a yes or a no?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "reporter-press",
+      "text": "Can I follow up on that?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "official-commit",
+      "text": "I'll fight for it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-commit",
+      "text": "I'm going to fight for {issue}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-commit",
+      "text": "That's my commitment.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-commit",
+      "text": "That's a promise.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-record",
+      "text": "I stand by that vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-record",
+      "text": "I stand by my vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-record",
+      "text": "I'd vote the same way again.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-record",
+      "text": "It was the right decision.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "official-record",
+      "text": "I made the right decision.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-record",
+      "text": "I think it was the right call.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-record",
+      "text": "My record speaks for itself.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "official-record",
+      "text": "Look at my record.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "I'm not going to get into that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "I'm not going to speculate.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "I'm not going to get ahead of that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "I don't have anything to share on that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "That's a hypothetical.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "That's a hypothetical question.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "official-deflect",
+      "text": "I'm focused on {issue}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "I'm focused on the job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "I'm focused on doing my job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "It's too early to say.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "It's too early to tell.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "I haven't made a decision.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "I haven't made that decision yet.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "I'll leave that to the voters.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "That's up to the voters.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-deflect",
+      "text": "The voters will decide.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-story",
+      "text": "I know what it's like.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "official-story",
+      "text": "I've seen it firsthand.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-story",
+      "text": "I've seen it myself.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-story",
+      "text": "I hear it every day.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "official-story",
+      "text": "People tell me every day.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-story",
+      "text": "I talk to people every day.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "official-opponent",
+      "text": "My opponent is wrong.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-opponent",
+      "text": "That's simply not true.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-opponent",
+      "text": "That's false.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "official-opponent",
+      "text": "That's not accurate.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "official-opponent",
+      "text": "That's a lie.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "official-opponent",
+      "text": "We have a difference of opinion.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "official-opponent",
+      "text": "We just disagree.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "official-opponent",
+      "text": "I'll let my record speak for itself.",
+      "documents": 0,
+      "modern": 0
+    }
+  ]
+}

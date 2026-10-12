@@ -85,6 +85,8 @@ SLOT_PATTERNS = {
     "did": r"[a-z][\w' ,-]{3,60}",
     "opponent": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
     "date": r"(?:" + MONTH + r" \d{1,2}(?:st|nd|rd|th)?|Tuesday|November \d{1,2})",
+    "claim": r"[a-z][\w' ,-]{3,60}",
+    "experience": r"[a-z][\w' ,-]{3,60}",
     "cause": r"(?:the |our |your |their )?[a-z][\w' -]{2,40}",
     "change": r"[a-z][\w' ,-]{3,60}",
     "topic": r"(?:the |that |this )?[A-Za-z][\w' -]{2,40}",

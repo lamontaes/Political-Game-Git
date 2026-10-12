@@ -6,13 +6,12 @@
     "U.S. Election Assistance Commission (eac.gov)": 65,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "crec": 445,
-    "fda": 8,
     "hearings": 1617,
     "house": 115,
     "nasa": 317,
-    "nasa2": 352,
-    "nih": 53,
-    "nps": 597,
+    "nasa2": 349,
+    "nih": 52,
+    "nps": 515,
     "wpa": 38
   },
   "notAttested": [
@@ -613,12 +612,6 @@
     {
       "move": "clerk-close-next",
       "text": "Please sign here.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "clerk-close-next",
-      "text": "Sign right here.",
       "documents": 0,
       "modern": 0
     },

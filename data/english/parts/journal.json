@@ -23,17 +23,16 @@
       "U.S. Election Assistance Commission (eac.gov)": 65,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
       "crec": 445,
-      "fda": 8,
       "hearings": 1617,
       "house": 115,
       "nasa": 317,
-      "nasa2": 352,
-      "nih": 53,
-      "nps": 646,
+      "nasa2": 349,
+      "nih": 52,
+      "nps": 515,
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 96
+    "notAttested": 95
   },
   "parts": [
     {
@@ -55,17 +54,16 @@
           ]
         }
       ],
-      "transcriptsUsing": 186,
+      "transcriptsUsing": 195,
       "bySource": {
         "crec": 8,
-        "fda": 1,
         "hearings": 19,
         "house": 22,
         "nasa": 37,
-        "nasa2": 36,
-        "nih": 6,
-        "nps": 47,
-        "wpa": 10
+        "nasa2": 37,
+        "nih": 7,
+        "nps": 54,
+        "wpa": 11
       },
       "shippable": true,
       "source": {
@@ -131,14 +129,14 @@
           ]
         }
       ],
-      "transcriptsUsing": 15,
+      "transcriptsUsing": 13,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 4,
         "house": 1,
         "nasa": 1,
         "nasa2": 2,
-        "nps": 5,
+        "nps": 3,
         "wpa": 1
       },
       "shippable": true,
@@ -169,13 +167,13 @@
           ]
         }
       ],
-      "transcriptsUsing": 35,
+      "transcriptsUsing": 36,
       "bySource": {
         "house": 3,
         "nasa": 4,
         "nasa2": 8,
         "nih": 2,
-        "nps": 13,
+        "nps": 14,
         "wpa": 5
       },
       "shippable": true,
@@ -239,7 +237,7 @@
           ]
         }
       ],
-      "transcriptsUsing": 54,
+      "transcriptsUsing": 61,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 1,
@@ -248,7 +246,7 @@
         "nasa": 14,
         "nasa2": 9,
         "nih": 2,
-        "nps": 6,
+        "nps": 13,
         "wpa": 5
       },
       "shippable": true,
@@ -283,9 +281,9 @@
           ]
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 10,
       "bySource": {
-        "nasa": 4,
+        "nasa": 5,
         "nasa2": 3,
         "nps": 2
       },
@@ -321,12 +319,12 @@
           ]
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 11,
       "bySource": {
         "hearings": 1,
         "house": 2,
         "nasa": 3,
-        "nps": 1,
+        "nps": 3,
         "wpa": 2
       },
       "shippable": true,
@@ -335,6 +333,42 @@
         "date": "2017-04-12",
         "granule": "house-oh-schwartza",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/schwartza-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.work-line-started.i-got-a-job",
+      "move": "work-line-started",
+      "kind": "spoken",
+      "text": "I got a job.",
+      "uses": [
+        {
+          "move": "work-line-started",
+          "subject": "work",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "work:opening",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-started",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "nps": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NPS History Collection oral history: bielenberg warren oct 22 2015",
+        "date": "2015-10-22",
+        "granule": "npgallery-c37bf8ab",
+        "url": "https://npgallery.nps.gov/AssetDetail/c37bf8ab-dac6-4c47-9fb5-ede3de0238c1",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -361,9 +395,10 @@
           ]
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 4,
       "bySource": {
-        "nasa2": 2
+        "nasa2": 2,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -458,13 +493,13 @@
           ]
         }
       ],
-      "transcriptsUsing": 31,
+      "transcriptsUsing": 29,
       "bySource": {
         "crec": 19,
         "hearings": 1,
         "nasa": 2,
         "nasa2": 3,
-        "nps": 4,
+        "nps": 2,
         "wpa": 2
       },
       "shippable": true,
@@ -495,11 +530,11 @@
           ]
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 6,
       "bySource": {
         "house": 1,
         "nasa2": 1,
-        "nps": 4,
+        "nps": 3,
         "wpa": 1
       },
       "shippable": true,
@@ -525,10 +560,10 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 14,
+      "transcriptsUsing": 12,
       "bySource": {
         "hearings": 1,
-        "nps": 6,
+        "nps": 4,
         "wpa": 7
       },
       "shippable": true,
@@ -554,46 +589,19 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 10,
       "bySource": {
         "nasa": 2,
         "nasa2": 1,
-        "nps": 3,
+        "nps": 5,
         "wpa": 2
       },
       "shippable": true,
       "source": {
-        "document": "NASA JSC Oral History Project: Dianne Bobko (Wife of Astronaut Karol J. “Bo” Bobko)",
-        "date": "2019-10-17",
-        "granule": "jsc-bobkofd-10-17-19",
-        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/bobkofd-10-17-19.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "journal.family-line-married.we-were-married-in-place",
-      "move": "family-line-married",
-      "kind": "spoken",
-      "text": "We were married in {place}.",
-      "uses": [
-        {
-          "move": "family-line-married",
-          "subject": "family",
-          "role": "line",
-          "choice": "married",
-          "journal": []
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "nps": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "Christine (Meyer) and David F. Wallace, Jr., Oral History Interviews",
-        "date": "2022-11-03",
-        "granule": "npsweb-christine-meyer-and-david-f-wallace-jr-oral-history-interviews",
-        "url": "https://www.nps.gov/articles/000/christine-meyer-and-david-f-wallace-jr-oral-history-interviews.htm",
+        "document": "NPS History Collection oral history: english-rias melissa sept 16 2020",
+        "date": "2020-09-16",
+        "granule": "npgallery-67faf0d3",
+        "url": "https://npgallery.nps.gov/AssetDetail/67faf0d3-31b0-44ae-9d50-06b018825613",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -616,14 +624,14 @@
           ]
         }
       ],
-      "transcriptsUsing": 15,
+      "transcriptsUsing": 16,
       "bySource": {
         "crec": 1,
         "hearings": 2,
         "house": 2,
         "nasa": 1,
         "nasa2": 2,
-        "nps": 3,
+        "nps": 4,
         "wpa": 4
       },
       "shippable": true,
@@ -654,13 +662,13 @@
           ]
         }
       ],
-      "transcriptsUsing": 23,
+      "transcriptsUsing": 27,
       "bySource": {
         "hearings": 2,
         "house": 2,
         "nasa": 3,
         "nih": 2,
-        "nps": 11,
+        "nps": 15,
         "wpa": 3
       },
       "shippable": true,
@@ -669,6 +677,38 @@
         "date": "2025-05-07",
         "granule": "CHRG-119hhrg60446",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60446/html/CHRG-119hhrg60446.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.home-line-moved.we-moved",
+      "move": "home-line-moved",
+      "kind": "spoken",
+      "text": "We moved.",
+      "uses": [
+        {
+          "move": "home-line-moved",
+          "subject": "home",
+          "role": "line",
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NPS History Collection oral history: reyer karen oct 28 2016",
+        "date": "2016-10-28",
+        "granule": "npgallery-532e4a8f",
+        "url": "https://npgallery.nps.gov/AssetDetail/532e4a8f-e81b-4165-956c-1d4fd5b66b25",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -771,10 +811,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2019-05-10",
-        "date": "2019-05-10",
-        "granule": "CREC-2019-05-10-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2019-05-10",
+        "document": "NPS History Collection oral history: Myers Linda 2019",
+        "date": "2019-09-18",
+        "granule": "npgallery-02219734",
+        "url": "https://npgallery.nps.gov/AssetDetail/02219734-b664-44c7-ab41-298663b2c4a6",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -830,13 +870,13 @@
           ]
         }
       ],
-      "transcriptsUsing": 15,
+      "transcriptsUsing": 17,
       "bySource": {
         "hearings": 1,
         "nasa": 4,
         "nasa2": 4,
         "nih": 1,
-        "nps": 3,
+        "nps": 5,
         "wpa": 2
       },
       "shippable": true,
@@ -867,14 +907,14 @@
           ]
         }
       ],
-      "transcriptsUsing": 20,
+      "transcriptsUsing": 21,
       "bySource": {
         "crec": 6,
         "hearings": 1,
         "house": 2,
         "nasa": 2,
         "nasa2": 4,
-        "nps": 5
+        "nps": 6
       },
       "shippable": true,
       "source": {
@@ -937,14 +977,14 @@
           ]
         }
       ],
-      "transcriptsUsing": 27,
+      "transcriptsUsing": 25,
       "bySource": {
         "crec": 2,
         "hearings": 2,
         "house": 1,
         "nasa": 7,
         "nasa2": 12,
-        "nps": 3
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -974,11 +1014,12 @@
           ]
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 10,
       "bySource": {
         "house": 3,
         "nasa": 3,
         "nasa2": 2,
+        "nps": 1,
         "wpa": 1
       },
       "shippable": true,
@@ -1009,13 +1050,13 @@
           ]
         }
       ],
-      "transcriptsUsing": 28,
+      "transcriptsUsing": 18,
       "bySource": {
         "crec": 1,
         "hearings": 2,
         "nasa2": 1,
         "nih": 2,
-        "nps": 12,
+        "nps": 2,
         "wpa": 10
       },
       "shippable": true,
@@ -1046,12 +1087,12 @@
           ]
         }
       ],
-      "transcriptsUsing": 36,
+      "transcriptsUsing": 31,
       "bySource": {
         "crec": 2,
         "hearings": 1,
         "house": 3,
-        "nps": 12,
+        "nps": 7,
         "wpa": 18
       },
       "shippable": true,
@@ -1151,11 +1192,10 @@
           ]
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 6,
       "bySource": {
         "crec": 2,
         "nih": 1,
-        "nps": 2,
         "wpa": 3
       },
       "shippable": true,
@@ -1247,11 +1287,12 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
         "hearings": 1,
         "house": 1,
-        "nasa2": 1
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -1363,7 +1404,7 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 140,
+      "transcriptsUsing": 153,
       "bySource": {
         "crec": 4,
         "hearings": 18,
@@ -1371,7 +1412,7 @@
         "nasa": 4,
         "nasa2": 10,
         "nih": 1,
-        "nps": 63,
+        "nps": 76,
         "wpa": 27
       },
       "shippable": true,
@@ -1397,7 +1438,7 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 64,
+      "transcriptsUsing": 72,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "crec": 4,
@@ -1406,7 +1447,7 @@
         "nasa": 6,
         "nasa2": 11,
         "nih": 1,
-        "nps": 14
+        "nps": 22
       },
       "shippable": true,
       "source": {

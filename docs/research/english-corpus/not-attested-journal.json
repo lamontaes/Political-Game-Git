@@ -6,20 +6,19 @@
     "U.S. Election Assistance Commission (eac.gov)": 65,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "crec": 445,
-    "fda": 8,
     "hearings": 1617,
     "house": 115,
     "nasa": 317,
-    "nasa2": 352,
-    "nih": 53,
-    "nps": 646,
+    "nasa2": 349,
+    "nih": 52,
+    "nps": 515,
     "wpa": 38
   },
   "notAttested": [
     {
       "move": "school-line-started",
       "text": "I started at {school}.",
-      "documents": 5,
+      "documents": 6,
       "modern": 0
     },
     {
@@ -43,8 +42,8 @@
     {
       "move": "work-line-started",
       "text": "I started working at {employer}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "work-line-started",
@@ -61,25 +60,19 @@
     {
       "move": "work-line-started",
       "text": "I got a job with {employer}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "work-line-started",
       "text": "I started at {employer}.",
-      "documents": 5,
+      "documents": 6,
       "modern": 0
     },
     {
       "move": "work-line-started",
       "text": "I started work at {employer}.",
       "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "work-line-started",
-      "text": "I got a job.",
-      "documents": 2,
       "modern": 0
     },
     {
@@ -91,7 +84,7 @@
     {
       "move": "work-line-started",
       "text": "I took a job with {employer}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -181,8 +174,8 @@
     {
       "move": "work-other-started",
       "text": "{relation} got a job.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "work-other-lost",
@@ -223,7 +216,7 @@
     {
       "move": "family-line-born",
       "text": "Then {relation} was born.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -245,21 +238,21 @@
       "modern": 0
     },
     {
+      "move": "family-line-married",
+      "text": "We were married in {place}.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
       "move": "home-line-moved",
       "text": "Then we moved to {place}.",
-      "documents": 8,
+      "documents": 10,
       "modern": 0
     },
     {
       "move": "home-line-moved",
       "text": "Then I moved to {place}.",
-      "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "home-line-moved",
-      "text": "We moved.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -373,7 +366,7 @@
     {
       "move": "death-line-died",
       "text": "{relation} died in {place}.",
-      "documents": 5,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -433,7 +426,7 @@
     {
       "move": "health-other-ill",
       "text": "{relation} got sick.",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
