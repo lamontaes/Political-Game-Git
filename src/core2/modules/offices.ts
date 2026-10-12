@@ -24,6 +24,7 @@
  * SG-GOV-special-election-appointee).
  */
 import { registerElectorate } from "../electorate";
+import { decisionLean } from "../trait-decisions";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -518,7 +519,16 @@ function fillVacancy(
                 ]) as unknown as TermRow[]
               ).flatMap((t) => (t.personId ? [t.personId] : [])),
             ]),
-          )[0]
+          ).find(
+            (suited) =>
+              decisionLean(
+                api.state,
+                suited.person,
+                "offices.accept-appointment",
+                "accept",
+                "decline",
+              ) >= 0,
+          )
         : undefined;
     const term = holder
       ? seatResident(api, office, seat, holder.person.id, date, reached)
