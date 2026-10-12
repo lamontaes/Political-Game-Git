@@ -27,6 +27,7 @@ import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from "node:fs";
 import { dirname, join, relative, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { projectElectoralCalibration } from "./electoral-calibration-runtime.mjs";
 
 const COMPILER = "scripts/world/compile-electoral-calibration.mjs";
 const COMPILER_VERSION = "1.1.0";
@@ -1827,6 +1828,9 @@ async function main() {
   };
 
   const corpusText = await stableStringify(corpus);
+  const runtimeText = await stableStringify(
+    projectElectoralCalibration(corpus),
+  );
   const lockText = await stableStringify({
     schema: "electoral-calibration-artifact-lock/v1",
     artifacts: artifacts.sort((a, b) => a.id.localeCompare(b.id)),
@@ -1837,7 +1841,9 @@ async function main() {
     canonicalSha256: sha256(Buffer.from(corpusText)),
     corpusPath: "data/source/electoral-calibration-2024/corpus.json",
     runtimeArtifactPath: relative(ROOT, RUNTIME_OUT),
-    runtimeArtifactIsByteIdenticalToCorpus: true,
+    runtimeArtifactIsByteIdenticalToCorpus: false,
+    runtimeProjection: "electoral-calibration-runtime/v1",
+    runtimeSha256: sha256(Buffer.from(runtimeText)),
     compiler: COMPILER,
     compilerVersion: COMPILER_VERSION,
     pdfTextTool: `pdfjs-dist ${packageVersion("pdfjs-dist")}`,
@@ -1847,7 +1853,7 @@ async function main() {
 
   const outputs = [
     [join(DOMAIN, "corpus.json"), corpusText],
-    [RUNTIME_OUT, corpusText],
+    [RUNTIME_OUT, runtimeText],
     [join(DOMAIN, "artifact-lock.json"), lockText],
     [join(DOMAIN, "corpus-manifest.json"), manifestText],
   ];
