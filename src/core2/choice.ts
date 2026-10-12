@@ -12,7 +12,12 @@ import type {
   PersonState,
   WeightedReason,
 } from "./types";
-const traitScores = new WeakMap<PersonState, Map<string, number>>();
+/** Per person: each act kind's summed trait pull and how many pulls touched it. */
+interface KindLean {
+  sum: Map<string, number>;
+  count: Map<string, number>;
+}
+const kindLeans = new WeakMap<PersonState, KindLean>();
 
 /** Preserve existing utility cache across the light writer's shallow canonical actor replacement. */
 export function carryTraitScores(
@@ -31,8 +36,59 @@ export function carryTraitScores(
     throw new Error(
       "Trait cache transfer requires the exact unchanged traits reference.",
     );
-  const scores = traitScores.get(previous);
-  if (scores) traitScores.set(next, scores);
+  const lean = kindLeans.get(previous);
+  if (lean) kindLeans.set(next, lean);
+}
+
+/**
+ * Every trait's pull on every act kind for one person, computed once per
+ * person: each trait counts on its high side when above the middle and its
+ * low side when below, weighted by how far from the middle it sits.
+ */
+function kindLean(
+  core: Pick<CoreState, "data">,
+  actor: Pick<PersonState, "traits">,
+): KindLean {
+  const cached = kindLeans.get(actor as PersonState);
+  if (cached) return cached;
+  const p = (key: string) => parameter(key, core.data.parameters);
+  const lean: KindLean = { sum: new Map(), count: new Map() };
+  const add = (kind: string, value: number) => {
+    lean.sum.set(kind, (lean.sum.get(kind) ?? p("zero")) + value);
+    lean.count.set(kind, (lean.count.get(kind) ?? p("zero")) + p("one"));
+  };
+  for (const [id, raw] of Object.entries(actor.traits)) {
+    const row = core.data.traitPulls[id];
+    if (!row || raw === p("zero")) continue;
+    const side = raw > p("zero") ? row.high : row.low;
+    if (!side) continue;
+    const weight = Math.min(p("one"), Math.abs(raw) / p("traitScale"));
+    for (const kind of side.toward ?? []) add(kind, weight);
+    for (const kind of side.away ?? []) add(kind, -weight);
+  }
+  kindLeans.set(actor as PersonState, lean);
+  return lean;
+}
+
+/**
+ * How a person's traits lean toward an option that expresses these act kinds,
+ * from -1 to 1: the mean of every matching trait pull. The chooser's trait
+ * reason, and the one trait term every formula decision uses.
+ */
+export function traitLean(
+  core: Pick<CoreState, "data">,
+  actor: Pick<PersonState, "traits">,
+  actKinds: readonly string[],
+): number {
+  const p = (key: string) => parameter(key, core.data.parameters);
+  const lean = kindLean(core, actor);
+  let sum = p("zero"),
+    count = p("zero");
+  for (const kind of actKinds) {
+    sum += lean.sum.get(kind) ?? p("zero");
+    count += lean.count.get(kind) ?? p("zero");
+  }
+  return count > p("zero") ? sum / count : p("zero");
 }
 
 function traitScore(
@@ -40,36 +96,7 @@ function traitScore(
   actor: PersonState,
   offer: ActOffer,
 ): number {
-  let scores = traitScores.get(actor);
-  if (!scores) {
-    scores = new Map();
-    traitScores.set(actor, scores);
-  }
-  const previous = scores.get(offer.definition.id);
-  if (previous !== undefined) return previous;
-  const p = (key: string) => parameter(key, core.data.parameters);
-  let sum = p("zero");
-  let contributing = p("zero");
-  for (const [id, raw] of Object.entries(actor.traits)) {
-    const row = core.data.traitPulls[id];
-    if (!row || raw === p("zero")) continue;
-    const side = raw > p("zero") ? row.high : row.low;
-    if (!side) continue;
-    const weight = Math.min(p("one"), Math.abs(raw) / p("traitScale"));
-    for (const kind of offer.definition.actKinds) {
-      if (side.toward?.includes(kind)) {
-        sum += weight;
-        contributing += p("one");
-      }
-      if (side.away?.includes(kind)) {
-        sum -= weight;
-        contributing += p("one");
-      }
-    }
-  }
-  const result = contributing > p("zero") ? sum / contributing : p("zero");
-  scores.set(offer.definition.id, result);
-  return result;
+  return traitLean(core, actor, offer.definition.actKinds);
 }
 
 /** One scored offer: its total, its reasons, and the chooser's tie-break key. */
