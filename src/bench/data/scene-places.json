@@ -1,5 +1,5 @@
 {
-  "note": "Which tagged place picture (art/backdrops/manifest.json) shows what a person is doing in the bench. Keys are core act ids; '@home', '@workplace' and '@target' resolve from the person's records; a list is tried in order until one has a picture. Organization classifications map to data/content/place-kinds.json business kinds when their suffix is not already one.",
+  "note": "Which tagged place picture (art/backdrops/manifest.json) shows what a person is doing in the bench. Keys are core act ids; '@home', '@workplace' and '@target' resolve from the person's records; a list is tried in order until one has a picture. Organization classifications map to data/content/place-kinds.json business kinds when their suffix is not already one. filingOffices maps the office GOV names as taking a contest's filings (case-insensitive pattern on its name) to its picture; filingClerkOfficeKinds are the offices whose holder, if they live in town, is the clerk at the counter.",
   "actions": {
     "work-shift": ["@workplace"],
     "attend-scheduled-work-date-segment": ["@workplace"],
@@ -44,9 +44,49 @@
     "service:fire": "fire-station"
   },
   "variantByHour": [
-    { "fromHour": 0, "variant": "night" },
-    { "fromHour": 6, "variant": "morning" },
-    { "fromHour": 11, "variant": "midday" },
-    { "fromHour": 19, "variant": "night" }
+    {
+      "fromHour": 0,
+      "variant": "night"
+    },
+    {
+      "fromHour": 6,
+      "variant": "morning"
+    },
+    {
+      "fromHour": 11,
+      "variant": "midday"
+    },
+    {
+      "fromHour": 19,
+      "variant": "night"
+    }
+  ],
+  "filingOffices": [
+    {
+      "match": "county",
+      "places": [
+        "county-clerk-office-rural",
+        "county-clerk-office-urban",
+        "clerk-counter"
+      ]
+    },
+    {
+      "match": "registrar|board of elections|elections",
+      "places": ["registrar-of-voters-worn", "election-office", "clerk-counter"]
+    },
+    {
+      "match": "secretary of state",
+      "places": ["clerk-back-office", "clerk-counter"]
+    },
+    {
+      "match": "",
+      "places": ["clerk-counter"]
+    }
+  ],
+  "filingClerkOfficeKinds": [
+    "county-clerk",
+    "municipal-clerk",
+    "registrar",
+    "election-administrator"
   ]
 }

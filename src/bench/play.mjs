@@ -255,9 +255,77 @@ $("talk-lie").addEventListener(
   () => talk?.lie && sayLine(talk.lie.key),
 );
 $("talk-leave").addEventListener("click", async () => {
+  if (filing) {
+    await post("/api/filing/leave");
+    filing = undefined;
+    show("talk", false);
+    await refresh();
+    renderPacket();
+    return;
+  }
   await post("/api/talk/leave");
   renderTalk(undefined);
 });
+
+// ---- The filing office (step 3), a visit in the clerk's words ----
+let filing;
+function renderFiling(value) {
+  filing = value;
+  if (!value) return;
+  $("backdrop").src = value.backdrop.url;
+  drawPeople(value.people);
+  show("choices", false);
+  show("talk", true);
+  const clerkName = value.visit.clerkId
+    ? value.names[value.visit.clerkId]
+    : value.filedWith;
+  $("talk-lines").replaceChildren(
+    ...value.visit.lines.slice(-6).map((line) =>
+      el(
+        "li",
+        { title: line.sourceRecordIds.join(", ") },
+        el("b", {
+          textContent:
+            line.speaker === "clerk" ? clerkName : (me.card?.name ?? ""),
+        }),
+        line.text,
+      ),
+    ),
+  );
+  $("talk-choices").replaceChildren(
+    ...value.visit.choices.slice(0, 6).map((choice) => {
+      const b = el("button", { type: "button", textContent: choice.text });
+      b.addEventListener("click", async () =>
+        renderFiling(
+          await post(
+            `/api/filing/choose?key=${encodeURIComponent(choice.key)}`,
+          ),
+        ),
+      );
+      return b;
+    }),
+  );
+  // The filing's record once it is made: its status and what it was paid.
+  if (value.result)
+    $("talk-lines").append(
+      el(
+        "li",
+        {},
+        el("b", { textContent: value.filedWith }),
+        value.result.filing
+          ? `${value.result.status} · ${value.result.filing.signatureCount} · ${dollars(value.result.filing.feePaidMinor)}`
+          : `${value.result.status} · ${(value.result.unmet ?? []).map((u) => u.rule).join(", ")}`,
+      ),
+    );
+  $("talk-lie").disabled = true;
+}
+async function openFiling(filedWith) {
+  closeSheet();
+  renderTalk(undefined);
+  renderFiling(
+    await post(`/api/filing/open?filedWith=${encodeURIComponent(filedWith)}`),
+  );
+}
 
 // ---- Menus ----
 const sheets = {
@@ -427,7 +495,15 @@ const sheets = {
         b,
       );
     });
+    const offices = [
+      ...new Set(v.contests.map((c) => c.filingOffice.filedWith)),
+    ].map((filedWith) => {
+      const b = el("button", { type: "button", textContent: filedWith });
+      b.addEventListener("click", () => openFiling(filedWith));
+      return b;
+    });
     return [
+      ...offices,
       ...v.seats
         .slice(0, 12)
         .map((s) =>
@@ -459,7 +535,10 @@ async function openSheet(tab) {
     b.classList.toggle("active", b.dataset.tab === tab);
   $("sheet-title").textContent = titles[tab];
   $("sheet").classList.toggle("wide", tab === "calendar");
-  $("sheet-body").replaceChildren(...(await sheets[tab]()));
+  const body = await sheets[tab]();
+  // A slower, earlier request must not reopen a sheet closed meanwhile.
+  if (openTab !== tab) return;
+  $("sheet-body").replaceChildren(...body);
   show("sheet", true);
 }
 for (const b of document.querySelectorAll("[data-tab]"))

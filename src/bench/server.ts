@@ -6,6 +6,11 @@ import { buildBenchWorld } from "./world";
 import { personCard } from "./card";
 import { openingShots } from "./opening";
 import { calendarItems, newsItems } from "./calendar";
+import {
+  chooseAtCounter,
+  openBenchFilingVisit,
+  type BenchFilingVisit,
+} from "./filing";
 import { backdropPath, benchScene, figurePng } from "./scene";
 import {
   openConversation,
@@ -31,6 +36,7 @@ let player: BenchPlayer | undefined;
 let placeId = "";
 let building = false;
 let conversation: Conversation | undefined;
+let filingVisit: BenchFilingVisit | undefined;
 const talkView = (value: Conversation | undefined) =>
   value && {
     otherId: value.otherId,
@@ -221,6 +227,32 @@ const server = createServer(async (request, response) => {
           url.searchParams.get("id") ?? "",
         ),
       );
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/filing/open") {
+      if (!player?.personId) throw new Error("Choose a resident first.");
+      filingVisit = openBenchFilingVisit(
+        requireCore(),
+        player.personId,
+        url.searchParams.get("filedWith") ?? "",
+        player.packet?.at.minuteOfDay ?? 12 * 60,
+      );
+      send(200, filingVisit);
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/filing/choose") {
+      if (!filingVisit) throw new Error("No filing visit is open.");
+      filingVisit = chooseAtCounter(
+        requireCore(),
+        filingVisit,
+        url.searchParams.get("key") ?? "",
+      );
+      send(200, filingVisit);
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/filing/leave") {
+      filingVisit = undefined;
+      send(200, {});
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/calendar") {
