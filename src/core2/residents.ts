@@ -16,6 +16,7 @@ import {
   OUTSIDE_MARKET_KIND,
   outsideMarketAccount,
 } from "./opening-outside-market";
+import { DEFAULT_DEEP_PAST_DATA } from "./deep-past";
 import type { FinanceContractInput } from "./finance-types";
 import type { WorkPayrollCalendarInput } from "./work-pay-period";
 import type {
@@ -97,6 +98,16 @@ export interface ResidentsInput {
   cohortSizes?: Readonly<Record<string, number>>;
   /** Employer payday calendars the counted workers were on (fill-in reuses their cadence). */
   calendars?: readonly WorkPayrollCalendarInput[];
+  /**
+   * Counted people carry no deep past: fill-in rebuilds a household's from
+   * the world's seed and start date (deep past depends on nobody else).
+   */
+  pastBuild?: {
+    seed: string;
+    startedAt: IsoDate;
+    /** Per person, how many of their facts came before deep past. */
+    deepPastAt: Readonly<Record<string, number>>;
+  };
   source: Source;
 }
 
@@ -737,9 +748,24 @@ export function collapseToTwoLevels(
     }
   }
 
+  const deepPastAt: Record<string, number> = {};
   const households: ResidentHouseholdRecord[] = collapsedHomes.map((home) => ({
     household: home,
-    people: home.memberIds.map((id) => peopleById.get(id)!),
+    // Nobody in the counts has a past until they're filled in.
+    // Their upbringing is kept; deep past is rebuilt at fill-in, in place
+    // (facts written after deep past, e.g. retirement history, follow it).
+    people: home.memberIds.map((id) => {
+      const row = peopleById.get(id)!;
+      const deep = `${row.id}:${DEFAULT_DEEP_PAST_DATA.version}:`;
+      const facts = row.pastFacts ?? [];
+      const first = facts.findIndex((fact) => fact.id.startsWith(deep));
+      if (first < 0) return row;
+      deepPastAt[row.id] = first;
+      return {
+        ...row,
+        pastFacts: facts.filter((fact) => !fact.id.startsWith(deep)),
+      };
+    }),
     jobs: home.memberIds.flatMap((id) => jobsByPerson.get(id) ?? []),
     workCommitments: home.memberIds.flatMap(
       (id) => commitmentsByPerson.get(id) ?? [],
@@ -788,6 +814,11 @@ export function collapseToTwoLevels(
     ...(input.finance ? { finance: { ...input.finance, contracts } } : {}),
     residents: {
       version: "core2-residents-v1",
+      pastBuild: {
+        seed: input.seed,
+        startedAt: makeIsoDate(input.startedAt),
+        deepPastAt,
+      },
       accounts: [...accountByPlace].map(([placeId, accountId]) => ({
         placeId,
         accountId,

@@ -212,6 +212,41 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(personOrFillIn(core, "person:nobody")).toBeUndefined();
   }, 300_000);
 
+  it("keeps no past in the counts and rebuilds it at fill-in, as the opening built it", () => {
+    const core = createLifeCore(two);
+    const records = [...residentsRuntime(core)!.households.values()];
+    expect(
+      records.every((row) =>
+        row.people.every(
+          (person) =>
+            !person.pastFacts?.some((fact) =>
+              fact.id.startsWith(`${person.id}:`),
+            ),
+        ),
+      ),
+    ).toBe(true);
+    const fullById = new Map(full.people.map((row) => [row.id, row]));
+    const record = records.find((row) =>
+      row.people.some((person) => fullById.get(person.id)?.pastFacts?.length),
+    )!;
+    const person = record.people.find(
+      (row) => fullById.get(row.id)?.pastFacts?.length,
+    )!;
+    fillInPerson(core, person.id);
+    // Counted households have light customer terms, so a full opening's
+    // where-they-shop facts aren't part of the past being rebuilt.
+    const past = (facts: readonly { id: string }[] | undefined) =>
+      JSON.stringify(
+        (facts ?? []).filter(
+          (fact) => !fact.id.startsWith("p8-opening-customer-builder"),
+        ),
+      );
+    for (const row of record.people)
+      expect(past(core.people.get(row.id)!.pastFacts)).toBe(
+        past(fullById.get(row.id)!.pastFacts),
+      );
+  }, 300_000);
+
   it("re-rates full and counted workers from today", () => {
     const core = createLifeCore(two),
       api = coreAPI(core);
