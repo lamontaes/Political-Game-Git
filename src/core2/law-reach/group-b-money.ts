@@ -10,6 +10,7 @@ import { addDays, makeIsoDate } from "../../simulation/dates";
 import type { CoreAPI, CoreState, JobInput, Source } from "../types";
 import {
   amendBudget,
+  BUDGETS_MODULE_ID,
   budgetPriorities,
   budgetsOf,
   governments,
@@ -41,6 +42,9 @@ export function governmentAt(
   api: CoreAPI,
   level: string,
 ): GovernmentRow | undefined {
+  // A world without budgets has no government books to move.
+  if (!(api.state as CoreState).modules.has(BUDGETS_MODULE_ID))
+    return undefined;
   return governments(api).find((g) => g.level === level);
 }
 

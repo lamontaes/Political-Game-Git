@@ -13,6 +13,7 @@ import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
 import { residentsRuntime } from "./residents";
+import { POLICY_QUESTIONS } from "../policy-answers";
 import {
   lawChainForPlace,
   startingLawRows,
@@ -84,6 +85,27 @@ export function openLaws(core: CoreState): LawChain {
         source: sourceOf(row, row.retrieved > today ? today : row.retrieved),
         sourceRecordIds: [row.id],
       });
+  }
+  // The state's researched answers to the policy questions are its law in
+  // force at the opening (audit 3; BOARD "next" item 4).
+  for (const [question, entry] of Object.entries(POLICY_QUESTIONS)) {
+    const answer = entry.answers[chain.stateKey];
+    if (answer?.answer !== "yes" && answer?.answer !== "no") continue;
+    const row: LawRowInput = {
+      id: `law:${chain.stateKey}:state:${question}:general:starting`,
+      jurisdiction: chain.stateKey,
+      level: "state",
+      series: question,
+      tier: "general",
+      value: answer.answer === "yes" ? 1 : 0,
+      effectiveDate: today,
+      endDate: null,
+      source: entry.source ?? "data/research/laws/starting-law-2026",
+      retrieved: today,
+      estimate: answer.estimated !== undefined,
+    };
+    if (!state.table("laws").get(row.id))
+      state.table("laws").put(row as unknown as ModuleRow);
   }
   return chain;
 }
