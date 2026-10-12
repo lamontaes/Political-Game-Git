@@ -38,7 +38,7 @@ Win a seat and govern. Draft an ordinance with real amounts, learn where each co
 
 ## System requirements
 
-Measured on the shipping build before the page goes live (M7-01). Today's development build uses about 2.3 GB of memory once a full-size town is built (measured in Squaw Lake, Minnesota). The final figure comes from the shipping build.
+Measured on the shipping build before the page goes live (M7-01). Today's development build uses about 2.3 GB of memory once a full-size town is built (Squaw Lake, Minnesota), and about 4.2 GB after a year of play (Eschbach, Washington). The final figure comes from the shipping build.
 
 ## Screenshots
 
