@@ -10,6 +10,7 @@ import { campaignAct, campaignView } from "./campaign";
 import { storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
 import { electionResults } from "./results";
+import { seatAct, seatView } from "./legislature";
 import {
   chooseAtCounter,
   openBenchFilingVisit,
@@ -230,6 +231,28 @@ const server = createServer(async (request, response) => {
           director,
           url.searchParams.get("id") ?? "",
         ),
+      );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/seat") {
+      send(200, seatView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/seat/act") {
+      if (!player?.personId) throw new Error("Choose a resident first.");
+      const q = (key: string) => url.searchParams.get(key) ?? undefined;
+      send(
+        200,
+        seatAct(requireCore(), player.personId, {
+          kind: q("kind") ?? "",
+          officeId: q("officeId"),
+          billId: q("billId"),
+          memberId: q("memberId"),
+          series: q("series"),
+          question: q("question"),
+          value: q("value") === undefined ? undefined : Number(q("value")),
+          deal: q("deal"),
+        }),
       );
       return;
     }

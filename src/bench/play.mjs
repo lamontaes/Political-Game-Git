@@ -466,6 +466,149 @@ function storyStop(value) {
     : undefined;
 }
 
+// ---- Play someone else: the one you leave finishes their day ----
+async function playAs(personId) {
+  const value = await post(`/api/play?id=${encodeURIComponent(personId)}`);
+  me.id = value.personId;
+  closeSheet();
+  renderTalk(undefined);
+  renderPacket(value.packet);
+  await refresh();
+}
+
+// ---- From your seat (steps 6 to 9): draft, negotiate, vote ----
+let seatResult = "";
+async function seatRows() {
+  const v = await api(`/api/seat?id=${encodeURIComponent(me.id)}`);
+  const rows = [];
+  const act = async (params) => {
+    const r = await post(`/api/seat/act?${new URLSearchParams(params)}`);
+    seatResult =
+      r.total !== undefined
+        ? `${me.names?.[params.memberId] ?? params.memberId}: ${r.total.toFixed(2)} (views ${r.views.toFixed(2)} · constituents ${r.constituents.toFixed(2)} · deal ${r.deal.toFixed(2)})`
+        : r.accepted !== undefined
+          ? `${params.deal}: ${r.accepted ? "accepted" : "declined"} · ${r.before.total.toFixed(2)} → ${r.after.total.toFixed(2)}`
+          : r.date
+            ? `vote ${r.date}`
+            : r.number
+              ? `${r.number} · ${r.status}${r.authority?.some((a) => !a.allowed) ? ` · ${r.authority.map((a) => a.reason).join("; ")}` : ""}`
+              : "";
+    openSheet("politics");
+  };
+  for (const body of v.bodies) {
+    for (const m of body.members) me.names = { ...me.names, [m.key]: m.name };
+    const pick = el(
+      "select",
+      {},
+      ...v.amounts.map((a) =>
+        el("option", {
+          value: `series:${a.series}`,
+          textContent: `${a.series} · ${a.current ?? ""} ${a.unit ?? ""}`,
+        }),
+      ),
+      ...v.questions.map((q) =>
+        el("option", {
+          value: `question:${q}`,
+          textContent: q.split(":").pop(),
+        }),
+      ),
+    );
+    const value = el("input", {
+      type: "number",
+      value: "0",
+      style: "width: 90px",
+    });
+    const draft = el("button", { type: "button", textContent: "Draft" });
+    draft.addEventListener("click", () => {
+      const [kind, key] = [
+        pick.value.slice(0, pick.value.indexOf(":")),
+        pick.value.slice(pick.value.indexOf(":") + 1),
+      ];
+      act({
+        kind: "draft",
+        officeId: body.officeId,
+        ...(kind === "series" ? { series: key } : { question: key }),
+        value: value.value,
+      });
+    });
+    rows.push(
+      el(
+        "div",
+        { className: "row campaign" },
+        el("b", { textContent: body.title }),
+        body.members.map((m) => m.name).join(" · "),
+        el("div", {}, pick, value, draft),
+      ),
+    );
+  }
+  for (const { bill, votes } of v.bills) {
+    const members = (
+      v.bodies.find((b) => b.officeId === bill.bodyOfficeId)?.members ?? []
+    ).filter((m) => !m.you);
+    rows.push(
+      el(
+        "div",
+        { className: "row campaign" },
+        el("b", { textContent: `${bill.number} · ${bill.status}` }),
+        bill.provisions
+          .map(
+            (p) =>
+              `${p.series ?? p.question?.split(":").pop() ?? p.line} ${p.value}`,
+          )
+          .join("; "),
+        bill.costEstimate
+          ? ` · ${bill.costEstimate.workersRaised} · ${dollars(bill.costEstimate.annualPayMinor)}`
+          : "",
+        el(
+          "div",
+          {},
+          ...members.flatMap((m) => {
+            const ask = el("button", {
+              type: "button",
+              textContent: `Ask · ${m.name}`,
+            });
+            ask.addEventListener("click", () =>
+              act({ kind: "stake", billId: bill.id, memberId: m.key }),
+            );
+            const deal = el("button", { type: "button", textContent: "Favor" });
+            deal.addEventListener("click", () =>
+              act({
+                kind: "deal",
+                billId: bill.id,
+                memberId: m.key,
+                deal: "favor",
+              }),
+            );
+            return [ask, deal];
+          }),
+        ),
+        bill.status === "drafted"
+          ? (() => {
+              const b = el("button", {
+                type: "button",
+                textContent: "Schedule vote",
+              });
+              b.addEventListener("click", () =>
+                act({ kind: "schedule", billId: bill.id }),
+              );
+              return b;
+            })()
+          : "",
+        votes.length
+          ? el("div", {
+              textContent: votes.map((x) => `${x.name} ${x.vote}`).join(" · "),
+            })
+          : "",
+      ),
+    );
+  }
+  if (seatResult)
+    rows.push(
+      el("div", { className: "row campaign", textContent: seatResult }),
+    );
+  return rows;
+}
+
 // ---- Menus ----
 const sheets = {
   async people() {
@@ -714,6 +857,7 @@ const sheets = {
       b.addEventListener("click", () => openFiling(filedWith));
       return b;
     });
+    const seat = await seatRows();
     const results = (() => {
       const b = el("button", { type: "button", textContent: "Election night" });
       b.disabled = seenResults === 0;
@@ -726,16 +870,27 @@ const sheets = {
       ...offices,
       ...contests,
       ...filings,
+      ...seat,
       ...v.seats
-        .slice(0, 8)
-        .map((s) =>
-          row(
+        .toSorted(
+          (a, b) => Number(!!b.holder?.personId) - Number(!!a.holder?.personId),
+        )
+        .slice(0, 10)
+        .map((s) => {
+          const line = row(
             s.title,
             s.holder
-              ? `${s.holder.givenName} ${s.holder.familyName}${s.holder.party ? ` (${s.holder.party})` : ""}`
+              ? `${s.holder.givenName} ${s.holder.familyName}${s.holder.party ? ` (${s.holder.party})` : ""} `
               : "",
-          ),
-        ),
+          );
+          // Play anyone: a resident officeholder can be taken over.
+          if (s.holder?.personId && s.holder.personId !== me.id) {
+            const b = el("button", { type: "button", textContent: "Play" });
+            b.addEventListener("click", () => playAs(s.holder.personId));
+            line.append(b);
+          }
+          return line;
+        }),
     ];
   },
 };
