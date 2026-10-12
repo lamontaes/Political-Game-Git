@@ -1816,6 +1816,28 @@
       "keyedBy": "household id (household ages)",
       "reason": "Poisson count for a generated household's size, counted down through its terms; who exists, not what anyone does.",
       "replacement": null
+    },
+    {
+      "file": "src/core2/officials-identity.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "(gender !== \"nonbinary\" ? drawCohortGivenName(names, gender, Number(birthDate.slice(0, 4))) : null) ?? names.pick(givenNamePoolForCorpus(corpus, gender));",
+      "class": "IDENTITY",
+      "keyedBy": "world seed + seat key",
+      "reason": "A fictional official's given name drawn from the place's name corpus for their birth cohort; who they are, not what they do.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/officials-identity.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const familyName = names.pick(corpus.familyNames);",
+      "class": "IDENTITY",
+      "keyedBy": "world seed + seat key",
+      "reason": "A fictional official's family name drawn from the place's name corpus; who they are, not what they do.",
+      "replacement": null
     }
   ]
 }
