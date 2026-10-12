@@ -1061,6 +1061,16 @@ export interface CoreAPI {
     sourceReceiptId: string,
     reasonKey: string,
   ): EmployerClosure;
+  /**
+   * v20: an owner closes a solvent business by choice; its remaining cash
+   * goes to the owner's account and its jobs, contracts and books end.
+   */
+  closeBusinessByChoice(input: {
+    organizationId: string;
+    ownerAccountId: string;
+    reasonKey: string;
+    source: Source;
+  }): EmployerClosure;
   finishFinanceDay(): void;
   addWorkCommitment(input: WorkCommitmentInput): void;
   addWorkPayrollCalendar(input: WorkPayrollCalendarInput): void;

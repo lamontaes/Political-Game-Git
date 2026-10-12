@@ -50,6 +50,7 @@ import {
   retireFinanceBudget,
   transferCredit,
   reviewBusiness,
+  closeBusinessByChoice,
   closeEmployer,
   finishFinanceDay,
 } from "./finance-state";
@@ -972,6 +973,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     reviewBusiness(id) {
       reviewBusiness(core, api, id);
+    },
+    closeBusinessByChoice(input) {
+      return closeBusinessByChoice(core, api, input);
     },
     closeEmployer(id, sourceId, reason) {
       return closeEmployer(core, api, id, sourceId, reason);

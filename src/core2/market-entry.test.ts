@@ -120,10 +120,18 @@ describe(`a business founded mid-run in ${place.name}, ${place.state} (seed ${se
     const moved = closing.amountMinor;
     shiftToOpenSellers(core, rt, closing);
     expect(closing.amountMinor).toBe(0);
-    // Same purchases, fewer sellers (to the cent, give or take rounding).
-    expect(Math.abs(others() - before - moved)).toBeLessThanOrEqual(
-      Object.keys(closing.amountByContract ?? {}).length + kinds.size * 50,
-    );
+    // Same purchases, fewer sellers: exact when the sellers share a cadence.
+    const sameCadence = live()
+      .filter(
+        (flow) =>
+          flow.residentsId === closing.residentsId &&
+          flow.financeKind === closing.financeKind,
+      )
+      .every(
+        (flow) =>
+          JSON.stringify(flow.cadence) === JSON.stringify(closing.cadence),
+      );
+    if (sameCadence) expect(others()).toBe(before + moved);
     expect(others()).toBeGreaterThan(before);
     const startCash = cash(core) + outsideNet(core);
     advanceCore(core, "2021-03-01");

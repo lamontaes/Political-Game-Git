@@ -181,17 +181,33 @@ export function shiftToOpenSellers(
     0,
   );
   if (!total) return;
-  for (const flow of targets) {
-    const weight = (flow.amountMinor * perYear(flow)) / total,
-      ratio = (weight * perYear(closed)) / perYear(flow);
+  const weights = targets.map(
+    (flow) => (flow.amountMinor * perYear(flow)) / total,
+  );
+  const added = targets.map(() => ({}) as Record<string, number>);
+  // Each contract's amount is split across the sellers by weight; the cents
+  // left by rounding go to the largest share, so a same-cadence move is exact.
+  const largest = weights.indexOf(Math.max(...weights));
+  for (const [id, amount] of Object.entries(closed.amountByContract)) {
+    let given = 0;
+    targets.forEach((flow, index) => {
+      if (index === largest) return;
+      const add = Math.round(amount * weights[index]!);
+      given += add;
+      added[index]![id] = add;
+    });
+    added[largest]![id] = amount - given;
+  }
+  targets.forEach((flow, index) => {
+    const scale = perYear(closed) / perYear(flow);
     const amounts = { ...flow.amountByContract! };
-    for (const [id, amount] of Object.entries(closed.amountByContract)) {
-      const add = Math.round(amount * ratio);
-      if (add) amounts[id] = (amounts[id] ?? 0) + add;
+    for (const [id, add] of Object.entries(added[index]!)) {
+      const value = scale === 1 ? add : Math.round(add * scale);
+      if (value) amounts[id] = (amounts[id] ?? 0) + value;
     }
     flow.amountByContract = amounts;
     flow.amountMinor = Object.values(amounts).reduce((n, v) => n + v, 0);
-  }
+  });
   closed.amountByContract = {};
   closed.amountMinor = 0;
 }
