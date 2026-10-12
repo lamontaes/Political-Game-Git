@@ -137,7 +137,9 @@ function termEnd(
 ): string | null {
   if (!office.termYears) return null;
   const starts = office.termStarts ?? "01-01";
-  if (office.nextElectionYear !== undefined && office.seats === 1)
+  if (seat.electionYear !== undefined)
+    return `${seat.electionYear + 1}-${starts}`;
+  if (office.nextElectionYear !== undefined)
     return `${office.nextElectionYear + 1}-${starts}`;
   const year = Number(date.slice(0, 4));
   const offset = seat.index % Math.max(1, office.termYears);
