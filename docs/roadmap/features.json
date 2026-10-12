@@ -618,7 +618,7 @@
       "golden_path": "release",
       "package": "M7-early-access",
       "test": "A save made on one build loads and continues after an update through the single versioned upgrade path, with no wipe.",
-      "command": null,
+      "command": "CORE2_BOOKKEEPING=0 node --import tsx scripts/core2-year/saves.mjs",
       "passes": false
     },
     {

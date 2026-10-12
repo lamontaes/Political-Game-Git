@@ -81,6 +81,8 @@ export function generatedOpening(
     economy?: boolean;
     twoLevel?: boolean;
     settings?: WorldSettings;
+    /** The opening date; January 2021 by default (M1-14 moves games to 2026). */
+    startedAt?: string;
   } = {},
 ): CoreInput {
   const settings = options.settings ?? {};
@@ -93,13 +95,13 @@ export function generatedOpening(
 
 function buildOpening(
   place: { seed: string; key: string },
-  options: { economy?: boolean; twoLevel?: boolean },
+  options: { economy?: boolean; twoLevel?: boolean; startedAt?: string },
   settings: WorldSettings,
 ): CoreInput {
   const population = buildPopulation({
     seed: place.seed,
     placeKey: place.key,
-    startedAt: measurement.startedAt,
+    startedAt: options.startedAt ?? measurement.startedAt,
     minimumPeople: settings.population ?? parameter("targetPopulation"),
     openingEmployment: true,
     scheduledWork: true,
