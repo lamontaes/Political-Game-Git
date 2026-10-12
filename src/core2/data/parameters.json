@@ -3384,5 +3384,58 @@
     "tag": "TUNABLE",
     "citation": "Share of a small-town firm's owner payouts received by owners living in the town; ownership of each firm is not modeled yet.",
     "checkedAgainst": "Spread 0.3 to 0.9; the rest goes to owners outside the town."
+  },
+  "fullTimeWeeklyHours": {
+    "value": 35,
+    "tag": "SOURCED",
+    "citation": "U.S. Bureau of Labor Statistics, Current Population Survey concepts and definitions: full-time workers usually work 35 hours or more a week at all jobs; https://www.bls.gov/cps/definitions.htm#fullparttime"
+  },
+  "openingPartTimeOlderWorkerAge": {
+    "value": 65,
+    "tag": "ESTIMATED",
+    "citation": "BLS CPS 2021 annual averages, Table 8 'Employed and unemployed full- and part-time workers by age, sex, race, and Hispanic or Latino ethnicity': part-time work is far more common among employed people 65 and over than among those 25 to 54; https://www.bls.gov/cps/aa2021/cpsaat08.htm",
+    "estimatedFrom": "The town generator's existing rule: an employed resident 65 or over works part-time. A single age cut, not the CPS age gradient.",
+    "spread": {
+      "low": 62,
+      "high": 70,
+      "unit": "years of age",
+      "citation": "Social Security early and latest-credit claiming ages bracketing the shift toward part-time work."
+    }
+  },
+  "openingFullTimeWeeklyHours": {
+    "value": 40,
+    "tag": "ESTIMATED",
+    "citation": "BLS Current Population Survey 2021 annual averages, Table 19 'Persons at work in agriculture and related and in nonagricultural industries by hours of work': people usually working full time averaged about 42 to 43 hours a week at work; https://www.bls.gov/cps/aa2021/cpsaat19.htm",
+    "estimatedFrom": "A full-time job copied from a part-time recorded role gets the midpoint of the town generator's full-time range (35–45 hours), slightly under the CPS average hours at work.",
+    "spread": {
+      "low": 35,
+      "high": 45,
+      "unit": "hours a week",
+      "citation": "The town generator's full-time range; 35 is the BLS full-time threshold."
+    }
+  },
+  "openingPartTimeWeeklyHours": {
+    "value": 22.5,
+    "tag": "ESTIMATED",
+    "citation": "BLS Current Population Survey 2021 annual averages, Table 19 'Persons at work in agriculture and related and in nonagricultural industries by hours of work': people usually working part time averaged about 22 to 23 hours a week at work; https://www.bls.gov/cps/aa2021/cpsaat19.htm",
+    "estimatedFrom": "A part-time job copied from a full-time recorded role gets the midpoint of the town generator's part-time range (16–29 hours).",
+    "spread": {
+      "low": 16,
+      "high": 29,
+      "unit": "hours a week",
+      "citation": "The town generator's part-time range."
+    }
+  },
+  "openingPartTimeShiftMinutes": {
+    "value": 330,
+    "tag": "ESTIMATED",
+    "citation": "The town schedule generator's part-time shift (src/simulation/living-world/work-schedules.ts), consistent with CPS part-time averages of about 22–23 hours over four days.",
+    "estimatedFrom": "Shifts longer than six hours are cut to five and a half hours for part-time staff, as the generator does.",
+    "spread": {
+      "low": 240,
+      "high": 360,
+      "unit": "minutes a shift",
+      "citation": "Four- to six-hour shifts."
+    }
   }
 }
