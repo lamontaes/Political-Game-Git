@@ -166,7 +166,7 @@ label {
 }
 #front {
   left: 50%;
-  top: 50%;
+  top: 72%;
   transform: translate(-50%, -50%);
   width: min(460px, 90vw);
 }

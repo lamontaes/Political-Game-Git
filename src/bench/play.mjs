@@ -996,6 +996,8 @@ function closeSheet() {
 $("sheet-close").addEventListener("click", closeSheet);
 
 // ---- New life ----
+// The title screen: the Capitol at night (M6: a national landmark at night).
+$("backdrop").src = "/art/backdrops/us-capitol-exterior__night.jpg";
 api("/api/seed").then((value) => {
   $("seed").value = value.seed;
   $("date").value = value.date;
