@@ -68,7 +68,34 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 141
+    "notAttested": 141,
+    "secondRun": {
+      "read": {
+        "chrg": 2500,
+        "dcpd": 17712,
+        "eac": 330,
+        "eisenhower": 15,
+        "fec": 288,
+        "federal-counter": 330,
+        "florida": 420,
+        "house": 300,
+        "nasa": 1388,
+        "news-energy": 1507,
+        "news-epa": 3009,
+        "news-faa": 1383,
+        "news-fda": 1199,
+        "news-justice": 5265,
+        "news-nasa": 1446,
+        "news-noaa": 484,
+        "news-nps": 2506,
+        "news-nws": 3072,
+        "news-treasury": 2504,
+        "senate": 51,
+        "sotu-gutenberg": 222,
+        "usa-gov": 260
+      },
+      "note": "Parts the rebuilt corpus attests that the first run's corpus did not, merged into the first run's parts."
+    }
   },
   "parts": [
     {
@@ -334,7 +361,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Hymel, Gary - Administrative Assistant, Representative Hale Boggs of Louisiana and Speaker Thomas P. “Tip” O’Neill Jr. of Massachusetts - 1965–1981",
+        "document": "U.S. House Oral History: Hymel, Gary - Administrative Assistant, Representative Hale Boggs of Louisiana and Speaker Thomas P. \u201cTip\u201d O\u2019Neill Jr. of Massachusetts - 1965\u20131981",
         "date": "2022-10-31",
         "granule": "house-oh-hymel",
         "url": "https://history.house.gov/Oral-History/Transcripts/hymel-transcript/",
@@ -591,7 +618,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "The President's News Conference in Évian-les-Bains, France",
+        "document": "The President's News Conference in \u00c9vian-les-Bains, France",
         "date": "2026-06-17",
         "granule": "DCPD-202600410",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600410/html/DCPD-202600410.htm",
@@ -978,7 +1005,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks on the COVID–19 Response and National Vaccination Efforts and an Exchange With Reporters",
+        "document": "Remarks on the COVID\u201319 Response and National Vaccination Efforts and an Exchange With Reporters",
         "date": "2021-12-21",
         "granule": "DCPD-202101072",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202101072/html/DCPD-202101072.htm",
@@ -1851,6 +1878,146 @@
         "date": "2026-07-08",
         "granule": "DCPD-202600450",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600450/html/DCPD-202600450.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.take-up-cause.do-something-about-it",
+      "move": "take-up-cause",
+      "kind": "spoken",
+      "text": "Do something about it.",
+      "uses": [
+        {
+          "move": "take-up-cause",
+          "subject": "action",
+          "role": "take-up-cause",
+          "choice": "take-up-cause"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "chrg": 1,
+        "eisenhower": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Denying Terrorists Entry To The United States: Examining Visa Security",
+        "date": "2017-05-03",
+        "granule": "CHRG-115hhrg27293",
+        "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg27293",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.guard-family.take-care-of-your-family",
+      "move": "guard-family",
+      "kind": "spoken",
+      "text": "Take care of your family.",
+      "uses": [
+        {
+          "move": "guard-family",
+          "subject": "action",
+          "role": "guard-family",
+          "choice": "guard-family"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks Honoring the Hard Work, Heroism, and Hope Demonstrated by American Citizens During the Coronavirus Pandemic",
+        "date": "2020-05-15",
+        "granule": "DCPD-202000369",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202000369",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.answer-calling.volunteer",
+      "move": "answer-calling",
+      "kind": "spoken",
+      "text": "Volunteer.",
+      "uses": [
+        {
+          "move": "answer-calling",
+          "subject": "action",
+          "role": "answer-calling",
+          "choice": "answer-calling"
+        },
+        {
+          "move": "volunteer-for-cause",
+          "subject": "action",
+          "role": "volunteer-for-cause",
+          "choice": "volunteer-for-cause"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Administration of Donald J. Trump, 2018 Remarks at a Federal Emergency Management Agency Aid Distribution Center and an Exchange With Reporters in Lynn Haven, Florida October 15, 2018 The President. T",
+        "date": "2018-10-15",
+        "granule": "DCPD-201800704",
+        "url": "https://www.govinfo.gov/app/details/DCPD-201800704",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.seek-standing.network",
+      "move": "seek-standing",
+      "kind": "spoken",
+      "text": "Network.",
+      "uses": [
+        {
+          "move": "seek-standing",
+          "subject": "action",
+          "role": "seek-standing",
+          "choice": "seek-standing"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "chrg": 2,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "An Overview Of The Budget Proposal",
+        "date": "2023-05-10",
+        "granule": "CHRG-118hhrg52186",
+        "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg52186",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.stance-answer.im-against-it",
+      "move": "stance-answer",
+      "kind": "spoken",
+      "text": "I'm against it.",
+      "uses": [
+        {
+          "move": "stance-answer",
+          "subject": "action",
+          "role": "stance-answer",
+          "choice": "answer"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in a Meeting With Governor Jared S. Polis of Colorado and Governor Douglas J. Burgum of North Dakota and an Exchange With Reporters",
+        "date": "2020-05-13",
+        "granule": "DCPD-202000360",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202000360",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }

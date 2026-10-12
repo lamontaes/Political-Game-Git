@@ -7,6 +7,7 @@
  */
 import { addDays, makeIsoDate } from "../../simulation/dates";
 import { chooseAct } from "../choice";
+import { reviewBoardTerms } from "../central-bank-appointments";
 import { DEFAULT_DATA, extendData } from "../data";
 import macroParameters from "../data/macro/parameters.json" with { type: "json" };
 import {
@@ -28,6 +29,7 @@ import {
   checkBands,
   historyMonths,
   monthKey,
+  publishedMonth,
   shiftMonth,
   stepMacroMonth,
   type MacroMonth,
@@ -36,6 +38,7 @@ import {
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
 import { scaleOutsideSales } from "../residents-economy";
+import { coarseSteps, type PreStartModule } from "../pre-start";
 import {
   REGIONAL_PARAMETERS,
   openRegional,
@@ -43,15 +46,10 @@ import {
   regionalRegistered,
   stepRegional,
 } from "./regional";
-import type {
-  CoreAPI,
-  CoreData,
-  CoreInput,
-  CoreModule,
-  CoreState,
-  Source,
-} from "../types";
+import type { CoreAPI, CoreData, CoreInput, CoreState, Source } from "../types";
 
+/** Where a custom world's chosen national economy rides in the opening input (see worldGameOptions). */
+export const CUSTOM_ECONOMY_KEY = "customEconomy";
 export const MACRO_MODULE_ID = "macro";
 export const MACRO_PARAMETERS = macroParameters as unknown as Readonly<
   Record<string, Parameter>
@@ -110,7 +108,7 @@ function firstOfNextMonth(date: string, p: MacroParameter): string {
   return `${shiftMonth(monthKey(date), p("one"), p)}-01`;
 }
 
-/** Paid income in the town's places over the same month a year before, annual percent; null when not yet recorded. */
+/** Paid income in the town's places over the last twelve months against the twelve before, annual percent; null when not yet recorded. */
 function townIncomeGrowth(
   api: CoreAPI,
   places: readonly string[],
@@ -123,8 +121,18 @@ function townIncomeGrowth(
       const value = paid.get(`${at}:${place}`);
       return value === undefined ? total : (total ?? p("zero")) + value;
     }, null);
-  const now = sum(month),
-    before = sum(shiftMonth(month, -p("macroMonthsPerYear"), p));
+  // Twelve months against the twelve before, so a month's count of paydays doesn't read as growth.
+  const year = (end: string) => {
+    let total = p("zero");
+    for (let k = 0; k < p("macroMonthsPerYear"); k++) {
+      const value = sum(shiftMonth(end, -k, p));
+      if (value === null) return null;
+      total += value;
+    }
+    return total;
+  };
+  const now = year(month),
+    before = year(shiftMonth(month, -p("macroMonthsPerYear"), p));
   if (now === null || before === null || before <= p("zero")) return null;
   return (now / before - p("one")) * p("macroHundred");
 }
@@ -150,8 +158,12 @@ function publishConditions(
         ((one + row.outputGapPct / hundred) /
           (one + opening.outputGapPct / hundred)) *
         region.demand;
-    // Buyers outside the town spend with the nation's prices and the region's demand.
-    scaleOutsideSales(api.state as CoreState, placeId, prices * demand);
+    // Buyers outside the town spend with the nation's prices and real output (its trend and its cycle), and the region's demand.
+    scaleOutsideSales(
+      api.state as CoreState,
+      placeId,
+      prices * (row.realOutput / opening.realOutput) * region.demand,
+    );
     api.addFinanceCondition({
       id: `macro-condition:${placeId}:${api.state.date}`,
       placeId,
@@ -200,6 +212,7 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
   const next = { ...state, latestMonth: row.month };
   store(api).table("state").put(next);
   publishConditions(api, next, row);
+  reviewBoardTerms(api, store(api).table("members"), p, recordSource(api));
   api.moduleCalendar(MACRO_MODULE_ID).schedule({
     key: `month:${shiftMonth(row.month, p("one"), p)}`,
     date: firstOfNextMonth(api.state.date, p),
@@ -224,7 +237,30 @@ function open(api: CoreAPI): MacroStateRow {
   const p = params(api),
     core = api.state;
   const months = store(api).table("months");
-  const rows = historyMonths(core.startedAt, p);
+  const rows = [...historyMonths(core.startedAt, p)];
+  // A custom world (M6-04): the opening month starts from the player's figures; its output gap follows by Okun's law.
+  const custom = core.placeMetadata?.[CUSTOM_ECONOMY_KEY];
+  const realUnemploymentPct = rows.at(-p("one"))!.unemploymentPct;
+  if (custom) {
+    const chosen = JSON.parse(custom) as {
+      unemploymentPct?: number;
+      inflationPct?: number;
+      policyRatePct?: number;
+    };
+    const last = rows.at(-p("one"))!;
+    const unemploymentPct = chosen.unemploymentPct ?? last.unemploymentPct;
+    const policyRatePct = chosen.policyRatePct ?? last.policyRatePct;
+    rows[rows.length - p("one")] = {
+      ...last,
+      unemploymentPct,
+      inflationPct: chosen.inflationPct ?? last.inflationPct,
+      outputGapPct:
+        -p("macroOkunOutputPerUnemploymentPoint") *
+        (unemploymentPct - p("macroNaturalUnemploymentPct")),
+      policyRatePct,
+      primeRatePct: policyRatePct + p("macroPrimeSpreadPct"),
+    };
+  }
   for (const row of rows) months.put(row as unknown as { id: string });
   const board = generateBoard(core, p);
   for (const member of board.members) {
@@ -258,7 +294,14 @@ function open(api: CoreAPI): MacroStateRow {
   store(api)
     .table("state")
     .put(state as unknown as { id: string });
-  if (regionalRegistered(api)) openRegional(api, opening, placeIds, rows);
+  if (regionalRegistered(api))
+    openRegional(
+      api,
+      opening,
+      placeIds,
+      rows,
+      opening.unemploymentPct - realUnemploymentPct,
+    );
   if (monthKey(core.date) === shiftMonth(opening.month, p("one"), p))
     runMonth(api, state);
   else
@@ -430,8 +473,58 @@ export function linkCreditLineToPrime(
   );
 }
 
-export const MACRO_MODULE: CoreModule = {
+export const MACRO_MODULE: PreStartModule = {
   id: MACRO_MODULE_ID,
+  // History before the start (M1-14): the nation's published months, and each change in the policy rate.
+  preStart: {
+    phase: "economy",
+    run(api, window, history) {
+      let previous: number | undefined;
+      for (const date of coarseSteps(window)) {
+        const month = date.slice(0, "YYYY-MM".length);
+        const row = publishedMonth(month);
+        if (!row) continue;
+        const facts: Record<string, number> = {};
+        for (const key of [
+          "unemploymentPct",
+          "priceIndex",
+          "payrollJobsThousands",
+          "hourlyEarnings",
+          "policyRatePct",
+          "treasury10Pct",
+          "mortgage30Pct",
+        ] as const)
+          if (row[key] !== undefined) facts[key] = row[key]!;
+        const source: Source = {
+          tag: "SOURCED",
+          asOf: api.state.date,
+          citation: MACRO_HISTORY_SOURCE.citation,
+        };
+        history.record({
+          id: `economy.conditions:${month}`,
+          date,
+          kind: "economy.conditions",
+          facts,
+          publicRecord: true,
+          source,
+        });
+        if (
+          row.policyRatePct !== undefined &&
+          previous !== undefined &&
+          row.policyRatePct !== previous
+        )
+          history.record({
+            id: `economy.rate-decision:${month}`,
+            date,
+            kind: "economy.rate-decision",
+            facts: { fromRatePct: previous, toRatePct: row.policyRatePct },
+            publicRecord: true,
+            source,
+          });
+        if (row.policyRatePct !== undefined) previous = row.policyRatePct;
+      }
+    },
+  },
   state: {
     schemaVersion: 1,
     tables: {

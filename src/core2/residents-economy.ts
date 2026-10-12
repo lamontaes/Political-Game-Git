@@ -60,16 +60,24 @@ export function addCountedJob(
         row.organizationId === job.organizationId,
     );
   let flow = find();
-  const template = templateJobId
-    ? rt.wageFlowByJob.get(templateJobId)
-    : undefined;
+  // The template's own wage flow, else any live wage flow in the place (its payday cadence is all that's copied).
+  const placeId0 = core.organizations.get(job.organizationId)?.placeId;
+  const live = (row: Flow | undefined) =>
+    row && row.kind === "wages" && !row.endedAt ? row : undefined;
+  const template =
+    (templateJobId ? live(rt.wageFlowByJob.get(templateJobId)) : undefined) ??
+    (flow
+      ? undefined
+      : [...rt.flows.values()].find(
+          (row) => live(row) && row.placeId === placeId0,
+        ));
   if (!flow && template && !template.endedAt) {
     const placeId = core.organizations.get(job.organizationId)?.placeId;
     const account =
       rt.input.accounts.find((row) => row.placeId === placeId)?.accountId ??
       template.payeeId;
     addResidentFlow(core, {
-      id: `residents:wages:${job.organizationId}`,
+      id: `residents:wages:${job.organizationId}:${core.date}`,
       kind: "wages",
       financeKind: template.financeKind,
       payerId: job.organizationId,
@@ -100,6 +108,12 @@ export function addCountedJob(
   recompute(flow);
   rt.jobs.set(job.id, job);
   rt.wageFlowByJob.set(job.id, flow);
+  const index = jobIndexes.get(core);
+  if (index?.date === core.date) {
+    const set = index.byOrg.get(job.organizationId) ?? new Set<string>();
+    set.add(job.id);
+    index.byOrg.set(job.organizationId, set);
+  }
   return true;
 }
 
@@ -134,12 +148,39 @@ export function countedJobsOf(
   const rt = residentsRuntime(core);
   if (!rt) return [];
   const out: JobInput[] = [];
-  for (const [jobId, flow] of rt.wageFlowByJob)
-    if (!flow.endedAt && flow.organizationId === organizationId) {
-      const job = rt.jobs.get(jobId);
-      if (job && job.endsAt === undefined) out.push(job);
-    }
+  for (const jobId of jobIndex(core).get(organizationId) ?? []) {
+    const flow = rt.wageFlowByJob.get(jobId),
+      job = rt.jobs.get(jobId);
+    // The index can run ahead of fill-in and endings within a day: check each job is still counted and open.
+    if (
+      flow &&
+      !flow.endedAt &&
+      flow.organizationId === organizationId &&
+      job &&
+      job.endsAt === undefined
+    )
+      out.push(job);
+  }
   return out;
+}
+
+/** Counted jobs by employer, rebuilt once a day and kept current by this file's hires. */
+const jobIndexes = new WeakMap<
+  CoreState,
+  { date: string; byOrg: Map<string, Set<string>> }
+>();
+function jobIndex(core: CoreState): Map<string, Set<string>> {
+  const cached = jobIndexes.get(core);
+  if (cached && cached.date === core.date) return cached.byOrg;
+  const byOrg = new Map<string, Set<string>>();
+  for (const [jobId, flow] of residentsRuntime(core)?.wageFlowByJob ?? []) {
+    if (!flow.organizationId) continue;
+    const set = byOrg.get(flow.organizationId) ?? new Set<string>();
+    set.add(jobId);
+    byOrg.set(flow.organizationId, set);
+  }
+  jobIndexes.set(core, { date: core.date, byOrg });
+  return byOrg;
 }
 
 const CUSTOMER_KINDS = new Set(["purchase", "outside-sales"]);
@@ -178,11 +219,21 @@ export function purchaseShareOf(
  * its amount to an equal new flow paying the entrant. Money the buyers spend
  * is unchanged. Returns the entrant's customers' spending a year.
  */
+/** Outside buyers' flows at the opening's prices and demand, and each place's latest factor (see scaleOutsideSales). */
+const outsideBases = new WeakMap<CoreState, Map<string, number>>();
+const outsideFactors = new WeakMap<CoreState, Map<string, number>>();
+/** A business's own limit on what it can sell outside (an operating limit under law), by organization. */
+const outputLimits = new WeakMap<CoreState, Map<string, number>>();
+const limitOf = (core: CoreState, organizationId: string) =>
+  outputLimits.get(core)?.get(organizationId) ?? 1;
+
 export function shiftPurchaseShare(
   core: CoreState,
   incumbentIds: ReadonlySet<string>,
   entrantId: string,
   share: number,
+  /** Only flows that pass (the core's `enterMarket` splits counted households' purchases). */
+  include: (flow: Flow) => boolean = () => true,
 ): number {
   const rt = residentsRuntime(core);
   if (!rt || !(share > 0) || share >= 1) return 0;
@@ -192,6 +243,7 @@ export function shiftPurchaseShare(
   for (const flow of [...rt.flows.values()]) {
     if (
       !CUSTOMER_KINDS.has(flow.kind) ||
+      !include(flow) ||
       flow.endedAt ||
       !incumbentIds.has(flow.payeeId)
     )
@@ -199,6 +251,10 @@ export function shiftPurchaseShare(
     const amount = Math.floor(flow.amountMinor * share);
     if (amount <= 0) continue;
     flow.amountMinor -= amount;
+    // An outside buyers' flow keeps its opening base in step, so next month's scaling doesn't give the share back.
+    const bases = outsideBases.get(core);
+    if (flow.kind === "outside-sales" && bases?.has(flow.id))
+      bases.set(flow.id, bases.get(flow.id)! * (1 - share));
     // Households' own parts (fill-in takes them back) shrink in proportion.
     if (flow.amountByContract)
       flow.amountByContract = Object.fromEntries(
@@ -225,9 +281,19 @@ export function shiftPurchaseShare(
     moved += perYear(flow, amount);
   }
   let n = 0;
-  for (const { flow, amount } of groups.values())
+  for (const { flow, amount } of groups.values()) {
+    const id = `entrant:${entrantId}:${n++}`;
+    // The entrant's outside buyers start at today's factor: their base is today's amount at opening terms.
+    if (flow.kind === "outside-sales") {
+      let bases = outsideBases.get(core);
+      if (!bases) outsideBases.set(core, (bases = new Map()));
+      bases.set(
+        id,
+        amount / (outsideFactors.get(core)?.get(flow.placeId) ?? 1),
+      );
+    }
     addResidentFlow(core, {
-      id: `entrant:${entrantId}:${n++}`,
+      id,
       kind: flow.kind,
       financeKind: flow.financeKind,
       payerId: flow.payerId,
@@ -241,10 +307,9 @@ export function shiftPurchaseShare(
       marketAdjusted: flow.marketAdjusted,
       source: flow.source,
     });
+  }
   return Math.round(moved);
 }
-
-const outsideBases = new WeakMap<CoreState, Map<string, number>>();
 
 /**
  * Buyers outside the town follow the nation and region: each place's
@@ -260,6 +325,10 @@ export function scaleOutsideSales(
   if (!rt || !(factor > 0)) return 0;
   let bases = outsideBases.get(core);
   if (!bases) outsideBases.set(core, (bases = new Map()));
+  let factors = outsideFactors.get(core);
+  if (!factors) outsideFactors.set(core, (factors = new Map()));
+  const before = factors.get(placeId) ?? 1;
+  factors.set(placeId, factor);
   let changed = 0;
   for (const flow of rt.flows.values()) {
     if (
@@ -268,8 +337,56 @@ export function scaleOutsideSales(
       flow.placeId !== placeId
     )
       continue;
-    if (!bases.has(flow.id)) bases.set(flow.id, flow.amountMinor);
-    flow.amountMinor = Math.round(bases.get(flow.id)! * factor);
+    // First seen: its amount is at the last month's factor.
+    if (!bases.has(flow.id))
+      bases.set(
+        flow.id,
+        flow.amountMinor / (before * limitOf(core, flow.payeeId)),
+      );
+    flow.amountMinor = Math.round(
+      bases.get(flow.id)! * factor * limitOf(core, flow.payeeId),
+    );
+    changed += 1;
+  }
+  return changed;
+}
+
+/**
+ * A business sells outside the town at `limit` of what it could (1 is no
+ * limit): its outside buyers' flows are rescaled now and at every month's
+ * scaling. Returns the flows changed.
+ */
+export function limitOutsideSales(
+  core: CoreState,
+  organizationId: string,
+  limit: number,
+): number {
+  const rt = residentsRuntime(core);
+  if (!rt || !(limit > 0)) return 0;
+  let limits = outputLimits.get(core);
+  if (!limits) outputLimits.set(core, (limits = new Map()));
+  const before = limitOf(core, organizationId);
+  limits.set(organizationId, limit);
+  let bases = outsideBases.get(core);
+  if (!bases) outsideBases.set(core, (bases = new Map()));
+  const placeFactor = (placeId: string) =>
+    outsideFactors.get(core)?.get(placeId) ?? 1;
+  let changed = 0;
+  for (const flow of rt.flows.values()) {
+    if (
+      flow.kind !== "outside-sales" ||
+      flow.endedAt ||
+      flow.payeeId !== organizationId
+    )
+      continue;
+    if (!bases.has(flow.id))
+      bases.set(
+        flow.id,
+        flow.amountMinor / (placeFactor(flow.placeId) * before),
+      );
+    flow.amountMinor = Math.round(
+      bases.get(flow.id)! * placeFactor(flow.placeId) * limit,
+    );
     changed += 1;
   }
   return changed;

@@ -1,0 +1,832 @@
+{
+  "items": {
+    "ce.incomeBeforeTaxes": {
+      "value": 104207,
+      "unit": "dollars per consumer unit per year",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 93814,
+        "high": 120365,
+        "basis": "2024 CE regional means (South low, West high); Table 1800"
+      },
+      "notes": "Mean, not median. 135.76M consumer units; 2.4 persons, 1.9 vehicles per CU."
+    },
+    "ce.totalExpenditures": {
+      "value": 78535.21,
+      "unit": "dollars per consumer unit per year",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 70376,
+        "high": 92625,
+        "basis": "2024 CE regional means (South low, West high); national SE $831"
+      },
+      "notes": "2023: $77,158."
+    },
+    "ce.electricity.dollars": {
+      "value": 1832.89,
+      "unit": "dollars per CU per year",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 1516,
+        "high": 2042,
+        "basis": "2024 CE regions: Midwest 1516, NE 1802, West 1787, South 2042"
+      },
+      "notes": "91.6% of CUs report per quarter. SE $30.55."
+    },
+    "ce.electricity.share": {
+      "value": 0.0233,
+      "unit": "share of total expenditures",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 0.0203,
+        "high": 0.029,
+        "basis": "regional dollars / regional total expenditures"
+      },
+      "notes": "Table share column shows 2.3%."
+    },
+    "ce.naturalGas.dollars": {
+      "value": 492.57,
+      "unit": "dollars per CU per year",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 310,
+        "high": 695,
+        "basis": "2024 CE regions: South 310, West 481, Midwest 678, NE 695"
+      },
+      "notes": "Only 50.3% of CUs report; per reporting CU about $979."
+    },
+    "ce.naturalGas.share": {
+      "value": 0.0063,
+      "unit": "share of total expenditures",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 0.0044,
+        "high": 0.0083,
+        "basis": "regional"
+      },
+      "notes": "Table shows 0.6%."
+    },
+    "ce.fuelOil.dollars": {
+      "value": 125.32,
+      "unit": "dollars per CU per year",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 50,
+        "high": 421,
+        "basis": "2024 CE regions: South 50, West 60, Midwest 89, NE 421"
+      },
+      "notes": "Fuel oil and other fuels (incl. propane, wood). 6.4% of CUs report; heavily Northeast."
+    },
+    "ce.fuelOil.share": {
+      "value": 0.0016,
+      "unit": "share of total expenditures",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 0.0007,
+        "high": 0.005,
+        "basis": "regional"
+      },
+      "notes": ""
+    },
+    "ce.gasoline.dollars": {
+      "value": 2645.06,
+      "unit": "dollars per CU per year",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 2270,
+        "high": 3092,
+        "basis": "2024 CE regions: NE 2270, Midwest 2580, South 2595, West 3092"
+      },
+      "notes": "'Gasoline and other fuels' (new 2023 category: gasoline, diesel, EV charging $9.96). Gasoline alone $2,410.75 (3.1%). CE has no separate motor-oil line in 2024; motor oil is in vehicle parts/maintenance."
+    },
+    "ce.gasoline.share": {
+      "value": 0.0337,
+      "unit": "share of total expenditures",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 0.0271,
+        "high": 0.0334,
+        "basis": "regional"
+      },
+      "notes": "Table shows 3.4%."
+    },
+    "ce.vehicleMaintenance.dollars": {
+      "value": 984.39,
+      "unit": "dollars per CU per year",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 822,
+        "high": 1222,
+        "basis": "2024 CE regions: South 822, NE 986, Midwest 1037, West 1222"
+      },
+      "notes": "Maintenance and repairs; 53.6% report per quarter."
+    },
+    "ce.vehicleMaintenance.share": {
+      "value": 0.0125,
+      "unit": "share of total expenditures",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 0.0117,
+        "high": 0.0132,
+        "basis": "regional"
+      },
+      "notes": ""
+    },
+    "ce.publicTransport.dollars": {
+      "value": 1130.58,
+      "unit": "dollars per CU per year",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 729,
+        "high": 1750,
+        "basis": "2024 CE regions: South 729, Midwest 1013, West 1468, NE 1750"
+      },
+      "notes": "Mostly airline fares. Local transit fares separable: 'Intracity mass transit fares' $108.85/CU (0.1%), 14.05% of CUs report in a quarter."
+    },
+    "ce.publicTransport.share": {
+      "value": 0.0144,
+      "unit": "share of total expenditures",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 0.0104,
+        "high": 0.0209,
+        "basis": "regional"
+      },
+      "notes": ""
+    },
+    "ce.localTransitFares.dollars": {
+      "value": 108.85,
+      "unit": "dollars per CU per year",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 98.3,
+        "high": 119.4,
+        "basis": "+/-2 SE (SE $5.38)"
+      },
+      "notes": "Intracity mass transit fares; 14.05% of CUs report in a quarter (use as share of households paying transit fares)."
+    },
+    "ce.telephone.dollars": {
+      "value": 1459.68,
+      "unit": "dollars per CU per year",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 1355,
+        "high": 1570,
+        "basis": "2024 CE regions: Midwest 1355, South 1432, NE 1509, West 1570"
+      },
+      "notes": "Telephone services (cellular $1,359 + residential/VOIP $100). Internet is separate; see ce.internet."
+    },
+    "ce.telephone.share": {
+      "value": 0.0186,
+      "unit": "share of total expenditures",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 0.0181,
+        "high": 0.017,
+        "basis": "regional"
+      },
+      "notes": ""
+    },
+    "ce.internet.dollars": {
+      "value": 697.9,
+      "unit": "dollars per CU per year",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 677.7,
+        "high": 718.1,
+        "basis": "+/-2 SE (SE $10.12)"
+      },
+      "notes": "'Computer information services (internet)'; 77.5% of CUs report per quarter. Cable/satellite TV separate ($454.09)."
+    },
+    "ce.internet.share": {
+      "value": 0.0089,
+      "unit": "share of total expenditures",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 0.0086,
+        "high": 0.0091,
+        "basis": "+/-2 SE"
+      },
+      "notes": ""
+    },
+    "ce.nonalcoholicBeverages.dollars": {
+      "value": 713.91,
+      "unit": "dollars per CU per year",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 656,
+        "high": 781,
+        "basis": "2024 CE regions: Midwest 656, South 679, West 776, NE 781"
+      },
+      "notes": "Food-at-home only. Includes carbonated drinks $152.08, noncarbonated juices/drinks $257.02."
+    },
+    "ce.nonalcoholicBeverages.share": {
+      "value": 0.0091,
+      "unit": "share of total expenditures",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 0.0085,
+        "high": 0.0098,
+        "basis": "regional shares 0.8-1.0%"
+      },
+      "notes": ""
+    },
+    "ce.alcoholicBeverages.dollars": {
+      "value": 642.71,
+      "unit": "dollars per CU per year",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 488,
+        "high": 858,
+        "basis": "2024 CE regions: South 488, Midwest 660, West 731, NE 858"
+      },
+      "notes": "Includes alcohol at restaurants. Beer at home $90.11, wine $117.42."
+    },
+    "ce.alcoholicBeverages.share": {
+      "value": 0.0082,
+      "unit": "share of total expenditures",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Bureau of Labor Statistics, Consumer Expenditure Surveys",
+        "table": "Table 2500, All consumer units: annual expenditure means, shares, standard errors, 2024 (cu-all-detail-2024.xlsx); regional figures from Table 1800 (cu-region-1-year-average-2024.xlsx)",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 0.007,
+        "high": 0.01,
+        "basis": "regional shares 0.7-1.0%"
+      },
+      "notes": ""
+    },
+    "nhts.vmtPerHousehold": {
+      "value": 14489,
+      "unit": "vehicle miles per household per year",
+      "year": 2022,
+      "source": {
+        "publisher": "FHWA, Summary of Travel Trends: 2022 National Household Travel Survey (FHWA-HPL-24-009)",
+        "table": "Table 3-4 (All purposes); Table 2-6 daily VMT/household 39.70; Table 2-10",
+        "url": "https://rosap.ntl.bts.gov/view/dot/73764/dot_73764_DS1.pdf"
+      },
+      "spread": {
+        "low": 13544,
+        "high": 20833,
+        "basis": "Low: survey MOE (14,489 - 945). High: FHWA external VMT 2,619,421M / 125.736M households (Table 2-10); the 2022 survey captured only 71% of external light-duty VMT."
+      },
+      "notes": "For fuel-tax money flows prefer the high (external) figure or vehicles x 11,106 mi (FHWA VM-1 2023 light-duty avg per vehicle) x 1.9 vehicles/CU = ~21,100."
+    },
+    "fuelTax.centsPerGallon": {
+      "value": 51.7,
+      "unit": "cents per gallon (federal 18.4 + average state taxes and fees 33.3)",
+      "year": 2026,
+      "source": {
+        "publisher": "U.S. EIA, Today in Energy (Feb 12, 2026, corrected Mar 4, 2026)",
+        "table": "State gasoline taxes and fees as of Jan 1, 2026",
+        "url": "https://www.eia.gov/todayinenergy/detail.php?id=67165"
+      },
+      "spread": {
+        "low": 27.4,
+        "high": 89.3,
+        "basis": "Alaska 9.0 and California 70.9 state c/gal, each plus 18.4 federal"
+      },
+      "notes": "Federal 18.4 c/gal unchanged since Oct 1993. Excludes general sales taxes in states that apply them to gasoline. Per mile: 51.7 / 22.6 mpg = ~2.29 c/mi. Per-state table available from EIA; not fetched here."
+    },
+    "fleet.mpg": {
+      "value": 22.6,
+      "unit": "miles per gallon, all light-duty vehicles on road",
+      "year": 2023,
+      "source": {
+        "publisher": "FHWA Highway Statistics 2023",
+        "table": "Table VM-1",
+        "url": "https://www.fhwa.dot.gov/policyinformation/statistics/2023/vm1.cfm"
+      },
+      "spread": {
+        "low": 17.9,
+        "high": 24.7,
+        "basis": "VM-1 2023: light-duty long wheelbase (pickups/SUVs) 17.9, short wheelbase 24.7"
+      },
+      "notes": "Light-duty avg 11,106 miles per vehicle; all vehicles 18.4 mpg."
+    },
+    "transit.farePerTrip": {
+      "value": 1.49,
+      "unit": "dollars of fare revenue per unlinked passenger trip",
+      "year": 2023,
+      "source": {
+        "publisher": "FTA National Transit Database",
+        "table": "NTD Annual Data View - Metrics (by Agency), dataset g27i-aq2u: sum fare revenues earned $10,400,142,678 / sum UPT 6,988,415,933",
+        "url": "https://data.transportation.gov/Public-Transit/NTD-Annual-Data-View-Metrics-by-Agency-/g27i-aq2u"
+      },
+      "spread": {
+        "low": 0.65,
+        "high": 1.77,
+        "basis": "2023 state averages among states with 25M+ trips: AZ 0.65, TX 0.80, CO 0.84, CA 1.09, FL 1.16, WA 1.29, IL 1.50, NY 1.62, PA 1.67, MA 1.77 (NJ 3.87 is commuter rail-heavy outlier; CT 0.30 fare-free period)"
+      },
+      "notes": "2022 $1.49, 2024 $1.47 ($11.26B / 7.67B). Fare recovery 2023: 17% of operating expense ($60.5B). Computed by this helper from the NTD API; APTA Fact Book PDF was blocked (403)."
+    },
+    "transit.tripsPerHousehold": {
+      "value": 52,
+      "unit": "unlinked transit boardings per household per year (national average across all households)",
+      "year": 2023,
+      "source": {
+        "publisher": "FTA NTD (6.99B UPT) / BLS CE 134.556M consumer units",
+        "table": "NTD Annual Data View - Service (by Agency) 6y83-7vuw; CE multi-year table 2021-2024",
+        "url": "https://data.transportation.gov/Public-Transit/NTD-Annual-Data-View-Service-by-Agency-/6y83-7vuw"
+      },
+      "spread": {
+        "low": 29,
+        "high": 57,
+        "basis": "Low: NHTS 2022 Table 3-7 public-transit person trips per household (MSA 3M+: 56; rural 7; <250K 14). High: 2024 NTD 7.67B / 135.76M CUs"
+      },
+      "notes": "Highly concentrated: 14.05% of CUs pay intracity transit fares in a quarter (CE 2024); NY state alone = 44% of 2023 national UPT. Model as a user share times per-user trips, not a flat average."
+    },
+    "broadband.monthlyPrice": {
+      "value": 75,
+      "unit": "dollars per month per subscribing household",
+      "year": 2024,
+      "source": {
+        "publisher": "BLS Consumer Expenditure Survey 2024 (derived)",
+        "table": "Table 2500, 'Computer information services (internet)' mean $697.90/CU/yr, 77.5% quarterly percent reporting",
+        "url": "https://www.bls.gov/cex/tables/calendar-year/mean/cu-all-detail-2024.xlsx"
+      },
+      "spread": {
+        "low": 58,
+        "high": 90,
+        "basis": "Low: $697.90/12 averaged over all CUs; high: ESTIMATED allowance for bundled/premium tiers; not a measured bound"
+      },
+      "notes": "Derived: 697.90/0.775/12 = $75.04. FCC publishes only offered-rate benchmarks (Urban Rate Survey), not average paid; no official 'average paid' series was found. Treat as ESTIMATED."
+    },
+    "broadband.subscriptionShare": {
+      "value": 0.932,
+      "unit": "share of households with broadband of any type",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Census Bureau, ACS 2024 1-year (via Census Reporter API)",
+        "table": "B28002_004 / B28002_001",
+        "url": "https://api.censusreporter.org/1.0/data/show/latest?table_ids=B28002&geo_ids=01000US,040|01000US"
+      },
+      "spread": {
+        "low": 0.883,
+        "high": 0.953,
+        "basis": "ACS 2024 state range: Mississippi 88.3%, New Hampshire 95.3%"
+      },
+      "notes": "Year is 2024 (Census API needs a key; Census Reporter serves 2024, not 2023). Includes cellular-only plans. Fixed broadband (cable/fiber/DSL, B28002_007) = 76.5%. byState: AL .916 AK .936 AZ .936 AR .908 CA .950 CO .949 CT .940 DE .943 DC .925 FL .943 GA .934 HI .930 ID .928 IL .929 IN .920 IA .907 KS .925 KY .909 LA .905 ME .924 MD .944 MA .944 MI .928 MN .929 MS .883 MO .913 MT .915 NE .919 NV .951 NH .953 NJ .948 NM .905 NY .931 NC .932 ND .907 OH .922 OK .921 OR .937 PA .921 RI .934 SC .929 SD .913 TN .925 TX .937 UT .941 VT .927 VA .928 WA .950 WV .894 WI .923 WY .899."
+    },
+    "containers.perPersonYear": {
+      "value": 899,
+      "unit": "beverage containers used per person per year",
+      "year": 2021,
+      "source": {
+        "publisher": "Container Recycling Institute",
+        "table": "Beverage Container Recycling Fast Facts (July 2024), from CRI 2021 Beverage Market Data Analysis",
+        "url": "https://www.container-recycling.org/wp-content/uploads/2026/06/Fast-Facts.pdf"
+      },
+      "spread": {
+        "low": 800,
+        "high": 1000,
+        "basis": "ESTIMATED; CRI gives one national figure. Same sheet: 107B aluminum, 35B glass, 86B plastic water bottles (2021)"
+      },
+      "notes": "34% recycled nationally. ~2,160 containers per consumer unit (x 2.4 persons). CalRecycle 2023: 26.6B CRV containers sold in CA (~680 per Californian, deposit-covered types only)."
+    },
+    "containers.depositCents": {
+      "value": 5,
+      "unit": "cents per container (most common deposit)",
+      "year": 2024,
+      "source": {
+        "publisher": "State statutes as summarized by Container Recycling Institute / Waste Dive (Aug 12, 2024)",
+        "table": "Deposit amounts",
+        "url": "https://www.wastedive.com/news/container-recycling-institute-bottle-bill-recycling-rate-decreases/723916/"
+      },
+      "spread": {
+        "low": 5,
+        "high": 15,
+        "basis": "Oregon 10c, Michigan 10c, Connecticut 10c from Jan 2024; NY, MA, IA, VT, ME, HI 5c; CA 5c (<24 oz) / 10c (>=24 oz); ME and VT 15c on liquor"
+      },
+      "notes": "Ten U.S. states have deposit systems (CRI). OR and CT amounts confirmed in the Waste Dive article; the rest are well-documented statutory amounts, not re-verified on the page in this session."
+    },
+    "containers.redemptionRate": {
+      "value": 0.73,
+      "unit": "share of deposit containers returned",
+      "year": 2023,
+      "source": {
+        "publisher": "Container Recycling Institute, 2023 redemption rates, via Waste Dive (Aug 12, 2024)",
+        "table": "Redemption rates for U.S. deposit states, 2023",
+        "url": "https://www.wastedive.com/news/container-recycling-institute-bottle-bill-recycling-rate-decreases/723916/"
+      },
+      "spread": {
+        "low": 0.36,
+        "high": 0.87,
+        "basis": "2023: Massachusetts 36% (5c), Connecticut 43%, Michigan 73% (10c), California 71% (CalRecycle, 5-10c), Oregon 87% (10c)"
+      },
+      "notes": "Value set to Michigan 2023. California 71% from CalRecycle 2023 fact sheet (18.8B returned / 26.6B sold). Rates rise with deposit size (10c states higher); use deposit cents as a cause, not a dice roll."
+    },
+    "rps.pricePctPerPoint": {
+      "value": 5.0,
+      "unit": "percent increase in average retail electricity price per percentage point of required renewable share",
+      "year": 2019,
+      "source": {
+        "publisher": "Greenstone & Nath, 'Do Renewable Portfolio Standards Deliver Cost-Effective Carbon Abatement?' (BFI/EPIC working paper 2019-62; NBER w27325, 2020)",
+        "table": "Event-study estimates: 7 yrs after passage +1.8 pp required share, +11% (+1.3 c/kWh); 12 yrs +4.2 pp, +17% (+2.0 c/kWh)",
+        "url": "https://epic.uchicago.edu/research/do-renewable-portfolio-standards-deliver/"
+      },
+      "spread": {
+        "low": 4.0,
+        "high": 6.1,
+        "basis": "17%/4.2pp (12-yr) and 11%/1.8pp (7-yr)"
+      },
+      "notes": "Contested. LBNL (Barbose, 2024 status update) puts direct RPS compliance costs at ~4% of retail bills on average in RPS states (3.5% in 2023 ed.; 11-12% in solar carve-out states), which implies a much smaller per-point effect than Greenstone-Nath (whose estimate includes system/integration costs). Recommend TUNABLE with LBNL as the low cross-check. LBNL: https://emp.lbl.gov/news/berkeley-lab-publishes-status-update-state-clean-electricity-standards"
+    },
+    "carbon.gridKgPerKwh": {
+      "value": 0.367,
+      "unit": "kg CO2 per kWh generated, U.S. utility-scale average",
+      "year": 2023,
+      "source": {
+        "publisher": "U.S. EIA",
+        "table": "FAQ 'How much CO2 is produced per kWh': 0.81 lb/kWh all sources (1,532 MMT / 4,183 billion kWh)",
+        "url": "https://www.eia.gov/tools/faqs/faq.php?id=74&t=11"
+      },
+      "spread": {
+        "low": 0.0195,
+        "high": 0.8865,
+        "basis": "EPA eGRID2023 state CO2 total output rates: Vermont 43.0 lb/MWh, West Virginia 1,954.4 lb/MWh"
+      },
+      "notes": "eGRID2023 U.S. = 767.2 lb/MWh = 0.348 kg/kWh. State generation rates differ from consumption rates where states import/export power. Carbon price pass-through: full pass-through gives 0.0367 c/kWh per $1/t; Fabra & Reguant (AER 2014) find >80% average (to ~100% at peak) in wholesale markets.",
+      "byState": {
+        "AK": 0.3673,
+        "AL": 0.3225,
+        "AR": 0.4506,
+        "AZ": 0.3115,
+        "CA": 0.1785,
+        "CO": 0.4921,
+        "CT": 0.2442,
+        "DC": 0.1788,
+        "DE": 0.319,
+        "FL": 0.3568,
+        "GA": 0.3238,
+        "HI": 0.6283,
+        "IA": 0.2859,
+        "ID": 0.1421,
+        "IL": 0.214,
+        "IN": 0.661,
+        "KS": 0.3303,
+        "KY": 0.787,
+        "LA": 0.3454,
+        "MA": 0.373,
+        "MD": 0.2359,
+        "ME": 0.1414,
+        "MI": 0.3598,
+        "MN": 0.3391,
+        "MO": 0.655,
+        "MS": 0.3748,
+        "MT": 0.4791,
+        "NC": 0.283,
+        "ND": 0.5844,
+        "NE": 0.4618,
+        "NH": 0.1238,
+        "NJ": 0.2124,
+        "NM": 0.3494,
+        "NV": 0.2914,
+        "NY": 0.211,
+        "OH": 0.4825,
+        "OK": 0.2936,
+        "OR": 0.1652,
+        "PA": 0.2929,
+        "PR": 0.6999,
+        "RI": 0.3806,
+        "SC": 0.2527,
+        "SD": 0.1515,
+        "TN": 0.2981,
+        "TX": 0.3485,
+        "UT": 0.6409,
+        "VA": 0.2435,
+        "VT": 0.0195,
+        "WA": 0.1202,
+        "WI": 0.5248,
+        "WV": 0.8865,
+        "WY": 0.8257
+      }
+    },
+    "carbon.gasolineKgPerGallon": {
+      "value": 8.49,
+      "unit": "kg CO2 per gallon finished motor gasoline (ethanol treated as non-emitting)",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. EIA",
+        "table": "Carbon Dioxide Emissions Coefficients",
+        "url": "https://www.eia.gov/environment/emissions/co2_vol_mass.php"
+      },
+      "spread": {
+        "low": 8.49,
+        "high": 9.46,
+        "basis": "E10 finished gasoline vs. gasoline excluding ethanol (EIA); EPA uses 8.887 kg for pure gasoline"
+      },
+      "notes": "Diesel 10.19 kg/gal. Pass-through: 0.849 c/gal per $1/t at full pass-through; Marion & Muehlegger (JPubE 2011) find state gasoline taxes fully passed through on average."
+    },
+    "carbon.electricityCentsPerKwhPerDollarTon": {
+      "value": 0.0367,
+      "unit": "cents per kWh per $1 per metric ton CO2",
+      "year": 2023,
+      "source": {
+        "publisher": "Derived: EIA 0.367 kg/kWh x 100% pass-through",
+        "table": "see carbon.gridKgPerKwh",
+        "url": "https://www.eia.gov/tools/faqs/faq.php?id=74&t=11"
+      },
+      "spread": {
+        "low": 0.0294,
+        "high": 0.0367,
+        "basis": "80-100% pass-through (Fabra & Reguant 2014, https://www.nber.org/papers/w19613)"
+      },
+      "notes": "Use the place's own grid rate (byState) instead of the national average."
+    },
+    "carbon.gasolineCentsPerGallonPerDollarTon": {
+      "value": 0.849,
+      "unit": "cents per gallon per $1 per metric ton CO2",
+      "year": 2024,
+      "source": {
+        "publisher": "Derived: EIA 8.49 kg/gal x 100% pass-through (Marion & Muehlegger 2011)",
+        "table": "see carbon.gasolineKgPerGallon",
+        "url": "https://www.nber.org/papers/w16863"
+      },
+      "spread": {
+        "low": 0.65,
+        "high": 0.849,
+        "basis": "Full pass-through average; 22 pp lower in multi-blend states (Marion & Muehlegger)"
+      },
+      "notes": ""
+    },
+    "roads.extraCostPerVehicle": {
+      "value": 725,
+      "unit": "dollars per motorist per year in extra vehicle operating cost from deteriorated roads",
+      "year": 2023,
+      "source": {
+        "publisher": "ASCE 2025 Infrastructure Report Card (Roads), citing TRIP '2023 Vehicle Operating Costs Data'",
+        "table": "Roads chapter, Capacity and Condition",
+        "url": "https://infrastructurereportcard.org/wp-content/uploads/2025/03/Roads.pdf"
+      },
+      "spread": {
+        "low": 402,
+        "high": 1075,
+        "basis": "TRIP 'Driving on Deteriorated Urban Roads' national avg $402 (urban only, via MoneyGeek secondary); TRIP Jan 2025 state report New Mexico $1,075; Denver metro $901"
+      },
+      "notes": "Per motorist (licensed driver), not per vehicle; ~1.0 driver per vehicle nationally (232.8M drivers, 252.5M vehicles, NHTS Table 2-10). Primary TRIP national PDF not retrieved; ASCE is the secondary carrying TRIP's figure."
+    },
+    "roads.poorShare": {
+      "value": 0.226,
+      "unit": "share of federal-aid highway pavement miles with poor ride quality",
+      "year": 2018,
+      "source": {
+        "publisher": "FHWA, 25th Conditions and Performance Report to Congress (2024), as cited in ASCE 2025 Roads",
+        "table": "Pavement ride quality, federal-aid highways",
+        "url": "https://infrastructurereportcard.org/wp-content/uploads/2025/03/Roads.pdf"
+      },
+      "spread": {
+        "low": 0.158,
+        "high": 0.39,
+        "basis": "Low: 2008 poor share 15.8% (same series); high: TRIP 2023 'poor or mediocre' share of major roads 39% (45% good, 16% fair)"
+      },
+      "notes": "TRIP's 'poor' and 'poor or mediocre' categories differ; state TRIP reports give state shares (e.g., NM 57% poor/mediocre, NY 45%, CO 24% poor)."
+    },
+    "propertyTax.effectiveRate.national": {
+      "value": 0.00888,
+      "unit": "aggregate real estate taxes paid / aggregate value, owner-occupied homes",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Census Bureau, ACS 2024 1-year (via Census Reporter API); computed by this helper",
+        "table": "B25090_001 / B25082_001",
+        "url": "https://api.censusreporter.org/1.0/data/show/latest?table_ids=B25090,B25082,B25103,B25077&geo_ids=01000US,040|01000US"
+      },
+      "spread": {
+        "low": 0.00308,
+        "high": 0.01793,
+        "basis": "State range: Hawaii 0.31%, Illinois 1.79%"
+      },
+      "notes": "Median method (B25103/B25077, Tax Foundation's method) gives 0.89% national. CE 2024 cross-check: property taxes $2,738/CU, 65% owners, home value $310,670 -> ~1.36% per owner CU on market value (CE homeowners include vacation property). Lincoln Institute 50-State Property Tax Comparison is the alternative for city-level homestead rates (not fetched)."
+    },
+    "propertyTax.effectiveRate.byState": {
+      "value": 0.00888,
+      "unit": "aggregate taxes / aggregate value, owner-occupied; object in byState",
+      "year": 2024,
+      "source": {
+        "publisher": "U.S. Census Bureau, ACS 2024 1-year",
+        "table": "B25090_001 / B25082_001",
+        "url": "https://api.censusreporter.org/1.0/data/show/latest?table_ids=B25090,B25082&geo_ids=040|01000US,04000US72"
+      },
+      "spread": {
+        "low": 0.00308,
+        "high": 0.01793,
+        "basis": "HI low, IL high"
+      },
+      "notes": "PR aggregate 0.10% vs median-method 0.44%: PR property-tax answers are unreliable; treat PR as ESTIMATED. No ACS for GU, VI, AS, MP: no figure found (do not use 0).",
+      "byState": {
+        "AL": 0.00372,
+        "AK": 0.009,
+        "AZ": 0.00426,
+        "AR": 0.00541,
+        "CA": 0.00693,
+        "CO": 0.00519,
+        "CT": 0.01355,
+        "DE": 0.00513,
+        "DC": 0.00632,
+        "FL": 0.0076,
+        "GA": 0.00767,
+        "HI": 0.00308,
+        "ID": 0.00433,
+        "IL": 0.01793,
+        "IN": 0.00756,
+        "IA": 0.01249,
+        "KS": 0.01201,
+        "KY": 0.00723,
+        "LA": 0.00557,
+        "ME": 0.00903,
+        "MD": 0.00902,
+        "MA": 0.00948,
+        "MI": 0.01129,
+        "MN": 0.00987,
+        "MS": 0.00541,
+        "MO": 0.00849,
+        "MT": 0.00592,
+        "NE": 0.01379,
+        "NV": 0.00504,
+        "NH": 0.0135,
+        "NJ": 0.01675,
+        "NM": 0.0061,
+        "NY": 0.01227,
+        "NC": 0.00624,
+        "ND": 0.00941,
+        "OH": 0.01276,
+        "OK": 0.0078,
+        "OR": 0.00789,
+        "PA": 0.01137,
+        "RI": 0.00997,
+        "SC": 0.00438,
+        "SD": 0.00998,
+        "TN": 0.00462,
+        "TX": 0.01245,
+        "UT": 0.00452,
+        "VT": 0.01399,
+        "VA": 0.00754,
+        "WA": 0.00737,
+        "WV": 0.00483,
+        "WI": 0.01188,
+        "WY": 0.00582,
+        "PR": 0.001
+      }
+    },
+    "propertyTax.assessmentCaps": {
+      "value": 0.02,
+      "unit": "max annual growth in assessed value (California Prop 13)",
+      "year": 2026,
+      "source": {
+        "publisher": "State constitutions; summarized in Lincoln Institute 'Significant Features of the Property Tax'",
+        "table": "Assessment limits",
+        "url": "https://www.lincolninst.edu/data/significant-features-property-tax/"
+      },
+      "spread": {
+        "low": 0.02,
+        "high": 0.1,
+        "basis": "CA 2%/yr (Const. art. XIIIA), reset to market on sale; FL Save Our Homes: lesser of 3% or CPI, homesteads (Const. art. VII s.4(d)), portable, 10% non-homestead; MI Prop A (1994): taxable value growth = lesser of 5% or CPI, uncapped on transfer (Const. art. IX s.3); OR Measure 50: 3%/yr on maximum assessed value; TX homestead appraisal cap 10%/yr (Tax Code s.23.23)"
+      },
+      "notes": "Cap designs are from well-documented statutes; this helper did not re-fetch the statute pages in this session."
+    },
+    "counsel.costPerCase": {
+      "value": 4260,
+      "unit": "dollars of city funding per household served (all levels of tenant legal service)",
+      "year": 2025,
+      "source": {
+        "publisher": "NYC Dept. of Social Services, Office of Civil Justice, FY25 Annual Report (Dec 2025)",
+        "table": "FY25 OCJ-administered programs and budget: tenant legal services $217,284,193; 51,000 households served; 22,700 households full representation",
+        "url": "https://www.nyc.gov/assets/hra/downloads/pdf/services/civiljustice/OCJ_Annual_Report_2025.pdf"
+      },
+      "spread": {
+        "low": 4260,
+        "high": 9570,
+        "basis": "$217.3M / 51,000 households (all services) vs $217.3M / 22,700 full-representation households (upper bound; budget also funds anti-harassment and brief advice)"
+      },
+      "notes": "Computed by this helper. The budget line also covers anti-harassment and brief legal programs, so a true per-full-case cost lies inside the spread. 44% of eviction respondents appearing in court had full representation in FY25 Q4."
+    },
+    "counsel.stayedHousedShare": {
+      "value": 0.83,
+      "unit": "share of fully represented households allowed to remain",
+      "year": 2025,
+      "source": {
+        "publisher": "NYC Office of Civil Justice, FY25 Annual Report",
+        "table": "Figure 12: FY25 provider-reported full representation outcomes (4,352 of 5,232 closed matters)",
+        "url": "https://www.nyc.gov/assets/hra/downloads/pdf/services/civiljustice/OCJ_Annual_Report_2025.pdf"
+      },
+      "spread": {
+        "low": 0.66,
+        "high": 0.9,
+        "basis": "FY25 borough range: Staten Island 66%, Manhattan 90%"
+      },
+      "notes": "'Allowed to remain' includes households given extra time to move out, so it overstates staying housed long-term. Provider-reported, closed matters only."
+    }
+  }
+}

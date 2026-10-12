@@ -1,0 +1,216 @@
+{
+  "version": "bds-rates-v1",
+  "source": {
+    "tag": "SOURCED",
+    "asOf": "2026-10-12",
+    "citation": "Census Business Dynamics Statistics 2023 release, establishment entry and exit rates by state and by state and sector (https://www2.census.gov/programs-surveys/bds/tables/time-series/2023/bds2023_st.csv and bds2023_st_sec.csv), 2010-2019 and 2022-2023 (pandemic years 2020-2021 left out)"
+  },
+  "states": {
+    "01": {
+      "entryPct": 8.183,
+      "exitPct": 8.081
+    },
+    "02": {
+      "entryPct": 10.002,
+      "exitPct": 9.159
+    },
+    "04": {
+      "entryPct": 11.076,
+      "exitPct": 9.816
+    },
+    "05": {
+      "entryPct": 8.713,
+      "exitPct": 8.137
+    },
+    "06": {
+      "entryPct": 11.055,
+      "exitPct": 9.808
+    },
+    "08": {
+      "entryPct": 11.629,
+      "exitPct": 10.101
+    },
+    "09": {
+      "entryPct": 8.514,
+      "exitPct": 8.547
+    },
+    "10": {
+      "entryPct": 9.733,
+      "exitPct": 9.355
+    },
+    "11": {
+      "entryPct": 9.756,
+      "exitPct": 8.813
+    },
+    "12": {
+      "entryPct": 12.612,
+      "exitPct": 10.774
+    },
+    "13": {
+      "entryPct": 10.669,
+      "exitPct": 9.607
+    },
+    "15": {
+      "entryPct": 8.451,
+      "exitPct": 8.103
+    },
+    "16": {
+      "entryPct": 10.851,
+      "exitPct": 9.373
+    },
+    "17": {
+      "entryPct": 9.465,
+      "exitPct": 9.093
+    },
+    "18": {
+      "entryPct": 8.145,
+      "exitPct": 8.146
+    },
+    "19": {
+      "entryPct": 7.643,
+      "exitPct": 7.518
+    },
+    "20": {
+      "entryPct": 8.34,
+      "exitPct": 8.393
+    },
+    "21": {
+      "entryPct": 8.367,
+      "exitPct": 8.255
+    },
+    "22": {
+      "entryPct": 8.577,
+      "exitPct": 8.326
+    },
+    "23": {
+      "entryPct": 8.982,
+      "exitPct": 8.505
+    },
+    "24": {
+      "entryPct": 9.457,
+      "exitPct": 8.823
+    },
+    "25": {
+      "entryPct": 8.798,
+      "exitPct": 8.299
+    },
+    "26": {
+      "entryPct": 8.604,
+      "exitPct": 8.345
+    },
+    "27": {
+      "entryPct": 8.854,
+      "exitPct": 8.301
+    },
+    "28": {
+      "entryPct": 7.999,
+      "exitPct": 8.009
+    },
+    "29": {
+      "entryPct": 10.057,
+      "exitPct": 9.584
+    },
+    "30": {
+      "entryPct": 9.749,
+      "exitPct": 9.141
+    },
+    "31": {
+      "entryPct": 8.265,
+      "exitPct": 7.722
+    },
+    "32": {
+      "entryPct": 12.45,
+      "exitPct": 10.416
+    },
+    "33": {
+      "entryPct": 8.503,
+      "exitPct": 8.116
+    },
+    "34": {
+      "entryPct": 9.989,
+      "exitPct": 9.655
+    },
+    "35": {
+      "entryPct": 8.901,
+      "exitPct": 9.018
+    },
+    "36": {
+      "entryPct": 10.505,
+      "exitPct": 9.82
+    },
+    "37": {
+      "entryPct": 9.663,
+      "exitPct": 8.966
+    },
+    "38": {
+      "entryPct": 9.192,
+      "exitPct": 8.017
+    },
+    "39": {
+      "entryPct": 7.836,
+      "exitPct": 8.145
+    },
+    "40": {
+      "entryPct": 9.064,
+      "exitPct": 8.718
+    },
+    "41": {
+      "entryPct": 10.072,
+      "exitPct": 8.851
+    },
+    "42": {
+      "entryPct": 8.128,
+      "exitPct": 7.922
+    },
+    "44": {
+      "entryPct": 9.003,
+      "exitPct": 8.684
+    },
+    "45": {
+      "entryPct": 9.37,
+      "exitPct": 8.505
+    },
+    "46": {
+      "entryPct": 8.408,
+      "exitPct": 7.789
+    },
+    "47": {
+      "entryPct": 8.93,
+      "exitPct": 8.436
+    },
+    "48": {
+      "entryPct": 10.774,
+      "exitPct": 9.232
+    },
+    "49": {
+      "entryPct": 12.085,
+      "exitPct": 9.801
+    },
+    "50": {
+      "entryPct": 7.901,
+      "exitPct": 8.099
+    },
+    "51": {
+      "entryPct": 9.476,
+      "exitPct": 8.8
+    },
+    "53": {
+      "entryPct": 10.555,
+      "exitPct": 9.407
+    },
+    "54": {
+      "entryPct": 7.341,
+      "exitPct": 8.21
+    },
+    "55": {
+      "entryPct": 7.733,
+      "exitPct": 7.897
+    },
+    "56": {
+      "entryPct": 9.982,
+      "exitPct": 9.546
+    }
+  },
+  "nationExitPct": 8.684,
+  "nationEntryPct": 9.064
+}

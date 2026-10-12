@@ -231,6 +231,22 @@
       ]
     },
     {
+      "kindPrefix": "event:person.moved-away",
+      "turn": false,
+      "line": [
+        {
+          "key": "moved-away",
+          "text": "I moved away."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-moved-away",
+          "text": "{{other}} moved away."
+        }
+      ]
+    },
+    {
       "kindPrefix": "event:health.serious-illness",
       "turn": false,
       "line": [

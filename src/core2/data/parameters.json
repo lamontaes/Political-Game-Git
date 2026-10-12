@@ -4467,5 +4467,32 @@
       "unit": "scaled trait lean",
       "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps believers a clear majority."
     }
+  },
+  "preStartFromYear": {
+    "value": 2000,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling (relayed by the CTO on PR #3999, October 12, 2026): a new game's history runs at coarse steps from 2000 to the start date (M1-14).",
+    "spread": {
+      "low": 1990,
+      "high": 2020,
+      "unit": "calendar year",
+      "citation": "How far back coarse history can reach before its run time outweighs what the player sees; checked against the speed rule."
+    }
+  },
+  "preStartStepMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling (relayed by the CTO on PR #3999, October 12, 2026): history before the start runs at coarse steps, monthly or quarterly (M1-14).",
+    "spread": {
+      "low": 1,
+      "high": 3,
+      "unit": "months per step",
+      "citation": "The two step sizes the pre-start contract offers (src/core2/pre-start.ts)."
+    }
+  },
+  "minimumParentAgeAtBirth": {
+    "value": 15,
+    "tag": "SOURCED",
+    "citation": "The youngest age at which a household's adult is recorded as a child's parent: the Census Bureau's fertility tables count children ever born from age 15 (U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018, the source of src/core2/data/opening-kin.json fertilityByAge). A younger adult in the home is a sibling or other relative."
   }
 }
