@@ -1042,5 +1042,41 @@
     "addedAt": "2026-10-12",
     "replacement": "Each territory's own published labor and price statistics (Guam BLS-funded surveys, USVI Bureau of Economic Research, CNMI and American Samoa statistical offices), or the nearest comparable economy, labeled with its source.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-opening-seekers",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 192,
+    "whatItFakes": "The opening's job seekers are the jobless working-age adults whose money covers the fewest days, as many as the nation's unemployment rate implies against the generated jobs; the other jobless adults sit outside the modeled labor market.",
+    "why": "The generated opening employs only part of the town (unsupported workplaces are omitted), so most jobless adults are not really unemployed; the two-level population (OPUS-CORE) will hold the rest as counts.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The two-level population's labor-force counts by place, age and job (CPS and LAUS), with full people filled in from them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-layoff-decider",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 419,
+    "whatItFakes": "A layoff names the business itself as who decided it.",
+    "why": "Businesses have no recorded owners or managers until businesses growing (M1-08).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The owner or manager person recorded by M1-08, deciding from their own traits and the books.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-benefits",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 166,
+    "whatItFakes": "A spell of unemployment pays no unemployment insurance.",
+    "why": "Benefits are paid from state budgets under each state's law (M1-07, OPUS-GOV).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "State unemployment insurance under the law in force, paid through postJournal from the state's fund.",
+    "status": "open"
   }
 ]

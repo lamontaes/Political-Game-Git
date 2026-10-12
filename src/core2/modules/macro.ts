@@ -34,6 +34,7 @@ import {
   type MacroParameter,
 } from "../macro-model";
 import type { Parameter } from "../parameters";
+import { JOBS_PARAMETERS } from "./jobs";
 import {
   REGIONAL_PARAMETERS,
   openRegional,
@@ -470,7 +471,11 @@ export function withCentralBank(input: CoreInput): CoreInput {
 /** Core data with the macro parameters merged in. */
 export function macroCoreData(base: CoreData = DEFAULT_DATA): CoreData {
   return extendData(base, {
-    parameters: { ...MACRO_PARAMETERS, ...REGIONAL_PARAMETERS },
+    parameters: {
+      ...MACRO_PARAMETERS,
+      ...REGIONAL_PARAMETERS,
+      ...JOBS_PARAMETERS,
+    },
   });
 }
 

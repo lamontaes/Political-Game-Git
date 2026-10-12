@@ -2,28 +2,34 @@
 import { execFileSync } from "node:child_process";
 import { writeFileSync } from "node:fs";
 import { performance } from "node:perf_hooks";
-// @ts-expect-error The guard script is plain JavaScript.
-import { prepareWorld } from "../../../scripts/core2-guard/month.mjs";
+import { prepareWorldAt } from "./world-prepare";
 import { advanceCore, createLifeCore } from "../life";
 import { coreAPI } from "../state";
 import { MACRO_MODULE, macroCoreData, withCentralBank } from "../modules/macro";
 import { standInPrimeLine } from "../credit-stand-in";
+import { REGIONAL_MODULE } from "../modules/regional";
 import { buildOpeningEconomy } from "../opening-economy";
 import { checkBands, type MacroMonth } from "../macro-model";
 import { parameter } from "../parameters";
 
-const [seed, placeKey, through, output, mode] = process.argv.slice(2);
+const [seed, placeKey, through, output, mode, startedAt] =
+  process.argv.slice(2);
 const withMacro = mode !== "--no-macro";
 if (!seed || !placeKey || !through || !output)
   throw new Error(
     "Usage: macro-proof <seed> <placeKey> <throughDate> <output>",
   );
-const prepared = await prepareWorld({ seed, placeKey });
-const { input } = buildOpeningEconomy(prepared.input),
+const prepared = prepareWorldAt({ seed, placeKey, startedAt });
+const input = process.env.MACRO_PROOF_ECONOMY
+    ? buildOpeningEconomy(prepared.input).input
+    : prepared.input,
   place = prepared.place;
 const data = macroCoreData();
 const core = withMacro
-  ? createLifeCore(withCentralBank(input), { data, modules: [MACRO_MODULE] })
+  ? createLifeCore(withCentralBank(input), {
+      data,
+      modules: [MACRO_MODULE, REGIONAL_MODULE],
+    })
   : createLifeCore(input);
 if (!withMacro) {
   const started = performance.now();
@@ -38,10 +44,11 @@ if (!withMacro) {
   process.exit(0);
 }
 const api = coreAPI(core);
-const books = [...core.finance.businesses.values()].sort((a, b) =>
-  a.organizationId.localeCompare(b.organizationId),
-);
-const borrower = books.find((row) => !row.closedAt)!;
+const borrower = {
+  organizationId: [...core.organizations.values()]
+    .filter((row) => row.kind === "employer")
+    .sort((a, b) => a.id.localeCompare(b.id))[0]!.id,
+};
 const lender = [...core.organizations.values()]
   .filter((row) => row.id !== borrower.organizationId)
   .sort(
