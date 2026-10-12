@@ -22,10 +22,12 @@ export function lawChanges(core: CoreState, personId: string) {
     .reverse()
     .map((row) => {
       const facts = (row as { facts?: Record<string, string> }).facts ?? {};
+      const series = facts.series ?? "";
+      const jurisdiction = facts.jurisdiction ?? "";
       const reached = applied
         ? (
             applied.query("byQuestion", [
-              facts.series,
+              series,
               null,
             ]) as unknown as AppliedEffect[]
           ).filter((effect) => effect.lawId === facts.lawId)
@@ -47,8 +49,8 @@ export function lawChanges(core: CoreState, personId: string) {
               .moduleState(LAWS_MODULE_ID)
               .table("laws")
               .query("bySeries", [
-                facts.jurisdiction,
-                facts.series,
+                jurisdiction,
+                series,
               ]) as unknown as LawRowInput[]
           )
             .filter((law) => law.effectiveDate < row.date)
