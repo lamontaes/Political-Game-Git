@@ -1072,7 +1072,8 @@ export function reviewBusiness(
       currentTownIncomeMinor: income,
       anchorTownIncomeMinor: book.openingTownIncomeMinor,
       anchorAnnualDemandMinor: book.anchorAnnualDemandMinor,
-      relativePriceToAnchor: book.price / book.anchorPrice,
+      // Against the general price level: inflation alone moves no customer away.
+      relativePriceToAnchor: book.price / book.anchorPrice / generalPrice,
       macroDemandFactor: condition?.macroDemandFactor ?? p("one"),
       kindId: book.kindId,
       source: actualSource(
@@ -1102,6 +1103,7 @@ export function reviewBusiness(
       generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
       annualDemandMinor: demand,
       capacityMinor: book.capacityMinor,
+      priceLevel: book.price / book.anchorPrice,
     },
     options,
   );
