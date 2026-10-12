@@ -9,7 +9,7 @@ Only OPUS-WORLD writes this file. See "The team" in `AGENTS.md` and `docs/coordi
 
 ## What the owner can play now
 
-Nothing on a screen yet. Underneath, a town now has a living business scene: owners take profit, hand their business on when they stop working, open new locations where customers outnumber what the town's businesses can serve, and new businesses hire. Pay rises yearly with the region's pay. Three years of Absecon, New Jersey run in 46 seconds with every dollar balanced. In code, one line adds the whole economy: `withWorldEconomy(input)` with `worldCoreData()` and `WORLD_MODULES` (`src/core2/modules/world.ts`). Such a world has state and metro economies, jobs that open and close for reasons, a town bank lending to businesses, and renters who can be evicted only through their state's steps; and a national economy that starts on the real figures of the month before its start date, a central bank board of 19 fictional members who vote eight times a year, monthly price, pay and demand conditions reaching every business, and prime-linked credit lines that reprice on a decision's effective date.
+Nothing on a screen yet; the economy runs in every new game started with `newGame(recipe, worldGameOptions())`. A town opens with its real history since 2000 (businesses already founded and closed, the nation's real months since 2021), then runs on its own: a national economy and central bank board, state and metro economies, jobs that open, hire, raise pay and lay off for reasons, a town bank lending to businesses and households, homes in the place's real mix of houses, apartments and mobile homes with FHFA prices and mortgages, renters evicted only through their state's steps, and owners who found, grow, hand on and close businesses. Twenty years in three drawn towns stay inside the real 1990–2026 national ranges (`docs/reports/world-drift-2026-10-12.md`), with two known gaps: no recessions yet, and towns pile up cash from the core's outside buyers.
 
 ## Checklist
 
@@ -43,6 +43,12 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 - **Taking M1-13, the economy's part (other places, coarser):** all 132 regions move each month; their populations move with relative unemployment; each state's monthly jobs report is an `economy.state-jobs-report` public event for the news. Built on #3996. Views and events beyond the economy stay with OPUS-PEOPLE.
 - **Taking M1-14, the economy's part (history before your start):** a 2026 world opens with every real national month since January 2021 and each region's real month for the same span. Built on #3996.
+
+## Helpers run
+
+- Eviction research (general-purpose): hearing and stay periods from official statute text for 40 places.
+- Fresh-eyes review (general-purpose): 12 findings, 11 fixed.
+- Report review (civic-report-reviewer): the drift report, 14 findings, all addressed.
 
 ## Needs from other sessions
 
@@ -93,6 +99,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-12: 20-year drift report (BOARD item) in Adrian, Missouri; Floyd, New Mexico; and Shumway, Illinois: 0 of 766 checks per town outside the 1990–2026 bands. The economy settles by 2027 (unemployment 4.16%, inflation 2.5%, rate 2.63%) with no cycles, because nothing causes shocks, and the board's quarter-point step leaves unemployment just under its natural rate. Town income growth now compares 12-month totals (it swung −22% to +41%). Next: cause-driven national shocks and small rate moves.
 - 2026-10-12: a fresh-eyes review found 12 issues; 11 fixed (hiring stuck on counted applicants, outside buyers' shares bouncing back, the bank's capital rising with repayments, past-due loans billed twice, owners drawing through losses, stale staff counts, a slow counted-jobs scan, and others). The 12th (filled-in households' housing) needs a fill-in hook from OPUS-CORE. Home values now follow FHFA's state house price index, and union locals use each state's 2025 membership rate. Absecon, three years: 473 hires, 295 quits for better pay, 51 s, every dollar balances. M1-02 still passes in Coventry, Vermont.
 - 2026-10-12: union locals live on members' dues (BLS membership rate, 1.3% of the median wage), so the union's worker is paid; the bank writes no loan under $1,000; a closure names its owner (`business.closed`) for M1-11's drives; `ownedHomes` for GOV's property tax. Absecon, three years: 3 household loans, none charged off, 55 s, every dollar balances.
 - 2026-10-12: the economy reaches every place and every new game. `newGame(recipe, worldGameOptions())` runs it (for /play and saves), with the nation's history before the start (M1-14). The town bank and homes now open in the island areas on estimates. Lenders count pay that arrives (6 personal loans and 1 charge-off in three years, was 15 and 8). Eviction hearing and stay periods are read from official text for 40 places. One-year sweep, every dollar balanced: Crook, Colorado 16 s; Lawrence, Nebraska 12 s; Fortine, Montana 16 s; Vaitogi, American Samoa 14 s.
