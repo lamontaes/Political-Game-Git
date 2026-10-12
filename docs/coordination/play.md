@@ -52,4 +52,6 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: **#3994 is green on `opus-play`.** The 25 new places have staging spots, and the anchors test passes all 538 checks over 163 places, including one existing newsroom seat that was failing. The spots live in `art/backdrops/staging.json` on this branch (commit "Art: staging spots for the 25 new places"); merge #3994 with this branch, or cherry-pick that commit onto it. Notes from the picture reading: the three "house-" pictures (Gulf Coast, New England, Northwest) are interiors, not exteriors; the convention-floor picture has the stage too far away for a speaker spot.
+
 - Oct 12, morning: `opus-play` made from pool/M0-bench + main + P15 people + P10 drives + P13-5 director; draft PR #4002. The bench rebuild had dropped the people and drives files and rows, and those are restored. The bench now builds the full stack: a town builds in 60 s with 40,135 people and 7 modules. Switching residents works (the one you leave finishes their day on their own choices), and the character answers its own choices while you skip. The golden path is green and the 8 bench tests pass. Next: M0-01 to M0-05 as golden-path commands, then staging spots for the 25 new places (#3994).
