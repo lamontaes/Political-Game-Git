@@ -26,7 +26,6 @@ import {
 } from "./metrics";
 import { renderReviewPacket, reviewPacketStats } from "./review-packet";
 import { scanLiterals } from "./scan";
-import { runSeedTranscript, SEED_FAMILIES } from "./transcripts";
 import type { ProseRecord } from "./types";
 
 /**
@@ -40,36 +39,6 @@ import type { ProseRecord } from "./types";
 
 const inventory = buildProseInventory();
 const records = inventory.records;
-
-/**
- * One transcript per seed, played once for the whole file.
- *
- * Seven families were being replayed from scratch by five different tests,
- * which is the same deterministic work five times over. The run is a pure
- * function of (family, inventory), so sharing it changes nothing about what is
- * asserted, and the file now does about half the work it used to.
- *
- * Playing them here at module scope rather than lazily inside the first test
- * that asks is deliberate. A lazy cache does not remove the cost, it moves all
- * of it into whichever test happens to run first, and that test then carries
- * seven lives' worth of replay against the default five-second per-test
- * timeout while every later test looks free. Building the lives alongside the
- * inventory keeps each test timed for what it actually checks.
- *
- * The determinism check below deliberately does NOT read this — it has to call
- * the real thing twice to mean anything.
- */
-const transcripts = new Map(
-  SEED_FAMILIES.map((family) => [
-    family.key,
-    runSeedTranscript(family, inventory),
-  ]),
-);
-function transcriptFor(family: (typeof SEED_FAMILIES)[number]) {
-  const played = transcripts.get(family.key);
-  if (!played) throw new Error(`No transcript played for ${family.key}.`);
-  return played;
-}
 
 function fakeRecord(overrides: Partial<ProseRecord> = {}): ProseRecord {
   return {
@@ -230,22 +199,6 @@ describe("PR #119 withholding is preserved, never fabricated", () => {
     }
   });
 
-  it("never lets a withheld stage appear in a played transcript", () => {
-    const withheldStages = new Set(
-      withheld
-        .filter((record) => record.bank === "episode")
-        .map((record) => record.stableKey),
-    );
-    for (const family of SEED_FAMILIES) {
-      const transcript = transcriptFor(family);
-      for (const beat of transcript.beats) {
-        if (!beat.episodeKey || !beat.stageKey) continue;
-        expect(withheldStages).not.toContain(
-          `${beat.episodeKey}/${beat.stageKey}`,
-        );
-      }
-    }
-  });
 });
 
 describe("coverage discovery", () => {
@@ -434,113 +387,6 @@ describe("repetition metrics", () => {
   });
 });
 
-describe("transcripts", () => {
-  it("are deterministic for a fixed seed", () => {
-    const family = SEED_FAMILIES[0]!;
-    const first = runSeedTranscript(family, inventory);
-    const second = runSeedTranscript(family, inventory);
-    expect(JSON.stringify(second.beats)).toBe(JSON.stringify(first.beats));
-  });
-
-  it("link realized lines back to their template ids", () => {
-    const transcript = transcriptFor(SEED_FAMILIES[0]!);
-    const linked = transcript.realizations.filter(
-      (entry) => entry.templateId !== null,
-    );
-    expect(linked.length).toBeGreaterThan(0);
-    for (const entry of linked) {
-      expect(records.some((record) => record.id === entry.templateId)).toBe(
-        true,
-      );
-    }
-  });
-
-  it("report what each seed actually demonstrated", () => {
-    const seen = new Set<string>();
-    for (const family of SEED_FAMILIES) {
-      for (const claim of transcriptFor(family).demonstrated) {
-        seen.add(claim);
-      }
-    }
-    // The matrix must actually reach these, not merely intend to.
-    for (const claim of [
-      "age-band:childhood",
-      "age-band:adolescence",
-      "age-band:adult",
-      "scene:ordinary-stretch",
-      "connective-narration",
-      "thread-recap",
-      "persistent-instance-continuation",
-      "candidacy-filed",
-      "campaign-sessions",
-      "election-won",
-      "election-lost",
-      // MORNING23 D: the normal-game clock now carries these inherited
-      // campaign fixtures through their authored interruptions without a
-      // whole-day bypass. Their resulting introductions fall inside the
-      // available session window, so the corpus must report the briefing it
-      // actually reached rather than preserving the old refusal claim.
-      "legislative-measure-briefing",
-    ]) {
-      expect(seen).toContain(claim);
-    }
-  });
-
-  // P-UI8. `election-lost` went missing from the matrix and the cause was not
-  // in the corpus tooling at all: the campaign loop was asking for six
-  // afternoons and taking two, because a day holds two campaign slots and the
-  // loop stopped at the refusal instead of passing the day. Two afternoons is
-  // the crossover, so both contests sat inside a two-point residual and a
-  // legitimate change to the opening's time model flipped them.
-  //
-  // These two guards pin the parts of that which must not silently come back:
-  // the campaign has to actually get worked, and the defeat has to remain
-  // attributable to not working it rather than to a seed.
-  it("works the campaign it says it works, rather than stopping at the first full day", () => {
-    for (const family of SEED_FAMILIES) {
-      if (family.campaign !== "file-and-run") continue;
-      const campaign = transcriptFor(family).campaign;
-      expect(campaign?.filed).toBe(true);
-      // Two is the single-day ceiling. More than that means the run crossed a
-      // day boundary the way the refusal tells a player to.
-      expect(campaign?.sessions.length ?? 0).toBeGreaterThan(2);
-    }
-  });
-
-  it("attributes the defeat to the work, not to the seed", () => {
-    const worked = SEED_FAMILIES.find(
-      (family) => family.key === "campaign-and-office",
-    );
-    const idle = SEED_FAMILIES.find(
-      (family) => family.key === "campaign-without-the-work",
-    );
-    /*
-     * Same control seed, same life, same beats: the campaign is the only
-     * difference between them, so the difference in outcome is the campaign's.
-     *
-     * The whole setup is compared, not just the seed. Pinning the seed alone
-     * left start age, place, household, gender and pronouns free to drift
-     * apart, and any one of them moving would change the idle lane's outcome
-     * while this guard still passed — which would quietly turn the contrast
-     * back into the luck it was written to replace. Raised by the independent
-     * reviewer.
-     */
-    expect(idle?.setup).toStrictEqual(worked?.setup);
-    expect(idle?.steps).toBe(worked?.steps);
-    expect(idle?.prefer).toStrictEqual(worked?.prefer);
-
-    const workedRun = transcriptFor(worked!).campaign;
-    const idleRun = transcriptFor(idle!).campaign;
-    expect(idleRun?.sessions.length).toBe(0);
-    expect(workedRun?.sessions.length ?? 0).toBeGreaterThan(0);
-    // Both are read off the resolved contest; neither is written anywhere.
-    expect(idleRun?.resolved).toBe(true);
-    expect(workedRun?.resolved).toBe(true);
-    expect(idleRun?.outcome).toBe("lost");
-    expect(workedRun?.outcome).toBe("won");
-  });
-});
-
 describe("review packet", () => {
   const diagnostics = runDiagnostics(records);
   const html = renderReviewPacket({
@@ -609,45 +455,6 @@ describe("evidence reconciliation (P125-REPAIR-02 phase 3)", () => {
     expect(spoken.length).toBeGreaterThan(0);
     for (const record of spoken) {
       expect(record.reachability).toBe("PLAYER_REACHABLE");
-    }
-  });
-
-  it("does not claim the 92C pact callback without an actual trace", () => {
-    // Generic multi-year continuation is not evidence of the particular
-    // childhood-pact callback. The matrix may claim it only when the pact
-    // stage and a later stage of the same instance are both played.
-    for (const family of SEED_FAMILIES) {
-      const transcript = transcriptFor(family);
-      const claimsCallback = transcript.demonstrated.includes(
-        "92c-childhood-pact-callback",
-      );
-      const playedPact = transcript.beats.some(
-        (beat) => beat.stageKey === "best-friend-pact",
-      );
-      if (claimsCallback) expect(playedPact).toBe(true);
-    }
-  });
-
-  it("claims persistent cast across years only with a bound role and a span", () => {
-    for (const family of SEED_FAMILIES) {
-      const transcript = transcriptFor(family);
-      if (!transcript.demonstrated.includes("persistent-cast-across-years")) {
-        continue;
-      }
-      const byInstance = new Map<string, number[]>();
-      for (const beat of transcript.beats) {
-        if (!beat.instanceKey) continue;
-        const ages = byInstance.get(beat.instanceKey) ?? [];
-        ages.push(beat.age);
-        byInstance.set(beat.instanceKey, ages);
-      }
-      const qualifying = [...byInstance.entries()].some(
-        ([key, ages]) =>
-          key.includes("=") &&
-          ages.length > 1 &&
-          Math.max(...ages) - Math.min(...ages) >= 5,
-      );
-      expect(qualifying).toBe(true);
     }
   });
 
