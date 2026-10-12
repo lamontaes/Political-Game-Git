@@ -1306,6 +1306,45 @@ export const JOBS_MODULE: CoreModule = {
     if (!store(api).table("state").get("jobs:state")) return;
     // The closure event's id ends with the closed business.
     const organizationId = event.id.split(":").slice(2).join(":");
+    // The closed business's counted workers look for work too, with their claims.
+    const rt = residentsRuntime(core(api));
+    for (const job of rt?.jobs.values() ?? []) {
+      if (job.organizationId !== organizationId) continue;
+      if (job.endsAt && job.endsAt !== api.state.date) continue;
+      const flow = rt!.wageFlowByJob.get(job.id);
+      if (flow && !flow.endedAt) continue;
+      if (store(api).table("countedSeekers").get(job.personId)) continue;
+      const person = residentPerson(core(api), job.personId);
+      if (!person) continue;
+      record(api, {
+        personId: job.personId,
+        organizationId,
+        jobId: job.id,
+        kind: "closure",
+        reasonKey: jobsData.reasons.closure,
+        decidedBy: ownerOf(api, organizationId) ?? organizationId,
+      });
+      store(api)
+        .table("countedSeekers")
+        .put({
+          id: job.personId,
+          isSeeker: true,
+          personId: job.personId,
+          placeId: person.placeId,
+          since: api.state.date,
+          reasonKey: jobsData.reasons.closure,
+          referenceHourlyMinor: job.hourlyMinor ?? 0,
+          lastJob: { ...job },
+        });
+      fileClaim(
+        api,
+        store(api).table("claims"),
+        job,
+        jobsData.reasons.closure,
+        (tenureYears(api, job) * api.parameter("jobsDaysPerYear")) /
+          DAYS_PER_WEEK,
+      );
+    }
     for (const personId of event.personIds) {
       const person = core(api).people.get(personId);
       if (!person || store(api).table("seekers").get(personId)) continue;
