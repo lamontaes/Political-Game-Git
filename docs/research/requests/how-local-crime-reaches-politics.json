@@ -15,9 +15,27 @@
     {
       "source": "src/simulation/crisis/handling-reactions.ts UNRESEARCHED_DISASTER_HANDLING",
       "whatItDidNotSettle": "The parallel disaster rule is itself an unresearched blanket, so it cannot be borrowed as evidence for crime."
+    },
+    {
+      "source": "https://bjs.ojp.gov/document/cv24.pdf",
+      "whatItDidNotSettle": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
+    },
+    {
+      "source": "https://www.fbi.gov/news/stories/violent-crime-falls-at-historic-rate-new-fbi-data-show",
+      "whatItDidNotSettle": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
     }
   ],
   "title": "How local crime moves voters, races and local government",
   "usableAnswer": "A short answer for each of the four parts, with sources. First, the size and duration of the effect of crime trends and of single incidents on incumbent support, by office (mayor, sheriff, prosecutor, council), stated as a range. Second, how often crime is a leading campaign issue by office and place size. Third, the measured effect of personal victimization on political attitudes and turnout, if any. Fourth, the typical local government responses and their lag. Where the literature disagrees or is thin, say so.",
-  "whyItMatters": "Crime now happens in every town and reaches the local paper, but it changes nobody's politics. The owner's rule is that events must have consequences and that the depth must come from research, not invention. These answers decide what crime does to races, to the victims themselves and to local officeholders."
+  "whyItMatters": "Crime now happens in every town and reaches the local paper, but it changes nobody's politics. The owner's rule is that events must have consequences and that the depth must come from research, not invention. These answers decide what crime does to races, to the victims themselves and to local officeholders.",
+  "answer": {
+    "summary": "The checked BJS/FBI aggregates describe offense/reporting levels; they do not identify the requested causal effects on offending, towns, victim health or incumbent support. No coefficient for an individual actor is supported by these aggregate counts.",
+    "sources": [
+      "https://bjs.ojp.gov/document/cv24.pdf",
+      "https://www.fbi.gov/news/stories/violent-crime-falls-at-historic-rate-new-fbi-data-show"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:15:52.611668+00:00",
+    "stillOpen": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
+  }
 }

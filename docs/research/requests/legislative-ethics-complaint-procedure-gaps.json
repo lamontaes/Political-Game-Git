@@ -15,9 +15,27 @@
     {
       "source": "ChatGPT's 28-jurisdiction ethics inventory (docs/research/chatgpt-answers/2026-09-22-nationwide-2340/Our-Civic-Duty--legislative-ethics-complaint-routes-remaining-28-jurisdictions--2026-09-22.md)",
       "whatItDidNotSettle": "Names the bodies but lists these procedures as its highest-priority gaps."
+    },
+    {
+      "source": "https://www.ethics.senate.gov/public/_cache/files/65d869b2-5c90-4c08-b49e-6689611da08d/annual-report-for-2025.pdf",
+      "whatItDidNotSettle": "Requested current state-by-state controlling procedures, deadlines, sanctions, conviction consequences, amounts, causal electoral effects and repeat-offense rules require additional direct-primary research; no numeric fallback supported."
+    },
+    {
+      "source": "https://www.fec.gov/legal-resources/enforcement/complaints-process/",
+      "whatItDidNotSettle": "Requested current state-by-state controlling procedures, deadlines, sanctions, conviction consequences, amounts, causal electoral effects and repeat-offense rules require additional direct-primary research; no numeric fallback supported."
     }
   ],
   "title": "The legislative ethics complaint steps still missing in about a dozen places",
   "usableAnswer": "One row per listed jurisdiction or chamber, with the fields named in the question, each cited and marked verified primary or UNKNOWN, in the same shape as the 28-row inventory.",
-  "whyItMatters": "An ethics complaint against a legislator in these places has no steps or deadlines in the game, and the rule is not to invent them, so the case cannot proceed there. lamontae asked on 2026-09-22 what the remaining unknowns were."
+  "whyItMatters": "An ethics complaint against a legislator in these places has no steps or deadlines in the game, and the rule is not to invent them, so the case cannot proceed there. lamontae asked on 2026-09-22 what the remaining unknowns were.",
+  "answer": {
+    "summary": "Senate 2025 records 181 new allegations, 5 carried matters and 27 preliminary inquiries; overlapping stages cannot establish a personal-use cohort disposition rate. FEC guidance describes confidential complaint review and possible civil conciliation, without a universal time or repeat-sanction multiplier. No defensible universal vote penalty follows from these counts.",
+    "sources": [
+      "https://www.ethics.senate.gov/public/_cache/files/65d869b2-5c90-4c08-b49e-6689611da08d/annual-report-for-2025.pdf",
+      "https://www.fec.gov/legal-resources/enforcement/complaints-process/"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:14:26.080114+00:00",
+    "stillOpen": "Requested current state-by-state controlling procedures, deadlines, sanctions, conviction consequences, amounts, causal electoral effects and repeat-offense rules require additional direct-primary research; no numeric fallback supported."
+  }
 }
