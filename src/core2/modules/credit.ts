@@ -10,7 +10,7 @@ import countyRows from "../../../data/tables/local-business-counts.json" with { 
 import depositRows from "../../../data/tables/town-deposits.json" with { type: "json" };
 import { countyPopulationSharesForPlace } from "../../simulation/government-units";
 import { lifePlaceByKey } from "../../simulation/life-places";
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import creditData from "../data/credit/credit.json" with { type: "json" };
 import creditParameters from "../data/credit/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -450,13 +450,28 @@ export function amortizedPayment(
     : principal / months;
 }
 
-function monthlyIncome(api: CoreAPI, memberIds: readonly string[]): number {
+function paidShare(c: CoreState, personId: string, jobId: string): number {
+  for (const id of c.work.commitmentsByPerson.get(personId) ?? []) {
+    if (c.work.commitments.get(id)?.jobId !== jobId) continue;
+    const ledger = c.work.payrollLedgerByCommitment.get(id);
+    if (ledger && ledger.dueRecognizedMinor > 0)
+      return Math.min(1, ledger.paidMinor / ledger.dueRecognizedMinor);
+  }
+  return 1;
+}
+
+/** A household's monthly pay as a lender counts it: wages times the share of due pay actually paid. */
+export function monthlyIncome(
+  api: CoreAPI,
+  memberIds: readonly string[],
+): number {
   const c = core(api),
     members = new Set(memberIds);
   let daily = 0;
   for (const job of c.jobs.values())
     if (job.endsAt === undefined && members.has(job.personId))
-      daily += job.wageDailyMinor;
+      // A lender counts pay that arrives: the job's wage times the share of its due pay actually paid.
+      daily += job.wageDailyMinor * paidShare(c, job.personId, job.id);
   return (
     (daily * api.parameter("jobsDaysPerYear")) /
     api.parameter("macroMonthsPerYear")
@@ -556,6 +571,22 @@ function householdApplications(
       store(api).table("loans").query("open", [true]) as unknown as LoanRow[]
     ).map((row) => row.householdId),
   );
+  // A charge-off stays on the household's credit report for seven years (15 U.S.C. 1681c(a)(4)).
+  const reported = new Set(
+    (
+      store(api).table("loans").rows() as unknown as (LoanRow & {
+        chargedOffAt?: string;
+      })[]
+    )
+      .filter(
+        (row) =>
+          row.standing === "charged-off" &&
+          (!row.chargedOffAt ||
+            daysBetween(makeIsoDate(row.chargedOffAt), makeIsoDate(c.date)) <
+              p("creditReportYears") * p("jobsDaysPerYear")),
+      )
+      .map((row) => row.householdId),
+  );
   for (const household of [...c.households.values()].sort((a, b) =>
     a.id.localeCompare(b.id),
   )) {
@@ -600,9 +631,19 @@ function householdApplications(
       income > 0
         ? (p("macroHundred") * payment) / income
         : Number.POSITIVE_INFINITY;
+    // And as what is left after the household's costs and the payment falls below nothing (residual income).
+    const residualPct =
+      income > 0
+        ? (p("macroHundred") * (income - costs - payment)) / income
+        : -p("macroHundred");
+    const history = reported.has(household.id)
+      ? p("creditChargedOffYesShare")
+      : 1;
     const yes = Number.isFinite(dti)
-      ? appetite /
-        (1 + Math.exp(p("creditDtiSlope") * (dti - p("creditDtiReferencePct"))))
+      ? (history * appetite) /
+        (1 +
+          Math.exp(p("creditDtiSlope") * (dti - p("creditDtiReferencePct")))) /
+        (1 + Math.exp(-p("creditDtiSlope") * residualPct))
       : 0;
     const principal = Math.floor(Math.min(amount * yes, room));
     store(api)
@@ -616,6 +657,7 @@ function householdApplications(
         requestedMinor: Math.round(amount),
         monthlyIncomeMinor: Math.round(income),
         debtToIncomePct: Number.isFinite(dti) ? dti : null,
+        residualIncomePct: residualPct,
         appetite,
         approvedShare: yes,
         limitMinor: principal,

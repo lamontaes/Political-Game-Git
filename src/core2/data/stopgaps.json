@@ -1227,7 +1227,7 @@
     "id": "SG-WORLD-housing-hearing-without-judge",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
-    "line": 832,
+    "line": 824,
     "whatItFakes": "An eviction hearing ends in judgment whenever rent is still owed and notice was given, with no judge's discretion, defenses or counsel.",
     "why": "Courts are parked until after early access (owner, Oct 10).",
     "addedBy": "OPUS-WORLD",

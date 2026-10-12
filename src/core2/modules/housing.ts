@@ -17,7 +17,7 @@ import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { regionalLevel, regionalRegistered } from "./regional";
 import { MACRO_PARAMETERS } from "./macro";
-import { bankYes, lendMortgage } from "./credit";
+import { bankYes, lendMortgage, monthlyIncome } from "./credit";
 import { chooseAct } from "../choice";
 import { CREDIT_PARAMETERS } from "./credit";
 import { DEFAULT_DATA } from "../data";
@@ -601,15 +601,7 @@ function buyHomes(api: CoreAPI): void {
         row.placeId === household.placeId && row.outsideFlow !== undefined,
     );
     if (!town?.[1] || !outside) continue;
-    const income = members.reduce(
-      (n, row) =>
-        n +
-        (row!.jobId && c.jobs.get(row!.jobId)?.endsAt === undefined
-          ? (c.jobs.get(row!.jobId)!.wageDailyMinor * p("jobsDaysPerYear")) /
-            p("macroMonthsPerYear")
-          : 0),
-      0,
-    );
+    const income = monthlyIncome(api, household.memberIds);
     if (income <= 0) continue;
     const cash = members.reduce((n, row) => n + row!.liquidMinor, 0);
     const prices =

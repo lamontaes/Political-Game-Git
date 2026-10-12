@@ -166,5 +166,21 @@
       "unit": "share of the bank's cash per month",
       "citation": "FDIC Quarterly Banking Profile, community banks."
     }
+  },
+  "creditReportYears": {
+    "value": 7,
+    "tag": "SOURCED",
+    "citation": "Fair Credit Reporting Act, 15 U.S.C. 1681c(a)(4): accounts charged to profit and loss may be reported for seven years."
+  },
+  "creditChargedOffYesShare": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "A lender's yes to a household with a charge-off on its report is a small share of its yes otherwise; a charge-off is among the most damaging items on a credit report.",
+    "spread": {
+      "low": 0,
+      "high": 0.3,
+      "unit": "share of the bank's yes",
+      "citation": "A lender's yes to a household with a charge-off on its report is a small share of its yes otherwise; a charge-off is among the most damaging items on a credit report."
+    }
   }
 }
