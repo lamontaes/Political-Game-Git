@@ -68,7 +68,7 @@ describe(`people bring it up in ${input.placeMetadata?.placeName} (seed ${seed})
     )!;
     const said = bringItUp(core, worker.id, friendId)!;
     expect(said.lines.map((row) => row.text)[0]).toMatch(/ closed\.$/);
-    expect(said.lines[1]!.text).toMatch(/^That was .+'s doing\.$/);
+    expect(said.lines[1]!.text).toMatch(/^That was .+(?:'s|s') doing\.$/);
     const [heard] = changesKnownTo(core, friendId);
     expect(believedCause(core, friendId, heard!)).toMatchObject({
       how: "told",

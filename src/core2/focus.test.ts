@@ -236,7 +236,9 @@ describe("focus fixture attendance scope", () => {
       expect(activations.get(scoped)!.get(id)).toBe(7);
       expect(activations.get(ordinary)!.get(id)).toBe(7);
       expect(scoped.people.get(id)!.actCount).toBeGreaterThanOrEqual(7);
-      expect(ordinary.people.get(id)!.actCount).toBeGreaterThanOrEqual(12);
+      // At least one act per activation. Extra acts fill only free hours:
+      // a worker who goes to every shift and knows nobody has none to fill.
+      expect(ordinary.people.get(id)!.actCount).toBeGreaterThanOrEqual(7);
       expect(
         ordinary.work.totalsByJob.get(`job:${id}`)!.workedDays +
           ordinary.work.totalsByJob.get(`job:${id}`)!.missedDays,
