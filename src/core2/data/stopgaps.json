@@ -1373,5 +1373,17 @@
     "addedAt": "2026-10-12",
     "replacement": "GOV's Social Security ages as law in force (lawInForce), read at the claim date.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-retirement-claims-in-play",
+    "kind": "program-stand-in",
+    "file": "src/core2/modules/retirement-claims.ts",
+    "line": 1,
+    "whatItFakes": "Full people who reach their claim age during play start a Social Security award sized like the opening's (a participant-average amount scaled by modeled covered months), paid monthly by the place's outside payer; no application, earnings test, spouse or survivor benefit, and counted people's claims stay in the pooled flows.",
+    "why": "WORLD's jobs engine retires people during play, and nothing started their benefits, so retirees lost all income.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "GOV's Social Security program: claims read the law in force and awards follow each person's recorded earnings.",
+    "status": "open"
   }
 ]

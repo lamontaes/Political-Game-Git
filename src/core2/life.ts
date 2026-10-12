@@ -26,6 +26,7 @@ import { LIFE_MODULE } from "./modules/life";
 import { FINANCE_MODULE } from "./modules/finance";
 import { RESIDENTS_MODULE, admitResidents } from "./modules/residents";
 import { ACCOUNTS_MODULE } from "./accounts";
+import { RETIREMENT_CLAIMS_MODULE } from "./modules/retirement-claims";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
 import { coreAPI, createCore, resolveOperation } from "./state";
@@ -104,7 +105,8 @@ export function createLifeCore(
       ...(scheduledWork ? [WORK_MODULE] : []),
       ...(input.finance ? [FINANCE_MODULE] : []),
       ACCOUNTS_MODULE,
-      ...(input.residents ? [RESIDENTS_MODULE] : []),
+      // The game's worlds (two levels) also claim retirement during play.
+      ...(input.residents ? [RESIDENTS_MODULE, RETIREMENT_CLAIMS_MODULE] : []),
       ...(options.modules ?? []),
     ],
   });
