@@ -1,0 +1,15 @@
+{
+  "version": "credit-data-v1",
+  "source": {
+    "tag": "SOURCED",
+    "asOf": "2026-10-12",
+    "citation": "FDIC Summary of Deposits, June 30, 2026 (county branch deposits); FDIC call reports, June 30, 2026 (small-bank shapes); BEA CAINC1 2024 county population."
+  },
+  "bankKind": "bank",
+  "bankNamePattern": "{place} Community Bank",
+  "reasons": {
+    "approved": "line-approved",
+    "applied": "cash-below-cover",
+    "chargeOff": "borrower-closed"
+  }
+}

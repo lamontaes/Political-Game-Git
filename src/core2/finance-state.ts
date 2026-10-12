@@ -725,6 +725,22 @@ export function prepareFinanceProcurement(
   }
 }
 
+/** core2-api-v14: a standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
+export function endStandingContract(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+): void {
+  const row = core.finance.contracts.get(id);
+  if (!row || row.endedAt || row.salesReceiptBudget || row.recipientIncome)
+    throw new Error("Only a current standing obligation can end.");
+  policy(api);
+  row.endedAt = core.date;
+  removeIndex(core.finance.contractsDueAt, row.dueAt, row.id);
+  if (row.endsAt)
+    removeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
+}
+
 export function retireFinanceBudget(
   core: CoreState,
   api: CoreAPI,
@@ -816,6 +832,27 @@ export function admitCreditFacility(
     interestFacilityId: input.id,
     source: input.source,
   });
+}
+
+/** core2-api-v13: a line a bank approved mid-run becomes the business's credit for its bills and payroll. */
+export function attachBusinessCredit(
+  core: CoreState,
+  api: CoreAPI,
+  organizationId: string,
+  facilityId: string,
+): void {
+  const book = core.finance.businesses.get(organizationId),
+    facility = core.finance.facilities.get(facilityId);
+  if (
+    !book ||
+    book.closedAt ||
+    !facility ||
+    !facility.active ||
+    facility.borrowerId !== organizationId
+  )
+    throw new Error("Business credit must be the open firm's own active line.");
+  policy(api);
+  book.creditFacilityId = facilityId;
 }
 
 /** core2-api-v11: a dated rate change; interest before today stays at the old rate. */

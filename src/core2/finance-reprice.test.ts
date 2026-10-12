@@ -98,3 +98,14 @@ describe("dated credit repricing", () => {
     ).toThrow();
   });
 });
+
+describe("core2-api-v13: attaching a line to a business's books", () => {
+  it("rejects a line that is not the firm's own or a firm with no books", () => {
+    const core = createCore(opening(), { data }),
+      api = coreAPI(core);
+    expect(() => api.attachBusinessCredit(borrower, facilityId)).toThrow(
+      /own active line/,
+    );
+    expect(() => api.attachBusinessCredit(lender, facilityId)).toThrow();
+  });
+});

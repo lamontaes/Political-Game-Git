@@ -1,0 +1,29 @@
+{
+  "housingRentIncomeElasticity": {
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "Income elasticity of housing spending, about 0.3 to 0.7 (Glaeser, Gyourko and Saks 2005; Davis and Ortalo-Magne 2011).",
+    "spread": {
+      "low": 0.2,
+      "high": 0.7,
+      "unit": "rent per income",
+      "citation": "Income elasticity of housing spending, about 0.3 to 0.7 (Glaeser, Gyourko and Saks 2005; Davis and Ortalo-Magne 2011)."
+    }
+  },
+  "housingIncomeOffsetShare": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Households with little income still pay rent near the low end (HUD Fair Market Rent is the 40th percentile).",
+    "spread": {
+      "low": 0.25,
+      "high": 1,
+      "unit": "share of median income",
+      "citation": "Households with little income still pay rent near the low end (HUD Fair Market Rent is the 40th percentile)."
+    }
+  },
+  "housingReviewDay": {
+    "value": 6,
+    "tag": "SOURCED",
+    "citation": "Rent is due on the 1st; the review runs after the most common five-day grace period."
+  }
+}

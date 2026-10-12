@@ -1003,6 +1003,18 @@ export interface CoreAPI {
   addFinanceContract(input: FinanceContractInput): void;
   addFinanceCondition(input: FinanceConditionInput): void;
   addCreditFacility(input: CreditFacilityInput): void;
+  /** core2-api-v14: a standing obligation stops billing today; its arrears stay owed. */
+  endStandingContract(contractId: string): void;
+  /** core2-api-v13: makes an approved line the open business's credit for its bills and payroll. */
+  attachBusinessCredit(organizationId: string, facilityId: string): void;
+  /** core2-api-v12: admits one job, its commitment and its payroll calendar mid-run. */
+  startJob(
+    job: JobInput,
+    commitment: WorkCommitmentInput,
+    calendar: WorkPayrollCalendarInput,
+  ): void;
+  /** core2-api-v12: ends one current job today; earned wages stay owed for the next payday. */
+  endJob(jobId: string, sourceId: string): void;
   /** Accrues to today at the old rate, then applies the new annual rate from today on. */
   repriceCreditFacility(
     facilityId: string,
