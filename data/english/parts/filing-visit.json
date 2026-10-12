@@ -1069,6 +1069,58 @@
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600413/html/DCPD-202600413.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
+    },
+    {
+      "key": "filing-visit.clerk-rule-register.you-have-to-be-a-registered-voter",
+      "move": "clerk-rule-register",
+      "kind": "spoken",
+      "text": "You have to be a registered voter.",
+      "uses": [
+        {
+          "move": "clerk-rule-register",
+          "subject": "clerk",
+          "role": "rule",
+          "choice": "register"
+        }
+      ],
+      "transcriptsUsing": 1,
+      "bySource": {
+        "chrg": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Examining Irregularities In The 2020 Election",
+        "date": "2020-12-16",
+        "granule": "CHRG-116shrg43071",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116shrg43071",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-close-next.let-me-know-if-you-have-any-questions",
+      "move": "clerk-close-next",
+      "kind": "spoken",
+      "text": "Let me know if you have any questions.",
+      "uses": [
+        {
+          "move": "clerk-close-next",
+          "subject": "clerk",
+          "role": "close",
+          "choice": "next"
+        }
+      ],
+      "transcriptsUsing": 1,
+      "bySource": {
+        "chrg": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "The History And Structure Of The Multiemployer Pension System",
+        "date": "2018-04-17",
+        "granule": "CHRG-115shrg37183",
+        "url": "https://www.govinfo.gov/app/details/CHRG-115shrg37183",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
     }
   ]
 }

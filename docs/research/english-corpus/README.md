@@ -28,6 +28,29 @@ The raw text stays outside the repository. Rebuild it into any folder with one s
 | Federal Election Commission guides and hearing captions | 253                      | fec.gov                                                           |
 | Florida Division of Elections handbooks                 | 33                       | dos.fl.gov                                                        |
 
+### Rebuilt October 12, 2026 (second run)
+
+The cloud container that held the first corpus was reclaimed, so the second run rebuilt it. The first run's banks keep their parts; the second run's banks (the opening speech, news and TV, the counter, the journal's new moments) were mined over this corpus, 46,191 documents:
+
+| Source                                                                                            | Documents | Where                                                                          |
+| ------------------------------------------------------------------------------------------------- | --------- | ------------------------------------------------------------------------------ |
+| Daily Compilation of Presidential Documents, 2009 to 2026                                         | 17,712    | govinfo.gov, collection DCPD                                                   |
+| State of the Union addresses, 1790 to 2008 (count toward attestation only; never the source)      | 222       | Project Gutenberg eBook 5050                                                   |
+| Congressional hearings, 2015 to 2026 (a sample)                                                   | 2,500     | govinfo.gov, collection CHRG                                                   |
+| Federal agency news releases (Justice, EPA, Park Service, Treasury, Energy, NASA, FAA, FDA, NOAA) | 19,303    | each agency's newsroom on its .gov site                                        |
+| National Weather Service text products, one week                                                  | 3,072     | api.weather.gov                                                                |
+| NASA oral histories                                                                               | 1,388     | nasa.gov                                                                       |
+| U.S. House oral histories                                                                         | 300       | history.house.gov                                                              |
+| U.S. Senate oral histories                                                                        | 51        | senate.gov                                                                     |
+| Eisenhower Library oral histories                                                                 | 15        | eisenhowerlibrary.gov                                                          |
+| Election Assistance Commission transcripts, guides and pages                                      | 330       | eac.gov                                                                        |
+| Federal Election Commission guides, transcripts and pages                                         | 288       | fec.gov                                                                        |
+| Florida state, county and city election and clerk pages                                           | 420       | dos.fl.gov and Florida county and city sites (only .gov pages can be a source) |
+| usa.gov pages                                                                                     | 260       | usa.gov                                                                        |
+| Federal counter pages (IRS, Social Security, National Archives, GSA, Postal Service)              | 330       | each agency's site (only .gov pages can be a source)                           |
+
+Kept out: 424 Truman Library interviews, which carry the notice "may not be published in full except by permission". A bank's shapes may name the collections it counts (`sources`); the opening speech counts only what Presidents said.
+
 ## Rebuilding the banks
 
 `scripts/english-corpus/mine-all.sh <corpus-dir>` re-mines every bank in one pass over the corpus from its candidate shapes in `scripts/english-corpus/shapes/` and writes each bank's unattested shapes to `not-attested-<bank>.json` here. A shape that no record says is a sentence the game cannot use yet; widening the corpus is how a gap closes, never writing the line by hand.
