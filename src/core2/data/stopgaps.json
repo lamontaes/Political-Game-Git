@@ -1118,13 +1118,13 @@
   {
     "id": "SG-WORLD-board-appointments",
     "kind": "faked-mechanic",
-    "file": "src/core2/central-bank-board.ts",
-    "line": 77,
-    "whatItFakes": "Every central bank seat is filled at the opening, governors are seated at their seat's term start, and members stay past their terms.",
-    "why": "Appointments by the president and Senate come with the offices port (M1 offices, OPUS-GOV); presidents' reappointment by their banks' boards is not modeled.",
+    "file": "src/core2/central-bank-appointments.ts",
+    "line": 39,
+    "whatItFakes": "A seat's new member is the seeded candidate whose lived inflation sits closest to the board's middle, chosen without the president or the Senate.",
+    "why": "OPUS-GOV's nominateAndConfirm (the president's side picks, the real Senate confirms) is on its branch, not yet on this one.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "The offices port: the president nominates, the Senate confirms, and reserve bank boards reappoint, each from their own views, on the term dates already recorded here.",
+    "replacement": "registerBoardAppointer with nominateAndConfirm once the offices and appointments modules are on the same branch.",
     "status": "open"
   },
   {

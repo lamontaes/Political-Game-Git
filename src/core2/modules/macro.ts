@@ -7,6 +7,7 @@
  */
 import { addDays, makeIsoDate } from "../../simulation/dates";
 import { chooseAct } from "../choice";
+import { reviewBoardTerms } from "../central-bank-appointments";
 import { DEFAULT_DATA, extendData } from "../data";
 import macroParameters from "../data/macro/parameters.json" with { type: "json" };
 import {
@@ -209,6 +210,7 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
   const next = { ...state, latestMonth: row.month };
   store(api).table("state").put(next);
   publishConditions(api, next, row);
+  reviewBoardTerms(api, store(api).table("members"), p, recordSource(api));
   api.moduleCalendar(MACRO_MODULE_ID).schedule({
     key: `month:${shiftMonth(row.month, p("one"), p)}`,
     date: firstOfNextMonth(api.state.date, p),

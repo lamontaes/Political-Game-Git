@@ -461,5 +461,21 @@
     "value": 3,
     "tag": "SOURCED",
     "citation": "The recorded trait scale (traitScale)."
+  },
+  "macroBoardCandidates": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How many people an appointer weighs for a seat; a short list.",
+    "spread": {
+      "low": 2,
+      "high": 6,
+      "unit": "candidates",
+      "citation": "How many people an appointer weighs for a seat; a short list."
+    }
+  },
+  "macroPresidentRetirementAge": {
+    "value": 65,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve System policy: a Reserve Bank president retires at 65 (a president first appointed after 55 may serve up to ten years)."
   }
 }
