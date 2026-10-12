@@ -11,7 +11,9 @@
  * `data/research/offices/legislature-party-counts-2026.json`.
  */
 import stateOfficeResearch from "../../data/research/offices/state-offices.json" with { type: "json" };
+import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import partyCounts from "../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
+import filingResearch from "../../data/research/elections/filing-requirements.json" with { type: "json" };
 import { districtIdentityCatalog } from "../districts/catalog";
 import { placeDistrictJoin } from "../districts/place-membership";
 import { largestPopulationShareDistrict } from "../districts/place-population-share";
@@ -40,6 +42,8 @@ export interface SeatInput {
   readonly district: string | null;
   readonly index: number;
   readonly coversTown: boolean;
+  /** The seat's next regular election year, where it differs from the office's. */
+  readonly electionYear?: number;
   /** The party holding the seat in the real roster at the start, where read. */
   readonly party: string | null;
 }
@@ -55,6 +59,7 @@ interface ResearchVacancy extends Omit<Partial<VacancyRule>, "method"> {
 }
 interface ResearchChamber {
   readonly chamber: "upper" | "lower" | "unicameral";
+  readonly staggered?: boolean;
   readonly name?: string;
   readonly seats?: number;
   readonly termYears?: number;
@@ -94,6 +99,17 @@ const parties = partyCounts as unknown as {
   >;
   congress: Record<string, Record<string, string[]>>;
 };
+/** The party holding each governorship at the start (National Governors Association). */
+const governorParty = new Map(
+  (
+    calibration as unknown as {
+      governors: { stateUsps: string; party: string | null }[];
+    }
+  ).governors.map((g) => [
+    `US-${g.stateUsps}`,
+    g.party ? g.party[0]!.toUpperCase() + g.party.slice(1) : null,
+  ]),
+);
 const TERRITORIES = new Set(["US-PR", "US-GU", "US-VI", "US-AS", "US-MP"]);
 
 const METHODS: Readonly<Record<string, VacancyRule["method"]>> = {
@@ -196,6 +212,50 @@ function rosterDistrict(rows: Roster, d: DistrictIdentity): string | null {
   for (const name of Object.keys(rows))
     if (keys.has(districtKey(name))) return name;
   return null;
+}
+
+/** Whether the place holds this family's regular election in the start year, and if not, when next. */
+function offered(stateKey: string, family: string, year: number): number {
+  const row = (
+    filingResearch as unknown as {
+      places: Record<
+        string,
+        Record<
+          string,
+          { offeredIn2026?: boolean; nextRegularElection?: string | null }
+        >
+      >;
+    }
+  ).places[stateKey]?.[family];
+  if (row?.offeredIn2026 === false && row.nextRegularElection)
+    return Number(row.nextRegularElection);
+  return year;
+}
+
+/**
+ * A legislative seat's next regular election year: a chamber with no 2026
+ * election goes in its next regular year; two-year chambers every two years
+ * from there; a four-year chamber elected all at once goes with the
+ * governor's cycle; a staggered four-year chamber splits its seats across the
+ * two cycles by district number (estimated: SG-GOV-term-end-estimate).
+ */
+function seatElectionYear(
+  stateKey: string,
+  chamber: ResearchChamber | undefined,
+  district: string,
+  year: number,
+): number {
+  const first = offered(stateKey, "stateLegislative", year);
+  const termYears = chamber?.termYears ?? 2;
+  if (termYears <= 2) return first;
+  if (chamber?.staggered)
+    return (
+      first + ((Number(district.replace(/\D/g, "")) || 0) % 2 === 0 ? 0 : 2)
+    );
+  if (first !== year) return first;
+  return offered(stateKey, "statewideExecutive", year) === year
+    ? year
+    : year + 2;
 }
 
 /** Federal offices covering the town. */
@@ -374,7 +434,10 @@ export function stateOffices(
           district: null,
           index: 0,
           coversTown: true,
-          party: null,
+          party:
+            executive.key === "governor"
+              ? (governorParty.get(stateKey) ?? null)
+              : null,
         },
       ],
     });
@@ -419,6 +482,12 @@ export function stateOffices(
           district,
           index: seats.length,
           coversTown: covers,
+          electionYear: seatElectionYear(
+            stateKey,
+            chamberRead,
+            district,
+            Number(date.slice(0, 4)),
+          ),
           party,
         }),
       );

@@ -83,6 +83,8 @@ export interface FilingRow {
   readonly filedOn: string;
   readonly filedWith: string;
   readonly platform: readonly string[];
+  /** The party label on the ballot, where the candidate runs under one. */
+  readonly party?: string | null;
   readonly feePaidMinor: number;
   readonly signatureCount: number;
   readonly status: "gathering-signatures" | "on-ballot" | "withdrawn";
@@ -498,6 +500,7 @@ export function fileCandidacy(
     readonly contestId: string;
     readonly platform: readonly string[];
     readonly payFee: boolean;
+    readonly party?: string | null;
   },
 ):
   | { readonly status: "refused"; readonly unmet: readonly RequirementCheck[] }
@@ -532,6 +535,7 @@ export function fileCandidacy(
     filedOn: today,
     filedWith: rules.filedWith,
     platform: [...input.platform],
+    party: input.party ?? null,
     feePaidMinor: paying ? fee : 0,
     signatureCount: 0,
     status: needsSignatures ? "gathering-signatures" : "on-ballot",

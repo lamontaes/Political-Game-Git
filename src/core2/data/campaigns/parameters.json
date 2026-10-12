@@ -5,100 +5,186 @@
       "value": 0.12,
       "tag": "ESTIMATED",
       "source": "Gerber, Huber, Doherty, Dowling and Ha (2010), 'Personality and Political Attitudes', American Political Science Review 104(1): conscientiousness predicts conservative self-placement (standardized effects about 0.1 to 0.2).",
-      "spread": [0.05, 0.2],
+      "spread": [
+        0.05,
+        0.2
+      ],
       "stopgapId": "SG-GOV-views-stand-in"
     },
     "leanPerGenerous": {
       "value": -0.08,
       "tag": "ESTIMATED",
       "source": "Gerber et al. (2010): agreeableness predicts liberal economic attitudes (effects about -0.05 to -0.15).",
-      "spread": [-0.15, -0.03],
+      "spread": [
+        -0.15,
+        -0.03
+      ],
       "stopgapId": "SG-GOV-views-stand-in"
     },
     "leanPerPractical": {
       "value": 0.05,
       "tag": "ESTIMATED",
       "source": "Gerber et al. (2010): openness to experience predicts liberal self-placement; a practical, conventional facet is its low pole (effects about 0.05 to 0.25).",
-      "spread": [0.02, 0.2],
+      "spread": [
+        0.02,
+        0.2
+      ],
       "stopgapId": "SG-GOV-views-stand-in"
     },
     "doorsPerCanvasserHour": {
       "value": 15,
       "tag": "ESTIMATED",
       "source": "Green and Gerber, Get Out the Vote (4th ed., 2019), ch. 3: canvassers typically reach 12 to 20 doors an hour in residential neighborhoods.",
-      "spread": [8, 25]
+      "spread": [
+        8,
+        25
+      ]
     },
     "rapportWeight": {
       "value": 0.15,
       "tag": "TUNABLE",
       "source": "How much a pleasant or awkward meeting itself moves a voter's warmth, beside agreement on the platform. Checked against field-experiment persuasion effects (Kalla and Broockman 2018: near zero on average in general elections, larger in low-information local races).",
-      "spread": [0.05, 0.3]
+      "spread": [
+        0.05,
+        0.3
+      ]
     },
     "secondhandWeight": {
       "value": 0.5,
       "tag": "TUNABLE",
       "source": "Share of a first-hand impression that a retelling passes on to family and friends. Checked against two-step-flow findings (Katz and Lazarsfeld 1955; Nickerson 2008: 60% of a canvassing turnout effect passed to housemates).",
-      "spread": [0.3, 0.7]
+      "spread": [
+        0.3,
+        0.7
+      ]
     },
     "donationShareOfCashPerWarmth": {
       "value": 0.01,
       "tag": "TUNABLE",
       "source": "Share of a supporter's cash on hand they give per unit of warmth, before the legal limit. Checked against typical small-donor gifts (FEC: most individual contributions under $200).",
-      "spread": [0.002, 0.03]
+      "spread": [
+        0.002,
+        0.03
+      ]
     },
     "adContactsPerThousandMinor": {
       "value": 10,
       "tag": "ESTIMATED",
       "source": "Ten people reached per $10 of ad spending: digital and local broadcast cost per thousand impressions of about $10 to $30 (eMarketer 2024; AdImpact 2024 political CPMs), counting one person reached per several impressions.",
-      "spread": [3, 30]
+      "spread": [
+        3,
+        30
+      ]
     },
     "adWarmthWeight": {
       "value": 0.3,
       "tag": "TUNABLE",
       "source": "Share of a first-hand agreement effect an ad carries. Checked against Kalla and Broockman (2018): ad persuasion is small and fades.",
-      "spread": [0.1, 0.5]
+      "spread": [
+        0.1,
+        0.5
+      ]
     },
     "doorContactWeight": {
       "value": 0.5,
       "tag": "TUNABLE",
       "source": "How far one conversation at the door moves a voter toward what they make of the candidate. Checked against field experiments: face-to-face contact is the strongest campaign contact (Green and Gerber 2019).",
-      "spread": [0.3, 0.7]
+      "spread": [
+        0.3,
+        0.7
+      ]
     },
     "speechWeight": {
       "value": 0.3,
       "tag": "TUNABLE",
       "source": "How far hearing a speech moves a listener, below a personal conversation (Green and Gerber 2019 rank events below door contact).",
-      "spread": [0.1, 0.5]
+      "spread": [
+        0.1,
+        0.5
+      ]
     },
     "endorsementWeight": {
       "value": 0.3,
       "tag": "TUNABLE",
       "source": "How far hearing that someone you know endorses a candidate moves you. Checked against endorsement-cue studies (Lupia 1994).",
-      "spread": [0.1, 0.5]
+      "spread": [
+        0.1,
+        0.5
+      ]
     },
     "canvasserReliabilityEfficiency": {
       "value": 0.1,
       "tag": "TUNABLE",
       "source": "Extra (or fewer) doors per hour for each step of a canvasser's reliability.",
-      "spread": [0, 0.2]
+      "spread": [
+        0,
+        0.2
+      ]
     },
     "rivalHoursWithJob": {
       "value": 2,
       "tag": "ESTIMATED",
       "source": "Hours a working candidate spends knocking doors on a campaign day: an evening (Green and Gerber 2019 describe volunteer shifts of two to three hours).",
-      "spread": [1, 3]
+      "spread": [
+        1,
+        3
+      ]
     },
     "rivalHoursWithoutJob": {
       "value": 4,
       "tag": "ESTIMATED",
       "source": "Hours a candidate without a job spends knocking doors on a campaign day: two shifts.",
-      "spread": [3, 6]
+      "spread": [
+        3,
+        6
+      ]
     },
     "minimumVolunteerAge": {
       "value": 16,
       "tag": "ESTIMATED",
       "source": "Common campaign practice of taking volunteers from about 16; no single law sets it.",
-      "spread": [14, 18]
+      "spread": [
+        14,
+        18
+      ]
+    },
+    "turnoutBase": {
+      "value": -1,
+      "tag": "TUNABLE",
+      "source": "The reason to vote every adult carries before their own duty, interest and cost. Checked against real turnout: about 64% of eligible citizens voted in November 2024 (U.S. Census Bureau, CPS Voting and Registration Supplement 2024), about 46% in the 2022 midterm, often under 25% in off-cycle local elections.",
+      "spread": [
+        -2,
+        2
+      ]
+    },
+    "turnoutWorkWeekMinutes": {
+      "value": 2400,
+      "tag": "SOURCED",
+      "source": "A 40-hour work week in minutes, the unit a voter's weekly work hours are measured against as a cost of getting to the polls (BLS: 40 hours is the standard full-time week).",
+      "spread": [
+        2100,
+        2700
+      ]
+    },
+    "localElectorateShareOfPopulation": {
+      "value": 0.46,
+      "tag": "SOURCED",
+      "source": "Votes cast in November 2024 (about 156 million, Clerk of the House) over the U.S. resident population (about 340 million, Census Bureau Vintage 2024): 0.46.",
+      "spread": [
+        0.15,
+        0.55
+      ],
+      "stopgapId": "SG-GOV-voter-groups-stand-in"
+    },
+    "voterGroupBands": {
+      "value": 9,
+      "tag": "TUNABLE",
+      "source": "How many lean bands, evenly across the whole left-right scale, the unnamed electorate is split into; each band votes as a group, split the way its named people chose.",
+      "spread": [
+        5,
+        21
+      ],
+      "stopgapId": "SG-GOV-voter-groups-stand-in"
     }
   }
 }

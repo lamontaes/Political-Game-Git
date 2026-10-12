@@ -13,6 +13,7 @@
 import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
+import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -114,7 +115,8 @@ describe("M2-02 election calendars and filing rules", () => {
       expect(rules.minimumAge).toBeGreaterThanOrEqual(18);
       expect(rules.filedWith.length).toBeGreaterThan(0);
     }
-    console.log(
+    govReport(
+      "elections-filing",
       JSON.stringify({
         placeKey,
         seed,
@@ -217,7 +219,8 @@ describe("M2-03 filing (engine)", () => {
       if (refused.status === "refused")
         expect(refused.unmet.map((u) => u.rule)).toContain("minimum-age");
     }
-    console.log(
+    govReport(
+      "elections-filing",
       JSON.stringify({
         contest: contest.title,
         filedWith: filing.filedWith,
