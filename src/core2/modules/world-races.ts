@@ -25,7 +25,7 @@ import { partySide } from "../appointments";
 import { lawChain } from "./laws";
 import { FEDERAL_HOUSE, members } from "./legislature";
 import { ballot, ELECTIONS_MODULE_ID, type ContestRow } from "./elections";
-import { resultOf, VOTING_MODULE_ID } from "./voting";
+import { openNextCycle, resultOf, VOTING_MODULE_ID } from "./voting";
 import electorsData from "../data/elections/electoral-votes.json" with { type: "json" };
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { drawOfficialIdentity } from "../officials-identity";
@@ -385,6 +385,8 @@ function inaugurate(api: CoreAPI, rowId: string): void {
       status: "serving",
     } as unknown as ModuleRow);
   }
+  if (api.state.modules.has(VOTING_MODULE_ID))
+    openNextCycle(api, "seat:US:president");
 }
 
 /** The president's side, from the seated president. */

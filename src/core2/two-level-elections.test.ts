@@ -134,6 +134,34 @@ describe("elections in the two-level world", () => {
       );
     }
     expect(partisan, "no two-party race this November").toBeGreaterThan(0);
+    // Each decided seat opens its next cycle's contest once its winner is
+    // seated (audit 2, item 2): one contest per seat would end the record.
+    const seatedBy = (
+      api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("contests")
+        .rows() as unknown as ContestRow[]
+    )
+      .filter((c) => c.electionDate === "2026-11-03")
+      .map((c) => resultOf(api, c.id)?.takesOffice ?? "2026-11-04")
+      .sort()
+      .at(-1)!;
+    const after = new Date(Date.parse(`${seatedBy}T00:00:00Z`) + 86_400_000)
+      .toISOString()
+      .slice(0, 10);
+    advanceCore(core, after > "2026-11-04" ? after : "2026-11-05");
+    const all = api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("contests")
+      .rows() as unknown as ContestRow[];
+    const decided = all.filter((c) => c.electionDate === "2026-11-03");
+    for (const c of decided)
+      expect(
+        all.some(
+          (n) => n.seatId === c.seatId && n.electionDate > c.electionDate,
+        ),
+        `${c.title} ${c.seatId}`,
+      ).toBe(true);
     govReport(
       "two-level-elections",
       JSON.stringify({

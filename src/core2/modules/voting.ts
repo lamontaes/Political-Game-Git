@@ -29,6 +29,7 @@ import {
 } from "../campaign-views";
 import { townDistrict } from "../offices-state";
 import {
+  openNextContest,
   ELECTIONS_MODULE_ID,
   ballot,
   type ContestRow,
@@ -131,54 +132,56 @@ const ageOn = (p: Readonly<Pick<PersonState, "birthDate">>, date: string) =>
 export function openVoting(core: CoreState): void {
   if (!core.modules.has(VOTING_MODULE_ID)) registerModule(core, VOTING_MODULE);
   const api = coreAPI(core);
-  const calendar = api.moduleCalendar(VOTING_MODULE_ID);
   for (const contest of api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
-    .rows() as unknown as ContestRow[]) {
-    if (contest.electionDate <= core.date) continue;
-    if (contest.filingDeadline > core.date)
-      calendar.schedule({
-        key: `filing-closes:${contest.id}`,
-        date: contest.filingDeadline,
-        kind: "filing-closes",
-        source: {
-          tag: "SOURCED",
-          citation: contest.sources.join(" ; ") || "election calendar",
-          asOf: core.date,
-        },
-        sourceRecordIds: [contest.id],
-      });
-    else fileStandingCandidates(api, contest.id);
-    if (contest.primaryDate && contest.primaryDate > core.date)
-      calendar.schedule({
-        key: `primary:${contest.id}`,
-        date: contest.primaryDate,
-        kind: "primary",
-        source: {
-          tag: "SOURCED",
-          citation: contest.sources.join(" ; ") || "election calendar",
-          asOf: core.date,
-        },
-        sourceRecordIds: [contest.id],
-      });
+    .rows() as unknown as ContestRow[])
+    scheduleContest(api, contest);
+}
+
+/** Put a contest's filing close, primary and election day on the calendar. */
+function scheduleContest(api: CoreAPI, contest: ContestRow): void {
+  const date = api.state.date;
+  const calendar = api.moduleCalendar(VOTING_MODULE_ID);
+  if (contest.electionDate <= date) return;
+  const source = {
+    tag: "SOURCED" as const,
+    citation: contest.sources.join(" ; ") || "election calendar",
+    asOf: date,
+  };
+  if (contest.filingDeadline > date)
     calendar.schedule({
-      key: `election:${contest.id}`,
-      date: contest.electionDate,
-      kind: "election-day",
-      source: {
-        tag: contest.basis === "read" ? "SOURCED" : "ESTIMATED",
-        citation: contest.sources.join(" ; ") || "election calendar",
-        asOf: core.date,
-        ...(contest.basis === "read"
-          ? {}
-          : {
-              estimatedFrom: contest.sources.join(" ; ") || "election calendar",
-            }),
-      },
+      key: `filing-closes:${contest.id}`,
+      date: contest.filingDeadline,
+      kind: "filing-closes",
+      source,
       sourceRecordIds: [contest.id],
     });
-  }
+  else fileStandingCandidates(api, contest.id);
+  if (contest.primaryDate && contest.primaryDate > date)
+    calendar.schedule({
+      key: `primary:${contest.id}`,
+      date: contest.primaryDate,
+      kind: "primary",
+      source,
+      sourceRecordIds: [contest.id],
+    });
+  calendar.schedule({
+    key: `election:${contest.id}`,
+    date: contest.electionDate,
+    kind: "election-day",
+    source:
+      contest.basis === "read"
+        ? source
+        : { ...source, tag: "ESTIMATED", estimatedFrom: source.citation },
+    sourceRecordIds: [contest.id],
+  });
+}
+
+/** Once a seat's contest is decided, its next cycle's contest opens. */
+export function openNextCycle(api: CoreAPI, seatId: string): void {
+  const next = openNextContest(api, seatId);
+  if (next) scheduleContest(api, next);
 }
 
 function votingCalendarWork(
@@ -820,6 +823,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       sourceRecordIds: [result.id],
     });
   else if (winnerId) takeOffice(api, result.id);
+  else openNextCycle(api, contest.seatId);
   return result;
 }
 
@@ -1074,6 +1078,7 @@ function takeOffice(api: CoreAPI, resultId: string): void {
       winnerId: result.winnerId,
     },
   });
+  openNextCycle(api, contest.seatId);
 }
 
 function officialIdentity(

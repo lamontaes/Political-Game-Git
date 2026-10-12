@@ -119,7 +119,7 @@ export const ELECTIONS_MODULE: CoreModule = {
       contests: {
         indexes: {
           byOffice: { fields: ["officeId"] },
-          bySeat: { fields: ["seatId"], unique: true },
+          bySeat: { fields: ["seatId"] },
         },
       },
       filings: {
@@ -337,45 +337,71 @@ export function openElections(core: CoreState): void {
     geoid,
     townPlaceId: place.context.jurisdiction.id,
   });
-  for (const { office, seat, holder } of townSeats(api)) {
-    // The vice president is the president's running mate, not a race.
-    if (!office.elected || office.kind === "vice-president") continue;
-    const dates = nextElectionForSeat({
-      office,
-      stateKey,
-      placeGeoid: geoid,
-      termEnd: holder?.endDate ?? null,
-      onDate: core.date,
-    });
-    if (!dates) continue;
-    const family = officeFamily(office);
-    const daysBefore =
-      family === "countyOffice" || family === "municipalOffice"
-        ? deadlineDaysBefore(stateKey, family)
-        : null;
-    const deadline =
-      daysBefore !== null && dates.basis === "estimated"
-        ? new Date(
-            Date.parse(`${dates.electionDate}T00:00:00Z`) -
-              daysBefore * 86_400_000,
-          )
-            .toISOString()
-            .slice(0, 10)
-        : dates.filingDeadline;
-    const contest: ContestRow = {
-      ...dates,
-      filingDeadline: deadline,
-      id: `contest:${seat.id}:${dates.electionDate}`,
-      officeId: office.id,
-      seatId: seat.id,
-      title: office.title,
-      level: office.level,
-      district: seat.district,
-      family,
-      incumbentTermId: holder?.id ?? null,
-    };
-    table(api, "contests").put(contest as unknown as ModuleRow);
+  for (const entry of townSeats(api)) {
+    const contest = contestFor(api, entry);
+    if (contest) table(api, "contests").put(contest as unknown as ModuleRow);
   }
+}
+
+/** A seat's next contest from today: its real dates, filing deadline and incumbent. */
+function contestFor(
+  api: CoreAPI,
+  { office, seat, holder }: ReturnType<typeof townSeats>[number],
+): ContestRow | null {
+  // The vice president is the president's running mate, not a race.
+  if (!office.elected || office.kind === "vice-president") return null;
+  const { stateKey, geoid } = town(api);
+  const dates = nextElectionForSeat({
+    office,
+    stateKey,
+    placeGeoid: geoid,
+    termEnd: holder?.endDate ?? null,
+    onDate: api.state.date,
+  });
+  if (!dates || dates.electionDate <= api.state.date) return null;
+  const family = officeFamily(office);
+  const daysBefore =
+    family === "countyOffice" || family === "municipalOffice"
+      ? deadlineDaysBefore(stateKey, family)
+      : null;
+  const deadline =
+    daysBefore !== null && dates.basis === "estimated"
+      ? new Date(
+          Date.parse(`${dates.electionDate}T00:00:00Z`) -
+            daysBefore * 86_400_000,
+        )
+          .toISOString()
+          .slice(0, 10)
+      : dates.filingDeadline;
+  return {
+    ...dates,
+    filingDeadline: deadline,
+    id: `contest:${seat.id}:${dates.electionDate}`,
+    officeId: office.id,
+    seatId: seat.id,
+    title: office.title,
+    level: office.level,
+    district: seat.district,
+    family,
+    incumbentTermId: holder?.id ?? null,
+  };
+}
+
+/**
+ * Open a seat's next contest once its last one is decided: each cycle has
+ * its own contest, so the record carries into the next election. Returns
+ * null where the seat has no future election or it is already open.
+ */
+export function openNextContest(
+  api: CoreAPI,
+  seatId: string,
+): ContestRow | null {
+  const entry = townSeats(api).find((s) => s.seat.id === seatId);
+  if (!entry) return null;
+  const contest = contestFor(api, entry);
+  if (!contest || table(api, "contests").get(contest.id)) return null;
+  table(api, "contests").put(contest as unknown as ModuleRow);
+  return contest;
 }
 
 function town(api: CoreAPI) {
