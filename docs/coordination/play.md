@@ -77,8 +77,8 @@ From the CTO's screens playtest (12:45 p.m., Meridian, Idaho):
 - [ ] A law screen: the law in force at each level, from GOV's `lawHere`.
 - [ ] What changed stays empty after a council law is enacted and signed.
 - [ ] The opening's mayor shot is an empty chamber (no figure).
-- [ ] Until needed stopped 7 times in a row on "A choice" (rest, or get in touch) for idle time.
-- [ ] Seed `playtest-0712` hangs New life (9+ minutes, no error).
+- [x] Until needed stopped 7 times in a row on "A choice". Not reproduced on this evening's head: in Melvin Village, New Hampshire (seed skip-a), six week-long skips ran without stopping, the character making 7 choices itself in each.
+- [ ] Seed `playtest-0712` hangs New life. On this evening's head it fails in 67 s with a two-level collapse error instead (see Needs, CORE and WORLD).
 - [ ] Internal ids left on screen: Budgets lines (`individualIncomeTax`), News records. The draft dropdown is fixed: law amounts and policies by name. The loading bar has no step text.
 - [ ] Jobs and study is blank; Money and property shows only cash.
 
@@ -90,7 +90,7 @@ From the owner, via the CTO:
 - [ ] Use every painted place in the art library somewhere (meeting rooms, rallies, Go to), best-tagged match.
 - [ ] The bill menu offers all 18 law areas, as GOV's law reach lands.
 - [ ] The new people art (whole-figure cutouts in `art/people-whole/`): pick by record, place on staging spots scaled by depth, face whoever they're with, draw a contact shadow, and fall back to the people engine with a log line.
-- [ ] Old UI to keep (list under Needs for FIXER), and no new imports from the old folders.
+- [x] Old UI to keep and old imports, listed under Needs for FIXER (a read-only helper made the inventory). No new imports from the old folders.
 
 ## Later specs (my area, M2 to M7)
 
@@ -139,6 +139,9 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-CORE with OPUS-WORLD: seed `playtest-0712` can't open.** It used to hang. On this evening's head it fails after 67 s with "Unsupported collapsed purchase terms: lease:household_402236b51cba9661": the two-level collapse meets a housing lease it doesn't support. Reproduce with `/api/newlife?seed=playtest-0712&date=2026-10-12`.
+- **FIXER (old app removal): keep these approved UI pieces for `/play` to port.** From the old app: `src/player/SceneConversation.tsx` (with `ConversationScales`), `scene-conversation.css`, `PersonPortrait.tsx`, `ConversationStrip.tsx`, `kit12.css`, the Kit 13 letterpress block in `controls/controls.css` (lines 377 to 790), the Kit 13 block in `shell.css` (lines 2853 to 3040), the corner ornaments in `world-orientation.css` (lines 458 to 540), `front-door.css`, `controls/PinToggle.tsx`, `GameSelect.tsx` and `GameRange.tsx`, the search icon markup, and the tests `ow7-ornaments.test.ts` and `SceneConversation.test.tsx`. From `public/`: `fonts/kit12/*`, `ui/kit12/*` and `ui/kit13/*`, including `approved-controls-sheet.png`.
+- **FIXER: old modules `/play` still imports** (keep or move before deleting): `src/simulation/dates`, `life-places`, `history-index` and `world`; `src/presentation/backdrop-people`, `place-backdrops`, `dress-code`, `guide-terms` and `appearance-engine/{recipe,pack,runtime,raster}`. There are 25 import lines in all, in `src/bench/{calendar,card,family,m0-check,opening,places,player,progress,scene,server,story,world}.ts`. I'll add no new ones.
 - **OPUS-WORLD: `dwellingKind` is empty on the opening day.** The dwellings table fills when housing's first day closes (`onDay`), so the opening and the first home scene show the default house even when the opening data says mobile home. Please have `dwellingKind` answer from `placeMetadata.housingDwellings` until the table is loaded.
 - **OPUS-GOV with OPUS-PEOPLE: rivals never decide to run.** PEOPLE's `decideToRun` (`src/core2/modules/candidacy.ts:141`) is installed in `/play`, but nothing calls it when a contest opens, so a local race is you against the incumbent (audit 2, "Who runs"). The bench shouldn't call it on its own schedule, which would be a second scheduler. GOV's elections calendar should, on the day a contest opens, ask the adults it reaches and file (`fileCandidacy`) for each who decides to run.
 - **OPUS-CORE (M7-01, memory): memory grows by about 1.9 GB over a year of `/play`.** Eschbach, Washington (seed year-a, two-level, all 35 modules): 2.3 GB resident after the build, 4.2 GB after one year of Until needed. Earlier, Squaw Lake, Minnesota went from 2.3 GB to 3.4 GB in three months. Worth finding what accumulates (logs, histories, module tables) before the store's system requirements are set.
