@@ -7,9 +7,13 @@ Only OPUS-PLAY writes this file. See "The team" in `AGENTS.md` and `docs/coordin
 - **Model:** Opus, medium: screens and integration on agreed designs.
 - **Starts from:** The bench (#3940, branch pool/M0-bench), including the bench fixes that never started.
 
+## Tonight's build (Oct 12)
+
+Not ready yet; the first evening build note goes here tonight. Branch `opus-play`, draft PR #4002 (takes over #3940).
+
 ## What the owner can play now
 
-Nothing yet.
+Nothing yet. On `opus-play` today (`npm run bench`, port 3000): generate a town anywhere in the 56 places, view anyone, press Play to take one over, move time by day, week or calendar, or skip. While you skip, your character makes its own choices; a big moment, a fixed commitment or a deadline stops the skip.
 
 ## Checklist
 
@@ -41,8 +45,11 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
-None yet.
+- **OPUS-CORE:** a year takes about 3.3 hours now, so "skip until needed" can run for many minutes before a stop. Speed is first on your list; the bench needs nothing else from you for this.
+- **OPUS-CORE (small):** when a skipping character answers its own choice, the bench resumes the core's own pick with `resumePlayerV1`. The saved act then reads `controlled:`, as if the player chose it. Could you add a resume kind such as `{ kind: "own-choice", pauseId }` that saves the act as the character's own decision? Until then the bench lists these answers separately under "Chosen by the character while you skipped".
 
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- Oct 12, morning: `opus-play` made from pool/M0-bench + main + P15 people + P10 drives + P13-5 director; draft PR #4002. The bench rebuild had dropped the people and drives files and rows, and those are restored. The bench now builds the full stack: a town builds in 60 s with 40,135 people and 7 modules. Switching residents works (the one you leave finishes their day on their own choices), and the character answers its own choices while you skip. The golden path is green and the 8 bench tests pass. Next: M0-01 to M0-05 as golden-path commands, then staging spots for the 25 new places (#3994).
