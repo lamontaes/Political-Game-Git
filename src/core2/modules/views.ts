@@ -51,6 +51,8 @@ const v = (key: string): number => {
 };
 
 export const VIEWS_MODULE_ID = "views";
+/** The fact a speech event carries: the speaker's lean, -2 to +2. */
+export const VIEWS_SPEECH_LEAN_KEY = "speech:lean";
 
 export interface PersonView {
   id: PersonId;
@@ -217,8 +219,22 @@ export const viewsModule: CoreModule = {
       if (!view) continue;
       const id = `${personId}:${event.topic}`;
       const prior = stancesTable(api).get(id) as unknown as Stance | undefined;
+      // A speech persuades listeners in proportion to how near their lean is
+      // to the speaker's; one far away is not moved.
+      const speechLean = Number(event.facts?.[VIEWS_SPEECH_LEAN_KEY]);
+      const nearness = Number.isFinite(speechLean)
+        ? Math.max(
+            v("zero"),
+            v("one") -
+              Math.abs(view.lean - speechLean) / (v("leanMax") - v("leanMin")),
+          )
+        : v("one");
       const change =
-        v("stanceStep") * size * (v("one") - v("tightness") * view.engagement);
+        v("stanceStep") *
+        size *
+        nearness *
+        (v("one") - v("tightness") * view.engagement);
+      if (change <= v("zero")) continue;
       const same = prior?.desiredChange === event.desiredChange;
       const strength = Math.min(
         v("one"),

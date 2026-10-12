@@ -518,7 +518,7 @@
       "golden_path": "10",
       "package": "M4-words",
       "test": "In a random place, the player gives a speech built from structured choices with an exact wording preview; each listener reacts by who they are and retells it; salient speeches are retold over time, remembered more strongly by people aged about 10 to 30 at the time, and passed to children as weaker secondhand knowledge.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/speech.test.ts",
       "passes": false
     },
     {

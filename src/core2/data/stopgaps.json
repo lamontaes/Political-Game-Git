@@ -1354,5 +1354,17 @@
     "addedAt": "2026-10-12",
     "replacement": "Named local outlets with real audiences and each person's recorded media habits (Pew local news surveys), checked against how fast election results spread.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-speech-reception",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/data/speech/parameters.json",
+    "line": 1,
+    "whatItFakes": "How much a speech moves listeners and who retells it; retelling reaches only the listener's household.",
+    "why": "Speeches (M4-04) need a first reception model; persuasion research gives directions and small averages, not these coefficients.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Reception calibrated to persuasion experiments by audience and message (Coppock 2023), retelling through friends and the news module, and memory by age (M4-04).",
+    "status": "open"
   }
 ]
