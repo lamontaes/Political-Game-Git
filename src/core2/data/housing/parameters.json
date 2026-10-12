@@ -40,5 +40,16 @@
     "value": 18,
     "tag": "SOURCED",
     "citation": "A householder signs for a home as an adult; 18 is the age of majority in most states."
+  },
+  "housingBankMortgageShareOfLoans": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Loans secured by one-to-four family homes are about a quarter to a third of community banks' loans (FDIC Community Banking Study 2020 and Quarterly Banking Profile).",
+    "spread": {
+      "low": 0.2,
+      "high": 0.4,
+      "unit": "share of loans",
+      "citation": "Loans secured by one-to-four family homes are about a quarter to a third of community banks' loans (FDIC Community Banking Study 2020 and Quarterly Banking Profile)."
+    }
   }
 }

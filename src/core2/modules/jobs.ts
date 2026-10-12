@@ -807,6 +807,11 @@ function runWeek(api: CoreAPI): void {
   for (const row of positions)
     byPlace.set(row.placeId, [...(byPlace.get(row.placeId) ?? []), row]);
   const applications = new Map<string, SeekerRow[]>();
+  const apply = (positionId: string, seeker: SeekerRow) => {
+    const list = applications.get(positionId);
+    if (list) list.push(seeker);
+    else applications.set(positionId, [seeker]);
+  };
   for (const seeker of store(api)
     .table("seekers")
     .query("all", [true]) as unknown as SeekerRow[]) {
@@ -827,7 +832,7 @@ function runWeek(api: CoreAPI): void {
     ]);
     if (result.selected!.definition.id !== jobsData.actions.apply.id) continue;
     const id = result.selected!.targetId;
-    applications.set(id, [...(applications.get(id) ?? []), seeker]);
+    apply(id, seeker);
   }
   // Counted seekers apply to every opening in their place; they decide nothing through the chooser until filled in (stopgap).
   const counted = store(api)
@@ -841,10 +846,9 @@ function runWeek(api: CoreAPI): void {
         !seeker.employed ||
         position.hourlyMinor > seeker.referenceHourlyMinor
       )
-        applications.set(position.id, [
-          ...(applications.get(position.id) ?? []),
-          seeker,
-        ]);
+        apply(position.id, seeker);
+  // Each seeker's fit for an occupation, worked out once a week.
+  const fits = new Map<string, number>();
   for (const position of positions) {
     // A role copied from a counted worker can go only to a counted seeker until full roles exist there.
     const fullRole = c.jobs.has(position.templateJobId);
@@ -852,14 +856,27 @@ function runWeek(api: CoreAPI): void {
       .get(position.id)
       ?.filter((row) => fullRole || isCounted(api, row.personId));
     if (!applicants?.length) continue;
-    const fit = (seeker: SeekerRow) =>
-      p("jobsFitExperienceWeight") *
-        experienceYears(api, seeker.personId, position.occupation) +
-      p("jobsFitReliabilityWeight") *
-        (traitsOf(api, seeker.personId)[jobsData.traits.reliability] ?? 0);
-    const best = [...applicants].sort(
-      (a, b) => fit(b) - fit(a) || a.id.localeCompare(b.id),
-    )[0]!;
+    const fit = (seeker: SeekerRow) => {
+      const key = `${seeker.personId}|${position.occupation}`;
+      let value = fits.get(key);
+      if (value === undefined)
+        fits.set(
+          key,
+          (value =
+            p("jobsFitExperienceWeight") *
+              experienceYears(api, seeker.personId, position.occupation) +
+            p("jobsFitReliabilityWeight") *
+              (traitsOf(api, seeker.personId)[jobsData.traits.reliability] ??
+                0)),
+        );
+      return value;
+    };
+    let best = applicants[0]!;
+    for (const row of applicants) {
+      const gap = fit(row) - fit(best);
+      if (gap > 0 || (gap === 0 && row.id.localeCompare(best.id) < 0))
+        best = row;
+    }
     if (isCounted(api, best.personId)) {
       if (hireCounted(api, position, best, fit(best)))
         for (const row of applications.values())
