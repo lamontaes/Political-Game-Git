@@ -474,6 +474,7 @@ const server = createServer(async (request, response) => {
           memberId: q("memberId"),
           series: q("series"),
           question: q("question"),
+          line: q("line"),
           value: q("value") === undefined ? undefined : Number(q("value")),
           deal: q("deal"),
         }),

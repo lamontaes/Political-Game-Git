@@ -735,11 +735,24 @@ async function seatRows() {
         if (a.unit?.startsWith("minor")) option.dataset.cents = "1";
         return option;
       }),
-      ...v.questions.map((q) =>
-        el("option", {
-          value: `question:${q}`,
-          textContent: policyLabel(q),
-        }),
+      // Every law area, one group each: its policies and budget lines.
+      ...(v.menus ?? []).map((menu) =>
+        el(
+          "optgroup",
+          { label: menu.name },
+          ...menu.items.map((item) => {
+            const option = el("option", {
+              value: item.question
+                ? `question:${item.question}`
+                : `line:${item.line}`,
+              textContent: item.question
+                ? policyLabel(item.question)
+                : item.name,
+            });
+            if (item.line) option.dataset.cents = "1";
+            return option;
+          }),
+        ),
       ),
     );
     const value = el("input", {
@@ -757,7 +770,11 @@ async function seatRows() {
       act({
         kind: "draft",
         officeId: body.officeId,
-        ...(kind === "series" ? { series: key } : { question: key }),
+        ...(kind === "series"
+          ? { series: key }
+          : kind === "line"
+            ? { line: key }
+            : { question: key }),
         value: cents
           ? String(Math.round(Number(value.value) * 100))
           : value.value,
