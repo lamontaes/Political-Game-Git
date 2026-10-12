@@ -18,7 +18,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "Three different seeds give three different places in three different states or territories; each builds without error; and every resident on the list exists in the core's records.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-01",
       "passes": false
     },
     {
@@ -28,7 +28,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "Over 7 days, every act on the chosen person's record came from a choice made on screen, other residents' lives continue, and choosing an option nobody offered is impossible.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-02",
       "passes": false
     },
     {
@@ -38,7 +38,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "A skip from a random date stops exactly at the earliest of: a moment at or over the 0.50 interrupt line, a fixed commitment that needs the player (a routine work shift the character attends on its own never stops a skip; owner, Oct 12), or an offer with a deadline; it says which one; nothing was skipped past.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-03",
       "passes": false
     },
     {
@@ -48,7 +48,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "20 randomly sampled items on screen each open a 'why' with scores and record ids that exist in the core; none is made up for display.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-04",
       "passes": false
     },
     {
@@ -58,7 +58,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "For a fresh life, steps 1-2 show reachable, steps 3-11 show the specific missing module, and the world pieces show 'not in the new core yet' until M1 lands.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-05",
       "passes": false
     },
     {
@@ -88,7 +88,7 @@
       "golden_path": "core",
       "package": "M0-core",
       "test": "A full year in a random place: under 10% of businesses close; sales pay more than half of all wages; every dollar balances; outside money is reported next to real public spending and Social Security per resident; national conditions flat and labeled until M1.",
-      "command": null,
+      "command": "CORE2_BOOKKEEPING=0 node --import tsx scripts/core2-year/closures.mjs",
       "passes": false
     },
     {
@@ -138,7 +138,7 @@
       "golden_path": "world",
       "package": "M1-laws",
       "test": "For a random place, tracked laws (minimum wage; income, sales and property taxes; major benefit amounts) match that place's real starting law at every level; a higher level's override wins where it legally does; a law that hasn't taken effect yet doesn't apply.",
-      "command": null,
+      "command": "npx vitest run src/core2/laws.test.ts --testTimeout=300000",
       "passes": false
     },
     {
@@ -148,7 +148,7 @@
       "golden_path": "world",
       "package": "M1-macro",
       "test": "A one-year run keeps national figures within real historical spreads (each month's 12-month change in unemployment, prices and payroll jobs, and each quarter's output growth, inside the 5th to 95th percentile of 1990 to the latest year); a rate decision changes what loans cost in the town; every decision is traceable to the members' reasons, with no random draws.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts",
       "passes": false
     },
     {
@@ -258,7 +258,7 @@
       "golden_path": "world",
       "package": "M1-officials",
       "test": "In a random place, every seat that covers the player has a holder with a record and a term; a vacancy is filled the way that office's real rules say.",
-      "command": null,
+      "command": "npx vitest run src/core2/offices.test.ts --testTimeout=300000",
       "passes": false
     },
     {
@@ -288,7 +288,7 @@
       "golden_path": "3",
       "package": "M2-filing",
       "test": "In a random place, the next local, state and federal elections have that place's real dates, and filing requires exactly what that place's rules require (age, residency, registration, a fee or signatures), read from data.",
-      "command": null,
+      "command": "npx vitest run src/core2/elections-filing.test.ts --testTimeout=300000",
       "passes": false
     },
     {
@@ -308,7 +308,7 @@
       "golden_path": "4",
       "package": "M2-campaigns",
       "test": "In a random place, after filing, each campaign activity (doors, volunteers, fundraising within real contribution limits, events and speeches, ads, endorsements, staff) changes what specific people know and think, each change with a recorded cause; support never moves without one; rivals campaign with the same tools.",
-      "command": null,
+      "command": "npx vitest run src/core2/campaigns.test.ts --testTimeout=300000",
       "passes": false
     },
     {
@@ -318,7 +318,7 @@
       "golden_path": "4",
       "package": "M2-campaigns",
       "test": "In a random place, a poll reports what the people it actually contacted told the pollster (including undecided and no opinion), with a computed margin of error; no contacts means no poll; true support is never shown on screen.",
-      "command": null,
+      "command": "npx vitest run src/core2/campaigns.test.ts --testTimeout=300000",
       "passes": false
     },
     {
@@ -328,7 +328,7 @@
       "golden_path": "5",
       "package": "M2-elections",
       "test": "In a random place, election day falls on the place's real date; named people vote as themselves and voter groups as groups, each vote from what that person knows and thinks and turnout from their own circumstances, with no roll; filling a person in never adds a ballot; primaries and runoffs follow the place's rules; election night shows exit polls of real voters reporting what they told the pollster; the winner takes the seat on the real start date.",
-      "command": null,
+      "command": "npx vitest run src/core2/voting.test.ts --testTimeout=900000",
       "passes": false
     },
     {
@@ -338,7 +338,7 @@
       "golden_path": "5",
       "package": "M2-elections",
       "test": "In a random place, parties are organizations with members, leaders and rules; each person's party tie comes from their views plus loyalty; no party and independent both exist; nothing assumes exactly two permanent parties.",
-      "command": null,
+      "command": "npx vitest run src/core2/parties.test.ts --testTimeout=900000",
       "passes": false
     },
     {
@@ -358,7 +358,7 @@
       "golden_path": "11",
       "package": "M2-elections",
       "test": "In a random place, at the following election an incumbent's record (votes, promises kept or broken, what changed, what surfaced) changes specific voters' choices, each with its reason, and rivals' attack ads draw on it.",
-      "command": null,
+      "command": "npx vitest run src/core2/record.test.ts --testTimeout=900000",
       "passes": false
     },
     {

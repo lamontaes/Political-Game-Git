@@ -3,14 +3,14 @@
   "register": "meeting-procedure",
   "description": "Short procedural phrases mined from Congressional Record debate and committee hearing transcripts.",
   "slots": {},
-  "maxWords": 12,
+  "maxWords": 13,
   "mining": {
     "tool": "manual source review",
     "read": "Congressional Record floor proceedings and House committee hearing transcripts; short procedural moves retained with their source record."
   },
   "parts": [
     {
-      "key": "meeting-procedure.reserve-balance",
+      "key": "meeting-procedure.reserve-time.reserve-balance",
       "move": "reserve-time",
       "kind": "spoken",
       "text": "I reserve the balance of my time.",
@@ -23,7 +23,7 @@
       }
     },
     {
-      "key": "meeting-procedure.reclaim-and-reserve-time",
+      "key": "meeting-procedure.reclaim-time.reclaim-and-reserve-time",
       "move": "reclaim-time",
       "kind": "spoken",
       "text": "I reclaim my time, and I will reserve the balance of my time.",
@@ -36,7 +36,7 @@
       }
     },
     {
-      "key": "meeting-procedure.yield-self-time",
+      "key": "meeting-procedure.take-floor-time.yield-self-time",
       "move": "take-floor-time",
       "kind": "spoken",
       "text": "I yield myself such time as I may consume.",
@@ -49,7 +49,7 @@
       }
     },
     {
-      "key": "meeting-procedure.yield-back-time",
+      "key": "meeting-procedure.yield-time.yield-back-time",
       "move": "yield-time",
       "kind": "spoken",
       "text": "I yield back the balance of my time.",
@@ -62,7 +62,7 @@
       }
     },
     {
-      "key": "meeting-procedure.ask-consent-order",
+      "key": "meeting-procedure.consent-ruling.ask-consent-order",
       "move": "consent-ruling",
       "kind": "spoken",
       "text": "Without objection, so ordered.",
@@ -75,7 +75,7 @@
       }
     },
     {
-      "key": "meeting-procedure.hearing-order",
+      "key": "meeting-procedure.call-to-order.hearing-order",
       "move": "call-to-order",
       "kind": "spoken",
       "text": "will come to order.",
@@ -88,7 +88,7 @@
       }
     },
     {
-      "key": "meeting-procedure.question-amendment",
+      "key": "meeting-procedure.put-amendment-question.question-amendment",
       "move": "put-amendment-question",
       "kind": "spoken",
       "text": "The question is on the amendment",
@@ -101,7 +101,7 @@
       }
     },
     {
-      "key": "meeting-procedure.amendment-agreed",
+      "key": "meeting-procedure.amendment-ruling.amendment-agreed",
       "move": "amendment-ruling",
       "kind": "spoken",
       "text": "The amendment was agreed to.",

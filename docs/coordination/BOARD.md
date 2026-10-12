@@ -12,6 +12,9 @@ Only the CTO writes this file. Each session keeps its own status file in this fo
 | OPUS-PLAY   | `play.md`   | `opus-play`, from `pool/M0-bench`                      | Opus, medium | Mon Oct 12, 3 a.m. |
 | OPUS-WORLD  | `world.md`  | `opus-world`, from `pool/M1-macro`                     | Opus, medium | Mon Oct 12, 3 a.m. |
 | FIXER       | `fixer.md`  | `fixer/<bug>`, one per bug                             | Sonnet, high | Mon Oct 12, 3 a.m. |
+| OPUS-TRAITS | `traits.md` | `opus-traits`, from `pool/P15-people-5` + `main`       | Opus, high   | Mon Oct 12         |
+
+OPUS-TRAITS owns data/content/trait-act-pulls.json and trait coverage (from Oct 12).
 
 All six start at 3:07 a.m. Monday from one-off routines on the coordinator account.
 
@@ -92,6 +95,39 @@ The owner asked what history, meetings, groups, places, interviews and laws the 
 
 After its checklist, every session keeps going through its area's specs in every later milestone (`docs/roadmap/later-specs-draft.md`), then the open work below.
 
+## Old engine removal (owner's top priority for FIXER, Oct 12; CTO assignment 4:05 p.m.)
+
+- **Phase 1:** FIXER's #4036 deletes about 1,880 old files the new game never reaches. It lands right after the game screen (#4038), which follows GOV (#4037). FIXER keeps #4036 merged with main until then.
+- **Phase 2:** about 1,600 old files stay only because new code still imports them. Each owner switches these imports to the new core or its own folders. Then FIXER deletes the rest:
+  - **OPUS-PLAY:** `src/bench/scene.ts` uses the old presentation appearance engine (layered people), backdrops and dress code. Switch scenes to the whole-figure library in `art/people-whole` (owner, Oct 12: these are the only people). Read backdrops through `art/backdrops/manifest.json`.
+  - **OPUS-GOV:** `src/rules/legislatures` and `src/rules/economy` use types and rules from `src/simulation`. Move what they need into `src/rules` or `src/core2`.
+  - **OPUS-CORE:** `tests/golden-path/place.ts` and `tests/fixtures/*` use `src/simulation/life-places`. Read places through the core's own place data.
+  - **FIXER:** the map preview (`src/maps/MapPlaceContext.tsx`, `map-preview-entry.tsx`, `map-preview.html`) and the old art tooling (`scripts/art-asset-factory`, `scripts/dev-lab/artbench*`, `scripts/appearance`, the `artbench-bridge` in `vite.config.ts`) go with the old people engine.
+- **Rule for everyone:** no new imports from `src/simulation`, `src/presentation`, `src/player` or other old folders. When your last old import is gone, write it in your status file.
+
+## Researched stand-in numbers to apply (CTO, Oct 12, 4:10 p.m.)
+
+FIXER checked all 111 rows of `data/research/stand-in-figures-2026-10-12.json`. 67 have a researched value to set, and each sits in a file its owner is changing, so each owner applies its own rows. FIXER's `docs/coordination/fixer.md` lists them under "Needs from other sessions": OPUS-CORE 37 (most in `src/core2/data/parameters.json`), OPUS-PEOPLE 19, OPUS-GOV 6, OPUS-WORLD 5. Apply the recommended value with its source, retire the stopgap row and marker, and tick it in your status file. This is part of M7-03 (zero placeholders).
+
+## Carry over from old PRs (CTO audit, Oct 12, 4:15 p.m.)
+
+An audit of the 204 old open PRs found that most are old-engine only. These pieces are unique and belong in the new core. Take them from the named PR's branch (`gh api repos/lamontaes/Political-Game-Git/compare/main...<branch>`). Re-port them; don't merge the old PR. Details are in `cto-notes/stale-pr-audit-2026-10-12.md` on the CTO's machine; ask the CTO for any row.
+
+- **OPUS-GOV:**
+  - Research with no consumer yet: presidential-rules.json, presidential-placeholder-ledger.json and state-reference.json (#3904); council-meeting-intervals.json (#2880); chamber-leadership.json (#3788); citizen-measure-change-back.json (#2497); poll-interview-prices.json (#2486; it can replace the $30 poll stopgap).
+  - Law amounts to re-port into the `starting-law-2026/*` shards: #2200 (fiscal), #2217 (transportation mileage fees), #2221 (civil-family-community), and #2229 with #3575 (government-operations; dedupe the two).
+  - Decide whether `src/rules/campaigns/**` (#3951) and `src/rules/governing/**` (#3952, executive acts) have anything your core2 modules lack.
+- **OPUS-PEOPLE (with OPUS-CORE):** history-people.ts, opening-history.ts, the deep-past `fromInclusive` window and `src/core2/data/history/*` (#3961), for history back to 2000. Also the views research notes (#3965).
+- **OPUS-WORDS:** the debt-notice (#3791), lie-and-tell (#3843) and government-form (#3909) banks. Compare life-story (#3834) with journal.json, and presidential-address (#3913) with address.json, before carrying either.
+- **OPUS-PLAY:** `art/backdrops/staging.json` spots main lacks; carry them by hand: courtroom seats (#3442), classroom (#3492), diner (#3504), polling place (#3548), convention hall and rally stage (#3567, #3796), debate stage (#3531), office (#3547).
+- **OPUS-WEB:** the births-level link marked unsupported in outcome-web data (#3842). Decide whether `src/rules/outcome-web/**` (#3933) adds anything.
+- **OPUS-CORE and OPUS-WORLD, when the engines start:** jury, disaster, birth-citizenship, employer-pay and starting-cohort research (#3784); crime severity (#3694); federal housing estimates (#3767); occupation entry requirements (#3772).
+- **Features the old engine had and the new core lacks** (re-spec, nothing to copy):
+  - GOV: executive acts, committee assignments, leadership races, public meetings, press interviews, Article V amendments and petition circulation.
+  - PEOPLE: home and school presence at life start.
+  - PLAY: the Options challenge control.
+  - CORE: disasters and hazards.
+
 ## Merge order
 
 The core first, then government, people and world on top, then the evening build. The CTO merges; nobody merges their own work. The core onto main needs the owner's approval.
@@ -131,6 +167,14 @@ As of Oct 12, 4:25 a.m.:
 - **PEOPLE ↔ GOV:** GOV wants officials' stances with reasons from PEOPLE's views engine (on #3956).
 - **OPUS-PEOPLE → OPUS-PLAY (Oct 12, 3:36 a.m.):** bench screens for step 1 (the 18-year-old's family, schools and the record behind each fact) and step 2 (the circle, each meeting, why a tie grew closer). The data is `pastFacts`, `knownIds` and each relationship's `latestChange` on `pool/P15-people-5`. PLAY's bench item already brings that branch in.
 - **OPUS-PEOPLE → CTO, answered (3:40 a.m.):** the PR suite is at about 288 s of its 300 s budget. Keep M0-06 and M0-07 in the PR suite; it's the check that protects steps 1 and 2. Load each place's data once per suite run instead of once per check. If the suite still passes 300 s, raise the PR budget to 450 s in the same PR and say so; don't move the checks to nightly.
+- **OPUS-WEB needs measures (Oct 12):** the outcome web runs 116 of its 221 researched links on the new core (`src/core2/modules/outcome-web.ts`); the rest wait on measures listed with their links in `src/core2/data/outcome-web/coverage.json` (`measuresWanted`). Each pillar can also read the web's factor on a measure it sets itself with `outcomeWebFactor(api, placeId, measure)`.
+  - OPUS-WEB needs measures from OPUS-GOV (48 measures, 65 links): school records (graduation, test scores, years completed), pretrial detention, election results and incumbent votes, budget lines (disaster preparedness, parks), program dollars (child benefit, EITC), federal bill terms (defense, deficit, farm payments, rail), and the state minimum wage as a measure (`labor.minimum-wage-change-pct`, `labor.minimum-wage-to-median`). Also: elections should read turnout's factor (`voting.turnout-pct`).
+  - OPUS-WEB, seen while testing, for OPUS-WORLD: in Hawthorne, New Jersey (place seed `speed-oct12`, purpose `outcome-web-speed`, two-level, world modules), the housing review stops the run on March 6, 2021 with "Institutional work must be placed on an unprocessed future date" (`housing.ts:380`), with or without the web.
+  - OPUS-WEB needs measures from OPUS-WORLD (26 measures, 36 links): evictions, home prices and rent as factors their engines read, household income and poverty by place, past-due debt, employment rate, low-wage jobs, real income growth. Also: prices and median earnings should read the web's factor (`household.prices`, `labor.median-earnings`).
+  - OPUS-WEB needs measures from OPUS-PEOPLE (27 measures, 32 links): health coverage per person, mortality, local newspapers, births by tenure, and each person's exposure records for the person-level links (years covered, years in a better area, childhood SNAP years). Also: renewal should read births' factor (`births.rate`).
+  - OPUS-WEB asks OPUS-PLAY: load `OUTCOME_WEB_MODULE` next to the world modules in the bench and the evening build, so the owner sees place outcomes and each person's outcome record.
+  - OPUS-WEB asks OPUS-GOV: a law's baseline is the real law at the research's calibration date (July 1, 2024), read from your `laws` table. If laws passed in play are written to that table too, mark them (or keep them only in `enactments`) so they never count as the place's real starting law.
+  - OPUS-WEB needs measures from OPUS-CORE (16 measures, 20 links): a crime engine (property crime, larceny, reoffending, reported crime) that reads the web's crime factors, severe disasters and their damage, and local environment readings. Also seen while testing: `closeBusinessByChoice` on a town's largest firm in a world-economy town crashes payroll a few days later ("Payroll cash amount or stock is malformed or overflows", `work-payroll-cash.ts:276`), with or without the web.
 - **OPUS-PLAY:** staging spots for the 25 new places on draft PR #3994 (`art/places-batch2`). This is the first step of PLAY's art item. The CTO merges #3994 once its anchors test is green.
 
 ## Owner decisions in force

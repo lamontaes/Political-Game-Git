@@ -10,6 +10,30 @@ import policies from "./policies.json" with { type: "json" };
 const moduleAt = (path) =>
   import(pathToFileURL(resolve(process.cwd(), path)).href);
 export async function prepareWorld({ seed, placeKey }) {
+  // The game's path: the two-level opening with the economy (OPUS-CORE's
+  // generated world). Older revisions without it time the full-population
+  // opening below.
+  const generated = await moduleAt(
+    "src/core2/tooling/generated-world.ts",
+  ).catch(() => undefined);
+  if (generated?.generatedOpening) {
+    const started = performance.now();
+    const input = generated.generatedOpening(
+      { seed, key: placeKey },
+      { twoLevel: true },
+    );
+    return {
+      input,
+      phases: { opening: performance.now() - started },
+      place: {
+        key: input.placeMetadata?.placeKey ?? placeKey,
+        name: input.placeMetadata?.placeName,
+        countyNames: input.placeMetadata?.countyNames,
+        referencePopulation: input.placeMetadata?.referencePopulation,
+      },
+      peers: undefined,
+    };
+  }
   const [
     { buildPopulation },
     { buildDeepPast },
@@ -108,11 +132,11 @@ export async function runMonth({ seed, placeKey, output }) {
   const advanceStarted = performance.now(),
     receipt = advanceCore(
       core,
-      addDays(makeIsoDate(input.startedAt), policies.monthDays),
+      addDays(makeIsoDate(input.startedAt), policies.measuredDays),
     ),
     advanceMilliseconds = performance.now() - advanceStarted;
-  if (receipt.simulatedDays !== policies.monthDays)
-    throw new Error("Clock did not advance the complete month");
+  if (receipt.simulatedDays !== policies.measuredDays)
+    throw new Error("Clock did not advance the complete measured span");
   const result = {
     schema: "core2-month-v1",
     revision: execFileSync("git", ["rev-parse", "HEAD"], {
@@ -134,7 +158,8 @@ export async function runMonth({ seed, placeKey, output }) {
     settings: {
       openingEmployment: true,
       scheduledWork: true,
-      monthDays: policies.monthDays,
+      measuredDays: policies.measuredDays,
+      twoLevel: true,
     },
     host: {
       hostname: hostname(),

@@ -1,0 +1,242 @@
+/**
+ * M4-06 (golden path step 11): the record follows you.
+ *
+ * In a random place an incumbent made a promise in a real speech, then cast a
+ * vote that broke it. At the next election that record changes specific
+ * voters' choices, each with its reason on their ballot, and the rival's
+ * attack ad draws on it (and only on it).
+ *
+ * The council vote is written through `recordVote` directly: an edge-case
+ * fixture until councils on core2 (golden path step 6) cast votes themselves.
+ */
+import { createHash } from "node:crypto";
+import { describe, expect, it } from "vitest";
+import { govReport } from "./gov-test-report";
+import { buildPopulation } from "./population";
+import { createLifeCore } from "./life";
+import { coreAPI } from "./state";
+import { openOffices, townSeats } from "./modules/offices";
+import {
+  ELECTIONS_MODULE_ID,
+  ballot,
+  fileCandidacy,
+  openElections,
+  requestSignature,
+  type ContestRow,
+  type FilingRow,
+} from "./modules/elections";
+import {
+  askForDonation,
+  campaignFor,
+  giveSpeech,
+  knockDoors,
+  openCampaigns,
+  runAd,
+} from "./modules/campaigns";
+import { openParties } from "./modules/parties";
+import {
+  ballotOf,
+  fileStandingCandidates,
+  holdElection,
+  openVoting,
+} from "./modules/voting";
+import { openRecord, promisesOf, recordVote } from "./modules/record";
+import { PLATFORM_QUESTIONS } from "./campaign-views";
+import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
+import {
+  lifePlaceCoverage,
+  lifePlaceSearch,
+  lifePlaceStateIdentities,
+} from "../simulation/life-places";
+
+const START = "2026-01-05";
+const seed =
+  process.env.GOLDEN_PATH_SEED ??
+  createHash("sha256").update(`record:${Date.now()}`).digest("hex");
+const states = [...lifePlaceStateIdentities()]
+  .map((s) => s.jurisdictionKey)
+  .sort();
+function pick<T>(list: readonly T[], salt: string): T {
+  const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
+  return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
+}
+
+describe("M4-06 the record follows you", () => {
+  it("an incumbent's broken promise changes specific voters' choices, with reasons, and feeds the rival's attack ad", () => {
+    let place = process.env.GOLDEN_PATH_PLACE_KEY;
+    let core = null as ReturnType<typeof createLifeCore> | null;
+    let contest: ContestRow | undefined;
+    // A place whose town has a local seat held by a resident and up this cycle.
+    for (let attempt = 0; attempt < 8 && !contest; attempt += 1) {
+      const state = pick(states, `state:${attempt}`);
+      const places = [
+        ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+          stateJurisdictionKey: state,
+          scope: "locality",
+        }),
+      ].sort((a, b) => a.key.localeCompare(b.key));
+      const key =
+        attempt === 0 && place ? place : pick(places, `place:${attempt}`).key;
+      core = createLifeCore(
+        buildPopulation({
+          seed,
+          placeKey: key,
+          startedAt: START,
+          minimumPeople: 300,
+        }),
+      );
+      openOffices(core, seed);
+      openElections(core);
+      openCampaigns(core);
+      openParties(core);
+      openVoting(core);
+      openRecord(core);
+      const api = coreAPI(core);
+      const held = new Set(
+        townSeats(api)
+          .filter(
+            (s) =>
+              s.holder?.personId &&
+              s.office.level !== "federal" &&
+              s.office.level !== "state",
+          )
+          .map((s) => s.seat.id),
+      );
+      contest = (
+        api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("contests")
+          .rows() as unknown as ContestRow[]
+      ).find((c) => held.has(c.seatId) && c.incumbentTermId);
+      place = key;
+    }
+    expect(
+      contest,
+      "no town with a resident-held local seat up for election",
+    ).toBeDefined();
+    const api = coreAPI(core!);
+    fileStandingCandidates(api, contest!.id);
+    const incumbentFiling = ballot(api, contest!.id)[0]!;
+    const incumbent = core!.people.get(incumbentFiling.personId)!;
+    // A challenger from town files (by fee or signatures).
+    const challenger = [...core!.people.values()]
+      .filter(
+        (p) =>
+          p.id !== incumbent.id &&
+          Number(START.slice(0, 4)) - Number(p.birthDate.slice(0, 4)) >= 30,
+      )
+      .sort(
+        (a, b) => b.liquidMinor - a.liquidMinor || a.id.localeCompare(b.id),
+      )[0]!;
+    const filed = fileCandidacy(api, {
+      personId: challenger.id,
+      contestId: contest!.id,
+      platform: [],
+      payFee: true,
+    });
+    if (filed.status !== "refused") {
+      let f = filed.filing;
+      for (const n of [...core!.people.keys()].sort()) {
+        if (f.status === "on-ballot") break;
+        requestSignature(api, f.id, n);
+        f = api
+          .moduleState(ELECTIONS_MODULE_ID)
+          .table("filings")
+          .get(f.id) as unknown as FilingRow;
+      }
+    }
+    // The incumbent campaigns on a promise, in a real speech to people who know them.
+    // A question voters divide on (under the views stand-in, a question with
+    // no left-right split moves nobody).
+    const question = pick(
+      PLATFORM_QUESTIONS.filter(
+        (q) =>
+          Math.abs(
+            (axes.axes as Record<string, { axis: number }>)[q]?.axis ?? 0,
+          ) >= 0.3,
+      ),
+      "promise",
+    );
+    knockDoors(api, {
+      filingId: incumbentFiling.id,
+      canvasserId: incumbent.id,
+      hours: 6,
+    });
+    giveSpeech(api, {
+      filingId: incumbentFiling.id,
+      venue: "town-hall",
+      statements: [{ question, position: 1 }],
+    });
+    // Fixture: the council vote that breaks it.
+    recordVote(api, {
+      personId: incumbent.id,
+      body: contest!.officeId,
+      measureId: "fixture-measure",
+      stance: { question, position: -1 },
+      passed: true,
+    });
+    expect(promisesOf(api, incumbent.id).map((p) => p.status)).toContain(
+      "broken",
+    );
+    // The rival's attack ad, paid with money raised from warm neighbors.
+    const rivalFiling = ballot(api, contest!.id).find(
+      (f) => f.personId === challenger.id,
+    );
+    let attack: readonly { act: string; voterId: string }[] = [];
+    if (rivalFiling) {
+      knockDoors(api, {
+        filingId: rivalFiling.id,
+        canvasserId: challenger.id,
+        hours: 6,
+      });
+      for (const id of [...core!.people.keys()].sort())
+        askForDonation(api, rivalFiling.id, id);
+      attack = runAd(api, {
+        filingId: rivalFiling.id,
+        amountMinor: campaignFor(api, rivalFiling.id).raisedMinor,
+        attackFilingId: incumbentFiling.id,
+      });
+      expect(attack.every((c) => c.act === "attack-ad")).toBe(true);
+    }
+    // Election: the record is a reason on specific ballots, and changes some choices.
+    holdElection(api, contest!.id);
+    const ballots = [...core!.people.keys()]
+      .map((id) => ballotOf(api, contest!.id, id))
+      .filter((b) => b !== null);
+    const weighed = ballots.filter(
+      (b) => (b!.recordReasons?.[incumbent.id] ?? []).length > 0,
+    );
+    expect(weighed.length, `${place} ${seed}`).toBeGreaterThan(0);
+    const broken = weighed.filter((b) =>
+      b!.recordReasons![incumbent.id]!.some((r) => r.kind === "broken-promise"),
+    );
+    const changed = weighed.filter((b) => {
+      if (!b!.voted) return false;
+      const without = Object.entries(b!.appeal)
+        .map(([id, a]) => [id, a.total - a.record] as const)
+        .sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0]));
+      const separated = without.length < 2 || without[0]![1] > without[1]![1];
+      const before = separated ? without[0]![0] : null;
+      return before !== b!.choice;
+    });
+    expect(
+      changed.length,
+      `${place} ${seed} weighed ${weighed.length}`,
+    ).toBeGreaterThan(0);
+    govReport(
+      "record",
+      JSON.stringify({
+        place,
+        seed,
+        contest: contest!.id,
+        incumbent: incumbent.id,
+        promise: question,
+        weighedTheRecord: weighed.length,
+        sawTheBrokenPromise: broken.length,
+        choicesChanged: changed.length,
+        attackAdReached: attack.length,
+        oneVoter: changed[0],
+      }),
+    );
+  });
+});

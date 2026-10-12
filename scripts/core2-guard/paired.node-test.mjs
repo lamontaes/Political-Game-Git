@@ -76,7 +76,7 @@ const value = flag => args[args.indexOf(flag) + 1];
 const receipt = {
   schema: 'core2-month-v1', revision: execFileSync('git', ['rev-parse', 'HEAD'], {encoding:'utf8'}).trim(),
   seed: value('--seed'), placeKey: value('--place-key'), inputHash: 'tooling-fixture',
-  startedAt: 'tooling-fixture', days: 31, settings: {}, host: {},
+  startedAt: 'tooling-fixture', days: 365, settings: {}, host: {},
   opening: {budget: {passed: true}}, millisecondsPerDay: 1, peakRssMiB: 1
 };
 writeFileSync(value('--output'), JSON.stringify(receipt));
