@@ -288,7 +288,7 @@
       "golden_path": "3",
       "package": "M2-filing",
       "test": "In a random place, the next local, state and federal elections have that place's real dates, and filing requires exactly what that place's rules require (age, residency, registration, a fee or signatures), read from data.",
-      "command": null,
+      "command": "npx vitest run src/core2/elections-filing.test.ts --testTimeout=300000",
       "passes": false
     },
     {

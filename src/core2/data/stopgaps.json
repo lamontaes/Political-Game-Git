@@ -1030,5 +1030,29 @@
     "addedAt": "2026-10-12",
     "replacement": "The M2 election engine runs the special election and seats its winner.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-voter-registration-assumed",
+    "kind": "missing-record",
+    "file": "src/core2/modules/elections.ts",
+    "line": 460,
+    "whatItFakes": "Every adult resident counts as a registered voter where filing or signing requires registration.",
+    "why": "core2 has no voter registration record yet.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "A registration record per person (registered, where, party where a state records it), written when people register; filing and signing read it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-signature-decision",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/elections.ts",
+    "line": 674,
+    "whatItFakes": "A stranger asked to sign a petition signs when their own sociability outweighs their wariness of conflict, instead of weighing the candidate's platform.",
+    "why": "PEOPLE's views engine isn't on core2 yet, so a signer can't compare the platform with their own views.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "The signer weighs the stated platform against their own views (PEOPLE's views engine), plus what they know of the candidate.",
+    "status": "open"
   }
 ]
