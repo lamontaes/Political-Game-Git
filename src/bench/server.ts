@@ -36,6 +36,7 @@ import { availableActs } from "../core2/life";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
+import { townPlaces, visitPlace } from "./places";
 import controls from "./data/controls.json" with { type: "json" };
 import { playerApiReadiness } from "./api-readiness";
 
@@ -291,6 +292,30 @@ const server = createServer(async (request, response) => {
           url.searchParams.get("governmentId") ?? "",
           url.searchParams.get("line") ?? "",
           Number(url.searchParams.get("change")) || 0,
+        ),
+      );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/goto") {
+      send(
+        200,
+        townPlaces(
+          requireCore(),
+          url.searchParams.get("id") ?? player?.personId ?? "",
+          player?.packet,
+        ),
+      );
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/goto/visit") {
+      if (!player?.personId) throw new Error("Choose a resident first.");
+      send(
+        200,
+        visitPlace(
+          requireCore(),
+          player.personId,
+          url.searchParams.get("org") ?? "",
+          player.packet?.at.minuteOfDay ?? 12 * 60,
         ),
       );
       return;

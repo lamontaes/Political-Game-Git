@@ -38,7 +38,7 @@ const PICTURED = new Set(
     .filter((row) => row.variant === "midday")
     .map((row) => row.place),
 );
-const hasBackdrop = (place: string) => PICTURED.has(place);
+export const hasBackdrop = (place: string) => PICTURED.has(place);
 const ACTIONS = scenePlaces.actions as Record<string, readonly string[]>;
 const ORG_KINDS = scenePlaces.organizationKinds as Record<string, string>;
 const ORG_PLACES = scenePlaces.placesWithoutKind as Record<string, string>;

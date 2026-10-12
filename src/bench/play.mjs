@@ -553,6 +553,25 @@ function storyStop(value) {
     : undefined;
 }
 
+// ---- Go to a place in town: its picture now, and whoever works there ----
+async function visit(organizationId) {
+  closeSheet();
+  renderTalk(undefined);
+  const v = await post(
+    `/api/goto/visit?org=${encodeURIComponent(organizationId)}`,
+  );
+  me.names = { ...me.names, ...v.names };
+  $("backdrop").src = v.backdrop.url;
+  drawPeople(v.people);
+  for (const [i, box] of [...$("people").children].entries()) {
+    const id = v.people[i].personId;
+    if (id === me.id) continue;
+    box.style.cursor = "pointer";
+    box.addEventListener("click", () => talkTo(id));
+  }
+  $("card-place").textContent = v.name;
+}
+
 // ---- Play someone else: the one you leave finishes their day ----
 async function playAs(personId) {
   const value = await post(`/api/play?id=${encodeURIComponent(personId)}`);
@@ -1066,6 +1085,24 @@ const sheets = {
       ),
     ];
   },
+  async travel() {
+    const places = await api(`/api/goto?id=${encodeURIComponent(me.id)}`);
+    return places.map((p) => {
+      const go = el("button", { type: "button", textContent: "Go" });
+      go.addEventListener("click", () => visit(p.organizationId));
+      return el(
+        "div",
+        { className: "row" },
+        el("b", { textContent: p.name }),
+        [
+          String(p.staff),
+          ...p.known.map((k) => k.name),
+          ...p.actions.map((a) => controls.actions?.[a] ?? a),
+        ].join(" · ") + " ",
+        go,
+      );
+    });
+  },
   async politics() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
     const filings = v.filings.map((f) => {
@@ -1149,6 +1186,7 @@ const titles = {
   results: "Election night",
   budgets: "Budgets",
   family: "Family",
+  travel: "Travel",
   handoff: "Carry on as",
   map: "Map",
   news: "News",

@@ -58,6 +58,13 @@ From `docs/reports/audit-2026-10-12/`, in BOARD's order.
 - [x] **The bench opening takes the core's closures route.** `/play` towns now open the way OPUS-CORE's generated world does: the player's peers first, then `buildOpeningEconomy` (light terms for counted households) and `addOutsideMarket` (outside buyers by industry), then the two levels and the counted voter groups. In Knappa, Oregon (seed open-a), no business closed in two months, against 5 of 27 on the old opening. Building the town takes 63 s, against 53 s.
 - [ ] **Store screenshots by Friday (in progress).** `src/bench/store-shots.mjs` took 15 shots from two real games: Thompsonville, Michigan, and Chickasaw Point, South Carolina (seeds store-c and store-d). They cover the title, the opening (President, Senate), home, family, map, calendar and election night. Not store-ready yet: election night shows OPUS-GOV's degenerate counts (5,664,186 to 0, their audit item 4), and there's no talk shot because the player was home alone. I'll retake them Thursday on the merged head, after GOV's election fixes and PEOPLE's English names.
 
+## Next, after the audit (BOARD, owner's questions, Oct 12)
+
+- [x] **Go to.** The Travel tab lists the town's pictured places from its organizations: places where you know someone come first, then places with something you can do there now, then by size. Each row shows how many work there, who you know there, and what you can do (from the core's own offers). **Go** shows the place at this hour with whoever is on shift by their own work spans. Staff still in the counts are filled in when you walk in, and you can click anyone to talk. Checked in a Starr County town (seed go-b): King's Grocery at midnight is lit for night and empty. Looking in spends no time; a trip that costs time waits on a core act for going somewhere.
+- [ ] Meeting scenes (council chamber, school board room, rally stage).
+- [ ] Councils, legislatures and Congress acting on their own (`world-legislating`). It's built, but off for now: it makes play about 11 times slower after its first session (see Needs).
+- [ ] The town visibly changing after a law passes.
+
 ## Checklist
 
 An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items.
