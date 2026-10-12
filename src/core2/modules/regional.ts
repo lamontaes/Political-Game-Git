@@ -55,6 +55,8 @@ export function openRegional(
   national: Readonly<MacroMonth>,
   placeIds: readonly string[],
   history: readonly Readonly<MacroMonth>[] = [],
+  /** A custom world's national unemployment against the real opening month, in points: every region opens shifted by it. */
+  unemploymentShiftPts = 0,
 ): void {
   const p = (key: string) => api.parameter(key);
   for (const row of REGIONS)
@@ -71,7 +73,13 @@ export function openRegional(
   for (const row of openingRegionMonths(national, p))
     store(api)
       .table("months")
-      .put({ ...row });
+      .put({
+        ...row,
+        unemploymentPct: Math.max(
+          p("zero"),
+          row.unemploymentPct + unemploymentShiftPts,
+        ),
+      });
   for (const placeId of placeIds) {
     const regionId = regionOfPlace(placeId);
     if (regionId) store(api).table("places").put({ id: placeId, regionId });
