@@ -138,7 +138,7 @@
       "golden_path": "world",
       "package": "M1-laws",
       "test": "For a random place, tracked laws (minimum wage; income, sales and property taxes; major benefit amounts) match that place's real starting law at every level; a higher level's override wins where it legally does; a law that hasn't taken effect yet doesn't apply.",
-      "command": null,
+      "command": "npx vitest run src/core2/laws.test.ts --testTimeout=300000",
       "passes": false
     },
     {
@@ -258,7 +258,7 @@
       "golden_path": "world",
       "package": "M1-officials",
       "test": "In a random place, every seat that covers the player has a holder with a record and a term; a vacancy is filled the way that office's real rules say.",
-      "command": null,
+      "command": "npx vitest run src/core2/offices.test.ts --testTimeout=300000",
       "passes": false
     },
     {
@@ -288,7 +288,7 @@
       "golden_path": "3",
       "package": "M2-filing",
       "test": "In a random place, the next local, state and federal elections have that place's real dates, and filing requires exactly what that place's rules require (age, residency, registration, a fee or signatures), read from data.",
-      "command": null,
+      "command": "npx vitest run src/core2/elections-filing.test.ts --testTimeout=300000",
       "passes": false
     },
     {
@@ -308,7 +308,7 @@
       "golden_path": "4",
       "package": "M2-campaigns",
       "test": "In a random place, after filing, each campaign activity (doors, volunteers, fundraising within real contribution limits, events and speeches, ads, endorsements, staff) changes what specific people know and think, each change with a recorded cause; support never moves without one; rivals campaign with the same tools.",
-      "command": null,
+      "command": "npx vitest run src/core2/campaigns.test.ts --testTimeout=300000",
       "passes": false
     },
     {
@@ -318,7 +318,7 @@
       "golden_path": "4",
       "package": "M2-campaigns",
       "test": "In a random place, a poll reports what the people it actually contacted told the pollster (including undecided and no opinion), with a computed margin of error; no contacts means no poll; true support is never shown on screen.",
-      "command": null,
+      "command": "npx vitest run src/core2/campaigns.test.ts --testTimeout=300000",
       "passes": false
     },
     {
@@ -328,7 +328,7 @@
       "golden_path": "5",
       "package": "M2-elections",
       "test": "In a random place, election day falls on the place's real date; named people vote as themselves and voter groups as groups, each vote from what that person knows and thinks and turnout from their own circumstances, with no roll; filling a person in never adds a ballot; primaries and runoffs follow the place's rules; election night shows exit polls of real voters reporting what they told the pollster; the winner takes the seat on the real start date.",
-      "command": null,
+      "command": "npx vitest run src/core2/voting.test.ts --testTimeout=900000",
       "passes": false
     },
     {
@@ -338,7 +338,7 @@
       "golden_path": "5",
       "package": "M2-elections",
       "test": "In a random place, parties are organizations with members, leaders and rules; each person's party tie comes from their views plus loyalty; no party and independent both exist; nothing assumes exactly two permanent parties.",
-      "command": null,
+      "command": "npx vitest run src/core2/parties.test.ts --testTimeout=900000",
       "passes": false
     },
     {
@@ -358,7 +358,7 @@
       "golden_path": "11",
       "package": "M2-elections",
       "test": "In a random place, at the following election an incumbent's record (votes, promises kept or broken, what changed, what surfaced) changes specific voters' choices, each with its reason, and rivals' attack ads draw on it.",
-      "command": null,
+      "command": "npx vitest run src/core2/record.test.ts --testTimeout=900000",
       "passes": false
     },
     {
