@@ -100,6 +100,17 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-12 21:46 UTC: Researched stand-in figures (FIXER's list, 5 of 6 applied) and carry-overs:
+  - **Committees:** about 11 members, from 5 to 20 (Book of the States 2023), instead of a seventh of the chamber. SG-GOV-committee-structure stays open: seats still go by seniority, not by leadership appointment.
+  - **Veto overrides:** two thirds of each body's whole membership, not of those voting (`vetoOverrideShare`). SG-GOV-veto-override-rule is resolved.
+  - **Local turnout:** an off-cycle race now draws 0.39 of a presidential year's turnout (was 0.33); midterm stays 0.72 (Hajnal and Green 2024). SG-GOV-voter-groups-stand-in stays open: the figures are researched, but the voter groups themselves are still a stand-in.
+  - **Local fiscal years:** each county and city takes its state's same-type Census 2024 sampled unit nearest in population; without one, the national most common year end for its type. SG-GOV-local-fiscal-year is resolved.
+  - **Federal terms:** every House seat is up in the same even year, and House and Senate terms run from January 3 (amend. XX). SG-GOV-term-end-estimate now covers only state and local offices.
+  - **Not applied:** SG-GOV-local-budget-split; the research found no value yet.
+  - **Polls:** a completed interview now costs $45 (telephone $36 to $53, from #2486's research, carried into `data/research/money/poll-interview-prices.json`).
+  - **OPUS-WEB:** starting policy answers are dated no later than July 1, 2024, the research's calibration date, so they count as the place's starting law. Laws passed in play already carry `terms.enactedBy`.
+  - **Tests:** the legislature and budgets suites now have five-minute limits. A January 1 fiscal year means more simulated days before the budget vote.
+
 - 2026-10-12 20:56 UTC: BOARD next, item 5 (first part): careers before the start:
   - **Terms start on real dates:** each holder at the opening began their current term a full term before it ends, not on the opening day.
   - **Earlier terms are on the record:** a holder's past terms on the same seat are recorded as ended terms ("re-elected"). How many follows the mean service of sitting officials of that kind: House 8.5 years and Senate 11.2 (CRS, not fetched, so marked estimates); state legislators 6, statewide officers 5.5 and local officials 7 (estimates). The spread is drawn once per seat from the world's seed, which counts as generating who exists.
