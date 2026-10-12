@@ -1,0 +1,328 @@
+/**
+ * The economy engines acting on the wider population (shared seams on the
+ * residents engine, for OPUS-CORE review). A counted worker's job can end or
+ * begin through their employer's wage flow, and an engine can add a standing
+ * flow (rent, a loan payment, spending that leaves town) at runtime.
+ */
+import { addDays, makeIsoDate } from "../simulation/dates";
+import { residentsRuntime } from "./modules/residents";
+import type { ResidentFlowInput } from "./residents";
+import type { CoreState, JobInput } from "./types";
+
+type Runtime = NonNullable<ReturnType<typeof residentsRuntime>>;
+type Flow = Runtime["flows"] extends Map<string, infer F> ? F : never;
+
+function recompute(flow: Flow): void {
+  let total = 0;
+  for (const value of Object.values(flow.perDayMinorByJob ?? {}))
+    total += value;
+  flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
+}
+
+/** A counted worker's job ends today: their employer's wage flow drops exactly their pay. */
+export function endCountedJob(
+  core: CoreState,
+  jobId: string,
+): JobInput | undefined {
+  const rt = residentsRuntime(core);
+  const job = rt?.jobs.get(jobId),
+    flow = rt?.wageFlowByJob.get(jobId);
+  if (!rt || !job || !flow || flow.endedAt) return undefined;
+  const perDay = { ...(flow.perDayMinorByJob ?? {}) };
+  delete perDay[jobId];
+  flow.perDayMinorByJob = perDay;
+  flow.jobIds = (flow.jobIds ?? []).filter((id) => id !== jobId);
+  recompute(flow);
+  rt.wageFlowByJob.delete(jobId);
+  const ended = { ...job, endsAt: makeIsoDate(core.date) };
+  rt.jobs.set(jobId, ended);
+  return ended;
+}
+
+/**
+ * A counted person is hired: the employer's wage flow grows by their pay.
+ * An employer with no counted workers yet (a new business) gets a wage flow
+ * on the cadence of `templateJobId`'s; false when there is neither.
+ */
+export function addCountedJob(
+  core: CoreState,
+  job: JobInput,
+  templateJobId?: string,
+): boolean {
+  const rt = residentsRuntime(core);
+  if (!rt || (rt.jobs.has(job.id) && rt.jobs.get(job.id)!.endsAt === undefined))
+    return false;
+  const find = () =>
+    [...rt.flows.values()].find(
+      (row) =>
+        row.kind === "wages" &&
+        !row.endedAt &&
+        row.organizationId === job.organizationId,
+    );
+  let flow = find();
+  const template = templateJobId
+    ? rt.wageFlowByJob.get(templateJobId)
+    : undefined;
+  if (!flow && template && !template.endedAt) {
+    const placeId = core.organizations.get(job.organizationId)?.placeId;
+    const account =
+      rt.input.accounts.find((row) => row.placeId === placeId)?.accountId ??
+      template.payeeId;
+    addResidentFlow(core, {
+      id: `residents:wages:${job.organizationId}`,
+      kind: "wages",
+      financeKind: template.financeKind,
+      payerId: job.organizationId,
+      payeeId: account,
+      residentsId: account,
+      placeId: placeId ?? template.placeId,
+      amountMinor: 0,
+      firstAt: template.nextAt,
+      cadence: template.cadence,
+      salesReceipt: false,
+      marketAdjusted: false,
+      organizationId: job.organizationId,
+      jobIds: [],
+      perDayMinorByJob: {},
+      ...(template.periodFactor !== undefined
+        ? { periodFactor: template.periodFactor }
+        : {}),
+      source: job.source,
+    });
+    flow = find();
+  }
+  if (!flow) return false;
+  flow.perDayMinorByJob = {
+    ...(flow.perDayMinorByJob ?? {}),
+    [job.id]: job.wageDailyMinor,
+  };
+  flow.jobIds = [...(flow.jobIds ?? []), job.id];
+  recompute(flow);
+  rt.jobs.set(job.id, job);
+  rt.wageFlowByJob.set(job.id, flow);
+  return true;
+}
+
+/** A standing flow begins mid-run, first due on its own date (never today). */
+export function addResidentFlow(
+  core: CoreState,
+  input: ResidentFlowInput,
+): void {
+  const rt = residentsRuntime(core);
+  if (!rt) throw new Error("No wider population to add a flow to.");
+  if (rt.flows.has(input.id)) throw new Error(`Duplicate flow: ${input.id}`);
+  if (!Number.isSafeInteger(input.amountMinor) || input.amountMinor < 0)
+    throw new Error(`Invalid flow amount: ${input.id}`);
+  for (const id of [input.payerId, input.payeeId])
+    if (!core.organizations.has(id) && !core.people.has(id))
+      throw new Error(`Flow owner is not recorded: ${id}`);
+  let nextAt = makeIsoDate(input.firstAt);
+  if (nextAt <= core.date)
+    nextAt = makeIsoDate(addDays(makeIsoDate(core.date), 1));
+  const flow = { ...input, nextAt, arrearsMinor: 0 } as Flow;
+  rt.flows.set(input.id, flow);
+  const ids = rt.due.get(nextAt) ?? new Set<string>();
+  ids.add(input.id);
+  rt.due.set(nextAt, ids);
+}
+
+/** The counted workers of an employer, by job, from its live wage flows. */
+export function countedJobsOf(
+  core: CoreState,
+  organizationId: string,
+): JobInput[] {
+  const rt = residentsRuntime(core);
+  if (!rt) return [];
+  const out: JobInput[] = [];
+  for (const [jobId, flow] of rt.wageFlowByJob)
+    if (!flow.endedAt && flow.organizationId === organizationId) {
+      const job = rt.jobs.get(jobId);
+      if (job && job.endsAt === undefined) out.push(job);
+    }
+  return out;
+}
+
+const CUSTOMER_KINDS = new Set(["purchase", "outside-sales"]);
+const DAYS_PER_YEAR = 365,
+  MONTHS_PER_YEAR = 12;
+
+/** A flow's payments a year at its cadence. */
+function perYear(flow: Flow, amount: number): number {
+  return flow.cadence.kind === "days"
+    ? (amount * DAYS_PER_YEAR) / flow.cadence.every
+    : (amount * MONTHS_PER_YEAR) / flow.cadence.every;
+}
+
+/** What `shiftPurchaseShare` would move a year, without moving it. */
+export function purchaseShareOf(
+  core: CoreState,
+  incumbentIds: ReadonlySet<string>,
+  share: number,
+): number {
+  const rt = residentsRuntime(core);
+  if (!rt || !(share > 0) || share >= 1) return 0;
+  let total = 0;
+  for (const flow of rt.flows.values())
+    if (
+      CUSTOMER_KINDS.has(flow.kind) &&
+      !flow.endedAt &&
+      incumbentIds.has(flow.payeeId)
+    )
+      total += perYear(flow, Math.floor(flow.amountMinor * share));
+  return Math.round(total);
+}
+
+/**
+ * A new business wins customers: each household purchase flow and each
+ * outside buyers' flow paying an incumbent of its kind gives up `share` of
+ * its amount to an equal new flow paying the entrant. Money the buyers spend
+ * is unchanged. Returns the entrant's customers' spending a year.
+ */
+export function shiftPurchaseShare(
+  core: CoreState,
+  incumbentIds: ReadonlySet<string>,
+  entrantId: string,
+  share: number,
+): number {
+  const rt = residentsRuntime(core);
+  if (!rt || !(share > 0) || share >= 1) return 0;
+  // One entrant flow per payer and kind of spending, however many incumbents it is taken from.
+  const groups = new Map<string, { flow: Flow; amount: number }>();
+  let moved = 0;
+  for (const flow of [...rt.flows.values()]) {
+    if (
+      !CUSTOMER_KINDS.has(flow.kind) ||
+      flow.endedAt ||
+      !incumbentIds.has(flow.payeeId)
+    )
+      continue;
+    const amount = Math.floor(flow.amountMinor * share);
+    if (amount <= 0) continue;
+    flow.amountMinor -= amount;
+    // Households' own parts (fill-in takes them back) shrink in proportion.
+    if (flow.amountByContract)
+      flow.amountByContract = Object.fromEntries(
+        Object.entries(flow.amountByContract).map(([id, value]) => [
+          id,
+          Math.floor(value * (1 - share)),
+        ]),
+      );
+    const key = [
+      flow.payerId,
+      flow.kind,
+      flow.financeKind,
+      flow.residentsId,
+      flow.placeId,
+      JSON.stringify(flow.cadence),
+      flow.salesReceipt,
+      flow.marketAdjusted,
+    ].join("|");
+    const group = groups.get(key);
+    if (group) {
+      group.amount += amount;
+      if (flow.nextAt < group.flow.nextAt) group.flow = flow;
+    } else groups.set(key, { flow, amount });
+    moved += perYear(flow, amount);
+  }
+  let n = 0;
+  for (const { flow, amount } of groups.values())
+    addResidentFlow(core, {
+      id: `entrant:${entrantId}:${n++}`,
+      kind: flow.kind,
+      financeKind: flow.financeKind,
+      payerId: flow.payerId,
+      payeeId: entrantId,
+      residentsId: flow.residentsId,
+      placeId: flow.placeId,
+      amountMinor: amount,
+      firstAt: flow.nextAt,
+      cadence: flow.cadence,
+      salesReceipt: flow.salesReceipt,
+      marketAdjusted: flow.marketAdjusted,
+      source: flow.source,
+    });
+  return Math.round(moved);
+}
+
+const outsideBases = new WeakMap<CoreState, Map<string, number>>();
+
+/**
+ * Buyers outside the town follow the nation and region: each place's
+ * `outside-sales` flow is its opening amount times `factor` (prices times
+ * real demand against the opening month). Returns the flows changed.
+ */
+export function scaleOutsideSales(
+  core: CoreState,
+  placeId: string,
+  factor: number,
+): number {
+  const rt = residentsRuntime(core);
+  if (!rt || !(factor > 0)) return 0;
+  let bases = outsideBases.get(core);
+  if (!bases) outsideBases.set(core, (bases = new Map()));
+  let changed = 0;
+  for (const flow of rt.flows.values()) {
+    if (
+      flow.kind !== "outside-sales" ||
+      flow.endedAt ||
+      flow.placeId !== placeId
+    )
+      continue;
+    if (!bases.has(flow.id)) bases.set(flow.id, flow.amountMinor);
+    flow.amountMinor = Math.round(bases.get(flow.id)! * factor);
+    changed += 1;
+  }
+  return changed;
+}
+
+/**
+ * New hourly pay for many counted workers at once: each employer's wage flow
+ * is recomputed once, not once per worker (the core's `rerateCountedJob`
+ * scans every flow per call). Returns the jobs changed.
+ */
+export function rerateCountedJobs(
+  core: CoreState,
+  hourlyByJob: ReadonlyMap<string, number>,
+): number {
+  const rt = residentsRuntime(core);
+  if (!rt) return 0;
+  const touched = new Set<Flow>();
+  let changed = 0;
+  for (const [jobId, hourlyMinor] of hourlyByJob) {
+    const job = rt.jobs.get(jobId),
+      flow = rt.wageFlowByJob.get(jobId);
+    if (!job || !flow || flow.endedAt || !job.hourlyMinor) continue;
+    const perDay = flow.perDayMinorByJob?.[jobId];
+    if (perDay === undefined) continue;
+    const ratio = hourlyMinor / job.hourlyMinor;
+    if (!touched.has(flow)) {
+      flow.perDayMinorByJob = { ...flow.perDayMinorByJob };
+      touched.add(flow);
+    }
+    (flow.perDayMinorByJob as Record<string, number>)[jobId] = perDay * ratio;
+    rt.jobs.set(jobId, {
+      ...job,
+      hourlyMinor,
+      wageDailyMinor: Math.round(job.wageDailyMinor * ratio),
+    });
+    changed += 1;
+  }
+  for (const flow of touched) recompute(flow);
+  return changed;
+}
+
+/** One household's part of a merged flow ends (a counted household's mortgage paid off). */
+export function endFlowPart(
+  core: CoreState,
+  id: string,
+  part: string,
+): boolean {
+  const flow = residentsRuntime(core)?.flows.get(id);
+  const amount = flow?.amountByContract?.[part];
+  if (!flow || flow.endedAt || amount === undefined) return false;
+  const parts = { ...flow.amountByContract };
+  delete parts[part];
+  flow.amountByContract = parts;
+  flow.amountMinor = Math.max(0, flow.amountMinor - amount);
+  return true;
+}

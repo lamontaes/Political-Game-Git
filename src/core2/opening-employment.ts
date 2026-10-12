@@ -13,6 +13,8 @@ import {
   activeWorkers,
   laborStatus,
   TOWN_MEDIAN_TENURE_BY_AGE,
+  TOWN_PART_TIME_DEFAULT,
+  TOWN_PART_TIME_SHARE,
   TOWN_WORKPLACES,
   townEmploymentMix,
   townResidents,
@@ -442,6 +444,7 @@ export function openingEmploymentFromRecordedRoles(
   const jobs: JobInput[] = [];
   const startedAtByJob = new Map<string, WorldDate>();
   const templateJobIdByJob = new Map<string, string>();
+  const hoursMix = new Map<string, { partTime: number; total: number }>();
   for (const resident of candidates) {
     const quotaKey = quotaByPerson.get(resident.personId);
     const quota = quotaKey ? ageTargets.get(quotaKey) : undefined;
@@ -466,12 +469,36 @@ export function openingEmploymentFromRecordedRoles(
         selected = target;
     }
     if (!selected) continue;
-    const template = [...selected.templates].sort(
+    // The copy's hours follow the town generator's rule (older workers and a
+    // workplace's part-time share), not whichever recorded hire is copied.
+    const partTimeOf = (row: OpeningWorkTemplate) =>
+      weeklyHoursOf(row.role) < p("fullTimeWeeklyHours");
+    const share =
+      TOWN_PART_TIME_SHARE[selected.templates[p("zero")]!.workplace.key] ??
+      TOWN_PART_TIME_DEFAULT;
+    const mix = hoursMix.get(selected.key) ?? {
+      partTime: p("zero"),
+      total: p("zero"),
+    };
+    const wantPartTime =
+      resident.age >= p("openingPartTimeOlderWorkerAge") ||
+      // Below the share after rounding: partTime < share × (total + 1) − ½.
+      p("two") * mix.partTime + p("one") <
+        p("two") * share * (mix.total + p("one"));
+    const ordered = [...selected.templates].sort(
       (left, right) =>
         (staff.get(left.organization.id) ?? p("zero")) -
           (staff.get(right.organization.id) ?? p("zero")) ||
         left.role.id.localeCompare(right.role.id),
-    )[p("zero")]!;
+    );
+    const template =
+      ordered.find((row) => partTimeOf(row) === wantPartTime) ??
+      ordered[p("zero")]!;
+    hoursMix.set(selected.key, {
+      // The copy works the wanted hours whichever role it copies.
+      partTime: mix.partTime + (wantPartTime ? p("one") : p("zero")),
+      total: mix.total + p("one"),
+    });
     const person = world.people[resident.personId]!;
     const adultSince = yearsBefore(
       person.birthDate,
@@ -506,7 +533,14 @@ export function openingEmploymentFromRecordedRoles(
     const hourlyMinor =
       rate?.hourlyMinor ??
       (nationalAnnual! * p("minorPerDollar")) / p("annualWorkHours");
-    const hoursDaily = weeklyHoursOf(template.role) / p("daysPerWeek");
+    // No recorded hire with the wanted hours to copy: the copy keeps the role
+    // and works the wanted hours (its timetable is rebuilt to match).
+    const hoursDaily =
+      (partTimeOf(template) === wantPartTime
+        ? weeklyHoursOf(template.role)
+        : wantPartTime
+          ? p("openingPartTimeWeeklyHours")
+          : p("openingFullTimeWeeklyHours")) / p("daysPerWeek");
     const id = createStableId(
       "work-relationship",
       `${world.id}:${data.version}:${resident.personId}`,
