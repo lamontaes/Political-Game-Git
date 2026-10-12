@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout */
+/* global document, fetch, URLSearchParams, setTimeout, window */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 const $ = (id) => document.getElementById(id);
@@ -84,8 +84,11 @@ async function playOpening() {
   show("caption", false);
   $("game").classList.remove("letterbox");
 }
+// Escape opens only options and quit (M6 work order), the opening included.
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && skipOpening) skipOpening();
+  if (event.key !== "Escape" || !$("front").hidden) return;
+  if (openTab === "options") closeSheet();
+  else openSheet("options");
 });
 
 async function renderScene() {
@@ -1163,6 +1166,24 @@ const sheets = {
       ),
     );
   },
+  async options() {
+    const rows = [];
+    if (skipOpening) {
+      const skip = el("button", {
+        type: "button",
+        textContent: "Skip opening",
+      });
+      skip.addEventListener("click", () => {
+        closeSheet();
+        skipOpening?.();
+      });
+      rows.push(skip);
+    }
+    const quit = el("button", { type: "button", textContent: "Quit to title" });
+    quit.addEventListener("click", () => window.location.reload());
+    rows.push(quit);
+    return rows;
+  },
   async travel() {
     const places = await api(`/api/goto?id=${encodeURIComponent(me.id)}`);
     return places.map((p) => {
@@ -1271,6 +1292,7 @@ const titles = {
   budgets: "Budgets",
   family: "Family",
   travel: "Travel",
+  options: "Options",
   changes: "What changed",
   handoff: "Carry on as",
   map: "Map",
