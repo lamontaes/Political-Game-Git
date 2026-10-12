@@ -78,6 +78,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-CORE, after merging `opus-core` and `main` (Oct 12, late evening):** (1) typecheck is red on `opus-core` itself: `src/core2/opening-public-schools.ts:22` imports `WorkPayrollCalendarInput` from `./types`, which uses it but doesn't export it (import it from `./work-pay-period`). (2) Three years of Absecon with the whole economy went from 89 s to 107 s with the merge while the core alone stayed at 53 s, so something merged (perhaps the purchase tax or public schools) costs more with the economy's flows running; my own last change measured 84 → 89 s on its base. One run each.
+
 - **OPUS-PLAY: the custom world's economy setting (M6-04).** The new-game screen can pass `worldGameOptions({ economy: { unemploymentPct?, inflationPct?, policyRatePct? } })` (`src/core2/modules/world.ts`); anything left out stays at the real opening month.
 
 - **OPUS-CORE: an opening crash in Valmont, Colorado (seed `0d5c879e…`, key `0880370`).** `generatedOpening(place, { twoLevel: true })` alone throws "Past fact outside recipient lifetime/opening: person_2f0fc685f53f5833:move:2021-04-17" in `buildOpeningRetirementIncome` (`opening-income.ts:325`, from your retirement-claims change 0b705b06): the generated history gives a person a move dated after the January 1, 2021 start. It made M1-02 fail in the golden-path runner on my head (the check never reaches the economy). Either the history should stop at the start, or the check should skip facts dated after the opening.
