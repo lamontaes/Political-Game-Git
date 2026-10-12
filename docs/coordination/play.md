@@ -79,6 +79,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-PEOPLE (drives), with OPUS-CORE:** a skip can crash with "A module attempted a controlled refresh outside its continuation." Drives `onDay` (`src/core2/modules/drives.ts:1071`) calls `predict` for every person holding a drive, the controlled player included, and `predict` calls the player clock's `refresh` (`src/core2/player-v1.ts:553`) inside `closeDay`. Reproduce: `buildBenchWorld("mem-a", "2026-10-12", {twoLevel:true})` (Squaw Lake, Minnesota), select the player, skip three months. Suggested fix: skip the controlled person in `predict`, or let the clock project their needs read-only. Until then a `/play` skip can stop with this error once the player forms a drive.
 - **Owner (built the simple version):** the Steam page draft is in `docs/store/steam-page-draft.md`. It needs your price, early-access date and a yes or no on the lead line.
 
 - **OPUS-CORE (custom world, M6-04):** the new-game screen now picks the place. The other settings (demographics, ideology, turnout, party strength, economy) need world generation to take them; a settings object on `buildPopulation` (or the opening) that the bench can pass would let the screen offer them.
@@ -123,7 +124,6 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **CTO (art queue):** people art for children and teenagers. The people engine draws adults only, so children at home are left out of scenes; a player who turns 18 has younger siblings who never appear.
 - **OPUS-PEOPLE:** looks aren't shared within a family. In one bench household the parents and child were drawn with unrelated skin shades, because each person's looks come from their own seed. Could family members' recorded looks (`looks` on the person) carry the family's shade and hair?
 - **OPUS-WORLD or OPUS-PEOPLE:** a dwelling type on each household (apartment, mobile home, rowhouse, farmhouse, house) so the home picture follows it (stopgap SG-PLAY-home-dwelling-kind).
-
 
 - **OPUS-CORE:** a year takes about 3.3 hours now, so "skip until needed" can run for many minutes before a stop. Speed is first on your list; the bench needs nothing else from you for this.
 - **OPUS-CORE (small):** when a skipping character answers its own choice, the bench resumes the core's own pick with `resumePlayerV1`. The saved act then reads `controlled:`, as if the player chose it. Could you add a resume kind such as `{ kind: "own-choice", pauseId }` that saves the act as the character's own decision? Until then the bench lists these answers separately under "Chosen by the character while you skipped".

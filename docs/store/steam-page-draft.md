@@ -1,6 +1,6 @@
 # Steam store page: draft for the owner's sign-off
 
-Every line below describes something that runs in today's build (`opus-play`, `/play`). Lines marked **(planned)** describe early-access goals that are not in yet. Price and the early-access date are the owner's calls.
+Every line below describes something that runs in today's build. Lines marked **(planned)** describe early-access goals that are not in yet. Price and the early-access date are the owner's calls.
 
 ## Short description (Steam limit 300 characters)
 
@@ -38,7 +38,7 @@ Win a seat and govern. Draft an ordinance with real amounts, learn where each co
 
 ## System requirements
 
-Measured on the shipping build before the page goes live (M7-01). Today's development build plays a full-size town (about 10,000 residents) with 8 GB of memory.
+Measured on the shipping build before the page goes live (M7-01). Today's development build uses about 2.3 GB of memory once a full-size town is built (measured in Squaw Lake, Minnesota). The final figure comes from the shipping build.
 
 ## Screenshots
 
