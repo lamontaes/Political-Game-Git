@@ -42,7 +42,7 @@ import type { ModuleCalendarWork } from "../module-calendar";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
 import { governmentUnitsForPlace } from "../../simulation/government-units";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./laws";
-import { localAuthority } from "../laws-in-force";
+import { localAuthority, type EnactedAuthority } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { recordVote } from "./record";
@@ -510,7 +510,14 @@ export function authorityFor(api: CoreAPI, provision: Provision): Authority {
     const rows = laws.query("bySeriesOnly", [
       "local-minimum-wage-authority",
     ]) as unknown as LawRowInput[];
-    const authority = localAuthority(rows, [], chain, api.state.date);
+    // A state's grant of authority enacted in play counts too.
+    const enacted = api
+      .moduleState(LAWS_MODULE_ID)
+      .table("enactments")
+      .query("bySeries", [
+        "local-minimum-wage-authority",
+      ]) as unknown as EnactedAuthority[];
+    const authority = localAuthority(rows, enacted, chain, api.state.date);
     return authority.allowed
       ? {
           allowed: true,

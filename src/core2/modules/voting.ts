@@ -16,6 +16,10 @@
  */
 import federalExecutive from "../../../data/research/offices/federal-executive-2026.json" with { type: "json" };
 import { countedResidents, type CountedVoter } from "../electorate";
+import {
+  electionLawTurnoutCost,
+  felonyDisenfranchisedShare,
+} from "../law-reach/group-a-voting";
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -325,9 +329,11 @@ export function turnout(
         sum + (state.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0),
       0,
     );
+  // The election laws in force (voter ID, registration, mail voting).
   const cost =
     weeklyWork / campaignParameter("turnoutWorkWeekMinutes") -
-    (voter.traits["people-mind-v1:deliberation"] ?? 0) / 2;
+    (voter.traits["people-mind-v1:deliberation"] ?? 0) / 2 +
+    electionLawTurnoutCost(api, voter, weeklyWork);
   return {
     duty,
     interest,
@@ -806,6 +812,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     if (choice) countedVotes[choice] = (countedVotes[choice] ?? 0) + 1;
     byLean.push({ lean, heard: new Set(), choice });
   }
+  // Counted adults barred for a felony conviction can't vote (the share a
+  // restoration law in force returns is counted back).
+  const barred = felonyDisenfranchisedShare(api);
+  for (const id of Object.keys(countedVotes))
+    countedVotes[id] = Math.round(countedVotes[id]! * (1 - barred));
+  countedVoted = Math.round(countedVoted * (1 - barred));
+  countedEligible = Math.round(countedEligible * (1 - barred));
   const { groupVotes, electorate } = groupVote(
     api,
     contest,

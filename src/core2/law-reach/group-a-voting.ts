@@ -42,6 +42,8 @@ const cache = new WeakMap<object, { date: string; keys: Set<string> }>();
 function electionLaws(api: CoreAPI): ReadonlySet<string> {
   const hit = cache.get(api.state);
   if (hit && hit.date === api.state.date) return hit.keys;
+  // A world without the laws engine has no election laws in force.
+  if (!api.state.modules.has("core2-laws-v1")) return new Set();
   const keys = new Set(
     [...ELECTION_KEYS, RESTORE_VOTE, TERM_LIMITS, LOBBYING_BAN].filter(
       (key) => yesLevels(api, key).length > 0,

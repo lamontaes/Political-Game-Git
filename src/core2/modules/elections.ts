@@ -15,6 +15,7 @@
  * themselves (`requestSignature`).
  */
 import { registerElectorate } from "../electorate";
+import { termLimitReached } from "../law-reach/group-a-voting";
 import { campaignParameter } from "../campaign-views";
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
@@ -70,6 +71,7 @@ export interface RequirementCheck {
     | "residency"
     | "registered-voter"
     | "fee-or-signatures"
+    | "term-limit"
     | "fee"
     | "signatures";
   readonly met: boolean;
@@ -530,6 +532,15 @@ export function checkEligibility(
       source: rules.source,
     });
   }
+  // A legislative term limit in force (law-reach, group A).
+  if (termLimitReached(api, personId, contest.officeId))
+    checks.push({
+      rule: "term-limit",
+      met: false,
+      required: "years in this office under the term limit",
+      actual: "limit reached",
+      source: "legislative term limit in force",
+    });
   const fee = rules.feeMinor ?? 0;
   if (rules.feeInLieuOfSignatures && rules.signatures && fee)
     checks.push({
