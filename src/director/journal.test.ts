@@ -201,4 +201,52 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     expect(text).toContain("My pay went up to $15.00 an hour.");
     expect(text).toContain("A new minimum wage took effect.");
   });
+
+  it("writes a relative's death and filing for office, from the events' own records", () => {
+    const me = core.people.get(player.id)!;
+    const relativeId = [...me.familyIds].find(
+      (id) => core.people.get(id)?.alive && id !== player.id,
+    )!;
+    const share = 0.63;
+    // As the health engine records a death the family hears of.
+    applyCoreEvent(core, {
+      id: `life.death:${relativeId}:${core.date}`,
+      date: core.date,
+      kind: "life.death",
+      personIds: [relativeId],
+      witnessIds: [player.id],
+      placeId: me.placeId,
+      topic: "health:serious-illness",
+      desiredChange: "care-and-cure:serious-illness",
+      stressImpulse: share,
+      moodImpulse: -share,
+      source: {
+        tag: "SOURCED",
+        citation: "Fixture shaped like the health engine.",
+        asOf: core.date,
+      },
+    });
+    // As GOV's elections module records a filing.
+    applyCoreEvent(core, {
+      id: "candidate-filed:fixture",
+      date: core.date,
+      kind: "candidate-filed",
+      personIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: true,
+      news: true,
+      source: {
+        tag: "SOURCED",
+        citation: "Fixture shaped like GOV's filing.",
+        asOf: core.date,
+      },
+      facts: { office: "City Council, Seat 2", filingId: "fixture-filing" },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const text = composeJournal(core, director, player.id).flatMap((row) =>
+      row.lines.map((line) => line.text),
+    );
+    expect(text.some((line) => /^My \w+ died\.$/.test(line))).toBe(true);
+    expect(text).toContain("I filed to run for City Council, Seat 2.");
+  });
 });

@@ -795,15 +795,34 @@ export function createDirector(
       const rule = data.eventImpacts?.find(
         (entry) => entry.eventKind === row.event.kind,
       );
-      if (!rule || !row.event.personIds.includes(book.personId)) continue;
-      const before = Number(row.event.facts?.[rule.fromFact]);
-      const after = Number(row.event.facts?.[rule.toFact]);
-      if (!(before > zero) || !Number.isFinite(after)) continue;
+      if (!rule) continue;
+      let raw = zero;
+      if (rule.impactParameter) {
+        // The event's own impact reaches the people it names fully, and
+        // those who learned of it through a tie by their relation.
+        raw = param(rule.impactParameter);
+        if (!row.event.personIds.includes(book.personId)) {
+          const thread = row.event.personIds
+            .map((id) => book.threads.get(id))
+            .find(Boolean);
+          if (!thread) continue;
+          raw *=
+            importanceOf(book, thread, date) /
+            (one + importanceOf(book, thread, date));
+        }
+      } else if (rule.fromFact && rule.toFact) {
+        if (!row.event.personIds.includes(book.personId)) continue;
+        const before = Number(row.event.facts?.[rule.fromFact]);
+        const after = Number(row.event.facts?.[rule.toFact]);
+        if (!(before > zero) || !Number.isFinite(after)) continue;
+        raw = Math.abs(after - before) / before;
+      }
+      if (raw <= zero) continue;
       change(
         row.event.id,
         `event:${row.event.kind}`,
         rule.channel,
-        Math.abs(after - before) / before,
+        raw,
         row.event.personIds,
       );
     }

@@ -213,6 +213,66 @@
           "text": "My pay went up to {{wage}} an hour."
         }
       ]
+    },
+    {
+      "kindPrefix": "event:life.death",
+      "turn": true,
+      "line": [
+        {
+          "key": "died",
+          "text": "{{other}} died."
+        }
+      ],
+      "title": [
+        {
+          "key": "after",
+          "text": "After {{name}}"
+        }
+      ]
+    },
+    {
+      "kindPrefix": "event:health.serious-illness",
+      "turn": false,
+      "line": [
+        {
+          "key": "ill",
+          "text": "I fell seriously ill."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-ill",
+          "text": "{{other}} fell seriously ill."
+        }
+      ]
+    },
+    {
+      "kindPrefix": "event:candidate-filed",
+      "turn": true,
+      "eventFacts": {
+        "office": {
+          "fact": "office",
+          "format": "text"
+        }
+      },
+      "line": [
+        {
+          "key": "filed",
+          "text": "I filed to run for {{office}}."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-filed",
+          "text": "{{other}} filed to run for {{office}}."
+        }
+      ],
+      "title": [
+        {
+          "key": "running",
+          "text": "Running for {{office}}"
+        }
+      ]
     }
   ],
   "firstTitle": [
