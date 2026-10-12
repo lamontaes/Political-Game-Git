@@ -499,6 +499,9 @@ function amortize(api: CoreAPI): void {
     id: string;
   })[]) {
     if (row.monthsLeft <= 0) continue;
+    // A full household's bill in arrears paid no principal this month (counted households pay from the pool).
+    const bill = c.finance.contracts.get(row.id);
+    if (bill && !bill.endedAt && bill.arrearsMinor > 0) continue;
     const interest = Math.round((row.balanceMinor * row.rate) / months);
     const balance = Math.max(
       0,

@@ -377,7 +377,8 @@ function month(api: CoreAPI): void {
     // Profit is what the business's net cash gained: every sale, wage, purchase and loan payment.
     const net = netCash(c, row.id);
     const profit = net - (row.netThrough ?? net);
-    const retained = Math.max(0, row.retainedMinor + profit);
+    // Losses carry: an owner draws only from profit the business has kept, net of losses since.
+    const retained = row.retainedMinor + profit;
     const cash = c.organizations.get(row.id)!.liquidMinor;
     const cushion =
       (book.annualPayrollMinor / p("macroMonthsPerYear")) *
@@ -480,8 +481,9 @@ function marketRoom(api: CoreAPI): Market[] {
     row.capacity += book.capacityMinor;
     row.incumbents.push(id);
     row.staff +=
-      (c.finance.jobsByOrganization.get(id)?.size ?? 0) +
-      countedJobsOf(c, id).length;
+      [...(c.finance.jobsByOrganization.get(id) ?? [])].filter(
+        (jobId) => c.jobs.get(jobId)?.endsAt === undefined,
+      ).length + countedJobsOf(c, id).length;
     out.set(key, row);
   }
   return [...out.values()].map((row) => ({
@@ -891,6 +893,15 @@ function found(
         source,
       )
     : 0;
+  // Funding a location moves the parent's cash, not its profit.
+  if (location && funded > 0) {
+    const parent = store(api).table("owners").get(location.parentId) as
+      OwnerRow | undefined;
+    if (parent?.netThrough !== undefined)
+      store(api)
+        .table("owners")
+        .put({ ...parent, netThrough: parent.netThrough - funded });
+  }
   const loan =
     startup - funded > 0
       ? lendForFounding(
