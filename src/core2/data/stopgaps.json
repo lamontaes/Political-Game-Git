@@ -1624,11 +1624,11 @@
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
     "line": 322,
-    "whatItFakes": "All of a town's rentals belong to one landlord business with no owner, and it serves notice as soon as rent is past the grace period.",
+    "whatItFakes": "All of a town's rentals belong to one landlord business with no owner; it serves notice by summed pulls of months owed and months late (calibrated to landlords filing at about two months owed), not by an owner's own patience and cash.",
     "why": "Landlords as businesses with owners who decide from their own books and patience come with businesses growing (M1-08).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Landlord businesses founded and owned by people (M1-08), deciding whether and when to serve notice through the shared chooser.",
+    "replacement": "Rentals owned by the town's own landlords (owners of rental businesses and individual owners), each deciding from their traits, cash and the tenant's history.",
     "status": "open"
   },
   {
@@ -1647,7 +1647,7 @@
     "id": "SG-WORLD-housing-hearing-without-judge",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
-    "line": 1018,
+    "line": 1055,
     "whatItFakes": "An eviction hearing ends in judgment whenever rent is still owed and notice was given, with no judge's discretion, defenses or counsel.",
     "why": "Courts are parked until after early access (owner, Oct 10).",
     "addedBy": "OPUS-WORLD",
