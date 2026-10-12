@@ -278,6 +278,7 @@ element("opening").addEventListener("submit", async (event) => {
     const query = new URLSearchParams({
       seed: element("seed").value,
       date: element("date").value,
+      size: element("size").value,
     });
     const value = await request(`/api/build?${query}`, { method: "POST" });
     residents = value.residents;

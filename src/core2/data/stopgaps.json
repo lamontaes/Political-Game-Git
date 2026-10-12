@@ -1294,5 +1294,29 @@
     "addedAt": "2026-10-09",
     "replacement": "An English-engine naming bank for associations reading topic and place.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-skip-own-choice-attribution",
+    "kind": "faked-mechanic",
+    "file": "src/bench/player.ts",
+    "line": 108,
+    "whatItFakes": "While the player skips, the character’s own pick (the core’s chooseAct selection) is resumed as a player answer, so the saved act carries a controlled-choice reason key.",
+    "why": "The core’s player clock has no resume kind that records an act as the character’s own decision.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "An OPUS-CORE resume kind that saves the act as the character’s own decision while control is held.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-bench-town-size",
+    "kind": "faked-mechanic",
+    "file": "src/bench/server.ts",
+    "line": 101,
+    "whatItFakes": "The bench builds a smaller town (2,000 people by default) instead of the full opening cohort.",
+    "why": "A day of the full 40,000-person town takes about 13 seconds, too slow to play.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-CORE’s two-level population and speed work, after which the bench builds the full place.",
+    "status": "open"
   }
 ]

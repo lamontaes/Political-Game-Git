@@ -98,9 +98,12 @@ const server = createServer(async (request, response) => {
       if (building) throw new Error("Opening generation is already running.");
       const seed = url.searchParams.get("seed") ?? "";
       const date = url.searchParams.get("date") ?? "";
+      // Stopgap SG-PLAY-bench-town-size: a smaller town plays at a usable
+      // speed until the core's two-level population and speed work land.
+      const size = Number(url.searchParams.get("size") ?? "") || undefined;
       building = true;
       try {
-        const world = buildBenchWorld(seed, date);
+        const world = buildBenchWorld(seed, date, { minimumPeople: size });
         const { place, residents } = world;
         const next = world.core,
           nextDirector = world.director;

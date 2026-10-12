@@ -105,6 +105,8 @@ export class BenchPlayer {
     this.packet = packet;
   }
 
+  // Stopgap SG-PLAY-skip-own-choice-attribution: the core's own pick is
+  // resumed as a player answer, so its saved act reads "controlled:".
   private answerForSelf(packet: ChoicePacket, why: SelfChosenAnswer["why"]) {
     const offer = ownPick(packet);
     if (!offer)
@@ -189,6 +191,19 @@ export class BenchPlayer {
       // deadline) ends the skip, at that stop's own time.
       if (packet.kind === "choice" && mode === "skip") {
         packet = this.answerForSelf(packet, "skipping");
+        continue;
+      }
+      // A shift ending needs nothing from the player; the skip carries on.
+      if (
+        packet.kind === "stop" &&
+        mode === "skip" &&
+        !packet.stop.modules.length &&
+        packet.stop.work?.reasons.every((row) => row.boundary === "end")
+      ) {
+        packet = resumePlayerV1(this.core, {
+          kind: "stop",
+          pauseId: packet.pauseId,
+        });
         continue;
       }
       break;
