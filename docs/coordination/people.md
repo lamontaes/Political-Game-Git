@@ -11,9 +11,20 @@ Only OPUS-PEOPLE writes this file. See "The team" in `AGENTS.md` and `docs/coord
 
 - **Steps 1 and 2 in the core (not yet on screen).** A new life at 18 in any of the 56 places has parents and siblings who follow the kin rules, real schools from the place data, and a record behind every fact. Over 91 days that person meets new people on visits and on joining groups, each meeting a dated fact naming the place, and some of those ties grow closer. Both run as golden-path checks in a randomly drawn place. They reach the owner's screen once OPUS-PLAY's bench shows the life and the circle.
 
+## Audit 1 fixes (owner, Oct 12, 9:15 a.m.: these first)
+
+- [x] 1. Conversations: four distinct choices guaranteed; lies change what hearers believe, reach everyone present, and are found out through others.
+- [x] 2. Talking records contact and closeness, and passes news.
+- [ ] 3. The speech module and "bring it up" in /play: `peopleModules()` is ready; wiring it into /play is OPUS-PLAY's (see Needs).
+- [x] 4. News: trust by lean (Gallup), county and state stories, outlets as records; showing what the player heard is the /play sheet's (`storiesHeard`).
+- [x] 5. Journal lines for deaths, illness and filing; marriages and election results wait on producers. The look-back in /play is OPUS-PLAY's.
+- [ ] 6. Schools by era: in progress (NCES directories 1986–2021 downloading).
+- [x] 7. Template banks fire their stopgaps until composed from mined speech.
+- [x] Also: a moment no situation type binds now plays at home instead of failing.
+
 ## Checklist
 
-An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items.
+An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items. Per the owner's ruling, the ticks below mean the engine is built and tested in drawn places; each counts as done when it also works in /play, which needs OPUS-PLAY's wiring.
 
 - [x] **A life at 18 and meeting people (steps 1 and 2).** Finish part 5; merge the encounters and closeness reasons (#3964) into its branch.
   - Done Oct 12: #3964, the story director (`pool/P13-5`) and main merged in. #3964 and this branch had each built part 5 from the same commit; this branch's version stays because saved traces, appraisal and the M0-07 test already use it. M0-06 and M0-07 are registered golden-path commands and pass in drawn places (Repton, Alabama; Martha Lake, Washington). The owner plays them once the bench shows them.
@@ -67,6 +78,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: conversations checked against the small-talk register card (Santa Barbara corpus: median turn 4 words, 45% of turns three words or fewer). Before: the other person always spoke full sentences (median 6, 11% short) and conversations with someone jobless ended after one exchange. Now they acknowledge answers ("Right.", "Yeah."), use the clipped forms people use ("Still in Merrifield?", "Seen Zoe lately?", "Working these days?"), raise their own subjects (people both know, their family, their work), and say "yesterday" rather than a date: median 5, 34% short, inside the check's range, and conversations run 387 turns where they ran 132.
 - Oct 12, audit 1 (news): trust in the media now comes from each person's lean, interpolated between Gallup's September 2024 shares (Democrats 54%, independents 27%, Republicans 12%, all adults 31%), and people who trust it less hear from outlets later; a county or state record reaches the residents inside it; each story names its outlet record (one local outlet per place, a registered stand-in until real outlets are records).
 - Oct 12, audit 1: the journal now writes a relative's death ("My father died.", opening a chapter titled after them), serious illness, and filing for office ("I filed to run for City Council, Seat 2.", from GOV's `candidate-filed` record, sized as the SRRS "outstanding personal achievement"). Marriages and election results wait on producers: no core engine records a marriage yet, and GOV's elections don't emit results yet. All banks now fire their stopgaps; `peopleModules()` installs every people engine for /play.
 - Oct 12, audit 1 fixes (owner, 9:15 a.m.: audit findings first). Conversations rewritten: every turn offers at least four distinct answers to the last line (plain; a further fact such as "Yes. I've been there since April 2016."; turning it back; brief and moving on), checked over 15 conversations and four turns each; a stranger asks what they don't know ("Where are you working these days?"); when the player raises nothing, the other person carries on. Talking is recorded as time together through the core's relationship writer, so closeness grows and news passes. A lie now leaves its claim as a belief in everyone present, the director keeps it, and anyone who knows the truth (a coworker, a housemate) sets a believer straight the next time they talk, which ends the lie. Lies can name a real other employer. Found on the way: every template slot written in camelCase was silently refused by the engine; renamed. The word banks' stopgaps now fire when they write.

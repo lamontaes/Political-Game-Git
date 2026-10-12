@@ -70,4 +70,15 @@ describe(`scenes in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
       }
     expect(scenes).toBeGreaterThan(0);
   });
+
+  it("plays a moment no situation type binds, at home, instead of failing", () => {
+    for (const book of director.ledger.people.values()) {
+      const entry = book.schedule.find((row) => !row.bindings.length);
+      if (!entry) continue;
+      const scene = composeScene(core, director, book.personId, entry)!;
+      expect(scene.setting.kind).toBe("home");
+      expect(scene.narration.length).toBeGreaterThan(0);
+      return;
+    }
+  });
 });

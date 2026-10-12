@@ -16,6 +16,7 @@ import {
   say,
 } from "./conversation";
 import { createDirector } from "./ledger";
+import { REGISTER_CARDS } from "../presentation/speech-registers";
 
 // M4-02, conversations (audit 1, Oct 12): at least four distinct choices
 // every turn, each answering the last line from real records; talking is
@@ -94,6 +95,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
       for (let turn = 0; turn < 4 && talk.choices.length; turn += 1) {
         const last = talk.lines.at(-1)!;
         expect(last.speakerId).toBe(otherId);
+        expect(last.kind).not.toBe("ack");
         expect(talk.choices.length).toBeGreaterThanOrEqual(
           CONVERSATION_DATA.minimumChoices,
         );
@@ -138,7 +140,7 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
 
   it("strangers ask what they don't know, and the scales dim for what they already know", () => {
     const talk = openConversation(core, player.id, strangers[0]!.id);
-    expect(talk.lines[0]!.text).toMatch(/^Where /);
+    expect(talk.lines[0]!.text).toMatch(/^(Where|Working)/);
     expect(talk.lie).not.toBeNull();
     const coworker = [...core.jobs.values()].find(
       (job) => job.personId !== player.id && job.organizationId === myOrg(),
@@ -183,5 +185,26 @@ describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () 
     expect(lie.endedAt).toBe(core.date);
     // The bystander, who hasn't talked with anyone who knows, still believes it.
     expect(beliefsOf(api, bystanderId).map((row) => row.key)).toContain(key);
+  });
+
+  it("talks like small talk: short turns, as in the counted corpus", () => {
+    const card = REGISTER_CARDS["small-talk"];
+    const median = card.checks.find((row) => row.key === "median-words")!.value;
+    const short = card.checks.find((row) => row.key === "short-turns")!.value;
+    const lengths: number[] = [];
+    for (const otherId of others.slice(0, 20)) {
+      const talk = openConversation(core, player.id, otherId);
+      for (let turn = 0; turn < 4 && talk.choices.length; turn += 1)
+        say(core, talk, talk.choices[(turn * 3) % talk.choices.length]!.key);
+      for (const line of talk.lines)
+        lengths.push(line.text.split(/\s+/).length);
+    }
+    lengths.sort((a, b) => a - b);
+    expect(lengths.length).toBeGreaterThan(20);
+    expect(
+      Math.abs(lengths[Math.floor(lengths.length / 2)]! - median),
+    ).toBeLessThanOrEqual(2);
+    const shortShare = lengths.filter((n) => n <= 3).length / lengths.length;
+    expect(Math.abs(shortShare - short)).toBeLessThan(0.2);
   });
 });
