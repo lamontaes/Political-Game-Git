@@ -1,20 +1,51 @@
 # Our Civic Duty — repository guide
 
-A political and government RPG with a full life simulation underneath. Every Claude and Codex session follows this file. Keep it short: rules that must never be skipped are automatic checks, and detailed how-tos live in `.claude/skills/` and `.agents/rules/`.
+A political and government RPG with a full life simulation underneath. Every Claude and Codex session follows this file. Keep it short: rules that must never be skipped are automatic checks, and detailed how-tos live in `.agents/skills/`, `.agents/rules/standing-skills/` and `.agents/rules/`.
 
 ## Where the game is going (owner, Oct 10, 2026)
 
 - **The new core (`src/core2`) is the engine.** Build onto it through modules and data rows. Never start a parallel engine, writer, scheduler or system. The old core runs only until each piece is ported (`docs/design/core2-porting-plan.md`); add no new features to it.
 - **Progress is the golden path with the world running.** The player's path: turn 18 → meet people → file for office where that place files (clerk, registrar or board of elections, from its records) → campaign → win or lose → propose an ordinance → negotiate → pass or fail → the town visibly changes → people bring it up → the next election uses the record. Around it the whole time: the national economy, state and federal governments acting through the same engines as local government, and other places at a coarser level. Report the furthest step a player reaches, never an audit percentage.
+- **The Political Process is the baseline (owner, Oct 12).** The game does everything _The Political Process_ (Verlumino Studios) does, then goes deeper from the owner's decisions and the design record. `docs/roadmap/political-process-baseline.md` maps each of its systems to our specs.
 - **Early access:** local and state offices playable (council, mayor, county, state legislature, governor), including the executive role. Federal is built in parallel on the same engines; playing as president is a goal that early access doesn't wait for. Courts come after early access.
 - **The roadmap is `docs/ROADMAP.md`.** Work is tracked on the GitHub Project. Owner ideas go into its "Next" list and get scheduled at the weekly reschedule; work in progress finishes unless the owner says stop.
 
+## Keep it simple (owner, Oct 11, 2026)
+
+This section overrides anything heavier elsewhere in this file, in `docs/packages/` or in a work order.
+
+- **Two-level population.** Full individual people exist only where they matter: the player, their household and circle, people they meet or click on, officials and other named people. Everyone else is the modeled wider population (counts by place, age, job and household, plus voter groups), filled in as a full person the moment the player meets or clicks them, seeded from the world so the same person comes back every time. A filled-in person must match what the records already say (if a business's books show 12 employees, the one you click is one of those 12, with that job and pay). Nobody gets a full past or memory until they're filled in.
+- **Bookkeeping is a debug switch.** Read tracing, validation, copying and freezing run in tests and the bench, not in play. Save "why" reasons only for the player and the people they deal with.
+- **One run, one number.** No repeat medians, receipt files, frozen copies or proof ceremonies unless a result is disputed.
+- **Build only what the golden path needs.** Port what it actually uses; write it fresh when that's simpler. Don't carry old code over just because it exists.
+- **Every day ends with something the owner can play.** Report what he can do now in plain words, not PR numbers.
+- **Short work orders:** what to build, the rules it must follow, and how the owner will play it to know it works.
+
+## The team (owner, Oct 11, 2026)
+
+Long-lived Opus cloud sessions ("pillars") each own one area. Each works down its checklist in `docs/coordination/` and then keeps going into its area's next roadmap items, stopping only when it's out of usage (see "No stopping" below). A checklist is an order of work, not a ceiling.
+
+| Session     | Owns                                                                                                                       | Model        |
+| ----------- | -------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| OPUS-CORE   | The core, `src/core2`: state, clock, choices, ledger, population, speed, money; everything not listed below                | Opus, high   |
+| OPUS-GOV    | `src/rules` and the government engines: laws, budgets, programs, offices, elections and campaigns, legislatures, executive | Opus, medium |
+| OPUS-PEOPLE | The people engines (people, health, drives, views, renewal), the story director (`src/director`) and the English engine    | Opus, high   |
+| OPUS-PLAY   | The bench, `src/bench`; the game screens on the new core; the evening build; store screenshots                             | Opus, medium |
+| OPUS-WORLD  | The economy engines: macro, regional, jobs, housing, credit, business                                                      | Opus, medium |
+| FIXER       | Nothing of its own: bugs the CTO assigns, one per PR                                                                       | Sonnet, high |
+
+- An engine is `src/core2/modules/<name>.ts` with its helpers `src/core2/<name>-*.ts` and data `src/core2/data/<name>/`; it belongs to the pillar that owns that engine.
+- Each session writes only in its own area, on its own branch. Changes to the core go through OPUS-CORE: ask on its PR, and it answers within the day.
+- Each session keeps one status file, `docs/coordination/<session>.md`, and is its only writer: its checklist, what it needs from others, and what the owner can play now. Only the CTO writes `docs/coordination/BOARD.md`. Cloud sessions can't reliably message each other, so the CTO relays.
+- Codex and any other session build under the pillar that owns the area.
+- **No stopping (owner, Oct 12, 2026).** The pillars build the whole game, not just tonight's list. When your checklist is done, keep going through your area's specs in every later milestone (`docs/roadmap/later-specs-draft.md`, M2 to M7), then take open work from `docs/coordination/BOARD.md`. Nothing waits on another session: if you need something from one, build against the smallest stand-in on your own branch, register it as a stopgap (a marker in the code and a row in `src/core2/data/stopgaps.json` naming what it fakes and what replaces it; see "Placeholders"), note it under "Needs from other sessions", and keep going. Nothing waits on the owner: where a design is his call and he hasn't ruled, build the simplest version that follows this file, write the question in your status file, and keep going; he reviews by playing. The only stop is running out of usage.
+
 ## Who does what
 
-- **Codex builds.** Modules, ports, data and tests, on draft PRs, from a package spec in `docs/packages/`.
-- **A separate Claude session finishes.** Opus for judgment calls, Sonnet for agreed designs. It checks the build against the package, clears or justifies every placeholder, wires it to the world, fixes defects and writes the owner's report. A builder never grades its own work.
-- **The CTO merges.** Nobody merges their own PR. The owner approves designs and package text before anything is sent to a session.
-- **One writer per area.** Stack branches on the core; never push to another session's branch. Claim a task on the GitHub Project before starting it.
+- **Codex and the Claude engineering account build** (owner, Oct 11), on draft PRs, from a package spec in `docs/packages/`. Codex takes broad and data-heavy work (research, ports, data, tests). The Claude engineering account takes the critical path and work where mistakes cost most (core speed, money, people modeling, and work orders the CTO assigns to it).
+- **Checks stay light (owner, Oct 11).** Builders test their own work. Three checks are automatic and the only ones that block: the golden-path suite, the speed guard, and every dollar balancing. The owner plays the evening build, and that's the real check. Checker sessions play alongside and file bugs to the fixer; they never hold a builder up.
+- **The CTO merges.** Nobody merges their own PR. The owner approves designs and package text before anything is sent to a session; the pillars' work under "No stopping" is the exception, and he reviews it by playing.
+- **One writer per area.** Stack branches on the core; never push to another session's branch. Claim a task on the GitHub Project before starting it (pillars claim in their status file).
 - **Helpers.** A helper needs an independently useful bounded output and explicit path/tool ownership; no recursive delegation or duplicate full-repo review. Preserve configured concurrency limits. Model effort is proportional to the actual task (see `model-effort`).
 
 ## Models, effort and helpers (owner, Oct 10: mind the usage)
@@ -22,18 +53,25 @@ A political and government RPG with a full life simulation underneath. Every Cla
 Every package names its model and effort with a one-line reason. Balance usage against effectiveness: normally lean toward saving usage (about 60–65% thrift, 35–40% raw power); near or right after a usage reset, about even, or tilted toward effectiveness. Not the cheapest possible, and nothing runs at the top level just because it's available.
 
 - **Codex builds at medium** by default (OpenAI's recommended default for coding). **High** only when the package says why: core architecture, money conservation, or rules every port depends on. **Extra-high only after high has failed** at a named task.
-- **Claude finishes with Sonnet at high** for agreed designs, test and tooling checks, and playing features in the bench, where careful checking matters. **Opus at high** only for judgment-heavy finishing: core design, modeling people, or a disputed result. **Max** only after high has failed at a named task. Medium is fine for small, clear fixes.
+- **The Claude engineering account builds with Sonnet at high** by default, and **Opus at high** for judgment-heavy design.
+- **Checkers run on Sonnet at high** when needed: playing the evening build and investigating a disputed result. **Opus at high** only for a judgment-heavy dispute. **Max** only after high has failed at a named task. Medium is fine for small, clear fixes.
 - **Helpers:** none by default. At most two for Codex (the repository setting) and three for Claude, and only when the work splits cleanly: independent research, reading many files, or a fresh-context review. Each gets a clear objective, an output format, allowed paths and tools, and is read-only unless the package says otherwise.
-- **One package per session**, then a fresh session. Stop and report instead of escalating when a package keeps failing.
+- **Pillars may build with sub-agents (owner, Oct 12, 2026, 10:30 a.m.).** Each pillar session may run its own Sonnet or Opus sub-agents that write code, choosing what fits: a Sonnet sub-agent fixing bugs while an Opus one builds the next roadmap step, two Opus sub-agents splitting a big build to finish it faster, or Sonnet only when the work doesn't need Opus. The rules:
+  - each sub-agent works on its own files or in its own worktree, inside the pillar's own area, so two never edit the same file;
+  - the pillar gives each a clear task, its allowed paths and its check (a test in a random place), then reviews and merges the result into its branch;
+  - sub-agents follow every rule here (no hand-written player text, registered stopgaps, the guards) and never edit another session's area;
+  - the pillar's status file says which sub-agents ran, on what model, and what they finished.
+  - onto main, and for every fixer PR into a pillar branch, only the CTO merges, and reports each merge in the owner's chat. The CTO's look before merging is a quick check that the work is real and breaks none of these rules (owner, Oct 12, 10:35 a.m.), not a line-by-line review; the automatic checks and the owner's playtests carry the rest.
+- **One package per session**, then a fresh session. The pillars are the exception: they're long-lived, automatic compaction carries their context, and their status file carries their state. Stop and report instead of escalating when something keeps failing.
 - **Track what each choice costs.** Every hand-off records the model and effort, how long it took, usage if visible, and how many times the finisher sent it back (and why). The CTO keeps `docs/roadmap/model-log.md` and adjusts defaults from it: a cheaper, faster setup that needs a few more send-backs is fine (owner, Oct 10).
 
 ## How every session works
 
-1. **Start:** read the package, the roadmap's progress file and the git log; run the test bench and confirm the game still works before changing anything.
+1. **Start:** read the package (or your status file), the roadmap's progress file and the git log; run the golden-path suite (`node --import tsx tests/golden-path/runner.mjs`) and, once the bench is on your branch, open it; confirm the game still works before changing anything.
 2. **Contract:** before building, write what you will build and how it will be checked (the golden-path test, in a random place) in the PR body, then **start right away**. Don't wait for approval unless you're changing the package's scope, its owned paths or a test; the CTO reviews contracts at check-ins and sends one back if needed.
 3. **One feature at a time.** Commit after each meaningful unit, with tests passing.
-4. **Finish:** update the progress file, including what failed and why; leave the branch mergeable. The next feature gets a fresh session.
-5. **Done means checked:** a feature is done only when the finisher has played it in the test bench in a randomly drawn place, never on the builder's word.
+4. **Finish:** update the progress file, including what failed and why; leave the branch mergeable. The next feature gets a fresh session; pillars continue in theirs.
+5. **Done means it works in play:** its own tests and the automatic guards pass, and it's in the evening build for the owner to play.
 
 ## Placeholders
 
@@ -43,7 +81,7 @@ Every package names its model and effort with a one-line reason. Balance usage a
 
 ## Standing owner rules
 
-Detail and self-checks are in the matching `.claude/skills/<name>/SKILL.md`.
+Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>/SKILL.md`.
 
 - **No dice.** No seeded roll or fixed percentage decides what a person, business, official or body does; their traits, principles, relationships, money, health, the law in force and the place's conditions decide. Real rates check totals; they never pick one actor's outcome. Seeded generation of who exists is allowed. See `no-dice`.
 - **Sliding scales and causes.** Nothing flips at a threshold. World events happen from causes (a hazard record, a health record, a law, a price change), never a monthly chance.

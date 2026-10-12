@@ -46,6 +46,8 @@ const manifest = JSON.parse(
   readonly compiler: string;
   readonly compilerVersion: string;
   readonly asOf: string;
+  readonly runtimeSha256: string;
+  readonly runtimeArtifactIsByteIdenticalToCorpus: boolean;
 };
 
 describe("electoral calibration source integrity", () => {
@@ -60,24 +62,72 @@ describe("electoral calibration source integrity", () => {
     }
   });
 
-  it("the runtime artifact is the compiled corpus, byte for byte", () => {
+  it("ships exactly the simulation fields while preserving the research digest", () => {
     const corpusText = readFileSync(resolve(DIR, "corpus.json"), "utf8");
     const runtimeText = readFileSync(
       resolve(import.meta.dirname, "electoral-calibration.generated.json"),
       "utf8",
     );
-    expect(runtimeText).toBe(corpusText);
+    expect(runtimeText).not.toBe(corpusText);
+    expect(manifest.runtimeArtifactIsByteIdenticalToCorpus).toBe(false);
+    expect(sha256(runtimeText)).toBe(manifest.runtimeSha256);
+    const corpus = JSON.parse(corpusText) as {
+      schema: string;
+      asOfDate: string;
+      calibrationRows: typeof calibration.calibrationRows;
+      presidentialByState: typeof calibration.presidentialByState;
+    };
+    expect(Object.keys(calibration).sort()).toEqual([
+      "asOfDate",
+      "calibrationRows",
+      "presidentialByState",
+      "schema",
+    ]);
+    expect(calibration.schema).toBe(corpus.schema);
+    expect(calibration.asOfDate).toBe(corpus.asOfDate);
+    // All 636 contest observations are already identity-free structured facts.
+    expect(calibration.calibrationRows).toEqual(corpus.calibrationRows);
+    expect(calibration.presidentialByState).toEqual(
+      corpus.presidentialByState.map(
+        ({ stateUsps, totalVotes, totalsByParty }) => ({
+          stateUsps,
+          totalVotes,
+          totalsByParty,
+        }),
+      ),
+    );
+    const text = JSON.stringify(calibration);
+    expect(text).not.toMatch(
+      /officeholderName|portrait|biography|rawLabels|notes|https?:/i,
+    );
+    for (const row of calibration.calibrationRows) {
+      expect(Object.keys(row).sort()).toEqual([
+        "contestKey",
+        "democraticTwoPartyShare",
+        "observedContestType",
+        "office",
+        "referenceAffiliation",
+        "referenceDate",
+        "sourceRef",
+        "stateUsps",
+        "totalVotes",
+        "twoPartyMargin",
+        "uncertaintyReason",
+      ]);
+    }
     // The manifest digests the corpus file's own bytes, as the compiler writes
     // them; canonicalJson of the parsed value must agree with those bytes too,
     // so neither key order nor formatting can drift unnoticed.
     expect(sha256(corpusText)).toBe(manifest.canonicalSha256);
-    expect(canonicalJson(JSON.parse(corpusText) as unknown)).toBe(
-      canonicalJson(calibration as unknown),
+    expect(canonicalJson(calibration as unknown)).not.toBe(
+      canonicalJson(corpus),
     );
   });
 
   it("the corpus cites its own compiler and reference date", () => {
-    const corpus = calibration as unknown as {
+    const corpus = JSON.parse(
+      readFileSync(resolve(DIR, "corpus.json"), "utf8"),
+    ) as {
       compiler: string;
       compilerVersion: string;
       asOfDate: string;

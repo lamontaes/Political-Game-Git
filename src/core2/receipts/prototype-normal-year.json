@@ -1,0 +1,1045 @@
+{
+  "schema": "p8-normal-year-compact-v1",
+  "seed": "p8-real-life-cost-2026-10-09",
+  "startedAt": "2021-01-01",
+  "throughDate": "2022-01-01",
+  "fullReceipt": {
+    "path": "/tmp/p8-normal-year-tiers-20261009-0841.json",
+    "bytes": 99293841,
+    "sha256": "de207550fe174f1ab9676511bbe1557834c9d889da82bd1158e225fb3a05e164",
+    "repositoryArchive": {
+      "path": "src/core2/receipts/prototype-normal-year-full.json.gz",
+      "bytes": 3136132,
+      "sha256": "2360d2567b550e084b954e436b48e7f312454cd6886ea54c22e1db490762cb55",
+      "uncompressedBytes": 99293841,
+      "uncompressedSha256": "de207550fe174f1ab9676511bbe1557834c9d889da82bd1158e225fb3a05e164"
+    }
+  },
+  "personMonthActionCsv": {
+    "path": "/tmp/p8-normal-year-person-month-action-20261009.csv",
+    "rows": 140078,
+    "sha256": "a4b1d19a49fa23ea5623ceb3220f07b3f1df7e12862804300499a1ac65c1fc09",
+    "repositoryArchive": {
+      "path": "src/core2/receipts/prototype-normal-year-person-month-actions.csv.gz",
+      "bytes": 1074083,
+      "sha256": "6a5ef7efe24eff82253ce97a2f1fdd5a10ad6557bc804178d86523846235b441",
+      "uncompressedBytes": 9403196,
+      "uncompressedSha256": "a4b1d19a49fa23ea5623ceb3220f07b3f1df7e12862804300499a1ac65c1fc09"
+    }
+  },
+  "log": {
+    "path": "/tmp/p8-normal-year-tiers-20261009-0841.log",
+    "sha256": "dcf44f6401e0e20cb0671ad5f5bf5c8e335d5c3bef56aea11edf0f57f479cc18",
+    "repositoryPath": "src/core2/receipts/prototype-normal-year.log"
+  },
+  "parameters": {
+    "targetPopulation": 10000,
+    "warmupRuns": 1,
+    "warmRuns": 3,
+    "yearSpanDays": 365,
+    "benchmarkAdultMinimumAge": 18
+  },
+  "trace": {
+    "playerId": "person_5ddb09a9f5487640",
+    "countyId": "jurisdiction_d7c59c46f6a28e90",
+    "focusPersonCount": 3,
+    "focusPlaceIds": [],
+    "visiblePlaceIds": [
+      "jurisdiction_47f8dde9eac44f56",
+      "jurisdiction_d7c59c46f6a28e90"
+    ],
+    "tierScope": "normal-circle-daily-town-weekly",
+    "focusPersonIds": [
+      "person_458b05b253544c3e",
+      "person_5ddb09a9f5487640",
+      "person_5ddb0aa9f54877f3"
+    ]
+  },
+  "sourceHash": {
+    "beforeBuild": {
+      "scope": "src/core2 TypeScript and JSON; test TypeScript excluded",
+      "dependencyNote": "Transitive code and data outside src/core2 are not hashed here and must remain frozen by the owner; the prepared traced CoreInput has a separate SHA-256.",
+      "sha256": "2035d81b610942b6cb8d9e8312b84c27e92d47b0da720dcd9d9a97bd9a727947",
+      "fileCount": 29
+    },
+    "afterRuns": {
+      "scope": "src/core2 TypeScript and JSON; test TypeScript excluded",
+      "dependencyNote": "Transitive code and data outside src/core2 are not hashed here and must remain frozen by the owner; the prepared traced CoreInput has a separate SHA-256.",
+      "sha256": "2035d81b610942b6cb8d9e8312b84c27e92d47b0da720dcd9d9a97bd9a727947",
+      "fileCount": 29
+    },
+    "stableDuringRun": true
+  },
+  "preparedInputSha256": "32f217f04d3eafb94c6cffbbafd89de0678b539e65ec73caac76d6b47194f629",
+  "build": {
+    "population": {
+      "elapsedMilliseconds": 18792.239808,
+      "memory": {
+        "before": {
+          "heapUsedMiB": 371.1325225830078,
+          "rssMiB": 663.96875,
+          "processLifetimeMaxRssMiB": 672.99609375
+        },
+        "after": {
+          "heapUsedMiB": 754.7636566162109,
+          "rssMiB": 1113.109375,
+          "processLifetimeMaxRssMiB": 1113.109375
+        },
+        "heapDeltaMiB": 383.6311340332031,
+        "rssDeltaMiB": 449.140625
+      },
+      "counts": {
+        "people": 10002,
+        "households": 3955,
+        "jobs": 64,
+        "organizations": 39
+      }
+    },
+    "deepPast": {
+      "elapsedMilliseconds": 1917.1478110000025,
+      "memory": {
+        "before": {
+          "heapUsedMiB": 754.7919692993164,
+          "rssMiB": 1113.109375,
+          "processLifetimeMaxRssMiB": 1113.109375
+        },
+        "after": {
+          "heapUsedMiB": 842.334716796875,
+          "rssMiB": 1174.6640625,
+          "processLifetimeMaxRssMiB": 1174.6640625
+        },
+        "heapDeltaMiB": 87.5427474975586,
+        "rssDeltaMiB": 61.5546875
+      },
+      "pastFactCount": 92867,
+      "gapCount": 15
+    },
+    "civicInputs": {
+      "elapsedMilliseconds": 15.897773999997298,
+      "memory": {
+        "before": {
+          "heapUsedMiB": 842.3364868164062,
+          "rssMiB": 1174.6640625,
+          "processLifetimeMaxRssMiB": 1174.6640625
+        },
+        "after": {
+          "heapUsedMiB": 844.6377334594727,
+          "rssMiB": 1175.4140625,
+          "processLifetimeMaxRssMiB": 1175.4140625
+        },
+        "heapDeltaMiB": 2.3012466430664062,
+        "rssDeltaMiB": 0.75
+      },
+      "publicOrganizationCount": 7,
+      "gapCount": 24
+    }
+  },
+  "warmupTiming": [
+    {
+      "elapsedMilliseconds": 164627.26840300002,
+      "initializeMilliseconds": 3696.588354000007,
+      "advanceMilliseconds": 160930.68004900002,
+      "daysPerMinute": 133.0277797381039,
+      "simulatedDays": 365,
+      "decisions": 521043,
+      "acts": 521043,
+      "actStatsHash": "f45ea613ad450d4c3a48cdba0162074874d55b4d29fb28d83ded71d2db5b6ffc",
+      "memory": {
+        "before": {
+          "heapUsedMiB": 1561.7672119140625,
+          "rssMiB": 1927.0625,
+          "processLifetimeMaxRssMiB": 2616.89453125
+        },
+        "after": {
+          "heapUsedMiB": 1287.8327102661133,
+          "rssMiB": 1672.64453125,
+          "processLifetimeMaxRssMiB": 2616.89453125
+        },
+        "heapDeltaMiB": -273.9345016479492,
+        "rssDeltaMiB": -254.41796875
+      }
+    }
+  ],
+  "runs": [
+    {
+      "elapsedMilliseconds": 136653.518592,
+      "initializeMilliseconds": 2004.277625000017,
+      "advanceMilliseconds": 134649.240967,
+      "daysPerMinute": 160.259320254942,
+      "simulatedDays": 365,
+      "decisions": 521043,
+      "acts": 521043,
+      "actStatsHash": "f45ea613ad450d4c3a48cdba0162074874d55b4d29fb28d83ded71d2db5b6ffc",
+      "memory": {
+        "before": {
+          "heapUsedMiB": 1344.5724029541016,
+          "rssMiB": 1676.34375,
+          "processLifetimeMaxRssMiB": 2616.89453125
+        },
+        "after": {
+          "heapUsedMiB": 1952.8284759521484,
+          "rssMiB": 2301.77734375,
+          "processLifetimeMaxRssMiB": 2616.89453125
+        },
+        "heapDeltaMiB": 608.2560729980469,
+        "rssDeltaMiB": 625.43359375
+      }
+    },
+    {
+      "elapsedMilliseconds": 115988.48216200003,
+      "initializeMilliseconds": 1561.7509640000062,
+      "advanceMilliseconds": 114426.73119800002,
+      "daysPerMinute": 188.8118508992339,
+      "simulatedDays": 365,
+      "decisions": 521043,
+      "acts": 521043,
+      "actStatsHash": "f45ea613ad450d4c3a48cdba0162074874d55b4d29fb28d83ded71d2db5b6ffc",
+      "memory": {
+        "before": {
+          "heapUsedMiB": 1970.8025512695312,
+          "rssMiB": 2343.7421875,
+          "processLifetimeMaxRssMiB": 2616.89453125
+        },
+        "after": {
+          "heapUsedMiB": 1388.8639755249023,
+          "rssMiB": 2858.3984375,
+          "processLifetimeMaxRssMiB": 2877.46875
+        },
+        "heapDeltaMiB": -581.9385757446289,
+        "rssDeltaMiB": 514.65625
+      }
+    },
+    {
+      "elapsedMilliseconds": 79603.29202600004,
+      "initializeMilliseconds": 886.313594999956,
+      "advanceMilliseconds": 78716.97843100008,
+      "daysPerMinute": 275.1142502102428,
+      "simulatedDays": 365,
+      "decisions": 521043,
+      "acts": 521043,
+      "actStatsHash": "f45ea613ad450d4c3a48cdba0162074874d55b4d29fb28d83ded71d2db5b6ffc",
+      "memory": {
+        "before": {
+          "heapUsedMiB": 1426.357192993164,
+          "rssMiB": 2862.72265625,
+          "processLifetimeMaxRssMiB": 2877.46875
+        },
+        "after": {
+          "heapUsedMiB": 1958.6584701538086,
+          "rssMiB": 2873.1171875,
+          "processLifetimeMaxRssMiB": 2877.46875
+        },
+        "heapDeltaMiB": 532.3012771606445,
+        "rssDeltaMiB": 10.39453125
+      }
+    }
+  ],
+  "median": {
+    "medianElapsedMilliseconds": 115988.48216200003,
+    "medianDaysPerMinute": 188.8118508992339,
+    "medianDecisions": 521043,
+    "medianActs": 521043
+  },
+  "timerScope": "Core initialization and complete clock advance include identical monthly counter capture, hashing, affect sampling, and progress in every warmup and measured run. World-summary validation, kind mapping, and final serialization are outside the timer; only the final measured receipt retains detailed rows.",
+  "memoryScope": "heapUsedMiB and rssMiB are before/after samples; processLifetimeMaxRssMiB is cumulative from process start and includes input building, warmups, and previous measured runs.",
+  "processMemoryAfterSerialization": {
+    "heapUsedMiB": 2211.9679641723633,
+    "rssMiB": 3065.9375,
+    "processLifetimeMaxRssMiB": 3160.6171875
+  },
+  "counts": {
+    "people": 10002,
+    "households": 3955,
+    "jobs": 64,
+    "organizations": 39,
+    "husks": 0,
+    "durableRecords": 1099,
+    "peopleByTier": {
+      "calendar": 0,
+      "daily": 0,
+      "husk": 0,
+      "monthly": 0,
+      "weekly": 10002
+    },
+    "dailyCirclePeople": 3
+  },
+  "recordVisibility": {
+    "circle": 1099
+  },
+  "actsByAction": {
+    "contact-known-person": 260251,
+    "join-association": 19996,
+    "look-up-local-institution": 70006,
+    "rest": 170538,
+    "work-shift": 252
+  },
+  "actsByMonthAction": {
+    "2021-01": {
+      "contact-known-person": 14,
+      "join-association": 4,
+      "look-up-local-institution": 40017,
+      "rest": 10,
+      "work-shift": 41
+    },
+    "2021-02": {
+      "contact-known-person": 21,
+      "join-association": 10007,
+      "look-up-local-institution": 29989,
+      "rest": 27,
+      "work-shift": 36
+    },
+    "2021-03": {
+      "contact-known-person": 18169,
+      "join-association": 9985,
+      "rest": 11832,
+      "work-shift": 103
+    },
+    "2021-04": {
+      "contact-known-person": 30253,
+      "rest": 19769,
+      "work-shift": 63
+    },
+    "2021-05": {
+      "contact-known-person": 24207,
+      "rest": 15873,
+      "work-shift": 9
+    },
+    "2021-06": {
+      "contact-known-person": 24207,
+      "rest": 15879
+    },
+    "2021-07": {
+      "contact-known-person": 30253,
+      "rest": 19835
+    },
+    "2021-08": {
+      "contact-known-person": 24207,
+      "rest": 15882
+    },
+    "2021-09": {
+      "contact-known-person": 24207,
+      "rest": 15879
+    },
+    "2021-10": {
+      "contact-known-person": 30253,
+      "rest": 19835
+    },
+    "2021-11": {
+      "contact-known-person": 24206,
+      "rest": 15880
+    },
+    "2021-12": {
+      "contact-known-person": 30254,
+      "rest": 19834
+    },
+    "2022-01": {
+      "rest": 3
+    }
+  },
+  "actKindBindings": {
+    "work-shift": ["follow-rules", "self-interest", "commit"],
+    "rest": ["play-safe", "withdraw"],
+    "contact-known-person": ["engage", "cooperate"],
+    "care-for-relative": ["help-others", "commit"],
+    "join-association": ["cooperate", "commit", "engage"],
+    "organize-meeting": ["speak-out", "cooperate", "take-risk"],
+    "approach-office": ["engage", "speak-out", "follow-rules"],
+    "look-up-local-institution": ["engage", "follow-rules"]
+  },
+  "actKindCountScope": "Actions can carry several kind tags. Kind counts overlap and must not be summed as distinct actions. The detailed person/month/action rows can be joined through actionKindBindings.",
+  "actKindTagsByMonth": {
+    "2021-01": {
+      "commit": 45,
+      "cooperate": 18,
+      "engage": 40035,
+      "follow-rules": 40058,
+      "play-safe": 10,
+      "self-interest": 41,
+      "withdraw": 10
+    },
+    "2021-02": {
+      "commit": 10043,
+      "cooperate": 10028,
+      "engage": 40017,
+      "follow-rules": 30025,
+      "play-safe": 27,
+      "self-interest": 36,
+      "withdraw": 27
+    },
+    "2021-03": {
+      "commit": 10088,
+      "cooperate": 28154,
+      "engage": 28154,
+      "follow-rules": 103,
+      "play-safe": 11832,
+      "self-interest": 103,
+      "withdraw": 11832
+    },
+    "2021-04": {
+      "commit": 63,
+      "cooperate": 30253,
+      "engage": 30253,
+      "follow-rules": 63,
+      "play-safe": 19769,
+      "self-interest": 63,
+      "withdraw": 19769
+    },
+    "2021-05": {
+      "commit": 9,
+      "cooperate": 24207,
+      "engage": 24207,
+      "follow-rules": 9,
+      "play-safe": 15873,
+      "self-interest": 9,
+      "withdraw": 15873
+    },
+    "2021-06": {
+      "cooperate": 24207,
+      "engage": 24207,
+      "play-safe": 15879,
+      "withdraw": 15879
+    },
+    "2021-07": {
+      "cooperate": 30253,
+      "engage": 30253,
+      "play-safe": 19835,
+      "withdraw": 19835
+    },
+    "2021-08": {
+      "cooperate": 24207,
+      "engage": 24207,
+      "play-safe": 15882,
+      "withdraw": 15882
+    },
+    "2021-09": {
+      "cooperate": 24207,
+      "engage": 24207,
+      "play-safe": 15879,
+      "withdraw": 15879
+    },
+    "2021-10": {
+      "cooperate": 30253,
+      "engage": 30253,
+      "play-safe": 19835,
+      "withdraw": 19835
+    },
+    "2021-11": {
+      "cooperate": 24206,
+      "engage": 24206,
+      "play-safe": 15880,
+      "withdraw": 15880
+    },
+    "2021-12": {
+      "cooperate": 30254,
+      "engage": 30254,
+      "play-safe": 19834,
+      "withdraw": 19834
+    },
+    "2022-01": {
+      "play-safe": 3,
+      "withdraw": 3
+    }
+  },
+  "reasonTotals": {
+    "acts": 521043,
+    "needContribution": 385544.27300904447,
+    "goalContribution": 385544.27300904447,
+    "driveContribution": 0
+  },
+  "reasonTotalsByMonth": {
+    "2021-01": {
+      "acts": 40086,
+      "needContribution": 40042.518365736825,
+      "goalContribution": 40042.518365736825,
+      "driveContribution": 0
+    },
+    "2021-02": {
+      "acts": 40080,
+      "needContribution": 40018.74930797517,
+      "goalContribution": 40018.74930797517,
+      "driveContribution": 0
+    },
+    "2021-03": {
+      "acts": 40089,
+      "needContribution": 30889.146058379953,
+      "goalContribution": 30889.146058379953,
+      "driveContribution": 0
+    },
+    "2021-04": {
+      "acts": 50085,
+      "needContribution": 34342.628727281575,
+      "goalContribution": 34342.628727281575,
+      "driveContribution": 0
+    },
+    "2021-05": {
+      "acts": 40089,
+      "needContribution": 27460.030424074743,
+      "goalContribution": 27460.030424074743,
+      "driveContribution": 0
+    },
+    "2021-06": {
+      "acts": 40086,
+      "needContribution": 27458.288825034666,
+      "goalContribution": 27458.288825034666,
+      "driveContribution": 0
+    },
+    "2021-07": {
+      "acts": 50088,
+      "needContribution": 34318.95581236844,
+      "goalContribution": 34318.95581236844,
+      "driveContribution": 0
+    },
+    "2021-08": {
+      "acts": 40089,
+      "needContribution": 27458.977112410183,
+      "goalContribution": 27458.977112410183,
+      "driveContribution": 0
+    },
+    "2021-09": {
+      "acts": 40086,
+      "needContribution": 27458.234589711123,
+      "goalContribution": 27458.234589711123,
+      "driveContribution": 0
+    },
+    "2021-10": {
+      "acts": 50088,
+      "needContribution": 34318.95476990506,
+      "goalContribution": 34318.95476990506,
+      "driveContribution": 0
+    },
+    "2021-11": {
+      "acts": 40086,
+      "needContribution": 27458.26353621384,
+      "goalContribution": 27458.26353621384,
+      "driveContribution": 0
+    },
+    "2021-12": {
+      "acts": 50088,
+      "needContribution": 34318.925823185826,
+      "goalContribution": 34318.925823185826,
+      "driveContribution": 0
+    },
+    "2022-01": {
+      "acts": 3,
+      "needContribution": 0.5996565732575926,
+      "goalContribution": 0.5996565732575926,
+      "driveContribution": 0
+    }
+  },
+  "perPersonSummary": {
+    "people": 10002,
+    "minimumActs": 52,
+    "maximumActs": 365,
+    "dailyCircle": [
+      {
+        "personId": "person_458b05b253544c3e",
+        "acts": 365,
+        "byActionId": {
+          "join-association": 2,
+          "look-up-local-institution": 7,
+          "rest": 296,
+          "work-shift": 60
+        }
+      },
+      {
+        "personId": "person_5ddb09a9f5487640",
+        "acts": 365,
+        "byActionId": {
+          "look-up-local-institution": 7,
+          "rest": 301,
+          "work-shift": 57
+        }
+      },
+      {
+        "personId": "person_5ddb0aa9f54877f3",
+        "acts": 365,
+        "byActionId": {
+          "contact-known-person": 265,
+          "join-association": 2,
+          "look-up-local-institution": 7,
+          "rest": 91
+        }
+      }
+    ]
+  },
+  "affectSampleScope": "Focus-circle state at opening and month boundaries, in latent model units; no PANAS/PSS score mapping and no added external stimulus.",
+  "affectSamples": [
+    {
+      "date": "2021-01-01",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-01",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.25,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.19124749423844314,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.2127859914157097,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-01-31",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.1451599243445042,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.10456188738129765,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.11632552114426423,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-02-28",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.14476018581717004,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.07882970321837622,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.09038207854184258,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "work-shift",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-03-31",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.1338010062774367,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.06799086056231175,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.06910451995832428,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-04-30",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.1546778347342833,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.0654087527852767,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.062302474823507335,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-05-31",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.14475579663963956,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.06230242685177451,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.06230233876653319,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-06-30",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.16366445896738518,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.06230233876443691,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.06230233876267496,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-07-31",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.15467783448851974,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.062302338762674915,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-08-31",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.14475579663809507,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-09-30",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.16366445896737147,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-10-31",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.15467783448851968,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-11-30",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.13380097869316657,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2021-12-31",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.16366445896737147,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "contact-known-person",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_458b05b253544c3e",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_5ddb09a9f5487640",
+      "mood": 0,
+      "stress": 0.062302338762674894,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    },
+    {
+      "date": "2022-01-01",
+      "personId": "person_5ddb0aa9f54877f3",
+      "mood": 0,
+      "stress": 0.13380097869316657,
+      "moodBaseline": 0,
+      "stressBaseline": 0.25,
+      "lastChoice": "rest",
+      "driveCount": 0
+    }
+  ],
+  "gaps": [
+    "Baseline law and offices: January 2021 laws, officeholder rosters and powers are not reconstructed; later place/government/institution identity records remain opening proxies, with no actual 2021 officeholder count claimed.",
+    "Civic inputs p8-civic-inputs-v1: jurisdiction_d7c59c46f6a28e90: No named meeting-space inquiry target is available in the supplied place context; no community center, room, booking, permission, or meeting invented.",
+    "Civic inputs p8-civic-inputs-v1: jurisdiction_d7c59c46f6a28e90: No recorded association target is available in the supplied place context; no generic civic group invented.",
+    "Civic inputs p8-civic-inputs-v1: jurisdiction_d7c59c46f6a28e90: No sourced office target is available in the supplied place context; no government office or employee invented.",
+    "Civic inputs p8-civic-inputs-v1: organization_1b538e6b54c951fd has no supplied civic contact-role assignment; no clerk or association contact invented.",
+    "Civic inputs p8-civic-inputs-v1: organization_2fccd7da854fed45 lacks recorded government facts governmentKind, governmentJurisdictionId; no office identity inferred from its name.",
+    "Civic inputs p8-civic-inputs-v1: organization_3c192e93dd09338b has no supplied civic contact-role assignment; no clerk or association contact invented.",
+    "Civic inputs p8-civic-inputs-v1: organization_7e3bec08799560c7 has no supplied civic contact-role assignment; no clerk or association contact invented.",
+    "Civic inputs p8-civic-inputs-v1: organization_d8f06212b3aaf870 has no supplied civic contact-role assignment; no clerk or association contact invented.",
+    "Civic inputs p8-civic-inputs-v1: organization_e0695ed6e005b157 has no supplied civic contact-role assignment; no clerk or association contact invented.",
+    "Deep past p8-deep-past-v1 era-context: 155 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 faith: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 family: 2019 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 losses: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 moves: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 opening-job-tenure: 9938 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 partnership-history: 5946 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 prior-money: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 prior-views: 10002 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past p8-deep-past-v1 school-cohorts: 1047 people retain an unresolved personal-history field; consult priorFactsSource for the constraint.",
+    "Deep past: schools, faith, losses, earlier residences and earlier jobs are absent unless the canonical opening generator establishes them; no event inferred from a trait.",
+    "Household consumption contracts, hiring, employer revenue, demography, elections, and law effects are not implemented; their totals cannot establish realism.",
+    "Labor context: no school enrollment, primary care responsibility, pensions, business books or funded public staffing imported; canonical matcher reads the records actually present.",
+    "Money: CES nonhousing categories and a hypothetical HUD shelter budget exclude actual tenure, debts, taxes, insurance contracts and medical service bills; no housing contract is invented.",
+    "Opening vintage: 2021-01-01 household/population estimates retain later source vintages; no reconstructed 2021 census or migration history.",
+    "Prototype selects one discretionary scored act per tier activation; a complete daily activity plan is not yet modeled.",
+    "The opening generator records no known coworkers for the selected player; actual coworkers are in the daily circle, but acquaintance knowledge is not invented."
+  ],
+  "stopgapsHit": [
+    "SG-P8-civic-progress",
+    "SG-P8-emotion-model",
+    "SG-P8-life-utility",
+    "SG-P8-param-careHours",
+    "SG-P8-param-civicHours",
+    "SG-P8-param-companyHorizonDays",
+    "SG-P8-param-moneyBufferDays",
+    "SG-P8-param-relationContactGain",
+    "SG-P8-param-restEffect"
+  ],
+  "proofLimits": [
+    "Normal circle/town tiers differ from prior full-county daily receipts; no matched annual speed multiplier.",
+    "Act-stat hashes match in all four cores; this is not whole-state hash parity.",
+    "The median passes 120 seconds; one measured run and the warmup exceed it.",
+    "The 64 opening jobs and missing consumption, demography and laws do not establish realistic totals.",
+    "No generated event-to-drive chain, complete county-daily pre-run or P9 receipt is established by this annual run."
+  ],
+  "sourceManifest": "src/core2/receipts/prototype-normal-year-source-manifest.json",
+  "place": {
+    "placeKey": "4840342",
+    "placeName": "La Homa, Texas",
+    "countyNames": "Hidalgo County, Texas",
+    "countyBasis": "recorded-geography-or-declared-county-equivalent",
+    "householdMixBasis": "place",
+    "referencePopulation": "11285",
+    "referencePopulationSource": "acs-2020-2024",
+    "livingCostSource": "https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx; HUD FY2025 Fair Market Rents, by county or New England town: efficiency through four bedrooms, dollars a month (the 40th percentile of gross rent for standard-quality units recently rented).",
+    "cashSource": "Federal Reserve SCF 2022 tables 1/6, families holding transaction accounts; src/simulation/starting-money.ts. No-job household reserve is an explicit expense-buffer estimate.",
+    "temporaryWorld": "Valid createWorld plus one person batch, one family-table batch and one canonical town employment batch; never advanced or returned."
+  }
+}
