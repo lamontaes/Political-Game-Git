@@ -1,0 +1,532 @@
+{
+  "schema": "english-parts/1",
+  "register": "headlines",
+  "description": "News headlines for the new core's stories, by the kind of record they report. News sources give patterns only; every part here is a headline from U.S. federal agencies' own news releases (public domain), with record words as slots.",
+  "slots": {
+    "subject": "The business or office, from the event record.",
+    "law": "The law, as its record names it.",
+    "date": "A date from the record.",
+    "wage": "An hourly wage, from the law record.",
+    "place": "A place, from the place records.",
+    "money": "A dollar amount, from the record.",
+    "purpose": "What the money is for, from the record.",
+    "name": "A person, by name, from the records.",
+    "office": "An office, from the office records.",
+    "age": "An age, computed from the birth record.",
+    "employer": "An employer, from the job record.",
+    "number": "A count from the record.",
+    "term": "A prison term, from the sentence record.",
+    "crime": "An offense, from the charge record.",
+    "opponent": "The other candidate, from the contest record.",
+    "measure": "The measure, as its record names it.",
+    "body": "The governing body, from its record.",
+    "action": "What the body voted to do, from the measure record."
+  },
+  "maxWords": 14,
+  "mining": {
+    "tool": "scripts/english-corpus/mine-shapes.py",
+    "shapes": "scripts/english-corpus/shapes/headlines.json",
+    "read": {
+      "Air Force Historical Research Agency, USAF Oral History Program": 4,
+      "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
+      "Federal Election Commission (fec.gov)": 253,
+      "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+      "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+      "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+      "National Archives History Office oral history project": 57,
+      "National Archives History Office oral history project (brooks-oral-histories)": 26,
+      "National Archives History Office oral history project (nprc-oral-histories)": 12,
+      "National Archives History Office oral history project (nyc-oral-histories)": 6,
+      "National Archives History Office oral history project (ross-oral-histories)": 22,
+      "National Archives History Office oral history project (veterans-oral-histories)": 9,
+      "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+      "Naval History and Heritage Command, Navy strategy oral histories": 2,
+      "Richard Nixon Presidential Library (NARA) oral history project": 82,
+      "U.S. Army Center of Military History": 1,
+      "U.S. Election Assistance Commission (eac.gov)": 65,
+      "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+      "U.S. Senate Historical Office oral history": 239,
+      "USAGov (usa.gov), U.S. General Services Administration": 16,
+      "blm": 817,
+      "crec": 445,
+      "doi": 674,
+      "doj": 1621,
+      "dol-osha": 501,
+      "eeoc": 594,
+      "epa": 1964,
+      "fdic": 700,
+      "hearings": 1617,
+      "house": 115,
+      "hud": 996,
+      "nasa": 317,
+      "nasa2": 349,
+      "ncua": 683,
+      "nih": 52,
+      "nps": 515,
+      "nps.gov": 1097,
+      "nps.gov (PDF)": 74,
+      "ntia": 371,
+      "sba": 577,
+      "usa.gov": 312,
+      "usfa.fema.gov": 106,
+      "usgs": 742,
+      "va": 317,
+      "weather.gov": 34,
+      "wpa": 38
+    },
+    "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
+    "notAttested": 48
+  },
+  "parts": [
+    {
+      "key": "headlines.organization-closed.subject-closes",
+      "move": "organization-closed",
+      "kind": "spoken",
+      "text": "{subject} Closes",
+      "uses": [
+        {
+          "move": "organization-closed",
+          "subject": "headline",
+          "role": "organization.closed",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "ncua": 9
+      },
+      "shippable": true,
+      "source": {
+        "document": "African Diaspora Federal Credit Union Closes",
+        "date": "2026-08-06",
+        "granule": "ncua-2026-08-06-african-diaspora-federal-credit-union-closes-bd050efa",
+        "url": "https://ncua.gov/newsroom/press-release/2026/african-diaspora-federal-credit-union-closes",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.organization-closed.subject-closing",
+      "move": "organization-closed",
+      "kind": "spoken",
+      "text": "{subject} Closing",
+      "uses": [
+        {
+          "move": "organization-closed",
+          "subject": "headline",
+          "role": "organization.closed",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 1,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "CULTURAL BARRIERS IMPACTING WOMEN VETERANS' ACCESS TO HEALTHCARE",
+        "date": "2019-05-02",
+        "granule": "CHRG-116hhrg39914",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg39914/html/CHRG-116hhrg39914.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.organization-closed.subject-closed",
+      "move": "organization-closed",
+      "kind": "spoken",
+      "text": "{subject} Closed",
+      "uses": [
+        {
+          "move": "organization-closed",
+          "subject": "headline",
+          "role": "organization.closed",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "blm": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Washington: Towell Falls Road to remain closed",
+        "date": "2017-05-26",
+        "granule": "blm-2017-05-26-washington-towell-falls-road-to-remain-closed-1d49e441",
+        "url": "https://www.blm.gov/press-release/washington-towell-falls-road-remain-closed",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.grant.place-to-receive-money-for-purpose",
+      "move": "grant",
+      "kind": "spoken",
+      "text": "{place} to Receive {money} for {purpose}",
+      "uses": [
+        {
+          "move": "grant",
+          "subject": "headline",
+          "role": "grant",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "epa": 8
+      },
+      "shippable": true,
+      "source": {
+        "document": "EPA Selects Nevadaworks to Receive $349,984 for Environmental Career Training",
+        "date": "2026-02-09",
+        "granule": "epa-2026-02-09-epa-selects-nevadaworks-to-receive-349-984-for-environmental-fb1d6aa3",
+        "url": "https://www.epa.gov/newsreleases/epa-selects-nevadaworks-receive-349984-environmental-career-training",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.life-death.remembering-name",
+      "move": "life-death",
+      "kind": "spoken",
+      "text": "Remembering {name}",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "headline",
+          "role": "life.death",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 74,
+      "bySource": {
+        "crec": 73,
+        "nps.gov": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2025-12-18",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.court.name-sentenced-to-term-in-prison",
+      "move": "court",
+      "kind": "spoken",
+      "text": "{name} Sentenced to {term} in Prison",
+      "uses": [
+        {
+          "move": "court",
+          "subject": "headline",
+          "role": "court",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "doj": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "Akron Drug Dealer Sentenced to 35 Years in Prison",
+        "date": "2025-09-29",
+        "granule": "doj-2025-09-29-akron-drug-dealer-sentenced-to-35-years-in-prison-a4c28f1e",
+        "url": "https://www.justice.gov/usao-ndoh/pr/akron-drug-dealer-sentenced-35-years-prison",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.court.name-sentenced-to-term",
+      "move": "court",
+      "kind": "spoken",
+      "text": "{name} Sentenced to {term}",
+      "uses": [
+        {
+          "move": "court",
+          "subject": "headline",
+          "role": "court",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "doj": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Bitcoin Trader Sentenced to 41 Months",
+        "date": "2018-08-01",
+        "granule": "doj-2018-08-01-bitcoin-trader-sentenced-to-41-months-750bdfe8",
+        "url": "https://www.justice.gov/usao-az/pr/bitcoin-trader-sentenced-41-months",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.court.name-pleads-guilty-to-crime",
+      "move": "court",
+      "kind": "spoken",
+      "text": "{name} Pleads Guilty to {crime}",
+      "uses": [
+        {
+          "move": "court",
+          "subject": "headline",
+          "role": "court",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 125,
+      "bySource": {
+        "doj": 125
+      },
+      "shippable": true,
+      "source": {
+        "document": "Richland County Man Pleads Guilty to Drug and Gun Offenses",
+        "date": "2026-08-12",
+        "granule": "doj-2026-08-12-richland-county-man-pleads-guilty-to-drug-and-gun-offenses-56b408a8",
+        "url": "https://www.justice.gov/usao-sc/pr/richland-county-man-pleads-guilty-drug-and-gun-offenses",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.court.name-charged-with-crime",
+      "move": "court",
+      "kind": "spoken",
+      "text": "{name} Charged with {crime}",
+      "uses": [
+        {
+          "move": "court",
+          "subject": "headline",
+          "role": "court",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 64,
+      "bySource": {
+        "doj": 64
+      },
+      "shippable": true,
+      "source": {
+        "document": "Shiprock Man Charged with Assault and Assaulting Federal Officers",
+        "date": "2026-08-12",
+        "granule": "doj-2026-08-12-shiprock-man-charged-with-assault-and-assaulting-federal-off-54703d59",
+        "url": "https://www.justice.gov/usao-nm/pr/shiprock-man-charged-assault-and-assaulting-federal-officers",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.court.name-indicted-for-crime",
+      "move": "court",
+      "kind": "spoken",
+      "text": "{name} Indicted for {crime}",
+      "uses": [
+        {
+          "move": "court",
+          "subject": "headline",
+          "role": "court",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 28,
+      "bySource": {
+        "doj": 28
+      },
+      "shippable": true,
+      "source": {
+        "document": "Parsons man indicted for trying to create child pornography",
+        "date": "2026-08-12",
+        "granule": "doj-2026-08-12-parsons-man-indicted-for-trying-to-create-child-pornography-72b57611",
+        "url": "https://www.justice.gov/usao-ks/pr/parsons-man-indicted-trying-create-child-pornography",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.court.name-convicted-of-crime",
+      "move": "court",
+      "kind": "spoken",
+      "text": "{name} Convicted of {crime}",
+      "uses": [
+        {
+          "move": "court",
+          "subject": "headline",
+          "role": "court",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 14,
+      "bySource": {
+        "doj": 14
+      },
+      "shippable": true,
+      "source": {
+        "document": "Detroit Man Convicted of Leadership Role in Drug Trafficking Operation",
+        "date": "2025-09-29",
+        "granule": "doj-2025-09-29-detroit-man-convicted-of-leadership-role-in-drug-trafficking-73c894d5",
+        "url": "https://www.justice.gov/usao-ndwv/pr/detroit-man-convicted-leadership-role-drug-trafficking-operation",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.court.name-found-guilty-of-crime",
+      "move": "court",
+      "kind": "spoken",
+      "text": "{name} Found Guilty of {crime}",
+      "uses": [
+        {
+          "move": "court",
+          "subject": "headline",
+          "role": "court",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "doj": 6
+      },
+      "shippable": true,
+      "source": {
+        "document": "Leake County Man Found Guilty of Attempted Coercion of Minor",
+        "date": "2026-08-12",
+        "granule": "doj-2026-08-12-leake-county-man-found-guilty-of-attempted-coercion-of-minor-8f76a055",
+        "url": "https://www.justice.gov/usao-sdms/pr/leake-county-man-found-guilty-attempted-coercion-minor",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.council.body-approves-measure",
+      "move": "council",
+      "kind": "spoken",
+      "text": "{body} Approves {measure}",
+      "uses": [
+        {
+          "move": "council",
+          "subject": "headline",
+          "role": "council",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 43,
+      "bySource": {
+        "U.S. Senate Historical Office oral history": 1,
+        "crec": 1,
+        "fdic": 11,
+        "hearings": 4,
+        "ncua": 26
+      },
+      "shippable": true,
+      "source": {
+        "document": "FDIC Board Approves Proposal to Amend Regulations Regarding Lending Limits for Bank Insiders",
+        "date": "2026-07-31",
+        "granule": "fdic-2026-07-31-fdic-board-approves-proposal-to-amend-regulations-regarding-616e3c2a",
+        "url": "https://www.fdic.gov/news/press-releases/2026/fdic-board-approves-proposal-amend-regulations-regarding-lending-limits",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.council.body-passes-measure",
+      "move": "council",
+      "kind": "spoken",
+      "text": "{body} Passes {measure}",
+      "uses": [
+        {
+          "move": "council",
+          "subject": "headline",
+          "role": "council",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 13,
+      "bySource": {
+        "crec": 12,
+        "nih": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-12-18",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.council.place-approves-measure",
+      "move": "council",
+      "kind": "spoken",
+      "text": "{place} Approves {measure}",
+      "uses": [
+        {
+          "move": "council",
+          "subject": "headline",
+          "role": "council",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 192,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "National Archives History Office oral history project": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 5,
+        "U.S. Senate Historical Office oral history": 2,
+        "blm": 16,
+        "crec": 7,
+        "doi": 13,
+        "doj": 1,
+        "dol-osha": 1,
+        "eeoc": 3,
+        "epa": 14,
+        "fdic": 28,
+        "hearings": 31,
+        "hud": 23,
+        "nasa": 2,
+        "nasa2": 1,
+        "ncua": 26,
+        "ntia": 15,
+        "usa.gov": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "FDIC Board of Directors Approves Proposed Rule to Modernize and Reform the FDIC’s Framework for Reviewing Bank Merger Transactions",
+        "date": "2026-09-17",
+        "granule": "fdic-2026-09-17-fdic-board-of-directors-approves-proposed-rule-to-modernize-40aeee51",
+        "url": "https://www.fdic.gov/news/press-releases/2026/fdic-board-directors-approves-proposed-rule-modernize-and-reform-fdics",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.council.place-adopts-measure",
+      "move": "council",
+      "kind": "spoken",
+      "text": "{place} Adopts {measure}",
+      "uses": [
+        {
+          "move": "council",
+          "subject": "headline",
+          "role": "council",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 27,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Senate Historical Office oral history": 1,
+        "crec": 1,
+        "doi": 1,
+        "eeoc": 1,
+        "hearings": 19,
+        "house": 1,
+        "va": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "TO REVIEW H.R. 471, THE FIX OUR FORESTS ACT, AND OPTIONS TO REDUCE CATASTROPHIC WILDFIRE",
+        "date": "2025-03-06",
+        "granule": "CHRG-119shrg59496",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg59496/html/CHRG-119shrg59496.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    }
+  ]
+}

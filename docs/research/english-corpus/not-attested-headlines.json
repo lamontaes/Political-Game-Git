@@ -1,0 +1,341 @@
+{
+  "register": "headlines",
+  "read": {
+    "Air Force Historical Research Agency, USAF Oral History Program": 4,
+    "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
+    "Federal Election Commission (fec.gov)": 253,
+    "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+    "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+    "National Archives History Office oral history project": 57,
+    "National Archives History Office oral history project (brooks-oral-histories)": 26,
+    "National Archives History Office oral history project (nprc-oral-histories)": 12,
+    "National Archives History Office oral history project (nyc-oral-histories)": 6,
+    "National Archives History Office oral history project (ross-oral-histories)": 22,
+    "National Archives History Office oral history project (veterans-oral-histories)": 9,
+    "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+    "Naval History and Heritage Command, Navy strategy oral histories": 2,
+    "Richard Nixon Presidential Library (NARA) oral history project": 82,
+    "U.S. Army Center of Military History": 1,
+    "U.S. Election Assistance Commission (eac.gov)": 65,
+    "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+    "U.S. Senate Historical Office oral history": 239,
+    "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "blm": 817,
+    "crec": 445,
+    "doi": 674,
+    "doj": 1621,
+    "dol-osha": 501,
+    "eeoc": 594,
+    "epa": 1964,
+    "fdic": 700,
+    "hearings": 1617,
+    "house": 115,
+    "hud": 996,
+    "nasa": 317,
+    "nasa2": 349,
+    "ncua": 683,
+    "nih": 52,
+    "nps": 515,
+    "nps.gov": 1097,
+    "nps.gov (PDF)": 74,
+    "ntia": 371,
+    "sba": 577,
+    "usa.gov": 312,
+    "usfa.fema.gov": 106,
+    "usgs": 742,
+    "va": 317,
+    "weather.gov": 34,
+    "wpa": 38
+  },
+  "notAttested": [
+    {
+      "move": "organization-closed",
+      "text": "{subject} to Close",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-closed",
+      "text": "{subject} Announces Closure",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "organization-closed",
+      "text": "{subject} Will Close",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "New Minimum Wage Takes Effect",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "Minimum Wage Increase Takes Effect",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "New Law Takes Effect",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "New Rule Takes Effect",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "{law} Takes Effect",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "{law} Goes Into Effect",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "New Rule Takes Effect {date}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "Minimum Wage Increases to {wage}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-took-effect",
+      "text": "Minimum Wage Rises to {wage}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "grant",
+      "text": "{place} Receives {money} for {purpose}",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "grant",
+      "text": "{place} Awarded {money} for {purpose}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "grant",
+      "text": "{place} Receives {money} Grant",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "grant",
+      "text": "{place} Awarded {money} Grant",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "grant",
+      "text": "{money} Grant Awarded to {place}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "grant",
+      "text": "{money} for {purpose} in {place}",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "officeholder",
+      "text": "{name} Sworn In as {office}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "officeholder",
+      "text": "{name} Named {office}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "officeholder",
+      "text": "{name} Elected {office}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "officeholder",
+      "text": "{name} Appointed {office}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "officeholder",
+      "text": "{name} Takes Office as {office}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "officeholder",
+      "text": "{name} Named New {office}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "life-death",
+      "text": "{name} Dies at {age}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "life-death",
+      "text": "{name} Dies",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "life-death",
+      "text": "Statement on the Death of {name}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "life-death",
+      "text": "Statement on the Passing of {name}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "life-death",
+      "text": "{name} Passes Away",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "unpaid-wages",
+      "text": "{employer} to Pay {money} in Back Wages",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "unpaid-wages",
+      "text": "{employer} Pays {money} in Back Wages",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "unpaid-wages",
+      "text": "{employer} Pays {money} in Back Wages to {number} Workers",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "unpaid-wages",
+      "text": "{employer} to Pay {money} in Back Wages to {number} Workers",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "unpaid-wages",
+      "text": "{employer} Pays {money} in Back Wages to {number} Employees",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "unpaid-wages",
+      "text": "{employer} Ordered to Pay {money} in Back Wages",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "disaster",
+      "text": "{place} Declared Disaster Area",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "disaster",
+      "text": "Disaster Declaration for {place}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "disaster",
+      "text": "{place} Added to Disaster Declaration",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "disaster",
+      "text": "Federal Aid Available for {place}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "disaster",
+      "text": "Disaster Assistance Available in {place}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "election",
+      "text": "{name} Wins {office} Race",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "election",
+      "text": "{name} Wins Election",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "election",
+      "text": "{name} Defeats {opponent}",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "election",
+      "text": "Voters Approve {measure}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "election",
+      "text": "Voters Reject {measure}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "election",
+      "text": "{place} Voters Approve {measure}",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "council",
+      "text": "{body} Rejects {measure}",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "council",
+      "text": "{body} Votes to {action}",
+      "documents": 0,
+      "modern": 0
+    }
+  ]
+}

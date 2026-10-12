@@ -18,21 +18,55 @@
     "tool": "scripts/english-corpus/mine-shapes.py",
     "shapes": "scripts/english-corpus/shapes/choice-names.json",
     "read": {
+      "Air Force Historical Research Agency, USAF Oral History Program": 4,
+      "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
       "Federal Election Commission (fec.gov)": 253,
       "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+      "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+      "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+      "National Archives History Office oral history project": 57,
+      "National Archives History Office oral history project (brooks-oral-histories)": 26,
+      "National Archives History Office oral history project (nprc-oral-histories)": 12,
+      "National Archives History Office oral history project (nyc-oral-histories)": 6,
+      "National Archives History Office oral history project (ross-oral-histories)": 22,
+      "National Archives History Office oral history project (veterans-oral-histories)": 9,
+      "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+      "Naval History and Heritage Command, Navy strategy oral histories": 2,
+      "Richard Nixon Presidential Library (NARA) oral history project": 82,
+      "U.S. Army Center of Military History": 1,
       "U.S. Election Assistance Commission (eac.gov)": 65,
+      "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+      "U.S. Senate Historical Office oral history": 239,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
+      "blm": 817,
       "crec": 445,
+      "doi": 674,
+      "doj": 1621,
+      "dol-osha": 501,
+      "eeoc": 594,
+      "epa": 1964,
+      "fdic": 700,
       "hearings": 1617,
       "house": 115,
+      "hud": 996,
       "nasa": 317,
       "nasa2": 349,
+      "ncua": 683,
       "nih": 52,
       "nps": 515,
+      "nps.gov": 1097,
+      "nps.gov (PDF)": 74,
+      "ntia": 371,
+      "sba": 577,
+      "usa.gov": 312,
+      "usfa.fema.gov": 106,
+      "usgs": 742,
+      "va": 317,
+      "weather.gov": 34,
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 166
+    "notAttested": 157
   },
   "parts": [
     {
@@ -59,10 +93,64 @@
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2024-04-29",
-        "date": "2024-04-29",
-        "granule": "CREC-2024-04-29-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2024-04-29",
+        "document": "ALL MEANS ALL: EMPOWERING PEOPLE WITH DISABILITIES TO THRIVE IN CAREERS AND THE WORKPLACE",
+        "date": "2024-02-29",
+        "granule": "CHRG-118shrg56479",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg56479/html/CHRG-118shrg56479.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.rest.stay-home",
+      "move": "rest",
+      "kind": "spoken",
+      "text": "Stay home.",
+      "uses": [
+        {
+          "move": "rest",
+          "subject": "action",
+          "role": "rest",
+          "choice": "rest"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "crec": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2024-04-10",
+        "date": "2024-04-10",
+        "granule": "CREC-2024-04-10-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2024-04-10",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.rest.rest",
+      "move": "rest",
+      "kind": "spoken",
+      "text": "Rest.",
+      "uses": [
+        {
+          "move": "rest",
+          "subject": "action",
+          "role": "rest",
+          "choice": "rest"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "dol-osha": 4,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. Department of Labor Reminds Employers of the Dangers of Heat Illness",
+        "date": "2019-07-19",
+        "granule": "dol-osha-2019-07-19-u-s-department-of-labor-reminds-employers-of-the-dangers-of-8ac097db",
+        "url": "https://www.osha.gov/news/newsreleases/new-york-city/20190719",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -79,18 +167,19 @@
           "choice": "rest"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
         "house": 1,
         "nasa": 1,
-        "nps": 1
+        "nps": 1,
+        "nps.gov": 1
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Schneider, Claudine - U.S. Representative of Rhode Island - 1981–1991",
-        "date": "2016-01-20",
-        "granule": "house-oh-schneider",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/schneider-transcript/",
+        "document": "Picnic on the Armory Grounds",
+        "date": "2024-12-01",
+        "granule": "nps-thingstodo-picnic-on-the-grounds-of-the-springfield-armory",
+        "url": "https://www.nps.gov/thingstodo/picnic-on-the-grounds-of-the-springfield-armory.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -113,8 +202,9 @@
           "choice": "lobby-legislator"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 10,
       "bySource": {
+        "U.S. Senate Historical Office oral history": 3,
         "crec": 1,
         "hearings": 1,
         "nasa": 1,
@@ -123,10 +213,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, Senate section, 2019-07-31",
-        "date": "2019-07-31",
-        "granule": "CREC-2019-07-31-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2019-07-31",
+        "document": "DEPARTMENT OF HOMELAND SECURITY APPROPRIATIONS FOR 2019",
+        "date": "2018-04-11",
+        "granule": "CHRG-115hhrg30212",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-115hhrg30212/html/CHRG-115hhrg30212.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -143,16 +233,46 @@
           "choice": "contact-known-person"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 6,
       "bySource": {
-        "hearings": 2
+        "epa": 1,
+        "hearings": 2,
+        "nps.gov": 2,
+        "nps.gov (PDF)": 1
       },
       "shippable": true,
       "source": {
-        "document": "OVERSIGHT HEARING ON EMPOWERING LOCAL VOICES AND STOPPING FEDERAL. OVERREACH TO IMPROVE THE MANAGEMENT OF UTAH'S PUBLIC LANDS",
-        "date": "2024-04-22",
-        "granule": "CHRG-118hhrg55494",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55494/html/CHRG-118hhrg55494.htm",
+        "document": "EPA Begins Sewer Design Project in Wahikuli, Maui",
+        "date": "2024-09-23",
+        "granule": "epa-2024-09-23-epa-begins-sewer-design-project-in-wahikuli-maui-57c2622f",
+        "url": "https://www.epa.gov/newsreleases/epa-begins-sewer-design-project-wahikuli-maui",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.contact-known-person.go-see-name",
+      "move": "contact-known-person",
+      "kind": "spoken",
+      "text": "Go see {name}.",
+      "uses": [
+        {
+          "move": "contact-known-person",
+          "subject": "action",
+          "role": "contact-known-person",
+          "choice": "contact-known-person"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "U.S. Senate Historical Office oral history": 2,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House Oral History: Hymel, Gary - Administrative Assistant, Representative Hale Boggs of Louisiana and Speaker Thomas P. “Tip” O’Neill Jr. of Massachusetts - 1965–1981",
+        "date": "2022-10-31",
+        "granule": "house-oh-hymel",
+        "url": "https://history.house.gov/Oral-History/Transcripts/hymel-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -169,8 +289,10 @@
           "choice": "contact-known-person"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 7,
       "bySource": {
+        "Naval History and Heritage Command, Navy strategy oral histories": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 2,
         "hearings": 1,
         "house": 1,
         "nasa2": 2
@@ -181,6 +303,40 @@
         "date": "2021-07-27",
         "granule": "CHRG-117hhrg50139",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg50139/html/CHRG-117hhrg50139.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.join-association.join-group",
+      "move": "join-association",
+      "kind": "spoken",
+      "text": "Join {group}.",
+      "uses": [
+        {
+          "move": "join-association",
+          "subject": "action",
+          "role": "join-association",
+          "choice": "join-association"
+        },
+        {
+          "move": "join-cause-group",
+          "subject": "action",
+          "role": "join-cause-group",
+          "choice": "join-cause-group"
+        }
+      ],
+      "transcriptsUsing": 11,
+      "bySource": {
+        "blm": 2,
+        "nps.gov": 8,
+        "nps.gov (PDF)": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Take a Hike and Make your own Rag Doll: California Trail Interpretive Center announces January programs",
+        "date": "2020-01-03",
+        "granule": "blm-2020-01-03-take-a-hike-and-make-your-own-rag-doll-california-trail-inte-a22083a6",
+        "url": "https://www.blm.gov/press-release/take-hike-and-make-your-own-rag-doll-california-trail-interpretive-center-announces",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -240,6 +396,33 @@
       }
     },
     {
+      "key": "choice-names.take-up-cause.take-a-stand",
+      "move": "take-up-cause",
+      "kind": "spoken",
+      "text": "Take a stand.",
+      "uses": [
+        {
+          "move": "take-up-cause",
+          "subject": "action",
+          "role": "take-up-cause",
+          "choice": "take-up-cause"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "nps.gov": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "RESTORING CONGRESSIONAL OVERSIGHT OVER EMERGENCY POWERS: EXPLORING OPTIONS TO REFORM THE NATIONAL EMERGENCIES ACT",
+        "date": "2024-05-22",
+        "granule": "CHRG-118shrg55977",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg55977/html/CHRG-118shrg55977.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "choice-names.take-up-cause.speak-up",
       "move": "take-up-cause",
       "kind": "spoken",
@@ -260,10 +443,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2025-12-03",
-        "date": "2025-12-03",
-        "granule": "CREC-2025-12-03-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-03",
+        "document": "BOOK BANS: EXAMINING HOW CENSORSHIP LIMITS LIBERTY AND LITERATURE",
+        "date": "2023-09-12",
+        "granule": "CHRG-118shrg53878",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg53878/html/CHRG-118shrg53878.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -306,18 +489,19 @@
           "choice": "take-up-cause"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 7,
       "bySource": {
         "crec": 3,
         "hearings": 2,
-        "house": 1
+        "house": 1,
+        "hud": 1
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2024-02-15",
-        "date": "2024-02-15",
-        "granule": "CREC-2024-02-15-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2024-02-15",
+        "document": "HUD Secretary Marcia L. Fudge Delivers Remarks at Columbia, SC Branch NAACP 36th Annual Freedom Fund Awards Gala",
+        "date": "2023-09-18",
+        "granule": "hud-2023-09-18-hud-secretary-marcia-l-fudge-delivers-remarks-at-columbia-sc-8ad79a9f",
+        "url": "https://archives.hud.gov/news/2023/pr23-203.cfm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -379,6 +563,33 @@
       }
     },
     {
+      "key": "choice-names.carry-on.carry-on",
+      "move": "carry-on",
+      "kind": "spoken",
+      "text": "Carry on.",
+      "uses": [
+        {
+          "move": "carry-on",
+          "subject": "action",
+          "role": "carry-on",
+          "choice": "carry-on"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NPS History Collection oral history: beale chad and paula mar 5 2020",
+        "date": "2020-03-05",
+        "granule": "npgallery-fc47216c",
+        "url": "https://npgallery.nps.gov/AssetDetail/fc47216c-f9e5-4174-886c-36ab4815f120",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "choice-names.carry-on.let-it-go",
       "move": "carry-on",
       "kind": "spoken",
@@ -391,8 +602,9 @@
           "choice": "carry-on"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
+        "National Archives History Office oral history project": 1,
         "crec": 1,
         "nps": 1
       },
@@ -432,6 +644,33 @@
       }
     },
     {
+      "key": "choice-names.seek-standing.meet-name",
+      "move": "seek-standing",
+      "kind": "spoken",
+      "text": "Meet {name}.",
+      "uses": [
+        {
+          "move": "seek-standing",
+          "subject": "action",
+          "role": "seek-standing",
+          "choice": "seek-standing"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "nps.gov": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "DEPARTMENT OF LABOR, HEALTH AND HUMAN SERVICES, AND EDUCATION, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2019",
+        "date": "2019-11-05",
+        "granule": "CHRG-115shrg89104853",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-115shrg89104853/html/CHRG-115shrg89104853.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "choice-names.stance-question.what-do-you-think-about-topic",
       "move": "stance-question",
       "kind": "spoken",
@@ -444,16 +683,25 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 73,
+      "transcriptsUsing": 94,
       "bySource": {
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
+        "National Archives History Office oral history project (nprc-oral-histories)": 1,
+        "National Archives History Office oral history project (nyc-oral-histories)": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 4,
+        "U.S. Army Center of Military History": 1,
         "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "U.S. Senate Historical Office oral history": 9,
         "crec": 1,
         "hearings": 46,
         "house": 4,
         "nasa": 6,
         "nasa2": 8,
         "nih": 1,
-        "nps": 6
+        "nps": 6,
+        "nps.gov": 1,
+        "usfa.fema.gov": 1
       },
       "shippable": true,
       "source": {
@@ -477,8 +725,9 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 18,
+      "transcriptsUsing": 19,
       "bySource": {
+        "U.S. Senate Historical Office oral history": 1,
         "crec": 2,
         "hearings": 5,
         "nasa": 5,
@@ -534,10 +783,16 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 202,
+      "transcriptsUsing": 223,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 4,
+        "U.S. Army Center of Military History": 1,
         "U.S. Election Assistance Commission (eac.gov)": 5,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 4,
+        "U.S. Senate Historical Office oral history": 10,
         "crec": 22,
         "hearings": 123,
         "house": 8,
@@ -570,7 +825,8 @@
       ],
       "transcriptsUsing": 21,
       "bySource": {
-        "hearings": 20,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "hearings": 19,
         "nasa2": 1
       },
       "shippable": true,
@@ -622,8 +878,9 @@
           "choice": "question"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 5,
       "bySource": {
+        "U.S. Senate Historical Office oral history": 1,
         "hearings": 4
       },
       "shippable": true,
@@ -632,6 +889,33 @@
         "date": "2023-05-02",
         "granule": "CHRG-118shrg60101",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60101/html/CHRG-118shrg60101.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "choice-names.stance-question.whats-your-position-on-topic",
+      "move": "stance-question",
+      "kind": "spoken",
+      "text": "What's your position on {topic}?",
+      "uses": [
+        {
+          "move": "stance-question",
+          "subject": "action",
+          "role": "stance-question",
+          "choice": "question"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "U.S. Senate Historical Office oral history": 1,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "HEARING TO CONSIDER PENDING LEGISLATION",
+        "date": "2025-12-10",
+        "granule": "CHRG-119shrg62272",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62272/html/CHRG-119shrg62272.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -685,10 +969,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2024-11-21",
-        "date": "2024-11-21",
-        "granule": "CREC-2024-11-21-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2024-11-21",
+        "document": "OVERSIGHT OF THE INFRASTRUCTURE INVESTMENT AND JOBS ACT: MODAL PERSPECTIVES",
+        "date": "2023-12-13",
+        "granule": "CHRG-118hhrg56093",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg56093/html/CHRG-118hhrg56093.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -731,9 +1015,19 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 169,
+      "transcriptsUsing": 244,
       "bySource": {
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 7,
+        "National Archives History Office oral history project": 6,
+        "National Archives History Office oral history project (brooks-oral-histories)": 1,
+        "National Archives History Office oral history project (nprc-oral-histories)": 2,
+        "National Archives History Office oral history project (nyc-oral-histories)": 2,
+        "Richard Nixon Presidential Library (NARA) oral history project": 15,
+        "U.S. Army Center of Military History": 1,
         "U.S. Election Assistance Commission (eac.gov)": 8,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 16,
+        "U.S. Senate Historical Office oral history": 24,
         "hearings": 20,
         "house": 14,
         "nasa": 37,
@@ -763,10 +1057,25 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 911,
+      "transcriptsUsing": 1213,
       "bySource": {
+        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 2,
         "Federal Election Commission (fec.gov)": 2,
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 3,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 22,
+        "National Archives History Office oral history project": 25,
+        "National Archives History Office oral history project (brooks-oral-histories)": 7,
+        "National Archives History Office oral history project (nprc-oral-histories)": 7,
+        "National Archives History Office oral history project (nyc-oral-histories)": 6,
+        "National Archives History Office oral history project (ross-oral-histories)": 1,
+        "National Archives History Office oral history project (veterans-oral-histories)": 1,
+        "Naval History and Heritage Command, Navy Department Library oral histories": 4,
+        "Naval History and Heritage Command, Navy strategy oral histories": 2,
+        "Richard Nixon Presidential Library (NARA) oral history project": 49,
+        "U.S. Army Center of Military History": 1,
         "U.S. Election Assistance Commission (eac.gov)": 20,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 71,
+        "U.S. Senate Historical Office oral history": 100,
         "crec": 55,
         "hearings": 216,
         "house": 54,
@@ -774,6 +1083,7 @@
         "nasa2": 125,
         "nih": 17,
         "nps": 231,
+        "nps.gov": 1,
         "wpa": 22
       },
       "shippable": true,
@@ -798,8 +1108,12 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 26,
+      "transcriptsUsing": 35,
       "bySource": {
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
+        "National Archives History Office oral history project": 1,
+        "National Archives History Office oral history project (nprc-oral-histories)": 1,
+        "U.S. Senate Historical Office oral history": 5,
         "hearings": 21,
         "nasa": 2,
         "nasa2": 3
@@ -826,17 +1140,31 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 1452,
+      "transcriptsUsing": 1591,
       "bySource": {
+        "Air Force Historical Research Agency, USAF Oral History Program": 1,
         "Federal Election Commission (fec.gov)": 1,
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 3,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 10,
+        "National Archives History Office oral history project": 15,
+        "National Archives History Office oral history project (nprc-oral-histories)": 2,
+        "National Archives History Office oral history project (nyc-oral-histories)": 2,
+        "National Archives History Office oral history project (veterans-oral-histories)": 4,
+        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
+        "Naval History and Heritage Command, Navy strategy oral histories": 2,
+        "Richard Nixon Presidential Library (NARA) oral history project": 10,
+        "U.S. Army Center of Military History": 1,
         "U.S. Election Assistance Commission (eac.gov)": 32,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 36,
+        "U.S. Senate Historical Office oral history": 51,
         "crec": 28,
         "hearings": 1066,
         "house": 50,
         "nasa": 72,
         "nasa2": 86,
         "nih": 6,
-        "nps": 111
+        "nps": 111,
+        "nps.gov": 1
       },
       "shippable": true,
       "source": {
@@ -860,15 +1188,21 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 161,
+      "transcriptsUsing": 172,
       "bySource": {
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "Naval History and Heritage Command, Navy strategy oral histories": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 3,
         "U.S. Election Assistance Commission (eac.gov)": 4,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
+        "U.S. Senate Historical Office oral history": 2,
         "crec": 12,
         "hearings": 119,
         "house": 2,
         "nasa": 10,
         "nasa2": 5,
-        "nps": 9
+        "nps": 9,
+        "nps.gov": 1
       },
       "shippable": true,
       "source": {
@@ -892,9 +1226,18 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 119,
+      "transcriptsUsing": 134,
       "bySource": {
+        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "National Archives History Office oral history project": 1,
+        "National Archives History Office oral history project (nprc-oral-histories)": 1,
+        "National Archives History Office oral history project (nyc-oral-histories)": 2,
+        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
+        "Naval History and Heritage Command, Navy strategy oral histories": 1,
         "U.S. Election Assistance Commission (eac.gov)": 5,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
+        "U.S. Senate Historical Office oral history": 4,
         "hearings": 46,
         "house": 17,
         "nasa": 3,
@@ -924,9 +1267,11 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 12,
+      "transcriptsUsing": 14,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "U.S. Senate Historical Office oral history": 1,
         "hearings": 7,
         "house": 1,
         "nasa2": 2,
@@ -954,8 +1299,15 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 38,
+      "transcriptsUsing": 59,
       "bySource": {
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "National Archives History Office oral history project": 1,
+        "National Archives History Office oral history project (nprc-oral-histories)": 1,
+        "Naval History and Heritage Command, Navy strategy oral histories": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 6,
+        "U.S. Senate Historical Office oral history": 10,
         "crec": 2,
         "hearings": 4,
         "house": 5,
@@ -965,10 +1317,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "NASA JSC Oral History Project: David J. Homan (Engineer, Shuttle RMS, MPAD; Manager, Space Station Freedom Level II; Manager, Space Station Level III Functional Area for assembly; Critical Evaluation Task Force (following the Challenger accident); Manager, Manager, Virtual Reality Lab)",
-        "date": "2023-07-26",
-        "granule": "jsc-homand-7-26-23",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/homand-7-26-23.pdf",
+        "document": "DEPARTMENT OF DEFENSE AUTHORIZATION REQUEST FOR APPROPRIATIONS FOR FISCAL YEAR 2024 AND THE FUTURE YEARS DEFENSE PROGRAM",
+        "date": "2023-05-02",
+        "granule": "CHRG-118shrg60101",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60101/html/CHRG-118shrg60101.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -985,9 +1337,21 @@
           "choice": "answer"
         }
       ],
-      "transcriptsUsing": 284,
+      "transcriptsUsing": 325,
       "bySource": {
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "National Archives History Office oral history project": 4,
+        "National Archives History Office oral history project (nprc-oral-histories)": 1,
+        "National Archives History Office oral history project (nyc-oral-histories)": 1,
+        "National Archives History Office oral history project (ross-oral-histories)": 1,
+        "National Archives History Office oral history project (veterans-oral-histories)": 1,
+        "Naval History and Heritage Command, Navy strategy oral histories": 2,
+        "Richard Nixon Presidential Library (NARA) oral history project": 5,
+        "U.S. Army Center of Military History": 1,
         "U.S. Election Assistance Commission (eac.gov)": 3,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 9,
+        "U.S. Senate Historical Office oral history": 14,
         "crec": 14,
         "hearings": 188,
         "house": 11,

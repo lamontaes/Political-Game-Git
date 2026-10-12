@@ -16,17 +16,51 @@
     "tool": "scripts/english-corpus/mine-shapes.py",
     "shapes": "scripts/english-corpus/shapes/scene-words.json",
     "read": {
+      "Air Force Historical Research Agency, USAF Oral History Program": 4,
+      "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
       "Federal Election Commission (fec.gov)": 253,
       "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+      "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+      "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+      "National Archives History Office oral history project": 57,
+      "National Archives History Office oral history project (brooks-oral-histories)": 26,
+      "National Archives History Office oral history project (nprc-oral-histories)": 12,
+      "National Archives History Office oral history project (nyc-oral-histories)": 6,
+      "National Archives History Office oral history project (ross-oral-histories)": 22,
+      "National Archives History Office oral history project (veterans-oral-histories)": 9,
+      "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+      "Naval History and Heritage Command, Navy strategy oral histories": 2,
+      "Richard Nixon Presidential Library (NARA) oral history project": 82,
+      "U.S. Army Center of Military History": 1,
       "U.S. Election Assistance Commission (eac.gov)": 65,
+      "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+      "U.S. Senate Historical Office oral history": 239,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
+      "blm": 817,
       "crec": 445,
+      "doi": 674,
+      "doj": 1621,
+      "dol-osha": 501,
+      "eeoc": 594,
+      "epa": 1964,
+      "fdic": 700,
       "hearings": 1617,
       "house": 115,
+      "hud": 996,
       "nasa": 317,
       "nasa2": 349,
+      "ncua": 683,
       "nih": 52,
       "nps": 515,
+      "nps.gov": 1097,
+      "nps.gov (PDF)": 74,
+      "ntia": 371,
+      "sba": 577,
+      "usa.gov": 312,
+      "usfa.fema.gov": 106,
+      "usgs": 742,
+      "va": 317,
+      "weather.gov": 34,
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
@@ -46,8 +80,9 @@
           "choice": "work"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "hearings": 1,
         "house": 1
       },
@@ -73,18 +108,22 @@
           "choice": "out"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 8,
       "bySource": {
+        "National Archives History Office oral history project (nyc-oral-histories)": 1,
+        "U.S. Army Center of Military History": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "hearings": 2,
         "nasa2": 1,
-        "nps": 1
+        "nps": 1,
+        "nps.gov (PDF)": 1
       },
       "shippable": true,
       "source": {
-        "document": "Dante S. Lauretta oral history (discovery-and-new-frontiers collection)",
-        "date": "2024-08-07",
-        "granule": "discovery-and-new-frontiers-laurettads-8-7-24",
-        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/laurettads-8-7-24.pdf",
+        "document": "EXAMINING THE POLICIES AND PRIORITIES OF THE U.S. DEPARTMENT OF EDUCATION",
+        "date": "2021-06-24",
+        "granule": "CHRG-117hhrg44859",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg44859/html/CHRG-117hhrg44859.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -101,8 +140,9 @@
           "choice": "phone"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 6,
       "bySource": {
+        "U.S. Senate Historical Office oral history": 3,
         "nasa2": 1,
         "nps": 2
       },
@@ -128,8 +168,9 @@
           "choice": "phone"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 7,
       "bySource": {
+        "U.S. Senate Historical Office oral history": 1,
         "crec": 1,
         "nasa": 2,
         "nasa2": 2,
@@ -157,9 +198,11 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 15,
+      "transcriptsUsing": 17,
       "bySource": {
+        "National Archives History Office oral history project (nyc-oral-histories)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 7,
+        "U.S. Senate Historical Office oral history": 1,
         "crec": 1,
         "hearings": 5,
         "nasa2": 1,
@@ -187,8 +230,9 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 12,
       "bySource": {
+        "U.S. Senate Historical Office oral history": 2,
         "crec": 2,
         "hearings": 2,
         "nasa": 2,
@@ -197,10 +241,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, Senate section, 2024-06-05",
-        "date": "2024-06-05",
-        "granule": "CREC-2024-06-05-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2024-06-05",
+        "document": "OVERSIGHT OF THE DEPARTMENT OF JUSTICE",
+        "date": "2020-07-28",
+        "granule": "CHRG-116hhrg46031",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg46031/html/CHRG-116hhrg46031.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }
