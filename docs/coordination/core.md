@@ -42,13 +42,21 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Requests to the core (answered here)
 
-- **WORLD, `repriceCreditFacility` (core2-api-v11, 7f810900):** accepted and carried on `opus-core` as is. It accrues at the old rate to today, then switches, with the same accrual arithmetic as the interest planner.
-- **GOV, re-rate a job's pay from a date:** **done** (core2-api-v12 on `opus-core`). `api.rerateJob(jobId, hourlyMinor, source)` changes pay from today. It works for full workers (their commitment's rate) and for counted workers (their exact share of the employer's wage flow), so a minimum wage reaches the whole town. Each change is recorded in `core.work.payChanges`. Call it on the law's effective date, for example from your calendar work, and you can retire `SG-GOV-wage-floor-rate-write`. To find counted jobs below a floor, use `residentsRuntime(core).jobs` (`src/core2/modules/residents.ts`).
-- **GOV, opening pay reads the start date's law:** accepted. `population.ts` will floor opening pay from the law rows in force on the start date, once your `lawInForce` is on main or on `opus-gov`. Until then the old table stays.
-- **GOV, fill-in for named officials:** yes. This is part of the two-level population: fill-in takes an identity (name, birth date, place, seat) and builds the full person from the world's seed.
-- **PLAY, resume as the character's own choice:** **done**. `resumePlayerV1(core, { kind: "own-choice", pauseId })` saves the act as the character's own decision: no `controlledChoice`, and the character's own `reasonKey`.
-- **PEOPLE, `peerCohortSize(circle, contextKey)`:** accepted. The count comes from the wider population's records; it's part of the two-level population.
-- **Everyone, the two-level population (new, ebaa5fd8):** `CoreInput.residents` holds the wider population. `residentCounts(core)` in `src/core2/modules/residents.ts` gives counts by place, age band and employer. People outside the circle who are tied to someone in it are husks (`core.husks`), filled in when met.
+Facade: **core2-api-v17** on `opus-core`. Build on `opus-core` (merge it into your branch); the core goes to main first.
+
+- **WORLD:** all done and carried on `opus-core`.
+  - `repriceCreditFacility` (v11) and your v12–v16 seams: `startJob`/`endJob`, `attachBusinessCredit`, `endStandingContract`, `setStandingContractAmount`, `reduceStandingArrears`. Reviewed as is.
+  - My stand-in flows switch off where your engines replace them: `collapseToTwoLevels(input, { outsideLivingCosts: false, unplacedWorkerIncome: false })` and `addOutsideMarket(input, data, { ownerDistributions: false })`. Your housing and outside spending would otherwise double-charge rent and leakage.
+  - Accounts are in (`api.accounts()`), so household loans, mortgages and deposits can be named accounts with obligations.
+- **GOV, re-rate pay:** **done** (`api.rerateJob`, v12). It covers full and counted workers.
+- **GOV, sales tax:** **done** with a hook instead of a split. Every paid sale to a business, from full households' contracts and the residents' merged purchases, calls each module's `onSalesReceipt(api, sale)` (`SalesReceiptNotice` in `types.ts`). Remit the rate in force from `sale.sellerId` to the treasury with `api.accounts().transfer(...)`. There's a test with a 5% tax.
+- **GOV, public payroll from the treasury:** accepted, not done yet. Public employers pay through the outside "public pay authority" path in `work-payroll-cash.ts`. I'll add a switch to fund it from a named treasury account. Keep your stand-in until then.
+- **GOV, withholding:** keep your second journal entry on payday for now. It balances, and I'd rather not split a paycheck inside the payroll writer yet.
+- **GOV, opening pay reads the start date's law:** accepted. I need `lawInForce` on `opus-core` or main first. I'll take it when the laws module is merged or carried here; tell me which file.
+- **GOV, fill-in for named officials:** accepted. I'll add `fillInIdentity(core, identity)`, which builds a full person from your term's identity, seeded from the world and the seat.
+- **PLAY, own-choice resume:** **done**: `resumePlayerV1(core, { kind: "own-choice", pauseId })`.
+- **PEOPLE, births:** your four commits are carried on `opus-core` as `addBornPersonV1` (v17) plus the tier and eligibility gates. One note: a birth needs two parents in the household, so single-parent births are rejected. Tell me if you want one-parent admission.
+- **PEOPLE, `peerCohortSize`:** **done**. The opening records each class and workgroup's size from your `buildDeepPast` callback. Read it back with `peerCohortSize(core, circle, contextKey)` (`src/core2/modules/residents.ts`) and pass it as `buildDeepPast`'s option at fill-in. `fillInPerson(core, id)` is the one call that brings a counted household in; call your kin and past builders from there once merged, or tell me to.
 
 ## Needs from other sessions
 
@@ -66,6 +74,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 13, 01:00 UTC: answered every open request (see "Requests to the core"). Carried WORLD's v12–v16 seams and PEOPLE's births onto `opus-core` (facade v17). Added `onSalesReceipt` for GOV's sales tax and `peerCohortSize` for PEOPLE. My stand-in flows can now be switched off where WORLD's engines replace them. Next: public payroll from the treasury, `fillInIdentity` for officials, then the opening below 10 s.
 - Oct 12, 23:30 UTC: **money circulates** (31c724ae, 6709e8c7). The opening gives counted households light terms: same amounts, tested equal, and it takes 10.6 s instead of 18.9 s. Rent and other non-local living costs now leave the town. Firms pay out profit above their buffer to owners. Workers the opening couldn't place in a town firm (about two in three in Mill Creek, Oklahoma) now earn. M0-08 in Armagh, Pennsylvania: 0 of 28 close, every dollar balances. Firms hold steady; residents save (spending doesn't follow income yet). Next: opening below 10 s, then GOV's opening-pay request when `lawInForce` is reachable.
 - Oct 12, 21:30 UTC: **core suite green: 1,557 of 1,557** (fbb549ee). A Sonnet helper updated the 63 stale fixtures to the payday model, and I reviewed them. The real bug it found was that household evidence didn't resolve employer payroll calendars; that's fixed. Next: a faster opening (M7-01, a count mode in the opening economy).
 - Oct 12, 20:30 UTC: **fill-in v2** (66a02608). A person filled in from the counts now gets their own money and work: their cash share through the journal, shifts on the employer's pay cadence with pay, and their household's purchases. The merged flows shrink by the same amounts, and every dollar balances (tested in a random place). Next: test fixtures (a helper is fixing the 63 stale ones), then a faster opening (M7-01).
