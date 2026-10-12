@@ -68,10 +68,12 @@ jobs:
       - name: Install deterministic dependencies
         run: npm ci
 
-      - name: Check player-facing text is American English
-        run: npx vitest run tests/american-english.test.ts
-
-      - name: Run repository validation
+      - name: Check only the files this change touches
+        # Owner rule (Oct 12, 2026): never run the full repository. Formatting,
+        # lint, American English and release declarations cover only the files
+        # this pull request (or push) adds or edits; a change never fails on
+        # files it didn't touch. Whole-repo typecheck and data validations are
+        # not part of this check.
         env:
           EVENT_NAME: ${{ github.event_name }}
           EVENT_BEFORE: ${{ github.event.before }}
@@ -81,19 +83,33 @@ jobs:
         run: |
           set -euo pipefail
           if [[ "$EVENT_NAME" == "pull_request" ]]; then
+            base="$(git merge-base HEAD "$PR_BASE_SHA")"
             declaration_base="$PR_BASE_SHA"
             declaration_mode="pr"
           elif [[ -n "$EVENT_BEFORE" && ! "$EVENT_BEFORE" =~ ^0+$ ]]; then
+            base="$EVENT_BEFORE"
             declaration_base="$EVENT_BEFORE"
             declaration_mode="push"
           else
+            base="$(git rev-parse HEAD~1)"
             declaration_base="$(git merge-base HEAD origin/main)"
             declaration_mode="pr"
           fi
+          mapfile -t changed < <(git diff --name-only --diff-filter=AMR "$base" HEAD)
+          printf 'Checking %s changed file(s).\n' "${#changed[@]}"
+          if [[ ${#changed[@]} -eq 0 ]]; then
+            exit 0
+          fi
+          npx prettier --check --ignore-unknown "${changed[@]}"
+          mapfile -t code < <(printf '%s\n' "${changed[@]}" | grep -E '\.(ts|tsx|js|mjs|cjs)$' || true)
+          if [[ ${#code[@]} -gt 0 ]]; then
+            npx eslint --no-warn-ignored "${code[@]}"
+          fi
+          CHANGED_FILES="$(printf '%s\n' "${changed[@]}")" npx vitest run tests/american-english.test.ts
           RELEASE_DECLARATION_BASE="$declaration_base" \
           RELEASE_DECLARATION_HEAD="$VALIDATED_HEAD_SHA" \
           RELEASE_DECLARATION_MODE="$declaration_mode" \
-            npm run validate:ci-sharded
+            npm run release:check
 
   scope:
     name: scope
