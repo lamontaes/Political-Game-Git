@@ -1180,11 +1180,11 @@
     "kind": "pooled-money",
     "file": "src/core2/state.ts",
     "line": 1,
-    "whatItFakes": "A person filled in from the wider population keeps their pay, retirement income and purchases pooled in the residents account; their own cash reads zero and their job is not scheduled shift by shift.",
-    "why": "Two-level population, first cut: fill-in gives identity, household, past, ties and the counted job; moving a household's money and work onto individual records is the next step.",
+    "whatItFakes": "A person filled in from the wider population keeps receiving their retirement income through the residents account; their cash share is their opening share of the residents' current cash, and their job's calendar copies the employer's cadence from the fill-in date.",
+    "why": "Fill-in v2 moves cash, scheduled work and household purchases onto the person's own records; retirement income is tied to per-person award records funded through the outside payer's single obligation.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "Fill-in moves the household's share of the residents account to its members through the journal, admits their work commitments to the employer's payroll calendar and their purchase contracts, and shrinks the merged flows by the same amounts.",
+    "replacement": "Fill-in re-admits the retiree's income contract and adds it back to the outside funding obligation with its award, and shrinks the merged retirement flow by the same amount.",
     "status": "open"
   },
   {

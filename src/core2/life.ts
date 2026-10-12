@@ -25,6 +25,7 @@ import {
 import { LIFE_MODULE } from "./modules/life";
 import { FINANCE_MODULE } from "./modules/finance";
 import { RESIDENTS_MODULE, admitResidents } from "./modules/residents";
+import { ACCOUNTS_MODULE } from "./accounts";
 import { parameter, parameterValues } from "./parameters";
 import { DEFAULT_DATA } from "./data";
 import { coreAPI, createCore, resolveOperation } from "./state";
@@ -102,6 +103,7 @@ export function createLifeCore(
       // Firms use their recorded working capital, not future customer receipts.
       ...(scheduledWork ? [WORK_MODULE] : []),
       ...(input.finance ? [FINANCE_MODULE] : []),
+      ACCOUNTS_MODULE,
       ...(input.residents ? [RESIDENTS_MODULE] : []),
       ...(options.modules ?? []),
     ],

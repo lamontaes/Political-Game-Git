@@ -118,7 +118,24 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(atEmployer(after)).toBe(employed);
     // The same person comes back: filling in again changes nothing.
     expect(fillInPerson(core, job.personId)).toBe(person);
+    // Their working life is now their own: shifts, pay and cash.
+    expect(residentsRuntime(core)!.wageFlowByJob.has(job.id)).toBe(false);
+    const opening = cash(two);
     advanceCore(core, "2021-02-01");
+    expect(core.work.lastAttendanceByJob.get(job.id)).toBeDefined();
+    const commitment = record.workCommitments.find(
+      (row) => row.jobId === job.id,
+    )!;
+    expect(
+      core.work.payrollLedgerByCommitment.get(commitment.id)!.earnedMinor,
+    ).toBeGreaterThan(0);
+    let closing = 0,
+      outside = 0;
+    for (const row of core.people.values()) closing += row.liquidMinor;
+    for (const row of core.organizations.values()) closing += row.liquidMinor;
+    for (const row of core.cashJournal.externalFlowsByOwner.values())
+      outside += row.netMinor;
+    expect(closing).toBe(opening - outside);
   }, 300_000);
 
   it("re-rates full and counted workers from today", () => {

@@ -30,13 +30,13 @@ export function generatedOpening(
   const player = input.people
     .filter(
       (person) =>
-        person.countyId &&
         person.jobId &&
         ageOnDate(makeIsoDate(person.birthDate), start) >=
           parameter("benchmarkAdultMinimumAge"),
     )
     .sort((a, b) => a.id.localeCompare(b.id))[0];
-  if (!player) throw new Error("No eligible recorded adult worker");
+  if (!player)
+    throw new Error(`No eligible recorded adult worker in ${place.key}`);
   input = {
     ...buildOpeningPeerContacts(input, { personIds: [player.id] }).input,
     playerId: player.id,
@@ -45,7 +45,10 @@ export function generatedOpening(
     ...input,
     focusPersonIds: [...initialFocusPeople(input)].sort(),
     focusPlaceIds: [],
-    visiblePlaceIds: [player.placeId, player.countyId!].sort(),
+    visiblePlaceIds: [
+      player.placeId,
+      ...(player.countyId ? [player.countyId] : []),
+    ].sort(),
   };
   if (options.economy !== false)
     input = addOutsideMarket(buildOpeningEconomy(input).input);

@@ -1,12 +1,11 @@
 /* global process, console */
 // One measured game year in a randomly drawn place: one run, one number.
-// Usage: node --import tsx --expose-gc scripts/core2-year/year.mjs [--days 365] [--no-economy] [--seed S] [--profile-day N]
+// Usage: node --import tsx scripts/core2-year/year.mjs [--days 365] [--seed S] [--no-economy] [--full-population] [--profile-day N --profile-span K]
 import { randomBytes } from "node:crypto";
 import { writeFileSync } from "node:fs";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { performance } from "node:perf_hooks";
-import { prepareWorld } from "../core2-guard/month.mjs";
 
 const args = process.argv.slice(2);
 const flag = (name) => args.includes(name);
@@ -17,7 +16,7 @@ const moduleAt = (path) =>
 
 const seed = value("--seed", randomBytes(20).toString("hex"));
 const days = Number(value("--days", "365"));
-const { drawPlace } = await moduleAt("tests/golden-path/place.ts");
+const { drawPlace } = await moduleAt("scripts/core2-year/place.ts");
 const place = drawPlace(seed, "core2-year");
 const [{ createLifeCore, advanceCore }, { addDays, makeIsoDate }] =
   await Promise.all([
@@ -26,20 +25,15 @@ const [{ createLifeCore, advanceCore }, { addDays, makeIsoDate }] =
   ]);
 console.error(JSON.stringify({ drawn: place }));
 const prepStarted = performance.now();
-let { input, place: placeFacts } = await prepareWorld({
-  seed: place.seed,
-  placeKey: place.key,
+const { generatedOpening } = await moduleAt(
+  "src/core2/tooling/generated-world.ts",
+);
+// The opening the game uses: economy with outside buyers, two-level by default.
+const input = generatedOpening(place, {
+  economy: !flag("--no-economy"),
+  twoLevel: !flag("--full-population"),
 });
-if (!flag("--no-economy")) {
-  const { buildOpeningEconomy } = await moduleAt(
-    "src/core2/opening-economy.ts",
-  );
-  input = buildOpeningEconomy(input).input;
-}
-if (flag("--two-level")) {
-  const { collapseToTwoLevels } = await moduleAt("src/core2/residents.ts");
-  input = collapseToTwoLevels(input);
-}
+const placeFacts = { name: place.name };
 const prepMilliseconds = performance.now() - prepStarted;
 const initStarted = performance.now();
 const core = createLifeCore(input);
