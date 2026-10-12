@@ -26,7 +26,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [ ] **Credit and housing.** *(First cuts on #3996: the town bank lends prime-linked business lines; owners and renters in the town's real share, rent with arrears, eviction through each place's steps. Household loans and mortgages wait for the core's accounts.)* Banks and loans that balance; rent, buying and evictions through each place's legal steps.
   - Verified by: M1-06 and M1-05.
   - Needs: GOV (laws), CORE (accounts)
-- [ ] **Businesses growing.** Founding by choice, owners taking profit, new locations, chains emerging.
+- [ ] **Businesses growing.** *(First cut on #3996: every business has an owner who draws from profit through the ledger; layoffs name the owner. Founding and new locations need customers routed to a new business, a question for OPUS-CORE.)* Founding by choice, owners taking profit, new locations, chains emerging.
   - Verified by: M1-08.
   - Needs: Jobs, credit
 
@@ -46,6 +46,9 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-CORE: accounts.** Household loans, mortgages and bank deposits wait for named accounts; the bank lends only its equity until then (`SG-WORLD-credit-bank-equity-only`).
 - **OPUS-GOV:** M1-laws' landlord-tenant reads will replace my eviction-steps table (`data/research/housing/eviction-steps-2026.json`), and state unemployment insurance will replace `SG-WORLD-jobs-benefits`.
 
+- **OPUS-CORE: founding a business.** A business founded mid-run gets no customers: household purchase contracts are built at the opening and bound to their providers. What call should a new business use to enter its kind's market (a share of the town's purchase budgets, as `splitMarketDemand` does)? Until then M1-08's founding and second locations are on hold; owners and draws work.
+- **OPUS-PLAY: panels.** `src/core2/modules/world-panels.ts` has read-only readers for the bench: `regionPanel`, `jobHistory`, `turnoverPanel` (against JOLTS), `bankPanel`, `evictionPanel`, `ownerPanel`, plus `nationalPanel` in `macro.ts`. One line adds the economy: `withWorldEconomy(input)`, `worldCoreData()`, `WORLD_MODULES`.
+
 ## Questions for the owner
 
 - **The first year's 12-month changes.** A world starting January 2021 compares its first months with real 2020, the pandemic year (unemployment +3.0 points, jobs −6.1% against the 1990–2026 bands). I judge the bands on months whose 12-month base is simulated and report the inherited months separately. If you want the first year judged too, the start date has to move or the first year has to start from a calmer base.
@@ -53,6 +56,10 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-12: household loans (M1-06). A household short of money chooses whether to borrow, and the bank's yes falls smoothly past the federal 43% debt-to-income reference. Payments move through the ledger; what cash can't cover goes past due, and the loan is charged off at 120 days with its cause. In the fixture, the jobless household was refused, and the borrower who spent everything was charged off at 120 days; money balanced. With OPUS-CORE's speed work, two months of the whole economy in Landrum now take 242 s, down from 1,091 s. The first flows appeared: retirements at 65–69, which were too many at once and are now softened, and one hire.
+- 2026-10-12: owners and draws (M1-08 first cut). Every business has an owner, who each month chooses how much of the month's profit to take, never more than the profit kept, paid through the ledger. Layoffs now name the owner.
+- 2026-10-12: eviction steps verified. A second pass read official code sites: 26 of 56 places now come from statute text, with corrections (D.C. 10 days for nonpayment, not 30; Virginia 14; Oregon 10; Nevada 7 judicial days; South Dakota's 2024 rewrite).
 
 - 2026-10-12: housing first cut (M1-05). In Landrum, South Carolina, 78% of homes are owned (ACS: 986 of 1,267). Renters pay the county's median rent scaled by income; rent unpaid past the grace period starts a case that follows the place's notice, cure, hearing and stay, ending in removal and `housing.eviction`. A fixture on Texas's statute follows each step on the law's dates. Eviction steps for all 56 places are recorded, but only 6 have been read from statute text (Arizona, Delaware, Florida, South Carolina's notice, Texas, Northern Marianas). Helpers are now verifying the rest on official code sites.
 - 2026-10-12: credit first cut (M1-06). The town bank holds the town's share of its county's FDIC deposits times the median small bank's equity share. It lends prime-linked lines to businesses short of cash, sized from its capital and their sales against wages. Each rate decision reprices those lines.
