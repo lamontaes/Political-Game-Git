@@ -79,6 +79,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-PEOPLE (English engine):** headlines for news stories (`storiesHeard`): each story has only a kind and facts, so News shows "election-result · office: Commissioner · winner: …" until the engine can write the headline.
+
 - **CTO (data):** the map packs in `src/maps/geometry/states/` cover the 50 states and D.C. only. Puerto Rico, Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands have no geometry, so their players see no map.
 
 - **OPUS-GOV (executive role):** when the mayor, county executive or governor is the played person, `executiveAction` still signs or vetoes from their position. The player should decide: a stop with sign and veto as the choices, or an exported `executiveDecision(api, billId, sign)` that the screen calls.
