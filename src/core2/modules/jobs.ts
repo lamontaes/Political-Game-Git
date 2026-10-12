@@ -1003,6 +1003,33 @@ function runWeek(api: CoreAPI): void {
 }
 
 /** A counted seeker joins the employer's wage flow at the position's pay. */
+/** Each counted person's current job, indexed once a day (a hire takes the person out of the seekers, so one day's index holds). */
+const personJobIndex = new WeakMap<
+  CoreState,
+  { date: string; byPerson: Map<string, string> }
+>();
+function countedJobOfPerson(
+  c: CoreState,
+  personId: string,
+): JobInput | undefined {
+  const rt = residentsRuntime(c);
+  if (!rt) return undefined;
+  let index = personJobIndex.get(c);
+  if (!index || index.date !== c.date) {
+    const byPerson = new Map<string, string>();
+    for (const [jobId, flow] of rt.wageFlowByJob) {
+      const job = rt.jobs.get(jobId);
+      if (job && !job.endsAt && !flow.endedAt)
+        byPerson.set(job.personId, jobId);
+    }
+    personJobIndex.set(c, (index = { date: c.date, byPerson }));
+  }
+  const jobId = index.byPerson.get(personId);
+  const job = jobId ? rt.jobs.get(jobId) : undefined;
+  const flow = jobId ? rt.wageFlowByJob.get(jobId) : undefined;
+  return job && !job.endsAt && flow && !flow.endedAt ? job : undefined;
+}
+
 function hireCounted(
   api: CoreAPI,
   position: PositionRow,
@@ -1029,9 +1056,7 @@ function hireCounted(
     source: source(api, `A counted worker hired to ${position.id}.`),
   };
   const previous = seeker.employed
-    ? [...(residentsRuntime(c)?.wageFlowByJob.keys() ?? [])]
-        .map((id) => residentsRuntime(c)!.jobs.get(id)!)
-        .find((row) => row.personId === seeker.personId && !row.endsAt)
+    ? countedJobOfPerson(c, seeker.personId)
     : undefined;
   if (previous?.organizationId === position.organizationId) return false;
   if (!addCountedJob(c, job, template.id)) return false;
