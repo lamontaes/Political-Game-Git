@@ -261,6 +261,11 @@ const ALLOWED_PHRASES: readonly {
     pattern: /\bD\.C\. Council redraws ward boundaries\b/g,
     reason: "the District of Columbia is divided into eight wards by D.C. Code",
   },
+  {
+    pattern: /\btown-wards\b/g,
+    reason:
+      "the legacy town-wards.ts module name and its persisted event key (identifiers keep their spelling); player text says the place's recorded seat type",
+  },
 ];
 
 /**
@@ -330,6 +335,24 @@ const ALLOWED_FILES: readonly {
     words: /^wards?$/i,
     reason:
       "cites the ICMA survey, whose category is 'all by ward or district'",
+  },
+  {
+    file: /^data\/research\/(?:elections\/(?:filing-requirements|ballot-measures-2026)|campaigns\/campaign-finance-2026|offices\/state-offices)\.json$/,
+    words: /^wards?$/i,
+    reason:
+      "research facts about real charters and statutes: D.C.'s eight wards, and the municipal filing rules whose recorded seat type is ward; never deleted",
+  },
+  {
+    file: /^data\/research\/laws\/local-starting-law\/local-minimum-wage\.json$/,
+    words: /^local authorit(?:y|ies)$/i,
+    reason:
+      "research notes on state preemption, where 'local authority' is the legal term of art in Dillon's rule and home-rule sources",
+  },
+  {
+    file: /^data\/research\/laws\/local-starting-law\/unemployment-weekly-bounds\.json$/,
+    words: /^mum$/i,
+    reason:
+      "verbatim text extracted from statute tables, where 'mum' is a damaged extraction of 'maximum', kept as recorded",
   },
 ];
 
