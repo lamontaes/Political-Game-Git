@@ -111,16 +111,20 @@ export function withOutsideSpending(input: CoreInput): CoreInput {
     }
     const amount = Math.round(monthly * share);
     if (amount <= 0) continue;
-    const sellers: OrganizationInput = {
-      id: `outside-sellers:${account.placeId}`,
+    // The place's outside account (the core's, when its firms sell outside), so the money leaves the town.
+    const outsideId = `outside-market:${account.placeId}`;
+    const sellers: OrganizationInput = input.organizations.find(
+      (row) => row.id === outsideId,
+    ) ?? {
+      id: outsideId,
       placeId: account.placeId,
       name: "Sellers outside the town",
       kind: "outside-market",
       liquidMinor: 0,
-      // A recorded account until the residents engine can authorize an outside payment (asked of OPUS-CORE).
+      outsideFlow: source,
       source,
     };
-    organizations.push(sellers);
+    if (!input.organizations.includes(sellers)) organizations.push(sellers);
     const firstAt = new Date(`${start}T00:00:00.000Z`);
     firstAt.setUTCMonth(
       firstAt.getUTCMonth() + 1,

@@ -64,6 +64,7 @@ console.log(
       buildSeconds: Math.round((t1 - t0) / 1000),
       yearSeconds: Math.round((performance.now() - t1) / 1000),
       everyDollarBalances: cashNow() === opening - outsideNet,
+      townCash: { opening, closing: cashNow(), outsideNet },
       national: {
         bandRows: bands.length,
         outside: bands.filter((row) => !row.inside).length,
