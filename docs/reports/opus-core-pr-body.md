@@ -1,54 +1,49 @@
-# A town's year now runs in seconds, and its businesses stay open
+# Businesses keep their own cash steady, workers go to work, and retirees choose when to claim
 
-Before: one January in Higden, Arkansas, took 589 seconds, about two hours for a year, and a year in Cheat Lake, West Virginia, closed 14 of 25 businesses.
+Before: in Vonore, Tennessee, employers' cash went from $43.6 million to $93.6 million in a year. In Birch Creek, Alaska, 3 of 19 businesses closed, all of them restaurants. In three towns, 8 of 46 named workers never went to a shift.
 
-After: one game year takes about 13 seconds and every dollar balances. On the current build, 2 of 28 businesses closed in Mill Plain, Connecticut, and 1 of 28 in Hobbs, Indiana.
+After: Vonore's employers end the year with $44.9 million of their own, besides supplier bills held until due. No business closes in Birch Creek. In the same three towns, every named worker goes to work. Every dollar balances.
 
-**Approved by the owner to merge onto main on October 12, 2026.** The CTO merges it. Two pieces were added after the approval: saves, and customers for new and closed businesses. Both add to the core without changing what was approved, and the owner checks them by playing the evening build; nothing else is needed from him before the merge.
+**What this is:** the core's first part is on main (owner approval, October 12, 2026). This carries the fixes from the CTO's code audit and newer pieces; the CTO merges it, and the owner checks it in the evening build.
 
 ## What changed for the player
 
-- Skipping ahead no longer means waiting: a year passes in about 13 seconds.
-- Businesses have customers, pay their workers and suppliers, and pay their owners.
-- Anyone the player meets becomes a full person. They keep the job and pay recorded in their employer's books. Their household comes with them, along with the household's share of the town's money and their scheduled shifts.
-- A new town takes about 12 seconds to open.
+- Towns keep their businesses: restaurants get their diners, and a town's only garage doesn't swallow every repair job.
+- People work their shifts, part-time and full-time in realistic shares.
+- Older people claim Social Security when it suits them, between 62 and 70, and start drawing it during play.
+- "Named workers" are the workers who exist as full people, the ones the player can meet; the rest of the town is counted, not simulated one by one.
 
 ## Why each fix works
 
-**Bookkeeping is off in play.** Read tracing, re-checking, deep copies and the journal's second lookup now run only in tests (`src/core2/bookkeeping.ts:9`). Measured: one January in Higden, Arkansas, took 589 seconds before and 194 seconds after, with the same cash and closures.
+Each result below was measured once in the places it names, with about 10,000 generated people and bookkeeping off.
 
-**Two levels of people.** Full people are the player, their household, family and the people they know, plus public workers. Everyone else is household records plus one shared account per place, whose wages, retirement income and purchases move as dated journal entries (`src/core2/residents.ts:217`). Measured on the current build: Mill Plain kept 62 of 10,004 people full and ran a year in 13.2 seconds; Hobbs kept 43 of 10,001 and ran a year in 12.7 seconds.
+**Owners stop taking the business's money.** What the code does now (inferred from the code):
 
-**Filling someone in keeps every total.** Measured in a randomly drawn place each test run: the person count, the employer's worker count and the town's cash are the same before and after (`src/core2/residents.test.ts:111`).
+- Every firm pays its outside suppliers, wholesalers included (`src/core2/opening-outside-market.ts:127`).
+- Owners are paid only above one median cash buffer, after supplier bills already owed (`src/core2/modules/residents.ts:261`).
 
-**Closures had a cause.** Measured in Cheat Lake, West Virginia, before the fix: 14 of 25 firms closed, and 11 of those 14 sold nothing all year because no customer route reached their industry (posted on #3918). What the code now does (inferred from the code, measured in the results above): each firm sells to buyers outside the town, sized from its industry's share of receipts in the 2017 Economic Census and USDA data (`src/core2/opening-outside-market.ts:67`). It also pays outside suppliers for costs it doesn't buy locally, 30 days later (supplier payments, in the residents engine at `src/core2/modules/residents.ts:266`). The closure rule is unchanged, and no firm is topped up.
+Measured in Vonore: before, employers' cash grew from $43.6 million to $93.6 million in a year. After, it ends the year at $95.9 million on hand. $51.0 million of that is supplier bills not yet due, which firms now keep until they pay them instead of handing to owners. That leaves $44.9 million of their own, close to the $43.6 million they started with.
 
-**Money circulates.** What the code now does (inferred from the code), as registered stand-ins until OPUS-WORLD's engines replace them:
+**No business is topped up.** What the code does now (inferred from the code): a firm's sales to buyers outside the town are only its industry's sourced share of receipts (`src/core2/opening-outside-market.ts:124`). Measured: 2 of 27 businesses closed in Vonore and 1 of 29 in Sutherlin, Oregon, each with a recorded cause.
 
-- Rent and other living costs not bought locally are paid out of town on the 1st (`src/core2/residents.ts:149`).
-- Firms pay cash above twice their industry's usual buffer to owners each month (`src/core2/modules/residents.ts:200`).
-- The opening places only some workers in town firms. In Mill Creek, Oklahoma, 1,809 of an employment target of 5,195 had jobs; the other 3,386 now earn the town's median wage (`src/core2/residents.ts:676`).
+**Restaurants get their diners.** What the code does now (inferred from the code): the household food budget splits by the 2024 Consumer Expenditure Survey's share eaten away from home, about 39%, by region (`src/core2/opening-finance.ts:1164`). Measured in Birch Creek: 3 of 19 businesses closed before the split, all three restaurants; 0 of 19 closed after.
 
-**Accounts.** What the code now does (inferred from the code; its contract tests pass): engines open named accounts, move money in one balanced entry, and schedule payments that come due, with arrears when owed (`src/core2/accounts.ts:137`). The residents' money goes through the same writer.
+**A small seller serves only what it can.** What the code does now (inferred from the code): spending beyond a seller's monthly capacity buys the same thing outside the town (`src/core2/modules/residents.ts:389`). Measured in North Johns, Alabama: the town's one-worker garage had taken about 24 times its projected sales and then closed; after the fix it stayed open, and 2 of 28 businesses closed.
+
+**Workers go to work.** What the code did (inferred from the code): each need also becomes a goal of the same urgency, and staying home served the "recover" goal, which only mirrors the time need. So staying home counted that need twice, and people with savings stayed home every day. Staying home now serves no goal of its own (`src/core2/data/work.json:270`). Measured over two months in three towns (Elmwood Park, Wisconsin; Palma Sola, Puerto Rico; Hammond, Minnesota): 8 of 46 named workers never went before, and none of 74 after. In Dargan, Maryland, employed adults worked on 62.9% of days; the American Time Use Survey gives 66.4%.
+
+**Realistic hours.** What the code did (inferred from the code): when the opening filled a town's jobs, it reused the hours of the first worker it found in each kind of job, and most of those worked part-time. New jobs now follow the town generator's part-time shares (`src/core2/opening-employment.ts:472`). Measured: part-time jobs fell from 98% to 27% in Dargan and from 99% to 29% in Chino Hills, California.
+
+**Retirement is the person's decision inside the law.** What the code does now (inferred from the code): each retiree claims between 62 and 70, starting from the full retirement age for their birth year: earlier with little saved, later with more patience (`src/core2/retirement-claim.ts:41`). Measured over 3,694 generated retirees in Wayland, New York; Frederiksted, U.S. Virgin Islands; and Bloomingdale, Indiana: average claim age 64.1, against the Social Security Administration's 63.4–65.0.
 
 ## Checks
 
-- The golden-path suite (M0-10, M0-11) is green.
-- Core tests: 1,562 of 1,562 pass. The branch started with 63 failing tests inherited from the session that built the core before me (SOL-1258), because their test setups predated paydays; the setups were updated.
-- Every dollar balances in each measured year: closing cash equals opening cash plus everything paid in from outside, minus everything paid out.
-
-## Added since the approval
-
-Measured once each in Wood Lake, Nebraska (seed `pr-body-oct12`, a town of about 1,500 people, bookkeeping off).
-
-- **Saves that keep working after updates** (the approved early-access spec M7-02). A save records how the world was made and every command the player gave, with its date; loading rebuilds the town and replays them. Measured: a game played to March 1, with one counted household brought in as full people on January 20, was saved and loaded, and all 83 cash holders (full people, businesses and the residents' shared accounts) had the same cash. Measured: a save carrying a command this version doesn't know loaded to the same date, with that one command skipped and listed. The test repeats both checks in a random place each run (`src/core2/saves.test.ts:22`).
-- **New businesses get customers.** What the code does (inferred from the code): a business founded mid-game takes a share of the residents' purchases of the kinds it sells, weighted by its capacity and price against the sellers already there (`src/core2/modules/residents.ts:683`). Measured: a store founded on March 1, with the same capacity as the town's largest seller, held $163,107 from sales on April 30. Town cash plus outside flows was unchanged to the cent (`src/core2/market-entry.test.ts:25`).
-- **A closed business's customers shop elsewhere.** What the code does (inferred from the code): when a seller closes, the residents buy the same things from the town's other open sellers of that kind, in proportion to what each already sells them (`src/core2/modules/residents.ts:159`). Measured: one seller's clothing and services trade, with 654 households buying $12,448 a month, moved in full to the town's 3 other sellers of that kind.
+- Core tests: 1,610 of 1,610 pass.
+- The golden-path suite is green. The year-long money check (M0-08) now runs in it and passed in Fallon, Nevada.
+- Speed: a year in Vonore took 16.7 seconds before today's speed work and 12.9 seconds after.
 
 ## What happens next
 
-- Opening a town takes about 12 seconds, mostly generating all 10,000 people in full before most are folded into the counts. A short loading screen needs PEOPLE's population builder to generate counted households lightly.
-- Public payroll drawn from a government treasury needs treasuries built at the opening; the design question is in my status file for GOV.
-- Requests from other sessions are answered in `docs/coordination/core.md`.
-
-Method: each year in the sections above "Added since the approval" ran once in a randomly drawn place of about 10,000 generated people, on one cloud container, with bookkeeping off. That section's own runs are described at its top. Times exclude opening the town.
+- A year in the full game, with every team's engines, took 34.9 seconds in one bench town (seed play-year-a; that run didn't record the town's name, so it can't be set beside Vonore yet). The core alone runs a year in about 13 seconds; I haven't yet measured how the rest splits among the other engines.
+- Opening a town took 12.1 seconds in Dove Creek, Colorado, mostly generating all 10,000 people in full. A short loading screen needs the people team's builder to generate the wider population lightly.
+- Requests from other teams are answered in `docs/coordination/core.md`.

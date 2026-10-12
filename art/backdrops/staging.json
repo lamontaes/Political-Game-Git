@@ -22363,6 +22363,2101 @@
       ],
       "measuredFrom": "two pickups (~1.8 m: foot 80.2 top 57.9 near right, foot 54.7 top 44.6 far) solved together -> horizon 33.6, 0.28 (raised camera), left pickup agrees; lectern on the flatbed (1.15 m, foot 64.5 top 51.5) -> bed 0.38",
       "surfaceSlots": []
+    },
+    "bank-lobby": {
+      "horizonY": 34,
+      "metersPercent": 0.5,
+      "spots": [
+        {
+          "x": 50,
+          "y": 90,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 90,
+          "hero": true,
+          "role": "general",
+          "id": "bank-lobby:spot:0"
+        },
+        {
+          "x": 36,
+          "y": 68,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 68,
+          "role": "customer",
+          "id": "bank-lobby:spot:1"
+        },
+        {
+          "x": 60,
+          "y": 78,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 78,
+          "role": "general",
+          "id": "bank-lobby:spot:2"
+        },
+        {
+          "x": 80,
+          "y": 80,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 80,
+          "role": "general",
+          "id": "bank-lobby:spot:3"
+        },
+        {
+          "x": 22,
+          "y": 56,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 56,
+          "clipBelowY": 51.5,
+          "role": "staff-behind-counter",
+          "id": "bank-lobby:spot:4"
+        },
+        {
+          "x": 30.8,
+          "y": 53,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 53,
+          "clipBelowY": 50.5,
+          "role": "staff-behind-counter",
+          "id": "bank-lobby:spot:5"
+        },
+        {
+          "x": 69.7,
+          "y": 55,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 55,
+          "seatY": 50.3,
+          "clipBelowY": 51.5,
+          "group": "desk",
+          "role": "staff-behind-counter",
+          "id": "bank-lobby:spot:6"
+        },
+        {
+          "x": 70.6,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 59.6,
+          "group": "guest-chairs",
+          "role": "customer",
+          "id": "bank-lobby:spot:7"
+        },
+        {
+          "x": 78.6,
+          "y": 67,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 67,
+          "seatY": 59.6,
+          "group": "guest-chairs",
+          "role": "customer",
+          "id": "bank-lobby:spot:8"
+        }
+      ],
+      "measuredFrom": "guest chair backs 0.9 m foot 67 top 52 (0.5), tile rows converge near 34; teller counter 1.0 m; standing scale 0.5 from 34",
+      "surfaceSlots": []
+    },
+    "cemetery-graveside": {
+      "horizonY": 48,
+      "metersPercent": 0.4,
+      "spots": [
+        {
+          "x": 45,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 88,
+          "hero": true,
+          "role": "general",
+          "id": "cemetery-graveside:spot:0"
+        },
+        {
+          "x": 62,
+          "y": 78,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 78,
+          "role": "general",
+          "id": "cemetery-graveside:spot:1"
+        },
+        {
+          "x": 30,
+          "y": 80,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 80,
+          "role": "general",
+          "id": "cemetery-graveside:spot:2"
+        },
+        {
+          "x": 54.1,
+          "y": 70.7,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 70.7,
+          "seatY": 66.6,
+          "group": "chairs-left",
+          "role": "general",
+          "id": "cemetery-graveside:spot:3"
+        },
+        {
+          "x": 57.7,
+          "y": 70.7,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 70.7,
+          "seatY": 66.6,
+          "group": "chairs-left",
+          "role": "general",
+          "id": "cemetery-graveside:spot:4"
+        },
+        {
+          "x": 61.3,
+          "y": 70.7,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 70.7,
+          "seatY": 66.6,
+          "group": "chairs-left",
+          "role": "general",
+          "id": "cemetery-graveside:spot:5"
+        },
+        {
+          "x": 66.4,
+          "y": 71,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 71,
+          "seatY": 66.9,
+          "group": "chairs-right",
+          "role": "general",
+          "id": "cemetery-graveside:spot:6"
+        },
+        {
+          "x": 70,
+          "y": 71,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 71,
+          "seatY": 66.9,
+          "group": "chairs-right",
+          "role": "general",
+          "id": "cemetery-graveside:spot:7"
+        },
+        {
+          "x": 73.3,
+          "y": 71,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 71,
+          "seatY": 66.9,
+          "group": "chairs-right",
+          "role": "general",
+          "id": "cemetery-graveside:spot:8"
+        },
+        {
+          "x": 80.4,
+          "y": 73.3,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 73.3,
+          "seatY": 68.7,
+          "group": "bench",
+          "role": "general",
+          "id": "cemetery-graveside:spot:9"
+        },
+        {
+          "x": 83.7,
+          "y": 73.3,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 73.3,
+          "seatY": 68.7,
+          "group": "bench",
+          "role": "general",
+          "id": "cemetery-graveside:spot:10"
+        }
+      ],
+      "measuredFrom": "folding chair 0.85 m foot 71 top 62 and bench back 0.9 m foot 73 top 65 (both about 9.6 per m), headstones 1 m near 14 per m; 48 / 0.40",
+      "surfaceSlots": []
+    },
+    "doorstep-entrance": {
+      "horizonY": 30,
+      "metersPercent": 0.8,
+      "spots": [
+        {
+          "x": 60,
+          "y": 58,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 58,
+          "role": "doorway",
+          "id": "doorstep-entrance:spot:0"
+        },
+        {
+          "x": 40,
+          "y": 59,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 59,
+          "role": "general",
+          "id": "doorstep-entrance:spot:1"
+        },
+        {
+          "x": 50,
+          "y": 66,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 66,
+          "role": "general",
+          "id": "doorstep-entrance:spot:2"
+        },
+        {
+          "x": 50,
+          "y": 73,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 73,
+          "role": "general",
+          "id": "doorstep-entrance:spot:3"
+        },
+        {
+          "x": 50,
+          "y": 90,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 90,
+          "hero": true,
+          "role": "general",
+          "id": "doorstep-entrance:spot:4"
+        },
+        {
+          "x": 25,
+          "y": 93,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 93,
+          "role": "general",
+          "id": "doorstep-entrance:spot:5"
+        }
+      ],
+      "measuredFrom": "door 2.03 m foot 54.7 top 13 (20.4 per m), step riser 0.18 m 5% at y 64; 30 / 0.80",
+      "surfaceSlots": []
+    },
+    "federal-district-courtroom": {
+      "horizonY": 36,
+      "metersPercent": 0.58,
+      "floors": {
+        "dais": 0.6,
+        "witness-box": 0.6,
+        "jury-box": 0.6
+      },
+      "spots": [
+        {
+          "x": 50,
+          "y": 92,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 92,
+          "hero": true,
+          "role": "general",
+          "id": "federal-district-courtroom:spot:0"
+        },
+        {
+          "x": 50,
+          "y": 70,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 70,
+          "role": "general",
+          "id": "federal-district-courtroom:spot:1"
+        },
+        {
+          "x": 50,
+          "y": 37,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 37,
+          "seatY": 32.4,
+          "floor": "dais",
+          "floorHorizonY": 20,
+          "floorMetersPercent": 0.6,
+          "clipBelowY": 33,
+          "role": "judge",
+          "group": "bench",
+          "id": "federal-district-courtroom:spot:2"
+        },
+        {
+          "x": 20,
+          "y": 46,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 46,
+          "seatY": 42.4,
+          "floor": "witness-box",
+          "floorHorizonY": 32.7,
+          "floorMetersPercent": 0.6,
+          "clipBelowY": 39.5,
+          "role": "witness",
+          "group": "witness-box",
+          "id": "federal-district-courtroom:spot:3"
+        },
+        {
+          "x": 78,
+          "y": 45,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 45,
+          "seatY": 41.8,
+          "floor": "jury-box",
+          "floorHorizonY": 33.3,
+          "floorMetersPercent": 0.6,
+          "role": "jury",
+          "group": "jury-box",
+          "id": "federal-district-courtroom:spot:4"
+        },
+        {
+          "x": 83.5,
+          "y": 45,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 45,
+          "seatY": 41.8,
+          "floor": "jury-box",
+          "floorHorizonY": 33.3,
+          "floorMetersPercent": 0.6,
+          "role": "jury",
+          "group": "jury-box",
+          "id": "federal-district-courtroom:spot:5"
+        },
+        {
+          "x": 89,
+          "y": 45,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 45,
+          "seatY": 41.8,
+          "floor": "jury-box",
+          "floorHorizonY": 33.3,
+          "floorMetersPercent": 0.6,
+          "role": "jury",
+          "group": "jury-box",
+          "id": "federal-district-courtroom:spot:6"
+        },
+        {
+          "x": 28,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "seatY": 53.7,
+          "role": "counsel",
+          "group": "counsel-left",
+          "id": "federal-district-courtroom:spot:7"
+        },
+        {
+          "x": 37,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "seatY": 53.7,
+          "role": "counsel",
+          "group": "counsel-left",
+          "id": "federal-district-courtroom:spot:8"
+        },
+        {
+          "x": 63.7,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "seatY": 53.7,
+          "role": "counsel",
+          "group": "counsel-right",
+          "id": "federal-district-courtroom:spot:9"
+        },
+        {
+          "x": 71.5,
+          "y": 60,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 60,
+          "seatY": 53.7,
+          "role": "counsel",
+          "group": "counsel-right",
+          "id": "federal-district-courtroom:spot:10"
+        },
+        {
+          "x": 4.5,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 78.9,
+          "group": "gallery-left-1",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:11"
+        },
+        {
+          "x": 14.3,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 78.9,
+          "group": "gallery-left-1",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:12"
+        },
+        {
+          "x": 26.7,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 78.9,
+          "group": "gallery-left-1",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:13"
+        },
+        {
+          "x": 9,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 68.5,
+          "group": "gallery-left-2",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:14"
+        },
+        {
+          "x": 19.7,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 68.5,
+          "group": "gallery-left-2",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:15"
+        },
+        {
+          "x": 30,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 68.5,
+          "group": "gallery-left-2",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:16"
+        },
+        {
+          "x": 14,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 61.9,
+          "group": "gallery-left-3",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:17"
+        },
+        {
+          "x": 22.5,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 61.9,
+          "group": "gallery-left-3",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:18"
+        },
+        {
+          "x": 31,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 61.9,
+          "group": "gallery-left-3",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:19"
+        },
+        {
+          "x": 72.7,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 78.9,
+          "group": "gallery-right-1",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:20"
+        },
+        {
+          "x": 86.4,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 78.9,
+          "group": "gallery-right-1",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:21"
+        },
+        {
+          "x": 96.5,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 78.9,
+          "group": "gallery-right-1",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:22"
+        },
+        {
+          "x": 70,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 68.5,
+          "group": "gallery-right-2",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:23"
+        },
+        {
+          "x": 80,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 68.5,
+          "group": "gallery-right-2",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:24"
+        },
+        {
+          "x": 90,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 68.5,
+          "group": "gallery-right-2",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:25"
+        },
+        {
+          "x": 66,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 61.9,
+          "group": "gallery-right-3",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:26"
+        },
+        {
+          "x": 75,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 61.9,
+          "group": "gallery-right-3",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:27"
+        },
+        {
+          "x": 84,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 61.9,
+          "group": "gallery-right-3",
+          "role": "audience",
+          "id": "federal-district-courtroom:spot:28"
+        }
+      ],
+      "measuredFrom": "bar rail 1.0 m foot 68 top 52 (16 per m), front row chair back 0.9 m foot 94 top 66 (30 per m); judge bench, witness box and jury box on their own raised floors",
+      "surfaceSlots": []
+    },
+    "federal-reserve-boardroom": {
+      "horizonY": 48.7,
+      "metersPercent": 0.66,
+      "spots": [
+        {
+          "x": 10,
+          "y": 90,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 90,
+          "hero": true,
+          "role": "general",
+          "id": "federal-reserve-boardroom:spot:0"
+        },
+        {
+          "x": 90,
+          "y": 78,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 78,
+          "role": "general",
+          "id": "federal-reserve-boardroom:spot:1"
+        },
+        {
+          "x": 50,
+          "y": 56,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 56,
+          "seatY": 53.8,
+          "group": "head",
+          "role": "presiding",
+          "id": "federal-reserve-boardroom:spot:2"
+        },
+        {
+          "x": 24,
+          "y": 93,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 93,
+          "seatY": 79.8,
+          "group": "table-left",
+          "role": "member-at-dais",
+          "id": "federal-reserve-boardroom:spot:3"
+        },
+        {
+          "x": 29,
+          "y": 82,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 82,
+          "seatY": 72.1,
+          "group": "table-left",
+          "role": "member-at-dais",
+          "id": "federal-reserve-boardroom:spot:4"
+        },
+        {
+          "x": 33,
+          "y": 75,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 75,
+          "seatY": 67.2,
+          "group": "table-left",
+          "role": "member-at-dais",
+          "id": "federal-reserve-boardroom:spot:5"
+        },
+        {
+          "x": 37,
+          "y": 69,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 69,
+          "seatY": 63.0,
+          "group": "table-left",
+          "role": "member-at-dais",
+          "id": "federal-reserve-boardroom:spot:6"
+        },
+        {
+          "x": 40.5,
+          "y": 64,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 64,
+          "seatY": 59.5,
+          "group": "table-left",
+          "role": "member-at-dais",
+          "id": "federal-reserve-boardroom:spot:7"
+        },
+        {
+          "x": 42.5,
+          "y": 60.5,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 60.5,
+          "seatY": 57.0,
+          "group": "table-left",
+          "role": "member-at-dais",
+          "id": "federal-reserve-boardroom:spot:8"
+        },
+        {
+          "x": 76,
+          "y": 93,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 93,
+          "seatY": 79.8,
+          "group": "table-right",
+          "role": "member-at-dais",
+          "id": "federal-reserve-boardroom:spot:9"
+        },
+        {
+          "x": 73,
+          "y": 81,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 81,
+          "seatY": 71.4,
+          "group": "table-right",
+          "role": "member-at-dais",
+          "id": "federal-reserve-boardroom:spot:10"
+        },
+        {
+          "x": 68,
+          "y": 74,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 74,
+          "seatY": 66.5,
+          "group": "table-right",
+          "role": "member-at-dais",
+          "id": "federal-reserve-boardroom:spot:11"
+        },
+        {
+          "x": 64,
+          "y": 69,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 69,
+          "seatY": 63.0,
+          "group": "table-right",
+          "role": "member-at-dais",
+          "id": "federal-reserve-boardroom:spot:12"
+        },
+        {
+          "x": 61,
+          "y": 64.5,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 64.5,
+          "seatY": 59.8,
+          "group": "table-right",
+          "role": "member-at-dais",
+          "id": "federal-reserve-boardroom:spot:13"
+        },
+        {
+          "x": 59,
+          "y": 61,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 61,
+          "seatY": 57.3,
+          "group": "table-right",
+          "role": "member-at-dais",
+          "id": "federal-reserve-boardroom:spot:14"
+        }
+      ],
+      "measuredFrom": "near chair back 1.1 m foot 93.5 top 61 (29.5 per m), far head chair foot 56 top 51 (4.8 per m); 48.7 / 0.66",
+      "surfaceSlots": []
+    },
+    "funeral-home-viewing-room": {
+      "horizonY": 30,
+      "metersPercent": 0.47,
+      "spots": [
+        {
+          "x": 50,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 88,
+          "hero": true,
+          "role": "general",
+          "id": "funeral-home-viewing-room:spot:0"
+        },
+        {
+          "x": 50,
+          "y": 68,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 68,
+          "role": "general",
+          "id": "funeral-home-viewing-room:spot:1"
+        },
+        {
+          "x": 50,
+          "y": 57,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 57,
+          "role": "general",
+          "id": "funeral-home-viewing-room:spot:2"
+        },
+        {
+          "x": 4.5,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 80.5,
+          "group": "pews-left-1",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:3"
+        },
+        {
+          "x": 14.3,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 80.5,
+          "group": "pews-left-1",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:4"
+        },
+        {
+          "x": 26.7,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 80.5,
+          "group": "pews-left-1",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:5"
+        },
+        {
+          "x": 9,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 69.4,
+          "group": "pews-left-2",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:6"
+        },
+        {
+          "x": 19.7,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 69.4,
+          "group": "pews-left-2",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:7"
+        },
+        {
+          "x": 30,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 69.4,
+          "group": "pews-left-2",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:8"
+        },
+        {
+          "x": 14,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 62.3,
+          "group": "pews-left-3",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:9"
+        },
+        {
+          "x": 22.5,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 62.3,
+          "group": "pews-left-3",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:10"
+        },
+        {
+          "x": 31,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 62.3,
+          "group": "pews-left-3",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:11"
+        },
+        {
+          "x": 18,
+          "y": 64,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 64,
+          "seatY": 56.8,
+          "group": "pews-left-4",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:12"
+        },
+        {
+          "x": 26,
+          "y": 64,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 64,
+          "seatY": 56.8,
+          "group": "pews-left-4",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:13"
+        },
+        {
+          "x": 33,
+          "y": 64,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 64,
+          "seatY": 56.8,
+          "group": "pews-left-4",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:14"
+        },
+        {
+          "x": 72.7,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 80.5,
+          "group": "pews-right-1",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:15"
+        },
+        {
+          "x": 86.4,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 80.5,
+          "group": "pews-right-1",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:16"
+        },
+        {
+          "x": 96.5,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 80.5,
+          "group": "pews-right-1",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:17"
+        },
+        {
+          "x": 70,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 69.4,
+          "group": "pews-right-2",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:18"
+        },
+        {
+          "x": 80,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 69.4,
+          "group": "pews-right-2",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:19"
+        },
+        {
+          "x": 90,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 69.4,
+          "group": "pews-right-2",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:20"
+        },
+        {
+          "x": 66,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 62.3,
+          "group": "pews-right-3",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:21"
+        },
+        {
+          "x": 75,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 62.3,
+          "group": "pews-right-3",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:22"
+        },
+        {
+          "x": 84,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 62.3,
+          "group": "pews-right-3",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:23"
+        },
+        {
+          "x": 62,
+          "y": 64,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 64,
+          "seatY": 56.8,
+          "group": "pews-right-4",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:24"
+        },
+        {
+          "x": 70,
+          "y": 64,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 64,
+          "seatY": 56.8,
+          "group": "pews-right-4",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:25"
+        },
+        {
+          "x": 78,
+          "y": 64,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 64,
+          "seatY": 56.8,
+          "group": "pews-right-4",
+          "role": "audience",
+          "id": "funeral-home-viewing-room:spot:26"
+        }
+      ],
+      "measuredFrom": "row chair back 0.9 m foot 94 top 66 (about 30 per m), casket about 1 m foot 52 top 37; 30 / 0.47",
+      "surfaceSlots": []
+    },
+    "grocery-store": {
+      "horizonY": 36,
+      "metersPercent": 0.66,
+      "spots": [
+        {
+          "x": 50,
+          "y": 92,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 92,
+          "hero": true,
+          "role": "general",
+          "id": "grocery-store:spot:0"
+        },
+        {
+          "x": 35,
+          "y": 80,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 80,
+          "role": "customer",
+          "id": "grocery-store:spot:1"
+        },
+        {
+          "x": 72,
+          "y": 78,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 78,
+          "role": "customer",
+          "id": "grocery-store:spot:2"
+        },
+        {
+          "x": 50,
+          "y": 62,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 62,
+          "role": "customer",
+          "id": "grocery-store:spot:3"
+        },
+        {
+          "x": 56,
+          "y": 46,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 46,
+          "clipBelowY": 43.6,
+          "role": "staff-behind-counter",
+          "id": "grocery-store:spot:4"
+        }
+      ],
+      "measuredFrom": "shelf unit 1.9 m foot 69 top 27 (21.8 per m), checkout counter 0.95 m foot 50 top 43.6; 36 / 0.66",
+      "surfaceSlots": []
+    },
+    "hardware-store-interior": {
+      "horizonY": 29,
+      "metersPercent": 0.45,
+      "spots": [
+        {
+          "x": 45,
+          "y": 92,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 92,
+          "hero": true,
+          "role": "general",
+          "id": "hardware-store-interior:spot:0"
+        },
+        {
+          "x": 52,
+          "y": 76,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 76,
+          "role": "customer",
+          "id": "hardware-store-interior:spot:1"
+        },
+        {
+          "x": 38,
+          "y": 80,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 80,
+          "role": "customer",
+          "id": "hardware-store-interior:spot:2"
+        },
+        {
+          "x": 43,
+          "y": 64,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 64,
+          "role": "customer",
+          "id": "hardware-store-interior:spot:3"
+        },
+        {
+          "x": 22,
+          "y": 68,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 68,
+          "clipBelowY": 55,
+          "role": "staff-behind-counter",
+          "id": "hardware-store-interior:spot:4"
+        }
+      ],
+      "measuredFrom": "back door 2.0 m foot 57.4 top 32 (12.8 per m), service counter 1.0 m foot 74.4 top 54 (20.4 per m); 29 / 0.45",
+      "surfaceSlots": []
+    },
+    "hospital-emergency-waiting": {
+      "horizonY": 32,
+      "metersPercent": 0.48,
+      "spots": [
+        {
+          "x": 50,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 88,
+          "hero": true,
+          "role": "general",
+          "id": "hospital-emergency-waiting:spot:0"
+        },
+        {
+          "x": 50,
+          "y": 66,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 66,
+          "role": "general",
+          "id": "hospital-emergency-waiting:spot:1"
+        },
+        {
+          "x": 62,
+          "y": 54.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 54.5,
+          "clipBelowY": 44,
+          "role": "staff-behind-counter",
+          "id": "hospital-emergency-waiting:spot:2"
+        },
+        {
+          "x": 4.5,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 80.6,
+          "group": "waiting-left-1",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:3"
+        },
+        {
+          "x": 14.3,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 80.6,
+          "group": "waiting-left-1",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:4"
+        },
+        {
+          "x": 26.7,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 80.6,
+          "group": "waiting-left-1",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:5"
+        },
+        {
+          "x": 9,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 69.6,
+          "group": "waiting-left-2",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:6"
+        },
+        {
+          "x": 19.7,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 69.6,
+          "group": "waiting-left-2",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:7"
+        },
+        {
+          "x": 30,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 69.6,
+          "group": "waiting-left-2",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:8"
+        },
+        {
+          "x": 14,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 62.6,
+          "group": "waiting-left-3",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:9"
+        },
+        {
+          "x": 22.5,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 62.6,
+          "group": "waiting-left-3",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:10"
+        },
+        {
+          "x": 31,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 62.6,
+          "group": "waiting-left-3",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:11"
+        },
+        {
+          "x": 72.7,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 80.6,
+          "group": "waiting-right-1",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:12"
+        },
+        {
+          "x": 86.4,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 80.6,
+          "group": "waiting-right-1",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:13"
+        },
+        {
+          "x": 96.5,
+          "y": 94,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 94,
+          "seatY": 80.6,
+          "group": "waiting-right-1",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:14"
+        },
+        {
+          "x": 70,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 69.6,
+          "group": "waiting-right-2",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:15"
+        },
+        {
+          "x": 80,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 69.6,
+          "group": "waiting-right-2",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:16"
+        },
+        {
+          "x": 90,
+          "y": 80,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 80,
+          "seatY": 69.6,
+          "group": "waiting-right-2",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:17"
+        },
+        {
+          "x": 66,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 62.6,
+          "group": "waiting-right-3",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:18"
+        },
+        {
+          "x": 75,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 62.6,
+          "group": "waiting-right-3",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:19"
+        },
+        {
+          "x": 84,
+          "y": 71,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71,
+          "seatY": 62.6,
+          "group": "waiting-right-3",
+          "role": "audience",
+          "id": "hospital-emergency-waiting:spot:20"
+        }
+      ],
+      "measuredFrom": "reception counter 1.1 m foot 55.8 top 43 (11.6 per m), row chair back 0.9 m foot 94 top 66; 32 / 0.48",
+      "surfaceSlots": []
+    },
+    "hospital-patient-room": {
+      "horizonY": 38,
+      "metersPercent": 0.65,
+      "spots": [
+        {
+          "x": 40,
+          "y": 92,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 92,
+          "hero": true,
+          "role": "general",
+          "id": "hospital-patient-room:spot:0"
+        },
+        {
+          "x": 45,
+          "y": 84,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 84,
+          "role": "general",
+          "id": "hospital-patient-room:spot:1"
+        },
+        {
+          "x": 30,
+          "y": 88,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 88,
+          "role": "general",
+          "id": "hospital-patient-room:spot:2"
+        },
+        {
+          "x": 67,
+          "y": 86,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 86,
+          "role": "general",
+          "id": "hospital-patient-room:spot:3"
+        },
+        {
+          "x": 86.7,
+          "y": 74,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 74,
+          "seatY": 63.5,
+          "group": "armchair",
+          "role": "general",
+          "id": "hospital-patient-room:spot:4"
+        }
+      ],
+      "measuredFrom": "armchair seat 0.45 m foot 74 seat 63.5 (23 per m), back wall base 63.8 with 2.7 m wall to 14 (17 per m); 38 / 0.65",
+      "surfaceSlots": []
+    },
+    "jail-visiting-room": {
+      "horizonY": 50,
+      "metersPercent": 0.78,
+      "spots": [
+        {
+          "x": 30,
+          "y": 92,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 92,
+          "hero": true,
+          "role": "general",
+          "id": "jail-visiting-room:spot:0"
+        },
+        {
+          "x": 60,
+          "y": 90,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 90,
+          "role": "general",
+          "id": "jail-visiting-room:spot:1"
+        },
+        {
+          "x": 29.3,
+          "y": 82.4,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 82.4,
+          "seatY": 69.8,
+          "group": "visitor-stools",
+          "role": "general",
+          "id": "jail-visiting-room:spot:2"
+        },
+        {
+          "x": 41.3,
+          "y": 76.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 76.5,
+          "seatY": 66.2,
+          "group": "visitor-stools",
+          "role": "general",
+          "id": "jail-visiting-room:spot:3"
+        },
+        {
+          "x": 49.6,
+          "y": 71.7,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 71.7,
+          "seatY": 63.2,
+          "group": "visitor-stools",
+          "role": "general",
+          "id": "jail-visiting-room:spot:4"
+        },
+        {
+          "x": 58,
+          "y": 79,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 79,
+          "seatY": 67.7,
+          "group": "visitor-stools",
+          "role": "general",
+          "id": "jail-visiting-room:spot:5"
+        },
+        {
+          "x": 68.8,
+          "y": 79.1,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 79.1,
+          "seatY": 67.8,
+          "group": "visitor-stools",
+          "role": "general",
+          "id": "jail-visiting-room:spot:6"
+        },
+        {
+          "x": 81.9,
+          "y": 85,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 85,
+          "seatY": 71.3,
+          "group": "visitor-stools",
+          "role": "general",
+          "id": "jail-visiting-room:spot:7"
+        },
+        {
+          "x": 5.5,
+          "y": 72.5,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 72.5,
+          "seatY": 64.6,
+          "group": "waiting-chairs",
+          "role": "audience",
+          "id": "jail-visiting-room:spot:8"
+        },
+        {
+          "x": 11.5,
+          "y": 71.5,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 71.5,
+          "seatY": 64.0,
+          "group": "waiting-chairs",
+          "role": "audience",
+          "id": "jail-visiting-room:spot:9"
+        }
+      ],
+      "measuredFrom": "chair seat 0.45 m foot 73 top 63.5 (about 21 per m), stool 0.5 m foot 82 seat 69 (25 per m), stool foot 72 (17 per m); 50 / 0.78",
+      "surfaceSlots": []
+    },
+    "supreme-court-exterior": {
+      "horizonY": 55,
+      "metersPercent": 0.47,
+      "spots": [
+        {
+          "x": 50,
+          "y": 63,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 63,
+          "role": "general",
+          "id": "supreme-court-exterior:spot:0"
+        },
+        {
+          "x": 35,
+          "y": 76,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 76,
+          "role": "general",
+          "id": "supreme-court-exterior:spot:1"
+        },
+        {
+          "x": 65,
+          "y": 76,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 76,
+          "role": "general",
+          "id": "supreme-court-exterior:spot:2"
+        },
+        {
+          "x": 50,
+          "y": 84,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 84,
+          "role": "general",
+          "id": "supreme-court-exterior:spot:3"
+        },
+        {
+          "x": 50,
+          "y": 92,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 92,
+          "hero": true,
+          "role": "general",
+          "id": "supreme-court-exterior:spot:4"
+        },
+        {
+          "x": 20,
+          "y": 90,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 90,
+          "role": "general",
+          "id": "supreme-court-exterior:spot:5"
+        },
+        {
+          "x": 80,
+          "y": 90,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 90,
+          "role": "general",
+          "id": "supreme-court-exterior:spot:6"
+        }
+      ],
+      "measuredFrom": "column 13 m foot 60.5 top 26 so 1.7 m = 4.4% at the steps; plaza person 15% at y 74; 55 / 0.47",
+      "surfaceSlots": []
+    },
+    "tavern": {
+      "horizonY": 30,
+      "metersPercent": 0.5,
+      "spots": [
+        {
+          "x": 52,
+          "y": 90,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 90,
+          "hero": true,
+          "role": "general",
+          "id": "tavern:spot:0"
+        },
+        {
+          "x": 48,
+          "y": 72,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 72,
+          "role": "general",
+          "id": "tavern:spot:1"
+        },
+        {
+          "x": 40,
+          "y": 62,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 62,
+          "role": "general",
+          "id": "tavern:spot:2"
+        },
+        {
+          "x": 24.8,
+          "y": 98,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 98,
+          "seatY": 72.5,
+          "group": "bar-stools",
+          "role": "customer",
+          "id": "tavern:spot:3"
+        },
+        {
+          "x": 32.9,
+          "y": 84,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 84,
+          "seatY": 63.8,
+          "group": "bar-stools",
+          "role": "customer",
+          "id": "tavern:spot:4"
+        },
+        {
+          "x": 36.2,
+          "y": 78,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 78,
+          "seatY": 60.0,
+          "group": "bar-stools",
+          "role": "customer",
+          "id": "tavern:spot:5"
+        },
+        {
+          "x": 39.2,
+          "y": 72.8,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 72.8,
+          "seatY": 56.8,
+          "group": "bar-stools",
+          "role": "customer",
+          "id": "tavern:spot:6"
+        },
+        {
+          "x": 41.3,
+          "y": 68,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 68,
+          "seatY": 53.8,
+          "group": "bar-stools",
+          "role": "customer",
+          "id": "tavern:spot:7"
+        },
+        {
+          "x": 42.8,
+          "y": 64,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 64,
+          "seatY": 51.2,
+          "group": "bar-stools",
+          "role": "customer",
+          "id": "tavern:spot:8"
+        },
+        {
+          "x": 79.5,
+          "y": 71,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 71,
+          "seatY": 61.8,
+          "group": "booth-1",
+          "role": "general",
+          "id": "tavern:spot:9"
+        },
+        {
+          "x": 71.5,
+          "y": 63,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 63,
+          "seatY": 55.6,
+          "group": "booth-2",
+          "role": "general",
+          "id": "tavern:spot:10"
+        },
+        {
+          "x": 65,
+          "y": 56,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 56,
+          "seatY": 50.1,
+          "group": "booth-3",
+          "role": "general",
+          "id": "tavern:spot:11"
+        }
+      ],
+      "measuredFrom": "bar stool 0.75 m foot 98 seat 73 (34 per m), stool foot 84 seat 64 (27 per m); 30 / 0.50",
+      "surfaceSlots": []
+    },
+    "township-board": {
+      "horizonY": 11,
+      "metersPercent": 0.5,
+      "spots": [
+        {
+          "x": 50,
+          "y": 85,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 85,
+          "hero": true,
+          "role": "general",
+          "id": "township-board:spot:0"
+        },
+        {
+          "x": 50,
+          "y": 62,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 62,
+          "role": "general",
+          "id": "township-board:spot:1"
+        },
+        {
+          "x": 86,
+          "y": 54,
+          "pose": "podium",
+          "facing": "left",
+          "depth": 54,
+          "audience": "left",
+          "role": "speaker",
+          "id": "township-board:spot:2"
+        },
+        {
+          "x": 31.7,
+          "y": 44.1,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 44.1,
+          "seatY": 36.7,
+          "clipBelowY": 34.5,
+          "group": "board-table",
+          "role": "member-at-dais",
+          "id": "township-board:spot:3"
+        },
+        {
+          "x": 41,
+          "y": 44.1,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 44.1,
+          "seatY": 36.7,
+          "clipBelowY": 34.5,
+          "group": "board-table",
+          "role": "member-at-dais",
+          "id": "township-board:spot:4"
+        },
+        {
+          "x": 50.2,
+          "y": 44.1,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 44.1,
+          "seatY": 36.7,
+          "clipBelowY": 34.5,
+          "group": "board-table",
+          "role": "member-at-dais",
+          "id": "township-board:spot:5"
+        },
+        {
+          "x": 59.8,
+          "y": 44.1,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 44.1,
+          "seatY": 36.7,
+          "clipBelowY": 34.5,
+          "group": "board-table",
+          "role": "member-at-dais",
+          "id": "township-board:spot:6"
+        },
+        {
+          "x": 67.9,
+          "y": 44.1,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 44.1,
+          "seatY": 36.7,
+          "clipBelowY": 34.5,
+          "group": "board-table",
+          "role": "member-at-dais",
+          "id": "township-board:spot:7"
+        },
+        {
+          "x": 6.9,
+          "y": 76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 76,
+          "seatY": 61.4,
+          "group": "audience-back",
+          "role": "audience",
+          "id": "township-board:spot:8"
+        },
+        {
+          "x": 15.9,
+          "y": 76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 76,
+          "seatY": 61.4,
+          "group": "audience-back",
+          "role": "audience",
+          "id": "township-board:spot:9"
+        },
+        {
+          "x": 27.8,
+          "y": 76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 76,
+          "seatY": 61.4,
+          "group": "audience-back",
+          "role": "audience",
+          "id": "township-board:spot:10"
+        },
+        {
+          "x": 70.6,
+          "y": 76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 76,
+          "seatY": 61.4,
+          "group": "audience-back",
+          "role": "audience",
+          "id": "township-board:spot:11"
+        },
+        {
+          "x": 81.3,
+          "y": 76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 76,
+          "seatY": 61.4,
+          "group": "audience-back",
+          "role": "audience",
+          "id": "township-board:spot:12"
+        },
+        {
+          "x": 92.7,
+          "y": 76,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 76,
+          "seatY": 61.4,
+          "group": "audience-back",
+          "role": "audience",
+          "id": "township-board:spot:13"
+        },
+        {
+          "x": 10.2,
+          "y": 92.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 92.5,
+          "seatY": 74.2,
+          "group": "audience-front",
+          "role": "audience",
+          "id": "township-board:spot:14"
+        },
+        {
+          "x": 25.1,
+          "y": 92.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 92.5,
+          "seatY": 74.2,
+          "group": "audience-front",
+          "role": "audience",
+          "id": "township-board:spot:15"
+        },
+        {
+          "x": 75,
+          "y": 92.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 92.5,
+          "seatY": 74.2,
+          "group": "audience-front",
+          "role": "audience",
+          "id": "township-board:spot:16"
+        },
+        {
+          "x": 88.8,
+          "y": 92.5,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 92.5,
+          "seatY": 74.2,
+          "group": "audience-front",
+          "role": "audience",
+          "id": "township-board:spot:17"
+        }
+      ],
+      "measuredFrom": "folding chair back 0.85 m foot 92.5 top 58 (40 per m), board table 0.75 m foot 47 top 33.5 (18 per m); 11 / 0.50",
+      "surfaceSlots": []
+    },
+    "white-house-exterior": {
+      "horizonY": 53,
+      "metersPercent": 0.54,
+      "spots": [
+        {
+          "x": 50,
+          "y": 93,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 93,
+          "hero": true,
+          "role": "general",
+          "id": "white-house-exterior:spot:0"
+        },
+        {
+          "x": 45,
+          "y": 63.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 63.5,
+          "role": "general",
+          "id": "white-house-exterior:spot:1"
+        },
+        {
+          "x": 75,
+          "y": 63.5,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 63.5,
+          "role": "general",
+          "id": "white-house-exterior:spot:2"
+        },
+        {
+          "x": 30,
+          "y": 86,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 86,
+          "role": "general",
+          "id": "white-house-exterior:spot:3"
+        },
+        {
+          "x": 80,
+          "y": 86,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 86,
+          "role": "general",
+          "id": "white-house-exterior:spot:4"
+        },
+        {
+          "x": 60,
+          "y": 76,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 76,
+          "role": "general",
+          "id": "white-house-exterior:spot:5"
+        }
+      ],
+      "measuredFrom": "lamp posts 3.5 m foot 63.5 top 44 (5.6 per m) and foot 58.5 top 48.5 (2.9 per m); 53 / 0.54",
+      "surfaceSlots": []
     }
   }
 }

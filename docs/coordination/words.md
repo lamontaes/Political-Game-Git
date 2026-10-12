@@ -3,7 +3,7 @@
 Only OPUS-WORDS writes this file. See "The team" in `AGENTS.md` and `docs/coordination/BOARD.md`.
 
 - **Owns:** The data the English engine composes from: `data/english/parts/**`, `data/english/counts/**`, the corpus tooling in `scripts/english-corpus/**` and the research notes in `docs/research/english-corpus/**`. OPUS-PEOPLE owns the engine itself (`src/presentation/english-*.ts`, the `*-english.ts` writers, `src/director/**`).
-- **Branch:** `opus-words`, from `pool/P15-people-5` with `main` merged in; `pool/P15-people-5` is merged in whenever it moves.
+- **Branch:** `opus-words`, restarted from `main` after #4025 merged (Oct 12), with `pool/P15-people-5` merged in whenever it moves.
 - **Model:** Opus, high: choosing which real sentences carry each conversation move is judgment work.
 - **Starts from:** The owner's approval, Oct 12 at 10:20 a.m.; PEOPLE's Words item (`docs/coordination/people.md`); the speech corpus research (`docs/research/speech-and-dialogue-corpus-2026-09-28.md`); the existing mined banks in `data/english/parts/`.
 
@@ -77,6 +77,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 Newest first: one line per event (what changed, the measured result, what's next).
 
 - Oct 12 (second run): the opening speech bank, 126 sentences from 17,712 presidential documents plus 222 State of the Union addresses; it composes both speeches section by section through the engine (6 checks pass; the bank tests show the same 5 old failures). The container had lost the corpus, so it is being rebuilt (presidential documents and 2,500 hearings done; helpers fetching news releases, oral histories and clerk records). Next: news and TV.
+
+- Oct 12, 3:49 p.m.: the CTO merged the mined banks to `main` (#4025, through cto/words-merge-1, #4049). `opus-words` restarts from `main` with PEOPLE's branch merged in; follow-up work goes on a new PR. Still open: PEOPLE switching the director to the mined banks (Needs), the owner's grades on batches 3 to 5, and the two questions above.
 
 - Oct 12: CI: `unit` failed on "Prime Minister" in cited source titles (fixed: such a title is replaced by its collection); `repository` fails on PEOPLE's unformatted `src/core2/data/views/ces-2024-views.json` (commented on the PR, listed for PEOPLE). A fresh-eyes review fixed eleven sentence misfits ("How's {place}?" drew answers for "Are you still in…?", "In {place}." after "Where are you from?", "{name} is my son." for a daughter, "Do you know {name}?" answered with a sighting, "I went to school at … School."); eight program-level findings went to PEOPLE. Corpus 23,818 documents with 3,229 more presidential exchanges and White House briefings; conversation 345 sentences.
 

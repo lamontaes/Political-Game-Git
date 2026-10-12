@@ -13,6 +13,7 @@ import {
 } from "../residents";
 import { transfer } from "../accounts";
 import { splitMarketDemand } from "../business-books";
+import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { notifySalesReceipt } from "./finance";
 import type { ResidentWageShortfall } from "../finance-types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
@@ -69,7 +70,31 @@ export interface ResidentsRuntime {
   wageFlowByJob: Map<string, FlowState>;
   /** Today's missed count-worker paydays, the evidence a closure cites. */
   shortfalls: Map<string, ResidentWageShortfall>;
+  /** Each residents account's money this month, so spending follows income. */
+  monthly: Map<string, ResidentMonth>;
+  /** Each residents account's purchase scale (1 = the opening budgets). */
+  spendScale: Map<string, number>;
+  /** The outlay share of income (parameter), read each settled day. */
+  outlayShare: number;
+  /** Months of income averaged (parameter) and each account's recent months. */
+  incomeWindow: number;
+  incomeHistory: Map<string, number[]>;
+  openingMonth: string;
+  /** Each seller's receipts from the residents this month (capacity). */
+  sellerMonth: Map<string, { month: string; receivedMinor: number }>;
+  outsideByPlace: Map<PlaceId, string>;
 }
+
+interface ResidentMonth {
+  month: string;
+  incomeMinor: number;
+  /** Outside living costs (rent): paid as owed, not scaled. */
+  fixedMinor: number;
+  /** Other purchases, at this month's scale. */
+  scaledMinor: number;
+}
+
+const FIXED_SPENDING = "household.outside-living-costs";
 
 const runtimes = new WeakMap<CoreState, ResidentsRuntime>();
 
@@ -105,6 +130,14 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     filledIn: new Map(),
     openingCashByPlace: new Map(),
     wageFlowByJob: new Map(),
+    monthly: new Map(),
+    spendScale: new Map(),
+    outlayShare: 1,
+    incomeWindow: 1,
+    incomeHistory: new Map(),
+    openingMonth: core.date.slice(0, 7),
+    sellerMonth: new Map(),
+    outsideByPlace: new Map(),
   };
   for (const record of input.households) {
     rt.households.set(record.household.id, record);
@@ -225,7 +258,28 @@ function distribute(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     daily *
     (flow.bufferDays ?? 0) *
     api.parameter("ownerDistributionBufferMultiple");
-  const excess = Math.floor(spendable(core, flow.payerId) - target);
+  // Supplier bills already owed (net-30) are the business's money, not the
+  // owners': keep them back with the buffer.
+  const costs = rt.flows.get(`outside-costs:${flow.payerId}`);
+  let owed = 0;
+  if (costs && !costs.endedAt) {
+    const share =
+      book.annualDemandMinor > 0
+        ? book.annualOtherCostsMinor / book.annualDemandMinor
+        : 0;
+    const accrued =
+      (costs.accruedCostMinor ?? 0) +
+      (book.receivedMinor - (costs.receivedMinor ?? book.receivedMinor)) *
+        share;
+    owed = Math.max(
+      0,
+      accrued -
+        (book.operatingPaidMinor -
+          (costs.localPaidMinor ?? book.operatingPaidMinor)) -
+        (costs.outsidePaidMinor ?? 0),
+    );
+  }
+  const excess = Math.floor(spendable(core, flow.payerId) - target - owed);
   if (excess <= 0) return;
   const residents = rt.input.accounts.find(
     (row) => row.placeId === flow.placeId,
@@ -243,6 +297,8 @@ function distribute(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       reasonKey: flow.financeKind,
       source: flow.source,
     });
+    // Owners' income is the residents' income: they spend it too.
+    monthOf(rt, residents!, core.date).incomeMinor += local;
     const key = `${core.date.slice(0, 7)}:${flow.placeId}`;
     finance.paidIncomeByPlaceMonth.set(
       key,
@@ -317,12 +373,45 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     base = Math.floor(
       (base * payeeBook.annualDemandMinor) / payeeBook.anchorAnnualDemandMinor,
     );
-  const requested = base + (flow.kind === "wages" ? flow.arrearsMinor : 0);
+  // Counted households' purchases follow their income (monthly scale).
+  if (
+    flow.kind === "purchase" &&
+    flow.payerId === flow.residentsId &&
+    flow.financeKind !== FIXED_SPENDING
+  )
+    base = Math.round(base * (rt.spendScale.get(flow.residentsId) ?? 1));
+  let requested = base + (flow.kind === "wages" ? flow.arrearsMinor : 0);
   const payer = core.organizations.get(flow.payerId);
   const outside = payer?.outsideFlow !== undefined;
-  const paid = outside
+  let paid = outside
     ? requested
     : Math.min(requested, spendable(core, flow.payerId));
+  // A seller serves only what it can: spending beyond its capacity buys the
+  // same thing outside the town.
+  if (
+    flow.kind === "purchase" &&
+    flow.payerId === flow.residentsId &&
+    flow.financeKind !== FIXED_SPENDING &&
+    payeeBook &&
+    paid > 0
+  ) {
+    const elsewhere = overCapacity(api, rt, flow, payeeBook, paid);
+    if (elsewhere > 0) {
+      transfer(core, api, {
+        id: `${flow.id}@${date}:elsewhere`,
+        from: core.cashJournal.residualAccountByOwner.get(flow.payerId)!,
+        to: core.cashJournal.residualAccountByOwner.get(
+          outsideMarketFor(core, rt, flow.placeId),
+        )!,
+        amountMinor: elsewhere,
+        reasonKey: flow.financeKind,
+        source: flow.source,
+      });
+      monthOf(rt, flow.residentsId, date).scaledMinor += elsewhere;
+      paid -= elsewhere;
+      requested -= elsewhere;
+    }
+  }
   if (paid > 0) post(api, rt, flow, paid);
   if (flow.kind === "outside-costs")
     flow.outsidePaidMinor = (flow.outsidePaidMinor ?? 0) + paid;
@@ -397,11 +486,23 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
 
 function post(
   api: CoreAPI,
-  _rt: ResidentsRuntime,
+  rt: ResidentsRuntime,
   flow: FlowState,
   paid: number,
 ): void {
   const core = api.state;
+  const account =
+    flow.payeeId === flow.residentsId
+      ? "in"
+      : flow.payerId === flow.residentsId
+        ? "out"
+        : undefined;
+  if (account) {
+    const month = monthOf(rt, flow.residentsId, core.date);
+    if (account === "in") month.incomeMinor += paid;
+    else if (flow.financeKind === FIXED_SPENDING) month.fixedMinor += paid;
+    else if (flow.kind === "purchase") month.scaledMinor += paid;
+  }
   transfer(core, api, {
     id: `${flow.id}@${core.date}`,
     from: core.cashJournal.residualAccountByOwner.get(flow.payerId)!,
@@ -410,6 +511,101 @@ function post(
     reasonKey: flow.financeKind,
     source: flow.source,
   });
+}
+
+/** How much of a payment exceeds the seller's capacity this month. */
+function overCapacity(
+  api: CoreAPI,
+  rt: ResidentsRuntime,
+  flow: FlowState,
+  book: { annualDemandMinor: number },
+  paid: number,
+): number {
+  const month = api.state.date.slice(0, 7);
+  let row = rt.sellerMonth.get(flow.payeeId);
+  if (!row || row.month !== month) {
+    row = { month, receivedMinor: 0 };
+    rt.sellerMonth.set(flow.payeeId, row);
+  }
+  const capacity =
+    book.annualDemandMinor /
+    api.parameter("sellerCapacityUtilization") /
+    api.parameter("monthsPerYear");
+  const room = Math.max(0, Math.floor(capacity - row.receivedMinor));
+  const toSeller = Math.min(paid, room);
+  row.receivedMinor += toSeller;
+  return paid - toSeller;
+}
+
+/** The place's outside-market account (buyers and sellers outside the town). */
+function outsideMarketFor(
+  core: CoreState,
+  rt: ResidentsRuntime,
+  placeId: PlaceId,
+): string {
+  let id = rt.outsideByPlace.get(placeId);
+  if (!id) {
+    id = [...core.organizations.values()].find(
+      (row) => row.kind === OUTSIDE_MARKET_KIND && row.placeId === placeId,
+    )?.id;
+    if (!id) throw new Error(`No outside market recorded for ${placeId}`);
+    rt.outsideByPlace.set(placeId, id);
+  }
+  return id;
+}
+
+function monthOf(
+  rt: ResidentsRuntime,
+  residentsId: string,
+  date: string,
+): ResidentMonth {
+  const month = date.slice(0, 7);
+  let row = rt.monthly.get(residentsId);
+  if (!row || row.month !== month) {
+    if (row) closeMonth(rt, residentsId, row);
+    row = { month, incomeMinor: 0, fixedMinor: 0, scaledMinor: 0 };
+    rt.monthly.set(residentsId, row);
+  }
+  return row;
+}
+
+/**
+ * Purchases spend the outlay share of the account's average income over the
+ * last few full months, after rent: scale = (average income × share − rent) ÷
+ * (purchases at scale 1), both from the flows' monthly amounts. The opening
+ * month is partial and isn't counted.
+ */
+function closeMonth(
+  rt: ResidentsRuntime,
+  residentsId: string,
+  row: ResidentMonth,
+): void {
+  if (row.month === rt.openingMonth) return;
+  const history = [
+    ...(rt.incomeHistory.get(residentsId) ?? []),
+    row.incomeMinor,
+  ];
+  while (history.length > rt.incomeWindow) history.shift();
+  rt.incomeHistory.set(residentsId, history);
+  const income = history.reduce((n, v) => n + v, 0) / history.length;
+  let fixed = 0,
+    atOne = 0;
+  for (const flow of rt.flows.values()) {
+    if (
+      flow.endedAt ||
+      flow.kind !== "purchase" ||
+      flow.payerId !== residentsId
+    )
+      continue;
+    const monthly = (flow.amountMinor * perYear(flow)) / 12;
+    if (flow.financeKind === FIXED_SPENDING) fixed += monthly;
+    else atOne += monthly;
+  }
+  if (atOne <= 0 || income <= 0) return;
+  rt.spendScale.set(
+    residentsId,
+    Math.max(0, (income * rt.outlayShare - fixed) / atOne),
+  );
 }
 
 function runResidentsDay(api: CoreAPI): void {
@@ -421,6 +617,10 @@ function runResidentsDay(api: CoreAPI): void {
   rt.due.delete(core.date);
   rt.shortfalls.clear();
   api.stopgap(RESIDENTS_STOPGAP);
+  rt.outlayShare = api.parameter("residentsOutlayShareOfIncome");
+  rt.incomeWindow = api.parameter("residentsIncomeWindowMonths");
+  // A new month closes each account's last one first.
+  for (const id of [...rt.monthly.keys()]) monthOf(rt, id, core.date);
   const flows = [...ids]
     .map((id) => rt.flows.get(id)!)
     .sort((a, b) => ORDER[a.kind] - ORDER[b.kind] || a.id.localeCompare(b.id));
@@ -822,4 +1022,38 @@ export function enterResidentMarket(
     result.push({ financeKind: kind, annualDemandMinor: Math.round(annual) });
   }
   return result;
+}
+
+/**
+ * A closing employer's counted workers' pay earned since their last payday:
+ * each wage flow's amount for the share of its period already worked.
+ */
+export function countedWagesEarned(
+  core: CoreState,
+  organizationId: string,
+): { residentsId: string; amountMinor: number }[] {
+  const rt = runtimes.get(core);
+  if (!rt) return [];
+  const out: { residentsId: string; amountMinor: number }[] = [];
+  for (const flow of rt.flows.values()) {
+    if (flow.kind !== "wages" || flow.endedAt) continue;
+    if (flow.payerId !== organizationId) continue;
+    const periodDays =
+      flow.cadence.kind === "days"
+        ? flow.cadence.every
+        : Math.round((DAYS_PER_YEAR * flow.cadence.every) / 12);
+    const remaining = Math.max(
+      0,
+      Math.round(
+        (Date.parse(`${flow.nextAt}T00:00:00Z`) -
+          Date.parse(`${core.date}T00:00:00Z`)) /
+          86_400_000,
+      ),
+    );
+    const worked = Math.max(0, periodDays - remaining);
+    const amount = Math.round((flow.amountMinor * worked) / periodDays);
+    if (amount > 0)
+      out.push({ residentsId: flow.payeeId, amountMinor: amount });
+  }
+  return out;
 }

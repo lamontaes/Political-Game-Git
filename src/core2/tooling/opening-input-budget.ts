@@ -179,7 +179,19 @@ export function censusOpeningInput(input: unknown) {
     throw new TypeError(
       "Opening census requires an enumerable own data-array people roster.",
     );
-  const residents = roster.value.length;
+  // Two-level openings carry the counted population's household records:
+  // everyone counts as a resident, full or counted.
+  const counted = (input as { residents?: { households?: unknown } }).residents
+    ?.households;
+  const residents =
+    roster.value.length +
+    (Array.isArray(counted)
+      ? counted.reduce(
+          (n: number, row: { people?: unknown }) =>
+            n + (Array.isArray(row?.people) ? row.people.length : 0),
+          0,
+        )
+      : 0);
   const summaryString = (
     term: Record<string, unknown>,
     key: string,

@@ -179,7 +179,8 @@ function ownedRequest(s: FinancePlanningSession, id: string) {
       throw new Error("Payroll owning earned period lost its due membership.");
   }
   const oldArrears = minor(r.field(o.ledger, "arrearsMinor"), s.zero);
-  if (oldArrears > s.zero) {
+  // A deceased payee's held retry is never run, so its bucket date goes stale; the hold needs no retry route.
+  if (oldArrears > s.zero && r.field(o.person, "alive") !== false) {
     const at = r.field(o.ledger, "lastSettledAt"),
       next = at
         ? nextWorkPayrollPeriod(
@@ -314,7 +315,7 @@ function dispatchStatus(
     o.basis.organizationId !== entry.organizationId ||
     o.basis.jobId !== entry.jobId ||
     o.periodId !== entry.periodId ||
-    o.oldArrears > s.zero !== entry.arrears
+    (alive !== false && o.oldArrears > s.zero !== entry.arrears)
   )
     throw new Error(
       "Payroll due route changed or its actual payee state is malformed.",
