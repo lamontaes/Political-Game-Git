@@ -25,7 +25,7 @@ const ENTRY_DIRS = [
   "tests/golden-path",
   "scripts/release",
 ];
-const ENTRY_FILES = ["tooling/root-tsconfig-guard.ts"];
+const ENTRY_FILES = ["tooling/root-tsconfig-guard.ts", "vite.config.ts"];
 
 function walk(dir, out = []) {
   if (!existsSync(dir)) return out;
@@ -120,13 +120,24 @@ while (stack.length) {
     }
 }
 
+function importsResolve(f) {
+  const text = readFileSync(f, "utf8");
+  for (const m of text.matchAll(IMPORT_RE)) {
+    const spec = m[1];
+    if (!spec.startsWith(".")) continue;
+    if (!tryFile(resolve(dirname(f), spec))) return false;
+  }
+  return true;
+}
+
 // tests travel with the file they test: foo.test.ts reachable if foo.ts reachable
 const all = walk("src");
 const testOf = (f) => f.replace(/\.test\.(tsx?|mjs)$/, "");
 for (const f of all) {
   if (/\.test\.(tsx?|mjs)$/.test(f)) {
     const stem = testOf(f);
-    if (EXTS.some((e) => seen.has(stem + e))) seen.add(f);
+    // A test whose own imports no longer resolve tests deleted code.
+    if (EXTS.some((e) => seen.has(stem + e)) && importsResolve(f)) seen.add(f);
   }
 }
 

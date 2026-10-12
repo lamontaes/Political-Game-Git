@@ -27,3 +27,10 @@ Follow-up: move the few pieces those use into `src/core2` or `src/rules`, then r
 The full deleted-file list is in the commit (`git show --stat`).
 
 Method: `node scripts/dead-code/reachable.mjs` walks imports from `src/bench`, `src/core2`, `src/director`, `src/release`, `src/rules` and the golden-path tests.
+
+## Oct 12 refresh (main at d569a78)
+
+- Merged `origin/opus-play` and `origin/main`; the one conflict (`life.test.ts`) took main's version.
+- Restored `src/presentation/guide-terms.ts` (and its test): `src/bench/server.ts` now imports it.
+- The reachability script now treats `vite.config.ts` as an entry and counts a test as live only when its own imports resolve. That removed 123 tests that exercised deleted code (119 in `src/presentation` and `src/simulation`, 4 in `education`, `fiscal-authority`, `maps` and `devtools`). Kept on purpose: the art desk in `src/authoring` and its scripts (`vite.config.ts` loads them).
+- No import in `src/core2`, `src/bench`, `src/director`, `src/release`, `src/rules` or the golden-path suite points at a deleted file. `data/research/**` is untouched.
