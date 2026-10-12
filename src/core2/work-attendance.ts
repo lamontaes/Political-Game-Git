@@ -257,6 +257,8 @@ function detached<T>(
   raw: T,
   active = new Set<object>(),
 ): T {
+  // Play stores the freshly built result itself; bookkeeping detaches and freezes it.
+  if (!bookkeeping()) return raw;
   if (typeof raw === "function" || typeof raw === "symbol")
     throw new Error("Attendance payload cannot contain executable values.");
   if (raw === null || typeof raw !== "object") return raw;

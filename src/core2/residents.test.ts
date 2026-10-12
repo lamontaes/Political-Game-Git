@@ -51,7 +51,10 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
 
   it("keeps the player's whole household and circle", () => {
     const ids = new Set(two.people.map((row) => row.id));
-    for (const id of full.focusPersonIds) expect(ids.has(id)).toBe(true);
+    const player = full.people.find((row) => row.id === full.playerId)!;
+    for (const id of [...player.familyIds, ...player.knownIds])
+      expect(ids.has(id) || two.husks?.some((row) => row.id === id)).toBe(true);
+    for (const id of player.knownIds) expect(ids.has(id)).toBe(true);
     const home = full.households.find((row) =>
       row.memberIds.includes(full.playerId!),
     )!;

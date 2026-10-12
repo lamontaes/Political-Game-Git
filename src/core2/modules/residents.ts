@@ -19,6 +19,7 @@ import type {
   CoreModule,
   CoreState,
   IsoDate,
+  JobInput,
   PersonId,
   PlaceId,
 } from "../types";
@@ -42,6 +43,8 @@ export interface ResidentsRuntime {
   pending: Map<string, CashJournalSourceSlot>;
   households: Map<string, ResidentHouseholdRecord>;
   householdOfPerson: Map<PersonId, string>;
+  jobs: Map<string, JobInput>;
+  wageFlowByJob: Map<string, FlowState>;
   /** Today's missed count-worker paydays, the evidence a closure cites. */
   shortfalls: Map<string, ResidentWageShortfall>;
 }
@@ -77,11 +80,14 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     households: new Map(),
     householdOfPerson: new Map(),
     shortfalls: new Map(),
+    jobs: new Map(),
+    wageFlowByJob: new Map(),
   };
   for (const record of input.households) {
     rt.households.set(record.household.id, record);
     for (const person of record.people)
       rt.householdOfPerson.set(person.id, record.household.id);
+    for (const job of record.jobs) rt.jobs.set(job.id, job);
   }
   for (const row of input.flows) {
     if (rt.flows.has(row.id)) throw new Error(`Duplicate flow: ${row.id}`);
@@ -96,6 +102,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
       nextAt = makeIsoDate(addDays(makeIsoDate(core.date), 1));
     const flow: FlowState = { ...row, nextAt, arrearsMinor: 0 };
     rt.flows.set(row.id, flow);
+    for (const jobId of row.jobIds ?? []) rt.wageFlowByJob.set(jobId, flow);
     schedule(rt, flow);
   }
   runtimes.set(core, rt);
@@ -261,6 +268,18 @@ function runResidentsDay(api: CoreAPI): void {
     flow.nextAt = advanceCadence(flow.nextAt, flow.cadence);
     schedule(rt, flow);
   }
+}
+
+/** A job held by someone in the wider population, while its employer still pays it. */
+export function countedJob(
+  core: CoreState,
+  jobId: string,
+): JobInput | undefined {
+  const rt = runtimes.get(core);
+  const job = rt?.jobs.get(jobId);
+  if (!rt || !job) return undefined;
+  const flow = rt.wageFlowByJob.get(jobId);
+  return flow && !flow.endedAt ? job : undefined;
 }
 
 export function residentWageShortfall(

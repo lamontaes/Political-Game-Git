@@ -1,4 +1,5 @@
 import { validateCompactChoice } from "./compact-choice";
+import { bookkeeping } from "./bookkeeping";
 import {
   prepareModuleState,
   installModuleState,
@@ -104,6 +105,8 @@ const freezeRelationshipEvidence = Object.freeze,
 
 // Copy original evidence before changing a tie; do not invoke caller getters or retain aliases.
 function copyRelationshipEvidence<T>(value: T, active = new Set<object>()): T {
+  // Play keeps the caller's freshly built evidence; bookkeeping copies and freezes it.
+  if (!bookkeeping()) return value;
   if (
     value === null ||
     value === undefined ||

@@ -125,8 +125,14 @@ const DAYS_PER_YEAR = 365,
 
 /** Who stays a full person: the circle, whole households, and public workers. */
 export function fullPeople(input: CoreInput): Set<PersonId> {
-  const keep = new Set<PersonId>(input.focusPersonIds);
-  if (input.playerId) keep.add(input.playerId);
+  // The circle: the player, family and the people they know (coworkers they
+  // haven't met are filled in when met). Without a player, the supplied focus.
+  const player = input.people.find((row) => row.id === input.playerId);
+  const keep = new Set<PersonId>(
+    player
+      ? [player.id, ...player.familyIds, ...player.knownIds]
+      : input.focusPersonIds,
+  );
   const organizations = new Map(input.organizations.map((o) => [o.id, o]));
   for (const job of input.jobs) {
     const employer = organizations.get(job.organizationId);
@@ -138,31 +144,6 @@ export function fullPeople(input: CoreInput): Set<PersonId> {
   }
   for (const org of input.publicOrganizations ?? [])
     for (const staff of org.staff ?? []) keep.add(staff.personId);
-  // Workers a recorded agreement names (e.g. the product job behind a visitor
-  // or procurement agreement) are named people.
-  const holder = new Map(input.jobs.map((job) => [job.id, job.personId]));
-  const visit = (value: unknown): void => {
-    if (typeof value === "string") {
-      const personId = holder.get(value);
-      if (personId) keep.add(personId);
-      else if (value.startsWith("[") || value.startsWith("{")) {
-        // Some recorded facts embed their records as JSON text.
-        let parsed: unknown;
-        try {
-          parsed = JSON.parse(value);
-        } catch {
-          parsed = undefined;
-        }
-        if (parsed !== undefined) visit(parsed);
-      }
-    } else if (Array.isArray(value)) value.forEach(visit);
-    else if (value && typeof value === "object")
-      Object.values(value).forEach(visit);
-  };
-  for (const row of input.finance?.contracts ?? [])
-    if (!row.householdId && !row.recipientIncome) visit(row);
-  visit(input.organizations);
-  visit(input.publicOrganizations ?? []);
   // Households are never split: their contracts and cash are shared.
   for (const home of input.households)
     if (home.memberIds.some((id) => keep.has(id)))
@@ -572,6 +553,7 @@ export function collapseToTwoLevels(
     familyLinks: (input.familyLinks ?? []).filter((row) =>
       row.personIds.every((id) => keep.has(id)),
     ),
+    focusPersonIds: input.focusPersonIds.filter((id) => keep.has(id)),
     priorFactsSource: (input.priorFactsSource ?? []).filter((row) =>
       keep.has(row.personId),
     ),

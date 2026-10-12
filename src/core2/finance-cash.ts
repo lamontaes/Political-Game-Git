@@ -1,6 +1,7 @@
 import { readGeneratedHouseholdSourceBasis } from "./generated-household-source";
 /** Actual finance source adapters. Arithmetic stays in the read-only planner. */
 import { bookkeeping } from "./bookkeeping";
+import { countedJob } from "./modules/residents";
 import { makeIsoDate } from "../simulation/dates";
 import { cashJournalParameters } from "./cash-host";
 import {
@@ -724,19 +725,23 @@ function visitorProviderRecords(
       "Actual visitor product scope has no unique recorded basis.",
     );
   for (const jobId of jobs) {
-    const job = r.mapGet(r.field(session.core, "jobs"), jobId),
+    // A worker in the wider population holds a counted job (two-level population).
+    const counted = r.mapHas(r.field(session.core, "jobs"), jobId)
+        ? undefined
+        : countedJob(session.core, jobId),
+      job = counted ?? r.mapGet(r.field(session.core, "jobs"), jobId),
       basis = bases.filter(
         (value) => value.kind === "job" && value.recordId === jobId,
       ),
-      person = job
-        ? r.mapGet(r.field(session.core, "people"), r.field(job, "personId"))
-        : undefined;
+      person =
+        job && !counted
+          ? r.mapGet(r.field(session.core, "people"), r.field(job, "personId"))
+          : undefined;
     if (
       !job ||
       r.field(job, "id") !== jobId ||
       r.field(job, "organizationId") !== payeeId ||
-      !person ||
-      r.field(person, "jobId") !== jobId ||
+      (!counted && (!person || r.field(person, "jobId") !== jobId)) ||
       (r.field(job, "endsAt") !== undefined &&
         session.date >= r.field(job, "endsAt")!) ||
       basis.length !== session.one ||
@@ -1388,19 +1393,23 @@ function procurementRecords(
       "Actual public supplier scope has no unique recorded basis.",
     );
   for (const jobId of jobs) {
-    const job = r.mapGet(r.field(session.core, "jobs"), jobId),
+    // A worker in the wider population holds a counted job (two-level population).
+    const counted = r.mapHas(r.field(session.core, "jobs"), jobId)
+        ? undefined
+        : countedJob(session.core, jobId),
+      job = counted ?? r.mapGet(r.field(session.core, "jobs"), jobId),
       basis = bases.filter(
         (value) => value.kind === "job" && value.recordId === jobId,
       );
-    const person = job
-      ? r.mapGet(r.field(session.core, "people"), r.field(job, "personId"))
-      : undefined;
+    const person =
+      job && !counted
+        ? r.mapGet(r.field(session.core, "people"), r.field(job, "personId"))
+        : undefined;
     if (
       !job ||
       r.field(job, "id") !== jobId ||
       r.field(job, "organizationId") !== payeeId ||
-      !person ||
-      r.field(person, "jobId") !== jobId ||
+      (!counted && (!person || r.field(person, "jobId") !== jobId)) ||
       (r.field(job, "endsAt") !== undefined &&
         session.date >= r.field(job, "endsAt")!) ||
       basis.length !== session.one ||
