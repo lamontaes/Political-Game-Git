@@ -25,13 +25,13 @@
       "hearings": 1617,
       "house": 115,
       "nasa": 317,
-      "nasa2": 330,
-      "nih": 15,
-      "nps": 139,
+      "nasa2": 352,
+      "nih": 53,
+      "nps": 787,
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 83
+    "notAttested": 80
   },
   "parts": [
     {
@@ -74,10 +74,11 @@
           "choice": "out"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 5,
       "bySource": {
         "hearings": 2,
-        "nasa2": 1
+        "nasa2": 1,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -85,6 +86,60 @@
         "date": "2024-08-07",
         "granule": "discovery-and-new-frontiers-laurettads-8-7-24",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/10/laurettads-8-7-24.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.setting-public-out.youre-out",
+      "move": "setting-public-out",
+      "kind": "spoken",
+      "text": "You're out.",
+      "uses": [
+        {
+          "move": "setting-public-out",
+          "subject": "setting",
+          "role": "public",
+          "choice": "out"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "house": 1,
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House Oral History: Kelly, Sue W. - U.S. Representative of New York - 1995–2007",
+        "date": "2016-06-23",
+        "granule": "house-oh-kellys",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/kellys-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.setting-phone-phone.the-phone-rings",
+      "move": "setting-phone-phone",
+      "kind": "spoken",
+      "text": "The phone rings.",
+      "uses": [
+        {
+          "move": "setting-phone-phone",
+          "subject": "setting",
+          "role": "phone",
+          "choice": "phone"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "nasa2": 1,
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NPS History Collection oral history: francis phil oct 23 2015",
+        "date": "2015-10-23",
+        "granule": "npgallery-525cb730",
+        "url": "https://npgallery.nps.gov/AssetDetail/525cb730-f885-406d-83b6-7a6af7778659",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -101,11 +156,12 @@
           "choice": "phone"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 6,
       "bySource": {
         "crec": 1,
         "nasa": 2,
-        "nasa2": 1
+        "nasa2": 2,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -129,19 +185,20 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 16,
+      "transcriptsUsing": 15,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 7,
         "crec": 1,
-        "hearings": 7,
-        "nasa2": 1
+        "hearings": 5,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "119TH CONGRESS MEMBER DAY",
-        "date": "2025-12-04",
-        "granule": "CHRG-119hhrg62747",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg62747/html/CHRG-119hhrg62747.htm",
+        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
+        "date": "2025-05-05",
+        "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
+        "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -158,12 +215,13 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 10,
       "bySource": {
         "crec": 2,
         "hearings": 2,
         "nasa": 2,
-        "nasa2": 2
+        "nasa2": 2,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -187,15 +245,15 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 61,
+      "transcriptsUsing": 87,
       "bySource": {
         "crec": 1,
-        "hearings": 2,
+        "hearings": 1,
         "house": 14,
         "nasa": 16,
-        "nasa2": 15,
-        "nih": 2,
-        "nps": 10,
+        "nasa2": 16,
+        "nih": 4,
+        "nps": 34,
         "wpa": 1
       },
       "shippable": true,
@@ -220,20 +278,49 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 19,
       "bySource": {
         "crec": 1,
         "house": 1,
         "nasa": 1,
         "nasa2": 1,
-        "nps": 5
+        "nih": 1,
+        "nps": 14
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2022-09-20",
-        "date": "2022-09-20",
-        "granule": "CREC-2022-09-20-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2022-09-20",
+        "document": "Christine (Meyer) and David F. Wallace, Jr., Oral History Interviews",
+        "date": "2022-11-03",
+        "granule": "npsweb-christine-meyer-and-david-f-wallace-jr-oral-history-interviews",
+        "url": "https://www.nps.gov/articles/000/christine-meyer-and-david-f-wallace-jr-oral-history-interviews.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.present-many-many.who-many-were-there",
+      "move": "present-many-many",
+      "kind": "spoken",
+      "text": "{who_many} were there.",
+      "uses": [
+        {
+          "move": "present-many-many",
+          "subject": "present",
+          "role": "many",
+          "choice": "many"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "house": 1,
+        "nasa2": 2,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Shannon W. Lucid Oral History (September 9, 2021)",
+        "date": "2021-09-09",
+        "granule": "shannon-w-lucid-oral-history-lucidsw-9-9-21",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/09/lucidsw-9-9-21.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }

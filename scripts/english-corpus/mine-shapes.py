@@ -45,7 +45,7 @@ SLOT_PATTERNS = {
     "place": PROPER + r"(?:, " + PROPER + r")?",
     "my_place": PROPER + r"(?:, " + PROPER + r")?",
     "school": r"(?:the )?" + PROPER,
-    "name": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
+    "name": r"[A-Z][a-z]+(?: [A-Z]\.)?(?: [A-Z][a-z']+){0,2}(?:,? (?:Jr|Sr)\.)?",
     "first": r"[A-Z][a-z]+",
     "other": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
     "who": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
@@ -171,7 +171,12 @@ def learn_proper_nouns(root, pool):
 CLAUSE_BREAK = re.compile(r",? (?:and|but|so|because|when|where|until|after|before) |[,;:] | -- | \[")
 TITLE_ABBREVIATIONS = re.compile(r"\b(Mr|Mrs|Ms|Dr|St|Jr|Sr|Gen|Sen|Rep|Gov|Lt|Col|Capt|Sgt|No|Mt|Ft|Inc|Co|Corp|Bros|U\.S)\.")
 SENTENCE_END = re.compile(r"(?<=[.?!])[\"']?\s+(?=[\"']?[A-Z])")
-SPEAKER_LABEL = re.compile(r"^(?:(?:Mr|Mrs|Ms|Dr|Chairman|Chairwoman|Senator|Representative)\.? )?[A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+)?\s?[.:]\s+")
+# A transcript's speaker label: "Mr. SMITH." in hearings, "ABBOTT:" or "Smith:" in oral histories.
+SPEAKER_LABEL = re.compile(
+    r"^(?:(?:(?:Mr|Mrs|Ms|Dr|Chairman|Chairwoman|Senator|Representative)\.? )?[A-Z][A-Z'\-]+(?: [A-Z][A-Z'\-]+)?\s?[.:]\s+"
+    r"|[A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+)?:\s+)"
+)
+MIDDLE_INITIAL = re.compile(r"(\b[A-Z][a-z]+ [A-Z])\.(?= [A-Z][a-z])")
 QUOTED = re.compile(r"\"([^\"]{2,200})\"")
 
 
@@ -204,6 +209,7 @@ def sentences(text):
     text = text.replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
     text = text.replace("—", " -- ").replace(" ", " ")
     protected = TITLE_ABBREVIATIONS.sub(lambda m: m.group(1).replace(".", "․") + "․", text)
+    protected = MIDDLE_INITIAL.sub(lambda m: m.group(1) + "\u2024", protected)
     for para in re.split(r"\n\s*\n", protected):
         para = re.sub(r"\s+", " ", para).strip()
         if not para:
@@ -220,11 +226,12 @@ def sentences(text):
                 stripped = SPEAKER_LABEL.sub("", sentence, count=1)
                 if stripped != sentence:
                     yield stripped
-                # A sentence's opening clause is also said on its own:
+                # A sentence's opening clauses are also said on their own:
                 # "I went to work for Lockheed, and ..." says "I went to work for Lockheed."
-                clause = CLAUSE_BREAK.split(sentence, maxsplit=1)[0]
-                if clause != sentence and len(clause.split()) >= 3:
-                    yield clause + ("?" if sentence.endswith("?") else ".")
+                for cut in list(CLAUSE_BREAK.finditer(sentence))[:4]:
+                    clause = sentence[: cut.start()].rstrip(",")
+                    if len(clause.split()) >= 3:
+                        yield clause + ("?" if sentence.endswith("?") else ".")
                 # A quoted line inside a sentence may close with a comma: He said, "Still at the mill?"
                 for lead in ("Well, ", "Oh, ", "Yeah, ", "Yes, ", "No, ", "And ", "So "):
                     if sentence.startswith(lead) and len(sentence) > len(lead) + 2:

@@ -44,7 +44,27 @@
         "Mr. Speaker, I rise in opposition to {bill}.",
         "Madam Speaker, I rise in opposition to {bill}.",
         "Mr. Speaker, I rise today.",
-        "Madam Speaker, I rise today."
+        "Madam Speaker, I rise today.",
+        "Mr. Speaker, I rise today to honor the life of {name}.",
+        "Mr. Speaker, I rise today to pay tribute to {name}.",
+        "Mr. Speaker, I rise today to celebrate {name}.",
+        "Mr. Speaker, I rise today to remember {name}.",
+        "Mr. Speaker, I rise today to congratulate {name}.",
+        "Mr. Speaker, I rise today to recognize the life of {name}.",
+        "Mr. Speaker, I rise to honor {name}.",
+        "Mr. Speaker, I rise to recognize {name}.",
+        "Mr. Speaker, I rise today in recognition of {name}.",
+        "Mr. Speaker, I rise today in honor of {name}.",
+        "Madam Speaker, I rise today to honor the life of {name}.",
+        "Madam Speaker, I rise today to pay tribute to {name}.",
+        "Madam Speaker, I rise today to celebrate {name}.",
+        "Madam Speaker, I rise today to remember {name}.",
+        "Madam Speaker, I rise today to congratulate {name}.",
+        "Madam Speaker, I rise today to recognize the life of {name}.",
+        "Madam Speaker, I rise to honor {name}.",
+        "Madam Speaker, I rise to recognize {name}.",
+        "Madam Speaker, I rise today in recognition of {name}.",
+        "Madam Speaker, I rise today in honor of {name}."
       ]
     },
     {

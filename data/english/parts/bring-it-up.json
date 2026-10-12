@@ -22,12 +22,12 @@
       "house": 115,
       "nasa": 317,
       "nasa2": 330,
-      "nih": 15,
-      "nps": 144,
+      "nih": 53,
+      "nps": 474,
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 64
+    "notAttested": 63
   },
   "parts": [
     {
@@ -43,10 +43,10 @@
           "choice": "closed"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 6,
       "bySource": {
         "hearings": 1,
-        "nps": 3
+        "nps": 5
       },
       "shippable": true,
       "source": {
@@ -70,10 +70,10 @@
           "choice": "closed"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 6,
       "bySource": {
-        "hearings": 3,
-        "nps": 1
+        "hearings": 4,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -124,13 +124,13 @@
           "choice": "closed"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 10,
       "bySource": {
         "crec": 1,
         "hearings": 5,
         "nasa": 1,
         "nasa2": 1,
-        "nps": 1
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -170,6 +170,32 @@
       }
     },
     {
+      "key": "bring-it-up.blame-record-record.thats-on-who",
+      "move": "blame-record-record",
+      "kind": "spoken",
+      "text": "That's on {who}.",
+      "uses": [
+        {
+          "move": "blame-record-record",
+          "subject": "blame",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Christine (Meyer) and David F. Wallace, Jr., Oral History Interviews",
+        "date": "2022-11-03",
+        "granule": "npsweb-christine-meyer-and-david-f-wallace-jr-oral-history-interviews",
+        "url": "https://www.nps.gov/articles/000/christine-meyer-and-david-f-wallace-jr-oral-history-interviews.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "bring-it-up.blame-record-record.who-did-that",
       "move": "blame-record-record",
       "kind": "spoken",
@@ -182,13 +208,13 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 15,
+      "transcriptsUsing": 17,
       "bySource": {
         "crec": 3,
         "hearings": 3,
         "nasa": 4,
         "nasa2": 3,
-        "nps": 1,
+        "nps": 3,
         "wpa": 1
       },
       "shippable": true,
@@ -213,16 +239,16 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 76,
+      "transcriptsUsing": 94,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
-        "crec": 16,
+        "crec": 15,
         "hearings": 6,
         "house": 8,
         "nasa": 17,
         "nasa2": 15,
-        "nih": 4,
-        "nps": 8,
+        "nih": 5,
+        "nps": 26,
         "wpa": 1
       },
       "shippable": true,
@@ -247,14 +273,14 @@
           "choice": "assumed"
         }
       ],
-      "transcriptsUsing": 41,
+      "transcriptsUsing": 47,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 4,
         "house": 3,
         "nasa": 12,
-        "nasa2": 8,
-        "nps": 12,
+        "nasa2": 7,
+        "nps": 19,
         "wpa": 1
       },
       "shippable": true,
@@ -279,10 +305,11 @@
           "choice": "assumed"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
         "house": 2,
-        "nasa": 1
+        "nasa": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -306,7 +333,7 @@
           "choice": "unknown"
         }
       ],
-      "transcriptsUsing": 55,
+      "transcriptsUsing": 71,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 3,
@@ -316,15 +343,15 @@
         "nasa": 13,
         "nasa2": 3,
         "nih": 1,
-        "nps": 10,
+        "nps": 26,
         "wpa": 6
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Coelho, Tony - U.S. Representative of California - 1979–1989",
-        "date": "2024-07-22",
-        "granule": "house-oh-coelho",
-        "url": "https://history.house.gov/Oral-History/Transcripts/coelho-transcript/",
+        "document": "Jennifer A. Hayes Oral History Interview",
+        "date": "2025-03-06",
+        "granule": "npsweb-jennifer-a-hayes-oral-history-interview",
+        "url": "https://www.nps.gov/articles/000/jennifer-a-hayes-oral-history-interview.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -401,7 +428,7 @@
           "choice": "unknown"
         }
       ],
-      "transcriptsUsing": 60,
+      "transcriptsUsing": 82,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 2,
@@ -409,7 +436,7 @@
         "house": 5,
         "nasa": 13,
         "nasa2": 2,
-        "nps": 12,
+        "nps": 34,
         "wpa": 1
       },
       "shippable": true,
@@ -434,18 +461,18 @@
           "choice": "unknown"
         }
       ],
-      "transcriptsUsing": 718,
+      "transcriptsUsing": 833,
       "bySource": {
         "Federal Election Commission (fec.gov)": 2,
         "U.S. Election Assistance Commission (eac.gov)": 20,
         "crec": 55,
-        "fda": 5,
+        "fda": 4,
         "hearings": 216,
         "house": 54,
         "nasa": 169,
         "nasa2": 112,
-        "nih": 8,
-        "nps": 55,
+        "nih": 18,
+        "nps": 161,
         "wpa": 22
       },
       "shippable": true,
@@ -470,7 +497,7 @@
           "choice": "unknown"
         }
       ],
-      "transcriptsUsing": 40,
+      "transcriptsUsing": 46,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "crec": 3,
@@ -478,7 +505,7 @@
         "house": 7,
         "nasa": 10,
         "nasa2": 3,
-        "nps": 3,
+        "nps": 9,
         "wpa": 2
       },
       "shippable": true,
@@ -503,7 +530,7 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 198,
+      "transcriptsUsing": 255,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "crec": 34,
@@ -511,8 +538,8 @@
         "house": 23,
         "nasa": 36,
         "nasa2": 25,
-        "nih": 3,
-        "nps": 25
+        "nih": 7,
+        "nps": 78
       },
       "shippable": true,
       "source": {
@@ -536,7 +563,7 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 313,
+      "transcriptsUsing": 363,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 7,
         "crec": 3,
@@ -544,8 +571,8 @@
         "house": 5,
         "nasa": 18,
         "nasa2": 7,
-        "nih": 2,
-        "nps": 18,
+        "nih": 6,
+        "nps": 64,
         "wpa": 1
       },
       "shippable": true,
@@ -570,13 +597,13 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 19,
+      "transcriptsUsing": 24,
       "bySource": {
         "house": 1,
         "nasa": 9,
         "nasa2": 1,
         "nih": 1,
-        "nps": 7
+        "nps": 12
       },
       "shippable": true,
       "source": {
@@ -600,11 +627,11 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 8,
       "bySource": {
         "hearings": 3,
         "nasa2": 3,
-        "nps": 1
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -628,11 +655,11 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 8,
       "bySource": {
         "house": 2,
         "nasa": 1,
-        "nps": 2
+        "nps": 5
       },
       "shippable": true,
       "source": {
@@ -656,7 +683,7 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 36,
+      "transcriptsUsing": 56,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 9,
@@ -664,7 +691,7 @@
         "nasa": 9,
         "nasa2": 4,
         "nih": 1,
-        "nps": 6
+        "nps": 26
       },
       "shippable": true,
       "source": {
@@ -688,10 +715,10 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
         "nasa": 1,
-        "nps": 1
+        "nps": 2
       },
       "shippable": true,
       "source": {

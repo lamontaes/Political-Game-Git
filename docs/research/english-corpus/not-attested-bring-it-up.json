@@ -11,8 +11,8 @@
     "house": 115,
     "nasa": 317,
     "nasa2": 330,
-    "nih": 15,
-    "nps": 144,
+    "nih": 53,
+    "nps": 474,
     "wpa": 38
   },
   "notAttested": [
@@ -132,14 +132,8 @@
     },
     {
       "move": "blame-record-record",
-      "text": "That's on {who}.",
-      "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "blame-record-record",
       "text": "{who} made that decision.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -391,7 +385,7 @@
     {
       "move": "blame-hearer-react",
       "text": "That's what I heard.",
-      "documents": 2,
+      "documents": 3,
       "modern": 0
     },
     {

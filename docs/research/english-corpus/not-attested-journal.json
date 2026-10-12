@@ -6,22 +6,26 @@
     "U.S. Election Assistance Commission (eac.gov)": 65,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "crec": 445,
+    "fda": 8,
     "hearings": 1617,
     "house": 115,
     "nasa": 317,
+    "nasa2": 352,
+    "nih": 53,
+    "nps": 646,
     "wpa": 38
   },
   "notAttested": [
     {
       "move": "school-line-started",
       "text": "I started at {school}.",
-      "documents": 0,
+      "documents": 5,
       "modern": 0
     },
     {
       "move": "school-line-started",
       "text": "I went to school at {school}.",
-      "documents": 1,
+      "documents": 3,
       "modern": 0
     },
     {
@@ -33,7 +37,7 @@
     {
       "move": "school-line-started",
       "text": "I enrolled at {school}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -50,14 +54,8 @@
     },
     {
       "move": "work-line-started",
-      "text": "I went to work for {employer}.",
-      "documents": 5,
-      "modern": 0
-    },
-    {
-      "move": "work-line-started",
       "text": "I got a job at {employer}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -69,7 +67,7 @@
     {
       "move": "work-line-started",
       "text": "I started at {employer}.",
-      "documents": 0,
+      "documents": 5,
       "modern": 0
     },
     {
@@ -81,7 +79,7 @@
     {
       "move": "work-line-started",
       "text": "I got a job.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -93,12 +91,6 @@
     {
       "move": "work-line-started",
       "text": "I took a job with {employer}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "work-line-started",
-      "text": "I was hired by {employer}.",
       "documents": 0,
       "modern": 0
     },
@@ -129,7 +121,7 @@
     {
       "move": "work-line-lost",
       "text": "I got laid off.",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -165,7 +157,7 @@
     {
       "move": "work-line-lost",
       "text": "They let me go.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -177,8 +169,8 @@
     {
       "move": "work-other-started",
       "text": "{other} got a job.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "work-other-started",
@@ -237,31 +229,25 @@
     {
       "move": "family-line-born",
       "text": "We had a baby.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
       "move": "family-line-married",
       "text": "I married {other}.",
-      "documents": 16,
+      "documents": 18,
       "modern": 0
     },
     {
       "move": "family-line-married",
       "text": "We were married.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "family-line-married",
-      "text": "We were married in {place}.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
       "move": "home-line-moved",
       "text": "Then we moved to {place}.",
-      "documents": 1,
+      "documents": 8,
       "modern": 0
     },
     {
@@ -285,8 +271,8 @@
     {
       "move": "home-line-moved",
       "text": "I moved back to {place}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "money-line-short",
@@ -302,14 +288,8 @@
     },
     {
       "move": "money-line-short",
-      "text": "I didn't get paid.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "money-line-short",
       "text": "We didn't get paid.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -333,7 +313,7 @@
     {
       "move": "money-line-raise",
       "text": "I made {wage} an hour.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -387,13 +367,13 @@
     {
       "move": "death-line-died",
       "text": "Then {relation} died.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
       "move": "death-line-died",
       "text": "{relation} died in {place}.",
-      "documents": 2,
+      "documents": 5,
       "modern": 0
     },
     {
@@ -559,12 +539,6 @@
       "modern": 1
     },
     {
-      "move": "office-line-won",
-      "text": "I was elected to {office}.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
       "move": "office-line-lost",
       "text": "I lost the election.",
       "documents": 0,
@@ -615,7 +589,7 @@
     {
       "move": "look-back-line-died",
       "text": "I've lived in {place} all my life.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     }
   ]

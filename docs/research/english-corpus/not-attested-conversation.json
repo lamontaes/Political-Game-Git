@@ -6,11 +6,13 @@
     "U.S. Election Assistance Commission (eac.gov)": 65,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "crec": 445,
+    "fda": 8,
     "hearings": 1617,
     "house": 115,
     "nasa": 317,
-    "nasa2": 330,
-    "nps": 32,
+    "nasa2": 352,
+    "nih": 53,
+    "nps": 479,
     "wpa": 38
   },
   "notAttested": [
@@ -82,12 +84,6 @@
     },
     {
       "move": "greet-answer-fine",
-      "text": "I'm doing fine.",
-      "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "greet-answer-fine",
       "text": "I'm doing good.",
       "documents": 0,
       "modern": 0
@@ -95,18 +91,12 @@
     {
       "move": "greet-answer-fine",
       "text": "Not too bad.",
-      "documents": 2,
+      "documents": 3,
       "modern": 0
     },
     {
       "move": "greet-answer-fine",
       "text": "Can't complain.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "greet-answer-fine",
-      "text": "I can't complain.",
       "documents": 1,
       "modern": 1
     },
@@ -125,7 +115,7 @@
     {
       "move": "greet-answer-fine",
       "text": "I'm all right.",
-      "documents": 2,
+      "documents": 4,
       "modern": 0
     },
     {
@@ -149,7 +139,7 @@
     {
       "move": "greet-answer-fine",
       "text": "I'm good, how are you?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -191,7 +181,7 @@
     {
       "move": "greet-answer-fine",
       "text": "And you?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -311,7 +301,7 @@
     {
       "move": "own-work-ask-still-at",
       "text": "Still there?",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -341,8 +331,8 @@
     {
       "move": "own-work-raise-tell",
       "text": "I'm still with {employer}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "own-work-raise-tell",
@@ -400,12 +390,6 @@
     },
     {
       "move": "own-work-answer-plain",
-      "text": "Still there.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "own-work-answer-plain",
       "text": "Yes, still there.",
       "documents": 0,
       "modern": 0
@@ -443,7 +427,7 @@
     {
       "move": "own-work-answer-since",
       "text": "I've been there for {years} years.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -497,7 +481,7 @@
     {
       "move": "own-work-answer-turn",
       "text": "And you?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -551,8 +535,8 @@
     {
       "move": "own-work-answer-brief",
       "text": "Same as always.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "own-work-answer-brief",
@@ -581,7 +565,7 @@
     {
       "move": "own-work-answer-brief",
       "text": "Busy.",
-      "documents": 1,
+      "documents": 5,
       "modern": 0
     },
     {
@@ -665,7 +649,7 @@
     {
       "move": "own-work-lie-elsewhere",
       "text": "I'm with {claimed} now.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -731,7 +715,7 @@
     {
       "move": "own-work-new-ask-where",
       "text": "What kind of work do you do?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -767,7 +751,7 @@
     {
       "move": "own-work-new-answer-since",
       "text": "I've worked at {employer} since {since}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -975,12 +959,6 @@
       "modern": 0
     },
     {
-      "move": "other-work-reply-none",
-      "text": "No, not right now.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
       "move": "other-work-answer-tenure",
       "text": "How long have you worked there?",
       "documents": 1,
@@ -1003,12 +981,6 @@
       "text": "How long have you been with them?",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "tenure-reply-reply-since",
-      "text": "Since about {since}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "tenure-reply-reply-since",
@@ -1025,7 +997,7 @@
     {
       "move": "tenure-reply-reply-since",
       "text": "I've been there for {years} years.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -1037,8 +1009,8 @@
     {
       "move": "tenure-reply-answer-turn",
       "text": "That's a long time!",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "tenure-reply-answer-turn",
@@ -1067,7 +1039,7 @@
     {
       "move": "home-ask-still-in",
       "text": "Do you still live in {place}?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -1091,7 +1063,7 @@
     {
       "move": "home-ask-still-in",
       "text": "How's {place}?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -1133,8 +1105,8 @@
     {
       "move": "home-answer-plain",
       "text": "Yes, still in {place}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "home-answer-plain",
@@ -1228,20 +1200,14 @@
     },
     {
       "move": "home-answer-always",
-      "text": "My whole life.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "home-answer-always",
       "text": "I've lived here all my life.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
       "move": "home-answer-always",
       "text": "I've been here all my life.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -1253,19 +1219,19 @@
     {
       "move": "home-answer-always",
       "text": "I was born here.",
-      "documents": 2,
+      "documents": 3,
       "modern": 0
     },
     {
       "move": "home-answer-always",
       "text": "I was born and raised here.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
       "move": "home-answer-always",
       "text": "Born and raised.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -1283,7 +1249,7 @@
     {
       "move": "home-answer-turn",
       "text": "And you?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -1291,12 +1257,6 @@
       "text": "Still here.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "home-answer-brief",
-      "text": "Still there.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "home-answer-brief",
@@ -1325,7 +1285,7 @@
     {
       "move": "home-lie-moved",
       "text": "I moved away.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -1349,13 +1309,13 @@
     {
       "move": "home-lie-moved",
       "text": "I moved out.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
       "move": "home-lie-moved",
       "text": "We moved away.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -1385,7 +1345,7 @@
     {
       "move": "home-lie-elsewhere",
       "text": "I live in {claimed} now.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -1403,13 +1363,13 @@
     {
       "move": "home-new-ask-where",
       "text": "Where do you live now?",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "home-new-ask-where",
       "text": "Where are you living now?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -1428,12 +1388,6 @@
       "move": "home-new-ask-where",
       "text": "Where are you living these days?",
       "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "home-new-answer-plain",
-      "text": "I'm living in {place}.",
-      "documents": 1,
       "modern": 0
     },
     {
@@ -1463,20 +1417,14 @@
     {
       "move": "home-new-answer-always",
       "text": "I was born and raised here.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
       "move": "home-new-answer-always",
       "text": "I've lived here all my life.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "home-new-answer-brief",
-      "text": "Right here in {place}.",
       "documents": 1,
-      "modern": 1
+      "modern": 0
     },
     {
       "move": "home-new-lie-none",
@@ -1486,14 +1434,8 @@
     },
     {
       "move": "home-new-lie-none",
-      "text": "Not here.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "home-new-lie-none",
       "text": "Out of town.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -1559,7 +1501,7 @@
     {
       "move": "shared-school-ask-remember",
       "text": "You remember {school}?",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -1595,7 +1537,7 @@
     {
       "move": "shared-school-reply-years",
       "text": "That was years ago.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -1608,12 +1550,6 @@
       "move": "shared-school-answer-plain",
       "text": "Of course I remember.",
       "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "shared-school-answer-plain",
-      "text": "Yes, I remember.",
-      "documents": 1,
       "modern": 0
     },
     {
@@ -1643,7 +1579,7 @@
     {
       "move": "shared-school-answer-years",
       "text": "That was years ago.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -1731,12 +1667,6 @@
       "modern": 0
     },
     {
-      "move": "shared-work-reply-still",
-      "text": "Still there.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
       "move": "shared-work-reply-left",
       "text": "I'm not there anymore.",
       "documents": 0,
@@ -1775,7 +1705,7 @@
     {
       "move": "shared-work-answer-own",
       "text": "I'm with {my_employer} now.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -1805,7 +1735,7 @@
     {
       "move": "mutual-raise-seen",
       "text": "How's {name}?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -1883,7 +1813,7 @@
     {
       "move": "mutual-raise-seen",
       "text": "How's {first}?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -1943,7 +1873,7 @@
     {
       "move": "mutual-reply-saw",
       "text": "I just talked to {name}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -2009,8 +1939,8 @@
     {
       "move": "mutual-reply-not",
       "text": "I haven't talked to {name} in a while.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "mutual-reply-not",
@@ -2045,7 +1975,7 @@
     {
       "move": "mutual-reply-not",
       "text": "Not lately.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -2159,13 +2089,13 @@
     {
       "move": "kin-raise-met",
       "text": "Have you met {name}?",
-      "documents": 1,
+      "documents": 4,
       "modern": 0
     },
     {
       "move": "kin-raise-met",
       "text": "Did you ever meet {relation}?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -2177,7 +2107,7 @@
     {
       "move": "kin-raise-met",
       "text": "This is {relation}, {name}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -2231,7 +2161,7 @@
     {
       "move": "kin-answer-is",
       "text": "That's {relation}, {name}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -2254,12 +2184,6 @@
     },
     {
       "move": "kin-answer-is",
-      "text": "{name} is my son.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "kin-answer-is",
       "text": "{name} is my daughter.",
       "documents": 0,
       "modern": 0
@@ -2267,7 +2191,7 @@
     {
       "move": "kin-answer-is",
       "text": "{name} is my mother.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -2339,7 +2263,7 @@
     {
       "move": "kin-answer-turn",
       "text": "Someday.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -2351,7 +2275,7 @@
     {
       "move": "kin-answer-turn",
       "text": "Sometime.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -2423,7 +2347,7 @@
     {
       "move": "family-ask-how",
       "text": "How's your dad?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -2441,7 +2365,7 @@
     {
       "move": "family-ask-how",
       "text": "How's {relation}?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -2465,7 +2389,7 @@
     {
       "move": "family-ask-how",
       "text": "How's {name}?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -2507,12 +2431,6 @@
     {
       "move": "family-answer-well",
       "text": "They're doing well.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "family-answer-well",
-      "text": "They're good.",
       "documents": 1,
       "modern": 1
     },
@@ -2579,7 +2497,7 @@
     {
       "move": "family-answer-well",
       "text": "He's good.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -2627,7 +2545,7 @@
     {
       "move": "family-answer-ill",
       "text": "Not too well.",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -2663,7 +2581,7 @@
     {
       "move": "family-answer-gone",
       "text": "He died.",
-      "documents": 7,
+      "documents": 11,
       "modern": 0
     },
     {
@@ -2687,7 +2605,7 @@
     {
       "move": "family-answer-gone",
       "text": "My mother died.",
-      "documents": 11,
+      "documents": 12,
       "modern": 0
     },
     {
@@ -2735,12 +2653,6 @@
     {
       "move": "school-ask-how",
       "text": "Where do you go to school?",
-      "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "school-ask-how",
-      "text": "Where did you go to school?",
       "documents": 1,
       "modern": 0
     },
@@ -2831,7 +2743,7 @@
     {
       "move": "news-raise-heard",
       "text": "Have you heard?",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -2860,12 +2772,6 @@
     },
     {
       "move": "news-raise-heard",
-      "text": "Did you read about {topic}?",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "news-raise-heard",
       "text": "Did you see the paper?",
       "documents": 0,
       "modern": 0
@@ -2881,12 +2787,6 @@
       "text": "I heard.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "news-answer-yes",
-      "text": "I heard about that.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "news-answer-yes",
@@ -2909,7 +2809,7 @@
     {
       "move": "news-answer-yes",
       "text": "I read about it.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -2943,15 +2843,9 @@
       "modern": 0
     },
     {
-      "move": "news-answer-no",
-      "text": "What about it?",
-      "documents": 1,
-      "modern": 0
-    },
-    {
       "move": "news-ask-think",
       "text": "What do you think about it?",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -3011,7 +2905,7 @@
     {
       "move": "farewell-leave-bye",
       "text": "Take care of yourself.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -3029,7 +2923,7 @@
     {
       "move": "farewell-leave-bye",
       "text": "I'll see you.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -3047,8 +2941,8 @@
     {
       "move": "farewell-leave-bye",
       "text": "Talk to you later.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "farewell-leave-bye",
@@ -3137,7 +3031,7 @@
     {
       "move": "farewell-leave-bye",
       "text": "Say hi to {name}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -3257,7 +3151,7 @@
     {
       "move": "farewell-answer-bye",
       "text": "You too!",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -3275,12 +3169,6 @@
     {
       "move": "farewell-answer-bye",
       "text": "Okay, bye.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "lie-doubt-question",
-      "text": "Since when?",
       "documents": 1,
       "modern": 1
     },
@@ -3329,7 +3217,7 @@
     {
       "move": "home-raise-still-in",
       "text": "Do you still live in {place}?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -3353,7 +3241,7 @@
     {
       "move": "shared-school-raise-remember",
       "text": "You remember {school}?",
-      "documents": 1,
+      "documents": 2,
       "modern": 0
     },
     {
@@ -3383,7 +3271,7 @@
     {
       "move": "shared-work-answer-turn",
       "text": "{employer}, sure.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -3461,8 +3349,8 @@
     {
       "move": "other-work-answer-own",
       "text": "I'm still with {my_employer}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "other-work-answer-own",
@@ -3485,7 +3373,7 @@
     {
       "move": "tenure-reply-answer-own",
       "text": "I've worked at {my_employer} since {my_since}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -3497,12 +3385,6 @@
     {
       "move": "tenure-reply-answer-own",
       "text": "I've been at {my_employer} for {years} years.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "heard-work-answer-since",
-      "text": "Since about {since}.",
       "documents": 1,
       "modern": 1
     },
@@ -3527,7 +3409,7 @@
     {
       "move": "heard-work-answer-turn",
       "text": "And you?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -3569,7 +3451,7 @@
     {
       "move": "own-work-new-answer-turn",
       "text": "And you?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -3599,7 +3481,7 @@
     {
       "move": "home-new-answer-turn",
       "text": "And you?",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -3635,7 +3517,7 @@
     {
       "move": "asked-mutual-answer-not",
       "text": "Not lately.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {
