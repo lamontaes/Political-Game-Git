@@ -29,7 +29,7 @@ county = {r["countyFips"]: [(r.get("medianGrossRent") or {}).get("estimate", {})
 ten = json.load(open(HERE / "tenure-acs-2024.json"))
 doc = {"version": "housing-data-v1", "source": {"tag": "SOURCED", "asOf": "2026-10-12", "citation": "ACS 2020-2024 B25003 tenure, B25064 median gross rent, B25077 median owner home value; state eviction statutes as recorded in data/research/housing/eviction-steps-2026.json."},
        "eviction": steps, "evictionDefaults": defaults, "countyRentValue": county, "placeTenure": ten["places"], "countyTenure": ten["counties"],
-       "landlordNamePattern": "{place} Rentals", "reasons": {"notice": "rent-past-grace", "cured": "paid-within-notice", "filed": "rent-still-owed", "judgment": "rent-owed-and-notice-given", "removal": "judgment-for-possession"}}
+       "landlordNamePattern": "{place} Rentals", "reasons": {"notice": "rent-past-grace", "cured": "paid-within-notice", "filed": "rent-still-owed", "judgment": "rent-owed-and-notice-given", "removal": "judgment-for-possession", "settled": "counsel-negotiated-payment-plan", "planPaid": "payment-plan-completed", "planMissed": "payment-plan-missed"}}
 age = json.load(open(HERE / "acs-2024-owner-mortgage-age.json"))
 moved = json.load(open(HERE / "acs-2024-owner-moved-in.json"))
 nar = json.load(open(HERE / "nar-2025-down-payments.json"))
