@@ -32,6 +32,8 @@ export interface DirectorData {
   broadEventFlags: readonly string[];
   /** Core event kinds the director subscribes to; "*" is every kind, so no list of kinds is kept in code. */
   eventKinds: readonly string[];
+  /** Relationship-change notices the director reads, so a mid-day change is rated when recorded. */
+  relationshipKinds: readonly string[];
   kinTies: readonly { relation: string; parameter: string }[];
   /** Recorded past facts that are personal moments, with the estimated impact parameter. */
   pastFactMoments: readonly {
@@ -45,6 +47,8 @@ export interface DirectorData {
   pastNotRecordedValues: readonly string[];
   /** Past-fact kind prefixes that are public background, not personal moments. */
   backdropPastFactPrefixes: readonly string[];
+  /** The reason key and citation on a core player stop for an interrupting moment. */
+  interruptStop: { reasonKey: string; citation: string };
 }
 
 export interface ChannelContribution {
@@ -72,7 +76,13 @@ export interface Moment {
   date: IsoDate;
   /** Sorting label: the strongest channel and the cause kind. Decides nothing. */
   label: string;
+  /**
+   * A record id the core's saved-trace resolver holds: a logged event, a
+   * person, household, job, relationship or work record.
+   */
   causeId: string;
+  /** For a recorded-past moment, the fact on the cited person record. */
+  causeFactId?: string;
   causeKind: string;
   counterpartIds: readonly PersonId[];
   /** Stored once, when the moment happens. */

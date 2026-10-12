@@ -4,13 +4,19 @@
  * background entries (docs/design/director-on-core2.md).
  *
  * It reads the core through its module callbacks and its state, and calls no
- * writer. Impact is measured from the change itself on each channel, sized by
+ * world writer. Its one write is a core player stop for an interrupting moment
+ * of the person the player controls, which changes no world field. Impact is measured from the change itself on each channel, sized by
  * the person's own traits; there is no list of moment kinds. Nothing here
  * draws by chance.
  */
-import { daysBetween, makeIsoDate } from "../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import { appraiseEvent } from "../core2/emotion";
 import { P, parameterValues } from "../core2/parameters";
+import { isExplicitlyControlledPersonV1 } from "../core2/player-control-state-v1";
+import {
+  playerClockFrontierV1,
+  registerModuleStopV1,
+} from "../core2/player-stops-v1";
 import type {
   CoreEventInput,
   CoreModule,
@@ -22,6 +28,7 @@ import type {
 } from "../core2/types";
 import directorJson from "./data/director.json" with { type: "json" };
 import { scheduleMoment } from "./scheduling";
+import type { ScheduleEntry } from "./scheduling";
 import { directorStopgap } from "./stopgaps";
 import type {
   BackdropEntry,
@@ -100,6 +107,8 @@ export function createDirector(
   };
   const snapshots = new Map<PersonId, Snapshot>();
   const pending = new Map<PersonId, Pending>();
+  /** Today's interrupting moments, registered as player stops once the day's measuring ends. */
+  const interrupts: { moment: Moment; entry: ScheduleEntry }[] = [];
   const initial = [...options.watch];
   let started = false;
   let mode: "live" | "skipping" = "live";
@@ -436,7 +445,10 @@ export function createDirector(
       personId: book.personId,
       date: fact.date,
       label: `past:${kind}`,
-      causeId: fact.id,
+      // The core keeps a recorded-past fact on its person record, so the
+      // moment cites that record and names the fact inside it.
+      causeId: book.personId,
+      causeFactId: fact.id,
       causeKind: kind,
       counterpartIds,
       impact,
@@ -477,6 +489,7 @@ export function createDirector(
       date: moment.date,
       outcome: "journal-line",
       mode: "before-opening",
+      interrupt: false,
       stopsSkip: false,
       rank: zero,
       pace: zero,
@@ -600,7 +613,17 @@ export function createDirector(
   // Daily measurement
   // ---------------------------------------------------------------------
 
-  function measureDay(core: Readonly<CoreState>, book: PersonLedger): void {
+  /**
+   * Measures what changed for one watched person since the last measurement.
+   * Every watched person is measured when the day closes. The controlled
+   * person is also measured when an event reaches them before the day closes,
+   * so their moment is rated at the time its event is recorded.
+   */
+  function measureDay(
+    core: Readonly<CoreState>,
+    book: PersonLedger,
+    closing = true,
+  ): void {
     const actor = core.people.get(book.personId);
     const before = snapshots.get(book.personId);
     if (!actor || !before) return;
@@ -670,7 +693,8 @@ export function createDirector(
         (knew !== undefined && knew.since < date);
       const fadingBefore = hadHistory ? fadingOf(thread, book, date) : zero;
       fadedBefore.set(otherId, fadingBefore);
-      const causeId = `tie:${id}:${date}`;
+      // Cites the relationship record; the moment id carries the date.
+      const causeId = id;
       change(causeId, `contact:${row.kind}`, "tie", Math.abs(delta), [otherId]);
       if (
         thread.lastContact === undefined &&
@@ -725,7 +749,7 @@ export function createDirector(
               ? "job-started"
               : "job-changed";
         change(
-          named ? named.event.id : `job:${priorJob ?? nowJob}:${date}`,
+          named ? named.event.id : (priorJob ?? nowJob)!,
           kind,
           "money",
           raw,
@@ -754,9 +778,9 @@ export function createDirector(
       actor.householdId !== before.householdId ||
       actor.placeId !== before.placeId
     )
-      change(`home:${book.personId}:${date}`, "moved", "home", one);
+      change(actor.householdId, "moved", "home", one);
     if (before.alive && !actor.alive)
-      change(`death:${book.personId}`, "died", "health", one);
+      change(book.personId, "died", "health", one);
 
     // Closed threads: a counterpart who died.
     for (const thread of book.threads.values())
@@ -768,7 +792,7 @@ export function createDirector(
         thread.turns.push({
           date,
           turn: "closed",
-          causeId: `death:${thread.otherId}`,
+          causeId: thread.otherId,
           closeness: thread.closeness,
         });
       }
@@ -815,7 +839,7 @@ export function createDirector(
         rescoreHindsight(book, otherId, date);
       }
 
-    book.observedDays += one;
+    if (closing) book.observedDays += one;
     let scored = false;
     for (const row of changes.values()) {
       const contributions: ChannelContribution[] = [];
@@ -851,7 +875,7 @@ export function createDirector(
       if (placeId) row.placeId = placeId;
       storeMoment(core, book, row, label, impact, contributions);
     }
-    if (!scored) book.quietDays += one;
+    if (closing && !scored) book.quietDays += one;
     snapshots.set(book.personId, snapshot(core, actor));
   }
 
@@ -865,8 +889,13 @@ export function createDirector(
   ): void {
     const date = core.date;
     const counterpartIds = [...row.counterparts].sort();
+    // A cause measured twice in a day (once when its event is recorded, again
+    // when the day closes) keeps one id per moment.
+    const base = `${book.personId}:${date}:${row.causeId}`;
+    let id = base;
+    for (let n = P.two; book.momentsById.has(id); n += one) id = `${base}:${n}`;
     const moment: Moment = {
-      id: `${book.personId}:${date}:${row.causeId}`,
+      id,
       personId: book.personId,
       date,
       label,
@@ -975,12 +1004,69 @@ export function createDirector(
         });
       rescoreHindsight(book, otherId, date);
     }
-    book.schedule.push(
-      scheduleMoment(core, book, moment, {
-        mode,
-        interruptImpact: param("directorInterruptImpact"),
-      }),
-    );
+    const entry = scheduleMoment(core, book, moment, {
+      mode,
+      interruptImpact: param("directorInterruptImpact"),
+    });
+    book.schedule.push(entry);
+    if (entry.interrupt) interrupts.push({ moment, entry });
+  }
+
+  /**
+   * Tells the core's player clock that the controlled person's interrupting
+   * moment stops it at the moment's own time: the clock's frontier when the
+   * moment is measured. A moment rated as its event is recorded mid-day stops
+   * the clock there; a moment measured as the day closes stops it at the
+   * closing midnight, which is when the rest of the world's day is recorded.
+   * A one-shot stop: the client's acknowledgment consumes it. Moments of
+   * anyone not controlled stop nothing.
+   */
+  function registerInterrupts(core: CoreState): void {
+    const line = param("directorInterruptImpact");
+    for (const { moment, entry } of interrupts.splice(zero)) {
+      if (
+        !isExplicitlyControlledPersonV1(core, moment.personId) ||
+        !core.people.get(moment.personId)?.alive
+      )
+        continue;
+      const at = playerClockFrontierV1(core, moment.personId) ?? {
+        date: addDays(makeIsoDate(core.date), one),
+        minuteOfDay: zero,
+      };
+      registerModuleStopV1(core, {
+        moduleId: module.id,
+        recordId: moment.id,
+        controlledPersonId: moment.personId,
+        at,
+        kind: "interrupt",
+        reasonKey: data.interruptStop.reasonKey,
+        source: {
+          tag: "ESTIMATED",
+          citation: data.interruptStop.citation,
+          asOf: core.date,
+          estimatedFrom: `Director moment ${moment.id}: impact ${moment.impact} at or over the interrupt line ${line}.`,
+        },
+        hold: false,
+      });
+      entry.stop = { recordId: moment.id, at };
+    }
+  }
+
+  /**
+   * Rates the controlled person's moment when its record is made. Before the
+   * day closes the clock stands at the recording time, so an interrupting
+   * moment stops it there. At the close the clock already stands at midnight
+   * and the day-end measurement covers the rest of the world's day.
+   */
+  function rateNow(core: CoreState, personIds: readonly PersonId[]): void {
+    for (const id of personIds) {
+      const book = ledger.people.get(id);
+      if (!book || !isExplicitlyControlledPersonV1(core, id)) continue;
+      const now = playerClockFrontierV1(core, id);
+      if (!now || now.date !== core.date) continue;
+      measureDay(core, book, false);
+      registerInterrupts(core);
+    }
   }
 
   function link(
@@ -997,11 +1083,13 @@ export function createDirector(
   // Events as they happen
   // ---------------------------------------------------------------------
 
+  /** Returns the watched people the event reached. */
   function onEvent(
     core: Readonly<CoreState>,
     event: CoreEventInput,
     learnedBy: readonly PersonId[],
-  ): void {
+  ): PersonId[] {
+    const reached: PersonId[] = [];
     const named = new Set([...event.personIds, ...(event.witnessIds ?? [])]);
     const learned = new Set(learnedBy);
     const broad = data.broadEventFlags.some(
@@ -1053,11 +1141,13 @@ export function createDirector(
         stress = appraisal.stressImpulse;
       }
       pendingFor(id).events.push({ event, reach, mood, stress });
+      reached.push(id);
       if (learned.has(id)) {
         produceKeptFacts(event, book);
         settleLies(core, event, book);
       }
     }
+    return reached;
   }
 
   function recordBroad(
@@ -1142,7 +1232,12 @@ export function createDirector(
     eventKinds: data.eventKinds,
     onEvent(api, event, learnedBy) {
       if (!started) return;
-      onEvent(api.state, event, learnedBy);
+      rateNow(api.state, onEvent(api.state, event, learnedBy));
+    },
+    relationshipKinds: data.relationshipKinds,
+    onRelationshipChange(api, notice) {
+      if (!started) return;
+      rateNow(api.state, [notice.actorId, notice.otherId]);
     },
     onWorkResult(api, receipt) {
       if (!started || !ledger.people.has(receipt.personId)) return;
@@ -1153,6 +1248,7 @@ export function createDirector(
       if (!started)
         throw new Error("The story director was installed but not started.");
       for (const book of ledger.people.values()) measureDay(api.state, book);
+      registerInterrupts(api.state);
     },
   };
 

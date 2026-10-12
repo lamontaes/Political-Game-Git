@@ -97,7 +97,11 @@ export interface ScheduleEntry {
   /** "scene-now", "scene-waiting" or "journal-line". */
   outcome: string;
   mode: string;
+  /** Impact at or over the interrupt line. */
+  interrupt: boolean;
   stopsSkip: boolean;
+  /** The core player stop registered for this moment, when its person is controlled. */
+  stop?: { recordId: string; at: { date: IsoDate; minuteOfDay: number } };
   rank: number;
   pace: number;
   bindings: SceneBinding[];
@@ -418,6 +422,7 @@ export function scheduleMoment(
     date: moment.date,
     outcome,
     mode: options.mode,
+    interrupt,
     stopsSkip: !live && interrupt,
     rank,
     pace,

@@ -335,6 +335,7 @@
   ],
   "broadEventFlags": ["publicRecord", "news"],
   "eventKinds": ["*"],
+  "relationshipKinds": ["*"],
   "kinTies": [
     {
       "relation": "parent",
@@ -400,5 +401,9 @@
       "parameter": "directorPastEraFinancialLoss"
     }
   ],
-  "pastNotRecordedValues": ["not-inferred", "not-established"]
+  "pastNotRecordedValues": ["not-inferred", "not-established"],
+  "interruptStop": {
+    "reasonKey": "p13-story-director:interrupting-moment",
+    "citation": "The story director's stored moment: its impact, measured from the change on each channel and sized by the person's traits, is at or over the interrupt line, the Holmes and Rahe (1967) marriage anchor of 50 life-change units divided by 100 (owner ruling, October 9, 2026; CTO ruling on at-or-over, October 10, 2026)."
+  }
 }
