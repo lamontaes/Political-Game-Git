@@ -64,6 +64,13 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+**From law reach (audit 13, Oct 12): what each policy needs to finish its effect.** Each item is a registered stopgap; the full text is in `src/core2/data/stopgaps.json`.
+
+- **CORE:** `SG-GOV-REACH-A-leave-claims`; `SG-GOV-REACH-A-bargaining`; `SG-GOV-REACH-A-union-dues`; `SG-GOV-REACH-A-cannabis-market`; `SG-GOV-REACH-A-consumer-credit`; `SG-GOV-REACH-A-rent-assistance`; `SG-GOV-REACH-A-rent-contracts`; `SG-GOV-REACH-B-public-school-staff`; `SG-GOV-REACH-B-medicaid-coverage`; `SG-GOV-REACH-B-assistance-benefits`; `SG-GOV-REACH-B-preschool-enrollment`; `SG-GOV-REACH-B-sales-tax-collection`
+- **WORLD:** `SG-GOV-REACH-A-housing-supply`; `SG-GOV-REACH-A-affordable-units`; `SG-GOV-REACH-A-eviction-cases`; `SG-GOV-REACH-B-transit-fare-price`; `SG-GOV-REACH-B-mileage-fee-price`; `SG-GOV-REACH-B-broadband-bill`; `SG-GOV-REACH-B-property-tax-bills`; `SG-GOV-REACH-B-building-cost`; `SG-GOV-REACH-B-energy-price`; `SG-GOV-REACH-B-retail-price`; `SG-GOV-REACH-B-nonattainment-data`; `SG-GOV-REACH-B-business-cost`; `SG-GOV-REACH-B-land-use`; `SG-GOV-REACH-B-road-condition`
+- **PEOPLE:** `SG-GOV-REACH-A-citizenship`; `SG-GOV-REACH-A-convictions`; `SG-GOV-REACH-A-firearms`; `SG-GOV-REACH-B-voucher-payment`; `SG-GOV-REACH-B-tuition`; `SG-GOV-REACH-B-park-use`
+- **GOV:** `SG-GOV-REACH-A-pretrial`; `SG-GOV-REACH-A-redistricting`; `SG-GOV-REACH-B-territory-residents`
+
 - **OPUS-CORE: a pay-change path.** core2 can't re-rate a job: `admitWorkCommitment` is the only writer. Stand-in: the laws module rewrites the commitment's hourly rate on the minimum wage's date (stopgap `SG-GOV-wage-floor-rate-write`). Wanted: an API to re-rate a commitment from a date with its source.
 - **OPUS-CORE: opening pay reads the start date's law.** `population.ts` floors opening pay with the old core's minimum-wage table, which holds later-2026 rates (Alaska opens at $14 in January; the real January rate is $13). Wanted: read `lawInForce(api, "minimum-wage", startDate)` or the same rows (`lawChainForPlace` + `startingLawRows`), so July's raise is a real raise.
 - **OPUS-CORE: fill-in for named officials.** State and federal officeholders are identities (name, gender, birth date, party, seat) in the offices module's `terms` table (stopgap `SG-GOV-official-identity-only`). When fill-in lands, it should build the full person from that identity, seeded from the world and the seat.
