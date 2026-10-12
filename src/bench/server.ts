@@ -6,6 +6,7 @@ import { buildBenchWorld } from "./world";
 import { personCard } from "./card";
 import { openingShots } from "./opening";
 import { calendarItems, newsItems } from "./calendar";
+import { campaignAct, campaignView } from "./campaign";
 import {
   chooseAtCounter,
   openBenchFilingVisit,
@@ -226,6 +227,28 @@ const server = createServer(async (request, response) => {
           director,
           url.searchParams.get("id") ?? "",
         ),
+      );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/campaign") {
+      send(200, campaignView(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/campaign/act") {
+      if (!player?.personId) throw new Error("Choose a resident first.");
+      const number = (key: string) =>
+        Number(url.searchParams.get(key)) || undefined;
+      send(
+        200,
+        campaignAct(requireCore(), player.personId, {
+          filingId: url.searchParams.get("filingId") ?? "",
+          kind: url.searchParams.get("kind") ?? "",
+          hours: number("hours"),
+          venue: url.searchParams.get("venue") ?? undefined,
+          statements: url.searchParams.get("statements") ?? undefined,
+          amountMinor: number("amountMinor"),
+          sampleSize: number("sampleSize"),
+        }),
       );
       return;
     }

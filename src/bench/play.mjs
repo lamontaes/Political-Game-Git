@@ -114,6 +114,7 @@ async function renderScene() {
 async function renderCard() {
   const card = await api(`/api/card?id=${encodeURIComponent(me.id)}`);
   me.card = card;
+  me.names = { ...me.names, [me.id]: card.name };
   $("card-name").textContent = card.name;
   $("card-place").textContent = `${me.placeName} · ${card.age}`;
   $("card-clock").textContent = clock(
@@ -327,6 +328,84 @@ async function openFiling(filedWith) {
   );
 }
 
+// ---- Campaigning (step 4): each act answered by the people it reaches ----
+let campaignResult = "";
+async function campaignRows() {
+  const v = await api(`/api/campaign?id=${encodeURIComponent(me.id)}`);
+  const rows = [];
+  for (const { filing, campaign, polls } of v.campaigns) {
+    const act = async (kind, extra = {}) => {
+      const result = await post(
+        `/api/campaign/act?${new URLSearchParams({ filingId: filing.id, kind, ...extra })}`,
+      );
+      campaignResult =
+        result.contacted !== undefined
+          ? `${kind}: ${result.contacted} · ${Object.entries(result.answers)
+              .map(([k, n]) => `${me.names?.[k] ?? k} ${n}`)
+              .join(" · ")}`
+          : result.reached !== undefined
+            ? `${kind}: ${result.reached} · +${result.warmer} · −${result.cooler}`
+            : `${kind}: ${result.answers.filter((a) => a.yes || a.givenMinor > 0).length} / ${result.answers.length}${result.answers.some((a) => a.givenMinor) ? ` · ${dollars(result.answers.reduce((t, a) => t + (a.givenMinor ?? 0), 0))}` : ""}`;
+      openSheet("politics");
+    };
+    const question = el(
+      "select",
+      {},
+      ...v.questions.map((q) =>
+        el("option", { value: q, textContent: q.split(":").pop() }),
+      ),
+    );
+    const side = el(
+      "select",
+      {},
+      el("option", { value: "1", textContent: "For" }),
+      el("option", { value: "-1", textContent: "Against" }),
+    );
+    const button = (label, kind, extra) => {
+      const b = el("button", { type: "button", textContent: label });
+      b.addEventListener("click", () =>
+        act(kind, typeof extra === "function" ? extra() : extra),
+      );
+      return b;
+    };
+    rows.push(
+      el(
+        "div",
+        { className: "row campaign" },
+        el("b", {
+          textContent: `${filing.status} · ${filing.contestId.split(":").slice(-3).join(" ")}`,
+        }),
+        `${dollars(campaign.raisedMinor)} raised · ${dollars(campaign.spentMinor)} spent · ${campaign.volunteers} volunteers · ${campaign.doors} doors`,
+        el(
+          "div",
+          {},
+          button("Knock doors", "doors", { hours: "2" }),
+          button("Volunteers", "volunteer"),
+          button("Donations", "donation"),
+          button("Endorsements", "endorsement"),
+          button("Ad", "ad", { amountMinor: "5000" }),
+          button("Poll", "poll", { sampleSize: "50" }),
+        ),
+        el(
+          "div",
+          {},
+          question,
+          side,
+          button("Speech", "speech", () => ({
+            venue: me.scene?.place ?? "",
+            statements: `${question.value}=${side.value}`,
+          })),
+        ),
+        polls.length
+          ? `Poll ${polls.at(-1).date}: ${polls.at(-1).contacted}`
+          : "",
+        campaignResult ? el("div", { textContent: campaignResult }) : "",
+      ),
+    );
+  }
+  return rows;
+}
+
 // ---- Menus ----
 const sheets = {
   async people() {
@@ -459,6 +538,12 @@ const sheets = {
   async politics() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
     const contests = v.contests
+      // Contests you can enter first.
+      .toSorted(
+        (a, b) =>
+          a.checks.filter((c) => !c.met).length -
+          b.checks.filter((c) => !c.met).length,
+      )
       .slice(0, 6)
       .map(({ contest, filingOffice, checks }) => {
         const unmet = checks.filter((c) => !c.met).map((c) => c.rule);
@@ -495,6 +580,7 @@ const sheets = {
         b,
       );
     });
+    const campaigns = await campaignRows();
     const offices = [
       ...new Set(v.contests.map((c) => c.filingOffice.filedWith)),
     ].map((filedWith) => {
@@ -503,9 +589,12 @@ const sheets = {
       return b;
     });
     return [
+      ...campaigns,
       ...offices,
+      ...contests,
+      ...filings,
       ...v.seats
-        .slice(0, 12)
+        .slice(0, 8)
         .map((s) =>
           row(
             s.title,
@@ -514,8 +603,6 @@ const sheets = {
               : "",
           ),
         ),
-      ...contests,
-      ...filings,
     ];
   },
 };

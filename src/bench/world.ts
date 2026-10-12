@@ -18,6 +18,7 @@ import {
 import { openLaws } from "../core2/modules/laws";
 import { openOffices } from "../core2/modules/offices";
 import { openElections } from "../core2/modules/elections";
+import { openCampaigns } from "../core2/modules/campaigns";
 import type { CoreInput, CoreState } from "../core2/types";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { selectBenchPlace } from "./place-selection.mjs";
@@ -155,6 +156,7 @@ export function buildBenchWorld(
   openLaws(core);
   openOffices(core, seed);
   openElections(core);
+  openCampaigns(core);
   director.start(core);
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]

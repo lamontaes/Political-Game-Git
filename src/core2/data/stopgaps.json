@@ -1738,5 +1738,17 @@
     "addedAt": "2026-10-12",
     "replacement": "Weights checked against candidate counts per seat across drawn places once GOV's contests run every cycle (M2-04).",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-doors-fill-in",
+    "kind": "faked-mechanic",
+    "file": "src/bench/campaign.ts",
+    "line": 56,
+    "whatItFakes": "Before a door-knocking round, the bench fills in from the counts as many of the town’s households as the round could reach, so the campaign engine has doors to knock in the two-level world.",
+    "why": "knockDoors walks only the households already in the core; in the two-level world most of the town is counts.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-GOV’s knockDoors (with OPUS-CORE’s fillInPerson) filling in each household it actually reaches.",
+    "status": "open"
   }
 ]

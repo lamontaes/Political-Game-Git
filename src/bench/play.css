@@ -425,3 +425,21 @@ label {
 .month .day {
   min-height: 44px;
 }
+
+#sheet-body .row.campaign {
+  max-width: none;
+  width: 100%;
+}
+#sheet-body .row.campaign button,
+#sheet-body .row.campaign select {
+  margin: 4px 4px 0 0;
+  font-size: 12px;
+  padding: 4px 8px;
+}
+select {
+  font: 400 12px var(--ui);
+  color: var(--text);
+  background: #1c1c1e;
+  border: 1px solid var(--button-line);
+  max-width: 260px;
+}
