@@ -163,8 +163,20 @@ describe("M2-07 elections", () => {
     expect(result.date).toBe(contest!.electionDate);
     expect(result.winnerId).not.toBeNull();
     const candidates = ballot(api, contest!.id).map((f) => f.personId);
-    for (const id of filed.map((f) => f.personId))
-      expect(candidates).toContain(id);
+    // A filer is on the November ballot, or a top-two or top-four primary
+    // (where the contest holds one) sent them home: never lost any other way.
+    for (const f of filed) {
+      if (candidates.includes(f.personId)) continue;
+      const now = api
+        .moduleState(ELECTIONS_MODULE_ID)
+        .table("filings")
+        .get(f.id) as unknown as FilingRow;
+      expect(now.status, `${f.personId} in ${contest!.id}`).toBe("withdrawn");
+      expect(
+        contest!.primaryDate,
+        `${contest!.id} held no primary`,
+      ).not.toBeNull();
+    }
     // Every named adult has a ballot with their own reasons; votes add up.
     const ballots = api
       .moduleState(VOTING_MODULE_ID)
