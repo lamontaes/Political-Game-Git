@@ -1444,7 +1444,15 @@ export function closeBusinessByChoice(
   // Workers are paid what they've earned before the owner takes anything:
   // counted workers now (their wage flow ends today), full workers on their
   // next payday from cash held back here.
-  for (const row of countedWagesEarned(core, organizationId)) {
+  // One final payment per residents account, however many of the firm's wage flows paid into it.
+  const earned = new Map<string, number>();
+  for (const row of countedWagesEarned(core, organizationId))
+    earned.set(
+      row.residentsId,
+      (earned.get(row.residentsId) ?? 0) + row.amountMinor,
+    );
+  for (const [residentsId, amountMinor] of earned) {
+    const row = { residentsId, amountMinor };
     const available = accounts.balance(accounts.main(organizationId));
     const amount = Math.min(row.amountMinor, Math.max(0, available));
     if (amount > 0)
