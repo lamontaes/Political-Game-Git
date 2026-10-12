@@ -2138,5 +2138,17 @@
     "addedAt": "2026-10-12",
     "replacement": "GOV's Social Security program: claims read the law in force and awards follow each person's recorded earnings.",
     "status": "open"
+  },
+  {
+    "id": "SG-WEB-outcome-drift",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/outcome-web.ts",
+    "line": 451,
+    "whatItFakes": "Each outcome the web keeps (crime, schooling, coverage, turnout and the rest) stays at its place's real starting level except where a researched link moves it; nothing else in the world moves it.",
+    "why": "The research's drift sizes (data/research/outcome-web/place-outcome-bases-2024.json, defaultDrift) include a monthly chance of a society-wide wave, which the no-dice rule forbids; the causes behind drift are not yet modeled.",
+    "addedBy": "OPUS-WEB",
+    "addedAt": "2026-10-12",
+    "replacement": "Each outcome moved by the engines that cause it (a crime engine, schools, health coverage, elections), with the web's factor on top, and society-wide shifts from recorded causes rather than a monthly chance.",
+    "status": "open"
   }
 ]

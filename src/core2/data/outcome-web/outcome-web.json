@@ -1,0 +1,198 @@
+{
+  "about": "How the outcome web runs on the new core (src/core2/modules/outcome-web.ts). The links themselves, their sizes, shapes, lags and sources are data/research/outcome-web/links.json; each place outcome's real starting level is data/research/outcome-web/place-outcome-bases-2024.json; who each link reaches is data/research/outcome-web/landing-plan.json with the age cohorts in person-recipient-age-cohorts.json. This file holds only what those leave open: when the web runs each month, the outcomes it keeps that have no per-state base file, the records the engines already keep that it reads, the recipient rules as selectors over core2 records, and who must provide each missing measure.",
+  "schedule": {
+    "dayOfMonth": 3,
+    "why": "World-metrics writes the town's economic row on the 2nd of each month; the web reads it the next day.",
+    "monthsPerYear": 12,
+    "daysPerYear": 365
+  },
+  "indexStart": 100,
+  "lawsModule": {
+    "moduleId": "core2-laws-v1",
+    "table": "laws",
+    "index": "bySeriesOnly",
+    "eventKind": "law-took-effect",
+    "why": "OPUS-GOV's laws module keeps every level's law rows (series, jurisdiction, value, effectiveDate) and announces each phase as a law-took-effect event; a law measure is 1 when any level's latest row in force says yes."
+  },
+  "keptOutcomes": {
+    "crime.burglary": {
+      "scale": "rate",
+      "unit": "burglary victimizations per 1,000 households a year",
+      "national": 8.2,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2024-12-31",
+        "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf), as recorded in data/research/crime/roadmap-r38-victimization-reporting.json.",
+        "estimatedFrom": "The national 2024 NCVS household burglary rate; no state rate is recorded, so every place starts from the national figure."
+      }
+    },
+    "crime.robbery": {
+      "scale": "rate",
+      "unit": "robbery victimizations per 1,000 persons 12 and older a year",
+      "national": 2.2,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2024-12-31",
+        "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf), as recorded in data/research/crime/roadmap-r38-victimization-reporting.json.",
+        "estimatedFrom": "The national 2024 NCVS robbery rate; no state rate is recorded, so every place starts from the national figure."
+      }
+    },
+    "crime.assault": {
+      "scale": "rate",
+      "unit": "assault victimizations (aggravated and simple) per 1,000 persons 12 and older a year",
+      "national": 19.1,
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2024-12-31",
+        "citation": "Bureau of Justice Statistics, Criminal Victimization 2024 (https://bjs.ojp.gov/document/cv24.pdf): aggravated assault 4.7 plus simple assault 14.4, as recorded in data/research/crime/roadmap-r38-victimization-reporting.json.",
+        "estimatedFrom": "The national 2024 NCVS assault rates; no state rate is recorded, so every place starts from the national figure."
+      }
+    },
+    "crime.vandalism": {
+      "scale": "index",
+      "unit": "index, 100 at the place's own starting vandalism rate",
+      "source": {
+        "tag": "ESTIMATED",
+        "asOf": "2024-12-31",
+        "citation": "Vandalism is not an NCVS category (data/research/crime/roadmap-r38-victimization-reporting.json); the web keeps it as an index on the place's own start, which is how the links size it (a proportional change).",
+        "estimatedFrom": "Index form: 100 is where the place began; the links move it proportionally."
+      }
+    },
+    "births.rate": {
+      "scale": "index",
+      "unit": "index, 100 at the place's own starting birth rate (the renewal engine's natality rates by age)",
+      "source": {
+        "tag": "SOURCED",
+        "citation": "The renewal engine's natality rates (data/research/renewal/natality-2023.json, natality-2024.json) are the base; the links move them proportionally.",
+        "asOf": "2024-07-01"
+      }
+    }
+  },
+  "engineMeasures": {
+    "labor.unemployment-pct": {
+      "owner": "OPUS-WORLD",
+      "record": "world-metrics months.unemploymentRate, as a percent",
+      "unitScale": 100
+    }
+  },
+  "landing": {
+    "about": "Every wired link lands on the people it reaches, even at zero: one row per person and link on the web's landings table, updated when the effect on them changes. The recipient rule is the landing plan's (data/research/outcome-web/landing-plan.json); a link it does not cover uses its group's rule below.",
+    "groupRules": {
+      "place": "jurisdiction-resident-estimate",
+      "households": "household-resident-estimate",
+      "every group": "voting-age-resident-estimate",
+      "able adults without dependents": "able-adult-without-dependents"
+    },
+    "rules": {
+      "jurisdiction-resident-estimate": { "kind": "everyone" },
+      "household-resident-estimate": { "kind": "everyone" },
+      "voting-age-resident-estimate": { "kind": "cohort" },
+      "recorded-school-enrollment-or-compulsory-age-estimate": {
+        "kind": "ages",
+        "minimumAge": 5,
+        "maximumAge": 17,
+        "estimatedFrom": "School-age children: ages 5 through 17, the span of compulsory attendance most states set (NCES, State Education Reforms, Table 5.1). Enrollment itself is not yet a core2 record."
+      },
+      "infant-mortality-cohort-estimate": { "kind": "cohort" },
+      "working-age-adult-cohort-estimate": { "kind": "cohort" },
+      "adult-substance-use-condition-estimate": { "kind": "cohort" },
+      "adult-school-completer-estimate": { "kind": "cohort" },
+      "youth-cannabis-cohort-estimate": { "kind": "cohort" },
+      "retirement-policy-age-cohort-estimate": { "kind": "cohort" },
+      "older-adult-medicare-cohort-estimate": { "kind": "cohort" },
+      "retirement-age-adult-cohort-estimate": { "kind": "cohort" },
+      "child-asthma-cohort-estimate": { "kind": "cohort" },
+      "age-13-to-17-active-school-proxy": {
+        "kind": "ages",
+        "minimumAge": 13,
+        "maximumAge": 17,
+        "estimatedFrom": "The landing plan's own proxy: ages 13 through 17 stand for teenagers in school."
+      },
+      "recorded-parent-of-young-child-estimate": { "kind": "parent" },
+      "recorded-parent-of-infant-estimate": { "kind": "parent" },
+      "active-renter-household-member-estimate": { "kind": "renter" },
+      "recorded-payday-loan-borrower-estimate": { "kind": "borrower" },
+      "able-adult-without-dependents": {
+        "kind": "ages",
+        "minimumAge": 18,
+        "maximumAge": 54,
+        "noChildUnder": 18,
+        "estimatedFrom": "SNAP's able-bodied adults without dependents: ages 18 through 54 with no child under 18 in the household (7 CFR 273.24, as amended by the Fiscal Responsibility Act of 2023). Disability is not yet a core2 record."
+      },
+      "recorded-wage-family-member-estimate": {
+        "kind": "waiting",
+        "waitingOn": "household.wage-at-minimum"
+      },
+      "snap-enrolled-household-member-estimate": {
+        "kind": "waiting",
+        "waitingOn": "program.snap-enrollment"
+      },
+      "snap-enrolled-renter-household-member-estimate": {
+        "kind": "waiting",
+        "waitingOn": "program.snap-enrollment"
+      },
+      "recorded-married-woman-estimate": {
+        "kind": "waiting",
+        "waitingOn": "person.marital-status"
+      },
+      "recorded-medicaid-expansion-recipient-estimate": {
+        "kind": "waiting",
+        "waitingOn": "health.medicaid-coverage"
+      },
+      "recorded-restored-voting-right-estimate": {
+        "kind": "waiting",
+        "waitingOn": "justice.voting-right-restored"
+      },
+      "evicted-household-without-home-member-estimate": {
+        "kind": "waiting",
+        "waitingOn": "housing.without-home"
+      },
+      "recorded-farm-operator-resource-estimate": {
+        "kind": "waiting",
+        "waitingOn": "business.farm-operator"
+      },
+      "recorded-farm-operator-land-value-estimate": {
+        "kind": "waiting",
+        "waitingOn": "business.farm-operator"
+      }
+    }
+  },
+  "measureOwners": {
+    "about": "Who provides each measure the web is waiting on. A measure an engine already keeps but sets itself (rent, home prices, evictions, unemployment, employment) waits on that engine reading the web's factor for it (outcomeWebFactor).",
+    "owners": {
+      "school": "OPUS-GOV",
+      "justice": "OPUS-GOV",
+      "law.": "OPUS-GOV",
+      "program": "OPUS-GOV",
+      "spending": "OPUS-GOV",
+      "budget": "OPUS-GOV",
+      "gov.": "OPUS-GOV",
+      "election": "OPUS-GOV",
+      "voting": "OPUS-GOV",
+      "approval": "OPUS-GOV",
+      "official": "OPUS-GOV",
+      "government": "OPUS-GOV",
+      "federal": "OPUS-GOV",
+      "police": "OPUS-GOV",
+      "immigration": "OPUS-GOV",
+      "tax": "OPUS-GOV",
+      "labor.minimum-wage": "OPUS-GOV",
+      "health": "OPUS-PEOPLE",
+      "person": "OPUS-PEOPLE",
+      "births": "OPUS-PEOPLE",
+      "family": "OPUS-PEOPLE",
+      "neighborhood": "OPUS-PEOPLE",
+      "press": "OPUS-PEOPLE",
+      "crime": "OPUS-CORE",
+      "disaster": "OPUS-CORE",
+      "env": "OPUS-CORE",
+      "roads": "OPUS-CORE",
+      "labor": "OPUS-WORLD",
+      "household": "OPUS-WORLD",
+      "housing": "OPUS-WORLD",
+      "finance": "OPUS-WORLD",
+      "business": "OPUS-WORLD",
+      "economy": "OPUS-WORLD"
+    }
+  }
+}
