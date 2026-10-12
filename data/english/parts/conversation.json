@@ -17,7 +17,8 @@
     "my_when": "When the player last saw that person, from a contact record, said the same way.",
     "relation": "How the speaker is related to someone, with the possessive, from the family record.",
     "topic": "What happened, from a news record the speaker heard.",
-    "first": "The given name of someone both people know, from the person's record."
+    "first": "The given name of someone both people know, from the person's record.",
+    "year": "A year from a dated record."
   },
   "maxWords": 10,
   "mining": {
@@ -38,7 +39,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 593
+    "notAttested": 630
   },
   "parts": [
     {
@@ -5455,6 +5456,13 @@
           "stages": ["not-heard"]
         },
         {
+          "move": "asked-mutual-answer-not",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "not",
+          "requiresFacts": ["my_not"]
+        },
+        {
           "move": "asked-mutual-answer-brief",
           "subject": "asked-mutual",
           "role": "answer",
@@ -8926,6 +8934,65 @@
         "date": "2024-07-31",
         "granule": "house-oh-wexton",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/wexton-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-answer-not.not-for-a-long-time",
+      "move": "asked-mutual-answer-not",
+      "kind": "spoken",
+      "text": "Not for a long time.",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-not",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "not",
+          "requiresFacts": ["my_not"]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "hearings": 1,
+        "nih": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "ENERGY AND WATER DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR 2025",
+        "date": "2024-03-20",
+        "granule": "CHRG-118hhrg57786",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57786/html/CHRG-118hhrg57786.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "conversation.asked-mutual-answer-not.i-havent",
+      "move": "asked-mutual-answer-not",
+      "kind": "spoken",
+      "text": "I haven't.",
+      "uses": [
+        {
+          "move": "asked-mutual-answer-not",
+          "subject": "asked-mutual",
+          "role": "answer",
+          "choice": "not",
+          "requiresFacts": ["my_not"]
+        }
+      ],
+      "transcriptsUsing": 15,
+      "bySource": {
+        "hearings": 3,
+        "nasa2": 1,
+        "nih": 1,
+        "nps": 10
+      },
+      "shippable": true,
+      "source": {
+        "document": "DEPARTMENT OF TRANSPORTATION FISCAL YEAR 2023 BUDGET PRIORITIES",
+        "date": "2022-05-03",
+        "granule": "CHRG-117shrg54759",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg54759/html/CHRG-117shrg54759.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },

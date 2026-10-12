@@ -310,6 +310,72 @@
       "modern": 0
     },
     {
+      "move": "own-work-ask-still-at",
+      "text": "You're still at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "You're still working at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "You're still working for {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "You're still with {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "You're still working there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "You're still working now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "You still work at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "You still work for {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "You still with {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "And you're still at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "So you're still at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "own-work-raise-tell",
       "text": "I'm still at {employer}.",
       "documents": 0,
@@ -1102,6 +1168,54 @@
       "modern": 0
     },
     {
+      "move": "home-ask-still-in",
+      "text": "You still live in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "You're still in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "You're still living in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "You're still living there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "And you still live in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "So you still live in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "You live in {place} now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "You're living in {place} now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "home-answer-plain",
       "text": "Yes, still in {place}.",
       "documents": 1,
@@ -1644,6 +1758,36 @@
     {
       "move": "shared-work-raise-still",
       "text": "Do you still work there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-raise-still",
+      "text": "You're still at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-raise-still",
+      "text": "You're still working at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-raise-still",
+      "text": "You're still with {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-raise-still",
+      "text": "You still work at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-raise-still",
+      "text": "Still with {employer}?",
       "documents": 0,
       "modern": 0
     },
@@ -2232,6 +2376,36 @@
     {
       "move": "kin-answer-lives",
       "text": "He lives with us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-lives",
+      "text": "{name} still lives with me.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-lives",
+      "text": "{name} still lives with us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-lives",
+      "text": "{name} lives here.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-lives",
+      "text": "{name} lives here with me.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-lives",
+      "text": "{name} lives at home.",
       "documents": 0,
       "modern": 0
     },
@@ -3220,6 +3394,36 @@
       "modern": 0
     },
     {
+      "move": "home-raise-still-in",
+      "text": "You still live in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-raise-still-in",
+      "text": "You're still in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-raise-still-in",
+      "text": "You're still living in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-raise-still-in",
+      "text": "You live in {place} now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-raise-still-in",
+      "text": "You're living in {place} now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "shared-school-raise-remember",
       "text": "You remember {school}?",
       "documents": 3,
@@ -3540,6 +3744,24 @@
     {
       "move": "asked-mutual-answer-not",
       "text": "I haven't seen {name} lately.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-not",
+      "text": "Not for a while.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-not",
+      "text": "Not in years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-not",
+      "text": "Not since {year}.",
       "documents": 0,
       "modern": 0
     },
