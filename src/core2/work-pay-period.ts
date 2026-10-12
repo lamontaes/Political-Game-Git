@@ -217,6 +217,11 @@ export function createImmutableWorkPayrollCalendar(
   return result;
 }
 
+const validatedOn = new WeakMap<
+  object,
+  Map<string, WorkPayrollCalendarInput>
+>();
+
 /** Immutable structure only; full current Source guards remain on every call. */
 function calendar(
   r: FinanceReadGuard,
@@ -226,7 +231,16 @@ function calendar(
 ): WorkPayrollCalendarInput {
   const admitted = nativeCalendarWeakGet.call(immutableCalendarUnits, c) as
     Units | undefined;
-  if (!admitted) return validateCalendar(r, c, at, u);
+  if (!admitted) {
+    // In play, a calendar checked once for a date needn't be checked again.
+    if (bookkeeping()) return validateCalendar(r, c, at, u);
+    const seen = validatedOn.get(c);
+    const prior = seen?.get(at);
+    if (prior) return prior;
+    const result = validateCalendar(r, c, at, u);
+    validatedOn.set(c, (seen ?? new Map()).set(at, result));
+    return result;
+  }
   units(u);
   if (
     !Object.is(admitted.zero, u.zero) ||
