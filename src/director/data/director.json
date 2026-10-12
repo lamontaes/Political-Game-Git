@@ -4,10 +4,8 @@
   "parameters": {
     "directorMomentFloor": {
       "value": 0.11,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 1, October 9, 2026: the smallest adult row of the Holmes and Rahe Social Readjustment Rating Scale, 'Minor violations of the law', 11 life-change units divided by 100. Holmes, T. H., and Rahe, R. H. (1967), Journal of Psychosomatic Research 11(2):213-218.",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-param-directorMomentFloor",
+      "tag": "SOURCED",
+      "citation": "The smallest row of the Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218, Table 3, 'Minor violations of the law', 11 life-change units divided by 100. The 2021 replication rates it 22.14 (Wallace, Cooper, Sel and Russo (2023), PLOS ONE 18(12):e0295943, Table 3 (540 mostly British adults, 2021, marriage fixed at 50)); if the director adopts the 2021 scale, the floor (0.22) and the 0.50 interrupt line change together or not at all.",
       "checkRange": {
         "ref": "P13-STORED-MOMENTS-PER-ADULT-YEAR"
       }
@@ -71,7 +69,7 @@
     "directorWeightTieSociability": {
       "value": 0.25,
       "tag": "TUNABLE",
-      "citation": "The October 8, 2026 design's trait tilt at full strength (one quarter), reused for sociability on the tie channel. No direct source.",
+      "citation": "The October 8, 2026 design's trait tilt at full strength (one quarter), reused for sociability on the tie channel. No direct source. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION, kept as an upper bound (0 is not contradicted). No source gives a weight for sociability on the importance of a tie change; Yap, Anusic and Lucas (2012), Journal of Research in Personality 46(5):477-488, found personality did not consistently moderate reactions to marriage, childbirth, unemployment and widowhood, which argues against a large tilt.",
       "stopgapId": "SG-P13-param-directorWeightTieSociability",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
@@ -80,7 +78,7 @@
     "directorWeightMoneyRisk": {
       "value": -0.25,
       "tag": "TUNABLE",
-      "citation": "The October 8, 2026 design's trait tilt at full strength (one quarter), signed so that a person who avoids risk weighs a money loss more. No direct source.",
+      "citation": "The October 8, 2026 design's trait tilt at full strength (one quarter), signed so that a person who avoids risk weighs a money loss more. No direct source. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION, kept as an upper bound in size (0 is not contradicted). No study ties risk preference to the weight of a money loss; Yap, Anusic and Lucas (2012) found no consistent Big Five moderation of responses to events, unemployment among them.",
       "stopgapId": "SG-P13-param-directorWeightMoneyRisk",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
@@ -94,7 +92,7 @@
     "directorTieParent": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json). Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION kept; no source ranks this tie against parents and children for story importance, and no measured decay exists for how much a faded tie still matters.",
       "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
@@ -103,7 +101,7 @@
     "directorTieChild": {
       "value": 0.5,
       "tag": "TUNABLE",
-      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json). Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION kept; no source ranks this tie against parents and children for story importance, and no measured decay exists for how much a faded tie still matters.",
       "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
@@ -112,7 +110,7 @@
     "directorTieSibling": {
       "value": 0.35,
       "tag": "TUNABLE",
-      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json). Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION kept; no source ranks this tie against parents and children for story importance, and no measured decay exists for how much a faded tie still matters.",
       "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
@@ -121,7 +119,7 @@
     "directorTieGrandparent": {
       "value": 0.2,
       "tag": "TUNABLE",
-      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json). Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION kept; no source ranks this tie against parents and children for story importance, and no measured decay exists for how much a faded tie still matters.",
       "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
@@ -130,23 +128,29 @@
     "directorTieGrandchild": {
       "value": 0.2,
       "tag": "TUNABLE",
-      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json). Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION kept; no source ranks this tie against parents and children for story importance, and no measured decay exists for how much a faded tie still matters.",
       "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
       }
     },
     "directorTiePartner": {
-      "value": 0.5,
+      "value": 0.79,
       "tag": "ESTIMATED",
-      "citation": "Not in the October 8, 2026 calibration, which had no partner row. Set equal to a parent or child; Holmes and Rahe (1967) rank a spouse's death (100) above a close family member's (63), so this is a floor.",
-      "estimatedFrom": "October 8, 2026 parent tie and Holmes and Rahe (1967) ranking",
-      "stopgapId": "SG-P13-param-directorTies"
+      "citation": "Not in the October 8, 2026 calibration, which had no partner row. Scaled from the parent anchor (0.5) by the ratio of a spouse's death to a close family member's death on the same scale: 100 against 63 in Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218, Table 3 gives 0.79; 86.83 against 75.84 in the 2021 replication (Wallace, Cooper, Sel and Russo (2023), PLOS ONE 18(12):e0295943, Table 3 (540 mostly British adults, 2021, marriage fixed at 50)) gives 0.57. Derived, not published; the 1967 ratio is used because every other director row is on the 1967 scale.",
+      "estimatedFrom": "Parent tie 0.5 times the Holmes and Rahe (1967) ratio of 'Death of a spouse' (100) to 'Death of a close family member' (63).",
+      "stopgapId": "SG-P13-param-directorTies",
+      "spread": {
+        "low": 0.57,
+        "high": 0.79,
+        "unit": "thread importance",
+        "citation": "1967 ratio (0.79) and 2021 replication ratio (0.57) of spouse death to close-family death."
+      }
     },
     "directorTieSharedHome": {
       "value": 0.3,
       "tag": "TUNABLE",
-      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json).",
+      "citation": "Story director design, part 2, October 8, 2026 calibration (data/content/story-threads.json). Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION kept; no source ranks this tie against parents and children for story importance, and no measured decay exists for how much a faded tie still matters.",
       "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
@@ -155,7 +159,7 @@
     "directorFadingDiscount": {
       "value": 0.75,
       "tag": "TUNABLE",
-      "citation": "Story director design, part 2, October 8, 2026 calibration: fading discounts a pair's moments by up to three quarters.",
+      "citation": "Story director design, part 2, October 8, 2026 calibration: fading discounts a pair's moments by up to three quarters. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION kept; no source ranks this tie against parents and children for story importance, and no measured decay exists for how much a faded tie still matters.",
       "stopgapId": "SG-P13-param-directorTies",
       "checkRange": {
         "ref": "P13-CALIBRATION-YEAR"
@@ -163,20 +167,32 @@
     },
     "directorFriendHalfLifeDays": {
       "value": 548,
-      "tag": "TUNABLE",
-      "citation": "Owner question 4 (P13 design note): about 18 months, the same value P15 uses for closeness between people who are not relatives. No study reports a half-life for closeness without contact: Roberts and Dunbar (2015), Human Nature 26(4):426-450, report only that friends' closeness fell over their 18-month study, and 18 months is the study's length, not a half-life. To be calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
-      "stopgapId": "SG-P13-param-directorHalfLives",
+      "tag": "ESTIMATED",
+      "citation": "About 18 months, the same value P15 uses for closeness between people who are not relatives. Roberts and Dunbar (2015), Managing relationship decay, Human Nature 26(4):426-450: friends' inner-layer retention over 18 months was 69 of 142 (48.6%), an exponential equivalent of 526 days. Long-run check: Mollenhorst, Volker and Flap (2014), Social Networks 37:65-80, 48% of discussion partners and helpers remained after seven years (a 2,415-day half-life that includes contact).",
+      "estimatedFrom": "Roberts and Dunbar (2015) friend inner-layer retention converted to an exponential half-life (526 days); 25 school leavers in transition, no half-life reported in the paper.",
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "spread": {
+        "low": 526,
+        "high": 2415,
+        "unit": "days",
+        "citation": "Roberts and Dunbar (2015) derived 526 days; Mollenhorst, Volker and Flap (2014) 2,415 days with contact included."
       }
     },
     "directorKinHalfLifeDays": {
-      "value": 1096,
-      "tag": "TUNABLE",
-      "citation": "Owner question 4 (P13 design note): about 36 months, twice the friend half-life, the same value P15 uses for relatives. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life. To be calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
-      "stopgapId": "SG-P13-param-directorHalfLives",
+      "value": 1095,
+      "tag": "ESTIMATED",
+      "citation": "About 36 months, the same value (1,095 days) P15 uses for relatives. Roberts and Dunbar (2015), Managing relationship decay, Human Nature 26(4):426-450: relatives' inner-layer retention over 18 months was 102 of 145 (70.3%), an exponential equivalent of 1,078 days. Long-run check: Mollenhorst, Volker and Flap (2014), Social Networks 37:65-80 (2,415-day half-life that includes contact).",
+      "estimatedFrom": "Roberts and Dunbar (2015) relative inner-layer retention converted to an exponential half-life (1,078 days); 25 school leavers in transition, no half-life reported in the paper.",
       "checkRange": {
         "ref": "P9-OUTCOME-WHOLE-LIFE"
+      },
+      "spread": {
+        "low": 1078,
+        "high": 2415,
+        "unit": "days",
+        "citation": "Roberts and Dunbar (2015) derived 1,078 days; Mollenhorst, Volker and Flap (2014) 2,415 days with contact included."
       }
     },
     "directorRenewedFading": {
@@ -191,7 +207,7 @@
     "directorAnniversaryHalfDays": {
       "value": 7,
       "tag": "TUNABLE",
-      "citation": "Owner answer 7, October 9, 2026: a weight highest on the anniversary that falls smoothly over two weeks either side; it halves every 7 days from the date, with no cut-off. No direct source.",
+      "citation": "Owner answer 7, October 9, 2026: a weight highest on the anniversary that falls smoothly over two weeks either side; it halves every 7 days from the date, with no cut-off. No direct source. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION kept at the owner's answer (7). No study measures how long grief or recall stays elevated around an anniversary; the one large quantitative study measured mortality in the week of a child's death and was inconclusive (mothers' relative risk 1.46, interval 0.98 to 2.17; Eur J Epidemiol 2015, DOI 10.1007/s10654-015-9989-5).",
       "stopgapId": "SG-P13-param-directorAnniversaryHalfDays",
       "checkRange": {
         "ref": "P13-OWNER-ANNIVERSARY"
@@ -199,59 +215,43 @@
     },
     "directorPastChildBorn": {
       "value": 0.39,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Gain of a new family member' row, 39 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "tag": "SOURCED",
+      "citation": "A recorded past fact scores the stress scale's 'Gain of a new family member' row, 39 life-change units divided by 100 (Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218, Table 3; the 2021 replication rates it 51.81, Wallace, Cooper, Sel and Russo (2023), PLOS ONE 18(12):e0295943, Table 3 (540 mostly British adults, 2021, marriage fixed at 50)). The 1967 values are a lower bound; they are kept so every director row sits on one scale."
     },
     "directorPastPartner": {
       "value": 0.5,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Marriage' row, 50 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "tag": "SOURCED",
+      "citation": "A recorded past fact scores the stress scale's 'Marriage' row, 50 life-change units divided by 100 (Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218, Table 3; the 2021 replication rates it 50, Wallace, Cooper, Sel and Russo (2023), PLOS ONE 18(12):e0295943, Table 3 (540 mostly British adults, 2021, marriage fixed at 50)). The 1967 values are a lower bound; they are kept so every director row sits on one scale."
     },
     "directorPastSchoolStage": {
       "value": 0.26,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Begin or end school' row, 26 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "tag": "SOURCED",
+      "citation": "A recorded past fact scores the stress scale's 'Begin or end school' row, 26 life-change units divided by 100 (Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218, Table 3; the 2021 replication rates it 33.88, Wallace, Cooper, Sel and Russo (2023), PLOS ONE 18(12):e0295943, Table 3 (540 mostly British adults, 2021, marriage fixed at 50)). The 1967 values are a lower bound; they are kept so every director row sits on one scale."
     },
     "directorPastWorkStart": {
       "value": 0.2,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Change in work hours or conditions' row, 20 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "tag": "SOURCED",
+      "citation": "A recorded past fact scores the stress scale's 'Change in work hours or conditions' row, 20 life-change units divided by 100 (Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218, Table 3; the 2021 replication rates it 37.09, Wallace, Cooper, Sel and Russo (2023), PLOS ONE 18(12):e0295943, Table 3 (540 mostly British adults, 2021, marriage fixed at 50)). The 1967 values are a lower bound; they are kept so every director row sits on one scale."
     },
     "directorPastEraJobLoss": {
       "value": 0.47,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Fired at work' row, 47 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "tag": "SOURCED",
+      "citation": "A recorded past fact scores the stress scale's 'Fired at work' row, 47 life-change units divided by 100 (Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218, Table 3; the 2021 replication rates it 60.97, Wallace, Cooper, Sel and Russo (2023), PLOS ONE 18(12):e0295943, Table 3 (540 mostly British adults, 2021, marriage fixed at 50)). The 1967 values are a lower bound; they are kept so every director row sits on one scale."
     },
     "directorPastEraFamilyDeath": {
       "value": 0.63,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Death of a close family member' row, 63 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "tag": "SOURCED",
+      "citation": "A recorded past fact scores the stress scale's 'Death of a close family member' row, 63 life-change units divided by 100 (Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218, Table 3; the 2021 replication rates it 75.84, Wallace, Cooper, Sel and Russo (2023), PLOS ONE 18(12):e0295943, Table 3 (540 mostly British adults, 2021, marriage fixed at 50)). The 1967 values are a lower bound; they are kept so every director row sits on one scale."
     },
     "directorPastEraIllness": {
       "value": 0.53,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Personal injury or illness' row, 53 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "tag": "SOURCED",
+      "citation": "A recorded past fact scores the stress scale's 'Personal injury or illness' row, 53 life-change units divided by 100 (Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218, Table 3; the 2021 replication rates it 64.36, Wallace, Cooper, Sel and Russo (2023), PLOS ONE 18(12):e0295943, Table 3 (540 mostly British adults, 2021, marriage fixed at 50)). The 1967 values are a lower bound; they are kept so every director row sits on one scale."
     },
     "directorPastEraFinancialLoss": {
       "value": 0.38,
-      "tag": "ESTIMATED",
-      "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Change in financial state' row, 38 life-change units divided by 100 (Holmes and Rahe 1967).",
-      "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
-      "stopgapId": "SG-P13-past-fact-estimates"
+      "tag": "SOURCED",
+      "citation": "A recorded past fact scores the stress scale's 'Change in financial state' row, 38 life-change units divided by 100 (Holmes and Rahe (1967), The Social Readjustment Rating Scale, Journal of Psychosomatic Research 11(2):213-218, Table 3; the 2021 replication rates it 52.02, Wallace, Cooper, Sel and Russo (2023), PLOS ONE 18(12):e0295943, Table 3 (540 mostly British adults, 2021, marriage fixed at 50)). The 1967 values are a lower bound; they are kept so every director row sits on one scale."
     },
     "directorMemoryRecentDays": {
       "value": 91,

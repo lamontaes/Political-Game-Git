@@ -387,7 +387,11 @@ describe("story director on the new core", () => {
         .get("person:worker")!
         .keptFacts.get("knew-each-other:person:spouse:person:worker"),
     ).toMatchObject({ since: startedAt, sinceBasis: "opening" });
-    expect(thread.tie).toBeCloseTo(0.5 + 0.3, 6);
+    // The partner tie from the data (the Holmes and Rahe ratio), plus home.
+    expect(thread.tie).toBeCloseTo(
+      DEFAULT_DIRECTOR_DATA.parameters.directorTiePartner!.value + 0.3,
+      6,
+    );
     const later = "2022-07-01";
     expect(
       director.fading("person:worker", "person:classmate", later),
@@ -467,7 +471,14 @@ describe("story director on the new core", () => {
         expect(row.stopgapId && row.checkRange).toBeTruthy();
       if (row.stopgapId) expect(ids.has(row.stopgapId)).toBe(true);
     }
-    expect(openDirectorStopgapCount()).toBe(DIRECTOR_STOPGAPS.length);
+    // Every row is open or resolved; a resolved one says what replaced it.
+    for (const row of DIRECTOR_STOPGAPS) {
+      expect(["open", "resolved"]).toContain(row.status);
+      if (row.status === "resolved") expect(row.replacement).toBeTruthy();
+    }
+    expect(openDirectorStopgapCount()).toBe(
+      DIRECTOR_STOPGAPS.filter((row) => row.status === "open").length,
+    );
     const folder = join(process.cwd(), "src", "director");
     const literals: string[] = [];
     for (const name of readdirSync(folder)) {

@@ -2,31 +2,31 @@
   "candidacyEngagementWeight": {
     "value": 2,
     "tag": "TUNABLE",
-    "citation": "Political interest is the strongest predictor of considering a run for office (Lawless and Fox 2010, It Still Takes a Candidate, Cambridge University Press, ch. 3). Weight on the person's engagement (0 to 1, from CES newsint). Spread 1 to 3.",
+    "citation": "Political interest is the strongest predictor of considering a run for office (Lawless and Fox 2010, It Still Takes a Candidate, Cambridge University Press, ch. 3). Weight on the person's engagement (0 to 1, from CES newsint). Spread 1 to 3. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Research found no published coefficient on this scale: Lawless and Fox (2010), Fox and Lawless (2005) and Carnes (2018) give directions only, so the ordering (interest and a personal cause strongest) is kept.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyCauseWeight": {
     "value": 2,
     "tag": "TUNABLE",
-    "citation": "A personal stake in an issue moves people to run (Lawless and Fox 2010, ch. 4; Fox and Lawless 2005, American Journal of Political Science 49(3):642-659). Weight on the person's strongest recorded drive. Spread 1 to 3.",
+    "citation": "A personal stake in an issue moves people to run (Lawless and Fox 2010, ch. 4; Fox and Lawless 2005, American Journal of Political Science 49(3):642-659). Weight on the person's strongest recorded drive. Spread 1 to 3. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Research found no published coefficient on this scale: Lawless and Fox (2010), Fox and Lawless (2005) and Carnes (2018) give directions only, so the ordering (interest and a personal cause strongest) is kept.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyTemperamentWeight": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Competitiveness, risk-taking and comfort with conflict raise ambition (Lawless and Fox 2010; Dynes, Hassell and Miles 2019, Political Behavior 41:309-336). Weight on the mean of sociability, risk and conflict, each -2 to 2, scaled to -1 to 1. Spread 0.5 to 2.",
+    "citation": "Competitiveness, risk-taking and comfort with conflict raise ambition (Lawless and Fox 2010; Dynes, Hassell and Miles 2019, Political Behavior 41:309-336). Weight on the mean of sociability, risk and conflict, each -2 to 2, scaled to -1 to 1. Spread 0.5 to 2. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Research found no published coefficient on this scale: Lawless and Fox (2010), Fox and Lawless (2005) and Carnes (2018) give directions only, so the ordering (interest and a personal cause strongest) is kept.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyMoneyWeight": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The cost of running deters candidates with less money (Carnes 2018, The Cash Ceiling, Princeton University Press). Weight on cash on hand against the filing fee, -1 to 1. Spread 0.5 to 2.",
+    "citation": "The cost of running deters candidates with less money (Carnes 2018, The Cash Ceiling, Princeton University Press). Weight on cash on hand against the filing fee, -1 to 1. Spread 0.5 to 2. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Research found no published coefficient on this scale: Lawless and Fox (2010), Fox and Lawless (2005) and Carnes (2018) give directions only, so the ordering (interest and a personal cause strongest) is kept.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyTimeWeight": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Working-class people run less, partly for lack of time off work (Carnes 2018, ch. 3). Weight on the person's recorded daily work hours over a full shift. Spread 0.5 to 2.",
+    "citation": "Working-class people run less, partly for lack of time off work (Carnes 2018, ch. 3). Weight on the person's recorded daily work hours over a full shift. Spread 0.5 to 2. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Research found no published coefficient on this scale: Lawless and Fox (2010), Fox and Lawless (2005) and Carnes (2018) give directions only, so the ordering (interest and a personal cause strongest) is kept.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyFullShiftHours": {
@@ -37,7 +37,7 @@
   "candidacyAgeWeight": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Weight of the age term. Spread 0.5 to 2.",
+    "citation": "Weight of the age term. Spread 0.5 to 2. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Research found no published coefficient on this scale: Lawless and Fox (2010), Fox and Lawless (2005) and Carnes (2018) give directions only, so the ordering (interest and a personal cause strongest) is kept.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyAgeCenter": {
@@ -49,19 +49,19 @@
   "candidacyAgeSpread": {
     "value": 15,
     "tag": "TUNABLE",
-    "citation": "How quickly the age term falls away from its center, in years. Spread 10 to 20.",
+    "citation": "How quickly the age term falls away from its center, in years. Spread 10 to 20. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Research found no published coefficient on this scale: Lawless and Fox (2010), Fox and Lawless (2005) and Carnes (2018) give directions only, so the ordering (interest and a personal cause strongest) is kept.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyStayOutPull": {
     "value": 4.2,
     "tag": "TUNABLE",
-    "citation": "The pull of staying out, against which running is weighed. Checked so that about half a percent of adults in a town choose to run for a local seat in a cycle: a few candidates for each of a town's handful of council seats (Ballotpedia's local election analyses report most local seats with one or two candidates). Spread 3 to 5.",
+    "citation": "The pull of staying out, against which running is weighed. Checked so that about half a percent of adults in a town choose to run for a local seat in a cycle: a few candidates for each of a town's handful of council seats (Ballotpedia's local election analyses report most local seats with one or two candidates). Spread 3 to 5. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): Kept at 4.2. Plausibility check, derived and not published: about 585,000 local elected positions (Ballotpedia 2022), 3-4 year terms and 1.5-2 candidates per seat give roughly 0.4-0.5% of adults as candidates in a four-year window, consistent with the 0.5% target.",
     "stopgapId": "SG-P15-candidacy-weights"
   },
   "candidacyIncumbencyWeight": {
     "value": 3.25,
     "tag": "TUNABLE",
-    "citation": "The pull of holding the seat already. Calibrated so about 81% of incumbents run again: from 2010 to 2024 an average of 18.8% of state legislative seats were open because the incumbent did not run (Ballotpedia, 'Early filing deadlines show fewer state legislative incumbents retiring than in previous years', May 1, 2024, https://news.ballotpedia.org/2024/05/01/early-filing-deadlines-show-fewer-state-legislative-incumbents-retiring-than-in-previous-years/). In a generated town (seed candidacy-a), 200 residents each holding a seat: 3 gives 73.5% running again, 3.5 gives 88%; 3.25 gives 83%. Spread 3 to 3.5.",
+    "citation": "The pull of holding the seat already. Calibrated so about 81% of incumbents run again: from 2010 to 2024 an average of 18.8% of state legislative seats were open because the incumbent did not run (Ballotpedia, 'Early filing deadlines show fewer state legislative incumbents retiring than in previous years', May 1, 2024, https://news.ballotpedia.org/2024/05/01/early-filing-deadlines-show-fewer-state-legislative-incumbents-retiring-than-in-previous-years/). In a generated town (seed candidacy-a), 200 residents each holding a seat: 3 gives 73.5% running again, 3.5 gives 88%; 3.25 gives 83%. Spread 3 to 3.5. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): Kept at 3.25, which fits state legislators (81% run again). Large-district school boards run again only 62-68% (Ballotpedia, largest 200 districts, 2020-2023), so the value should vary by office.",
     "stopgapId": "SG-P15-candidacy-weights"
   }
 }

@@ -5,11 +5,11 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "The smallest change stored as a moment.",
-    "why": "Owner answer 1 approved the stress scale row as an estimate; its check range is a plausible yearly count of stored moments.",
+    "why": "Owner answer 1 approved the stress scale row as an estimate; its check range is a plausible yearly count of stored moments. Resolved by Oct 12 research (OPUS-PEOPLE): the floor is the smallest row of the 1967 Holmes and Rahe Table 3 (11 units), SOURCED as a scale definition; no yearly moment count was found, and re-anchoring to the 2021 replication (22.14) would move the floor and the 0.50 interrupt line together.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
-    "replacement": "An owner answer or a tested calibration for the same quantity.",
-    "status": "open"
+    "replacement": "An owner answer or a tested calibration for the same quantity. Done Oct 12 (OPUS-PEOPLE): directorMomentFloor is SOURCED from Holmes and Rahe (1967) Table 3.",
+    "status": "resolved"
   },
   {
     "id": "SG-P13-param-directorInterruptImpact",
@@ -41,7 +41,7 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How much sociability raises a tie change.",
-    "why": "A starting value is required; it awaits an owner answer or a calibration against real life-event rankings.",
+    "why": "A starting value is required; it awaits an owner answer or a calibration against real life-event rankings. Research Oct 12 (OPUS-PEOPLE): no source gives a weight; Yap, Anusic and Lucas 2012 found no consistent personality moderation of event reactions, so 0.25 stays as an upper bound (0 is not contradicted) and a game assumption.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
@@ -53,7 +53,7 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How much avoiding risk raises a money loss.",
-    "why": "A starting value is required; it awaits an owner answer or a calibration against real life-event rankings.",
+    "why": "A starting value is required; it awaits an owner answer or a calibration against real life-event rankings. Research Oct 12 (OPUS-PEOPLE): no study ties risk preference to the weight of a money loss; the sign follows loss aversion and Yap, Anusic and Lucas 2012 found no consistent moderation, so -0.25 stays as an upper bound in size and a game assumption.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "An owner answer or a tested calibration for the same quantity.",
@@ -77,7 +77,7 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "Standing ties for family and a shared home, the partner tie, and the fading discount.",
-    "why": "The October 8, 2026 calibration is owner-approved design weight, not measured; the partner row is new.",
+    "why": "The October 8, 2026 calibration is owner-approved design weight, not measured; the partner row is new. Research Oct 12 (OPUS-PEOPLE): only the partner row had a source; it is now 0.79 (parent 0.5 times Holmes and Rahe 1967 spouse death 100 over close-family death 63; 0.57 on the 2021 replication). Sibling, grandparent, grandchild, shared-home and the 0.75 fading discount have no source and need calibration against recorded closeness in replayed lives, so the row stays open.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "A calibration of thread importance against recorded closeness in replayed lives.",
@@ -89,11 +89,11 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How fast closeness fades without contact for friends and relatives.",
-    "why": "No study reports a half-life for closeness without contact; Roberts and Dunbar (2015) give direction only, and 18 months is their study's length. Tagged TUNABLE (CTO, October 10, 2026).",
+    "why": "No study reports a half-life for closeness without contact; Roberts and Dunbar (2015) give direction only, and 18 months is their study's length. Tagged TUNABLE (CTO, October 10, 2026). Resolved by Oct 12 research (OPUS-PEOPLE): the half-lives are ESTIMATED from Roberts and Dunbar 2015 inner-layer retention (526 and 1,078 days derived, against 548 and 1,095 used; the kin value now equals P15's 1,095) with Mollenhorst, Volker and Flap 2014 as the seven-year check.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
-    "replacement": "A half-life calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses.",
-    "status": "open"
+    "replacement": "A half-life calibrated against network turnover over years (for example Mollenhorst, Volker and Flap 2014, once checked), the target P15 uses. Done Oct 12 (OPUS-PEOPLE): both half-lives ESTIMATED from Roberts and Dunbar (2015) with Mollenhorst, Volker and Flap (2014) as the long-run check.",
+    "status": "resolved"
   },
   {
     "id": "SG-P13-appraisal-recompute",
@@ -137,7 +137,7 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "How fast an anniversary's weight falls away from the date.",
-    "why": "A starting value is required; the owner approved the shape, not the width.",
+    "why": "A starting value is required; the owner approved the shape, not the width. Research Oct 12 (OPUS-PEOPLE): no study measures how long grief or recall stays elevated around an anniversary; the only large quantitative study (Swedish register, week of a child's death) was inconclusive, so 7 days stays the owner's answer and a game assumption.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
     "replacement": "A calibration against when people recall shared events.",
@@ -149,11 +149,11 @@
     "file": "src/director/data/director.json",
     "line": 1,
     "whatItFakes": "Impacts for recorded past facts, read from stress-scale rows rather than measured changes.",
-    "why": "The new core's recorded past holds dated facts, not the changes they caused.",
+    "why": "The new core's recorded past holds dated facts, not the changes they caused. Resolved by Oct 12 research (OPUS-PEOPLE): every value matches the 1967 Holmes and Rahe Table 3 row it names and is SOURCED; the 2021 replication (Wallace and others 2023) rates seven of the eight higher, so the 1967 values are a lower bound kept on one scale.",
     "addedBy": "OPUS-DIRECTOR",
     "addedAt": "2026-10-09",
-    "replacement": "Past moments measured from replayed lives once the life-replay harness runs on the new core.",
-    "status": "open"
+    "replacement": "Past moments measured from replayed lives once the life-replay harness runs on the new core. Done Oct 12 (OPUS-PEOPLE): all eight past-fact scores SOURCED from Holmes and Rahe (1967) Table 3.",
+    "status": "resolved"
   },
   {
     "id": "SG-P15-memory-forgetting",

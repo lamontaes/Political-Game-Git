@@ -2,43 +2,43 @@
   "bribeShareOfStake": {
     "value": 0.1,
     "tag": "TUNABLE",
-    "citation": "A bribe as a share of what the favor is worth to the person offering it. Spread 0.05 to 0.2; surveys of firms report bribes of a few percent to over ten percent of contract value (World Bank Enterprise Surveys, bribery incidence and depth).",
+    "citation": "A bribe as a share of what the favor is worth to the person offering it. Spread 0.05 to 0.2; surveys of firms report bribes of a few percent to over ten percent of contract value (World Bank Enterprise Surveys, bribery incidence and depth). Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION kept at 0.1: World Bank Enterprise Surveys microdata (informal payments as a share of contract value, question J.6) show 56-85% of sampled firms reporting zero payments in the country files opened, with maxima of 20-50%; no US file and no published average were found.",
     "stopgapId": "SG-P15-corruption-weights"
   },
   "corruptionTraitWeight": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Weight on risk-taking and low reliability (each -2 to 2, scaled to -1 to 1): people high in honesty-humility and conscientiousness are less willing to bribe or be bribed (Ashton and Lee 2008; Hilbig and Zettler 2009, Journal of Research in Personality 43(3):516-519). Spread 0.5 to 2.",
+    "citation": "Weight on risk-taking and low reliability (each -2 to 2, scaled to -1 to 1): people high in honesty-humility and conscientiousness are less willing to bribe or be bribed (Ashton and Lee 2008; Hilbig and Zettler 2009, Journal of Research in Personality 43(3):516-519). Spread 0.5 to 2. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION kept at its value; the cited studies give direction, not weights on this scale. The DOJ Public Integrity Section 2023 counts (543 charged, 550 convicted) have no denominator, so no per-official rate can be derived.",
     "stopgapId": "SG-P15-corruption-weights"
   },
   "corruptionNeedWeight": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Weight on money pressure: the bribe against the official's month of living costs, and their own cash against that month. Financial strain raises willingness to accept (Gorodnichenko and Sabirianova Peter 2007, Journal of Public Economics 91(5-6):963-991, on public-sector pay and bribery). Spread 0.5 to 2.",
+    "citation": "Weight on money pressure: the bribe against the official's month of living costs, and their own cash against that month. Financial strain raises willingness to accept (Gorodnichenko and Sabirianova Peter 2007, Journal of Public Economics 91(5-6):963-991, on public-sector pay and bribery). Spread 0.5 to 2. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION kept at its value; the cited studies give direction, not weights on this scale. The DOJ Public Integrity Section 2023 counts (543 charged, 550 convicted) have no denominator, so no per-official rate can be derived.",
     "stopgapId": "SG-P15-corruption-weights"
   },
   "corruptionTieWeight": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Weight on closeness between the two: a bribe passes through existing ties (Rose-Ackerman and Palifka 2016, Corruption and Government, ch. 6). Spread 0.5 to 2.",
+    "citation": "Weight on closeness between the two: a bribe passes through existing ties (Rose-Ackerman and Palifka 2016, Corruption and Government, ch. 6). Spread 0.5 to 2. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION kept at its value; the cited studies give direction, not weights on this scale. The DOJ Public Integrity Section 2023 counts (543 charged, 550 convicted) have no denominator, so no per-official rate can be derived.",
     "stopgapId": "SG-P15-corruption-weights"
   },
   "corruptionHonestPull": {
     "value": 3,
     "tag": "TUNABLE",
-    "citation": "The pull of not offering or not taking, against which the bribe is weighed. Transparency International's Global Corruption Barometer (2019) found about 6% of Americans paid a bribe for a public service in the past year, so most people neither offer nor take even when it would pay. At 3, with a $500,000 contract at stake, 28 of 158 of a generated town's wealthiest residents offered and 7 strained residents took (src/core2/corruption.test.ts, seed corruption-a); at 2 almost everyone offered, at 3.5 almost no one. Spread 2.5 to 3.5.",
+    "citation": "The pull of not offering or not taking, against which the bribe is weighed. Transparency International's Global Corruption Barometer 2013 (reported by Pew Research Center, July 12, 2013) found 7% of Americans paid a bribe to one of eight public services in the past 12 months (no 2019 US figure was found), so most people neither offer nor take even when it would pay. At 3, with a $500,000 contract at stake, 28 of 158 of a generated town's wealthiest residents offered and 7 strained residents took (src/core2/corruption.test.ts, seed corruption-a); at 2 almost everyone offered, at 3.5 almost no one. Spread 2.5 to 3.5. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): Kept at 3 as a game value checked against that 7% incidence.",
     "stopgapId": "SG-P15-corruption-weights"
   },
   "corruptionTellWeight": {
     "value": 4,
     "tag": "TUNABLE",
-    "citation": "Weight on how far the tie between the two parties soured when deciding to tell someone: a partner in a crime who falls out with the other is the classic leak (Rose-Ackerman and Palifka 2016, ch. 9, on whistleblowers and turned witnesses). Spread 2 to 8.",
+    "citation": "Weight on how far the tie between the two parties soured when deciding to tell someone: a partner in a crime who falls out with the other is the classic leak (Rose-Ackerman and Palifka 2016, ch. 9, on whistleblowers and turned witnesses). Spread 2 to 8. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION kept at its value; the cited studies give direction, not weights on this scale. The DOJ Public Integrity Section 2023 counts (543 charged, 550 convicted) have no denominator, so no per-official rate can be derived.",
     "stopgapId": "SG-P15-corruption-weights"
   },
   "corruptionQuietPull": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "The pull of keeping quiet about a crime one took part in. Spread 0.5 to 2.",
+    "citation": "The pull of keeping quiet about a crime one took part in. Spread 0.5 to 2. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION kept at its value; the cited studies give direction, not weights on this scale. The DOJ Public Integrity Section 2023 counts (543 charged, 550 convicted) have no denominator, so no per-official rate can be derived.",
     "stopgapId": "SG-P15-corruption-weights"
   },
   "daysPerMonth": {

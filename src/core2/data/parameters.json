@@ -459,8 +459,9 @@
   },
   "closenessHoursAtHalf": {
     "value": 90,
-    "tag": "TUNABLE",
-    "citation": "Hours of time together at which closeness reaches half of full closeness; closeness is hours / (hours + this value), so it grows toward full closeness and never reaches it.",
+    "tag": "ESTIMATED",
+    "citation": "Hours of time together at which closeness reaches half of full closeness; closeness is hours / (hours + this value), so it grows toward full closeness and never reaches it. Source: Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4): about 50 hours of time together makes a casual friend, 90 a friend and more than 200 a close friend (release figures); in the adult-only sample 94, 164 and 219 hours. The game reads the 90-hour friend threshold as the half-closeness point.",
+    "estimatedFrom": "Hall (2019) hours-to-friend thresholds (about 90 hours to a friend; adult-only sample 94), read as half of full closeness; the paper gives hours to a stage, not a closeness curve.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
       "low": 80,
@@ -474,12 +475,15 @@
   },
   "closenessKinHalfLifeDays": {
     "value": 1095,
-    "tag": "TUNABLE",
-    "citation": "Half-life of time together between relatives without contact, 36 months, as the P15 package and the P13 director use it. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life. Calibration check: Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80 (Dutch panel, 1,007 adults aged 18-65, 604 re-interviewed seven years later): 48% of the discussion partners and practical helpers named at the start were still in the network seven years later, and 30% held the same position (figures as reported in the Utrecht University release of May 27, 2009, ScienceDaily 090527111907; the 2014 article is paywalled and no kin/non-kin split was found in the sources read). The game's share of ties still above their opening closeness after seven years is compared with it in a seven-year run.",
+    "tag": "ESTIMATED",
+    "citation": "Half-life of time together between relatives without contact, 36 months. Roberts and Dunbar (2015), Managing relationship decay, Human Nature 26(4):426-450, inner-layer retention at wave 3: relatives 102 of 145 (70.3%), friends 69 of 142 (48.6%) over 18 months. Exponential equivalent: 1,078 days. Long-run check: Mollenhorst, Volker and Flap (2014), Social Networks 37:65-80 (1,007 Dutch adults aged 18-65, 604 re-interviewed seven years later): 48% of discussion partners and helpers still in the network after seven years, a 2,415-day half-life that includes ongoing contact, so it bounds a full seven-year run rather than decay without contact (figures as reported in the Utrecht University release of May 27, 2009).",
+    "estimatedFrom": "Roberts and Dunbar (2015) relative inner-layer retention converted to an exponential half-life (1,078 days); the sample is 25 school leavers in transition and the paper reports no half-life.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No study reports a half-life for closeness without contact; Roberts and Dunbar (2015) report direction only (kin b = 0.27, friends b = -0.62 over 18 months)."
+      "low": 1078,
+      "high": 2415,
+      "unit": "days",
+      "citation": "Roberts and Dunbar (2015) derived 1,078 days; Mollenhorst, Volker and Flap (2014) 2,415 days with contact included."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -487,12 +491,15 @@
   },
   "closenessOtherHalfLifeDays": {
     "value": 548,
-    "tag": "TUNABLE",
-    "citation": "Half-life of time together between people who are not relatives without contact, 18 months, as the P15 package and the P13 director use it. Calibration check: Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80 (Dutch panel, 1,007 adults aged 18-65, 604 re-interviewed seven years later): 48% of the discussion partners and practical helpers named at the start were still in the network seven years later, and 30% held the same position (figures as reported in the Utrecht University release of May 27, 2009, ScienceDaily 090527111907; the 2014 article is paywalled and no kin/non-kin split was found in the sources read). The game's share of ties still above their opening closeness after seven years is compared with it in a seven-year run.",
+    "tag": "ESTIMATED",
+    "citation": "Half-life of time together between people who are not relatives without contact, 18 months. Roberts and Dunbar (2015), Managing relationship decay, Human Nature 26(4):426-450, inner-layer retention at wave 3: friends 69 of 142 (48.6%) over 18 months, an exponential equivalent of 526 days. Long-run check: Mollenhorst, Volker and Flap (2014), Social Networks 37:65-80 (1,007 Dutch adults, 604 re-interviewed seven years later): 48% of discussion partners and helpers remained, a 2,415-day half-life that includes contact (figures as reported in the Utrecht University release of May 27, 2009). The game's share of ties still above their opening closeness after seven years is compared with it in a seven-year run.",
+    "estimatedFrom": "Roberts and Dunbar (2015) friend inner-layer retention converted to an exponential half-life (526 days); the sample is 25 school leavers in transition and the paper reports no half-life.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No study reports a half-life for closeness without contact; Roberts and Dunbar (2015) report that friendships decline faster than kinship."
+      "low": 526,
+      "high": 2415,
+      "unit": "days",
+      "citation": "Roberts and Dunbar (2015) derived 526 days; Mollenhorst, Volker and Flap (2014) 2,415 days with contact included."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -505,8 +512,9 @@
   },
   "householdOtherMinutesPerDay": {
     "value": 43,
-    "tag": "TUNABLE",
-    "citation": "Minutes per day a housemate who is not family spends in another housemate's presence; ATUS 2019 reports 43 minutes per day with all 'others' (roommates, neighbors, acquaintances, coworkers and clients) together, used here as the housemate figure.",
+    "tag": "ESTIMATED",
+    "citation": "Minutes per day a housemate who is not family spends in another housemate's presence; ATUS 2019 reports 43 minutes per day with all 'others' (roommates, neighbors, acquaintances, coworkers and clients) together, used here as the housemate figure. Source: BLS American Time Use Survey 2019 time spent with 'others' (Kannan and Veazie 2022). A roommate-only value is not published (it needs the ATUS who-file, not run), so the all-others figure stands in.",
+    "estimatedFrom": "ATUS 2019 minutes per day with 'others' (roommates, neighbors, acquaintances, coworkers and clients together), used as the housemate figure.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -529,7 +537,7 @@
   "schoolHoursFriendshipWeight": {
     "value": 0.25,
     "tag": "TUNABLE",
-    "citation": "Share of an hour at school that counts as an hour of time together toward friendship. Hall (2019): hours spent working or at school together count less than time socializing.",
+    "citation": "Share of an hour at school that counts as an hour of time together toward friendship. Hall (2019): hours spent working or at school together count less than time socializing. GAME ASSUMPTION. Research found no coefficient: Hall (2019) says hours spent working or in class together count less toward friendship than hours spent socializing, with no number.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -542,14 +550,14 @@
   "farKinContactShare": {
     "value": 0.39,
     "tag": "ESTIMATED",
-    "citation": "Visits to a relative living elsewhere in the state, as a share of visits to one living in the same county; Pew 2005: 22% of adults with a parent in a different town see or talk to that parent daily, against 56% in the same town (0.39).",
+    "citation": "Visits to a relative living elsewhere in the state, as a share of visits to one living in the same county; Pew 2005: 22% of adults with a parent in a different town see or talk to that parent daily, against 56% in the same town (0.39). Research found no US contact-by-distance table. The nearest measured curve is Hank (2007), J Marriage Fam 69(1):157-173 (SHARE 2004, ten countries): the odds of contact less than weekly rather than daily are 7.39 times higher at 25-100 km and 11.22 times higher beyond 100 km than within 25 km, so most of the loss comes at the first step past about 25 km (15.5 miles). Kept until relatives carry a place.",
     "estimatedFrom": "Pew Research Center (2005), daily contact with a parent by whether the parent lives in the same town (56%) or a different town (22%): 22/56 = 0.39, applied to visits to any relative elsewhere in the state. Pew counts calls with visits and compares towns, not counties; the CTO accepted it until relatives carry a place (October 10, 2026).",
     "stopgapId": "SG-P15-distance-by-place"
   },
   "extendedKinVisitShare": {
     "value": 0.25,
     "tag": "TUNABLE",
-    "citation": "Visits to one grandparent, grandchild, aunt, uncle, niece, nephew or a child's other parent, as a share of the GSS frequency of a social evening with any relative.",
+    "citation": "Visits to one grandparent, grandchild, aunt, uncle, niece, nephew or a child's other parent, as a share of the GSS frequency of a social evening with any relative. GAME ASSUMPTION, low confidence. GSS relatives social evenings pool to about 60 a year against 50.6 for parents on the game's stand-in category counts, a ratio of 1.19 for the whole group of relatives; 0.25 per relative implies about 4.7 relatives seen, a count no source gives.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -562,7 +570,7 @@
   "tieMissingWeightPerHour": {
     "value": 0.1,
     "tag": "TUNABLE",
-    "citation": "Pull toward contacting a person for each hour of time together the tie has lost since the last contact. Chosen in a sweep of a 600-resident generated Stanwood, Washington town (56 days, seed p15-opening-kin), where higher values added little contact and crowded out other acts. Checked in a 10,001-resident Sacramento town over 91 days (seed p10-drives-proof-2026-10-09): adults made 47.4 visits a year to relatives outside their home, about 91 hours against 170 in ATUS 2019 (28 minutes a day, Kannan and Veazie 2022), and visited each parent 2.5 times as often as each sibling against 1.37 in the GSS. One discretionary act per activation caps the total.",
+    "citation": "Pull toward contacting a person for each hour of time together the tie has lost since the last contact. Chosen in a sweep of a 600-resident generated Stanwood, Washington town (56 days, seed p15-opening-kin), where higher values added little contact and crowded out other acts. Checked in a 10,001-resident Sacramento town over 91 days (seed p10-drives-proof-2026-10-09): adults made 47.4 visits a year to relatives outside their home, about 91 hours against 170 in ATUS 2019 (28 minutes a day, Kannan and Veazie 2022), and visited each parent 2.5 times as often as each sibling against 1.37 in the GSS. One discretionary act per activation caps the total. GAME ASSUMPTION. Research found no external value; the repository's own check lands at 91 of 170 hours a year of visits against ATUS 2019 (54% of target), so it stays a value to re-tune against that target.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -3168,7 +3176,7 @@
   "kinMoveAwayShare": {
     "value": 0.35,
     "tag": "TUNABLE",
-    "citation": "Share of moves out of the county (ACS 2024 B07401, by state and age) that take a person away from their family, rather than to a nearby county or back home. One value cannot reach both PSID 2013 figures (74.8% nearest parent or grown child within 30 miles, 35.5% all of them). In a generated Sacramento town of 3,000 (seed p10-drives-proof-2026-10-09, with later-life re-aging), 0.3 gives 71.1% and 42.4%, and 0.35 gives 67.1% and 37.5%; 0.35 has the smaller combined miss.",
+    "citation": "Share of moves out of the county (ACS 2024 B07401, by state and age) that take a person away from their family, rather than to a nearby county or back home. One value cannot reach both PSID 2013 figures (74.8% nearest parent or grown child within 30 miles, 35.5% all of them). In a generated Sacramento town of 3,000 (seed p10-drives-proof-2026-10-09, with later-life re-aging), 0.3 gives 71.1% and 42.4%, and 0.35 gives 67.1% and 37.5%; 0.35 has the smaller combined miss. Tuned to the PSID 2013 distances (Choi, Schoeni and others 2020, Journal of Marriage and Family, PubMed 33033415); the split of out-of-county moves is a game assumption.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -3180,51 +3188,63 @@
   },
   "kinInterbirthYears": {
     "value": 3,
-    "tag": "TUNABLE",
-    "citation": "Years between a mother's successive births in generated sibships and families; prototype choice pending an NSFG birth-interval source.",
+    "tag": "ESTIMATED",
+    "citation": "Years between a mother's first and second births in generated sibships and families. NCHS National Health Statistics Reports 179 (Martinez and Daniels 2023, NSFG 2015-2019), Table 6, women with a first birth: 29.5% no second birth, 18.7% within 24 months, 17.3% at 25-36, 10.7% at 37-48, 23.9% at 49 or more. The generator works in whole birth years, so the 2.96-year median is carried as 3.",
+    "estimatedFrom": "Median first-to-second interval among women with a second birth, interpolated from NHSR 179 Table 6 (35.5 months, 2.96 years), rounded to the 3 whole years the generator needs.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+      "low": 2.08,
+      "high": 3.0,
+      "unit": "years between births",
+      "citation": "NHSR 179 Table 6: the median falls in the 25 to 36 month bin."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "kinFirstBirthAgeSdYears": {
-    "value": 4,
-    "tag": "TUNABLE",
-    "citation": "Spread in years of a mother's age at first birth around the NCHS national mean for that year; prototype choice pending a natality spread source.",
+    "value": 6,
+    "tag": "ESTIMATED",
+    "citation": "Spread in years of a mother's age at first birth around the NCHS national mean for that year. NCHS National Vital Statistics Reports 74(1), Births: Final Data for 2023, Table 3 (1,406,183 first births by mother's age): standard deviation 6.1 years pooled (binned estimate; the mean checks to 27.6 against the published 27.5), 5.1 to 6.3 within Asian, American Indian, Black, White and Hispanic mothers.",
+    "estimatedFrom": "Standard deviation computed from the 2023 first births by mother's age bins in NVSR 74(1) Table 3.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+      "low": 5.1,
+      "high": 6.3,
+      "unit": "years (standard deviation)",
+      "citation": "NVSR 74(1) Table 3, standard deviation within each race and Hispanic-origin group of mothers."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "kinPaternalAgeGapYears": {
-    "value": 2.5,
-    "tag": "TUNABLE",
-    "citation": "Years by which a generated father is older than the mother; prototype choice pending an NSFG or natality paternal-age source.",
+    "value": 2.4,
+    "tag": "ESTIMATED",
+    "citation": "Years by which a generated father is older than the mother. Mean age of fathers 30.9 in 2015 (Khandwala et al. 2017, Human Reproduction 32(10):2110) against mean age of mothers 28.5 in 2015 (NCHS NVSR 74(1), Table III), a gap of 2.4; the NSFG first-birth gap is 2.9 (NHSR 179). NCHS has not published a later father mean in the sources read.",
+    "estimatedFrom": "Difference of the 2015 mean ages of fathers (Khandwala et al. 2017) and mothers (NVSR 74(1) Table III).",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+      "low": 2.4,
+      "high": 2.9,
+      "unit": "years",
+      "citation": "Khandwala et al. 2017 with NVSR 74(1) Table III (2.4); NHSR 179 first-birth gap (2.9)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
   "kinMaleFertilityAgeShiftYears": {
-    "value": 2,
-    "tag": "TUNABLE",
-    "citation": "Years by which a man's children ever born by age lag the women's Census table; prototype choice pending an NSFG men's fertility source.",
+    "value": 2.9,
+    "tag": "ESTIMATED",
+    "citation": "Years by which a man's children ever born by age lag the women's Census table. NCHS NHSR 179 (NSFG 2015-2019): mean age at first birth 27.0 for men against 24.1 for women (2.9; 2.4 in 2011-2015); life-table medians 27.4 against 24.5. A pure shift understates the gap: men's curve also plateaus lower (72% fathered by 40 against 82% of women).",
+    "estimatedFrom": "Difference of men's and women's mean age at first birth in NHSR 179 (27.0 minus 24.1).",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+      "low": 2.4,
+      "high": 2.9,
+      "unit": "years",
+      "citation": "NHSR 179 mean age at first birth gap, 2011-2015 (2.4) and 2015-2019 (2.9)."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -3256,7 +3276,7 @@
   "personalitySociabilityRiskCorrelation": {
     "value": 0.34,
     "tag": "ESTIMATED",
-    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): E2 Gregariousness with E5 Excitement-Seeking, r = .34.",
+    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): E2 Gregariousness with E5 Excitement-Seeking, r = .34. Carried as sourced from the NEO-PI-R manual (Costa and McCrae 1992, n = 1,000, via the psychTools dataset); not re-verified against the manual on October 12, 2026. Kept at 0.34, 95% interval 0.284 to 0.394.",
     "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
     "stopgapId": "SG-P15-personality-mapping",
     "spread": {
@@ -3269,7 +3289,7 @@
   "personalityReliabilityImpulseCorrelation": {
     "value": -0.45,
     "tag": "ESTIMATED",
-    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): C3 Dutifulness with C6 Deliberation, r = .45; deliberation is reversed to impulsiveness here, so the value is -.45.",
+    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): C3 Dutifulness with C6 Deliberation, r = .45; deliberation is reversed to impulsiveness here, so the value is -.45. Carried as sourced from the NEO-PI-R manual (Costa and McCrae 1992, n = 1,000, via the psychTools dataset); not re-verified against the manual on October 12, 2026. Kept at -0.45, 95% interval -0.498 to -0.399.",
     "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
     "stopgapId": "SG-P15-personality-mapping",
     "spread": {
@@ -3302,7 +3322,7 @@
   "openingCoworkerGroupSize": {
     "value": 8,
     "tag": "TUNABLE",
-    "citation": "Typical generated workgroup of residents at one employer (groups are drawn person by person, so sizes vary around it) whose members know each other by name; prototype choice pending a US source on how many coworkers people know. A survey of 3,000 full-time US workers (Olivet Nazarene University, 2019) found five friends at work on average, a lower bound on coworkers known by name.",
+    "citation": "Typical generated workgroup of residents at one employer (groups are drawn person by person, so sizes vary around it) whose members know each other by name; prototype choice pending a US source on how many coworkers people know. A survey of 3,000 full-time US workers (Olivet Nazarene University, 2019) found five friends at work on average, a lower bound on coworkers known by name. GAME ASSUMPTION. Research found no measured curve of coworkers known by name by workplace size (the repository's P0-6 research says the same); about five friends at work is a lower bound and no upper bound exists.",
     "stopgapId": "SG-P15-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -3787,7 +3807,7 @@
   "lifeEventStressScale": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Converts a life-change-unit share into the core2 stress impulse; P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Converts a life-change-unit share into the core2 stress impulse; P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION: an internal scale with no real-world unit, tuned so results match measured rates. Research found no day-scale stress half-life or conversion.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -3800,7 +3820,7 @@
   "lifeEventMoodScale": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Converts a life-change-unit share into the core2 mood impulse; P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Converts a life-change-unit share into the core2 mood impulse; P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION: an internal scale with no real-world unit, tuned so results match measured rates. Research found no day-scale mood conversion.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -3813,7 +3833,7 @@
   "driveCauseHalfLifeDays": {
     "value": 365,
     "tag": "TUNABLE",
-    "citation": "Half-life of a drive's pull without new events or acts. Starting value one year: prolonged grief disorder is first diagnosable twelve months after a loss (DSM-5-TR, 2022). P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Half-life of a drive's pull without new events or acts. Starting value one year: prolonged grief disorder is first diagnosable twelve months after a loss (DSM-5-TR, 2022). P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Bounds only: after a spouse's death, formal volunteering and public causes do not rise in the first 18 months (Utz and others 2002) and widowed women volunteer more from year two (odds ratio 1.427, Bolano and Arpino 2020), so one year is neither contradicted nor supported; no measured persistence exists.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -3826,7 +3846,7 @@
   "driveGrudgeHalfLifeDays": {
     "value": 180,
     "tag": "TUNABLE",
-    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Research found no measured persistence of grudges; after job loss, lasting effects (group joining, odds ratio about 0.68, Brand and Burgard 2008) and fading effects (welfare support on reemployment, Margalit 2013) differ in speed, with no rate.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -3839,7 +3859,7 @@
   "driveProtectFamilyHalfLifeDays": {
     "value": 365,
     "tag": "TUNABLE",
-    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Research found no measured persistence of protective family motivation.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -3852,7 +3872,7 @@
   "driveStatusHalfLifeDays": {
     "value": 365,
     "tag": "TUNABLE",
-    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Research found no measured persistence of status ambition after a setback.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -3865,7 +3885,7 @@
   "driveCallingHalfLifeDays": {
     "value": 730,
     "tag": "TUNABLE",
-    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Research found no measured persistence of vocational callings after a formative event.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -3878,7 +3898,7 @@
   "driveActReinforcement": {
     "value": 0.05,
     "tag": "TUNABLE",
-    "citation": "Share of a drive's unfilled strength that each act on it fills (commitment and consistency), so repeated acts level off below the ceiling of one. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Share of a drive's unfilled strength that each act on it fills (commitment and consistency), so repeated acts level off below the ceiling of one. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Research found no strength unit on this scale in commitment-consistency studies.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -3891,7 +3911,7 @@
   "perceptionTraitWeight": {
     "value": 0.25,
     "tag": "TUNABLE",
-    "citation": "Weight of each relevant trait on how heavily a perception channel counts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Weight of each relevant trait on how heavily a perception channel counts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Real trait moderation is small and inconsistent (Yap, Anusic and Lucas 2012, Journal of Research in Personality 46(5):477-488; age-only models explain 0-4% of variance in perceived event characteristics, Haehner and others 2024), so the weight should not be raised.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -3904,7 +3924,7 @@
   "perceptionClosenessWeight": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Extra attention per unit of recorded relationship level with the event's subject. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Extra attention per unit of recorded relationship level with the event's subject. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION. Research found no measured bound in this unit.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -3917,7 +3937,7 @@
   "perceptionRoleSubject": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Attention weight when the event happened to the person. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Attention weight when the event happened to the person. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION: a relative weight (the anchor) with no measured counterpart.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -3930,7 +3950,7 @@
   "perceptionRoleFamily": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Attention weight when the event happened to a recorded relative. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Attention weight when the event happened to a recorded relative. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION: a relative weight against the subject role; unmeasured.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -4086,7 +4106,7 @@
   "responseCarryOnFit": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes a person toward carrying on with ordinary life and grieving privately, before their traits lean them; carrying on is the default response. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "How strongly a perceived event pushes a person toward carrying on with ordinary life and grieving privately, before their traits lean them; carrying on is the default response. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION tuned to totals. Benchmarks (Bonanno and others 2002, 205 widowed adults: resilient 45.9%, chronic grief 15.6%; Galatzer-Levy, Huang and Bonanno 2018, 54 studies: resilient 65.7%, recovery 20.8%, chronic 10.6%) say most people carry on, and cause or calling in year one should be a small share, not above comparable non-bereaved adults; the repository's Sacramento run (33 of 168 adult decisions formed or strengthened a drive in a year, 12 callings) is above that, so the cause and calling fits are the first to lower.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -4138,7 +4158,7 @@
   "responseCarryOnBaseline": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Ordinary life's own pull toward carrying on, independent of the event; a weak event or a person with little agency leaves life as it was. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "Ordinary life's own pull toward carrying on, independent of the event; a weak event or a person with little agency leaves life as it was. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION tuned to totals. Benchmarks (Bonanno and others 2002, 205 widowed adults: resilient 45.9%, chronic grief 15.6%; Galatzer-Levy, Huang and Bonanno 2018, 54 studies: resilient 65.7%, recovery 20.8%, chronic 10.6%) say most people carry on, and cause or calling in year one should be a small share, not above comparable non-bereaved adults; the repository's Sacramento run (33 of 168 adult decisions formed or strengthened a drive in a year, 12 callings) is above that, so the cause and calling fits are the first to lower.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -4190,7 +4210,7 @@
   "responseCauseFit": {
     "value": 0.8,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes toward taking up a cause about its topic, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "How strongly a perceived event pushes toward taking up a cause about its topic, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION tuned to totals. Benchmarks (Bonanno and others 2002, 205 widowed adults: resilient 45.9%, chronic grief 15.6%; Galatzer-Levy, Huang and Bonanno 2018, 54 studies: resilient 65.7%, recovery 20.8%, chronic 10.6%) say most people carry on, and cause or calling in year one should be a small share, not above comparable non-bereaved adults; the repository's Sacramento run (33 of 168 adult decisions formed or strengthened a drive in a year, 12 callings) is above that, so the cause and calling fits are the first to lower.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -4203,7 +4223,7 @@
   "responseGrudgeFit": {
     "value": 0.8,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes toward holding a grudge against the person responsible, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "How strongly a perceived event pushes toward holding a grudge against the person responsible, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION tuned to totals. Benchmarks (Bonanno and others 2002, 205 widowed adults: resilient 45.9%, chronic grief 15.6%; Galatzer-Levy, Huang and Bonanno 2018, 54 studies: resilient 65.7%, recovery 20.8%, chronic 10.6%) say most people carry on, and cause or calling in year one should be a small share, not above comparable non-bereaved adults; the repository's Sacramento run (33 of 168 adult decisions formed or strengthened a drive in a year, 12 callings) is above that, so the cause and calling fits are the first to lower.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -4216,7 +4236,7 @@
   "responseGuardFit": {
     "value": 0.7,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes toward a resolve to protect one's family, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "How strongly a perceived event pushes toward a resolve to protect one's family, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION tuned to totals. Benchmarks (Bonanno and others 2002, 205 widowed adults: resilient 45.9%, chronic grief 15.6%; Galatzer-Levy, Huang and Bonanno 2018, 54 studies: resilient 65.7%, recovery 20.8%, chronic 10.6%) say most people carry on, and cause or calling in year one should be a small share, not above comparable non-bereaved adults; the repository's Sacramento run (33 of 168 adult decisions formed or strengthened a drive in a year, 12 callings) is above that, so the cause and calling fits are the first to lower.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
@@ -4229,7 +4249,7 @@
   "responseAmbitionFit": {
     "value": 1.9,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%).",
+    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%). Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): About 10-17% of displaced workers complete retraining and entrepreneurship rises 2-4 points after job loss (+3.7 points for men, +1.8 for women after a firm bankruptcy); the 1.9 fit gives 12.8% in the repository's check. Still a tuned game value.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "measured",
@@ -4242,7 +4262,7 @@
   "responseCallingFit": {
     "value": 0.55,
     "tag": "TUNABLE",
-    "citation": "How strongly a perceived event pushes toward a calling to serve others; lower than a cause because a calling commits a person to lasting service rather than to one condition, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "citation": "How strongly a perceived event pushes toward a calling to serve others; lower than a cause because a calling commits a person to lasting service rather than to one condition, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release. Research, October 12, 2026 (data/research/stand-in-figures-2026-10-12.json): GAME ASSUMPTION tuned to totals. Benchmarks (Bonanno and others 2002, 205 widowed adults: resilient 45.9%, chronic grief 15.6%; Galatzer-Levy, Huang and Bonanno 2018, 54 studies: resilient 65.7%, recovery 20.8%, chronic 10.6%) say most people carry on, and cause or calling in year one should be a small share, not above comparable non-bereaved adults; the repository's Sacramento run (33 of 168 adult decisions formed or strengthened a drive in a year, 12 callings) is above that, so the cause and calling fits are the first to lower.",
     "stopgapId": "SG-P10-params-uncalibrated",
     "spread": {
       "status": "unmeasured",
