@@ -134,6 +134,16 @@ def minimum_wages(rows):
                         retrieved=item.get("retrievedDate", RETRIEVED)))
 
 
+def payroll_taxes(rows):
+    """Federal payroll taxes on wages, from the statute and SSA's 2026 wage base."""
+    rows.append(row("US", "federal", "social-security-tax", 6.2, "2026-01-01", "2027-01-01",
+                    "26 U.S.C. 3101(a); 2026 contribution and benefit base $184,500 (SSA, 2026 COLA fact sheet; also stated by the Oregon and Washington paid-leave programs, data/research/money/state-paid-leave-premiums-2026.json)",
+                    False, unit="percent-of-wages", terms={"wageBase": 184500}))
+    rows.append(row("US", "federal", "medicare-tax", 1.45, "2013-01-01", FOREVER,
+                    "26 U.S.C. 3101(b)(1); additional 0.9% on wages over $200,000 for a single filer, 26 U.S.C. 3101(b)(2)",
+                    False, unit="percent-of-wages", terms={"additionalRate": 0.9, "additionalOver": 200000}))
+
+
 def local_wage_authority(rows):
     questions = load(RESEARCH / "laws/starting-law-2026/labor-workforce.json")["questions"]
     question = questions["us-policy-positions:labor-workforce.local-minimum-wage-authority"]
@@ -300,6 +310,7 @@ def main():
     rows = []
     minimum_wages(rows)
     local_wage_authority(rows)
+    payroll_taxes(rows)
     income_taxes(rows)
     sales_taxes(rows)
     benefits(rows)

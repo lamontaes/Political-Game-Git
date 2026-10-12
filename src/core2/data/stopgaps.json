@@ -1102,5 +1102,41 @@
     "addedAt": "2026-10-12",
     "replacement": "PEOPLE's who-runs decisions file each candidate through fileCandidacy with recorded reasons; incumbents decide the same way.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-local-fiscal-year",
+    "kind": "estimated-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 277,
+    "whatItFakes": "Counties and cities start their fiscal year on their state's date.",
+    "why": "City and county fiscal calendars aren't researched yet (M1-budgets-taxes research item 1).",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "Each county's and city's own fiscal year start and adoption deadline, from charters and budget documents, with estimates for the rest.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-local-budget-split",
+    "kind": "estimated-data",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 213,
+    "whatItFakes": "Local spending is shared between county and city by function (counties: welfare, health and hospitals, corrections, highways, natural resources; cities and townships: the rest), and local revenue in the same proportion.",
+    "why": "Census reports local government finances combined, not by government.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "Census FY2024 individual government finances (data/source/government-finances) for each county and city, with estimates for the rest.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-budget-adopted-by-rule",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/budgets.ts",
+    "line": 350,
+    "whatItFakes": "Each new fiscal year's budget is adopted on its start date by carrying the year's amounts forward.",
+    "why": "Councils and legislatures can't vote budgets until M3 (owner, Oct 10: old budget rules until councils vote).",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "The council's or legislature's budget vote (M3-05) and the executive's priorities.",
+    "status": "open"
   }
 ]
