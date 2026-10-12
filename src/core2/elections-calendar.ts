@@ -306,10 +306,30 @@ export function nextElectionForSeat(input: {
   readonly termEnd: string | null;
   readonly onDate: string;
 }): ElectionDates | null {
+  // A seat with no term end (nobody won it, or its office has no set term)
+  // asked on election day gets that same election back; the next election is
+  // always a later one, so move on a year at a time until it is.
+  let found = electionForSeat(input, 0);
+  for (let i = 1; i <= 3 && found && found.electionDate <= input.onDate; i += 1)
+    found = electionForSeat(input, Number(found.electionDate.slice(0, 4)) + 1);
+  return found;
+}
+
+function electionForSeat(
+  input: {
+    readonly office: OfficeInput;
+    readonly stateKey: string;
+    readonly placeGeoid: string;
+    readonly termEnd: string | null;
+    readonly onDate: string;
+  },
+  yearFloor: number,
+): ElectionDates | null {
   const { office, stateKey, placeGeoid, termEnd, onDate } = input;
-  const year = termEnd
-    ? Number(termEnd.slice(0, 4)) - 1
-    : Number(onDate.slice(0, 4));
+  const year = Math.max(
+    yearFloor,
+    termEnd ? Number(termEnd.slice(0, 4)) - 1 : Number(onDate.slice(0, 4)),
+  );
   if (office.level === "federal" || office.level === "state")
     return stateAndFederal(
       office,

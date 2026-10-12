@@ -19,6 +19,7 @@ import { draftBill, holdVote, openLegislature } from "./modules/legislature";
 import { openRecalls, recallRule, recallsOf } from "./modules/recalls";
 import { personStance, PLATFORM_QUESTIONS } from "./campaign-views";
 import { governmentUnitsForPlace } from "../simulation/government-units";
+import { resolveMunicipalRecallRule } from "../simulation/municipal-ballot-rules";
 import {
   lifePlaceCoverage,
   lifePlaceSearch,
@@ -41,12 +42,21 @@ const after = (date: string, days: number) =>
     .toISOString()
     .slice(0, 10);
 
+const recallStates = allStates.filter(
+  (k) => resolveMunicipalRecallRule(k.slice(3)).circulationDays,
+);
+
 describe("M3-10 recalls", () => {
   it("an ordinance can start a recall where the law allows one, and none where it doesn't", () => {
     const tried: string[] = [];
     let report: Record<string, unknown> | null = null;
     for (let attempt = 0; attempt < 12 && !report; attempt += 1) {
-      const state = pick(allStates, `state:${attempt}`);
+      // The first towns are random, so a state without recall law is checked
+      // too; later ones come from states whose law has a recall.
+      const state = pick(
+        attempt < 3 ? allStates : recallStates,
+        `state:${attempt}`,
+      );
       const places = [
         ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
           stateJurisdictionKey: state,
