@@ -1,0 +1,50 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "acsdt5y2024-b05001",
+      "localPath": "data/source/acs-county-citizenship/raw/acsdt5y2024-b05001.dat.gz",
+      "provider": "U.S. Census Bureau, American Community Survey Office",
+      "bytes": {
+        "length": 6113048,
+        "sha256": "36321117da307deea4e3751f907d3cdcd8e18a89b76540e1b9ffa34f829dcdb7"
+      },
+      "rawBytes": {
+        "length": 18328854,
+        "sha256": "751af61a36295decb4336b6a09d9fdf31f24e51b7dba7967ad832cd66d18da60"
+      },
+      "retrieval": {
+        "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b05001.dat",
+        "retrievedAt": "2026-10-06"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "acsdt5y2024-b05001pr",
+      "localPath": "data/source/acs-county-citizenship/raw/acsdt5y2024-b05001pr.dat.gz",
+      "provider": "U.S. Census Bureau, American Community Survey Office",
+      "bytes": {
+        "length": 65035,
+        "sha256": "55d966dd0d6af5ad565b229c14a3388d3ff950d28e53a5b5d84938d324bd9b73"
+      },
+      "rawBytes": {
+        "length": 235431,
+        "sha256": "9e1c3b76e309ea89fb865069e7e3e3f838e925d24e3930ae6bfadcac7b07d4bd"
+      },
+      "retrieval": {
+        "url": "https://www2.census.gov/programs-surveys/acs/summary_file/2024/table-based-SF/data/5YRData/acsdt5y2024-b05001pr.dat",
+        "retrievedAt": "2026-10-06"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    }
+  ]
+}
