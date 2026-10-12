@@ -23,6 +23,7 @@ import { openRecord, votesOf } from "./modules/record";
 import { budgetsOf, governments, openBudgets } from "./modules/budgets";
 import {
   billOf,
+  committeeRecords,
   draftBill,
   holdVote,
   learnStake,
@@ -270,6 +271,12 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
     });
     expect(bill.status).toBe("drafted");
     const after = holdVote(api, bill.id);
+    // The chamber is large: the bill went to committee first, on the record.
+    const committees = committeeRecords(api, bill.id);
+    expect(committees.length).toBeGreaterThanOrEqual(1);
+    const first = committees[0]!;
+    expect(first.memberIds).toContain(first.chairId);
+    if (!first.heard || !first.reported) expect(after.status).toBe("failed");
     const votes = votesOn(api, bill.id) as unknown as {
       memberId: string;
       vote: string;
@@ -277,9 +284,10 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
     }[];
     const chambers = new Set(votes.map((v) => v.chamber).filter(Boolean));
     if (after.status !== "failed") expect(chambers.size).toBe(2);
-    expect(
-      votesOf(api, sponsorKey).some((r) => r.measureId === bill.number),
-    ).toBe(true);
+    if (first.reported)
+      expect(
+        votesOf(api, sponsorKey).some((r) => r.measureId === bill.number),
+      ).toBe(true);
     if (["enacted", "signed", "overridden"].includes(after.status)) {
       const row = (
         api

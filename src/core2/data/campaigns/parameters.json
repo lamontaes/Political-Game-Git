@@ -198,6 +198,26 @@
       "source": "A named official not filled in yet leans this far toward their seat's party: state legislators' ideal points sit well inside their party's side (Shor and McCarty 2011, state legislative ideology: party medians near +/-0.6 to 0.9 of the scale).",
       "spread": [0.4, 0.9],
       "stopgapId": "SG-GOV-official-identity-only"
+    },
+    "committeeOfTheWholeMaximum": {
+      "value": 9,
+      "tag": "ESTIMATED",
+      "source": "Councils of up to about nine members usually work as a committee of the whole rather than through standing committees (National League of Cities, city council committee practice; ICMA 2018 survey: median council size 6).",
+      "spread": [7, 13],
+      "stopgapId": "SG-GOV-committee-structure"
+    },
+    "committeeShareOfBody": {
+      "value": 0.15,
+      "tag": "ESTIMATED",
+      "source": "A standing committee holds about a seventh of its chamber's members in state legislatures (NCSL: typical committees of 9 to 20 in chambers of 40 to 150).",
+      "spread": [0.08, 0.3],
+      "stopgapId": "SG-GOV-committee-structure"
+    },
+    "hearingWitnesses": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many of the people a bill touches most testify at its hearing; hearings commonly seat a few public witnesses per panel.",
+      "spread": [1, 8]
     }
   }
 }

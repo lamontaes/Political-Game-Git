@@ -118,6 +118,7 @@ export const LEGISLATURE_MODULE: CoreModule = {
     tables: {
       bills: {},
       votes: { indexes: { byBill: { fields: ["billId"] } } },
+      committees: {},
       counters: {},
     },
   },
@@ -724,6 +725,148 @@ function chamberVote(
   return { yes, no };
 }
 
+export interface CommitteeRecord {
+  readonly id: string;
+  readonly billId: string;
+  readonly chamber: string;
+  readonly committee: string;
+  readonly chairId: string;
+  readonly memberIds: readonly string[];
+  readonly heard: boolean;
+  readonly witnesses: readonly {
+    readonly personId: string;
+    readonly stake: string;
+  }[];
+  readonly yes: number;
+  readonly no: number;
+  readonly reported: boolean;
+}
+
+/** The subject committee a bill goes to, by what its first provision touches. */
+function committeeFor(bill: BillRow): string {
+  const p = bill.provisions[0];
+  if (
+    p?.kind === "budget-line" ||
+    p?.series === "income-tax" ||
+    p?.series === "sales-tax"
+  )
+    return "finance";
+  if (p?.series === "minimum-wage") return "labor";
+  return "general";
+}
+
+/**
+ * Committee: a body larger than the committee-of-the-whole size refers the
+ * bill to its subject committee. The committee is the body's most senior
+ * members (longest serving; generation order breaks ties) up to its size,
+ * chaired by the most senior member of the majority side. The chair holds a
+ * hearing only on a bill they don't oppose; witnesses are the town's people
+ * the bill touches most (for a minimum wage, workers paid under the new
+ * floor), heard on the record; then the committee votes. Sizes and the
+ * seniority rule are estimates until each body's rules are read
+ * (SG-GOV-committee-structure).
+ */
+function committeeStage(
+  api: CoreAPI,
+  bill: BillRow,
+  chamber: string,
+): CommitteeRecord | null {
+  const all = members(api, chamber);
+  if (all.length <= campaignParameter("committeeOfTheWholeMaximum"))
+    return null;
+  // stopgapId: SG-GOV-committee-structure
+  api.stopgap("SG-GOV-committee-structure");
+  const ranked = [...all].sort(
+    (a, b) =>
+      a.startDate.localeCompare(b.startDate) ||
+      memberKey(a).localeCompare(memberKey(b)),
+  );
+  const size = Math.max(
+    3,
+    Math.round(all.length * campaignParameter("committeeShareOfBody")),
+  );
+  const roster = ranked.slice(0, size);
+  const sides = roster.map((t) => partySide(t.party));
+  const majority = Math.sign(sides.reduce((a, b) => a + b, 0));
+  const chair =
+    roster.find((t) => partySide(t.party) === majority) ?? roster[0]!;
+  const chairPosition = memberPosition(api, bill.id, memberKey(chair));
+  const heard = chairPosition.total >= 0;
+  const witnesses: { personId: string; stake: string }[] = [];
+  if (heard) {
+    const wage = bill.provisions.find((p) => p.series === "minimum-wage");
+    if (wage) {
+      const state = api.state as CoreState;
+      for (const c of [...state.work.commitments.values()]
+        .filter((c) => c.endsAt === undefined && c.hourlyMinor < wage.value)
+        .sort(
+          (a, b) => a.hourlyMinor - b.hourlyMinor || a.id.localeCompare(b.id),
+        )
+        .slice(0, campaignParameter("hearingWitnesses")))
+        witnesses.push({
+          personId: c.personId,
+          stake: `paid ${c.hourlyMinor} an hour, under the proposed floor`,
+        });
+    }
+  }
+  let yes = 0;
+  let no = 0;
+  if (heard)
+    for (const member of roster) {
+      const total = memberPosition(api, bill.id, memberKey(member)).total;
+      if (total > 0) yes += 1;
+      if (total < 0) no += 1;
+    }
+  const record: CommitteeRecord = {
+    id: `committee:${bill.id}:${chamber}`,
+    billId: bill.id,
+    chamber,
+    committee: committeeFor(bill),
+    chairId: memberKey(chair),
+    memberIds: roster.map(memberKey),
+    heard,
+    witnesses,
+    yes,
+    no,
+    reported: heard && yes > no,
+  };
+  table(api, "committees").put(record as unknown as ModuleRow);
+  api.emit({
+    id: `committee:${bill.id}:${chamber}`,
+    date: api.state.date,
+    kind: heard ? "committee-hearing" : "bill-held-in-committee",
+    personIds: witnesses
+      .map((w) => w.personId)
+      .filter((id) => api.state.people.has(id)),
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "ESTIMATED",
+      citation: `Committee on ${bill.number}`,
+      asOf: api.state.date,
+      estimatedFrom: "SG-GOV-committee-structure",
+    },
+    publicRecord: true,
+    news: heard,
+    facts: {
+      billId: bill.id,
+      committee: record.committee,
+      chair: record.chairId,
+      yes: String(yes),
+      no: String(no),
+    },
+  });
+  return record;
+}
+
+export function committeeRecords(
+  api: CoreAPI,
+  billId: string,
+): readonly CommitteeRecord[] {
+  return (
+    table(api, "committees").rows() as unknown as CommitteeRecord[]
+  ).filter((c) => c.billId === billId);
+}
+
 /**
  * The bill's votes: each chamber in turn (a town has one body); a majority of
  * those voting passes it in each. Every vote is on the record.
@@ -733,6 +876,12 @@ export function holdVote(api: CoreAPI, billId: string): BillRow {
   if (bill.status !== "drafted") return bill;
   const tallies: { yes: number; no: number }[] = [];
   for (const chamber of chambersOf(api, bill)) {
+    const committee = committeeStage(api, bill, chamber);
+    if (committee && !committee.reported) {
+      const held: BillRow = { ...bill, status: "failed" };
+      table(api, "bills").put(held as unknown as ModuleRow);
+      return held;
+    }
     const tally = chamberVote(api, bill, chamber);
     tallies.push(tally);
     if (tally.yes <= tally.no) {
