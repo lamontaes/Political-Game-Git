@@ -1,10 +1,17 @@
 {
-  "version": "p15-conversation-v1",
+  "version": "p15-conversation-v2",
   "stopgapId": "SG-P15-conversation-banks",
-  "about": "Conversation words on the new core. Each subject is a record the speaker holds; each template copies only recorded facts. The other person asks; each choice answers that line and raises a new subject; the lie line exists only for a question about the player's own record.",
+  "about": "Conversation words on the new core. Each subject is a record the speaker holds; each template copies only recorded facts. The other person asks or tells; every choice answers that line (rule R3) with a different move: plainly, with a further fact from the records, by turning the question back, or briefly before raising something else. The lie line exists only for a question about the player's own record that the listener does not already know.",
   "minimumChoices": 4,
   "toldEvent": "conversation.told",
   "lieEvent": "conversation.lie",
+  "minutesPerExchange": 2,
+  "replyKinds": {
+    "own-work": "heard-work",
+    "their-work": "other-work",
+    "home": "home-reply",
+    "their-tenure": "tenure-reply"
+  },
   "subjects": {
     "own-work": {
       "ask": [
@@ -13,23 +20,42 @@
           "text": "Still at {{employer}}?"
         }
       ],
-      "answer": [
+      "raise": [
         {
-          "key": "yes",
+          "key": "tell",
+          "text": "I'm still at {{employer}}."
+        }
+      ],
+      "answers": [
+        {
+          "key": "plain",
           "text": "Yes, still at {{employer}}."
+        },
+        {
+          "key": "since",
+          "text": "Yes. I've been there since {{since}}."
+        },
+        {
+          "key": "turn",
+          "text": "Still there. And you?",
+          "raises": "their-work"
+        },
+        {
+          "key": "brief",
+          "text": "Same as ever.",
+          "raises": "next"
         }
       ],
       "lie": [
         {
           "key": "left",
-          "text": "No, I'm not at {{employer}} anymore."
-        }
-      ],
-      "lieClaim": "none",
-      "raise": [
+          "text": "No, I'm not at {{employer}} anymore.",
+          "stages": ["none"]
+        },
         {
-          "key": "tell",
-          "text": "I'm still at {{employer}}."
+          "key": "elsewhere",
+          "text": "No, I'm at {{claimed}} now.",
+          "stages": ["elsewhere"]
         }
       ]
     },
@@ -40,29 +66,48 @@
           "text": "Are you still living in {{place}}?"
         }
       ],
-      "answer": [
-        {
-          "key": "yes",
-          "text": "Yes, still in {{place}}."
-        }
-      ],
-      "lie": [
-        {
-          "key": "moved",
-          "text": "No, I moved away from {{place}}."
-        }
-      ],
-      "lieClaim": "moved-away",
       "raise": [
         {
           "key": "still-in",
           "text": "Are you still in {{place}}?"
         }
       ],
-      "reply": [
+      "answers": [
         {
-          "key": "still",
-          "text": "I'm still in {{place}}."
+          "key": "plain",
+          "text": "Yes, still in {{place}}."
+        },
+        {
+          "key": "years",
+          "text": "Yes, {{years}} years now.",
+          "stages": ["moved"]
+        },
+        {
+          "key": "always",
+          "text": "All my life.",
+          "stages": ["born"]
+        },
+        {
+          "key": "turn",
+          "text": "I am. You too?",
+          "raises": "home"
+        },
+        {
+          "key": "brief",
+          "text": "Still here.",
+          "raises": "next"
+        }
+      ],
+      "lie": [
+        {
+          "key": "moved",
+          "text": "No, I moved away from {{place}}.",
+          "stages": ["none"]
+        },
+        {
+          "key": "elsewhere",
+          "text": "No, I live in {{claimed}} now.",
+          "stages": ["elsewhere"]
         }
       ]
     },
@@ -71,12 +116,6 @@
         {
           "key": "remember",
           "text": "Do you remember {{school}}?"
-        }
-      ],
-      "answer": [
-        {
-          "key": "yes",
-          "text": "{{school}}, yes."
         }
       ],
       "raise": [
@@ -90,6 +129,26 @@
           "key": "years",
           "text": "{{school}}. That was {{years}} years ago."
         }
+      ],
+      "answers": [
+        {
+          "key": "plain",
+          "text": "{{school}}, yes."
+        },
+        {
+          "key": "years",
+          "text": "Of course. That was {{years}} years ago."
+        },
+        {
+          "key": "turn",
+          "text": "I do.",
+          "raises": "mutual"
+        },
+        {
+          "key": "brief",
+          "text": "Sure.",
+          "raises": "next"
+        }
       ]
     },
     "shared-work": {
@@ -97,12 +156,6 @@
         {
           "key": "remember",
           "text": "Remember working at {{employer}}?"
-        }
-      ],
-      "answer": [
-        {
-          "key": "yes",
-          "text": "{{employer}}, yes."
         }
       ],
       "raise": [
@@ -122,21 +175,38 @@
           "text": "I left {{employer}}.",
           "stages": ["left"]
         }
+      ],
+      "answers": [
+        {
+          "key": "plain",
+          "text": "{{employer}}, right."
+        },
+        {
+          "key": "turn",
+          "text": "{{employer}}, sure.",
+          "raises": "their-work"
+        },
+        {
+          "key": "brief",
+          "text": "Right.",
+          "raises": "next"
+        },
+        {
+          "key": "own",
+          "text": "I'm still at {{my-employer}}.",
+          "requiresFacts": ["my-employer"]
+        }
+      ]
+    },
+    "their-work": {
+      "raise": [
+        {
+          "key": "ask",
+          "text": "Are you still working?"
+        }
       ]
     },
     "other-work": {
-      "answer": [
-        {
-          "key": "ok",
-          "text": "{{employer}}, right.",
-          "stages": ["working"]
-        },
-        {
-          "key": "none",
-          "text": "I see.",
-          "stages": ["none"]
-        }
-      ],
       "reply": [
         {
           "key": "at",
@@ -148,21 +218,128 @@
           "text": "Not right now.",
           "stages": ["none"]
         }
+      ],
+      "answers": [
+        {
+          "key": "ack",
+          "text": "{{employer}}, right.",
+          "stages": ["working"]
+        },
+        {
+          "key": "ack-none",
+          "text": "I see.",
+          "stages": ["none"]
+        },
+        {
+          "key": "tenure",
+          "text": "How long have you been there?",
+          "stages": ["working"],
+          "raises": "their-tenure"
+        },
+        {
+          "key": "own",
+          "text": "I'm still at {{my-employer}}."
+        },
+        {
+          "key": "brief",
+          "text": "Right.",
+          "raises": "next"
+        }
+      ]
+    },
+    "their-tenure": {
+      "raise": [
+        {
+          "key": "ask",
+          "text": "How long have you been there?"
+        }
+      ]
+    },
+    "tenure-reply": {
+      "reply": [
+        {
+          "key": "since",
+          "text": "Since {{since}}."
+        }
+      ],
+      "answers": [
+        {
+          "key": "ack",
+          "text": "Since {{since}}, right."
+        },
+        {
+          "key": "own",
+          "text": "I've been at {{my-employer}} since {{my-since}}."
+        },
+        {
+          "key": "brief",
+          "text": "Right.",
+          "raises": "next"
+        },
+        {
+          "key": "turn",
+          "text": "That's a while.",
+          "raises": "next-2"
+        }
+      ]
+    },
+    "heard-work": {
+      "reply": [
+        {
+          "key": "ok",
+          "text": "{{employer}}, right."
+        }
+      ],
+      "answers": [
+        {
+          "key": "yes",
+          "text": "Yes."
+        },
+        {
+          "key": "since",
+          "text": "Since {{since}}."
+        },
+        {
+          "key": "turn",
+          "text": "Yes. And you?",
+          "raises": "their-work"
+        },
+        {
+          "key": "brief",
+          "text": "That's right.",
+          "raises": "next"
+        }
+      ]
+    },
+    "home-reply": {
+      "reply": [
+        {
+          "key": "still",
+          "text": "I'm still in {{place}}."
+        }
+      ],
+      "answers": [
+        {
+          "key": "same",
+          "text": "Same here.",
+          "stages": ["same"]
+        },
+        {
+          "key": "ack",
+          "text": "{{place}}, right."
+        },
+        {
+          "key": "own",
+          "text": "I'm still in {{my-place}}."
+        },
+        {
+          "key": "brief",
+          "text": "Right.",
+          "raises": "next"
+        }
       ]
     },
     "mutual": {
-      "answer": [
-        {
-          "key": "saw",
-          "text": "{{name}}, right.",
-          "stages": ["saw"]
-        },
-        {
-          "key": "not",
-          "text": "Okay.",
-          "stages": ["not"]
-        }
-      ],
       "raise": [
         {
           "key": "seen",
@@ -180,27 +357,32 @@
           "text": "I haven't seen {{name}} lately.",
           "stages": ["not"]
         }
-      ]
-    },
-    "their-work": {
-      "raise": [
-        {
-          "key": "ask",
-          "text": "Are you still working?"
-        }
-      ]
-    },
-    "heard-work": {
-      "reply": [
-        {
-          "key": "ok",
-          "text": "{{employer}}, right."
-        }
       ],
-      "answer": [
+      "answers": [
         {
-          "key": "yes",
-          "text": "Yes."
+          "key": "ack",
+          "text": "{{name}}, right."
+        },
+        {
+          "key": "mine-saw",
+          "text": "I saw {{name}} on {{my-when}}.",
+          "requiresFacts": ["my-when"]
+        },
+        {
+          "key": "mine-not",
+          "text": "I haven't seen {{name}} in a while either.",
+          "stages": ["not"],
+          "requiresFacts": ["my-not"]
+        },
+        {
+          "key": "brief",
+          "text": "Okay.",
+          "raises": "next"
+        },
+        {
+          "key": "turn",
+          "text": "Right.",
+          "raises": "next-2"
         }
       ]
     },
@@ -217,16 +399,108 @@
           "text": "No, I haven't met {{name}}."
         }
       ],
-      "answer": [
+      "answers": [
         {
           "key": "is",
           "text": "{{name}} is {{relation}}."
+        },
+        {
+          "key": "lives",
+          "text": "{{name}} lives with me.",
+          "requiresFacts": ["housemate"]
+        },
+        {
+          "key": "brief",
+          "text": "You will.",
+          "raises": "next"
+        },
+        {
+          "key": "turn",
+          "text": "Maybe one day.",
+          "raises": "next-2"
+        }
+      ]
+    },
+    "own-work-new": {
+      "ask": [
+        {
+          "key": "where",
+          "text": "Where are you working these days?"
+        }
+      ],
+      "answers": [
+        {
+          "key": "plain",
+          "text": "At {{employer}}."
+        },
+        {
+          "key": "since",
+          "text": "At {{employer}}, since {{since}}."
+        },
+        {
+          "key": "turn",
+          "text": "At {{employer}}. And you?",
+          "raises": "their-work"
+        },
+        {
+          "key": "brief",
+          "text": "{{employer}}.",
+          "raises": "next"
+        }
+      ],
+      "lie": [
+        {
+          "key": "none",
+          "text": "I'm not working right now.",
+          "stages": ["none"]
+        },
+        {
+          "key": "elsewhere",
+          "text": "At {{claimed}}.",
+          "stages": ["elsewhere"]
+        }
+      ]
+    },
+    "home-new": {
+      "ask": [
+        {
+          "key": "where",
+          "text": "Where do you live?"
+        }
+      ],
+      "answers": [
+        {
+          "key": "plain",
+          "text": "In {{place}}."
+        },
+        {
+          "key": "years",
+          "text": "In {{place}}, {{years}} years now.",
+          "stages": ["moved"]
+        },
+        {
+          "key": "always",
+          "text": "In {{place}}. I grew up here.",
+          "stages": ["born"]
+        },
+        {
+          "key": "turn",
+          "text": "In {{place}}. And you?",
+          "raises": "home"
+        },
+        {
+          "key": "brief",
+          "text": "Here in {{place}}.",
+          "raises": "next"
+        }
+      ],
+      "lie": [
+        {
+          "key": "none",
+          "text": "Not around here.",
+          "stages": ["none"]
         }
       ]
     }
-  },
-  "replyKinds": {
-    "own-work": "heard-work",
-    "their-work": "other-work"
   }
 }
