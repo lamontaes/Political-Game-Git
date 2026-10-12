@@ -3437,5 +3437,31 @@
       "unit": "minutes a shift",
       "citation": "Four- to six-hour shifts."
     }
+  },
+  "residentsOutlayShareOfIncome": {
+    "value": 0.84,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Bureau of Economic Analysis, NIPA Table 2.1 'Personal Income and Its Disposition', 2019 annual: personal outlays about $15.6 trillion of personal income about $18.6 trillion (taxes about $2.2 trillion, saving 7.3% of disposable income); https://apps.bea.gov/iTable/?reqid=19&step=2&isuri=1&categories=survey#eyJhcHBpZCI6MTksInN0ZXBzIjpbMSwyLDNdLCJkYXRhIjpbWyJjYXRlZ29yaWVzIiwiU3VydmV5Il0sWyJOSVBBX1RhYmxlX0xpc3QiLCI1OCJdXX0=",
+    "estimatedFrom": "Counted households spend this share of last month's income; the rest stands for taxes and saving until income taxes are collected from the counts. 2019 is used rather than 2020–2021, when stimulus and closures pushed saving far above normal.",
+    "spread": {
+      "low": 0.78,
+      "high": 0.88,
+      "unit": "personal outlays / personal income",
+      "citation": "BEA NIPA Table 2.1, 2020 (pandemic low) to 2022 (low saving)."
+    }
+  },
+  "residentsIncomeWindowMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Households smooth spending over income swings (permanent-income behavior); a quarter evens out four- and five-payday months and monthly owner payouts.",
+    "spread": {
+      "low": 1,
+      "high": 12,
+      "unit": "months of income averaged",
+      "citation": "From reacting to each month's income to spending from a year's average."
+    },
+    "checkRange": {
+      "ref": "M0-08"
+    }
   }
 }
