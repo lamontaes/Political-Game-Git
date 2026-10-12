@@ -477,6 +477,56 @@
       "test": "Over a year, other councils meet on their real schedules and state legislatures and Congress pass laws on the same engines; those laws are real records that reach the player's town; ballot measures and recalls happen in the world only where a place's law allows them.",
       "command": null,
       "passes": false
+    },
+    {
+      "id": "M4-01",
+      "milestone": "M4",
+      "title": "Stories from every engine",
+      "golden_path": "10",
+      "package": "M4-words",
+      "test": "In a random place over a year, the story director turns engine events (a campaign, a vote, a law, a lost job) into moments sized by impact: a big one stops the skip and smaller ones become journal lines; a broad event gives everyone a journal chapter and personal moments to the people it hit; a recorded lie, favor or promise comes back through a person.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M4-02",
+      "milestone": "M4",
+      "title": "Conversations",
+      "golden_path": "10",
+      "package": "M4-words",
+      "test": "In a random place, conversations offer at least four choices, each naming a real subject and answering the last line, with leaving as the screen's control; the scales Lie control sits upper right and dims when nothing false can be said; a lie is recorded with its hearers and can be discovered later; every line is engine output composed from mined real speech, and the owner has graded a batch (grading never blocks a merge).",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M4-03",
+      "milestone": "M4",
+      "title": "Scenes and the journal",
+      "golden_path": "10",
+      "package": "M4-words",
+      "test": "In a random place, scenes occur at transitions when the simulation decides, built from the place, the people present and their records, narrated in second person; a year's 'My life' journal reads as first-person chapters with no year headers, people named by relationship and nothing invented; a death brings a look-back.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M4-04",
+      "milestone": "M4",
+      "title": "Speeches at any moment",
+      "golden_path": "10",
+      "package": "M4-words",
+      "test": "In a random place, the player gives a speech built from structured choices with an exact wording preview; each listener reacts by who they are and retells it; salient speeches are retold over time, remembered more strongly by people aged about 10 to 30 at the time, and passed to children as weaker secondhand knowledge.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M4-05",
+      "milestone": "M4",
+      "title": "People bring it up",
+      "golden_path": "10",
+      "package": "M4-words",
+      "test": "In a random place, people bring up a change and who they believe caused it, in engine-written words; each attribution follows what that person actually heard, and some are wrong.",
+      "command": null,
+      "passes": false
     }
   ]
 }
