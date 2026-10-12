@@ -39,7 +39,9 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and 
 
 - **Serve in office.** In Politics, any officeholder who lives in town has a **Play** button. Take over a council member or county commissioner, and their body appears with a bill paper. Pick a law amount (minimum wage, taxes and the rest, with today's amount shown) or a policy (handgun purchase age, anti-discrimination, paid family leave, right to counsel in eviction, bottle deposit). Draft it, **Ask** each colleague where they stand and why, offer a **Favor**, and **Schedule vote**. Two weeks later the body votes, each member for their own reasons.
 
-**Not in yet:** voting yourself (the game casts your ballot for you), the mayor's signature or veto screen, budgets, committee hearings, and the town visibly changing after a law passes. Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
+- **Budgets.** Politics → Budgets shows every government over you and its budget lines. Play the mayor or a county executive to set priorities for the next budget vote. Money and property shows the taxes taken from your pay.
+
+**Not in yet:** voting yourself (the game casts your ballot for you), the mayor deciding to sign or veto (the game decides for them), committee hearings, and the town visibly changing after a law passes. Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
 
 ## Checklist
 
@@ -74,6 +76,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Needs: GOV, PEOPLE
 
 ## Needs from other sessions
+
+- **OPUS-GOV (executive role):** when the mayor, county executive or governor is the played person, `executiveAction` still signs or vetoes from their position. The player should decide: a stop with sign and veto as the choices, or an exported `executiveDecision(api, billId, sign)` that the screen calls.
 
 - **OPUS-GOV (elections in the two-level world):** in Ketchuptown SC (seed all-a), every federal and statewide race went 100% to the incumbent. For example, U.S. Senator was Anthony Hunter 2,542,788 to Victor Medina 0, and every statewide race shows the same 2,542,788 electorate. Only 68 named voters exist in a two-level town, and the group votes copy their split, so a challenger with no named supporters gets nothing. Statewide races also had named turnout of 13 of 68. The counted residents need to vote as groups from their own records (CORE's counts by age, job and household), not only as copies of the named few.
 - **OPUS-GOV:** the player's ballot is decided by the engine (`ballotOf` shows a choice the player never made). Election day should be a player stop for the controlled person: offer the ballot (each contest's candidates) as a choice, or export a `castBallot(api, voterId, contestId, candidateId)` that the screen calls before the count.
@@ -119,6 +123,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: Budgets in `/play` (GOV's `governments`, `budgetsOf`, `budgetPriorities`, `setBudgetPriorities`, `withholdingOf`). In Pinehill NM: the federal, New Mexico and Cibola County budgets for 2026, each "in force at the opening".
 - Oct 12: the panel and **Who you are** report the furthest golden-path step played, from the player's records (filing, campaign, result, bill, deal, decision, enactment). The Pinehill NM commissioner run reports step 8. The world now runs 29 modules (PEOPLE's views, news and candidacy were not actually installed before; fixed). In Island Park NY (seed all-b), 3 months played in 20 s with 398 full people.
 - Oct 12: steps 6 to 9 in `/play` (GOV's `draftBill`, `learnStake`, `offerDeal`, `scheduleVote`). In Pinehill NM (seed seat-a), playing a county commissioner: a $2 minimum-wage raise drafted as bill 2026-001 (9 town jobs, $4,518.80 a year; the state allows local wages). Stakes asked: 0.06, −0.39 and −0.30. A favor moved one member to 0.56. On Oct 26 the commission voted it down 2–5. The golden path's furthest step reached in play is now step 8 (pass or fail).
 - Oct 12: election night (step 5) in `/play`, and the bench world now runs all 26 modules (GOV's parties, voting, record, budgets, legislature and law effects; PEOPLE's views, news, candidacy and renewal). In Ketchuptown SC (seed all-a), a month through the Nov 3 general election played in 6 s; Election night opened on its own and showed every race and Emma Farmer's ballot.
