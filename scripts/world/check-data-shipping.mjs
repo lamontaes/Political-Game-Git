@@ -33,7 +33,9 @@ const PRESIDENT_NAMES = [
   "Joe Biden",
   "Joseph R. Biden",
 ];
-const FEDERAL_NAME_ALLOWED_IN = /^education[\\/]catalog-/;
+// The bundles that embed the school catalog carry the same names.
+const FEDERAL_NAME_ALLOWED_IN =
+  /^(education[\\/]catalog-|client[\\/]assets[\\/].*(worker|preload-helper).*\.js$)/;
 
 // "Last, First Middle" rows of the Federal Judicial Center service file become "First Last".
 function federalJudgeNames(read) {
@@ -86,7 +88,10 @@ export function shippingPolicy(root = process.cwd()) {
   ];
   return {
     names,
-    federalNames: [...PRESIDENT_NAMES, ...federalJudgeNames(read)],
+    federalNames: PRESIDENT_NAMES,
+    // Full-name matches for 3,996 judges collide with ordinary names (school
+    // catalogs, bundled data), so judges are checked in authored text only.
+    judgeNames: federalJudgeNames(read),
     federalNameAllowedIn: FEDERAL_NAME_ALLOWED_IN,
     captures,
     forbiddenText: [

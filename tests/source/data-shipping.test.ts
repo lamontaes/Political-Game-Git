@@ -1,5 +1,11 @@
 import { createHash } from "node:crypto";
-import { mkdtempSync, writeFileSync, rmSync } from "node:fs";
+import {
+  mkdtempSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+  rmSync,
+} from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -39,9 +45,14 @@ describe("shipped data regression check", () => {
     expect(
       inspectShippingBytes(Buffer.from('"Barack Obama"'), policy, "app.js"),
     ).toContain("real-name:Barack Obama");
+    expect(policy.judgeNames).toContain("Ronnie Abrams");
     expect(
-      inspectShippingBytes(Buffer.from('"Ronnie Abrams"'), policy, "app.js"),
-    ).toContain("real-name:Ronnie Abrams");
+      inspectShippingBytes(
+        Buffer.from('"Barack Obama"'),
+        policy,
+        "client/assets/save-preparation.worker-abc.js",
+      ),
+    ).toEqual([]);
     expect(
       inspectShippingBytes(Buffer.from("Met Barack Obama."), policy, "app.js"),
     ).toContain("real-name:Barack Obama");
@@ -52,6 +63,32 @@ describe("shipped data regression check", () => {
         "education/catalog-abc.json",
       ),
     ).toEqual([]);
+  });
+  it("keeps presidents and federal judges out of authored text", () => {
+    const policy = shippingPolicy();
+    const strict = {
+      ...policy,
+      federalNames: [...policy.federalNames, ...policy.judgeNames],
+      federalNameAllowedIn: /^$/,
+    };
+    const found: string[] = [];
+    const walk = (dir: string) => {
+      for (const entry of readdirSync(dir, { withFileTypes: true })) {
+        const path = join(dir, entry.name);
+        if (entry.isDirectory()) walk(path);
+        else if (entry.name.endsWith(".json")) {
+          const failures = inspectShippingBytes(
+            readFileSync(path),
+            strict,
+            "x",
+          );
+          if (failures.length) found.push(`${path}: ${failures[0]}`);
+        }
+      }
+    };
+    for (const dir of ["data/english", "data/content", "data/runtime-text"])
+      walk(dir);
+    expect(found).toEqual([]);
   });
   it("detects a captured artifact by digest and a salary source URL in a map", () => {
     const bytes = Buffer.from("captured research bytes");
