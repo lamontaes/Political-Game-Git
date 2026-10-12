@@ -22,7 +22,9 @@
     "measure": "The measure, as its record names it.",
     "subject": "The business, from the business record.",
     "age": "An age, computed from the birth record.",
-    "years": "A count of years, computed from dated records."
+    "years": "A count of years, computed from dated records.",
+    "alert": "A weather alert from the hazard record, as the Weather Service names it (\"Tornado Watch\").",
+    "until": "When the alert ends, from the hazard record (\"5 PM EDT\")."
   },
   "maxWords": 16,
   "mining": {
@@ -33,12 +35,12 @@
       "dcpd": 17712,
       "eac": 330,
       "eisenhower": 15,
-      "fec": 330,
-      "federal-counter": 292,
+      "fec": 288,
+      "federal-counter": 330,
       "florida": 420,
       "house": 300,
       "nasa": 1388,
-      "news-energy": 436,
+      "news-energy": 1507,
       "news-epa": 3009,
       "news-faa": 1383,
       "news-fda": 1199,
@@ -46,14 +48,14 @@
       "news-nasa": 1446,
       "news-noaa": 484,
       "news-nps": 2506,
-      "news-nws": 695,
-      "news-treasury": 980,
+      "news-nws": 3072,
+      "news-treasury": 2504,
       "senate": 51,
       "sotu-gutenberg": 222,
       "usa-gov": 260
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 307
+    "notAttested": 306
   },
   "parts": [
     {
@@ -69,9 +71,10 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 75,
+      "transcriptsUsing": 76,
       "bySource": {
-        "dcpd": 75
+        "dcpd": 75,
+        "news-treasury": 1
       },
       "shippable": true,
       "source": {
@@ -121,7 +124,7 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 965,
+      "transcriptsUsing": 973,
       "bySource": {
         "chrg": 756,
         "dcpd": 181,
@@ -130,14 +133,14 @@
         "house": 1,
         "nasa": 21,
         "news-epa": 1,
-        "news-treasury": 1
+        "news-treasury": 9
       },
       "shippable": true,
       "source": {
-        "document": "Remarks on the Trump Accounts Children's Savings Program and an Exchange With Reporters",
-        "date": "2026-07-06",
-        "granule": "DCPD-202600446",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202600446",
+        "document": "Secretary Bessent Delivers Remarks Before the Ministerial on the Resurgence of Political Terrorism",
+        "date": "2026-07-16",
+        "granule": "sb0566",
+        "url": "https://home.treasury.gov/news/press-releases/sb0566",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -154,13 +157,14 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 225,
+      "transcriptsUsing": 231,
       "bySource": {
         "chrg": 184,
         "dcpd": 38,
         "eac": 1,
         "fec": 1,
-        "news-energy": 1
+        "news-energy": 3,
+        "news-treasury": 4
       },
       "shippable": true,
       "source": {
@@ -380,7 +384,7 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 289,
+      "transcriptsUsing": 292,
       "bySource": {
         "chrg": 76,
         "dcpd": 154,
@@ -389,7 +393,7 @@
         "fec": 1,
         "house": 1,
         "nasa": 36,
-        "news-treasury": 1,
+        "news-treasury": 4,
         "senate": 8
       },
       "shippable": true,
@@ -497,11 +501,12 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 319,
+      "transcriptsUsing": 321,
       "bySource": {
         "chrg": 27,
         "dcpd": 278,
         "nasa": 12,
+        "news-treasury": 2,
         "senate": 2
       },
       "shippable": true,
@@ -526,15 +531,16 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 439,
+      "transcriptsUsing": 441,
       "bySource": {
-        "chrg": 129,
+        "chrg": 128,
         "dcpd": 175,
         "eac": 5,
         "eisenhower": 2,
         "house": 14,
         "nasa": 103,
-        "news-energy": 1,
+        "news-energy": 2,
+        "news-treasury": 2,
         "senate": 8,
         "sotu-gutenberg": 2
       },
@@ -697,20 +703,21 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 12,
+      "transcriptsUsing": 13,
       "bySource": {
         "chrg": 7,
         "dcpd": 2,
         "eac": 1,
         "nasa": 1,
+        "news-energy": 1,
         "sotu-gutenberg": 1
       },
       "shippable": true,
       "source": {
-        "document": "Board Member Views On Surface Transportation Board Reauthorization",
-        "date": "2022-04-21",
-        "granule": "CHRG-117hhrg48459",
-        "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg48459",
+        "document": "NNSA Administrator Hruby's remarks at the Tennessee Valley Corridor National Summit",
+        "date": "2022-07-06",
+        "granule": "nnsa-administrator-hrubys-remarks-tennessee-valley-corridor-national-summit",
+        "url": "https://www.energy.gov/nnsa/articles/nnsa-administrator-hrubys-remarks-tennessee-valley-corridor-national-summit",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -727,7 +734,7 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 116,
+      "transcriptsUsing": 119,
       "bySource": {
         "chrg": 80,
         "dcpd": 13,
@@ -735,7 +742,7 @@
         "house": 1,
         "nasa": 10,
         "news-energy": 1,
-        "news-treasury": 2,
+        "news-treasury": 5,
         "senate": 5
       },
       "shippable": true,
@@ -1012,7 +1019,7 @@
           "choice": "hand-off"
         }
       ],
-      "transcriptsUsing": 2222,
+      "transcriptsUsing": 2245,
       "bySource": {
         "chrg": 824,
         "dcpd": 1328,
@@ -1020,10 +1027,10 @@
         "florida": 1,
         "house": 4,
         "nasa": 27,
-        "news-energy": 2,
+        "news-energy": 9,
         "news-epa": 4,
         "news-faa": 1,
-        "news-treasury": 8,
+        "news-treasury": 24,
         "senate": 6,
         "sotu-gutenberg": 1
       },
@@ -1499,7 +1506,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks on COVID–19 Prevention and Treatment Efforts and an Exchange With Reporters",
+        "document": "Remarks on COVID\u201319 Prevention and Treatment Efforts and an Exchange With Reporters",
         "date": "2022-10-25",
         "granule": "DCPD-202200957",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200957",
@@ -1528,7 +1535,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks in an Exchange With Reporters Following a Family Photograph With Group of Seven (G–7) Nations Leaders in Kananaskis, Canada",
+        "document": "Remarks in an Exchange With Reporters Following a Family Photograph With Group of Seven (G\u20137) Nations Leaders in Kananaskis, Canada",
         "date": "2025-06-16",
         "granule": "DCPD-202500700",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500700",
@@ -1954,6 +1961,34 @@
       }
     },
     {
+      "key": "newscast.reporter-field.no-injuries-were-reported",
+      "move": "reporter-field",
+      "kind": "spoken",
+      "text": "No injuries were reported.",
+      "uses": [
+        {
+          "move": "reporter-field",
+          "subject": "reporter",
+          "role": "field",
+          "choice": "field",
+          "requiresFacts": ["no-injuries"]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "chrg": 1,
+        "news-nws": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Local Storm Report from the National Weather Service Charleston SC",
+        "date": "2026-10-11",
+        "granule": "KCHS-LSR-ed01190f",
+        "url": "https://api.weather.gov/products/ed01190f-82c0-4ca7-b3b2-4e7fde9ddb33",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "newscast.reporter-field.the-investigation-is-ongoing",
       "move": "reporter-field",
       "kind": "spoken",
@@ -2079,17 +2114,18 @@
           "choice": "election"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 8,
       "bySource": {
         "dcpd": 6,
+        "news-nws": 1,
         "senate": 1
       },
       "shippable": true,
       "source": {
-        "document": "Remarks and an Exchange With Reporters in Palm Beach, Florida",
-        "date": "2026-02-01",
-        "granule": "DCPD-202600075",
-        "url": "https://www.govinfo.gov/app/details/DCPD-202600075",
+        "document": "Public Information Statement from the National Weather Service Anchorage AK",
+        "date": "2026-10-09",
+        "granule": "PAFC-PNS-6e102237",
+        "url": "https://api.weather.gov/products/6e102237-2c3b-4b84-a4c9-5aad2d8979cd",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -2563,6 +2599,110 @@
         "date": "2026-07-23",
         "granule": "DCPD-202600487",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600487",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "newscast.story-hazard-alert.a-alert-is-in-effect-for-place",
+      "move": "story-hazard-alert",
+      "kind": "spoken",
+      "text": "A {alert} is in effect for {place}.",
+      "uses": [
+        {
+          "move": "story-hazard-alert",
+          "subject": "story",
+          "role": "hazard",
+          "choice": "hazard"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "news-nws": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "Hazardous Weather Outlook from the National Weather Service Baltimore MD/Washington DC",
+        "date": "2026-10-11",
+        "granule": "KLWX-HWO-eca91c0c",
+        "url": "https://api.weather.gov/products/eca91c0c-ab47-4994-9fb3-e0235977a625",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "newscast.story-hazard-alert.a-alert-remains-in-effect-until-until-for-place",
+      "move": "story-hazard-alert",
+      "kind": "spoken",
+      "text": "A {alert} remains in effect until {until} for {place}.",
+      "uses": [
+        {
+          "move": "story-hazard-alert",
+          "subject": "story",
+          "role": "hazard",
+          "choice": "hazard"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "news-nws": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Severe Weather Statement from the National Weather Service Tallahassee FL",
+        "date": "2026-10-10",
+        "granule": "KTAE-SVS-0611230f",
+        "url": "https://api.weather.gov/products/0611230f-1b09-4319-b2f1-8829ec60fe7f",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "newscast.story-hazard-alert.a-alert-is-in-effect",
+      "move": "story-hazard-alert",
+      "kind": "spoken",
+      "text": "A {alert} is in effect.",
+      "uses": [
+        {
+          "move": "story-hazard-alert",
+          "subject": "story",
+          "role": "hazard",
+          "choice": "hazard"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "news-nws": 6
+      },
+      "shippable": true,
+      "source": {
+        "document": "Area Forecast Discussion from the National Weather Service Brownsville TX",
+        "date": "2026-10-12",
+        "granule": "KBRO-AFD-ebea4331",
+        "url": "https://api.weather.gov/products/ebea4331-331e-4afd-aec7-33a2b23c3068",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "newscast.story-hazard-alert.a-alert-remains-in-effect",
+      "move": "story-hazard-alert",
+      "kind": "spoken",
+      "text": "A {alert} remains in effect.",
+      "uses": [
+        {
+          "move": "story-hazard-alert",
+          "subject": "story",
+          "role": "hazard",
+          "choice": "hazard"
+        }
+      ],
+      "transcriptsUsing": 83,
+      "bySource": {
+        "news-nws": 83
+      },
+      "shippable": true,
+      "source": {
+        "document": "Area Forecast Discussion from the National Weather Service Flagstaff AZ",
+        "date": "2026-10-12",
+        "granule": "KFGZ-AFD-a45bb3f7",
+        "url": "https://api.weather.gov/products/a45bb3f7-cde5-49f5-9228-e15db7898d97",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }

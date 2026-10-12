@@ -119,6 +119,9 @@ SLOT_PATTERNS = {
     "host": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?'s?",
 }
 SLOT_PATTERNS["payee"] = r"(?:the )?[A-Z][\w'.&-]*(?: [A-Z][\w'.&-]*| of| and| for)*"
+# A weather alert as the Weather Service names it, and until when.
+SLOT_PATTERNS["alert"] = r"(?:[A-Z][a-z]+ ){0,3}(?:Warning|Watch|Advisory)"
+SLOT_PATTERNS["until"] = r"(?:\d{1,4}(?::\d\d)? ?(?:AM|PM|a\.m\.|p\.m\.)(?: [A-Z]{3})?|noon|midnight)(?: (?:this evening|tonight|today|tomorrow|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday))?"
 SLOT_PATTERNS["program"] = r"(?:the )?[A-Z][\w'.&-]*(?: [A-Z][\w'.&-]*| of| and| the)*"
 SLOT_PATTERNS["time"] = r"(?:\d{1,2}(?::\d\d)? ?(?:[ap]\.m\.|o'clock)|noon|midnight)"
 for _count in ("jobs_added", "jobless", "population", "votes"):

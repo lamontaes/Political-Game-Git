@@ -25,20 +25,44 @@
         "Next, please.",
         "Next in line.",
         "Who's next?",
-        "Good morning.",
-        "Good afternoon.",
+        {
+          "text": "Good morning.",
+          "requiresFacts": ["morning"]
+        },
+        {
+          "text": "Good afternoon.",
+          "requiresFacts": ["afternoon"]
+        },
         "Hi, how are you?",
         "Are you being helped?",
         "Has anyone helped you?",
         "I'll be right with you.",
         "I will be right with you.",
-        "Please take a number.",
-        "Have a seat.",
-        "Please have a seat.",
+        {
+          "text": "Please take a number.",
+          "requiresFacts": ["line-waiting"]
+        },
+        {
+          "text": "Have a seat.",
+          "requiresFacts": ["line-waiting"]
+        },
+        {
+          "text": "Please have a seat.",
+          "requiresFacts": ["line-waiting"]
+        },
         "Someone will be right with you.",
-        "Sorry for the wait.",
-        "Thanks for waiting.",
-        "Thank you for waiting."
+        {
+          "text": "Sorry for the wait.",
+          "requiresFacts": ["waited"]
+        },
+        {
+          "text": "Thanks for waiting.",
+          "requiresFacts": ["waited"]
+        },
+        {
+          "text": "Thank you for waiting.",
+          "requiresFacts": ["waited"]
+        }
       ]
     },
     {
@@ -116,13 +140,34 @@
         "It costs {fee}.",
         "There is a {fee} fee.",
         "There's a {fee} fee.",
-        "There is a fee.",
-        "There's a fee.",
-        "There is no fee.",
-        "There's no fee.",
-        "It's free.",
-        "There is no charge.",
-        "There's no charge.",
+        {
+          "text": "There is a fee.",
+          "requiresFacts": ["has-fee"]
+        },
+        {
+          "text": "There's a fee.",
+          "requiresFacts": ["has-fee"]
+        },
+        {
+          "text": "There is no fee.",
+          "requiresFacts": ["no-fee"]
+        },
+        {
+          "text": "There's no fee.",
+          "requiresFacts": ["no-fee"]
+        },
+        {
+          "text": "It's free.",
+          "requiresFacts": ["no-fee"]
+        },
+        {
+          "text": "There is no charge.",
+          "requiresFacts": ["no-fee"]
+        },
+        {
+          "text": "There's no charge.",
+          "requiresFacts": ["no-fee"]
+        },
         "We take cash or check.",
         "We accept cash or check.",
         "We accept cash, checks and credit cards.",
@@ -208,12 +253,30 @@
         "It's upstairs.",
         "It's downstairs.",
         "You need to go upstairs.",
-        "That's a different office.",
-        "That's not us.",
-        "That's not our office.",
-        "We don't handle that.",
-        "We don't do that here.",
-        "We do not handle that.",
+        {
+          "text": "That's a different office.",
+          "requiresFacts": ["wrong-office"]
+        },
+        {
+          "text": "That's not us.",
+          "requiresFacts": ["wrong-office"]
+        },
+        {
+          "text": "That's not our office.",
+          "requiresFacts": ["wrong-office"]
+        },
+        {
+          "text": "We don't handle that.",
+          "requiresFacts": ["wrong-office"]
+        },
+        {
+          "text": "We don't do that here.",
+          "requiresFacts": ["wrong-office"]
+        },
+        {
+          "text": "We do not handle that.",
+          "requiresFacts": ["wrong-office"]
+        },
         "You'll have to call {body}.",
         "You'll need to call {body}.",
         "You need to call {body}.",
@@ -221,15 +284,33 @@
         "You need to contact {body}.",
         "You'll have to go to {body}.",
         "You'll need to go to {body}.",
-        "I don't know.",
-        "I'm not sure.",
-        "I'm not sure about that.",
-        "Let me check.",
+        {
+          "text": "I don't know.",
+          "requiresFacts": ["answer-unknown"]
+        },
+        {
+          "text": "I'm not sure.",
+          "requiresFacts": ["answer-unknown"]
+        },
+        {
+          "text": "I'm not sure about that.",
+          "requiresFacts": ["answer-unknown"]
+        },
+        {
+          "text": "Let me check.",
+          "requiresFacts": ["answer-unknown"]
+        },
         "Let me check on that.",
         "Let me check for you.",
-        "Let me find out.",
+        {
+          "text": "Let me find out.",
+          "requiresFacts": ["answer-unknown"]
+        },
         "Let me find out for you.",
-        "Let me ask.",
+        {
+          "text": "Let me ask.",
+          "requiresFacts": ["answer-unknown"]
+        },
         "Let me ask my supervisor.",
         "Let me get my supervisor.",
         "Hold on.",
@@ -255,10 +336,22 @@
         "It will be mailed to you.",
         "You should get it in the mail.",
         "You can check online.",
-        "You can check on our website.",
-        "It's on our website.",
-        "Everything is on our website.",
-        "It's all on our website.",
+        {
+          "text": "You can check on our website.",
+          "requiresFacts": ["office-website"]
+        },
+        {
+          "text": "It's on our website.",
+          "requiresFacts": ["office-website"]
+        },
+        {
+          "text": "Everything is on our website.",
+          "requiresFacts": ["office-website"]
+        },
+        {
+          "text": "It's all on our website.",
+          "requiresFacts": ["office-website"]
+        },
         "You can call us.",
         "Call us if you have questions.",
         "Call us if you have any questions.",
@@ -266,30 +359,84 @@
         "Feel free to call us.",
         "The deadline is {deadline}.",
         "You have until {deadline}.",
-        "You're too late.",
-        "It's too late.",
-        "You missed the deadline.",
-        "The deadline has passed.",
-        "You're in the wrong line.",
+        {
+          "text": "You're too late.",
+          "requiresFacts": ["past-deadline"]
+        },
+        {
+          "text": "It's too late.",
+          "requiresFacts": ["past-deadline"]
+        },
+        {
+          "text": "You missed the deadline.",
+          "requiresFacts": ["past-deadline"]
+        },
+        {
+          "text": "The deadline has passed.",
+          "requiresFacts": ["past-deadline"]
+        },
+        {
+          "text": "You're in the wrong line.",
+          "requiresFacts": ["wrong-office"]
+        },
         "You need an appointment.",
         "Do you have an appointment?",
         "You don't need an appointment.",
         "You can walk in.",
         "Walk-ins are welcome.",
-        "You'll need to come back.",
-        "You'll have to come back.",
-        "Come back tomorrow.",
+        {
+          "text": "You'll need to come back.",
+          "requiresFacts": ["come-back"]
+        },
+        {
+          "text": "You'll have to come back.",
+          "requiresFacts": ["come-back"]
+        },
+        {
+          "text": "Come back tomorrow.",
+          "requiresFacts": ["come-back"]
+        },
         "Come back on Monday.",
-        "You can come back.",
-        "Yes, you can.",
-        "No, you can't.",
-        "Yes, that's right.",
-        "That's right.",
-        "That's correct.",
-        "Yes, it is.",
-        "No, it isn't.",
-        "Not exactly.",
-        "It depends."
+        {
+          "text": "You can come back.",
+          "requiresFacts": ["come-back"]
+        },
+        {
+          "text": "Yes, you can.",
+          "requiresFacts": ["answer-yes"]
+        },
+        {
+          "text": "No, you can't.",
+          "requiresFacts": ["answer-no"]
+        },
+        {
+          "text": "Yes, that's right.",
+          "requiresFacts": ["answer-yes"]
+        },
+        {
+          "text": "That's right.",
+          "requiresFacts": ["answer-yes"]
+        },
+        {
+          "text": "That's correct.",
+          "requiresFacts": ["answer-yes"]
+        },
+        {
+          "text": "Yes, it is.",
+          "requiresFacts": ["answer-yes"]
+        },
+        {
+          "text": "No, it isn't.",
+          "requiresFacts": ["answer-no"]
+        },
+        {
+          "text": "Not exactly.",
+          "requiresFacts": ["answer-no"]
+        },
+        {
+          "text": "It depends.",
+          "requiresFacts": ["answer-depends"]
+        }
       ]
     },
     {
