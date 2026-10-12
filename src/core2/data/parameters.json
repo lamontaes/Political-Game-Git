@@ -177,7 +177,14 @@
     "tag": "ESTIMATED",
     "citation": "BLS American Time Use Survey 2025, Table 1: caring for and helping household members, 2.23 hours per day among people who did it that day (22.0% of people); https://www.bls.gov/news.release/atus.t01.htm",
     "stopgapId": "SG-P8-param-careHours",
-    "estimatedFrom": "The ATUS average for people who gave care that day is used as the length of one act of caring for a relative, inside or outside the home; ATUS counts household members only, and an act stands for a day's caregiving, not one task (CTO, October 10, 2026)."
+    "estimatedFrom": "The ATUS average for people who gave care that day is used as the length of one act of caring for a relative, inside or outside the home; ATUS counts household members only, and an act stands for a day's caregiving, not one task (CTO, October 10, 2026).",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
   },
   "civicHours": {
     "value": 1,
@@ -1054,7 +1061,14 @@
     "tag": "ESTIMATED",
     "citation": "BLS American Time Use Survey 2025, Table 3: leisure and sports, 5.16 hours per day for people 15 and over (src/core2/data/time-use-reference.json).",
     "estimatedFrom": "The rest act stands for an evening of leisure, so it takes the ATUS daily leisure and sports time, averaged over everyone 15 and over (CTO, October 10, 2026: rest gets a real leisure length so it competes for the evening). ATUS leisure ranges from 3.89 hours (35 to 44) to 7.39 (75 and over); one value serves every age here.",
-    "stopgapId": "SG-P8-work-time-reserve"
+    "stopgapId": "SG-P8-work-time-reserve",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical offer-duration range or matched microdata calibration is established."
+    },
+    "checkRange": {
+      "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
+    }
   },
   "employmentCountyAge22": {
     "value": 22,
@@ -3776,5 +3790,500 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
     }
+  },
+  "srrsMaximumUnits": {
+    "value": 100,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Death of a spouse anchors the scale at 100 units."
+  },
+  "srrsDeathOfCloseFamilyMember": {
+    "value": 63,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 5, death of a close family member: 63 units."
+  },
+  "srrsFamilyMemberHealthChange": {
+    "value": 44,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 11, change in health of a family member: 44 units."
+  },
+  "lifeEventStressScale": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Converts a life-change-unit share into the core2 stress impulse; P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Life change units rank event readjustment, not the stress signal's scale; no bound on this conversion has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "lifeEventMoodScale": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Converts a life-change-unit share into the core2 mood impulse; P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Life change units rank event readjustment, not the mood signal's scale; no bound on this conversion has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveCauseHalfLifeDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. Starting value one year: prolonged grief disorder is first diagnosable twelve months after a loss (DSM-5-TR, 2022). P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of event-born causes exists; the twelve-month grief window is context, not a bound."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveGrudgeHalfLifeDays": {
+    "value": 180,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of interpersonal grudges in a comparable unit has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveProtectFamilyHalfLifeDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of protective family motivation after a family health event has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveStatusHalfLifeDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of status ambition after a setback has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveCallingHalfLifeDays": {
+    "value": 730,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of vocational callings after a formative event has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveActReinforcement": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "Share of a drive's unfilled strength that each act on it fills (commitment and consistency), so repeated acts level off below the ceiling of one. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Commitment-consistency studies report behavior shifts, not a strength unit on this scale."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionTraitWeight": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Weight of each relevant trait on how heavily a perception channel counts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No instrument-matched bound links these trait scores to event salience."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionClosenessWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Extra attention per unit of recorded relationship level with the event's subject. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound in this relationship unit has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleSubject": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Attention weight when the event happened to the person. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleFamily": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Attention weight when the event happened to a recorded relative. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleHousehold": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "Attention weight when the event happened to a household member who is not recorded family. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleAcquaintance": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Attention weight when the event happened to someone the person knows. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleWitness": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Attention weight for a person who witnessed or was told of an event without another recorded tie. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveShareHours": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Time a person spends telling someone about their cause. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No ATUS category isolates conversations about a cause."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "causeShareImpulseScale": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Stress and mood impulse a listener receives per unit of the teller's drive strength. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound for secondhand distress on this scale has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "donateHours": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Time spent making one donation. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No ATUS category isolates making a donation."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "donationLivingCostDays": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "One donation equals this many days of the donor's own recorded living cost. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Annual household giving surveys report yearly totals, not per-gift amounts in days of living cost."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "volunteerHours": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Hours of one volunteering session for a cause group. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No volunteering-session duration source has been read into the repository yet."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveConfrontHours": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Time spent confronting the person a grudge is held against. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured duration for interpersonal confrontations has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "grudgeRelationshipChange": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Relationship level lost on each confrontation. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound in this relationship unit has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "confrontImpulse": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Stress and mood impulse the confronted person receives. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound for this impulse on the core2 affect scale has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCarryOnFit": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes a person toward carrying on with ordinary life and grieving privately, before their traits lean them; carrying on is the default response. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseTraitLeanGain": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How much a person's trait lean toward a response's act kinds (the shared trait-act table) scales the event's push toward it. Starting value equals the recorded trait scale (traitScale, 3): generated people carry trait values of one on that scale, so the shared table's lean reaches a third of its range, and this gain restores the full range. P10 prototype starting value; calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No instrument-matched bound links trait-act lean to response choice after life events."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseAgencyTurnAge": {
+    "value": 16,
+    "tag": "TUNABLE",
+    "citation": "Age at which a person's capacity to form a lasting drive of their own from an event is half of an adult's, rising smoothly (logistic) around it; starting value near the ages when adolescents form durable civic identities and two years below the age of majority. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Developmental studies describe identity formation across adolescence, not a measured midpoint for event-born drives."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseAgencyWidthYears": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Width in years of the smooth rise in drive-forming capacity around the turn age. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured width for this rise has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCarryOnBaseline": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Ordinary life's own pull toward carrying on, independent of the event; a weak event or a person with little agency leaves life as it was. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this baseline."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveStrengthScale": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "How quickly a response's urgency fills a drive toward its ceiling of one: strength rises as one minus the unfilled share times e to the minus urgency times this scale, so drives stay on the same unit as needs. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound links event urgency to the strength of a resulting drive."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveRetireStrength": {
+    "value": 0.01,
+    "tag": "TUNABLE",
+    "citation": "Strength below which a faded drive stops being rewritten each day; its effect on choices is already negligible and it rejoins if a new event renews the topic. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "A storage floor for speed, not a behavioral quantity; no empirical bound applies."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveTraceRetention": {
+    "value": 2000,
+    "tag": "TUNABLE",
+    "citation": "Most recent decision and act traces the drives module keeps in memory for observers; counts are always exact. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "A memory budget for developer traces, not a behavioral quantity; no empirical bound applies."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCauseFit": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward taking up a cause about its topic, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseGrudgeFit": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward holding a grudge against the person responsible, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseGuardFit": {
+    "value": 0.7,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward a resolve to protect one's family, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseAmbitionFit": {
+    "value": 0.7,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward an ambition to prove oneself, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCallingFit": {
+    "value": 0.55,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward a calling to serve others; lower than a cause because a calling commits a person to lasting service rather than to one condition, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "resilienceBaseRateScale": {
+    "value": 0.106,
+    "tag": "ESTIMATED",
+    "citation": "Scale at which the SSA 2023 period life table hazard counts against each person's resilience line, with the recorded chronic-condition weights (data/research/health/chronic-condition-pack-2026.json) multiplying it, chosen so expected yearly deaths match the life table applied to the same residents.",
+    "estimatedFrom": "Calibration probe, October 9, 2026: two generated 10,000-resident towns (Sacramento, California, seed p10-drives-proof-2026-10-09: 0.1064; Kingsville, Texas, seed p10-probe: 0.1052) solved for equal expected deaths over 2021 against the SSA 2023 table. Totals only; no person's outcome is set by it.",
+    "stopgapId": "SG-P10-resilience-scale"
+  },
+  "resilienceHashDigits": {
+    "value": 8,
+    "tag": "SOURCED",
+    "citation": "Half of the existing stable hash's sixteen hexadecimal digits (64-bit FNV-1a, src/simulation/ids.ts); two 32-bit halves feed the existing fixed-point survival-line helper (src/simulation/crisis/fixed-point.ts). A generation key, not a behavioral draw."
   }
 }
