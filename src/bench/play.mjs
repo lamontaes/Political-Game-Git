@@ -143,7 +143,10 @@ function renderPacket(value) {
         const target = me.names?.[offer.targetId] ?? "";
         const b = el("button", {
           type: "button",
-          textContent: `${controls.actions?.[offer.actionId] ?? offer.actionId}${target ? ` · ${target}` : ""}`,
+          // The mined name ("Call Sarah Sykes."), else the control name and target.
+          textContent:
+            me.names?.[offer.offerId] ??
+            `${controls.actions?.[offer.actionId] ?? offer.actionId}${target ? ` · ${target}` : ""}`,
           title: `${offer.durationMinutes} min`,
         });
         b.addEventListener("click", () =>

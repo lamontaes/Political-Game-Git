@@ -38,6 +38,7 @@ import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { lawChanges } from "./changes";
+import { choiceName } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 import { playerApiReadiness } from "./api-readiness";
 
@@ -82,11 +83,18 @@ function namesFor(value: unknown): Record<string, string> {
   const out: Record<string, string> = {};
   const offers =
     (value as { offers?: { targetId: string }[] } | undefined)?.offers ?? [];
-  for (const { targetId } of offers) {
+  for (const { targetId, offerId, actionId } of offers as {
+    targetId: string;
+    offerId: string;
+    actionId: string;
+  }[]) {
     const person = current.people.get(targetId);
     const org = current.organizations.get(targetId);
     if (person) out[targetId] = `${person.givenName} ${person.familyName}`;
     else if (org) out[targetId] = org.name;
+    // The choice's own name, from OPUS-WORDS' mined bank where it has one.
+    const named = choiceName(actionId, out[targetId]);
+    if (named) out[offerId] = named.text;
   }
   // The employer whose shift a stop falls on, so the screen can say so.
   const work = (
