@@ -84,12 +84,12 @@
   "businessFoundTraitWeight": {
     "value": 1,
     "tag": "TUNABLE",
-    "citation": "Enterprising and risk-taking people start businesses more often; traitScale 3.",
+    "citation": "Enterprising and risk-taking people start businesses more often; the term is the shared trait lean toward founding over staying put (every trait, about -1 to 1; OPUS-TRAITS, Oct 12, 2026).",
     "spread": {
       "low": 0.5,
       "high": 2,
       "unit": "score per trait point",
-      "citation": "Enterprising and risk-taking people start businesses more often; traitScale 3."
+      "citation": "Enterprising and risk-taking people start businesses more often; the term is the shared trait lean toward founding over staying put (every trait, about -1 to 1; OPUS-TRAITS, Oct 12, 2026)."
     }
   },
   "businessStartupMonthsOfCosts": {

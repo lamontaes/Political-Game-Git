@@ -21,7 +21,9 @@
     "measure": "The measure, as its record names it.",
     "subject": "The business, from the business record.",
     "age": "An age, computed from the birth record.",
-    "years": "A count of years, computed from dated records."
+    "years": "A count of years, computed from dated records.",
+    "alert": "A weather alert from the hazard record, as the Weather Service names it (\"Tornado Watch\").",
+    "until": "When the alert ends, from the hazard record (\"5 PM EDT\")."
   },
   "maxWords": 16,
   "minDocuments": 2,
@@ -806,6 +808,28 @@
         "Services will be held {when}.",
         "A memorial service will be held {when}.",
         "Funeral services will be held {when}."
+      ]
+    },
+    {
+      "move": "story-hazard-alert",
+      "subject": "story",
+      "role": "hazard",
+      "choice": "hazard",
+      "candidates": [
+        "A {alert} is in effect for {place}.",
+        "A {alert} remains in effect for {place}.",
+        "A {alert} remains in effect until {until}.",
+        "A {alert} remains in effect until {until} for {place}.",
+        "A {alert} is in effect until {until}.",
+        "A {alert} is in effect until {until} for {place}.",
+        "A {alert} is in effect.",
+        "A {alert} remains in effect.",
+        "The {alert} has been canceled.",
+        "The {alert} has expired.",
+        "The {alert} has been allowed to expire.",
+        "{alert} remains in effect until {until}.",
+        "{alert} in effect until {until}.",
+        "{alert} in effect for {place}."
       ]
     }
   ]

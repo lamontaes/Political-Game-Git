@@ -135,8 +135,11 @@
     "deliberation": "people-mind-v1:deliberation"
   },
   "actions": {
-    "hold": { "id": "macro-rate-hold", "actKinds": ["delay"] },
-    "move": { "id": "macro-rate-move", "actKinds": ["commit"] }
+    "hold": {
+      "id": "macro-rate-hold",
+      "actKinds": ["delay", "keep-same", "play-safe"]
+    },
+    "move": { "id": "macro-rate-move", "actKinds": ["commit", "change"] }
   },
   "need": "money",
   "effortParameter": "zero",
