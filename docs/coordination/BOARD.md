@@ -34,6 +34,7 @@ The core first, then government, people and world on top, then the evening build
 
 The whole game gets built, not just tonight's list (owner, Oct 12; "No stopping" in `AGENTS.md`). A session whose own list is done takes from here: write "Taking <item>" in your status file before starting, build it in files of its own on your branch, and the CTO records it here at the next check-in.
 
+- **Golden-path runner, FIXER next (CTO, Oct 12, 6:30 a.m.):** the PR suite is near its 300 s budget (GOV 252 s, PEOPLE 288 s, more specs coming), and most of each spec's time is process startup and module loading. Change `tests/golden-path/runner.mjs` to run the registered vitest specs in one process. If one process still runs over, raise the PR budget to 600 s in the same PR and say so. Never drop or trim a check to fit. Pillars keep registering their specs.
 - **M1-13 Other places, coarser:** other places' populations and views change from their own conditions, and their public events are recorded for the news.
 - **M1-14 History before your start:** a new game opens on its start date with dated life events, the economy's recent path, laws' dated changes and prior budgets.
 - **M7-04 Updates and bug reports:** in-game bug reports with logs, and crash reports.
