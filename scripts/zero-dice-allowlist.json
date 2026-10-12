@@ -1750,6 +1750,72 @@
       "keyedBy": "member seed (world seed + seat)",
       "reason": "A fictional member's family name from the Census/SSA corpus.",
       "replacement": null
+    },
+    {
+      "file": "src/core2/deep-past.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "if (!(total > p(\"zero\"))) return rows.length ? rng.pick(rows) : undefined;",
+      "class": "DECISION",
+      "keyedBy": "place and stage (not the child)",
+      "reason": "Falls back to a seeded school pick when no enrollment is known (stopgap SG-P15-school-assignment); a school a child attended follows from where the family lived, so this is not generation.",
+      "replacement": "the school follows from the home's location once homes have locations (SG-P15-school-assignment)"
+    },
+    {
+      "file": "src/core2/deep-past.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "let point = rng.next() * total;",
+      "class": "DECISION",
+      "keyedBy": "place and stage (not the child)",
+      "reason": "Enrollment-weighted school pick (stopgap SG-P15-school-assignment); a school a child attended follows from where the family lived, so this is not generation.",
+      "replacement": "the school follows from the home's location once homes have locations (SG-P15-school-assignment)"
+    },
+    {
+      "file": "src/core2/deep-past.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "`${rng.pick(SCHOOL_NAMES_V3.features)} ${stage.nameSuffix}`;",
+      "class": "GENERATION",
+      "keyedBy": "school id (place and stage)",
+      "reason": "Generated name pattern for a school that has no record; who exists, not what anyone does.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/opening-kin.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "let point = rng.next() * total;",
+      "class": "GENERATION",
+      "keyedBy": "household id (births' timing)",
+      "reason": "Timing of each birth in a generated household, weighted by the recorded age-gap shares; who exists, not what anyone does.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/opening-partnership.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "let point = new SeededRng(seed).fork(`${data.version}:${key}`).next() * total;",
+      "class": "GENERATION",
+      "keyedBy": "household id and key (household ages)",
+      "reason": "Age of each partner in a generated household, weighted by recorded shares; who exists, not what anyone does.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/opening-partnership.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "point -= term;",
+      "class": "GENERATION",
+      "keyedBy": "household id (household ages)",
+      "reason": "Poisson count for a generated household's size, counted down through its terms; who exists, not what anyone does.",
+      "replacement": null
     }
   ]
 }
