@@ -11,7 +11,7 @@ Only OPUS-PLAY writes this file. See "The team" in `AGENTS.md` and `docs/coordin
 
 Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and open port 3000 **at `/play`** for the game screen. The plain page at `/` is the developer bench, with every record and "why".
 
-**Start here: `/play`.** Press **New life**. First comes the opening: the President, your senators, your representative, your governor, your legislators and your town's officials, each in their own room, then your family, then you (Escape skips it). You start as the resident at or nearest 18 in a random town anywhere in the 56 places, at home with your family, in the approved Kit 12/13 look. Your card at bottom left has the clock and Day, Week and Until needed. Choices appear along the bottom. Click anyone in the picture to talk; the conversation runs across the bottom with the scales (Lie) in its corner. **Calendar** (top left) shows the next two months: the November 3 general election, filing deadlines, laws taking effect and family birthdays. **News** lists public records as the world makes them. **Politics** shows who holds every seat over you and the contests you could file for, with File and Request signatures. **Journal** is your life so far. People, Who you are, Money and property, and Jobs and study are at bottom right.
+**Start here: `/play`.** Press **New life**. First comes the opening: the President, your senators, your representative, your governor, your legislators and your town's officials, each in their own room, then your family, then you (Escape skips it). You start as the resident at or nearest 18 in a random town anywhere in the 56 places, at home with your family, in the approved Kit 12/13 look. Your card at bottom left has the clock and Day, Week and Until needed. Choices appear along the bottom. Click anyone in the picture to talk; the conversation runs across the bottom with the scales (Lie) in its corner. **Calendar** (top left) shows the next two months: the November 3 general election, filing deadlines, laws taking effect and family birthdays. **News** lists public records as the world makes them. **Politics** has a button for each office that takes filings: press one to walk into that clerk's office, name the seat, hear the rules in the clerk's words, and file. **Politics** also shows who holds every seat over you and the contests you could file for, with File and Request signatures. **Journal** is your life so far. People, Who you are, Money and property, and Jobs and study are at bottom right.
 
 **What you can do tonight**
 
@@ -71,6 +71,9 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-GOV:** in Mississippi, a county Commissioner filing goes on the ballot with no fee and no signatures. Worth checking against the state's qualifying fee.
+- **OPUS-PEOPLE:** in the filing visit, when a seat needs no fee or signatures, the filing choice reads "I understand.", the same as accepting a refusal. A "file" line (for example "I'd like to file.") would make it clear the player is filing.
+
 - **OPUS-CORE (two-level world):** two things on the merged stack.
   - `collapseToTwoLevels(input)` with the default keep fails in `createCore` ("Absent family member"). PEOPLE's kin gives full people relatives in other households, and the core requires every relative of a full person to be full. The bench keeps the family closure for now (`familyClosure` in `src/bench/world.ts`, about 260 to 360 full people in a 10,000-person town). Either the closure belongs in `fullPeople`, or relatives in the counts should be allowed as husks.
   - WORLD's central-bank board (`withCentralBank`) must stay full people. The bench keeps everyone a module adds at the opening; `fullPeople` could do the same.
@@ -101,6 +104,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: the filing office visit (step 3) in `/play`, on OPUS-PEOPLE's `openFilingVisit` and `pickContest` and GOV's `fileCandidacy`. In Eastabuchie MS (seed file-a), William Roberson, 18, went to the circuit clerk (clerk Cory Pennington, the county's real officeholder), named Commissioner (6), heard the August 9, 2027 deadline and went on the ballot (no fee, no signatures). Next: GOV's campaign day.
 - Oct 12: `/play` builds the whole place two-level (OPUS-CORE). Measured in Napoleon ND (seed two-a): 264 full people, the town built in 60 s (population generation), and a played week took 1.3 s. In Vicksburg MI (seed two-b), a worker's first shift filled in 12 coworkers from the counts. Town size no longer needs shrinking in `/play`; the developer bench at `/` keeps its size field.
 - Oct 12: merged main, `opus-core`, `opus-gov`, `opus-world` and `pool/P15-people-5` again. The golden path stays green (M0-01 to M0-06 pass), the bench tests pass, and in Funny River AK (seed art-e) 39 scenes drew 142 figures.
 - Oct 12: Calendar and News tabs in `/play`. In Davenport ND (seed cal-a), the calendar shows the Nov 3 general election with 20 contests, family birthdays and the April 5, 2027 filing deadlines. News is empty in the first weeks, because nothing public has happened yet.
