@@ -238,6 +238,12 @@ describe("buying a home", () => {
           row.kind === "mortgage" && row.householdId === "household:payer",
       ),
     ).toBe(true);
+    expect(
+      api
+        .moduleState("housing")
+        .table("dwellings")
+        .get("dwelling:household:payer"),
+    ).toMatchObject({ tenure: "own", basis: "purchase" });
     expect(cash()).toBe(opening - outsideNet());
   });
 });
