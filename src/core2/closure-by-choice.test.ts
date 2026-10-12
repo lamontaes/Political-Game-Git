@@ -2,7 +2,7 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
-import { residentsRuntime } from "./modules/residents";
+import { residentsRuntime, supplierBillsOwed } from "./modules/residents";
 import { coreAPI } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
@@ -44,6 +44,9 @@ describe(`an owner closes a solvent business in ${place.name}, ${place.state} (s
     const ownerBefore = accounts.balance(accounts.main(owner)),
       left = accounts.balance(accounts.main(id));
     const start = cash(core) + outsideNet(core);
+    const bills = supplierBillsOwed(core, id);
+    // The suppliers are outside the town: paying them is money leaving it.
+    const outsideBefore = outsideNet(core);
     const closure = api.closeBusinessByChoice({
       organizationId: id,
       ownerAccountId: accounts.main(owner),
@@ -55,6 +58,9 @@ describe(`an owner closes a solvent business in ${place.name}, ${place.state} (s
     expect(closure.cause).toMatchObject({ kind: "owner.choice" });
     expect(paidOut).toBeLessThanOrEqual(left);
     expect(core.finance.businesses.get(id)!.closedAt).toBe(core.date);
+    // Supplier bills already owed were paid before the owner's share.
+    if (bills && bills.owedMinor > 0)
+      expect(outsideNet(core) - outsideBefore).toBe(bills.owedMinor);
     expect(accounts.balance(accounts.main(owner))).toBeGreaterThanOrEqual(
       ownerBefore + paidOut,
     );
