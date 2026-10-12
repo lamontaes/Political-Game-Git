@@ -47,7 +47,10 @@
     "benefitFactorMinimum": "openingRetirementBenefitFactorMinimum",
     "benefitFactorMaximum": "openingRetirementBenefitFactorMaximum",
     "payerReserveMonths": "openingRetirementPayerReserveMonths",
-    "periodMonths": "openingRetirementPeriodMonths"
+    "periodMonths": "openingRetirementPeriodMonths",
+    "claimAnchorYearsBeforeFull": "openingRetirementClaimAnchorYearsBeforeFull",
+    "claimNeedPullYears": "openingRetirementClaimNeedPullYears",
+    "claimFullBufferMonths": "openingRetirementClaimFullBufferMonths"
   },
   "labels": {
     "coverage": "Generated summarized covered-work history",

@@ -1,3 +1,4 @@
+import { retirementClaimAgeMonths } from "./retirement-claim";
 import dataJson from "./data/opening-income.json" with { type: "json" };
 import {
   daysBetween,
@@ -75,6 +76,9 @@ export interface OpeningIncomeData {
     schoolContextYears: string;
     claimAgeYears: string;
     claimTraitPullYears: string;
+    claimAnchorYearsBeforeFull: string;
+    claimNeedPullYears: string;
+    claimFullBufferMonths: string;
     coveredFraction: string;
     coveredTraitPull: string;
     minimumCoveredMonths: string;
@@ -607,8 +611,26 @@ export function buildOpeningRetirementIncome(
         throw new Error("Nonfinite retirement context trait.");
       if (traitSource) source(traitSource, `${person.id}:${data.contextTrait}`);
       const trait = traitValue ?? zero;
-      const claimMonths = Math.round(
-        (values.claimAgeYears! + trait * values.claimTraitPullYears!) * months,
+      // Claiming is their own decision inside the law: savings and patience.
+      const dailyCost = person.livingCostDailyMinor;
+      const claimMonths = retirementClaimAgeMonths(
+        {
+          birthYear: Number(person.birthDate.slice(0, 4)),
+          bufferMonths:
+            dailyCost > zero
+              ? person.liquidMinor /
+                ((dailyCost * p("daysPerMeanYear")) / months)
+              : values.claimFullBufferMonths!,
+          deliberation: person.traits["people-mind-v1:deliberation"],
+          reliability: person.traits["people-mind-v1:reliability"],
+          risk: person.traits["people-mind-v1:risk"],
+        },
+        {
+          anchorYearsBeforeFull: values.claimAnchorYearsBeforeFull!,
+          traitPullYears: values.claimTraitPullYears!,
+          needPullYears: values.claimNeedPullYears!,
+          fullBufferMonths: values.claimFullBufferMonths!,
+        },
       );
       const claimAt =
         claim?.date ?? calendarAfterMonths(person.birthDate, claimMonths);

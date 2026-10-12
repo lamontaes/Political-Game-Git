@@ -21,9 +21,32 @@
     {
       "source": "docs/research/requests/constitutional-amendment-frequency.json",
       "whatItDidNotSettle": "It asks how often state constitutions are amended, not what drives a federal proposal or how states act on one."
+    },
+    {
+      "source": "https://www.archives.gov/federal-register/constitution/article-v.html",
+      "whatItDidNotSettle": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/amendments-11-27",
+      "whatItDidNotSettle": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
+    },
+    {
+      "source": "https://www.archives.gov/open/dataset-amendments",
+      "whatItDidNotSettle": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
     }
   ],
   "title": "What makes Congress propose a constitutional amendment, and how the states answer",
   "usableAnswer": "A table of amendment joint resolutions that reached a floor vote since 1945 (year, subject, cause on the record, House and Senate yes/no, states ratifying and rejecting with dates, outcome), plus every resolution introduced to repeal or modify the Twenty-Second Amendment with how far it got. Then the pattern: how often a proposal clears Congress, how fast states act, what share of states act at all, and which subjects the game should model next. Cite a source per row.",
-  "whyItMatters": "Without it the game decides for itself when Congress amends the Constitution and how states respond, which is the invented depth the owner has ruled out."
+  "whyItMatters": "Without it the game decides for itself when Congress amends the Constitution and how states respond, which is the invented depth the owner has ruled out.",
+  "answer": {
+    "summary": "NARA supplies successful amendments11–27 proposal/ratification dates, including unusually long27th-amendment interval, and a separate11000+ proposal archive through2014. Introduced attempts, Congress-approved proposals and ratified amendments require distinct denominators; no pooled hazard inferred.",
+    "sources": [
+      "https://www.archives.gov/federal-register/constitution/article-v.html",
+      "https://www.archives.gov/founding-docs/amendments-11-27",
+      "https://www.archives.gov/open/dataset-amendments"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:16:27.502185+00:00",
+    "stillOpen": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
+  }
 }

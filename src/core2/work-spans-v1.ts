@@ -523,7 +523,7 @@ export function earliestWorkBoundaryV1(
     controlledPersonId: string;
     from: WorkMomentV1;
     through: WorkMomentV1;
-    /** Only root-owned acknowledgements at the exact current frontier, never client advance options. */
+    /** Only root-owned acknowledgments at the exact current frontier, never client advance options. */
     acknowledgedBoundaryIds?: readonly string[];
   }>,
 ): WorkBoundaryV1 | undefined {

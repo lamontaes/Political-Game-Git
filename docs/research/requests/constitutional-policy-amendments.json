@@ -19,9 +19,27 @@
     {
       "source": "src/simulation/policy-pack-us-policy-positions.ts",
       "whatItDidNotSettle": "It lists the propositions a person can hold a view on. It does not say which ones states actually constitutionalize, or how often."
+    },
+    {
+      "source": "https://www.archives.gov/federal-register/constitution/article-v.html",
+      "whatItDidNotSettle": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
+    },
+    {
+      "source": "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&article=XVIII",
+      "whatItDidNotSettle": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
     }
   ],
   "title": "Policy written into constitutions: which subjects, how often, and what it does",
   "usableAnswer": "Two tables. First, per policy subject: whether states or the federal Constitution have amended on it, a few examples with state and year, the recurring causes (each tagged as observable in a simulation or not), rough frequency, and pass rate. Map each subject to a proposition in the game's policy catalog where one fits, and name the ones the catalog lacks. Second, the legal effect of a constitutional policy provision, per state where it differs: whether it voids contrary statutes, needs enabling legislation, binds local governments, and how courts treat it. Cite a source per row; Ballotpedia, the Book of the States and NCSL are acceptable starting points.",
-  "whyItMatters": "Without it the observer world amends policy for no reason at a guessed rate, and an amendment it passes changes nothing. Both are placeholders the owner has asked to replace with real causes."
+  "whyItMatters": "Without it the observer world amends policy for no reason at a guessed rate, and an amendment it passes changes nothing. Both are placeholders the owner has asked to replace with real causes.",
+  "answer": {
+    "summary": "Federal ArticleV and the dated California ArticleXVIII official excerpt establish selected legal routes. Existing state-amendment-profiles game defaults are not evidence for unread states. No complete present-day constitutional structure or causal subject/term-limit history is established.",
+    "sources": [
+      "https://www.archives.gov/federal-register/constitution/article-v.html",
+      "https://leginfo.legislature.ca.gov/faces/codes_displayText.xhtml?lawCode=CONS&article=XVIII"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:16:27.502185+00:00",
+    "stillOpen": "All56 current constitutional structure, home-rule/preemption laws, state subject-frequency datasets and term-limit proposal histories remain incomplete; government-profile defaults are not law."
+  }
 }

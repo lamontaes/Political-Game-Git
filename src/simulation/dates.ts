@@ -94,23 +94,24 @@ export function addDays(date: IsoDate, days: number): IsoDate {
   if (!Number.isSafeInteger(days)) {
     throw new Error("Days must be a safe integer.");
   }
-
-  const validatedDate = makeIsoDate(date);
-  const match = ISO_DATE_PATTERN.exec(validatedDate);
-
-  if (!match) {
-    throw new Error(`Invalid ISO date: ${date}`);
-  }
-
-  const parsed = utcDate(Number(match[1]), Number(match[2]), Number(match[3]));
-  parsed.setUTCDate(parsed.getUTCDate() + days);
-
-  return isoDateFromParts(
+  // Day arithmetic on remembered day numbers: the clock asks for the same
+  // few dates millions of times a year.
+  const target = epochDayOf(date) + days;
+  const cached = DATE_OF_EPOCH_DAY.get(target);
+  if (cached !== undefined) return cached;
+  const parsed = new Date(target * 86_400_000);
+  const result = isoDateFromParts(
     parsed.getUTCFullYear(),
     parsed.getUTCMonth() + 1,
     parsed.getUTCDate(),
   );
+  if (DATE_OF_EPOCH_DAY.size >= EPOCH_DAY_CACHE_LIMIT)
+    DATE_OF_EPOCH_DAY.clear();
+  DATE_OF_EPOCH_DAY.set(target, result);
+  return result;
 }
+
+const DATE_OF_EPOCH_DAY = new Map<number, IsoDate>();
 
 /*
  * GOVERNING profile: integrity checks compare dates constantly on long saves.

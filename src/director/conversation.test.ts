@@ -1,0 +1,210 @@
+import { describe, expect, it } from "vitest";
+import { ageOnDate, makeIsoDate } from "../simulation/dates";
+import { enrichCivicInputs } from "../core2/civic-inputs";
+import { buildDeepPast } from "../core2/deep-past";
+import { initialFocusPeople } from "../core2/focus";
+import { advanceCore, createLifeCore } from "../core2/life";
+import { newsKey, newsModule } from "../core2/modules/news";
+import { viewsModule } from "../core2/modules/views";
+import { buildPopulation } from "../core2/population";
+import { applyCoreEvent, coreAPI } from "../core2/state";
+import {
+  beliefsModule,
+  beliefsOf,
+  CONVERSATION_DATA,
+  openConversation,
+  say,
+} from "./conversation";
+import { createDirector } from "./ledger";
+import { REGISTER_CARDS } from "../presentation/speech-registers";
+
+// M4-02, conversations (audit 1, Oct 12): at least four distinct choices
+// every turn, each answering the last line from real records; talking is
+// time together and passes news; a lie is believed by everyone present and
+// is found out when someone who knows the truth talks to them.
+const seed = process.env.GOLDEN_PATH_SEED ?? "conversation-test";
+const base = enrichCivicInputs(
+  buildDeepPast(
+    buildPopulation({
+      seed,
+      ...(process.env.GOLDEN_PATH_SEED
+        ? { placeKey: process.env.GOLDEN_PATH_PLACE_KEY }
+        : {}),
+      startedAt: "2021-01-01",
+      minimumPeople: 500,
+    }),
+  ),
+);
+const age = (birth: string) =>
+  ageOnDate(makeIsoDate(birth), makeIsoDate(base.startedAt));
+const orgOf = (jobId: string | undefined) =>
+  base.jobs.find((row) => row.id === jobId)?.organizationId;
+const player = base.people.find(
+  (person) =>
+    person.tier !== "husk" &&
+    age(person.birthDate) >= 25 &&
+    age(person.birthDate) < 60 &&
+    person.jobId &&
+    person.knownIds.length > 4 &&
+    base.households.find((row) => row.id === person.householdId)!.memberIds
+      .length > 1 &&
+    base.jobs.some(
+      (job) =>
+        job.personId !== person.id &&
+        job.organizationId === orgOf(person.jobId),
+    ),
+)!;
+const input = { ...base, playerId: player.id };
+const director = createDirector({ watch: [...initialFocusPeople(input)] });
+const core = createLifeCore(input, {
+  modules: [viewsModule, newsModule, beliefsModule, director.module],
+});
+director.start(core);
+advanceCore(core, "2021-01-03");
+const api = coreAPI(core);
+const me = core.people.get(player.id)!;
+const myOrg = () =>
+  core.jobs.get(core.people.get(player.id)!.jobId!)?.organizationId;
+const strangers = [...core.people.values()].filter(
+  (row) =>
+    row.alive &&
+    row.tier !== "husk" &&
+    row.id !== me.id &&
+    !me.knownIds.has(row.id) &&
+    row.householdId !== me.householdId &&
+    row.jobId !== undefined &&
+    core.jobs.get(row.jobId)!.organizationId !== myOrg() &&
+    age(row.birthDate) >= 18,
+);
+// The people already known, before the player meets three strangers.
+const others = [...me.knownIds].filter((id) => core.people.get(id)?.alive);
+for (const row of strangers.slice(0, 3))
+  api.meet(me.id, row.id, {
+    placeId: me.placeId,
+    sourceId: "fixture-meeting",
+    cause: "met-in-group",
+    hours: 1,
+  });
+
+describe(`conversations in ${base.placeMetadata?.placeName} (seed ${seed})`, () => {
+  it("offers at least four distinct choices every turn, each answering the last line", () => {
+    let turns = 0;
+    for (const otherId of others.slice(0, 15)) {
+      const talk = openConversation(core, player.id, otherId);
+      expect(talk.lines.length).toBe(1);
+      for (let turn = 0; turn < 4 && talk.choices.length; turn += 1) {
+        const last = talk.lines.at(-1)!;
+        expect(last.speakerId).toBe(otherId);
+        expect(last.kind).not.toBe("ack");
+        expect(talk.choices.length).toBeGreaterThanOrEqual(
+          CONVERSATION_DATA.minimumChoices,
+        );
+        const texts = talk.choices.map((row) => row.text);
+        expect(new Set(texts).size).toBe(texts.length);
+        // Not one answer with different topics tacked on.
+        const openings = new Set(texts.map((text) => text.split(/[.?]/)[0]));
+        expect(openings.size).toBeGreaterThan(1);
+        for (const choice of talk.choices) {
+          expect(choice.answers).toBe(last.subjectId);
+          expect(choice.sourceRecordIds.length).toBeGreaterThan(0);
+          expect(choice.text).not.toMatch(/\b(goodbye|leave|bye)\b/i);
+        }
+        say(core, talk, talk.choices[turn % talk.choices.length]!.key);
+        turns += 1;
+      }
+    }
+    expect(turns).toBeGreaterThan(15);
+  });
+
+  it("records talking as time together, and passes news the other hasn't heard", () => {
+    const otherId = others.find((id) => !me.familyIds.has(id))!;
+    applyCoreEvent(core, {
+      id: "fixture-story",
+      date: core.date,
+      kind: "election.result",
+      personIds: [player.id],
+      placeId: me.placeId,
+      publicRecord: true,
+      source: { tag: "SOURCED", citation: "Fixture story.", asOf: core.date },
+    });
+    const knewBefore = api.knows(otherId, newsKey("fixture-story"));
+    const talk = openConversation(core, player.id, otherId);
+    say(core, talk, talk.choices[0]!.key);
+    const tie = [...(core.relationshipsByPerson.get(player.id) ?? [])]
+      .map((id) => core.relationships.get(id)!)
+      .find((row) => row.actorId === otherId || row.otherId === otherId)!;
+    expect(tie.lastContactDate).toBe(core.date);
+    if (!knewBefore)
+      expect(api.knows(otherId, newsKey("fixture-story"))?.access).toBe("told");
+  });
+
+  it("strangers ask what they don't know, and the scales dim for what they already know", () => {
+    const talk = openConversation(core, player.id, strangers[0]!.id);
+    expect(talk.lines[0]!.text).toMatch(/^(Where|Working)/);
+    expect(talk.lie).not.toBeNull();
+    const coworker = [...core.jobs.values()].find(
+      (job) => job.personId !== player.id && job.organizationId === myOrg(),
+    )!.personId;
+    const known = openConversation(core, player.id, coworker);
+    if (known.lines[0]?.kind === "own-work") expect(known.lie).toBeNull();
+  });
+
+  it("leaves a lie as a belief in everyone present, until someone who knows the truth tells them", () => {
+    const [hearerId, bystanderId] = [strangers[1]!.id, strangers[2]!.id];
+    for (const id of [hearerId, bystanderId]) director.watch(core, id);
+    const talk = openConversation(core, player.id, hearerId, {
+      presentIds: [bystanderId],
+    });
+    expect(talk.lie).not.toBeNull();
+    const key = talk.lines[0]!.kind.startsWith("own-work")
+      ? `person:${player.id}:employer`
+      : `person:${player.id}:place`;
+    say(core, talk, talk.lie!.key);
+    for (const id of [hearerId, bystanderId]) {
+      expect(beliefsOf(api, id).map((row) => row.key)).toContain(key);
+      expect(api.knows(id, key)?.access).toBe("told");
+    }
+    const lie = [
+      ...director.ledger.people.get(player.id)!.keptFacts.values(),
+    ].find((row) => row.kind === "lie" && row.otherId === hearerId)!;
+    expect(lie.endedAt).toBeUndefined();
+    // Later, someone who knows the truth talks with the hearer.
+    advanceCore(core, "2021-01-05");
+    const knower = key.endsWith(":employer")
+      ? [...core.jobs.values()].find(
+          (job) => job.personId !== player.id && job.organizationId === myOrg(),
+        )!.personId
+      : core.households
+          .get(me.householdId)!
+          .memberIds.find((id) => id !== player.id)!;
+    api.relationship(knower, hearerId, "contact", 1, undefined, {
+      cause: "fixture-talk",
+    });
+    expect(beliefsOf(api, hearerId).map((row) => row.key)).not.toContain(key);
+    expect(api.knows(hearerId, key)?.access).not.toBe("told");
+    expect(lie.endedAt).toBe(core.date);
+    // The bystander, who hasn't talked with anyone who knows, still believes it.
+    expect(beliefsOf(api, bystanderId).map((row) => row.key)).toContain(key);
+  });
+
+  it("talks like small talk: short turns, as in the counted corpus", () => {
+    const card = REGISTER_CARDS["small-talk"];
+    const median = card.checks.find((row) => row.key === "median-words")!.value;
+    const short = card.checks.find((row) => row.key === "short-turns")!.value;
+    const lengths: number[] = [];
+    for (const otherId of others.slice(0, 20)) {
+      const talk = openConversation(core, player.id, otherId);
+      for (let turn = 0; turn < 4 && talk.choices.length; turn += 1)
+        say(core, talk, talk.choices[(turn * 3) % talk.choices.length]!.key);
+      for (const line of talk.lines)
+        lengths.push(line.text.split(/\s+/).length);
+    }
+    lengths.sort((a, b) => a - b);
+    expect(lengths.length).toBeGreaterThan(20);
+    expect(
+      Math.abs(lengths[Math.floor(lengths.length / 2)]! - median),
+    ).toBeLessThanOrEqual(2);
+    const shortShare = lengths.filter((n) => n <= 3).length / lengths.length;
+    expect(Math.abs(shortShare - short)).toBeLessThan(0.2);
+  });
+});

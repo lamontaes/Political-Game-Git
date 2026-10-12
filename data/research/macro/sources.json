@@ -1,0 +1,126 @@
+{
+  "schemaVersion": "macro-research-sources/v1",
+  "checkedOn": "2026-10-10",
+  "timezone": "America/New_York",
+  "ownerRuling": "https://github.com/lamontaes/Political-Game-Git/pull/3959#issuecomment-6104940010",
+  "sources": [
+    {
+      "id": "bls-monthly",
+      "publisher": "Bureau of Labor Statistics",
+      "url": "https://api.bls.gov/publicAPI/v2/timeseries/data/",
+      "termsUrl": "https://www.bls.gov/opub/copyright-information.htm",
+      "terms": "Agency numerical publications are public domain; previously copyrighted images excluded.",
+      "permission": "permitted",
+      "frequency": "monthly",
+      "series": {
+        "unemploymentPct": "LNS14000000",
+        "priceIndex": "CUSR0000SA0",
+        "payrollJobsThousands": "CES0000000001"
+      },
+      "adjustment": "seasonally adjusted",
+      "status": "not-acquired",
+      "retrievalFailure": "Environment proxy returned CONNECT 403; source host is not permitted."
+    },
+    {
+      "id": "bea-real-output",
+      "publisher": "Bureau of Economic Analysis",
+      "url": "https://www.bea.gov/data/gdp/gross-domestic-product",
+      "termsUrl": "https://www.bea.gov/help/faq/147",
+      "terms": "Agency information is public domain unless otherwise marked; citation retained in research.",
+      "permission": "permitted",
+      "frequency": "quarterly",
+      "table": "NIPA 1.1.6, real gross domestic product; retain chain-dollar base year and seasonal annual rate units",
+      "status": "not-acquired"
+    },
+    {
+      "id": "fed-h15",
+      "publisher": "Federal Reserve Board",
+      "url": "https://www.federalreserve.gov/datadownload/Choose.aspx?rel=H15",
+      "termsUrl": "https://www.federalreserve.gov/website-linking-policies.htm",
+      "additionalTermsUrl": "https://www.federalreserve.gov/disclaimer.htm",
+      "terms": "Original government statistics under M1-common's government-data rule; linked third-party data has separate rights.",
+      "permission": "permitted",
+      "frequency": "monthly",
+      "requiredMeasures": [
+        "effective federal funds",
+        "10-year Treasury constant maturity",
+        "bank prime"
+      ],
+      "semanticLimit": "Effective funds is an observed overnight rate, not the FOMC target. Any use as a historical target proxy requires an explicit estimate and stopgap.",
+      "status": "not-acquired"
+    },
+    {
+      "id": "fed-g19",
+      "publisher": "Federal Reserve Board",
+      "url": "https://www.federalreserve.gov/releases/g19/",
+      "termsUrl": "https://www.federalreserve.gov/website-linking-policies.htm",
+      "terms": "Original government statistics under M1-common's government-data rule.",
+      "permission": "permitted",
+      "frequency": "monthly",
+      "semanticLimit": "Consumer credit is not all household debt; do not double count mortgage debt or turn annualized growth into stock levels.",
+      "status": "not-acquired"
+    },
+    {
+      "id": "fed-z1",
+      "publisher": "Federal Reserve Board",
+      "url": "https://www.federalreserve.gov/releases/z1/",
+      "termsUrl": "https://www.federalreserve.gov/disclaimer.htm",
+      "terms": "Original government statistics under M1-common's government-data rule. Official release governs discrepancies with visualizations.",
+      "permission": "permitted",
+      "frequency": "quarterly",
+      "requiredMeasures": [
+        "households and nonprofit organizations, debt securities and loans",
+        "nonfinancial business, debt securities and loans"
+      ],
+      "status": "not-acquired"
+    },
+    {
+      "id": "fhfa-mirs-original",
+      "publisher": "Federal Housing Finance Agency",
+      "url": "https://www.fhfa.gov/data/mirs",
+      "termsUrl": "https://www.fhfa.gov/about/fhfa-policies/website-privacy-policy",
+      "terms": "Original agency material may be copied and distributed; third-party data is excluded. Required product notice retained separately.",
+      "permission": "permitted-original-agency-data-only",
+      "distributionNotice": "This product uses FHFA data but is neither endorsed nor certified by FHFA.",
+      "frequency": "monthly",
+      "requiredTables": [
+        "Table 26, 15- and 30-year fixed-rate loans, 1990-2018",
+        "Table 4, 15- and 30-year fixed-rate loans, April 2018-April 2019"
+      ],
+      "semanticLimit": "Use the 30-year fixed-rate observations for that loan type. The separate average contract series mixes fixed and adjustable loans and must not be labeled a 30-year fixed rate.",
+      "exclude": "MIRS Transition Index: derives from Freddie Mac PMMS and is outside the approved replacement.",
+      "status": "not-acquired"
+    },
+    {
+      "id": "cfpb-hmda-public",
+      "publisher": "CFPB / FFIEC",
+      "url": "https://ffiec.cfpb.gov/data-publication/",
+      "schemaUrl": "https://ffiec.cfpb.gov/documentation/publications/loan-level-datasets/lar-data-fields/",
+      "termsUrl": "https://www.consumerfinance.gov/privacy/website-privacy-policy/",
+      "terms": "CFPB-created content is public domain; agency-modified public disclosures may be analyzed. No third-party content is imported.",
+      "permission": "permitted",
+      "frequency": "annual",
+      "firstReportingYear": 2018,
+      "requiredFields": [
+        "activity_year",
+        "interest_rate",
+        "loan_type",
+        "loan_term",
+        "intro_rate_period",
+        "action_taken",
+        "lien_status",
+        "loan_purpose",
+        "occupancy_type",
+        "reverse_mortgage",
+        "open-end_line_of_credit",
+        "business_or_commercial_purpose",
+        "total_units"
+      ],
+      "semanticLimit": "Public LAR does not disclose origination dates. Annual cohorts cannot yield measured monthly/quarterly averages or a monthly twelve-month response. Exempt/NA interest rates are not zero.",
+      "status": "not-acquired"
+    }
+  ],
+  "excludedPublishers": ["Freddie Mac"],
+  "runtimeObservations": 0,
+  "gapPolicy": "Register a model spread over the 10-year Treasury for uncovered stretches, as the CTO ruling permits. Actual spread values and uncertainty must come from acquired original government histories; none are invented here."
+}

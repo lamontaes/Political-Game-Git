@@ -105,13 +105,15 @@
     "citation": "ECMAScript Date.getUTCDay: Saturday is index six."
   },
   "marriageReferenceAge": {
-    "value": 24,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-marriageReferenceAge",
+    "value": 25,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Table MS-2, 'Estimated Median Age at First Marriage, by Sex: 1890 to Present' (CPS ASEC), https://www2.census.gov/programs-surveys/demo/tables/families/time-series/marital/ms2.xls: women's median 20.8 (1970) to 28.6 (2021).",
+    "estimatedFrom": "One flat value for the women's median across the years today's couples married; a per-cohort lookup would be closer for older and newer couples.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 20.8,
+      "high": 28.6,
+      "unit": "years of age at first marriage",
+      "citation": "Census MS-2 women's series, 1970–2021."
     },
     "checkRange": {
       "ref": "P9-GENERATED-PRIOR-PARTNERSHIP-TIMELINE"
@@ -173,40 +175,26 @@
     "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm"
   },
   "careHours": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-careHours",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    "value": 2.23,
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population engaging in each activity, averages per day' (released 2026-06-25), https://www.bls.gov/news.release/atus.t01.htm: caring for and helping household members, 2.23 hours per participant-day (22.0% of people on an average day); nonhousehold members 1.97 hours.",
+    "estimatedFrom": "One completed care act is one participant-day of household care; the 22.0% participation share is the outcome check, not a bound."
   },
   "civicHours": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-civicHours",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    "value": 2.18,
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population engaging in each activity, averages per day' (released 2026-06-25), https://www.bls.gov/news.release/atus.t01.htm: volunteering (organizational and civic activities), 2.18 hours per participant-day (5.3% of people on an average day); religious and spiritual 1.41 hours.",
+    "estimatedFrom": "One civic act (join, organize, approach) is one participant-day of volunteering; the 5.3% participation share is the outcome check."
   },
   "stressBaseline": {
     "value": 0.25,
     "tag": "TUNABLE",
     "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-stressBaseline",
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
     },
+    "stopgapId": "SG-P8-param-stressBaseline",
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
@@ -225,13 +213,15 @@
     }
   },
   "moodHalfLifeDays": {
-    "value": 2,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-moodHalfLifeDays",
+    "value": 1,
+    "tag": "ESTIMATED",
+    "citation": "Verduyn & Lavrijsen (2015), 'Which emotions last longest and why', Motivation and Emotion 39:119–127, doi:10.1007/s11031-014-9445-y (median episode 5 hours to full return to baseline; sadness 120 hours); Bolger, DeLongis, Kessler & Schilling (1989), 'Effects of daily stress on negative mood', Journal of Personality and Social Psychology 57:808–818 (habituation by the second day for most daily stressors).",
+    "estimatedFrom": "Exponential decay; treating 'episode over' as about 90% decayed (3.3 half-lives) gives about 1.5 hours for a median emotion and about 1.5 days for sadness. Game events sit at the long end, so 1 day. Neither sample is national.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+      "low": 0.06,
+      "high": 1.5,
+      "unit": "days",
+      "citation": "Verduyn & Lavrijsen (2015) median and sadness episode durations converted to half-lives."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -368,16 +358,15 @@
     }
   },
   "moneyBufferDays": {
-    "value": 30,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-moneyBufferDays",
+    "value": 19,
+    "tag": "ESTIMATED",
+    "citation": "JPMorgan Chase Institute, Wheat & Eckerd, 'Household cash buffer management from the Great Recession through COVID-19' (July 2023), Figure 1, https://www.jpmorganchase.com/institute/all-topics/household-financial-health/household-cash-buffer-management-from-the-great-recession-through-covid-19: median cash buffer days by income quartile, 2009–January 2020 about 13/16/19/26; July 2021 peak 22/26/32/43. Outcome check: Federal Reserve, Economic Well-Being of U.S. Households in 2020 (May 2021): 64% of adults would cover a $400 emergency with cash or its equivalent.",
+    "estimatedFrom": "Cash buffer days are liquid balances over typical daily outflows, the same unit as daily living cost × days. Households without pay skew to lower income (13–16 days before 2020), and a January 2021 opening sits on the pandemic rise, so the all-income median of 19 is used.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "low": 13,
+      "high": 43,
+      "unit": "days of household outflows",
+      "citation": "JPMCI 2023 Figure 1, lowest pre-2020 quartile to the highest July 2021 quartile."
     }
   },
   "organizationReserveMonths": {
@@ -468,17 +457,137 @@
       "ref": "P9-OUTCOME-WHOLE-LIFE"
     }
   },
+  "closenessHoursAtHalf": {
+    "value": 90,
+    "tag": "TUNABLE",
+    "citation": "Hours of time together at which closeness reaches half of full closeness; closeness is hours / (hours + this value), so it grows toward full closeness and never reaches it.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "low": 80,
+      "high": 100,
+      "unit": "hours together",
+      "citation": "Hall (2019), How many hours does it take to make a friend?, Journal of Social and Personal Relationships 36(4): 80 to 100 hours to become a friend, combined across both studies; roughly 50 hours to a casual friend and more than 200 to a close friend."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "closenessKinHalfLifeDays": {
+    "value": 1095,
+    "tag": "TUNABLE",
+    "citation": "Half-life of time together between relatives without contact, 36 months, as the P15 package and the P13 director use it. Roberts and Dunbar (2015) report kin closeness holding steady while friends' fell, but give no half-life. Calibration check: Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80 (Dutch panel, 1,007 adults aged 18-65, 604 re-interviewed seven years later): 48% of the discussion partners and practical helpers named at the start were still in the network seven years later, and 30% held the same position (figures as reported in the Utrecht University release of May 27, 2009, ScienceDaily 090527111907; the 2014 article is paywalled and no kin/non-kin split was found in the sources read). The game's share of ties still above their opening closeness after seven years is compared with it in a seven-year run.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study reports a half-life for closeness without contact; Roberts and Dunbar (2015) report direction only (kin b = 0.27, friends b = -0.62 over 18 months)."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "closenessOtherHalfLifeDays": {
+    "value": 548,
+    "tag": "TUNABLE",
+    "citation": "Half-life of time together between people who are not relatives without contact, 18 months, as the P15 package and the P13 director use it. Calibration check: Mollenhorst, Volker and Flap (2014), Social Networks 37, 65-80 (Dutch panel, 1,007 adults aged 18-65, 604 re-interviewed seven years later): 48% of the discussion partners and practical helpers named at the start were still in the network seven years later, and 30% held the same position (figures as reported in the Utrecht University release of May 27, 2009, ScienceDaily 090527111907; the 2014 article is paywalled and no kin/non-kin split was found in the sources read). The game's share of ties still above their opening closeness after seven years is compared with it in a seven-year run.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No study reports a half-life for closeness without contact; Roberts and Dunbar (2015) report that friendships decline faster than kinship."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "householdFamilyMinutesPerDay": {
+    "value": 243,
+    "tag": "SOURCED",
+    "citation": "Kannan and Veazie (2022), SSM Population Health 21:101331, American Time Use Survey 2019: average minutes per day in the presence of household family members, respondents 15 and older."
+  },
+  "householdOtherMinutesPerDay": {
+    "value": 43,
+    "tag": "TUNABLE",
+    "citation": "Minutes per day a housemate who is not family spends in another housemate's presence; ATUS 2019 reports 43 minutes per day with all 'others' (roommates, neighbors, acquaintances, coworkers and clients) together, used here as the housemate figure.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "ATUS does not separate roommates from neighbors, acquaintances, coworkers and clients."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "schoolDaysPerYear": {
+    "value": 180,
+    "tag": "SOURCED",
+    "citation": "NCES Schools and Staffing Survey 2007-08, public school data file, average number of days in the school year (sass0708_035_s1s): 180."
+  },
+  "schoolHoursPerDay": {
+    "value": 6.64,
+    "tag": "SOURCED",
+    "citation": "NCES Schools and Staffing Survey 2007-08, public school data file, average hours in the school day (sass0708_035_s1s): 6.64."
+  },
+  "schoolHoursFriendshipWeight": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Share of an hour at school that counts as an hour of time together toward friendship. Hall (2019): hours spent working or at school together count less than time socializing.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Hall (2019) reports that work and school hours count less, not by how much."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "farKinContactShare": {
+    "value": 0.39,
+    "tag": "ESTIMATED",
+    "citation": "Visits to a relative living elsewhere in the state, as a share of visits to one living in the same county; Pew 2005: 22% of adults with a parent in a different town see or talk to that parent daily, against 56% in the same town (0.39).",
+    "estimatedFrom": "Pew Research Center (2005), daily contact with a parent by whether the parent lives in the same town (56%) or a different town (22%): 22/56 = 0.39, applied to visits to any relative elsewhere in the state. Pew counts calls with visits and compares towns, not counties; the CTO accepted it until relatives carry a place (October 10, 2026).",
+    "stopgapId": "SG-P15-distance-by-place"
+  },
+  "extendedKinVisitShare": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Visits to one grandparent, grandchild, aunt, uncle, niece, nephew or a child's other parent, as a share of the GSS frequency of a social evening with any relative.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The GSS asks about relatives as a group; no source gives visits per extended relative."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "tieMissingWeightPerHour": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Pull toward contacting a person for each hour of time together the tie has lost since the last contact. Chosen in a sweep of a 600-resident generated Stanwood, Washington town (56 days, seed p15-opening-kin), where higher values added little contact and crowded out other acts. Checked in a 10,001-resident Sacramento town over 91 days (seed p10-drives-proof-2026-10-09): adults made 47.4 visits a year to relatives outside their home, about 91 hours against 170 in ATUS 2019 (28 minutes a day, Kannan and Veazie 2022), and visited each parent 2.5 times as often as each sibling against 1.37 in the GSS. One discretionary act per activation caps the total.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No source measures how strongly a fading tie pulls a person to make contact."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
   "routineRetentionDays": {
     "value": 7,
     "tag": "SOURCED",
     "citation": "Owner October 8 result-only/weekly-compaction ruling and P8 STATE retention policy; durable visible records are exempt."
   },
   "fallbackAnnualWageMinor": {
-    "value": 4576000,
+    "value": 4449120,
     "tag": "ESTIMATED",
-    "citation": "BLS May 2021 OEWS national all-occupations row 00-0000: median hourly wage USD22.00; https://www.bls.gov/oes/2021/may/oes_nat.htm",
-    "estimatedFrom": "USD22.00/hour times the OEWS2080-hour annual conversion in USD minor units. Proxy only for a job with no recorded local or same-occupation rate; not an observed January 2021 contract.",
-    "stopgapId": "SG-P8-param-fallbackAnnualWageMinor"
+    "citation": "BLS OEWS national all-occupations row 00-0000: May 2020 median hourly wage $20.17 (https://www.bls.gov/oes/2020/may/oes_nat.htm) and May 2021 median $22.00 (https://www.bls.gov/oes/2021/may/oes_nat.htm); OEWS 2,080-hour annualization.",
+    "estimatedFrom": "January 2021 interpolated between the May 2020 and May 2021 medians: $21.39/hour × 2,080 hours. Proxy only for a job with no recorded local or same-occupation rate.",
+    "spread": {
+      "low": 4195360,
+      "high": 4576000,
+      "unit": "USD minor units a year",
+      "citation": "May 2020 and May 2021 OEWS national medians × 2,080 hours."
+    }
   },
   "deepPastMiddleSchoolOffsetYears": {
     "value": 6,
@@ -550,13 +659,15 @@
     }
   },
   "openingPeerGroupSize": {
-    "value": 24,
-    "tag": "TUNABLE",
-    "citation": "Prototype author choice, not an observed US school-class size, personal-network size, or empirically estimated bound. Recorded school context supplies eligible identities only; roster grouping still requires calibration.",
-    "estimatedFrom": "Maximum intended size of a generated peer group; balanced partitioning can yield smaller groups, and isolated/missing contexts yield no added contacts. No minimum player-circle size is enforced.",
+    "value": 20,
+    "tag": "ESTIMATED",
+    "citation": "NCES National Teacher and Principal Survey 2020-21, average public school class size by school level, https://nces.ed.gov/surveys/ntps/estable/table/ntps/ntps2021_fl07_t1n: class-sized groups average 17 to 22 across school levels.",
+    "estimatedFrom": "Maximum intended size of a generated peer group, set to the class-size average (about 20). A class is not an acquaintance circle (the real circle is the whole grade cohort and no source gives a remembered-peer circle size), so the generated-prior stopgap stays open. Balanced partitioning can yield smaller groups.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical bounds or measured opening-circle spread have been established for this peer-roster parameter. Actual group size follows eligible recorded cohort size and the deterministic partition."
+      "low": 17,
+      "high": 22,
+      "unit": "people per class-sized group",
+      "citation": "NCES NTPS 2020-21 average class sizes across school levels (17 to 22)."
     },
     "stopgapId": "SG-P8-opening-peer-network",
     "checkRange": {
@@ -825,17 +936,20 @@
     }
   },
   "workSleepReserveHours": {
-    "value": 8,
-    "tag": "TUNABLE",
-    "citation": "No measured bound for this prototype parameter. Daily time reserved for sleep in the finite prototype. This does not claim an individual sleep observation.",
+    "value": 9.03,
+    "tag": "ESTIMATED",
+    "citation": "BLS American Time Use Survey 2025, Table 1 (https://www.bls.gov/news.release/atus.t01.htm) and Table 2 (https://www.bls.gov/news.release/atus.t02.htm): sleeping (primary activity, naps included) averages 9.03 hours per diary day for all days; 8.76 weekdays, 9.68 weekends and holidays; men 8.93, women 9.13.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "Calibration not run; this value is not claimed as an empirical estimate."
+      "low": 8.76,
+      "high": 9.68,
+      "unit": "hours per diary day",
+      "citation": "BLS ATUS 2025 Table 2: weekdays 8.76 to weekends and holidays 9.68."
     },
     "stopgapId": "SG-P8-work-time-reserve",
     "checkRange": {
       "ref": "EMPIRICAL-PRIMARY-ACTIVITY-AGE"
-    }
+    },
+    "estimatedFrom": "Daily time reserved for sleep is the ATUS all-days population mean of primary-activity sleep. Standard BLS tables do not cut sleep by employment status, so the all-population mean is used for workers."
   },
   "workRoutineRetentionWeeks": {
     "value": 4,
@@ -941,9 +1055,10 @@
     }
   },
   "workWakingRecoveryHours": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "No measured bound for the duration of a prototype waking-recovery offer; separate from sleep and the reported sleep mean.",
+    "value": 5.16,
+    "tag": "ESTIMATED",
+    "citation": "BLS American Time Use Survey 2025, Table 3: leisure and sports, 5.16 hours per day for people 15 and over (src/core2/data/time-use-reference.json).",
+    "estimatedFrom": "The rest act stands for an evening of leisure, so it takes the ATUS daily leisure and sports time, averaged over everyone 15 and over (CTO, October 10, 2026: rest gets a real leisure length so it competes for the evening). ATUS leisure ranges from 3.89 hours (35 to 44) to 7.39 (75 and over); one value serves every age here.",
     "stopgapId": "SG-P8-work-time-reserve",
     "spread": {
       "status": "unmeasured",
@@ -1306,12 +1421,12 @@
     }
   },
   "businessLineDaysRetail": {
-    "value": 52.0,
+    "value": 52,
     "tag": "SOURCED",
     "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 52-57,59 median credit-limit/revenue days among line holders.",
     "spread": {
       "low": 18.2,
-      "high": 98.0,
+      "high": 98,
       "unit": "conditional weighted interquartile credit-limit/revenue days",
       "citation": "Existing A71 retail p25Days/p75Days; not approval or a guaranteed line."
     }
@@ -1344,7 +1459,7 @@
     "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 72 median credit-limit/revenue days among line holders.",
     "spread": {
       "low": 36.5,
-      "high": 211.0,
+      "high": 211,
       "unit": "conditional weighted interquartile credit-limit/revenue days",
       "citation": "Existing A71 personal-care p25Days/p75Days; not approval or a guaranteed line."
     }
@@ -1354,7 +1469,7 @@
     "tag": "SOURCED",
     "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 50-51 median credit-limit/revenue days among line holders.",
     "spread": {
-      "low": 15.0,
+      "low": 15,
       "high": 85.5,
       "unit": "conditional weighted interquartile credit-limit/revenue days",
       "citation": "Existing A71 wholesale p25Days/p75Days; not approval or a guaranteed line."
@@ -1399,7 +1514,7 @@
     "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 81,87,89 median credit-limit/revenue days among line holders.",
     "spread": {
       "low": 33.2,
-      "high": 146.0,
+      "high": 146,
       "unit": "conditional weighted interquartile credit-limit/revenue days",
       "citation": "Existing A71 professional p25Days/p75Days; not approval or a guaranteed line."
     }
@@ -1416,7 +1531,7 @@
     }
   },
   "businessLineDaysBuildingServices": {
-    "value": 56.0,
+    "value": 56,
     "tag": "SOURCED",
     "citation": "Federal Reserve 2003 SSBF, https://www.federalreserve.gov/pubs/oss/oss3/ssbf03/ssbf03.dat.Z; existing A71 SIC 73 median credit-limit/revenue days among line holders.",
     "spread": {
@@ -1444,7 +1559,7 @@
     "estimatedFrom": "All-industry source median; source conditional IQR copied as a prior, not a school-specific spread or credit approval.",
     "stopgapId": "SG-P8-business-books-priors",
     "spread": {
-      "low": 22.0,
+      "low": 22,
       "high": 115.3,
       "unit": "all-industry conditional weighted IQR revenue days",
       "citation": "Existing A71 all-industry p25Days/p75Days; school-specific distribution unresolved."
@@ -1457,7 +1572,7 @@
     "estimatedFrom": "All-industry source median; source conditional IQR copied as a prior, not an information-industry spread or credit approval.",
     "stopgapId": "SG-P8-business-books-priors",
     "spread": {
-      "low": 22.0,
+      "low": 22,
       "high": 115.3,
       "unit": "all-industry conditional weighted IQR revenue days",
       "citation": "Existing A71 all-industry p25Days/p75Days; information-specific distribution unresolved."
@@ -1605,32 +1720,33 @@
     "stopgapId": "SG-P8-opening-retirement-income"
   },
   "openingRetirementClaimAgeYears": {
-    "value": 66,
-    "tag": "TUNABLE",
-    "citation": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943–1954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
-    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+    "value": 64,
+    "tag": "ESTIMATED",
+    "citation": "Calibration target, no longer the claim age itself: SSA's average age at entitlement for claims made 2000–2020 was 63.4–65.0 (Annual Statistical Supplement 2021, Table 6.B5.1). The claim is a decision inside the law (src/core2/retirement-claim.ts).",
+    "estimatedFrom": "The opening retiree stock claimed over about 1985–2020, when the average award age was 63.4–65.0; awards at full retirement age include disability conversions the generator doesn't model.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
+      "low": 62,
+      "high": 70,
+      "unit": "years of age at claim",
+      "citation": "SSA Table 6.B5 (2022) distribution of award ages."
     },
-    "stopgapId": "SG-P8-param-openingRetirementClaimAgeYears",
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     }
   },
   "openingRetirementClaimTraitPullYears": {
-    "value": 0.25,
+    "value": 4,
     "tag": "TUNABLE",
-    "citation": "Authored modest signed reliability-context adjustment to generated claim timing; no causal trait-retirement coefficient or bound is known.",
+    "citation": "SSA Annual Statistical Supplement 2022, Table 6.B5: claim ages spread from 62 (about 25% in 2021) to 70 and later (about 8%); one unit of patience (mean of deliberation, reliability and less risk) moves a claim about a year and a half.",
     "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
     "spread": {
       "status": "unmeasured",
       "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
     },
-    "stopgapId": "SG-P8-param-openingRetirementClaimTraitPullYears",
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
+    },
+    "checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4–65.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) is not reached yet."
   },
   "openingRetirementCoveredFraction": {
     "value": 0.65,
@@ -1662,17 +1778,9 @@
   },
   "openingRetirementMinimumCoveredMonths": {
     "value": 120,
-    "tag": "TUNABLE",
-    "citation": "Fictional prototype fund qualification requires this many modeled covered months. This is not reconstructed Social Security credits, public-plan vesting law or an observed individual entitlement.",
-    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementMinimumCoveredMonths",
-    "checkRange": {
-      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
+    "tag": "SOURCED",
+    "citation": "Social Security Act §214(a), 42 U.S.C. 414(a): fully insured status needs 40 quarters of coverage (about 10 years) for workers born after 1928; SSA Publication 05-10072, How You Earn Credits.",
+    "estimatedFrom": "40 quarters = 120 months. Real credits come from earnings (up to 4 a year), so modeled covered months are an analog of the legal threshold."
   },
   "openingRetirementBenefitMonthlyMinor": {
     "value": 154300,
@@ -1683,17 +1791,9 @@
   },
   "openingRetirementBenefitReferenceCoveredMonths": {
     "value": 420,
-    "tag": "TUNABLE",
-    "citation": "Authored normalization of modeled covered-career months for an award amount prior. It does not implement the historical highest-35-years indexed-earnings formula or establish individual earnings.",
-    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementBenefitReferenceCoveredMonths",
-    "checkRange": {
-      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
+    "tag": "SOURCED",
+    "citation": "Social Security Act §215(b)(2), 42 U.S.C. 415(b)(2): the average indexed monthly earnings use the highest 35 computation years for workers born 1929 or later; SSA Publication 05-10070, Your Retirement Benefit: How It's Figured.",
+    "estimatedFrom": "35 years × 12 = 420 months; dividing covered months by 420 approximates the zero-year penalty, not the earnings level or the bend points."
   },
   "openingRetirementBenefitFactorMinimum": {
     "value": 0.25,
@@ -1776,361 +1876,361 @@
     "citation": "Evidence only: SSA 2021 Trustees Report Table III.A1 reports $952,362 million OASI net benefit payments for calendar 2020, published August 31, 2021; src/core2/data/research/retirement-opening-2021.json observations.oasiNetBenefitPayments2020. Rounded-in-millions annual flow with scheduled-benefit-year adjustment, not a stock, 2021 actor knowledge, allocation, cap or end. The retirement funding producer does not read this parameter."
   },
   "openingCustomerPersonalCareNationalAnnualUsd": {
-    "value": 978.0,
+    "value": 978,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, B518, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerPersonalCareNortheastAnnualUsd": {
-    "value": 1064.0,
+    "value": 1064,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, C518, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerPersonalCareMidwestAnnualUsd": {
-    "value": 971.0,
+    "value": 971,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, D518, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerPersonalCareSouthAnnualUsd": {
-    "value": 827.0,
+    "value": 827,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, E518, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerPersonalCareWestAnnualUsd": {
-    "value": 1184.0,
+    "value": 1184,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, F518, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerPersonalCareSize1AnnualUsd": {
-    "value": 619.0,
+    "value": 619,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, C519, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerPersonalCareSize2AnnualUsd": {
-    "value": 1023.0,
+    "value": 1023,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, E519, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerPersonalCareSize3AnnualUsd": {
-    "value": 1188.0,
+    "value": 1188,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, F519, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerPersonalCareSize4AnnualUsd": {
-    "value": 1347.0,
+    "value": 1347,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, G519, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerPersonalCareSize5plusAnnualUsd": {
-    "value": 1144.0,
+    "value": 1144,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, H519, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerOtherHouseholdExpensesNationalAnnualUsd": {
-    "value": 1374.0,
+    "value": 1374,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, B283, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerOtherHouseholdExpensesNortheastAnnualUsd": {
-    "value": 1366.0,
+    "value": 1366,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, C283, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerOtherHouseholdExpensesMidwestAnnualUsd": {
-    "value": 1213.0,
+    "value": 1213,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, D283, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerOtherHouseholdExpensesSouthAnnualUsd": {
-    "value": 1367.0,
+    "value": 1367,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, E283, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerOtherHouseholdExpensesWestAnnualUsd": {
-    "value": 1546.0,
+    "value": 1546,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, F283, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerOtherHouseholdExpensesSize1AnnualUsd": {
-    "value": 1015.0,
+    "value": 1015,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, C284, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerOtherHouseholdExpensesSize2AnnualUsd": {
-    "value": 1474.0,
+    "value": 1474,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, E284, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerOtherHouseholdExpensesSize3AnnualUsd": {
-    "value": 1405.0,
+    "value": 1405,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, F284, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerOtherHouseholdExpensesSize4AnnualUsd": {
-    "value": 1827.0,
+    "value": 1827,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, G284, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerOtherHouseholdExpensesSize5plusAnnualUsd": {
-    "value": 1519.0,
+    "value": 1519,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, H284, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerFeesAdmissionsNationalAnnualUsd": {
-    "value": 935.0,
+    "value": 935,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, B487, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerFeesAdmissionsNortheastAnnualUsd": {
-    "value": 982.0,
+    "value": 982,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, C487, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerFeesAdmissionsMidwestAnnualUsd": {
-    "value": 930.0,
+    "value": 930,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, D487, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerFeesAdmissionsSouthAnnualUsd": {
-    "value": 709.0,
+    "value": 709,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, E487, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerFeesAdmissionsWestAnnualUsd": {
-    "value": 1304.0,
+    "value": 1304,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, F487, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerFeesAdmissionsSize1AnnualUsd": {
-    "value": 434.0,
+    "value": 434,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, C488, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerFeesAdmissionsSize2AnnualUsd": {
-    "value": 933.0,
+    "value": 933,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, E488, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerFeesAdmissionsSize3AnnualUsd": {
-    "value": 982.0,
+    "value": 982,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, F488, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerFeesAdmissionsSize4AnnualUsd": {
-    "value": 1801.0,
+    "value": 1801,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, G488, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerFeesAdmissionsSize5plusAnnualUsd": {
-    "value": 1323.0,
+    "value": 1323,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, H488, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMiscellaneousNationalAnnualUsd": {
-    "value": 1218.0,
+    "value": 1218,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, B542, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMiscellaneousNortheastAnnualUsd": {
-    "value": 1069.0,
+    "value": 1069,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, C542, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMiscellaneousMidwestAnnualUsd": {
-    "value": 1142.0,
+    "value": 1142,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, D542, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMiscellaneousSouthAnnualUsd": {
-    "value": 1029.0,
+    "value": 1029,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, E542, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMiscellaneousWestAnnualUsd": {
-    "value": 1744.0,
+    "value": 1744,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, F542, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMiscellaneousSize1AnnualUsd": {
-    "value": 1096.0,
+    "value": 1096,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, C543, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMiscellaneousSize2AnnualUsd": {
-    "value": 1115.0,
+    "value": 1115,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, E543, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMiscellaneousSize3AnnualUsd": {
-    "value": 1360.0,
+    "value": 1360,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, F543, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMiscellaneousSize4AnnualUsd": {
-    "value": 1546.0,
+    "value": 1546,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, G543, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMiscellaneousSize5plusAnnualUsd": {
-    "value": 1319.0,
+    "value": 1319,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, H543, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerTelephoneNationalAnnualUsd": {
-    "value": 1460.0,
+    "value": 1460,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, B253, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerTelephoneNortheastAnnualUsd": {
-    "value": 1509.0,
+    "value": 1509,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, C253, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerTelephoneMidwestAnnualUsd": {
-    "value": 1355.0,
+    "value": 1355,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, D253, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerTelephoneSouthAnnualUsd": {
-    "value": 1432.0,
+    "value": 1432,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, E253, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerTelephoneWestAnnualUsd": {
-    "value": 1570.0,
+    "value": 1570,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, F253, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerTelephoneSize1AnnualUsd": {
-    "value": 849.0,
+    "value": 849,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, C254, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerTelephoneSize2AnnualUsd": {
-    "value": 1451.0,
+    "value": 1451,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, E254, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerTelephoneSize3AnnualUsd": {
-    "value": 1758.0,
+    "value": 1758,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, F254, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerTelephoneSize4AnnualUsd": {
-    "value": 2031.0,
+    "value": 2031,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, G254, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerTelephoneSize5plusAnnualUsd": {
-    "value": 2203.0,
+    "value": 2203,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, H254, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMedicalServicesNationalAnnualUsd": {
-    "value": 1252.0,
+    "value": 1252,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, B466, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMedicalServicesNortheastAnnualUsd": {
-    "value": 1270.0,
+    "value": 1270,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, C466, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMedicalServicesMidwestAnnualUsd": {
-    "value": 1385.0,
+    "value": 1385,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, D466, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMedicalServicesSouthAnnualUsd": {
-    "value": 1025.0,
+    "value": 1025,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, E466, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMedicalServicesWestAnnualUsd": {
-    "value": 1514.0,
+    "value": 1514,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1800, calendar 2024, F466, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-region-1-year-average-2024.xlsx. Parent category only, not a seller product scope. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMedicalServicesSize1AnnualUsd": {
-    "value": 943.0,
+    "value": 943,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, C467, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMedicalServicesSize2AnnualUsd": {
-    "value": 1250.0,
+    "value": 1250,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, E467, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMedicalServicesSize3AnnualUsd": {
-    "value": 1268.0,
+    "value": 1268,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, F467, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMedicalServicesSize4AnnualUsd": {
-    "value": 1896.0,
+    "value": 1896,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, G467, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
   },
   "openingCustomerMedicalServicesSize5plusAnnualUsd": {
-    "value": 1373.0,
+    "value": 1373,
     "tag": "SOURCED",
     "citation": "BLS CEX Table 1400, calendar 2024, H467, annual USD per consumer unit; https://www.bls.gov/cex/tables/calendar-year/mean-item-share-average-standard-error/cu-size-2024.xlsx. Five-or-more uses the published column without extrapolation. Applicability: Published aggregate mean and sampling error are not individual dispersion. No individual budget/account spread or crosswalk calibration has been measured.",
     "stopgapId": "SG-P8-opening-customer-generation"
@@ -3070,6 +3170,292 @@
       "ref": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-SPREAD"
     }
   },
+  "kinMoveAwayShare": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "citation": "Share of moves out of the county (ACS 2024 B07401, by state and age) that take a person away from their family, rather than to a nearby county or back home. One value cannot reach both PSID 2013 figures (74.8% nearest parent or grown child within 30 miles, 35.5% all of them). In a generated Sacramento town of 3,000 (seed p10-drives-proof-2026-10-09, with later-life re-aging), 0.3 gives 71.1% and 42.4%, and 0.35 gives 67.1% and 37.5%; 0.35 has the smaller combined miss.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No source splits moves out of the county into moves away from family and short or return moves; PSID reports only the resulting distances (74.8% have the nearest parent or grown child within 30 miles, 35.5% all of them)."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinInterbirthYears": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Years between a mother's successive births in generated sibships and families; prototype choice pending an NSFG birth-interval source.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinFirstBirthAgeSdYears": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "Spread in years of a mother's age at first birth around the NCHS national mean for that year; prototype choice pending a natality spread source.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinPaternalAgeGapYears": {
+    "value": 2.5,
+    "tag": "TUNABLE",
+    "citation": "Years by which a generated father is older than the mother; prototype choice pending an NSFG or natality paternal-age source.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinMaleFertilityAgeShiftYears": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Years by which a man's children ever born by age lag the women's Census table; prototype choice pending an NSFG men's fertility source.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "kinBirthdayLatestDayOfMonth": {
+    "value": 28,
+    "tag": "SOURCED",
+    "citation": "Gregorian calendar: the shortest month has 28 days, so any month accepts a generated day from 1 to 28."
+  },
+  "personalityHeritability": {
+    "value": 0.4,
+    "tag": "SOURCED",
+    "citation": "Vukasovic and Bratko (2015), Heritability of personality: A meta-analysis of behavior genetic studies, Psychological Bulletin 141(4), 769-785: average heritability of personality about 0.40."
+  },
+  "personalityUpbringingShift": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "Standard-score shift per step of the canonical upbringing value added to a resident's temperament; prototype choice so upbringing still matters without overriding the sourced spread.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "personalitySociabilityRiskCorrelation": {
+    "value": 0.34,
+    "tag": "ESTIMATED",
+    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): E2 Gregariousness with E5 Excitement-Seeking, r = .34.",
+    "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
+    "stopgapId": "SG-P15-personality-mapping",
+    "spread": {
+      "low": 0.284,
+      "high": 0.394,
+      "unit": "correlation",
+      "citation": "Fisher-transformed 95% interval for the Costa and McCrae (1992) value with N = 1,000."
+    }
+  },
+  "personalityReliabilityImpulseCorrelation": {
+    "value": -0.45,
+    "tag": "ESTIMATED",
+    "citation": "Costa and McCrae (1992), Revised NEO Personality Inventory (NEO-PI-R) and NEO Five-Factor Inventory Professional Manual, facet intercorrelations in the normative sample of 1,000 adults, as transcribed with permission in the psychTools R package dataset neo (version 2.6.4): C3 Dutifulness with C6 Deliberation, r = .45; deliberation is reversed to impulsiveness here, so the value is -.45.",
+    "estimatedFrom": "The published facet correlation, applied to the latent temperament scores that the matching facets set (SG-P15-personality-mapping). The spread is the 95% interval for a correlation in a sample of 1,000 (Fisher transformation).",
+    "stopgapId": "SG-P15-personality-mapping",
+    "spread": {
+      "low": -0.498,
+      "high": -0.399,
+      "unit": "correlation",
+      "citation": "Fisher-transformed 95% interval for the Costa and McCrae (1992) value with N = 1,000."
+    }
+  },
+  "personalityReferenceAge": {
+    "value": 40,
+    "tag": "TUNABLE",
+    "citation": "Age whose facet curve value counts as average, so the age shifts center near the adult population; prototype choice.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical bound for this generation coefficient has been identified; it is checked through the kin and personality answer keys in the P15 receipt."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "spouseAgeGapOpenRowYears": {
+    "value": 5,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, CPS 2023 ASEC, America's Families and Living Arrangements: 2023, Table FG3: the age-difference rows are 2-3, 4-5, 6-9, 10-14 and 15-19 years, and the last rows are open (husband or wife 20 or more years older).",
+    "estimatedFrom": "Each open row is spread over five whole years, the width of the two rows next to it (10-14 and 15-19 years), so 20 or more years reads as 20 to 24. The open rows hold 1.2% of married couples.",
+    "stopgapId": "SG-P15-partnership-model"
+  },
+  "openingCoworkerGroupSize": {
+    "value": 8,
+    "tag": "TUNABLE",
+    "citation": "Typical generated workgroup of residents at one employer (groups are drawn person by person, so sizes vary around it) whose members know each other by name; prototype choice pending a US source on how many coworkers people know. A survey of 3,000 full-time US workers (Olivet Nazarene University, 2019) found five friends at work on average, a lower bound on coworkers known by name.",
+    "stopgapId": "SG-P15-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No US source on the number of coworkers known by name was found; friends at work (about five on average) bound it from below."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "griefResilientShare": {
+    "value": 0.459,
+    "tag": "ESTIMATED",
+    "citation": "Bonanno, Wortman, Lehman et al. (2002), Journal of Personality and Social Psychology 83(5):1150-1164, Results: of 205 widowed adults followed at 6 and 18 months, 94 (45.9%) showed the resilient pattern.",
+    "estimatedFrom": "Taken as the share whose grief has fallen to little by 6 months after a death. The study measured widowed adults aged about 72; the game applies it to every relative's loss (owner ruling, October 10, 2026).",
+    "stopgapId": "SG-P15-grief-line"
+  },
+  "griefChronicShare": {
+    "value": 0.156,
+    "tag": "ESTIMATED",
+    "citation": "Bonanno, Wortman, Lehman et al. (2002), Journal of Personality and Social Psychology 83(5):1150-1164, Results: of 205 widowed adults followed at 6 and 18 months, 32 (15.6%) showed chronic grief.",
+    "estimatedFrom": "Taken as the share whose grief is still above little at 18 months. The 7.8% with chronic depression began depressed before the loss and are not counted here.",
+    "stopgapId": "SG-P15-grief-line"
+  },
+  "griefEarlyCheckMonths": {
+    "value": 6,
+    "tag": "SOURCED",
+    "citation": "Bonanno, Wortman, Lehman et al. (2002), Journal of Personality and Social Psychology 83(5):1150-1164, Results: of 205 widowed adults followed at 6 and 18 months: the first follow-up, 6 months after the loss."
+  },
+  "griefLateCheckMonths": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "Bonanno, Wortman, Lehman et al. (2002), Journal of Personality and Social Psychology 83(5):1150-1164, Results: of 205 widowed adults followed at 6 and 18 months: the second follow-up, 18 months after the loss."
+  },
+  "griefLittleFraction": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Share of the grief at a death that counts as little grief when the resilience spread is solved from Bonanno et al. (2002); the study classified people by depression and grief scores, not by a share of starting grief, so this is a modeling choice.",
+    "stopgapId": "SG-P15-grief-line",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified; Bonanno et al. (2002) classify grief patterns by scores, not by this quantity."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "griefPullWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Pull of grief toward rest and contact with family, per unit of grief; no direct source.",
+    "stopgapId": "SG-P15-grief-line",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified; Bonanno et al. (2002) classify grief patterns by scores, not by this quantity."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "griefHoldWeight": {
+    "value": -1,
+    "tag": "TUNABLE",
+    "citation": "Hold of grief on organizing, per unit of grief (negative: grief makes organizing less attractive); no direct source. CTO REVIEW 11: grief first pulls toward withdrawal and family.",
+    "stopgapId": "SG-P15-grief-line",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified; Bonanno et al. (2002) classify grief patterns by scores, not by this quantity."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "schoolFinalGrade": {
+    "value": 12,
+    "tag": "SOURCED",
+    "citation": "U.S. public schools end with grade 12 (the existing game school-calendar.ts: grades 9-12 in high school)."
+  },
+  "fallingOutBaseRatePerYear": {
+    "value": 0.0155,
+    "tag": "ESTIMATED",
+    "citation": "YouGov, February 24-27, 2023, 31,380 U.S. adults: 68% have decided to end a friendship and followed through; https://yougov.com/en-us/articles/45676-americans-ended-friendship-breakups-poll",
+    "estimatedFrom": "Solved so 68% of adults have at least one falling-out among the people they shared a class or workgroup with, pooled over six generated towns (seeds p15-fall-a to -f: Grand Mound, Washington; Monument, Colorado; Heber, Utah; Bay Minette, Alabama; Tice, Florida; Summit, New Jersey; 12,963 adults; 1.34 falling-outs per adult). Each generated peer stands for the missing members of a full class or workgroup, so circles sampled from big places count fully. YouGov counts any friendship over a lifetime, not only classmates and coworkers.",
+    "stopgapId": "SG-P15-falling-outs"
+  },
+  "fallingOutConflictWeight": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "citation": "Rise in the yearly falling-out rate per level of each person's conflict trait (log scale); no direct source.",
+    "stopgapId": "SG-P15-falling-outs",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified for how temperament changes the rate of falling out."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "fallingOutReliabilityWeight": {
+    "value": 0.35,
+    "tag": "TUNABLE",
+    "citation": "Fall in the yearly falling-out rate per level of each person's reliability (log scale); no direct source.",
+    "stopgapId": "SG-P15-falling-outs",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range identified for how temperament changes the rate of falling out."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "householdChildAgeYears": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey: household children are those under 18 (ATUS glossary, 'household children'); https://www.bls.gov/tus/glossary.htm"
+  },
+  "unmodeledLeisureValuePerHour": {
+    "value": 0.46,
+    "tag": "TUNABLE",
+    "citation": "Score an hour of the leisure the game does not model is worth; an act added to a free block after the activation's pick must score above its hours times this. Calibrated so visits fall on the ATUS 2025 share of people who socialize or communicate on a given day (30.4%, Table 1); no direct source for the value itself. Calibrated on two generated towns of 1,000 residents over 28 days (seeds p15-visit-a and -b: Albertville, Alabama; Kennedale, Texas): 0.4 gave 33.9% and 0.5 gave 28.6% of adult-days with a visit.",
+    "stopgapId": "SG-P15-free-block-plan",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Calibrated to one ATUS share; no empirical range for the value of an hour of leisure in these score units."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "favorSharedHoursPerYear": {
+    "value": 50,
+    "tag": "TUNABLE",
+    "citation": "Hours of time together a year of sharing a class or workgroup counts for when judging closeness at a later need; Hall (2019) finds about 50 hours make a casual friend and that hours working together count less than socializing; no direct source for a year's worth.",
+    "stopgapId": "SG-P15-favors",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No empirical range for hours of friendship time per shared school or work year."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "favorRatePerNeed": {
+    "value": 0.169,
+    "tag": "ESTIMATED",
+    "citation": "Talker Research for Safeway Moving, March 19-25, 2025, 2,000 U.S. adults (opt-in commercial poll): 39% first ask friends for help moving; https://talkerresearch.com/more-than-a-third-secretly-hate-being-asked-to-help-with-moving/",
+    "estimatedFrom": "Solved so 39% of residents' recorded moves draw a favor from at least one person they shared a class or workgroup with, each sampled peer standing for the missing members of a full group; pooled over six generated towns (seeds p15-fall-a to -f; 6,613 recorded moves into the county, 0.71 favors per move). Asking friends first is not the same as receiving a favor, and the poll is opt-in.",
+    "stopgapId": "SG-P15-favors"
+  },
   "openingPayrollBlsAllPrivateWeeklyWeight": {
     "value": 32.4,
     "tag": "SOURCED",
@@ -3191,7 +3577,7 @@
     "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, information: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
   },
   "openingPayrollBlsFinancialActivitiesWeeklyWeight": {
-    "value": 18.0,
+    "value": 18,
     "tag": "SOURCED",
     "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, financial-activities: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
   },
@@ -3216,12 +3602,12 @@
     "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: weekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
   },
   "openingPayrollBlsProfessionalAndBusinessServicesBiweeklyWeight": {
-    "value": 36.0,
+    "value": 36,
     "tag": "SOURCED",
     "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
   },
   "openingPayrollBlsProfessionalAndBusinessServicesSemimonthlyWeight": {
-    "value": 28.0,
+    "value": 28,
     "tag": "SOURCED",
     "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, professional-and-business-services: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
   },
@@ -3261,7 +3647,7 @@
     "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, leisure-and-hospitality: biweekly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
   },
   "openingPayrollBlsLeisureAndHospitalitySemimonthlyWeight": {
-    "value": 17.0,
+    "value": 17,
     "tag": "SOURCED",
     "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, leisure-and-hospitality: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
   },
@@ -3286,7 +3672,7 @@
     "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, other-services: semimonthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
   },
   "openingPayrollBlsOtherServicesMonthlyWeight": {
-    "value": 12.0,
+    "value": 12,
     "tag": "SOURCED",
     "citation": "Matt Burgess, BLS Beyond the Numbers, May23,2014; March2013 single-pay-period private businesses with valid hours/earnings; https://www.bls.gov/opub/btn/volume-3/how-frequently-do-private-businesses-pay-workers.htm; Chart1 or Table1, other-services: monthly percent of businesses, not workers. Government, all education and farm scope excluded. Reported rounding is preserved."
   },
@@ -3388,6 +3774,519 @@
       "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
     }
   },
+  "srrsMaximumUnits": {
+    "value": 100,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Death of a spouse anchors the scale at 100 units."
+  },
+  "srrsDeathOfCloseFamilyMember": {
+    "value": 63,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 5, death of a close family member: 63 units."
+  },
+  "srrsFamilyMemberHealthChange": {
+    "value": 44,
+    "tag": "SOURCED",
+    "citation": "Holmes TH, Rahe RH. The Social Readjustment Rating Scale. Journal of Psychosomatic Research 11(2):213-218, 1967, Table 3 life change units. Item 11, change in health of a family member: 44 units."
+  },
+  "lifeEventStressScale": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Converts a life-change-unit share into the core2 stress impulse; P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Life change units rank event readjustment, not the stress signal's scale; no bound on this conversion has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "lifeEventMoodScale": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Converts a life-change-unit share into the core2 mood impulse; P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Life change units rank event readjustment, not the mood signal's scale; no bound on this conversion has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveCauseHalfLifeDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. Starting value one year: prolonged grief disorder is first diagnosable twelve months after a loss (DSM-5-TR, 2022). P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of event-born causes exists; the twelve-month grief window is context, not a bound."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveGrudgeHalfLifeDays": {
+    "value": 180,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of interpersonal grudges in a comparable unit has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveProtectFamilyHalfLifeDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of protective family motivation after a family health event has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveStatusHalfLifeDays": {
+    "value": 365,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of status ambition after a setback has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveCallingHalfLifeDays": {
+    "value": 730,
+    "tag": "TUNABLE",
+    "citation": "Half-life of a drive's pull without new events or acts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured persistence of vocational callings after a formative event has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveActReinforcement": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "Share of a drive's unfilled strength that each act on it fills (commitment and consistency), so repeated acts level off below the ceiling of one. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Commitment-consistency studies report behavior shifts, not a strength unit on this scale."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionTraitWeight": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Weight of each relevant trait on how heavily a perception channel counts. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No instrument-matched bound links these trait scores to event salience."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionClosenessWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Extra attention per unit of recorded relationship level with the event's subject. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound in this relationship unit has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleSubject": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Attention weight when the event happened to the person. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleFamily": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Attention weight when the event happened to a recorded relative. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleHousehold": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "Attention weight when the event happened to a household member who is not recorded family. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleAcquaintance": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Attention weight when the event happened to someone the person knows. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "perceptionRoleWitness": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Attention weight for a person who witnessed or was told of an event without another recorded tie. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Role weights are relative prototype assumptions with no measured bounds."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveShareHours": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Time a person spends telling someone about their cause. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No ATUS category isolates conversations about a cause."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "causeShareImpulseScale": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Stress and mood impulse a listener receives per unit of the teller's drive strength. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound for secondhand distress on this scale has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "donateHours": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Time spent making one donation. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No ATUS category isolates making a donation."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "donationLivingCostDays": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "One donation equals this many days of the donor's own recorded living cost. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Annual household giving surveys report yearly totals, not per-gift amounts in days of living cost."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "volunteerHours": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Hours of one volunteering session for a cause group. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No volunteering-session duration source has been read into the repository yet."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveConfrontHours": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Time spent confronting the person a grudge is held against. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured duration for interpersonal confrontations has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "grudgeRelationshipChange": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Relationship level lost on each confrontation. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound in this relationship unit has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "confrontImpulse": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Stress and mood impulse the confronted person receives. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound for this impulse on the core2 affect scale has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCarryOnFit": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes a person toward carrying on with ordinary life and grieving privately, before their traits lean them; carrying on is the default response. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseTraitLeanGain": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How much a person's trait lean toward a response's act kinds (the shared trait-act table) scales the event's push toward it. Starting value equals the recorded trait scale (traitScale, 3): generated people carry trait values of one on that scale, so the shared table's lean reaches a third of its range, and this gain restores the full range. P10 prototype starting value; calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No instrument-matched bound links trait-act lean to response choice after life events."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseAgencyTurnAge": {
+    "value": 16,
+    "tag": "TUNABLE",
+    "citation": "Age at which a person's capacity to form a lasting drive of their own from an event is half of an adult's, rising smoothly (logistic) around it; starting value near the ages when adolescents form durable civic identities and two years below the age of majority. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Developmental studies describe identity formation across adolescence, not a measured midpoint for event-born drives."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseAgencyWidthYears": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Width in years of the smooth rise in drive-forming capacity around the turn age. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured width for this rise has been identified."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCarryOnBaseline": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Ordinary life's own pull toward carrying on, independent of the event; a weak event or a person with little agency leaves life as it was. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this baseline."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveStrengthScale": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "How quickly a response's urgency fills a drive toward its ceiling of one: strength rises as one minus the unfilled share times e to the minus urgency times this scale, so drives stay on the same unit as needs. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "No measured bound links event urgency to the strength of a resulting drive."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveRetireStrength": {
+    "value": 0.01,
+    "tag": "TUNABLE",
+    "citation": "Strength below which a faded drive stops being rewritten each day; its effect on choices is already negligible and it rejoins if a new event renews the topic. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "A storage floor for speed, not a behavioral quantity; no empirical bound applies."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "driveTraceRetention": {
+    "value": 2000,
+    "tag": "TUNABLE",
+    "citation": "Most recent decision and act traces the drives module keeps in memory for observers; counts are always exact. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "A memory budget for developer traces, not a behavioral quantity; no empirical bound applies."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCauseFit": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward taking up a cause about its topic, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseGrudgeFit": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward holding a grudge against the person responsible, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseGuardFit": {
+    "value": 0.7,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward a resolve to protect one's family, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseAmbitionFit": {
+    "value": 1.9,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived loss pushes toward an ambition to prove oneself (retraining, a new business), before traits lean the person. Calibrated Oct 12 (OPUS-PEOPLE) so that, when every employer in a generated town closes, the share of workers who form this drive matches displaced-worker research: about 10-16% complete retraining (Jacobson, LaLonde and Sullivan 2005) and entrepreneurship rises 2-4 points (Roed and Skogstrom 2014); see data/research/drives/economic-losses.json. Tuned on seeds c1 and c2 (fit 2.0: 17%); checked on fresh seeds c3 and c4: 42 of 329 workers (12.8%).",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "measured",
+      "reason": "Fit 1.6 gives 8% and 2.0 gives 17% in the tuning towns; the research band is 10-20%."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "responseCallingFit": {
+    "value": 0.55,
+    "tag": "TUNABLE",
+    "citation": "How strongly a perceived event pushes toward a calling to serve others; lower than a cause because a calling commits a person to lasting service rather than to one condition, before traits lean the person; below the carry-on fit so that only leaning traits form a drive. P10 prototype starting value; no direct source for this coefficient. Calibration against P9 life replays and bereaved/activist cohort spreads is pending and blocks release.",
+    "stopgapId": "SG-P10-params-uncalibrated",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "The share of bereaved or harmed people who take up a cause is an outcome target for the whole decision, not a bound on this fit."
+    },
+    "checkRange": {
+      "ref": "P9-OUTCOME-WHOLE-LIFE"
+    }
+  },
+  "resilienceBaseRateScale": {
+    "value": 0.106,
+    "tag": "ESTIMATED",
+    "citation": "Scale at which the SSA 2023 period life table hazard counts against each person's resilience line, with the recorded chronic-condition weights (data/research/health/chronic-condition-pack-2026.json) multiplying it, chosen so expected yearly deaths match the life table applied to the same residents.",
+    "estimatedFrom": "Calibration probe, October 9, 2026: two generated 10,000-resident towns (Sacramento, California, seed p10-drives-proof-2026-10-09: 0.1064; Kingsville, Texas, seed p10-probe: 0.1052) solved for equal expected deaths over 2021 against the SSA 2023 table. Totals only; no person's outcome is set by it.",
+    "stopgapId": "SG-P10-resilience-scale"
+  },
+  "resilienceHashDigits": {
+    "value": 8,
+    "tag": "SOURCED",
+    "citation": "Half of the existing stable hash's sixteen hexadecimal digits (64-bit FNV-1a, src/simulation/ids.ts); two 32-bit halves feed the existing fixed-point survival-line helper (src/simulation/crisis/fixed-point.ts). A generation key, not a behavioral draw."
+  },
+  "driveClosureImpulse": {
+    "value": 0.47,
+    "tag": "ESTIMATED",
+    "citation": "Losing one's job, to a closure or a layoff: the Social Readjustment Rating Scale's 'Fired at work', 47 life-change units divided by 100 (Holmes and Rahe 1967, Journal of Psychosomatic Research 11(2):213-218), the same anchor the story director uses for a lost job.",
+    "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.39 to 0.47 (the scale's 'business readjustment' to 'fired at work')"
+  },
+  "driveEvictionImpulse": {
+    "value": 0.47,
+    "tag": "ESTIMATED",
+    "citation": "Losing one's home to eviction, sized like losing one's job: the Social Readjustment Rating Scale has no eviction item (its nearest, 'Foreclosure of mortgage or loan', is 30 life-change units; 'Fired at work' is 47; Holmes and Rahe 1967), and Desmond and Kimbro (2015, Social Forces 94(1):295-324) find evicted mothers' depression twice that of matched mothers, so the foreclosure item understates it. At 0.30 no one of 101 evicted residents in a drawn town formed a drive; at 0.47, 6 to 8% hold a grudge against the landlord.",
+    "estimatedFrom": "Holmes and Rahe (1967) and Desmond and Kimbro (2015); spread 0.3 to 0.47"
+  },
+  "schoolCohortPopulationShare": {
+    "value": 0.0129,
+    "tag": "ESTIMATED",
+    "citation": "Share of a place's residents in one year of age at school ages: the 2020 Census counted 42.6 million people aged 5 to 14 of 331.4 million, about 1.29% per single year (U.S. Census Bureau, 2020 Census Demographic and Housing Characteristics, Table P12). Sizes a place's catchment of schools when its own schools are not recorded.",
+    "estimatedFrom": "2020 Census DHC P12, national; spread 0.011 to 0.015 across places (older and younger places)"
+  },
   "supplierTradeTermsDays": {
     "value": 30,
     "tag": "ESTIMATED",
@@ -3395,15 +4294,178 @@
     "estimatedFrom": "Outside supplier bills for a firm's costs are paid one month after the sales that incur them; spread 10 to 60 days across industries."
   },
   "ownerDistributionBufferMultiple": {
-    "value": 2,
-    "tag": "TUNABLE",
-    "citation": "Firms keep this multiple of their industry's median cash buffer days (JPMorgan Chase Institute, Cash Is King, 2016: openingEmployerCashBufferDays*) before paying owners.",
-    "checkedAgainst": "Spread 1 to 3; checked against annual closure rate (BDS establishment exit about 8% a year) and town cash staying near its opening level in a calm year."
+    "value": 1,
+    "tag": "ESTIMATED",
+    "citation": "JPMorgan Chase Institute, Cash Is King: Flows, Balances, and Buffer Days (2016): the median small business holds 27 days of outflows (16 for restaurants to 47 for real estate), the level firms actually keep; openingEmployerCashBufferDays* carry the industry medians.",
+    "estimatedFrom": "Firms pay owners the cash above one median buffer, so balances settle where observed firms hold them. At 2, every firm climbed toward twice its opening cash (Vonore, Tennessee: employers' cash $43.6M → $93.6M in a year); at 1 it stays near its opening level ($53.0M), with 2 of 27 closed.",
+    "spread": {
+      "low": 1,
+      "high": 2,
+      "unit": "multiples of the industry median buffer",
+      "citation": "JPMCI 2016 interquartile buffer ranges run about half to double the median."
+    }
   },
   "ownerDistributionLocalShare": {
     "value": 0.6,
     "tag": "TUNABLE",
     "citation": "Share of a small-town firm's owner payouts received by owners living in the town; ownership of each firm is not modeled yet.",
     "checkedAgainst": "Spread 0.3 to 0.9; the rest goes to owners outside the town."
+  },
+  "fullTimeWeeklyHours": {
+    "value": 35,
+    "tag": "SOURCED",
+    "citation": "U.S. Bureau of Labor Statistics, Current Population Survey concepts and definitions: full-time workers usually work 35 hours or more a week at all jobs; https://www.bls.gov/cps/definitions.htm#fullparttime"
+  },
+  "openingPartTimeOlderWorkerAge": {
+    "value": 65,
+    "tag": "ESTIMATED",
+    "citation": "BLS CPS 2021 annual averages, Table 8 'Employed and unemployed full- and part-time workers by age, sex, race, and Hispanic or Latino ethnicity': part-time work is far more common among employed people 65 and over than among those 25 to 54; https://www.bls.gov/cps/aa2021/cpsaat08.htm",
+    "estimatedFrom": "The town generator's existing rule: an employed resident 65 or over works part-time. A single age cut, not the CPS age gradient.",
+    "spread": {
+      "low": 62,
+      "high": 70,
+      "unit": "years of age",
+      "citation": "Social Security early and latest-credit claiming ages bracketing the shift toward part-time work."
+    }
+  },
+  "openingFullTimeWeeklyHours": {
+    "value": 40,
+    "tag": "ESTIMATED",
+    "citation": "BLS Current Population Survey 2021 annual averages, Table 19 'Persons at work in agriculture and related and in nonagricultural industries by hours of work': people usually working full time averaged about 42 to 43 hours a week at work; https://www.bls.gov/cps/aa2021/cpsaat19.htm",
+    "estimatedFrom": "A full-time job copied from a part-time recorded role gets the midpoint of the town generator's full-time range (35–45 hours), slightly under the CPS average hours at work.",
+    "spread": {
+      "low": 35,
+      "high": 45,
+      "unit": "hours a week",
+      "citation": "The town generator's full-time range; 35 is the BLS full-time threshold."
+    }
+  },
+  "openingPartTimeWeeklyHours": {
+    "value": 22.5,
+    "tag": "ESTIMATED",
+    "citation": "BLS Current Population Survey 2021 annual averages, Table 19 'Persons at work in agriculture and related and in nonagricultural industries by hours of work': people usually working part time averaged about 22 to 23 hours a week at work; https://www.bls.gov/cps/aa2021/cpsaat19.htm",
+    "estimatedFrom": "A part-time job copied from a full-time recorded role gets the midpoint of the town generator's part-time range (16–29 hours).",
+    "spread": {
+      "low": 16,
+      "high": 29,
+      "unit": "hours a week",
+      "citation": "The town generator's part-time range."
+    }
+  },
+  "openingPartTimeShiftMinutes": {
+    "value": 330,
+    "tag": "ESTIMATED",
+    "citation": "The town schedule generator's part-time shift (src/simulation/living-world/work-schedules.ts), consistent with CPS part-time averages of about 22–23 hours over four days.",
+    "estimatedFrom": "Shifts longer than six hours are cut to five and a half hours for part-time staff, as the generator does.",
+    "spread": {
+      "low": 240,
+      "high": 360,
+      "unit": "minutes a shift",
+      "citation": "Four- to six-hour shifts."
+    }
+  },
+  "residentsOutlayShareOfIncome": {
+    "value": 0.84,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Bureau of Economic Analysis, NIPA Table 2.1 'Personal Income and Its Disposition', 2019 annual: personal outlays about $15.6 trillion of personal income about $18.6 trillion (taxes about $2.2 trillion, saving 7.3% of disposable income); https://apps.bea.gov/iTable/?reqid=19&step=2&isuri=1&categories=survey#eyJhcHBpZCI6MTksInN0ZXBzIjpbMSwyLDNdLCJkYXRhIjpbWyJjYXRlZ29yaWVzIiwiU3VydmV5Il0sWyJOSVBBX1RhYmxlX0xpc3QiLCI1OCJdXX0=",
+    "estimatedFrom": "Counted households spend this share of last month's income; the rest stands for taxes and saving until income taxes are collected from the counts. 2019 is used rather than 2020–2021, when stimulus and closures pushed saving far above normal.",
+    "spread": {
+      "low": 0.78,
+      "high": 0.88,
+      "unit": "personal outlays / personal income",
+      "citation": "BEA NIPA Table 2.1, 2020 (pandemic low) to 2022 (low saving)."
+    }
+  },
+  "residentsIncomeWindowMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Households smooth spending over income swings (permanent-income behavior); a quarter evens out four- and five-payday months and monthly owner payouts.",
+    "spread": {
+      "low": 1,
+      "high": 12,
+      "unit": "months of income averaged",
+      "citation": "From reacting to each month's income to spending from a year's average."
+    },
+    "checkRange": {
+      "ref": "M0-08"
+    }
+  },
+  "sellerCapacityUtilization": {
+    "value": 0.796,
+    "tag": "ESTIMATED",
+    "citation": "Board of Governors of the Federal Reserve System, G.17 Industrial Production and Capacity Utilization: total industry capacity utilization averaged 79.6% over 1972–2023; https://www.federalreserve.gov/releases/g17/current/",
+    "estimatedFrom": "A seller's monthly capacity is its projected sales divided by this rate; spending beyond it buys the same thing outside the town (residents travel to the next town). Industrial utilization stands in for retail and service capacity.",
+    "spread": {
+      "low": 0.7,
+      "high": 0.85,
+      "unit": "share of capacity in use",
+      "citation": "G.17 range over business cycles, 1972–2023."
+    }
+  },
+  "openingRetirementClaimAnchorYearsBeforeFull": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Calibrated so the opening's retirees claimed at SSA's average age at entitlement, 63.4–65.0 for claims made 2000–2020 (SSA Annual Statistical Supplement 2021, Table 6.B5.1).",
+    "spread": {
+      "low": 0,
+      "high": 3,
+      "unit": "years before full retirement age",
+      "citation": "From claiming at full retirement age to the earliest claim."
+    },
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    },
+    "checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4–65.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) is not reached yet."
+  },
+  "openingRetirementClaimNeedPullYears": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "People with little saved claim early: in 2021 about a quarter of new retired workers claimed at 62 (SSA Annual Statistical Supplement 2022, Table 6.B5).",
+    "spread": {
+      "low": 0,
+      "high": 4,
+      "unit": "years earlier with no savings",
+      "citation": "From no effect to claiming at 62 from any full retirement age."
+    },
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    },
+    "checkedAgainst": "Measured once over three generated openings (seeds claim-a/b/c, 3,694 retirees): mean claim age 64.08 (SSA 63.4–65.0), 20% at 62 (SSA 2021 about 25%); claiming at 70 (SSA about 8%) is not reached yet."
+  },
+  "openingRetirementClaimFullBufferMonths": {
+    "value": 24,
+    "tag": "TUNABLE",
+    "citation": "Months of living costs in cash at which savings no longer push an early claim; Federal Reserve SHED 2020: 64% of adults could cover a $400 emergency with cash.",
+    "spread": {
+      "low": 6,
+      "high": 60,
+      "unit": "months of living costs",
+      "citation": "From an emergency fund to several years of costs."
+    },
+    "checkRange": {
+      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    }
+  },
+  "preStartFromYear": {
+    "value": 2000,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling (relayed by the CTO on PR #3999, October 12, 2026): a new game's history runs at coarse steps from 2000 to the start date (M1-14).",
+    "spread": {
+      "low": 1990,
+      "high": 2020,
+      "unit": "calendar year",
+      "citation": "How far back coarse history can reach before its run time outweighs what the player sees; checked against the speed rule."
+    }
+  },
+  "preStartStepMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling (relayed by the CTO on PR #3999, October 12, 2026): history before the start runs at coarse steps, monthly or quarterly (M1-14).",
+    "spread": {
+      "low": 1,
+      "high": 3,
+      "unit": "months per step",
+      "citation": "The two step sizes the pre-start contract offers (src/core2/pre-start.ts)."
+    }
   }
 }

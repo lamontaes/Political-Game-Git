@@ -1770,12 +1770,12 @@ describe("canonical zero-cash completion without a cash journal", () => {
       expect(f.host.state.people.get(ownerA)!.liquidMinor).toBe(1000);
     };
     const beforeCashAndJournal = snapshot(f);
-    const acknowledgement = completeCashJournalSource(
+    const acknowledgment = completeCashJournalSource(
       f.runtime,
       f.host,
       input.sourceRef,
     );
-    expect(acknowledgement).toEqual({
+    expect(acknowledgment).toEqual({
       sourceRef: input.sourceRef,
       completedAt: date,
     });
@@ -2402,17 +2402,17 @@ describe("canonical zero-cash completion without a cash journal", () => {
     );
   });
 
-  it("returns a detached acknowledgement and retains no extra noncash receipt or historical source ID after quiet source pruning", () => {
+  it("returns a detached acknowledgment and retains no extra noncash receipt or historical source ID after quiet source pruning", () => {
     const f = fixture(),
       { input, canonical } = f.addSource([]);
-    const acknowledgement = completeCashJournalSource(
+    const acknowledgment = completeCashJournalSource(
       f.runtime,
       f.host,
       input.sourceRef,
     );
     const before = completionSnapshot(f);
-    acknowledgement.sourceRef.id = "fixture:changed-return";
-    acknowledgement.completedAt = future;
+    acknowledgment.sourceRef.id = "fixture:changed-return";
+    acknowledgment.completedAt = future;
     input.sourceRef.id = "fixture:changed-caller-reference";
     expect(completionSnapshot(f)).toBe(before);
     expect(canonical.completedAt).toBe(date);

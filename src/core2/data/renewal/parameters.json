@@ -1,0 +1,152 @@
+{
+  "renewalReviewDays": {
+    "value": 91,
+    "tag": "TUNABLE",
+    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalGestationDays": {
+    "value": 266,
+    "tag": "TUNABLE",
+    "citation": "Conception-relative modeled 38-week delivery date; NCHS final 2024 table 10 measures obstetric gestation from LMP, which is not the same clock. Successful planned singleton prototype, not a medical estimate.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalAgeCenter": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalAgeSpread": {
+    "value": 7,
+    "tag": "TUNABLE",
+    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalAgeWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalChildWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalNoChildPull": {
+    "value": 1.2,
+    "tag": "TUNABLE",
+    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalPerChildPull": {
+    "value": 0.8,
+    "tag": "TUNABLE",
+    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalTimingWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalTimingPeakYears": {
+    "value": 2.5,
+    "tag": "TUNABLE",
+    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalIncomeWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Universal exploratory calibration of the old smooth family-plan shape: recorded couple score sensitivity in the all56 draw Washington, DC, seed m1-renewal-births-20261011, against NCHS final 2023/2024 crude rates. Not an identified causal coefficient; no rates enter actors.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Single generated-town calibration, independently drawn finisher validation pending. Income weight sensitivity 0.5 to 2 and wait pull 0.5 to 3 examined; this is a sensitivity window, not an empirical confidence interval."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalMedianAnnualIncomeMinor": {
+    "value": 8061000,
+    "tag": "TUNABLE",
+    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalHousingWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalHealthWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Ported smooth shape from src/simulation/living-world/town-family-plans.ts; actor circumstances, never natality rates. CDC NCHS DB240 is a spacing cross-check, not identification of coefficients.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Prototype sensitivity and generated-year calibration pending; no coefficient interval identified by aggregate natality."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  },
+  "renewalWaitPull": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Universal exploratory calibration of the old smooth family-plan shape: recorded couple score sensitivity in the all56 draw Washington, DC, seed m1-renewal-births-20261011, against NCHS final 2023/2024 crude rates. Not an identified causal coefficient; no rates enter actors.",
+    "spread": {
+      "status": "unmeasured",
+      "reason": "Single generated-town calibration, independently drawn finisher validation pending. Income weight sensitivity 0.5 to 2 and wait pull 0.5 to 3 examined; this is a sensitivity window, not an empirical confidence interval."
+    },
+    "stopgapId": "SG-M1-births-circumstances"
+  }
+}

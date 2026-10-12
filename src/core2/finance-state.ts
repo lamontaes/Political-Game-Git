@@ -1,5 +1,5 @@
 import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
-import { residentWageShortfall } from "./modules/residents";
+import { countedWagesEarned, residentWageShortfall } from "./modules/residents";
 import { validateHouseholdPurchaseCalendarAdmission } from "./household-purchase-calendar";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
 import { daysBetween, makeIsoDate } from "../simulation/dates";
@@ -1072,7 +1072,8 @@ export function reviewBusiness(
       currentTownIncomeMinor: income,
       anchorTownIncomeMinor: book.openingTownIncomeMinor,
       anchorAnnualDemandMinor: book.anchorAnnualDemandMinor,
-      relativePriceToAnchor: book.price / book.anchorPrice,
+      // Against the general price level: inflation alone moves no customer away.
+      relativePriceToAnchor: book.price / book.anchorPrice / generalPrice,
       macroDemandFactor: condition?.macroDemandFactor ?? p("one"),
       kindId: book.kindId,
       source: actualSource(
@@ -1102,6 +1103,7 @@ export function reviewBusiness(
       generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
       annualDemandMinor: demand,
       capacityMinor: book.capacityMinor,
+      priceLevel: book.price / book.anchorPrice,
     },
     options,
   );
@@ -1439,7 +1441,38 @@ export function closeBusinessByChoice(
   api.stopgap("SG-CORE-voluntary-closure-final-pay");
   const accounts = api.accounts(),
     id = `owner-closed:${core.date}:${organizationId}`;
-  const left = accounts.balance(accounts.main(organizationId));
+  // Workers are paid what they've earned before the owner takes anything:
+  // counted workers now (their wage flow ends today), full workers on their
+  // next payday from cash held back here.
+  // One final payment per residents account, however many of the firm's wage flows paid into it.
+  const earned = new Map<string, number>();
+  for (const row of countedWagesEarned(core, organizationId))
+    earned.set(
+      row.residentsId,
+      (earned.get(row.residentsId) ?? 0) + row.amountMinor,
+    );
+  for (const [residentsId, amountMinor] of earned) {
+    const row = { residentsId, amountMinor };
+    const available = accounts.balance(accounts.main(organizationId));
+    const amount = Math.min(row.amountMinor, Math.max(0, available));
+    if (amount > 0)
+      accounts.transfer({
+        id: `${id}:final-pay:${row.residentsId}`,
+        from: accounts.main(organizationId),
+        to: accounts.main(row.residentsId),
+        amountMinor: amount,
+        reasonKey: "work.final-pay",
+        source,
+      });
+  }
+  let held = 0;
+  for (const ledger of core.work.payrollLedgerByCommitment.values())
+    if (ledger.organizationId === organizationId)
+      held += ledger.accruedMinor + ledger.arrearsMinor;
+  const left = Math.max(
+    0,
+    accounts.balance(accounts.main(organizationId)) - held,
+  );
   const paid =
     left > 0
       ? accounts.transfer({

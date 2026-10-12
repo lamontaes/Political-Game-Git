@@ -15,9 +15,20 @@
     {
       "source": "Bureau of Justice Statistics, State Court Processing Statistics, Felony Defendants in Large Urban Counties, 2009 (NCJ 243777), table 16",
       "whatItDidNotSettle": "A national median for felony defendants in large urban counties only; no state or county schedule, no misdemeanors, no small counties."
+    },
+    {
+      "source": "https://courts.ca.gov/cms/rules/index/four/rule4_102",
+      "whatItDidNotSettle": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
     }
   ],
   "title": "Bail schedules, by state",
   "usableAnswer": "For each of the 56 places (50 states, D.C., Puerto Rico, Guam, U.S. Virgin Islands, American Samoa, Northern Mariana Islands): whether a statewide bail schedule exists, is set county by county, or is replaced by a risk-assessment release rule; the scheduled amount for a short list of common charges (for example, simple assault, burglary, felony theft, drug possession, DUI) with the schedule's year; and a named public source for each (the state judiciary's published schedule, a statute, or a court rule), so it can be refreshed. Where a place sets bail only case by case, say so rather than giving a number.",
-  "whyItMatters": "Whether a defendant goes home before trial depends on the bail the court sets and whether they can pay it. With one national figure, a defendant in a rural county pays a large-city felony median, and every state reads alike, so a player's bail law has nothing local to change."
+  "whyItMatters": "Whether a defendant goes home before trial depends on the bail the court sets and whether they can pay it. With one national figure, a defendant in a rural county pays a large-city felony median, and every state reads alike, so a player's bail law has nothing local to change.",
+  "answer": {
+    "summary": "California Rule4.102 distinguishes listed regulatory schedules from countywide criminal bail schedules. No56-place amounts or statewide/common-charge availability matrix is verified.",
+    "sources": ["https://courts.ca.gov/cms/rules/index/four/rule4_102"],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:15:52.611668+00:00",
+    "stillOpen": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
+  }
 }

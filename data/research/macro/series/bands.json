@@ -1,0 +1,23 @@
+{
+  "unemploymentPct": {
+    "p05": -1.2999999999999998,
+    "p95": 2.604999999999996,
+    "sampleCount": 440,
+    "maxOneMonthMove": 10.4,
+    "units": "percentage-points"
+  },
+  "priceIndex": {
+    "p05": 0.3058729444904508,
+    "p95": 5.652634065674453,
+    "sampleCount": 439,
+    "maxOneMonthMove": 1.7705477084725474,
+    "units": "percent"
+  },
+  "payrollJobsThousands": {
+    "p05": -3.6225231151819193,
+    "p95": 3.426663699087462,
+    "sampleCount": 441,
+    "maxOneMonthMove": 13.56506179793896,
+    "units": "percent"
+  }
+}

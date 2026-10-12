@@ -18,7 +18,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "Three different seeds give three different places in three different states or territories; each builds without error; and every resident on the list exists in the core's records.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-01",
       "passes": false
     },
     {
@@ -28,7 +28,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "Over 7 days, every act on the chosen person's record came from a choice made on screen, other residents' lives continue, and choosing an option nobody offered is impossible.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-02",
       "passes": false
     },
     {
@@ -38,7 +38,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "A skip from a random date stops exactly at the earliest of: a moment at or over the 0.50 interrupt line, a fixed commitment that needs the player (a routine work shift the character attends on its own never stops a skip; owner, Oct 12), or an offer with a deadline; it says which one; nothing was skipped past.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-03",
       "passes": false
     },
     {
@@ -48,7 +48,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "20 randomly sampled items on screen each open a 'why' with scores and record ids that exist in the core; none is made up for display.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-04",
       "passes": false
     },
     {
@@ -58,7 +58,7 @@
       "golden_path": "1",
       "package": "M0-bench",
       "test": "For a fresh life, steps 1-2 show reachable, steps 3-11 show the specific missing module, and the world pieces show 'not in the new core yet' until M1 lands.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/bench/m0-check.ts M0-05",
       "passes": false
     },
     {
@@ -68,7 +68,7 @@
       "golden_path": "1",
       "package": "M0-people",
       "test": "In a random place, the 18-year-old's parents and siblings follow the kin rules; schools are real schools from the place data (real naming patterns where none exists); every fact shown has a record behind it.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/m0-life-at-18.test.ts",
       "passes": false
     },
     {
@@ -78,7 +78,7 @@
       "golden_path": "2",
       "package": "M0-people",
       "test": "Over 91 days in a random place: the player gains new acquaintances through real encounters, at least one grows closer, and visits to parents and siblings fall inside the survey ranges (GSS, ATUS); over years, circle turnover matches a sourced study.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/m0-meeting-people.test.ts",
       "passes": false
     },
     {
@@ -88,7 +88,7 @@
       "golden_path": "core",
       "package": "M0-core",
       "test": "A full year in a random place: under 10% of businesses close; sales pay more than half of all wages; every dollar balances; outside money is reported next to real public spending and Social Security per resident; national conditions flat and labeled until M1.",
-      "command": null,
+      "command": "CORE2_BOOKKEEPING=0 node --import tsx scripts/core2-year/closures.mjs",
       "passes": false
     },
     {
@@ -148,7 +148,7 @@
       "golden_path": "world",
       "package": "M1-macro",
       "test": "A one-year run keeps national figures within real historical spreads (each month's 12-month change in unemployment, prices and payroll jobs, and each quarter's output growth, inside the 5th to 95th percentile of 1990 to the latest year); a rate decision changes what loans cost in the town; every decision is traceable to the members' reasons, with no random draws.",
-      "command": null,
+      "command": "node --max-old-space-size=8192 --import tsx src/core2/tooling/m1-02-check.ts",
       "passes": false
     },
     {
@@ -228,7 +228,7 @@
       "golden_path": "world",
       "package": "M1-views",
       "test": "In a random place, views match real spreads by age, education, faith and region, checked against state and metro answer keys, so conservatives in two randomly drawn states can differ; a big event shifts the people it touches and no one else.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/views.test.ts",
       "passes": false
     },
     {
@@ -238,7 +238,7 @@
       "golden_path": "world",
       "package": "M1-drives-economy",
       "test": "Over a year, job losses, evictions and closures form drives at a researched rate, and a drive's target is a real person or institution involved in the event.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/drives-economy.test.ts",
       "passes": false
     },
     {
@@ -368,7 +368,7 @@
       "golden_path": "3",
       "package": "M2-candidates-news",
       "test": "In a random place, every candidate on the ballot filed through their own choice (drives, views, standing, circumstances) with recorded reasons; incumbents decide on another term the same way, with no trait forcing it; an incumbent with a weak record draws a primary challenger.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/candidacy.test.ts",
       "passes": false
     },
     {
@@ -378,7 +378,7 @@
       "golden_path": "10",
       "package": "M2-candidates-news",
       "test": "In a random place, local outlets report results, laws and big events in engine-written words with nothing invented; specific people hear each story at different times through their own news habits and word of mouth; news from other places arrives later; a story changes a view only where the person trusts the source.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/news.test.ts",
       "passes": false
     },
     {
@@ -468,7 +468,7 @@
       "golden_path": "9",
       "package": "M3-world-of-governing",
       "test": "In a random place, a bribe or favor is offered or taken only from the people's own traits, money and circumstances; it becomes a crime record with no detection roll and surfaces only through records, a leak or someone who turns; personal, campaign and public money stay separate.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/corruption.test.ts",
       "passes": false
     },
     {
@@ -518,7 +518,7 @@
       "golden_path": "10",
       "package": "M4-words",
       "test": "In a random place, the player gives a speech built from structured choices with an exact wording preview; each listener reacts by who they are and retells it; salient speeches are retold over time, remembered more strongly by people aged about 10 to 30 at the time, and passed to children as weaker secondhand knowledge.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/speech.test.ts",
       "passes": false
     },
     {
@@ -528,7 +528,7 @@
       "golden_path": "10",
       "package": "M4-words",
       "test": "In a random place, people bring up a change and who they believe caused it, in engine-written words; each attribution follows what that person actually heard, and some are wrong.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/director/vitest.config.ts src/director/bring-it-up.test.ts",
       "passes": false
     },
     {

@@ -1,0 +1,21 @@
+{
+  "version": "opening-profile-v1",
+  "stopgapId": "SG-P15-opening-profile",
+  "educationHouseholdShare": {
+    "value": 0.5,
+    "tag": "ESTIMATED",
+    "citation": "Share of a person's education draw their household holds in common: spouses' schooling correlates about 0.5 to 0.6 in the United States (Schwartz and Mare 2005, Demography 42(4):621-646, educational homogamy).",
+    "estimatedFrom": "Schwartz and Mare 2005; spread 0.4 to 0.6"
+  },
+  "faithHouseholdShare": {
+    "value": 0.6,
+    "tag": "ESTIMATED",
+    "citation": "Share of a person's faith draw their household holds in common: 39% of Americans married since 2010 have a spouse in a different religious group (Pew Research Center, America's Changing Religious Landscape, 2015), so about 0.6 match.",
+    "estimatedFrom": "Pew Research Center 2015; spread 0.5 to 0.8"
+  },
+  "minimumAdultAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "CES 2024 samples adults 18 and over; attainment and faith shares are read for adults."
+  }
+}

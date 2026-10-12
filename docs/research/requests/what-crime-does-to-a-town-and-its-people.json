@@ -11,9 +11,27 @@
     {
       "source": "src/simulation/pressure/causes.ts BLANKET_CRIME_PRESSURE",
       "whatItDidNotSettle": "Each reported offense already adds fear and pressure to leave its state, at a placeholder size (0.002 for assault and robbery, 0.001 for burglary and vandalism). Nothing moves business, home values or a victim's life, because no one has said by how much."
+    },
+    {
+      "source": "https://bjs.ojp.gov/document/cv24.pdf",
+      "whatItDidNotSettle": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
+    },
+    {
+      "source": "https://www.fbi.gov/news/stories/violent-crime-falls-at-historic-rate-new-fbi-data-show",
+      "whatItDidNotSettle": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
     }
   ],
   "title": "What crime does to a town's movers, businesses and home values, and to its victims",
   "usableAnswer": "Two short tables with sources. The first lists effects on a place (out-migration, in-migration, business openings and closures, home values), each with its size per unit of reported crime, its lag and its duration. The second lists effects on a victim (trust, fear, moving, work, health, political views, turnout) by offense, each with its size and duration. Where evidence is thin, say so.",
-  "whyItMatters": "Crime now pushes people to leave a state, at a made-up size, and does nothing else. The owner wants it to reach where people live, what businesses do and how victims' lives change. Research answers replace the placeholders so the size comes from evidence, not invention."
+  "whyItMatters": "Crime now pushes people to leave a state, at a made-up size, and does nothing else. The owner wants it to reach where people live, what businesses do and how victims' lives change. Research answers replace the placeholders so the size comes from evidence, not invention.",
+  "answer": {
+    "summary": "The checked BJS/FBI aggregates describe offense/reporting levels; they do not identify the requested causal effects on offending, towns, victim health or incumbent support. No coefficient for an individual actor is supported by these aggregate counts.",
+    "sources": [
+      "https://bjs.ojp.gov/document/cv24.pdf",
+      "https://www.fbi.gov/news/stories/violent-crime-falls-at-historic-rate-new-fbi-data-show"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:15:52.611668+00:00",
+    "stillOpen": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
+  }
 }

@@ -13,7 +13,7 @@ export interface ModuleStopInputV1 {
   readonly kind: "interrupt" | "offer-deadline";
   readonly reasonKey: string;
   readonly source: Source;
-  /** A held stop is released by its owning module, not by a client acknowledgement. */
+  /** A held stop is released by its owning module, not by a client acknowledgment. */
   readonly hold: boolean;
 }
 export interface ModuleStopTokenV1 {
@@ -340,7 +340,7 @@ export function releaseModuleStopV1(
   registry.byToken.delete(token);
   registry.revision++;
 }
-/** Internal cursor acknowledgement consumes one-shot interrupts only; held deadlines remain. */
+/** Internal cursor acknowledgment consumes one-shot interrupts only; held deadlines remain. */
 export function acknowledgeModuleStopsV1(
   core: CoreState,
   records: readonly ModuleStopV1[],
@@ -352,7 +352,7 @@ export function acknowledgeModuleStopsV1(
     Object.getPrototypeOf(records) !== Array.prototype
   )
     throw new Error(
-      "Player stop acknowledgement requires its actual record array.",
+      "Player stop acknowledgment requires its actual record array.",
     );
   const length = r.field(records, "length"),
     registry = registries.get(core),
@@ -360,7 +360,7 @@ export function acknowledgeModuleStopsV1(
     entries: Entry[] = [],
     seen = new Set<Entry>();
   if (!Number.isSafeInteger(length) || length < 0)
-    throw new Error("Invalid player stop acknowledgement array.");
+    throw new Error("Invalid player stop acknowledgment array.");
   for (let i = 0; i < length; i++) {
     const row = r.field(records, i),
       entry =
@@ -369,13 +369,13 @@ export function acknowledgeModuleStopsV1(
           .get(r.field(row, "moduleId"))
           ?.get(r.field(row, "recordId"));
     if (!entry || entry.row !== row || seen.has(entry))
-      throw new Error("Player stop acknowledgement is stale or duplicated.");
+      throw new Error("Player stop acknowledgment is stale or duplicated.");
     entries.push(entry);
     seen.add(entry);
   }
   r.verify();
   if (registries.get(core) !== registry || registry?.revision !== revision)
-    throw new Error("Player stop registry changed during acknowledgement.");
+    throw new Error("Player stop registry changed during acknowledgment.");
   for (const entry of entries)
     if (!entry!.row.hold) releaseModuleStopV1(core, entry!.token);
   return entries.some((entry) => entry!.row.hold);
@@ -443,6 +443,20 @@ export function earliestModuleStopsV1(
   if (registries.get(core) !== registry || registry?.revision !== revision)
     throw new Error("Player stop registry changed during query.");
   return output;
+}
+
+/**
+ * Read-only: the controlled person's active clock frontier, the exact moment
+ * work recorded now happens on the player's clock. Undefined when no clock is
+ * active. Modules use it to register a stop at a record's own time.
+ */
+export function playerClockFrontierV1(
+  core: CoreState,
+  controlledPersonId: string,
+): WorkMomentV1 | undefined {
+  assertFactoryCoreV1(core);
+  const clock = clockSnapshot(core, text(controlledPersonId));
+  return clock.active ? clock.frontier : undefined;
 }
 
 /** One active clock per actual controlled person. Root owns session/cursor admission. */

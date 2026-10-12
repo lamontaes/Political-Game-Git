@@ -1,0 +1,1333 @@
+{
+  "version": "p13-director-situations-v1",
+  "note": "Story director situation library on the new core (docs/design/director-on-core2.md). Ported from data/content/situation-types.json and draft pull request 3914. Structure only: no type holds a sentence; records fill every role and the English engine voices every line. Situation types are human moments only. Election night is folded into news-arrives and celebration with the elections engine as the cause; the door-knocking flow is folded into first-meeting and visit with the canvass as the reason. Each cause matches a director moment by its label, its counterpart, a thread turn or a callback reason; a cause whose producer the new core does not have yet names it in awaitingProducer and matches nothing.",
+  "fills": {
+    "subject": "The person whose moment opened the situation.",
+    "counterpart": "The other person the opening record names.",
+    "household": "The members of the subject's household that day.",
+    "kin": "The subject's relatives on record.",
+    "present": "Whoever else the setting's records place there that day.",
+    "classmates": "People enrolled at the subject's school.",
+    "coworkers": "People employed at the subject's workplace.",
+    "absent": "A person tied to the subject who is away for a recorded reason or has died.",
+    "authority": "The subject's guardian, teacher or supervisor on record."
+  },
+  "settings": {
+    "home": "The subject's household home.",
+    "other-home": "The counterpart's home.",
+    "school": "The school the subject is enrolled at.",
+    "workplace": "The subject's workplace.",
+    "phone": "A call between the two.",
+    "letter": "A letter or message from someone away.",
+    "venue": "The place the opening record names.",
+    "public": "A public place in the subject's town."
+  },
+  "timings": {
+    "at-cause": "On the day the opening record is written.",
+    "effective-date": "On the date the opening record takes effect.",
+    "next-together": "The next time the roles' records place them in one setting."
+  },
+  "standingPulls": {
+    "warmth": ["help-others", "engage", "cooperate"],
+    "trust": ["trust", "cooperate"],
+    "respect": ["follow-rules", "concede"],
+    "commitment": ["commit", "help-others"],
+    "tension": ["confront", "refuse", "distrust"]
+  },
+  "bearings": {
+    "anxious": "Worried about what comes next.",
+    "braced": "Ready for a hard exchange.",
+    "calm": "Settled and unhurried.",
+    "contrite": "Sorry for what they did.",
+    "curious": "Wanting to know more.",
+    "eager": "Keen for what is starting.",
+    "glad": "Pleased by what is happening.",
+    "grieving": "Mourning someone close.",
+    "guarded": "Holding back, wary of the other.",
+    "hopeful": "Hoping the other says yes.",
+    "hurt": "Wounded by what the other did.",
+    "nervous": "Uneasy at something new or exposed.",
+    "proud": "Honored and pleased with themselves.",
+    "relieved": "Glad something hard is over.",
+    "solemn": "Grave and quiet at a serious time.",
+    "steady": "Composed, holding the room.",
+    "tender": "Gentle and close at a parting or in care.",
+    "warm": "Friendly and open."
+  },
+  "scheduling": {
+    "note": "Calibration, owner-adjustable (docs/design/story-director.md, part 4). paces: about how many scenes a year a life carries in each band of childhood agency, and as an adult; a moment becomes a scene when it ranks within that many of the life's moments over the trailing days, itself included. openDays: how many days a scene stays open from the date its timing sets.",
+    "paces": {
+      "early-childhood": 1,
+      "middle-childhood": 2,
+      "adolescence": 3,
+      "adult": 4
+    },
+    "trailingDays": 365,
+    "openDays": {
+      "at-cause": 7,
+      "effective-date": 3,
+      "next-together": 30
+    },
+    "paceBands": [
+      {
+        "band": "early-childhood",
+        "maxAge": 7
+      },
+      {
+        "band": "middle-childhood",
+        "maxAge": 12
+      },
+      {
+        "band": "adolescence",
+        "maxAge": 17
+      },
+      {
+        "band": "adult"
+      }
+    ]
+  },
+  "types": [
+    {
+      "key": "departure",
+      "roles": [
+        {
+          "key": "leaving",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["farewell", "promise", "comfort", "tell"],
+          "wants": ["change", "commit"],
+          "bearing": "tender"
+        },
+        {
+          "key": "staying",
+          "fill": "household",
+          "count": "some",
+          "moves": ["farewell", "comfort", "request", "blame"],
+          "wants": ["keep-same", "engage"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "others",
+          "fill": "present",
+          "count": "some",
+          "moves": ["farewell", "comfort"],
+          "wants": ["help-others"],
+          "bearing": "solemn"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "effective-date",
+      "causes": [
+        {
+          "awaitingProducer": "left-home",
+          "bind": {
+            "leaving": "subject",
+            "staying": "household"
+          },
+          "opener": "leaving",
+          "opening": "farewell"
+        },
+        {
+          "awaitingProducer": "jailed",
+          "bind": {
+            "leaving": "subject",
+            "staying": "kin"
+          },
+          "opener": "leaving",
+          "opening": "farewell"
+        }
+      ],
+      "awaiting": ["record:deployment"]
+    },
+    {
+      "key": "return",
+      "roles": [
+        {
+          "key": "returning",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "apologize", "thank", "recall"],
+          "wants": ["engage", "change"],
+          "bearing": "relieved"
+        },
+        {
+          "key": "waiting",
+          "fill": "kin",
+          "count": "some",
+          "moves": ["comfort", "confront", "recall", "thank"],
+          "wants": ["engage", "keep-same"],
+          "bearing": "glad"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "effective-date",
+      "causes": [],
+      "awaiting": [
+        "record:release-from-jail",
+        "record:homecoming",
+        "record:moving-back"
+      ]
+    },
+    {
+      "key": "news-arrives",
+      "roles": [
+        {
+          "key": "bearer",
+          "fill": "household",
+          "count": "one",
+          "moves": ["tell", "comfort", "deflect", "lie"],
+          "wants": ["speak-out", "help-others"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "receiver",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "blame", "confront", "comfort"],
+          "wants": ["engage"],
+          "bearing": "braced"
+        },
+        {
+          "key": "about",
+          "fill": "counterpart",
+          "count": "one",
+          "present": false,
+          "moves": [],
+          "wants": ["stay-quiet"]
+        }
+      ],
+      "setting": ["home", "phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:life.death",
+            "counterpart": "some"
+          },
+          "bind": {
+            "receiver": "subject",
+            "about": "counterpart",
+            "bearer": "household"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "money:job-ended",
+            "counterpart": "none"
+          },
+          "bind": {
+            "bearer": "subject",
+            "receiver": "household",
+            "about": "subject"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "awaitingProducer": "jailed",
+          "bind": {
+            "about": "subject",
+            "receiver": "kin",
+            "bearer": "present"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "money:job-ended",
+            "counterpart": "some"
+          },
+          "bind": {
+            "bearer": "counterpart",
+            "receiver": "subject",
+            "about": "counterpart"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "match": {
+            "label": "feeling:event:health.serious-illness",
+            "counterpart": "some"
+          },
+          "bind": {
+            "receiver": "subject",
+            "about": "counterpart",
+            "bearer": "household"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        },
+        {
+          "awaitingProducer": "election-result",
+          "causeEngine": "elections",
+          "bind": {
+            "receiver": "subject",
+            "about": "counterpart",
+            "bearer": "present"
+          },
+          "opener": "bearer",
+          "opening": "tell"
+        }
+      ],
+      "awaiting": [
+        "record:diagnosis-disclosed",
+        "record:acceptance",
+        "record:result"
+      ]
+    },
+    {
+      "key": "letter",
+      "roles": [
+        {
+          "key": "writer",
+          "fill": "absent",
+          "count": "one",
+          "moves": ["tell", "recall", "promise", "request"],
+          "wants": ["engage", "commit"],
+          "bearing": "tender"
+        },
+        {
+          "key": "reader",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "tell", "recall", "promise"],
+          "wants": ["engage"],
+          "bearing": "curious"
+        }
+      ],
+      "setting": ["letter"],
+      "timing": "at-cause",
+      "causes": [],
+      "awaiting": ["record:contact-from-someone-away"]
+    },
+    {
+      "key": "argument",
+      "roles": [
+        {
+          "key": "side",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["confront", "blame", "deflect", "apologize"],
+          "wants": ["confront", "speak-out"],
+          "bearing": "braced"
+        },
+        {
+          "key": "other-side",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["confront", "blame", "refuse", "agree"],
+          "wants": ["confront", "keep-same"],
+          "bearing": "braced"
+        },
+        {
+          "key": "witness",
+          "fill": "present",
+          "count": "some",
+          "moves": ["comfort", "tell"],
+          "wants": ["help-others", "stay-quiet"],
+          "bearing": "nervous"
+        }
+      ],
+      "setting": ["home", "workplace", "school", "public"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "labelPrefix": "tie:",
+            "threadTurn": "soured"
+          },
+          "bind": {
+            "side": "subject",
+            "other-side": "counterpart",
+            "witness": "present"
+          }
+        }
+      ],
+      "awaiting": [
+        "record:dispute-over-money",
+        "record:dispute-over-rules",
+        "record:dispute-over-belief"
+      ]
+    },
+    {
+      "key": "apology",
+      "roles": [
+        {
+          "key": "apologizing",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["apologize", "confess", "promise", "offer"],
+          "wants": ["concede", "cooperate"],
+          "bearing": "contrite"
+        },
+        {
+          "key": "wronged",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["agree", "refuse", "blame", "thank"],
+          "wants": ["keep-same", "distrust"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["home", "other-home", "public"],
+      "timing": "next-together",
+      "causes": [],
+      "awaiting": ["record:decision-to-concede"],
+      "aftermath": {
+        "agree": {
+          "kind": "support:apology-accepted",
+          "change": "strengthened",
+          "significance": "meaningful"
+        }
+      }
+    },
+    {
+      "key": "confession",
+      "roles": [
+        {
+          "key": "telling",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["confess", "lie", "deflect", "request"],
+          "wants": ["speak-out", "take-risk"],
+          "bearing": "nervous"
+        },
+        {
+          "key": "told",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["comfort", "blame", "thank", "promise"],
+          "wants": ["trust", "engage"],
+          "bearing": "curious"
+        }
+      ],
+      "setting": ["home", "other-home"],
+      "timing": "next-together",
+      "causes": [],
+      "awaiting": ["record:private-fact-held"]
+    },
+    {
+      "key": "favor-asked",
+      "roles": [
+        {
+          "key": "asker",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "offer", "promise", "thank"],
+          "wants": ["self-interest", "engage"],
+          "bearing": "hopeful"
+        },
+        {
+          "key": "asked",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["agree", "decline", "offer", "request"],
+          "wants": ["help-others", "play-safe"],
+          "bearing": "curious"
+        }
+      ],
+      "setting": ["phone", "other-home", "home"],
+      "timing": "at-cause",
+      "causes": [],
+      "awaiting": ["record:favor-request-as-moment"]
+    },
+    {
+      "key": "reach-out",
+      "roles": [
+        {
+          "key": "asking",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["request", "tell", "recall", "offer"],
+          "wants": ["engage", "commit"],
+          "bearing": "hopeful"
+        },
+        {
+          "key": "asked",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["agree", "decline", "request", "thank"],
+          "wants": ["engage"],
+          "bearing": "curious"
+        }
+      ],
+      "setting": ["phone"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "reached-out",
+          "bind": {
+            "asked": "subject",
+            "asking": "counterpart"
+          },
+          "opener": "asking",
+          "opening": "request"
+        }
+      ]
+    },
+    {
+      "key": "becoming-friends",
+      "roles": [
+        {
+          "key": "friend",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "recall", "offer", "thank", "confess"],
+          "wants": ["engage", "trust"],
+          "bearing": "warm"
+        },
+        {
+          "key": "other-friend",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "recall", "offer", "thank", "confess"],
+          "wants": ["engage", "trust"],
+          "bearing": "warm"
+        }
+      ],
+      "setting": ["public", "home", "other-home"],
+      "timing": "next-together",
+      "causes": [
+        {
+          "match": {
+            "labelPrefix": "tie:",
+            "threadTurn": "grew"
+          },
+          "bind": {
+            "friend": "subject",
+            "other-friend": "counterpart"
+          }
+        }
+      ]
+    },
+    {
+      "key": "celebration",
+      "roles": [
+        {
+          "key": "honoree",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "tell", "recall"],
+          "wants": ["engage"],
+          "bearing": "proud"
+        },
+        {
+          "key": "host",
+          "fill": "household",
+          "count": "one",
+          "moves": ["offer", "tell", "thank"],
+          "wants": ["help-others", "engage"],
+          "bearing": "glad"
+        },
+        {
+          "key": "guests",
+          "fill": "kin",
+          "count": "some",
+          "moves": ["thank", "tell", "offer"],
+          "wants": ["engage", "cooperate"],
+          "bearing": "glad"
+        }
+      ],
+      "setting": ["home", "venue"],
+      "timing": "effective-date",
+      "causes": [
+        {
+          "awaitingProducer": "married",
+          "bind": {
+            "honoree": "subject",
+            "host": "kin",
+            "guests": "present"
+          },
+          "opener": "host"
+        },
+        {
+          "awaitingProducer": "school-finished",
+          "bind": {
+            "honoree": "subject",
+            "host": "household",
+            "guests": "kin"
+          },
+          "opener": "host"
+        },
+        {
+          "match": {
+            "label": "money:job-started",
+            "counterpart": "none"
+          },
+          "bind": {
+            "honoree": "subject",
+            "host": "household",
+            "guests": "kin"
+          },
+          "opener": "host"
+        },
+        {
+          "awaitingProducer": "family-birth",
+          "bind": {
+            "honoree": "subject",
+            "host": "household",
+            "guests": "kin"
+          },
+          "opener": "host"
+        },
+        {
+          "awaitingProducer": "election-result",
+          "causeEngine": "elections",
+          "bind": {
+            "honoree": "subject",
+            "host": "household",
+            "guests": "present"
+          },
+          "opener": "host"
+        }
+      ],
+      "awaiting": ["record:birthday-gathering", "record:election-win"]
+    },
+    {
+      "key": "gathering-missing",
+      "roles": [
+        {
+          "key": "household",
+          "fill": "household",
+          "count": "some",
+          "moves": ["recall", "comfort", "tell"],
+          "wants": ["keep-same", "engage"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "absent",
+          "fill": "absent",
+          "count": "one",
+          "present": false,
+          "moves": [],
+          "wants": ["keep-same"]
+        }
+      ],
+      "setting": ["home"],
+      "timing": "effective-date",
+      "causes": [],
+      "awaiting": ["record:birthday-gathering", "record:holiday-calendar"]
+    },
+    {
+      "key": "funeral",
+      "roles": [
+        {
+          "key": "mourners",
+          "fill": "present",
+          "count": "some",
+          "moves": ["comfort", "recall", "tell", "farewell"],
+          "wants": ["help-others", "engage"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "family",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "recall", "farewell", "comfort"],
+          "wants": ["keep-same", "engage"],
+          "bearing": "grieving"
+        },
+        {
+          "key": "deceased",
+          "fill": "counterpart",
+          "count": "one",
+          "present": false,
+          "moves": [],
+          "wants": ["keep-same"]
+        }
+      ],
+      "setting": ["venue"],
+      "timing": "effective-date",
+      "causes": [
+        {
+          "match": {
+            "label": "feeling:event:life.death",
+            "counterpart": "some"
+          },
+          "bind": {
+            "family": "subject",
+            "deceased": "counterpart",
+            "mourners": "present"
+          }
+        }
+      ]
+    },
+    {
+      "key": "first-meeting",
+      "roles": [
+        {
+          "key": "newcomer",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "offer", "thank"],
+          "wants": ["engage", "change"],
+          "bearing": "curious"
+        },
+        {
+          "key": "met",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "offer", "thank"],
+          "wants": ["engage"],
+          "bearing": "curious"
+        },
+        {
+          "key": "introducer",
+          "fill": "present",
+          "count": "one",
+          "moves": ["tell", "offer"],
+          "wants": ["help-others", "engage"],
+          "bearing": "warm"
+        }
+      ],
+      "setting": ["public", "venue"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "relationship:contact:introduced:maintained",
+          "bind": {
+            "newcomer": "subject",
+            "met": "counterpart",
+            "introducer": "present"
+          },
+          "opener": "introducer",
+          "opening": "tell"
+        },
+        {
+          "awaitingProducer": "canvass-visit",
+          "reason": "canvass",
+          "bind": {
+            "newcomer": "subject",
+            "met": "counterpart"
+          },
+          "opener": "newcomer"
+        }
+      ],
+      "awaiting": ["record:new-neighbor"]
+    },
+    {
+      "key": "first-day",
+      "roles": [
+        {
+          "key": "newcomer",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "request", "thank"],
+          "wants": ["engage", "change"],
+          "bearing": "nervous"
+        },
+        {
+          "key": "authority",
+          "fill": "authority",
+          "count": "one",
+          "moves": ["tell", "offer", "comfort"],
+          "wants": ["follow-rules", "help-others"],
+          "bearing": "steady"
+        },
+        {
+          "key": "peers",
+          "fill": "classmates",
+          "count": "some",
+          "moves": ["offer", "tell"],
+          "wants": ["engage", "keep-same"],
+          "bearing": "curious"
+        }
+      ],
+      "setting": ["school", "workplace"],
+      "timing": "effective-date",
+      "causes": [
+        {
+          "awaitingProducer": "school-started",
+          "bind": {
+            "newcomer": "subject",
+            "authority": "authority",
+            "peers": "classmates"
+          }
+        },
+        {
+          "match": {
+            "label": "money:job-started",
+            "counterpart": "none"
+          },
+          "bind": {
+            "newcomer": "subject",
+            "authority": "authority",
+            "peers": "coworkers"
+          }
+        }
+      ]
+    },
+    {
+      "key": "last-day",
+      "roles": [
+        {
+          "key": "leaving",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["farewell", "thank", "recall", "promise"],
+          "wants": ["change", "engage"],
+          "bearing": "tender"
+        },
+        {
+          "key": "staying",
+          "fill": "classmates",
+          "count": "some",
+          "moves": ["farewell", "recall", "thank"],
+          "wants": ["keep-same", "engage"],
+          "bearing": "tender"
+        }
+      ],
+      "setting": ["school", "workplace"],
+      "timing": "effective-date",
+      "causes": [
+        {
+          "awaitingProducer": "school-finished",
+          "bind": {
+            "leaving": "subject",
+            "staying": "classmates"
+          }
+        }
+      ],
+      "awaiting": ["record:retirement", "record:quitting"]
+    },
+    {
+      "key": "interview",
+      "roles": [
+        {
+          "key": "interviewer",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "offer", "decline"],
+          "wants": ["follow-rules", "distrust"],
+          "bearing": "steady"
+        },
+        {
+          "key": "candidate",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "lie", "request", "thank"],
+          "wants": ["self-interest", "take-risk"],
+          "bearing": "nervous"
+        }
+      ],
+      "setting": ["workplace", "venue"],
+      "timing": "effective-date",
+      "causes": [],
+      "awaiting": [
+        "record:job-application",
+        "record:press-interview",
+        "record:admission"
+      ]
+    },
+    {
+      "key": "date",
+      "roles": [
+        {
+          "key": "partner",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "recall", "offer", "thank", "confess"],
+          "wants": ["engage", "take-risk"],
+          "bearing": "eager"
+        },
+        {
+          "key": "other-partner",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "recall", "offer", "thank", "confess"],
+          "wants": ["engage", "take-risk"],
+          "bearing": "eager"
+        }
+      ],
+      "setting": ["public", "venue"],
+      "timing": "next-together",
+      "causes": [
+        {
+          "awaitingProducer": "started-dating",
+          "bind": {
+            "partner": "subject",
+            "other-partner": "counterpart"
+          }
+        }
+      ]
+    },
+    {
+      "key": "proposal",
+      "roles": [
+        {
+          "key": "proposing",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["promise", "request", "tell", "confess"],
+          "wants": ["commit", "take-risk"],
+          "bearing": "nervous"
+        },
+        {
+          "key": "proposed-to",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["agree", "decline", "request", "thank"],
+          "wants": ["commit", "play-safe"],
+          "bearing": "tender"
+        }
+      ],
+      "setting": ["home", "public", "venue"],
+      "timing": "next-together",
+      "causes": [],
+      "awaiting": ["record:couple-next-stage"],
+      "aftermath": {
+        "agree": {
+          "kind": "commitment:engaged",
+          "change": "formed",
+          "significance": "major"
+        }
+      }
+    },
+    {
+      "key": "breakup",
+      "roles": [
+        {
+          "key": "ending",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["tell", "blame", "apologize", "farewell"],
+          "wants": ["change", "withdraw"],
+          "bearing": "solemn"
+        },
+        {
+          "key": "partner",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["blame", "request", "refuse", "farewell"],
+          "wants": ["keep-same", "confront"],
+          "bearing": "hurt"
+        },
+        {
+          "key": "children",
+          "fill": "household",
+          "count": "some",
+          "moves": ["comfort", "tell"],
+          "wants": ["keep-same"],
+          "bearing": "anxious"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "awaitingProducer": "broke-up",
+          "bind": {
+            "ending": "subject",
+            "partner": "counterpart",
+            "children": "household"
+          }
+        },
+        {
+          "awaitingProducer": "separated",
+          "bind": {
+            "ending": "subject",
+            "partner": "counterpart",
+            "children": "household"
+          }
+        }
+      ],
+      "aftermath": {
+        "farewell": {
+          "kind": "commitment:parted",
+          "change": "ended",
+          "significance": "major"
+        }
+      }
+    },
+    {
+      "key": "reunion",
+      "roles": [
+        {
+          "key": "one",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["recall", "tell", "apologize", "thank", "promise"],
+          "wants": ["engage", "change"],
+          "bearing": "glad"
+        },
+        {
+          "key": "other",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["recall", "tell", "apologize", "thank", "promise"],
+          "wants": ["engage", "keep-same"],
+          "bearing": "glad"
+        }
+      ],
+      "setting": ["public", "home", "other-home"],
+      "timing": "at-cause",
+      "causes": [
+        {
+          "match": {
+            "echo": "re-entry"
+          },
+          "bind": {
+            "one": "subject",
+            "other": "counterpart"
+          }
+        }
+      ]
+    },
+    {
+      "key": "betrayal",
+      "roles": [
+        {
+          "key": "betrayed",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["blame", "confront", "refuse", "request"],
+          "wants": ["distrust", "confront"],
+          "bearing": "hurt"
+        },
+        {
+          "key": "betrayer",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["apologize", "lie", "deflect", "confess"],
+          "wants": ["self-interest", "concede"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["home", "other-home", "public"],
+      "timing": "next-together",
+      "causes": [],
+      "awaiting": [
+        "record:broken-undertaking",
+        "record:lie-found-out",
+        "record:secret-told"
+      ],
+      "aftermath": {
+        "blame": {
+          "kind": "conflict:betrayed",
+          "change": "strained",
+          "significance": "major"
+        }
+      }
+    },
+    {
+      "key": "rescue",
+      "roles": [
+        {
+          "key": "rescuer",
+          "fill": "present",
+          "count": "one",
+          "moves": ["offer", "comfort", "tell"],
+          "wants": ["take-risk", "help-others"],
+          "bearing": "steady"
+        },
+        {
+          "key": "in-danger",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "thank", "tell"],
+          "wants": ["play-safe"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "bystanders",
+          "fill": "present",
+          "count": "some",
+          "moves": ["tell", "offer"],
+          "wants": ["stay-quiet", "help-others"],
+          "bearing": "anxious"
+        }
+      ],
+      "setting": ["venue", "public"],
+      "timing": "at-cause",
+      "causes": [],
+      "awaiting": [
+        "record:incident-with-someone-present",
+        "record:acute-health-episode"
+      ]
+    },
+    {
+      "key": "visit",
+      "roles": [
+        {
+          "key": "visitor",
+          "fill": "kin",
+          "count": "one",
+          "moves": ["comfort", "tell", "recall", "promise"],
+          "wants": ["help-others", "commit"],
+          "bearing": "tender"
+        },
+        {
+          "key": "cannot-come",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "tell", "request", "confess"],
+          "wants": ["engage"],
+          "bearing": "solemn"
+        }
+      ],
+      "setting": ["venue"],
+      "timing": "next-together",
+      "causes": [
+        {
+          "awaitingProducer": "jailed",
+          "bind": {
+            "cannot-come": "subject",
+            "visitor": "kin"
+          },
+          "opener": "visitor"
+        },
+        {
+          "awaitingProducer": "held-before-trial",
+          "bind": {
+            "cannot-come": "subject",
+            "visitor": "kin"
+          },
+          "opener": "visitor"
+        },
+        {
+          "match": {
+            "label": "feeling:event:health.serious-illness",
+            "counterpart": "some"
+          },
+          "bind": {
+            "visitor": "subject",
+            "cannot-come": "counterpart"
+          },
+          "opener": "visitor"
+        },
+        {
+          "awaitingProducer": "canvass-visit",
+          "reason": "canvass",
+          "bind": {
+            "visitor": "subject",
+            "cannot-come": "counterpart"
+          },
+          "opener": "visitor"
+        }
+      ],
+      "awaiting": ["record:serious-illness", "record:nursing-home"]
+    },
+    {
+      "key": "arrival",
+      "roles": [
+        {
+          "key": "household",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["offer", "tell", "thank"],
+          "wants": ["help-others", "change"],
+          "bearing": "glad"
+        },
+        {
+          "key": "newcomer",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["thank", "tell"],
+          "wants": ["engage"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["home"],
+      "timing": "effective-date",
+      "causes": [
+        {
+          "awaitingProducer": "family-birth",
+          "bind": {
+            "household": "subject",
+            "newcomer": "counterpart"
+          }
+        }
+      ],
+      "awaiting": ["record:stepparent-arrives", "record:housemate-moves-in"]
+    },
+    {
+      "key": "care",
+      "roles": [
+        {
+          "key": "caregiver",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["offer", "comfort", "tell", "request"],
+          "wants": ["help-others", "commit"],
+          "bearing": "tender"
+        },
+        {
+          "key": "cared-for",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["thank", "request", "decline", "confess"],
+          "wants": ["trust", "play-safe"],
+          "bearing": "calm"
+        }
+      ],
+      "setting": ["home", "other-home"],
+      "timing": "effective-date",
+      "causes": [],
+      "awaiting": ["record:care-responsibility"]
+    },
+    {
+      "key": "advice",
+      "roles": [
+        {
+          "key": "adviser",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "offer", "recall", "comfort"],
+          "wants": ["help-others", "speak-out"],
+          "bearing": "steady"
+        },
+        {
+          "key": "deciding",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "thank", "agree", "decline"],
+          "wants": ["change", "trust"],
+          "bearing": "anxious"
+        }
+      ],
+      "setting": ["school", "home", "other-home"],
+      "timing": "next-together",
+      "causes": [
+        {
+          "awaitingProducer": "next-step",
+          "bind": {
+            "deciding": "subject",
+            "adviser": "authority"
+          },
+          "opener": "adviser"
+        },
+        {
+          "awaitingProducer": "relationship:mentorship:*:formed",
+          "bind": {
+            "deciding": "subject",
+            "adviser": "counterpart"
+          },
+          "opener": "adviser"
+        }
+      ]
+    },
+    {
+      "key": "accusation",
+      "roles": [
+        {
+          "key": "accuser",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["confront", "blame", "tell"],
+          "wants": ["confront", "follow-rules"],
+          "bearing": "braced"
+        },
+        {
+          "key": "accused",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["deflect", "lie", "confess", "apologize", "refuse"],
+          "wants": ["self-interest", "play-safe"],
+          "bearing": "guarded"
+        },
+        {
+          "key": "witnesses",
+          "fill": "present",
+          "count": "some",
+          "moves": ["tell", "comfort"],
+          "wants": ["speak-out", "stay-quiet"],
+          "bearing": "nervous"
+        }
+      ],
+      "setting": ["school", "workplace", "public"],
+      "timing": "at-cause",
+      "causes": [],
+      "awaiting": ["record:incident-at-school-or-work", "record:suspicion"]
+    },
+    {
+      "key": "warning",
+      "roles": [
+        {
+          "key": "warning",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["tell", "offer", "request"],
+          "wants": ["help-others", "speak-out"],
+          "bearing": "anxious"
+        },
+        {
+          "key": "at-risk",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["thank", "deflect", "refuse", "promise"],
+          "wants": ["play-safe", "keep-same"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["home", "phone", "letter"],
+      "timing": "at-cause",
+      "causes": [],
+      "awaiting": [
+        "record:arrears",
+        "record:eviction-notice",
+        "record:conflict-escalating"
+      ]
+    },
+    {
+      "key": "reconciliation",
+      "roles": [
+        {
+          "key": "one",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["apologize", "thank", "recall", "promise", "offer"],
+          "wants": ["concede", "cooperate"],
+          "bearing": "hopeful"
+        },
+        {
+          "key": "other",
+          "fill": "counterpart",
+          "count": "one",
+          "moves": ["apologize", "thank", "recall", "promise", "offer"],
+          "wants": ["concede", "trust"],
+          "bearing": "guarded"
+        }
+      ],
+      "setting": ["home", "other-home", "public"],
+      "timing": "next-together",
+      "causes": [],
+      "awaiting": ["record:help-after-quarrel"],
+      "aftermath": {
+        "apologize": {
+          "kind": "support:reconciled",
+          "change": "strengthened",
+          "significance": "meaningful"
+        }
+      }
+    },
+    {
+      "key": "asking-permission",
+      "roles": [
+        {
+          "key": "asking",
+          "fill": "subject",
+          "count": "one",
+          "moves": ["request", "promise", "tell", "lie"],
+          "wants": ["take-risk", "self-interest"],
+          "bearing": "hopeful"
+        },
+        {
+          "key": "authority",
+          "fill": "authority",
+          "count": "one",
+          "moves": ["agree", "decline", "offer"],
+          "wants": ["follow-rules", "play-safe"],
+          "bearing": "steady"
+        }
+      ],
+      "setting": ["home", "school", "workplace"],
+      "timing": "at-cause",
+      "causes": [],
+      "awaiting": ["record:choice-needing-permission"]
+    }
+  ]
+}

@@ -12,7 +12,12 @@ import type {
   PersonState,
   WeightedReason,
 } from "./types";
-const traitScores = new WeakMap<PersonState, Map<string, number>>();
+/** Per person: each act kind's summed trait pull and how many pulls touched it. */
+interface KindLean {
+  sum: Map<string, number>;
+  count: Map<string, number>;
+}
+const kindLeans = new WeakMap<PersonState, KindLean>();
 
 /** Preserve existing utility cache across the light writer's shallow canonical actor replacement. */
 export function carryTraitScores(
@@ -31,8 +36,59 @@ export function carryTraitScores(
     throw new Error(
       "Trait cache transfer requires the exact unchanged traits reference.",
     );
-  const scores = traitScores.get(previous);
-  if (scores) traitScores.set(next, scores);
+  const lean = kindLeans.get(previous);
+  if (lean) kindLeans.set(next, lean);
+}
+
+/**
+ * Every trait's pull on every act kind for one person, computed once per
+ * person: each trait counts on its high side when above the middle and its
+ * low side when below, weighted by how far from the middle it sits.
+ */
+function kindLean(
+  core: Pick<CoreState, "data">,
+  actor: Pick<PersonState, "traits">,
+): KindLean {
+  const cached = kindLeans.get(actor as PersonState);
+  if (cached) return cached;
+  const p = (key: string) => parameter(key, core.data.parameters);
+  const lean: KindLean = { sum: new Map(), count: new Map() };
+  const add = (kind: string, value: number) => {
+    lean.sum.set(kind, (lean.sum.get(kind) ?? p("zero")) + value);
+    lean.count.set(kind, (lean.count.get(kind) ?? p("zero")) + p("one"));
+  };
+  for (const [id, raw] of Object.entries(actor.traits)) {
+    const row = core.data.traitPulls[id];
+    if (!row || raw === p("zero")) continue;
+    const side = raw > p("zero") ? row.high : row.low;
+    if (!side) continue;
+    const weight = Math.min(p("one"), Math.abs(raw) / p("traitScale"));
+    for (const kind of side.toward ?? []) add(kind, weight);
+    for (const kind of side.away ?? []) add(kind, -weight);
+  }
+  kindLeans.set(actor as PersonState, lean);
+  return lean;
+}
+
+/**
+ * How a person's traits lean toward an option that expresses these act kinds,
+ * from -1 to 1: the mean of every matching trait pull. The chooser's trait
+ * reason, and the one trait term every formula decision uses.
+ */
+export function traitLean(
+  core: Pick<CoreState, "data">,
+  actor: Pick<PersonState, "traits">,
+  actKinds: readonly string[],
+): number {
+  const p = (key: string) => parameter(key, core.data.parameters);
+  const lean = kindLean(core, actor);
+  let sum = p("zero"),
+    count = p("zero");
+  for (const kind of actKinds) {
+    sum += lean.sum.get(kind) ?? p("zero");
+    count += lean.count.get(kind) ?? p("zero");
+  }
+  return count > p("zero") ? sum / count : p("zero");
 }
 
 function traitScore(
@@ -40,97 +96,32 @@ function traitScore(
   actor: PersonState,
   offer: ActOffer,
 ): number {
-  let scores = traitScores.get(actor);
-  if (!scores) {
-    scores = new Map();
-    traitScores.set(actor, scores);
-  }
-  const previous = scores.get(offer.definition.id);
-  if (previous !== undefined) return previous;
-  const p = (key: string) => parameter(key, core.data.parameters);
-  let sum = p("zero");
-  let contributing = p("zero");
-  for (const [id, raw] of Object.entries(actor.traits)) {
-    const row = core.data.traitPulls[id];
-    if (!row || raw === p("zero")) continue;
-    const side = raw > p("zero") ? row.high : row.low;
-    if (!side) continue;
-    const weight = Math.min(p("one"), Math.abs(raw) / p("traitScale"));
-    for (const kind of offer.definition.actKinds) {
-      if (side.toward?.includes(kind)) {
-        sum += weight;
-        contributing += p("one");
-      }
-      if (side.away?.includes(kind)) {
-        sum -= weight;
-        contributing += p("one");
-      }
-    }
-  }
-  const result = contributing > p("zero") ? sum / contributing : p("zero");
-  scores.set(offer.definition.id, result);
-  return result;
+  return traitLean(core, actor, offer.definition.actKinds);
 }
 
-export function chooseAct(
+/** One scored offer: its total, its reasons, and the chooser's tie-break key. */
+export interface ScoredOffer {
+  /** The offer's position in the list it was scored from. */
+  offerIndex: number;
+  offer: ActOffer;
+  effortHours: number;
+  score: number;
+  reasons: DecisionReason;
+  reasonTerms?: readonly WeightedReason[];
+  key: string;
+}
+
+/** Scores every offer once with the chooser's reasons; it chooses nothing. */
+export function scoreOffers(
   core: CoreState,
   personId: string,
   offers: readonly ActOffer[],
   context?: DecisionContext,
-  captureOriginalScores = false,
-): DecisionResult {
+): ScoredOffer[] {
   const actor = core.people.get(personId);
   if (!actor) throw new Error("Decision actor is absent.");
   const p = (key: string) => parameter(key, core.data.parameters);
-  type Ranked = {
-    offerIndex: number;
-    offer: ActOffer;
-    actionId: string;
-    targetId: string;
-    availableHours: number;
-    effortHours: number;
-    driveId?: string;
-    score: number;
-    reasons: DecisionReason;
-    reasonTerms?: readonly WeightedReason[];
-  };
-  let best: Ranked | undefined, runnerUp: Ranked | undefined;
-  const compact = (row: Ranked): Readonly<CompactChoiceScoreV1> =>
-    Object.freeze({
-      offerIndex: row.offerIndex,
-      actionId: row.actionId,
-      targetId: row.targetId,
-      availableHours: row.availableHours,
-      effortHours: row.effortHours,
-      ...(row.driveId === undefined ? {} : { driveId: row.driveId }),
-      score: row.score,
-      contributions: Object.freeze({ ...row.reasons }),
-      ...(row.reasonTerms?.length
-        ? {
-            reasonTerms: Object.freeze(
-              row.reasonTerms.map((term) =>
-                Object.freeze({
-                  bindingId: term.id,
-                  provider: term.provider,
-                  weightParameter: term.weightParameter,
-                  value: term.value,
-                  contribution: term.contribution,
-                  ...(term.sourceIds === undefined
-                    ? {}
-                    : { sourceIds: Object.freeze([...term.sourceIds]) }),
-                }),
-              ),
-            ),
-          }
-        : {}),
-    });
-  const traced =
-    core.observer ||
-    actor.id === core.playerId ||
-    core.focusPersonIds.has(actor.id) ||
-    isExplicitlyControlledPersonV1(core, actor.id);
-  const scores: NonNullable<DecisionResult["scores"]>[number][] | undefined =
-    traced || captureOriginalScores ? [] : undefined;
+  const scored: ScoredOffer[] = [];
   let nextOfferIndex = p("zero");
   for (const offer of offers) {
     const offerIndex = nextOfferIndex++;
@@ -200,7 +191,7 @@ export function chooseAct(
         contribution += weighted;
         if (!Number.isFinite(contribution))
           throw new Error("Non-finite module reason sum.");
-        reasonTerms?.push({
+        reasonTerms.push({
           ...binding,
           arguments: binding.arguments ? { ...binding.arguments } : undefined,
           value: result.value,
@@ -215,47 +206,94 @@ export function chooseAct(
       p("zero"),
     );
     if (!Number.isFinite(score)) throw new Error("Non-finite choice utility.");
-    scores?.push({
-      actionId: action.id,
-      targetId: offer.targetId,
-      score,
-      reasons,
-      ...(reasonTerms?.length ? { reasonTerms } : {}),
-    });
-    const key = `${action.id}:${offer.targetId}`;
-    const bestKey = best
-      ? `${best.offer.definition.id}:${best.offer.targetId}`
-      : undefined;
-    const candidate: Ranked = {
+    scored.push({
       offerIndex,
       offer,
-      actionId: action.id,
-      targetId: offer.targetId,
-      availableHours: offer.availableHours,
       effortHours,
-      driveId: offer.driveId,
       score,
       reasons,
       reasonTerms,
-    };
+      key: `${action.id}:${offer.targetId}`,
+    });
+  }
+  return scored;
+}
+
+export function chooseAct(
+  core: CoreState,
+  personId: string,
+  offers: readonly ActOffer[],
+  context?: DecisionContext,
+  captureOriginalScores = false,
+): DecisionResult {
+  return decisionFromScores(
+    core,
+    personId,
+    scoreOffers(core, personId, offers, context),
+    captureOriginalScores,
+  );
+}
+
+function compact(row: ScoredOffer): Readonly<CompactChoiceScoreV1> {
+  return Object.freeze({
+    offerIndex: row.offerIndex,
+    actionId: row.offer.definition.id,
+    targetId: row.offer.targetId,
+    availableHours: row.offer.availableHours,
+    effortHours: row.effortHours,
+    ...(row.offer.driveId === undefined ? {} : { driveId: row.offer.driveId }),
+    score: row.score,
+    contributions: Object.freeze({ ...row.reasons }),
+    ...(row.reasonTerms?.length
+      ? {
+          reasonTerms: Object.freeze(
+            row.reasonTerms.map((term) =>
+              Object.freeze({
+                bindingId: term.id,
+                provider: term.provider,
+                weightParameter: term.weightParameter,
+                value: term.value,
+                contribution: term.contribution,
+                ...(term.sourceIds === undefined
+                  ? {}
+                  : { sourceIds: Object.freeze([...term.sourceIds]) }),
+              }),
+            ),
+          ),
+        }
+      : {}),
+  });
+}
+
+/** The chooser's pick from a scoring pass: the highest score, ties to the lowest key. */
+export function decisionFromScores(
+  core: CoreState,
+  personId: string,
+  scored: readonly ScoredOffer[],
+  captureOriginalScores = false,
+): DecisionResult {
+  const actor = core.people.get(personId);
+  if (!actor) throw new Error("Decision actor is absent.");
+  const traced =
+    core.observer ||
+    actor.id === core.playerId ||
+    core.focusPersonIds.has(actor.id) ||
+    isExplicitlyControlledPersonV1(core, actor.id);
+  let best: ScoredOffer | undefined, runnerUp: ScoredOffer | undefined;
+  for (const row of scored) {
     if (
       !best ||
-      score > best.score ||
-      (score === best.score && key < bestKey!)
+      row.score > best.score ||
+      (row.score === best.score && row.key < best.key)
     ) {
       if (best) runnerUp = best;
-      best = candidate;
-    } else {
-      const runnerKey = runnerUp
-        ? `${runnerUp.actionId}:${runnerUp.targetId}`
-        : undefined;
-      if (
-        !runnerUp ||
-        score > runnerUp.score ||
-        (score === runnerUp.score && key < runnerKey!)
-      )
-        runnerUp = candidate;
-    }
+      best = row;
+    } else if (
+      !runnerUp ||
+      row.score > runnerUp.score ||
+      (row.score === runnerUp.score && row.key < runnerUp.key)
+    )
+      runnerUp = row;
   }
   return {
     actorId: personId,
@@ -268,7 +306,18 @@ export function chooseAct(
     reasonKey: best
       ? `utility:${best.offer.definition.need}:${best.offer.driveId ?? best.offer.definition.effect}`
       : "no-available-act",
-    scores,
+    scores:
+      traced || captureOriginalScores
+        ? scored.map((row) => ({
+            actionId: row.offer.definition.id,
+            targetId: row.offer.targetId,
+            score: row.score,
+            reasons: row.reasons,
+            ...(row.reasonTerms?.length
+              ? { reasonTerms: row.reasonTerms }
+              : {}),
+          }))
+        : undefined,
     ...(best && (traced || captureOriginalScores)
       ? {
           compactChoice: Object.freeze({
