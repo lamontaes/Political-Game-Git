@@ -20,6 +20,7 @@ import { openOffices, townSeats } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord, votesOf } from "./modules/record";
+import { budgetsOf, governments, openBudgets } from "./modules/budgets";
 import {
   billOf,
   draftBill,
@@ -192,6 +193,42 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
         status: after.status,
         votes: votes.map(
           (v) => `${v.memberId}: ${v.vote} (${v.position.total.toFixed(2)})`,
+        ),
+      }),
+    );
+  });
+
+  it("an ordinance adding to a budget line changes the city's budget when it passes", () => {
+    const allowing = Object.keys(authority).sort();
+    const { core, api, council } = town(allowing, "budget");
+    openBudgets(core);
+    const cityGov = governments(api).find((g) => g.level === "city");
+    const city = cityGov ? budgetsOf(api, cityGov.id)[0] : undefined;
+    if (!city) return;
+    const before = city.spendingMinor.parks ?? 0;
+    const bill = draftBill(api, {
+      bodyOfficeId: council[0]!.office.id,
+      sponsorId: council[0]!.holder!.personId!,
+      provisions: [{ kind: "budget-line", line: "parks", value: 50_000_000 }],
+    });
+    expect(bill.status).toBe("drafted");
+    const after = holdVote(api, bill.id);
+    const now = budgetsOf(api, city.governmentId).find(
+      (b) => b.fiscalYear === city.fiscalYear,
+    )!;
+    if (["enacted", "signed", "overridden"].includes(after.status)) {
+      expect(now.spendingMinor.parks).toBe(before + 50_000_000);
+      expect(now.adoptedBy).toContain(bill.number);
+    } else expect(now.spendingMinor.parks ?? 0).toBe(before);
+    govReport(
+      "legislature",
+      JSON.stringify({
+        budgetBill: bill.number,
+        status: after.status,
+        parksBefore: before,
+        parksAfter: now.spendingMinor.parks,
+        votes: votesOn(api, bill.id).map(
+          (v) => `${v.vote} (${v.position.total.toFixed(2)})`,
         ),
       }),
     );

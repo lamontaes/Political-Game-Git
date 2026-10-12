@@ -462,6 +462,42 @@ function withhold(
   });
 }
 
+/**
+ * Amend a line of a government's budget in force (an ordinance or act that
+ * changes spending), recorded with the measure that did it.
+ */
+export function amendBudget(
+  api: CoreAPI,
+  input: {
+    readonly governmentId: string;
+    readonly line: string;
+    readonly deltaMinor: number;
+    readonly measureId: string;
+  },
+): BudgetRow | null {
+  const gov = table(api, "governments").get(input.governmentId) as unknown as
+    GovernmentRow | undefined;
+  if (!gov) return null;
+  const fy = fiscalYearOf(api.state.date, gov.fiscalYearStart);
+  const budget = table(api, "budgets").get(
+    `budget:${gov.id}:${fy}`,
+  ) as unknown as BudgetRow | undefined;
+  if (!budget) return null;
+  const amended: BudgetRow = {
+    ...budget,
+    spendingMinor: {
+      ...budget.spendingMinor,
+      [input.line]: Math.max(
+        0,
+        (budget.spendingMinor[input.line] ?? 0) + input.deltaMinor,
+      ),
+    },
+    adoptedBy: `${budget.adoptedBy}; amended by ${input.measureId}`,
+  };
+  table(api, "budgets").put(amended as unknown as ModuleRow);
+  return amended;
+}
+
 export function governments(api: CoreAPI): readonly GovernmentRow[] {
   return table(api, "governments").rows() as unknown as GovernmentRow[];
 }

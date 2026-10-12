@@ -45,12 +45,15 @@ import { localAuthority } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, townSeats, type TermRow } from "./offices";
 import { recordVote } from "./record";
+import { amendBudget } from "./budgets";
 
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
 
 export interface Provision {
   /** A law-in-force series the bill changes, or a policy question it answers. */
-  readonly kind: "law-amount" | "policy-question";
+  readonly kind: "law-amount" | "policy-question" | "budget-line";
+  /** For a budget line: the spending function (as in the budget's lines). */
+  readonly line?: string;
   readonly series?: string;
   readonly question?: string;
   readonly value: number;
@@ -154,6 +157,11 @@ const POLICY_QUESTIONS: StartingAnswers = Object.assign(
   ),
 );
 
+const budgetQuestion = (
+  provisionQuestions as unknown as {
+    budget: { question: string; raiseIs: number };
+  }
+).budget;
 const seriesQuestion = (
   provisionQuestions as unknown as {
     series: Record<string, { question: string; raiseIs: number }>;
@@ -170,6 +178,15 @@ export function provisionStance(
       question: provision.question,
       position: provision.value > 0 ? 1 : -1,
     };
+  if (provision.kind === "budget-line") {
+    const budget = budgetQuestion;
+    return provision.value === 0
+      ? null
+      : {
+          question: budget.question,
+          position: Math.sign(provision.value) * budget.raiseIs,
+        };
+  }
   const map = provision.series ? seriesQuestion[provision.series] : undefined;
   if (!map || !provision.series) return null;
   const current = currentAmount(api, provision.series);
@@ -591,6 +608,13 @@ function enact(api: CoreAPI, bill: BillRow): BillRow {
         effectiveDate,
         measureId: bill.number,
         citation: `Ordinance ${bill.number}`,
+      });
+    if (provision.kind === "budget-line" && provision.line)
+      amendBudget(api, {
+        governmentId: city,
+        line: provision.line,
+        deltaMinor: provision.value,
+        measureId: bill.number,
       });
     if (provision.kind === "policy-question" && provision.question)
       enactLaw(api, {

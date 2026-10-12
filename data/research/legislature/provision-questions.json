@@ -18,5 +18,10 @@
       "raiseIs": -1,
       "why": "Raising a sales tax runs against lightening sales taxes on necessities, the side the grocery-exemption question measures; an estimate of how members read it."
     }
+  },
+  "budget": {
+    "question": "us-policy-positions:fiscal.balanced-operating-budget",
+    "raiseIs": -1,
+    "why": "More spending in a line, with no new revenue named, runs against holding the budget balanced, the side the balanced-operating-budget question measures; an estimate of how members read it."
   }
 }

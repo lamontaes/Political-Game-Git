@@ -1143,7 +1143,7 @@
     "id": "SG-GOV-veto-override-rule",
     "kind": "estimated-rule",
     "file": "src/core2/modules/legislature.ts",
-    "line": 553,
+    "line": 570,
     "whatItFakes": "A mayor's veto is overridden by two thirds of the members voting; ordinances take effect 30 days after enactment.",
     "why": "Each city's charter sets its own override majority and effective date; they aren't read yet.",
     "replacement": "Override majorities and ordinance effective dates from each state's municipal code and sampled charters, with estimates for the rest.",
