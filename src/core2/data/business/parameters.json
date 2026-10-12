@@ -117,5 +117,27 @@
     "value": 65,
     "tag": "SOURCED",
     "citation": "Kauffman: most new business owners are 25 to 64."
+  },
+  "businessExpandBaseline": {
+    "value": -3,
+    "tag": "TUNABLE",
+    "citation": "How far opening another location sits below not opening one before room, traits and the books; to be checked against BDS 2023 establishment births less firm startups (new locations of existing firms).",
+    "spread": {
+      "low": -5,
+      "high": -1,
+      "unit": "score",
+      "citation": "How far opening another location sits below not opening one before room, traits and the books; to be checked against BDS 2023 establishment births less firm startups (new locations of existing firms)."
+    }
+  },
+  "businessExpandStrengthWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Owners with cash well above their cushion are the ones able to fund a location; thin ones are not (JPMorgan Chase Institute small business cash buffers).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "score per unit of cash strength (cash less cushion over cash plus cushion)",
+      "citation": "Owners with cash well above their cushion are the ones able to fund a location; thin ones are not (JPMorgan Chase Institute small business cash buffers)."
+    }
   }
 }

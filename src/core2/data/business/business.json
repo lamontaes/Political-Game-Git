@@ -22,6 +22,10 @@
     "notFound": {
       "id": "business-stay-put",
       "actKinds": ["play-safe", "keep-same"]
+    },
+    "expand": {
+      "id": "business-open-location",
+      "actKinds": ["take-risk", "commit", "change"]
     }
   },
   "need": "money",

@@ -98,10 +98,11 @@ export function evictionPanel(api: CoreAPI) {
   return rows(api, "housing", "cases");
 }
 
-/** Each business's owner and their draws from profit. */
+/** Each business's owner, their draws from profit, and every founding and new location with its reasons. */
 export function ownerPanel(api: CoreAPI) {
   return {
     owners: rows(api, "business", "owners"),
     draws: rows(api, "business", "draws"),
+    foundings: rows(api, "business", "foundings"),
   };
 }

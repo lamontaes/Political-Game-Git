@@ -474,8 +474,11 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
       id: `event:housing.eviction:${caseId}`,
       date: c.date,
       kind: "housing.eviction",
-      personIds: [...(household?.memberIds ?? [])],
-      placeId: household?.placeId ?? "",
+      personIds: (household?.memberIds ?? []).filter((id) => c.people.has(id)),
+      placeId:
+        household?.placeId ??
+        c.organizations.get(row.landlordId)?.placeId ??
+        "",
       source: {
         tag: "ESTIMATED",
         asOf: c.date,
