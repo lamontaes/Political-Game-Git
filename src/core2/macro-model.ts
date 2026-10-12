@@ -1,6 +1,5 @@
 /** The national month as pure math: last month's figures, the rate in force and the town's own totals. */
 import history from "./data/macro/history.json" with { type: "json" };
-import { stopgap } from "./stopgaps";
 
 export type MacroParameter = (key: string) => number;
 
@@ -81,8 +80,7 @@ function mortgageAt(
 ): number {
   const published = rows.get(month)?.mortgage30Pct;
   if (published !== undefined) return published;
-  // FHFA's monthly survey ended in 2019: later months use the 10-year plus its measured spread.
-  stopgap("SG-WORLD-macro-mortgage-spread");
+  // Past the published survey (Freddie Mac PMMS through its latest month): the 10-year plus its measured spread.
   return (
     field(rows, month, "treasury10Pct", p) +
     p("macroMortgageSpreadOverTreasuryPct")
@@ -337,4 +335,11 @@ export function historicalMortgageRate(
 ): number {
   const first = ROWS[0]!.month;
   return mortgageAt(BY_MONTH, month < first ? first : month, p);
+}
+
+/** A past month's published national figures, as recorded (BLS, Fed H.15, FHFA). */
+export function publishedMonth(
+  month: string,
+): Readonly<HistoryRow> | undefined {
+  return BY_MONTH.get(month);
 }

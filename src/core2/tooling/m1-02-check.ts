@@ -46,13 +46,14 @@ for (const row of bands.filter((row) => !row.inside))
   failures.push(
     `band ${row.measure} ${row.at} ${row.value.toFixed(2)} outside [${row.low}, ${row.high}]`,
   );
-// Only months whose year-earlier base is itself simulated hear the town; before that the base is the opening's seeded income.
+// Only months whose two compared years are both simulated hear the town; before that the base includes the opening's seeded income.
 const firstSimulated = input.startedAt.slice(0, "YYYY-MM".length);
 const heard = months
   .filter(
     (row) =>
       row.townIncomeGrowthPct !== undefined &&
-      row.month > shiftMonth(firstSimulated, p("macroMonthsPerYear"), p),
+      // Twelve months against the twelve before: both years simulated from the 24th month.
+      row.month >= shiftMonth(firstSimulated, 2 * p("macroMonthsPerYear"), p),
   )
   .sort((a, b) => a.month.localeCompare(b.month));
 if (!heard.length) failures.push("the national step never heard the town");

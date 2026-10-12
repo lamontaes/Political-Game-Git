@@ -123,6 +123,23 @@ describe("accounts and postings", () => {
     expect(before - outsideNet(core)).toBe(cash(core));
   });
 
+  it("pays a fee into an outside account as a reported outside flow", () => {
+    const core = world(),
+      accounts = coreAPI(core).accounts();
+    const before = cash(core);
+    const paid = accounts.transfer({
+      id: "fee:filing",
+      from: accounts.main("city"),
+      to: accounts.main("state-aid"),
+      amountMinor: 2_500,
+      reasonKey: "filing.fee",
+      source: piecesSource,
+    });
+    expect(paid.paidMinor).toBe(2_500);
+    expect(cash(core)).toBe(before - 2_500);
+    expect(before - outsideNet(core)).toBe(cash(core));
+  });
+
   it("settles obligations on their dates and carries arrears when owed", () => {
     const core = world(),
       accounts = coreAPI(core).accounts();
@@ -158,5 +175,27 @@ describe("accounts and postings", () => {
     expect(budget.arrearsMinor).toBe(0);
     expect(budget.endedAt).toBe("2026-01-20");
     expect(cash(core)).toBe(before);
+  });
+
+  it("pays a changed amount from the next due date on (a rent cap)", () => {
+    const core = world(),
+      accounts = coreAPI(core).accounts();
+    accounts.addObligation({
+      id: "rent",
+      from: accounts.main("city"),
+      to: accounts.main("contractor"),
+      amountMinor: 10_000,
+      firstDueAt: "2026-01-15",
+      cadence: { kind: "months", every: 1 },
+      accruesArrears: true,
+      reasonKey: "housing.rent",
+      source: piecesSource,
+    });
+    advanceCore(core, "2026-01-31");
+    accounts.setObligationAmount("rent", 8_000, piecesSource);
+    advanceCore(core, "2026-03-31");
+    const rent = accounts.obligation("rent")!;
+    expect(rent.paidMinor).toBe(10_000 + 2 * 8_000);
+    expect(rent.amountMinor).toBe(8_000);
   });
 });

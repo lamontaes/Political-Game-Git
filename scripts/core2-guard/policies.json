@@ -1,7 +1,7 @@
 {
   "tag": "TUNABLE",
   "citation": "CTO approval https://github.com/lamontaes/Political-Game-Git/pull/3941#issuecomment-6102566030",
-  "checkedAgainst": "Regression, deadline and paired month fixtures; engineering policy, not population parameters. Heap cap reuses the core profiling command; job deadlines include five minutes for dependency setup. Profile parsing is bounded separately from retained summaries.",
+  "checkedAgainst": "Regression, deadline and paired month fixtures; engineering policy, not population parameters. Heap cap reuses the core profiling command; job deadlines include five minutes for dependency setup. Profile parsing is bounded separately from retained summaries. Measured span: a whole year of the two-level world with the economy (audit 4, Oct 12), not a month of the full population.",
   "prMilliseconds": 300000,
   "nightlyMilliseconds": 1800000,
   "performanceMilliseconds": 2700000,
@@ -14,5 +14,6 @@
   "nodeHeapMiB": 8192,
   "profileParseBytes": 33554432,
   "goldenJobMinutes": 35,
-  "performanceJobMinutes": 50
+  "performanceJobMinutes": 50,
+  "measuredDays": 365
 }

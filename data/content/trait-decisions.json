@@ -1,0 +1,492 @@
+{
+  "version": 1,
+  "note": "Every decision a person makes, the options it offers and the act kinds each option expresses, so traits reach every option through trait-act-pulls.json (OPUS-TRAITS, Oct 12, 2026). An option either names its act kinds here or points at the data row the module reads ('from', a file and JSON pointer). 'route' is 'chooser' (scored by src/core2/choice.ts) or 'formula' (the module adds traitLean for these options). tests/traits/trait-coverage.test.ts holds the code to this table; 'outside' lists the choices that are not one person's decision, with the reason.",
+  "decisions": [
+    {
+      "id": "life.daily-act",
+      "site": "src/core2/life.ts",
+      "owner": "OPUS-CORE",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "work-shift",
+          "from": "src/core2/data/content.json#/actions/0"
+        },
+        { "id": "rest", "from": "src/core2/data/content.json#/actions/1" },
+        {
+          "id": "contact-known-person",
+          "from": "src/core2/data/content.json#/actions/2"
+        },
+        {
+          "id": "care-for-relative",
+          "from": "src/core2/data/content.json#/actions/3"
+        },
+        {
+          "id": "join-association",
+          "from": "src/core2/data/content.json#/actions/4"
+        },
+        {
+          "id": "organize-meeting",
+          "from": "src/core2/data/content.json#/actions/5"
+        },
+        {
+          "id": "approach-office",
+          "from": "src/core2/data/content.json#/actions/6"
+        },
+        {
+          "id": "look-up-local-institution",
+          "from": "src/core2/data/content.json#/actions/7"
+        },
+        {
+          "id": "share-cause",
+          "from": "src/core2/data/drives.json#/actions/0"
+        },
+        {
+          "id": "found-cause-group",
+          "from": "src/core2/data/drives.json#/actions/1"
+        },
+        {
+          "id": "join-cause-group",
+          "from": "src/core2/data/drives.json#/actions/2"
+        },
+        {
+          "id": "donate-to-cause",
+          "from": "src/core2/data/drives.json#/actions/3"
+        },
+        {
+          "id": "volunteer-for-cause",
+          "from": "src/core2/data/drives.json#/actions/4"
+        },
+        {
+          "id": "confront-grudge-target",
+          "from": "src/core2/data/drives.json#/actions/5"
+        },
+        {
+          "id": "seek-standing",
+          "from": "src/core2/data/drives.json#/actions/6"
+        },
+        {
+          "id": "testify-at-hearing",
+          "from": "src/core2/data/drives.json#/actions/7"
+        },
+        {
+          "id": "run-for-office",
+          "from": "src/core2/data/drives.json#/actions/8"
+        },
+        {
+          "id": "lobby-legislator",
+          "from": "src/core2/data/drives.json#/actions/9"
+        }
+      ]
+    },
+    {
+      "id": "work.attend-shift",
+      "site": "src/core2/modules/work.ts",
+      "owner": "OPUS-CORE",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "attend-scheduled-work-date-segment",
+          "from": "src/core2/data/work.json#/attendanceAction"
+        },
+        {
+          "id": "decline-scheduled-work-date-segment",
+          "from": "src/core2/data/work.json#/absenceAction"
+        }
+      ]
+    },
+    {
+      "id": "drives.respond",
+      "site": "src/core2/modules/drives.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "take-up-cause",
+          "from": "src/core2/data/drives.json#/responses/0"
+        },
+        {
+          "id": "hold-grudge",
+          "from": "src/core2/data/drives.json#/responses/1"
+        },
+        {
+          "id": "guard-family",
+          "from": "src/core2/data/drives.json#/responses/2"
+        },
+        {
+          "id": "prove-oneself",
+          "from": "src/core2/data/drives.json#/responses/3"
+        },
+        {
+          "id": "answer-calling",
+          "from": "src/core2/data/drives.json#/responses/4"
+        },
+        { "id": "carry-on", "from": "src/core2/data/drives.json#/responses/5" }
+      ]
+    },
+    {
+      "id": "macro.rate-vote",
+      "site": "src/core2/modules/macro.ts",
+      "owner": "OPUS-WORLD",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "macro-rate-hold",
+          "from": "src/core2/data/macro/board.json#/actions/hold"
+        },
+        {
+          "id": "macro-rate-move",
+          "from": "src/core2/data/macro/board.json#/actions/move"
+        }
+      ]
+    },
+    {
+      "id": "business.owner-draw",
+      "site": "src/core2/modules/business.ts",
+      "owner": "OPUS-WORLD",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "business-owner-draw",
+          "from": "src/core2/data/business/business.json#/actions/draw"
+        },
+        {
+          "id": "business-owner-keep",
+          "from": "src/core2/data/business/business.json#/actions/keep"
+        }
+      ]
+    },
+    {
+      "id": "business.open-location",
+      "site": "src/core2/modules/business.ts",
+      "owner": "OPUS-WORLD",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "business-open-location",
+          "from": "src/core2/data/business/business.json#/actions/expand"
+        },
+        {
+          "id": "business-owner-keep",
+          "from": "src/core2/data/business/business.json#/actions/keep"
+        }
+      ]
+    },
+    {
+      "id": "business.found",
+      "site": "src/core2/modules/business.ts",
+      "owner": "OPUS-WORLD",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "business-found",
+          "from": "src/core2/data/business/business.json#/actions/found"
+        },
+        {
+          "id": "business-owner-keep",
+          "from": "src/core2/data/business/business.json#/actions/keep"
+        }
+      ]
+    },
+    {
+      "id": "jobs.review-worker",
+      "site": "src/core2/modules/jobs.ts",
+      "owner": "OPUS-WORLD",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "jobs-stay",
+          "from": "src/core2/data/jobs/jobs.json#/actions/stay"
+        },
+        {
+          "id": "jobs-look",
+          "from": "src/core2/data/jobs/jobs.json#/actions/look"
+        },
+        {
+          "id": "jobs-leave-work",
+          "from": "src/core2/data/jobs/jobs.json#/actions/leave"
+        }
+      ]
+    },
+    {
+      "id": "jobs.start-looking",
+      "site": "src/core2/modules/jobs.ts",
+      "owner": "OPUS-WORLD",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "jobs-wait",
+          "from": "src/core2/data/jobs/jobs.json#/actions/wait"
+        },
+        {
+          "id": "jobs-look",
+          "from": "src/core2/data/jobs/jobs.json#/actions/look"
+        }
+      ]
+    },
+    {
+      "id": "jobs.apply",
+      "site": "src/core2/modules/jobs.ts",
+      "owner": "OPUS-WORLD",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "jobs-wait",
+          "from": "src/core2/data/jobs/jobs.json#/actions/wait"
+        },
+        {
+          "id": "jobs-apply",
+          "from": "src/core2/data/jobs/jobs.json#/actions/apply"
+        }
+      ]
+    },
+    {
+      "id": "jobs.accept-offer",
+      "site": "src/core2/modules/jobs.ts",
+      "owner": "OPUS-WORLD",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "jobs-decline",
+          "from": "src/core2/data/jobs/jobs.json#/actions/decline"
+        },
+        {
+          "id": "jobs-accept",
+          "from": "src/core2/data/jobs/jobs.json#/actions/accept"
+        }
+      ]
+    },
+    {
+      "id": "housing.buy-home",
+      "site": "src/core2/modules/housing.ts",
+      "owner": "OPUS-WORLD",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "housing-keep-renting",
+          "from": "src/core2/data/housing/housing.json#/actions/rent"
+        },
+        {
+          "id": "housing-buy",
+          "from": "src/core2/data/housing/housing.json#/actions/buy"
+        }
+      ]
+    },
+    {
+      "id": "credit.borrow",
+      "site": "src/core2/modules/credit.ts",
+      "owner": "OPUS-WORLD",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "credit-do-without",
+          "from": "src/core2/data/credit/credit.json#/actions/wait"
+        },
+        {
+          "id": "credit-borrow",
+          "from": "src/core2/data/credit/credit.json#/actions/borrow"
+        }
+      ]
+    },
+    {
+      "id": "candidacy.run",
+      "site": "src/core2/modules/candidacy.ts",
+      "owner": "OPUS-GOV",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "candidacy-stay-out",
+          "actKinds": ["play-safe", "keep-same", "withdraw"]
+        },
+        {
+          "id": "candidacy-run",
+          "actKinds": ["commit", "take-risk", "speak-out", "engage"]
+        }
+      ]
+    },
+    {
+      "id": "speech.retell",
+      "site": "src/core2/modules/speech.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "chooser",
+      "options": [
+        { "id": "speech-keep", "actKinds": ["stay-quiet", "keep-same"] },
+        { "id": "speech-retell", "actKinds": ["speak-out", "engage"] }
+      ]
+    },
+    {
+      "id": "corruption.offer",
+      "site": "src/core2/modules/corruption.ts",
+      "owner": "OPUS-GOV",
+      "route": "chooser",
+      "options": [
+        {
+          "id": "corruption-offer-no",
+          "actKinds": ["follow-rules", "play-safe"]
+        },
+        {
+          "id": "corruption-offer-yes",
+          "actKinds": ["self-interest", "bend-rules", "take-risk"]
+        }
+      ]
+    },
+    {
+      "id": "corruption.take",
+      "site": "src/core2/modules/corruption.ts",
+      "owner": "OPUS-GOV",
+      "route": "chooser",
+      "options": [
+        { "id": "corruption-take-no", "actKinds": ["follow-rules", "refuse"] },
+        {
+          "id": "corruption-take-yes",
+          "actKinds": ["self-interest", "bend-rules", "trust"]
+        }
+      ]
+    },
+    {
+      "id": "corruption.tell",
+      "site": "src/core2/modules/corruption.ts",
+      "owner": "OPUS-GOV",
+      "route": "chooser",
+      "options": [
+        { "id": "corruption-tell-no", "actKinds": ["stay-quiet", "keep-same"] },
+        {
+          "id": "corruption-tell-yes",
+          "actKinds": ["speak-out", "confront", "self-interest"]
+        }
+      ]
+    },
+    {
+      "id": "renewal.plan-child",
+      "site": "src/core2/births-plan.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "chooser",
+      "options": [
+        { "id": "renewal-wait", "actKinds": ["play-safe", "delay"] },
+        {
+          "id": "renewal-plan-child",
+          "actKinds": ["help-others", "commit", "change"]
+        }
+      ]
+    },
+    {
+      "id": "jobs.counted-retire",
+      "site": "src/core2/modules/jobs.ts",
+      "owner": "OPUS-WORLD",
+      "route": "formula",
+      "options": [
+        {
+          "id": "jobs-stay",
+          "from": "src/core2/data/jobs/jobs.json#/actions/stay"
+        },
+        {
+          "id": "jobs-leave-work",
+          "from": "src/core2/data/jobs/jobs.json#/actions/leave"
+        }
+      ]
+    },
+    {
+      "id": "jobs.counted-look",
+      "site": "src/core2/modules/jobs.ts",
+      "owner": "OPUS-WORLD",
+      "route": "formula",
+      "options": [
+        {
+          "id": "jobs-stay",
+          "from": "src/core2/data/jobs/jobs.json#/actions/stay"
+        },
+        {
+          "id": "jobs-look",
+          "from": "src/core2/data/jobs/jobs.json#/actions/look"
+        }
+      ]
+    },
+    {
+      "id": "jobs.counted-apply",
+      "site": "src/core2/modules/jobs.ts",
+      "owner": "OPUS-WORLD",
+      "route": "formula",
+      "options": [
+        {
+          "id": "jobs-wait",
+          "from": "src/core2/data/jobs/jobs.json#/actions/wait"
+        },
+        {
+          "id": "jobs-apply",
+          "from": "src/core2/data/jobs/jobs.json#/actions/apply"
+        }
+      ]
+    },
+    {
+      "id": "jobs.counted-accept",
+      "site": "src/core2/modules/jobs.ts",
+      "owner": "OPUS-WORLD",
+      "route": "formula",
+      "options": [
+        {
+          "id": "jobs-decline",
+          "from": "src/core2/data/jobs/jobs.json#/actions/decline"
+        },
+        {
+          "id": "jobs-accept",
+          "from": "src/core2/data/jobs/jobs.json#/actions/accept"
+        }
+      ]
+    },
+    {
+      "id": "business.counted-found",
+      "site": "src/core2/modules/business.ts",
+      "owner": "OPUS-WORLD",
+      "route": "formula",
+      "options": [
+        {
+          "id": "business-stay-put",
+          "from": "src/core2/data/business/business.json#/actions/notFound"
+        },
+        {
+          "id": "business-found",
+          "from": "src/core2/data/business/business.json#/actions/found"
+        }
+      ]
+    },
+    {
+      "id": "retirement.claim-age",
+      "site": "src/core2/modules/retirement-claims.ts",
+      "owner": "OPUS-WORLD",
+      "route": "formula",
+      "options": [
+        {
+          "id": "claim-now",
+          "actKinds": ["take-risk", "change", "self-interest"]
+        },
+        {
+          "id": "wait-to-claim",
+          "actKinds": ["delay", "keep-same", "play-safe"]
+        }
+      ]
+    },
+    {
+      "id": "bring-it-up.blame",
+      "site": "src/director/bring-it-up.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "options": [
+        { "id": "withhold-blame", "actKinds": ["trust", "delay", "concede"] },
+        {
+          "id": "blame-official",
+          "actKinds": ["distrust", "confront", "speak-out"]
+        }
+      ]
+    },
+    {
+      "id": "conversation.believe-claim",
+      "site": "src/director/conversation.ts",
+      "owner": "OPUS-PEOPLE",
+      "route": "formula",
+      "options": [
+        { "id": "doubt", "actKinds": ["distrust", "refuse"] },
+        { "id": "believe", "actKinds": ["trust", "concede"] }
+      ]
+    }
+  ]
+}

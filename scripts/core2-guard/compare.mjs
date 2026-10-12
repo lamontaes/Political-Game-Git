@@ -16,7 +16,7 @@ export function compare(base, head) {
       !row.seed ||
       !row.placeKey ||
       !row.inputHash ||
-      row.days !== policies.monthDays ||
+      row.days !== policies.measuredDays ||
       typeof row.opening?.budget?.passed !== "boolean" ||
       !Number.isFinite(row.millisecondsPerDay) ||
       row.millisecondsPerDay <= 0 ||

@@ -1,0 +1,65 @@
+{
+  "about": "Press and interview parameters (OPUS-GOV). Outlet counts and news habits live in data/research/press/local-news-2026.json.",
+  "parameters": {
+    "maxOutletsPerKind": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "source": "The outlets of one kind that cover the town's politics are kept to a handful; a big county's hundreds of radio stations mostly carry music, not local news.",
+      "spread": [2, 8]
+    },
+    "newsRadioShare": {
+      "value": 0.1,
+      "tag": "ESTIMATED",
+      "source": "Share of full-power radio stations airing news or news/talk formats (Pew State of the News Media audio fact sheets: about 10% of commercial stations air news/talk).",
+      "spread": [0.06, 0.15]
+    },
+    "interviewsPerWeek": {
+      "value": 2,
+      "tag": "TUNABLE",
+      "source": "Candidate interviews one local outlet's political reporter can run in a week next to other assignments (local newsrooms average about 5 journalists per paper, data/research/press/local-news-2026.json staff).",
+      "spread": [1, 4]
+    },
+    "invitationWeeks": {
+      "value": 6,
+      "tag": "TUNABLE",
+      "source": "Weeks before a general election in which local outlets seek out the candidates on the ballot (endorsement interviews and voter guides run in the final month or two).",
+      "spread": [4, 10]
+    },
+    "televisionBar": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How newsworthy a candidate must be for a television station to give airtime (name recognition, incumbency, money); newspapers and radio take any candidate on the ballot.",
+      "spread": [0.1, 0.6]
+    },
+    "incumbentNewsworthiness": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "The newsworthiness an incumbent carries over a challenger (incumbents draw more coverage: Prior 2006, 'The Incumbent in the Living Room').",
+      "spread": [0.1, 0.5]
+    },
+    "moneyNewsworthiness": {
+      "value": 0.4,
+      "tag": "TUNABLE",
+      "source": "Weight of a candidate's share of the money raised in the race on their newsworthiness.",
+      "spread": [0.2, 0.6]
+    },
+    "questionsPerInterview": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "Questions on the record in a short candidate interview or questionnaire.",
+      "spread": [2, 5]
+    },
+    "interviewWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How far one interview read or watched moves a person's view of the candidate, between an ad (secondhand, paid) and a speech heard in person.",
+      "spread": [0.1, 0.4]
+    },
+    "interviewShyness": {
+      "value": -1,
+      "tag": "TUNABLE",
+      "source": "A candidate declines a reporter only when shy and averse to conflict and risk together (sociability plus half of conflict and risk below this).",
+      "spread": [-1.5, -0.5]
+    }
+  }
+}
