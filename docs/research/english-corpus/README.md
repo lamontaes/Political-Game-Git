@@ -9,6 +9,8 @@ How the phrase banks in `data/english/parts/` are built from real American speec
 - A part is kept when at least two documents say it and one is a public-domain record from 2015 or later, which becomes its source. A hearing's date is when it was printed, so hearings before the 114th Congress never serve as the source. The WPA life histories (1936 to 1940) count toward the two documents but never ship as the source.
 - A part cites a record the government wrote or said itself (hearings, the Congressional Record, agency news releases and meetings) ahead of an oral history whenever both attest it. Some oral-history interviewees signed deeds of gift giving their rights to the United States, so their words may be government-owned rather than public domain; every part is a short, common sentence (short phrases carry no copyright, 37 C.F.R. 202.1(a)), and it is never taken from a transcript carrying a copyright or permission notice.
 - The filing clerk's bank accepts one document, because few transcripts record a clerk explaining filing.
+- A sentence that claims something about the speaker's life or the place ("I'm a nurse.", "My rent went up.") names the record fact it needs and is said only when that fact is in the record.
+- A real politician's campaign slogan never ships, even from a public-domain record.
 - Council minutes, meeting video, news, books, TV and interviews give patterns and counts only. `data/english/patterns/` holds older banks whose sources are not public domain; none of their text ships.
 
 ## The corpus
