@@ -37,6 +37,8 @@ export interface JournalData {
   version: string;
   stopgapId: string;
   relationWords: Readonly<Record<string, Readonly<Record<string, string>>>>;
+  /** The possessive each surface names relatives with ("my", "your"). */
+  possessive: Readonly<Record<string, string>>;
   countWords: readonly string[];
   manyTimes: string;
   lines: readonly LineRow[];
@@ -121,7 +123,11 @@ export function composeJournal(
       const words = data.relationWords[relation.relation];
       const gender = row.looks?.gender ?? "other";
       const word = words?.[gender] ?? words?.other;
-      if (word) return { text: word, sourceRecordIds: [relation.factId] };
+      if (word)
+        return {
+          text: `${data.possessive.journal} ${word}`,
+          sourceRecordIds: [relation.factId],
+        };
     }
     const known = person.knownIdSources?.[id];
     if (!person.knownIds.has(id)) return undefined;

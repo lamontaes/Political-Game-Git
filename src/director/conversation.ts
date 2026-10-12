@@ -19,7 +19,7 @@ import {
 } from "../presentation/grounded-english";
 import conversationJson from "./data/conversation.json" with { type: "json" };
 import { JOURNAL_DATA } from "./journal";
-import { properName } from "./words";
+import { properName, spoken } from "./words";
 
 const zero = P.zero;
 const one = P.one;
@@ -98,17 +98,6 @@ export interface Conversation {
   recorded: string[];
 }
 
-/** How a resident says a town aloud: without the state it sits in. */
-function spoken(place: {
-  displayName: string;
-  withinName: string | null;
-}): string {
-  const suffix = place.withinName ? `, ${place.withinName}` : "";
-  return suffix && place.displayName.endsWith(suffix)
-    ? place.displayName.slice(zero, -suffix.length)
-    : place.displayName;
-}
-
 function fullName(core: Readonly<CoreState>, id: PersonId): string {
   const row = core.people.get(id)!;
   return `${row.givenName} ${row.familyName}`;
@@ -169,7 +158,10 @@ export function subjectsBetween(
       kind: "kin",
       aboutId: id,
       facts: {
-        relation: { text: word, sourceRecordIds: [row.factId] },
+        relation: {
+          text: `${JOURNAL_DATA.possessive.journal} ${word}`,
+          sourceRecordIds: [row.factId],
+        },
         name: { text: relative.givenName, sourceRecordIds: [row.factId] },
       },
     });
