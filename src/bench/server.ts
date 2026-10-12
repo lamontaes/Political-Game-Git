@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
+import { personCard } from "./card";
 import { backdropPath, benchScene, figurePng } from "./scene";
 import {
   openConversation,
@@ -155,6 +156,10 @@ const server = createServer(async (request, response) => {
           url.searchParams.get("id") ?? "",
         ),
       );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/card") {
+      send(200, personCard(requireCore(), url.searchParams.get("id") ?? ""));
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/government") {

@@ -282,6 +282,62 @@ async function talkTo(otherId) {
   }
 }
 
+async function renderCard(id) {
+  const card = await request(`/api/card?id=${encodeURIComponent(id)}`);
+  const entries = [
+    ["name", card.name],
+    ["age", card.age],
+    ["birthDate", card.birthDate],
+    [
+      "home",
+      card.home?.members
+        .map((m) => `${m.name}${m.relation ? ` (${m.relation})` : ""}`)
+        .join(", "),
+    ],
+    [
+      "job",
+      card.job &&
+        `${card.job.title}, ${card.job.employer ?? ""}; wageDailyMinor ${card.job.wageDailyMinor}; hoursDaily ${card.job.hoursDaily}`,
+    ],
+    ["liquidMinor", card.liquidMinor],
+    ["affect", JSON.stringify(card.affect)],
+    [
+      "needs",
+      Object.entries(card.needs ?? {})
+        .map(([k, v]) => `${k} ${Number(v).toFixed(2)}`)
+        .join(", "),
+    ],
+    [
+      "ties",
+      card.ties
+        .map(
+          (t) =>
+            `${t.name} (${t.relation ?? t.kind}, level ${Number(t.level).toFixed(1)}, last ${t.lastContactDate})`,
+        )
+        .join("; "),
+    ],
+    [
+      "drives",
+      card.drives
+        .map(
+          (d) =>
+            `${d.kind}: ${d.topic} → ${d.desiredChange}${d.target ? ` (${d.target})` : ""}, since ${d.formedAt}, acts ${d.actCount}`,
+        )
+        .join("; "),
+    ],
+  ];
+  element("card").replaceChildren(
+    ...entries.flatMap(([key, value]) => {
+      const dt = document.createElement("dt");
+      dt.textContent = key;
+      const dd = document.createElement("dd");
+      dd.textContent =
+        value === undefined || value === null ? "" : String(value);
+      return [dt, dd];
+    }),
+  );
+}
+
 async function renderJournal(id) {
   const chapters = await request(`/api/journal?id=${encodeURIComponent(id)}`);
   element("journal").replaceChildren(
@@ -400,6 +456,9 @@ async function inspect(id) {
     renderChoices(value);
     renderScene(id).catch((error) => {
       element("scene-caption").textContent = error.message;
+    });
+    renderCard(id).catch((error) => {
+      status.textContent = error.message;
     });
     renderJournal(id).catch((error) => {
       status.textContent = error.message;
