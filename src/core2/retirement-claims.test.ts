@@ -2,10 +2,11 @@ import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { advanceCore, createLifeCore } from "./life";
+import { residentPerson, residentsRuntime } from "./modules/residents";
 import { retirementClaims } from "./modules/retirement-claims";
 import { PARAMETERS } from "./parameters";
 import { retirementClaimAgeMonths } from "./retirement-claim";
-import { coreAPI } from "./state";
+import { coreAPI, fillInPerson } from "./state";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
 
@@ -69,19 +70,41 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
     advanceCore(core, "2022-01-01");
     const claims = retirementClaims(core);
     expect(claims.has(adult.id)).toBe(true);
+    const flows = residentsRuntime(core)!.flows;
+    let counted = 0;
     for (const [personId, row] of claims) {
       expect(row.monthlyMinor).toBeGreaterThan(0);
-      const obligation = api
-        .accounts()
-        .obligation(`retirement-claim:${personId}`)!;
-      expect(obligation.paidMinor).toBeGreaterThan(0);
+      if (row.counted) {
+        // Counted claimants are paid into the residents' income.
+        counted++;
+        expect(flows.get(`retirement-claim:${personId}`)?.payeeId).toBe(
+          flows.get(`retirement-claim:${personId}`)?.residentsId,
+        );
+      } else
+        expect(
+          api.accounts().obligation(row.obligationId)!.paidMinor,
+        ).toBeGreaterThan(0);
+      const born = (
+        core.people.get(personId) ?? residentPerson(core, personId)!
+      ).birthDate;
       const age =
         (Date.parse(`${row.date}T00:00:00Z`) -
-          Date.parse(`${core.people.get(personId)!.birthDate}T00:00:00Z`)) /
+          Date.parse(`${born}T00:00:00Z`)) /
         (365.25 * 86_400_000);
       expect(age).toBeGreaterThanOrEqual(61.99);
       expect(age).toBeLessThanOrEqual(70.01);
     }
+    // In a year some of the wider population reaches its claim age.
+    expect(counted).toBeGreaterThan(0);
+    // A counted claimant filled in is paid their own award from then on.
+    const [claimant] = [...claims].find(([, row]) => row.counted)!;
+    fillInPerson(core, claimant);
+    advanceCore(core, "2022-03-01");
+    const moved = retirementClaims(core).get(claimant)!;
+    expect(moved.counted).toBe(false);
+    expect(api.accounts().obligation(moved.obligationId)!.paidMinor).toBe(
+      moved.monthlyMinor * 2,
+    );
     expect(total(core)).toBe(start);
   }, 600_000);
 });
