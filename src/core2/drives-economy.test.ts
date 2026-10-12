@@ -84,3 +84,72 @@ describe(`drives answer closures in ${input.placeMetadata?.placeName} (seed ${se
     for (const row of decisions) expect(named.has(row.personId)).toBe(true);
   });
 });
+
+// WORLD's job and housing writers name the employer or landlord in the event's
+// topic and carry no impulse of their own; the drives data gives each kind its
+// sourced impact and reads the responsible party from the topic.
+describe(`drives answer WORLD's job losses and evictions (seed ${seed})`, () => {
+  const world = createLifeCore(input, {
+    data: withDrives(DEFAULT_DATA, DEFAULT_DRIVES_DATA),
+    modules: [createDrivesModule(DEFAULT_DRIVES_DATA)],
+  });
+  const worldApi = coreAPI(world);
+  const jobs = [...world.jobs.values()].filter(
+    (job) => !job.endsAt && world.people.get(job.personId)?.alive,
+  );
+  // A real business in the town stands as the landlord.
+  const landlord = [...world.organizations.keys()].sort()[0]!;
+  // Half the workers are laid off and the other half evicted, so each event
+  // forms its own drives rather than strengthening the other's.
+  for (const [index, job] of jobs.entries()) {
+    const person = world.people.get(job.personId)!;
+    if (index % 2 === 0)
+      worldApi.emit({
+        id: `work.job-lost:${job.id}:${world.date}`,
+        date: world.date,
+        kind: "work.job-lost",
+        topic: job.organizationId,
+        personIds: [job.personId],
+        placeId: person.placeId,
+        publicRecord: false,
+        source: {
+          tag: "SOURCED",
+          citation: "Fixture layoff.",
+          asOf: world.date,
+        },
+      });
+    else
+      worldApi.emit({
+        id: `housing.eviction:${job.personId}:${world.date}`,
+        date: world.date,
+        kind: "housing.eviction",
+        topic: landlord,
+        personIds: [job.personId],
+        placeId: person.placeId,
+        publicRecord: true,
+        source: {
+          tag: "SOURCED",
+          citation: "Fixture filing.",
+          asOf: world.date,
+        },
+      });
+  }
+  const worldReport = drivesReport(world);
+  const orgOf = new Map(jobs.map((job) => [job.personId, job.organizationId]));
+
+  it("forms drives from both, and aims each grudge at the employer or landlord", () => {
+    const fromJobs = worldReport.drives.filter((row) =>
+      row.sourceEventId.startsWith("work.job-lost"),
+    );
+    const fromEvictions = worldReport.drives.filter((row) =>
+      row.sourceEventId.startsWith("housing.eviction"),
+    );
+    expect(fromJobs.length).toBeGreaterThan(0);
+    expect(fromEvictions.length).toBeGreaterThan(0);
+    for (const drive of fromJobs)
+      if (drive.kind === "grudge")
+        expect(drive.targetId).toBe(orgOf.get(drive.personId));
+    for (const drive of fromEvictions)
+      if (drive.kind === "grudge") expect(drive.targetId).toBe(landlord);
+  });
+});

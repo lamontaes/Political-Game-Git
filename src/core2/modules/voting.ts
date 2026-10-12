@@ -761,7 +761,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const ranked = Object.entries(totals).sort(
     (a, b) => b[1] - a[1] || a[0].localeCompare(b[0]),
   );
-  const winnerId = ranked.length ? ranked[0]![0] : null;
+  // No one wins on no votes: the seat stays with its holder (or vacant)
+  // until the next contest.
+  const winnerId = ranked.length && ranked[0]![1] > 0 ? ranked[0]![0] : null;
   const incumbent = contest.incumbentTermId
     ? (api
         .moduleState(OFFICES_MODULE_ID)

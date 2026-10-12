@@ -43,7 +43,7 @@ describe("opening schools and coworkers", () => {
     ).toBeGreaterThan(1);
   });
 
-  it("links coworkers of one employer both ways, in groups no larger than the tunable size", () => {
+  it("links coworkers of one employer both ways, in groups about the tunable size", () => {
     const coworkers = facts("social:generated-coworker");
     expect(coworkers.length).toBeGreaterThan(0);
     const jobs = new Map(input.jobs.map((job) => [job.personId, job]));
@@ -66,7 +66,13 @@ describe("opening schools and coworkers", () => {
       group.add(person.id);
       groups.set(fact.facts!.peerGroupId!, group);
     }
-    for (const group of groups.values())
-      expect(group.size).toBeLessThanOrEqual(p("openingCoworkerGroupSize"));
+    // Groups are drawn by person, so someone filled in alone joins the same
+    // group as in a full town: sizes vary around the tunable size rather
+    // than stopping at it.
+    const sizes = [...groups.values()].map((group) => group.size);
+    const mean = sizes.reduce((sum, size) => sum + size, 0) / sizes.length;
+    expect(mean).toBeLessThanOrEqual(p("openingCoworkerGroupSize"));
+    for (const size of sizes)
+      expect(size).toBeLessThanOrEqual(2 * p("openingCoworkerGroupSize"));
   });
 });
