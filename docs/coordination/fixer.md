@@ -39,6 +39,8 @@ None yet.
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12 (FIXER): credits data done on `fixer/credits-data`: `data/credits/credits.json` (86 rows: 83 CC BY and CC BY-SA reference photos, O*NET with its exact credit line, Census finances and employment) and `tests/credits-list.test.ts` (fails when a manifest or lock needs credit and the list lacks it). Seven photos have no artist in the manifest, so their rows point to the source page; OPUS-PLAY can fill names later. The sweep failure on `fixer.md` (Harbour, Centre) is #4006's exemption, not this branch. Next: real-name hygiene.
+
 - Oct 12 (FIXER): #4005 zero-dice allowlist rows (guard: 6 new -> nothing new) and #4006 American English exemption, both against `pool/P15-people-5`. #4006's sweep test not run here (no node_modules); CI to confirm. M7-05 legal check written. Next: BOARD.md open work.
 
 - Oct 12, 4:25 a.m. (written by the CTO): main is green at 1a1870742 after #4000 (docs format), #3998 (status files need no release note) and #3997 (skill folders); `pool/speed-plan` (#3975) has main merged in.
