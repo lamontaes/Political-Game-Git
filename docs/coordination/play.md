@@ -39,6 +39,7 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and 
 
 - **Serve in office.** In Politics, any officeholder who lives in town has a **Play** button. Take over a council member or county commissioner, and their body appears with a bill paper. Pick a law amount (minimum wage, taxes and the rest, with today's amount shown) or a policy (handgun purchase age, anti-discrimination, paid family leave, right to counsel in eviction, bottle deposit). Draft it, **Ask** each colleague where they stand and why, offer a **Favor**, and **Schedule vote**. Two weeks later the body votes, each member for their own reasons.
 
+- **Family.** People → Family shows every relative in their own picture: where they are and what they're doing, with relation and age.
 - **Budgets.** Politics → Budgets shows every government over you and its budget lines. Play the mayor or a county executive to set priorities for the next budget vote. Money and property shows the taxes taken from your pay.
 
 **Not in yet:** voting yourself (the game casts your ballot for you), the mayor deciding to sign or veto (the game decides for them), committee hearings, and the town visibly changing after a law passes. Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
@@ -123,6 +124,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: Family screen and the title screen (the Capitol at night) in `/play`. In Cruz Bay USVI (seed fam-a): 5 relatives shown. Children have no figure yet (adult art only, already on the CTO's art queue).
 - Oct 12: Budgets in `/play` (GOV's `governments`, `budgetsOf`, `budgetPriorities`, `setBudgetPriorities`, `withholdingOf`). In Pinehill NM: the federal, New Mexico and Cibola County budgets for 2026, each "in force at the opening".
 - Oct 12: the panel and **Who you are** report the furthest golden-path step played, from the player's records (filing, campaign, result, bill, deal, decision, enactment). The Pinehill NM commissioner run reports step 8. The world now runs 29 modules (PEOPLE's views, news and candidacy were not actually installed before; fixed). In Island Park NY (seed all-b), 3 months played in 20 s with 398 full people.
 - Oct 12: steps 6 to 9 in `/play` (GOV's `draftBill`, `learnStake`, `offerDeal`, `scheduleVote`). In Pinehill NM (seed seat-a), playing a county commissioner: a $2 minimum-wage raise drafted as bill 2026-001 (9 town jobs, $4,518.80 a year; the state allows local wages). Stakes asked: 0.06, −0.39 and −0.30. A favor moved one member to 0.56. On Oct 26 the commission voted it down 2–5. The golden path's furthest step reached in play is now step 8 (pass or fail).
