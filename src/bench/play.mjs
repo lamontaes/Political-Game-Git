@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams */
+/* global document, fetch, URLSearchParams, setTimeout */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 const $ = (id) => document.getElementById(id);
@@ -36,6 +36,54 @@ function row(label, value) {
 function show(id, on) {
   $(id).hidden = !on;
 }
+
+function drawPeople(people) {
+  $("people").replaceChildren(
+    ...people.map((person) => {
+      const f = person.figure;
+      const bottom = f.clipBelowPercent ?? f.topPercent + f.heightPercent;
+      const visible = Math.max(bottom - f.topPercent, 0.1);
+      const img = el("img", { src: person.figureUrl, alt: person.name });
+      img.style.height = `${(f.heightPercent / visible) * 100}%`;
+      const box = el("div", { className: "figure", title: person.name }, img);
+      Object.assign(box.style, {
+        left: `${f.leftPercent}%`,
+        top: `${f.topPercent}%`,
+        width: `${f.widthPercent}%`,
+        height: `${visible}%`,
+      });
+      return box;
+    }),
+  );
+}
+
+// The opening: each level of government over the player's town, then home.
+const SHOT_MS = 4500;
+let skipOpening;
+async function playOpening() {
+  const shots = await api(`/api/opening?id=${encodeURIComponent(me.id)}`);
+  show("caption", true);
+  for (const shot of shots) {
+    $("backdrop").src = shot.backdrop.url;
+    drawPeople(shot.people);
+    $("stage").classList.remove("cut");
+    void $("stage").offsetWidth;
+    $("stage").classList.add("cut");
+    const titles = [...new Set(shot.cast.map((c) => c.title).filter(Boolean))];
+    $("caption-title").textContent = titles.join(" · ");
+    $("caption-names").textContent = shot.cast.map((c) => c.name).join(" · ");
+    const skipped = await new Promise((resolve) => {
+      skipOpening = () => resolve(true);
+      setTimeout(() => resolve(false), SHOT_MS);
+    });
+    if (skipped) break;
+  }
+  skipOpening = undefined;
+  show("caption", false);
+}
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && skipOpening) skipOpening();
+});
 
 async function renderScene() {
   const scene = await api(`/api/scene?id=${encodeURIComponent(me.id)}`);
@@ -369,6 +417,7 @@ $("new-life").addEventListener("click", async () => {
       names: life.names,
     };
     show("front", false);
+    await playOpening();
     for (const id of ["tabs", "stack", "card"]) show(id, true);
     renderPacket(life.packet);
     await refresh();

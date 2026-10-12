@@ -4,6 +4,7 @@ import { randomUUID } from "node:crypto";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 import { personCard } from "./card";
+import { openingShots } from "./opening";
 import { backdropPath, benchScene, figurePng } from "./scene";
 import {
   openConversation,
@@ -220,6 +221,10 @@ const server = createServer(async (request, response) => {
           url.searchParams.get("id") ?? "",
         ),
       );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/opening") {
+      send(200, openingShots(requireCore(), url.searchParams.get("id") ?? ""));
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/card") {

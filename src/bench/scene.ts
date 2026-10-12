@@ -13,6 +13,7 @@ import {
   type StagingSpot,
 } from "../presentation/backdrop-people";
 import { engineRecipeFor } from "../presentation/appearance-engine/recipe";
+import { placeWear } from "../presentation/dress-code";
 import {
   composeEnginePerson,
   mirrorToFace,
@@ -21,6 +22,7 @@ import {
 import { PEOPLE_PACK } from "../presentation/appearance-engine/runtime";
 import type { Raster } from "../presentation/appearance-engine/raster";
 import type { CoreState, PersonState } from "../core2/types";
+import { coreAPI } from "../core2/state";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -146,7 +148,7 @@ export function scenePlace(
   return { place: homeOf(), why: "at home" };
 }
 
-function backdropFile(place: string, minuteOfDay: number) {
+export function backdropFile(place: string, minuteOfDay: number) {
   const hour = Math.floor(minuteOfDay / 60);
   let wanted = "midday";
   for (const row of scenePlaces.variantByHour)
@@ -201,26 +203,58 @@ function presentIds(
   return [];
 }
 
+/** Who a figure is: a resident, or an official known only by their term record. */
+interface Looks {
+  id: string;
+  birthDate: string;
+  gender?: string;
+  seed?: string;
+}
+const OFFICES = "core2-offices-v1";
+export function looksOf(core: CoreState, id: string): Looks | null {
+  const person = core.people.get(id);
+  if (person)
+    return {
+      id: person.id,
+      birthDate: person.birthDate,
+      ...(person.looks?.gender ? { gender: person.looks.gender } : {}),
+      ...(person.looks?.appearanceSeed
+        ? { seed: person.looks.appearanceSeed }
+        : {}),
+    };
+  const term = coreAPI(core).moduleState(OFFICES).table("terms").get(id) as
+    | {
+        identity?: { birthDate: string; gender: string };
+      }
+    | undefined;
+  return term?.identity
+    ? { id, birthDate: term.identity.birthDate, gender: term.identity.gender }
+    : null;
+}
+
 /** Engine recipes are read from the person's own seed and recorded looks. */
 function recipeFor(
   core: CoreState,
-  personId: string,
+  id: string,
   spot: StagingSpot,
+  place: string,
 ): EngineRecipe | null {
-  const person = core.people.get(personId)!;
-  const gender = person.looks?.gender;
-  const seed = person.looks?.appearanceSeed;
+  const looks = looksOf(core, id);
+  if (!looks) return null;
   const base: Person = {
-    id: person.id,
-    birthDate: person.birthDate,
-    ...(gender ? { identity: { gender } } : {}),
-    ...(seed ? { appearance: { seed } } : {}),
+    id: looks.id,
+    birthDate: looks.birthDate,
+    ...(looks.gender ? { identity: { gender: looks.gender } } : {}),
+    ...(looks.seed ? { appearance: { seed: looks.seed } } : {}),
   } as unknown as Person;
   const view = spotView(spot);
-  const pose = spotPose(spot, undefined, person.id, { view });
+  const pose = spotPose(spot, undefined, looks.id, { view });
+  // People dress for the place: formal where government is done in
+  // public, business in offices, a coat outdoors in the cold months.
   const recipe = engineRecipeFor(base, core.date, PEOPLE_PACK, {
     pose,
     view,
+    wear: placeWear(place, core.date),
   });
   if (!recipe) return null;
   if (spot.facing !== "left" && spot.facing !== "right") return recipe;
@@ -238,6 +272,50 @@ function recipeFor(
 
 const packFile = (file: string) => existsSync(new URL(file, PACK_DIR));
 
+/** Puts each id on the place's spots: the first on the hero spot, the rest behind. */
+export function stagePeople(
+  core: CoreState,
+  place: string,
+  ids: readonly { id: string; name: string }[],
+): { people: BenchScenePerson[]; unplaced: BenchScene["unplaced"] } {
+  const stage = backdropStaging(place);
+  const people: BenchScenePerson[] = [];
+  const unplaced: BenchScene["unplaced"] = [];
+  if (!stage) return { people, unplaced };
+  const hero = stage.spots.find((spot) => spot.hero) ?? stage.spots[0]!;
+  // Others stand behind the lead first, nearest first, so the lead stays
+  // the largest person in the picture.
+  const rest = stage.spots
+    .filter((spot) => spot !== hero && spot.pose !== "podium")
+    .sort(
+      (a, b) =>
+        Number(a.y > hero.y) - Number(b.y > hero.y) ||
+        (a.y > hero.y ? a.y - b.y : b.y - a.y),
+    );
+  const spots = [hero, ...rest];
+  for (const [index, { id, name }] of ids.entries()) {
+    const spot = spots[index];
+    if (!spot) {
+      unplaced.push({ personId: id, reason: "no-spot" });
+      continue;
+    }
+    const recipe = recipeFor(core, id, spot, place);
+    if (!recipe) {
+      unplaced.push({ personId: id, reason: "no-adult-artwork" });
+      continue;
+    }
+    const spotId = spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`;
+    people.push({
+      personId: id,
+      name,
+      spotId,
+      figure: spotFigure(stage, spot, recipe),
+      figureUrl: `/api/figure?person=${encodeURIComponent(id)}&place=${encodeURIComponent(place)}&spot=${encodeURIComponent(spotId)}`,
+    });
+  }
+  return { people, unplaced };
+}
+
 export function benchScene(
   core: CoreState,
   personId: string,
@@ -245,46 +323,15 @@ export function benchScene(
 ): BenchScene {
   const { place, why, targetId } = scenePlace(core, personId, packet);
   const minute = packet?.at.minuteOfDay ?? 12 * 60;
-  const stage = backdropStaging(place);
-  const people: BenchScenePerson[] = [];
-  const unplaced: BenchScene["unplaced"] = [];
   const ids = [personId, ...presentIds(core, personId, place, why, targetId)];
-  if (stage) {
-    // The player's person takes the hero spot; the others fill the rest,
-    // nearest first.
-    const hero = stage.spots.find((spot) => spot.hero) ?? stage.spots[0]!;
-    // Others stand behind the player first, nearest first, so the player
-    // stays the largest person in the picture.
-    const rest = stage.spots
-      .filter((spot) => spot !== hero && spot.pose !== "podium")
-      .sort(
-        (a, b) =>
-          Number(a.y > hero.y) - Number(b.y > hero.y) ||
-          (a.y > hero.y ? a.y - b.y : b.y - a.y),
-      );
-    const spots = [hero, ...rest];
-    for (const [index, id] of ids.entries()) {
-      const spot = spots[index];
+  const { people, unplaced } = stagePeople(
+    core,
+    place,
+    ids.map((id) => {
       const person = core.people.get(id)!;
-      if (!spot) {
-        unplaced.push({ personId: id, reason: "no-spot" });
-        continue;
-      }
-      const recipe = recipeFor(core, id, spot);
-      if (!recipe) {
-        unplaced.push({ personId: id, reason: "no-adult-artwork" });
-        continue;
-      }
-      const spotId = spot.id ?? `${place}:spot:${stage.spots.indexOf(spot)}`;
-      people.push({
-        personId: id,
-        name: `${person.givenName} ${person.familyName}`,
-        spotId,
-        figure: spotFigure(stage, spot, recipe),
-        figureUrl: `/api/figure?person=${encodeURIComponent(id)}&place=${encodeURIComponent(place)}&spot=${encodeURIComponent(spotId)}`,
-      });
-    }
-  }
+      return { id, name: `${person.givenName} ${person.familyName}` };
+    }),
+  );
   return {
     place,
     why,
@@ -320,9 +367,9 @@ export function figurePng(
   const spot = stage?.spots.find(
     (row, index) => (row.id ?? `${place}:spot:${index}`) === spotId,
   );
-  if (!spot || !core.people.has(personId))
+  if (!spot || !looksOf(core, personId))
     throw new Error("Unknown person or spot.");
-  const recipe = recipeFor(core, personId, spot);
+  const recipe = recipeFor(core, personId, spot, place);
   if (!recipe) throw new Error("No adult artwork for this person yet.");
   const { raster } = composeEnginePerson(
     PEOPLE_PACK,
