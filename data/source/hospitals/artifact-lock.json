@@ -1,0 +1,97 @@
+{
+  "artifacts": [
+    {
+      "artifactId": "cms-hospital-general-information",
+      "bytes": {
+        "length": 1450767,
+        "sha256": "f874f09fef895a1ccf5bb7392dcbb2be05c9860339261b093fe00f0c1b013480"
+      },
+      "localPath": "data/source/hospitals/raw/Hospital_General_Information.csv",
+      "mediaType": "text/csv",
+      "provider": "Centers for Medicare & Medicaid Services, Provider Data Catalog",
+      "publisher": {
+        "documentationUrl": "https://data.cms.gov/provider-data/dataset/xubh-q36u",
+        "releaseDate": "2026-07-22",
+        "schemaVersion": null,
+        "statedVintage": "Hospital General Information, modified 2026-07-22"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 1450767,
+        "retrievedAt": "2026-10-09T17:57:34.970Z",
+        "url": "https://data.cms.gov/provider-data/sites/default/files/resources/893c372430d9d71a1c52737d01239d47_1785189955/Hospital_General_Information.csv"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Centers for Medicare & Medicaid Services open data; provider-level facility facts, no patient records.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "committed"
+    },
+    {
+      "artifactId": "cms-provider-of-services-2026-q2",
+      "bytes": {
+        "length": 30195693,
+        "sha256": "bcfb9c680f02fdc05a4c82b90e434ad96bb52ea0a1f04eb424bb3dad5a9ffe3d"
+      },
+      "localPath": null,
+      "mediaType": "text/csv",
+      "provider": "Centers for Medicare & Medicaid Services, Data.CMS.gov",
+      "publisher": {
+        "documentationUrl": "https://data.cms.gov/provider-characteristics/hospitals-and-other-facilities/provider-of-services-file-quality-improvement-and-evaluation-system",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "Provider of Services File, Quality Improvement and Evaluation System, 2026-04-01 to 2026-06-30"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 30195693,
+        "retrievedAt": "2026-10-09T17:57:37.035Z",
+        "url": "https://data.cms.gov/sites/default/files/2026-07/7780b4e3-4c4b-4811-8884-65ca23b7a4e8/Hospital_and_other.DATA.Q2_2026.csv"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Centers for Medicare & Medicaid Services open data; provider-level facility facts, no patient records.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "cached-not-committed"
+    },
+    {
+      "artifactId": "cms-provider-of-services-2026-q2-hospital-slice",
+      "bytes": {
+        "length": 4396550,
+        "sha256": "114bc9d8b3bd72ddf4deefae5f8ff9f4d24ba3d2fe2aaa304db15714a5c0fc82"
+      },
+      "derivation": {
+        "parentArtifactId": "cms-provider-of-services-2026-q2",
+        "parentSha256": "bcfb9c680f02fdc05a4c82b90e434ad96bb52ea0a1f04eb424bb3dad5a9ffe3d",
+        "selectionPredicate": "The header row of the Provider of Services file followed by every row whose provider category is 01 (hospital) and whose provider number is a Facility ID in the Hospital General Information artifact, in published file order, each row byte-for-byte, with a trailing newline."
+      },
+      "localPath": "data/source/hospitals/raw/Provider_of_Services_2026_Q2.hospital-slice.csv",
+      "mediaType": "text/csv",
+      "provider": "Centers for Medicare & Medicaid Services, Data.CMS.gov",
+      "publisher": {
+        "documentationUrl": "https://data.cms.gov/provider-characteristics/hospitals-and-other-facilities/provider-of-services-file-quality-improvement-and-evaluation-system",
+        "releaseDate": null,
+        "schemaVersion": null,
+        "statedVintage": "Provider of Services File, Quality Improvement and Evaluation System, 2026-04-01 to 2026-06-30"
+      },
+      "retrieval": {
+        "httpStatus": 200,
+        "method": "GET",
+        "responseBytes": 4396550,
+        "retrievedAt": "2026-10-09T17:57:37.035Z",
+        "url": "https://data.cms.gov/sites/default/files/2026-07/7780b4e3-4c4b-4811-8884-65ca23b7a4e8/Hospital_and_other.DATA.Q2_2026.csv"
+      },
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": "Centers for Medicare & Medicaid Services open data; provider-level facility facts, no patient records.",
+        "status": "public-domain-us-government"
+      },
+      "storage": "derived-qa-slice"
+    }
+  ],
+  "domain": "hospitals"
+}

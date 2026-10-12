@@ -88,11 +88,12 @@ export function buildEducationExport(): EducationExport {
   const corpus = compileEducation(lock);
   const dictionary = {
     capabilities: readCapabilities(),
+    // The cached files (school membership, geocodes, place outlines) feed the
+    // local-institutions compiler; they are not in the browser catalog.
     hashes: Object.fromEntries(
-      lock.artifacts.map((artifact) => [
-        artifact.artifactId,
-        artifact.bytes.sha256,
-      ]),
+      lock.artifacts
+        .filter((artifact) => artifact.storage === "committed")
+        .map((artifact) => [artifact.artifactId, artifact.bytes.sha256]),
     ),
   };
 

@@ -13,31 +13,32 @@
     "establishedKindPrefixes": ["school:", "schooling:", "education:"],
     "locationKindPrefixes": ["residence", "housing:", "migration:"],
     "birthplaceKinds": ["birthplace", "identity:birthplace"],
-    "source": "Existing game school-calendar.ts: common K–5, grades 6–8, grades 9–12 and a shared fall calendar. NCES CCD local-institutions.json supplies recent district/high-school identities, not historical attendance or historical existence. school-names.ts supplies generated landscape naming forms.",
+    "source": "Existing game school-calendar.ts: common K–5, grades 6–8, grades 9–12 and a shared fall calendar. NCES CCD public schools by place and county (opening-schools.json, from the P12 state files) supply each child's campus among the schools teaching their entry grade, weighted by students per grade; they are recent identities, not historical attendance or historical existence. school-names.ts supplies generated landscape naming forms.",
+    "gradesBeforeFirst": {
+      "PK": -1,
+      "KG": 0
+    },
     "stages": [
       {
         "id": "elementary",
         "label": "Elementary school cohort",
         "nameSuffix": "Elementary School",
         "startOffsetParameter": "zero",
-        "institutionColumn": "districts",
-        "namedCampus": false
+        "entryGrade": "KG"
       },
       {
         "id": "middle",
         "label": "Middle school cohort",
         "nameSuffix": "Middle School",
         "startOffsetParameter": "deepPastMiddleSchoolOffsetYears",
-        "institutionColumn": "districts",
-        "namedCampus": false
+        "entryGrade": "06"
       },
       {
         "id": "high",
         "label": "High school cohort",
         "nameSuffix": "High School",
         "startOffsetParameter": "deepPastHighSchoolOffsetYears",
-        "institutionColumn": "highSchools",
-        "namedCampus": true
+        "entryGrade": "09"
       }
     ]
   },
