@@ -291,6 +291,36 @@ describe("controlled player clock contracts", () => {
     retirePlayerV1(core);
     expect(() => advanceCore(core, "2021-01-09")).not.toThrow();
   });
+  it("saves the character's own choice as theirs when the player skips", () => {
+    const core = fresh();
+    let packet = advancePlayerV1(core, {
+        controlledPersonId: "worker",
+        through: minute("2021-01-04", 0),
+      }),
+      steps = 0,
+      own = 0;
+    while (packet.kind !== "complete") {
+      if (packet.kind === "choice") {
+        own++;
+        packet = resumePlayerV1(core, {
+          kind: "own-choice",
+          pauseId: packet.pauseId,
+        });
+      } else packet = answer(core, packet);
+      if (++steps > 200) throw new Error("Clock did not complete");
+    }
+    expect(own).toBeGreaterThan(0);
+    const acts = [...core.durableLog.values()].filter(
+      (record) =>
+        record.personIds.includes("worker") && record.kind === "person.acted",
+    );
+    expect(acts.length).toBeGreaterThan(0);
+    for (const record of acts) {
+      const decision = record.decision as DecisionResult;
+      expect(decision.controlledChoice).toBeUndefined();
+      expect(decision.reasonKey?.startsWith("controlled:")).toBe(false);
+    }
+  });
   it("preserves the zero-duration absence choice while leaving its scheduled consequence unposted until its window ends", () => {
     const core = fresh();
     let packet = advancePlayerV1(core, {
@@ -390,5 +420,41 @@ describe("controlled player clock contracts", () => {
       }),
     ).toThrow(/factory/);
     expect(reads).toBe(0);
+  });
+});
+
+describe("modules reading the controlled person during a skip", () => {
+  it("gets a read-only view instead of refreshing the player's needs", () => {
+    let calls = 0;
+    const core = createLifeCore(fixture(), {
+      modules: [
+        {
+          id: "fixture-reader",
+          onDay(api, _decide, refresh) {
+            const actor = api.state.people.get("worker")!;
+            const before = JSON.stringify(actor.needs);
+            refresh(actor);
+            refresh(actor, Object.keys(actor.needs).slice(0, 1));
+            expect(JSON.stringify(actor.needs)).toBe(before);
+            calls++;
+            return undefined;
+          },
+        },
+      ],
+    });
+    let packet = advancePlayerV1(core, {
+      controlledPersonId: "worker",
+      through: minute("2021-01-04", p("zero")),
+    });
+    for (let guard = 0; packet.kind !== "complete" && guard < 50; guard++)
+      packet =
+        packet.kind === "stop"
+          ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
+          : resumePlayerV1(core, {
+              kind: "own-choice",
+              pauseId: packet.pauseId,
+            });
+    expect(packet.kind).toBe("complete");
+    expect(calls).toBeGreaterThan(0);
   });
 });

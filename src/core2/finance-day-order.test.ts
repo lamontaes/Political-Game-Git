@@ -7,6 +7,7 @@ const source: Source = {
   tag: "ESTIMATED",
   asOf: "2021-01-01",
   citation: "Controlled same-day wage and household purchase fixture.",
+  estimatedFrom: "Controlled fixture terms only; no observed record.",
 };
 
 function fixture(): CoreInput {
@@ -70,6 +71,7 @@ function fixture(): CoreInput {
         jobId: "job",
         personId: "worker",
         organizationId: "employer",
+        payrollCalendarId: "payroll",
         startsAt: source.asOf,
         anchorDate: source.asOf,
         periodDays: 1,
@@ -78,6 +80,23 @@ function fixture(): CoreInput {
         slots: [{ offsetDays: 0, startMinute: 0, minutes: 60 }],
         scheduleSource: source,
         paySource: source,
+      },
+    ],
+    // Controlled daily payroll (zero-day lag): payday is the work date.
+    workPayrollCalendars: [
+      {
+        id: "payroll",
+        organizationId: "employer",
+        workCommitmentIds: ["work"],
+        basisRecordIds: ["employer"],
+        rule: "fixed-days-after-inclusive-period-end" as const,
+        periodDays: 1,
+        firstPeriodStartsAt: source.asOf,
+        nonbusinessDayRule: "no-adjustment" as const,
+        firstPaydayAt: source.asOf,
+        effectiveFrom: source.asOf,
+        arrearsRule: "carry-to-next-recorded-payday" as const,
+        source,
       },
     ],
     finance: {
@@ -112,11 +131,17 @@ describe("household spending on its actual modeled payday", () => {
   it("uses today's completed wage before consuming a due purchase budget", () => {
     const core = createLifeCore(fixture());
     advanceCore(core, "2021-01-02");
-    const wage = core.work.lastResultByJob.get("job")!;
+    // Attendance is recorded as earned work; cash follows on the recorded payday.
+    const wage = core.work.lastAttendanceByJob.get("job")!;
+    const payroll = [...core.work.payrollCashSources.values()].filter(
+      (row) => row.kind === "work-payroll",
+    );
+    expect(payroll).toHaveLength(1);
+    expect(payroll[0]!.date).toBe(wage.date);
+    expect(payroll[0]!.result).toMatchObject({ requestedMinor: 100 });
     const purchase = core.finance.latestReceiptsByContract.get("purchase")!;
     expect(wage.date).toBe("2021-01-02");
     expect(wage.attendedMinutes).toBe(60);
-    expect(wage.paidMinor).toBe(100);
     expect(purchase.date).toBe(wage.date);
     expect(purchase.paidMinor).toBe(50);
     expect(purchase.unfundedMinor).toBe(0);

@@ -9,6 +9,26 @@ import type {
   WorkResultInput,
 } from "./types";
 
+/** Treasury funding: authority id → the government owner whose cash pays it. */
+export interface PublicPayTreasury {
+  treasuryId: string;
+  source: Source;
+  /** Wages the treasury couldn't cover on each payday, by due id (the authority covered them). */
+  shortfalls: Map<string, { date: string; amountMinor: number }>;
+}
+const treasuries = new WeakMap<object, Map<string, PublicPayTreasury>>();
+
+export function publicPayTreasuries(
+  core: object,
+): Map<string, PublicPayTreasury> {
+  let map = treasuries.get(core);
+  if (!map) {
+    map = new Map();
+    treasuries.set(core, map);
+  }
+  return map;
+}
+
 const commitmentIndexes = new WeakMap<
   PublicPayAuthorityInput,
   ReadonlySet<string>
@@ -221,6 +241,23 @@ export function preparePublicWorkPay(
 ): void {
   if (!due) return;
   session.cash.authorizeOutside(due.ownerId, { kind: due.kind, id: due.id });
+  // A funded authority draws the wage from its government's treasury first;
+  // what the treasury can't cover, the authority still pays (recorded).
+  const treasury = treasuries.get(session.core)?.get(due.authorityId);
+  if (treasury && due.amountMinor > session.zero) {
+    const paid = session.cash.move(
+      treasury.treasuryId,
+      due.ownerId,
+      due.amountMinor,
+      due.id + ":treasury",
+    );
+    if (paid < due.amountMinor)
+      treasury.shortfalls.set(due.id, {
+        date: due.date,
+        amountMinor: due.amountMinor - paid,
+      });
+    else treasury.shortfalls.delete(due.id);
+  }
   if (due.ownerId !== due.organizationId && due.amountMinor > session.zero) {
     const paid = session.cash.move(
       due.ownerId,

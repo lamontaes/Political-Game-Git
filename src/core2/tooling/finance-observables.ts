@@ -185,7 +185,12 @@ export interface FinanceObservableSnapshot {
     cause: {
       id: string;
       date: string;
-      kind: "work-result" | "work-payroll" | "finance-receipt";
+      kind:
+        | "work-result"
+        | "work-payroll"
+        | "finance-receipt"
+        | "residents-wages"
+        | "owner-choice";
       requestedMinor: number;
       paidMinor: number;
       unfundedMinor: number;
@@ -940,6 +945,54 @@ export function financeObservables(
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([id, row]) => {
       const cause = row.cause;
+      // A count-worker payday (two-level population) has no per-person payroll rows.
+      if (cause && "workerCount" in cause)
+        return {
+          organizationId: id,
+          date: row.date,
+          reasonKey: row.reasonKey,
+          sourceReceiptId: row.sourceReceiptId,
+          endedJobIds: [...row.endedJobIds].sort(),
+          affectedPersonIds: [...row.affectedPersonIds].sort(),
+          cause: {
+            id: cause.id,
+            date: cause.date,
+            kind: "residents-wages" as const,
+            requestedMinor: cause.requestedMinor,
+            paidMinor: cause.paidMinor,
+            unfundedMinor: cause.shortfallMinor,
+            sourceActId: null,
+            jobId: null,
+            contractId: null,
+            stillLatestInOwnIndex: true,
+            source: source(cause.source),
+          },
+          source: source(row.source),
+        };
+      // An owner's choice to close a solvent business: nothing went unpaid.
+      if (cause && "paidOutMinor" in cause)
+        return {
+          organizationId: id,
+          date: row.date,
+          reasonKey: row.reasonKey,
+          sourceReceiptId: row.sourceReceiptId,
+          endedJobIds: [...row.endedJobIds].sort(),
+          affectedPersonIds: [...row.affectedPersonIds].sort(),
+          cause: {
+            id: cause.id,
+            date: cause.date,
+            kind: "owner-choice" as const,
+            requestedMinor: zero,
+            paidMinor: cause.paidOutMinor,
+            unfundedMinor: zero,
+            sourceActId: null,
+            jobId: null,
+            contractId: null,
+            stillLatestInOwnIndex: true,
+            source: source(cause.source),
+          },
+          source: source(row.source),
+        };
       if (
         !cause ||
         id !== row.organizationId ||

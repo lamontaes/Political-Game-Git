@@ -22,9 +22,99 @@
     {
       "source": "Ebeid and Rodden, Economic Geography and Economic Voting, British Journal of Political Science, 2006",
       "whatItDidNotSettle": "Shows when voters hold governors to account for the state economy; does not size a personal outcome against a law."
+    },
+    {
+      "source": "Ojeda, Michener and Haselswerdt2024; Political Behavior46:2611–2630",
+      "url": "https://link.springer.com/article/10.1007/s11109-024-09933-x",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "CC-BY-4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "notice": "©Authors2024; derived statistical transcription and paraphrase; changes indicated. Third-party and underlying survey data not licensed by the article."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
+      ]
+    },
+    {
+      "source": "Søren Frank Etzerodt2026; The politics of industrial decline: Blame and compensation",
+      "url": "https://www.cambridge.org/core/journals/european-journal-of-political-research/article/politics-of-industrial-decline-blame-and-compensation/5357D99CB53EF501C6B11BE86367AFB7",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "CC-BY-4.0",
+        "url": "https://creativecommons.org/licenses/by/4.0/",
+        "notice": "©Author2026; DOI10.1017/S1475676526100772; derived paraphrase/numbers, not third-party material."
+      },
+      "sourceCoverage": []
     }
   ],
   "title": "Who a person blames for what happened to them, and how much",
   "usableAnswer": "Panel or survey estimates of the change in approval of a named office after a respondent's own job loss, coverage loss, rent increase or victimization, by office, so LIVED_OUTCOME_ANSWERED_BY and ANSWERING_OFFICE_VISIBILITY can become measured values by kind of outcome.",
-  "whyItMatters": "Without it, a governor whose state sheds jobs would face no lost support from the people laid off, and a player in office would never feel the lives their economy touched."
+  "whyItMatters": "Without it, a governor whose state sheds jobs would face no lost support from the people laid off, and a player in office would never feel the lives their economy touched.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/drives/roadmap-r10-crisis-table4.json",
+        "data/research/drives/roadmap-r10-crisis-table5.json",
+        "data/research/drives/roadmap-r10-effects-and-gaps.json"
+      ],
+      "finding": "US crisis survey logistic estimates and licensed Denmark industrial-decline study support distinct participation and blame pathways. Neither establishes the US probability of a persistent personal grudge or its daily decay. No uniform blame weights inferred."
+    },
+    "finalCorrections": [
+      "data/research/drives/roadmap-r10-crisis-tables-verified.json"
+    ]
+  }
 }

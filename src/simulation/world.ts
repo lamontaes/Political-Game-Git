@@ -652,7 +652,28 @@ function markValidated(world: World): void {
   lastValidatedWorld = world;
 }
 
+let worldChecksOff = 0;
+
+/**
+ * Run a generator without World integrity checks (play, where bookkeeping is
+ * off). Tests and the bench keep them.
+ */
+export function withoutWorldChecks<T>(run: () => T): T {
+  worldChecksOff += 1;
+  try {
+    return run();
+  } finally {
+    worldChecksOff -= 1;
+  }
+}
+
+/** Let go of the last checked World (e.g. a generator's temporary World once it's done). */
+export function forgetLastValidatedWorld(): void {
+  lastValidatedWorld = null;
+}
+
 export function assertWorldIntegrity(world: World): void {
+  if (worldChecksOff > 0) return;
   if (VALIDATED_WORLDS.has(world)) return;
   if (integrityDeferredDepth > 0) return;
   const last = lastValidatedWorld;

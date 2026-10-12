@@ -22,6 +22,7 @@ import type {
 export function emptyWorkRuntime(): WorkRuntime {
   const zero = parameter("zero");
   return {
+    payChanges: new Map(),
     payrollCalendars: new Map(),
     payrollCalendarByCommitment: new Map(),
     payrollCalendarByJob: new Map(),

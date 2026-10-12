@@ -79,9 +79,11 @@ const counter: CoreModule = {
   },
 };
 core.modules = new Map([[counter.id, counter], ...core.modules]);
+const seenBy = new Map<string, number>();
 advanceCore(core, addDays(makeIsoDate(core.date), DAYS), {
-  // The player goes to see people outside the family: old classmates and
-  // coworkers first, then people they have since met.
+  // The player makes the rounds of people outside the family, going to
+  // whoever they have seen least: old classmates and coworkers first, then
+  // people they have since met.
   controller: (decision, offers) => {
     if (decision.actorId !== player.id) return undefined;
     const me = core.people.get(player.id)!;
@@ -91,8 +93,14 @@ advanceCore(core, addDays(makeIsoDate(core.date), DAYS), {
           offer.definition.effect === "contact" &&
           !me.familyIds.has(offer.targetId),
       )
-      .sort((a, b) => (a.targetId < b.targetId ? -1 : 1))[0];
-    return visit ? `${visit.definition.id}:${visit.targetId}` : undefined;
+      .sort(
+        (a, b) =>
+          (seenBy.get(a.targetId) ?? 0) - (seenBy.get(b.targetId) ?? 0) ||
+          a.targetId.localeCompare(b.targetId),
+      )[0];
+    if (!visit) return undefined;
+    seenBy.set(visit.targetId, (seenBy.get(visit.targetId) ?? 0) + 1);
+    return `${visit.definition.id}:${visit.targetId}`;
   },
 });
 

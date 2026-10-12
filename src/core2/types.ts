@@ -1,3 +1,6 @@
+import type { MarketEntry } from "./modules/residents";
+import type { ResidentsInput } from "./residents";
+import type { Accounts } from "./accounts";
 import type {
   ModuleStateDefinition,
   ModuleStateStore,
@@ -612,6 +615,11 @@ export interface ActivityTimeTotal {
   source: Source;
 }
 export interface WorkRuntime {
+  /** Dated pay changes by job (core2-api-v12 rerateJob), newest last. */
+  payChanges: Map<
+    string,
+    readonly { date: IsoDate; hourlyMinor: number; source: Source }[]
+  >;
   payrollCalendars: Map<string, WorkPayrollCalendarInput>;
   payrollCalendarByCommitment: Map<string, string>;
   payrollCalendarByJob: Map<string, string>;
@@ -745,6 +753,8 @@ export interface CoreInput {
   }[];
   husks?: readonly HuskInput[];
   placeMetadata?: Readonly<Record<string, string>>;
+  /** Two-level population: the wider population's records and money flows. */
+  residents?: ResidentsInput;
 }
 
 export interface HuskInput {
@@ -893,6 +903,19 @@ export interface CoreData {
   }[];
 }
 
+/** One paid sale, for modules' onSalesReceipt (e.g. sales tax). */
+export interface SalesReceiptNotice {
+  id: string;
+  date: IsoDate;
+  sellerId: string;
+  buyerIds: readonly string[];
+  kind: string;
+  paidMinor: number;
+  placeId: PlaceId;
+  /** True when the buyers are the counted wider population. */
+  counted: boolean;
+}
+
 export interface CoreModule {
   id: string;
   state?: ModuleStateDefinition;
@@ -919,6 +942,11 @@ export interface CoreModule {
   ) => void;
   /** End-of-day settlement/closure observes all chronological work receipts. */
   onAfterDay?: (api: CoreAPI) => void;
+  /**
+   * Called after every paid sale to a business (finance purchase contracts and
+   * the residents' merged purchases), e.g. to remit sales tax from the seller.
+   */
+  onSalesReceipt?: (api: CoreAPI, sale: SalesReceiptNotice) => void;
   onDay?: (
     api: CoreAPI,
     decide: (
@@ -993,6 +1021,8 @@ export interface CoreAPI {
   moduleState(moduleId: string): ModuleStateStore;
   moduleCalendar(moduleId: string): ModuleCalendar;
   voterGroups(): VoterGroups;
+  /** Named accounts, transfers and obligations through the one journal (M0-09). */
+  accounts(): Accounts;
   version: string;
   readonly state: Readonly<CoreState>;
   parameter(key: string): number;
@@ -1007,6 +1037,28 @@ export interface CoreAPI {
   addFinanceContract(input: FinanceContractInput): void;
   addFinanceCondition(input: FinanceConditionInput): void;
   addCreditFacility(input: CreditFacilityInput): void;
+  /** core2-api-v16: reduces recorded arrears by a payment already moved through the ledger. */
+  reduceStandingArrears(contractId: string, paidMinor: number): void;
+  /** core2-api-v15: a standing obligation's amount from its next due date. */
+  setStandingContractAmount(contractId: string, amountMinor: number): void;
+  /** core2-api-v14: a standing obligation stops billing today; its arrears stay owed. */
+  endStandingContract(contractId: string): void;
+  /** core2-api-v13: makes an approved line the open business's credit for its bills and payroll. */
+  attachBusinessCredit(organizationId: string, facilityId: string): void;
+  /** core2-api-v12: admits one job, its commitment and its payroll calendar mid-run. */
+  startJob(
+    job: JobInput,
+    commitment: WorkCommitmentInput,
+    calendar: WorkPayrollCalendarInput,
+  ): void;
+  /** core2-api-v12: ends one current job today; earned wages stay owed for the next payday. */
+  endJob(jobId: string, sourceId: string): void;
+  /** Accrues to today at the old rate, then applies the new annual rate from today on. */
+  repriceCreditFacility(
+    facilityId: string,
+    annualInterestRate: number,
+    source: Source,
+  ): void;
   addBusinessBooks(input: BusinessBooksInput): void;
   settleFinanceContract(contractId: string): FinanceReceipt;
   retireFinanceBudget(contractId: string): void;
@@ -1030,6 +1082,16 @@ export interface CoreAPI {
     sourceReceiptId: string,
     reasonKey: string,
   ): EmployerClosure;
+  /**
+   * v20: an owner closes a solvent business by choice; its remaining cash
+   * goes to the owner's account and its jobs, contracts and books end.
+   */
+  closeBusinessByChoice(input: {
+    organizationId: string;
+    ownerAccountId: string;
+    reasonKey: string;
+    source: Source;
+  }): EmployerClosure;
   finishFinanceDay(): void;
   addWorkCommitment(input: WorkCommitmentInput): void;
   addWorkPayrollCalendar(input: WorkPayrollCalendarInput): void;
@@ -1108,6 +1170,23 @@ export interface CoreAPI {
       >
     >,
   ): void;
+  /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
+  rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
+  /**
+   * v19: a public pay authority draws its wages from a government's cash
+   * (its treasury) on each payday; what the treasury can't cover, the
+   * authority still pays and records as a shortfall.
+   */
+  fundPublicPay(authorityId: string, treasuryId: string, source: Source): void;
+  /** v19: wages a funded authority's treasury couldn't cover, in total. */
+  publicPayShortfallMinor(authorityId: string): number;
+  /**
+   * v18: a business founded mid-run takes its share of the counted
+   * households' purchases (by capacity and price); returns each kind's yearly sales.
+   */
+  enterMarket(
+    entry: MarketEntry,
+  ): { financeKind: string; annualDemandMinor: number }[];
   addOrganization(input: OrganizationInput): void;
   /** v11: zero-stock newborn admission through the canonical person writer. */
   addBornPersonV1(

@@ -98,6 +98,10 @@ export interface CreditFacilityState extends CreditFacilityInput {
   interestRemainderMinor: number;
   unbilledInterestMinor: number;
   lastAccruedAt: IsoDate;
+  /** Dated repricing (core2-api-v11): replaces the parameter rate from ratedAt on. */
+  annualInterestRate?: number;
+  ratedAt?: IsoDate;
+  rateSource?: Source;
 }
 
 /** Cash has one authority: OrganizationInput.liquidMinor, never a second book. */
@@ -218,9 +222,37 @@ export interface EmployerClosure {
   sourceReceiptId: string;
   /** Decision-free actual evidence survives superseded routine receipt compaction. */
   cause:
-    FinanceReceipt | Omit<WorkResult, "decision"> | WorkPayrollJournalReceipt;
+    | FinanceReceipt
+    | Omit<WorkResult, "decision">
+    | WorkPayrollJournalReceipt
+    | ResidentWageShortfall
+    | OwnerClosureChoice;
   endedJobIds: readonly string[];
   affectedPersonIds: readonly PersonId[];
+  source: Source;
+}
+
+/** An owner's choice to close a solvent business, and what they took out. */
+export interface OwnerClosureChoice {
+  kind: "owner.choice";
+  id: string;
+  date: IsoDate;
+  organizationId: string;
+  ownerAccountId: string;
+  paidOutMinor: number;
+  source: Source;
+}
+
+/** A missed count-worker payday (two-level population): wages owed and unpaid. */
+export interface ResidentWageShortfall {
+  kind: "residents.wages";
+  id: string;
+  date: IsoDate;
+  organizationId: string;
+  requestedMinor: number;
+  paidMinor: number;
+  shortfallMinor: number;
+  workerCount: number;
   source: Source;
 }
 

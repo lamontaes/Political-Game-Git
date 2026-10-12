@@ -1,0 +1,40 @@
+{
+  "retrieved": "2026-10-12",
+  "files": [
+    {
+      "file": "unrate.tsv",
+      "source": "https://download.bls.gov/pub/time.series/ln/ln.data.1.AllData (LNS14000000)",
+      "sha256": "ca31e32241d120cdee9dfccb3f0fc961e238d869965959930a3f919e83789414"
+    },
+    {
+      "file": "cpi.tsv",
+      "source": "https://download.bls.gov/pub/time.series/cu/cu.data.1.AllItems (CUSR0000SA0)",
+      "sha256": "1589a797be346b0cef3b8aa5fd22726611007b78be862566e3d06568c8d5ed7d"
+    },
+    {
+      "file": "ces.tsv",
+      "source": "https://download.bls.gov/pub/time.series/ce/ce.data.00a.TotalNonfarm.Employment (CES0000000001)",
+      "sha256": "ecdfa3d1ad51fc6f0ea55160dadf1a6bd536dd3c9df41b46d8600c0e82dce52e"
+    },
+    {
+      "file": "ahe.tsv",
+      "source": "https://download.bls.gov/pub/time.series/ce/ce.data.05b.TotalPrivate.AllEmployeeHoursAndEarnings (CES0500000003)",
+      "sha256": "b894f595880a193cf0b2c0be6c08cfeb62543aa4f03bad303ed7ba3c7237b2da"
+    },
+    {
+      "file": "H15_data.xml",
+      "source": "https://www.federalreserve.gov/datadownload/Output.aspx?rel=H15&filetype=zip (RIFSPFF_N.M, RIFLGFCY10_N.M)",
+      "sha256": "66d176f1b4396ee8ddd066a25b3180c12e251fc2223587ee2fd30ed77c3ef744"
+    },
+    {
+      "file": "nipaq.txt",
+      "source": "https://apps.bea.gov/national/Release/TXT/NipaDataQ.txt (A191RX, real GDP, chained 2017 dollars)",
+      "sha256": "7a577c587cecc4b9e07b2edae2684ed565e7aef477a563c2a03d076f55d848b8"
+    },
+    {
+      "file": "mirs30.json",
+      "source": "https://www.fhfa.gov/sites/default/files/Table26-2019-by-Month.xls (30-year rows; This product uses FHFA data but is neither endorsed nor certified by FHFA.)",
+      "sha256": "145366560501a391095c2f77e532018ec701a9cb5aa45d15067205e948f5146e"
+    }
+  ]
+}
