@@ -39,7 +39,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
-None yet.
+- For the CTO: the Windows package job fails at `check:law-consequence-modules` ("manifest is out of date") on #4020 though the check passes on Linux for `main` and the branch. Not caused by #4020; worth assigning as its own bug.
 
 ## Log
 
