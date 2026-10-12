@@ -1,6 +1,8 @@
 import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { availableActs } from "../core2/life";
 import type { CoreState } from "../core2/types";
+import { coreAPI } from "../core2/state";
+import { openContests, filingOfficeFor } from "../core2/modules/elections";
 
 // M0's entry age is an exhibit-selection criterion, not a simulation rule.
 const ENTRY_AGE = 18; // docs/roadmap/features.json, M0-05 and M0-06.
@@ -18,14 +20,27 @@ const missingSteps = [
   ["People bring it up", "law-effects-to-story and English integration"],
   ["Next election uses the record", "election-history integration"],
 ] as const;
+// Each world piece, the modules that run it, and what is still missing.
 const missingWorld = [
-  ["National economy", "national economy and central-bank module"],
-  ["State government", "state elections, laws, budgets and governing modules"],
+  [
+    "National economy",
+    "national economy and central-bank module",
+    ["macro"],
+    null,
+  ],
+  [
+    "State government",
+    "state elections, laws, budgets and governing modules",
+    ["core2-laws-v1", "core2-offices-v1", "core2-elections-v1", "regional"],
+    "state budgets and governing (legislature, governor acting)",
+  ],
   [
     "Federal government",
     "federal elections, laws, budgets and governing modules",
+    ["core2-laws-v1", "core2-offices-v1", "core2-elections-v1", "macro"],
+    "federal budgets and governing (Congress, president acting)",
   ],
-  ["Other places", "coarse other-place world module"],
+  ["Other places", "coarse other-place world module", [], null],
 ] as const;
 
 /** A read-only projection. Opening history is never evidence of a played step. */
@@ -114,6 +129,22 @@ export function benchProgress(core: CoreState, placeId: string) {
           target: core.people.get(contact.targetId),
         }
       : undefined;
+  // Step 3 is reachable once the elections module has an open contest with
+  // the office that takes its filings (a played filing is the reached step).
+  const contest = core.modules.has("core2-elections-v1")
+    ? openContests(coreAPI(core))[0]
+    : undefined;
+  const filingEvidence =
+    entryEvidence && contest
+      ? {
+          kind: "open-contest" as const,
+          personId: entryEvidence.personId,
+          contestId: contest.id,
+          title: contest.title,
+          filingDeadline: contest.filingDeadline,
+          filedWith: filingOfficeFor(coreAPI(core), contest.id).filedWith,
+        }
+      : undefined;
   return {
     date: core.date,
     placeId,
@@ -136,21 +167,44 @@ export function benchProgress(core: CoreState, placeId: string) {
           : "contact offer for the resident at or approaching 18",
         evidence: contactEvidence,
       },
-      ...missingSteps.map(([label, missingModule], index) => ({
-        step: index + 3,
-        label,
-        status: "not in the new core yet",
-        missingModule,
-        evidence: undefined,
-      })),
+      ...missingSteps.map(([label, missingModule], index) =>
+        index === 0 && filingEvidence
+          ? {
+              step: 3,
+              label,
+              status: "reachable now",
+              missingModule: null,
+              evidence: filingEvidence,
+            }
+          : {
+              step: index + 3,
+              label,
+              status: "not in the new core yet",
+              missingModule,
+              evidence: undefined,
+            },
+      ),
     ],
-    world: missingWorld.map(([label, missingModule]) => ({
-      label,
-      status: "not in the new core yet",
-      missingModule,
-    })),
+    world: missingWorld.map(([label, missingModule, modules, still]) => {
+      const running = modules.filter((id) => core.modules.has(id));
+      return running.length === 0
+        ? { label, status: "not in the new core yet", missingModule }
+        : {
+            label,
+            status:
+              running.length === modules.length && !still
+                ? "running"
+                : "partly running",
+            runningModules: running,
+            missingModule:
+              still ??
+              (running.length === modules.length ? null : missingModule),
+          };
+    }),
     installedModules: [...core.modules.keys()],
-    worldRunning: false,
+    worldRunning: missingWorld.some(([, , modules]) =>
+      modules.some((id) => core.modules.has(id)),
+    ),
     furthestReachedStep: null,
     reachedEvidence: [],
     basis:

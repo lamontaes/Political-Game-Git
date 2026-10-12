@@ -274,21 +274,37 @@ const specs: Record<string, () => string> = {
         row.status === "reachable now",
         `Step ${row.step} is not reachable.`,
       );
+    // Later steps are reachable only with record evidence; otherwise they
+    // name the module that is missing.
     for (const row of progress.steps.slice(2))
       check(
-        row.status === "not in the new core yet" && row.missingModule,
-        `Step ${row.step} does not name its missing module.`,
+        (row.status === "reachable now" && row.evidence) ||
+          (row.status === "not in the new core yet" && row.missingModule),
+        `Step ${row.step} neither shows evidence nor names its missing module.`,
       );
-    for (const row of progress.world)
+    // A world piece says it runs only when its modules are installed.
+    for (const row of progress.world) {
+      const running: readonly string[] =
+        ("runningModules" in row ? row.runningModules : undefined) ?? [];
       check(
-        row.status === "not in the new core yet",
-        `${row.label} claims to run.`,
+        running.every((id: string) => w.core.modules.has(id)),
+        `${row.label} names a module that is not installed.`,
       );
+      check(
+        row.status === "not in the new core yet"
+          ? running.length === 0 && row.missingModule
+          : running.length > 0,
+        `${row.label} says ${row.status} without its modules.`,
+      );
+    }
     check(
       progress.furthestReachedStep === null,
       "A step claims to be reached.",
     );
-    return `${label(w)}: steps 1-2 reachable, 3-11 name their modules, 4 world pieces not in the new core yet`;
+    const reachable = progress.steps.filter(
+      (row) => row.status === "reachable now",
+    );
+    return `${label(w)}: steps ${reachable.map((row) => row.step).join(", ")} reachable, ${progress.steps.length - reachable.length} name their modules; world ${progress.world.map((row) => `${row.label} ${row.status}`).join(", ")}`;
   },
 };
 
