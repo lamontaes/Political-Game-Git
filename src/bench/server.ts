@@ -13,6 +13,7 @@ import { electionResults } from "./results";
 import { seatAct, seatView } from "./legislature";
 import { budgetView, setPriority } from "./budget";
 import { familyView } from "./family";
+import { governmentMap } from "./map";
 import {
   chooseAtCounter,
   openBenchFilingVisit,
@@ -234,6 +235,10 @@ const server = createServer(async (request, response) => {
           url.searchParams.get("id") ?? "",
         ),
       );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/map") {
+      send(200, governmentMap(requireCore()));
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/family") {

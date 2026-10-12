@@ -711,6 +711,39 @@ const sheets = {
       ),
     );
   },
+  async map() {
+    const m = await api("/api/map");
+    if (!m) return [];
+    const ns = "http://www.w3.org/2000/svg";
+    const svg = document.createElementNS(ns, "svg");
+    const [x0, y0, x1, y1] = m.bbox;
+    svg.setAttribute("viewBox", `${x0} ${y0} ${x1 - x0} ${y1 - y0}`);
+    svg.setAttribute("class", "gov-map");
+    const shape = (d, cls, title) => {
+      const el2 = document.createElementNS(ns, "path");
+      el2.setAttribute("d", d);
+      el2.setAttribute("class", cls);
+      if (title) {
+        const t = document.createElementNS(ns, "title");
+        t.textContent = title;
+        el2.append(t);
+      }
+      svg.append(el2);
+    };
+    if (m.state) shape(m.state.d, "state");
+    for (const c of m.counties) shape(c.d, "county", c.name);
+    const legend = [];
+    for (const [layer, district] of Object.entries(m.yours)) {
+      if (!district?.d) continue;
+      shape(
+        district.d,
+        `yours ${layer}`,
+        `${district.name}: ${district.holders.join(", ")}`,
+      );
+      legend.push(row(district.name, district.holders.join(" · ")));
+    }
+    return [el("div", { className: "row map" }, svg), ...legend];
+  },
   async family() {
     const members = await api(`/api/family?id=${encodeURIComponent(me.id)}`);
     return members
@@ -958,11 +991,14 @@ const sheets = {
       b.addEventListener("click", () => openSheet("results"));
       return b;
     })();
+    const map = el("button", { type: "button", textContent: "Map" });
+    map.addEventListener("click", () => openSheet("map"));
     const budgets = el("button", { type: "button", textContent: "Budgets" });
     budgets.addEventListener("click", () => openSheet("budgets"));
     return [
       results,
       budgets,
+      map,
       ...campaigns,
       ...offices,
       ...contests,
@@ -1002,6 +1038,7 @@ const titles = {
   results: "Election night",
   budgets: "Budgets",
   family: "Family",
+  map: "Map",
   news: "News",
 };
 async function openSheet(tab) {
@@ -1014,7 +1051,8 @@ async function openSheet(tab) {
     tab === "calendar" ||
       tab === "results" ||
       tab === "budgets" ||
-      tab === "family",
+      tab === "family" ||
+      tab === "map",
   );
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
