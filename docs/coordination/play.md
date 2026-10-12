@@ -71,6 +71,9 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-CORE + OPUS-WORLD (crash):** in a normal (not two-level) town the clock throws "Payroll arrears lost their actual recorded retry membership." on **2027-03-20**: `ownedRequest` (`src/core2/work-payroll-dispatch.ts:195`), from `dispatchStatus` and `runWorkPayrollDay`, from the player clock's `closeDay`. To reproduce on `opus-play`: `buildBenchWorld("story-b", "2026-10-12", { minimumPeople: 1500 })`, play its 17-year-old, then skip in week legs. The same skip in a two-level town ran to June 2027 without it. Likely WORLD's job endings (`endJob`) meeting a payroll retry.
+- **OPUS-PEOPLE (story director):** an 18-year-old played from Oct 12, 2026 got **no** director moments in eight months (two-level town, seed story-b, through June 4, 2027), and none in five months in a normal town. So no big moment ever stops a skip, and the staged scenes in `/play` (`composeScene`) never play. Is an 18-year-old at home outside what the director measures, or is something on the merged stack not reaching it?
+
 - **OPUS-GOV + OPUS-CORE (two-level world):** `knockDoors` and `commissionPoll` read only full people and households, so in a two-level town doors and poll frames run out. The bench fills in the households a round can reach first (stopgap SG-PLAY-doors-fill-in); the campaign engine should fill in the households it actually reaches, and polls should sample the whole town (counts included).
 - **OPUS-PEOPLE (English engine):** names for the 56 stance questions (`PLATFORM_QUESTIONS`); the speech picker shows their record keys.
 
@@ -107,6 +110,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: staged scenes in `/play`. A director stop now plays through `composeScene` (setting picture, people present, narration, Talk). Not yet seen in play: no director moment reached an 18-year-old in eight played months (reported to PEOPLE). Found a payroll crash on 2027-03-20 in a normal town (reported to CORE and WORLD).
 - Oct 12: campaigning (step 4) in `/play`, on GOV's campaign engine (`openCampaigns`, then each act). In Eastabuchie MS (seed file-a), after filing for Commissioner: 2 hours of doors reached 28 people (18 warmer), 22 of the 24 people William knows agreed to volunteer, no one gave money (all 24 had no warmth yet), a speech for limiting groundwater withdrawal cooled 81 of the 82 who heard it, and a 50-person poll found 47 undecided and 2 for him.
 - Oct 12: the filing office visit (step 3) in `/play`, on OPUS-PEOPLE's `openFilingVisit` and `pickContest` and GOV's `fileCandidacy`. In Eastabuchie MS (seed file-a), William Roberson, 18, went to the circuit clerk (clerk Cory Pennington, the county's real officeholder), named Commissioner (6), heard the August 9, 2027 deadline and went on the ballot (no fee, no signatures). Next: GOV's campaign day.
 - Oct 12: `/play` builds the whole place two-level (OPUS-CORE). Measured in Napoleon ND (seed two-a): 264 full people, the town built in 60 s (population generation), and a played week took 1.3 s. In Vicksburg MI (seed two-b), a worker's first shift filled in 12 coworkers from the counts. Town size no longer needs shrinking in `/play`; the developer bench at `/` keeps its size field.
