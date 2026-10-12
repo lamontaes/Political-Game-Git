@@ -32,6 +32,9 @@ import {
   draftBill,
   holdVote,
   learnStake,
+  castMemberVote,
+  executiveDecision,
+  memberPosition,
   obligationsOf,
   offerDeal,
   openLegislature,
@@ -479,5 +482,56 @@ describe("golden path steps 6 to 9: write, negotiate, vote, sign, the town chang
       });
       expect(federal.status).toBe("drafted");
     }
+  });
+
+  it("the player casts their own vote and, as mayor, decides to sign or veto (audit 3)", () => {
+    const states = Object.keys(authority).sort();
+    const { core, api, council } = town(states, "player");
+    const player = council[0]!.holder!.personId!;
+    (core as unknown as { playerId: string }).playerId = player;
+    const floor = lawInForce(api, "minimum-wage").value!;
+    const draft = () =>
+      draftBill(api, {
+        bodyOfficeId: council[0]!.office.id,
+        sponsorId: council[1]!.holder!.personId!,
+        provisions: [
+          {
+            kind: "law-amount",
+            series: "minimum-wage",
+            value: floor + 100,
+            unit: "minor/hour",
+          },
+        ],
+      });
+    // Not cast: the player is never voted for, so they abstain.
+    const first = draft();
+    if (first.status === "blocked") return;
+    holdVote(api, first.id);
+    expect(
+      votesOn(api, first.id).find((v) => v.memberId === player)?.vote,
+    ).toBe("abstain");
+    // Cast: the player's vote is their choice, whatever the engine would say.
+    const second = draft();
+    const mine =
+      memberPosition(api, second.id, player).total > 0 ? "no" : "yes";
+    castMemberVote(api, second.id, player, mine);
+    holdVote(api, second.id);
+    expect(
+      votesOn(api, second.id).find((v) => v.memberId === player)?.vote,
+    ).toBe(mine);
+    // As mayor: a passed ordinance waits on the player's desk.
+    const mayor = townSeats(api).find(
+      (s) => s.office.kind === "mayor" && s.holder?.personId,
+    );
+    if (!mayor) return;
+    (core as unknown as { playerId: string }).playerId =
+      mayor.holder!.personId!;
+    const third = draft();
+    for (const seat of council)
+      castMemberVote(api, third.id, seat.holder!.personId!, "yes");
+    const waiting = holdVote(api, third.id);
+    expect(waiting.status).toBe("awaiting-signature");
+    const decided = executiveDecision(api, third.id, true);
+    expect(["signed", "enacted"]).toContain(decided.status);
   });
 });

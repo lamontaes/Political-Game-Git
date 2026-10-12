@@ -103,7 +103,9 @@ export interface BillRow {
     | "vetoed"
     | "overridden"
     | "enacted"
-    | "blocked";
+    | "blocked"
+    /** Passed, on the desk of an executive who decides for themselves (the player). */
+    | "awaiting-signature";
   readonly deals: readonly {
     readonly memberId: string;
     readonly kind: string;
@@ -136,6 +138,7 @@ export const LEGISLATURE_MODULE: CoreModule = {
       committees: {},
       counters: {},
       obligations: {},
+      choices: {},
     },
   },
   onCalendarWork: legislatureCalendar,
@@ -1139,8 +1142,19 @@ function chamberVote(
   for (const member of members(api, officeId)) {
     const key = memberKey(member);
     const position = memberPosition(api, bill.id, key);
+    // A member who chose their vote (the player) votes as they chose; the
+    // player is never voted for, so with no choice they abstain.
+    const chosen = table(api, "choices").get(`${bill.id}|${key}`) as unknown as
+      { vote: "yes" | "no" | "abstain" } | undefined;
     const vote =
-      position.total > 0 ? "yes" : position.total < 0 ? "no" : "abstain";
+      chosen?.vote ??
+      (key === (api.state as CoreState).playerId
+        ? "abstain"
+        : position.total > 0
+          ? "yes"
+          : position.total < 0
+            ? "no"
+            : "abstain");
     if (vote === "yes") yes += 1;
     if (vote === "no") no += 1;
     table(api, "votes").put({
@@ -1477,7 +1491,20 @@ function executiveAction(
   if (executive) {
     const key = memberKey(executive);
     const position = memberPosition(api, bill.id, key);
-    if (position.total < 0) {
+    const decided = table(api, "choices").get(
+      `${bill.id}|executive`,
+    ) as unknown as { sign: boolean } | undefined;
+    // The player decides for themselves: the bill waits on their desk.
+    if (!decided && key === (api.state as CoreState).playerId) {
+      const waiting: BillRow = { ...bill, status: "awaiting-signature" };
+      table(api, "bills").put({
+        ...waiting,
+        tallies,
+      } as unknown as ModuleRow);
+      return waiting;
+    }
+    const vetoes = decided ? !decided.sign : position.total < 0;
+    if (vetoes) {
       // stopgapId: SG-GOV-veto-override-rule
       api.stopgap("SG-GOV-veto-override-rule");
       status = tallies.every((t) => t.yes * 3 >= (t.yes + t.no) * 2)
@@ -1496,6 +1523,40 @@ function executiveAction(
   table(api, "bills").put(next as unknown as ModuleRow);
   if (status === "vetoed") return next;
   return enact(api, next);
+}
+
+/** A member's own vote on a bill, cast before the vote is held (the player's). */
+export function castMemberVote(
+  api: CoreAPI,
+  billId: string,
+  memberId: string,
+  vote: "yes" | "no" | "abstain",
+): void {
+  table(api, "choices").put({
+    id: `${billId}|${memberId}`,
+    vote,
+  } as unknown as ModuleRow);
+}
+
+/**
+ * The executive's own decision on a passed bill: sign it, or veto it (the
+ * body may then override by two thirds). Completes a bill waiting on the
+ * player's desk; for another executive, it's recorded for their next turn.
+ */
+export function executiveDecision(
+  api: CoreAPI,
+  billId: string,
+  sign: boolean,
+): BillRow {
+  table(api, "choices").put({
+    id: `${billId}|executive`,
+    sign,
+  } as unknown as ModuleRow);
+  const bill = table(api, "bills").get(billId) as unknown as BillRow & {
+    tallies?: { yes: number; no: number }[];
+  };
+  if (bill.status !== "awaiting-signature") return bill;
+  return executiveAction(api, bill, bill.tallies ?? []);
 }
 
 /** A county board's ordinances are county law: the county the board governs, in the town's chain. */

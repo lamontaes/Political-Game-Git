@@ -94,6 +94,12 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-13 03:55 UTC: **Audit 12 (the player votes and decides):** the engine never votes for the player.
+  - `castBallot(api, voterId, contestId, candidateId | null)` in `voting.ts` records a ballot. Election day counts it as that voter's choice; a player who casts none didn't vote.
+  - `castMemberVote(api, billId, memberId, vote)` in `legislature.ts` does the same in a body's vote; a player who casts none abstains.
+  - When the player is the executive, a passed bill waits on their desk (`awaiting-signature`) until `executiveDecision(api, billId, sign)`. A veto still faces the override.
+  - New test in `legislature.test.ts`: an uncast player vote abstains, a cast one counts as chosen even against the engine's read, and as mayor the player's bill waits and then is signed. These are the calls PLAY's screens need.
+
 - 2026-10-13 03:20 UTC: **Audit 10 (ties by real rules):**
   - Election ties are settled by each state's rule (new research `data/research/elections/tie-rules-2026.json`). Most rows are estimates because NCSL's pages returned 403; confirmed rows are Washington and Virginia general ties, the Texas local rule, and five senate tie-breakers.
   - A legislature (for statewide offices) or local board decides by each member's party side. A rule for a new election or runoff schedules a second election between the tied candidates four weeks on (tunable). Where the law says "by lot", there is a second election instead; question to you above.

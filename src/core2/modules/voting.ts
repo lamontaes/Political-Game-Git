@@ -113,6 +113,7 @@ export const VOTING_MODULE: CoreModule = {
   state: {
     schemaVersion: 1,
     tables: {
+      chosen: {},
       ballots: {
         indexes: {
           byContest: { fields: ["contestId"] },
@@ -841,6 +842,27 @@ function secondElection(
   });
 }
 
+/**
+ * A named voter's own ballot in a race, cast before election day (the
+ * player's): a candidate, or null to leave the race blank.
+ */
+export function castBallot(
+  api: CoreAPI,
+  voterId: string,
+  contestId: string,
+  candidateId: string | null,
+): void {
+  if (
+    candidateId !== null &&
+    !ballot(api, contestId).some((f) => f.personId === candidateId)
+  )
+    throw new Error(`${candidateId} isn't on the ballot for ${contestId}`);
+  table(api, "chosen").put({
+    id: `${contestId}|${voterId}`,
+    candidateId,
+  } as unknown as ModuleRow);
+}
+
 /** Count a contest: named ballots, then the wider electorate's groups. */
 export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const contest = api
@@ -867,7 +889,17 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       contest,
       filings,
     );
-    const t = atThePolls(api, voter, contest.electionDate, cycleCost);
+    // A voter who chose their ballot (the player) votes as they chose; the
+    // player is never voted for, so with no ballot cast they didn't vote.
+    const chosen = table(api, "chosen").get(
+      `${contestId}|${voter.id}`,
+    ) as unknown as { candidateId: string | null } | undefined;
+    const isPlayer = voter.id === (api.state as CoreState).playerId;
+    const decided = atThePolls(api, voter, contest.electionDate, cycleCost);
+    const t =
+      chosen || isPlayer
+        ? { ...decided, votes: chosen !== undefined }
+        : decided;
     const ranked = Object.entries(appeal).sort(
       (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
     );
@@ -876,7 +908,11 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     const separates =
       ranked.length === 1 ||
       (ranked.length > 1 && ranked[0]![1].total > ranked[1]![1].total);
-    const choice = t.votes && separates ? ranked[0]![0] : null;
+    const choice = chosen
+      ? chosen.candidateId
+      : t.votes && separates
+        ? ranked[0]![0]
+        : null;
     const told = !t.votes
       ? null
       : choice === null
