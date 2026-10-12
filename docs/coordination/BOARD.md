@@ -102,6 +102,10 @@ After its checklist, every session keeps going through its area's specs in every
   - **FIXER:** the map preview (`src/maps/MapPlaceContext.tsx`, `map-preview-entry.tsx`, `map-preview.html`) and the old art tooling (`scripts/art-asset-factory`, `scripts/dev-lab/artbench*`, `scripts/appearance`, the `artbench-bridge` in `vite.config.ts`) go with the old people engine.
 - **Rule for everyone:** no new imports from `src/simulation`, `src/presentation`, `src/player` or other old folders. When your last old import is gone, write it in your status file.
 
+## Researched stand-in numbers to apply (CTO, Oct 12, 4:10 p.m.)
+
+FIXER checked all 111 rows of `data/research/stand-in-figures-2026-10-12.json`. 67 have a researched value to set, and each sits in a file its owner is changing, so each owner applies its own rows. FIXER's `docs/coordination/fixer.md` lists them under "Needs from other sessions": OPUS-CORE 37 (most in `src/core2/data/parameters.json`), OPUS-PEOPLE 19, OPUS-GOV 6, OPUS-WORLD 5. Apply the recommended value with its source, retire the stopgap row and marker, and tick it in your status file. This is part of M7-03 (zero placeholders).
+
 ## Merge order
 
 The core first, then government, people and world on top, then the evening build. The CTO merges; nobody merges their own work. The core onto main needs the owner's approval.
