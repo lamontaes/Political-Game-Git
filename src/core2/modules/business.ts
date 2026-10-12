@@ -14,13 +14,7 @@ import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { traitLeanBetween } from "../trait-decisions";
-import type {
-  ActOffer,
-  CoreAPI,
-  CoreModule,
-  CoreState,
-  PersonState,
-} from "../types";
+import type { ActOffer, CoreAPI, CoreState, PersonState } from "../types";
 import type {
   HistoryWriter,
   PreStartModule,
