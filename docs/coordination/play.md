@@ -37,7 +37,9 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and 
 
 - **Election night.** After an election day, the Election night sheet opens by itself: every race with each candidate's votes and party, the winner, turnout, the exit poll, and how you voted. Until needed stops when results are in.
 
-**Not in yet:** voting yourself (the game casts your ballot for you), and serving in office (bills, budgets, meetings), which OPUS-GOV has built and which needs its screens next. Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
+- **Serve in office.** In Politics, any officeholder who lives in town has a **Play** button. Take over a council member or county commissioner, and their body appears with a bill paper. Pick a law amount (minimum wage, taxes and the rest, with today's amount shown) or a policy (handgun purchase age, anti-discrimination, paid family leave, right to counsel in eviction, bottle deposit). Draft it, **Ask** each colleague where they stand and why, offer a **Favor**, and **Schedule vote**. Two weeks later the body votes, each member for their own reasons.
+
+**Not in yet:** voting yourself (the game casts your ballot for you), the mayor's signature or veto screen, budgets, committee hearings, and the town visibly changing after a law passes. Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
 
 ## Checklist
 
@@ -117,6 +119,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: steps 6 to 9 in `/play` (GOV's `draftBill`, `learnStake`, `offerDeal`, `scheduleVote`). In Pinehill NM (seed seat-a), playing a county commissioner: a $2 minimum-wage raise drafted as bill 2026-001 (9 town jobs, $4,518.80 a year; the state allows local wages). Stakes asked: 0.06, −0.39 and −0.30. A favor moved one member to 0.56. On Oct 26 the commission voted it down 2–5. The golden path's furthest step reached in play is now step 8 (pass or fail).
 - Oct 12: election night (step 5) in `/play`, and the bench world now runs all 26 modules (GOV's parties, voting, record, budgets, legislature and law effects; PEOPLE's views, news, candidacy and renewal). In Ketchuptown SC (seed all-a), a month through the Nov 3 general election played in 6 s; Election night opened on its own and showed every race and Emma Farmer's ballot.
 - Oct 12: the economy in `/play` News and a World panel on the bench (OPUS-WORLD's `nationalPanel`, `regionPanel`, `turnoverPanel`, `bankPanel`, `evictionPanel`, `ownerPanel`). In seed econ-a, November 2026: national unemployment 4.2%, inflation 3.0%, policy rate 3.875%, 30-year mortgage 6.7%, and one central-bank meeting recorded. The national series is empty at the opening and fills in after the first simulated month.
 - Oct 12: staged scenes in `/play`. A director stop now plays through `composeScene` (setting picture, people present, narration, Talk). Not yet seen in play: no director moment reached an 18-year-old in eight played months (reported to PEOPLE). Found a payroll crash on 2027-03-20 in a normal town (reported to CORE and WORLD).
