@@ -41,6 +41,10 @@ import {
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import type { SeatInput } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
+import { partiesHere, partyTie } from "./parties";
+import { recordAppeal, type RecordReason } from "./record";
+
+const slug = (name: string) => name.toLowerCase().replace(/[^a-z]+/g, "-");
 
 export const VOTING_MODULE_ID = "core2-voting-v1";
 
@@ -73,6 +77,8 @@ export interface BallotRow {
   >;
   /** What they told the exit pollster. */
   readonly toldPollster: string | null;
+  /** Each incumbent's record as this voter weighed it, by candidate. */
+  readonly recordReasons?: Readonly<Record<string, readonly RecordReason[]>>;
 }
 
 export interface ResultRow {
@@ -138,6 +144,18 @@ export function openVoting(core: CoreState): void {
         sourceRecordIds: [contest.id],
       });
     else fileStandingCandidates(api, contest.id);
+    if (contest.primaryDate && contest.primaryDate > core.date)
+      calendar.schedule({
+        key: `primary:${contest.id}`,
+        date: contest.primaryDate,
+        kind: "primary",
+        source: {
+          tag: "SOURCED",
+          citation: contest.sources.join(" ; ") || "election calendar",
+          asOf: core.date,
+        },
+        sourceRecordIds: [contest.id],
+      });
     calendar.schedule({
       key: `election:${contest.id}`,
       date: contest.electionDate,
@@ -163,6 +181,7 @@ function votingCalendarWork(
 ): void {
   if (work.kind === "filing-closes")
     fileStandingCandidates(api, work.sourceRecordIds[0]!);
+  if (work.kind === "primary") holdPrimary(api, work.sourceRecordIds[0]!);
   if (work.kind === "election-day") holdElection(api, work.sourceRecordIds[0]!);
   if (work.kind === "take-office") takeOffice(api, work.sourceRecordIds[0]!);
 }
@@ -229,6 +248,7 @@ function appealFor(
   filings: readonly FilingRow[],
 ) {
   const lean = personLean(api.state.people, voter, townLean(api));
+  const recordReasons: Record<string, readonly RecordReason[]> = {};
   const appeal: Record<
     string,
     {
@@ -246,10 +266,21 @@ function appealFor(
     const agreement = impression?.knowsPlatform
       ? platformAgreement(lean, facts.platform)
       : null;
-    const party = facts.party ? lean * partySide(facts.party) : 0;
-    // The incumbent's record (votes, promises kept or broken) is read by the
-    // record engine, golden path step 11; until then it adds nothing.
-    const record = 0;
+    const tie = partyTie(api, voter.id);
+    const loyal =
+      tie?.partyId && facts.party && tie.partyId.endsWith(slug(facts.party))
+        ? campaignParameter("partyLoyaltyWeight")
+        : 0;
+    const party = (facts.party ? lean * partySide(facts.party) : 0) + loyal;
+    // The incumbent's record (votes, promises kept or broken), weighed by a
+    // voter who knows the officeholder (golden path step 11).
+    const knows =
+      voter.knownIds.has(filing.personId) || (impression?.heardOf ?? false);
+    const weighed = facts.isIncumbent
+      ? recordAppeal(api, voter, filing.personId, lean, knows)
+      : { total: 0, reasons: [] };
+    const record = weighed.total;
+    recordReasons[filing.personId] = weighed.reasons;
     appeal[filing.personId] = {
       total: warmth + (agreement ?? 0) + party + record,
       warmth,
@@ -258,7 +289,7 @@ function appealFor(
       record,
     };
   }
-  return { appeal, lean };
+  return { appeal, lean, recordReasons };
 }
 
 /** Whether a named adult votes: their sense of duty and interest in this race against what it costs them that day. */
@@ -354,6 +385,113 @@ export function officialCandidateId(key: string): string {
   return `official:${key}`;
 }
 
+/**
+ * The primary, by the state's method. A party primary picks one nominee per
+ * party from that party's voters (and independents where the state lets
+ * them in); a top-two or top-four primary puts every candidate before every
+ * voter and sends the top finishers on. Candidates who don't advance leave
+ * the November ballot. Counted from the named voters, the sample of the
+ * party's electorate the world names.
+ */
+export function holdPrimary(
+  api: CoreAPI,
+  contestId: string,
+): Readonly<Record<string, number>> {
+  const contest = api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .get(contestId) as unknown as ContestRow;
+  const filings = ballot(api, contestId);
+  const parties = partiesHere(api);
+  const method = parties[0]?.nominationMethod ?? "party-primary";
+  const access = parties[0]?.voterAccess ?? "";
+  const date = api.state.date;
+  const { townPlaceId } = town(api);
+  const voters = [...api.state.people.values()]
+    .filter((p) => p.alive && p.placeId === townPlaceId && ageOn(p, date) >= 18)
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const votes: Record<string, number> = {};
+  const count = (field: readonly FilingRow[], who: readonly PersonState[]) => {
+    for (const voter of who) {
+      const { appeal } = appealFor(api, voter, contest, field);
+      if (!turnout(api, voter, appeal).votes) continue;
+      const ranked = Object.entries(appeal).sort(
+        (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
+      );
+      if (ranked.length > 1 && ranked[0]![1].total === ranked[1]![1].total)
+        continue;
+      if (ranked[0]) votes[ranked[0][0]] = (votes[ranked[0][0]] ?? 0) + 1;
+    }
+  };
+  const lose = (filing: FilingRow) =>
+    api
+      .moduleState(ELECTIONS_MODULE_ID)
+      .table("filings")
+      .put({ ...filing, status: "withdrawn" } as unknown as ModuleRow);
+  const advancing = method === "top-two" ? 2 : method === "top-four" ? 4 : 0;
+  if (advancing) {
+    count(filings, voters);
+    filings
+      .slice()
+      .sort(
+        (a, b) =>
+          (votes[b.personId] ?? 0) - (votes[a.personId] ?? 0) ||
+          a.personId.localeCompare(b.personId),
+      )
+      .slice(advancing)
+      .forEach(lose);
+  } else {
+    const byParty = new Map<string, FilingRow[]>();
+    for (const f of filings)
+      if (f.party) byParty.set(f.party, [...(byParty.get(f.party) ?? []), f]);
+    for (const [party, field] of byParty) {
+      if (field.length < 2) continue;
+      const open = /open|unaffiliated|independ/i.test(access);
+      const electorate = voters.filter((v) => {
+        const tie = partyTie(api, v.id);
+        return (
+          (tie?.partyId?.endsWith(slug(party)) ?? false) ||
+          (open && tie?.tie !== "party")
+        );
+      });
+      count(field, electorate);
+      const ranked = field
+        .slice()
+        .sort(
+          (a, b) =>
+            (votes[b.personId] ?? 0) - (votes[a.personId] ?? 0) ||
+            a.personId.localeCompare(b.personId),
+        );
+      // An exact tie at the top eliminates no one (the law's tie rule is
+      // applied by the officials, not modeled yet).
+      if (
+        (votes[ranked[0]!.personId] ?? 0) === (votes[ranked[1]!.personId] ?? 0)
+      )
+        continue;
+      const winner = ranked[0]!;
+      field.filter((f) => f !== winner).forEach(lose);
+    }
+  }
+  api.emit({
+    id: `primary-result:${contestId}`,
+    date,
+    kind: "primary-result",
+    personIds: filings
+      .map((f) => f.personId)
+      .filter((id) => api.state.people.has(id)),
+    placeId: townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Primary count of ${contestId}`,
+      asOf: date,
+    },
+    publicRecord: true,
+    news: true,
+    facts: { contestId, method, votes: JSON.stringify(votes) },
+  });
+  return votes;
+}
+
 /** Count a contest: named ballots, then the wider electorate's groups. */
 export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const contest = api
@@ -372,7 +510,12 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     [];
   let voted = 0;
   for (const voter of named) {
-    const { appeal, lean } = appealFor(api, voter, contest, filings);
+    const { appeal, lean, recordReasons } = appealFor(
+      api,
+      voter,
+      contest,
+      filings,
+    );
     const t = turnout(api, voter, appeal);
     const ranked = Object.entries(appeal).sort(
       (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
@@ -414,6 +557,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       choice,
       appeal,
       toldPollster: told,
+      recordReasons,
     } as unknown as ModuleRow);
   }
   const { groupVotes, electorate } = groupVote(

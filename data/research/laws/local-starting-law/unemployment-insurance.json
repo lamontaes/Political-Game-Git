@@ -1,0 +1,2460 @@
+{
+  "id": "unemployment-insurance-2026",
+  "retrieved": "2026-10-12",
+  "status": "research-not-integrated",
+  "scope": "Regular state UI eligibility, weekly-benefit formula, waiting week, duration, partial-earnings disregard and work search. Min/max WBA live in data/research/laws/local-starting-law/unemployment-weekly-bounds.json and are not repeated.",
+  "sourceNotes": [
+    "Primary: DOL ETA 'Significant Provisions of State UI Laws, effective July 2026' (qualifying earnings, WBA computation, earnings disregarded, max benefit, weeks payable).",
+    "The requested 'Comparison of State UI Laws 2025' URL returns 404 on oui.doleta.gov (checked 2026-10-12); the DOL state-laws page links only the 2023 Comparison, used for waiting week (Table 3-7), duration rules (Table 3-12) and work search (Table 5-14).",
+    "Dollar qualifying amounts tagged estimate were computed from 2026 minimum WBA, minimum wage or state average wage, or carried from the 2023 Comparison.",
+    "Unemployment-rate-indexed durations: value2026 uses each state's rule with approximate 2026 state unemployment rates (all indexed states were below their lowest trigger), so value2026 is the bottom step."
+  ],
+  "fieldKey": {
+    "weeklyBenefitFormula.fraction": "Multiplier applied to the base named in fractionAppliesTo (e.g. 1/26 of HQW = 0.038462; 1/26 of the average of 2 HQs = 1/52 of their sum = 0.019231; AWW kinds give the percent of the average weekly wage)."
+  },
+  "places": {
+    "US-AK": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "$2,500 in base period; wages in 2 quarters; at least $250 outside the high quarter",
+        "minimumBasePeriodWages": 2500,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-annual",
+        "fraction": null,
+        "fractionAppliesTo": "annual base-period wages (weighted schedule 0.9%-2.2%) + dependents $24 each up to 3 ($72)",
+        "text": "0.9-2.2% of annual wages + DA up to $72",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 16,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Weighted schedule of BPW-to-HQW ratio sets weeks x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "$50 plus 1/4 of wages over $50",
+      "searchRequirement": {
+        "contactsPerWeek": 1,
+        "text": "1-2 contacts per week depending on labor market/union status",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-AL": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW in base period",
+        "minimumBasePeriodWages": 2314,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": null,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-two-high-quarters",
+        "fraction": 0.019231,
+        "fractionAppliesTo": "sum of 2 highest quarters (1/26 of their average)",
+        "text": "1/26 of average of 2 highest quarters",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "indexed-to-unemployment-rate",
+        "minimum": 14,
+        "maximum": 20,
+        "value2026": 14,
+        "rule": "14 weeks if state average unemployment rate <= 6.5%; +1 week per 0.5 point above, to 20 (Ala. Code 25-4-74, Act 2019-204). Max benefit = lesser of 14 x WBA or 1/4 BPW at current rates.",
+        "estimate": true
+      },
+      "partialEarningsDisregard": "1/3 of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 employer contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-AR": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "35 x WBA in base period; wages in 2 quarters",
+        "minimumBasePeriodWages": 2835,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-annual",
+        "fraction": 0.009615,
+        "fractionAppliesTo": "annual base-period wages (1/26 of average of the 4 base-period quarters)",
+        "text": "1/26 of average of 4 quarters in base period",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 9,
+        "maximum": 12,
+        "value2026": 12,
+        "rule": "Lesser of 1/3 BPW or 12 x WBA (12-week cap since 2024, Act 196 of 2023)",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "40% of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 2,
+        "text": "2 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-AS": {
+      "hasProgram": false,
+      "text": "No regular state/territorial unemployment insurance program. DOL lists UI law provisions only for the 50 states, DC, PR and VI (53 jurisdictions); Guam, American Samoa and the Northern Mariana Islands were covered during COVID-19 only by federal Pandemic Unemployment Assistance under the CARES Act because they have no regular UI program (DOL UIPL 16-20).",
+      "baseEarnings": null,
+      "weeklyBenefitFormula": null,
+      "waitingWeek": null,
+      "maxWeeks": null,
+      "partialEarningsDisregard": null,
+      "searchRequirement": null,
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://www.dol.gov/agencies/eta/advisories/unemployment-insurance-program-letter-no-16-20"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-AZ": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW and 390 x state minimum wage in one quarter; alt: 2 quarters with one high enough for max WBA and total BPW >= taxable wage base",
+        "minimumBasePeriodWages": 8862.75,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": 5908.5,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.04,
+        "fractionAppliesTo": "high-quarter wages",
+        "text": "1/25 HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "indexed-to-unemployment-rate",
+        "minimum": 8,
+        "maximum": 26,
+        "value2026": 24,
+        "rule": "Max benefit = 26 x WBA, or 24 x WBA if the state unemployment rate in the prior calendar quarter is below 5% (A.R.S. 23-780); 2026 rate about 4% so 24.",
+        "estimate": true
+      },
+      "partialEarningsDisregard": "$160.49",
+      "searchRequirement": {
+        "contactsPerWeek": 4,
+        "text": "4 work search contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "notes": "Min HQ/BP computed with AZ 2026 minimum wage $15.15 (estimate)."
+    },
+    "US-CA": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "$1,300 in high quarter; or $900 in HQ with BPW = 1.25 x HQ",
+        "minimumBasePeriodWages": 1125,
+        "highQuarterMultiple": 1.25,
+        "minimumHighQuarterWages": 1300,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.038462,
+        "fractionAppliesTo": "high-quarter wages (1/23 at low wages to 1/26)",
+        "text": "1/23 to 1/26 HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week (deferred if continuing from prior-year claim)",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 14,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 1/2 BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "Greater of $25 or 1/4 of wages",
+      "searchRequirement": {
+        "contactsPerWeek": null,
+        "text": "Unspecified number; must search each week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-CO": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "Greater of 40 x WBA or $2,500 in base period",
+        "minimumBasePeriodWages": 2500,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-two-high-quarters",
+        "fraction": 0.011538,
+        "fractionAppliesTo": "sum of 2 consecutive highest quarters (60% of 1/26 of their average); alt 50% of 1/52 BPW",
+        "text": "Higher of 60% of 1/26 of 2 consecutive HQW (capped 50% state AWW) or 50% of 1/52 BPW (capped 55% state AWW)",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 13,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 1/3 BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "1/2 of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": null,
+        "text": "Unspecified number of activities; weekly search required",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-CT": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "40 x WBA in base period",
+        "minimumBasePeriodWages": 1760,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-two-high-quarters",
+        "fraction": 0.019231,
+        "fractionAppliesTo": "sum of 2 highest quarters (1/26 of average) + $15/dependent up to 5",
+        "text": "1/26 average of 2 HQs + $15 per dep (construction: 1/26 HQ)",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": false,
+        "paidLater": null,
+        "text": "No waiting week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "uniform",
+        "minimum": 26,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Uniform 26 weeks",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "1/3 of wages (benefit reduced by 2/3 of earnings)",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 work search activities per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "notes": "minBP computed 40 x 2026 min WBA $44."
+    },
+    "US-DC": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW (or within $70); $1,950 in 2 quarters; $1,300 in 1 quarter",
+        "minimumBasePeriodWages": 1950,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": 1300,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.038462,
+        "fractionAppliesTo": "high-quarter wages",
+        "text": "1/26 HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "uniform",
+        "minimum": 26,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Uniform 26 weeks",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "1/3 of wages plus $50",
+      "searchRequirement": {
+        "contactsPerWeek": 2,
+        "text": "2 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-DE": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "36 x WBA in base period",
+        "minimumBasePeriodWages": 720,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-two-high-quarters",
+        "fraction": 0.021739,
+        "fractionAppliesTo": "sum of 2 highest quarters",
+        "text": "1/46 of total wages in 2 highest quarters",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": false,
+        "paidLater": null,
+        "text": "No waiting week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 24,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 1/2 BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "Greater of $10 or 50% of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 1,
+        "text": "1 new contact per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-FL": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW; minimum $3,400; wages in 2 quarters",
+        "minimumBasePeriodWages": 3400,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.038462,
+        "fractionAppliesTo": "high-quarter wages",
+        "text": "1/26 HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "indexed-to-unemployment-rate",
+        "minimum": 9,
+        "maximum": 23,
+        "value2026": 12,
+        "rule": "Fla. Stat. 443.111(5): 12 weeks if Florida average unemployment rate (avg of the most recent 3rd calendar quarter, seasonally adjusted) <= 5%; +1 week per 0.5 point above 5%, max 23. Total benefits also capped at lesser of 25% BPW or $6,325. 2026 rate under 5% so 12.",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "8 x federal hourly minimum wage ($58)",
+      "searchRequirement": {
+        "contactsPerWeek": 5,
+        "text": "5 contacts per week (3 in small/rural counties)",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf",
+        "https://www.flsenate.gov/Laws/Statutes/2025/443.111"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-GA": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "Wages in 2 quarters and 1.5 x HQW; alt HQW/21 for WBA with 2-quarter earnings >= 40 x WBA",
+        "minimumBasePeriodWages": 2200,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": 1155,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-two-high-quarters",
+        "fraction": 0.02381,
+        "fractionAppliesTo": "sum of 2 highest quarters (alt 1/21 HQW)",
+        "text": "1/42 of wages in highest 2 quarters or 1/21 HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": false,
+        "paidLater": null,
+        "text": "No waiting week (2023 Comparison)",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "indexed-to-unemployment-rate",
+        "minimum": 6,
+        "maximum": 26,
+        "value2026": 14,
+        "rule": "O.C.G.A. 34-8-193: 14 weeks if state unemployment rate <= 4.5%; +1 week per 0.5 point above, max 26 (DOL 2023 lists 14-20). Max benefit lesser of 14 x WBA or 1/4 BPW at current rates. GA 2026 rate ~3.5% so 14.",
+        "estimate": true
+      },
+      "partialEarningsDisregard": "$50",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 new contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-GU": {
+      "hasProgram": false,
+      "text": "No regular state/territorial unemployment insurance program. DOL lists UI law provisions only for the 50 states, DC, PR and VI (53 jurisdictions); Guam, American Samoa and the Northern Mariana Islands were covered during COVID-19 only by federal Pandemic Unemployment Assistance under the CARES Act because they have no regular UI program (DOL UIPL 16-20).",
+      "baseEarnings": null,
+      "weeklyBenefitFormula": null,
+      "waitingWeek": null,
+      "maxWeeks": null,
+      "partialEarningsDisregard": null,
+      "searchRequirement": null,
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://www.dol.gov/agencies/eta/advisories/unemployment-insurance-program-letter-no-16-20"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-HI": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "26 x WBA in base period; wages in 2 quarters",
+        "minimumBasePeriodWages": 130,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.047619,
+        "fractionAppliesTo": "high-quarter wages",
+        "text": "1/21 HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "uniform",
+        "minimum": 26,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Uniform 26 weeks",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "$150",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-IA": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.25 x HQW; HQ >= 3.5% of statewide AAW; 1/2 HQW in a quarter other than HQ",
+        "minimumBasePeriodWages": 2840,
+        "highQuarterMultiple": 1.25,
+        "minimumHighQuarterWages": 1890,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.043478,
+        "fractionAppliesTo": "high-quarter wages (1/19-1/22 with dependents)",
+        "text": "1/23 HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": false,
+        "paidLater": null,
+        "text": "No waiting week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 10,
+        "maximum": 16,
+        "value2026": 16,
+        "rule": "Lesser of 1/3 BPW or 16 x WBA (16-week cap since HF 2355, 2022); not indexed to unemployment rate",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "25% of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 4,
+        "text": "4 reemployment activities per week under HF 2355 (2022); DOL 2023 table lists 2",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": true
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-ID": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.25 x HQW; minimum $1,872 in one quarter",
+        "minimumBasePeriodWages": 2340,
+        "highQuarterMultiple": 1.25,
+        "minimumHighQuarterWages": 1872,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.038462,
+        "fractionAppliesTo": "high-quarter wages",
+        "text": "1/26 HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "indexed-to-unemployment-rate",
+        "minimum": 10,
+        "maximum": 26,
+        "value2026": 21,
+        "rule": "Idaho Code 72-1367: weeks from BPW/HQW ratio table, column set by forecast seasonally adjusted unemployment rate (<=2.9%: max 20; 3-3.9%: 21; 4-4.9%: 22 ... >=8%: 26); min 10. 2026 rate ~3.8% so top of table 21 weeks.",
+        "estimate": true
+      },
+      "partialEarningsDisregard": "1/2 of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 2,
+        "text": "2 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf",
+        "https://legislature.idaho.gov/statutesrules/idstat/title72/t72ch13/sect72-1367/"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-IL": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "$1,600 in base period with $440 outside high quarter",
+        "minimumBasePeriodWages": 1600,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-average-weekly-wage",
+        "fraction": 0.47,
+        "fractionAppliesTo": "claimant AWW in 2 highest quarters (sum/26)",
+        "text": "47% of claimant AWW in 2 highest quarters + DA",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "uniform",
+        "minimum": 26,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Uniform 26 weeks (lesser of 26 x WBA or BP wages)",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "1/2 of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": null,
+        "text": "Quality not quantity; no fixed count",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-IN": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW with $2,500 in last 2 quarters; at least $4,200 in BP",
+        "minimumBasePeriodWages": 4200,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-average-weekly-wage",
+        "fraction": 0.47,
+        "fractionAppliesTo": "claimant AWW in base period",
+        "text": "47% of AWW in BP",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week (waived for closures/bankruptcy/WARN layoffs)",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 26,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 28% BPW or 26 x WBA (DOL lists 26)",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "$100 (or 20% of other wages)",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-KS": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "30 x WBA in base period; wages in 2 quarters",
+        "minimumBasePeriodWages": 4950,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.0425,
+        "fractionAppliesTo": "high-quarter wages",
+        "text": "4.25% HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week (waived for closures/bankruptcy/WARN layoffs)",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "indexed-to-unemployment-rate",
+        "minimum": 10,
+        "maximum": 26,
+        "value2026": 16,
+        "rule": "K.S.A. 44-704(j): 16 weeks if 3-month seasonally adjusted state rate < 5%; 20 if 5-6%; 26 if >= 6%. 2026 rate ~4% so 16.",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "25% of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf",
+        "https://www.ksrevisor.gov/statutes/chapters/ch44/044_007_0004.html"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "notes": "minBP computed 30 x 2026 min WBA $165."
+    },
+    "US-KY": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW; 8 x WBA in last 2 quarters; $1,500 outside HQ",
+        "minimumBasePeriodWages": 3230,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": null,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-annual",
+        "fraction": 0.011923,
+        "fractionAppliesTo": "base-period wages",
+        "text": "1.1923% of BPW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": true,
+        "text": "1 week; paid at the end when remaining claim balance <= waiting-week amount",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "indexed-to-unemployment-rate",
+        "minimum": 16,
+        "maximum": 24,
+        "value2026": 16,
+        "rule": "KRS 341.385 (HB 4 2022, HB 146 2023): 16 weeks at low state unemployment, +1 week per 0.5 point above the base threshold (about 4.5%), max 24; max benefit lesser of N x WBA or 1/3 BPW. KY 2026 rate ~5% so 16-17.",
+        "estimate": true
+      },
+      "partialEarningsDisregard": "1/5 of wages",
+      "searchRequirement": {
+        "contactsPerWeek": 5,
+        "text": "5 work search activities per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-LA": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "$1,200 total BPW; wages in 2 quarters; 1.5 x HQW",
+        "minimumBasePeriodWages": 1200,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": 800,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-annual",
+        "fraction": 0.01,
+        "fractionAppliesTo": "base-period wages (1/25 of average of 4 quarters)",
+        "text": "1/25 of average of 4 base-period quarters",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "indexed-to-unemployment-rate",
+        "minimum": 12,
+        "maximum": 20,
+        "value2026": 12,
+        "rule": "La. R.S. 23:1592 (Act 320 of 2021): 12 weeks when state average unemployment rate <= 5%, rising in steps to 20 at >8.5%. LA 2026 rate ~4.4% so 12.",
+        "estimate": true
+      },
+      "partialEarningsDisregard": "Lesser of 1/2 WBA or $50",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 contacts per week (1 for union members)",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-MA": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "30 x WBA; $6,300 minimum BPW",
+        "minimumBasePeriodWages": 6300,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-average-weekly-wage",
+        "fraction": 0.5,
+        "fractionAppliesTo": "claimant AWW (2 highest quarters / 26) + $25/dep",
+        "text": "50% AWW + $25 per dep",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "indexed-to-unemployment-rate",
+        "minimum": 10,
+        "maximum": 30,
+        "value2026": 26,
+        "rule": "Lesser of 36% BPW or 30 x WBA; reduced to 26 x WBA during low unemployment (2023 Comparison footnote; 2014 law). MA 2026 rate ~4.5% so 26.",
+        "estimate": true
+      },
+      "partialEarningsDisregard": "1/3 of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 activities per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-MD": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW; $1,176.01 in HQ; $1,800 in 2 quarters",
+        "minimumBasePeriodWages": 1800,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": 1176.01,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.041667,
+        "fractionAppliesTo": "high-quarter wages + $8/dep up to 5",
+        "text": "1/24 HQW + $8 per dep",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": false,
+        "paidLater": null,
+        "text": "No waiting week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "uniform",
+        "minimum": 26,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Uniform 26 weeks",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "Up to $50",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-ME": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "2 x state AWW in each of 2 quarters; total BPW 6 x state AWW",
+        "minimumBasePeriodWages": 7200,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": 2400,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-two-high-quarters",
+        "fraction": 0.022727,
+        "fractionAppliesTo": "sum of 2 highest quarters (1/22 of average) + $25/dep up to 50% WBA",
+        "text": "1/22 avg wages in 2 highest quarters + DA",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 15,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 1/3 BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "$128",
+      "searchRequirement": {
+        "contactsPerWeek": null,
+        "text": "Unspecified in DOL table (Maine DOL requires 3 activities per week)",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": true
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "notes": "Maine qualifying amounts estimated from ~$1,200 2026 state AWW (2023: $2,072 HQ / $6,216 BP)."
+    },
+    "US-MI": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW; 2 quarters; $5,328 in HQ; or BPW 20 x state AWW",
+        "minimumBasePeriodWages": 7992,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": 5328,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.041,
+        "fractionAppliesTo": "high-quarter wages + $19.33/dep up to 5",
+        "text": "4.1% HQW + $19.33 per dep",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": false,
+        "paidLater": null,
+        "text": "No waiting week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 14,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 43% BPW or 26 x WBA (restored from 20 to 26 by 2025 law)",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "Benefit cut 50 cents per $1 earned up to 1.5 x WBA, then dollar for dollar; benefits+earnings <= 1.5 x WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 2,
+        "text": "2 activities per week (DOL 2023)",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": true
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-MN": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "5.3% of state AAW rounded down to $100",
+        "minimumBasePeriodWages": 4000,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-average-weekly-wage",
+        "fraction": 0.5,
+        "fractionAppliesTo": "higher of 50% of HQW/13 (cap 43% state AWW) or 50% of BPW/52 (cap 66.67% state AWW)",
+        "text": "Higher of 50% of 1/13 HQW or 50% of 1/52 BPW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 9,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 1/3 BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "WBA reduced by 50 cents per $1 earned",
+      "searchRequirement": {
+        "contactsPerWeek": null,
+        "text": "Unspecified number; reasonable weekly search",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-MO": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW; $1,500 in one quarter; or 2 quarters with BPW = 1.5 x max taxable wage base",
+        "minimumBasePeriodWages": 2250,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": 1500,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-two-high-quarters",
+        "fraction": 0.02,
+        "fractionAppliesTo": "sum of 2 highest quarters (4% of their average)",
+        "text": "4% of average of 2 HQs",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": true,
+        "text": "1 week; paid at the end when remaining balance <= waiting-week amount",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 8,
+        "maximum": 20,
+        "value2026": 20,
+        "rule": "Lesser of 1/3 BPW or 20 x WBA. Not indexed: the 2015 unemployment-rate scale (HB 150, 13-20 weeks) was voided by the Missouri Supreme Court in 2016, leaving the flat 20-week cap; DOL July 2026 shows 8-20 with no unemployment-rate footnote.",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "Greater of 20% WBA or $20",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 activities per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-MP": {
+      "hasProgram": false,
+      "text": "No regular state/territorial unemployment insurance program. DOL lists UI law provisions only for the 50 states, DC, PR and VI (53 jurisdictions); Guam, American Samoa and the Northern Mariana Islands were covered during COVID-19 only by federal Pandemic Unemployment Assistance under the CARES Act because they have no regular UI program (DOL UIPL 16-20).",
+      "baseEarnings": null,
+      "weeklyBenefitFormula": null,
+      "waitingWeek": null,
+      "maxWeeks": null,
+      "partialEarningsDisregard": null,
+      "searchRequirement": null,
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://www.dol.gov/agencies/eta/advisories/unemployment-insurance-program-letter-no-16-20"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-MS": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "40 x WBA; $780 in HQ; wages in 2 quarters",
+        "minimumBasePeriodWages": 1200,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": 780,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.038462,
+        "fractionAppliesTo": "high-quarter wages",
+        "text": "1/26 HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week (waivable in declared disasters)",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 13,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 1/3 BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "$40",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-MT": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "BPW > 1.5 x HQW and > 7% of state AAW; or BPW > 50% of AAW",
+        "minimumBasePeriodWages": 4200,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": null,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-annual",
+        "fraction": 0.01,
+        "fractionAppliesTo": "base-period wages (or 1.9% of wages in 2 highest quarters)",
+        "text": "1% BPW or 1.9% of wages in 2 HQs",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 8,
+        "maximum": 24,
+        "value2026": 24,
+        "rule": "Weighted schedule of BPW-to-HQW ratio x WBA (DOL July 2026: 8-24)",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "1/4 of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 1,
+        "text": "1 new contact per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-NC": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "6 x state AWW in base period; wages in 2 quarters",
+        "minimumBasePeriodWages": 7500,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-two-high-quarters",
+        "fraction": 0.019231,
+        "fractionAppliesTo": "sum of LAST 2 completed base-period quarters (not highest)",
+        "text": "Last 2 quarters of BP / 52",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "indexed-to-unemployment-rate",
+        "minimum": 12,
+        "maximum": 20,
+        "value2026": 12,
+        "rule": "G.S. 96-14.3: 12 weeks if seasonally adjusted state rate <= 5.5%; +1 week per 0.5 point, max 20 (>9%). Rate = avg of Jul-Sep (claims from Jan 1) or Jan-Mar (claims from Jul 1). NC 2026 rate ~3.7% so 12.",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "20% of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf",
+        "https://www.ncleg.gov/EnactedLegislation/Statutes/HTML/BySection/Chapter_96/GS_96-14.3.html"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-ND": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW; wages in 2 quarters",
+        "minimumBasePeriodWages": 2795,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": null,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-two-high-quarters",
+        "fraction": 0.015385,
+        "fractionAppliesTo": "2 highest quarters + 1/2 of third-highest quarter",
+        "text": "1/65 of (2 HQs + 1/2 third HQ)",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 12,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Weighted schedule of BPW-to-HQW ratio x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "60% of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 4,
+        "text": "4 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-NE": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "$5,440 in BP; $1,850 in HQ; $800 in another quarter",
+        "minimumBasePeriodWages": 5440,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": 1850,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-average-weekly-wage",
+        "fraction": 0.5,
+        "fractionAppliesTo": "high-quarter average weekly wage (HQW/13), i.e. 1/26 HQW",
+        "text": "1/2 AWW of high quarter",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 10,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 1/3 BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "1/4 of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 5,
+        "text": "5 contacts per week (1 through state system)",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-NH": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "$2,800; $1,400 in each of 2 quarters",
+        "minimumBasePeriodWages": 2800,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": 1400,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-annual",
+        "fraction": 0.01,
+        "fractionAppliesTo": "annual base-period wages (1%-1.1% schedule)",
+        "text": "1%-1.1% of annual wages",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "uniform",
+        "minimum": 26,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Uniform 26 weeks",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "30% of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": null,
+        "text": "Unspecified; reasonable-person standard",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-NJ": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "20 base weeks at 20 x state hourly minimum wage, or 1,000 x state hourly minimum wage",
+        "minimumBasePeriodWages": 6368,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-average-weekly-wage",
+        "fraction": 0.6,
+        "fractionAppliesTo": "claimant AWW + DA",
+        "text": "60% of claimant AWW + DA",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": false,
+        "paidLater": null,
+        "text": "No waiting week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 20,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Base weeks worked (up to 26) x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "Greater of 20% WBA or $5",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 activities per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "notes": "minBP computed with 2026 NJ minimum wage $15.92 (estimate); alt 1,000 x = $15,920."
+    },
+    "US-NM": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "$2,818.70 in HQ and wages in at least 1 other quarter",
+        "minimumBasePeriodWages": null,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": 2818.7,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-average-weekly-wage",
+        "fraction": 0.535,
+        "fractionAppliesTo": "AWW in high quarter (HQW/13) + DA",
+        "text": "53.5% of AWW in highest quarter",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 14,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 60% BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "1/5 of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 2,
+        "text": "2 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-NV": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW and $400 in HQ; or wages in 3 of 4 quarters and $400 in HQ",
+        "minimumBasePeriodWages": 600,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": 400,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.04,
+        "fractionAppliesTo": "high-quarter wages",
+        "text": "1/25 HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 8,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 1/3 BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "1/3 of wages",
+      "searchRequirement": {
+        "contactsPerWeek": null,
+        "text": "Unspecified number",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-NY": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW; $3,500 in HQ",
+        "minimumBasePeriodWages": 5250,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": 3500,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.038462,
+        "fractionAppliesTo": "high-quarter wages (1/25 at low HQW; 2-3 quarter workers use avg of 2 HQs)",
+        "text": "1/25 to 1/26 HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "uniform",
+        "minimum": 26,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Uniform 26 weeks",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "Hours-based: up to 10 hours/week of work with earnings at or below max WBA keeps full benefit (partial reductions by hours)",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 activities per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-OH": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "20 weeks of employment with wages averaging >= 27.5% of state AWW; wages in 2 quarters",
+        "minimumBasePeriodWages": 6200,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-average-weekly-wage",
+        "fraction": 0.5,
+        "fractionAppliesTo": "claimant AWW + DA $1-$218",
+        "text": "1/2 claimant AWW + DA",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 20,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "20 x WBA + 1 x WBA per qualifying week over 20, max 26",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "1/5 of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 2,
+        "text": "2 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-OK": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "$1,500 and 1.5 x HQW; or BPW >= taxable wage base",
+        "minimumBasePeriodWages": 1500,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.043478,
+        "fractionAppliesTo": "high-quarter wages",
+        "text": "1/23 HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "uniform",
+        "minimum": 16,
+        "maximum": 16,
+        "value2026": 16,
+        "rule": "16 x WBA (16-week cap since 2022)",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "$100",
+      "searchRequirement": {
+        "contactsPerWeek": 2,
+        "text": "2 contacts per week (agency may increase)",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-OR": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "BPW >= $1,000 and >= 1.5 x HQW; or 500 hours in BP",
+        "minimumBasePeriodWages": 1000,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-annual",
+        "fraction": 0.0125,
+        "fractionAppliesTo": "base-period wages",
+        "text": "1.25% BPW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 1,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 1/3 BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "Greater of 1/3 WBA or $168",
+      "searchRequirement": {
+        "contactsPerWeek": 5,
+        "text": "5 activities per week incl. 2 employer contacts",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-PA": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "$1,688 in HQ; $2,718 in BP; 37% of BPW outside HQ; 18 credit weeks",
+        "minimumBasePeriodWages": 2718,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": 1688,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.0392,
+        "fractionAppliesTo": "high-quarter wages ((4% HQW + 2) x 0.98) + DA",
+        "text": "(4% HQW + 2) x 0.98 + DA",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 18,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Credit weeks in BP (18-26) x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "Greater of $21 or 30% of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "2 applications and 1 other search activity per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-PR": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "40 x WBA; wages in 2 quarters (DOL lists $280 minimum)",
+        "minimumBasePeriodWages": 2400,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.038462,
+        "fractionAppliesTo": "high-quarter wages (1/11 at lowest to 1/26 by schedule)",
+        "text": "1/11 - 1/26 HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "uniform",
+        "minimum": 26,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Uniform 26 weeks",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "Up to the WBA",
+      "searchRequirement": {
+        "contactsPerWeek": null,
+        "text": "Unspecified",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-RI": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW; 200 x min hourly wage in 1 quarter; 400 x min hourly wage in BP; or 1,200 x min hourly wage in BP",
+        "minimumBasePeriodWages": 6800,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": 3400,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-two-high-quarters",
+        "fraction": 0.01925,
+        "fractionAppliesTo": "sum of 2 highest quarters (3.85% of their average) + DA",
+        "text": "3.85% of average of 2 HQs + DA",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 17,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 33% BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "1/2 of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 activities per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true,
+      "notes": "Amounts computed with RI 2026 minimum wage $17.00 (estimate)."
+    },
+    "US-SC": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW; $4,455 BPW; $1,092 in HQ",
+        "minimumBasePeriodWages": 4455,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": 1092,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-average-weekly-wage",
+        "fraction": 0.5,
+        "fractionAppliesTo": "high-quarter AWW (HQW/13)",
+        "text": "50% of HQ average weekly wage",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 13,
+        "maximum": 20,
+        "value2026": 20,
+        "rule": "Lesser of 1/3 BPW or 20 x WBA (20-week cap since 2011); not indexed",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "1/4 of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 2,
+        "text": "2 contacts per week (DOL 2023)",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-SD": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "$728 in HQ; 20 x WBA outside HQ",
+        "minimumBasePeriodWages": 1288,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": 728,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.038462,
+        "fractionAppliesTo": "high-quarter wages",
+        "text": "1/26 HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 15,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 1/3 BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "1/4 of wages over $25",
+      "searchRequirement": {
+        "contactsPerWeek": 2,
+        "text": "2 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-TN": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "40 x WBA; $780.01 average in 2 highest quarters; outside-HQ wages >= lesser of 6 x WBA or $900",
+        "minimumBasePeriodWages": 1560.02,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-two-high-quarters",
+        "fraction": 0.019231,
+        "fractionAppliesTo": "sum of 2 highest quarters (1/26 of average)",
+        "text": "1/26 of avg wages in 2 highest quarters",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": true,
+        "text": "1 week; compensable after 3 consecutive compensable weeks",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "indexed-to-unemployment-rate",
+        "minimum": 12,
+        "maximum": 20,
+        "value2026": 12,
+        "rule": "12 weeks if state average unemployment rate <= 5.5%; +1 week per 0.5 point, max 20 (2023 law, effective 2024). TN 2026 rate ~3.5% so 12.",
+        "estimate": true
+      },
+      "partialEarningsDisregard": "Greater of $50 or 25% of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-TX": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "37 x WBA; wages in 2 quarters",
+        "minimumBasePeriodWages": 2775,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.04,
+        "fractionAppliesTo": "high-quarter wages",
+        "text": "1/25 HQW (capped 47.6% state AWW)",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": true,
+        "text": "1 week; paid after benefits equal to 3 x WBA have been received",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 10,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 27% BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "Greater of $5 or 1/4 of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 activities per week (local board may set more)",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-UT": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "$5,500 in BP and 1.5 x HQW",
+        "minimumBasePeriodWages": 5500,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.038462,
+        "fractionAppliesTo": "high-quarter wages, minus $5",
+        "text": "1/26 HQW minus $5",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 10,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "27% BPW / WBA, max 26",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "30% of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 4,
+        "text": "4 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-VA": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "$3,000 in the 2 highest quarters of BP",
+        "minimumBasePeriodWages": 3000,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-two-high-quarters",
+        "fraction": 0.02,
+        "fractionAppliesTo": "sum of 2 highest quarters (statutory table approximates 1/50)",
+        "text": "Statutory table, about 1/50 of 2 HQs",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 12,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Weighted schedule of 2-HQ wages to WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "$100",
+      "searchRequirement": {
+        "contactsPerWeek": 2,
+        "text": "2 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-VI": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.5 x HQW and $858 in HQ; or $858 in HQ and 39 x WBA in BP",
+        "minimumBasePeriodWages": 1287,
+        "highQuarterMultiple": 1.5,
+        "minimumHighQuarterWages": 858,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.038462,
+        "fractionAppliesTo": "high-quarter wages",
+        "text": "1/26 HQW (DOL July 2026 prints 1/16; 2023 Comparison and max-WBA math show 1/26)",
+        "estimate": true
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week (no waiting week for consecutive benefit years)",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 13,
+        "maximum": 16,
+        "value2026": 16,
+        "rule": "Lesser of 1/3 BPW or 16 x WBA per DOL July 2026 (2023 Comparison: 26)",
+        "estimate": true
+      },
+      "partialEarningsDisregard": "25% of wages over $15",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    },
+    "US-VT": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.4 x HQW and $3,832 in HQ",
+        "minimumBasePeriodWages": 5364.8,
+        "highQuarterMultiple": 1.4,
+        "minimumHighQuarterWages": 3832,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-two-high-quarters",
+        "fraction": 0.022222,
+        "fractionAppliesTo": "sum of 2 highest quarters",
+        "text": "Wages in 2 highest quarters / 45",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 23,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 46% BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "50% of gross wages",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-WA": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "680 hours in BP (or alternate BP)",
+        "minimumBasePeriodWages": null,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-two-high-quarters",
+        "fraction": 0.01925,
+        "fractionAppliesTo": "sum of 2 highest quarters (3.85% of average)",
+        "text": "Lesser of 3.85% of avg of 2 HQs or individual weekly wage",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 1,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 1/3 BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "1/4 of wages over $5",
+      "searchRequirement": {
+        "contactsPerWeek": 3,
+        "text": "3 activities per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-WI": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "35 x WBA; HQ > $1,350; 4 x WBA outside HQ",
+        "minimumBasePeriodWages": 1890,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": 1350,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.04,
+        "fractionAppliesTo": "high-quarter wages",
+        "text": "4% HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 14,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 40% BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "$30 + 33% of wages over $30",
+      "searchRequirement": {
+        "contactsPerWeek": 4,
+        "text": "4 activities per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-WV": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "$2,200 and wages in 2 quarters",
+        "minimumBasePeriodWages": 2200,
+        "highQuarterMultiple": null,
+        "minimumHighQuarterWages": null,
+        "estimate": false
+      },
+      "weeklyBenefitFormula": {
+        "kind": "percent-of-annual",
+        "fraction": 0.010577,
+        "fractionAppliesTo": "median wage of claimant's wage class (55% of 1/52)",
+        "text": "55% of 1/52 of median wages in wage class",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": true,
+        "paidLater": false,
+        "text": "1 week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "uniform",
+        "minimum": 26,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Uniform 26 weeks",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "$609 (DOL July 2026 column; WV law disregards earnings up to a set dollar amount)",
+      "searchRequirement": {
+        "contactsPerWeek": null,
+        "text": "Unspecified",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": false
+    },
+    "US-WY": {
+      "hasProgram": true,
+      "baseEarnings": {
+        "text": "1.4 x HQW; BPW >= 8% of statewide AAW",
+        "minimumBasePeriodWages": 4800,
+        "highQuarterMultiple": 1.4,
+        "minimumHighQuarterWages": null,
+        "estimate": true
+      },
+      "weeklyBenefitFormula": {
+        "kind": "fraction-of-high-quarter",
+        "fraction": 0.04,
+        "fractionAppliesTo": "high-quarter wages",
+        "text": "4% HQW",
+        "estimate": false
+      },
+      "waitingWeek": {
+        "required": false,
+        "paidLater": null,
+        "text": "No waiting week",
+        "asOf": "2023 Comparison Table 3-7"
+      },
+      "maxWeeks": {
+        "kind": "variable",
+        "minimum": 11,
+        "maximum": 26,
+        "value2026": 26,
+        "rule": "Lesser of 30% BPW or 26 x WBA",
+        "estimate": false
+      },
+      "partialEarningsDisregard": "50% of WBA",
+      "searchRequirement": {
+        "contactsPerWeek": 2,
+        "text": "2 contacts per week",
+        "asOf": "2023 Comparison Table 5-14",
+        "estimate": false
+      },
+      "source": [
+        "https://oui.doleta.gov/unemploy/content/sigpros/2020-2029/July2026.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/monetary.pdf",
+        "https://oui.doleta.gov/unemploy/pdf/uilawcompar/2023/nonmonetary.pdf"
+      ],
+      "retrievedDate": "2026-10-12",
+      "estimate": true
+    }
+  }
+}

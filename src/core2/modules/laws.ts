@@ -123,6 +123,59 @@ export function lawInForce(
   });
 }
 
+/**
+ * An enacted law: a new dated row at its level, read by `lawInForce` from its
+ * effective date like any starting row, and put on the calendar so it takes
+ * effect as a public record (and raises pay, for a minimum wage).
+ */
+export function enactLaw(
+  api: CoreAPI,
+  input: {
+    readonly jurisdiction: string;
+    readonly level: LawRowInput["level"];
+    readonly series: string;
+    readonly value: number;
+    readonly unit?: string;
+    readonly effectiveDate: string;
+    readonly measureId: string;
+    readonly citation: string;
+    readonly terms?: Readonly<Record<string, unknown>>;
+  },
+): LawRowInput {
+  const row: LawRowInput = {
+    id: `law:${input.jurisdiction}:${input.level}:${input.series}:general:${input.effectiveDate}:${input.measureId}`,
+    jurisdiction: input.jurisdiction,
+    level: input.level,
+    series: input.series,
+    tier: "general",
+    value: input.value,
+    effectiveDate: input.effectiveDate,
+    endDate: null,
+    source: input.citation,
+    retrieved: api.state.date,
+    estimate: false,
+    ...(input.unit ? { unit: input.unit } : {}),
+    terms: { ...(input.terms ?? {}), enactedBy: input.measureId },
+  };
+  api
+    .moduleState(LAWS_MODULE_ID)
+    .table("laws")
+    .put(row as unknown as ModuleRow);
+  if (input.effectiveDate > api.state.date)
+    api.moduleCalendar(LAWS_MODULE_ID).schedule({
+      key: `effect:${row.id}`,
+      date: input.effectiveDate,
+      kind: "law-takes-effect",
+      source: {
+        tag: "SOURCED",
+        citation: input.citation,
+        asOf: api.state.date,
+      },
+      sourceRecordIds: [row.id],
+    });
+  return row;
+}
+
 /** Every tracked series for the town on a date: the bench's "law here" view. */
 export function lawHere(
   api: CoreAPI,
@@ -135,7 +188,10 @@ export function lawHere(
     "property-tax",
     "snap-maximum",
     "unemployment-weekly-maximum",
+    "unemployment-insurance",
     "medicaid-match",
+    "social-security-tax",
+    "medicare-tax",
   ].map((series) => lawInForce(api, series, date));
 }
 
