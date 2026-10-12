@@ -53,4 +53,13 @@ No real logos, trademarks or audio files were found.
 
 ## Real politicians
 
-PENDING: the check for real officeholders' names in shipped data is still running; this section is filled in below.
+Result of a name search (about 90 prominent names, plus all 50 governors from the 2024 calibration data). The list is not exhaustive and no build was run.
+
+- **No sitting or former officeholder appears as a person in shipped player-visible data.**
+- **School names honoring presidents are shipped.** The real NCES school catalog (`public/education/catalog-*.json`) and the local-institutions corpus carry names such as "Ronald Reagan Fundamental School" and "Barack Obama Charter". The generator's honoree list (`src/simulation/school-name-patterns.json`) uses only historical figures (Lincoln, Washington, Kennedy). These are real institutions' names, not officeholder characters. Decide whether that fits the owner's Sept 26 ruling; an attorney should confirm.
+- **Real governor names are in research data only** (`data/source/electoral-calibration-2024`). Nothing in `src` reads them, and the build step `check-data-shipping.mjs` fails if they reach `dist`. That guard covers only the 50 governors plus two senators; add federal judges' names and presidents if those files ever get closer to the build.
+- **Federal judges' records** (`data/source/judiciary-calibration/raw/fjc-*.csv`) are research only.
+- **One case citation:** `data/english/parts/sentencing.json` cites "People v. Trump" as a source. Nothing imports the file today; remove the citation before it is ever loaded.
+- Docs and research notes mention Biden, Trump, Newsom and others. They do not ship.
+
+Gap: run `check:data-shipping -- dist` on a real build and grep `dist` for the school namesakes and the case citation.

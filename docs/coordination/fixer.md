@@ -24,7 +24,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Verified by: A test that fails before the fix and passes after.
   - Needs: The owning pillar
 - [ ] **When no bug is assigned:** take open work from `BOARD.md` (write "Taking <item>" here first).
-  - Taking M7-05 Legal check (Oct 12): a listed audit of real people, places, schools, data and art licenses, in `docs/legal/`.
+  - Taking M7-05 Legal check (Oct 12): done as a research review in `docs/legal/legal-check-2026-10-12.md` (real people, data licenses, art rights, eight release actions). Not run: a real build's `dist` check. Owner decisions: AI art terms, campus CC BY-SA handling, school names honoring presidents.
   - Verified by: That item's own test.
 
 ## Needs from other sessions
@@ -35,6 +35,6 @@ None yet.
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
-- Oct 12 (FIXER): #4005 zero-dice allowlist rows (guard: 6 new -> nothing new) and #4006 American English exemption, both against `pool/P15-people-5`. #4006's sweep test not run here (no node_modules); CI to confirm. Next: BOARD.md open work.
+- Oct 12 (FIXER): #4005 zero-dice allowlist rows (guard: 6 new -> nothing new) and #4006 American English exemption, both against `pool/P15-people-5`. #4006's sweep test not run here (no node_modules); CI to confirm. M7-05 legal check written. Next: BOARD.md open work.
 
 - Oct 12, 4:25 a.m. (written by the CTO): main is green at 1a1870742 after #4000 (docs format), #3998 (status files need no release note) and #3997 (skill folders); `pool/speed-plan` (#3975) has main merged in.
