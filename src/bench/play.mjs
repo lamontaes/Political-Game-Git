@@ -165,6 +165,8 @@ async function act(path) {
     busy = false;
     renderPacket(result.packet);
     await refresh();
+    const moment = storyStop(result.packet);
+    if (moment) await showStory(moment.recordId);
   } catch (error) {
     $("card-place").textContent = error.message;
   } finally {
@@ -203,13 +205,16 @@ $("skip").addEventListener("click", async () => {
     $("skip").classList.remove("active");
     renderPacket();
     await refresh();
+    const moment = storyStop(packet);
+    if (moment) await showStory(moment.recordId);
   }
 });
-$("continue").addEventListener("click", () =>
-  act(
+$("continue").addEventListener("click", () => {
+  show("talk", false);
+  return act(
     `/api/resume?${new URLSearchParams({ kind: "stop", pauseId: packet.pauseId })}`,
-  ),
-);
+  );
+});
 
 // ---- Conversation (lower third, scales in its upper right) ----
 function renderTalk(value) {
@@ -404,6 +409,50 @@ async function campaignRows() {
     );
   }
   return rows;
+}
+
+// ---- A big moment, staged when it stops the clock ----
+async function showStory(momentId) {
+  const story = await api(
+    `/api/story?momentId=${encodeURIComponent(momentId)}`,
+  );
+  me.names = { ...me.names, ...story.names };
+  $("backdrop").src = story.backdrop.url;
+  drawPeople(story.people);
+  show("choices", false);
+  show("talk", true);
+  $("talk-lines").replaceChildren(
+    ...story.narration.map((line) =>
+      el(
+        "li",
+        { className: "narration", title: line.sourceRecordIds.join(", ") },
+        line.text,
+      ),
+    ),
+  );
+  $("talk-choices").replaceChildren(
+    ...(story.talkToId
+      ? [
+          (() => {
+            const b = el("button", {
+              type: "button",
+              textContent: `Talk · ${story.names[story.talkToId] ?? ""}`,
+            });
+            b.addEventListener("click", () => talkTo(story.talkToId));
+            return b;
+          })(),
+        ]
+      : []),
+  );
+  $("talk-lie").disabled = true;
+}
+function storyStop(value) {
+  return value?.kind === "stop"
+    ? value.stop.modules.find(
+        (row) =>
+          row.kind === "interrupt" && row.moduleId === "p13-story-director",
+      )
+    : undefined;
 }
 
 // ---- Menus ----

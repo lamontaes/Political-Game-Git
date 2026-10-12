@@ -60,7 +60,10 @@ export interface BenchScenePerson {
   figureUrl: string;
 }
 
-function orgPlace(core: CoreState, orgId: string | undefined): string | null {
+export function orgPlace(
+  core: CoreState,
+  orgId: string | undefined,
+): string | null {
   const org = orgId ? core.organizations.get(orgId) : undefined;
   const classification = org?.classification;
   if (!classification) return null;

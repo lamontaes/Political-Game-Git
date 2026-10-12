@@ -7,6 +7,7 @@ import { personCard } from "./card";
 import { openingShots } from "./opening";
 import { calendarItems, newsItems } from "./calendar";
 import { campaignAct, campaignView } from "./campaign";
+import { storyScene } from "./story";
 import {
   chooseAtCounter,
   openBenchFilingVisit,
@@ -226,6 +227,21 @@ const server = createServer(async (request, response) => {
           requireCore(),
           director,
           url.searchParams.get("id") ?? "",
+        ),
+      );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/story") {
+      if (!player?.personId || !director)
+        throw new Error("Choose a resident first.");
+      send(
+        200,
+        storyScene(
+          requireCore(),
+          director,
+          player.personId,
+          url.searchParams.get("momentId") ?? "",
+          player.packet?.at.minuteOfDay ?? 12 * 60,
         ),
       );
       return;

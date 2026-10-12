@@ -1,5 +1,5 @@
 {
-  "note": "Which tagged place picture (art/backdrops/manifest.json) shows what a person is doing in the bench. Keys are core act ids; '@home', '@workplace' and '@target' resolve from the person's records; a list is tried in order until one has a picture. Organization classifications map to data/content/place-kinds.json business kinds when their suffix is not already one. filingOffices maps the office GOV names as taking a contest's filings (case-insensitive pattern on its name) to its picture; filingClerkOfficeKinds are the offices whose holder, if they live in town, is the clerk at the counter.",
+  "note": "Which tagged place picture (art/backdrops/manifest.json) shows what a person is doing in the bench. Keys are core act ids; '@home', '@workplace' and '@target' resolve from the person's records; a list is tried in order until one has a picture. Organization classifications map to data/content/place-kinds.json business kinds when their suffix is not already one. filingOffices maps the office GOV names as taking a contest's filings (case-insensitive pattern on its name) to its picture; filingClerkOfficeKinds are the offices whose holder, if they live in town, is the clerk at the counter. sceneSettings maps a story scene's setting kind (OPUS-PEOPLE's composeScene) to its pictures; '@org' is the setting record's organization.",
   "actions": {
     "work-shift": ["@workplace"],
     "attend-scheduled-work-date-segment": ["@workplace"],
@@ -88,5 +88,15 @@
     "municipal-clerk",
     "registrar",
     "election-administrator"
-  ]
+  ],
+  "sceneSettings": {
+    "home": ["@home"],
+    "other-home": ["@home"],
+    "workplace": ["@org", "office"],
+    "school": ["high-school-hallway", "classroom"],
+    "public": ["main-street", "park"],
+    "venue": ["community-room", "union-hall"],
+    "phone": ["@home"],
+    "letter": ["@home"]
+  }
 }

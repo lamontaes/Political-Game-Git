@@ -443,3 +443,7 @@ select {
   border: 1px solid var(--button-line);
   max-width: 260px;
 }
+
+#talk li.narration {
+  font-style: italic;
+}
