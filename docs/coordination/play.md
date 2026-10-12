@@ -60,7 +60,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Was: Person card, day and skip, conversation box with the Lie button, journal, then the filing office, campaigning and election night as GOV lands them; record data and control names only, engine text only.
   - Verified by: Browser checks of each screen, then you play it.
   - Needs: GOV
-- [ ] **Store page screenshots.** Real gameplay screenshots for the Steam page by Friday, with capsule art from the art pipeline.
+- [ ] **Store page screenshots.** In progress (Oct 12): `src/bench/store-shots.mjs` captures 1920x1080 shots of real play from `/play` in any towns. The first 16, from four towns (home, a day in, a conversation, politics), are sent to you in the session. Before Friday: English names on the choice buttons (OPUS-PEOPLE) and the capsule art (CTO).
+  - Was: Real gameplay screenshots for the Steam page by Friday, with capsule art from the art pipeline.
   - Verified by: Your sign-off.
   - Needs: CTO (art)
 - [ ] **The opening.** Your opening sequence, from the place's officials and family, with engine words.
@@ -89,6 +90,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: the game screen on the new core, `/play`. A new life starts as the resident nearest 18 in a random place, in the Kit 12/13 look: tabs, menu stack, player card with the clock, choices along the bottom, and the conversation lower third with the scales. Until needed runs in week legs so the clock visibly moves. Store-shot script added; 16 shots from Paris MS, Wayne WV, Thompsonville MI and Chickasaw Point SC. Next: the opening sequence (M6 order item 1), then the panel style pass.
 - Oct 12: the whole world in the bench, and four new panels. Merged `opus-core`, `pool/P15-people-5`, `opus-gov` and `opus-world`; the bench town runs 15 modules. A 4,700-person town builds in 12 s, and a played week takes 6.8 s. The golden path stays green, and M0-01 to M0-05 pass on the full stack. New panels: Government (law here, who governs you, open contests, File, Request signatures), Conversation (OPUS-PEOPLE's `openConversation` and `say`, with the Lie button) and My life (`composeJournal`). Measured in Gunnison CO (seed gov-a): 7 laws in force, 31 seats held, 10 open contests; a council filing went to the municipal clerk, and 15 of 19 people asked signed. M0-05 now checks that the panel's running and missing rows match the installed modules.
 - Oct 12: art in the bench. The scene picker (`src/bench/scene.ts`, rows in `src/bench/data/scene-places.json`) chooses the tagged backdrop from what the person is doing and draws the people there with the people engine on the staging spots. Measured: in Aiea HI (seed art-a) and Delaware City DE (seed art-b), 3 residents played a week each gave 78 scenes and 297 figures, every one real art. 5 children present had no adult art. Next: the art item's remaining places (capitols, campuses) as GOV's screens arrive, then screens for each golden-path step.
 - Oct 12: bench item done. M0-01 to M0-05 registered in `docs/roadmap/features.json` as commands; pass flags left for the CTO. They pass under the runner in Kenova WV, Rockleigh NJ, Larrabee IA, Rachel NV and Cruz Bay USVI, about 64 s together. `opus-core` merged in; everything still green. Two stand-ins registered: SG-PLAY-bench-town-size and SG-PLAY-skip-own-choice-attribution. Next: art in the bench screens.
