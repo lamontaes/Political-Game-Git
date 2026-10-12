@@ -66,11 +66,22 @@ export function composeScene(
   entry: ScheduleEntry,
   words: SceneWords = SCENE_WORDS,
 ): Scene | null {
-  const binding: SceneBinding | undefined = entry.bindings[zero];
   const book = director.ledger.people.get(personId);
   const moment = book?.momentsById.get(entry.momentId);
   const person = core.people.get(personId);
-  if (!binding || !moment || !person) return null;
+  if (!moment || !person) return null;
+  // A moment no situation type binds still plays: at home, with the people
+  // who live there, about what happened (audit 1: it used to throw).
+  const binding: SceneBinding = entry.bindings[zero] ?? {
+    typeKey: "unbound",
+    roles: [],
+    presentIds: (
+      core.households.get(person.householdId)?.memberIds ?? []
+    ).filter((id) => core.people.get(id)?.alive),
+    setting: { kind: "home", recordId: person.householdId },
+    timing: "now",
+    openUntil: moment.date,
+  };
   directorStopgap(words.stopgapId, director.ledger.stopgapHits);
 
   const relation = new Map<string, { relation: string; factId: string }>();
