@@ -19,9 +19,36 @@
     {
       "source": "The pay and household code as built",
       "whatItDidNotSettle": "Pay is recorded per shift; a housing cost basis exists only as a type with no writer. Nothing charges a person to live."
+    },
+    {
+      "source": "AHRQ MEPS-IC Research Findings54, 2024 private-sector employer health insurance",
+      "url": "https://meps.ahrq.gov/data_files/publications/rf54/rf54.shtml",
+      "whatItSettled": "Public aggregate benchmark; territory/place-specific gaps documented."
+    },
+    {
+      "source": "Federal Reserve Board SCF2022 bulletin, October2023; historical dollar vintage",
+      "url": "https://www.federalreserve.gov/publications/october-2023-changes-in-us-family-finances-from-2019-to-2022.htm",
+      "whatItSettled": "Public aggregate benchmark; territory/place-specific gaps documented."
+    },
+    {
+      "source": "Census/AmeriCorps CPS CEV2023 national findings",
+      "url": "https://www.census.gov/library/stories/2024/11/civic-engagement-and-volunteerism.html",
+      "whatItSettled": "Public aggregate benchmark; territory/place-specific gaps documented."
     }
   ],
   "title": "What an ordinary person spends to live each month, by place",
   "usableAnswer": "Monthly spending bands by category for a single adult and for a small household, with how they vary by place size and by state or region, and a named public source for each so the game can refresh it. Say which items are fixed monthly bills and which vary with how a person lives.",
-  "whyItMatters": "Nobody in the game pays for anything. Fatima worked a part-time shop job in Eastport, Maine for three years and saved $87,984 because rent, food and bills do not exist. Money never forces a choice, so a job, a raise or a campaign donation means nothing."
+  "whyItMatters": "Nobody in the game pays for anything. Fatima worked a part-time shop job in Eastport, Maine for three years and saved $87,984 because rent, food and bills do not exist. Money never forces a choice, so a job, a raise or a campaign donation means nothing.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "estimate": "CE2024 one-person all-category annual mean $48,794 = $4,066.17/month; extracted SE $928.11/year. This is a consumer-unit mean including insurance/pensions, not a subsistence minimum. All-consumer-unit regional means span $70,376–$92,625/year; these cannot be applied as per-person costs.",
+      "data": "data/research/core-figures/P0-1/ce-size-categories-2024.json; ce-region-categories-2024.json",
+      "spread": "Use the extracted household-size/category SE-based sampling intervals and region/size differences. No invented town-size or territory premium.",
+      "mechanism": "Bills follow actual household size, tenure, commuting, care/health needs and prices; use ACS/HUD actual place housing data where available.",
+      "gaps": "No all56 place-level joint size/region/local-vendor consumption survey. Territories are proxy-only. National $4,066/month is not an exact state figure."
+    }
+  }
 }

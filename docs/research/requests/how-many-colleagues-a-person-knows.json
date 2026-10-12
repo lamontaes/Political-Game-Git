@@ -12,9 +12,34 @@
     {
       "source": "how-often-people-and-groups-get-in-touch.json, what-moves-a-relationship.json",
       "whatItDidNotSettle": "Contact frequency and what changes a relationship, not how many colleagues a person knows."
+    },
+    {
+      "source": "AmeriCorps/Census CPS CEV2023 state findings",
+      "url": "https://data.americorps.gov/resource/4r6x-re58.json?$limit=5000",
+      "whatItSettled": "State contact/help/member incidence, not per-tie survival or invitation calendar."
+    },
+    {
+      "source": "Pew Research Center2025 social connections; probability survey6204 US adults",
+      "url": "https://www.pewresearch.org/social-trends/2025/01/16/where-men-and-women-turn-for-emotional-support-and-social-connection/",
+      "whatItSettled": "Weekly friend contact benchmark with mode and denominator; Pew notices/disclaimer retained."
+    },
+    {
+      "source": "ASARB Religion Census FAQ terms",
+      "url": "https://www.usreligioncensus.org/faq",
+      "whatItDidNotSettle": "Redistribution/game derivative table grant not established; no data extracted."
     }
   ],
   "title": "How many colleagues a person knows, and when a big workplace stops being everyone you know",
   "usableAnswer": "A size threshold or a curve (share of colleagues known by organization size), from workplace network or organizational sociology studies; for legislatures, anything on how quickly freshmen come to know the chamber.",
-  "whyItMatters": "People counts everyone in a player's workplace or group as somebody they know. After winning a Texas House seat, a playtest character had 181 'Work' acquaintances on the first day (2026-09-23). src/presentation/people-directory.ts EVERYBODY_KNOWS_EVERYBODY_LIMIT now treats a place with more than 20 other people as people to meet, known only once something is on the record between them. The 20 is a PLACEHOLDER."
+  "whyItMatters": "People counts everyone in a player's workplace or group as somebody they know. After winning a Texas House seat, a playtest character had 181 'Work' acquaintances on the first day (2026-09-23). src/presentation/people-directory.ts EVERYBODY_KNOWS_EVERYBODY_LIMIT now treats a place with more than 20 other people as people to meet, known only once something is on the record between them. The 20 is a PLACEHOLDER.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "findings": "Workplace/legislature/chapter membership does not establish acquaintance. Team overlap, repeated co-presence, introductions and prior ties supply actual routes to knowing colleagues.",
+      "estimate": "Pew friendship counts cannot replace coworkers-known by firm size; no defensible numeric size cap or new-legislator acquaintance time identified.",
+      "gaps": "Request remains empirical gap; any current cap stays registered tunable, with no claim that every member knows everyone."
+    }
+  }
 }
