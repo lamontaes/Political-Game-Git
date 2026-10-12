@@ -1,0 +1,3399 @@
+{
+ "id": "campaign-finance-2026",
+ "retrieved": "2026-10-12",
+ "notes": "Limits are individual-to-candidate; 'unlimited' means no state limit. 'local' is the county/municipal default under state/territory law. estimate:true marks figures not read from an official or primary source for this row. Territories: GU and VI unicameral (stateSenate = legislature), DC Council mapped to senate (at-large) / house (ward).",
+ "federal": {
+  "office": "U.S. House and U.S. Senate",
+  "individualToCandidate": {
+   "usd": 3500,
+   "basis": "per election (primary, general, runoff each count separately; $7,000 per cycle for primary+general)",
+   "cycle": "2025-2026",
+   "source": "FEC, Contribution limits for 2025-2026 federal elections",
+   "sourceUrl": "https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/contribution-limits/",
+   "retrievedDate": "2026-10-12",
+   "estimate": false
+  }
+ },
+ "limits": {
+  "US-AL": {
+   "statute": "Ala. Code \u00a7 17-5-1 et seq.",
+   "basis": "n/a",
+   "governor": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025); no state limit on any candidate",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   }
+  },
+  "US-AK": {
+   "statute": "Alaska Stat. 15.13.070",
+   "basis": "n/a",
+   "governor": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "note": "Prior limits struck down in Thompson v. Hebdon (9th Cir. 2021). Ballot Measure 1 (passed Aug 18, 2026, ~71.5% preliminary) sets $2,000 per 2-year cycle individual limit for state candidates, effective after the 2026 elections; a Nov 3, 2026 Ballot Measure 2 may repeal part of it (Alaska Public Media, 2026-09-16; Alaska Beacon 2026-08-18). Game: unlimited for 2026, $2,000/cycle from 2027 pending BM2."
+  },
+  "US-AZ": {
+   "statute": "Ariz. Rev. Stat. \u00a7 16-908 et seq.",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 5500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 5500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 5500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 6750,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "note": "Inflation-adjusted; publicly financed (Clean Elections) candidates take no private money above small limits"
+  },
+  "US-AR": {
+   "statute": "Ark. Code Ann. \u00a7 7-6-203",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 3500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 3500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 3500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 3500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025); Arkansas Ethics Commission ($3,500 per candidate per election, all offices)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "Arkansas $3,500 limit applies to candidates for any public office, including county and municipal"
+   }
+  },
+  "US-CA": {
+   "statute": "Cal. Gov't Code \u00a7 85300 et seq.",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 39200,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 5900,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 5900,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 5900,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "State default for city and county candidates where the locality has no ordinance (AB 571, 2019); many cities set lower limits"
+   },
+   "note": "Other statewide offices $9,800. 2025-26 limits per FPPC."
+  },
+  "US-CO": {
+   "statute": "Colo. Const. Art. XXVIII",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 725,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 225,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 225,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "set by locality",
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Art. XXVIII limits cover statewide and legislative; home-rule municipalities set their own; county offices have a separate statutory tier (estimate)"
+   },
+   "note": "Rounded inflation adjustment; limits double when a candidate accepting voluntary spending limits faces one who does not"
+  },
+  "US-CT": {
+   "statute": "Conn. Gen. Stat. \u00a7\u00a7 9-611 to 9-617",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 3500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 1000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 250,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 1000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "$1,000 for a town/city chief elected official; $250 for other municipal candidates (Conn. Gen. Stat. 9-611 'any other' tier) \u2014 other-office figure is an estimate"
+   },
+   "note": "Other statewide $2,000; Citizens' Election Program candidates limited further"
+  },
+  "US-DE": {
+   "statute": "Del. Code tit. 15, \u00a7\u00a7 8010-8012",
+   "basis": "per election cycle",
+   "governor": {
+    "usd": 1200,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 600,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 600,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 600,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "'$600/other candidate' tier; Delaware campaign law covers county offices; municipal coverage varies (estimate)"
+   }
+  },
+  "US-FL": {
+   "statute": "Fla. Stat. \u00a7 106.08",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 3000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 1000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 1000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 1000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025); Fla. Stat. \u00a7 106.08(1)(a) ($1,000 for legislative, multicounty, county, municipal and district candidates)",
+    "sourceUrl": "http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0100-0199/0106/Sections/0106.08.html",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   }
+  },
+  "US-GA": {
+   "statute": "Ga. Code Ann. \u00a7 21-5-41",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 8400,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 3300,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 3300,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 3300,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Georgia 'all other offices' tier applies to county and municipal candidates; runoff limit lower ($1,800)"
+   },
+   "note": "NCSL labels Georgia 'per election cycle', but the Georgia limits are set separately for primary, primary runoff and general ($8,400/$4,800/$8,400 statewide; $3,300/$1,800/$3,300 others)."
+  },
+  "US-HI": {
+   "statute": "Haw. Rev. Stat. \u00a7 11-357",
+   "basis": "per election cycle",
+   "governor": {
+    "usd": 6000,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 4000,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 2000,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 4000,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Haw. Rev. Stat. 11-357: $4,000 for 4-year non-statewide offices (county mayors, prosecutors); $2,000 for 2-year offices (county council) \u2014 use $2,000 for county council"
+   }
+  },
+  "US-ID": {
+   "statute": "Idaho Code \u00a7 67-6610A",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 5000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 1000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 1000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 1000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "note": "Inflation-adjusted each July 1"
+  },
+  "US-IL": {
+   "statute": "10 ILCS 5/9-8.5",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 7300,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 7300,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 7300,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 7300,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "Illinois limit applies to all candidates including local"
+   },
+   "note": "Limits lift for all candidates in a race when a self-funder exceeds $250k (statewide) / $100k (other)"
+  },
+  "US-IN": {
+   "statute": "Ind. Code \u00a7 3-9-2",
+   "basis": "n/a",
+   "governor": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   }
+  },
+  "US-IA": {
+   "statute": "Iowa Code \u00a7 68A.503",
+   "basis": "n/a",
+   "governor": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   }
+  },
+  "US-KS": {
+   "statute": "Kan. Stat. Ann. \u00a7 25-4153",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 4000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 2000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 1000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 1000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Kansas local-office tier; NCSL shows 2025 doubled tiers (statewide $4,000 / senate $2,000 / house $1,000); local assumed at house level"
+   }
+  },
+  "US-KY": {
+   "statute": "KRS 121.150",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 2200,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 2200,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 2200,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 2200,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "Applies to all candidates incl. county/municipal"
+   }
+  },
+  "US-LA": {
+   "statute": "La. R.S. 18:1505.2",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 12000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 6000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 6000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 2000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "$2,000 'other office'; $6,000 for other district offices; $12,000 for major offices incl. districts over 250,000 population (so big-parish posts get the higher tiers)"
+   },
+   "note": "Legislative seats are 'district office' tier ($6,000)"
+  },
+  "US-ME": {
+   "statute": "21-A M.R.S. \u00a7 1015",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 2075,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "set by locality",
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Municipal limits apply only in towns that opt in; county offices assumed at legislative tier"
+   },
+   "note": "$25,000/yr aggregate cap per individual"
+  },
+  "US-MD": {
+   "statute": "Md. Elec. Law \u00a7 13-226",
+   "basis": "per 4-year election cycle",
+   "governor": {
+    "usd": 6000,
+    "basis": "per 4-year election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 6000,
+    "basis": "per 4-year election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 6000,
+    "basis": "per 4-year election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 6000,
+    "basis": "per 4-year election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "Maryland election law covers county candidates (incl. county executive/council)"
+   }
+  },
+  "US-MA": {
+   "statute": "M.G.L. c. 55, \u00a7 7A",
+   "basis": "per calendar year",
+   "governor": {
+    "usd": 1000,
+    "basis": "per calendar year",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 1000,
+    "basis": "per calendar year",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 1000,
+    "basis": "per calendar year",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 1000,
+    "basis": "per calendar year",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "Mass. Gen. Laws ch. 55 applies to municipal candidates"
+   }
+  },
+  "US-MI": {
+   "statute": "MCL 169.252",
+   "basis": "per election cycle",
+   "governor": {
+    "usd": 8325,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 2450,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 1225,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 1225,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Mich. Comp. Laws 169.252 scales district/local limits by population (~$1,225 small districts up to $8,325 for districts over ~250k)"
+   }
+  },
+  "US-MN": {
+   "statute": "Minn. Stat. \u00a7 10A.27",
+   "basis": "per 2-year election segment",
+   "governor": {
+    "usd": 4000,
+    "basis": "per 2-year election segment",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 1000,
+    "basis": "per 2-year election segment",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 1000,
+    "basis": "per 2-year election segment",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "set by locality",
+    "basis": "per 2-year election segment",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Ch. 10A covers state offices only; local candidates under ch. 211A with no statewide per-donor cap except where a locality sets one (estimate)"
+   },
+   "note": "AG $2,500; SOS/auditor $2,000"
+  },
+  "US-MS": {
+   "statute": "Miss. Code \u00a7 23-15-1021",
+   "basis": "per election cycle",
+   "governor": {
+    "usd": "unlimited",
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": "unlimited",
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": "unlimited",
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "unlimited",
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "note": "Only judicial candidates are limited"
+  },
+  "US-MO": {
+   "statute": "Mo. Const. art. VIII \u00a7 23",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 2825,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 2400,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 2000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 2000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Mo. Const. art. VIII \u00a7 23 limits apply to all candidates; local assumed at lowest tier"
+   },
+   "note": "NCSL tiers as published; Missouri Ethics Commission adjusts every 2 years"
+  },
+  "US-MT": {
+   "statute": "Mont. Code \u00a7 13-37-216",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 1129,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 450,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 450,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 250,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Mont. Code 13-37-216 'other public office' tier for county/municipal, approx. $250 after inflation adjustment"
+   },
+   "note": "Governor figure is for the governor/lieutenant governor slate; other statewide $790"
+  },
+  "US-NE": {
+   "statute": "Neb. Rev. Stat. ch. 32 art. 16 (limits repealed)",
+   "basis": "n/a",
+   "governor": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   }
+  },
+  "US-NV": {
+   "statute": "NRS 294A.100",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 5000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 5000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 5000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 5000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "Nev. Const. art. 2 \u00a7 10 applies to every candidate"
+   }
+  },
+  "US-NH": {
+   "statute": "RSA 664:4",
+   "basis": "per election cycle",
+   "governor": {
+    "usd": 15000,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 15000,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 15000,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "set by locality",
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "RSA 664 covers state and county candidates; municipal elections largely unregulated (estimate)"
+   },
+   "note": "NCSL figure; older RSA text set lower amounts ($7,000) \u2014 verify against NH SOS if precision matters"
+  },
+  "US-NJ": {
+   "statute": "N.J.S.A. 19:44A-11.3",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 5800,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 5500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 5500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 5500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "2023 Elections Transparency Act set $5,500 for legislative, county and municipal candidates"
+   }
+  },
+  "US-NM": {
+   "statute": "N.M. Stat. \u00a7 1-19-34.7",
+   "basis": "per election cycle",
+   "governor": {
+    "usd": 12400,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 6200,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 6200,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 6200,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Campaign Reporting Act extended to local elections (2019); 'all other candidates' tier"
+   }
+  },
+  "US-NY": {
+   "statute": "N.Y. Elec. Law \u00a7 14-114",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 9000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 5000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 3000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": {
+     "formula": "$0.05 x enrolled/registered voters in district, min $1,000, max $50,000 (pre-2019 rule); NYC and some localities set their own"
+    },
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "note": "Statewide limit shown is per election 'regular' limit for 2025-26 cycle per NCSL"
+  },
+  "US-NC": {
+   "statute": "N.C.G.S. \u00a7 163-278.13",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 6800,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 6800,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 6800,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 6800,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "Applies to all candidates incl. local"
+   }
+  },
+  "US-ND": {
+   "statute": "N.D.C.C. ch. 16.1-08.1",
+   "basis": "n/a",
+   "governor": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   }
+  },
+  "US-OH": {
+   "statute": "Ohio Rev. Code \u00a7 3517.102",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 16615.67,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 16615.67,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 16615.67,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "set by locality",
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Ohio state limits apply to statewide, General Assembly and judicial candidates; local candidates are generally unlimited unless a charter city sets limits (estimate)"
+   }
+  },
+  "US-OK": {
+   "statute": "Okla. Ethics Rules (tit. 74 App.)",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 3500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 3500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 3500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 3500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "note": "Per election cycle if unopposed in primary"
+  },
+  "US-OR": {
+   "statute": "ORS 260.057",
+   "basis": "n/a",
+   "governor": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "Some localities (e.g. large counties/cities) set their own limits"
+   },
+   "note": "HB 4024 (2024) limits take effect Jan 1, 2027 (about $3,300 per individual per cycle); 2026 is unlimited"
+  },
+  "US-PA": {
+   "statute": "25 P.S. \u00a7 3253",
+   "basis": "n/a",
+   "governor": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "State law unlimited; a few cities (e.g. the largest) set own limits"
+   }
+  },
+  "US-RI": {
+   "statute": "R.I. Gen. Laws \u00a7 17-25-10.1",
+   "basis": "per calendar year",
+   "governor": {
+    "usd": 2000,
+    "basis": "per calendar year",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 2000,
+    "basis": "per calendar year",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 2000,
+    "basis": "per calendar year",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 2000,
+    "basis": "per calendar year",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "R.I. Gen. Laws 17-25-10.1 applies to all candidates"
+   }
+  },
+  "US-SC": {
+   "statute": "S.C. Code \u00a7 8-13-1314",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 3500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 1000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 1000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 1000,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "$1,000 tier covers all non-statewide candidates"
+   }
+  },
+  "US-SD": {
+   "statute": "SDCL \u00a7 12-27-7",
+   "basis": "per calendar year",
+   "governor": {
+    "usd": 4000,
+    "basis": "per calendar year",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 1000,
+    "basis": "per calendar year",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 1000,
+    "basis": "per calendar year",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 1000,
+    "basis": "per calendar year",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "County candidates assumed at legislative tier"
+   }
+  },
+  "US-TN": {
+   "statute": "Tenn. Code \u00a7 2-10-302",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 5300,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 1900,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 1900,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 1900,
+    "basis": "per election (primary and general separate)",
+    "source": "Tennessee Registry of Election Finance, 2025-2026 contribution limits",
+    "sourceUrl": "https://www.tn.gov/content/dam/tn/tref/documents/2025%202026%20contribution%20limits%20changes.June2025.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "$1,900 for local, legislative and other state candidates"
+   }
+  },
+  "US-TX": {
+   "statute": "Tex. Elec. Code \u00a7 253",
+   "basis": "n/a",
+   "governor": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "set by locality",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "State law unlimited (judicial excepted); home-rule cities may set limits (several large cities do)"
+   }
+  },
+  "US-UT": {
+   "statute": "Utah Code \u00a7 20A-11",
+   "basis": "n/a",
+   "governor": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   }
+  },
+  "US-VT": {
+   "statute": "17 V.S.A. \u00a7 2941",
+   "basis": "per election cycle",
+   "governor": {
+    "usd": 4480,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 1680,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 1120,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 1120,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Local offices assumed at state-house tier"
+   }
+  },
+  "US-VA": {
+   "statute": "Va. Code \u00a7 24.2-945",
+   "basis": "n/a",
+   "governor": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025) (state-level tiers); Local default inferred from whether the state statute's 'other candidate' tier covers county/municipal candidates; not checked against the statute text for this row",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   }
+  },
+  "US-WA": {
+   "statute": "RCW 42.17A.405",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 2400,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 1200,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 1200,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 1200,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Same tier applies to county and city candidates in jurisdictions over 5,000 registered voters; smaller jurisdictions are mini-reporting"
+   },
+   "note": "State executive (incl. governor) $2,400"
+  },
+  "US-WV": {
+   "statute": "W. Va. Code \u00a7 3-8-5c",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 2800,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 2800,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 2800,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 2800,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "Applies to all candidates"
+   }
+  },
+  "US-WI": {
+   "statute": "Wis. Stat. \u00a7 11.1101",
+   "basis": "per election cycle",
+   "governor": {
+    "usd": 20000,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 2000,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 1000,
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": {
+     "formula": "greater of $250 or $0.02 x jurisdiction population, capped at $6,000 (Wis. Stat. 11.1101)"
+    },
+    "basis": "per election cycle",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   }
+  },
+  "US-WY": {
+   "statute": "Wyo. Stat. \u00a7 22-25-102",
+   "basis": "per election (primary and general separate)",
+   "governor": {
+    "usd": 2500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateSenate": {
+    "usd": 1500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "stateHouse": {
+    "usd": 1500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false
+   },
+   "local": {
+    "usd": 1500,
+    "basis": "per election (primary and general separate)",
+    "source": "NCSL, State Limits on Contributions to Candidates, 2025-2026 Election Cycle (updated May 2025)",
+    "sourceUrl": "https://documents.ncsl.org/wwwncsl/Elections/State-Limits-on-Contributions-to-Candidates-2025-2026.pdf",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "'Other candidate' tier covers county and municipal"
+   }
+  },
+  "US-DC": {
+   "statute": "D.C. Code \u00a7 1-1163.33",
+   "basis": "per election (primary and general combined)",
+   "governor": {
+    "usd": 2000,
+    "basis": "per election (primary and general combined)",
+    "source": "D.C. Code \u00a7 1-1163.33; DC Office of Campaign Finance Traditional Program fact sheet (2024)",
+    "sourceUrl": "https://code.dccouncil.us/us/dc/council/code/sections/1-1163.33",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "Mayor; Attorney General $1,500; Council Chair $1,500"
+   },
+   "stateSenate": {
+    "usd": 1000,
+    "basis": "per election (primary and general combined)",
+    "source": "D.C. Code \u00a7 1-1163.33; DC Office of Campaign Finance Traditional Program fact sheet (2024)",
+    "sourceUrl": "https://code.dccouncil.us/us/dc/council/code/sections/1-1163.33",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "No senate; D.C. Council at-large member"
+   },
+   "stateHouse": {
+    "usd": 500,
+    "basis": "per election (primary and general combined)",
+    "source": "D.C. Code \u00a7 1-1163.33; DC Office of Campaign Finance Traditional Program fact sheet (2024)",
+    "sourceUrl": "https://code.dccouncil.us/us/dc/council/code/sections/1-1163.33",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "No house; D.C. Council ward member"
+   },
+   "local": {
+    "usd": 25,
+    "basis": "per election",
+    "source": "D.C. Code \u00a7 1-1163.33; DC Office of Campaign Finance Traditional Program fact sheet (2024) (ANC; estimate)",
+    "sourceUrl": "https://code.dccouncil.us/us/dc/council/code/sections/1-1163.33",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Advisory Neighborhood Commission; Fair Elections (public finance) candidates capped at $200 mayor / $100 at-large / $50 ward"
+   }
+  },
+  "US-PR": {
+   "statute": "Ley 222-2011 (Ley para la Fiscalizaci\u00f3n del Financiamiento de Campa\u00f1as Pol\u00edticas), Art. 5.001",
+   "basis": "per calendar year",
+   "governor": {
+    "usd": 2700,
+    "basis": "per calendar year",
+    "source": "Puerto Rico Oficina del Contralor Electoral; Ley 222-2011 Art. 5.001 (indexed to federal limit) \u2014 amount not confirmed for 2026",
+    "sourceUrl": "https://oce.pr.gov",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "stateSenate": {
+    "usd": 2700,
+    "basis": "per calendar year",
+    "source": "same",
+    "sourceUrl": "https://oce.pr.gov",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "stateHouse": {
+    "usd": 2700,
+    "basis": "per calendar year",
+    "source": "same",
+    "sourceUrl": "https://oce.pr.gov",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "local": {
+    "usd": 2700,
+    "basis": "per calendar year",
+    "source": "same (mayors and municipal legislators covered by Ley 222)",
+    "sourceUrl": "https://oce.pr.gov",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "note": "Single limit per person per candidate per year for all elective offices; anonymous gifts capped at $50 each. Exact current figure not retrieved."
+  },
+  "US-GU": {
+   "statute": "3 GCA \u00a7 17113",
+   "basis": "per election (estimate)",
+   "governor": {
+    "usd": 1000,
+    "basis": "per election",
+    "source": "Guam 3 GCA ch. 17 \u00a7 17113 'Limitation on Amount of Contributions'; figure from Pacific Daily/Post Guam 2026 report ('$1,000 per person')",
+    "sourceUrl": "https://www.postguam.com/news/local/election-commission-clarifies-policy-on-corporate-contributions/article_495b0123-83a0-4f0d-b024-f23db000be1b.html",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "stateSenate": {
+    "usd": 1000,
+    "basis": "per election",
+    "source": "Guam 3 GCA ch. 17 \u00a7 17113 'Limitation on Amount of Contributions'; figure from Pacific Daily/Post Guam 2026 report ('$1,000 per person')",
+    "sourceUrl": "https://www.postguam.com/news/local/election-commission-clarifies-policy-on-corporate-contributions/article_495b0123-83a0-4f0d-b024-f23db000be1b.html",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Unicameral Legislature (senators)"
+   },
+   "stateHouse": {
+    "usd": null,
+    "basis": "n/a",
+    "source": "Guam 3 GCA ch. 17 \u00a7 17113 'Limitation on Amount of Contributions'; figure from Pacific Daily/Post Guam 2026 report ('$1,000 per person')",
+    "sourceUrl": "https://www.postguam.com/news/local/election-commission-clarifies-policy-on-corporate-contributions/article_495b0123-83a0-4f0d-b024-f23db000be1b.html",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "No lower house (unicameral)"
+   },
+   "local": {
+    "usd": 1000,
+    "basis": "per election",
+    "source": "Guam 3 GCA ch. 17 \u00a7 17113 'Limitation on Amount of Contributions'; figure from Pacific Daily/Post Guam 2026 report ('$1,000 per person') (village mayors)",
+    "sourceUrl": "https://www.postguam.com/news/local/election-commission-clarifies-policy-on-corporate-contributions/article_495b0123-83a0-4f0d-b024-f23db000be1b.html",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "note": "Statute text not retrieved; news-reported $1,000 per person"
+  },
+  "US-VI": {
+   "statute": "18 V.I.C. \u00a7\u00a7 902-907",
+   "basis": "per election",
+   "governor": {
+    "usd": 3500,
+    "basis": "per election",
+    "source": "Virgin Islands Code tit. 18 ch. 29 (\u00a7\u00a7 902-907) as amended by Act from Bill 36-0236 signed June 9, 2026 (LobbyComply report)",
+    "sourceUrl": "https://stateandfed.com/uncategorized/u-s-virgin-islands-increases-political-contribution-limits/",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "stateSenate": {
+    "usd": 3500,
+    "basis": "per election",
+    "source": "Virgin Islands Code tit. 18 ch. 29 (\u00a7\u00a7 902-907) as amended by Act from Bill 36-0236 signed June 9, 2026 (LobbyComply report)",
+    "sourceUrl": "https://stateandfed.com/uncategorized/u-s-virgin-islands-increases-political-contribution-limits/",
+    "retrievedDate": "2026-10-12",
+    "estimate": true,
+    "note": "Unicameral Legislature"
+   },
+   "stateHouse": {
+    "usd": null,
+    "basis": "n/a",
+    "source": "Virgin Islands Code tit. 18 ch. 29 (\u00a7\u00a7 902-907) as amended by Act from Bill 36-0236 signed June 9, 2026 (LobbyComply report)",
+    "sourceUrl": "https://stateandfed.com/uncategorized/u-s-virgin-islands-increases-political-contribution-limits/",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "No lower house"
+   },
+   "local": {
+    "usd": null,
+    "basis": "n/a",
+    "source": "Virgin Islands Code tit. 18 ch. 29 (\u00a7\u00a7 902-907) as amended by Act from Bill 36-0236 signed June 9, 2026 (LobbyComply report)",
+    "sourceUrl": "https://stateandfed.com/uncategorized/u-s-virgin-islands-increases-political-contribution-limits/",
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "note": "No elected municipal government"
+   },
+   "note": "Raised from $1,000 to $3,500 per election in June 2026 per a secondary source; statute text not verified"
+  },
+  "US-AS": {
+   "statute": "American Samoa Code Annotated tit. 6 (Elections) \u2014 no individual contribution limit found",
+   "basis": "n/a",
+   "governor": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "No limit located in A.S.C.A. title 6; estimate",
+    "sourceUrl": "https://asbar.org/code-annotated/",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "stateSenate": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "same; senators are chosen by county councils under Samoan custom, not by popular vote",
+    "sourceUrl": "https://asbar.org/code-annotated/",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "stateHouse": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "same",
+    "sourceUrl": "https://asbar.org/code-annotated/",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "local": {
+    "usd": null,
+    "basis": "n/a",
+    "source": "No elected municipal offices (village/county chiefs by custom)",
+    "sourceUrl": "https://asbar.org/code-annotated/",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   }
+  },
+  "US-MP": {
+   "statute": "1 CMC / Commonwealth Election Law \u2014 no individual contribution limit found",
+   "basis": "n/a",
+   "governor": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "No limit located in CNMI Election Law (disclosure only); estimate",
+    "sourceUrl": "https://cnmilaw.org",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "stateSenate": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "same",
+    "sourceUrl": "https://cnmilaw.org",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "stateHouse": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "same",
+    "sourceUrl": "https://cnmilaw.org",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   },
+   "local": {
+    "usd": "unlimited",
+    "basis": "n/a",
+    "source": "same (island mayors, municipal councils)",
+    "sourceUrl": "https://cnmilaw.org",
+    "retrievedDate": "2026-10-12",
+    "estimate": true
+   }
+  }
+ },
+ "campaignSize": {
+  "usHouse": {
+   "year": 2024,
+   "source": "Computed from FEC bulk file webl24 (House/Senate current campaigns, 2023-2024, total receipts), field CAND_ICI",
+   "sourceUrl": "https://www.fec.gov/files/bulk-downloads/2024/webl24.zip",
+   "retrievedDate": "2026-10-12",
+   "estimate": false,
+   "incumbentMedianUSD": 1978422,
+   "incumbentN": 439,
+   "challengerMedianUSD": 56987,
+   "challengerN": 1017,
+   "challengerMedianIfRaised100kPlusUSD": 396642,
+   "challengerN100kPlus": 404,
+   "openSeatMedianUSD": 140029,
+   "openSeatN": 470,
+   "openSeatMedianIfRaised100kPlusUSD": 508955,
+   "incumbentMeanUSD": 3360415,
+   "note": "All registered candidates incl. primary losers; challenger median rises to $86k counting only those with >= $5,000 receipts"
+  },
+  "usSenate": {
+   "year": 2024,
+   "source": "Computed from FEC webl24",
+   "sourceUrl": "https://www.fec.gov/files/bulk-downloads/2024/webl24.zip",
+   "retrievedDate": "2026-10-12",
+   "estimate": false,
+   "incumbentMedianUSD": 7984637,
+   "incumbentN": 34,
+   "challengerMedianUSD": 41279,
+   "challengerMedianIfRaised100kPlusUSD": 1047156,
+   "openSeatMedianUSD": 158696,
+   "openSeatMedianIfRaised100kPlusUSD": 1246161,
+   "note": "Senate medians vary hugely with state size; 2024 incumbent mean was $18.7M"
+  },
+  "governor": {
+   "year": "2018-2022",
+   "estimate": true,
+   "source": "Estimate built from state reports: Wisconsin 2022 governor race $114.6M total incl. outside spending (Wisconsin Democracy Campaign via Cap Times); Colorado 2022 Polis $9/vote (Colorado Sun); AdImpact 2022 gubernatorial ad totals",
+   "sourceUrl": [
+    "https://captimes.com/news/government/wisconsin-governor-s-race-sees-record-setting-spending/article_02390dff-21c6-5edb-9090-d061a0219d96.html",
+    "https://coloradosun.com/2022/12/15/jared-polis-top-2022-election-spender/",
+    "https://adimpact.com/blog/advertising-spending-2022-gubernatorial"
+   ],
+   "retrievedDate": "2026-10-12",
+   "typicalMajorNomineeRaisedUSDByStatePopulation": {
+    "under2M": {
+     "median": 2500000,
+     "range": [
+      800000,
+      6000000
+     ]
+    },
+    "2M_to_6M": {
+     "median": 8000000,
+     "range": [
+      3000000,
+      20000000
+     ]
+    },
+    "6M_to_12M": {
+     "median": 20000000,
+     "range": [
+      8000000,
+      50000000
+     ]
+    },
+    "over12M": {
+     "median": 45000000,
+     "range": [
+      20000000,
+      150000000
+     ]
+    }
+   },
+   "rule": "Roughly $2-$6 per eventual general-election vote for a competitive major-party nominee; self-funders far above",
+   "note": "No national median published; bands are an estimate with wide spread"
+  },
+  "stateLegislature": {
+   "nationalMeanPerCandidate2010USD": {
+    "stateHouse": 53827,
+    "stateSenate": 112043,
+    "source": "Ballotpedia, 'State-by-state comparison of donations to state house/senate campaigns' (FollowTheMoney/NIMSP data, 2010 cycle); mean = total contributions / candidates",
+    "sourceUrl": [
+     "https://ballotpedia.org/State-by-state_comparison_of_donations_to_state_house_campaigns",
+     "https://ballotpedia.org/State-by-state_comparison_of_donations_to_state_senate_campaigns"
+    ],
+    "estimate": false
+   },
+   "nationalMedianEstimateUSD": {
+    "stateHouse": {
+     "value": 25000,
+     "range": [
+      2000,
+      250000
+     ]
+    },
+    "stateSenate": {
+     "value": 60000,
+     "range": [
+      5000,
+      600000
+     ]
+    },
+    "year": "2022-2024 (2025 dollars)",
+    "estimate": true,
+    "derivation": "2010 means x CPI ~1.44, then median ~= 40% of mean (candidate receipts are right-skewed); cross-checked with Wisconsin 2024 medians (~$10k assembly, ~$60k senate by July 1, Marquette Law blog) and Pennsylvania 2023 first-time winners ($128k house, $496k senate)",
+    "sources": [
+     "https://law.marquette.edu/facultyblog/2026/07/how-much-does-it-cost-to-run-for-state-legislature/",
+     "https://ballotpedia.org/State-by-state_comparison_of_donations_to_state_house_campaigns",
+     "https://ballotpedia.org/State-by-state_comparison_of_donations_to_state_senate_campaigns"
+    ]
+   },
+   "byStateMeanPerCandidate2010": {
+    "note": "Mean (not median) receipts per candidate in 2010, nominal dollars; multiply by ~1.44 for 2025 dollars (estimate). 10 largest and 10 smallest states by population; full 48-state set in allStates2010.",
+    "source": "Ballotpedia, 'State-by-state comparison of donations to state house/senate campaigns' (FollowTheMoney/NIMSP data, 2010 cycle); mean = total contributions / candidates",
+    "sourceUrl": [
+     "https://ballotpedia.org/State-by-state_comparison_of_donations_to_state_house_campaigns",
+     "https://ballotpedia.org/State-by-state_comparison_of_donations_to_state_senate_campaigns"
+    ],
+    "retrievedDate": "2026-10-12",
+    "estimate": false,
+    "largest10": {
+     "US-CA": {
+      "stateSenate": {
+       "candidates2010": 63,
+       "total2010": 23000670,
+       "meanPerCandidate2010": 365090
+      },
+      "stateHouse": {
+       "candidates2010": 275,
+       "total2010": 77405341,
+       "meanPerCandidate2010": 281474
+      }
+     },
+     "US-TX": {
+      "stateSenate": {
+       "candidates2010": 41,
+       "total2010": 11219972,
+       "meanPerCandidate2010": 273658
+      },
+      "stateHouse": {
+       "candidates2010": 332,
+       "total2010": 78482292,
+       "meanPerCandidate2010": 236392
+      }
+     },
+     "US-FL": {
+      "stateSenate": {
+       "candidates2010": 60,
+       "total2010": 14617863,
+       "meanPerCandidate2010": 243631
+      },
+      "stateHouse": {
+       "candidates2010": 322,
+       "total2010": 30673659,
+       "meanPerCandidate2010": 95260
+      }
+     },
+     "US-NY": {
+      "stateSenate": {
+       "candidates2010": 133,
+       "total2010": 48466031,
+       "meanPerCandidate2010": 364406
+      },
+      "stateHouse": {
+       "candidates2010": 304,
+       "total2010": 22899004,
+       "meanPerCandidate2010": 75326
+      }
+     },
+     "US-PA": {
+      "stateSenate": {
+       "candidates2010": 53,
+       "total2010": 11102031,
+       "meanPerCandidate2010": 209472
+      },
+      "stateHouse": {
+       "candidates2010": 444,
+       "total2010": 35488143,
+       "meanPerCandidate2010": 79928
+      }
+     },
+     "US-IL": {
+      "stateSenate": {
+       "candidates2010": 45,
+       "total2010": 19051437,
+       "meanPerCandidate2010": 423365
+      },
+      "stateHouse": {
+       "candidates2010": 261,
+       "total2010": 50734623,
+       "meanPerCandidate2010": 194386
+      }
+     },
+     "US-OH": {
+      "stateSenate": {
+       "candidates2010": 57,
+       "total2010": 10478510,
+       "meanPerCandidate2010": 183834
+      },
+      "stateHouse": {
+       "candidates2010": 301,
+       "total2010": 35860365,
+       "meanPerCandidate2010": 119137
+      }
+     },
+     "US-GA": {
+      "stateSenate": {
+       "candidates2010": 110,
+       "total2010": 8052144,
+       "meanPerCandidate2010": 73201
+      },
+      "stateHouse": {
+       "candidates2010": 316,
+       "total2010": 12388358,
+       "meanPerCandidate2010": 39204
+      }
+     },
+     "US-NC": {
+      "stateSenate": {
+       "candidates2010": 137,
+       "total2010": 18614595,
+       "meanPerCandidate2010": 135873
+      },
+      "stateHouse": {
+       "candidates2010": 268,
+       "total2010": 17390203,
+       "meanPerCandidate2010": 64889
+      }
+     },
+     "US-MI": {
+      "stateSenate": {
+       "candidates2010": 188,
+       "total2010": 16309515,
+       "meanPerCandidate2010": 86753
+      },
+      "stateHouse": {
+       "candidates2010": 543,
+       "total2010": 17146452,
+       "meanPerCandidate2010": 31577
+      }
+     }
+    },
+    "smallest10": {
+     "US-WY": {
+      "stateSenate": {
+       "candidates2010": 32,
+       "total2010": 259183,
+       "meanPerCandidate2010": 8099
+      },
+      "stateHouse": {
+       "candidates2010": 122,
+       "total2010": 699577,
+       "meanPerCandidate2010": 5734
+      }
+     },
+     "US-VT": {
+      "stateSenate": {
+       "candidates2010": 74,
+       "total2010": 670068,
+       "meanPerCandidate2010": 9055
+      },
+      "stateHouse": {
+       "candidates2010": 266,
+       "total2010": 615441,
+       "meanPerCandidate2010": 2314
+      }
+     },
+     "US-AK": {
+      "stateSenate": {
+       "candidates2010": 19,
+       "total2010": 1227692,
+       "meanPerCandidate2010": 64615
+      },
+      "stateHouse": {
+       "candidates2010": 82,
+       "total2010": 3254576,
+       "meanPerCandidate2010": 39690
+      }
+     },
+     "US-ND": {
+      "stateSenate": {
+       "candidates2010": 42,
+       "total2010": 271222,
+       "meanPerCandidate2010": 6458
+      },
+      "stateHouse": {
+       "candidates2010": 87,
+       "total2010": 428028,
+       "meanPerCandidate2010": 4920
+      }
+     },
+     "US-SD": {
+      "stateSenate": {
+       "candidates2010": 65,
+       "total2010": 1090800,
+       "meanPerCandidate2010": 16782
+      },
+      "stateHouse": {
+       "candidates2010": 132,
+       "total2010": 1675460,
+       "meanPerCandidate2010": 12693
+      }
+     },
+     "US-DE": {
+      "stateSenate": {
+       "candidates2010": 19,
+       "total2010": 643813,
+       "meanPerCandidate2010": 33885
+      },
+      "stateHouse": {
+       "candidates2010": 88,
+       "total2010": 2583173,
+       "meanPerCandidate2010": 29354
+      }
+     },
+     "US-RI": {
+      "stateSenate": {
+       "candidates2010": 98,
+       "total2010": 2009724,
+       "meanPerCandidate2010": 20507
+      },
+      "stateHouse": {
+       "candidates2010": 186,
+       "total2010": 2454588,
+       "meanPerCandidate2010": 13197
+      }
+     },
+     "US-MT": {
+      "stateSenate": {
+       "candidates2010": 70,
+       "total2010": 993331,
+       "meanPerCandidate2010": 14190
+      },
+      "stateHouse": {
+       "candidates2010": 237,
+       "total2010": 1611045,
+       "meanPerCandidate2010": 6798
+      }
+     },
+     "US-ME": {
+      "stateSenate": {
+       "candidates2010": 88,
+       "total2010": 1988888,
+       "meanPerCandidate2010": 22601
+      },
+      "stateHouse": {
+       "candidates2010": 382,
+       "total2010": 1607976,
+       "meanPerCandidate2010": 4209
+      }
+     },
+     "US-NH": {
+      "stateSenate": {
+       "candidates2010": 54,
+       "total2010": 2461574,
+       "meanPerCandidate2010": 45585
+      },
+      "stateHouse": {
+       "candidates2010": 835,
+       "total2010": 489484,
+       "meanPerCandidate2010": 586
+      }
+     }
+    }
+   },
+   "allStates2010": {
+    "US-AK": {
+     "stateSenate": {
+      "candidates2010": 19,
+      "total2010": 1227692,
+      "meanPerCandidate2010": 64615
+     },
+     "stateHouse": {
+      "candidates2010": 82,
+      "total2010": 3254576,
+      "meanPerCandidate2010": 39690
+     }
+    },
+    "US-AZ": {
+     "stateSenate": {
+      "candidates2010": 84,
+      "total2010": 2954711,
+      "meanPerCandidate2010": 35175
+     },
+     "stateHouse": {
+      "candidates2010": 166,
+      "total2010": 5311375,
+      "meanPerCandidate2010": 31996
+     }
+    },
+    "US-AR": {
+     "stateSenate": {
+      "candidates2010": 38,
+      "total2010": 3771126,
+      "meanPerCandidate2010": 99240
+     },
+     "stateHouse": {
+      "candidates2010": 192,
+      "total2010": 5568912,
+      "meanPerCandidate2010": 29005
+     }
+    },
+    "US-CA": {
+     "stateSenate": {
+      "candidates2010": 63,
+      "total2010": 23000670,
+      "meanPerCandidate2010": 365090
+     },
+     "stateHouse": {
+      "candidates2010": 275,
+      "total2010": 77405341,
+      "meanPerCandidate2010": 281474
+     }
+    },
+    "US-CO": {
+     "stateSenate": {
+      "candidates2010": 48,
+      "total2010": 2331554,
+      "meanPerCandidate2010": 48574
+     },
+     "stateHouse": {
+      "candidates2010": 140,
+      "total2010": 5062910,
+      "meanPerCandidate2010": 36164
+     }
+    },
+    "US-CT": {
+     "stateSenate": {
+      "candidates2010": 78,
+      "total2010": 5156062,
+      "meanPerCandidate2010": 66103
+     },
+     "stateHouse": {
+      "candidates2010": 311,
+      "total2010": 7114872,
+      "meanPerCandidate2010": 22877
+     }
+    },
+    "US-DE": {
+     "stateSenate": {
+      "candidates2010": 19,
+      "total2010": 643813,
+      "meanPerCandidate2010": 33885
+     },
+     "stateHouse": {
+      "candidates2010": 88,
+      "total2010": 2583173,
+      "meanPerCandidate2010": 29354
+     }
+    },
+    "US-FL": {
+     "stateSenate": {
+      "candidates2010": 60,
+      "total2010": 14617863,
+      "meanPerCandidate2010": 243631
+     },
+     "stateHouse": {
+      "candidates2010": 322,
+      "total2010": 30673659,
+      "meanPerCandidate2010": 95260
+     }
+    },
+    "US-GA": {
+     "stateSenate": {
+      "candidates2010": 110,
+      "total2010": 8052144,
+      "meanPerCandidate2010": 73201
+     },
+     "stateHouse": {
+      "candidates2010": 316,
+      "total2010": 12388358,
+      "meanPerCandidate2010": 39204
+     }
+    },
+    "US-HI": {
+     "stateSenate": {
+      "candidates2010": 46,
+      "total2010": 1586733,
+      "meanPerCandidate2010": 34494
+     },
+     "stateHouse": {
+      "candidates2010": 147,
+      "total2010": 3066163,
+      "meanPerCandidate2010": 20858
+     }
+    },
+    "US-ID": {
+     "stateSenate": {
+      "candidates2010": 76,
+      "total2010": 1380073,
+      "meanPerCandidate2010": 18159
+     },
+     "stateHouse": {
+      "candidates2010": 142,
+      "total2010": 2164092,
+      "meanPerCandidate2010": 15240
+     }
+    },
+    "US-IL": {
+     "stateSenate": {
+      "candidates2010": 45,
+      "total2010": 19051437,
+      "meanPerCandidate2010": 423365
+     },
+     "stateHouse": {
+      "candidates2010": 261,
+      "total2010": 50734623,
+      "meanPerCandidate2010": 194386
+     }
+    },
+    "US-IN": {
+     "stateSenate": {
+      "candidates2010": 57,
+      "total2010": 4046473,
+      "meanPerCandidate2010": 70991
+     },
+     "stateHouse": {
+      "candidates2010": 254,
+      "total2010": 19009965,
+      "meanPerCandidate2010": 74842
+     }
+    },
+    "US-IA": {
+     "stateSenate": {
+      "candidates2010": 55,
+      "total2010": 5058528,
+      "meanPerCandidate2010": 91973
+     },
+     "stateHouse": {
+      "candidates2010": 201,
+      "total2010": 13358470,
+      "meanPerCandidate2010": 66460
+     }
+    },
+    "US-KY": {
+     "stateSenate": {
+      "candidates2010": 51,
+      "total2010": 5379997,
+      "meanPerCandidate2010": 105490
+     },
+     "stateHouse": {
+      "candidates2010": 186,
+      "total2010": 7620093,
+      "meanPerCandidate2010": 40968
+     }
+    },
+    "US-ME": {
+     "stateSenate": {
+      "candidates2010": 88,
+      "total2010": 1988888,
+      "meanPerCandidate2010": 22601
+     },
+     "stateHouse": {
+      "candidates2010": 382,
+      "total2010": 1607976,
+      "meanPerCandidate2010": 4209
+     }
+    },
+    "US-MD": {
+     "stateSenate": {
+      "candidates2010": 111,
+      "total2010": 9313367,
+      "meanPerCandidate2010": 83904
+     },
+     "stateHouse": {
+      "candidates2010": 407,
+      "total2010": 14870197,
+      "meanPerCandidate2010": 36536
+     }
+    },
+    "US-MA": {
+     "stateSenate": {
+      "candidates2010": 93,
+      "total2010": 8982549,
+      "meanPerCandidate2010": 96587
+     },
+     "stateHouse": {
+      "candidates2010": 336,
+      "total2010": 13713787,
+      "meanPerCandidate2010": 40815
+     }
+    },
+    "US-MI": {
+     "stateSenate": {
+      "candidates2010": 188,
+      "total2010": 16309515,
+      "meanPerCandidate2010": 86753
+     },
+     "stateHouse": {
+      "candidates2010": 543,
+      "total2010": 17146452,
+      "meanPerCandidate2010": 31577
+     }
+    },
+    "US-MN": {
+     "stateSenate": {
+      "candidates2010": 160,
+      "total2010": 5109415,
+      "meanPerCandidate2010": 31934
+     },
+     "stateHouse": {
+      "candidates2010": 293,
+      "total2010": 6377405,
+      "meanPerCandidate2010": 21766
+     }
+    },
+    "US-MO": {
+     "stateSenate": {
+      "candidates2010": 50,
+      "total2010": 12861549,
+      "meanPerCandidate2010": 257231
+     },
+     "stateHouse": {
+      "candidates2010": 400,
+      "total2010": 11420148,
+      "meanPerCandidate2010": 28550
+     }
+    },
+    "US-MT": {
+     "stateSenate": {
+      "candidates2010": 70,
+      "total2010": 993331,
+      "meanPerCandidate2010": 14190
+     },
+     "stateHouse": {
+      "candidates2010": 237,
+      "total2010": 1611045,
+      "meanPerCandidate2010": 6798
+     }
+    },
+    "US-NE": {
+     "stateSenate": {
+      "candidates2010": 51,
+      "total2010": 1597466,
+      "meanPerCandidate2010": 31323
+     }
+    },
+    "US-NV": {
+     "stateSenate": {
+      "candidates2010": 44,
+      "total2010": 4320019,
+      "meanPerCandidate2010": 98182
+     },
+     "stateHouse": {
+      "candidates2010": 164,
+      "total2010": 8353520,
+      "meanPerCandidate2010": 50936
+     }
+    },
+    "US-NH": {
+     "stateSenate": {
+      "candidates2010": 54,
+      "total2010": 2461574,
+      "meanPerCandidate2010": 45585
+     },
+     "stateHouse": {
+      "candidates2010": 835,
+      "total2010": 489484,
+      "meanPerCandidate2010": 586
+     }
+    },
+    "US-NY": {
+     "stateSenate": {
+      "candidates2010": 133,
+      "total2010": 48466031,
+      "meanPerCandidate2010": 364406
+     },
+     "stateHouse": {
+      "candidates2010": 304,
+      "total2010": 22899004,
+      "meanPerCandidate2010": 75326
+     }
+    },
+    "US-NC": {
+     "stateSenate": {
+      "candidates2010": 137,
+      "total2010": 18614595,
+      "meanPerCandidate2010": 135873
+     },
+     "stateHouse": {
+      "candidates2010": 268,
+      "total2010": 17390203,
+      "meanPerCandidate2010": 64889
+     }
+    },
+    "US-ND": {
+     "stateSenate": {
+      "candidates2010": 42,
+      "total2010": 271222,
+      "meanPerCandidate2010": 6458
+     },
+     "stateHouse": {
+      "candidates2010": 87,
+      "total2010": 428028,
+      "meanPerCandidate2010": 4920
+     }
+    },
+    "US-OH": {
+     "stateSenate": {
+      "candidates2010": 57,
+      "total2010": 10478510,
+      "meanPerCandidate2010": 183834
+     },
+     "stateHouse": {
+      "candidates2010": 301,
+      "total2010": 35860365,
+      "meanPerCandidate2010": 119137
+     }
+    },
+    "US-OK": {
+     "stateSenate": {
+      "candidates2010": 54,
+      "total2010": 4964645,
+      "meanPerCandidate2010": 91938
+     },
+     "stateHouse": {
+      "candidates2010": 191,
+      "total2010": 8005830,
+      "meanPerCandidate2010": 41915
+     }
+    },
+    "US-OR": {
+     "stateSenate": {
+      "candidates2010": 41,
+      "total2010": 8704179,
+      "meanPerCandidate2010": 212297
+     },
+     "stateHouse": {
+      "candidates2010": 140,
+      "total2010": 14996656,
+      "meanPerCandidate2010": 107119
+     }
+    },
+    "US-PA": {
+     "stateSenate": {
+      "candidates2010": 53,
+      "total2010": 11102031,
+      "meanPerCandidate2010": 209472
+     },
+     "stateHouse": {
+      "candidates2010": 444,
+      "total2010": 35488143,
+      "meanPerCandidate2010": 79928
+     }
+    },
+    "US-RI": {
+     "stateSenate": {
+      "candidates2010": 98,
+      "total2010": 2009724,
+      "meanPerCandidate2010": 20507
+     },
+     "stateHouse": {
+      "candidates2010": 186,
+      "total2010": 2454588,
+      "meanPerCandidate2010": 13197
+     }
+    },
+    "US-SD": {
+     "stateSenate": {
+      "candidates2010": 65,
+      "total2010": 1090800,
+      "meanPerCandidate2010": 16782
+     },
+     "stateHouse": {
+      "candidates2010": 132,
+      "total2010": 1675460,
+      "meanPerCandidate2010": 12693
+     }
+    },
+    "US-TN": {
+     "stateSenate": {
+      "candidates2010": 44,
+      "total2010": 4275730,
+      "meanPerCandidate2010": 97176
+     },
+     "stateHouse": {
+      "candidates2010": 219,
+      "total2010": 9478590,
+      "meanPerCandidate2010": 43281
+     }
+    },
+    "US-TX": {
+     "stateSenate": {
+      "candidates2010": 41,
+      "total2010": 11219972,
+      "meanPerCandidate2010": 273658
+     },
+     "stateHouse": {
+      "candidates2010": 332,
+      "total2010": 78482292,
+      "meanPerCandidate2010": 236392
+     }
+    },
+    "US-UT": {
+     "stateSenate": {
+      "candidates2010": 39,
+      "total2010": 1612394,
+      "meanPerCandidate2010": 41343
+     },
+     "stateHouse": {
+      "candidates2010": 209,
+      "total2010": 3736373,
+      "meanPerCandidate2010": 17877
+     }
+    },
+    "US-VT": {
+     "stateSenate": {
+      "candidates2010": 74,
+      "total2010": 670068,
+      "meanPerCandidate2010": 9055
+     },
+     "stateHouse": {
+      "candidates2010": 266,
+      "total2010": 615441,
+      "meanPerCandidate2010": 2314
+     }
+    },
+    "US-WA": {
+     "stateSenate": {
+      "candidates2010": 54,
+      "total2010": 7259812,
+      "meanPerCandidate2010": 134441
+     },
+     "stateHouse": {
+      "candidates2010": 240,
+      "total2010": 15999632,
+      "meanPerCandidate2010": 66665
+     }
+    },
+    "US-WV": {
+     "stateSenate": {
+      "candidates2010": 51,
+      "total2010": 2663291,
+      "meanPerCandidate2010": 52221
+     },
+     "stateHouse": {
+      "candidates2010": 233,
+      "total2010": 4862057,
+      "meanPerCandidate2010": 20867
+     }
+    },
+    "US-WI": {
+     "stateSenate": {
+      "candidates2010": 41,
+      "total2010": 4251736,
+      "meanPerCandidate2010": 103701
+     },
+     "stateHouse": {
+      "candidates2010": 273,
+      "total2010": 7619470,
+      "meanPerCandidate2010": 27910
+     }
+    },
+    "US-WY": {
+     "stateSenate": {
+      "candidates2010": 32,
+      "total2010": 259183,
+      "meanPerCandidate2010": 8099
+     },
+     "stateHouse": {
+      "candidates2010": 122,
+      "total2010": 699577,
+      "meanPerCandidate2010": 5734
+     }
+    },
+    "US-KS": {
+     "stateHouse": {
+      "candidates2010": 250,
+      "total2010": 5474989,
+      "meanPerCandidate2010": 21900
+     }
+    },
+    "US-NM": {
+     "stateHouse": {
+      "candidates2010": 136,
+      "total2010": 4634349,
+      "meanPerCandidate2010": 34076
+     }
+    },
+    "US-SC": {
+     "stateHouse": {
+      "candidates2010": 231,
+      "total2010": 6654588,
+      "meanPerCandidate2010": 28808
+     }
+    },
+    "US-AL": {
+     "stateSenate": {
+      "candidates2010": 87,
+      "total2010": 24925230,
+      "meanPerCandidate2010": 286497
+     },
+     "stateHouse": {
+      "candidates2010": 237,
+      "total2010": 19627913,
+      "meanPerCandidate2010": 82818
+     }
+    }
+   },
+   "recentIncumbentAverages2022": {
+    "source": "Ballotpedia campaign finance analysis of contested 2022 general elections (incumbents)",
+    "estimate": false,
+    "retrievedDate": "2026-10-12",
+    "US-CA": {
+     "stateHouse": 1131955,
+     "stateSenate": 1315453
+    },
+    "US-WI": {
+     "stateHouse": 123689,
+     "stateSenate": 313063
+    },
+    "US-NC": {
+     "stateHouse": 128916,
+     "stateSenate": 367886
+    }
+   }
+  },
+  "mayor": {
+   "year": "2018-2024",
+   "estimate": true,
+   "source": "Estimate: no national study by city size found; bands set from local reporting (e.g. Missoula mayoral poll alone $15-25k, Montana COPP; NYC council public-finance data, Brennan Center) and city campaign finance portals",
+   "retrievedDate": "2026-10-12",
+   "byCityPopulationUSD": {
+    "under10k": {
+     "median": 2000,
+     "range": [
+      0,
+      15000
+     ]
+    },
+    "10k_to_100k": {
+     "median": 25000,
+     "range": [
+      3000,
+      150000
+     ]
+    },
+    "100k_to_1M": {
+     "median": 300000,
+     "range": [
+      50000,
+      2000000
+     ]
+    },
+    "over1M": {
+     "median": 5000000,
+     "range": [
+      1000000,
+      40000000
+     ]
+    }
+   }
+  },
+  "cityCouncil": {
+   "year": "2018-2024",
+   "estimate": true,
+   "source": "Estimate as above; NYC council median publicly financed candidate (Brennan Center); 61 California cities study (California Journal of Politics and Policy) found few credible council campaigns without money even in small cities",
+   "sourceUrl": [
+    "https://www.brennancenter.org/our-work/research-reports/constituent-engagement-effect-small-donor-public-financing-statistical",
+    "https://escholarship.org/uc/item/4c98922s"
+   ],
+   "retrievedDate": "2026-10-12",
+   "byCityPopulationUSD": {
+    "under10k": {
+     "median": 500,
+     "range": [
+      0,
+      5000
+     ]
+    },
+    "10k_to_100k": {
+     "median": 8000,
+     "range": [
+      1000,
+      50000
+     ]
+    },
+    "100k_to_1M": {
+     "median": 60000,
+     "range": [
+      10000,
+      400000
+     ]
+    },
+    "over1M": {
+     "median": 250000,
+     "range": [
+      50000,
+      1500000
+     ]
+    }
+   }
+  },
+  "countyCommission": {
+   "year": "2018-2026",
+   "estimate": true,
+   "source": "Estimate from local reports: Albany County WY 2022 five candidates raised ~$41k total; Cumberland County NC 2024 six candidates $183k in 6 months; Johnson County KS 2018 most candidates >$15k; Columbia County GA 2026 chair $180k vs $8.7k",
+   "sourceUrl": [
+    "https://laramiereporter.substack.com/p/county-commission-candidates-raised",
+    "https://www.cityviewnc.com/stories/political-newcomer-pavan-patel-dominates-fundraising-in-county-commissioner-race/",
+    "https://johnsoncountypost.com/2018/10/08/heres-how-much-the-johnson-county-commission-candidates-have-raised-and-where-the-money-came-from-74332/",
+    "https://theaugustapress.com/columbia-county-campaign-reports-show-heavy-fundraising-in-chair-race/"
+   ],
+   "retrievedDate": "2026-10-12",
+   "byCountyPopulationUSD": {
+    "under50k": {
+     "median": 5000,
+     "range": [
+      0,
+      25000
+     ]
+    },
+    "50k_to_250k": {
+     "median": 25000,
+     "range": [
+      5000,
+      100000
+     ]
+    },
+    "250k_to_1M": {
+     "median": 80000,
+     "range": [
+      15000,
+      300000
+     ]
+    },
+    "over1M": {
+     "median": 300000,
+     "range": [
+      50000,
+      2000000
+     ]
+    }
+   }
+  }
+ },
+ "costs": {
+  "broadcastTvCPM": {
+   "usdPerThousand": {
+    "low": 15,
+    "typical": 30,
+    "high": 100
+   },
+   "year": 2026,
+   "source": "AdWave, 'Political Ad Rates 2026' and 'Political Advertising Costs: What Campaigns Should Budget in 2026' (vendor); local linear $15-35 CPM, effective CPM against registered voters in a district $30-100+",
+   "sourceUrl": [
+    "https://adwave.com/resources/political-ad-rates-2026",
+    "https://adwave.com/resources/political-advertising-costs"
+   ],
+   "retrievedDate": "2026-10-12",
+   "estimate": true,
+   "note": "Political rates rise sharply in the final 60 days (lowest-unit-charge applies to candidates only); vendor source"
+  },
+  "cableTvCPM": {
+   "usdPerThousand": {
+    "low": 10,
+    "typical": 20,
+    "high": 30
+   },
+   "year": 2026,
+   "source": "AdWave, 'Political Ad Rates 2026' and 'Political Advertising Costs: What Campaigns Should Budget in 2026' (vendor)",
+   "sourceUrl": "https://adwave.com/resources/political-ad-rates-2026",
+   "retrievedDate": "2026-10-12",
+   "estimate": true
+  },
+  "connectedTvCPM": {
+   "usdPerThousand": {
+    "low": 20,
+    "typical": 35,
+    "high": 65
+   },
+   "year": 2026,
+   "source": "AdWave, 'Political Ad Rates 2026' and 'Political Advertising Costs: What Campaigns Should Budget in 2026' (vendor)",
+   "sourceUrl": "https://adwave.com/resources/political-ad-rates-2026",
+   "retrievedDate": "2026-10-12",
+   "estimate": true
+  },
+  "localTvSpot30s": {
+   "usdPerAiring": {
+    "low": 200,
+    "high": 1500
+   },
+   "year": 2025,
+   "source": "AdWave, 'How much does a local TV ad cost?' (smaller markets, before production)",
+   "sourceUrl": "https://adwave.com/resources/local-tv-ad-cost",
+   "retrievedDate": "2026-10-12",
+   "estimate": true
+  },
+  "digitalSocialCPM": {
+   "usdPerThousand": {
+    "programmaticDisplay": [
+     2,
+     8
+    ],
+    "premiumDisplay": [
+     5,
+     15
+    ],
+    "meta": [
+     6,
+     20
+    ],
+    "typical": 10
+   },
+   "year": "2025-2026",
+   "source": "AdWave, 'Political Ad Rates 2026' and 'Political Advertising Costs: What Campaigns Should Budget in 2026' (vendor); Meta $6-20 CPM (2025)",
+   "sourceUrl": "https://adwave.com/resources/political-advertising-costs",
+   "retrievedDate": "2026-10-12",
+   "estimate": true
+  },
+  "directMailPerPiece": {
+   "usd": {
+    "postcardAllIn": [
+     0.52,
+     0.65
+    ],
+    "letterPackage": [
+     0.65,
+     0.87
+    ],
+    "typical": 0.6
+   },
+   "year": 2026,
+   "source": "Mailing.com / MailPro political direct mail guides (vendor; USPS Marketing Mail at 10,000+ quantity)",
+   "sourceUrl": [
+    "https://www.mailing.com/blog/effectiveness-of-political-direct-mail/",
+    "https://www.mailpro.org/post/political-direct-mail/"
+   ],
+   "retrievedDate": "2026-10-12",
+   "estimate": true,
+   "note": "Small runs under 1,000 at First-Class postage cost about $0.90-$1.20/piece (estimate)"
+  },
+  "yardSign": {
+   "usd": {
+    "retailSingle": [
+     20,
+     27
+    ],
+    "bulkPerSignWithStake": {
+     "low": 3,
+     "typical": 5,
+     "high": 8
+    }
+   },
+   "year": 2024,
+   "source": "Retail listings (Walmart, Etsy, Tampa Printing, SignMission) for 18x24 coroplast with H-stake; bulk 250-1,000 run price is an estimate from printer price lists",
+   "sourceUrl": "https://www.staples.com/services/printing/yard-lawn-signs/political-campaigns/18-in-x-24-in/",
+   "retrievedDate": "2026-10-12",
+   "estimate": true
+  },
+  "poll": {
+   "usdPerCompletedInterview": {
+    "liveCallerPhone": 100,
+    "onlineOrMixedMode": [
+     20,
+     40
+    ]
+   },
+   "local400SampleUSD": {
+    "onlineMixed": [
+     8000,
+     16000
+    ],
+    "liveCaller": [
+     20000,
+     40000
+    ],
+    "typical": 18000
+   },
+   "year": 2024,
+   "source": "High Plains Public Radio 2024-10-14 (Texas pollster: ~$100 per completed phone interview, internet about half); Daily Montanan 2023-08-22 (experts: local poll $15k-$25k on the low end)",
+   "sourceUrl": [
+    "https://www.hppr.org/hppr-news/2024-10-14/how-texas-pollsters-get-their-job-done-when-everyone-is-screening-their-calls",
+    "https://dailymontanan.com/2023/08/22/polling-experts-weigh-in-on-contested-realtors-survey/"
+   ],
+   "retrievedDate": "2026-10-12",
+   "estimate": true
+  },
+  "paidCanvasserHourly": {
+   "usd": {
+    "low": 16,
+    "typical": 22,
+    "high": 30
+   },
+   "year": 2024,
+   "source": "2024 job postings: Antelope Valley CA $18; Virginia Beach $22; Denver, Salt Lake City, New York $25; San Francisco $25-30; Bozeman MT $27-30 (jobs.arena.run, Landslide Political, JobTarget)",
+   "sourceUrl": [
+    "https://jobs.arena.run/jobs/paid-canvasser-rec-aiu9dm-wn-9u-o-pj-p",
+    "https://landslidepolitical.recruitee.com/o/canvasser-bozeman",
+    "https://www.jobtarget.com/jobs/jt-rzmwys2amz/political-canvasser-battleground-new-york"
+   ],
+   "retrievedDate": "2026-10-12",
+   "estimate": false,
+   "note": "Scale by local wage level; floor is the local minimum wage"
+  }
+ },
+ "canvassing": {
+  "use": "Checks on totals only; never decides an individual's choice",
+  "doorsPerCanvasserHour": {
+   "value": {
+    "low": 12,
+    "typical": 18,
+    "high": 30
+   },
+   "source": "Green, Donald P. & Alan S. Gerber, Get Out the Vote: How to Increase Voter Turnout, 4th ed. (Brookings, 2019) (canvassers typically reach 6-8 contacts/hour at ~25-30% contact rate); industry field-program norms",
+   "retrievedDate": "2026-10-12",
+   "estimate": true,
+   "note": "Lower in rural areas (driving between doors), higher in dense apartments"
+  },
+  "contactRate": {
+   "value": {
+    "low": 0.15,
+    "typical": 0.25,
+    "high": 0.35
+   },
+   "definition": "share of targeted doors where a target voter answers and talks",
+   "source": "Green, Donald P. & Alan S. Gerber, Get Out the Vote: How to Increase Voter Turnout, 4th ed. (Brookings, 2019); Green, McGrath & Aronow (2013), 'Field Experiments and the Study of Voter Turnout', J. Elections, Public Opinion & Parties 23(1):27-48",
+   "retrievedDate": "2026-10-12",
+   "estimate": true
+  },
+  "contactsPerHour": {
+   "value": {
+    "low": 4,
+    "typical": 6,
+    "high": 8
+   },
+   "source": "Green, Donald P. & Alan S. Gerber, Get Out the Vote: How to Increase Voter Turnout, 4th ed. (Brookings, 2019)",
+   "retrievedDate": "2026-10-12",
+   "estimate": true
+  },
+  "turnoutEffectsVotesPerContact": {
+   "note": "Approximate 'one additional vote per N contacts' from the GOTV meta-analyses; nonpartisan GOTV in low/mid-salience elections; effects smaller in presidential years",
+   "doorToDoor": {
+    "contactsPerVote": 16,
+    "pctPointLiftAmongContacted": {
+     "low": 2.5,
+     "high": 6.5
+    },
+    "source": "Green, Donald P. & Alan S. Gerber, Get Out the Vote: How to Increase Voter Turnout, 4th ed. (Brookings, 2019); Green, McGrath & Aronow 2013",
+    "estimate": true
+   },
+   "volunteerPhone": {
+    "contactsPerVote": 35,
+    "source": "Green, Donald P. & Alan S. Gerber, Get Out the Vote: How to Increase Voter Turnout, 4th ed. (Brookings, 2019)",
+    "estimate": true
+   },
+   "commercialPhoneLive": {
+    "contactsPerVote": 125,
+    "note": "well-scripted/coached commercial calls closer to 1 per 35-50",
+    "source": "Green, Donald P. & Alan S. Gerber, Get Out the Vote: How to Increase Voter Turnout, 4th ed. (Brookings, 2019)",
+    "estimate": true
+   },
+   "robocall": {
+    "contactsPerVote": 900,
+    "note": "effect statistically indistinguishable from zero",
+    "source": "Green, Donald P. & Alan S. Gerber, Get Out the Vote: How to Increase Voter Turnout, 4th ed. (Brookings, 2019)",
+    "estimate": true
+   },
+   "directMailNonpartisan": {
+    "piecesPerVote": 270,
+    "pctPointLiftPerPiece": 0.2,
+    "note": "partisan advocacy mail ~0 turnout effect; social-pressure mail much larger (Gerber, Green & Larimer 2008 APSR: +8.1 pts for 'Neighbors' mailer)",
+    "source": "Green, Donald P. & Alan S. Gerber, Get Out the Vote: How to Increase Voter Turnout, 4th ed. (Brookings, 2019); Gerber, Green & Larimer (2008), APSR 102(1):33-48",
+    "estimate": true
+   },
+   "television": {
+    "note": "GOTV TV ~0.5 pct-point turnout lift in heavily treated markets (Green & Vavreck 2008; Panagopoulos & Green 2008 radio); persuasive TV effects ~5 pts per 1,000 GRPs that decay within about a week (Gerber, Gimpel, Green & Shaw 2011 APSR 105(1):135-150)",
+    "estimate": true
+   },
+   "costPerVoteUSD": {
+    "doorToDoor": 19,
+    "leafleting": 43,
+    "directMail": 67,
+    "volunteerPhone": 35,
+    "commercialPhoneCoached": 45,
+    "commercialPhoneUncoached": 200,
+    "source": "Green, Donald P. & Alan S. Gerber, Get Out the Vote: How to Increase Voter Turnout, 4th ed. (Brookings, 2019) summary table as reproduced in a University of Kentucky MPA thesis (edition not confirmed)",
+    "sourceUrl": "https://uknowledge.uky.edu/cgi/viewcontent.cgi?article=1081&context=mpampp_etds",
+    "estimate": true
+   }
+  },
+  "persuasionEffects": {
+   "generalElection": {
+    "value": 0.0,
+    "note": "Average persuasive effect of campaign contact and ads in general elections is about zero"
+   },
+   "primariesAndBallotMeasures": {
+    "note": "Detectable effects, roughly 1-2 pct points, when contact is early or the race is low-information"
+   },
+   "source": "Kalla, Joshua L. & David E. Broockman (2018), 'The Minimal Persuasive Effects of Campaign Contact in General Elections: Evidence from 49 Field Experiments', APSR 112(1):148-166",
+   "estimate": false,
+   "retrievedDate": "2026-10-12"
+  }
+ }
+}
