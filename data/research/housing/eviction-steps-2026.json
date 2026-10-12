@@ -686,10 +686,14 @@
    ],
    "appealOrStayDays": 5,
    "removalBy": "sheriff or constable",
-   "statute": "S.C. Code 27-40-710, 27-40-730",
-   "sourceUrl": "https://law.justia.com/codes/south-carolina/title-27/chapter-40/",
-   "confidence": "low",
-   "note": "Recalled, not read; 5-day pay-or-quit; rule to show cause with response in about 10 days."
+   "statute": "S.C. Code \u00a7 27-40-710(B)",
+   "sourceUrl": "https://www.scstatehouse.gov/code/t27c040.php",
+   "confidence": "medium",
+   "note": "Read \u00a7 27-40-710(B): the tenant has five days from the due date to pay; the written notice may be a conspicuous lease clause. Hearing and stay periods (title 27, chapter 37) not yet read.",
+   "verifiedFields": [
+    "noticeDays",
+    "cureAllowed"
+   ]
   },
   "US-SD": {
    "noticeDays": 3,
