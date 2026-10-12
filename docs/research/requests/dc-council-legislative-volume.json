@@ -16,9 +16,37 @@
     {
       "source": "D.C. Code §§ 1-204.04, 1-204.12 and 1-206.02, locked in data/source/municipal-governance/raw from the Council's law-xml-codified repository",
       "whatItDidNotSettle": "The statute sets procedure, not volume, calendar or subject mix."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Council-period volume, subject, recurrence and repeal shares remain open; no fixed throughput inferred from meeting schedule."
+    },
+    {
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+      "whatItDidNotSettle": "Council-period volume, subject, recurrence and repeal shares remain open; no fixed throughput inferred from meeting schedule."
+    },
+    {
+      "source": "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "whatItDidNotSettle": "Council-period volume, subject, recurrence and repeal shares remain open; no fixed throughput inferred from meeting schedule."
+    },
+    {
+      "source": "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf",
+      "whatItDidNotSettle": "Council-period volume, subject, recurrence and repeal shares remain open; no fixed throughput inferred from meeting schedule."
     }
   ],
   "title": "How much legislation the D.C. Council takes up, and on what",
   "usableAnswer": "Counts per Council Period for (1), a meeting calendar for (2), a subject table for (3), and two or three shares for (4) and (5), each marked measured or estimated.",
-  "whyItMatters": "In play the Council sits every 14 days, one member introduces one act at each sitting on a question from the game's policy catalog, and each member's ballot is a game-authored stand-in (src/simulation/dc-council-sittings.ts). A year from January 5, 2026 gave 25 acts and 11 laws; about half failed on the floor, which is likely far too many. Every one of those numbers is a placeholder."
+  "whyItMatters": "In play the Council sits every 14 days, one member introduces one act at each sitting on a question from the game's policy catalog, and each member's ballot is a game-authored stand-in (src/simulation/dc-council-sittings.ts). A year from January 5, 2026 gave 25 acts and 11 laws; about half failed on the floor, which is likely far too many. Every one of those numbers is a placeholder.",
+  "answer": {
+    "summary": "Council Period XXVI rules establish meetings, referral, committee quorum and recess; meeting count does not equal act count. Count introductions, enacted acts, resolutions, emergency and temporary acts separately to avoid duplicating one policy’s legislative vehicles.",
+    "sources": [
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://code.dccouncil.gov/us/dc/council/code/sections/1-206.02",
+      "https://dccouncil.gov/wp-content/uploads/2025/01/CP-26-Council-Rules-FINAL-12-31-24.pdf",
+      "https://clerk.house.gov/reference-files/House-Calendar-118th-Congress.pdf"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:05:05.262998+00:00",
+    "stillOpen": "Council-period volume, subject, recurrence and repeal shares remain open; no fixed throughput inferred from meeting schedule."
+  }
 }

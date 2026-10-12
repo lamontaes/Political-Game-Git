@@ -15,9 +15,27 @@
     {
       "source": "src/simulation/national-places.generated.ts and src/simulation/place-demography.ts",
       "whatItDidNotSettle": "The simulation holds no population figure for a place. The Gazetteer rows carry identity only, and place population reaches the player's screen only through a browser-side county-equivalent fetch, so the town-wide police log cannot be scaled to a town's size."
+    },
+    {
+      "source": "https://bjs.ojp.gov/document/cv24.pdf",
+      "whatItDidNotSettle": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
+    },
+    {
+      "source": "https://www.fbi.gov/news/stories/violent-crime-falls-at-historic-rate-new-fbi-data-show",
+      "whatItDidNotSettle": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
     }
   ],
   "title": "Real crime rates, reporting and arrest shares, and population for every place",
   "usableAnswer": "One table covering all 52 jurisdictions, with a row for each state plus Puerto Rico and D.C.: for each of the four offenses, a rate per 1,000 residents per year, a reported-to-police share, and an arrest (clearance) share, each with its source and year. Then either a place-level table for places over a stated population, or a rule for size bands within a state (for example, under 2,500, 2,500 to 50,000, and over 50,000) with the multiplier to apply. Include a population source per place that the game can compile, such as Census population estimates by place GEOID. Where no measured figure exists, say so rather than estimate.",
-  "whyItMatters": "Crime now happens in the game, but at blanket rates. Every town's police log gets the same two reports a month, so a village of 1,700 people and a city of 400,000 are equally busy. That is wrong, and the fix needs both real rates and each place's population. Research answers replace the placeholder tables under a new version, so old saves keep the rules they were made under."
+  "whyItMatters": "Crime now happens in the game, but at blanket rates. Every town's police log gets the same two reports a month, so a village of 1,700 people and a city of 400,000 are equally busy. That is wrong, and the fix needs both real rates and each place's population. Research answers replace the placeholder tables under a new version, so old saves keep the rules they were made under.",
+  "answer": {
+    "summary": "NCVS2024 national robbery2.2, aggravated assault4.7 and simple assault14.4 victimizations/1000 persons age12+; burglary8.2/1000 households. Reporting shares73.4%,69.1%,40.4%,40.7% respectively. FBI2025 violent327.6/100000 is a distinct known-to-police aggregate. Do not transplant these as researched local rates.",
+    "sources": [
+      "https://bjs.ojp.gov/document/cv24.pdf",
+      "https://www.fbi.gov/news/stories/violent-crime-falls-at-historic-rate-new-fbi-data-show"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:15:52.611668+00:00",
+    "stillOpen": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
+  }
 }
