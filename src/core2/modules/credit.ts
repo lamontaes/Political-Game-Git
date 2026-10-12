@@ -326,7 +326,7 @@ interface LoanRow {
   householdId: string;
   borrowerId: string;
   lenderId: string;
-  kind: "personal";
+  kind: "personal" | "startup";
   principalMinor: number;
   balanceMinor: number;
   annualRate: number;
@@ -589,4 +589,67 @@ function creditOffer(
       arguments: { value: String(value) },
     })),
   };
+}
+
+/** A startup loan from the town bank to a newly founded business, paid back monthly like any loan. Zero when the bank has no room. */
+export function lendForFounding(
+  api: CoreAPI,
+  firmId: string,
+  amountMinor: number,
+  termMonths: number,
+): number {
+  const bank = bankOf(api);
+  if (!bank) return 0;
+  const p = (key: string) => api.parameter(key);
+  const book = equity(api, bank.organizationId);
+  const room = Math.max(
+    0,
+    book.equity * p("creditMaxLimitsPerEquity") - book.limits,
+  );
+  const prime = (
+    api.moduleState("macro").table("state").get("macro:state") as
+      { policyRatePct: number } | undefined
+  )?.policyRatePct;
+  if (prime === undefined) return 0;
+  const rate =
+    (prime +
+      p("macroPrimeSpreadPct") +
+      p("creditPrimeSpreadPct") +
+      p("creditRiskSpreadPct")) /
+    p("macroHundred");
+  const c = core(api);
+  const lent = transferCash(
+    api,
+    `startup-loan:${firmId}`,
+    bank.organizationId,
+    firmId,
+    Math.min(amountMinor, room),
+    {
+      tag: "ESTIMATED",
+      asOf: c.date,
+      citation: creditData.source.citation,
+      estimatedFrom:
+        "A startup loan at prime plus the small-business spread and a new firm's risk premium.",
+    },
+  );
+  if (lent <= 0) return 0;
+  store(api)
+    .table("loans")
+    .put({
+      id: `loan:startup:${firmId}`,
+      isLoan: true,
+      open: true,
+      householdId: firmId,
+      borrowerId: firmId,
+      lenderId: bank.organizationId,
+      kind: "startup",
+      principalMinor: lent,
+      balanceMinor: lent,
+      annualRate: rate,
+      paymentMinor: Math.round(amortizedPayment(lent, rate, termMonths, p)),
+      openedAt: c.date,
+      pastDueMinor: 0,
+      standing: "current",
+    });
+  return lent;
 }

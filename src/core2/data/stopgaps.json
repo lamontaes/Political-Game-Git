@@ -1810,5 +1810,29 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-counted-choices",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 731,
+    "whatItFakes": "Counted workers (the wider population) retire by the same reasons as full people but without the shared chooser, apply to every opening in their place and accept the offer they get.",
+    "why": "The shared chooser needs a full person; filling in everyone who makes a job decision would undo the two-level population.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Fill-in at the moment a counted person meets an employer (OPUS-CORE's fillInPerson), or an aggregate chooser for counted groups agreed with OPUS-CORE.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-counted-rent",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 202,
+    "whatItFakes": "The wider population's renters pay rent from their place's pooled residents account, with no household arrears or eviction cases of their own.",
+    "why": "The two-level population pools counted households' cash by place (OPUS-CORE's stopgap), so a single counted household cannot fall behind on its own.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Per-household cash for counted households (or fill-in when a household falls behind), with arrears and eviction through the same legal steps.",
+    "status": "open"
   }
 ]

@@ -5,7 +5,7 @@ import { CREDIT_MODULE } from "./modules/credit";
 import { MACRO_MODULE, withCentralBank } from "./modules/macro";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
-import { WORLD_TRANSFER_MODULE, transferCash } from "./world-transfer";
+import { transferCash } from "./world-transfer";
 import type { CoreInput, CoreState, Source } from "./types";
 
 const start = "2026-10-01",
@@ -101,7 +101,7 @@ describe("household loans", () => {
   it("lends to the household whose income carries the payment, refuses the one without income, and charges off after 120 days unpaid", () => {
     const core = createLifeCore(input(), {
         data: worldCoreData(),
-        modules: [WORLD_TRANSFER_MODULE, MACRO_MODULE, CREDIT_MODULE],
+        modules: [MACRO_MODULE, CREDIT_MODULE],
         scheduledWork: false,
       }),
       api = coreAPI(core),

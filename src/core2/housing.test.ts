@@ -5,6 +5,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { HOUSING_MODULE } from "./modules/housing";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
+import { transferCash } from "./world-transfer";
 import type { CoreInput, Source } from "./types";
 
 const start = "2021-01-01",
@@ -111,5 +112,27 @@ describe("eviction follows the place's steps", () => {
       core.finance.contracts.get("lease:household:payer")!.endedAt,
     ).toBeUndefined();
     expect(core.organizations.get(landlord)!.liquidMinor).toBe(300_000);
+  });
+});
+
+describe("paying within the notice period", () => {
+  it("in South Carolina, whose statute lets a tenant cure, cures the case when the household pays what it owes before the deadline", () => {
+    const core = createLifeCore(input("SC"), {
+        data: worldCoreData(),
+        modules: [HOUSING_MODULE],
+      }),
+      api = coreAPI(core);
+    advanceCore(core, "2021-02-07");
+    // The broke household is paid after the notice (a payday), from the landlord-unrelated payer.
+    transferCash(api, "fixture:payday", "payer", "broke", 500_000, src);
+    advanceCore(core, "2021-02-28");
+    const cases = api.moduleState("housing").snapshot().tables
+      .cases as unknown as { stage: string; leaseId: string }[];
+    expect(
+      cases.find((row) => row.leaseId === "lease:household:broke"),
+    ).toMatchObject({ stage: "cured" });
+    expect(
+      core.finance.contracts.get("lease:household:broke")!.arrearsMinor,
+    ).toBe(0);
   });
 });

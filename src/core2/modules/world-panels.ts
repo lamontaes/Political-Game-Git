@@ -6,6 +6,7 @@
 import { nationalPanel } from "./macro";
 import { regionalLevel } from "./regional";
 import { JOBS_DATA } from "./jobs";
+import { residentsRuntime } from "./residents";
 import type { CoreAPI, CoreState } from "../types";
 
 const has = (api: CoreAPI, id: string) =>
@@ -47,8 +48,11 @@ export function jobHistory(api: CoreAPI, personId: string) {
 /** The town's monthly hires, quits and layoffs per hundred jobs, against JOLTS 2001-2019. */
 export function turnoverPanel(api: CoreAPI) {
   const c = api.state as CoreState;
+  // Full people's jobs and the wider population's counted jobs.
+  const counted = residentsRuntime(c)?.wageFlowByJob.size ?? 0;
   const employed =
-    [...c.jobs.values()].filter((job) => job.endsAt === undefined).length || 1;
+    [...c.jobs.values()].filter((job) => job.endsAt === undefined).length +
+      counted || 1;
   const byMonth: Record<string, Record<string, number>> = {};
   for (const row of rows(api, "jobs", "changes") as unknown as {
     date: string;
@@ -68,7 +72,9 @@ export function turnoverPanel(api: CoreAPI) {
   );
   return {
     employed,
-    seekers: rows(api, "jobs", "seekers").length,
+    seekers:
+      rows(api, "jobs", "seekers").length +
+      rows(api, "jobs", "countedSeekers").length,
     openPositions: has(api, "jobs")
       ? api.moduleState("jobs").table("positions").query("byStatus", ["open"])
           .length

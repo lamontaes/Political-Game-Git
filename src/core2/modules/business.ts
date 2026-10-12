@@ -6,10 +6,14 @@
 import { chooseAct } from "../choice";
 import businessData from "../data/business/business.json" with { type: "json" };
 import businessParameters from "../data/business/parameters.json" with { type: "json" };
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import type { ActOffer, CoreAPI, CoreModule, CoreState } from "../types";
+import { DEFAULT_BUSINESS_BOOKS_DATA } from "../business-books";
+import { shiftPurchaseShare } from "../residents-economy";
+import { lendForFounding } from "./credit";
+import { registerEmployer } from "./jobs";
 import { transferCash } from "../world-transfer";
 
 export const BUSINESS_MODULE_ID = "business";
@@ -197,6 +201,204 @@ function month(api: CoreAPI): void {
   }
 }
 
+/** Room in each industry: incumbents' demand above their capacity, as a share of capacity. */
+function marketRoom(
+  api: CoreAPI,
+): Map<string, { room: number; incumbents: string[]; staff: number }> {
+  const c = core(api);
+  const out = new Map<
+    string,
+    { demand: number; capacity: number; incumbents: string[]; staff: number }
+  >();
+  for (const [id, book] of c.finance.businesses) {
+    if (book.closedAt || !book.capacityMinor) continue;
+    const row = out.get(book.kindId) ?? {
+      demand: 0,
+      capacity: 0,
+      incumbents: [],
+      staff: 0,
+    };
+    // Real demand, in the business's own opening prices.
+    row.demand += book.annualDemandMinor / (book.price / book.anchorPrice || 1);
+    row.capacity += book.capacityMinor;
+    row.incumbents.push(id);
+    row.staff += c.finance.jobsByOrganization.get(id)?.size ?? 0;
+    out.set(book.kindId, row);
+  }
+  return new Map(
+    [...out].map(([kind, row]) => [
+      kind,
+      {
+        room: Math.max(0, row.demand / row.capacity - 1),
+        incumbents: row.incumbents,
+        staff: row.staff,
+      },
+    ]),
+  );
+}
+
+/** Working-age full people choose whether to start a business where a market has room. */
+function foundings(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const rooms = [...marketRoom(api)]
+    .filter(([, row]) => row.room > 0)
+    .sort((a, b) => b[1].room - a[1].room);
+  if (!rooms.length) return;
+  const [kindId, market] = rooms[0]!;
+  const owners = new Set(
+    (
+      store(api).table("owners").query("all", [true]) as unknown as OwnerRow[]
+    ).map((row) => row.ownerId),
+  );
+  const seekers = c.modules.has("jobs")
+    ? api.moduleState("jobs").table("seekers")
+    : undefined;
+  const traits = businessData.traits;
+  for (const person of [...c.people.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  )) {
+    const age =
+      daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+      p("jobsDaysPerYear");
+    if (
+      !person.alive ||
+      owners.has(person.id) ||
+      age < p("businessFounderMinimumAge") ||
+      age >= p("businessFounderMaximumAge")
+    )
+      continue;
+    const traitPull =
+      ((person.traits[traits.enterprising] ?? 0) +
+        (person.traits[traits.risk] ?? 0)) /
+      p("macroTraitScaleBoard");
+    const unemployed = seekers?.get(person.id) && !person.jobId ? 1 : 0;
+    const result = chooseAct(c, person.id, [
+      option(0, {}),
+      foundOption(kindId, {
+        baseline: p("businessFoundBaseline"),
+        room: p("businessFoundRoomWeight") * market.room,
+        traits: p("businessFoundTraitWeight") * traitPull,
+        lostWork: p("businessFoundUnemployedWeight") * unemployed,
+      }),
+    ]);
+    if (result.selected!.definition.id !== businessData.actions.found.id)
+      continue;
+    found(api, person.id, kindId, market);
+    // One founding a month and town; the next month's room is measured afresh.
+    return;
+  }
+}
+
+function foundOption(
+  kindId: string,
+  reasons: Record<string, number>,
+): ActOffer {
+  const base = option(1, reasons);
+  return {
+    ...base,
+    definition: {
+      ...base.definition,
+      id: businessData.actions.found.id,
+      actKinds: businessData.actions.found.actKinds,
+    },
+    targetId: `business-found:${kindId}`,
+  };
+}
+
+function found(
+  api: CoreAPI,
+  founderId: string,
+  kindId: string,
+  market: { room: number; incumbents: string[]; staff: number },
+): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const founder = c.people.get(founderId)!;
+  const id = `organization:founded:${kindId}:${founderId}:${c.date}`;
+  const source = {
+    tag: "ESTIMATED" as const,
+    asOf: c.date,
+    citation: businessData.source.citation,
+    estimatedFrom: `Founded by ${founderId} where the town's ${kindId} businesses had demand ${(market.room * 100).toFixed(1)} percent above their capacity.`,
+  };
+  api.addOrganization({
+    id,
+    placeId: founder.placeId,
+    name: businessData.namePattern
+      .replace("{founder}", founder.familyName)
+      .replace("{kind}", kindId),
+    kind: "employer",
+    liquidMinor: 0,
+    source,
+  });
+  const share = 1 / (market.incumbents.length + 1);
+  const monthly = shiftPurchaseShare(c, new Set(market.incumbents), id, share);
+  const kind = DEFAULT_BUSINESS_BOOKS_DATA.kinds.find(
+    (row) => row.id === kindId,
+  )!;
+  const annualDemandMinor = monthly * p("macroMonthsPerYear");
+  const annualPayrollMinor = annualDemandMinor * p(kind.payrollShareParameter);
+  const annualOtherCostsMinor = Math.max(
+    0,
+    annualDemandMinor * (1 - p(kind.marginParameter)) - annualPayrollMinor,
+  );
+  api.addBusinessBooks({
+    organizationId: id,
+    kindId,
+    annualPayrollMinor,
+    annualDemandMinor,
+    annualOtherCostsMinor,
+    openingTownIncomeMinor: 0,
+    capacityMinor: annualDemandMinor,
+    price: 1,
+    costContractIds: [],
+    source,
+  });
+  const loan = lendForFounding(
+    api,
+    id,
+    ((annualPayrollMinor + annualOtherCostsMinor) / p("macroMonthsPerYear")) *
+      p("businessStartupMonthsOfCosts"),
+    p("businessStartupTermMonths"),
+  );
+  const book = c.finance.businesses.get(id)!;
+  store(api).table("owners").put({
+    id,
+    isOwner: true,
+    ownerId: founderId,
+    since: c.date,
+    basis: "founder",
+    salesThrough: book.salesReceivedMinor,
+    wagesThrough: book.wagesPaidMinor,
+    operatingThrough: book.operatingPaidMinor,
+    retainedMinor: 0,
+  });
+  if (c.modules.has("jobs"))
+    registerEmployer(api, id, Math.max(1, Math.round(market.staff * share)));
+  store(api).table("foundings").put({
+    id,
+    organizationId: id,
+    founderId,
+    kindId,
+    date: c.date,
+    room: market.room,
+    customersMonthlyMinor: monthly,
+    loanMinor: loan,
+    incumbents: market.incumbents.length,
+  });
+  api.emit({
+    id: `event:organization.founded:${id}`,
+    date: c.date,
+    kind: "organization.founded",
+    personIds: [founderId],
+    placeId: founder.placeId,
+    source,
+    publicRecord: true,
+    topic: id,
+  });
+}
+
 /** Who owns a business, for jobs (who decided a layoff) and the bench. */
 export function ownerOf(
   api: CoreAPI,
@@ -217,6 +419,7 @@ export const BUSINESS_MODULE: CoreModule = {
       state: {},
       owners: { indexes: { all: { fields: ["isOwner"] } } },
       draws: { indexes: { byOrganization: { fields: ["organizationId"] } } },
+      foundings: {},
     },
   },
   reasonProviders: {
@@ -227,6 +430,7 @@ export const BUSINESS_MODULE: CoreModule = {
   onCalendarWork(api, work) {
     if (work.kind !== "business-month") return;
     month(api);
+    foundings(api);
     scheduleMonth(api);
   },
   onDay(api) {
