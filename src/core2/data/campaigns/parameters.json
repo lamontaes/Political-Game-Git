@@ -185,6 +185,12 @@
       "tag": "ESTIMATED",
       "source": "Many city charters and state municipal codes make an ordinance effective 30 days after passage unless it says otherwise or is an emergency (e.g. Cal. Gov. Code 36937; Ohio Rev. Code 731.29 sets 30 days). Varies by place: SG-GOV-veto-override-rule's companion, to be read per state.",
       "spread": [10, 90]
+    },
+    "appointmentAcquaintanceWeight": {
+      "value": 0.25,
+      "tag": "TUNABLE",
+      "source": "How much knowing a candidate adds to an appointing official's choice, beside alignment and qualification. Checked against patronage studies (Lewis 2008: personal and campaign ties shape appointments, most of all to lower-profile posts).",
+      "spread": [0, 0.5]
     }
   }
 }
