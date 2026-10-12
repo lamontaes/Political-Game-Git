@@ -45,13 +45,7 @@ import {
   regionalRegistered,
   stepRegional,
 } from "./regional";
-import type {
-  CoreAPI,
-  CoreData,
-  CoreInput,
-  CoreState,
-  Source,
-} from "../types";
+import type { CoreAPI, CoreData, CoreInput, CoreState, Source } from "../types";
 
 export const MACRO_MODULE_ID = "macro";
 export const MACRO_PARAMETERS = macroParameters as unknown as Readonly<
