@@ -430,7 +430,7 @@ function reviewEmployers(api: CoreAPI): void {
     const book = c.finance.businesses.get(row.id);
     if (!book || book.closedAt) continue;
     const jobs = currentJobs(api, row.id),
-      positions = openPositions(api, row.id);
+      positions = [...openPositions(api, row.id)];
     if (!jobs.length && !positions.length && !row.templateFromId) continue;
     const target =
       book.capacityMinor > 0
@@ -840,7 +840,11 @@ function runWeek(api: CoreAPI): void {
         { ...seeker, employed: false },
       ]);
   for (const position of positions) {
-    const applicants = applications.get(position.id);
+    // A role copied from a counted worker can go only to a counted seeker until full roles exist there.
+    const fullRole = c.jobs.has(position.templateJobId);
+    const applicants = applications
+      .get(position.id)
+      ?.filter((row) => fullRole || isCounted(api, row.personId));
     if (!applicants?.length) continue;
     const fit = (seeker: SeekerRow) =>
       p("jobsFitExperienceWeight") *
@@ -988,7 +992,9 @@ function hire(
 ): void {
   const c = core(api),
     person = c.people.get(seeker.personId)!;
-  const template = c.jobs.get(position.templateJobId)!;
+  // A counted worker's role has no schedule a full person can be given yet.
+  const template = c.jobs.get(position.templateJobId);
+  if (!template) return;
   const templateCommitment = [
     ...(c.work.commitmentsByPerson.get(template.personId) ?? []),
   ]
