@@ -1918,5 +1918,29 @@
     "addedAt": "2026-10-13",
     "replacement": "Groups split by citizenship (ACS), place-level 2024 results and residents' own views (PEOPLE's views engine) and refined by GOV's elections.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-measure-groups-stand-in",
+    "kind": "missing-data",
+    "file": "src/core2/modules/ballot-measures.ts",
+    "line": 224,
+    "whatItFakes": "On a statewide ballot measure, the voters the world doesn't name vote as even lean bands around the state's 2024 presidential lean, sized by the state's 2024 vote, each band voting its own view of the question (no separate public-opinion level for the policy).",
+    "why": "CORE's voter groups aren't populated in generated worlds, and OPUS-PEOPLE's views engine (with issue opinion beyond left-right) isn't built.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "CORE's populated voter groups across the state, each voting from PEOPLE's views of the question.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-recall-signature-groups",
+    "kind": "missing-data",
+    "file": "src/core2/modules/recalls.ts",
+    "line": 219,
+    "whatItFakes": "A recall petition's signatures from the town's unnamed voters are the named residents' signing share times the town's estimated electorate (population times the 2024 voting share), against whatever signature base the state's rule names.",
+    "why": "CORE's voter groups and real voter rolls aren't populated in generated worlds.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "Signatures gathered by the organizer's and volunteers' real contacts, plus CORE's voter groups, counted against the rule's own base (registered voters or last vote cast).",
+    "status": "open"
   }
 ]

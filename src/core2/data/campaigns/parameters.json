@@ -224,6 +224,59 @@
       "tag": "TUNABLE",
       "source": "How much a member's duty to keep the government funded weighs toward adopting a budget, beside their views on its changes. Checked against how rarely councils fail to adopt a budget (most charters carry the prior budget forward when they do).",
       "spread": [0.1, 0.6]
+    },
+    "sessionAgendaBills": {
+      "value": 3,
+      "tag": "TUNABLE",
+      "source": "How many of the majority leader's priority policy bills reach the floor in a session (the major partisan measures of a session, out of the hundreds of bills a legislature passes). Checked against states' enacted headline measures per session (state legislative session summaries, 2023 to 2025: typically two to six).",
+      "spread": [1, 8]
+    },
+    "fullYearSessionAgendaMonth": {
+      "value": 6,
+      "tag": "TUNABLE",
+      "source": "The month at whose end a legislature that sits all year (NCSL 'full-year') brings its leader's priority bills to the floor: the end of the state fiscal year most share (June 30 in 46 states, NASBO), when full-time legislatures pass their headline measures alongside the budget.",
+      "spread": [4, 12]
+    },
+    "congressAgendaDayOfYear": {
+      "value": 349,
+      "tag": "TUNABLE",
+      "source": "The day of the year (349 = December 15) Congress brings its majority leader's priority policy bills to the floor: the final scheduled voting weeks of the House calendar, when year-end packages pass (House majority leader's 2025 and 2026 calendars).",
+      "spread": [300, 355]
+    },
+    "senateClotureShare": {
+      "value": 0.6,
+      "tag": "SOURCED",
+      "source": "U.S. Senate Standing Rules, Rule XXII(2): debate on a measure ends only when three-fifths of the senators duly chosen and sworn vote for cloture; the bill then passes by a majority of those voting. https://www.rules.senate.gov/rules-of-the-senate"
+    },
+    "localAgendaMeetingsPerYear": {
+      "value": 4,
+      "tag": "TUNABLE",
+      "source": "How many of a council's or county board's regular meetings in a year carry a policy ordinance from the presiding member's own agenda (councils meet once or twice a month; most meetings carry routine business: National League of Cities, City Councils in the U.S., 2023).",
+      "spread": [1, 12]
+    },
+    "localAgendaBills": {
+      "value": 1,
+      "tag": "TUNABLE",
+      "source": "How many of the presiding member's own policy ordinances come up at such a meeting.",
+      "spread": [1, 3]
+    },
+    "recallOrganizerEffort": {
+      "value": 1.3,
+      "tag": "TUNABLE",
+      "source": "How strongly a resident must be moved (their grievance with a member's vote plus half their duty and readiness for conflict) before taking on a recall petition drive. Checked against local recall frequency: Ballotpedia counts about 150 to 250 local recall efforts a year across roughly 90,000 local governments.",
+      "spread": [1.0, 1.8]
+    },
+    "recallElectionDays": {
+      "value": 75,
+      "tag": "TUNABLE",
+      "source": "Days from a recall petition's certification to the recall vote (state laws commonly set 60 to 90 days, or the next regular election).",
+      "spread": [45, 120]
+    },
+    "recallThresholdEstimate": {
+      "value": 25,
+      "tag": "ESTIMATED",
+      "source": "Percent of the votes last cast for the office that a local recall petition needs where the state's recall exists but its threshold isn't read: the median of the read municipal recall rules (25%, Colorado, Michigan, Arizona, New Jersey; 15% Oregon).",
+      "spread": [10, 35]
     }
   }
 }

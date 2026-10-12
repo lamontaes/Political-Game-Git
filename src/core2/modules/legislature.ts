@@ -40,6 +40,7 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
+import { governmentUnitsForPlace } from "../../simulation/government-units";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./laws";
 import { localAuthority } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
@@ -243,7 +244,7 @@ type StartingAnswers = Record<
   { answers: Record<string, { preempts?: boolean; answer?: string }> }
 >;
 /** Every recorded starting-law policy question, by key. */
-const POLICY_QUESTIONS: StartingAnswers = Object.assign(
+export const POLICY_QUESTIONS: StartingAnswers = Object.assign(
   {},
   ...[
     lawAgricultureNaturalResources,
@@ -496,7 +497,7 @@ export function draftBill(
 }
 
 /** Everyone serving in a body: every seat of the office, the town's or not. */
-function members(api: CoreAPI, officeId: string): readonly TermRow[] {
+export function members(api: CoreAPI, officeId: string): readonly TermRow[] {
   if (officeId === FEDERAL_HOUSE || officeId === FEDERAL_SENATE)
     return congressMembers(api, officeId);
   const offices = api.moduleState(OFFICES_MODULE_ID);
@@ -591,7 +592,7 @@ export function memberKey(term: TermRow): string {
  * in yet, their seat's party side at the identity scale (stand-in until
  * CORE's fill-in gives them a life: SG-GOV-official-identity-only).
  */
-function leanOf(api: CoreAPI, memberId: string): number {
+export function leanOf(api: CoreAPI, memberId: string): number {
   const person = api.state.people.get(memberId);
   if (person) return personLean(api.state.people, person, townLean(api));
   const id = memberId.slice("official:".length);
@@ -889,9 +890,34 @@ function committeeStage(
     3,
     Math.round(all.length * campaignParameter("committeeShareOfBody")),
   );
-  const roster = ranked.slice(0, size);
-  const sides = roster.map((t) => partySide(t.party));
-  const majority = Math.sign(sides.reduce((a, b) => a + b, 0));
+  // Committee seats follow the chamber's party ratio, the majority holding a
+  // majority of them; each side seats its most senior members.
+  const majority = Math.sign(
+    all.reduce((sum, t) => sum + partySide(t.party), 0),
+  );
+  const bySide = new Map<number, TermRow[]>();
+  for (const t of ranked) {
+    const side = partySide(t.party);
+    bySide.set(side, [...(bySide.get(side) ?? []), t]);
+  }
+  const seatsFor = new Map<number, number>();
+  for (const [side, list] of bySide)
+    seatsFor.set(side, Math.round((size * list.length) / all.length));
+  if (majority !== 0 && bySide.has(majority))
+    seatsFor.set(
+      majority,
+      Math.min(
+        bySide.get(majority)!.length,
+        Math.max(seatsFor.get(majority)!, Math.floor(size / 2) + 1),
+      ),
+    );
+  const roster = [...bySide.entries()]
+    .flatMap(([side, list]) => list.slice(0, seatsFor.get(side)))
+    .sort(
+      (a, b) =>
+        a.startDate.localeCompare(b.startDate) ||
+        memberKey(a).localeCompare(memberKey(b)),
+    );
   const chair =
     roster.find((t) => partySide(t.party) === majority) ?? roster[0]!;
   const chairPosition = memberPosition(api, bill.id, memberKey(chair));
@@ -973,7 +999,8 @@ export function committeeRecords(
 
 /**
  * The bill's votes: each chamber in turn (a town has one body); a majority of
- * those voting passes it in each. Every vote is on the record.
+ * those voting passes it in each, and in the U.S. Senate only after three
+ * fifths of its members vote to end debate. Every vote is on the record.
  */
 export function holdVote(api: CoreAPI, billId: string): BillRow {
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
@@ -988,7 +1015,15 @@ export function holdVote(api: CoreAPI, billId: string): BillRow {
     }
     const tally = chamberVote(api, bill, chamber);
     tallies.push(tally);
-    if (tally.yes <= tally.no) {
+    // The Senate first needs three fifths of its sworn members to end debate.
+    const cloture =
+      chamber === FEDERAL_SENATE &&
+      tally.yes <
+        Math.ceil(
+          members(api, chamber).length *
+            campaignParameter("senateClotureShare"),
+        );
+    if (tally.yes <= tally.no || cloture) {
       const failed: BillRow = { ...bill, status: "failed" };
       table(api, "bills").put(failed as unknown as ModuleRow);
       return failed;
@@ -1073,6 +1108,22 @@ function executiveAction(
   return enact(api, next);
 }
 
+/** A county board's ordinances are county law: the county the board governs, in the town's chain. */
+function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(bill.bodyOfficeId) as unknown as
+    { kind: string; jurisdiction: string } | undefined;
+  if (office?.kind !== "county-board") return null;
+  const chain = lawChain(api);
+  const unit = governmentUnitsForPlace(
+    chain.levels[chain.levels.length - 1]!.jurisdiction.slice("place:".length),
+  ).find((u) => u.id === office.jurisdiction);
+  const geoid = unit?.countyGeoid ?? chain.countyGeoids[0];
+  return geoid ? `county:${geoid}` : null;
+}
+
 /**
  * Put each provision into law on its effective date: an ordinance thirty days
  * after enactment unless it names a date; a state act by its state's default
@@ -1084,12 +1135,19 @@ function enact(api: CoreAPI, bill: BillRow): BillRow {
   // (the general rule: Gozlon-Peretz v. United States, 498 U.S. 395 (1991)).
   const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
   const state = !federal && isState(api, bill);
+  const county = !federal && !state ? countyOfBody(api, bill) : null;
   const jurisdiction = federal
     ? "US"
     : state
       ? chain.stateKey
-      : chain.levels[chain.levels.length - 1]!.jurisdiction;
-  const level = federal ? "federal" : state ? "state" : "city";
+      : (county ?? chain.levels[chain.levels.length - 1]!.jurisdiction);
+  const level = federal
+    ? "federal"
+    : state
+      ? "state"
+      : county
+        ? "county"
+        : "city";
   const stateDate = state
     ? stateActEffectiveDate(chain.stateKey, api.state.date)
     : null;

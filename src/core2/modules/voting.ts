@@ -293,7 +293,7 @@ function appealFor(
 }
 
 /** Whether a named adult votes: their sense of duty and interest in this race against what it costs them that day. */
-function turnout(
+export function turnout(
   api: CoreAPI,
   voter: Readonly<PersonState>,
   appeal: Record<string, { total: number }>,

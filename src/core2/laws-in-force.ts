@@ -110,6 +110,19 @@ function levelRow(
       bestFit = fit;
     }
   }
+  // A statute enacted in play amends the level's law outright: from its
+  // effective date it replaces any older row, tiered or not.
+  const enacted = rows
+    .filter(
+      (row) =>
+        row.jurisdiction === jurisdiction &&
+        row.level === level &&
+        row.terms?.enactedBy !== undefined &&
+        inForceOn(row, date),
+    )
+    .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+  if (enacted && (!best || enacted.effectiveDate >= best.effectiveDate))
+    return enacted;
   return best;
 }
 

@@ -19,7 +19,7 @@ import type {
   PersonState,
 } from "../types";
 import type { ModuleRow } from "../module-data";
-import { LAWS_MODULE_ID } from "./laws";
+import { lawChain, LAWS_MODULE_ID } from "./laws";
 import type { LawRowInput } from "../laws-starting";
 
 export const LAW_EFFECTS_MODULE_ID = "core2-law-effects-v1";
@@ -97,6 +97,27 @@ function reaches(
   return true;
 }
 
+/**
+ * Whether a policy is law for the town on a date: any level of its chain
+ * (federal, state, county or city) whose latest row in force says yes. A
+ * higher level saying no doesn't undo a lower level's yes.
+ */
+function inForceHere(api: CoreAPI, question: string): boolean {
+  const date = api.state.date;
+  const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
+  return lawChain(api).levels.some(({ jurisdiction }) => {
+    const latest = (
+      laws.query("bySeries", [
+        jurisdiction,
+        question,
+      ]) as unknown as LawRowInput[]
+    )
+      .filter((r) => r.effectiveDate <= date)
+      .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+    return latest?.value === 1;
+  });
+}
+
 function applyLaw(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const lawId = event.facts?.lawId;
   const question = event.facts?.series;
@@ -109,12 +130,13 @@ function applyLaw(api: CoreAPI, event: Readonly<CoreEventInput>): void {
   const effect = catalog[question]!;
   const table = api.moduleState(LAW_EFFECTS_MODULE_ID).table("applied");
   const date = api.state.date;
-  if (row.value === 0) {
-    // A repeal: every open effect of this policy ends today.
-    for (const applied of table.query("byQuestion", [
-      question,
-      null,
-    ]) as unknown as AppliedEffect[]) {
+  const open = table.query("byQuestion", [
+    question,
+    null,
+  ]) as unknown as AppliedEffect[];
+  if (!inForceHere(api, question)) {
+    // A repeal with nothing else standing: every open effect ends today.
+    for (const applied of open) {
       table.put({ ...applied, endedOn: date } as unknown as ModuleRow);
       api.observe(applied.personId, {
         key: `law-effect:${question}`,
@@ -126,8 +148,11 @@ function applyLaw(api: CoreAPI, event: Readonly<CoreEventInput>): void {
     }
     return;
   }
+  if (row.value !== 1) return;
+  const holding = new Set(open.map((a) => a.personId));
   for (const person of api.state.people.values()) {
-    if (!reaches(api, person, effect, event.placeId)) continue;
+    if (holding.has(person.id) || !reaches(api, person, effect, event.placeId))
+      continue;
     const applied: AppliedEffect = {
       id: `effect:${lawId}:${person.id}`,
       personId: person.id,
