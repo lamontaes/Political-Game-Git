@@ -34,6 +34,22 @@ describe("shipped data regression check", () => {
       ),
     ).toEqual([]);
   });
+  it("detects presidents and federal judges outside the school catalogs", () => {
+    const policy = shippingPolicy();
+    expect(
+      inspectShippingBytes(Buffer.from('"Barack Obama"'), policy, "app.js"),
+    ).toContain("real-name:Barack Obama");
+    expect(
+      inspectShippingBytes(Buffer.from('"Ronnie Abrams"'), policy, "app.js"),
+    ).toContain("real-name:Ronnie Abrams");
+    expect(
+      inspectShippingBytes(
+        Buffer.from('"Barack Obama Charter"'),
+        policy,
+        "education/catalog-abc.json",
+      ),
+    ).toEqual([]);
+  });
   it("detects a captured artifact by digest and a salary source URL in a map", () => {
     const bytes = Buffer.from("captured research bytes");
     const policy = {
