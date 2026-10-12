@@ -1,6 +1,7 @@
 # Later milestones: specs M2 to M7 (all owner-approved Oct 12, 2026)
 
 The owner approved every spec here on Oct 12, 2026, piece by piece. Each spec says which work order in `docs/packages/` to build from:
+
 - **M2:** M2-filing, M2-campaigns, M2-elections, M2-candidates-news.
 - **M3:** M3-legislating, M3-laws-and-executive, M3-world-of-governing.
 - **M4:** M4-words.
@@ -10,7 +11,7 @@ The owner approved every spec here on Oct 12, 2026, piece by piece. Each spec sa
 
 The specs and their tests are in `docs/roadmap/features.json`. **Where a work order and a draft line below differ, the work order wins.** The draft text below is the Oct 10 original, kept as the index.
 
-**Systems model** (owner, Oct 12): *The Political Process*, plus our people, scenes and visuals. Every test runs in a place drawn at random from all 56, and every word comes from the English engine.
+**Systems model** (owner, Oct 12): _The Political Process_, plus our people, scenes and visuals. Every test runs in a place drawn at random from all 56, and every word comes from the English engine.
 
 ## M2 · Running for office: Offices and the rules of running
 
@@ -259,7 +260,7 @@ The specs and their tests are in `docs/roadmap/features.json`. **Where a work or
 
 - **Approved (owner, Oct 12):** build from the work order `docs/packages/M6-screens.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-PLAY (the new-game screen), with OPUS-CORE (world generation)
-- **Does:** A new game starts from real data in a random place, or from a customized world (place, demographics, ideology, turnout, party strength, economy and more), like *The Political Process*'s advanced options.
+- **Does:** A new game starts from real data in a random place, or from a customized world (place, demographics, ideology, turnout, party strength, economy and more), like _The Political Process_'s advanced options.
 - **Passes when:** World generation honors every setting, and the world then runs by the same rules.
 
 ## M7 · Early-access ready
