@@ -35,6 +35,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Verified by: the script's test; its output on `opus-play` matches the registry's open row count.
 - [ ] **When no bug is assigned:** take open work from `BOARD.md` (write "Taking <item>" here first).
   - Taking M7-05 Legal check (Oct 12): done as a research review in `docs/legal/legal-check-2026-10-12.md` (real people, data licenses, art rights, eight release actions). Not run: a real build's `dist` check. Owner decisions: AI art terms, campus CC BY-SA handling, school names honoring presidents.
+  - Taking M7-04 Updates and bug reports (Oct 12): the pure report builder only (`src/release/bug-report.ts`: build identity, place and seed, recent log lines, private details trimmed; it builds the payload and never sends). OPUS-PLAY wires the button and the after-crash prompt; Steam updates and signing need credentials and stay with the owner and CTO.
   - Verified by: That item's own test.
 
 ## Needs from other sessions
@@ -44,6 +45,8 @@ None yet.
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- Oct 12 (FIXER): M7-04 bug report builder on `fixer/bug-report`: `src/release/bug-report.ts` builds the report (build, place and seed, last 500 log lines, note, crash error) with account names and emails taken out, and never sends. 4 tests pass (bare vitest config). Nothing to play yet: OPUS-PLAY wires the button and the after-crash prompt to `buildBugReport` and `serializeBugReport`, and the screen must show the text before sending. Steam updates and Mac signing still need the owner's accounts.
 
 - Oct 12 (FIXER): golden-path runner on `fixer/golden-path-one-process`: plain `vitest run <files>` specs now run together in one vitest process (JSON report tells files apart; commands with flags still run alone); they share one drawn place and seed (`vitest-batch`). PR budget left at 300 s, since I can't measure here (no node_modules; the storage guard refuses `npm ci`). Checked the batching with a stub; CI to confirm and the CTO to say if 600 s is needed. The version fix is on `fixer/title-version`.
 
