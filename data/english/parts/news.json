@@ -1,0 +1,375 @@
+{
+  "schema": "english-parts/1",
+  "register": "news",
+  "description": "News ledes for the new core's stories, keyed by the event kind they report (a closure, a death, a filing, a law taking effect, an election result, a council vote, a budget). News sources give patterns only; every part here is a whole sentence said in public-domain federal records (the Congressional Record, hearings, federal oral histories), with record words as slots.",
+  "slots": {
+    "subject": "The business or office that closed, from the event record.",
+    "name": "A person, by name, from the records.",
+    "place": "A place, from the place records.",
+    "year": "A year from the event's date.",
+    "date": "A date from the event record, as people say it.",
+    "number": "A count from the event record.",
+    "age": "An age, computed from the birth record.",
+    "pronoun": "His, her or their, from the person's record.",
+    "pronoun_sub": "He, she or they, from the person's record.",
+    "office": "The office, from the contest record.",
+    "wage": "An hourly wage, from the law record.",
+    "opponent": "The other candidate, from the contest record.",
+    "percent": "A vote share, from the results record.",
+    "count": "A vote count such as 5 to 2, from the vote record.",
+    "measure": "The measure, as its record names it.",
+    "action": "What the body voted to do, from the measure record.",
+    "money": "A dollar amount, from the budget record.",
+    "purpose": "What the money is for, from the budget record."
+  },
+  "maxWords": 14,
+  "mining": {
+    "tool": "scripts/english-corpus/mine-shapes.py",
+    "shapes": "scripts/english-corpus/shapes/news.json",
+    "read": {
+      "Air Force Historical Research Agency, USAF Oral History Program": 4,
+      "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
+      "Federal Election Commission (fec.gov)": 253,
+      "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+      "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+      "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+      "National Archives History Office oral history project": 57,
+      "National Archives History Office oral history project (brooks-oral-histories)": 26,
+      "National Archives History Office oral history project (nprc-oral-histories)": 12,
+      "National Archives History Office oral history project (nyc-oral-histories)": 6,
+      "National Archives History Office oral history project (ross-oral-histories)": 22,
+      "National Archives History Office oral history project (veterans-oral-histories)": 9,
+      "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+      "Naval History and Heritage Command, Navy strategy oral histories": 2,
+      "Richard Nixon Presidential Library (NARA) oral history project": 82,
+      "U.S. Army Center of Military History": 1,
+      "U.S. Election Assistance Commission (eac.gov)": 65,
+      "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+      "U.S. Senate Historical Office oral history": 239,
+      "USAGov (usa.gov), U.S. General Services Administration": 16,
+      "blm": 817,
+      "briefing": 1499,
+      "crec": 445,
+      "dcpd": 4730,
+      "doi": 674,
+      "doj": 1621,
+      "dol-osha": 501,
+      "eeoc": 594,
+      "epa": 1964,
+      "fdic": 700,
+      "hearings": 1617,
+      "house": 115,
+      "hud": 996,
+      "nasa": 317,
+      "nasa2": 349,
+      "ncua": 683,
+      "nih": 52,
+      "nps": 515,
+      "nps.gov": 1728,
+      "nps.gov (PDF)": 164,
+      "ntia": 371,
+      "sba": 577,
+      "usa.gov": 312,
+      "usfa.fema.gov": 106,
+      "usgs": 742,
+      "va": 317,
+      "weather.gov": 34,
+      "wpa": 38
+    },
+    "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
+    "notAttested": 66
+  },
+  "parts": [
+    {
+      "key": "news.life-death.name-died-on-date",
+      "move": "life-death",
+      "kind": "spoken",
+      "text": "{name} died on {date}.",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "news",
+          "role": "life.death",
+          "choice": "lede"
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "crec": 2,
+        "hearings": 1,
+        "house": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "DEPARTMENT OF LABOR, HEALTH AND HUMAN SERVICES, AND EDUCATION, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2018",
+        "date": "2018-05-02",
+        "granule": "CHRG-115shrg79104782",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-115shrg79104782/html/CHRG-115shrg79104782.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "news.life-death.name-passed-away-on-date",
+      "move": "life-death",
+      "kind": "spoken",
+      "text": "{name} passed away on {date}.",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "news",
+          "role": "life.death",
+          "choice": "lede"
+        }
+      ],
+      "transcriptsUsing": 13,
+      "bySource": {
+        "crec": 11,
+        "hearings": 1,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "LEGISLATIVE HEARING ON. H.R. 3123, H.R. 3627, H.R. 3833, H.R. 3834, H.R. 3835, H.R. 3854, H.R. 3983, H.R. 3951, H.R. 659, H.R. 2055, H.R. 2701, AND H.R. 2721",
+        "date": "2025-06-24",
+        "granule": "CHRG-119hhrg61167",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61167/html/CHRG-119hhrg61167.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "news.life-death.name-was-age-years-old",
+      "move": "life-death",
+      "kind": "spoken",
+      "text": "{name} was {age} years old.",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "news",
+          "role": "life.death",
+          "choice": "lede"
+        }
+      ],
+      "transcriptsUsing": 37,
+      "bySource": {
+        "briefing": 1,
+        "crec": 15,
+        "dcpd": 7,
+        "doj": 1,
+        "hearings": 3,
+        "nps": 1,
+        "wpa": 9
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
+        "date": "2026-07-23",
+        "granule": "DCPD-202600487",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600487/html/DCPD-202600487.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "news.life-death.name-was-age",
+      "move": "life-death",
+      "kind": "spoken",
+      "text": "{name} was {age}.",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "news",
+          "role": "life.death",
+          "choice": "lede"
+        }
+      ],
+      "transcriptsUsing": 57,
+      "bySource": {
+        "National Archives History Office oral history project": 1,
+        "National Archives History Office oral history project (brooks-oral-histories)": 1,
+        "National Archives History Office oral history project (ross-oral-histories)": 2,
+        "Richard Nixon Presidential Library (NARA) oral history project": 3,
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
+        "U.S. Senate Historical Office oral history": 9,
+        "briefing": 1,
+        "crec": 6,
+        "dcpd": 4,
+        "hearings": 2,
+        "house": 4,
+        "nasa": 3,
+        "nasa2": 1,
+        "nih": 1,
+        "nps": 11,
+        "nps.gov": 1,
+        "wpa": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "Commencement Address at the University of Alabama in Tuscaloosa, Alabama",
+        "date": "2025-05-01",
+        "granule": "DCPD-202500550",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500550/html/DCPD-202500550.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "news.life-death.name-is-survived-by-pronoun-wife",
+      "move": "life-death",
+      "kind": "spoken",
+      "text": "{name} is survived by {pronoun} wife.",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "news",
+          "role": "life.death",
+          "choice": "lede"
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "crec": 9
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-05-15",
+        "date": "2025-05-15",
+        "granule": "CREC-2025-05-15-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-05-15",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "news.life-death.name-is-survived-by-pronoun-husband",
+      "move": "life-death",
+      "kind": "spoken",
+      "text": "{name} is survived by {pronoun} husband.",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "news",
+          "role": "life.death",
+          "choice": "lede"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2025-05-15",
+        "date": "2025-05-15",
+        "granule": "CREC-2025-05-15-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-05-15",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "news.election-result.name-won-the-election",
+      "move": "election-result",
+      "kind": "spoken",
+      "text": "{name} won the election.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 1,
+        "dcpd": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks Prior to a Meeting With President Lee Jae-myung of South Korea and an Exchange With Reporters",
+        "date": "2025-08-25",
+        "granule": "DCPD-202500870",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500870/html/DCPD-202500870.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "news.election-result.name-lost-the-election",
+      "move": "election-result",
+      "kind": "spoken",
+      "text": "{name} lost the election.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "National Archives History Office oral history project": 1,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Alan Lowe oral history interview",
+        "date": "2016-06-15",
+        "granule": "nara-staff-alan-lowe-final",
+        "url": "https://www.archives.gov/files/about/history/alan-lowe-final.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "news.council-vote.the-vote-was-count",
+      "move": "council-vote",
+      "kind": "spoken",
+      "text": "The vote was {count}.",
+      "uses": [
+        {
+          "move": "council-vote",
+          "subject": "news",
+          "role": "council-vote",
+          "choice": "lede"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "crec": 3,
+        "nih": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Board of Advisors Meeting — transcript (EAC0419VerbatimBOA.pdf)",
+        "date": "2019-04-24",
+        "granule": "eac-2019-04-24-eac0419verbatimboa",
+        "url": "https://www.eac.gov/sites/default/files/event_document/files/EAC0419VerbatimBOA.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "news.budget.the-budget-includes-money-for-purpose",
+      "move": "budget",
+      "kind": "spoken",
+      "text": "The budget includes {money} for {purpose}.",
+      "uses": [
+        {
+          "move": "budget",
+          "subject": "news",
+          "role": "budget",
+          "choice": "lede"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "hearings": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "DEPARTMENT OF HOMELAND SECURITY APPROPRIATIONS FOR FISCAL YEAR 2021",
+        "date": "2020-02-25",
+        "granule": "CHRG-116shrg29104956",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116shrg29104956/html/CHRG-116shrg29104956.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    }
+  ]
+}

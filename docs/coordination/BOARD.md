@@ -92,6 +92,16 @@ The owner asked what history, meetings, groups, places, interviews and laws the 
 
 After its checklist, every session keeps going through its area's specs in every later milestone (`docs/roadmap/later-specs-draft.md`), then the open work below.
 
+## Old engine removal (owner's top priority for FIXER, Oct 12; CTO assignment 4:05 p.m.)
+
+- **Phase 1:** FIXER's #4036 deletes about 1,880 old files the new game never reaches. It lands right after the game screen (#4038), which follows GOV (#4037). FIXER keeps #4036 merged with main until then.
+- **Phase 2:** about 1,600 old files stay only because new code still imports them. Each owner switches these imports to the new core or its own folders. Then FIXER deletes the rest:
+  - **OPUS-PLAY:** `src/bench/scene.ts` uses the old presentation appearance engine (layered people), backdrops and dress code. Switch scenes to the whole-figure library in `art/people-whole` (owner, Oct 12: these are the only people). Read backdrops through `art/backdrops/manifest.json`.
+  - **OPUS-GOV:** `src/rules/legislatures` and `src/rules/economy` use types and rules from `src/simulation`. Move what they need into `src/rules` or `src/core2`.
+  - **OPUS-CORE:** `tests/golden-path/place.ts` and `tests/fixtures/*` use `src/simulation/life-places`. Read places through the core's own place data.
+  - **FIXER:** the map preview (`src/maps/MapPlaceContext.tsx`, `map-preview-entry.tsx`, `map-preview.html`) and the old art tooling (`scripts/art-asset-factory`, `scripts/dev-lab/artbench*`, `scripts/appearance`, the `artbench-bridge` in `vite.config.ts`) go with the old people engine.
+- **Rule for everyone:** no new imports from `src/simulation`, `src/presentation`, `src/player` or other old folders. When your last old import is gone, write it in your status file.
+
 ## Merge order
 
 The core first, then government, people and world on top, then the evening build. The CTO merges; nobody merges their own work. The core onto main needs the owner's approval.
