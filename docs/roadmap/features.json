@@ -5,7 +5,8 @@
     "M1": "The world runs (owner-approved Oct 10, 2026)",
     "M2": "Running for office (owner-approved piece by piece from Oct 12, 2026)",
     "M4": "Stories and words (owner-approved piece by piece from Oct 12, 2026)",
-    "M3": "Governing, and laws that change things (owner-approved piece by piece from Oct 12, 2026)"
+    "M3": "Governing, and laws that change things (owner-approved piece by piece from Oct 12, 2026)",
+    "M5": "State and federal careers, and the executive role (owner-approved Oct 12, 2026)"
   },
   "features": [
     {
@@ -525,6 +526,46 @@
       "golden_path": "10",
       "package": "M4-words",
       "test": "In a random place, people bring up a change and who they believe caused it, in engine-written words; each attribution follows what that person actually heard, and some are wrong.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M5-01",
+      "milestone": "M5",
+      "title": "State legislator career",
+      "golden_path": "careers",
+      "package": "M5-careers",
+      "test": "In a random state, the player picks a real numbered legislative district, files at the state's filing office, campaigns against the actual holder, and on winning replaces the right member at the start of the term; in session they move a bill through committee, amendments, the floor and the governor's action with their staff, choosing capitol or home each week.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M5-02",
+      "milestone": "M5",
+      "title": "Governor and mayor play",
+      "golden_path": "careers",
+      "package": "M5-careers",
+      "test": "In a random state as governor, and in a random place as mayor or county executive under that place's real form of government, the player sets budget priorities with staff advice (line by line optional), appoints within the office's real powers, and signs and vetoes with recorded reasons; later events reflect those choices.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M5-03",
+      "milestone": "M5",
+      "title": "Keep playing as someone else",
+      "golden_path": "careers",
+      "package": "M5-careers",
+      "test": "When the player's character dies or retires, the player continues as an existing connected person (family, protégé, close associate, or anyone eligible by search) who has weaker secondhand family stories, is treated according to the predecessor's favors and grudges, and inherits no friendships, spouse, job or office; a death brings a look-back; earlier saves still load.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M5-04",
+      "milestone": "M5",
+      "title": "Member of Congress and president (parallel)",
+      "golden_path": "careers",
+      "package": "M5-careers",
+      "test": "In a full election cycle, congressional and presidential careers run in the world on the same election, legislature and executive engines with fictional people, and a player can run for president on the same single track as everyone else. Not required for early access.",
       "command": null,
       "passes": false
     }
