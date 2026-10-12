@@ -913,6 +913,12 @@ export interface CoreAPI {
   addFinanceContract(input: FinanceContractInput): void;
   addFinanceCondition(input: FinanceConditionInput): void;
   addCreditFacility(input: CreditFacilityInput): void;
+  /** Accrues to today at the old rate, then applies the new annual rate from today on. */
+  repriceCreditFacility(
+    facilityId: string,
+    annualInterestRate: number,
+    source: Source,
+  ): void;
   addBusinessBooks(input: BusinessBooksInput): void;
   settleFinanceContract(contractId: string): FinanceReceipt;
   retireFinanceBudget(contractId: string): void;

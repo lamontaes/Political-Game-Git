@@ -25,6 +25,7 @@ import {
   preflightOpeningSalesBudgets,
   prepareFinanceProcurement,
   admitCreditFacility,
+  repriceCreditFacility,
   admitBusinessBooks,
   admitFinanceCondition,
   settleFinanceContract,
@@ -753,6 +754,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     addCreditFacility(row) {
       admitCreditFacility(core, api, row);
+    },
+    repriceCreditFacility(id, rate, source) {
+      repriceCreditFacility(core, api, id, rate, source);
     },
     addBusinessBooks(row) {
       admitBusinessBooks(core, api, row);
