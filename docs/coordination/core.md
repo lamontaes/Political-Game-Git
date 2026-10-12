@@ -9,7 +9,7 @@ Only OPUS-CORE writes this file. See "The team" in `AGENTS.md` and `docs/coordin
 
 ## What the owner can play now
 
-Nothing on screen yet from the core alone. Underneath, a town's year now runs in about 3 minutes instead of about 3.3 hours, so "skip ahead" in the evening build stops being a wait once PLAY picks up `opus-core`.
+Nothing on screen yet from the core alone. Underneath, **a town's year now runs in 13 seconds** instead of about 3.3 hours, so skipping ahead in the evening build stops being a wait once PLAY builds on `opus-core`. The town still takes about 25 seconds to open; that's next on my list after fill-in.
 
 ## Checklist
 
@@ -18,8 +18,9 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [x] **Take over and publish.** Branch opus-core from pool/M0-core-pieces; confirm the core's tests pass; first push within the hour.
   - Done Oct 12: `opus-core` = pool/M0-core-pieces + pool/P8-part-1 (1690a31e7, which pool/M0-core-pieces did not actually contain) + main; draft PR #3999. Golden path green (M0-10, M0-11). Core tests: 1,481 pass, 63 fail; all 63 also fail on Sol's own head (test fixtures that predate the payday-calendar requirement); fixing them is on my list.
   - Verified by: Core tests and the golden-path suite (M0-10) green on its branch.
-- [ ] **Speed, first thing.** 1) Bookkeeping off in play: recording, checking, copying and freezing every read and write (about half of all time) becomes a switch that's on only in tests and the bench. 2) Stop copying each worker's whole memory every shift (why months get slower). 3) Save "why" reasons only for the player and the people they deal with.
+- [x] **Speed, first thing.** 1) Bookkeeping off in play: recording, checking, copying and freezing every read and write (about half of all time) becomes a switch that's on only in tests and the bench. 2) Stop copying each worker's whole memory every shift (why months get slower). 3) Save "why" reasons only for the player and the people they deal with.
   - Verified by: One measured year in a random place, reported as a number; the automatic speed guard stays green.
+  - Done Oct 12: one year in Cheat Lake, West Virginia (random draw) took **13.2 s**, with bookkeeping off, the two-level population, and 76 full people out of 10,000. Every dollar balances. The speed guard (M0-11) is green. Bookkeeping on and off give identical cash and closures (checked in Higden, Arkansas).
 - [ ] **Two-level population.** Full people only for the player, their household and circle, people met or clicked, officials and named people; everyone else is counts by place, age, job and household plus voter groups; filled in on click from the seed, matching the records; nobody gets a past or memory until filled in.
   - Verified by: Its own tests: filling someone in moves them from counts to people with every total unchanged; a clicked employee matches the business's books. Then a year measured once: the target is under two minutes. You click around in the evening build.
   - Needs: PEOPLE (how fill-in builds kin and a past; how people forget)
@@ -54,6 +55,7 @@ None yet.
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12, 14:00 UTC: **a year in 13.2 s** (a9976886), Cheat Lake, West Virginia (random draw, seed d2ef241b…, 10,000 people). Full people are now the player, their household, family and people they know, plus public workers: 76 here. Agreements can name counted workers, and play skips the remaining evidence copies. Closures: 14 of 25 businesses closed in that year, which is next after fill-in.
 - Oct 12, 12:30 UTC: **two-level population, first cut** (ebaa5fd8). Only the player's circle and household, public workers, and workers that recorded agreements name stay full people. Everyone else is household records plus one residents account per place. Their pay, retirement income and purchases move as dated flows through the one journal, with every total unchanged. Measured once, Higden, Arkansas (10,000 people, 542 full): **one game year in 174 s**, against about 3.3 hours this morning. Every dollar balances, and a bookkeeping-on run gives identical cash and closures. The same year closes 14 of 27 businesses, which is the closures item. Next: let agreements cite counted workers (down to about 60 full people), fill-in on click, then closures. To use it: `collapseToTwoLevels(input)` (`src/core2/residents.ts`), or `generatedOpening(place, { twoLevel: true })` (`src/core2/tooling/generated-world.ts`).
 - Oct 12, 10:00 UTC: **bookkeeping off in play** (d78e9588). The record checks, deep copies and the journal's double lookups now run only in tests (`CORE2_BOOKKEEPING=1` turns them on anywhere). Workers' memory is updated in place instead of copied every shift. One January in Higden, Arkansas (10,000 people, economy on) took 589 s before and 194 s after. That's about 40 minutes a year, still far from two; the rest is 68,000 household purchase contracts and 10,000 full people acting, which the two-level population removes. Next: the two-level population.
 - Oct 12, 07:30 UTC: took over #3918 and #3955 on `opus-core` (#3999). The merge had left duplicate imports in `state.ts` that broke 58 test files; fixed. Starting point for speed: Sol's money year ran at 1.83 game days per minute (about 3.3 hours per year).
