@@ -6,7 +6,7 @@ import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
 import { buildPopulation } from "../core2/population";
 import type { CoreState } from "../core2/types";
-import { composeJournal, JOURNAL_DATA } from "./journal";
+import { composeJournal, composeLookBack, JOURNAL_DATA } from "./journal";
 import { createDirector, type Director } from "./ledger";
 import type { Moment } from "./types";
 
@@ -142,5 +142,20 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     expect(lines).toHaveLength(1);
     expect(lines[0]!.text).toMatch(/three times\.$/);
     expect(lines[0]!.momentIds).toHaveLength(3);
+  });
+
+  it("looks back on a life when it ends", () => {
+    expect(composeLookBack(core, director, player.id)).toEqual([]);
+    const person = core.people.get(player.id)!;
+    person.alive = false;
+    try {
+      const lines = composeLookBack(core, director, player.id);
+      expect(lines.length).toBe(chapters.length + 1);
+      expect(lines.at(-1)!.text).toMatch(/^I died in .+ at \d+\.$/);
+      for (const line of lines)
+        expect(line.sourceRecordIds.length).toBeGreaterThan(0);
+    } finally {
+      person.alive = true;
+    }
   });
 });

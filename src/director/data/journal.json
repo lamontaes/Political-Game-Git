@@ -208,5 +208,13 @@
   "possessive": {
     "journal": "my",
     "scene": "your"
+  },
+  "lookBack": {
+    "died": [
+      {
+        "key": "died",
+        "text": "I died in {{place}} at {{age}}."
+      }
+    ]
   }
 }

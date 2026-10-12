@@ -43,6 +43,7 @@ export interface JournalData {
   manyTimes: string;
   lines: readonly LineRow[];
   firstTitle: readonly { key: string; text: string }[];
+  lookBack: { died: readonly { key: string; text: string }[] };
 }
 
 export const JOURNAL_DATA = journalJson as JournalData;
@@ -334,4 +335,63 @@ export function composeJournal(
     repeats.set(repeatKey, { line, row, facts, count: one });
   }
   return chapters.filter((row) => row.lines.length > zero);
+}
+
+/**
+ * The look-back when a life ends (owner, Sept 28): each chapter's opening
+ * line, in order, then the death itself, all from the same records.
+ */
+export function composeLookBack(
+  core: Readonly<CoreState>,
+  director: Director,
+  personId: PersonId,
+  data: JournalData = JOURNAL_DATA,
+): JournalLine[] {
+  const person = core.people.get(personId);
+  if (!person || person.alive) return [];
+  const lines = composeJournal(core, director, personId, { data }).map(
+    (chapter) => chapter.lines[zero]!,
+  );
+  const place = lifePlaceByJurisdictionId(person.placeId as never);
+  const years = String(
+    Number(core.date.slice(zero, core.date.indexOf("-"))) -
+      Number(person.birthDate.slice(zero, person.birthDate.indexOf("-"))) -
+      (core.date.slice(core.date.indexOf("-")) <
+      person.birthDate.slice(person.birthDate.indexOf("-"))
+        ? one
+        : zero),
+  );
+  if (place) {
+    const facts = {
+      place: { text: place.displayName, sourceRecordIds: [person.placeId] },
+      age: { text: years, sourceRecordIds: [person.id] },
+    };
+    const result = renderGroundedEnglish(
+      {
+        surface: "journal",
+        momentKey: `${personId}:look-back`,
+        worldSeed: core.seed,
+        bankVersion: data.version,
+        stage: "journal",
+        sourceRecordIds: [person.id],
+        facts,
+        viewer: { personId, traits: {} },
+        knowledge: Object.entries(facts).map(([factKey, fact]) => ({
+          personId,
+          factKey,
+          sourceRecordIds: fact.sourceRecordIds,
+        })),
+      } as unknown as GroundedEnglishPacket,
+      bank("journal-look-back", data.lookBack.died, data.version),
+    );
+    if (result.kind === "rendered")
+      lines.push({
+        id: `${personId}:look-back`,
+        date: core.date,
+        text: result.text,
+        momentIds: [],
+        sourceRecordIds: result.sourceRecordIds as unknown as string[],
+      });
+  }
+  return lines;
 }
