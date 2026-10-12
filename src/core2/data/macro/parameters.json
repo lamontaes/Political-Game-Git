@@ -1,0 +1,460 @@
+{
+  "macroMonthsPerYear": {
+    "value": 12,
+    "tag": "SOURCED",
+    "citation": "Calendar months per year."
+  },
+  "macroHundred": {
+    "value": 100,
+    "tag": "SOURCED",
+    "citation": "Percent scale."
+  },
+  "macroHalf": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "One half, for medians and midpoints."
+  },
+  "macroQuartersPerYear": {
+    "value": 4,
+    "tag": "SOURCED",
+    "citation": "Calendar quarters per year."
+  },
+  "macroMonthsPerQuarter": {
+    "value": 3,
+    "tag": "SOURCED",
+    "citation": "Calendar months per quarter."
+  },
+  "macroHistoryMonths": {
+    "value": 13,
+    "tag": "SOURCED",
+    "citation": "The opening month plus the twelve before it, so every first-year 12-month change has its real base."
+  },
+  "macroNaturalUnemploymentPct": {
+    "value": 4.5,
+    "tag": "TUNABLE",
+    "citation": "CBO's noncyclical rate of unemployment, about 4.4 to 4.6 percent in its 2016-2026 Budget and Economic Outlook editions; the 1990-2019 mean unemployment rate, 5.84 percent (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json), bounds it from above.",
+    "spread": {
+      "low": 4.0,
+      "high": 5.84,
+      "unit": "percent",
+      "citation": "CBO's noncyclical rate of unemployment, about 4.4 to 4.6 percent in its 2016-2026 Budget and Economic Outlook editions; the 1990-2019 mean unemployment rate, 5.84 percent (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json), bounds it from above."
+    }
+  },
+  "macroInflationAnchorPct": {
+    "value": 2.451,
+    "tag": "SOURCED",
+    "citation": "Mean 12-month CPI-U inflation 1990-2019 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json).",
+    "spread": {
+      "low": 2.0,
+      "high": 2.9,
+      "unit": "percent",
+      "citation": "Mean 12-month CPI-U inflation 1990-2019 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json)."
+    }
+  },
+  "macroInflationPersistence": {
+    "value": 0.9444,
+    "tag": "SOURCED",
+    "citation": "OLS of 12-month CPI inflation on its previous month and unemployment, 1990-2019, SE 0.016 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json).",
+    "spread": {
+      "low": 0.912,
+      "high": 0.977,
+      "unit": "monthly coefficient",
+      "citation": "OLS of 12-month CPI inflation on its previous month and unemployment, 1990-2019, SE 0.016 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json)."
+    }
+  },
+  "macroTrendGrowthPct": {
+    "value": 2.482,
+    "tag": "SOURCED",
+    "citation": "Okun regression of annualized real GDP growth on the quarterly unemployment change, 1990-2019 intercept, SE 0.18 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json).",
+    "spread": {
+      "low": 2.12,
+      "high": 2.84,
+      "unit": "annual percent",
+      "citation": "Okun regression of annualized real GDP growth on the quarterly unemployment change, 1990-2019 intercept, SE 0.18 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json)."
+    }
+  },
+  "macroOkunOutputPerUnemploymentPoint": {
+    "value": 1.152,
+    "tag": "SOURCED",
+    "citation": "Same Okun regression: 4.61 annualized points per quarterly point, so 1.15 percent of output per point of unemployment, SE 0.16 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json).",
+    "spread": {
+      "low": 0.83,
+      "high": 1.47,
+      "unit": "percent of output per point",
+      "citation": "Same Okun regression: 4.61 annualized points per quarterly point, so 1.15 percent of output per point of unemployment, SE 0.16 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json)."
+    }
+  },
+  "macroJobsTrendMonthlyPct": {
+    "value": 0.0901,
+    "tag": "SOURCED",
+    "citation": "OLS of monthly payroll growth on the unemployment change, 1990-2019 intercept, SE 0.007 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json).",
+    "spread": {
+      "low": 0.075,
+      "high": 0.105,
+      "unit": "percent per month",
+      "citation": "OLS of monthly payroll growth on the unemployment change, 1990-2019 intercept, SE 0.007 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json)."
+    }
+  },
+  "macroJobsPerUnemploymentPoint": {
+    "value": 0.468,
+    "tag": "SOURCED",
+    "citation": "Same payroll regression: percent of jobs lost per point of unemployment, SE 0.048 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json).",
+    "spread": {
+      "low": 0.37,
+      "high": 0.56,
+      "unit": "percent per point",
+      "citation": "Same payroll regression: percent of jobs lost per point of unemployment, SE 0.048 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json)."
+    }
+  },
+  "macroWageGrowthIntercept": {
+    "value": 3.554,
+    "tag": "SOURCED",
+    "citation": "OLS of 12-month average hourly earnings growth on lagged inflation and unemployment, 2007-2019, SE 0.13 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json).",
+    "spread": {
+      "low": 3.29,
+      "high": 3.82,
+      "unit": "annual percent",
+      "citation": "OLS of 12-month average hourly earnings growth on lagged inflation and unemployment, 2007-2019, SE 0.13 (BLS LNS14000000, CUSR0000SA0, CES0000000001, CES0500000003; Fed H.15; BEA NIPA A191RX; data/research/macro/series/receipts.json)."
+    }
+  },
+  "macroWageGrowthPerInflation": {
+    "value": 0.0175,
+    "tag": "SOURCED",
+    "citation": "Same wage regression, inflation coefficient, SE 0.027.",
+    "spread": {
+      "low": -0.037,
+      "high": 0.072,
+      "unit": "points per point",
+      "citation": "Same wage regression, inflation coefficient, SE 0.027."
+    }
+  },
+  "macroWageGrowthPerUnemployment": {
+    "value": -0.169,
+    "tag": "SOURCED",
+    "citation": "Same wage regression, unemployment coefficient, SE 0.017.",
+    "spread": {
+      "low": -0.204,
+      "high": -0.135,
+      "unit": "points per point",
+      "citation": "Same wage regression, unemployment coefficient, SE 0.017."
+    }
+  },
+  "macroTreasuryIntercept": {
+    "value": 0.0345,
+    "tag": "SOURCED",
+    "citation": "OLS of the 10-year Treasury yield on its previous month and the effective funds rate, 1990-2019, SE 0.034 (H.15 RIFLGFCY10_N.M).",
+    "spread": {
+      "low": -0.033,
+      "high": 0.102,
+      "unit": "percent",
+      "citation": "OLS of the 10-year Treasury yield on its previous month and the effective funds rate, 1990-2019, SE 0.034 (H.15 RIFLGFCY10_N.M)."
+    }
+  },
+  "macroTreasuryPersistence": {
+    "value": 0.9832,
+    "tag": "SOURCED",
+    "citation": "Same Treasury regression, own-lag coefficient, SE 0.011.",
+    "spread": {
+      "low": 0.96,
+      "high": 1.0,
+      "unit": "monthly coefficient",
+      "citation": "Same Treasury regression, own-lag coefficient, SE 0.011."
+    }
+  },
+  "macroTreasuryPerPolicy": {
+    "value": 0.0086,
+    "tag": "SOURCED",
+    "citation": "Same Treasury regression, policy-rate coefficient, SE 0.009.",
+    "spread": {
+      "low": -0.01,
+      "high": 0.027,
+      "unit": "points per point",
+      "citation": "Same Treasury regression, policy-rate coefficient, SE 0.009."
+    }
+  },
+  "macroMortgageIntercept": {
+    "value": 0.1092,
+    "tag": "SOURCED",
+    "citation": "OLS of the FHFA MIRS 30-year fixed contract rate on its previous month and the effective funds rate, 1990-2019, SE 0.042. This product uses FHFA data but is neither endorsed nor certified by FHFA.",
+    "spread": {
+      "low": 0.025,
+      "high": 0.193,
+      "unit": "percent",
+      "citation": "OLS of the FHFA MIRS 30-year fixed contract rate on its previous month and the effective funds rate, 1990-2019, SE 0.042. This product uses FHFA data but is neither endorsed nor certified by FHFA."
+    }
+  },
+  "macroMortgagePersistence": {
+    "value": 0.9728,
+    "tag": "SOURCED",
+    "citation": "Same mortgage regression, own-lag coefficient, SE 0.009.",
+    "spread": {
+      "low": 0.955,
+      "high": 0.991,
+      "unit": "monthly coefficient",
+      "citation": "Same mortgage regression, own-lag coefficient, SE 0.009."
+    }
+  },
+  "macroMortgagePerPolicy": {
+    "value": 0.0166,
+    "tag": "SOURCED",
+    "citation": "Same mortgage regression, policy-rate coefficient, SE 0.007. The unconditional 12-month pass-through is 1.00 (HAC SE 0.39).",
+    "spread": {
+      "low": 0.003,
+      "high": 0.03,
+      "unit": "points per point",
+      "citation": "Same mortgage regression, policy-rate coefficient, SE 0.007. The unconditional 12-month pass-through is 1.00 (HAC SE 0.39)."
+    }
+  },
+  "macroMortgageSpreadOverTreasuryPct": {
+    "value": 1.768,
+    "tag": "ESTIMATED",
+    "citation": "FHFA MIRS 30-year fixed contract rate less the H.15 10-year Treasury yield, monthly 1990-2019: mean 1.77, 5th-95th 1.22 to 2.33. This product uses FHFA data but is neither endorsed nor certified by FHFA.",
+    "estimatedFrom": "The 1990-2019 mean spread, applied to months after FHFA's survey ended (CTO ruling on #3959).",
+    "stopgapId": "SG-WORLD-macro-mortgage-spread",
+    "spread": {
+      "low": 1.22,
+      "high": 2.33,
+      "unit": "percentage points",
+      "citation": "FHFA MIRS table 26 and H.15, 1990-2019."
+    }
+  },
+  "macroPrimeSpreadPct": {
+    "value": 3.08,
+    "tag": "SOURCED",
+    "citation": "H.15 bank prime loan rate (RIFSPBLP_N.M) less the effective federal funds rate (RIFSPFF_N.M), monthly 1995-2026: mean 3.08, range 2.85 to 3.61.",
+    "spread": {
+      "low": 2.85,
+      "high": 3.61,
+      "unit": "percentage points",
+      "citation": "H.15 bank prime loan rate (RIFSPBLP_N.M) less the effective federal funds rate (RIFSPFF_N.M), monthly 1995-2026: mean 3.08, range 2.85 to 3.61."
+    }
+  },
+  "macroInflationGoalPct": {
+    "value": 2.0,
+    "tag": "SOURCED",
+    "citation": "FOMC Statement on Longer-Run Goals and Monetary Policy Strategy (2% PCE inflation), https://www.federalreserve.gov/monetarypolicy/files/fomc_longerrungoals.pdf"
+  },
+  "macroCpiOverPceWedgePct": {
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "CPI-U has run above PCE inflation; BEA NIPA table 2.8.7 and BLS CPI-U, 1990-2019 averages differ by about 0.3 to 0.6 points.",
+    "spread": {
+      "low": 0.3,
+      "high": 0.6,
+      "unit": "percentage points",
+      "citation": "CPI-U has run above PCE inflation; BEA NIPA table 2.8.7 and BLS CPI-U, 1990-2019 averages differ by about 0.3 to 0.6 points."
+    }
+  },
+  "macroPolicyLowerBoundPct": {
+    "value": 0.125,
+    "tag": "SOURCED",
+    "citation": "The lowest target range the FOMC has set is 0 to 0.25 percent (December 2008, March 2020); its midpoint."
+  },
+  "macroPolicyStepPct": {
+    "value": 0.25,
+    "tag": "SOURCED",
+    "citation": "FOMC target ranges move in multiples of 25 basis points."
+  },
+  "macroOutputGapPersistence": {
+    "value": 0.97,
+    "tag": "TUNABLE",
+    "citation": "Output gaps close with a half-life of about two years (CBO potential output; Okun gaps 1990-2019); checked against the 1990-2026 bands in this module's test.",
+    "spread": {
+      "low": 0.94,
+      "high": 0.985,
+      "unit": "monthly coefficient",
+      "citation": "Output gaps close with a half-life of about two years (CBO potential output; Okun gaps 1990-2019); checked against the 1990-2026 bands in this module's test."
+    }
+  },
+  "macroRealRateEffectOnGap": {
+    "value": 0.03,
+    "tag": "TUNABLE",
+    "citation": "A one-point higher real policy rate lowers output by roughly 0.3 to 1 percent after a year or two (Romer and Romer 2004, AER; FRB/US simulations).",
+    "spread": {
+      "low": 0.01,
+      "high": 0.06,
+      "unit": "gap points per month per real-rate point",
+      "citation": "A one-point higher real policy rate lowers output by roughly 0.3 to 1 percent after a year or two (Romer and Romer 2004, AER; FRB/US simulations)."
+    }
+  },
+  "macroNeutralRealRatePct": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Laubach-Williams and Holston-Laubach-Williams estimates of the neutral real rate, 2016-2024, Federal Reserve Bank of New York.",
+    "spread": {
+      "low": -0.5,
+      "high": 1.5,
+      "unit": "percent",
+      "citation": "Laubach-Williams and Holston-Laubach-Williams estimates of the neutral real rate, 2016-2024, Federal Reserve Bank of New York."
+    }
+  },
+  "macroPhillipsSlope": {
+    "value": 0.01,
+    "tag": "TUNABLE",
+    "citation": "The 1990-2019 Phillips slope is flat (OLS on unemployment, -0.008, SE 0.013); kept small and positive.",
+    "spread": {
+      "low": 0.0,
+      "high": 0.03,
+      "unit": "12-month inflation points per month per gap point",
+      "citation": "The 1990-2019 Phillips slope is flat (OLS on unemployment, -0.008, SE 0.013); kept small and positive."
+    }
+  },
+  "macroTownWeightPerPerson": {
+    "value": 3e-9,
+    "tag": "SOURCED",
+    "citation": "One resident's share of the national population, Census 2020 count 331.4 million."
+  },
+  "macroPublicBudgetImpulse": {
+    "value": 0,
+    "tag": "ESTIMATED",
+    "citation": "Until M1-07 budgets land, public money adds no impulse beyond its real average, which the trend already carries.",
+    "estimatedFrom": "Trend growth 1990-2019 includes average public spending.",
+    "stopgapId": "SG-WORLD-macro-public-budget",
+    "spread": {
+      "low": -0.5,
+      "high": 0.5,
+      "unit": "gap points per year",
+      "citation": "CBO fiscal impulse estimates outside recessions."
+    }
+  },
+  "macroTaylorInflationResponse": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "Taylor (1993), Discretion versus policy rules in practice, Carnegie-Rochester 39."
+  },
+  "macroTaylorGapResponse": {
+    "value": 0.5,
+    "tag": "SOURCED",
+    "citation": "Taylor (1993): 0.5 on the output gap; the balanced-approach rule uses 1.0 (Federal Reserve Monetary Policy Report, policy rules box)."
+  },
+  "macroLeanGapShift": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Hawks weight jobs less and doves more, spanning Taylor (1993) and the balanced-approach rule.",
+    "spread": {
+      "low": 0.25,
+      "high": 1.0,
+      "unit": "share of the gap response",
+      "citation": "Hawks weight jobs less and doves more, spanning Taylor (1993) and the balanced-approach rule."
+    }
+  },
+  "macroLeanInflationShift": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Hawks weight inflation more; Malmendier, Nagel and Yan (2021), The making of hawks and doves, JME 117.",
+    "spread": {
+      "low": 0.25,
+      "high": 1.0,
+      "unit": "share of the inflation response",
+      "citation": "Hawks weight inflation more; Malmendier, Nagel and Yan (2021), The making of hawks and doves, JME 117."
+    }
+  },
+  "macroExperienceWeightShape": {
+    "value": 3.0,
+    "tag": "TUNABLE",
+    "citation": "Learning-from-experience weights on lifetime inflation, Malmendier and Nagel (2016), QJE 131; Malmendier, Nagel and Yan (2021).",
+    "spread": {
+      "low": 1.0,
+      "high": 4.0,
+      "unit": "weighting exponent",
+      "citation": "Learning-from-experience weights on lifetime inflation, Malmendier and Nagel (2016), QJE 131; Malmendier, Nagel and Yan (2021)."
+    }
+  },
+  "macroExperienceLeanScale": {
+    "value": 1.0,
+    "tag": "TUNABLE",
+    "citation": "A member's lean is their lived inflation's distance from the board's mean, in the board's own standard deviations (Malmendier, Nagel and Yan 2021 find votes move with that relative experience).",
+    "spread": {
+      "low": 0.5,
+      "high": 2.0,
+      "unit": "standard deviations of the board's experienced inflation",
+      "citation": "A member's lean is their lived inflation's distance from the board's mean, in the board's own standard deviations (Malmendier, Nagel and Yan 2021 find votes move with that relative experience)."
+    }
+  },
+  "macroSmoothingBase": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Estimated inertial policy rules close about 15 to 30 percent of the gap per quarter (Clarida, Gali and Gertler 2000, QJE).",
+    "spread": {
+      "low": 0.15,
+      "high": 0.5,
+      "unit": "share of the gap closed per meeting",
+      "citation": "Estimated inertial policy rules close about 15 to 30 percent of the gap per quarter (Clarida, Gali and Gertler 2000, QJE)."
+    }
+  },
+  "macroSmoothingPerPatience": {
+    "value": 0.05,
+    "tag": "TUNABLE",
+    "citation": "Patient members move more gradually; traitScale 3.",
+    "spread": {
+      "low": 0.0,
+      "high": 0.1,
+      "unit": "share per trait point",
+      "citation": "Patient members move more gradually; traitScale 3."
+    }
+  },
+  "macroMoveSizeCostPerRisk": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Cautious members distrust large moves; traitScale 3.",
+    "spread": {
+      "low": 0.0,
+      "high": 0.3,
+      "unit": "score per squared point per trait point",
+      "citation": "Cautious members distrust large moves; traitScale 3."
+    }
+  },
+  "macroRatePullWeight": {
+    "value": 4.0,
+    "tag": "TUNABLE",
+    "citation": "Policy pulls outweigh one trait's pull on commit or delay in the shared chooser.",
+    "spread": {
+      "low": 1.0,
+      "high": 8.0,
+      "unit": "score per pull",
+      "citation": "Policy pulls outweigh one trait's pull on commit or delay in the shared chooser."
+    }
+  },
+  "macroGovernorTermYears": {
+    "value": 14,
+    "tag": "SOURCED",
+    "citation": "12 U.S.C. 241: Board governors serve fourteen-year terms."
+  },
+  "macroPresidentTermYears": {
+    "value": 5,
+    "tag": "SOURCED",
+    "citation": "12 U.S.C. 341: Reserve Bank presidents serve five-year terms."
+  },
+  "macroGovernorMinimumAge": {
+    "value": 45,
+    "tag": "TUNABLE",
+    "citation": "Ages of governors at appointment, Federal Reserve Board history of members.",
+    "spread": {
+      "low": 40,
+      "high": 55,
+      "unit": "years",
+      "citation": "Ages of governors at appointment, Federal Reserve Board history of members."
+    }
+  },
+  "macroGovernorAgeSpan": {
+    "value": 20,
+    "tag": "TUNABLE",
+    "citation": "Ages of governors at appointment span about 40 to 70.",
+    "spread": {
+      "low": 10,
+      "high": 25,
+      "unit": "years",
+      "citation": "Ages of governors at appointment span about 40 to 70."
+    }
+  },
+  "macroBoardVoters": {
+    "value": 12,
+    "tag": "SOURCED",
+    "citation": "12 U.S.C. 263: seven governors, the New York president and four rotating presidents vote."
+  },
+  "macroTraitScaleBoard": {
+    "value": 3,
+    "tag": "SOURCED",
+    "citation": "The recorded trait scale (traitScale)."
+  }
+}

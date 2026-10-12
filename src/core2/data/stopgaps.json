@@ -982,5 +982,41 @@
     "addedAt": "2026-10-10",
     "replacement": "Qualified employer-owned dated compensation/payroll records and government/education policy calendars, actual legal-frequency/holiday/lag treatment, shared household payday source links and empirical startup cohort checks. Public-budget/national modules own actual government funding, not this timing prior.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-macro-mortgage-spread",
+    "kind": "estimated-series",
+    "file": "src/core2/macro-model.ts",
+    "line": 85,
+    "whatItFakes": "Opening 30-year mortgage rates after April 2019 are the 10-year Treasury plus the 1990-2019 mean FHFA spread, not a published monthly rate.",
+    "why": "FHFA's monthly survey ended in 2019; public HMDA is annual and Freddie Mac's survey is excluded (CTO ruling on #3959).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "A government monthly mortgage-rate series, or monthly HMDA origination dates if CFPB publishes them.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-macro-public-budget",
+    "kind": "estimated-parameter",
+    "file": "src/core2/data/macro/parameters.json",
+    "line": 312,
+    "whatItFakes": "Public budgets add no impulse to national output beyond their real average.",
+    "why": "M1-07 budgets have not landed; trend growth 1990-2019 already carries average public spending.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The national, state and local budgets' actual spending and taxes from M1-07, read as indexed totals each month.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-board-appointments",
+    "kind": "faked-mechanic",
+    "file": "src/core2/central-bank-board.ts",
+    "line": 77,
+    "whatItFakes": "Every central bank seat is filled at the opening, governors are seated at their seat's term start, and members stay past their terms.",
+    "why": "Appointments by the president and Senate come with the offices port (M1 offices, OPUS-GOV); presidents' reappointment by their banks' boards is not modeled.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The offices port: the president nominates, the Senate confirms, and reserve bank boards reappoint, each from their own views, on the term dates already recorded here.",
+    "status": "open"
   }
 ]
