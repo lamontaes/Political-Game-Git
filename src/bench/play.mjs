@@ -314,6 +314,80 @@ const sheets = {
       ),
     );
   },
+  async calendar() {
+    const { date, items } = await api(
+      `/api/calendar?id=${encodeURIComponent(me.id)}`,
+    );
+    const byDate = new Map();
+    for (const item of items)
+      byDate.set(item.date, [...(byDate.get(item.date) ?? []), item]);
+    const months = [];
+    const first = new Date(`${date.slice(0, 7)}-01T12:00:00`);
+    for (let m = 0; m < 2; m++) {
+      const start = new Date(first.getFullYear(), first.getMonth() + m, 1, 12);
+      const grid = el(
+        "div",
+        { className: "month" },
+        el("h3", {
+          textContent: start.toLocaleDateString("en-US", {
+            month: "long",
+            year: "numeric",
+          }),
+        }),
+      );
+      for (const d of ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"])
+        grid.append(el("div", { className: "weekday", textContent: d }));
+      for (let i = 0; i < start.getDay(); i++) grid.append(el("div"));
+      for (let day = 1; ; day++) {
+        const at = new Date(start.getFullYear(), start.getMonth(), day, 12);
+        if (at.getMonth() !== start.getMonth()) break;
+        const iso = `${at.getFullYear()}-${String(at.getMonth() + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+        const cell = el(
+          "div",
+          { className: `day${iso === date ? " today" : ""}` },
+          el("b", { textContent: String(day) }),
+        );
+        const kinds = new Map();
+        for (const item of byDate.get(iso) ?? [])
+          kinds.set(item.kind, [...(kinds.get(item.kind) ?? []), item.title]);
+        for (const [kind, names] of kinds)
+          cell.append(
+            el("span", {
+              className: "item",
+              textContent:
+                names.length > 2
+                  ? `${kind} (${names.length})`
+                  : `${kind}: ${names.join(", ")}`,
+              title: names.join("\n"),
+            }),
+          );
+        grid.append(cell);
+      }
+      months.push(grid);
+    }
+    const later = items.filter(
+      (i) =>
+        i.date >=
+        new Date(first.getFullYear(), first.getMonth() + 2, 1, 12)
+          .toISOString()
+          .slice(0, 10),
+    );
+    return [
+      ...months,
+      ...later.slice(0, 8).map((i) => row(i.date, `${i.kind}: ${i.title}`)),
+    ];
+  },
+  async news() {
+    const rows = await api("/api/news");
+    return rows.slice(0, 30).map((r) =>
+      row(
+        `${r.date} · ${r.kind}`,
+        Object.entries(r.facts)
+          .map(([k, v]) => `${k}: ${v}`)
+          .join(" · "),
+      ),
+    );
+  },
   async politics() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
     const contests = v.contests
@@ -376,12 +450,15 @@ const titles = {
   jobs: "Jobs and study",
   journal: "Journal",
   politics: "Politics",
+  calendar: "Calendar",
+  news: "News",
 };
 async function openSheet(tab) {
   openTab = tab;
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === tab);
   $("sheet-title").textContent = titles[tab];
+  $("sheet").classList.toggle("wide", tab === "calendar");
   $("sheet-body").replaceChildren(...(await sheets[tab]()));
   show("sheet", true);
 }
