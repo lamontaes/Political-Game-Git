@@ -78,22 +78,6 @@ export function addOutsideMarket(
   const organizations = new Map(input.organizations.map((o) => [o.id, o]));
   const accounts = new Map<string, OrganizationInput>();
   const flows: ResidentFlowInput[] = [];
-  // Each firm's recorded local sales at the opening, a year's worth.
-  const localAnnual = new Map<string, number>();
-  for (const row of input.finance?.contracts ?? [])
-    if (row.salesReceipt && !row.externalInflow && row.periodMonths > 0)
-      localAnnual.set(
-        row.payeeId,
-        (localAnnual.get(row.payeeId) ?? 0) +
-          (row.amountMinor * 12) / row.periodMonths,
-      );
-  for (const row of input.residents?.flows ?? [])
-    if (row.kind === "purchase" && row.cadence.kind === "months")
-      localAnnual.set(
-        row.payeeId,
-        (localAnnual.get(row.payeeId) ?? 0) +
-          (row.amountMinor * 12) / row.cadence.every,
-      );
   const classificationIndustry = new Map(
     Object.entries(
       (openingCapital as { industryByClassification?: Record<string, string> })
@@ -137,59 +121,20 @@ export function addOutsideMarket(
         },
       });
     }
-    const industry = data.shares[book.kindId];
-    // Economic base (location quotient) method: sales the firm's recorded
-    // local buyers can't account for are sold outside the town; the
-    // industry's sourced outside share is the floor.
-    const unexplained =
-      book.annualDemandMinor > 0
-        ? Math.max(
-            0,
-            1 -
-              (localAnnual.get(book.organizationId) ?? 0) /
-                book.annualDemandMinor,
-          )
-        : 0;
-    const value = Math.max(industry?.value ?? 0, unexplained);
-    if (value <= 0) continue;
-    const share: OutsideMarketShare = industry
-      ? {
-          ...industry,
-          value,
-          ...(value > industry.value
-            ? {
-                tag: "ESTIMATED" as const,
-                estimatedFrom: `Economic base (location quotient) residual: recorded local buyers account for ${(100 * (1 - unexplained)).toFixed(1)}% of this firm's projected receipts; industry floor ${industry.value} (${industry.citation}).`,
-              }
-            : {}),
-        }
-      : {
-          value,
-          low: value,
-          high: value,
-          tag: "ESTIMATED",
-          citation:
-            "Economic base (location quotient) residual of the firm's projected receipts (IRS SOI payroll share) over its recorded local buyers.",
-          estimatedFrom: `Recorded local buyers account for ${(100 * (1 - unexplained)).toFixed(1)}% of projected receipts; no industry outside-share row.`,
-        };
+    // Real outside demand: the industry's sourced share of receipts paid by
+    // buyers outside the town. No firm is topped up to its projection; what
+    // local buyers don't buy, it doesn't sell.
+    // Every firm buys what it doesn't buy locally from outside suppliers,
+    // whatever share of its sales goes outside.
+    const share = data.shares[book.kindId];
     const firm = organizations.get(book.organizationId);
     if (!firm)
       throw new Error(`Business without a record: ${book.organizationId}`);
-    const source: Source = {
-      tag: share.tag,
-      asOf: start,
-      citation: share.citation,
-      ...(share.estimatedFrom ? { estimatedFrom: share.estimatedFrom } : {}),
-    };
     let account = accounts.get(firm.placeId);
     if (!account) {
       account = outsideMarketAccount(firm.placeId, start);
       accounts.set(firm.placeId, account);
     }
-    const weekly = Math.round(
-      (book.annualDemandMinor * share.value) / data.weeksPerYear,
-    );
-    if (weekly <= 0) continue;
     const firstAt = new Date(`${start}T00:00:00.000Z`);
     firstAt.setUTCDate(firstAt.getUTCDate() + data.firstOffsetDays);
     flows.push({
@@ -215,6 +160,16 @@ export function addOutsideMarket(
           "BusinessBooksState.annualOtherCostsMinor less operatingPaidMinor.",
       },
     });
+    const weekly = share
+      ? Math.round((book.annualDemandMinor * share.value) / data.weeksPerYear)
+      : 0;
+    if (!share || weekly <= 0) continue;
+    const source: Source = {
+      tag: share.tag,
+      asOf: start,
+      citation: share.citation,
+      ...(share.estimatedFrom ? { estimatedFrom: share.estimatedFrom } : {}),
+    };
     flows.push({
       id: `outside-sales:${book.organizationId}`,
       kind: "outside-sales",

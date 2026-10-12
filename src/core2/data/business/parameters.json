@@ -1,0 +1,282 @@
+{
+  "businessDrawNeedWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "An owner short of money takes more of the month's profit (JPMorgan Chase Institute, small business cash flows 2016-2019).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "score per share drawn",
+      "citation": "An owner short of money takes more of the month's profit (JPMorgan Chase Institute, small business cash flows 2016-2019)."
+    }
+  },
+  "businessDrawKeepWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "An owner keeps profit in a business whose cash is below a few months of payroll (JPMorgan Chase Institute: median small business holds 27 days of cash).",
+    "spread": {
+      "low": 2,
+      "high": 8,
+      "unit": "score per share drawn",
+      "citation": "An owner keeps profit in a business whose cash is below a few months of payroll (JPMorgan Chase Institute: median small business holds 27 days of cash)."
+    }
+  },
+  "businessDrawSizeWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "Owners smooth draws rather than take everything (IRS SOI sole proprietor and S-corporation distributions against net income).",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "score per squared share",
+      "citation": "Owners smooth draws rather than take everything (IRS SOI sole proprietor and S-corporation distributions against net income)."
+    }
+  },
+  "businessCushionMonths": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Median small business cash buffer of about one month (JPMorgan Chase Institute 2016).",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "months of payroll",
+      "citation": "Median small business cash buffer of about one month (JPMorgan Chase Institute 2016)."
+    }
+  },
+  "businessDaysPerMonth": {
+    "value": 30.4,
+    "tag": "SOURCED",
+    "citation": "Mean days per month (365/12)."
+  },
+  "businessFoundBaseline": {
+    "value": -4,
+    "tag": "TUNABLE",
+    "citation": "How far starting a business sits below not starting one before room, traits and losing work; checked against BDS 2023 establishment entry rates (about 9 percent a year).",
+    "spread": {
+      "low": -6,
+      "high": -2,
+      "unit": "score",
+      "citation": "How far starting a business sits below not starting one before room, traits and losing work; checked against BDS 2023 establishment entry rates (about 9 percent a year)."
+    }
+  },
+  "businessFoundRoomWeight": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Room in a market (incumbents' demand above their capacity) draws entrants (Census BDS entry rises with local demand growth).",
+    "spread": {
+      "low": 2,
+      "high": 12,
+      "unit": "score per share of unmet demand",
+      "citation": "Room in a market (incumbents' demand above their capacity) draws entrants (Census BDS entry rises with local demand growth)."
+    }
+  },
+  "businessFoundUnemployedWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "Losing a job pushes some toward starting a business (Fairlie 2013, necessity entrepreneurship).",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "score",
+      "citation": "Losing a job pushes some toward starting a business (Fairlie 2013, necessity entrepreneurship)."
+    }
+  },
+  "businessFoundTraitWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Enterprising and risk-taking people start businesses more often; the term is the shared trait lean toward founding over staying put (every trait, about -1 to 1; OPUS-TRAITS, Oct 12, 2026).",
+    "spread": {
+      "low": 0.5,
+      "high": 2,
+      "unit": "score per trait point",
+      "citation": "Enterprising and risk-taking people start businesses more often; the term is the shared trait lean toward founding over staying put (every trait, about -1 to 1; OPUS-TRAITS, Oct 12, 2026)."
+    }
+  },
+  "businessStartupMonthsOfCosts": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Startup capital of a few months of operating costs (Kauffman Firm Survey: median startup capital about 30,000 dollars for employer firms).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "months of planned costs",
+      "citation": "Startup capital of a few months of operating costs (Kauffman Firm Survey: median startup capital about 30,000 dollars for employer firms)."
+    }
+  },
+  "businessStartupTermMonths": {
+    "value": 60,
+    "tag": "SOURCED",
+    "citation": "SBA microloans run up to six years; 7(a) working capital loans up to ten. Five years is within both."
+  },
+  "businessFounderMinimumAge": {
+    "value": 25,
+    "tag": "SOURCED",
+    "citation": "Kauffman: most new business owners are 25 to 64."
+  },
+  "businessFounderMaximumAge": {
+    "value": 65,
+    "tag": "SOURCED",
+    "citation": "Kauffman: most new business owners are 25 to 64."
+  },
+  "businessExpandBaseline": {
+    "value": -3,
+    "tag": "TUNABLE",
+    "citation": "How far opening another location sits below not opening one before room, traits and the books; to be checked against BDS 2023 establishment births less firm startups (new locations of existing firms).",
+    "spread": {
+      "low": -5,
+      "high": -1,
+      "unit": "score",
+      "citation": "How far opening another location sits below not opening one before room, traits and the books; to be checked against BDS 2023 establishment births less firm startups (new locations of existing firms)."
+    }
+  },
+  "businessExpandStrengthWeight": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Owners with cash well above their cushion are the ones able to fund a location; thin ones are not (JPMorgan Chase Institute small business cash buffers).",
+    "spread": {
+      "low": 1,
+      "high": 6,
+      "unit": "score per unit of cash strength (cash less cushion over cash plus cushion)",
+      "citation": "Owners with cash well above their cushion are the ones able to fund a location; thin ones are not (JPMorgan Chase Institute small business cash buffers)."
+    }
+  },
+  "businessCountedFoundBaseline": {
+    "value": -13,
+    "tag": "TUNABLE",
+    "citation": "One adult's monthly pull toward founding an employer business, before room, prospect, capital, traits and losing work, summed over the wider population. Set so a steady town's establishments grow about as fast as real net establishment growth while exits are rare (Absecon, 2021-2023: 2 openings among 27 businesses); gross churn needs voluntary closure. Checked against Census BDS 2023 entry and exit rates.",
+    "spread": {
+      "low": -12,
+      "high": -8,
+      "unit": "score",
+      "citation": "One adult's monthly pull toward founding an employer business, before room, prospect, capital, traits and losing work, summed over the wider population. Set so a steady town's establishments grow about as fast as real net establishment growth while exits are rare (Absecon, 2021-2023: 2 openings among 27 businesses); gross churn needs voluntary closure. Checked against Census BDS 2023 entry and exit rates."
+    }
+  },
+  "businessFoundProspectWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "An entrant weighs an equal share of the market's margin against what they earn now, in log terms (owners' business income against wages: Hamilton 2000; Census Annual Business Survey).",
+    "spread": {
+      "low": 0.5,
+      "high": 4,
+      "unit": "score per log of prospect over income",
+      "citation": "An entrant weighs an equal share of the market's margin against what they earn now, in log terms (owners' business income against wages: Hamilton 2000; Census Annual Business Survey)."
+    }
+  },
+  "businessProspectIncomeFloorShare": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Someone without work weighs a business's prospect against a fraction of the place's median pay, not against nothing.",
+    "spread": {
+      "low": 0.25,
+      "high": 1,
+      "unit": "share of median monthly pay",
+      "citation": "Someone without work weighs a business's prospect against a fraction of the place's median pay, not against nothing."
+    }
+  },
+  "businessFoundCapitalWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "Founders without the money to start weigh against it: most new employer firms start on the owner's savings and small loans (Federal Reserve Small Business Credit Survey, startup report 2023; Census Annual Business Survey, sources of startup capital).",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "score per log of costs over reach",
+      "citation": "Founders without the money to start weigh against it: most new employer firms start on the owner's savings and small loans (Federal Reserve Small Business Credit Survey, startup report 2023; Census Annual Business Survey, sources of startup capital)."
+    }
+  },
+  "businessFounderLoanIncomeMultiple": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "What lenders will advance a founder, in years of the founder's income (SBA 7(a) and microloan practice ties a startup loan to the owner's income and personal guarantee).",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "years of income",
+      "citation": "What lenders will advance a founder, in years of the founder's income (SBA 7(a) and microloan practice ties a startup loan to the owner's income and personal guarantee)."
+    }
+  },
+  "businessUnionDuesShare": {
+    "value": 0.013,
+    "tag": "TUNABLE",
+    "citation": "Union dues run about one to two percent of a member's pay or a few hours' pay a month (union constitutions and LM-2 reports); applied to the place's median wage.",
+    "spread": {
+      "low": 0.008,
+      "high": 0.02,
+      "unit": "share of monthly pay",
+      "citation": "Union dues run about one to two percent of a member's pay or a few hours' pay a month (union constitutions and LM-2 reports); applied to the place's median wage."
+    }
+  },
+  "businessOldestFirmYears": {
+    "value": 100,
+    "tag": "TUNABLE",
+    "citation": "A cap on the oldest opening business's age; a few U.S. small businesses are a century old.",
+    "spread": {
+      "low": 60,
+      "high": 150,
+      "unit": "years",
+      "citation": "A cap on the oldest opening business's age; a few U.S. small businesses are a century old."
+    }
+  },
+  "businessGroundwaterOutputElasticity": {
+    "value": 0.45,
+    "tag": "TUNABLE",
+    "citation": "USDA Economic Research Service, Irrigation & Water Use (2023): irrigated farms are 28% of farms but 54% of crop sales; crop yields fall less than in proportion to irrigation water cut (deficit-irrigation response studies, about 0.3 to 0.6).",
+    "spread": {
+      "low": 0.25,
+      "high": 0.7,
+      "unit": "share of output lost per share of water cut",
+      "citation": "USDA Economic Research Service, Irrigation & Water Use (2023): irrigated farms are 28% of farms but 54% of crop sales; crop yields fall less than in proportion to irrigation water cut (deficit-irrigation response studies, about 0.3 to 0.6)."
+    }
+  },
+  "businessComplianceShareOfCosts": {
+    "value": 0.008,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Pollution Abatement Costs and Expenditures: 2005 (MA200(05)): manufacturers spent $20.7 billion operating pollution abatement, about 0.4% of their costs; stricter nonattainment rules weigh more (Greenstone 2002, JPE).",
+    "estimatedFrom": "Twice the manufacturing average abatement operating share, for a binding plan in a nonattainment county.",
+    "stopgapId": "SG-WORLD-business-compliance-cost",
+    "spread": {
+      "low": 0.004,
+      "high": 0.02,
+      "unit": "share of other operating costs",
+      "citation": "U.S. Census Bureau, Pollution Abatement Costs and Expenditures: 2005 (MA200(05)): manufacturers spent $20.7 billion operating pollution abatement, about 0.4% of their costs; stricter nonattainment rules weigh more (Greenstone 2002, JPE)."
+    }
+  },
+  "businessCloseBaseline": {
+    "value": -5.2,
+    "tag": "TUNABLE",
+    "citation": "Census BDS 2010-2019, 2022-2023: about 8 to 9% of establishments exit a year (0.7% a month), with forced closures and owners leaving no successor counted on top; checked against the state's exit rate.",
+    "spread": {
+      "low": -6,
+      "high": -4.5,
+      "unit": "logit of a month's closing pull",
+      "citation": "Census BDS 2010-2019, 2022-2023: about 8 to 9% of establishments exit a year (0.7% a month), with forced closures and owners leaving no successor counted on top; checked against the state's exit rate."
+    }
+  },
+  "businessCloseLossWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Firms that keep losing money exit: exit hazard rises steeply with losses (Haltiwanger, Jarmin and Miranda 2013); checked against BDS exits.",
+    "spread": {
+      "low": 0.2,
+      "high": 1,
+      "unit": "per month of the business's costs lost and kept",
+      "citation": "Firms that keep losing money exit: exit hazard rises steeply with losses (Haltiwanger, Jarmin and Miranda 2013); checked against BDS exits."
+    }
+  },
+  "businessCloseAgeWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "Owners close or sell as they age out: half of small-business owners are 55 or older (SBA Office of Advocacy 2023), and exits rise past retirement age.",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "per span of years past 62",
+      "citation": "Owners close or sell as they age out: half of small-business owners are 55 or older (SBA Office of Advocacy 2023), and exits rise past retirement age."
+    }
+  },
+  "businessCloseAgeYears": {
+    "value": 10,
+    "tag": "SOURCED",
+    "citation": "A decade: the span the age weight is read over (ten years)."
+  }
+}

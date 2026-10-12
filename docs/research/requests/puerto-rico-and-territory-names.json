@@ -41,9 +41,102 @@
     {
       "source": "census.gov and ssa.gov",
       "whatItDidNotSettle": "Not reachable from this environment."
+    },
+    {
+      "source": "SSAterritorymethodology",
+      "url": "https://www.ssa.gov/OACT/babynames/territories.html",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": ["PR", "GU", "VI", "AS", "MP"]
+    },
+    {
+      "source": "NCESpublicschooldirectory",
+      "url": "https://nces.ed.gov/programs/edge/Geographic/SchoolLocations",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "US-government-work",
+        "url": "https://www.govinfo.gov/content/pkg/USCODE-2024-title17/html/USCODE-2024-title17-sec105.htm",
+        "notice": "17 USC105 government works; statistics/facts only, not third-party content or logos."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY",
+        "PR",
+        "GU",
+        "VI",
+        "AS",
+        "MP"
+      ]
     }
   ],
   "title": "Names people carry in Puerto Rico and the territories",
   "usableAnswer": "For each place, a table of given names by sex with counts by birth decade (Puerto Rico's Demographic Registry publishes names by year) and a surname table with counts (the Census 2010 or 2020 surname files for Puerto Rico and the island areas, or a comparable source), plus one line per place on how a name is written.",
-  "whyItMatters": "A life begun in Mayagüez drew Douglas Pope from the random name button, and a household of Alexander Rosado, Frances Patton and Waylon Rosado. Puerto Rico is fixed with an older generation's names; the four territories are not fixed at all."
+  "whyItMatters": "A life begun in Mayagüez drew Douglas Pope from the random name button, and a household of Alexander Rosado, Frances Patton and Waylon Rosado. Puerto Rico is fixed with an older generation's names; the four territories are not fixed at all.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/core-figures/P0-13/ssastate-cohort-patterns.json",
+        "data/research/core-figures/P0-13/ssaterr-cohort-patterns.json",
+        "data/research/core-figures/P0-13/surname-patterns-2020.json",
+        "data/research/core-figures/P0-13/school-name-shapes-2024-25.json"
+      ],
+      "result": "SSAstatebirthcohort1940–2025andPR/pooledotherterritorycohorts; suppressedsmallcountsnottreatedaszero. Census2020nationaltop1000surnamesandNCES2024–25state/territoryschoolname-tokenpatterns. Individualislandsurnameandhistoricalschoolnamingeragapsremain."
+    }
+  }
 }

@@ -1,0 +1,1650 @@
+{
+  "schema": "english-parts/1",
+  "register": "headlines",
+  "description": "News headlines for the new core's stories, by the kind of record they report. News sources give patterns only; every part here is a headline from U.S. federal agencies' own news releases (public domain), with record words as slots.",
+  "slots": {
+    "subject": "The business or office, from the event record.",
+    "law": "The law, as its record names it.",
+    "date": "A date from the record.",
+    "wage": "An hourly wage, from the law record.",
+    "place": "A place, from the place records.",
+    "money": "A dollar amount, from the record.",
+    "purpose": "What the money is for, from the record.",
+    "name": "A person, by name, from the records.",
+    "office": "An office, from the office records.",
+    "age": "An age, computed from the birth record.",
+    "employer": "An employer, from the job record.",
+    "number": "A count from the record.",
+    "term": "A prison term, from the sentence record.",
+    "crime": "An offense, from the charge record.",
+    "opponent": "The other candidate, from the contest record.",
+    "measure": "The measure, as its record names it.",
+    "body": "The governing body, from its record.",
+    "action": "What the body voted to do, from the measure record.",
+    "matter": "What the case was about, from the enforcement record.",
+    "occasion": "What is being marked, from the event record."
+  },
+  "maxWords": 14,
+  "mining": {
+    "tool": "scripts/english-corpus/mine-shapes.py",
+    "shapes": "scripts/english-corpus/shapes/headlines.json",
+    "read": {
+      "Air Force Historical Research Agency, USAF Oral History Program": 4,
+      "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 4,
+      "Federal Election Commission (fec.gov)": 253,
+      "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+      "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 8,
+      "Jimmy Carter Library (NARA) White House Exit Interview Project": 92,
+      "National Archives History Office oral history project": 57,
+      "National Archives History Office oral history project (brooks-oral-histories)": 26,
+      "National Archives History Office oral history project (nprc-oral-histories)": 12,
+      "National Archives History Office oral history project (nyc-oral-histories)": 6,
+      "National Archives History Office oral history project (ross-oral-histories)": 22,
+      "National Archives History Office oral history project (veterans-oral-histories)": 9,
+      "Naval History and Heritage Command, Navy Department Library oral histories": 41,
+      "Naval History and Heritage Command, Navy strategy oral histories": 2,
+      "Richard Nixon Presidential Library (NARA) oral history project": 82,
+      "U.S. Army Center of Military History": 1,
+      "U.S. Election Assistance Commission (eac.gov)": 65,
+      "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 268,
+      "U.S. Senate Historical Office oral history": 239,
+      "USAGov (usa.gov), U.S. General Services Administration": 16,
+      "blm": 817,
+      "briefing": 1499,
+      "crec": 445,
+      "dcpd": 4730,
+      "doi": 674,
+      "doj": 1621,
+      "dol-osha": 501,
+      "eeoc": 594,
+      "epa": 1964,
+      "fdic": 700,
+      "hearings": 1617,
+      "house": 115,
+      "hud": 996,
+      "nasa": 317,
+      "nasa2": 349,
+      "ncua": 683,
+      "nih": 52,
+      "nps": 515,
+      "nps.gov": 1728,
+      "nps.gov (PDF)": 164,
+      "ntia": 371,
+      "sba": 577,
+      "usa.gov": 312,
+      "usfa.fema.gov": 106,
+      "usgs": 742,
+      "va": 317,
+      "weather.gov": 34,
+      "wpa": 38
+    },
+    "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
+    "notAttested": 67,
+    "secondRun": {
+      "read": {
+        "chrg": 2500,
+        "dcpd": 17712,
+        "eac": 330,
+        "eisenhower": 15,
+        "fec": 288,
+        "federal-counter": 330,
+        "florida": 420,
+        "house": 300,
+        "nasa": 1388,
+        "news-energy": 1507,
+        "news-epa": 3009,
+        "news-faa": 1383,
+        "news-fda": 1199,
+        "news-justice": 5265,
+        "news-nasa": 1446,
+        "news-noaa": 484,
+        "news-nps": 2506,
+        "news-nws": 3072,
+        "news-treasury": 2504,
+        "senate": 51,
+        "sotu-gutenberg": 222,
+        "usa-gov": 260
+      },
+      "note": "Parts the rebuilt corpus attests that the first run's corpus did not, merged into the first run's parts."
+    }
+  },
+  "parts": [
+    {
+      "key": "headlines.organization-closed.subject-closes",
+      "move": "organization-closed",
+      "kind": "spoken",
+      "text": "{subject} Closes",
+      "uses": [
+        {
+          "move": "organization-closed",
+          "subject": "headline",
+          "role": "organization.closed",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "ncua": 9
+      },
+      "shippable": true,
+      "source": {
+        "document": "African Diaspora Federal Credit Union Closes",
+        "date": "2026-08-06",
+        "granule": "ncua-2026-08-06-african-diaspora-federal-credit-union-closes-bd050efa",
+        "url": "https://ncua.gov/newsroom/press-release/2026/african-diaspora-federal-credit-union-closes",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.organization-closed.subject-closing",
+      "move": "organization-closed",
+      "kind": "spoken",
+      "text": "{subject} Closing",
+      "uses": [
+        {
+          "move": "organization-closed",
+          "subject": "headline",
+          "role": "organization.closed",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 1,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "CULTURAL BARRIERS IMPACTING WOMEN VETERANS' ACCESS TO HEALTHCARE",
+        "date": "2019-05-02",
+        "granule": "CHRG-116hhrg39914",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg39914/html/CHRG-116hhrg39914.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.organization-closed.subject-closed",
+      "move": "organization-closed",
+      "kind": "spoken",
+      "text": "{subject} Closed",
+      "uses": [
+        {
+          "move": "organization-closed",
+          "subject": "headline",
+          "role": "organization.closed",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "blm": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Washington: Towell Falls Road to remain closed",
+        "date": "2017-05-26",
+        "granule": "blm-2017-05-26-washington-towell-falls-road-to-remain-closed-1d49e441",
+        "url": "https://www.blm.gov/press-release/washington-towell-falls-road-remain-closed",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.grant.place-to-receive-money-for-purpose",
+      "move": "grant",
+      "kind": "spoken",
+      "text": "{place} to Receive {money} for {purpose}",
+      "uses": [
+        {
+          "move": "grant",
+          "subject": "headline",
+          "role": "grant",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "epa": 8
+      },
+      "shippable": true,
+      "source": {
+        "document": "EPA Selects Nevadaworks to Receive $349,984 for Environmental Career Training",
+        "date": "2026-02-09",
+        "granule": "epa-2026-02-09-epa-selects-nevadaworks-to-receive-349-984-for-environmental-fb1d6aa3",
+        "url": "https://www.epa.gov/newsreleases/epa-selects-nevadaworks-receive-349984-environmental-career-training",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.grant.money-for-purpose-in-place",
+      "move": "grant",
+      "kind": "spoken",
+      "text": "{money} for {purpose} in {place}",
+      "uses": [
+        {
+          "move": "grant",
+          "subject": "headline",
+          "role": "grant",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 3,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Address Before a Joint Session of the Congress",
+        "date": "2025-03-04",
+        "granule": "DCPD-202500325",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500325/html/DCPD-202500325.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.grant.body-awards-money-to-place",
+      "move": "grant",
+      "kind": "spoken",
+      "text": "{body} Awards {money} to {place}",
+      "uses": [
+        {
+          "move": "grant",
+          "subject": "headline",
+          "role": "grant",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 38,
+      "bySource": {
+        "doi": 1,
+        "epa": 26,
+        "hud": 9,
+        "ntia": 1,
+        "usgs": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Biden-Harris Administration Awards $72 Million to Expand Internet Access and Digital Literacy for Native Hawaiians",
+        "date": "2024-11-12",
+        "granule": "ntia-2024-11-12-biden-harris-administration-awards-72-million-to-expand-inte-c1295640",
+        "url": "https://www.ntia.gov/press-release/2024/biden-harris-administration-awards-72-million-expand-internet-access-and-digital-literacy-native",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.grant.body-awards-money-for-purpose",
+      "move": "grant",
+      "kind": "spoken",
+      "text": "{body} Awards {money} for {purpose}",
+      "uses": [
+        {
+          "move": "grant",
+          "subject": "headline",
+          "role": "grant",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 11,
+      "bySource": {
+        "epa": 5,
+        "hud": 3,
+        "ntia": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Biden-Harris Administration Awards $19 Million For Wireless Innovation",
+        "date": "2025-01-17",
+        "granule": "ntia-2025-01-17-biden-harris-administration-awards-19-million-for-wireless-i-663bf07d",
+        "url": "https://www.ntia.gov/press-release/2025/biden-harris-administration-awards-19-million-wireless-innovation",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.grant.body-announces-money-for-purpose",
+      "move": "grant",
+      "kind": "spoken",
+      "text": "{body} Announces {money} for {purpose}",
+      "uses": [
+        {
+          "move": "grant",
+          "subject": "headline",
+          "role": "grant",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 13,
+      "bySource": {
+        "doi": 2,
+        "epa": 9,
+        "hud": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "EPA Announces $9.5 Million for Maine to Address PFAS in Drinking Water",
+        "date": "2026-05-19",
+        "granule": "epa-2026-05-19-epa-announces-9-5-million-for-maine-to-address-pfas-in-drink-0eb4c20c",
+        "url": "https://www.epa.gov/newsreleases/epa-announces-95-million-maine-address-pfas-drinking-water",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.grant.body-announces-money-to-purpose",
+      "move": "grant",
+      "kind": "spoken",
+      "text": "{body} Announces {money} to {purpose}",
+      "uses": [
+        {
+          "move": "grant",
+          "subject": "headline",
+          "role": "grant",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 13,
+      "bySource": {
+        "doi": 1,
+        "epa": 9,
+        "hud": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Interior Department Announces $733 Million to Support Communities",
+        "date": "2026-06-23",
+        "granule": "doi-2026-06-23-interior-department-announces-733-million-to-support-communi-1d25a150",
+        "url": "https://www.doi.gov/pressreleases/interior-department-announces-733-million-support-communities",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.grant.body-invests-money-in-place",
+      "move": "grant",
+      "kind": "spoken",
+      "text": "{body} Invests {money} in {place}",
+      "uses": [
+        {
+          "move": "grant",
+          "subject": "headline",
+          "role": "grant",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 14,
+      "bySource": {
+        "crec": 3,
+        "doj": 1,
+        "epa": 4,
+        "hearings": 3,
+        "usgs": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "USGS invests $3.8 million in Bipartisan Infrastructure Law funding to map critical minerals across the Ozark Plateau",
+        "date": "2025-01-16",
+        "granule": "usgs-2025-01-16-usgs-invests-3-8-million-in-bipartisan-infrastructure-law-fu-b44abbc8",
+        "url": "https://www.usgs.gov/news/state-news-release/usgs-invests-38-million-bipartisan-infrastructure-law-funding-map-critical",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.grant.body-awards-money-grant-to-place",
+      "move": "grant",
+      "kind": "spoken",
+      "text": "{body} Awards {money} Grant to {place}",
+      "uses": [
+        {
+          "move": "grant",
+          "subject": "headline",
+          "role": "grant",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "epa": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "EPA awards $886,000 grant to District of Columbia for canopies to reduce harmful runoff from municipal trucks",
+        "date": "2021-11-30",
+        "granule": "epa-2021-11-30-epa-awards-886-000-grant-to-district-of-columbia-for-canopie-5776efe6",
+        "url": "https://www.epa.gov/newsreleases/epa-awards-886000-grant-district-columbia-canopies-reduce-harmful-runoff-municipal",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.life-death.remembering-name",
+      "move": "life-death",
+      "kind": "spoken",
+      "text": "Remembering {name}",
+      "uses": [
+        {
+          "move": "life-death",
+          "subject": "headline",
+          "role": "life.death",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 74,
+      "bySource": {
+        "crec": 73,
+        "nps.gov": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2025-12-18",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.court.name-sentenced-to-term-in-prison",
+      "move": "court",
+      "kind": "spoken",
+      "text": "{name} Sentenced to {term} in Prison",
+      "uses": [
+        {
+          "move": "court",
+          "subject": "headline",
+          "role": "court",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "doj": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "Akron Drug Dealer Sentenced to 35 Years in Prison",
+        "date": "2025-09-29",
+        "granule": "doj-2025-09-29-akron-drug-dealer-sentenced-to-35-years-in-prison-a4c28f1e",
+        "url": "https://www.justice.gov/usao-ndoh/pr/akron-drug-dealer-sentenced-35-years-prison",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.court.name-sentenced-to-term",
+      "move": "court",
+      "kind": "spoken",
+      "text": "{name} Sentenced to {term}",
+      "uses": [
+        {
+          "move": "court",
+          "subject": "headline",
+          "role": "court",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "doj": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Bitcoin Trader Sentenced to 41 Months",
+        "date": "2018-08-01",
+        "granule": "doj-2018-08-01-bitcoin-trader-sentenced-to-41-months-750bdfe8",
+        "url": "https://www.justice.gov/usao-az/pr/bitcoin-trader-sentenced-41-months",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.court.name-pleads-guilty-to-crime",
+      "move": "court",
+      "kind": "spoken",
+      "text": "{name} Pleads Guilty to {crime}",
+      "uses": [
+        {
+          "move": "court",
+          "subject": "headline",
+          "role": "court",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 125,
+      "bySource": {
+        "doj": 125
+      },
+      "shippable": true,
+      "source": {
+        "document": "Richland County Man Pleads Guilty to Drug and Gun Offenses",
+        "date": "2026-08-12",
+        "granule": "doj-2026-08-12-richland-county-man-pleads-guilty-to-drug-and-gun-offenses-56b408a8",
+        "url": "https://www.justice.gov/usao-sc/pr/richland-county-man-pleads-guilty-drug-and-gun-offenses",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.court.name-charged-with-crime",
+      "move": "court",
+      "kind": "spoken",
+      "text": "{name} Charged with {crime}",
+      "uses": [
+        {
+          "move": "court",
+          "subject": "headline",
+          "role": "court",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 64,
+      "bySource": {
+        "doj": 64
+      },
+      "shippable": true,
+      "source": {
+        "document": "Shiprock Man Charged with Assault and Assaulting Federal Officers",
+        "date": "2026-08-12",
+        "granule": "doj-2026-08-12-shiprock-man-charged-with-assault-and-assaulting-federal-off-54703d59",
+        "url": "https://www.justice.gov/usao-nm/pr/shiprock-man-charged-assault-and-assaulting-federal-officers",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.court.name-indicted-for-crime",
+      "move": "court",
+      "kind": "spoken",
+      "text": "{name} Indicted for {crime}",
+      "uses": [
+        {
+          "move": "court",
+          "subject": "headline",
+          "role": "court",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 28,
+      "bySource": {
+        "doj": 28
+      },
+      "shippable": true,
+      "source": {
+        "document": "Parsons man indicted for trying to create child pornography",
+        "date": "2026-08-12",
+        "granule": "doj-2026-08-12-parsons-man-indicted-for-trying-to-create-child-pornography-72b57611",
+        "url": "https://www.justice.gov/usao-ks/pr/parsons-man-indicted-trying-create-child-pornography",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.court.name-convicted-of-crime",
+      "move": "court",
+      "kind": "spoken",
+      "text": "{name} Convicted of {crime}",
+      "uses": [
+        {
+          "move": "court",
+          "subject": "headline",
+          "role": "court",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 14,
+      "bySource": {
+        "doj": 14
+      },
+      "shippable": true,
+      "source": {
+        "document": "Detroit Man Convicted of Leadership Role in Drug Trafficking Operation",
+        "date": "2025-09-29",
+        "granule": "doj-2025-09-29-detroit-man-convicted-of-leadership-role-in-drug-trafficking-73c894d5",
+        "url": "https://www.justice.gov/usao-ndwv/pr/detroit-man-convicted-leadership-role-drug-trafficking-operation",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.court.name-found-guilty-of-crime",
+      "move": "court",
+      "kind": "spoken",
+      "text": "{name} Found Guilty of {crime}",
+      "uses": [
+        {
+          "move": "court",
+          "subject": "headline",
+          "role": "court",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "doj": 6
+      },
+      "shippable": true,
+      "source": {
+        "document": "Leake County Man Found Guilty of Attempted Coercion of Minor",
+        "date": "2026-08-12",
+        "granule": "doj-2026-08-12-leake-county-man-found-guilty-of-attempted-coercion-of-minor-8f76a055",
+        "url": "https://www.justice.gov/usao-sdms/pr/leake-county-man-found-guilty-attempted-coercion-minor",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.council.body-approves-measure",
+      "move": "council",
+      "kind": "spoken",
+      "text": "{body} Approves {measure}",
+      "uses": [
+        {
+          "move": "council",
+          "subject": "headline",
+          "role": "council",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 248,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "National Archives History Office oral history project": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 4,
+        "U.S. Senate Historical Office oral history": 2,
+        "blm": 16,
+        "briefing": 9,
+        "crec": 14,
+        "dcpd": 8,
+        "doi": 14,
+        "doj": 2,
+        "dol-osha": 2,
+        "eeoc": 3,
+        "epa": 14,
+        "fdic": 28,
+        "hearings": 33,
+        "hud": 23,
+        "nasa": 3,
+        "nasa2": 3,
+        "ncua": 48,
+        "nps": 2,
+        "nps.gov": 1,
+        "ntia": 15,
+        "usa.gov": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "FDIC Board of Directors Approves Proposed Rule to Modernize and Reform the FDIC\u2019s Framework for Reviewing Bank Merger Transactions",
+        "date": "2026-09-17",
+        "granule": "fdic-2026-09-17-fdic-board-of-directors-approves-proposed-rule-to-modernize-40aeee51",
+        "url": "https://www.fdic.gov/news/press-releases/2026/fdic-board-directors-approves-proposed-rule-modernize-and-reform-fdics",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.council.body-passes-measure",
+      "move": "council",
+      "kind": "spoken",
+      "text": "{body} Passes {measure}",
+      "uses": [
+        {
+          "move": "council",
+          "subject": "headline",
+          "role": "council",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 368,
+      "bySource": {
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "National Archives History Office oral history project": 4,
+        "Naval History and Heritage Command, Navy strategy oral histories": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 8,
+        "U.S. Senate Historical Office oral history": 7,
+        "blm": 6,
+        "briefing": 24,
+        "crec": 57,
+        "dcpd": 31,
+        "doi": 3,
+        "eeoc": 1,
+        "hearings": 82,
+        "house": 4,
+        "nasa": 13,
+        "nasa2": 12,
+        "nih": 3,
+        "nps": 10,
+        "nps.gov": 64,
+        "nps.gov (PDF)": 11,
+        "weather.gov": 2,
+        "wpa": 22
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks During a Roundtable Discussion on Saving College Sports and an Exchange With Reporters",
+        "date": "2026-03-06",
+        "granule": "DCPD-202600153",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600153/html/DCPD-202600153.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.council.body-rejects-measure",
+      "move": "council",
+      "kind": "spoken",
+      "text": "{body} Rejects {measure}",
+      "uses": [
+        {
+          "move": "council",
+          "subject": "headline",
+          "role": "council",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 56,
+      "bySource": {
+        "briefing": 6,
+        "crec": 14,
+        "dcpd": 12,
+        "dol-osha": 1,
+        "eeoc": 1,
+        "hearings": 19,
+        "nasa": 1,
+        "nasa2": 1,
+        "usfa.fema.gov": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "UNDERSTANDING JUDEA AND SAMARIA: HISTORICAL, STRATEGIC, AND POLITICAL DYNAMICS IN US--ISRAEL RELATIONS",
+        "date": "2025-12-10",
+        "granule": "CHRG-119hhrg64229",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg64229/html/CHRG-119hhrg64229.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.council.place-approves-measure",
+      "move": "council",
+      "kind": "spoken",
+      "text": "{place} Approves {measure}",
+      "uses": [
+        {
+          "move": "council",
+          "subject": "headline",
+          "role": "council",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 199,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "National Archives History Office oral history project": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 5,
+        "U.S. Senate Historical Office oral history": 2,
+        "blm": 16,
+        "briefing": 4,
+        "crec": 7,
+        "dcpd": 3,
+        "doi": 13,
+        "doj": 1,
+        "dol-osha": 1,
+        "eeoc": 3,
+        "epa": 14,
+        "fdic": 28,
+        "hearings": 31,
+        "hud": 23,
+        "nasa": 2,
+        "nasa2": 1,
+        "ncua": 26,
+        "ntia": 15,
+        "usa.gov": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "FDIC Board of Directors Approves Proposed Rule to Modernize and Reform the FDIC\u2019s Framework for Reviewing Bank Merger Transactions",
+        "date": "2026-09-17",
+        "granule": "fdic-2026-09-17-fdic-board-of-directors-approves-proposed-rule-to-modernize-40aeee51",
+        "url": "https://www.fdic.gov/news/press-releases/2026/fdic-board-directors-approves-proposed-rule-modernize-and-reform-fdics",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.council.place-adopts-measure",
+      "move": "council",
+      "kind": "spoken",
+      "text": "{place} Adopts {measure}",
+      "uses": [
+        {
+          "move": "council",
+          "subject": "headline",
+          "role": "council",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 27,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Senate Historical Office oral history": 1,
+        "crec": 1,
+        "doi": 1,
+        "eeoc": 1,
+        "hearings": 19,
+        "house": 1,
+        "va": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "TO REVIEW H.R. 471, THE FIX OUR FORESTS ACT, AND OPTIONS TO REDUCE CATASTROPHIC WILDFIRE",
+        "date": "2025-03-06",
+        "granule": "CHRG-119shrg59496",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg59496/html/CHRG-119shrg59496.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.labor-citation.body-cites-employer",
+      "move": "labor-citation",
+      "kind": "spoken",
+      "text": "{body} Cites {employer}",
+      "uses": [
+        {
+          "move": "labor-citation",
+          "subject": "headline",
+          "role": "labor-citation",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 162,
+      "bySource": {
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "briefing": 1,
+        "dol-osha": 158,
+        "epa": 1,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "PRESIDENT TRUMP'S REDESIGNATION OF NIGERIA AS A \"COUNTRY OF PARTICULAR CONCERN--CPC\": A SERIOUS, WELL-FOUNDED WAKE-UP CALL",
+        "date": "2025-11-20",
+        "granule": "CHRG-119hhrg64043",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg64043/html/CHRG-119hhrg64043.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.labor-citation.body-fines-employer",
+      "move": "labor-citation",
+      "kind": "spoken",
+      "text": "{body} Fines {employer}",
+      "uses": [
+        {
+          "move": "labor-citation",
+          "subject": "headline",
+          "role": "labor-citation",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 18,
+      "bySource": {
+        "dol-osha": 9,
+        "epa": 9
+      },
+      "shippable": true,
+      "source": {
+        "document": "EPA fines Southern California grocery chain for distributing unregistered disinfectants",
+        "date": "2025-02-11",
+        "granule": "epa-2025-02-11-epa-fines-southern-california-grocery-chain-for-distributing-6d7c89bb",
+        "url": "https://www.epa.gov/newsreleases/epa-fines-southern-california-grocery-chain-distributing-unregistered-disinfectants",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.labor-citation.body-sues-employer",
+      "move": "labor-citation",
+      "kind": "spoken",
+      "text": "{body} Sues {employer}",
+      "uses": [
+        {
+          "move": "labor-citation",
+          "subject": "headline",
+          "role": "labor-citation",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 154,
+      "bySource": {
+        "U.S. Senate Historical Office oral history": 1,
+        "crec": 1,
+        "dcpd": 1,
+        "doj": 6,
+        "dol-osha": 1,
+        "eeoc": 144
+      },
+      "shippable": true,
+      "source": {
+        "document": "EEOC Sues Willow Park Healthcare for Disability Discrimination, Harassment, and Retaliation",
+        "date": "2026-09-30",
+        "granule": "eeoc-2026-09-30-eeoc-sues-willow-park-healthcare-for-disability-discriminati-c3056188",
+        "url": "https://www.eeoc.gov/newsroom/eeoc-sues-willow-park-healthcare-disability-discrimination-harassment-and-retaliation",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.labor-citation.employer-to-pay-money-to-settle-matter",
+      "move": "labor-citation",
+      "kind": "spoken",
+      "text": "{employer} to Pay {money} to Settle {matter}",
+      "uses": [
+        {
+          "move": "labor-citation",
+          "subject": "headline",
+          "role": "labor-citation",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 100,
+      "bySource": {
+        "doj": 3,
+        "eeoc": 97
+      },
+      "shippable": true,
+      "source": {
+        "document": "Walmart to Pay $175,000 to Settle Three EEOC Disability Discrimination Suits",
+        "date": "2024-10-02",
+        "granule": "eeoc-2024-10-02-walmart-to-pay-175-000-to-settle-three-eeoc-disability-discr-c29d7d20",
+        "url": "https://www.eeoc.gov/newsroom/walmart-pay-175000-settle-three-eeoc-disability-discrimination-suits",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.labor-citation.employer-will-pay-money-to-settle-matter",
+      "move": "labor-citation",
+      "kind": "spoken",
+      "text": "{employer} Will Pay {money} to Settle {matter}",
+      "uses": [
+        {
+          "move": "labor-citation",
+          "subject": "headline",
+          "role": "labor-citation",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "eeoc": 6
+      },
+      "shippable": true,
+      "source": {
+        "document": "eeoc of 2021-11-23",
+        "date": "2021-11-23",
+        "granule": "eeoc-2021-11-23-greyhound-will-pay-45-000-to-settle-eeoc-religious-discrimin-565a213d",
+        "url": "https://www.eeoc.gov/newsroom/greyhound-will-pay-45000-settle-eeoc-religious-discrimination-suit",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.labor-citation.employer-cited-for-matter",
+      "move": "labor-citation",
+      "kind": "spoken",
+      "text": "{employer} Cited for {matter}",
+      "uses": [
+        {
+          "move": "labor-citation",
+          "subject": "headline",
+          "role": "labor-citation",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "dol-osha": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Department of Labor finds Alabama sausage manufacturer continues exposing workers to safety hazards, proposes $103K in penalties",
+        "date": "2024-12-10",
+        "granule": "dol-osha-2024-12-10-department-of-labor-finds-alabama-sausage-manufacturer-conti-bd4f506e",
+        "url": "https://www.osha.gov/news/newsreleases/birmingham/20241210",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.honor.place-celebrates-occasion",
+      "move": "honor",
+      "kind": "spoken",
+      "text": "{place} Celebrates {occasion}",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "headline",
+          "role": "honor",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 15,
+      "bySource": {
+        "blm": 2,
+        "doi": 4,
+        "epa": 4,
+        "hud": 2,
+        "ncua": 1,
+        "nps.gov": 1,
+        "va": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "EPA Regional Administrator Celebrates Young Environmental Stewards on Earth Day in Middletown, NY",
+        "date": "2025-04-23",
+        "granule": "epa-2025-04-23-epa-regional-administrator-celebrates-young-environmental-st-b8049685",
+        "url": "https://www.epa.gov/newsreleases/epa-regional-administrator-celebrates-young-environmental-stewards-earth-day",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.honor.body-celebrates-occasion",
+      "move": "honor",
+      "kind": "spoken",
+      "text": "{body} Celebrates {occasion}",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "headline",
+          "role": "honor",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 16,
+      "bySource": {
+        "blm": 2,
+        "doi": 4,
+        "epa": 5,
+        "hud": 2,
+        "ncua": 1,
+        "nps.gov": 1,
+        "va": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "EPA Regional Administrator Celebrates Young Environmental Stewards on Earth Day in Middletown, NY",
+        "date": "2025-04-23",
+        "granule": "epa-2025-04-23-epa-regional-administrator-celebrates-young-environmental-st-b8049685",
+        "url": "https://www.epa.gov/newsreleases/epa-regional-administrator-celebrates-young-environmental-stewards-earth-day",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.proposal.body-proposes-measure",
+      "move": "proposal",
+      "kind": "spoken",
+      "text": "{body} Proposes {measure}",
+      "uses": [
+        {
+          "move": "proposal",
+          "subject": "headline",
+          "role": "proposal",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 306,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Senate Historical Office oral history": 2,
+        "blm": 10,
+        "briefing": 9,
+        "crec": 25,
+        "dcpd": 4,
+        "doi": 19,
+        "dol-osha": 3,
+        "epa": 54,
+        "fdic": 7,
+        "hearings": 138,
+        "hud": 13,
+        "nasa2": 3,
+        "ncua": 7,
+        "nps.gov": 1,
+        "nps.gov (PDF)": 1,
+        "ntia": 2,
+        "sba": 2,
+        "usgs": 2,
+        "va": 2,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.proposal.body-finalizes-measure",
+      "move": "proposal",
+      "kind": "spoken",
+      "text": "{body} Finalizes {measure}",
+      "uses": [
+        {
+          "move": "proposal",
+          "subject": "headline",
+          "role": "proposal",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 51,
+      "bySource": {
+        "blm": 2,
+        "dcpd": 1,
+        "doi": 14,
+        "dol-osha": 1,
+        "epa": 20,
+        "fdic": 3,
+        "hearings": 6,
+        "hud": 3,
+        "va": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "EPA Finalizes Groundwater Cleanup Plan for Chemsol, Inc. Superfund Site in Piscataway, New Jersey",
+        "date": "2026-09-30",
+        "granule": "epa-2026-09-30-epa-finalizes-groundwater-cleanup-plan-for-chemsol-inc-super-0a4e3fd3",
+        "url": "https://www.epa.gov/newsreleases/epa-finalizes-groundwater-cleanup-plan-chemsol-inc-superfund-site-piscataway-new",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.proposal.body-seeks-comment-on-measure",
+      "move": "proposal",
+      "kind": "spoken",
+      "text": "{body} Seeks Comment on {measure}",
+      "uses": [
+        {
+          "move": "proposal",
+          "subject": "headline",
+          "role": "proposal",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 19,
+      "bySource": {
+        "blm": 1,
+        "epa": 2,
+        "fdic": 4,
+        "hearings": 1,
+        "ncua": 2,
+        "ntia": 9
+      },
+      "shippable": true,
+      "source": {
+        "document": "NTIA Seeks Comments on Supporting U.S. Data Center Growth",
+        "date": "2024-09-04",
+        "granule": "ntia-2024-09-04-ntia-seeks-comments-on-supporting-u-s-data-center-growth-02ea3676",
+        "url": "https://www.ntia.gov/press-release/2024/ntia-seeks-comments-supporting-us-data-center-growth",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.proposal.body-seeks-public-comment-on-measure",
+      "move": "proposal",
+      "kind": "spoken",
+      "text": "{body} Seeks Public Comment on {measure}",
+      "uses": [
+        {
+          "move": "proposal",
+          "subject": "headline",
+          "role": "proposal",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 25,
+      "bySource": {
+        "blm": 14,
+        "epa": 6,
+        "fdic": 1,
+        "hearings": 1,
+        "hud": 2,
+        "usgs": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "AMERICAN INNOVATION AND THE FUTURE OF DIGITAL ASSETS",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg63755",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg63755/html/CHRG-119hhrg63755.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.proposal.body-extends-measure",
+      "move": "proposal",
+      "kind": "spoken",
+      "text": "{body} Extends {measure}",
+      "uses": [
+        {
+          "move": "proposal",
+          "subject": "headline",
+          "role": "proposal",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 386,
+      "bySource": {
+        "National Archives History Office oral history project": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Senate Historical Office oral history": 2,
+        "blm": 9,
+        "briefing": 23,
+        "crec": 79,
+        "dcpd": 38,
+        "doi": 4,
+        "dol-osha": 2,
+        "eeoc": 1,
+        "epa": 14,
+        "fdic": 6,
+        "hearings": 162,
+        "hud": 2,
+        "nasa2": 6,
+        "ncua": 9,
+        "nih": 1,
+        "nps": 6,
+        "nps.gov": 5,
+        "ntia": 1,
+        "sba": 2,
+        "usgs": 6,
+        "va": 5,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "VA awards $112M in suicide prevention grants",
+        "date": "2026-09-29",
+        "granule": "va-2026-09-29-va-awards-112m-in-suicide-prevention-grants-cb348249",
+        "url": "https://news.va.gov/press-room/va-awards-112-million-in-suicide-prevention-grants/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.proposal.body-announces-measure",
+      "move": "proposal",
+      "kind": "spoken",
+      "text": "{body} Announces {measure}",
+      "uses": [
+        {
+          "move": "proposal",
+          "subject": "headline",
+          "role": "proposal",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 521,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 2,
+        "U.S. Senate Historical Office oral history": 5,
+        "blm": 40,
+        "briefing": 5,
+        "crec": 12,
+        "dcpd": 5,
+        "doi": 62,
+        "doj": 16,
+        "dol-osha": 9,
+        "eeoc": 7,
+        "epa": 101,
+        "fdic": 38,
+        "hearings": 21,
+        "house": 2,
+        "hud": 109,
+        "ncua": 15,
+        "ntia": 33,
+        "sba": 7,
+        "usgs": 10,
+        "va": 22
+      },
+      "shippable": true,
+      "source": {
+        "document": "FDIC Announces Conclusion of Independent Monitorship",
+        "date": "2026-09-30",
+        "granule": "fdic-2026-09-30-fdic-announces-conclusion-of-independent-monitorship-27c6b3ba",
+        "url": "https://www.fdic.gov/news/press-releases/2026/fdic-announces-conclusion-independent-monitorship",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.proposal.body-launches-measure",
+      "move": "proposal",
+      "kind": "spoken",
+      "text": "{body} Launches {measure}",
+      "uses": [
+        {
+          "move": "proposal",
+          "subject": "headline",
+          "role": "proposal",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 201,
+      "bySource": {
+        "Richard Nixon Presidential Library (NARA) oral history project": 2,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "blm": 2,
+        "briefing": 11,
+        "crec": 6,
+        "dcpd": 10,
+        "doi": 8,
+        "dol-osha": 3,
+        "eeoc": 1,
+        "epa": 16,
+        "fdic": 7,
+        "hearings": 31,
+        "hud": 9,
+        "nasa": 41,
+        "nasa2": 33,
+        "ncua": 2,
+        "nps": 2,
+        "nps.gov": 5,
+        "ntia": 5,
+        "usgs": 1,
+        "va": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "EPA Administrator Zeldin Launches G20 Initiative to Advance Water Security",
+        "date": "2026-09-15",
+        "granule": "epa-2026-09-15-epa-administrator-zeldin-launches-g20-initiative-to-advance-60d5f12d",
+        "url": "https://www.epa.gov/newsreleases/epa-administrator-zeldin-launches-g20-initiative-advance-water-security",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.proposal.body-issues-measure",
+      "move": "proposal",
+      "kind": "spoken",
+      "text": "{body} Issues {measure}",
+      "uses": [
+        {
+          "move": "proposal",
+          "subject": "headline",
+          "role": "proposal",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 3959,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 9,
+        "Florida Department of State, Division of Elections (dos.fl.gov)": 1,
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 3,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 47,
+        "National Archives History Office oral history project": 16,
+        "National Archives History Office oral history project (brooks-oral-histories)": 1,
+        "National Archives History Office oral history project (nprc-oral-histories)": 4,
+        "National Archives History Office oral history project (ross-oral-histories)": 9,
+        "National Archives History Office oral history project (veterans-oral-histories)": 2,
+        "Naval History and Heritage Command, Navy strategy oral histories": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 39,
+        "U.S. Army Center of Military History": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 56,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 22,
+        "U.S. Senate Historical Office oral history": 118,
+        "blm": 55,
+        "briefing": 575,
+        "crec": 260,
+        "dcpd": 415,
+        "doi": 24,
+        "doj": 6,
+        "dol-osha": 6,
+        "eeoc": 18,
+        "epa": 106,
+        "fdic": 115,
+        "hearings": 1381,
+        "house": 67,
+        "hud": 28,
+        "nasa": 84,
+        "nasa2": 137,
+        "ncua": 90,
+        "nih": 26,
+        "nps": 128,
+        "nps.gov": 9,
+        "nps.gov (PDF)": 1,
+        "ntia": 15,
+        "sba": 32,
+        "usa.gov": 15,
+        "usfa.fema.gov": 4,
+        "usgs": 21,
+        "va": 11,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "FDIC Issues List of Banks Examined for CRA Compliance",
+        "date": "2026-10-05",
+        "granule": "fdic-2026-10-05-fdic-issues-list-of-banks-examined-for-cra-compliance-6c163e7a",
+        "url": "https://www.fdic.gov/news/press-releases/2026/fdic-issues-list-banks-examined-cra-compliance-8",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.meeting.body-to-meet-in-place",
+      "move": "meeting",
+      "kind": "spoken",
+      "text": "{body} to Meet in {place}",
+      "uses": [
+        {
+          "move": "meeting",
+          "subject": "headline",
+          "role": "meeting",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 24,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Senate Historical Office oral history": 2,
+        "blm": 7,
+        "briefing": 7,
+        "crec": 1,
+        "dcpd": 2,
+        "hearings": 1,
+        "nasa": 1,
+        "nasa2": 1,
+        "ncua": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
+        "date": "2026-07-08",
+        "granule": "DCPD-202600450",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600450/html/DCPD-202600450.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.meeting.body-to-meet",
+      "move": "meeting",
+      "kind": "spoken",
+      "text": "{body} to Meet",
+      "uses": [
+        {
+          "move": "meeting",
+          "subject": "headline",
+          "role": "meeting",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 15,
+      "bySource": {
+        "Richard Nixon Presidential Library (NARA) oral history project": 1,
+        "blm": 1,
+        "briefing": 1,
+        "crec": 4,
+        "dcpd": 1,
+        "fdic": 3,
+        "house": 1,
+        "nasa2": 1,
+        "nih": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks to Federal Law Enforcement Officers and National Guard Personnel",
+        "date": "2025-08-21",
+        "granule": "DCPD-202500860",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500860/html/DCPD-202500860.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.meeting.body-will-meet-in-place",
+      "move": "meeting",
+      "kind": "spoken",
+      "text": "{body} Will Meet in {place}",
+      "uses": [
+        {
+          "move": "meeting",
+          "subject": "headline",
+          "role": "meeting",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 2,
+        "briefing": 1,
+        "dcpd": 2,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks Prior to a Working Lunch With President Volodymyr Zelenskky of Ukraine and an Exchange With Reporters",
+        "date": "2025-10-17",
+        "granule": "DCPD-202501023",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501023/html/DCPD-202501023.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.grant.place-awarded-money-for-purpose",
+      "move": "grant",
+      "kind": "spoken",
+      "text": "{place} Awarded {money} for {purpose}",
+      "uses": [
+        {
+          "move": "grant",
+          "subject": "headline",
+          "role": "grant",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "news-epa": 1,
+        "news-faa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Iowa American Lung Association Awarded $422,155 for Diesel Emissions Reduction Project",
+        "date": "2021-11-02",
+        "granule": "iowa-american-lung-association-awarded-422155-diesel-emissions-reduction-project",
+        "url": "https://www.epa.gov/newsreleases/iowa-american-lung-association-awarded-422155-diesel-emissions-reduction-project",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.organization-opened.subject-opens",
+      "move": "organization-opened",
+      "kind": "spoken",
+      "text": "{subject} Opens",
+      "uses": [
+        {
+          "move": "organization-opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "eac": 1,
+        "news-nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Events",
+        "date": "2021-10-13",
+        "granule": "eac-eac-gov-events-page-1-592a76",
+        "url": "https://www.eac.gov/events?page=1",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.organization-opened.subject-reopens",
+      "move": "organization-opened",
+      "kind": "spoken",
+      "text": "{subject} Reopens",
+      "uses": [
+        {
+          "move": "organization-opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "news-nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Northern Section of Coastal Trail Reopens",
+        "date": "2018-07-26",
+        "granule": "redw-coastaltrailreopns",
+        "url": "https://www.nps.gov/redw/learn/news/coastaltrailreopns.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.organization-opened.subject-reopens-to-the-public",
+      "move": "organization-opened",
+      "kind": "spoken",
+      "text": "{subject} Reopens to the Public",
+      "uses": [
+        {
+          "move": "organization-opened",
+          "subject": "headline",
+          "role": "organization.opened",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "news-nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Big Creek Trail reopens to the public",
+        "date": "2022-07-05",
+        "granule": "grsm-big-creek-trail-reopens-to-the-public",
+        "url": "https://www.nps.gov/grsm/learn/news/big-creek-trail-reopens-to-the-public.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.honor.body-honors-name",
+      "move": "honor",
+      "kind": "spoken",
+      "text": "{body} Honors {name}",
+      "uses": [
+        {
+          "move": "honor",
+          "subject": "headline",
+          "role": "honor",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "dcpd": 2,
+        "news-epa": 3,
+        "news-justice": 2,
+        "news-nasa": 1,
+        "news-treasury": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in an Exchange With Reporters Prior to the Kennedy Center Honors Ceremony",
+        "date": "2025-12-07",
+        "granule": "DCPD-202501174",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202501174",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    }
+  ]
+}

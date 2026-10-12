@@ -1,3 +1,4 @@
+import { bookkeeping } from "./bookkeeping";
 /** The recorded work owner composes the act, wage, credit and time in one journal. */
 import { daysBetween, makeIsoDate } from "../simulation/dates";
 import { cashJournalParameters } from "./cash-host";
@@ -653,7 +654,8 @@ function submit(
       id: row.id,
     });
     const plan = session.seal(returned),
-      callerResult = structuredClone(plan.result);
+      // A defensive copy for callers is bookkeeping: tests and the bench only.
+      callerResult = bookkeeping() ? structuredClone(plan.result) : plan.result;
     row.postings = plan.postings;
     const controlSnapshot = workControl(session);
     if (controlSnapshot.personId === row.personId)

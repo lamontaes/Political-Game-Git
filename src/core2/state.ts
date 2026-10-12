@@ -1,14 +1,18 @@
+import { closenessAfter, openingClosenessHours } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
+import { buildDeepPast } from "./deep-past";
 import { publicPayTreasuries } from "./public-work-pay";
 import {
   countedJob,
+  residentsRuntime,
   enterResidentMarket,
   releaseResidentHousehold,
   rerateCountedJob,
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
+import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import {
   prepareModuleState,
   installModuleState,
@@ -210,6 +214,9 @@ function admitOwnerCashAccount(
       : {}),
   });
 }
+
+/** Opening family ties: closeness from the kind of tie (P15 part 2). */
+const OPENING_FAMILY_CAUSE = "opening-family";
 
 function assertKnownIdSources(
   core: CoreState,
@@ -434,7 +441,14 @@ export function createCore(
       }
       const relationshipId = [actor.id, id].sort().join(":");
       if (!core.relationships.has(relationshipId))
-        api.relationship(actor.id, id, "family", p("relationInitial"));
+        api.relationship(
+          actor.id,
+          id,
+          "family",
+          openingClosenessHours(core, actor.id, id),
+          undefined,
+          { cause: OPENING_FAMILY_CAUSE },
+        );
     }
     for (const id of actor.knownIds) {
       const other = core.people.get(id);
@@ -977,6 +991,12 @@ export function coreAPI(core: CoreState): CoreAPI {
     closeBusinessByChoice(input) {
       return closeBusinessByChoice(core, api, input);
     },
+    setPurchaseTax(input) {
+      setPurchaseTax(core, input);
+    },
+    endPurchaseTax(id) {
+      endPurchaseTax(core, id);
+    },
     closeEmployer(id, sourceId, reason) {
       return closeEmployer(core, api, id, sourceId, reason);
     },
@@ -1004,7 +1024,7 @@ export function coreAPI(core: CoreState): CoreAPI {
     recordDiscretionaryTime(personId, minutes) {
       recordDiscretionaryTime(core, api, personId, minutes);
     },
-    relationship(actorId, otherId, kind, change, decision) {
+    relationship(actorId, otherId, kind, change, decision, reason) {
       if (
         !core.people.has(actorId) ||
         !core.people.has(otherId) ||
@@ -1012,6 +1032,14 @@ export function coreAPI(core: CoreState): CoreAPI {
         !Number.isFinite(change)
       )
         throw new Error("Invalid relationship endpoints or change.");
+      if (
+        reason &&
+        (typeof reason.cause !== "string" ||
+          !reason.cause.trim() ||
+          (reason.sourceId !== undefined &&
+            (typeof reason.sourceId !== "string" || !reason.sourceId.trim())))
+      )
+        throw new Error("Invalid relationship change reason.");
       const id = [actorId, otherId].sort().join(":");
       const previous = core.relationships.get(id);
       const beforeLevel = previous?.level ?? p("zero");
@@ -1025,7 +1053,8 @@ export function coreAPI(core: CoreState): CoreAPI {
         lastContactDate: core.date,
       };
       const at = core.date,
-        nextLevel = Math.tanh(row.level + change),
+        // P15: `change` is hours of time together; closeness fades between contacts.
+        nextLevel = closenessAfter(core, previous, row.kind, change),
         actualActor = core.people.get(actorId),
         actualOther = core.people.get(otherId),
         storedKind = row.kind;
@@ -1123,6 +1152,16 @@ export function coreAPI(core: CoreState): CoreAPI {
               { kind: "person", id: otherId },
             ],
             ...(savedDecision ? { decision: savedDecision } : {}),
+            ...(reason
+              ? {
+                  reason: {
+                    cause: reason.cause,
+                    ...(reason.sourceId === undefined
+                      ? {}
+                      : { sourceId: reason.sourceId }),
+                  },
+                }
+              : {}),
           } satisfies RelationshipChangeEvidence)
         : undefined;
       if (
@@ -1167,7 +1206,52 @@ export function coreAPI(core: CoreState): CoreAPI {
         requestedKind: kind,
         created: previous === undefined,
         changes,
+        ...(reason ? { reason } : {}),
       });
+    },
+    meet(actorId, otherId, encounter) {
+      const actor = core.people.get(actorId);
+      const other = core.people.get(otherId);
+      if (!actor || !other || actorId === otherId)
+        throw new Error("Invalid meeting endpoints.");
+      if (!encounter.placeId.trim() || !encounter.sourceId.trim())
+        throw new Error("A meeting needs its place and its record.");
+      if (!Number.isFinite(encounter.hours) || encounter.hours < p("zero"))
+        throw new Error("Invalid meeting hours.");
+      if (actor.knownIds.has(otherId) && other.knownIds.has(actorId))
+        return false;
+      for (const [self, peer] of [
+        [actor, other],
+        [other, actor],
+      ] as const) {
+        self.knownIds.add(peer.id);
+        api.observe(self.id, {
+          key: `person:${peer.id}:name`,
+          value: `${peer.givenName} ${peer.familyName}`,
+          learnedAt: core.date,
+          sourceId: encounter.sourceId,
+          access: "perceived",
+        });
+        api.observe(self.id, {
+          key: `person:${peer.id}:met`,
+          value: encounter.placeId,
+          learnedAt: core.date,
+          sourceId: encounter.sourceId,
+          access: "perceived",
+        });
+      }
+      api.relationship(
+        actorId,
+        otherId,
+        "contact",
+        encounter.hours,
+        undefined,
+        {
+          cause: encounter.cause,
+          sourceId: encounter.sourceId,
+        },
+      );
+      return true;
     },
     join(personId, organizationId, driveId) {
       if (
@@ -1663,11 +1747,72 @@ export function inspectPerson(
  * their own award; the merged flows shrink by the same amounts. Returns the
  * person.
  */
+/**
+ * The person behind an id the player clicked or met: a full person as is, or
+ * someone in the counts (a husk relative included) filled in now. Undefined
+ * only for an id no record holds.
+ */
+export function personOrFillIn(
+  core: CoreState,
+  personId: PersonId,
+): PersonState | undefined {
+  const full = core.people.get(personId);
+  if (full) return full;
+  if (!residentPerson(core, personId)) return undefined;
+  return fillInPerson(core, personId);
+}
+
 export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const existing = core.people.get(personId);
   if (existing) return existing;
-  const record = takeResidentHousehold(core, personId);
-  if (!record) throw new Error(`Not in the wider population: ${personId}`);
+  const taken = takeResidentHousehold(core, personId);
+  if (!taken) throw new Error(`Not in the wider population: ${personId}`);
+  // Their past exists only from now: rebuilt from the world's seed, as the
+  // opening would have built it.
+  const build = residentsRuntime(core)?.input.pastBuild;
+  const rebuild = build
+    ? taken.people.filter((row) => build.deepPastAt[row.id] !== undefined)
+    : [];
+  let record = taken;
+  if (build && rebuild.length) {
+    const before = new Map(
+      rebuild.map((row) => [
+        row.id,
+        {
+          head: (row.pastFacts ?? []).slice(0, build.deepPastAt[row.id]),
+          tail: (row.pastFacts ?? []).slice(build.deepPastAt[row.id]),
+        },
+      ]),
+    );
+    const rebuilt = new Map(
+      buildDeepPast({
+        seed: build.seed,
+        startedAt: build.startedAt,
+        people: rebuild.map((row) => ({
+          ...row,
+          pastFacts: before.get(row.id)!.head,
+        })),
+        households: [taken.household],
+        jobs: taken.jobs,
+        gaps: [],
+      } as unknown as CoreInput).people.map((row) => [row.id, row]),
+    );
+    record = {
+      ...taken,
+      people: taken.people.map((row) => {
+        const built = rebuilt.get(row.id);
+        return built
+          ? {
+              ...row,
+              pastFacts: [
+                ...(built.pastFacts ?? []),
+                ...before.get(row.id)!.tail,
+              ],
+            }
+          : row;
+      }),
+    };
+  }
   const api = coreAPI(core);
   const home = record.household;
   if (core.households.has(home.id))
@@ -1977,7 +2122,14 @@ export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
   });
   const api = coreAPI(core);
   for (const id of actor.familyIds)
-    api.relationship(actor.id, id, "family", api.parameter("relationInitial"));
+    api.relationship(
+      actor.id,
+      id,
+      "family",
+      openingClosenessHours(core, actor.id, id),
+      undefined,
+      { cause: OPENING_FAMILY_CAUSE },
+    );
   for (const id of actor.knownIds) {
     const other = core.people.get(id) ?? core.husks.get(id)!;
     api.observe(actor.id, {

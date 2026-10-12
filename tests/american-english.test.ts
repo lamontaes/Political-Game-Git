@@ -229,6 +229,11 @@ const ALLOWED_PHRASES: readonly {
   readonly reason: string;
 }[] = [
   {
+    pattern: /\bLabour Economics\b/g,
+    reason:
+      "the title of a real journal (Labour Economics, Elsevier), quoted in a research citation",
+  },
+  {
     pattern: /\bLabour Party\b/g,
     reason: "a real party name, if one is ever quoted",
   },
@@ -414,6 +419,25 @@ function scanJson(file: string, hits: Hit[]): void {
   visit(JSON.parse(readFileSync(file, "utf8")), "");
 }
 
+/**
+ * CI passes the files a change touches in CHANGED_FILES (one repo-relative path
+ * per line), so a pull request is checked on its own files only and never fails
+ * on files it didn't touch (owner, Oct 12, 2026: never run the full repository).
+ * Run locally without it to sweep everything.
+ */
+function changedOnly(files: string[]): string[] {
+  const list = process.env.CHANGED_FILES;
+  if (list === undefined) return files;
+  const keep = new Set(
+    list
+      .split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line.length > 0)
+      .map((line) => path.join(ROOT, line)),
+  );
+  return files.filter((file) => keep.has(file));
+}
+
 function playerFacingHits(): Hit[] {
   const hits: Hit[] = [];
   const sources = walk(
@@ -421,7 +445,7 @@ function playerFacingHits(): Hit[] {
     (file) => /\.tsx?$/.test(file) && !/\.test\.tsx?$/.test(file),
     [],
   );
-  for (const file of sources) scanSource(file, hits);
+  for (const file of changedOnly(sources)) scanSource(file, hits);
   // data/source holds verbatim federal source corpora (about 850 MB of agency
   // records), which are never shown as written and would break the time budget.
   const data = walk(
@@ -431,7 +455,7 @@ function playerFacingHits(): Hit[] {
       !file.includes(`${path.sep}data${path.sep}source${path.sep}`),
     [],
   );
-  for (const file of data) scanJson(file, hits);
+  for (const file of changedOnly(data)) scanJson(file, hits);
   return hits;
 }
 

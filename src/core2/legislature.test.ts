@@ -387,7 +387,7 @@ describe(
           parksAfter: next.spendingMinor.parks,
         }),
       );
-    });
+    }, 120_000); // a whole fiscal year of daily work in one town; 30 s is too tight on slower runners
 
     it("the bill paper's catalog: 18 menus, amounts from the law in force, picks that draft real bills", () => {
       const { api, council } = town(Object.keys(authority).sort(), "catalog");

@@ -25,6 +25,29 @@
     {
       "source": "src/simulation/governing/state-governing.ts staffRecommendation",
       "whatItDidNotSettle": "Three signatures in four, drawn from a seed; no source."
+    },
+    {
+      "source": "https://www.archives.gov/founding-docs/constitution-transcript",
+      "whatItDidNotSettle": "Current all56 full veto windows and empirical veto-driver studies remain open."
+    },
+    {
+      "source": "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "whatItDidNotSettle": "Current all56 full veto windows and empirical veto-driver studies remain open."
+    },
+    {
+      "source": "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.04",
+      "whatItDidNotSettle": "Current all56 full veto windows and empirical veto-driver studies remain open."
     }
-  ]
+  ],
+  "answer": {
+    "summary": "The filtered official-source item-veto interpretations provide legal action boundaries only. They do not establish political-motive coefficients. Bill fiscal/constitutional issues, policy conflict and negotiation need evidence in the decision record; a session veto percentage cannot decide one bill.",
+    "sources": [
+      "https://www.archives.gov/founding-docs/constitution-transcript",
+      "https://ltgov.alaska.gov/information/alaskas-constitution/",
+      "https://code.dccouncil.gov/us/dc/council/code/sections/1-204.04"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:09:23.641831+00:00",
+    "stillOpen": "Current all56 full veto windows and empirical veto-driver studies remain open."
+  }
 }

@@ -6,6 +6,7 @@ import {
 } from "../../simulation/world";
 import { bookkeeping } from "../bookkeeping";
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
+import { withPublicSchoolDistrict } from "../opening-public-schools";
 import { buildPopulation } from "../population";
 import { buildDeepPast } from "../deep-past";
 import { enrichCivicInputs } from "../civic-inputs";
@@ -119,6 +120,17 @@ function buildOpening(
     },
   });
   let input = applyOpeningSettings(enrichCivicInputs(withPast), settings);
+  // The town's public school district, staffed from workers not yet placed.
+  const schools = withPublicSchoolDistrict(input);
+  input = schools.receipt
+    ? {
+        ...schools.input,
+        placeMetadata: {
+          ...(schools.input.placeMetadata ?? {}),
+          openingPublicSchools: JSON.stringify(schools.receipt),
+        },
+      }
+    : schools.input;
   const start = makeIsoDate(input.startedAt);
   const player = input.people
     .filter(
@@ -168,7 +180,10 @@ function buildOpening(
   releaseRecentHistory();
   forgetLastValidatedWorld();
   if (!keep) return input;
-  const two = withCountedVoterGroups(collapseToTwoLevels(input, { keep }));
+  const two = withCountedVoterGroups(collapseToTwoLevels(input, { keep }), {
+    leanShift: settings.politics?.leanShift ?? 0,
+    turnout: settings.politics?.turnout ?? 1,
+  });
   return { ...two, residents: { ...two.residents!, cohortSizes } };
 }
 

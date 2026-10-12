@@ -22,9 +22,27 @@
     {
       "source": "Census Bureau, Educational Attainment in the United States: 2022, press release February 16, 2023",
       "whatItDidNotSettle": "The share of adults 25 and older with a diploma (91 percent) centers the weight; it says nothing about offending."
+    },
+    {
+      "source": "https://bjs.ojp.gov/document/cv24.pdf",
+      "whatItDidNotSettle": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
+    },
+    {
+      "source": "https://www.fbi.gov/news/stories/violent-crime-falls-at-historic-rate-new-fbi-data-show",
+      "whatItDidNotSettle": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
     }
   ],
   "title": "Does a high-school diploma change who commits ordinary crime, and by how much",
   "usableAnswer": "An odds ratio or relative risk of committing each ordinary offense for high-school graduates against dropouts, with age and work held equal, from a named study, so the one-point gap in UNRESEARCHED_DIPLOMA_OFFENDING can be read as data.",
-  "whyItMatters": "Schooling is something a player can change: a policy that keeps students in school should, through the people it reaches, change who in town offends."
+  "whyItMatters": "Schooling is something a player can change: a policy that keeps students in school should, through the people it reaches, change who in town offends.",
+  "answer": {
+    "summary": "The checked BJS/FBI aggregates describe offense/reporting levels; they do not identify the requested causal effects on offending, towns, victim health or incumbent support. No coefficient for an individual actor is supported by these aggregate counts.",
+    "sources": [
+      "https://bjs.ojp.gov/document/cv24.pdf",
+      "https://www.fbi.gov/news/stories/violent-crime-falls-at-historic-rate-new-fbi-data-show"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:15:52.611668+00:00",
+    "stillOpen": "All56 state/local rates, clearance cohorts, crime causal coefficients, victim aftermath, disposition by custody/plea/trial and education effects remain unverified."
+  }
 }

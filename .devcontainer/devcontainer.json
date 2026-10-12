@@ -1,0 +1,10 @@
+{
+  "name": "M0 test bench",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:1-22-bookworm",
+  "hostRequirements": { "memory": "16gb" },
+  "postCreateCommand": "npm run storage -- run install -- npm ci",
+  "forwardPorts": [3000],
+  "portsAttributes": {
+    "3000": { "label": "M0 bench", "onAutoForward": "openBrowser" }
+  }
+}

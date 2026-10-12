@@ -22,9 +22,85 @@
     {
       "source": "src/simulation/crisis/disaster.ts PROVISIONAL_DISASTER_POLICY",
       "whatItDidNotSettle": "Says how many homes a disaster damages or destroys, not what their households do afterward."
+    },
+    {
+      "source": "Census CPS ASEC2023 reasons Table14",
+      "url": "https://www2.census.gov/programs-surveys/demo/tables/geographic-mobility/2023/cps-2023/mig_14_2023_1yr.xlsx",
+      "retrievedAt": "2026-10-11",
+      "terms": {
+        "status": "public-domain-US",
+        "url": "https://www2.census.gov/foia/ds_policies/ds027.pdf",
+        "notice": "Census employee works generally not copyrighted in US; DS027 p9. Derived public statistical aggregates only."
+      },
+      "sourceCoverage": [
+        "AL",
+        "AK",
+        "AZ",
+        "AR",
+        "CA",
+        "CO",
+        "CT",
+        "DE",
+        "DC",
+        "FL",
+        "GA",
+        "HI",
+        "ID",
+        "IL",
+        "IN",
+        "IA",
+        "KS",
+        "KY",
+        "LA",
+        "ME",
+        "MD",
+        "MA",
+        "MI",
+        "MN",
+        "MS",
+        "MO",
+        "MT",
+        "NE",
+        "NV",
+        "NH",
+        "NJ",
+        "NM",
+        "NY",
+        "NC",
+        "ND",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VT",
+        "VA",
+        "WA",
+        "WV",
+        "WI",
+        "WY"
+      ]
     }
   ],
   "title": "After a disaster wrecks their home, how many households leave for good, and how many come back",
   "usableAnswer": "One table: for a destroyed home and a damaged home, the share of households that leave permanently, the share that leave and return with the typical months away, and where the permanent leavers go (same county, same state, other state), each with a source. Then one line each on owners versus renters and on jobs or school holding people, with an effect size or a plain statement that no defensible figure exists.",
-  "whyItMatters": "The game now moves some households out of town for good when a disaster wrecks their home, but the chance is a placeholder. Temporary displacement and return are not built at all: a household either leaves for good or stays in the damaged home. A household held by a job or school is never displaced today, because ending a job on a move is not built. The owner expects a Katrina-sized storm to empty part of a town permanently; without real figures the game either overdoes it or shows nothing."
+  "whyItMatters": "The game now moves some households out of town for good when a disaster wrecks their home, but the chance is a placeholder. Temporary displacement and return are not built at all: a household either leaves for good or stays in the damaged home. A household held by a job or school is never displaced today, because ending a job on a move is not built. The owner expects a Katrina-sized storm to empty part of a town permanently; without real figures the game either overdoes it or shows nothing.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "files": [
+        "data/research/renewal/moves/roadmap-r9-manifest-and-gaps.json",
+        "data/research/renewal/moves/roadmap-r9-reasons-table13-2023.json",
+        "data/research/renewal/moves/roadmap-r9-reasons-table14-2023.json"
+      ],
+      "finding": "IRS2022–23 reported address flows, Census2021–25 county components and CPS2023 mover reason tables supplied. Reasons are conditional on moving; net components are not gross flows. Disaster return timing, local causal chooser weights and young-adult exit hazards remain gaps."
+    }
+  }
 }

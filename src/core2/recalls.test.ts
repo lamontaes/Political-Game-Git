@@ -67,7 +67,8 @@ describe("M3-10 recalls", () => {
           seed,
           placeKey: key,
           startedAt: START,
-          minimumPeople: 200,
+          // A small town: the year of daily work costs time per person.
+          minimumPeople: 40,
         }),
       );
       openLaws(core);

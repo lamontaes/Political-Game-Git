@@ -21,6 +21,39 @@
     {
       "source": "docs/research/requests/sitting-governor-and-earlier-campaign-finance-misuse.json",
       "whatItDidNotSettle": "Covers misuse, not the legal sources."
+    },
+    {
+      "source": "https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/contribution-limits/",
+      "whatItDidNotSettle": "State/local donor rules and empirical funding shares remain open; federal limits do not apply as a substitute."
+    },
+    {
+      "source": "https://www.fec.gov/help-candidates-and-committees/registering-candidate/",
+      "whatItDidNotSettle": "State/local donor rules and empirical funding shares remain open; federal limits do not apply as a substitute."
+    },
+    {
+      "source": "https://www.fec.gov/updates/statistical-summary-of-24-month-campaign-activity-of-the-2023-2024-election-cycle/",
+      "whatItDidNotSettle": "State/local donor rules and empirical funding shares remain open; federal limits do not apply as a substitute."
+    },
+    {
+      "source": "https://www.revisor.mn.gov/statutes/cite/10A.105",
+      "whatItDidNotSettle": "State/local donor rules and empirical funding shares remain open; federal limits do not apply as a substitute."
+    },
+    {
+      "source": "https://www.nebraskalegislature.gov/laws/statutes.php?statute=49-1446",
+      "whatItDidNotSettle": "State/local donor rules and empirical funding shares remain open; federal limits do not apply as a substitute."
     }
-  ]
+  ],
+  "answer": {
+    "summary": "Federal candidates can receive permitted individual, PAC, party and candidate funds; in-kind goods count at normal charge. 2025-2026 candidate-per-election limits are $3,500 from individuals/nonmulticandidate PACs, $5,000 from multicandidate PACs or party committees, and $2,000 from candidate committees. Personal candidate funds are generally unlimited subject to public-financing restrictions. Separate primary/general accounting is required. A Super PAC’s independent spending is not cash available in the candidate’s books.",
+    "sources": [
+      "https://www.fec.gov/help-candidates-and-committees/candidate-taking-receipts/contribution-limits/",
+      "https://www.fec.gov/help-candidates-and-committees/registering-candidate/",
+      "https://www.fec.gov/updates/statistical-summary-of-24-month-campaign-activity-of-the-2023-2024-election-cycle/",
+      "https://www.revisor.mn.gov/statutes/cite/10A.105",
+      "https://www.nebraskalegislature.gov/laws/statutes.php?statute=49-1446"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T04:57:22.841855+00:00",
+    "stillOpen": "State/local donor rules and empirical funding shares remain open; federal limits do not apply as a substitute."
+  }
 }

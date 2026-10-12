@@ -18,9 +18,20 @@
     {
       "source": "The game's office and employment records as the game loads them",
       "whatItDidNotSettle": "Nothing recorded says whether an officeholder may keep another job, so every office keeps them all."
+    },
+    {
+      "source": "https://ethics.house.gov/outside-employment-faqs/",
+      "whatItDidNotSettle": "All56 office pay, state/local orientation/ceremony programs, per-diem attendance, time demands, employment restrictions and in-term pay-change rules remain incomplete."
     }
   ],
   "title": "What outside work an officeholder may keep",
   "usableAnswer": "A table by office level (and by state where the rule differs) giving whether ordinary employment is allowed, any cap on outside earned income with its amount and year, the kinds of work barred, and the named rule or statute for each, so the game can end, cap or allow a player's other jobs when they take office.",
-  "whyItMatters": "A player who wins office should give up the jobs the office rules out and keep the ones it allows. Today every officeholder keeps every job, which no rule supports."
+  "whyItMatters": "A player who wins office should give up the jobs the office rules out and keep the ones it allows. Today every officeholder keeps every job, which no rule supports.",
+  "answer": {
+    "summary": "House Ethics2026 cap33855 applies to Members/covered senior staff, with separate honoraria/fiduciary prohibitions and narrow exceptions. Other office/state restrictions require their own controlling laws; full-time label does not settle outside-work legality.",
+    "sources": ["https://ethics.house.gov/outside-employment-faqs/"],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:20:24.386693+00:00",
+    "stillOpen": "All56 office pay, state/local orientation/ceremony programs, per-diem attendance, time demands, employment restrictions and in-term pay-change rules remain incomplete."
+  }
 }

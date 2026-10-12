@@ -718,7 +718,18 @@ describe("pure qualified opening retirement-income records", () => {
       ...fixture([person(firstId, "1952-02-29")]),
       startedAt: "2029-01-01",
     };
-    const result = build(input);
+    // With no pull either way the claim falls at the full retirement age, 66
+    // for a 1952 birth: a leap-day birthday lands on a non-leap year.
+    const zeroed = Object.fromEntries(
+      [
+        "openingRetirementClaimAnchorYearsBeforeFull",
+        "openingRetirementClaimNeedPullYears",
+        "openingRetirementClaimTraitPullYears",
+      ].map((key) => [key, { ...PARAMETERS[key]!, value: p("zero") }]),
+    );
+    const result = build(input, {
+      parameters: { ...PARAMETERS, ...zeroed },
+    });
     expect(factByKind(result, data.generatedClaimKind).date).toBe("2018-02-28");
   });
 

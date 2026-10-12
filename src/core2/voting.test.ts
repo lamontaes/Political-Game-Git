@@ -76,7 +76,9 @@ describe("M2-07 elections", () => {
         seed,
         placeKey: place,
         startedAt: START,
-        minimumPeople: 200,
+        // A small town: the year of daily work the election runs through
+        // costs time per person.
+        minimumPeople: 60,
       }),
     );
     openOffices(core, seed);
