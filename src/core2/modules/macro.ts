@@ -48,6 +48,8 @@ import {
 } from "./regional";
 import type { CoreAPI, CoreData, CoreInput, CoreState, Source } from "../types";
 
+/** Where a custom world's chosen national economy rides in the opening input (see worldGameOptions). */
+export const CUSTOM_ECONOMY_KEY = "customEconomy";
 export const MACRO_MODULE_ID = "macro";
 export const MACRO_PARAMETERS = macroParameters as unknown as Readonly<
   Record<string, Parameter>
@@ -235,7 +237,29 @@ function open(api: CoreAPI): MacroStateRow {
   const p = params(api),
     core = api.state;
   const months = store(api).table("months");
-  const rows = historyMonths(core.startedAt, p);
+  const rows = [...historyMonths(core.startedAt, p)];
+  // A custom world (M6-04): the opening month starts from the player's figures; its output gap follows by Okun's law.
+  const custom = core.placeMetadata?.[CUSTOM_ECONOMY_KEY];
+  if (custom) {
+    const chosen = JSON.parse(custom) as {
+      unemploymentPct?: number;
+      inflationPct?: number;
+      policyRatePct?: number;
+    };
+    const last = rows.at(-p("one"))!;
+    const unemploymentPct = chosen.unemploymentPct ?? last.unemploymentPct;
+    const policyRatePct = chosen.policyRatePct ?? last.policyRatePct;
+    rows[rows.length - p("one")] = {
+      ...last,
+      unemploymentPct,
+      inflationPct: chosen.inflationPct ?? last.inflationPct,
+      outputGapPct:
+        -p("macroOkunOutputPerUnemploymentPoint") *
+        (unemploymentPct - p("macroNaturalUnemploymentPct")),
+      policyRatePct,
+      primeRatePct: policyRatePct + p("macroPrimeSpreadPct"),
+    };
+  }
   for (const row of rows) months.put(row as unknown as { id: string });
   const board = generateBoard(core, p);
   for (const member of board.members) {
