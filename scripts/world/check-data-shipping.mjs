@@ -105,14 +105,51 @@ export function shippingPolicy(root = process.cwd()) {
   };
 }
 
+// One pass over the words: a name matches when its words appear in order,
+// each separated by a single space, as the substring search it replaces.
+const federalIndexes = new WeakMap();
+function federalIndex(policy) {
+  let index = federalIndexes.get(policy);
+  if (!index) {
+    const originals = new Map();
+    let maxWords = 1;
+    for (const name of policy.federalNames) {
+      const key = normalize(name);
+      if (!originals.has(key)) originals.set(key, name);
+      maxWords = Math.max(maxWords, key.split(" ").length);
+    }
+    index = { originals, maxWords };
+    federalIndexes.set(policy, index);
+  }
+  return index;
+}
+function findFederalNames(text, policy) {
+  const { originals, maxWords } = federalIndex(policy);
+  const words = [...text.matchAll(/[^\s"',;:()[\]{}<>/\\]+/g)];
+  const found = new Set();
+  for (let i = 0; i < words.length; i++) {
+    let phrase = words[i][0];
+    for (let n = 1; n <= maxWords; n++) {
+      const trimmed = phrase.replace(/[.!?]+$/, "");
+      if (originals.has(phrase)) found.add(originals.get(phrase));
+      else if (originals.has(trimmed)) found.add(originals.get(trimmed));
+      const next = words[i + n];
+      if (!next) break;
+      const end = words[i + n - 1].index + words[i + n - 1][0].length;
+      if (next.index - end !== 1 || text[end] !== " ") break;
+      phrase += " " + next[0];
+    }
+  }
+  return [...found].map((name) => `real-name:${name}`);
+}
+
 export function inspectShippingBytes(bytes, policy, file = "") {
   const text = normalize(bytes.toString("utf8"));
   const failures = [];
   for (const name of policy.names)
     if (text.includes(normalize(name))) failures.push(`real-name:${name}`);
   if (policy.federalNames && !policy.federalNameAllowedIn.test(file))
-    for (const name of policy.federalNames)
-      if (text.includes(normalize(name))) failures.push(`real-name:${name}`);
+    failures.push(...findFederalNames(text, policy));
   for (const token of policy.forbiddenText)
     if (text.includes(normalize(token)))
       failures.push(`research-or-salary-token:${token}`);

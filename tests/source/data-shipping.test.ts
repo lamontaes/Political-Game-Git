@@ -43,6 +43,9 @@ describe("shipped data regression check", () => {
       inspectShippingBytes(Buffer.from('"Ronnie Abrams"'), policy, "app.js"),
     ).toContain("real-name:Ronnie Abrams");
     expect(
+      inspectShippingBytes(Buffer.from("Met Barack Obama."), policy, "app.js"),
+    ).toContain("real-name:Barack Obama");
+    expect(
       inspectShippingBytes(
         Buffer.from('"Barack Obama Charter"'),
         policy,
