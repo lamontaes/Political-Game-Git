@@ -6,13 +6,12 @@
     "U.S. Election Assistance Commission (eac.gov)": 65,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "crec": 445,
-    "fda": 8,
     "hearings": 1617,
     "house": 115,
     "nasa": 317,
-    "nasa2": 330,
-    "nih": 15,
-    "nps": 139,
+    "nasa2": 349,
+    "nih": 52,
+    "nps": 515,
     "wpa": 38
   },
   "notAttested": [
@@ -174,20 +173,8 @@
     },
     {
       "move": "setting-public-out",
-      "text": "You're out.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "setting-public-out",
       "text": "You're out and about.",
       "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "setting-phone-phone",
-      "text": "The phone rings.",
-      "documents": 1,
       "modern": 0
     },
     {
@@ -289,18 +276,6 @@
     {
       "move": "present-many-many",
       "text": "{who_many} are with you.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "present-many-many",
-      "text": "{who_many} were there.",
-      "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "present-many-many",
-      "text": "{who_many} were here.",
       "documents": 0,
       "modern": 0
     },
@@ -415,7 +390,7 @@
     {
       "move": "cause-money:job-started-started",
       "text": "You started at {employer}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -445,8 +420,8 @@
     {
       "move": "cause-money:job-started-started",
       "text": "You got a job.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "cause-money:job-started-started",
@@ -511,7 +486,7 @@
     {
       "move": "cause-home:moved-moved",
       "text": "You moved.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     }
   ]

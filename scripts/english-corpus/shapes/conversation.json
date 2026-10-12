@@ -16,7 +16,8 @@
     "my_when": "When the player last saw that person, from a contact record, said the same way.",
     "relation": "How the speaker is related to someone, with the possessive, from the family record.",
     "topic": "What happened, from a news record the speaker heard.",
-    "first": "The given name of someone both people know, from the person's record."
+    "first": "The given name of someone both people know, from the person's record.",
+    "year": "A year from a dated record."
   },
   "maxWords": 10,
   "minDocuments": 2,
@@ -129,7 +130,18 @@
         "Still working there?",
         "Still there?",
         "Are you still working for them?",
-        "Still with {employer}?"
+        "Still with {employer}?",
+        "You're still at {employer}?",
+        "You're still working at {employer}?",
+        "You're still working for {employer}?",
+        "You're still with {employer}?",
+        "You're still working there?",
+        "You're still working now?",
+        "You still work at {employer}?",
+        "You still work for {employer}?",
+        "You still with {employer}?",
+        "And you're still at {employer}?",
+        "So you're still at {employer}?"
       ]
     },
     {
@@ -502,7 +514,15 @@
         "Still in {place}?",
         "Still living in {place}?",
         "You still live there?",
-        "Still living there?"
+        "Still living there?",
+        "You still live in {place}?",
+        "You're still in {place}?",
+        "You're still living in {place}?",
+        "You're still living there?",
+        "And you still live in {place}?",
+        "So you still live in {place}?",
+        "You live in {place} now?",
+        "You're living in {place} now?"
       ]
     },
     {
@@ -866,7 +886,12 @@
         "You still at {employer}?",
         "Are you still there?",
         "Are you still working there?",
-        "Do you still work there?"
+        "Do you still work there?",
+        "You're still at {employer}?",
+        "You're still working at {employer}?",
+        "You're still with {employer}?",
+        "You still work at {employer}?",
+        "Still with {employer}?"
       ]
     },
     {
@@ -1137,7 +1162,12 @@
         "She lives with me.",
         "He lives with me.",
         "She lives with us.",
-        "He lives with us."
+        "He lives with us.",
+        "{name} still lives with me.",
+        "{name} still lives with us.",
+        "{name} lives here.",
+        "{name} lives here with me.",
+        "{name} lives at home."
       ]
     },
     {
@@ -1574,7 +1604,12 @@
         "Still in {place}?",
         "Are you still living there?",
         "Do you still live there?",
-        "Are you still there?"
+        "Are you still there?",
+        "You still live in {place}?",
+        "You're still in {place}?",
+        "You're still living in {place}?",
+        "You live in {place} now?",
+        "You're living in {place} now?"
       ]
     },
     {
@@ -1872,7 +1907,13 @@
         "No, not lately.",
         "No, not in a while.",
         "I haven't seen {name} in a while.",
-        "I haven't seen {name} lately."
+        "I haven't seen {name} lately.",
+        "Not for a while.",
+        "Not for a long time.",
+        "Not in years.",
+        "Not since {year}.",
+        "I haven't.",
+        "No, I haven't."
       ]
     },
     {

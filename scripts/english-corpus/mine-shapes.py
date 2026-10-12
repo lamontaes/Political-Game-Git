@@ -45,7 +45,7 @@ SLOT_PATTERNS = {
     "place": PROPER + r"(?:, " + PROPER + r")?",
     "my_place": PROPER + r"(?:, " + PROPER + r")?",
     "school": r"(?:the )?" + PROPER,
-    "name": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
+    "name": r"[A-Z][a-z]+(?: [A-Z]\.)?(?: [A-Z][a-z']+){0,2}(?:,? (?:Jr|Sr)\.)?",
     "first": r"[A-Z][a-z]+",
     "other": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
     "who": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
@@ -85,6 +85,19 @@ SLOT_PATTERNS = {
     "did": r"[a-z][\w' ,-]{3,60}",
     "opponent": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
     "date": r"(?:" + MONTH + r" \d{1,2}(?:st|nd|rd|th)?|Tuesday|November \d{1,2})",
+    "pronoun_sub": r"(?:he|she|they)",
+    "percent": r"\d{1,2}(?:\.\d)?",
+    "count": r"(?:\d{1,3}|" + NUMBER_WORD + r") to (?:\d{1,3}|" + NUMBER_WORD + r"|nothing)",
+    "measure": r"(?:the |a |an )?[a-z][\w' -]{2,50}|(?:the )?[A-Z][\w'.-]*(?: [A-Z][\w'.-]*| of| and| for| to)*",
+    "action": r"[a-z][\w' ,-]{3,60}",
+    "money": r"\$\d[\d,.]*(?: (?:million|billion|thousand))?",
+    "purpose": r"[a-z][\w' ,-]{3,50}",
+    "law": r"(?:the )?[A-Z][\w'.-]*(?: [A-Z][\w'.-]*| of| and| for| to)* (?:Act|Law|Rule|Ordinance)(?: of (?:19|20)\d\d)?",
+    "term": r"(?:\d{1,3}|" + NUMBER_WORD + r")(?:[- ](?:and[- ]a[- ]half[- ])?)?(?:Years?|Months?|years?|months?)",
+    "crime": r"[A-Za-z][\w' ,-]{3,60}",
+    "body": r"(?:the )?[A-Z][\w'.-]*(?: [A-Z][\w'.-]*| of)* (?:Council|Board|Commission|Legislature|Assembly|Senate|House)",
+    "claim": r"[a-z][\w' ,-]{3,60}",
+    "experience": r"[a-z][\w' ,-]{3,60}",
     "cause": r"(?:the |our |your |their )?[a-z][\w' -]{2,40}",
     "change": r"[a-z][\w' ,-]{3,60}",
     "topic": r"(?:the |that |this )?[A-Za-z][\w' -]{2,40}",
@@ -171,7 +184,12 @@ def learn_proper_nouns(root, pool):
 CLAUSE_BREAK = re.compile(r",? (?:and|but|so|because|when|where|until|after|before) |[,;:] | -- | \[")
 TITLE_ABBREVIATIONS = re.compile(r"\b(Mr|Mrs|Ms|Dr|St|Jr|Sr|Gen|Sen|Rep|Gov|Lt|Col|Capt|Sgt|No|Mt|Ft|Inc|Co|Corp|Bros|U\.S)\.")
 SENTENCE_END = re.compile(r"(?<=[.?!])[\"']?\s+(?=[\"']?[A-Z])")
-SPEAKER_LABEL = re.compile(r"^(?:(?:Mr|Mrs|Ms|Dr|Chairman|Chairwoman|Senator|Representative)\.? )?[A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+)?\s?[.:]\s+")
+# A transcript's speaker label: "Mr. SMITH." in hearings, "ABBOTT:" or "Smith:" in oral histories.
+SPEAKER_LABEL = re.compile(
+    r"^(?:(?:(?:Mr|Mrs|Ms|Dr|Chairman|Chairwoman|Senator|Representative)\.? )?[A-Z][A-Z'\-]+(?: [A-Z][A-Z'\-]+)?\s?[.:]\s+"
+    r"|[A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+)?:\s+)"
+)
+MIDDLE_INITIAL = re.compile(r"(\b[A-Z][a-z]+ [A-Z])\.(?= [A-Z][a-z])")
 QUOTED = re.compile(r"\"([^\"]{2,200})\"")
 
 
@@ -204,6 +222,7 @@ def sentences(text):
     text = text.replace("’", "'").replace("‘", "'").replace("“", '"').replace("”", '"')
     text = text.replace("—", " -- ").replace(" ", " ")
     protected = TITLE_ABBREVIATIONS.sub(lambda m: m.group(1).replace(".", "․") + "․", text)
+    protected = MIDDLE_INITIAL.sub(lambda m: m.group(1) + "\u2024", protected)
     for para in re.split(r"\n\s*\n", protected):
         para = re.sub(r"\s+", " ", para).strip()
         if not para:
@@ -220,11 +239,12 @@ def sentences(text):
                 stripped = SPEAKER_LABEL.sub("", sentence, count=1)
                 if stripped != sentence:
                     yield stripped
-                # A sentence's opening clause is also said on its own:
+                # A sentence's opening clauses are also said on their own:
                 # "I went to work for Lockheed, and ..." says "I went to work for Lockheed."
-                clause = CLAUSE_BREAK.split(sentence, maxsplit=1)[0]
-                if clause != sentence and len(clause.split()) >= 3:
-                    yield clause + ("?" if sentence.endswith("?") else ".")
+                for cut in list(CLAUSE_BREAK.finditer(sentence))[:4]:
+                    clause = sentence[: cut.start()].rstrip(",")
+                    if len(clause.split()) >= 3:
+                        yield clause + ("?" if sentence.endswith("?") else ".")
                 # A quoted line inside a sentence may close with a comma: He said, "Still at the mill?"
                 for lead in ("Well, ", "Oh, ", "Yeah, ", "Yes, ", "No, ", "And ", "So "):
                     if sentence.startswith(lead) and len(sentence) > len(lead) + 2:
@@ -294,7 +314,10 @@ def main():
             if not re.sub(r"\{\w+\}|[\s.,?!]", "", text):
                 continue
             extra = {} if isinstance(candidate, str) else {k: v for k, v in candidate.items() if k != "text"}
-            candidates.append((group, text, extra, template_regex(text)))
+            pattern = template_regex(text)
+            if spec.get("ignoreCase"):
+                pattern = re.compile(pattern.pattern, re.IGNORECASE)
+            candidates.append((group, text, extra, pattern))
     # A quick first-word index keeps the scan linear in the corpus.
     for index, (_, text, _, _) in enumerate(candidates):
         first = re.match(r"[A-Za-z']+", text)

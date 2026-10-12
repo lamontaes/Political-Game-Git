@@ -26,10 +26,13 @@
       "hearings": 1617,
       "house": 115,
       "nasa": 317,
+      "nasa2": 349,
+      "nih": 52,
+      "nps": 515,
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 101
+    "notAttested": 95
   },
   "parts": [
     {
@@ -51,13 +54,16 @@
           ]
         }
       ],
-      "transcriptsUsing": 94,
+      "transcriptsUsing": 195,
       "bySource": {
         "crec": 8,
-        "hearings": 18,
-        "house": 21,
+        "hearings": 19,
+        "house": 22,
         "nasa": 37,
-        "wpa": 10
+        "nasa2": 37,
+        "nih": 7,
+        "nps": 54,
+        "wpa": 11
       },
       "shippable": true,
       "source": {
@@ -87,18 +93,20 @@
           ]
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 14,
       "bySource": {
         "hearings": 3,
         "house": 3,
-        "nasa": 3
+        "nasa": 3,
+        "nasa2": 1,
+        "nps": 4
       },
       "shippable": true,
       "source": {
-        "document": "DREAM DEFERRED: THE URGENT NEED TO PROTECT IMMIGRANT YOUTH",
-        "date": "2024-05-08",
-        "granule": "CHRG-118shrg60168",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60168/html/CHRG-118shrg60168.htm",
+        "document": "Kevin Righter oral history (discovery-and-new-frontiers collection)",
+        "date": "2024-08-15",
+        "granule": "discovery-and-new-frontiers-righterk-8-15-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/03/righterk-8-15-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -121,12 +129,14 @@
           ]
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 13,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 4,
         "house": 1,
         "nasa": 1,
+        "nasa2": 2,
+        "nps": 3,
         "wpa": 1
       },
       "shippable": true,
@@ -157,18 +167,21 @@
           ]
         }
       ],
-      "transcriptsUsing": 12,
+      "transcriptsUsing": 36,
       "bySource": {
         "house": 3,
         "nasa": 4,
+        "nasa2": 8,
+        "nih": 2,
+        "nps": 14,
         "wpa": 5
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Murphy, Ann - Receptionist, Lindy Claiborne Boggs Congressional Women’s Reading Room - 1987–1997",
-        "date": "2023-12-13",
-        "granule": "house-oh-murphy-ann",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/murphy-ann-transcript/",
+        "document": "Bruce G. Bills oral history (discovery-and-new-frontiers collection)",
+        "date": "2024-01-16",
+        "granule": "discovery-and-new-frontiers-billsbg-1-16-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/09/billsbg-1-16-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -224,13 +237,16 @@
           ]
         }
       ],
-      "transcriptsUsing": 36,
+      "transcriptsUsing": 61,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 1,
         "hearings": 13,
         "house": 3,
-        "nasa": 13,
+        "nasa": 14,
+        "nasa2": 9,
+        "nih": 2,
+        "nps": 13,
         "wpa": 5
       },
       "shippable": true,
@@ -239,6 +255,44 @@
         "date": "2026-09-30",
         "granule": "CHRG-119shrg60282",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.work-line-started.i-went-to-work-for-employer",
+      "move": "work-line-started",
+      "kind": "spoken",
+      "text": "I went to work for {employer}.",
+      "uses": [
+        {
+          "move": "work-line-started",
+          "subject": "work",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "work:opening",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-started",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "nasa": 5,
+        "nasa2": 3,
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Cecil G. Dome oral history (naca collection)",
+        "date": "2015-02-19",
+        "granule": "naca-domecg-2-19-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/domecg-2-19-15.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -265,11 +319,12 @@
           ]
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 11,
       "bySource": {
         "hearings": 1,
         "house": 2,
         "nasa": 3,
+        "nps": 3,
         "wpa": 2
       },
       "shippable": true,
@@ -278,6 +333,79 @@
         "date": "2017-04-12",
         "granule": "house-oh-schwartza",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/schwartza-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.work-line-started.i-got-a-job",
+      "move": "work-line-started",
+      "kind": "spoken",
+      "text": "I got a job.",
+      "uses": [
+        {
+          "move": "work-line-started",
+          "subject": "work",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "work:opening",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-started",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "nps": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NPS History Collection oral history: bielenberg warren oct 22 2015",
+        "date": "2015-10-22",
+        "granule": "npgallery-c37bf8ab",
+        "url": "https://npgallery.nps.gov/AssetDetail/c37bf8ab-dac6-4c47-9fb5-ede3de0238c1",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.work-line-started.i-was-hired-by-employer",
+      "move": "work-line-started",
+      "kind": "spoken",
+      "text": "I was hired by {employer}.",
+      "uses": [
+        {
+          "move": "work-line-started",
+          "subject": "work",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "work:opening",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-started",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "nasa2": 2,
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Arlin Bartels oral history (discovery-and-new-frontiers collection)",
+        "date": "2023-06-16",
+        "granule": "discovery-and-new-frontiers-bartelsa-6-16-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/04/bartelsa-6-16-23.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -365,11 +493,13 @@
           ]
         }
       ],
-      "transcriptsUsing": 25,
+      "transcriptsUsing": 29,
       "bySource": {
-        "crec": 20,
+        "crec": 19,
         "hearings": 1,
         "nasa": 2,
+        "nasa2": 3,
+        "nps": 2,
         "wpa": 2
       },
       "shippable": true,
@@ -400,9 +530,11 @@
           ]
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 6,
       "bySource": {
         "house": 1,
+        "nasa2": 1,
+        "nps": 3,
         "wpa": 1
       },
       "shippable": true,
@@ -428,17 +560,18 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 12,
       "bySource": {
         "hearings": 1,
+        "nps": 4,
         "wpa": 7
       },
       "shippable": true,
       "source": {
-        "document": "THE ASSAULT ON WOMEN'S FREEDOMS: HOW ABORTION BANS HAVE CREATED A HEALTH CARE NIGHTMARE ACROSS AMERICA",
-        "date": "2024-06-04",
-        "granule": "CHRG-118shrg57241",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg57241/html/CHRG-118shrg57241.htm",
+        "document": "Jennifer A. Hayes Oral History Interview",
+        "date": "2025-03-06",
+        "granule": "npsweb-jennifer-a-hayes-oral-history-interview",
+        "url": "https://www.nps.gov/articles/000/jennifer-a-hayes-oral-history-interview.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -456,17 +589,19 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 10,
       "bySource": {
         "nasa": 2,
+        "nasa2": 1,
+        "nps": 5,
         "wpa": 2
       },
       "shippable": true,
       "source": {
-        "document": "NASA JSC Oral History Project: Dianne Bobko (Wife of Astronaut Karol J. “Bo” Bobko)",
-        "date": "2019-10-17",
-        "granule": "jsc-bobkofd-10-17-19",
-        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/bobkofd-10-17-19.pdf",
+        "document": "NPS History Collection oral history: english-rias melissa sept 16 2020",
+        "date": "2020-09-16",
+        "granule": "npgallery-67faf0d3",
+        "url": "https://npgallery.nps.gov/AssetDetail/67faf0d3-31b0-44ae-9d50-06b018825613",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -489,12 +624,14 @@
           ]
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 16,
       "bySource": {
         "crec": 1,
         "hearings": 2,
         "house": 2,
         "nasa": 1,
+        "nasa2": 2,
+        "nps": 4,
         "wpa": 4
       },
       "shippable": true,
@@ -525,11 +662,13 @@
           ]
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 27,
       "bySource": {
         "hearings": 2,
         "house": 2,
         "nasa": 3,
+        "nih": 2,
+        "nps": 15,
         "wpa": 3
       },
       "shippable": true,
@@ -538,6 +677,38 @@
         "date": "2025-05-07",
         "granule": "CHRG-119hhrg60446",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60446/html/CHRG-119hhrg60446.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.home-line-moved.we-moved",
+      "move": "home-line-moved",
+      "kind": "spoken",
+      "text": "We moved.",
+      "uses": [
+        {
+          "move": "home-line-moved",
+          "subject": "home",
+          "role": "line",
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NPS History Collection oral history: reyer karen oct 28 2016",
+        "date": "2016-10-28",
+        "granule": "npgallery-532e4a8f",
+        "url": "https://npgallery.nps.gov/AssetDetail/532e4a8f-e81b-4165-956c-1d4fd5b66b25",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -560,10 +731,11 @@
           ]
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 4,
       "bySource": {
         "hearings": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -627,20 +799,55 @@
           ]
         }
       ],
-      "transcriptsUsing": 17,
+      "transcriptsUsing": 23,
       "bySource": {
         "crec": 3,
         "hearings": 3,
         "house": 2,
         "nasa": 2,
+        "nasa2": 2,
+        "nps": 4,
         "wpa": 7
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2019-05-10",
-        "date": "2019-05-10",
-        "granule": "CREC-2019-05-10-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2019-05-10",
+        "document": "NPS History Collection oral history: Myers Linda 2019",
+        "date": "2019-09-18",
+        "granule": "npgallery-02219734",
+        "url": "https://npgallery.nps.gov/AssetDetail/02219734-b664-44c7-ab41-298663b2c4a6",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.money-line-short.i-didnt-get-paid",
+      "move": "money-line-short",
+      "kind": "spoken",
+      "text": "I didn't get paid.",
+      "uses": [
+        {
+          "move": "money-line-short",
+          "subject": "money",
+          "role": "line",
+          "choice": "short",
+          "journal": [
+            {
+              "kindPrefix": "unpaid-wages",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "nasa2": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "PHASING OUT SUBMINIMUM WAGES: SUPPORTING THE TRANSITION TO COMPETITIVE INTEGRATED EMPLOYMENT FOR WORKERS WITH DISABILITIES",
+        "date": "2021-07-21",
+        "granule": "CHRG-117jhrg45176",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117jhrg45176/html/CHRG-117jhrg45176.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -663,10 +870,13 @@
           ]
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 17,
       "bySource": {
         "hearings": 1,
         "nasa": 4,
+        "nasa2": 4,
+        "nih": 1,
+        "nps": 5,
         "wpa": 2
       },
       "shippable": true,
@@ -697,19 +907,21 @@
           ]
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 21,
       "bySource": {
-        "crec": 5,
+        "crec": 6,
         "hearings": 1,
         "house": 2,
-        "nasa": 2
+        "nasa": 2,
+        "nasa2": 4,
+        "nps": 6
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, Senate section, 2023-09-11",
-        "date": "2023-09-11",
-        "granule": "CREC-2023-09-11-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2023-09-11",
+        "document": "David J. Lawrence oral history (discovery-and-new-frontiers collection)",
+        "date": "2024-03-22",
+        "granule": "discovery-and-new-frontiers-lawrencedj-3-22-24",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/lawrencedj-3-22-24.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -765,12 +977,14 @@
           ]
         }
       ],
-      "transcriptsUsing": 12,
+      "transcriptsUsing": 25,
       "bySource": {
         "crec": 2,
         "hearings": 2,
         "house": 1,
-        "nasa": 7
+        "nasa": 7,
+        "nasa2": 12,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -800,10 +1014,12 @@
           ]
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 10,
       "bySource": {
         "house": 3,
         "nasa": 3,
+        "nasa2": 2,
+        "nps": 1,
         "wpa": 1
       },
       "shippable": true,
@@ -834,11 +1050,14 @@
           ]
         }
       ],
-      "transcriptsUsing": 14,
+      "transcriptsUsing": 18,
       "bySource": {
         "crec": 1,
         "hearings": 2,
-        "wpa": 11
+        "nasa2": 1,
+        "nih": 2,
+        "nps": 2,
+        "wpa": 10
       },
       "shippable": true,
       "source": {
@@ -868,11 +1087,12 @@
           ]
         }
       ],
-      "transcriptsUsing": 24,
+      "transcriptsUsing": 31,
       "bySource": {
         "crec": 2,
         "hearings": 1,
         "house": 3,
+        "nps": 7,
         "wpa": 18
       },
       "shippable": true,
@@ -936,10 +1156,12 @@
           ]
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 6,
       "bySource": {
         "crec": 1,
         "nasa": 1,
+        "nasa2": 1,
+        "nps": 1,
         "wpa": 2
       },
       "shippable": true,
@@ -970,9 +1192,10 @@
           ]
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 6,
       "bySource": {
         "crec": 2,
+        "nih": 1,
         "wpa": 3
       },
       "shippable": true,
@@ -1064,10 +1287,12 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 4,
       "bySource": {
         "hearings": 1,
-        "house": 1
+        "house": 1,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -1092,11 +1317,13 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 9,
       "bySource": {
         "hearings": 1,
         "house": 4,
-        "nasa": 1
+        "nasa": 1,
+        "nih": 1,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -1104,6 +1331,34 @@
         "date": "2025-10-23",
         "granule": "CHRG-119shrg62164",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62164/html/CHRG-119shrg62164.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.office-line-won.i-was-elected-to-office",
+      "move": "office-line-won",
+      "kind": "spoken",
+      "text": "I was elected to {office}.",
+      "uses": [
+        {
+          "move": "office-line-won",
+          "subject": "office",
+          "role": "line",
+          "choice": "won",
+          "journal": []
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "crec": 1,
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-01-21",
+        "date": "2025-01-21",
+        "granule": "CREC-2025-01-21-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-01-21",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1149,12 +1404,15 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 66,
+      "transcriptsUsing": 153,
       "bySource": {
         "crec": 4,
         "hearings": 18,
         "house": 13,
         "nasa": 4,
+        "nasa2": 10,
+        "nih": 1,
+        "nps": 76,
         "wpa": 27
       },
       "shippable": true,
@@ -1180,20 +1438,23 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 37,
+      "transcriptsUsing": 72,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 2,
         "crec": 4,
         "hearings": 17,
         "house": 9,
-        "nasa": 6
+        "nasa": 6,
+        "nasa2": 11,
+        "nih": 1,
+        "nps": 22
       },
       "shippable": true,
       "source": {
-        "document": "SANCTUARY JURISDICTIONS: MAGNET FOR MIGRANTS, COVER FOR CRIMINALS",
-        "date": "2025-04-09",
-        "granule": "CHRG-119hhrg60069",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60069/html/CHRG-119hhrg60069.htm",
+        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
+        "date": "2025-05-05",
+        "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
+        "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1211,20 +1472,22 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 12,
       "bySource": {
         "crec": 1,
         "hearings": 2,
         "house": 1,
         "nasa": 1,
+        "nasa2": 1,
+        "nps": 2,
         "wpa": 4
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2018-02-07",
-        "date": "2018-02-07",
-        "granule": "CREC-2018-02-07-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2018-02-07",
+        "document": "Jennifer A. Hayes Oral History Interview",
+        "date": "2025-03-06",
+        "granule": "npsweb-jennifer-a-hayes-oral-history-interview",
+        "url": "https://www.nps.gov/articles/000/jennifer-a-hayes-oral-history-interview.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }

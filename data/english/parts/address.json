@@ -33,19 +33,70 @@
       "U.S. Election Assistance Commission (eac.gov)": 65,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
       "crec": 445,
-      "fda": 8,
       "hearings": 1617,
       "house": 115,
       "nasa": 317,
-      "nasa2": 330,
-      "nih": 15,
-      "nps": 200,
+      "nasa2": 349,
+      "nih": 52,
+      "nps": 515,
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 203
+    "notAttested": 202
   },
   "parts": [
+    {
+      "key": "address.house-floor-address-chair.mr-speaker-i-rise-today-to-honor-name",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Mr. Speaker, I rise today to honor {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 20,
+      "bySource": {
+        "crec": 20
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-12-15",
+        "date": "2025-12-15",
+        "granule": "CREC-2025-12-15-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-15",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.madam-speaker-i-rise-today-to-honor-name",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Madam Speaker, I rise today to honor {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "crec": 9
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-12-18",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
     {
       "key": "address.house-floor-address-chair.mr-speaker-i-rise-today-in-support-of-bill",
       "move": "house-floor-address-chair",
@@ -59,16 +110,16 @@
           "choice": "address-chair"
         }
       ],
-      "transcriptsUsing": 23,
+      "transcriptsUsing": 69,
       "bySource": {
-        "crec": 23
+        "crec": 69
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2025-12-12",
-        "date": "2025-12-12",
-        "granule": "CREC-2025-12-12-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-12",
+        "document": "Congressional Record, House section, 2025-12-18",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -85,16 +136,16 @@
           "choice": "address-chair"
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 32,
       "bySource": {
-        "crec": 10
+        "crec": 32
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2023-01-11",
-        "date": "2023-01-11",
-        "granule": "CREC-2023-01-11-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2023-01-11",
+        "document": "Congressional Record, House section, 2024-04-29",
+        "date": "2024-04-29",
+        "granule": "CREC-2024-04-29-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2024-04-29",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -111,16 +162,16 @@
           "choice": "address-chair"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 14,
       "bySource": {
-        "crec": 6
+        "crec": 14
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2024-03-20",
-        "date": "2024-03-20",
-        "granule": "CREC-2024-03-20-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2024-03-20",
+        "document": "Congressional Record, House section, 2025-12-03",
+        "date": "2025-12-03",
+        "granule": "CREC-2025-12-03-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-03",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -137,16 +188,16 @@
           "choice": "address-chair"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 9,
       "bySource": {
-        "crec": 4
+        "crec": 9
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2021-12-09",
-        "date": "2021-12-09",
-        "granule": "CREC-2021-12-09-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2021-12-09",
+        "document": "Congressional Record, House section, 2024-07-09",
+        "date": "2024-07-09",
+        "granule": "CREC-2024-07-09-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2024-07-09",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -163,16 +214,42 @@
           "choice": "address-chair"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 34,
       "bySource": {
-        "crec": 3
+        "crec": 34
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2025-06-04",
-        "date": "2025-06-04",
-        "granule": "CREC-2025-06-04-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-06-04",
+        "document": "Congressional Record, House section, 2025-12-03",
+        "date": "2025-12-03",
+        "granule": "CREC-2025-12-03-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-03",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.madam-speaker-i-rise-today-to-recognize-name",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Madam Speaker, I rise today to recognize {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "crec": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2024-05-16",
+        "date": "2024-05-16",
+        "granule": "CREC-2024-05-16-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2024-05-16",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -189,16 +266,16 @@
           "choice": "address-chair"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 43,
       "bySource": {
-        "crec": 7
+        "crec": 43
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2025-12-03",
-        "date": "2025-12-03",
-        "granule": "CREC-2025-12-03-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-03",
+        "document": "Congressional Record, House section, 2025-12-18",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -215,16 +292,16 @@
           "choice": "address-chair"
         }
       ],
-      "transcriptsUsing": 12,
+      "transcriptsUsing": 29,
       "bySource": {
-        "crec": 12
+        "crec": 29
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2024-04-20",
-        "date": "2024-04-20",
-        "granule": "CREC-2024-04-20-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2024-04-20",
+        "document": "Congressional Record, House section, 2025-05-05",
+        "date": "2025-05-05",
+        "granule": "CREC-2025-05-05-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-05-05",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -241,16 +318,16 @@
           "choice": "address-chair"
         }
       ],
-      "transcriptsUsing": 16,
+      "transcriptsUsing": 30,
       "bySource": {
-        "crec": 16
+        "crec": 30
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, House section, 2025-01-22",
-        "date": "2025-01-22",
-        "granule": "CREC-2025-01-22-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-01-22",
+        "document": "Congressional Record, House section, 2025-12-18",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -267,9 +344,9 @@
           "choice": "address-chair"
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 12,
       "bySource": {
-        "crec": 10
+        "crec": 12
       },
       "shippable": true,
       "source": {
@@ -277,6 +354,396 @@
         "date": "2023-01-11",
         "granule": "CREC-2023-01-11-house",
         "url": "https://www.govinfo.gov/app/details/CREC-2023-01-11",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.mr-speaker-i-rise-today",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Mr. Speaker, I rise today.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 31,
+      "bySource": {
+        "crec": 31
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-12-12",
+        "date": "2025-12-12",
+        "granule": "CREC-2025-12-12-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-12",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.madam-speaker-i-rise-today",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Madam Speaker, I rise today.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 18,
+      "bySource": {
+        "crec": 18
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-05-15",
+        "date": "2025-05-15",
+        "granule": "CREC-2025-05-15-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-05-15",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.mr-speaker-i-rise-today-to-honor-the-life-of-nam",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Mr. Speaker, I rise today to honor the life of {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 20,
+      "bySource": {
+        "crec": 20
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-11-18",
+        "date": "2025-11-18",
+        "granule": "CREC-2025-11-18-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.mr-speaker-i-rise-today-to-celebrate-name",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Mr. Speaker, I rise today to celebrate {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "crec": 7
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-03-25",
+        "date": "2025-03-25",
+        "granule": "CREC-2025-03-25-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-03-25",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.mr-speaker-i-rise-today-to-congratulate-name",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Mr. Speaker, I rise today to congratulate {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "crec": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2024-06-13",
+        "date": "2024-06-13",
+        "granule": "CREC-2024-06-13-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2024-06-13",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.mr-speaker-i-rise-to-honor-name",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Mr. Speaker, I rise to honor {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "crec": 6
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-12-18",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.mr-speaker-i-rise-to-recognize-name",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Mr. Speaker, I rise to recognize {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "crec": 7
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-05-05",
+        "date": "2025-05-05",
+        "granule": "CREC-2025-05-05-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-05-05",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.mr-speaker-i-rise-today-in-recognition-of-name",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Mr. Speaker, I rise today in recognition of {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "crec": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2024-05-16",
+        "date": "2024-05-16",
+        "granule": "CREC-2024-05-16-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2024-05-16",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.mr-speaker-i-rise-today-in-honor-of-name",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Mr. Speaker, I rise today in honor of {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "crec": 6
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-12-03",
+        "date": "2025-12-03",
+        "granule": "CREC-2025-12-03-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-03",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.madam-speaker-i-rise-today-to-honor-the-life-of",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Madam Speaker, I rise today to honor the life of {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "crec": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2024-06-04",
+        "date": "2024-06-04",
+        "granule": "CREC-2024-06-04-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2024-06-04",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.madam-speaker-i-rise-today-to-celebrate-name",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Madam Speaker, I rise today to celebrate {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "crec": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2024-09-12",
+        "date": "2024-09-12",
+        "granule": "CREC-2024-09-12-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2024-09-12",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.madam-speaker-i-rise-today-to-congratulate-name",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Madam Speaker, I rise today to congratulate {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "crec": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2023-10-03",
+        "date": "2023-10-03",
+        "granule": "CREC-2023-10-03-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2023-10-03",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.madam-speaker-i-rise-to-honor-name",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Madam Speaker, I rise to honor {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2024-06-28",
+        "date": "2024-06-28",
+        "granule": "CREC-2024-06-28-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2024-06-28",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.madam-speaker-i-rise-today-in-recognition-of-nam",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Madam Speaker, I rise today in recognition of {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2021-12-01",
+        "date": "2021-12-01",
+        "granule": "CREC-2021-12-01-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2021-12-01",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-address-chair.madam-speaker-i-rise-today-in-honor-of-name",
+      "move": "house-floor-address-chair",
+      "kind": "spoken",
+      "text": "Madam Speaker, I rise today in honor of {name}.",
+      "uses": [
+        {
+          "move": "house-floor-address-chair",
+          "subject": "house-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2023-03-22",
+        "date": "2023-03-22",
+        "granule": "CREC-2023-03-22-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2023-03-22",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -360,9 +827,9 @@
           "choice": "yield"
         }
       ],
-      "transcriptsUsing": 119,
+      "transcriptsUsing": 123,
       "bySource": {
-        "crec": 119
+        "crec": 123
       },
       "shippable": true,
       "source": {
@@ -386,9 +853,9 @@
           "choice": "yield"
         }
       ],
-      "transcriptsUsing": 72,
+      "transcriptsUsing": 76,
       "bySource": {
-        "crec": 72
+        "crec": 76
       },
       "shippable": true,
       "source": {
@@ -602,9 +1069,9 @@
           "choice": "tribute-close"
         }
       ],
-      "transcriptsUsing": 25,
+      "transcriptsUsing": 26,
       "bySource": {
-        "crec": 25
+        "crec": 26
       },
       "shippable": true,
       "source": {
@@ -628,10 +1095,10 @@
           "choice": "tribute-close"
         }
       ],
-      "transcriptsUsing": 14,
+      "transcriptsUsing": 22,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 3,
-        "crec": 10,
+        "U.S. Election Assistance Commission (eac.gov)": 4,
+        "crec": 17,
         "hearings": 1
       },
       "shippable": true,
@@ -682,9 +1149,9 @@
           "choice": "tribute-close"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
-        "crec": 2
+        "crec": 3
       },
       "shippable": true,
       "source": {
@@ -734,15 +1201,16 @@
           "choice": "tribute-story"
         }
       ],
-      "transcriptsUsing": 64,
+      "transcriptsUsing": 68,
       "bySource": {
-        "crec": 41,
+        "crec": 47,
         "hearings": 3,
-        "house": 3,
+        "house": 5,
         "nasa": 1,
+        "nasa2": 1,
         "nih": 1,
-        "nps": 7,
-        "wpa": 8
+        "nps": 3,
+        "wpa": 7
       },
       "shippable": true,
       "source": {
@@ -766,9 +1234,9 @@
           "choice": "tribute-story"
         }
       ],
-      "transcriptsUsing": 21,
+      "transcriptsUsing": 20,
       "bySource": {
-        "crec": 14,
+        "crec": 13,
         "hearings": 4,
         "house": 1,
         "nps": 2
@@ -797,10 +1265,9 @@
       ],
       "transcriptsUsing": 10,
       "bySource": {
-        "crec": 7,
+        "crec": 8,
         "hearings": 1,
-        "house": 1,
-        "nps": 1
+        "house": 1
       },
       "shippable": true,
       "source": {
@@ -824,10 +1291,9 @@
           "choice": "tribute-story"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 3,
       "bySource": {
-        "crec": 3,
-        "nps": 1
+        "crec": 3
       },
       "shippable": true,
       "source": {
@@ -861,6 +1327,58 @@
         "date": "2025-05-15",
         "granule": "CREC-2025-05-15-house",
         "url": "https://www.govinfo.gov/app/details/CREC-2025-05-15",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.house-floor-tribute-story.name-is-survived-by-pronoun-husband",
+      "move": "house-floor-tribute-story",
+      "kind": "spoken",
+      "text": "{name} is survived by {pronoun} husband.",
+      "uses": [
+        {
+          "move": "house-floor-tribute-story",
+          "subject": "house-floor",
+          "role": "tribute-story",
+          "choice": "tribute-story"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2025-05-15",
+        "date": "2025-05-15",
+        "granule": "CREC-2025-05-15-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-05-15",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.senate-floor-address-chair.mr-president-i-rise-today-to-honor-name",
+      "move": "senate-floor-address-chair",
+      "kind": "spoken",
+      "text": "Mr. President, I rise today to honor {name}.",
+      "uses": [
+        {
+          "move": "senate-floor-address-chair",
+          "subject": "senate-floor",
+          "role": "address-chair",
+          "choice": "address-chair"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2025-09-10",
+        "date": "2025-09-10",
+        "granule": "CREC-2025-09-10-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-09-10",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1034,16 +1552,16 @@
           "choice": "address-chair"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 6,
       "bySource": {
-        "hearings": 4
+        "hearings": 6
       },
       "shippable": true,
       "source": {
-        "document": "BUILDING BLOCKS FOR SUCCESS: INVESTING IN EARLY CHILDHOOD EDUCATION",
-        "date": "2024-04-10",
-        "granule": "CHRG-118shrg56028",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg56028/html/CHRG-118shrg56028.htm",
+        "document": "OVERSIGHT HEARING ON EXAMINING THE PRESIDENT'S FY 2025 BUDGET REQUEST FOR THE BUREAU OF LAND MANAGEMENT AND NATIONAL PARK SERVICE",
+        "date": "2024-05-15",
+        "granule": "CHRG-118hhrg55688",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55688/html/CHRG-118hhrg55688.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1060,10 +1578,10 @@
           "choice": "address-chair"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 7,
       "bySource": {
-        "crec": 1,
-        "hearings": 2
+        "crec": 3,
+        "hearings": 4
       },
       "shippable": true,
       "source": {
@@ -1087,17 +1605,17 @@
           "choice": "address-chair"
         }
       ],
-      "transcriptsUsing": 30,
+      "transcriptsUsing": 34,
       "bySource": {
-        "crec": 29,
+        "crec": 33,
         "hearings": 1
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, Senate section, 2025-04-30",
-        "date": "2025-04-30",
-        "granule": "CREC-2025-04-30-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-04-30",
+        "document": "Congressional Record, Senate section, 2025-05-13",
+        "date": "2025-05-13",
+        "granule": "CREC-2025-05-13-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-05-13",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1146,12 +1664,11 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 1258,
+      "transcriptsUsing": 1275,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 14,
-        "crec": 3,
-        "fda": 1,
-        "hearings": 1240
+        "crec": 4,
+        "hearings": 1257
       },
       "shippable": true,
       "source": {
@@ -1181,10 +1698,10 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 322,
+      "transcriptsUsing": 327,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 9,
-        "hearings": 313
+        "hearings": 318
       },
       "shippable": true,
       "source": {
@@ -1214,10 +1731,10 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 552,
+      "transcriptsUsing": 625,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 12,
-        "hearings": 540
+        "hearings": 613
       },
       "shippable": true,
       "source": {
@@ -1259,18 +1776,17 @@
           "choice": "close"
         }
       ],
-      "transcriptsUsing": 2064,
+      "transcriptsUsing": 2204,
       "bySource": {
         "Federal Election Commission (fec.gov)": 11,
         "U.S. Election Assistance Commission (eac.gov)": 61,
         "crec": 92,
-        "fda": 1,
         "hearings": 1592,
         "house": 70,
         "nasa": 101,
-        "nasa2": 98,
-        "nih": 1,
-        "nps": 35,
+        "nasa2": 102,
+        "nih": 14,
+        "nps": 159,
         "wpa": 2
       },
       "shippable": true,
@@ -1313,7 +1829,7 @@
           "choice": "close"
         }
       ],
-      "transcriptsUsing": 1610,
+      "transcriptsUsing": 1650,
       "bySource": {
         "Federal Election Commission (fec.gov)": 7,
         "U.S. Election Assistance Commission (eac.gov)": 44,
@@ -1321,8 +1837,9 @@
         "hearings": 1450,
         "house": 22,
         "nasa": 22,
-        "nasa2": 33,
-        "nps": 12
+        "nasa2": 34,
+        "nih": 11,
+        "nps": 40
       },
       "shippable": true,
       "source": {
@@ -1346,18 +1863,18 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 380,
+      "transcriptsUsing": 855,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 13,
+        "U.S. Election Assistance Commission (eac.gov)": 15,
         "crec": 2,
-        "hearings": 365
+        "hearings": 838
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
-        "date": "2026-04-28",
-        "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
-        "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
+        "document": "LEGISLATIVE BRANCH APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60273",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60273/html/CHRG-119shrg60273.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1374,16 +1891,16 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 62,
+      "transcriptsUsing": 138,
       "bySource": {
-        "hearings": 62
+        "hearings": 138
       },
       "shippable": true,
       "source": {
-        "document": "FISCAL YEAR 2025 BUDGET REQUEST FOR SOUTH AND CENTRAL ASIAN AFFAIRS",
-        "date": "2024-07-23",
-        "granule": "CHRG-118hhrg56821",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg56821/html/CHRG-118hhrg56821.htm",
+        "document": "RESTORING PUBLIC TRUST THROUGH UAP TRANSPARENCY AND WHISTLEBLOWER PROTECTION",
+        "date": "2025-09-09",
+        "granule": "CHRG-119hhrg61718",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61718/html/CHRG-119hhrg61718.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1400,12 +1917,13 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 349,
+      "transcriptsUsing": 350,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 14,
         "crec": 2,
         "hearings": 332,
-        "house": 1
+        "house": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -1584,11 +2102,11 @@
           "choice": "close"
         }
       ],
-      "transcriptsUsing": 296,
+      "transcriptsUsing": 337,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 3,
-        "hearings": 292
+        "hearings": 333
       },
       "shippable": true,
       "source": {
@@ -1664,11 +2182,11 @@
           "choice": "close"
         }
       ],
-      "transcriptsUsing": 198,
+      "transcriptsUsing": 208,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 1,
-        "hearings": 196
+        "hearings": 206
       },
       "shippable": true,
       "source": {
@@ -1773,13 +2291,13 @@
           "choice": "witness-hedge"
         }
       ],
-      "transcriptsUsing": 28,
+      "transcriptsUsing": 30,
       "bySource": {
         "hearings": 11,
         "house": 3,
         "nasa": 6,
         "nasa2": 6,
-        "nps": 2
+        "nps": 4
       },
       "shippable": true,
       "source": {
@@ -1803,10 +2321,11 @@
           "choice": "witness-hedge"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 9,
       "bySource": {
         "hearings": 6,
-        "nasa": 2
+        "nasa": 2,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -1830,18 +2349,17 @@
           "choice": "witness-hedge"
         }
       ],
-      "transcriptsUsing": 719,
+      "transcriptsUsing": 911,
       "bySource": {
         "Federal Election Commission (fec.gov)": 2,
         "U.S. Election Assistance Commission (eac.gov)": 20,
         "crec": 55,
-        "fda": 5,
         "hearings": 216,
         "house": 54,
         "nasa": 169,
-        "nasa2": 112,
-        "nih": 8,
-        "nps": 56,
+        "nasa2": 125,
+        "nih": 17,
+        "nps": 231,
         "wpa": 22
       },
       "shippable": true,
@@ -1866,13 +2384,13 @@
           "choice": "witness-hedge"
         }
       ],
-      "transcriptsUsing": 32,
+      "transcriptsUsing": 37,
       "bySource": {
         "hearings": 14,
-        "house": 4,
+        "house": 3,
         "nasa": 9,
         "nasa2": 1,
-        "nps": 4
+        "nps": 10
       },
       "shippable": true,
       "source": {
@@ -1896,9 +2414,10 @@
           "choice": "witness-hedge"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 6,
       "bySource": {
-        "hearings": 5
+        "hearings": 5,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -1948,14 +2467,15 @@
           "choice": "witness-hedge"
         }
       ],
-      "transcriptsUsing": 66,
+      "transcriptsUsing": 91,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 7,
         "hearings": 11,
         "house": 7,
         "nasa": 18,
         "nasa2": 19,
-        "nps": 4
+        "nih": 1,
+        "nps": 28
       },
       "shippable": true,
       "source": {
@@ -1979,12 +2499,13 @@
           "choice": "witness-hedge"
         }
       ],
-      "transcriptsUsing": 55,
+      "transcriptsUsing": 61,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 5,
         "hearings": 38,
         "nasa": 1,
-        "nasa2": 11
+        "nasa2": 11,
+        "nps": 6
       },
       "shippable": true,
       "source": {
@@ -2014,17 +2535,18 @@
           "choice": "self"
         }
       ],
-      "transcriptsUsing": 797,
+      "transcriptsUsing": 871,
       "bySource": {
         "Federal Election Commission (fec.gov)": 2,
         "U.S. Election Assistance Commission (eac.gov)": 38,
         "crec": 7,
-        "hearings": 674,
+        "hearings": 692,
         "house": 37,
         "nasa": 3,
         "nasa2": 3,
-        "nps": 14,
-        "wpa": 19
+        "nih": 2,
+        "nps": 67,
+        "wpa": 20
       },
       "shippable": true,
       "source": {
@@ -2074,14 +2596,14 @@
           "choice": "name"
         }
       ],
-      "transcriptsUsing": 55,
+      "transcriptsUsing": 63,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 5,
         "crec": 4,
         "hearings": 37,
         "nasa": 1,
         "nasa2": 2,
-        "nps": 3,
+        "nps": 11,
         "wpa": 3
       },
       "shippable": true,
@@ -2162,9 +2684,10 @@
           "choice": "greet"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 6,
       "bySource": {
-        "hearings": 5
+        "hearings": 5,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -2274,7 +2797,7 @@
           "choice": "close"
         }
       ],
-      "transcriptsUsing": 248,
+      "transcriptsUsing": 250,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 6,
@@ -2283,7 +2806,7 @@
         "house": 3,
         "nasa": 1,
         "nasa2": 9,
-        "nps": 2
+        "nps": 4
       },
       "shippable": true,
       "source": {
@@ -2362,11 +2885,12 @@
           "choice": "story"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 8,
       "bySource": {
         "crec": 1,
         "hearings": 1,
-        "house": 1
+        "house": 1,
+        "nps": 5
       },
       "shippable": true,
       "source": {
@@ -2500,11 +3024,12 @@
           "choice": "close"
         }
       ],
-      "transcriptsUsing": 138,
+      "transcriptsUsing": 139,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 4,
         "crec": 5,
-        "hearings": 129
+        "hearings": 129,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -2774,9 +3299,9 @@
           "choice": "run-meeting"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 9,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 7,
+        "U.S. Election Assistance Commission (eac.gov)": 8,
         "hearings": 1
       },
       "shippable": true,
@@ -3236,15 +3761,16 @@
           "choice": "close"
         }
       ],
-      "transcriptsUsing": 701,
+      "transcriptsUsing": 944,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 31,
-        "crec": 8,
-        "hearings": 606,
-        "house": 24,
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 34,
+        "crec": 15,
+        "hearings": 796,
+        "house": 27,
         "nasa": 13,
-        "nasa2": 11,
-        "nps": 8
+        "nasa2": 10,
+        "nps": 48
       },
       "shippable": true,
       "source": {
@@ -3323,22 +3849,23 @@
           "choice": "self"
         }
       ],
-      "transcriptsUsing": 54,
+      "transcriptsUsing": 72,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 2,
         "crec": 4,
         "hearings": 17,
         "house": 9,
         "nasa": 6,
         "nasa2": 11,
-        "nps": 6
+        "nih": 1,
+        "nps": 22
       },
       "shippable": true,
       "source": {
-        "document": "SANCTUARY JURISDICTIONS: MAGNET FOR MIGRANTS, COVER FOR CRIMINALS",
-        "date": "2025-04-09",
-        "granule": "CHRG-119hhrg60069",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60069/html/CHRG-119hhrg60069.htm",
+        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
+        "date": "2025-05-05",
+        "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
+        "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -3355,11 +3882,15 @@
           "choice": "self"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 24,
       "bySource": {
-        "hearings": 4,
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "crec": 1,
+        "hearings": 7,
         "house": 1,
-        "wpa": 4
+        "nasa": 1,
+        "nps": 7,
+        "wpa": 6
       },
       "shippable": true,
       "source": {
@@ -3367,6 +3898,33 @@
         "date": "2024-09-25",
         "granule": "CHRG-118shrg63051",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg63051/html/CHRG-118shrg63051.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.campaign-self.im-a-nurse",
+      "move": "campaign-self",
+      "kind": "spoken",
+      "text": "I'm a nurse.",
+      "uses": [
+        {
+          "move": "campaign-self",
+          "subject": "campaign",
+          "role": "self",
+          "choice": "self"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "nih": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "STATE PERSPECTIVES ON REGULATING BACKGROUND OZONE",
+        "date": "2018-06-21",
+        "granule": "CHRG-115hhrg30876",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-115hhrg30876/html/CHRG-115hhrg30876.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -3383,10 +3941,11 @@
           "choice": "self"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 7,
       "bySource": {
         "hearings": 3,
-        "nih": 1
+        "nih": 1,
+        "nps": 3
       },
       "shippable": true,
       "source": {
@@ -3410,17 +3969,17 @@
           "choice": "issue"
         }
       ],
-      "transcriptsUsing": 1509,
+      "transcriptsUsing": 1580,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 39,
+        "U.S. Election Assistance Commission (eac.gov)": 40,
         "crec": 261,
-        "hearings": 1031,
+        "hearings": 1032,
         "house": 35,
         "nasa": 51,
-        "nasa2": 72,
-        "nih": 1,
-        "nps": 17,
+        "nasa2": 75,
+        "nih": 6,
+        "nps": 78,
         "wpa": 1
       },
       "shippable": true,
@@ -3445,17 +4004,17 @@
           "choice": "issue"
         }
       ],
-      "transcriptsUsing": 1106,
+      "transcriptsUsing": 1154,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 28,
         "crec": 193,
-        "hearings": 750,
+        "hearings": 751,
         "house": 19,
         "nasa": 39,
         "nasa2": 63,
-        "nih": 1,
-        "nps": 9,
+        "nih": 6,
+        "nps": 51,
         "wpa": 3
       },
       "shippable": true,
@@ -3480,18 +4039,17 @@
           "choice": "issue"
         }
       ],
-      "transcriptsUsing": 1441,
+      "transcriptsUsing": 1524,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 44,
-        "crec": 233,
-        "fda": 3,
-        "hearings": 866,
+        "crec": 237,
+        "hearings": 875,
         "house": 23,
         "nasa": 122,
-        "nasa2": 123,
-        "nih": 3,
-        "nps": 20,
+        "nasa2": 127,
+        "nih": 9,
+        "nps": 83,
         "wpa": 3
       },
       "shippable": true,
@@ -3516,16 +4074,15 @@
           "choice": "issue"
         }
       ],
-      "transcriptsUsing": 62,
+      "transcriptsUsing": 65,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 9,
-        "hearings": 34,
+        "hearings": 35,
         "house": 2,
         "nasa": 9,
-        "nasa2": 5,
-        "nih": 1,
-        "nps": 1
+        "nasa2": 6,
+        "nps": 3
       },
       "shippable": true,
       "source": {
@@ -3603,9 +4160,9 @@
           "choice": "issue"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 3,
       "bySource": {
-        "crec": 4
+        "crec": 3
       },
       "shippable": true,
       "source": {
@@ -3657,7 +4214,7 @@
           "choice": "issue"
         }
       ],
-      "transcriptsUsing": 227,
+      "transcriptsUsing": 231,
       "bySource": {
         "Federal Election Commission (fec.gov)": 2,
         "U.S. Election Assistance Commission (eac.gov)": 2,
@@ -3666,7 +4223,7 @@
         "house": 1,
         "nasa": 2,
         "nasa2": 4,
-        "nps": 1,
+        "nps": 5,
         "wpa": 1
       },
       "shippable": true,
@@ -3798,11 +4355,13 @@
           "choice": "contrast"
         }
       ],
-      "transcriptsUsing": 46,
+      "transcriptsUsing": 48,
       "bySource": {
         "crec": 35,
         "hearings": 10,
-        "nasa2": 1
+        "nasa2": 1,
+        "nih": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -3880,14 +4439,15 @@
           "choice": "ask"
         }
       ],
-      "transcriptsUsing": 33,
+      "transcriptsUsing": 35,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 11,
         "hearings": 15,
         "house": 1,
         "nasa": 1,
-        "nasa2": 4
+        "nasa2": 5,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -4026,15 +4586,16 @@
           "choice": "claim"
         }
       ],
-      "transcriptsUsing": 50,
+      "transcriptsUsing": 53,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 3,
         "crec": 10,
         "hearings": 9,
         "house": 5,
         "nasa": 12,
-        "nasa2": 7,
-        "nps": 4
+        "nasa2": 8,
+        "nih": 1,
+        "nps": 5
       },
       "shippable": true,
       "source": {

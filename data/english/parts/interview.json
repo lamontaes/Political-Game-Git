@@ -1,0 +1,1731 @@
+{
+  "schema": "english-parts/1",
+  "register": "interview",
+  "description": "A one-on-one interview of a candidate or official by a local reporter: the reporter's questions and follow-ups, and the answers, commitments, defenses of a record and deflections. Every part is a whole sentence said in public-domain federal records (hearings, the Congressional Record, FEC and EAC meetings, federal oral histories), with record words as slots.",
+  "slots": {
+    "office": "The office, from the office records.",
+    "issue": "What the question is about, from the topic or measure record.",
+    "place": "The town or state, from the place records.",
+    "bill": "A measure the official voted on, from the vote record.",
+    "opponent": "The other candidate, by name, from the contest record.",
+    "claim": "What the opponent said, from the statement record.",
+    "goal": "What the official wants done, from their recorded stance.",
+    "topic": "A matter the official won't discuss, from the records.",
+    "experience": "What happened to the official's family, from their own records."
+  },
+  "maxWords": 14,
+  "mining": {
+    "tool": "scripts/english-corpus/mine-shapes.py",
+    "shapes": "scripts/english-corpus/shapes/interview.json",
+    "read": {
+      "Federal Election Commission (fec.gov)": 253,
+      "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+      "U.S. Election Assistance Commission (eac.gov)": 65,
+      "USAGov (usa.gov), U.S. General Services Administration": 16,
+      "crec": 445,
+      "hearings": 1617,
+      "house": 115,
+      "nasa": 317,
+      "nasa2": 349,
+      "nih": 52,
+      "nps": 515,
+      "wpa": 38
+    },
+    "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
+    "notAttested": 80
+  },
+  "parts": [
+    {
+      "key": "interview.reporter-open.thank-you-for-taking-the-time",
+      "move": "reporter-open",
+      "kind": "spoken",
+      "text": "Thank you for taking the time.",
+      "uses": [
+        {
+          "move": "reporter-open",
+          "subject": "reporter",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "AN EXAMINATION OF PRISON LABOR IN AMERICA",
+        "date": "2024-05-21",
+        "granule": "CHRG-118shrg59497",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg59497/html/CHRG-118shrg59497.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-open.thank-you-for-joining-us",
+      "move": "reporter-open",
+      "kind": "spoken",
+      "text": "Thank you for joining us.",
+      "uses": [
+        {
+          "move": "reporter-open",
+          "subject": "reporter",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "transcriptsUsing": 54,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 3,
+        "hearings": 48,
+        "house": 2,
+        "nih": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
+        "date": "2025-05-05",
+        "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
+        "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-open.thanks-for-joining-us",
+      "move": "reporter-open",
+      "kind": "spoken",
+      "text": "Thanks for joining us.",
+      "uses": [
+        {
+          "move": "reporter-open",
+          "subject": "reporter",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "transcriptsUsing": 15,
+      "bySource": {
+        "hearings": 13,
+        "house": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "MODERNIZING VA: LESSONS LEARNED IN THE 118TH CONGRESS",
+        "date": "2024-12-12",
+        "granule": "CHRG-118hhrg58136",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg58136/html/CHRG-118hhrg58136.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-open.thanks-for-being-here",
+      "move": "reporter-open",
+      "kind": "spoken",
+      "text": "Thanks for being here.",
+      "uses": [
+        {
+          "move": "reporter-open",
+          "subject": "reporter",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "transcriptsUsing": 68,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 3,
+        "hearings": 65
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-open.thanks-for-doing-this",
+      "move": "reporter-open",
+      "kind": "spoken",
+      "text": "Thanks for doing this.",
+      "uses": [
+        {
+          "move": "reporter-open",
+          "subject": "reporter",
+          "role": "open",
+          "choice": "open"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "hearings": 1,
+        "nasa": 1,
+        "nasa2": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "OPPORTUNITIES AND CHALLENGES ASSOCIATED WITH ADVANCED NUCLEAR REACTOR COMMERCIALIZATION",
+        "date": "2023-11-30",
+        "granule": "CHRG-118shrg55843",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg55843/html/CHRG-118shrg55843.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-why-run.why-now",
+      "move": "reporter-why-run",
+      "kind": "spoken",
+      "text": "Why now?",
+      "uses": [
+        {
+          "move": "reporter-why-run",
+          "subject": "reporter",
+          "role": "why-run",
+          "choice": "why-run"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "crec": 2,
+        "hearings": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-11-18",
+        "date": "2025-11-18",
+        "granule": "CREC-2025-11-18-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-11-18",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-issue.what-are-you-going-to-do-about-issue",
+      "move": "reporter-issue",
+      "kind": "spoken",
+      "text": "What are you going to do about {issue}?",
+      "uses": [
+        {
+          "move": "reporter-issue",
+          "subject": "reporter",
+          "role": "issue",
+          "choice": "issue"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "crec": 1,
+        "hearings": 1,
+        "nasa": 1,
+        "nih": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2018-12-12",
+        "date": "2018-12-12",
+        "granule": "CREC-2018-12-12-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2018-12-12",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-record.do-you-stand-by-that",
+      "move": "reporter-record",
+      "kind": "spoken",
+      "text": "Do you stand by that?",
+      "uses": [
+        {
+          "move": "reporter-record",
+          "subject": "reporter",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "hearings": 6
+      },
+      "shippable": true,
+      "source": {
+        "document": "THE SEMI-ANNUAL REPORT OF THE BUREAU OF CONSUMER FINANCIAL PROTECTION",
+        "date": "2024-06-13",
+        "granule": "CHRG-118hhrg56523",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg56523/html/CHRG-118hhrg56523.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-record.how-do-you-explain-that",
+      "move": "reporter-record",
+      "kind": "spoken",
+      "text": "How do you explain that?",
+      "uses": [
+        {
+          "move": "reporter-record",
+          "subject": "reporter",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "transcriptsUsing": 14,
+      "bySource": {
+        "hearings": 9,
+        "nih": 1,
+        "nps": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "PROTECTING VETERAN CHOICE: EXAMINING VA'S COMMUNITY CARE PROGRAM",
+        "date": "2025-01-28",
+        "granule": "CHRG-119shrg58614",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg58614/html/CHRG-119shrg58614.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-opponent.how-do-you-respond-to-that",
+      "move": "reporter-opponent",
+      "kind": "spoken",
+      "text": "How do you respond to that?",
+      "uses": [
+        {
+          "move": "reporter-opponent",
+          "subject": "reporter",
+          "role": "opponent",
+          "choice": "opponent"
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "hearings": 9
+      },
+      "shippable": true,
+      "source": {
+        "document": "PRESSURE COOKER: COMPETITION ISSUES IN THE SEED AND FERTILIZER INDUSTRIES",
+        "date": "2025-10-28",
+        "granule": "CHRG-119shrg62935",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62935/html/CHRG-119shrg62935.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-opponent.whats-your-response-to-that",
+      "move": "reporter-opponent",
+      "kind": "spoken",
+      "text": "What's your response to that?",
+      "uses": [
+        {
+          "move": "reporter-opponent",
+          "subject": "reporter",
+          "role": "opponent",
+          "choice": "opponent"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "hearings": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "BEYOND THE TRAILHEAD: SUPPORTING OUTDOOR RECREATION IN AN UNCERTAIN ECONOMY",
+        "date": "2025-05-30",
+        "granule": "CHRG-119shrg60615",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60615/html/CHRG-119shrg60615.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-future.whats-next",
+      "move": "reporter-future",
+      "kind": "spoken",
+      "text": "What's next?",
+      "uses": [
+        {
+          "move": "reporter-future",
+          "subject": "reporter",
+          "role": "future",
+          "choice": "future"
+        }
+      ],
+      "transcriptsUsing": 11,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 2,
+        "hearings": 2,
+        "house": 1,
+        "nasa": 1,
+        "nasa2": 3,
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "OPPORTUNITIES AND CHALLENGES IN ADDRESSING HOMELESSNESS",
+        "date": "2022-07-19",
+        "granule": "CHRG-117shrg55962",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg55962/html/CHRG-117shrg55962.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-future.what-happens-now",
+      "move": "reporter-future",
+      "kind": "spoken",
+      "text": "What happens now?",
+      "uses": [
+        {
+          "move": "reporter-future",
+          "subject": "reporter",
+          "role": "future",
+          "choice": "future"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 1,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "OPEN HEARING: PERSONNEL VETTING, SECURITY CLEARANCE REFORM, AND TRUSTED WORKFORCE 2.0",
+        "date": "2024-07-10",
+        "granule": "CHRG-118shrg57024",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg57024/html/CHRG-118shrg57024.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-press.can-you-be-more-specific",
+      "move": "reporter-press",
+      "kind": "spoken",
+      "text": "Can you be more specific?",
+      "uses": [
+        {
+          "move": "reporter-press",
+          "subject": "reporter",
+          "role": "press",
+          "choice": "press"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "hearings": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "DISRUPTION IN THE SKIES: THE SURGE IN AIR RAGE AND ITS EFFECTS ON WORKERS, AIRLINES, AND AIRPORTS",
+        "date": "2021-09-23",
+        "granule": "CHRG-117hhrg49704",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg49704/html/CHRG-117hhrg49704.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-press.can-you-give-us-an-example",
+      "move": "reporter-press",
+      "kind": "spoken",
+      "text": "Can you give us an example?",
+      "uses": [
+        {
+          "move": "reporter-press",
+          "subject": "reporter",
+          "role": "press",
+          "choice": "press"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "hearings": 2,
+        "nasa": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "EXAMINATION OF THE MAIN STREET LENDING PROGRAM",
+        "date": "2020-08-07",
+        "granule": "CHRG-116jhrg41488",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116jhrg41488/html/CHRG-116jhrg41488.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-press.thats-not-what-i-asked",
+      "move": "reporter-press",
+      "kind": "spoken",
+      "text": "That's not what I asked.",
+      "uses": [
+        {
+          "move": "reporter-press",
+          "subject": "reporter",
+          "role": "press",
+          "choice": "press"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "hearings": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "OVERSIGHT OF THE FEDERAL BUREAU OF INVESTIGATION",
+        "date": "2021-06-10",
+        "granule": "CHRG-117hhrg48244",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg48244/html/CHRG-117hhrg48244.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-press.yes-or-no",
+      "move": "reporter-press",
+      "kind": "spoken",
+      "text": "Yes or no?",
+      "uses": [
+        {
+          "move": "reporter-press",
+          "subject": "reporter",
+          "role": "press",
+          "choice": "press"
+        }
+      ],
+      "transcriptsUsing": 139,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "crec": 1,
+        "hearings": 136,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRUMP'S REGULATORY ROLLBACK: SAVING AMERICANS $907 BILLION AND COUNTING",
+        "date": "2025-11-19",
+        "granule": "CHRG-119shrg62295",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62295/html/CHRG-119shrg62295.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-press.is-that-a-yes",
+      "move": "reporter-press",
+      "kind": "spoken",
+      "text": "Is that a yes?",
+      "uses": [
+        {
+          "move": "reporter-press",
+          "subject": "reporter",
+          "role": "press",
+          "choice": "press"
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "hearings": 7
+      },
+      "shippable": true,
+      "source": {
+        "document": "WHY DOES THE UNITED STATES PAY, BY FAR, THE HIGHEST PRICES IN THE WORLD FOR PRESCRIPTION DRUGS?",
+        "date": "2024-02-08",
+        "granule": "CHRG-118shrg55849",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg55849/html/CHRG-118shrg55849.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-press.is-that-a-no",
+      "move": "reporter-press",
+      "kind": "spoken",
+      "text": "Is that a no?",
+      "uses": [
+        {
+          "move": "reporter-press",
+          "subject": "reporter",
+          "role": "press",
+          "choice": "press"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "hearings": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "OPEN HEARING ON FISA LEGISLATION",
+        "date": "2017-06-07",
+        "granule": "CHRG-115shrg25889",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-115shrg25889/html/CHRG-115shrg25889.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-press.what-does-that-mean",
+      "move": "reporter-press",
+      "kind": "spoken",
+      "text": "What does that mean?",
+      "uses": [
+        {
+          "move": "reporter-press",
+          "subject": "reporter",
+          "role": "press",
+          "choice": "press"
+        }
+      ],
+      "transcriptsUsing": 161,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 7,
+        "crec": 49,
+        "hearings": 61,
+        "house": 3,
+        "nasa": 10,
+        "nasa2": 9,
+        "nps": 22
+      },
+      "shippable": true,
+      "source": {
+        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "date": "2026-04-28",
+        "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
+        "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-press.what-do-you-mean-by-that",
+      "move": "reporter-press",
+      "kind": "spoken",
+      "text": "What do you mean by that?",
+      "uses": [
+        {
+          "move": "reporter-press",
+          "subject": "reporter",
+          "role": "press",
+          "choice": "press"
+        }
+      ],
+      "transcriptsUsing": 27,
+      "bySource": {
+        "crec": 1,
+        "hearings": 14,
+        "house": 3,
+        "nasa": 1,
+        "nasa2": 2,
+        "nps": 6
+      },
+      "shippable": true,
+      "source": {
+        "document": "INSIDE THE BIDEN FBI: WASTE, FRAUD, ABUSE, AND A BUREAU LEADERSHIP IN DECLINE",
+        "date": "2025-04-02",
+        "granule": "CHRG-119hhrg59948",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg59948/html/CHRG-119hhrg59948.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-press.one-more-question",
+      "move": "reporter-press",
+      "kind": "spoken",
+      "text": "One more question.",
+      "uses": [
+        {
+          "move": "reporter-press",
+          "subject": "reporter",
+          "role": "press",
+          "choice": "press"
+        }
+      ],
+      "transcriptsUsing": 26,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 2,
+        "hearings": 21,
+        "house": 1,
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "IGNITING AMERICA'S ENERGY FUTURE: THE PROMISE AND PROGRESS OF FUSION POWER",
+        "date": "2025-09-18",
+        "granule": "CHRG-119hhrg61654",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61654/html/CHRG-119hhrg61654.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-press.last-question",
+      "move": "reporter-press",
+      "kind": "spoken",
+      "text": "Last question.",
+      "uses": [
+        {
+          "move": "reporter-press",
+          "subject": "reporter",
+          "role": "press",
+          "choice": "press"
+        }
+      ],
+      "transcriptsUsing": 54,
+      "bySource": {
+        "hearings": 54
+      },
+      "shippable": true,
+      "source": {
+        "document": "READY, SET, GO-LIVE: ASSESSING VA'S EHR MODERNIZATION DEPLOYMENT READINESS",
+        "date": "2025-12-15",
+        "granule": "CHRG-119hhrg62607",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg62607/html/CHRG-119hhrg62607.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-press.just-to-follow-up",
+      "move": "reporter-press",
+      "kind": "spoken",
+      "text": "Just to follow up.",
+      "uses": [
+        {
+          "move": "reporter-press",
+          "subject": "reporter",
+          "role": "press",
+          "choice": "press"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "hearings": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "OVERSIGHT HEARING ON EXAMINING THE PRESIDENT'S FY 2025 BUDGET REQUEST FOR THE BUREAU OF LAND MANAGEMENT AND NATIONAL PARK SERVICE",
+        "date": "2024-05-15",
+        "granule": "CHRG-118hhrg55688",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55688/html/CHRG-118hhrg55688.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-commit.i-will",
+      "move": "official-commit",
+      "kind": "spoken",
+      "text": "I will.",
+      "uses": [
+        {
+          "move": "official-commit",
+          "subject": "official",
+          "role": "commit",
+          "choice": "commit"
+        }
+      ],
+      "transcriptsUsing": 90,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "crec": 5,
+        "hearings": 69,
+        "nasa": 3,
+        "nasa2": 2,
+        "nih": 1,
+        "nps": 9
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-12-15",
+        "date": "2025-12-15",
+        "granule": "CREC-2025-12-15-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-15",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-commit.ill-do-it",
+      "move": "official-commit",
+      "kind": "spoken",
+      "text": "I'll do it.",
+      "uses": [
+        {
+          "move": "official-commit",
+          "subject": "official",
+          "role": "commit",
+          "choice": "commit"
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "house": 1,
+        "nasa": 5,
+        "nasa2": 2,
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Kathryn L. Lueders oral history (nasa-senior-leadership collection)",
+        "date": "2021-06-29",
+        "granule": "nasa-senior-leadership-luederskl-6-29-21",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/luederskl-6-29-21.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-commit.im-committed-to-issue",
+      "move": "official-commit",
+      "kind": "spoken",
+      "text": "I'm committed to {issue}.",
+      "uses": [
+        {
+          "move": "official-commit",
+          "subject": "official",
+          "role": "commit",
+          "choice": "commit"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "hearings": 4,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
+        "date": "2025-05-05",
+        "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
+        "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-commit.i-will-work-to-goal",
+      "move": "official-commit",
+      "kind": "spoken",
+      "text": "I will work to {goal}.",
+      "uses": [
+        {
+          "move": "official-commit",
+          "subject": "official",
+          "role": "commit",
+          "choice": "commit"
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "hearings": 10
+      },
+      "shippable": true,
+      "source": {
+        "document": "TO CONSIDER THE NOMINATIONS OF: MR. BRADLEY D. HANSELL TO BE UNDER SECRETARY OF DEFENSE FOR INTELLIGENCE AND SECURITY; MR. EARL G. MATTHEWS TO BE GENERAL COUNSEL OF THE DEPARTMENT OF DEFENSE; MR. DALE R. MARKS TO BE ASSISTANT SECRETARY OF DEFENSE FOR ENERGY, INSTALLATIONS, AND ENVIRONMENT; AND THE HONORABLE BRANDON M. WILLIAMS TO BE UNDER SECRETARY OF ENERGY FOR NUCLEAR SECURITY",
+        "date": "2025-04-08",
+        "granule": "CHRG-119shrg63039",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg63039/html/CHRG-119shrg63039.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-commit.were-going-to-goal",
+      "move": "official-commit",
+      "kind": "spoken",
+      "text": "We're going to {goal}.",
+      "uses": [
+        {
+          "move": "official-commit",
+          "subject": "official",
+          "role": "commit",
+          "choice": "commit"
+        }
+      ],
+      "transcriptsUsing": 608,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 36,
+        "crec": 10,
+        "hearings": 164,
+        "house": 43,
+        "nasa": 134,
+        "nasa2": 126,
+        "nih": 4,
+        "nps": 89,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-commit.we-will-goal",
+      "move": "official-commit",
+      "kind": "spoken",
+      "text": "We will {goal}.",
+      "uses": [
+        {
+          "move": "official-commit",
+          "subject": "official",
+          "role": "commit",
+          "choice": "commit"
+        }
+      ],
+      "transcriptsUsing": 1642,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 3,
+        "U.S. Election Assistance Commission (eac.gov)": 46,
+        "crec": 250,
+        "hearings": 1237,
+        "house": 11,
+        "nasa": 32,
+        "nasa2": 32,
+        "nih": 3,
+        "nps": 26,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-commit.you-have-my-word",
+      "move": "official-commit",
+      "kind": "spoken",
+      "text": "You have my word.",
+      "uses": [
+        {
+          "move": "official-commit",
+          "subject": "official",
+          "role": "commit",
+          "choice": "commit"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "hearings": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "OVERSIGHT OF ICE DETENTION FACILITIES: EXAMINING ICE CONTRACTORS' RESPONSE TO COVID-19",
+        "date": "2020-07-13",
+        "granule": "CHRG-116hhrg43192",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg43192/html/CHRG-116hhrg43192.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-record.i-voted-for-it",
+      "move": "official-record",
+      "kind": "spoken",
+      "text": "I voted for it.",
+      "uses": [
+        {
+          "move": "official-record",
+          "subject": "official",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "crec": 1,
+        "hearings": 1,
+        "house": 1,
+        "nps": 1,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "OVERDUE OVERSIGHT OF THE CAPITAL CITY: PART I",
+        "date": "2023-03-29",
+        "granule": "CHRG-118hhrg51721",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg51721/html/CHRG-118hhrg51721.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-record.i-voted-against-it",
+      "move": "official-record",
+      "kind": "spoken",
+      "text": "I voted against it.",
+      "uses": [
+        {
+          "move": "official-record",
+          "subject": "official",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "crec": 1,
+        "hearings": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "CORPORATE PROFITS ARE SOARING AS PRICES RISE: ARE CORPORATE GREED AND PROFITEERING FUELING INFLATION?",
+        "date": "2022-04-05",
+        "granule": "CHRG-117shrg47315",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg47315/html/CHRG-117shrg47315.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-record.i-would-do-it-again",
+      "move": "official-record",
+      "kind": "spoken",
+      "text": "I would do it again.",
+      "uses": [
+        {
+          "move": "official-record",
+          "subject": "official",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "crec": 1,
+        "hearings": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-12-12",
+        "date": "2025-12-12",
+        "granule": "CREC-2025-12-12-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-12",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-record.i-dont-regret-it",
+      "move": "official-record",
+      "kind": "spoken",
+      "text": "I don't regret it.",
+      "uses": [
+        {
+          "move": "official-record",
+          "subject": "official",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "house": 1,
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NPS History Collection oral history: butler robin dec 19 2019",
+        "date": "2019-12-19",
+        "granule": "npgallery-051a85d6",
+        "url": "https://npgallery.nps.gov/AssetDetail/051a85d6-e404-4cd7-be38-cea7b94c4523",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-record.it-was-the-right-thing-to-do",
+      "move": "official-record",
+      "kind": "spoken",
+      "text": "It was the right thing to do.",
+      "uses": [
+        {
+          "move": "official-record",
+          "subject": "official",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "crec": 2,
+        "hearings": 2,
+        "nasa": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2020-11-18",
+        "date": "2020-11-18",
+        "granule": "CREC-2020-11-18-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2020-11-18",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.im-not-going-to-comment-on-that",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "I'm not going to comment on that.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "hearings": 1,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House Oral History: Pryce, Deborah D. - U.S. Representative of Ohio - 1993–2009",
+        "date": "2018-08-09",
+        "granule": "house-oh-pryce",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/pryce-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.im-not-going-to-comment-on-topic",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "I'm not going to comment on {topic}.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "hearings": 5,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "CASE-BY-CASE: RETURNING PAROLE TO ITS PROPER PURPOSE",
+        "date": "2025-07-15",
+        "granule": "CHRG-119hhrg61405",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61405/html/CHRG-119hhrg61405.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.well-see",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "We'll see.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 24,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 2,
+        "hearings": 2,
+        "house": 1,
+        "nasa": 10,
+        "nasa2": 6,
+        "nps": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA JSC Oral History Project: James A. Hartsfield (Director, JSC Office of Communications. Lead Public Affairs Officer, Space Shuttle Program, International Space Station.)",
+        "date": "2025-05-16",
+        "granule": "jsc-hartsfieldja-5-16-25",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/hartsfieldja-5-16-25.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.time-will-tell",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "Time will tell.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "crec": 2,
+        "hearings": 2,
+        "nasa": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-12-15",
+        "date": "2025-12-15",
+        "granule": "CREC-2025-12-15-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-15",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.let-me-be-clear",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "Let me be clear.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 205,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 4,
+        "crec": 87,
+        "hearings": 114
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2025-12-18",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.let-me-be-very-clear",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "Let me be very clear.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 35,
+      "bySource": {
+        "crec": 20,
+        "hearings": 15
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-12-03",
+        "date": "2025-12-03",
+        "granule": "CREC-2025-12-03-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-03",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.look",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "Look.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 72,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "crec": 2,
+        "hearings": 27,
+        "house": 3,
+        "nasa": 17,
+        "nasa2": 12,
+        "nps": 7,
+        "wpa": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "date": "2026-04-28",
+        "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
+        "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.heres-the-thing",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "Here's the thing.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "hearings": 4,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "METALS, MINERALS, AND MINING: HOW THE CCP FUELS CONFLICT AND EXPLOITATION IN AFRICA",
+        "date": "2025-03-25",
+        "granule": "CHRG-119hhrg60388",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60388/html/CHRG-119hhrg60388.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-story.i-grew-up-in-place",
+      "move": "official-story",
+      "kind": "spoken",
+      "text": "I grew up in {place}.",
+      "uses": [
+        {
+          "move": "official-story",
+          "subject": "official",
+          "role": "story",
+          "choice": "story"
+        }
+      ],
+      "transcriptsUsing": 72,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 2,
+        "crec": 4,
+        "hearings": 17,
+        "house": 9,
+        "nasa": 6,
+        "nasa2": 11,
+        "nih": 1,
+        "nps": 22
+      },
+      "shippable": true,
+      "source": {
+        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
+        "date": "2025-05-05",
+        "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
+        "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-story.ive-been-there",
+      "move": "official-story",
+      "kind": "spoken",
+      "text": "I've been there.",
+      "uses": [
+        {
+          "move": "official-story",
+          "subject": "official",
+          "role": "story",
+          "choice": "story"
+        }
+      ],
+      "transcriptsUsing": 23,
+      "bySource": {
+        "crec": 1,
+        "hearings": 6,
+        "nasa": 7,
+        "nasa2": 2,
+        "nih": 1,
+        "nps": 6
+      },
+      "shippable": true,
+      "source": {
+        "document": "SANCTUARY JURISDICTIONS: MAGNET FOR MIGRANTS, COVER FOR CRIMINALS",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg60069",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60069/html/CHRG-119hhrg60069.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-story.my-own-family-experience",
+      "move": "official-story",
+      "kind": "spoken",
+      "text": "My own family {experience}.",
+      "uses": [
+        {
+          "move": "official-story",
+          "subject": "official",
+          "role": "story",
+          "choice": "story"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "crec": 1,
+        "hearings": 3,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "DEPARTMENT OF THE INTERIOR, ENVIRONMENT, AND RELATED AGENCIES APPROPRIATIONS FOR 2025",
+        "date": "2024-11-20",
+        "granule": "CHRG-118hhrg59634",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg59634/html/CHRG-118hhrg59634.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-opponent.thats-not-true",
+      "move": "official-opponent",
+      "kind": "spoken",
+      "text": "That's not true.",
+      "uses": [
+        {
+          "move": "official-opponent",
+          "subject": "official",
+          "role": "opponent",
+          "choice": "opponent"
+        }
+      ],
+      "transcriptsUsing": 29,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "hearings": 10,
+        "house": 2,
+        "nasa": 4,
+        "nasa2": 4,
+        "nps": 8
+      },
+      "shippable": true,
+      "source": {
+        "document": "CONFIRMATION HEARING ON THE NOMINATION OF KASHYAP PRAMOD PATEL TO BE DIRECTOR OF THE FEDERAL BUREAU OF INVESTIGATION",
+        "date": "2025-01-30",
+        "granule": "CHRG-119shrg61322",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg61322/html/CHRG-119shrg61322.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-opponent.thats-just-not-true",
+      "move": "official-opponent",
+      "kind": "spoken",
+      "text": "That's just not true.",
+      "uses": [
+        {
+          "move": "official-opponent",
+          "subject": "official",
+          "role": "opponent",
+          "choice": "opponent"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "AN UPDATE FROM THE TREASURY DEPARTMENT: COUNTERING ILLICIT FINANCE, TERRORISM AND SANCTIONS EVASION",
+        "date": "2024-04-09",
+        "granule": "CHRG-118shrg58408",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg58408/html/CHRG-118shrg58408.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-opponent.thats-not-what-happened",
+      "move": "official-opponent",
+      "kind": "spoken",
+      "text": "That's not what happened.",
+      "uses": [
+        {
+          "move": "official-opponent",
+          "subject": "official",
+          "role": "opponent",
+          "choice": "opponent"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "ARTIFICIAL INTELLIGENCE: EXAMINING TRENDS IN INNOVATION AND COMPETITION",
+        "date": "2025-04-02",
+        "granule": "CHRG-119hhrg59906",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg59906/html/CHRG-119hhrg59906.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-opponent.i-disagree",
+      "move": "official-opponent",
+      "kind": "spoken",
+      "text": "I disagree.",
+      "uses": [
+        {
+          "move": "official-opponent",
+          "subject": "official",
+          "role": "opponent",
+          "choice": "opponent"
+        }
+      ],
+      "transcriptsUsing": 31,
+      "bySource": {
+        "crec": 7,
+        "hearings": 24
+      },
+      "shippable": true,
+      "source": {
+        "document": "EXAMINING COMPETITION IN AMERICA'S SKIES",
+        "date": "2025-09-30",
+        "granule": "CHRG-119shrg62655",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62655/html/CHRG-119shrg62655.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-opponent.i-respectfully-disagree",
+      "move": "official-opponent",
+      "kind": "spoken",
+      "text": "I respectfully disagree.",
+      "uses": [
+        {
+          "move": "official-opponent",
+          "subject": "official",
+          "role": "opponent",
+          "choice": "opponent"
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "hearings": 8
+      },
+      "shippable": true,
+      "source": {
+        "document": "OVERSIGHT OF THE U.S. DEPARTMENT OF JUSTICE",
+        "date": "2024-06-04",
+        "granule": "CHRG-118hhrg55952",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55952/html/CHRG-118hhrg55952.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-close.thank-you",
+      "move": "official-close",
+      "kind": "spoken",
+      "text": "Thank you.",
+      "uses": [
+        {
+          "move": "official-close",
+          "subject": "official",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "transcriptsUsing": 2204,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 11,
+        "U.S. Election Assistance Commission (eac.gov)": 61,
+        "crec": 92,
+        "hearings": 1592,
+        "house": 70,
+        "nasa": 101,
+        "nasa2": 102,
+        "nih": 14,
+        "nps": 159,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-close.thank-you-for-having-me",
+      "move": "official-close",
+      "kind": "spoken",
+      "text": "Thank you for having me.",
+      "uses": [
+        {
+          "move": "official-close",
+          "subject": "official",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "transcriptsUsing": 33,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 3,
+        "hearings": 23,
+        "house": 3,
+        "nasa": 2,
+        "nasa2": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "PROSPERITY ON MAIN STREET: KEEPING TAXES LOW FOR SMALL BUSINESSES",
+        "date": "2025-04-08",
+        "granule": "CHRG-119hhrg60081",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60081/html/CHRG-119hhrg60081.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-close.thanks-for-having-me",
+      "move": "official-close",
+      "kind": "spoken",
+      "text": "Thanks for having me.",
+      "uses": [
+        {
+          "move": "official-close",
+          "subject": "official",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "hearings": 1,
+        "house": 2,
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "IMMIGRATION RAIDS: IMPACTS AND AFTERMATH ON MISSISSIPPI COMMUNITIES",
+        "date": "2019-11-07",
+        "granule": "CHRG-116hhrg40465",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg40465/html/CHRG-116hhrg40465.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-close.thank-you-for-the-opportunity",
+      "move": "official-close",
+      "kind": "spoken",
+      "text": "Thank you for the opportunity.",
+      "uses": [
+        {
+          "move": "official-close",
+          "subject": "official",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "transcriptsUsing": 57,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 2,
+        "crec": 1,
+        "hearings": 50,
+        "nasa": 2,
+        "nps": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "date": "2026-04-28",
+        "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
+        "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-close.my-pleasure",
+      "move": "official-close",
+      "kind": "spoken",
+      "text": "My pleasure.",
+      "uses": [
+        {
+          "move": "official-close",
+          "subject": "official",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "transcriptsUsing": 82,
+      "bySource": {
+        "hearings": 11,
+        "house": 6,
+        "nasa": 17,
+        "nasa2": 31,
+        "nih": 4,
+        "nps": 13
+      },
+      "shippable": true,
+      "source": {
+        "document": "ENERGY AND WATER DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR 2025",
+        "date": "2024-03-20",
+        "granule": "CHRG-118hhrg57786",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57786/html/CHRG-118hhrg57786.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-close.happy-to-do-it",
+      "move": "official-close",
+      "kind": "spoken",
+      "text": "Happy to do it.",
+      "uses": [
+        {
+          "move": "official-close",
+          "subject": "official",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "hearings": 2,
+        "house": 3,
+        "nasa": 2,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "USAID'S FOREIGN POLICY AND INTERNATIONAL DEVELOPMENT PRIORITIES IN THE ERA OF GREAT POWER COMPETITION",
+        "date": "2024-04-10",
+        "granule": "CHRG-118hhrg56227",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg56227/html/CHRG-118hhrg56227.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-close.anytime",
+      "move": "official-close",
+      "kind": "spoken",
+      "text": "Anytime.",
+      "uses": [
+        {
+          "move": "official-close",
+          "subject": "official",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "nasa": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA JSC Oral History Project: Irene M. Piatek (Engineer, Experiment Systems Division; Propulsion and Power Division; Assembly Sequence Team and Systems Design Team, Space Station Freedom; Deputy Branch Chief, Systems and Engineering and Integration; Manager, Station Engineering Office; Space Shuttle/Space Station Engineering Integration Office)",
+        "date": "2015-08-12",
+        "granule": "jsc-piatekim-8-12-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/piatekim-8-12-15.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    }
+  ]
+}

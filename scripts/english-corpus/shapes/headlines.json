@@ -1,0 +1,173 @@
+{
+  "register": "headlines",
+  "description": "News headlines for the new core's stories, by the kind of record they report. News sources give patterns only; every part here is a headline from U.S. federal agencies' own news releases (public domain), with record words as slots.",
+  "slots": {
+    "subject": "The business or office, from the event record.",
+    "law": "The law, as its record names it.",
+    "date": "A date from the record.",
+    "wage": "An hourly wage, from the law record.",
+    "place": "A place, from the place records.",
+    "money": "A dollar amount, from the record.",
+    "purpose": "What the money is for, from the record.",
+    "name": "A person, by name, from the records.",
+    "office": "An office, from the office records.",
+    "age": "An age, computed from the birth record.",
+    "employer": "An employer, from the job record.",
+    "number": "A count from the record.",
+    "term": "A prison term, from the sentence record.",
+    "crime": "An offense, from the charge record.",
+    "opponent": "The other candidate, from the contest record.",
+    "measure": "The measure, as its record names it.",
+    "body": "The governing body, from its record.",
+    "action": "What the body voted to do, from the measure record."
+  },
+  "maxWords": 14,
+  "minDocuments": 2,
+  "ignoreCase": true,
+  "groups": [
+    {
+      "move": "organization-closed",
+      "subject": "headline",
+      "role": "organization.closed",
+      "choice": "headline",
+      "candidates": [
+        "{subject} to Close",
+        "{subject} Closes",
+        "{subject} Closing",
+        "{subject} Announces Closure",
+        "{subject} Will Close",
+        "{subject} Closed"
+      ]
+    },
+    {
+      "move": "law-took-effect",
+      "subject": "headline",
+      "role": "law-took-effect",
+      "choice": "headline",
+      "candidates": [
+        "New Minimum Wage Takes Effect",
+        "Minimum Wage Increase Takes Effect",
+        "New Law Takes Effect",
+        "New Rule Takes Effect",
+        "{law} Takes Effect",
+        "{law} Goes Into Effect",
+        "New Rule Takes Effect {date}",
+        "Minimum Wage Increases to {wage}",
+        "Minimum Wage Rises to {wage}"
+      ]
+    },
+    {
+      "move": "grant",
+      "subject": "headline",
+      "role": "grant",
+      "choice": "headline",
+      "candidates": [
+        "{place} Receives {money} for {purpose}",
+        "{place} to Receive {money} for {purpose}",
+        "{place} Awarded {money} for {purpose}",
+        "{place} Receives {money} Grant",
+        "{place} Awarded {money} Grant",
+        "{money} Grant Awarded to {place}",
+        "{money} for {purpose} in {place}"
+      ]
+    },
+    {
+      "move": "officeholder",
+      "subject": "headline",
+      "role": "officeholder",
+      "choice": "headline",
+      "candidates": [
+        "{name} Sworn In as {office}",
+        "{name} Named {office}",
+        "{name} Elected {office}",
+        "{name} Appointed {office}",
+        "{name} Takes Office as {office}",
+        "{name} Named New {office}"
+      ]
+    },
+    {
+      "move": "life-death",
+      "subject": "headline",
+      "role": "life.death",
+      "choice": "headline",
+      "candidates": [
+        "{name} Dies at {age}",
+        "{name} Dies",
+        "Statement on the Death of {name}",
+        "Statement on the Passing of {name}",
+        "{name} Passes Away",
+        "Remembering {name}"
+      ]
+    },
+    {
+      "move": "unpaid-wages",
+      "subject": "headline",
+      "role": "unpaid-wages",
+      "choice": "headline",
+      "candidates": [
+        "{employer} to Pay {money} in Back Wages",
+        "{employer} Pays {money} in Back Wages",
+        "{employer} Pays {money} in Back Wages to {number} Workers",
+        "{employer} to Pay {money} in Back Wages to {number} Workers",
+        "{employer} Pays {money} in Back Wages to {number} Employees",
+        "{employer} Ordered to Pay {money} in Back Wages"
+      ]
+    },
+    {
+      "move": "disaster",
+      "subject": "headline",
+      "role": "disaster",
+      "choice": "headline",
+      "candidates": [
+        "{place} Declared Disaster Area",
+        "Disaster Declaration for {place}",
+        "{place} Added to Disaster Declaration",
+        "Federal Aid Available for {place}",
+        "Disaster Assistance Available in {place}"
+      ]
+    },
+    {
+      "move": "court",
+      "subject": "headline",
+      "role": "court",
+      "choice": "headline",
+      "candidates": [
+        "{name} Sentenced to {term} in Prison",
+        "{name} Sentenced to {term}",
+        "{name} Pleads Guilty to {crime}",
+        "{name} Charged with {crime}",
+        "{name} Indicted for {crime}",
+        "{name} Convicted of {crime}",
+        "{name} Found Guilty of {crime}"
+      ]
+    },
+    {
+      "move": "election",
+      "subject": "headline",
+      "role": "election",
+      "choice": "headline",
+      "candidates": [
+        "{name} Wins {office} Race",
+        "{name} Wins Election",
+        "{name} Defeats {opponent}",
+        "Voters Approve {measure}",
+        "Voters Reject {measure}",
+        "{place} Voters Approve {measure}"
+      ]
+    },
+    {
+      "move": "council",
+      "subject": "headline",
+      "role": "council",
+      "choice": "headline",
+      "candidates": [
+        "{body} Approves {measure}",
+        "{body} Passes {measure}",
+        "{body} Rejects {measure}",
+        "{body} Votes to {action}",
+        "{place} Approves {measure}",
+        "{place} Adopts {measure}"
+      ]
+    }
+  ]
+}

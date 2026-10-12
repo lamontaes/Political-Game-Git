@@ -6,45 +6,56 @@
     "U.S. Election Assistance Commission (eac.gov)": 65,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "crec": 445,
-    "fda": 8,
     "hearings": 1617,
     "house": 115,
     "nasa": 317,
-    "nasa2": 330,
-    "nih": 15,
-    "nps": 200,
+    "nasa2": 349,
+    "nih": 52,
+    "nps": 515,
     "wpa": 38
   },
   "notAttested": [
     {
       "move": "house-floor-address-chair",
-      "text": "Mr. Speaker, I rise today to honor {name}.",
+      "text": "Mr. Speaker, I rise today to pay tribute to {name}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "house-floor-address-chair",
+      "text": "Mr. Speaker, I rise today to remember {name}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "house-floor-address-chair",
+      "text": "Mr. Speaker, I rise today to recognize the life of {name}.",
       "documents": 0,
       "modern": 0
     },
     {
       "move": "house-floor-address-chair",
-      "text": "Madam Speaker, I rise today to honor {name}.",
+      "text": "Madam Speaker, I rise today to pay tribute to {name}.",
       "documents": 0,
       "modern": 0
     },
     {
       "move": "house-floor-address-chair",
-      "text": "Madam Speaker, I rise today to recognize {name}.",
+      "text": "Madam Speaker, I rise today to remember {name}.",
       "documents": 0,
       "modern": 0
     },
     {
       "move": "house-floor-address-chair",
-      "text": "Mr. Speaker, I rise today.",
+      "text": "Madam Speaker, I rise today to recognize the life of {name}.",
       "documents": 0,
       "modern": 0
     },
     {
       "move": "house-floor-address-chair",
-      "text": "Madam Speaker, I rise today.",
-      "documents": 0,
-      "modern": 0
+      "text": "Madam Speaker, I rise to recognize {name}.",
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "house-floor-yield",
@@ -73,8 +84,8 @@
     {
       "move": "house-floor-tribute-close",
       "text": "Please join me in congratulating {name}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "house-floor-tribute-close",
@@ -108,19 +119,7 @@
     },
     {
       "move": "house-floor-tribute-story",
-      "text": "{name} is survived by {pronoun} husband.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "house-floor-tribute-story",
       "text": "{name} is survived by {pronoun} children.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "senate-floor-address-chair",
-      "text": "Mr. President, I rise today to honor {name}.",
       "documents": 0,
       "modern": 0
     },
@@ -133,8 +132,8 @@
     {
       "move": "senate-floor-address-chair",
       "text": "Mr. President, I rise today in support of {bill}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "senate-floor-address-chair",
@@ -475,7 +474,7 @@
     {
       "move": "public-comment-story",
       "text": "I was born and raised here.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -493,8 +492,8 @@
     {
       "move": "public-comment-story",
       "text": "I work here.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "public-comment-story",
@@ -705,12 +704,6 @@
       "text": "I'm a teacher.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "campaign-self",
-      "text": "I'm a nurse.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "campaign-self",
