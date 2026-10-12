@@ -15,6 +15,8 @@ import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { traitLean } from "../choice";
+import { traitLeanBetween } from "../trait-decisions";
 import { ownerOf } from "./business";
 import { residentPerson, residentsRuntime } from "./residents";
 import {
@@ -839,14 +841,26 @@ function runWeek(api: CoreAPI): void {
     .table("countedSeekers")
     .query("all", [true]) as unknown as SeekerRow[];
   if (counted.length) stopgap("SG-WORLD-jobs-counted-choices");
-  for (const seeker of counted)
+  for (const seeker of counted) {
+    // The same reasons a full person weighs: pay against their reference,
+    // the need for work, and every trait's lean toward applying or waiting.
+    const person = { traits: traitsOf(api, seeker.personId) };
+    const traitTerm =
+      p("traitWeight") *
+      (traitLean(c, person, jobsData.actions.apply.actKinds) -
+        traitLean(c, person, jobsData.actions.wait.actKinds));
+    const reference = seeker.referenceHourlyMinor;
     for (const position of byPlace.get(seeker.placeId) ?? [])
-      // Someone with work moves only for better pay.
       if (
-        !seeker.employed ||
-        position.hourlyMinor > seeker.referenceHourlyMinor
+        p("jobsRateWeight") *
+          (p("jobsApplyPayWeight") *
+            (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
+            (seeker.employed ? 0 : p("jobsUnemployedNeedWeight"))) +
+          traitTerm >
+        0
       )
         apply(position.id, seeker);
+  }
   // Each seeker's fit for an occupation, worked out once a week.
   const fits = new Map<string, number>();
   for (const position of positions) {
@@ -878,7 +892,21 @@ function runWeek(api: CoreAPI): void {
         best = row;
     }
     if (isCounted(api, best.personId)) {
-      if (hireCounted(api, position, best, fit(best)))
+      // A counted seeker answers the offer by the same reasons a full person
+      // weighs, every trait included.
+      const person = { traits: traitsOf(api, best.personId) };
+      const reference = best.referenceHourlyMinor;
+      const accepts =
+        p("jobsRateWeight") *
+          (p("jobsAcceptBaseline") +
+            p("jobsApplyPayWeight") *
+              (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
+            (best.employed ? 0 : p("jobsUnemployedNeedWeight"))) +
+          p("traitWeight") *
+            (traitLean(c, person, jobsData.actions.accept.actKinds) -
+              traitLean(c, person, jobsData.actions.decline.actKinds)) >
+        0;
+      if (accepts && hireCounted(api, position, best, fit(best)))
         for (const row of applications.values())
           for (let i = row.length - 1; i >= 0; i--)
             if (row[i]!.personId === best.personId) row.splice(i, 1);
@@ -1022,7 +1050,16 @@ function reviewCountedRetirements(api: CoreAPI): void {
         id: job.id,
         job,
         age,
-        score: p("jobsRetireBaseline") + p("jobsRetireAgeWeight") * past,
+        score:
+          p("jobsRetireBaseline") +
+          p("jobsRetireAgeWeight") * past +
+          p("jobsCountedRestlessWeight") *
+            traitLeanBetween(
+              c,
+              person,
+              jobsData.actions.leave.actKinds,
+              jobsData.actions.stay.actKinds,
+            ),
       });
     }
   }
@@ -1043,8 +1080,7 @@ function reviewCountedRetirements(api: CoreAPI): void {
 /** Counted workers weigh looking around by their pay against the going rate and their traits (stopgap). */
 function reviewCountedLooking(api: CoreAPI): void {
   const c = core(api),
-    p = (key: string) => api.parameter(key),
-    t = jobsData.traits;
+    p = (key: string) => api.parameter(key);
   const going = new Map<string, number>();
   for (const position of store(api)
     .table("positions")
@@ -1075,12 +1111,13 @@ function reviewCountedLooking(api: CoreAPI): void {
         0,
         (going.get(job.occupationClassification ?? job.title) ?? pay) / pay - 1,
       );
-      const traits = person.traits;
-      const restless =
-        (traits[t.risk] ?? 0) +
-        (traits[t.acquisitive] ?? 0) -
-        (traits[t.contented] ?? 0) -
-        (traits[t.dutyBound] ?? 0);
+      // Every trait's lean toward looking around over staying put.
+      const restless = traitLeanBetween(
+        c,
+        person,
+        jobsData.actions.look.actKinds,
+        jobsData.actions.stay.actKinds,
+      );
       rows.push({
         id: job.id,
         job,
