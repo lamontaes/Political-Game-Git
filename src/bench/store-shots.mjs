@@ -63,6 +63,11 @@ for (const seed of seeds.length ? seeds : ["store-a", "store-b"]) {
   const other = await page.$("#people .figure[style*='pointer']");
   if (other) {
     await other.evaluate((e) => e.click());
+    // Their card first (only what you could know), then talk.
+    await page.waitForSelector("#person:not([hidden])");
+    await settle();
+    await shot(`${seed}-person`);
+    await page.click("#person-talk");
     await page.waitForSelector("#talk:not([hidden])");
     await shot(`${seed}-talk`);
     await page.click("#talk-leave");

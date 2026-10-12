@@ -110,7 +110,7 @@ async function renderScene() {
         cursor: person.personId === me.id ? "default" : "pointer",
       });
       if (person.personId !== me.id)
-        box.addEventListener("click", () => talkTo(person.personId));
+        box.addEventListener("click", () => showPerson(person));
       return box;
     }),
   );
@@ -595,6 +595,29 @@ function storyStop(value) {
     : undefined;
 }
 
+// ---- The person card: only what you could know about them ----
+async function showPerson(person) {
+  const c = await api(
+    `/api/known?${new URLSearchParams({ id: me.id, other: person.personId })}`,
+  );
+  $("person-figure").src = c.figureUrl ?? person.figureUrl;
+  $("person-name").textContent = c.name;
+  $("person-facts").replaceChildren(
+    ...[
+      c.relation && row("", c.relation),
+      c.age !== null && row("", String(c.age)),
+      c.work && row(c.work.title ?? "", c.work.employer ?? ""),
+      c.tie && row(c.tie.kind, c.tie.lastContactDate ?? ""),
+    ].filter(Boolean),
+  );
+  $("person-talk").onclick = () => {
+    show("person", false);
+    talkTo(person.personId);
+  };
+  show("person", true);
+}
+$("person-close").addEventListener("click", () => show("person", false));
+
 // ---- Go to a place in town: its picture now, and whoever works there ----
 async function visit(organizationId) {
   closeSheet();
@@ -609,7 +632,7 @@ async function visit(organizationId) {
     const id = v.people[i].personId;
     if (id === me.id) continue;
     box.style.cursor = "pointer";
-    box.addEventListener("click", () => talkTo(id));
+    box.addEventListener("click", () => showPerson(v.people[i]));
   }
   $("card-place").textContent = v.name;
 }
