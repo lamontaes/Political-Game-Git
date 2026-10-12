@@ -1,6 +1,6 @@
 # Old engine removal
 
-Found with `node scripts/dead-code/reachable.mjs` (walks imports from `src/bench`, `src/core2`, `src/director`, `src/release`, `src/rules` and the golden-path tests). Owner go-ahead, Oct 12.
+The old game's code that the new game never reaches is deleted: 1,874 files, with the owner's go-ahead on Oct 12. About 1,600 old files stay until the new game stops importing them.
 
 ## Deleted (1,874 files)
 
@@ -24,3 +24,5 @@ Follow-up: move the few pieces those use into `src/core2` or `src/rules`, then r
 - Not run: lint, golden-path suite, core2/bench/director tests, bench start at `/play`.
 
 The full deleted-file list is in the commit (`git show --stat`).
+
+Method: `node scripts/dead-code/reachable.mjs` walks imports from `src/bench`, `src/core2`, `src/director`, `src/release`, `src/rules` and the golden-path tests.
