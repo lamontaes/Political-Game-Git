@@ -8,6 +8,7 @@
  *   composeJournal(core, director, personId, { data: MINED_WORDS.journal });
  *   composeScene(core, director, personId, entry, MINED_WORDS.scene);
  *   bringItUp(core, speakerId, listenerId, MINED_WORDS.bringItUp);
+ *   MINED_WORDS.openingSpeech.composeOpeningSpeech(packet, "state-of-the-union");
  *
  * OPUS-WORDS owns the banks and these adapters; OPUS-PEOPLE owns the engine.
  */
@@ -15,6 +16,7 @@ import { addressMoves, composeTurn } from "./address-bank";
 import { conversationDataFromBank, pickBy } from "./conversation-bank";
 import { filingWordsFromBank } from "./filing-bank";
 import { journalDataFromBank } from "./journal-bank";
+import { composeOpeningSpeech, openingSpeechKind } from "./opening-speech-bank";
 import { bringDataFromBank, sceneWordsFromBank } from "./scene-bank";
 
 export const MINED_WORDS = {
@@ -26,4 +28,6 @@ export const MINED_WORDS = {
   scene: sceneWordsFromBank(),
   bringItUp: bringDataFromBank(),
   address: { addressMoves, composeTurn },
+  /** The President's address that opens the game, section by section. */
+  openingSpeech: { composeOpeningSpeech, openingSpeechKind },
 };

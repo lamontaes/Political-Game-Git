@@ -10,7 +10,12 @@
     "wage": "An hourly wage, from the pay record.",
     "times": "How many times, counted from contact records.",
     "office": "An office, from the candidate filing record.",
-    "age": "An age, computed from the birth record."
+    "age": "An age, computed from the birth record.",
+    "law": "A law or ordinance, as its record names it.",
+    "name": "A person, by name, from the records.",
+    "whose": "A person's name with 's, from the records.",
+    "votes": "A vote margin, from the results record.",
+    "filing_office": "Where the person filed, from the filing record (the clerk, the registrar or the board of elections)."
   },
   "maxWords": 10,
   "minDocuments": 2,
@@ -429,6 +434,341 @@
       ],
       "journal": [],
       "note": "Attests birthplace lines; not the look-back at a death."
+    },
+    {
+      "move": "day-line-routine",
+      "subject": "day",
+      "role": "line",
+      "choice": "routine",
+      "journal": [
+        {
+          "kindPrefix": "day:",
+          "field": "line"
+        }
+      ],
+      "candidates": [
+        "I went to work.",
+        "I went to work today.",
+        "I worked all day.",
+        "I worked late.",
+        "I worked late tonight.",
+        "I stayed home.",
+        "I stayed home today.",
+        "I went to church.",
+        "I went to church today.",
+        "I went to the store.",
+        "I went shopping.",
+        "I went grocery shopping.",
+        "I went to a meeting.",
+        "I went to the meeting.",
+        "I went to the council meeting.",
+        "I went to the town meeting.",
+        "I went to the doctor.",
+        "I went to bed early.",
+        "I cooked dinner.",
+        "We had dinner.",
+        "We had dinner together.",
+        "We went out to dinner.",
+        "I called {other}.",
+        "{other} called.",
+        "{other} called me.",
+        "{other} came over.",
+        "{other} came by.",
+        "{other} stopped by.",
+        "We went to {place}.",
+        "I drove to {place}.",
+        "I went to {place}.",
+        "It was a long day.",
+        "It was a quiet day.",
+        "Nothing much happened.",
+        "Nothing happened.",
+        "Not much happened.",
+        "It rained.",
+        "It rained all day.",
+        "It snowed.",
+        "It snowed all day.",
+        "It was hot.",
+        "It was cold.",
+        "It was very hot.",
+        "It was very cold.",
+        "I paid the bills.",
+        "I paid the rent.",
+        "The rent was due.",
+        "Rent was due.",
+        "I got paid.",
+        "I got paid today.",
+        "I read the paper.",
+        "I watched the news.",
+        "I worked in the yard.",
+        "I cleaned the house.",
+        "I took the kids to school.",
+        "I picked up the kids.",
+        "I went for a walk.",
+        "I slept in."
+      ]
+    },
+    {
+      "move": "law-backdrop-took-effect",
+      "subject": "law",
+      "role": "backdrop",
+      "choice": "took-effect",
+      "journal": [
+        {
+          "kindPrefix": "backdrop:law-took-effect",
+          "field": "line"
+        },
+        {
+          "kindPrefix": "event:law",
+          "field": "line"
+        }
+      ],
+      "candidates": [
+        "A new law took effect.",
+        "The new law took effect.",
+        "The new law took effect today.",
+        "The law took effect.",
+        "The law took effect today.",
+        "The new law went into effect.",
+        "The law went into effect.",
+        "{law} took effect.",
+        "{law} went into effect.",
+        "{law} took effect today.",
+        "The council passed {law}.",
+        "The council passed the ordinance.",
+        "The council passed it.",
+        "The ordinance passed.",
+        "The bill passed.",
+        "The law passed.",
+        "They passed the law.",
+        "They passed the bill.",
+        "They passed it.",
+        "The governor signed {law}.",
+        "The governor signed the bill.",
+        "The governor signed it.",
+        "The mayor signed it.",
+        "The legislature passed {law}.",
+        "Congress passed {law}.",
+        "Taxes went up.",
+        "Property taxes went up.",
+        "Our taxes went up.",
+        "The sales tax went up.",
+        "Taxes went down.",
+        "The rules changed.",
+        "The law changed."
+      ]
+    },
+    {
+      "move": "death-line-funeral",
+      "subject": "death",
+      "role": "line",
+      "choice": "funeral",
+      "journal": [
+        {
+          "kindPrefix": "event:life.death",
+          "field": "line"
+        }
+      ],
+      "candidates": [
+        "{other} died today.",
+        "{relation} died today.",
+        "{relation} died last night.",
+        "{other} died last night.",
+        "{relation} died this morning.",
+        "We buried {relation}.",
+        "We buried {other}.",
+        "We buried {relation} today.",
+        "The funeral was today.",
+        "We went to the funeral.",
+        "I went to the funeral.",
+        "I went to {whose} funeral.",
+        "We went to {whose} funeral.",
+        "{relation} was {age}.",
+        "{other} was {age}.",
+        "{relation} was {age} years old.",
+        "{relation} died at {age}.",
+        "{relation} died at home.",
+        "{relation} died in the hospital.",
+        "{relation} died in {place}."
+      ]
+    },
+    {
+      "move": "election-line-voted",
+      "subject": "election",
+      "role": "line",
+      "choice": "voted",
+      "journal": [
+        {
+          "kindPrefix": "event:election",
+          "field": "line"
+        },
+        {
+          "kindPrefix": "vote:",
+          "field": "line"
+        }
+      ],
+      "candidates": [
+        "I voted.",
+        "I voted today.",
+        "I went to vote.",
+        "I went and voted.",
+        "I went to vote today.",
+        "We voted.",
+        "We went to vote.",
+        "We all voted.",
+        "I voted for {other}.",
+        "I voted for {name}.",
+        "I voted early.",
+        "I voted by mail.",
+        "I didn't vote.",
+        "I registered to vote.",
+        "I went to register to vote.",
+        "I waited in line to vote.",
+        "I worked the polls.",
+        "Today was Election Day.",
+        "Today was election day.",
+        "It was Election Day.",
+        "It was election day."
+      ]
+    },
+    {
+      "move": "election-other-result",
+      "subject": "election",
+      "role": "other",
+      "choice": "result",
+      "journal": [
+        {
+          "kindPrefix": "event:election",
+          "field": "otherLine"
+        }
+      ],
+      "candidates": [
+        "{other} won.",
+        "{other} lost.",
+        "{other} won the election.",
+        "{other} lost the election.",
+        "{other} was elected.",
+        "{other} got elected.",
+        "{other} was reelected.",
+        "{other} was re-elected.",
+        "{other} won by {votes} votes.",
+        "{other} lost by {votes} votes.",
+        "{name} won.",
+        "{name} lost.",
+        "{name} was elected.",
+        "{name} was reelected."
+      ]
+    },
+    {
+      "move": "election-line-own-result",
+      "subject": "election",
+      "role": "line",
+      "choice": "own-result",
+      "journal": [
+        {
+          "kindPrefix": "event:election",
+          "field": "ownLine"
+        }
+      ],
+      "candidates": [
+        "I won.",
+        "I lost.",
+        "We won.",
+        "We lost.",
+        "I was reelected.",
+        "I was re-elected.",
+        "I won reelection.",
+        "I won re-election.",
+        "I won by {votes} votes.",
+        "I lost by {votes} votes.",
+        "I conceded.",
+        "I called {other} to concede.",
+        "I called {name} to concede.",
+        "{other} called me to concede.",
+        "{name} called me to concede.",
+        "I lost by a few votes.",
+        "I won by a few votes.",
+        "It was close.",
+        "It wasn't close.",
+        "It was very close."
+      ]
+    },
+    {
+      "move": "office-line-filing",
+      "subject": "office",
+      "role": "line",
+      "choice": "filing",
+      "journal": [
+        {
+          "kindPrefix": "event:candidate-filed",
+          "field": "line"
+        }
+      ],
+      "candidates": [
+        "I filed today.",
+        "I filed my papers.",
+        "I filed the papers.",
+        "I filed my paperwork.",
+        "I filed the paperwork.",
+        "I paid the filing fee.",
+        "I paid the fee.",
+        "I got the forms.",
+        "I picked up the forms.",
+        "I picked up the papers.",
+        "I picked up a petition.",
+        "I got my signatures.",
+        "I collected signatures.",
+        "I gathered signatures.",
+        "I got the signatures.",
+        "I got on the ballot.",
+        "I qualified for the ballot.",
+        "I made the ballot.",
+        "I was on the ballot.",
+        "I announced.",
+        "I announced that I was running.",
+        "I announced my candidacy.",
+        "I started campaigning.",
+        "We started campaigning.",
+        "I knocked on doors.",
+        "I went door to door.",
+        "We went door to door.",
+        "I gave a speech.",
+        "I made a speech.",
+        "I had a debate.",
+        "We had a debate.",
+        "I went to {filing_office}.",
+        "I went down to {filing_office}.",
+        "I filed at {filing_office}."
+      ]
+    },
+    {
+      "move": "office-line-took-office",
+      "subject": "office",
+      "role": "line",
+      "choice": "took-office",
+      "journal": [
+        {
+          "kindPrefix": "event:office-taken",
+          "field": "line"
+        }
+      ],
+      "candidates": [
+        "I was sworn in.",
+        "I was sworn in today.",
+        "I took office.",
+        "I took the oath of office.",
+        "I took my seat.",
+        "I started work.",
+        "I went to my first meeting.",
+        "I had my first meeting.",
+        "I cast my first vote.",
+        "I introduced {law}.",
+        "I voted for {law}.",
+        "I voted against {law}.",
+        "I voted for it.",
+        "I voted against it.",
+        "I voted no.",
+        "I voted yes."
+      ]
     }
   ]
 }
