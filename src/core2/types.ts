@@ -1134,6 +1134,14 @@ export interface CoreAPI {
   /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
   rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
   /**
+   * v19: a public pay authority draws its wages from a government's cash
+   * (its treasury) on each payday; what the treasury can't cover, the
+   * authority still pays and records as a shortfall.
+   */
+  fundPublicPay(authorityId: string, treasuryId: string, source: Source): void;
+  /** v19: wages a funded authority's treasury couldn't cover, in total. */
+  publicPayShortfallMinor(authorityId: string): number;
+  /**
    * v18: a business founded mid-run takes its share of the counted
    * households' purchases (by capacity and price); returns each kind's yearly sales.
    */
