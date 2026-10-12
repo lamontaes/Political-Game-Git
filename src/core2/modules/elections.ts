@@ -336,7 +336,8 @@ export function openElections(core: CoreState): void {
     townPlaceId: place.context.jurisdiction.id,
   });
   for (const { office, seat, holder } of townSeats(api)) {
-    if (!office.elected) continue;
+    // The vice president is the president's running mate, not a race.
+    if (!office.elected || office.kind === "vice-president") continue;
     const dates = nextElectionForSeat({
       office,
       stateKey,
@@ -551,9 +552,21 @@ function governmentFor(api: CoreAPI, contest: ContestRow): string {
     .moduleState(OFFICES_MODULE_ID)
     .table("offices")
     .get(contest.officeId) as unknown as OfficeInput;
-  for (const org of api.state.organizations.values())
-    if (org.governmentFacts?.governmentKey === office.jurisdiction)
-      return org.id;
+  // The government's own account: its treasury where the budgets engine
+  // opened one, else any of its accounts that can take a payment (an
+  // outside payer from the opening can't).
+  const accounts = [...api.state.organizations.values()]
+    .filter(
+      (org) =>
+        org.governmentFacts?.governmentKey === office.jurisdiction &&
+        !org.outsideFlow,
+    )
+    .sort(
+      (a, b) =>
+        Number(b.kind === "government-treasury") -
+          Number(a.kind === "government-treasury") || a.id.localeCompare(b.id),
+    );
+  if (accounts[0]) return accounts[0].id;
   // The government that takes the filing isn't in the world yet: record it.
   const id = `organization:government:${office.jurisdiction}`;
   if (!api.state.organizations.has(id))

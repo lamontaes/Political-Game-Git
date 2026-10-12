@@ -14,6 +14,7 @@
  * rolled. The winner takes the seat on the term's start date. Exit polls ask
  * named voters leaving the polls and report what they said.
  */
+import federalExecutive from "../../../data/research/offices/federal-executive-2026.json" with { type: "json" };
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -364,7 +365,7 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
     incumbent &&
     incumbent.status === "serving" &&
     (!incumbent.personId || api.state.people.get(incumbent.personId)?.alive);
-  if (incumbent && alive)
+  if (incumbent && alive && !termLimited(api, contest, incumbent))
     put(
       incumbent.personId ?? officialCandidateId(incumbent.id),
       incumbent.party,
@@ -377,7 +378,47 @@ export function fileStandingCandidates(api: CoreAPI, contestId: string): void {
   ) {
     const other = partySide(incumbent.party) > 0 ? "Democratic" : "Republican";
     put(officialCandidateId(`challenger:${contest.id}`), other, "challenger");
+    // An open seat: the incumbent's party nominates someone new.
+    if (termLimited(api, contest, incumbent))
+      put(
+        officialCandidateId(`nominee:${contest.id}`),
+        incumbent.party,
+        "nominee for an open seat",
+      );
   }
+}
+
+/**
+ * Whether the incumbent may not stand again. The presidency: no one is
+ * elected more than twice (U.S. Const. amend. XXII), counting the opening
+ * holder's terms from the record.
+ */
+function termLimited(
+  api: CoreAPI,
+  contest: ContestRow,
+  incumbent: TermRow,
+): boolean {
+  if (contest.officeId !== "office:US:president") return false;
+  const opening = (
+    federalExecutive as unknown as { president: { termNumber?: number } }
+  ).president.termNumber;
+  const served =
+    incumbent.reached === "in office at the opening"
+      ? (opening ?? 1)
+      : (
+          api
+            .moduleState(OFFICES_MODULE_ID)
+            .table("terms")
+            .query("bySeatStatus", [
+              contest.seatId,
+              "ended",
+            ]) as unknown as TermRow[]
+        ).filter(
+          (t) =>
+            t.identity.givenName === incumbent.identity.givenName &&
+            t.identity.familyName === incumbent.identity.familyName,
+        ).length + 1;
+  return served >= 2;
 }
 
 /** A named official on the ballot who isn't a full person in the world yet. */
@@ -618,6 +659,9 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       totals: JSON.stringify(totals),
     },
   });
+  // The presidency is won in the electoral college (world-races.ts); this
+  // count is the town's state's popular vote.
+  if (contest.officeId === "office:US:president") return result;
   if (winnerId && takesOffice > date)
     api.moduleCalendar(VOTING_MODULE_ID).schedule({
       key: `take-office:${contestId}`,
@@ -684,6 +728,46 @@ function electorateSize(
     : namedCount;
 }
 
+/** The Republican two-party share of the race's whole electorate in 2024, where read. */
+function electorateRightShare(
+  api: CoreAPI,
+  contest: ContestRow,
+): number | null {
+  const { stateKey, geoid } = town(api);
+  const usps = stateKey.slice(3);
+  if (contest.family === "statewideExecutive") {
+    const d = stateShares.get(usps);
+    return d == null ? null : 1 - d;
+  }
+  if (contest.family === "usHouse") {
+    const district = townDistrict(geoid, usps, "congressional", api.state.date);
+    const d = district ? districtShares.get(district.geoid) : undefined;
+    return d == null ? null : 1 - d;
+  }
+  return null;
+}
+
+const stateShares = new Map(
+  (
+    calibration as unknown as {
+      presidentialByState: {
+        stateUsps: string;
+        democraticTwoPartyShare: number | null;
+      }[];
+    }
+  ).presidentialByState.map((s) => [s.stateUsps, s.democraticTwoPartyShare]),
+);
+const districtShares = new Map(
+  (
+    calibration as unknown as {
+      house: {
+        districtGeoid: string;
+        democraticTwoPartyShare: number | null;
+      }[];
+    }
+  ).house.map((h) => [h.districtGeoid, h.democraticTwoPartyShare]),
+);
+
 /**
  * The electorate the world doesn't name votes as groups: lean bands around the
  * town's lean, each sized from the electorate, turning out at the named
@@ -718,10 +802,17 @@ function groupVote(
     const inBand = byLean.filter(
       (v) => v.lean >= lo && (v.lean < hi || b === bands - 1),
     );
-    // The band's share of the electorate is its share of the named people.
-    const votes = Math.round(
-      unnamed * (byLean.length ? inBand.length / byLean.length : 1 / bands),
-    );
+    // The band's share of the electorate: of the race's whole electorate,
+    // spread evenly around its real 2024 lean where read (a state, a House
+    // district), else the named people's share.
+    const right = electorateRightShare(api, contest);
+    const share =
+      right !== null
+        ? Math.max(0, Math.min(hi, 2 * right) - Math.max(lo, 2 * right - 2)) / 2
+        : byLean.length
+          ? inBand.length / byLean.length
+          : 1 / bands;
+    const votes = Math.round(unnamed * share);
     if (!votes) continue;
     // The group splits the way its named people chose.
     const counts = new Map<string, number>();

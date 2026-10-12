@@ -22,7 +22,7 @@ import {
   members,
   openLegislature,
 } from "./modules/legislature";
-import { openWorldRaces, racesOf } from "./modules/world-races";
+import { openWorldRaces, presidentialOf, racesOf } from "./modules/world-races";
 import { partySide } from "./appointments";
 import {
   lifePlaceCoverage,
@@ -142,6 +142,70 @@ describe("M2-10 state and federal races in the world", () => {
               `${r.seatId}:${r.incumbentParty}->${r.winnerParty}:${r.republicanShare.toFixed(3)}`,
           )
           .slice(0, 25),
+      }),
+    );
+  });
+
+  it("the presidency is won in the electoral college, and the winner and running mate take office January 20", () => {
+    const state = pick(states, "pres:state");
+    const places = [
+      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        stateJurisdictionKey: state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const key = pick(places, "pres:place").key;
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: "2028-10-20",
+        minimumPeople: 120,
+      }),
+    );
+    openLaws(core);
+    openOffices(core, seed);
+    openElections(core);
+    openCampaigns(core);
+    openParties(core);
+    openVoting(core);
+    openLegislature(core);
+    openWorldRaces(core);
+    const api = coreAPI(core);
+    advanceCore(core, "2029-01-21");
+    const pres = presidentialOf(api, 2028);
+    expect(pres, `${state} ${key}`).not.toBeNull();
+    expect(pres!.states.reduce((a, s) => a + s.electors, 0)).toBe(538);
+    const won =
+      pres!.winnerParty === "Republican"
+        ? pres!.electoral.republican
+        : pres!.electoral.democratic;
+    // A majority of electors, or (on a tie) the House's choice.
+    if (pres!.electoral.republican !== pres!.electoral.democratic)
+      expect(won).toBeGreaterThanOrEqual(270);
+    const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+    for (const seatId of ["seat:US:president", "seat:US:vice-president"]) {
+      const serving = terms.query("bySeatStatus", [
+        seatId,
+        "serving",
+      ]) as unknown as { party: string; startDate: string }[];
+      expect(serving.length, seatId).toBe(1);
+      expect(serving[0]!.party).toBe(pres!.winnerParty);
+      expect(serving[0]!.startDate).toBe("2029-01-20");
+    }
+    const own = pres!.states.find((s) => s.stateKey === state);
+    govReport(
+      "world-races-president",
+      JSON.stringify({
+        seed,
+        state,
+        place: key,
+        electoral: pres!.electoral,
+        winner: pres!.winnerParty,
+        ownState: own ?? null,
+        close: pres!.states
+          .filter((s) => Math.abs(s.republicanShare - 0.5) < 0.03)
+          .map((s) => `${s.stateKey}:${s.republicanShare.toFixed(3)}`),
       }),
     );
   });
