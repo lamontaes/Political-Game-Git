@@ -455,6 +455,24 @@ describe("proposed actual WORK payday dispatcher (UNEXECUTED by author)", () => 
     expect(f.core.work.payrollCashSources.size).toBe(p("zero"));
     expect(f.core.finance.unfundedBusinessReceipts.size).toBe(p("zero"));
   });
+  it("holds a later period of a payee who died with a held retry, instead of throwing", () => {
+    const f = fixture(p("zero"));
+    advanceDate(f.core, "2021-01-08");
+    runWorkPayrollDay(f.api);
+    f.api.updatePerson(worker, { alive: false });
+    advanceDate(f.core, "2021-01-15");
+    expect(runWorkPayrollDay(f.api)!.held).toHaveLength(p("one"));
+    // The later period's shifts were recorded while the worker was alive; only the payday finds the payee dead.
+    f.api.updatePerson(worker, { alive: true });
+    earned(f, "2021-01-16", job, commitment);
+    f.api.updatePerson(worker, { alive: false });
+    advanceDate(f.core, "2021-01-22");
+    const result = runWorkPayrollDay(f.api)!;
+    expect(result.settled).toBe(p("zero"));
+    expect(result.held).toMatchObject([
+      { commitmentId: commitment, reason: "deceased-payee-authority-pending" },
+    ]);
+  });
   it("holds the whole compatible retained-job group atomically when its actual payee has died", () => {
     const f = fixture(unit, false, undefined, true);
     f.api.updatePerson(worker, { jobId: "cash-fixture-second-job" });
