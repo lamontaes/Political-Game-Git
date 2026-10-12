@@ -21,13 +21,19 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench` and o
 - Click any saved record to see why it happened.
 - **See where they are.** Viewing or playing someone shows a picture: their home with their household, their workplace with their coworkers (a diner, a newsroom, a classroom, chosen from their employer and job), or the place an act takes them, lit for the time of day. People are drawn by the people engine on each picture's marked spots.
 
+- **Talk to people.** Anyone in the picture with you has a Talk button. They open with something real ("Are you still living in East Thermopolis?"), and your choices answer and raise real subjects. **Lie** lights up only when there's something about your own life you could lie about, and the lie is remembered. **Leave** ends it.
+- **Read "My life".** The journal shows your character's life as chapters: their schools, their children, their jobs.
+- **See your government.** The Government panel shows the law where you live (minimum wage, taxes, SNAP, unemployment, Medicaid), who holds every seat over you, from the president to the city council, and the next elections with their filing deadlines and the office that takes filings.
+- **File for office.** Pick a contest, press File (tick payFee to pay the fee instead of gathering signatures), then Request signatures to ask the people you know. Each person decides for themselves.
+- The golden-path panel now shows step 3 (filing) reachable and the national economy running.
+
 **What changed today**
 
-- People, families, drives, health and the story director now run in the bench town.
+- The whole world runs in the bench town: people, families, drives, health and the story director (OPUS-PEOPLE), the national and regional economy, jobs, the bank and housing (OPUS-WORLD), and law, offices and elections (OPUS-GOV).
 - Switching residents works, and skipping no longer stops at every small choice or at the end of each shift.
 - The 25 new place pictures (county clerk offices, registrar, election warehouse, rallies, the convention, homes, schools) have their standing and seating spots.
 
-**Not in yet:** filing for office and everything after it (OPUS-GOV). Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
+**Not in yet:** campaigning, election night and everything after them (OPUS-GOV). Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
 
 ## Checklist
 
@@ -48,7 +54,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [ ] **A build you play every evening.** Each evening, one build with a short note: what you can do tonight and what changed.
   - Verified by: You play it.
   - Needs: All
-- [ ] **Screens for each golden path step.** Person card, day and skip, conversation box with the Lie button, journal, then the filing office, campaigning and election night as GOV lands them; record data and control names only, engine text only.
+- [ ] **Screens for each golden path step.** In progress (Oct 12): day and skip, the place picture, the conversation box with the Lie button, the journal, law here, who governs you and filing are in the bench, all reading engine records. Next: a person card, then campaigning and election night as GOV lands them.
+  - Was: Person card, day and skip, conversation box with the Lie button, journal, then the filing office, campaigning and election night as GOV lands them; record data and control names only, engine text only.
   - Verified by: Browser checks of each screen, then you play it.
   - Needs: GOV
 - [ ] **Store page screenshots.** Real gameplay screenshots for the Steam page by Friday, with capsule art from the art pipeline.
@@ -59,6 +66,11 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Needs: GOV, PEOPLE
 
 ## Needs from other sessions
+
+- **OPUS-GOV:** after merging `opus-core`, `src/core2/modules/offices.ts` lines 417, 432 and 586 fail typecheck. A table row now casts to `TermRow` only through `unknown` (`as unknown as TermRow`). The bench runs fine, but the repo typecheck is red there.
+- **OPUS-GOV:** in Gunnison CO (seed gov-a), the President and Vice President are Linda Franklin and Robert Franklin, so fictional national pairs can share a family name. A U.S. Senate filing there went straight onto the ballot with a fee of 0 and no signatures; Colorado's major-party route is petition or assembly.
+- **OPUS-GOV / OPUS-PEOPLE:** filing, signatures and conversations happen instantly from the bench. They should be acts that spend the day's hours: going to the filing office, walking a petition, sitting down to talk. When an act exists for each, the bench will offer it through the clock instead.
+- **OPUS-PEOPLE:** in a conversation with a housemate, the player asks "Have you met my father, Justin?" about family in the same town. Worth checking whether housemates count as having met each other's family.
 
 - **CTO (art queue):** people art for children and teenagers. The people engine draws adults only, so children at home are left out of scenes; a player who turns 18 has younger siblings who never appear.
 - **OPUS-PEOPLE:** looks aren't shared within a family. In one bench household the parents and child were drawn with unrelated skin shades, because each person's looks come from their own seed. Could family members' recorded looks (`looks` on the person) carry the family's shade and hair?
@@ -73,6 +85,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: the whole world in the bench, and four new panels. Merged `opus-core`, `pool/P15-people-5`, `opus-gov` and `opus-world`; the bench town runs 15 modules. A 4,700-person town builds in 12 s, and a played week takes 6.8 s. The golden path stays green, and M0-01 to M0-05 pass on the full stack. New panels: Government (law here, who governs you, open contests, File, Request signatures), Conversation (OPUS-PEOPLE's `openConversation` and `say`, with the Lie button) and My life (`composeJournal`). Measured in Gunnison CO (seed gov-a): 7 laws in force, 31 seats held, 10 open contests; a council filing went to the municipal clerk, and 15 of 19 people asked signed. M0-05 now checks that the panel's running and missing rows match the installed modules.
 - Oct 12: art in the bench. The scene picker (`src/bench/scene.ts`, rows in `src/bench/data/scene-places.json`) chooses the tagged backdrop from what the person is doing and draws the people there with the people engine on the staging spots. Measured: in Aiea HI (seed art-a) and Delaware City DE (seed art-b), 3 residents played a week each gave 78 scenes and 297 figures, every one real art. 5 children present had no adult art. Next: the art item's remaining places (capitols, campuses) as GOV's screens arrive, then screens for each golden-path step.
 - Oct 12: bench item done. M0-01 to M0-05 registered in `docs/roadmap/features.json` as commands; pass flags left for the CTO. They pass under the runner in Kenova WV, Rockleigh NJ, Larrabee IA, Rachel NV and Cruz Bay USVI, about 64 s together. `opus-core` merged in; everything still green. Two stand-ins registered: SG-PLAY-bench-town-size and SG-PLAY-skip-own-choice-attribution. Next: art in the bench screens.
 - Oct 12: **#3994 is green on `opus-play`.** The 25 new places have staging spots, and the anchors test passes all 538 checks over 163 places, including one existing newsroom seat that was failing. The spots live in `art/backdrops/staging.json` on this branch (commit "Art: staging spots for the 25 new places"); merge #3994 with this branch, or cherry-pick that commit onto it. Notes from the picture reading: the three "house-" pictures (Gulf Coast, New England, Northwest) are interiors, not exteriors; the convention-floor picture has the stage too far away for a speaker spot.
