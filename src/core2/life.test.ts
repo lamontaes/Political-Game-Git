@@ -449,7 +449,8 @@ describe("shared actor chooser and committed effects", () => {
       count: p("one"),
     });
     expect(work.needContribution).toBeGreaterThan(p("zero"));
-    expect(work.goalContribution).toBeGreaterThan(p("zero"));
+    // Its only goal restates its own need, which the need term already counts.
+    expect(work.goalContribution).toBe(p("zero"));
     expect(money(core)).toBe(openingMoney);
   });
 
@@ -919,7 +920,8 @@ describe("controller boundary and data extension", () => {
       urgency: actor.needs[newNeed],
     });
     expect(chosen.decision!.selectedReasons!.need).toBeGreaterThan(p("zero"));
-    expect(chosen.decision!.selectedReasons!.goal).toBeGreaterThan(p("zero"));
+    // The need's own goal is recorded, but not counted twice in the choice.
+    expect(chosen.decision!.selectedReasons!.goal).toBe(p("zero"));
     expect(chosen.decision!.selectedReasons!.trait).toBeGreaterThan(p("zero"));
     expect(actor.liquidMinor).toBe(core.jobs.get(actor.jobId!)!.wageDailyMinor);
     expect(money(core)).toBe(openingMoney);

@@ -105,9 +105,11 @@ export function scoreOffers(
     if (offer.availableHours < p("zero") || effortHours < p("zero"))
       throw new Error("Invalid choice time budget.");
     const drive = offer.driveId ? actor.drives.get(offer.driveId) : undefined;
+    // A goal row that only restates the action's own need (`need:<id>`) is
+    // already in the need term; counting it again doubled that need.
     const goal = [...actor.goals.values(), ...(context?.goalRows ?? [])].reduce(
       (strength, row) =>
-        action.goalKinds.includes(row.kind)
+        row.id !== `need:${action.need}` && action.goalKinds.includes(row.kind)
           ? Math.max(strength, context?.goalUrgencies?.[row.id] ?? row.urgency)
           : strength,
       p("zero"),
