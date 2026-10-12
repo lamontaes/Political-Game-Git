@@ -22,7 +22,9 @@
     "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
+    "briefing": 1499,
     "crec": 445,
+    "dcpd": 4730,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -37,8 +39,8 @@
     "ncua": 683,
     "nih": 52,
     "nps": 515,
-    "nps.gov": 1484,
-    "nps.gov (PDF)": 125,
+    "nps.gov": 1728,
+    "nps.gov (PDF)": 164,
     "ntia": 371,
     "sba": 577,
     "usa.gov": 312,
@@ -76,8 +78,8 @@
     {
       "move": "setting-home-home",
       "text": "You are home.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "setting-home-home",
@@ -483,19 +485,7 @@
     },
     {
       "move": "present-one-one",
-      "text": "{who} is with you.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "present-one-one",
       "text": "{who} is there too.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "present-one-one",
-      "text": "{who} is here too.",
       "documents": 0,
       "modern": 0
     },
@@ -508,12 +498,6 @@
     {
       "move": "present-one-one",
       "text": "{who} is waiting.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "present-many-many",
-      "text": "{who_many} are here.",
       "documents": 0,
       "modern": 0
     },
@@ -598,8 +582,8 @@
     {
       "move": "cause-money:job-ended-lost",
       "text": "You lost your job.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "cause-money:job-ended-lost",
@@ -797,12 +781,6 @@
       "move": "cause-home:moved-moved",
       "text": "You've moved.",
       "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "cause-home:moved-moved",
-      "text": "You moved.",
-      "documents": 1,
       "modern": 0
     },
     {

@@ -37,7 +37,9 @@
       "U.S. Senate Historical Office oral history": 239,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
       "blm": 817,
+      "briefing": 1499,
       "crec": 445,
+      "dcpd": 4730,
       "doi": 674,
       "doj": 1621,
       "dol-osha": 501,
@@ -52,8 +54,8 @@
       "ncua": 683,
       "nih": 52,
       "nps": 515,
-      "nps.gov": 1484,
-      "nps.gov (PDF)": 125,
+      "nps.gov": 1728,
+      "nps.gov (PDF)": 164,
       "ntia": 371,
       "sba": 577,
       "usa.gov": 312,
@@ -64,7 +66,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 136
+    "notAttested": 132
   },
   "parts": [
     {
@@ -80,18 +82,19 @@
           "choice": "work"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 5,
       "bySource": {
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "dcpd": 2,
         "hearings": 1,
         "house": 1
       },
       "shippable": true,
       "source": {
-        "document": "LABORATORY TESTING IN THE ERA OF PRECISION MEDICINE",
-        "date": "2016-09-20",
-        "granule": "CHRG-114shrg21906",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-114shrg21906/html/CHRG-114shrg21906.htm",
+        "document": "Commencement Address at the University of Alabama in Tuscaloosa, Alabama",
+        "date": "2025-05-01",
+        "granule": "DCPD-202500550",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500550/html/DCPD-202500550.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -108,16 +111,17 @@
           "choice": "work"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 5,
       "bySource": {
+        "dcpd": 2,
         "hearings": 3
       },
       "shippable": true,
       "source": {
-        "document": "DEPARTMENT OF TRANSPORTATION, AND HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR 2026",
-        "date": "2025-03-26",
-        "granule": "CHRG-119hhrg61854",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61854/html/CHRG-119hhrg61854.htm",
+        "document": "Commencement Address at the United States Coast Guard Academy in New London, Connecticut",
+        "date": "2026-05-20",
+        "granule": "DCPD-202600354",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600354/html/DCPD-202600354.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -160,11 +164,13 @@
           "choice": "out"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 12,
       "bySource": {
         "National Archives History Office oral history project (nyc-oral-histories)": 1,
         "U.S. Army Center of Military History": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "briefing": 1,
+        "dcpd": 3,
         "hearings": 2,
         "nasa2": 1,
         "nps": 1,
@@ -192,26 +198,28 @@
           "choice": "out"
         }
       ],
-      "transcriptsUsing": 60,
+      "transcriptsUsing": 109,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 8,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
         "U.S. Senate Historical Office oral history": 1,
+        "briefing": 7,
         "crec": 1,
+        "dcpd": 36,
         "hearings": 8,
         "nasa": 3,
         "nasa2": 6,
         "nps": 4,
-        "nps.gov": 8,
-        "nps.gov (PDF)": 18
+        "nps.gov": 10,
+        "nps.gov (PDF)": 22
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
-        "date": "2026-04-28",
-        "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
-        "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
+        "document": "Remarks in Marietta, Georgia",
+        "date": "2026-07-22",
+        "granule": "DCPD-202600485",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600485/html/DCPD-202600485.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -286,22 +294,24 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 17,
+      "transcriptsUsing": 108,
       "bySource": {
         "National Archives History Office oral history project (nyc-oral-histories)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 7,
         "U.S. Senate Historical Office oral history": 1,
+        "briefing": 2,
         "crec": 1,
+        "dcpd": 89,
         "hearings": 5,
         "nasa2": 1,
         "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
-        "date": "2025-05-05",
-        "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
-        "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
+        "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
+        "date": "2026-08-19",
+        "granule": "DCPD-202600547",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600547/html/DCPD-202600547.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -318,10 +328,12 @@
           "choice": "one"
         }
       ],
-      "transcriptsUsing": 12,
+      "transcriptsUsing": 22,
       "bySource": {
         "U.S. Senate Historical Office oral history": 2,
+        "briefing": 2,
         "crec": 2,
+        "dcpd": 8,
         "hearings": 2,
         "nasa": 2,
         "nasa2": 2,
@@ -329,10 +341,115 @@
       },
       "shippable": true,
       "source": {
-        "document": "OVERSIGHT OF THE DEPARTMENT OF JUSTICE",
-        "date": "2020-07-28",
-        "granule": "CHRG-116hhrg46031",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg46031/html/CHRG-116hhrg46031.htm",
+        "document": "Remarks and an Exchange With Reporters Upon Arrival in Morristown, New Jersey",
+        "date": "2025-09-14",
+        "granule": "DCPD-202500914",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500914/html/DCPD-202500914.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.present-one-one.who-is-with-you",
+      "move": "present-one-one",
+      "kind": "spoken",
+      "text": "{who} is with you.",
+      "uses": [
+        {
+          "move": "present-one-one",
+          "subject": "present",
+          "role": "one",
+          "choice": "one"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on the National Day of Prayer",
+        "date": "2025-05-01",
+        "granule": "DCPD-202500543",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500543/html/DCPD-202500543.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.present-one-one.who-is-here-too",
+      "move": "present-one-one",
+      "kind": "spoken",
+      "text": "{who} is here too.",
+      "uses": [
+        {
+          "move": "present-one-one",
+          "subject": "present",
+          "role": "one",
+          "choice": "one"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "dcpd": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks During a World Economic Forum Reception With Business Leaders in Davos, Switzerland",
+        "date": "2026-01-21",
+        "granule": "DCPD-202600049",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600049/html/DCPD-202600049.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.present-many-many.who-many-are-here",
+      "move": "present-many-many",
+      "kind": "spoken",
+      "text": "{who_many} are here.",
+      "uses": [
+        {
+          "move": "present-many-many",
+          "subject": "present",
+          "role": "many",
+          "choice": "many"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "dcpd": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a State Dinner With Amir Tamim bin Hamad Al Thani of Qatar in Doha, Qatar",
+        "date": "2025-05-14",
+        "granule": "DCPD-202500603",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500603/html/DCPD-202500603.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.cause-home:moved-moved.you-moved",
+      "move": "cause-home:moved-moved",
+      "kind": "spoken",
+      "text": "You moved.",
+      "uses": [
+        {
+          "move": "cause-home:moved-moved",
+          "subject": "cause",
+          "role": "home:moved",
+          "choice": "moved"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Signing Legislation To Promote United States Semiconductor Production, Technological Innovation, and Advanced Manufacturing",
+        "date": "2022-08-09",
+        "granule": "DCPD-202200702",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202200702/html/DCPD-202200702.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }

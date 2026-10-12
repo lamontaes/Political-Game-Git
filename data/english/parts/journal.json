@@ -39,7 +39,9 @@
       "U.S. Senate Historical Office oral history": 239,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
       "blm": 817,
+      "briefing": 1499,
       "crec": 445,
+      "dcpd": 4730,
       "doi": 674,
       "doj": 1621,
       "dol-osha": 501,
@@ -54,8 +56,8 @@
       "ncua": 683,
       "nih": 52,
       "nps": 515,
-      "nps.gov": 1484,
-      "nps.gov (PDF)": 125,
+      "nps.gov": 1728,
+      "nps.gov (PDF)": 164,
       "ntia": 371,
       "sba": 577,
       "usa.gov": 312,
@@ -66,7 +68,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 89
+    "notAttested": 85
   },
   "parts": [
     {
@@ -88,7 +90,7 @@
           ]
         }
       ],
-      "transcriptsUsing": 300,
+      "transcriptsUsing": 348,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
@@ -100,56 +102,23 @@
         "U.S. Army Center of Military History": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 52,
         "U.S. Senate Historical Office oral history": 29,
+        "briefing": 4,
         "crec": 8,
+        "dcpd": 46,
         "hearings": 19,
-        "house": 22,
+        "house": 21,
         "nasa": 37,
-        "nasa2": 37,
+        "nasa2": 36,
         "nih": 7,
         "nps": 54,
         "wpa": 10
       },
       "shippable": true,
       "source": {
-        "document": "FRAUD IN FOCUS: EXPOSING FINANCIAL THREATS TO AMERICAN FAMILIES",
-        "date": "2025-09-18",
-        "granule": "CHRG-119hhrg63431",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg63431/html/CHRG-119hhrg63431.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "journal.school-line-started.i-went-to-school-at-school",
-      "move": "school-line-started",
-      "kind": "spoken",
-      "text": "I went to school at {school}.",
-      "uses": [
-        {
-          "move": "school-line-started",
-          "subject": "school",
-          "role": "line",
-          "choice": "started",
-          "journal": [
-            {
-              "kindPrefix": "school:",
-              "field": "line"
-            }
-          ]
-        }
-      ],
-      "transcriptsUsing": 5,
-      "bySource": {
-        "National Archives History Office oral history project (nprc-oral-histories)": 1,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
-        "nps": 2,
-        "wpa": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Michael and Cindy Pierce oral history interview",
-        "date": "2023-05-17",
-        "granule": "nara-staff-mike-and-cindy-pierce-nprc-oral-history-final",
-        "url": "https://www.archives.gov/files/about/history/nprc-fire/mike-and-cindy-pierce-nprc-oral-history-final.pdf",
+        "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
+        "date": "2026-09-09",
+        "granule": "DCPD-202600590",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600590/html/DCPD-202600590.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -251,7 +220,7 @@
           ]
         }
       ],
-      "transcriptsUsing": 72,
+      "transcriptsUsing": 73,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
         "National Archives History Office oral history project": 2,
@@ -259,6 +228,7 @@
         "Richard Nixon Presidential Library (NARA) oral history project": 3,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 23,
         "U.S. Senate Historical Office oral history": 5,
+        "dcpd": 1,
         "house": 3,
         "nasa": 4,
         "nasa2": 8,
@@ -268,10 +238,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "Bruce G. Bills oral history (discovery-and-new-frontiers collection)",
-        "date": "2024-01-16",
-        "granule": "discovery-and-new-frontiers-billsbg-1-16-24",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/09/billsbg-1-16-24.pdf",
+        "document": "Remarks on Affordability in Macungie, Pennsylvania",
+        "date": "2026-06-23",
+        "granule": "DCPD-202600423",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600423/html/DCPD-202600423.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -328,13 +298,15 @@
           ]
         }
       ],
-      "transcriptsUsing": 74,
+      "transcriptsUsing": 80,
       "bySource": {
         "National Archives History Office oral history project (brooks-oral-histories)": 1,
         "Richard Nixon Presidential Library (NARA) oral history project": 2,
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 11,
+        "briefing": 1,
         "crec": 1,
+        "dcpd": 5,
         "hearings": 13,
         "house": 3,
         "nasa": 13,
@@ -451,9 +423,11 @@
           ]
         }
       ],
-      "transcriptsUsing": 12,
+      "transcriptsUsing": 15,
       "bySource": {
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "briefing": 1,
+        "dcpd": 2,
         "hearings": 1,
         "house": 2,
         "nasa": 3,
@@ -462,10 +436,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "FIGHTING AGAINST A GROWING EPIDEMIC: REDUCING THE MISUSE AND ABUSE OF OPIOIDS IN AMERICA",
-        "date": "2016-01-19",
-        "granule": "CHRG-114shrg48361",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-114shrg48361/html/CHRG-114shrg48361.htm",
+        "document": "Remarks at a Campaign Reception in New York City",
+        "date": "2024-02-07",
+        "granule": "DCPD-202400087",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400087/html/DCPD-202400087.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -599,17 +573,18 @@
           ]
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
+        "dcpd": 1,
         "hearings": 2,
         "nasa": 1
       },
       "shippable": true,
       "source": {
-        "document": "H.R. 1146,\"Arctic Culture and Coastal Plain Protection Act\"",
-        "date": "2019-03-26",
-        "granule": "CHRG-116hhrg35816",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg35816/html/CHRG-116hhrg35816.htm",
+        "document": "Remarks on Signing an Executive Order on Manufacturing Promotion Efforts in Auburn, Maine",
+        "date": "2023-07-28",
+        "granule": "DCPD-202300667",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300667/html/DCPD-202300667.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -664,11 +639,12 @@
           ]
         }
       ],
-      "transcriptsUsing": 31,
+      "transcriptsUsing": 34,
       "bySource": {
         "U.S. Senate Historical Office oral history": 1,
         "blm": 1,
         "crec": 19,
+        "dcpd": 3,
         "hearings": 1,
         "nasa": 2,
         "nasa2": 3,
@@ -703,9 +679,10 @@
           ]
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 9,
       "bySource": {
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "dcpd": 2,
         "house": 1,
         "nasa2": 1,
         "nps": 3,
@@ -713,10 +690,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Johnson, James - House Page - 1959–1961",
-        "date": "2019-10-24",
-        "granule": "house-oh-johnsonj",
-        "url": "https://history.house.gov/Oral-History/Rainey/Rainey-Transcripts/johnsonj-transcript/",
+        "document": "Remarks at the National Republican Congressional Committee Annual Fundraising Dinner",
+        "date": "2026-03-25",
+        "granule": "DCPD-202600207",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600207/html/DCPD-202600207.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -843,10 +820,11 @@
           ]
         }
       ],
-      "transcriptsUsing": 31,
+      "transcriptsUsing": 33,
       "bySource": {
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
         "U.S. Senate Historical Office oral history": 2,
+        "dcpd": 2,
         "hearings": 2,
         "house": 2,
         "nasa": 3,
@@ -882,17 +860,18 @@
           ]
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 6,
       "bySource": {
         "U.S. Senate Historical Office oral history": 1,
+        "dcpd": 3,
         "nps": 2
       },
       "shippable": true,
       "source": {
-        "document": "NPS History Collection oral history: reyer karen oct 28 2016",
-        "date": "2016-10-28",
-        "granule": "npgallery-532e4a8f",
-        "url": "https://npgallery.nps.gov/AssetDetail/532e4a8f-e81b-4165-956c-1d4fd5b66b25",
+        "document": "Remarks at a Campaign Rally for Governor Kathleen C. Hochul in Bronxville, New York",
+        "date": "2022-11-06",
+        "granule": "DCPD-202201007",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202201007/html/DCPD-202201007.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1019,11 +998,13 @@
           ]
         }
       ],
-      "transcriptsUsing": 29,
+      "transcriptsUsing": 33,
       "bySource": {
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 4,
         "U.S. Senate Historical Office oral history": 1,
+        "briefing": 1,
         "crec": 3,
+        "dcpd": 3,
         "hearings": 3,
         "house": 2,
         "nasa": 2,
@@ -1034,10 +1015,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "CURRENT ISSUES IN AMERICAN SPORTS: PROTECTING THE HEALTH AND SAFETY OF AMERICAN ATHLETES",
-        "date": "2017-05-17",
-        "granule": "CHRG-115shrg29997",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-115shrg29997/html/CHRG-115shrg29997.htm",
+        "document": "Remarks by President Trump, Vice President Pence, and Members of the Coronavirus Task Force in Press Briefing",
+        "date": "2020-04-05",
+        "granule": "WH-2020-04-05-remarks-president-trump-vice-president-pence-members-coronavirus-task",
+        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/remarks-president-trump-vice-president-pence-members-coronavirus-task-force-press-briefing-19/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1093,10 +1074,12 @@
           ]
         }
       ],
-      "transcriptsUsing": 20,
+      "transcriptsUsing": 28,
       "bySource": {
         "Richard Nixon Presidential Library (NARA) oral history project": 1,
         "U.S. Senate Historical Office oral history": 2,
+        "briefing": 1,
+        "dcpd": 7,
         "hearings": 1,
         "nasa": 4,
         "nasa2": 4,
@@ -1106,10 +1089,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "OVERSIGHT OF THE BANKRUPTCY CODE, PART 1: CONFRONTING ABUSES OF THE CHAPTER 11 SYSTEM",
-        "date": "2021-07-28",
-        "granule": "CHRG-117hhrg48645",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg48645/html/CHRG-117hhrg48645.htm",
+        "document": "Remarks in an Exchange With Reporters Prior to a Meeting With President Joseph Aoun of Lebanon and an Exchange With Reporters",
+        "date": "2026-07-21",
+        "granule": "DCPD-202600481",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600481/html/DCPD-202600481.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1132,13 +1115,14 @@
           ]
         }
       ],
-      "transcriptsUsing": 31,
+      "transcriptsUsing": 35,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
         "National Archives History Office oral history project": 1,
         "Richard Nixon Presidential Library (NARA) oral history project": 3,
         "U.S. Senate Historical Office oral history": 4,
         "crec": 6,
+        "dcpd": 4,
         "hearings": 1,
         "house": 2,
         "nasa": 2,
@@ -1147,10 +1131,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "OLYMPIC ABUSE: THE ROLE OF NATIONAL GOVERNING BODIES IN PROTECTING OUR ATHLETES",
-        "date": "2018-04-18",
-        "granule": "CHRG-115shrg39950",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-115shrg39950/html/CHRG-115shrg39950.htm",
+        "document": "Remarks During a Roundtable Discussion With the Memphis Safe Task Force in Memphis, Tennessee",
+        "date": "2026-03-23",
+        "granule": "DCPD-202600196",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600196/html/DCPD-202600196.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1206,10 +1190,11 @@
           ]
         }
       ],
-      "transcriptsUsing": 12,
+      "transcriptsUsing": 16,
       "bySource": {
         "U.S. Senate Historical Office oral history": 1,
         "crec": 2,
+        "dcpd": 4,
         "hearings": 9
       },
       "shippable": true,
@@ -1240,13 +1225,15 @@
           ]
         }
       ],
-      "transcriptsUsing": 32,
+      "transcriptsUsing": 35,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
         "National Archives History Office oral history project": 1,
         "Richard Nixon Presidential Library (NARA) oral history project": 3,
         "U.S. Senate Historical Office oral history": 2,
+        "briefing": 1,
         "crec": 2,
+        "dcpd": 2,
         "hearings": 2,
         "house": 1,
         "nasa": 7,
@@ -1255,10 +1242,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "METALS, MINERALS, AND MINING: HOW THE CCP FUELS CONFLICT AND EXPLOITATION IN AFRICA",
-        "date": "2025-03-25",
-        "granule": "CHRG-119hhrg60388",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60388/html/CHRG-119hhrg60388.htm",
+        "document": "Remarks at the Theodore Roosevelt Presidential Library in Medora, North Dakota",
+        "date": "2026-07-01",
+        "granule": "DCPD-202600440",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600440/html/DCPD-202600440.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1319,11 +1306,12 @@
           ]
         }
       ],
-      "transcriptsUsing": 25,
+      "transcriptsUsing": 27,
       "bySource": {
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
         "U.S. Senate Historical Office oral history": 5,
         "crec": 1,
+        "dcpd": 2,
         "hearings": 2,
         "nasa2": 1,
         "nih": 2,
@@ -1332,10 +1320,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "THE BEIJING OLYMPICS AND THE FACES OF REPRESSION",
-        "date": "2022-02-03",
-        "granule": "CHRG-117jhrg46732",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117jhrg46732/html/CHRG-117jhrg46732.htm",
+        "document": "Remarks in an Exchange With Reporters Prior to Departure for Palm Beach, Florida",
+        "date": "2026-03-20",
+        "granule": "DCPD-202600192",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600192/html/DCPD-202600192.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1358,13 +1346,14 @@
           ]
         }
       ],
-      "transcriptsUsing": 38,
+      "transcriptsUsing": 43,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
         "National Archives History Office oral history project (ross-oral-histories)": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 4,
         "U.S. Senate Historical Office oral history": 1,
         "crec": 2,
+        "dcpd": 5,
         "hearings": 1,
         "house": 3,
         "nps": 7,
@@ -1372,10 +1361,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "H.R. 897, H.R. 3925, H.R. 5441, AND H.R. 6235",
-        "date": "2024-01-18",
-        "granule": "CHRG-118hhrg54614",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg54614/html/CHRG-118hhrg54614.htm",
+        "document": "Remarks on Signing an Executive Order on Workforce Development Strengthening Efforts in Ann Arbor, Michigan",
+        "date": "2024-09-06",
+        "granule": "DCPD-202400750",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400750/html/DCPD-202400750.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1468,18 +1457,19 @@
           ]
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 7,
       "bySource": {
         "crec": 2,
+        "dcpd": 1,
         "nih": 1,
         "wpa": 3
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, Senate section, 2021-03-17",
-        "date": "2021-03-17",
-        "granule": "CREC-2021-03-17-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2021-03-17",
+        "document": "Remarks at a Campaign Reception in Chevy Chase, Maryland",
+        "date": "2023-06-27",
+        "granule": "DCPD-202300576",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300576/html/DCPD-202300576.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1502,17 +1492,18 @@
           ]
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
+        "dcpd": 1,
         "nasa": 1,
         "wpa": 2
       },
       "shippable": true,
       "source": {
-        "document": "NASA JSC Oral History Project: Lisa M. Reed (Training Lead)",
-        "date": "2015-08-07",
-        "granule": "jsc-reedlm-8-7-15",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/reedlm-8-7-15.pdf",
+        "document": "Remarks Commemorating the 50th Anniversary of Amtrak in Philadelphia, Pennsylvania",
+        "date": "2021-04-30",
+        "granule": "DCPD-202100350",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202100350/html/DCPD-202100350.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1550,6 +1541,72 @@
       }
     },
     {
+      "key": "journal.office-line-filed.i-ran-for-office-2",
+      "move": "office-line-filed",
+      "kind": "spoken",
+      "text": "I ran for office.",
+      "uses": [
+        {
+          "move": "office-line-filed",
+          "subject": "office",
+          "role": "line",
+          "choice": "filed",
+          "journal": [
+            {
+              "kindPrefix": "event:candidate-filed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "dcpd": 2,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Signing a Proclamation on National Angel Family Day",
+        "date": "2026-02-23",
+        "granule": "DCPD-202600133",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600133/html/DCPD-202600133.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.office-line-filed.i-decided-to-run",
+      "move": "office-line-filed",
+      "kind": "spoken",
+      "text": "I decided to run.",
+      "uses": [
+        {
+          "move": "office-line-filed",
+          "subject": "office",
+          "role": "line",
+          "choice": "filed",
+          "journal": [
+            {
+              "kindPrefix": "event:candidate-filed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 1,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "dcpd of 2025-09-18",
+        "date": "2025-09-18",
+        "granule": "DCPD-202500925",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500925/html/DCPD-202500925.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "journal.office-line-won.i-won",
       "move": "office-line-won",
       "kind": "spoken",
@@ -1563,9 +1620,11 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 15,
       "bySource": {
         "U.S. Senate Historical Office oral history": 2,
+        "briefing": 1,
+        "dcpd": 8,
         "hearings": 1,
         "house": 1,
         "nasa2": 1,
@@ -1573,10 +1632,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "STATE, FOREIGN OPERATIONS, AND RELATED PROGRAMS APPROPRIATIONS FOR 2022",
-        "date": "2021-03-25",
-        "granule": "CHRG-117hhrg47449",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg47449/html/CHRG-117hhrg47449.htm",
+        "document": "Remarks on the National Economy in Mount Pocono, Pennsylvania",
+        "date": "2025-12-09",
+        "granule": "DCPD-202501179",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501179/html/DCPD-202501179.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1594,8 +1653,9 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 11,
       "bySource": {
+        "dcpd": 2,
         "hearings": 1,
         "house": 4,
         "nasa": 1,
@@ -1608,6 +1668,62 @@
         "date": "2025-10-23",
         "granule": "CHRG-119shrg62164",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62164/html/CHRG-119shrg62164.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.office-line-won.i-won-the-election",
+      "move": "office-line-won",
+      "kind": "spoken",
+      "text": "I won the election.",
+      "uses": [
+        {
+          "move": "office-line-won",
+          "subject": "office",
+          "role": "line",
+          "choice": "won",
+          "journal": []
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "dcpd": 4,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Signing a Proclamation To Restore United States Commercial Fishing in the Pacific and an Exchange With Reporters",
+        "date": "2026-06-11",
+        "granule": "DCPD-202600392",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600392/html/DCPD-202600392.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.office-line-won.i-got-elected",
+      "move": "office-line-won",
+      "kind": "spoken",
+      "text": "I got elected.",
+      "uses": [
+        {
+          "move": "office-line-won",
+          "subject": "office",
+          "role": "line",
+          "choice": "won",
+          "journal": []
+        }
+      ],
+      "transcriptsUsing": 15,
+      "bySource": {
+        "dcpd": 14,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in a Roundtable Discussion on Agriculture in Chippewa Falls, Wisconsin",
+        "date": "2026-06-05",
+        "granule": "DCPD-202600385",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600385/html/DCPD-202600385.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1682,17 +1798,18 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 4,
       "bySource": {
         "Richard Nixon Presidential Library (NARA) oral history project": 1,
-        "crec": 1
+        "crec": 1,
+        "dcpd": 2
       },
       "shippable": true,
       "source": {
-        "document": "Congressional Record, Senate section, 2018-02-07",
-        "date": "2018-02-07",
-        "granule": "CREC-2018-02-07-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2018-02-07",
+        "document": "Remarks at the Family Research Council's Values Voter Summit",
+        "date": "2019-10-12",
+        "granule": "DCPD-201900719",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-201900719/html/DCPD-201900719.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1710,7 +1827,7 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 210,
+      "transcriptsUsing": 213,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
@@ -1721,24 +1838,24 @@
         "National Archives History Office oral history project (nyc-oral-histories)": 1,
         "National Archives History Office oral history project (ross-oral-histories)": 1,
         "National Archives History Office oral history project (veterans-oral-histories)": 2,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 37,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 38,
         "U.S. Senate Historical Office oral history": 6,
         "crec": 4,
+        "dcpd": 4,
         "hearings": 18,
         "house": 13,
         "nasa": 4,
         "nasa2": 10,
         "nih": 1,
         "nps": 76,
-        "nps.gov (PDF)": 2,
         "wpa": 27
       },
       "shippable": true,
       "source": {
-        "document": "EDUCATION WITHOUT LIMITS: EXPLORING THE BENEFITS OF SCHOOL CHOICE",
-        "date": "2025-03-11",
-        "granule": "CHRG-119hhrg60916",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60916/html/CHRG-119hhrg60916.htm",
+        "document": "Remarks on the Situation in Israel and Lebanon and an Exchange With Reporters",
+        "date": "2026-04-23",
+        "granule": "DCPD-202600281",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600281/html/DCPD-202600281.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1756,7 +1873,7 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 89,
+      "transcriptsUsing": 107,
       "bySource": {
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
         "National Archives History Office oral history project": 4,
@@ -1765,7 +1882,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 6,
         "U.S. Senate Historical Office oral history": 3,
+        "briefing": 2,
         "crec": 4,
+        "dcpd": 16,
         "hearings": 17,
         "house": 9,
         "nasa": 6,
@@ -1775,10 +1894,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
-        "date": "2025-05-05",
-        "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
-        "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
+        "document": "Remarks on the 25th Anniversary of the September 11, 2001, Terrorist Attacks in Arlington, Virginia",
+        "date": "2026-09-11",
+        "granule": "DCPD-202600594",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600594/html/DCPD-202600594.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },

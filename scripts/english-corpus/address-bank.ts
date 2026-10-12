@@ -29,7 +29,7 @@ import {
 interface MinedPart {
   key: string;
   text: string;
-  uses: { subject: string; role: string }[];
+  uses: { subject: string; role: string; requiresFacts?: string[] }[];
   shippable: boolean;
 }
 export const ADDRESS_BANK = bankJson as unknown as { parts: MinedPart[] };
@@ -171,6 +171,21 @@ export const ADDRESS_REGISTERS: Readonly<
       { move: "close", act: "thank" },
     ],
   },
+  // A candidates' debate: the moderator's lines and a candidate's turn are
+  // separate registers, since each speaker composes their own.
+  "debate-moderator": {
+    from: "debate",
+    register: "town-hall",
+    moves: [{ move: "moderator", act: "request", required: true }],
+  },
+  "debate-candidate": {
+    from: "debate",
+    register: "town-hall",
+    moves: [
+      { move: "rebut", act: "deflect", required: true },
+      { move: "closing", act: "request" },
+    ],
+  },
   // The cinematic opening: a President's State of the Union or inaugural.
   // Stand-in: the engine has no register card for a president's address
   // yet, so these compose under election-night until PEOPLE adds one.
@@ -231,11 +246,16 @@ function variantsFor(
         : /\b(?:Madam|Chairwoman)\b/.test(part.text)
           ? ["chair-female"]
           : undefined;
+      // A claim about the speaker's life or the place needs its record fact.
+      const requires = part.uses.find(
+        (use) => use.subject === register && use.role === move,
+      )?.requiresFacts;
       return {
         key: part.key,
         kind: "template" as const,
         text: engineText(part.text),
         ...(chair ? { stages: chair } : {}),
+        ...(requires?.length ? { requiresFacts: requires } : {}),
       };
     });
 }

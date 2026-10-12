@@ -50,7 +50,9 @@
       "U.S. Senate Historical Office oral history": 239,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
       "blm": 817,
+      "briefing": 1499,
       "crec": 445,
+      "dcpd": 4730,
       "doi": 674,
       "doj": 1621,
       "dol-osha": 501,
@@ -65,8 +67,8 @@
       "ncua": 683,
       "nih": 52,
       "nps": 515,
-      "nps.gov": 1484,
-      "nps.gov (PDF)": 125,
+      "nps.gov": 1728,
+      "nps.gov (PDF)": 164,
       "ntia": 371,
       "sba": 577,
       "usa.gov": 312,
@@ -77,7 +79,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 68
+    "notAttested": 67
   },
   "parts": [
     {
@@ -183,6 +185,33 @@
         "date": "2026-02-09",
         "granule": "epa-2026-02-09-epa-selects-nevadaworks-to-receive-349-984-for-environmental-fb1d6aa3",
         "url": "https://www.epa.gov/newsreleases/epa-selects-nevadaworks-receive-349984-environmental-career-training",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "headlines.grant.money-for-purpose-in-place",
+      "move": "grant",
+      "kind": "spoken",
+      "text": "{money} for {purpose} in {place}",
+      "uses": [
+        {
+          "move": "grant",
+          "subject": "headline",
+          "role": "grant",
+          "choice": "headline"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 3,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Address Before a Joint Session of the Congress",
+        "date": "2025-03-04",
+        "granule": "DCPD-202500325",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500325/html/DCPD-202500325.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -578,14 +607,16 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 230,
+      "transcriptsUsing": 248,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "National Archives History Office oral history project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 4,
         "U.S. Senate Historical Office oral history": 2,
         "blm": 16,
+        "briefing": 9,
         "crec": 14,
+        "dcpd": 8,
         "doi": 14,
         "doj": 2,
         "dol-osha": 2,
@@ -598,6 +629,7 @@
         "nasa2": 3,
         "ncua": 48,
         "nps": 2,
+        "nps.gov": 1,
         "ntia": 15,
         "usa.gov": 2
       },
@@ -623,7 +655,7 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 306,
+      "transcriptsUsing": 368,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
         "National Archives History Office oral history project": 4,
@@ -633,7 +665,9 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 8,
         "U.S. Senate Historical Office oral history": 7,
         "blm": 6,
+        "briefing": 24,
         "crec": 57,
+        "dcpd": 31,
         "doi": 3,
         "eeoc": 1,
         "hearings": 82,
@@ -642,17 +676,17 @@
         "nasa2": 12,
         "nih": 3,
         "nps": 10,
-        "nps.gov": 57,
+        "nps.gov": 64,
         "nps.gov (PDF)": 11,
         "weather.gov": 2,
         "wpa": 22
       },
       "shippable": true,
       "source": {
-        "document": "WATER RESOURCES DEVELOPMENT ACT OF 2026: STAKEHOLDER PRIORITIES",
-        "date": "2025-12-17",
-        "granule": "CHRG-119hhrg62963",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg62963/html/CHRG-119hhrg62963.htm",
+        "document": "Remarks During a Roundtable Discussion on Saving College Sports and an Exchange With Reporters",
+        "date": "2026-03-06",
+        "granule": "DCPD-202600153",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600153/html/DCPD-202600153.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -669,9 +703,11 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 38,
+      "transcriptsUsing": 56,
       "bySource": {
+        "briefing": 6,
         "crec": 14,
+        "dcpd": 12,
         "dol-osha": 1,
         "eeoc": 1,
         "hearings": 19,
@@ -701,14 +737,16 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 192,
+      "transcriptsUsing": 199,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "National Archives History Office oral history project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 5,
         "U.S. Senate Historical Office oral history": 2,
         "blm": 16,
+        "briefing": 4,
         "crec": 7,
+        "dcpd": 3,
         "doi": 13,
         "doj": 1,
         "dol-osha": 1,
@@ -779,9 +817,10 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 161,
+      "transcriptsUsing": 162,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "briefing": 1,
         "dol-osha": 158,
         "epa": 1,
         "hearings": 1
@@ -835,10 +874,11 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 153,
+      "transcriptsUsing": 154,
       "bySource": {
         "U.S. Senate Historical Office oral history": 1,
         "crec": 1,
+        "dcpd": 1,
         "doj": 6,
         "dol-osha": 1,
         "eeoc": 144
@@ -898,7 +938,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Greyhound Will Pay $45,000 to Settle EEOC Religious Discrimination Suit",
+        "document": "eeoc of 2021-11-23",
         "date": "2021-11-23",
         "granule": "eeoc-2021-11-23-greyhound-will-pay-45-000-to-settle-eeoc-religious-discrimin-565a213d",
         "url": "https://www.eeoc.gov/newsroom/greyhound-will-pay-45000-settle-eeoc-religious-discrimination-suit",
@@ -1008,12 +1048,14 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 293,
+      "transcriptsUsing": 306,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "U.S. Senate Historical Office oral history": 2,
         "blm": 10,
+        "briefing": 9,
         "crec": 25,
+        "dcpd": 4,
         "doi": 19,
         "dol-osha": 3,
         "epa": 54,
@@ -1052,9 +1094,10 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 50,
+      "transcriptsUsing": 51,
       "bySource": {
         "blm": 2,
+        "dcpd": 1,
         "doi": 14,
         "dol-osha": 1,
         "epa": 20,
@@ -1147,13 +1190,15 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 324,
+      "transcriptsUsing": 386,
       "bySource": {
         "National Archives History Office oral history project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "U.S. Senate Historical Office oral history": 2,
         "blm": 9,
+        "briefing": 23,
         "crec": 79,
+        "dcpd": 38,
         "doi": 4,
         "dol-osha": 2,
         "eeoc": 1,
@@ -1165,7 +1210,7 @@
         "ncua": 9,
         "nih": 1,
         "nps": 6,
-        "nps.gov": 4,
+        "nps.gov": 5,
         "ntia": 1,
         "sba": 2,
         "usgs": 6,
@@ -1194,12 +1239,14 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 511,
+      "transcriptsUsing": 521,
       "bySource": {
         "Federal Election Commission (fec.gov)": 2,
         "U.S. Senate Historical Office oral history": 5,
         "blm": 40,
+        "briefing": 5,
         "crec": 12,
+        "dcpd": 5,
         "doi": 62,
         "doj": 16,
         "dol-osha": 9,
@@ -1237,12 +1284,14 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 180,
+      "transcriptsUsing": 201,
       "bySource": {
         "Richard Nixon Presidential Library (NARA) oral history project": 2,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "blm": 2,
+        "briefing": 11,
         "crec": 6,
+        "dcpd": 10,
         "doi": 8,
         "dol-osha": 3,
         "eeoc": 1,
@@ -1281,7 +1330,7 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 2967,
+      "transcriptsUsing": 3959,
       "bySource": {
         "Federal Election Commission (fec.gov)": 9,
         "Florida Department of State, Division of Elections (dos.fl.gov)": 1,
@@ -1299,7 +1348,9 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 22,
         "U.S. Senate Historical Office oral history": 118,
         "blm": 55,
+        "briefing": 575,
         "crec": 260,
+        "dcpd": 415,
         "doi": 24,
         "doj": 6,
         "dol-osha": 6,
@@ -1314,7 +1365,7 @@
         "ncua": 90,
         "nih": 26,
         "nps": 128,
-        "nps.gov": 7,
+        "nps.gov": 9,
         "nps.gov (PDF)": 1,
         "ntia": 15,
         "sba": 32,
@@ -1346,12 +1397,14 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 15,
+      "transcriptsUsing": 24,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "U.S. Senate Historical Office oral history": 2,
         "blm": 7,
+        "briefing": 7,
         "crec": 1,
+        "dcpd": 2,
         "hearings": 1,
         "nasa": 1,
         "nasa2": 1,
@@ -1359,10 +1412,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "NCUA Board Approves Updates to MDI Preservation Program",
-        "date": "2024-02-15",
-        "granule": "ncua-2024-02-15-ncua-board-approves-updates-to-mdi-preservation-program-6239c2b8",
-        "url": "https://ncua.gov/newsroom/press-release/2024/ncua-board-approves-updates-mdi-preservation-program",
+        "document": "Remarks Prior to a Meeting With President Volodymyr Zelenskyy of Ukraine and an Exchange With Reporters in Ankara, Turkey",
+        "date": "2026-07-08",
+        "granule": "DCPD-202600450",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600450/html/DCPD-202600450.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1379,11 +1432,13 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 13,
+      "transcriptsUsing": 15,
       "bySource": {
         "Richard Nixon Presidential Library (NARA) oral history project": 1,
         "blm": 1,
+        "briefing": 1,
         "crec": 4,
+        "dcpd": 1,
         "fdic": 3,
         "house": 1,
         "nasa2": 1,
@@ -1392,10 +1447,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "FDIC Minority Depository Institutions Subcommittee to Meet",
-        "date": "2021-07-16",
-        "granule": "fdic-2021-07-16-fdic-minority-depository-institutions-subcommittee-to-meet-be7c9292",
-        "url": "https://www.fdic.gov/news/press-releases/2021/pr21064.html",
+        "document": "Remarks to Federal Law Enforcement Officers and National Guard Personnel",
+        "date": "2025-08-21",
+        "granule": "DCPD-202500860",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500860/html/DCPD-202500860.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1412,17 +1467,19 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 6,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
+        "briefing": 1,
+        "dcpd": 2,
         "hearings": 1
       },
       "shippable": true,
       "source": {
-        "document": "NOMINATION OF THE HONORABLE THOMAS J. VILSACK, OF IOWA, TO BE SECRETARY, U.S. DEPARTMENT OF AGRICULTURE",
-        "date": "2021-02-02",
-        "granule": "CHRG-117shrg45388",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg45388/html/CHRG-117shrg45388.htm",
+        "document": "Remarks Prior to a Working Lunch With President Volodymyr Zelenskky of Ukraine and an Exchange With Reporters",
+        "date": "2025-10-17",
+        "granule": "DCPD-202501023",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202501023/html/DCPD-202501023.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }

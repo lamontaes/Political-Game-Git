@@ -10,6 +10,18 @@
 import { readFileSync, writeFileSync } from "node:fs";
 
 const [id, out, what = "conversation"] = process.argv.slice(2);
+const TITLES: Record<string, [string, string]> = {
+  conversation: ["Conversations", "conversation bank"],
+  life: [
+    "The journal, scenes, the clerk and people bringing things up",
+    "journal, scene, clerk and bring-it-up banks",
+  ],
+  speech: [
+    "Speeches, hearings, public comment, interviews and headlines",
+    "speech, interview and headline banks",
+  ],
+};
+const [heading, banks] = TITLES[what] ?? TITLES.conversation!;
 const batch = JSON.parse(
   readFileSync(`data/english/batches/${id}.json`, "utf8"),
 ) as {
@@ -20,13 +32,12 @@ const batch = JSON.parse(
     prior: string;
     reply: string;
     kind: string;
+    cell?: { place?: string };
   }[];
 };
 const cell = (text: string) => text.replace(/\|/g, "\\|");
 const places = [
-  ...new Set(
-    batch.items.map((item) => /, in (.+), on /.exec(item.situation)?.[1] ?? ""),
-  ),
+  ...new Set(batch.items.map((item) => item.cell?.place ?? "")),
 ].filter(Boolean);
 const rows = batch.items.map(
   (item) =>
@@ -34,11 +45,15 @@ const rows = batch.items.map(
 );
 writeFileSync(
   out!,
-  `# ${what === "conversation" ? "Conversations" : "The journal, scenes, the clerk and people bringing things up"} in real Americans' words: grading batch ${id}
+  `# ${heading} in real Americans' words: grading batch ${id}
 
-These ${batch.items.length} lines are what the story director writes when its words come from the mined ${what === "conversation" ? "conversation bank" : "journal, scene, clerk and bring-it-up banks"} instead of hand-written lines. Each sentence was said in a public-domain federal transcript, with the names, employers and towns filled from a generated person's records. They come from conversations in ${places.length} drawn places: ${places.join("; ")}.
+These ${batch.items.length} lines are what the story director writes when its words come from the mined ${banks} instead of hand-written lines. Each sentence was said in a public-domain federal record, with the names, employers and towns filled from a generated person's records.
 
-Grade one thing per line: does it fit the line before it, the way a person would say it? Write good, rewrite or kill, and a note where it helps. A line you kill is never said again; another real sentence takes its place. Grades never block a merge.
+## How to grade
+
+Grade one thing per line: does it fit the line before it, the way a person would say it? Write good, rewrite or kill, and a note where it helps. A line you kill is never said again; another real sentence takes its place. Grades never block a merge. The lines come from ${places.length} drawn places: ${places.join("; ")}.
+
+## The lines
 
 | # | The line before | The line | Grade | Note |
 | --- | --- | --- | --- | --- |

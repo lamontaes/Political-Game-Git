@@ -48,7 +48,9 @@
       "U.S. Senate Historical Office oral history": 239,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
       "blm": 817,
+      "briefing": 1499,
       "crec": 445,
+      "dcpd": 4730,
       "doi": 674,
       "doj": 1621,
       "dol-osha": 501,
@@ -63,8 +65,8 @@
       "ncua": 683,
       "nih": 52,
       "nps": 515,
-      "nps.gov": 1484,
-      "nps.gov (PDF)": 125,
+      "nps.gov": 1728,
+      "nps.gov (PDF)": 164,
       "ntia": 371,
       "sba": 577,
       "usa.gov": 312,
@@ -75,7 +77,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 67
+    "notAttested": 66
   },
   "parts": [
     {
@@ -147,9 +149,11 @@
           "choice": "lede"
         }
       ],
-      "transcriptsUsing": 29,
+      "transcriptsUsing": 37,
       "bySource": {
+        "briefing": 1,
         "crec": 15,
+        "dcpd": 7,
         "doj": 1,
         "hearings": 3,
         "nps": 1,
@@ -157,10 +161,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "NOMINATIONS OF EDWARD FORST, CHARLES ARRINGTON, JOHN CUONG TRUONG, ELANA S. SUTTENBERG, STEPHEN F. RICKARD, WILLIAM KIRK, HON. ANTHONY D'ESPOSITO, AND PLATTE MORING",
-        "date": "2025-10-23",
-        "granule": "CHRG-119shrg62164",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62164/html/CHRG-119shrg62164.htm",
+        "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
+        "date": "2026-07-23",
+        "granule": "DCPD-202600487",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600487/html/DCPD-202600487.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -177,7 +181,7 @@
           "choice": "lede"
         }
       ],
-      "transcriptsUsing": 52,
+      "transcriptsUsing": 57,
       "bySource": {
         "National Archives History Office oral history project": 1,
         "National Archives History Office oral history project (brooks-oral-histories)": 1,
@@ -186,7 +190,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
         "U.S. Senate Historical Office oral history": 9,
+        "briefing": 1,
         "crec": 6,
+        "dcpd": 4,
         "hearings": 2,
         "house": 4,
         "nasa": 3,
@@ -198,10 +204,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "EXAMINING THE FEDERAL AVIATION ADMINISTRATION'S OVERSIGHT OF AIRCRAFT CERTIFICATION",
-        "date": "2020-06-17",
-        "granule": "CHRG-116shrg52680",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-116shrg52680/html/CHRG-116shrg52680.htm",
+        "document": "Commencement Address at the University of Alabama in Tuscaloosa, Alabama",
+        "date": "2025-05-01",
+        "granule": "DCPD-202500550",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500550/html/DCPD-202500550.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -254,6 +260,33 @@
         "date": "2025-05-15",
         "granule": "CREC-2025-05-15-senate",
         "url": "https://www.govinfo.gov/app/details/CREC-2025-05-15",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "news.election-result.name-won-the-election",
+      "move": "election-result",
+      "kind": "spoken",
+      "text": "{name} won the election.",
+      "uses": [
+        {
+          "move": "election-result",
+          "subject": "news",
+          "role": "election-result",
+          "choice": "lede"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 1,
+        "dcpd": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks Prior to a Meeting With President Lee Jae-myung of South Korea and an Exchange With Reporters",
+        "date": "2025-08-25",
+        "granule": "DCPD-202500870",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500870/html/DCPD-202500870.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },

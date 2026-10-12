@@ -22,7 +22,9 @@
     "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
+    "briefing": 1499,
     "crec": 445,
+    "dcpd": 4730,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -37,8 +39,8 @@
     "ncua": 683,
     "nih": 52,
     "nps": 515,
-    "nps.gov": 1484,
-    "nps.gov (PDF)": 125,
+    "nps.gov": 1728,
+    "nps.gov (PDF)": 164,
     "ntia": 371,
     "sba": 577,
     "usa.gov": 312,
@@ -114,12 +116,6 @@
       "text": "I ask my colleagues to join me in honoring {name}.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "house-floor-tribute-close",
-      "text": "Please join me in congratulating {name}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "house-floor-tribute-close",
@@ -224,18 +220,6 @@
       "modern": 1
     },
     {
-      "move": "hearing-close",
-      "text": "I'm happy to answer any questions.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "hearing-witness-hedge",
-      "text": "We'll get back to you on that.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
       "move": "hearing-witness-hedge",
       "text": "I'll follow up with your office.",
       "documents": 0,
@@ -244,18 +228,6 @@
     {
       "move": "hearing-witness-hedge",
       "text": "We'd be happy to follow up.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "hearing-witness-hedge",
-      "text": "It's too early to tell.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "hearing-witness-hedge",
-      "text": "I think it's too early to tell.",
       "documents": 0,
       "modern": 0
     },
@@ -336,12 +308,6 @@
       "text": "I'm here to speak about {issue}.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "public-comment-name",
-      "text": "I'm here today to talk about {issue}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "public-comment-name",
@@ -650,30 +616,6 @@
       "modern": 0
     },
     {
-      "move": "campaign-thanks",
-      "text": "It's great to be back in {place}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-thanks",
-      "text": "It's good to be home.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-thanks",
-      "text": "It's great to be home.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-thanks",
-      "text": "It's good to be back in {place}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
       "move": "campaign-self",
       "text": "My name is {name}, and I'm running for {office}.",
       "documents": 0,
@@ -718,24 +660,6 @@
     {
       "move": "campaign-self",
       "text": "I'm a teacher.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-self",
-      "text": "I'm a veteran.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "campaign-self",
-      "text": "I'm a mother.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "campaign-self",
-      "text": "I'm a father.",
       "documents": 1,
       "modern": 1
     },
@@ -772,8 +696,8 @@
     {
       "move": "campaign-self",
       "text": "I know what it's like to {hardship}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "campaign-self",
@@ -814,8 +738,8 @@
     {
       "move": "campaign-issue",
       "text": "We need better schools.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "campaign-issue",
@@ -832,14 +756,8 @@
     {
       "move": "campaign-issue",
       "text": "Taxes are too high.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-issue",
-      "text": "Prices are too high.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "campaign-issue",
@@ -850,8 +768,8 @@
     {
       "move": "campaign-issue",
       "text": "Families are hurting.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "campaign-issue",
@@ -867,21 +785,9 @@
     },
     {
       "move": "campaign-issue",
-      "text": "This election is about {issue}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-issue",
       "text": "This is about our future.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "campaign-issue",
-      "text": "This is about jobs.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "campaign-contrast",
@@ -898,8 +804,8 @@
     {
       "move": "campaign-contrast",
       "text": "My opponent wants to {goal}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "campaign-contrast",
@@ -957,18 +863,6 @@
     },
     {
       "move": "campaign-ask",
-      "text": "Go vote.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-ask",
-      "text": "Get out and vote.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-ask",
       "text": "Make sure you vote.",
       "documents": 0,
       "modern": 0
@@ -982,12 +876,6 @@
     {
       "move": "campaign-ask",
       "text": "Election Day is {date}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-ask",
-      "text": "Tell your friends.",
       "documents": 0,
       "modern": 0
     },
@@ -1022,24 +910,6 @@
       "modern": 0
     },
     {
-      "move": "campaign-close",
-      "text": "Thank you, and God bless.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "campaign-close",
-      "text": "Thank you, and God bless you.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "campaign-close",
-      "text": "God bless you, and God bless America.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
       "move": "victory-claim",
       "text": "Tonight, we won.",
       "documents": 0,
@@ -1066,8 +936,8 @@
     {
       "move": "victory-claim",
       "text": "This is your victory.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "victory-claim",
@@ -1089,12 +959,6 @@
     },
     {
       "move": "victory-claim",
-      "text": "I'm grateful.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "victory-claim",
       "text": "I'm deeply grateful.",
       "documents": 0,
       "modern": 0
@@ -1102,8 +966,8 @@
     {
       "move": "victory-claim",
       "text": "Now the work begins.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "victory-claim",
@@ -1155,12 +1019,6 @@
     },
     {
       "move": "concession-concede",
-      "text": "I wish {opponent} well.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "concession-concede",
       "text": "The voters have spoken.",
       "documents": 1,
       "modern": 1
@@ -1197,12 +1055,6 @@
     },
     {
       "move": "concession-concede",
-      "text": "We didn't win.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "concession-concede",
       "text": "I'm proud of the campaign we ran.",
       "documents": 0,
       "modern": 0
@@ -1218,6 +1070,378 @@
       "text": "The fight goes on.",
       "documents": 1,
       "modern": 1
+    },
+    {
+      "move": "state-of-the-union-salutation",
+      "text": "Mr. Speaker, Madam Vice President, members of Congress, my fellow Americans.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-salutation",
+      "text": "Madam Speaker, Mr. Vice President, members of Congress, my fellow Americans.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-salutation",
+      "text": "Mr. Speaker, Mr. Vice President, members of Congress, my fellow Americans.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-salutation",
+      "text": "Madam Speaker, Madam Vice President, members of Congress, my fellow Americans.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-salutation",
+      "text": "Mr. Speaker, Mr. Vice President, Members of Congress, the First Lady of the United States, and my fellow Americans.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-report",
+      "text": "The state of our Union is strong.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-report",
+      "text": "The state of our union is strong.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-report",
+      "text": "Tonight, the state of our Union is strong.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-report",
+      "text": "I can report that the state of our Union is strong.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-report",
+      "text": "Unemployment is at a record low.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "state-of-the-union-report",
+      "text": "We've created {number} new jobs.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-report",
+      "text": "We created {number} jobs.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-guest",
+      "text": "{name} is with us tonight.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "state-of-the-union-guest",
+      "text": "{name} is here with us tonight.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "state-of-the-union-guest",
+      "text": "{name} is in the gallery tonight.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-guest",
+      "text": "{name} joins us tonight.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-ask",
+      "text": "I'm asking Congress to {goal}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-ask",
+      "text": "Send me a bill, and I will sign it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "state-of-the-union-ask",
+      "text": "Send me that bill.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "inaugural-salutation",
+      "text": "Chief Justice {name}, Vice President {name}, my fellow citizens.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "inaugural-moment",
+      "text": "Today, we celebrate the triumph not of a party, but of a cause.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "inaugural-moment",
+      "text": "This is America's day.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "inaugural-moment",
+      "text": "This is democracy's day.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "inaugural-moment",
+      "text": "Today is a new day.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "inaugural-moment",
+      "text": "We are one nation.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "debate-moderator",
+      "text": "Welcome to the debate.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "Good evening, and welcome.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "You have one minute.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "You have two minutes.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "debate-moderator",
+      "text": "You have one minute to respond.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "You have thirty seconds.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "Let's move to the next question.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "The next question goes to {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "{name}, the first question goes to you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "{name}, you have two minutes.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "{name}, your response?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "Please let {name} finish.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "Let {name} finish.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "debate-moderator",
+      "text": "Please don't interrupt.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "We'll now hear closing statements.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "That concludes our debate.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "Let me respond to that.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "debate-rebut",
+      "text": "I want to respond to that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "I'd like to respond to that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "I'm going to answer the question.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "I'll answer the question.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "debate-rebut",
+      "text": "The facts don't support that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "Look at my record.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "My opponent knows that's not true.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "{opponent} knows that's not true.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "With all due respect, that's not true.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "With all due respect, I disagree.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "Here's the difference.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "Thank you for watching.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "debate-closing",
+      "text": "Thank you for tuning in.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "I'm asking for your vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "I ask for your vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "I'd be honored to have your vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "I'd be honored to be your {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "I would be honored to serve as your {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "I'm ready to serve.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "I'm ready to go to work.",
+      "documents": 0,
+      "modern": 0
     }
   ]
 }

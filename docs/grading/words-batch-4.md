@@ -1,8 +1,12 @@
 # The journal, scenes, the clerk and people bringing things up in real Americans' words: grading batch batch-4
 
-These 100 lines are what the story director writes when its words come from the mined journal, scene, clerk and bring-it-up banks instead of hand-written lines. Each sentence was said in a public-domain federal transcript, with the names, employers and towns filled from a generated person's records. They come from conversations in 0 drawn places: .
+These 100 lines are what the story director writes when its words come from the mined journal, scene, clerk and bring-it-up banks instead of hand-written lines. Each sentence was said in a public-domain federal record, with the names, employers and towns filled from a generated person's records.
 
-Grade one thing per line: does it fit the line before it, the way a person would say it? Write good, rewrite or kill, and a note where it helps. A line you kill is never said again; another real sentence takes its place. Grades never block a merge.
+## How to grade
+
+Grade one thing per line: does it fit the line before it, the way a person would say it? Write good, rewrite or kill, and a note where it helps. A line you kill is never said again; another real sentence takes its place. Grades never block a merge. The lines come from 10 drawn places: Blackwater, Arizona; Cuthbert, Georgia; Labadieville, Louisiana; Westernport, Maryland; South Laurel, Maryland; Fair Oaks, California; Oregon, Ohio; Montpelier, Idaho; Canyon Lake, Texas; Wanchese, North Carolina.
+
+## The lines
 
 | #   | The line before                                                 | The line                                                                                                 | Grade | Note |
 | --- | --------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- | ----- | ---- |

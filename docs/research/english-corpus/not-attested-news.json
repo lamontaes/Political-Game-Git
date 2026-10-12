@@ -22,7 +22,9 @@
     "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
+    "briefing": 1499,
     "crec": 445,
+    "dcpd": 4730,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -37,8 +39,8 @@
     "ncua": 683,
     "nih": 52,
     "nps": 515,
-    "nps.gov": 1484,
-    "nps.gov (PDF)": 125,
+    "nps.gov": 1728,
+    "nps.gov (PDF)": 164,
     "ntia": 371,
     "sba": 577,
     "usa.gov": 312,
@@ -142,8 +144,8 @@
     {
       "move": "life-death",
       "text": "{name} passed away at the age of {age}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "life-death",
@@ -166,8 +168,8 @@
     {
       "move": "candidate-filed",
       "text": "{name} is running for {office}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "candidate-filed",
@@ -267,12 +269,6 @@
     },
     {
       "move": "election-result",
-      "text": "{name} won the election.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "election-result",
       "text": "{name} was elected {office}.",
       "documents": 1,
       "modern": 1
@@ -280,8 +276,8 @@
     {
       "move": "election-result",
       "text": "{name} was elected to {office}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "election-result",

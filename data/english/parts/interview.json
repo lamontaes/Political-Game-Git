@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "interview",
-  "description": "A one-on-one interview of a candidate or official by a local reporter: the reporter's questions and follow-ups, and the answers, commitments, defenses of a record and deflections. Every part is a whole sentence said in public-domain federal records (hearings, the Congressional Record, FEC and EAC meetings, federal oral histories), with record words as slots.",
+  "description": "A one-on-one interview of a candidate or official by a local reporter: the reporter's questions and follow-ups, and the answers, commitments, defenses of a record and deflections. Every part is a whole sentence said in public-domain federal records (hearings, the Congressional Record, FEC and EAC meetings, federal oral histories), with record words as slots. A sentence that claims something about the speaker's life or the place names the record fact it needs (requiresFacts); the engine says it only when that fact is in the record.",
   "slots": {
     "office": "The office, from the office records.",
     "issue": "What the question is about, from the topic or measure record.",
@@ -39,7 +39,9 @@
       "U.S. Senate Historical Office oral history": 239,
       "USAGov (usa.gov), U.S. General Services Administration": 16,
       "blm": 817,
+      "briefing": 1499,
       "crec": 445,
+      "dcpd": 4730,
       "doi": 674,
       "doj": 1621,
       "dol-osha": 501,
@@ -54,8 +56,8 @@
       "ncua": 683,
       "nih": 52,
       "nps": 515,
-      "nps.gov": 1484,
-      "nps.gov (PDF)": 125,
+      "nps.gov": 1728,
+      "nps.gov (PDF)": 164,
       "ntia": 371,
       "sba": 577,
       "usa.gov": 312,
@@ -66,7 +68,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 78
+    "notAttested": 58
   },
   "parts": [
     {
@@ -82,9 +84,10 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "briefing": 1,
         "hearings": 1
       },
       "shippable": true,
@@ -109,17 +112,18 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 6,
       "bySource": {
+        "dcpd": 4,
         "hearings": 1,
         "nasa": 1
       },
       "shippable": true,
       "source": {
-        "document": "AN EXAMINATION OF PRISON LABOR IN AMERICA",
-        "date": "2024-05-21",
-        "granule": "CHRG-118shrg59497",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg59497/html/CHRG-118shrg59497.htm",
+        "document": "The President's News Conference in the Hague, Netherlands",
+        "date": "2025-06-25",
+        "granule": "DCPD-202500720",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500720/html/DCPD-202500720.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -136,14 +140,16 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 57,
+      "transcriptsUsing": 76,
       "bySource": {
         "Richard Nixon Presidential Library (NARA) oral history project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 3,
         "U.S. Senate Historical Office oral history": 2,
+        "briefing": 18,
         "hearings": 48,
         "house": 2,
-        "nih": 1
+        "nih": 1,
+        "nps.gov": 1
       },
       "shippable": true,
       "source": {
@@ -167,8 +173,10 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 15,
+      "transcriptsUsing": 32,
       "bySource": {
+        "briefing": 15,
+        "dcpd": 2,
         "hearings": 13,
         "house": 2
       },
@@ -194,9 +202,11 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 68,
+      "transcriptsUsing": 87,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 3,
+        "briefing": 5,
+        "dcpd": 14,
         "hearings": 65
       },
       "shippable": true,
@@ -221,18 +231,20 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 35,
       "bySource": {
+        "briefing": 30,
+        "dcpd": 2,
         "hearings": 1,
         "nasa": 1,
         "nasa2": 1
       },
       "shippable": true,
       "source": {
-        "document": "OPPORTUNITIES AND CHALLENGES ASSOCIATED WITH ADVANCED NUCLEAR REACTOR COMMERCIALIZATION",
-        "date": "2023-11-30",
-        "granule": "CHRG-118shrg55843",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg55843/html/CHRG-118shrg55843.htm",
+        "document": "Press Briefing by Press Secretary Karine Jean-Pierre and Chair of the Council of Economic Advisers Jared Bernstein",
+        "date": "2024-12-11",
+        "granule": "WH-2024-12-11-press-briefing-by-press-secretary-karine-jean-pierre-and-chair-of-the",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/12/11/press-briefing-by-press-secretary-karine-jean-pierre-and-chair-of-the-council-of-economic-advisers-jared-bernstein-2/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -249,17 +261,45 @@
           "choice": "why-run"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 27,
       "bySource": {
+        "briefing": 18,
         "crec": 2,
+        "dcpd": 5,
         "hearings": 2
       },
       "shippable": true,
       "source": {
-        "document": "CONFRONTING THE RISE IN ANTI-SEMITIC DOMESTIC TERRORISM",
-        "date": "2020-01-15",
-        "granule": "CHRG-116hhrg41310",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg41310/html/CHRG-116hhrg41310.htm",
+        "document": "Remarks on Coal and an Exchange With Reporters",
+        "date": "2026-06-04",
+        "granule": "DCPD-202600380",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600380/html/DCPD-202600380.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-issue.what-would-you-do-about-issue",
+      "move": "reporter-issue",
+      "kind": "spoken",
+      "text": "What would you do about {issue}?",
+      "uses": [
+        {
+          "move": "reporter-issue",
+          "subject": "reporter",
+          "role": "issue",
+          "choice": "issue"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks Prior to a Meeting With Crown Prince Salman bin Hamad Al Khalifa of Bahrain and an Exchange With Reporters",
+        "date": "2025-07-16",
+        "granule": "DCPD-202500771",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500771/html/DCPD-202500771.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -276,11 +316,13 @@
           "choice": "issue"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 21,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
         "Richard Nixon Presidential Library (NARA) oral history project": 1,
+        "briefing": 1,
         "crec": 1,
+        "dcpd": 13,
         "hearings": 1,
         "nasa": 1,
         "nih": 1,
@@ -288,10 +330,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "DEPARTMENT OF HOMELAND SECURITY APPROPRIATIONS FOR 2019",
-        "date": "2018-04-11",
-        "granule": "CHRG-115hhrg30212",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-115hhrg30212/html/CHRG-115hhrg30212.htm",
+        "document": "Remarks in Las Vegas, Nevada",
+        "date": "2026-08-05",
+        "granule": "DCPD-202600518",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600518/html/DCPD-202600518.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -308,9 +350,10 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 6,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "briefing": 4,
         "hearings": 1
       },
       "shippable": true,
@@ -335,16 +378,18 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 9,
       "bySource": {
+        "briefing": 2,
+        "dcpd": 1,
         "hearings": 6
       },
       "shippable": true,
       "source": {
-        "document": "THE SEMI-ANNUAL REPORT OF THE BUREAU OF CONSUMER FINANCIAL PROTECTION",
-        "date": "2024-06-13",
-        "granule": "CHRG-118hhrg56523",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg56523/html/CHRG-118hhrg56523.htm",
+        "document": "dcpd of 2025-04-24",
+        "date": "2025-04-24",
+        "granule": "DCPD-202500519",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500519/html/DCPD-202500519.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -361,19 +406,21 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 16,
+      "transcriptsUsing": 22,
       "bySource": {
         "U.S. Senate Historical Office oral history": 2,
+        "briefing": 5,
+        "dcpd": 1,
         "hearings": 9,
         "nih": 1,
         "nps": 4
       },
       "shippable": true,
       "source": {
-        "document": "PROTECTING VETERAN CHOICE: EXAMINING VA'S COMMUNITY CARE PROGRAM",
-        "date": "2025-01-28",
-        "granule": "CHRG-119shrg58614",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg58614/html/CHRG-119shrg58614.htm",
+        "document": "Remarks Prior to a Meeting With President Matamela Cyril Ramaphosa of South Africa and an Exchange With Reporters",
+        "date": "2025-05-21",
+        "granule": "DCPD-202500626",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500626/html/DCPD-202500626.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -390,16 +437,18 @@
           "choice": "opponent"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 35,
       "bySource": {
+        "briefing": 19,
+        "dcpd": 7,
         "hearings": 9
       },
       "shippable": true,
       "source": {
-        "document": "PRESSURE COOKER: COMPETITION ISSUES IN THE SEED AND FERTILIZER INDUSTRIES",
-        "date": "2025-10-28",
-        "granule": "CHRG-119shrg62935",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62935/html/CHRG-119shrg62935.htm",
+        "document": "Remarks in an Exchange With Reporters Prior to Departure From New York City",
+        "date": "2026-06-08",
+        "granule": "DCPD-202600390",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600390/html/DCPD-202600390.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -416,16 +465,74 @@
           "choice": "opponent"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 70,
       "bySource": {
+        "briefing": 39,
+        "dcpd": 27,
         "hearings": 4
       },
       "shippable": true,
       "source": {
-        "document": "BEYOND THE TRAILHEAD: SUPPORTING OUTDOOR RECREATION IN AN UNCERTAIN ECONOMY",
-        "date": "2025-05-30",
-        "granule": "CHRG-119shrg60615",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60615/html/CHRG-119shrg60615.htm",
+        "document": "Remarks on Cuba and an Exchange With Reporters Upon Arrival at Joint Base Andrews, Maryland",
+        "date": "2026-05-20",
+        "granule": "DCPD-202600355",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600355/html/DCPD-202600355.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-opponent.whats-your-response",
+      "move": "reporter-opponent",
+      "kind": "spoken",
+      "text": "What's your response?",
+      "uses": [
+        {
+          "move": "reporter-opponent",
+          "subject": "reporter",
+          "role": "opponent",
+          "choice": "opponent"
+        }
+      ],
+      "transcriptsUsing": 20,
+      "bySource": {
+        "briefing": 11,
+        "dcpd": 8,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks and an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
+        "date": "2026-03-15",
+        "granule": "DCPD-202600177",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600177/html/DCPD-202600177.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-opponent.how-do-you-respond",
+      "move": "reporter-opponent",
+      "kind": "spoken",
+      "text": "How do you respond?",
+      "uses": [
+        {
+          "move": "reporter-opponent",
+          "subject": "reporter",
+          "role": "opponent",
+          "choice": "opponent"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "briefing": 4,
+        "dcpd": 1,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Press Briefing by Press Secretary Jen Psaki and National Security Advisor Jake Sullivan, June 7, 2021",
+        "date": "2021-06-07",
+        "granule": "WH-2021-06-07-press-briefing-by-press-secretary-jen-psaki-and-national-security-advi",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2021/06/07/press-briefing-by-press-secretary-jen-psaki-and-national-security-advisor-jake-sullivan-june-7-2021/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -442,10 +549,12 @@
           "choice": "future"
         }
       ],
-      "transcriptsUsing": 14,
+      "transcriptsUsing": 25,
       "bySource": {
         "Richard Nixon Presidential Library (NARA) oral history project": 2,
         "U.S. Election Assistance Commission (eac.gov)": 2,
+        "briefing": 4,
+        "dcpd": 7,
         "hearings": 2,
         "house": 1,
         "nasa": 1,
@@ -455,10 +564,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "OPPORTUNITIES AND CHALLENGES IN ADDRESSING HOMELESSNESS",
-        "date": "2022-07-19",
-        "granule": "CHRG-117shrg55962",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg55962/html/CHRG-117shrg55962.htm",
+        "document": "Remarks at a Campaign Reception in Philadelphia, Pennsylvania",
+        "date": "2023-12-11",
+        "granule": "DCPD-202301104",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202301104/html/DCPD-202301104.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -475,17 +584,18 @@
           "choice": "future"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 7,
       "bySource": {
         "crec": 1,
+        "dcpd": 5,
         "hearings": 1
       },
       "shippable": true,
       "source": {
-        "document": "OPEN HEARING: PERSONNEL VETTING, SECURITY CLEARANCE REFORM, AND TRUSTED WORKFORCE 2.0",
-        "date": "2024-07-10",
-        "granule": "CHRG-118shrg57024",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg57024/html/CHRG-118shrg57024.htm",
+        "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
+        "date": "2026-08-02",
+        "granule": "DCPD-202600511",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600511/html/DCPD-202600511.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -502,16 +612,17 @@
           "choice": "press"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 10,
       "bySource": {
+        "briefing": 6,
         "hearings": 4
       },
       "shippable": true,
       "source": {
-        "document": "DISRUPTION IN THE SKIES: THE SURGE IN AIR RAGE AND ITS EFFECTS ON WORKERS, AIRLINES, AND AIRPORTS",
-        "date": "2021-09-23",
-        "granule": "CHRG-117hhrg49704",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg49704/html/CHRG-117hhrg49704.htm",
+        "document": "Press Briefing by Press Secretary Karine Jean-Pierre and NSC Coordinator for Strategic Communications John Kirby",
+        "date": "2023-10-30",
+        "granule": "WH-2023-10-30-press-briefing-by-press-secretary-karine-jean-pierre-and-nsc-coordinat",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2023/10/30/press-briefing-by-press-secretary-karine-jean-pierre-and-nsc-coordinator-for-strategic-communications-john-kirby-24/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -557,8 +668,9 @@
           "choice": "press"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
+        "briefing": 1,
         "hearings": 3
       },
       "shippable": true,
@@ -583,11 +695,13 @@
           "choice": "press"
         }
       ],
-      "transcriptsUsing": 142,
+      "transcriptsUsing": 161,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 1,
+        "briefing": 13,
         "crec": 1,
+        "dcpd": 6,
         "hearings": 136,
         "nasa": 1,
         "nps.gov (PDF)": 2
@@ -614,8 +728,9 @@
           "choice": "press"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 8,
       "bySource": {
+        "briefing": 1,
         "hearings": 7
       },
       "shippable": true,
@@ -667,26 +782,29 @@
           "choice": "press"
         }
       ],
-      "transcriptsUsing": 170,
+      "transcriptsUsing": 268,
       "bySource": {
         "National Archives History Office oral history project": 1,
         "Richard Nixon Presidential Library (NARA) oral history project": 3,
         "U.S. Election Assistance Commission (eac.gov)": 7,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
         "U.S. Senate Historical Office oral history": 3,
+        "briefing": 34,
         "crec": 49,
+        "dcpd": 63,
         "hearings": 61,
         "house": 3,
         "nasa": 10,
         "nasa2": 9,
-        "nps": 22
+        "nps": 22,
+        "nps.gov": 1
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
-        "date": "2026-04-28",
-        "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
-        "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
+        "document": "Remarks in Las Vegas, Nevada",
+        "date": "2026-08-05",
+        "granule": "DCPD-202600518",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600518/html/DCPD-202600518.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -703,12 +821,14 @@
           "choice": "press"
         }
       ],
-      "transcriptsUsing": 35,
+      "transcriptsUsing": 56,
       "bySource": {
         "U.S. Army Center of Military History": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "U.S. Senate Historical Office oral history": 6,
+        "briefing": 4,
         "crec": 1,
+        "dcpd": 17,
         "hearings": 14,
         "house": 3,
         "nasa": 1,
@@ -717,10 +837,38 @@
       },
       "shippable": true,
       "source": {
-        "document": "INSIDE THE BIDEN FBI: WASTE, FRAUD, ABUSE, AND A BUREAU LEADERSHIP IN DECLINE",
-        "date": "2025-04-02",
-        "granule": "CHRG-119hhrg59948",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg59948/html/CHRG-119hhrg59948.htm",
+        "document": "Remarks in an Exchange With Reporters Prior to Departure for Las Vegas, Nevada",
+        "date": "2026-04-16",
+        "granule": "DCPD-202600262",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600262/html/DCPD-202600262.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.reporter-press.can-i-follow-up-on-that",
+      "move": "reporter-press",
+      "kind": "spoken",
+      "text": "Can I follow up on that?",
+      "uses": [
+        {
+          "move": "reporter-press",
+          "subject": "reporter",
+          "role": "press",
+          "choice": "press"
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "briefing": 1,
+        "dcpd": 6,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks and an Exchange With Reporters Prior to Departure From Morristown, New Jersey",
+        "date": "2025-05-25",
+        "granule": "DCPD-202500644",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500644/html/DCPD-202500644.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -737,19 +885,21 @@
           "choice": "press"
         }
       ],
-      "transcriptsUsing": 26,
+      "transcriptsUsing": 61,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
+        "briefing": 15,
+        "dcpd": 20,
         "hearings": 21,
         "house": 1,
         "nps": 2
       },
       "shippable": true,
       "source": {
-        "document": "IGNITING AMERICA'S ENERGY FUTURE: THE PROMISE AND PROGRESS OF FUSION POWER",
-        "date": "2025-09-18",
-        "granule": "CHRG-119hhrg61654",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61654/html/CHRG-119hhrg61654.htm",
+        "document": "Remarks Prior to a Meeting With President Ahmad Husayn al-Shara' of Syria and an Exchange With Reporters in Ankara, Turkey",
+        "date": "2026-07-08",
+        "granule": "DCPD-202600451",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600451/html/DCPD-202600451.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -766,17 +916,19 @@
           "choice": "press"
         }
       ],
-      "transcriptsUsing": 56,
+      "transcriptsUsing": 169,
       "bySource": {
         "Richard Nixon Presidential Library (NARA) oral history project": 2,
+        "briefing": 95,
+        "dcpd": 18,
         "hearings": 54
       },
       "shippable": true,
       "source": {
-        "document": "READY, SET, GO-LIVE: ASSESSING VA'S EHR MODERNIZATION DEPLOYMENT READINESS",
-        "date": "2025-12-15",
-        "granule": "CHRG-119hhrg62607",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg62607/html/CHRG-119hhrg62607.htm",
+        "document": "Remarks and a Question-and-Answer Session at the Forum Club of the Palm Beaches Dinner in West Palm Beach, Florida",
+        "date": "2026-05-01",
+        "granule": "DCPD-202600303",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600303/html/DCPD-202600303.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -793,17 +945,19 @@
           "choice": "press"
         }
       ],
-      "transcriptsUsing": 5,
+      "transcriptsUsing": 21,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
+        "briefing": 7,
+        "dcpd": 9,
         "hearings": 4
       },
       "shippable": true,
       "source": {
-        "document": "OVERSIGHT HEARING ON EXAMINING THE PRESIDENT'S FY 2025 BUDGET REQUEST FOR THE BUREAU OF LAND MANAGEMENT AND NATIONAL PARK SERVICE",
-        "date": "2024-05-15",
-        "granule": "CHRG-118hhrg55688",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55688/html/CHRG-118hhrg55688.htm",
+        "document": "Remarks During a Meeting With President Ursula von der Leyen of the European Commission and an Exchange With Reporters in New York City",
+        "date": "2025-09-23",
+        "granule": "DCPD-202500947",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500947/html/DCPD-202500947.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -820,7 +974,7 @@
           "choice": "commit"
         }
       ],
-      "transcriptsUsing": 103,
+      "transcriptsUsing": 203,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
@@ -831,7 +985,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
         "U.S. Senate Historical Office oral history": 4,
+        "briefing": 13,
         "crec": 5,
+        "dcpd": 87,
         "hearings": 69,
         "nasa": 3,
         "nasa2": 2,
@@ -840,10 +996,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "HEARING TO IDENTIFY CHALLENGES TO MEETING INCREASED ELECTRICITY DEMAND",
-        "date": "2025-07-23",
-        "granule": "CHRG-119shrg61245",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg61245/html/CHRG-119shrg61245.htm",
+        "document": "Remarks in an Exchange With Reporters Prior to a Meeting With President Joseph Aoun of Lebanon and an Exchange With Reporters",
+        "date": "2026-07-21",
+        "granule": "DCPD-202600481",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600481/html/DCPD-202600481.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -860,10 +1016,11 @@
           "choice": "commit"
         }
       ],
-      "transcriptsUsing": 12,
+      "transcriptsUsing": 32,
       "bySource": {
         "National Archives History Office oral history project (nyc-oral-histories)": 1,
         "Richard Nixon Presidential Library (NARA) oral history project": 1,
+        "dcpd": 20,
         "house": 1,
         "nasa": 5,
         "nasa2": 2,
@@ -871,10 +1028,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "Joe Majid oral history interview",
-        "date": "2025-05-23",
-        "granule": "nara-staff-oral-history-interview-with-joe-majid",
-        "url": "https://www.archives.gov/files/about/history/oral-history-interview-with-joe-majid.pdf",
+        "document": "Remarks and a Question-and-Answer Session at the Future Investment Initiative Priority Miami Summit in Miami Beach, Florida",
+        "date": "2026-03-27",
+        "granule": "DCPD-202600213",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600213/html/DCPD-202600213.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -891,20 +1048,22 @@
           "choice": "commit"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 26,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "U.S. Senate Historical Office oral history": 1,
+        "briefing": 1,
+        "dcpd": 17,
         "hearings": 4,
         "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
-        "date": "2025-05-05",
-        "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
-        "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
+        "document": "Remarks on the Situation in Israel and Iran and an Exchange With Reporters Aboard Air Force One En Route to Amsterdam, Netherlands",
+        "date": "2025-06-24",
+        "granule": "DCPD-202500717",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500717/html/DCPD-202500717.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -921,8 +1080,10 @@
           "choice": "commit"
         }
       ],
-      "transcriptsUsing": 11,
+      "transcriptsUsing": 14,
       "bySource": {
+        "briefing": 2,
+        "dcpd": 1,
         "hearings": 10,
         "nps.gov (PDF)": 1
       },
@@ -948,7 +1109,7 @@
           "choice": "commit"
         }
       ],
-      "transcriptsUsing": 748,
+      "transcriptsUsing": 3587,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 9,
@@ -963,14 +1124,15 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 21,
         "U.S. Senate Historical Office oral history": 52,
         "blm": 1,
+        "briefing": 774,
         "crec": 10,
+        "dcpd": 2066,
         "hearings": 164,
         "house": 43,
         "nasa": 134,
         "nasa2": 126,
         "nih": 4,
         "nps": 89,
-        "nps.gov (PDF)": 1,
         "ntia": 2,
         "usgs": 1,
         "va": 5,
@@ -998,7 +1160,7 @@
           "choice": "commit"
         }
       ],
-      "transcriptsUsing": 1869,
+      "transcriptsUsing": 3464,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Federal Election Commission (fec.gov)": 3,
@@ -1014,7 +1176,9 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 15,
         "U.S. Senate Historical Office oral history": 17,
         "blm": 2,
+        "briefing": 527,
         "crec": 250,
+        "dcpd": 1064,
         "doi": 12,
         "doj": 38,
         "dol-osha": 3,
@@ -1029,7 +1193,7 @@
         "ncua": 2,
         "nih": 3,
         "nps": 26,
-        "nps.gov": 26,
+        "nps.gov": 30,
         "nps.gov (PDF)": 6,
         "ntia": 11,
         "usa.gov": 1,
@@ -1060,8 +1224,9 @@
           "choice": "commit"
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 5,
       "bySource": {
+        "dcpd": 1,
         "epa": 1,
         "hearings": 3
       },
@@ -1075,6 +1240,33 @@
       }
     },
     {
+      "key": "interview.official-commit.thats-a-promise",
+      "move": "official-commit",
+      "kind": "spoken",
+      "text": "That's a promise.",
+      "uses": [
+        {
+          "move": "official-commit",
+          "subject": "official",
+          "role": "commit",
+          "choice": "commit"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "briefing": 1,
+        "dcpd": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a Campaign Event in Scranton, Pennsylvania",
+        "date": "2024-04-16",
+        "granule": "DCPD-202400300",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400300/html/DCPD-202400300.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "interview.official-record.i-voted-for-it",
       "move": "official-record",
       "kind": "spoken",
@@ -1084,7 +1276,8 @@
           "move": "official-record",
           "subject": "official",
           "role": "record",
-          "choice": "record"
+          "choice": "record",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "transcriptsUsing": 6,
@@ -1115,21 +1308,23 @@
           "move": "official-record",
           "subject": "official",
           "role": "record",
-          "choice": "record"
+          "choice": "record",
+          "requiresFacts": ["voted-no"]
         }
       ],
-      "transcriptsUsing": 4,
+      "transcriptsUsing": 6,
       "bySource": {
         "U.S. Senate Historical Office oral history": 1,
         "crec": 1,
+        "dcpd": 2,
         "hearings": 2
       },
       "shippable": true,
       "source": {
-        "document": "CORPORATE PROFITS ARE SOARING AS PRICES RISE: ARE CORPORATE GREED AND PROFITEERING FUELING INFLATION?",
-        "date": "2022-04-05",
-        "granule": "CHRG-117shrg47315",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg47315/html/CHRG-117shrg47315.htm",
+        "document": "Remarks at a Campaign Reception in Freeport, Maine",
+        "date": "2023-07-28",
+        "granule": "DCPD-202300669",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202300669/html/DCPD-202300669.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1146,18 +1341,19 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
         "crec": 1,
+        "dcpd": 1,
         "hearings": 1,
         "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "IMPROVING THE COORDINATION AND QUALITY OF SUBSTANCE USE DISORDER TREATMENT",
-        "date": "2018-05-08",
-        "granule": "CHRG-115hhrg32361",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-115hhrg32361/html/CHRG-115hhrg32361.htm",
+        "document": "Remarks During an Event With Seniors in Middleton, Florida",
+        "date": "2026-05-01",
+        "granule": "DCPD-202600300",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600300/html/DCPD-202600300.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1201,20 +1397,155 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 14,
       "bySource": {
         "U.S. Senate Historical Office oral history": 1,
+        "briefing": 1,
         "crec": 2,
+        "dcpd": 6,
         "hearings": 2,
         "nasa": 1,
         "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "MEMBER DAY HEARING ON COVID-19 RESPONSE AND RECOVERY: COMMITTEE ON SMALL BUSINESS",
-        "date": "2020-04-23",
-        "granule": "CHRG-116hhrg41291",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg41291/html/CHRG-116hhrg41291.htm",
+        "document": "Remarks on Student Loan Debt Relief and an Exchange With Reporters",
+        "date": "2022-08-24",
+        "granule": "DCPD-202200725",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202200725/html/DCPD-202200725.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-record.it-was-the-right-decision",
+      "move": "official-record",
+      "kind": "spoken",
+      "text": "It was the right decision.",
+      "uses": [
+        {
+          "move": "official-record",
+          "subject": "official",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "briefing": 2,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Press Briefing by Principal Deputy Press Secretary Sarah Sanders and Homeland Security Advisor Tom Bossert",
+        "date": "2017-05-11",
+        "granule": "WH-2017-05-11-press-briefing-principal-deputy-press-secretary-sarah-sanders-homeland",
+        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/press-briefing-principal-deputy-press-secretary-sarah-sanders-homeland-security-advisor-tom-bossert-051117/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.im-not-going-to-get-into-that",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "I'm not going to get into that.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 13,
+      "bySource": {
+        "briefing": 10,
+        "dcpd": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Press Briefing by Press Secretary Karine Jean-Pierre",
+        "date": "2024-10-16",
+        "granule": "WH-2024-10-16-press-briefing-by-press-secretary-karine-jean-pierre-71",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/16/press-briefing-by-press-secretary-karine-jean-pierre-71/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.im-not-going-to-speculate",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "I'm not going to speculate.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "briefing": 2,
+        "dcpd": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in an Exchange With Reporters Prior to Departure From Schönefeld, Germany",
+        "date": "2024-10-18",
+        "granule": "DCPD-202400927",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400927/html/DCPD-202400927.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.im-not-going-to-get-ahead-of-that",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "I'm not going to get ahead of that.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 14,
+      "bySource": {
+        "briefing": 14
+      },
+      "shippable": true,
+      "source": {
+        "document": "Press Gaggle by Press Secretary Karine Jean-Pierre and Secretary of Homeland Security Alejandro Mayorkas En Route Greenville, SC",
+        "date": "2024-10-02",
+        "granule": "WH-2024-10-02-press-gaggle-by-press-secretary-karine-jean-pierre-and-secretary-of-ho",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/10/02/press-gaggle-by-press-secretary-karine-jean-pierre-and-secretary-of-homeland-security-alejandro-mayorkas-en-route-greenville-sc/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.i-dont-have-anything-to-share-on-that",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "I don't have anything to share on that.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "briefing": 10
+      },
+      "shippable": true,
+      "source": {
+        "document": "Press Briefing by Press Secretary Karine Jean-Pierre",
+        "date": "2024-09-13",
+        "granule": "WH-2024-09-13-press-briefing-by-press-secretary-karine-jean-pierre-68",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2024/09/13/press-briefing-by-press-secretary-karine-jean-pierre-68/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1231,18 +1562,20 @@
           "choice": "deflect"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 13,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
+        "briefing": 8,
+        "dcpd": 2,
         "hearings": 1,
         "house": 1
       },
       "shippable": true,
       "source": {
-        "document": "OVERSIGHT OF THE FBI AND DOJ ACTIONS IN ADVANCE OF THE 2016 ELECTION",
-        "date": "2018-06-19",
-        "granule": "CHRG-115hhrg31522",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-115hhrg31522/html/CHRG-115hhrg31522.htm",
+        "document": "Remarks on the National Economy and an Exchange With Reporters",
+        "date": "2025-01-10",
+        "granule": "DCPD-202500044",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500044/html/DCPD-202500044.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1259,9 +1592,11 @@
           "choice": "deflect"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 51,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
+        "briefing": 34,
+        "dcpd": 10,
         "hearings": 5,
         "house": 1
       },
@@ -1271,6 +1606,61 @@
         "date": "2025-07-15",
         "granule": "CHRG-119hhrg61405",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61405/html/CHRG-119hhrg61405.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.thats-a-hypothetical-question",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "That's a hypothetical question.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "briefing": 1,
+        "nasa2": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Press Gaggle by Press Secretary Sean Spicer",
+        "date": "2017-06-19",
+        "granule": "WH-2017-06-19-press-gaggle-press-secretary-sean-spicer-061917",
+        "url": "https://trumpwhitehouse.archives.gov/briefings-statements/press-gaggle-press-secretary-sean-spicer-061917/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.im-focused-on-issue",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "I'm focused on {issue}.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "briefing": 1,
+        "dcpd": 5,
+        "nasa2": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks and an Exchange With Reporters Upon Arrival in Prestwick, United Kingdom",
+        "date": "2025-07-25",
+        "granule": "DCPD-202500799",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500799/html/DCPD-202500799.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1287,7 +1677,7 @@
           "choice": "deflect"
         }
       ],
-      "transcriptsUsing": 35,
+      "transcriptsUsing": 355,
       "bySource": {
         "National Archives History Office oral history project": 3,
         "National Archives History Office oral history project (nyc-oral-histories)": 1,
@@ -1295,6 +1685,8 @@
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 3,
         "U.S. Senate Historical Office oral history": 3,
+        "briefing": 99,
+        "dcpd": 221,
         "hearings": 2,
         "house": 1,
         "nasa": 10,
@@ -1303,10 +1695,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "AN UPDATE FROM THE TREASURY DEPARTMENT: COUNTERING ILLICIT FINANCE, TERRORISM AND SANCTIONS EVASION",
-        "date": "2024-04-09",
-        "granule": "CHRG-118shrg58408",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg58408/html/CHRG-118shrg58408.htm",
+        "document": "Remarks and an Exchange With Reporters Prior to Departure From Joint Base Andrews, Maryland",
+        "date": "2026-08-21",
+        "granule": "DCPD-202600550",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600550/html/DCPD-202600550.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1323,22 +1715,104 @@
           "choice": "deflect"
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 18,
       "bySource": {
         "National Archives History Office oral history project": 1,
         "National Archives History Office oral history project (brooks-oral-histories)": 1,
         "U.S. Senate Historical Office oral history": 2,
+        "briefing": 3,
         "crec": 2,
+        "dcpd": 5,
         "hearings": 2,
         "nasa": 1,
         "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "BEYOND THE CITY LIMITS: DELIVERING FOR RURAL VETERANS",
-        "date": "2025-07-25",
-        "granule": "CHRG-119hhrg61507",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61507/html/CHRG-119hhrg61507.htm",
+        "document": "Remarks Honoring the 2025 College Football National Champion Indiana University Hoosiers",
+        "date": "2026-05-11",
+        "granule": "DCPD-202600332",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600332/html/DCPD-202600332.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.its-too-early-to-say",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "It's too early to say.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "briefing": 2,
+        "dcpd": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Press Briefing by Press Secretary Karine Jean-Pierre, Secretary of Education Miguel Cardona, and Deputy Director of the National Economic Council Bharat Ramamurti",
+        "date": "2023-06-30",
+        "granule": "WH-2023-06-30-press-briefing-by-press-secretary-karine-jean-pierre-secretary-of-educ",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2023/06/30/press-briefing-by-press-secretary-karine-jean-pierre-secretary-of-education-miguel-cardona-and-deputy-director-of-the-national-economic-council-bharat-ramamurti/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.its-too-early-to-tell",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "It's too early to tell.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "briefing": 1,
+        "dcpd": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in a Meeting With Chairman of the State Affairs Commission Kim Jong Un of North Korea and an Exchange With Reporters in Hanoi, Vietnam",
+        "date": "2019-02-28",
+        "granule": "DCPD-201900105",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-201900105/html/DCPD-201900105.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-deflect.i-havent-made-a-decision",
+      "move": "official-deflect",
+      "kind": "spoken",
+      "text": "I haven't made a decision.",
+      "uses": [
+        {
+          "move": "official-deflect",
+          "subject": "official",
+          "role": "deflect",
+          "choice": "deflect"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Signing Executive Orders To Promote United States Ranching and an Exchange With Reporters",
+        "date": "2026-09-04",
+        "granule": "DCPD-202600575",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600575/html/DCPD-202600575.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1355,10 +1829,12 @@
           "choice": "deflect"
         }
       ],
-      "transcriptsUsing": 207,
+      "transcriptsUsing": 273,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 4,
+        "briefing": 15,
         "crec": 87,
+        "dcpd": 51,
         "hearings": 114,
         "va": 2
       },
@@ -1384,9 +1860,11 @@
           "choice": "deflect"
         }
       ],
-      "transcriptsUsing": 35,
+      "transcriptsUsing": 45,
       "bySource": {
+        "briefing": 7,
         "crec": 20,
+        "dcpd": 3,
         "hearings": 15
       },
       "shippable": true,
@@ -1411,7 +1889,7 @@
           "choice": "deflect"
         }
       ],
-      "transcriptsUsing": 83,
+      "transcriptsUsing": 122,
       "bySource": {
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
@@ -1421,7 +1899,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
         "U.S. Senate Historical Office oral history": 2,
+        "briefing": 4,
         "crec": 2,
+        "dcpd": 35,
         "hearings": 27,
         "house": 3,
         "nasa": 17,
@@ -1432,10 +1912,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
-        "date": "2026-04-28",
-        "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
-        "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
+        "document": "Remarks on Affordability in Macungie, Pennsylvania",
+        "date": "2026-06-23",
+        "granule": "DCPD-202600423",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600423/html/DCPD-202600423.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1452,18 +1932,20 @@
           "choice": "deflect"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 41,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
+        "briefing": 18,
+        "dcpd": 17,
         "hearings": 4,
         "nasa": 1
       },
       "shippable": true,
       "source": {
-        "document": "METALS, MINERALS, AND MINING: HOW THE CCP FUELS CONFLICT AND EXPLOITATION IN AFRICA",
-        "date": "2025-03-25",
-        "granule": "CHRG-119hhrg60388",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60388/html/CHRG-119hhrg60388.htm",
+        "document": "Remarks on the Relocation of U.S. Space Command Headquarters to Huntsville, Alabama, and an Exchange With Reporters",
+        "date": "2025-09-02",
+        "granule": "DCPD-202500885",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500885/html/DCPD-202500885.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1480,7 +1962,7 @@
           "choice": "story"
         }
       ],
-      "transcriptsUsing": 89,
+      "transcriptsUsing": 107,
       "bySource": {
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
         "National Archives History Office oral history project": 4,
@@ -1489,7 +1971,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 6,
         "U.S. Senate Historical Office oral history": 3,
+        "briefing": 2,
         "crec": 4,
+        "dcpd": 16,
         "hearings": 17,
         "house": 9,
         "nasa": 6,
@@ -1499,10 +1983,38 @@
       },
       "shippable": true,
       "source": {
-        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
-        "date": "2025-05-05",
-        "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
-        "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
+        "document": "Remarks on the 25th Anniversary of the September 11, 2001, Terrorist Attacks in Arlington, Virginia",
+        "date": "2026-09-11",
+        "granule": "DCPD-202600594",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600594/html/DCPD-202600594.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-story.i-know-what-its-like",
+      "move": "official-story",
+      "kind": "spoken",
+      "text": "I know what it's like.",
+      "uses": [
+        {
+          "move": "official-story",
+          "subject": "official",
+          "role": "story",
+          "choice": "story",
+          "requiresFacts": ["hardship"]
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "dcpd": 6,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "SANCTUARY JURISDICTIONS: MAGNET FOR MIGRANTS, COVER FOR CRIMINALS",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg60069",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60069/html/CHRG-119hhrg60069.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1516,15 +2028,17 @@
           "move": "official-story",
           "subject": "official",
           "role": "story",
-          "choice": "story"
+          "choice": "story",
+          "requiresFacts": ["hardship"]
         }
       ],
-      "transcriptsUsing": 26,
+      "transcriptsUsing": 33,
       "bySource": {
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
         "National Archives History Office oral history project (nprc-oral-histories)": 1,
         "U.S. Senate Historical Office oral history": 1,
         "crec": 1,
+        "dcpd": 7,
         "hearings": 6,
         "nasa": 7,
         "nasa2": 2,
@@ -1533,10 +2047,38 @@
       },
       "shippable": true,
       "source": {
-        "document": "SANCTUARY JURISDICTIONS: MAGNET FOR MIGRANTS, COVER FOR CRIMINALS",
-        "date": "2025-04-09",
-        "granule": "CHRG-119hhrg60069",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60069/html/CHRG-119hhrg60069.htm",
+        "document": "Remarks Honoring 2025 NCAA Collegiate National Champions",
+        "date": "2026-04-21",
+        "granule": "DCPD-202600278",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600278/html/DCPD-202600278.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-story.ive-seen-it-firsthand",
+      "move": "official-story",
+      "kind": "spoken",
+      "text": "I've seen it firsthand.",
+      "uses": [
+        {
+          "move": "official-story",
+          "subject": "official",
+          "role": "story",
+          "choice": "story",
+          "requiresFacts": ["witnessed"]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "briefing": 1,
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in a Roundtable Discussion on the \"Antifa\" Organization and an Exchange With Reporters",
+        "date": "2025-10-08",
+        "granule": "DCPD-202500989",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500989/html/DCPD-202500989.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1553,10 +2095,11 @@
           "choice": "story"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 7,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 1,
+        "dcpd": 1,
         "hearings": 3,
         "wpa": 1
       },
@@ -1582,13 +2125,15 @@
           "choice": "opponent"
         }
       ],
-      "transcriptsUsing": 38,
+      "transcriptsUsing": 73,
       "bySource": {
         "Naval History and Heritage Command, Navy Department Library oral histories": 1,
         "Richard Nixon Presidential Library (NARA) oral history project": 3,
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
         "U.S. Senate Historical Office oral history": 4,
+        "briefing": 19,
+        "dcpd": 16,
         "hearings": 10,
         "house": 2,
         "nasa": 4,
@@ -1597,10 +2142,65 @@
       },
       "shippable": true,
       "source": {
-        "document": "CONFIRMATION HEARING ON THE NOMINATION OF KASHYAP PRAMOD PATEL TO BE DIRECTOR OF THE FEDERAL BUREAU OF INVESTIGATION",
-        "date": "2025-01-30",
-        "granule": "CHRG-119shrg61322",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg61322/html/CHRG-119shrg61322.htm",
+        "document": "Remarks at a Telerally for New Jersey Republican Gubernatorial Candidate Jack Ciattarelli",
+        "date": "2025-06-02",
+        "granule": "DCPD-202500654",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500654/html/DCPD-202500654.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-opponent.thats-simply-not-true",
+      "move": "official-opponent",
+      "kind": "spoken",
+      "text": "That's simply not true.",
+      "uses": [
+        {
+          "move": "official-opponent",
+          "subject": "official",
+          "role": "opponent",
+          "choice": "opponent"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "briefing": 2,
+        "dcpd": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Hurricane Milton Preparedness Efforts and an Exchange With Reporters",
+        "date": "2024-10-09",
+        "granule": "DCPD-202400894",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400894/html/DCPD-202400894.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-opponent.thats-false",
+      "move": "official-opponent",
+      "kind": "spoken",
+      "text": "That's false.",
+      "uses": [
+        {
+          "move": "official-opponent",
+          "subject": "official",
+          "role": "opponent",
+          "choice": "opponent"
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "briefing": 5,
+        "dcpd": 2,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a Document Signing Ceremony and Meeting With United States Ambassadorial Nominees and an Exchange With Reporters",
+        "date": "2025-03-25",
+        "granule": "DCPD-202500394",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500394/html/DCPD-202500394.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1617,10 +2217,12 @@
           "choice": "opponent"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 6,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 1,
+        "briefing": 1,
+        "dcpd": 2,
         "hearings": 1
       },
       "shippable": true,
@@ -1629,6 +2231,34 @@
         "date": "2024-04-09",
         "granule": "CHRG-118shrg58408",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg58408/html/CHRG-118shrg58408.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "interview.official-opponent.thats-not-accurate",
+      "move": "official-opponent",
+      "kind": "spoken",
+      "text": "That's not accurate.",
+      "uses": [
+        {
+          "move": "official-opponent",
+          "subject": "official",
+          "role": "opponent",
+          "choice": "opponent"
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "briefing": 6,
+        "dcpd": 1,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "COMBATTING THE YOUTH VAPING EPIDEMIC BY ENHANCING ENFORCEMENT AGAINST ILLEGAL E-CIGARETTES",
+        "date": "2024-06-12",
+        "granule": "CHRG-118shrg60512",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60512/html/CHRG-118shrg60512.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1672,9 +2302,11 @@
           "choice": "opponent"
         }
       ],
-      "transcriptsUsing": 31,
+      "transcriptsUsing": 51,
       "bySource": {
+        "briefing": 10,
         "crec": 7,
+        "dcpd": 10,
         "hearings": 24
       },
       "shippable": true,
@@ -1699,8 +2331,9 @@
           "choice": "opponent"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 9,
       "bySource": {
+        "dcpd": 1,
         "hearings": 8
       },
       "shippable": true,
@@ -1725,7 +2358,7 @@
           "choice": "close"
         }
       ],
-      "transcriptsUsing": 2390,
+      "transcriptsUsing": 6578,
       "bySource": {
         "Air Force Historical Research Agency, USAF Oral History Program": 1,
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 3,
@@ -1743,7 +2376,9 @@
         "U.S. Election Assistance Commission (eac.gov)": 61,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 20,
         "U.S. Senate Historical Office oral history": 26,
+        "briefing": 768,
         "crec": 92,
+        "dcpd": 3420,
         "doi": 1,
         "hearings": 1592,
         "house": 70,
@@ -1779,11 +2414,13 @@
           "choice": "close"
         }
       ],
-      "transcriptsUsing": 36,
+      "transcriptsUsing": 56,
       "bySource": {
         "National Archives History Office oral history project (nyc-oral-histories)": 2,
         "Richard Nixon Presidential Library (NARA) oral history project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 3,
+        "briefing": 5,
+        "dcpd": 15,
         "hearings": 23,
         "house": 3,
         "nasa": 2,
@@ -1791,10 +2428,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "PROSPERITY ON MAIN STREET: KEEPING TAXES LOW FOR SMALL BUSINESSES",
-        "date": "2025-04-08",
-        "granule": "CHRG-119hhrg60081",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60081/html/CHRG-119hhrg60081.htm",
+        "document": "Remarks in a Meeting With Technology Leaders and an Exchange With Reporters",
+        "date": "2026-08-19",
+        "granule": "DCPD-202600547",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600547/html/DCPD-202600547.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1811,19 +2448,21 @@
           "choice": "close"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 12,
       "bySource": {
         "U.S. Senate Historical Office oral history": 1,
+        "briefing": 1,
+        "dcpd": 5,
         "hearings": 1,
         "house": 2,
         "nasa": 2
       },
       "shippable": true,
       "source": {
-        "document": "IMMIGRATION RAIDS: IMPACTS AND AFTERMATH ON MISSISSIPPI COMMUNITIES",
-        "date": "2019-11-07",
-        "granule": "CHRG-116hhrg40465",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg40465/html/CHRG-116hhrg40465.htm",
+        "document": "Remarks on Signing a Proclamation on National Physical Fitness and Sports Month and an Exchange With Reporters",
+        "date": "2026-05-05",
+        "granule": "DCPD-202600314",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600314/html/DCPD-202600314.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1840,12 +2479,14 @@
           "choice": "close"
         }
       ],
-      "transcriptsUsing": 59,
+      "transcriptsUsing": 73,
       "bySource": {
         "National Archives History Office oral history project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "briefing": 1,
         "crec": 1,
+        "dcpd": 13,
         "hearings": 50,
         "nasa": 2,
         "nps": 2
@@ -1872,13 +2513,15 @@
           "choice": "close"
         }
       ],
-      "transcriptsUsing": 98,
+      "transcriptsUsing": 114,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
         "National Archives History Office oral history project": 2,
         "Richard Nixon Presidential Library (NARA) oral history project": 9,
         "U.S. Army Center of Military History": 1,
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
+        "briefing": 5,
+        "dcpd": 11,
         "hearings": 11,
         "house": 6,
         "nasa": 17,
@@ -1888,10 +2531,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "ENERGY AND WATER DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR 2025",
-        "date": "2024-03-20",
-        "granule": "CHRG-118hhrg57786",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57786/html/CHRG-118hhrg57786.htm",
+        "document": "Remarks Prior to a Meeting With Chancellor Friedrich Merz of Germany and an Exchange With Reporters",
+        "date": "2025-06-05",
+        "granule": "DCPD-202500661",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500661/html/DCPD-202500661.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -1908,8 +2551,9 @@
           "choice": "close"
         }
       ],
-      "transcriptsUsing": 8,
+      "transcriptsUsing": 9,
       "bySource": {
+        "briefing": 1,
         "hearings": 2,
         "house": 3,
         "nasa": 2,
@@ -1937,17 +2581,19 @@
           "choice": "close"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 6,
       "bySource": {
+        "briefing": 2,
+        "dcpd": 2,
         "nasa": 1,
         "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "NASA JSC Oral History Project: Irene M. Piatek (Engineer, Experiment Systems Division; Propulsion and Power Division; Assembly Sequence Team and Systems Design Team, Space Station Freedom; Deputy Branch Chief, Systems and Engineering and Integration; Manager, Station Engineering Office; Space Shuttle/Space Station Engineering Integration Office)",
-        "date": "2015-08-12",
-        "granule": "jsc-piatekim-8-12-15",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/piatekim-8-12-15.pdf",
+        "document": "Press Briefing by Press Secretary Karine Jean-Pierre and National Security Council Coordinator for Strategic Communications John Kirby, February 13, 2023",
+        "date": "2023-02-13",
+        "granule": "WH-2023-02-13-press-briefing-by-press-secretary-karine-jean-pierre-and-national-secu",
+        "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2023/02/13/press-briefing-by-press-secretary-karine-jean-pierre-and-national-security-council-coordinator-for-strategic-communications-john-kirby-february-13-2023/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }

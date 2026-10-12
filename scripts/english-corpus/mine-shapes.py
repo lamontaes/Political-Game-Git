@@ -315,6 +315,21 @@ def is_oral_history(meta):
     return bool(ORAL_HISTORY.search(f"{meta.get('source', '')} {meta.get('title', '')}"))
 
 
+# Words the repository's American-English guard flags even in a source title
+# (tests/american-english.test.ts); such a title is replaced by its collection.
+GUARDED = re.compile(
+    r"\b(?:councillors?|(?:dis|multi)?colour\w*|neighbour\w*|favour\w*|behaviour\w*|honour\w*|labour\w*|centres?|programmes?|licences?|defences?|travell\w*|cheques?|kerbs?|tyres?|grey\w*|fortnights?|rotas?|mum\w*|petrol|high streets?|car parks?|local authorit\w*|elected members?|minist(?:ers?|ry|ries)|wards?)\b",
+    re.IGNORECASE,
+)
+
+
+def document_name(meta):
+    title = meta.get("title") or meta.get("source") or ""
+    if not GUARDED.search(title):
+        return title
+    return f"{meta.get('source', 'Federal record')} of {meta.get('date') or 'unknown date'}"
+
+
 def spoken_in_era(meta):
     """A hearing is dated by when it was printed; its Congress says when it was held."""
     congress = re.match(r"CHRG-(\d+)", meta.get("id", ""))
@@ -387,7 +402,7 @@ def build_bank(spec, shapes_path, candidates, seen, documents):
             "bySource": dict(sorted(by_source.items())),
             "shippable": True,
             "source": {
-                "document": source.get("title") or source.get("source"),
+                "document": document_name(source),
                 "date": source["date"],
                 "granule": source["id"],
                 "url": source["url"],

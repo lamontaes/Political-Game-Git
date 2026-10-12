@@ -1,6 +1,6 @@
 {
   "register": "interview",
-  "description": "A one-on-one interview of a candidate or official by a local reporter: the reporter's questions and follow-ups, and the answers, commitments, defenses of a record and deflections. Every part is a whole sentence said in public-domain federal records (hearings, the Congressional Record, FEC and EAC meetings, federal oral histories), with record words as slots.",
+  "description": "A one-on-one interview of a candidate or official by a local reporter: the reporter's questions and follow-ups, and the answers, commitments, defenses of a record and deflections. Every part is a whole sentence said in public-domain federal records (hearings, the Congressional Record, FEC and EAC meetings, federal oral histories), with record words as slots. A sentence that claims something about the speaker's life or the place names the record fact it needs (requiresFacts); the engine says it only when that fact is in the record.",
   "slots": {
     "office": "The office, from the office records.",
     "issue": "What the question is about, from the topic or measure record.",
@@ -158,8 +158,14 @@
       "role": "record",
       "choice": "record",
       "candidates": [
-        "I voted for it.",
-        "I voted against it.",
+        {
+          "text": "I voted for it.",
+          "requiresFacts": ["voted-yes"]
+        },
+        {
+          "text": "I voted against it.",
+          "requiresFacts": ["voted-no"]
+        },
         "I stand by that vote.",
         "I stand by my vote.",
         "I'd vote the same way again.",
@@ -212,13 +218,34 @@
       "choice": "story",
       "candidates": [
         "I grew up in {place}.",
-        "I know what it's like.",
-        "I've been there.",
-        "I've seen it firsthand.",
-        "I've seen it myself.",
-        "I hear it every day.",
-        "People tell me every day.",
-        "I talk to people every day.",
+        {
+          "text": "I know what it's like.",
+          "requiresFacts": ["hardship"]
+        },
+        {
+          "text": "I've been there.",
+          "requiresFacts": ["hardship"]
+        },
+        {
+          "text": "I've seen it firsthand.",
+          "requiresFacts": ["witnessed"]
+        },
+        {
+          "text": "I've seen it myself.",
+          "requiresFacts": ["witnessed"]
+        },
+        {
+          "text": "I hear it every day.",
+          "requiresFacts": ["hears-from-people"]
+        },
+        {
+          "text": "People tell me every day.",
+          "requiresFacts": ["hears-from-people"]
+        },
+        {
+          "text": "I talk to people every day.",
+          "requiresFacts": ["hears-from-people"]
+        },
         "My own family {experience}."
       ]
     },

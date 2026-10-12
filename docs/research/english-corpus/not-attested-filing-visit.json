@@ -22,7 +22,9 @@
     "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
+    "briefing": 1499,
     "crec": 445,
+    "dcpd": 4730,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -37,8 +39,8 @@
     "ncua": 683,
     "nih": 52,
     "nps": 515,
-    "nps.gov": 1484,
-    "nps.gov (PDF)": 125,
+    "nps.gov": 1728,
+    "nps.gov (PDF)": 164,
     "ntia": 371,
     "sba": 577,
     "usa.gov": 312,
@@ -95,12 +97,6 @@
       "move": "player-pick-office",
       "text": "I'm running for {office}.",
       "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "player-pick-office",
-      "text": "I want to run for {office}.",
-      "documents": 0,
       "modern": 0
     },
     {
@@ -453,12 +449,6 @@
     },
     {
       "move": "clerk-rule-age",
-      "text": "You have to be {age}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "clerk-rule-age",
       "text": "You must be at least {age} years old.",
       "documents": 0,
       "modern": 0
@@ -676,12 +666,6 @@
     {
       "move": "clerk-close-next",
       "text": "Here's your receipt.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "clerk-close-next",
-      "text": "You're all set.",
       "documents": 0,
       "modern": 0
     },

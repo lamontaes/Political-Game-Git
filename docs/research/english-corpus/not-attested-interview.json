@@ -22,7 +22,9 @@
     "U.S. Senate Historical Office oral history": 239,
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
+    "briefing": 1499,
     "crec": 445,
+    "dcpd": 4730,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -37,8 +39,8 @@
     "ncua": 683,
     "nih": 52,
     "nps": 515,
-    "nps.gov": 1484,
-    "nps.gov (PDF)": 125,
+    "nps.gov": 1728,
+    "nps.gov (PDF)": 164,
     "ntia": 371,
     "sba": 577,
     "usa.gov": 312,
@@ -93,15 +95,9 @@
     },
     {
       "move": "reporter-issue",
-      "text": "What would you do about {issue}?",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "reporter-issue",
       "text": "What's your plan for {issue}?",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "reporter-issue",
@@ -200,18 +196,6 @@
       "modern": 0
     },
     {
-      "move": "reporter-opponent",
-      "text": "What's your response?",
-      "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "reporter-opponent",
-      "text": "How do you respond?",
-      "documents": 1,
-      "modern": 1
-    },
-    {
       "move": "reporter-future",
       "text": "Will you run again?",
       "documents": 0,
@@ -250,18 +234,12 @@
     {
       "move": "reporter-press",
       "text": "You didn't answer the question.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "reporter-press",
-      "text": "So is that a yes or a no?",
       "documents": 1,
       "modern": 1
     },
     {
       "move": "reporter-press",
-      "text": "Can I follow up on that?",
+      "text": "So is that a yes or a no?",
       "documents": 1,
       "modern": 1
     },
@@ -284,12 +262,6 @@
       "modern": 0
     },
     {
-      "move": "official-commit",
-      "text": "That's a promise.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
       "move": "official-record",
       "text": "I stand by that vote.",
       "documents": 0,
@@ -306,12 +278,6 @@
       "text": "I'd vote the same way again.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "official-record",
-      "text": "It was the right decision.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "official-record",
@@ -339,45 +305,9 @@
     },
     {
       "move": "official-deflect",
-      "text": "I'm not going to get into that.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
-      "text": "I'm not going to speculate.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
-      "text": "I'm not going to get ahead of that.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
-      "text": "I don't have anything to share on that.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
       "text": "That's a hypothetical.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
-      "text": "That's a hypothetical question.",
       "documents": 1,
       "modern": 1
-    },
-    {
-      "move": "official-deflect",
-      "text": "I'm focused on {issue}.",
-      "documents": 1,
-      "modern": 0
     },
     {
       "move": "official-deflect",
@@ -393,27 +323,9 @@
     },
     {
       "move": "official-deflect",
-      "text": "It's too early to say.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
-      "text": "It's too early to tell.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
-      "text": "I haven't made a decision.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
       "text": "I haven't made that decision yet.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "official-deflect",
@@ -435,21 +347,9 @@
     },
     {
       "move": "official-story",
-      "text": "I know what it's like.",
+      "text": "I've seen it myself.",
       "documents": 1,
       "modern": 1
-    },
-    {
-      "move": "official-story",
-      "text": "I've seen it firsthand.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-story",
-      "text": "I've seen it myself.",
-      "documents": 0,
-      "modern": 0
     },
     {
       "move": "official-story",
@@ -477,24 +377,6 @@
     },
     {
       "move": "official-opponent",
-      "text": "That's simply not true.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-opponent",
-      "text": "That's false.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "official-opponent",
-      "text": "That's not accurate.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "official-opponent",
       "text": "That's a lie.",
       "documents": 1,
       "modern": 1
@@ -508,8 +390,8 @@
     {
       "move": "official-opponent",
       "text": "We just disagree.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "official-opponent",
