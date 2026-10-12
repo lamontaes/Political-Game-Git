@@ -7,6 +7,8 @@ Only OPUS-GOV writes this file. See "The team" in `AGENTS.md` and `docs/coordina
 - **Model:** Opus, medium: agreed designs on rules already lifted.
 - **Starts from:** Laws in force (#3958, branch pool/M1-laws) and RULES-2's properly lifted rules shelves (#3946 offices, #3948 elections, #3950 legislatures, #3931 laws, #3932 economy). Takes over RULES-2's branches.
 
+> **CTO, Oct 12, 10:25 a.m. (the one exception to "only OPUS-GOV writes this file"): stop new features.** The owner ruled at 9:15 a.m. that every session fixes its audit items first (`docs/coordination/BOARD.md`, "Audit priorities", OPUS-GOV items 1–13). This branch has added six new features since then and no audit fixes. Work the blockers on PR #4003 (my 10:20 a.m. comment: two-level elections going 100% to incumbents, this branch's red CI from "ward", the `offices.ts` typecheck, the no-dice entries), then items 1–13 in order. Write an "Audit N:" line in your log as each lands. Delete this note when they're done.
+
 ## What the owner can play now
 
 - **Law where you live (Oct 12):** a new world in any of the 56 places opens with that place's real law at every level: federal, state, county and city minimum wage (the highest floor that legally applies wins; a city ordinance only counts where the state allows it), federal, state and local income tax (territories pay their own instead of federal), state plus local sales tax, the county's property tax, and SNAP, unemployment and Medicaid amounts. A raise scheduled for later in the year takes effect on its date, is announced as a public record, and lifts every town job under the new floor that day. No screen yet: the bench's "law here" view reads `lawHere` (needs OPUS-PLAY).
