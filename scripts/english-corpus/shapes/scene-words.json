@@ -7,7 +7,8 @@
     "employer": "An employer, from the setting's record.",
     "school": "A school, from the setting's record.",
     "who": "The people present, by name, from the scene's binding.",
-    "other": "A person, by name, from the tie record."
+    "other": "A person, by name, from the tie record.",
+    "who_many": "The people present, by name, from the scene's binding, joined with \"and\"."
   },
   "maxWords": 10,
   "minDocuments": 2,
@@ -21,7 +22,11 @@
         "You're at home.",
         "You're home.",
         "You're at home in {place}.",
-        "You are at home."
+        "You are at home.",
+        "You are home.",
+        "You're back home.",
+        "You're at your house.",
+        "You're at the house."
       ]
     },
     {
@@ -32,7 +37,9 @@
       "candidates": [
         "You're at {host} house.",
         "You're at {host} home.",
-        "You're at {host} place."
+        "You're at {host} place.",
+        "You're over at {host} house.",
+        "You're at {host}."
       ]
     },
     {
@@ -43,7 +50,11 @@
       "candidates": [
         "You're at work.",
         "You're at {employer}.",
-        "You are at work."
+        "You are at work.",
+        "You're at the office.",
+        "You're at the plant.",
+        "You're on the job.",
+        "You're at {employer} today."
       ]
     },
     {
@@ -54,7 +65,8 @@
       "candidates": [
         "You're at school.",
         "You're at {school}.",
-        "You are in school."
+        "You are in school.",
+        "You're in class."
       ]
     },
     {
@@ -66,7 +78,9 @@
         "You're out in {place}.",
         "You're in town.",
         "You're downtown.",
-        "You're in {place}."
+        "You're in {place}.",
+        "You're out.",
+        "You're out and about."
       ]
     },
     {
@@ -91,7 +105,12 @@
         "A letter arrived.",
         "You got a letter.",
         "You have a letter.",
-        "You received a letter."
+        "You received a letter.",
+        "You get a letter.",
+        "There's a letter for you.",
+        "You have mail.",
+        "You've got mail.",
+        "The mail came."
       ]
     },
     {
@@ -99,7 +118,14 @@
       "subject": "present",
       "role": "one",
       "choice": "one",
-      "candidates": ["{who} is here.", "{who} is there.", "{who} is with you."]
+      "candidates": [
+        "{who} is here.",
+        "{who} is there.",
+        "{who} is with you.",
+        "{who} was there.",
+        "{who} was here.",
+        "{who} is there too."
+      ]
     },
     {
       "move": "present-many-many",
@@ -107,9 +133,11 @@
       "role": "many",
       "choice": "many",
       "candidates": [
-        "{who} are here.",
-        "{who} are there.",
-        "{who} are with you."
+        "{who_many} are here.",
+        "{who_many} are there.",
+        "{who_many} are with you.",
+        "{who_many} were there.",
+        "{who_many} were here."
       ]
     },
     {
@@ -121,7 +149,11 @@
         "You and {other} have been seeing each other.",
         "You've been seeing {other}.",
         "You've been seeing a lot of {other}.",
-        "You and {other} have been spending time together."
+        "You and {other} have been spending time together.",
+        "You see {other} a lot.",
+        "You've seen a lot of {other}.",
+        "You and {other} have gotten close.",
+        "You and {other} are friends."
       ]
     },
     {
@@ -134,7 +166,11 @@
         "You lost your job at {employer}.",
         "You were laid off.",
         "You got laid off.",
-        "You've lost your job."
+        "You've lost your job.",
+        "You were let go.",
+        "You've been laid off.",
+        "You're out of work.",
+        "You lost your job there."
       ]
     },
     {
@@ -148,7 +184,12 @@
         "You got a job at {employer}.",
         "You started a new job.",
         "You got a new job.",
-        "You have a new job."
+        "You have a new job.",
+        "You got a job.",
+        "You got the job.",
+        "You went to work for {employer}.",
+        "You went to work at {employer}.",
+        "You're working at {employer} now."
       ]
     },
     {
@@ -160,7 +201,10 @@
         "You've moved to {place}.",
         "You moved to {place}.",
         "You just moved here.",
-        "You just moved to {place}."
+        "You just moved to {place}.",
+        "You moved here.",
+        "You've moved.",
+        "You moved."
       ]
     }
   ]

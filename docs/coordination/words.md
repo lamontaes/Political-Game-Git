@@ -26,6 +26,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - First version Oct 12: `data/english/parts/journal.json` (about 40 sentences people said about their own lives), `scripts/english-corpus/journal-bank.ts` maps each to the director's journal row, and `journal-bank.test.ts` writes a life through `composeJournal` in a generated place: every line mined, every record id resolving, no feeling words. Elwood, Kansas reads: "I was at Riverside Primary School. I went on to Riverside Middle School. I went to Riverside High School." then "My son was born. My daughter was born."
   - Still unworded: someone else losing a job, short pay, "I saw {name} three times", the minimum-wage raise and the law taking effect, someone else filing to run. The director leaves those moments out of the journal until the corpus covers them.
 - [ ] **Scene narration** (`scene-words.json`), then **people bringing things up** (`bring-it-up.json`), then news headlines and the names of choices, stance questions and actions still shown as record keys.
+  - Scenes and bring-it-up, first version Oct 12: `data/english/parts/scene-words.json` and `bring-it-up.json`; `scripts/english-corpus/scene-bank.ts` turns them into the director's words, and `scene-bank.test.ts` runs the real `composeScene` and `bringItUp` with them in a generated place. People now say "Chen's General Store shut down." then "That was Chen's doing."-style blame from the records: "It was Chen's decision.", "I think it was Mayor Lee.", "I have no idea."
+  - Scenes are thin: second-person narration is rare in transcripts, so only being at work, out in town, the phone ringing and who is here are mined. Home, someone's home, school, a letter and the cause lines are not yet. The blame someone was told ("I heard it was ...") is not yet mined either.
 - [ ] **Speeches and debate** (campaign speeches, floor speeches, public comment), then **interviews** (with GOV's press interviews).
 
 ## Needs from other sessions
@@ -35,6 +37,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   2. Slots: the bank writes `{my_employer}`; the director's renderer reads `{{my-employer}}`. The adapter converts them.
   3. Skip a part the owner's grades hold back (`heldByGrades(part.key)`), as `composeFromBank` already does.
 - **OPUS-PEOPLE (closes `SG-P15-journal-banks`):** pass `journalDataFromBank()` from `scripts/english-corpus/journal-bank.ts` as the journal's data. No engine change is needed; the relation words, count words and look-back stay the director's own data.
+- **OPUS-PEOPLE (scenes and bring-it-up, `SG-P15-scene-banks`, `SG-P15-bring-it-up-banks`):** pass `sceneWordsFromBank()` to `composeScene` and `bringDataFromBank()` to `bringItUp` (both in `scripts/english-corpus/scene-bank.ts`); no engine change. Until the setting lines are mined, a scene could show its setting's record name as a caption instead of a narration line (your call).
 - **OPUS-PEOPLE (filing clerk, closes `SG-P15-filing-visit-banks`):** let `openFilingVisit` and `pickContest` take the words (`filingWordsFromBank()` from `scripts/english-corpus/filing-bank.ts`) instead of reading `FILING_VISIT_WORDS` directly, and add GOV's `filedWith` as the fact `filing-office`. No public-domain record has a clerk saying the fee or the signature count, so the clerk states only the deadline and the rules; the screen shows the fee and signatures as the filing record's data, and the office choices and "pay the fee" or "gather signatures" as control names (empty `pick`, `payFee` and `gather` mean "use the control name").
 
 ## Questions for the owner
@@ -44,6 +47,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- Oct 12: scenes (7 sentences) and bring-it-up (23) run through the real `composeScene` and `bringItUp` with mined words; tests pass. Next: news headlines and choice names, while the oral-history corpus grows to fill the gaps.
 
 - Oct 12: the clerk bank renders through the director's renderer with filing facts (test passes); PEOPLE's newer conversation register is merged in, and the conversation bank now also words asking after someone both know, asking after kin, and acknowledgments (248 sentences). Next: scenes and people bringing things up.
 

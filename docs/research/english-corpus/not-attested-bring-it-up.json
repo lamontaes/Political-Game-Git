@@ -1,27 +1,26 @@
 {
   "register": "bring-it-up",
   "read": {
-    "Federal Election Commission (fec.gov)": 242,
+    "Federal Election Commission (fec.gov)": 253,
     "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
-    "U.S. Election Assistance Commission (eac.gov)": 61,
-    "crec": 443,
+    "U.S. Election Assistance Commission (eac.gov)": 65,
+    "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "crec": 445,
+    "fda": 8,
     "hearings": 1617,
     "house": 115,
     "nasa": 317,
+    "nasa2": 330,
+    "nih": 15,
+    "nps": 144,
     "wpa": 38
   },
   "notAttested": [
     {
       "move": "change-organization.closed-closed",
-      "text": "{subject} closed.",
+      "text": "{subject} closed down.",
       "documents": 1,
       "modern": 1
-    },
-    {
-      "move": "change-organization.closed-closed",
-      "text": "{subject} closed down.",
-      "documents": 0,
-      "modern": 0
     },
     {
       "move": "change-organization.closed-closed",
@@ -66,10 +65,64 @@
       "modern": 0
     },
     {
-      "move": "blame-record-record",
-      "text": "That was {whose} doing.",
+      "move": "change-organization.closed-closed",
+      "text": "{subject} closed its doors.",
       "documents": 0,
       "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "{subject} is shutting down.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "{subject} closed last week.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "{subject} went under.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "{subject} went bankrupt.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "{subject} is out of business.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "{subject} closed down last year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "They shut {subject} down.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "They closed down {subject}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-record-record",
+      "text": "That was {whose} doing.",
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "blame-record-record",
@@ -80,7 +133,7 @@
     {
       "move": "blame-record-record",
       "text": "That's on {who}.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -92,6 +145,36 @@
     {
       "move": "blame-record-record",
       "text": "{who} decided that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-record-record",
+      "text": "{who} made the decision.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-record-record",
+      "text": "{who} decided to close it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-record-record",
+      "text": "{who} closed it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-record-record",
+      "text": "{who} is responsible.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "blame-record-record",
+      "text": "{who} is to blame.",
       "documents": 0,
       "modern": 0
     },
@@ -134,6 +217,42 @@
     {
       "move": "blame-told-told",
       "text": "People are saying it was {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-told-told",
+      "text": "I heard {who} did it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-told-told",
+      "text": "Somebody said it was {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-told-told",
+      "text": "They told me it was {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-told-told",
+      "text": "Word is it was {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-told-told",
+      "text": "I was told {who} was behind it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-told-told",
+      "text": "Rumor has it it was {who}.",
       "documents": 0,
       "modern": 0
     },
@@ -186,6 +305,36 @@
       "modern": 0
     },
     {
+      "move": "blame-assumed-assumed",
+      "text": "I'm sure {who} had something to do with it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-assumed-assumed",
+      "text": "I'd bet it was {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-assumed-assumed",
+      "text": "It's probably {who}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "blame-assumed-assumed",
+      "text": "I think {who} is behind it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-assumed-assumed",
+      "text": "I blame {who} for it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "blame-unknown-unknown",
       "text": "I don't know who's behind it.",
       "documents": 0,
@@ -222,8 +371,14 @@
       "modern": 0
     },
     {
-      "move": "blame-hearer-react",
-      "text": "I hadn't heard that.",
+      "move": "blame-unknown-unknown",
+      "text": "I don't know why they closed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-unknown-unknown",
+      "text": "I don't know what happened there.",
       "documents": 1,
       "modern": 1
     },
@@ -236,7 +391,7 @@
     {
       "move": "blame-hearer-react",
       "text": "That's what I heard.",
-      "documents": 0,
+      "documents": 2,
       "modern": 0
     },
     {

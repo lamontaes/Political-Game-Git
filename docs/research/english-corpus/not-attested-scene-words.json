@@ -4,10 +4,15 @@
     "Federal Election Commission (fec.gov)": 253,
     "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
     "U.S. Election Assistance Commission (eac.gov)": 65,
+    "USAGov (usa.gov), U.S. General Services Administration": 16,
     "crec": 445,
+    "fda": 8,
     "hearings": 1617,
     "house": 115,
     "nasa": 317,
+    "nasa2": 330,
+    "nih": 15,
+    "nps": 139,
     "wpa": 38
   },
   "notAttested": [
@@ -36,6 +41,30 @@
       "modern": 0
     },
     {
+      "move": "setting-home-home",
+      "text": "You are home.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-home-home",
+      "text": "You're back home.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-home-home",
+      "text": "You're at your house.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-home-home",
+      "text": "You're at the house.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "setting-other-home-their-home",
       "text": "You're at {host} house.",
       "documents": 0,
@@ -54,6 +83,18 @@
       "modern": 0
     },
     {
+      "move": "setting-other-home-their-home",
+      "text": "You're over at {host} house.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-other-home-their-home",
+      "text": "You're at {host}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "setting-workplace-work",
       "text": "You're at work.",
       "documents": 0,
@@ -62,6 +103,30 @@
     {
       "move": "setting-workplace-work",
       "text": "You are at work.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-workplace-work",
+      "text": "You're at the office.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-workplace-work",
+      "text": "You're at the plant.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-workplace-work",
+      "text": "You're on the job.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "setting-workplace-work",
+      "text": "You're at {employer} today.",
       "documents": 0,
       "modern": 0
     },
@@ -84,6 +149,12 @@
       "modern": 0
     },
     {
+      "move": "setting-school-school",
+      "text": "You're in class.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "setting-public-out",
       "text": "You're out in {place}.",
       "documents": 0,
@@ -102,9 +173,21 @@
       "modern": 0
     },
     {
+      "move": "setting-public-out",
+      "text": "You're out.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "setting-public-out",
+      "text": "You're out and about.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "setting-phone-phone",
       "text": "The phone rings.",
-      "documents": 0,
+      "documents": 1,
       "modern": 0
     },
     {
@@ -150,26 +233,74 @@
       "modern": 0
     },
     {
+      "move": "setting-letter-letter",
+      "text": "You get a letter.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-letter-letter",
+      "text": "There's a letter for you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-letter-letter",
+      "text": "You have mail.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-letter-letter",
+      "text": "You've got mail.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "setting-letter-letter",
+      "text": "The mail came.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "present-one-one",
       "text": "{who} is with you.",
       "documents": 0,
       "modern": 0
     },
     {
-      "move": "present-many-many",
-      "text": "{who} are here.",
-      "documents": 1,
-      "modern": 1
+      "move": "present-one-one",
+      "text": "{who} is there too.",
+      "documents": 0,
+      "modern": 0
     },
     {
       "move": "present-many-many",
-      "text": "{who} are there.",
-      "documents": 1,
-      "modern": 1
+      "text": "{who_many} are here.",
+      "documents": 0,
+      "modern": 0
     },
     {
       "move": "present-many-many",
-      "text": "{who} are with you.",
+      "text": "{who_many} are there.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "present-many-many",
+      "text": "{who_many} are with you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "present-many-many",
+      "text": "{who_many} were there.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "present-many-many",
+      "text": "{who_many} were here.",
       "documents": 0,
       "modern": 0
     },
@@ -194,6 +325,30 @@
     {
       "move": "cause-tie:contact-seeing",
       "text": "You and {other} have been spending time together.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-tie:contact-seeing",
+      "text": "You see {other} a lot.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-tie:contact-seeing",
+      "text": "You've seen a lot of {other}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-tie:contact-seeing",
+      "text": "You and {other} have gotten close.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-tie:contact-seeing",
+      "text": "You and {other} are friends.",
       "documents": 0,
       "modern": 0
     },
@@ -224,6 +379,30 @@
     {
       "move": "cause-money:job-ended-lost",
       "text": "You've lost your job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-money:job-ended-lost",
+      "text": "You were let go.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-money:job-ended-lost",
+      "text": "You've been laid off.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-money:job-ended-lost",
+      "text": "You're out of work.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-money:job-ended-lost",
+      "text": "You lost your job there.",
       "documents": 0,
       "modern": 0
     },
@@ -264,6 +443,36 @@
       "modern": 0
     },
     {
+      "move": "cause-money:job-started-started",
+      "text": "You got a job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-money:job-started-started",
+      "text": "You got the job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-money:job-started-started",
+      "text": "You went to work for {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-money:job-started-started",
+      "text": "You went to work at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-money:job-started-started",
+      "text": "You're working at {employer} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
       "move": "cause-home:moved-moved",
       "text": "You've moved to {place}.",
       "documents": 0,
@@ -284,6 +493,24 @@
     {
       "move": "cause-home:moved-moved",
       "text": "You just moved to {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-home:moved-moved",
+      "text": "You moved here.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "cause-home:moved-moved",
+      "text": "You've moved.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "cause-home:moved-moved",
+      "text": "You moved.",
       "documents": 0,
       "modern": 0
     }

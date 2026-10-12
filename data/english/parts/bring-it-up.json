@@ -12,19 +12,51 @@
     "tool": "scripts/english-corpus/mine-shapes.py",
     "shapes": "scripts/english-corpus/shapes/bring-it-up.json",
     "read": {
-      "Federal Election Commission (fec.gov)": 242,
+      "Federal Election Commission (fec.gov)": 253,
       "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
-      "U.S. Election Assistance Commission (eac.gov)": 61,
-      "crec": 443,
+      "U.S. Election Assistance Commission (eac.gov)": 65,
+      "USAGov (usa.gov), U.S. General Services Administration": 16,
+      "crec": 445,
+      "fda": 8,
       "hearings": 1617,
       "house": 115,
       "nasa": 317,
+      "nasa2": 330,
+      "nih": 15,
+      "nps": 144,
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 39
+    "notAttested": 64
   },
   "parts": [
+    {
+      "key": "bring-it-up.change-organization.closed-closed.subject-closed",
+      "move": "change-organization.closed-closed",
+      "kind": "spoken",
+      "text": "{subject} closed.",
+      "uses": [
+        {
+          "move": "change-organization.closed-closed",
+          "subject": "change",
+          "role": "organization.closed",
+          "choice": "closed"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "hearings": 1,
+        "nps": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "COVID CHILD CARE CHALLENGES: SUPPORTING FAMILIES AND CAREGIVERS",
+        "date": "2022-03-02",
+        "granule": "CHRG-117hhrg47066",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg47066/html/CHRG-117hhrg47066.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
     {
       "key": "bring-it-up.change-organization.closed-closed.subject-shut-down",
       "move": "change-organization.closed-closed",
@@ -38,9 +70,10 @@
           "choice": "closed"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 4,
       "bySource": {
-        "hearings": 3
+        "hearings": 3,
+        "nps": 1
       },
       "shippable": true,
       "source": {
@@ -79,6 +112,36 @@
       }
     },
     {
+      "key": "bring-it-up.change-organization.closed-closed.subject-is-gone",
+      "move": "change-organization.closed-closed",
+      "kind": "spoken",
+      "text": "{subject} is gone.",
+      "uses": [
+        {
+          "move": "change-organization.closed-closed",
+          "subject": "change",
+          "role": "organization.closed",
+          "choice": "closed"
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "crec": 1,
+        "hearings": 5,
+        "nasa": 1,
+        "nasa2": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-09-09",
+        "date": "2025-09-09",
+        "granule": "CREC-2025-09-09-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-09-09",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "bring-it-up.blame-record-record.it-was-whose-decision",
       "move": "blame-record-record",
       "kind": "spoken",
@@ -91,17 +154,18 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 3,
       "bySource": {
         "hearings": 1,
-        "nasa": 1
+        "nasa": 1,
+        "nasa2": 1
       },
       "shippable": true,
       "source": {
-        "document": "THE ECONOMIC OUTLOOK",
-        "date": "2016-11-17",
-        "granule": "CHRG-114jhrg23027",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-114jhrg23027/html/CHRG-114jhrg23027.htm",
+        "document": "William H. Gerstenmaier oral history (nasa-senior-leadership collection)",
+        "date": "2021-07-09",
+        "granule": "nasa-senior-leadership-gerstenmaierwh-7-9-21",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/01/gerstenmaierwh-7-9-21.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -118,11 +182,13 @@
           "choice": "record"
         }
       ],
-      "transcriptsUsing": 11,
+      "transcriptsUsing": 15,
       "bySource": {
         "crec": 3,
         "hearings": 3,
         "nasa": 4,
+        "nasa2": 3,
+        "nps": 1,
         "wpa": 1
       },
       "shippable": true,
@@ -131,6 +197,99 @@
         "date": "2025-03-05",
         "granule": "CHRG-119shrg59474",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg59474/html/CHRG-119shrg59474.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-record-record.that-was-who",
+      "move": "blame-record-record",
+      "kind": "spoken",
+      "text": "That was {who}.",
+      "uses": [
+        {
+          "move": "blame-record-record",
+          "subject": "blame",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "transcriptsUsing": 76,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "crec": 16,
+        "hearings": 6,
+        "house": 8,
+        "nasa": 17,
+        "nasa2": 15,
+        "nih": 4,
+        "nps": 8,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2025-07-09",
+        "date": "2025-07-09",
+        "granule": "CREC-2025-07-09-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-09",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-assumed-assumed.i-think-it-was-who",
+      "move": "blame-assumed-assumed",
+      "kind": "spoken",
+      "text": "I think it was {who}.",
+      "uses": [
+        {
+          "move": "blame-assumed-assumed",
+          "subject": "blame",
+          "role": "assumed",
+          "choice": "assumed"
+        }
+      ],
+      "transcriptsUsing": 41,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "hearings": 4,
+        "house": 3,
+        "nasa": 12,
+        "nasa2": 8,
+        "nps": 12,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "PRESIDENT TRUMP'S REDESIGNATION OF NIGERIA AS A \"COUNTRY OF PARTICULAR CONCERN--CPC\": A SERIOUS, WELL-FOUNDED WAKE-UP CALL",
+        "date": "2025-11-20",
+        "granule": "CHRG-119hhrg64043",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg64043/html/CHRG-119hhrg64043.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-assumed-assumed.it-must-have-been-who",
+      "move": "blame-assumed-assumed",
+      "kind": "spoken",
+      "text": "It must have been {who}.",
+      "uses": [
+        {
+          "move": "blame-assumed-assumed",
+          "subject": "blame",
+          "role": "assumed",
+          "choice": "assumed"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "house": 2,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA JSC Oral History Project: Robert L. Gibson (Space Shuttle Astronaut)",
+        "date": "2016-01-22",
+        "granule": "jsc-gibsonrl-1-22-16",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/gibsonrl-1-22-16.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -147,13 +306,17 @@
           "choice": "unknown"
         }
       ],
-      "transcriptsUsing": 39,
+      "transcriptsUsing": 55,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 3,
+        "fda": 2,
         "hearings": 7,
         "house": 9,
         "nasa": 13,
+        "nasa2": 3,
+        "nih": 1,
+        "nps": 10,
         "wpa": 6
       },
       "shippable": true,
@@ -178,11 +341,14 @@
           "choice": "unknown"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 13,
       "bySource": {
         "hearings": 1,
         "house": 1,
-        "nasa": 5
+        "nasa": 5,
+        "nasa2": 1,
+        "nih": 1,
+        "nps": 4
       },
       "shippable": true,
       "source": {
@@ -190,6 +356,137 @@
         "date": "2023-09-20",
         "granule": "CHRG-118hhrg53649",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53649/html/CHRG-118hhrg53649.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-unknown-unknown.nobody-knows",
+      "move": "blame-unknown-unknown",
+      "kind": "spoken",
+      "text": "Nobody knows.",
+      "uses": [
+        {
+          "move": "blame-unknown-unknown",
+          "subject": "blame",
+          "role": "unknown",
+          "choice": "unknown"
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "crec": 2,
+        "hearings": 4,
+        "nasa": 2,
+        "nasa2": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Catherine L. Peddie oral history (discovery-and-new-frontiers collection)",
+        "date": "2023-04-27",
+        "granule": "discovery-and-new-frontiers-peddiecl-4-27-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/10/peddiecl-4-27-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-unknown-unknown.i-have-no-idea",
+      "move": "blame-unknown-unknown",
+      "kind": "spoken",
+      "text": "I have no idea.",
+      "uses": [
+        {
+          "move": "blame-unknown-unknown",
+          "subject": "blame",
+          "role": "unknown",
+          "choice": "unknown"
+        }
+      ],
+      "transcriptsUsing": 60,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "crec": 2,
+        "hearings": 24,
+        "house": 5,
+        "nasa": 13,
+        "nasa2": 2,
+        "nps": 12,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NO MORE SURPRISES: REFORMING COLLEGE PRICING FOR STUDENTS AND FAMILIES",
+        "date": "2025-09-16",
+        "granule": "CHRG-119hhrg63858",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg63858/html/CHRG-119hhrg63858.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-unknown-unknown.i-dont-know",
+      "move": "blame-unknown-unknown",
+      "kind": "spoken",
+      "text": "I don't know.",
+      "uses": [
+        {
+          "move": "blame-unknown-unknown",
+          "subject": "blame",
+          "role": "unknown",
+          "choice": "unknown"
+        }
+      ],
+      "transcriptsUsing": 718,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 2,
+        "U.S. Election Assistance Commission (eac.gov)": 20,
+        "crec": 55,
+        "fda": 5,
+        "hearings": 216,
+        "house": 54,
+        "nasa": 169,
+        "nasa2": 112,
+        "nih": 8,
+        "nps": 55,
+        "wpa": 22
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-unknown-unknown.who-knows",
+      "move": "blame-unknown-unknown",
+      "kind": "spoken",
+      "text": "Who knows?",
+      "uses": [
+        {
+          "move": "blame-unknown-unknown",
+          "subject": "blame",
+          "role": "unknown",
+          "choice": "unknown"
+        }
+      ],
+      "transcriptsUsing": 40,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 2,
+        "crec": 3,
+        "hearings": 10,
+        "house": 7,
+        "nasa": 10,
+        "nasa2": 3,
+        "nps": 3,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2025-09-10",
+        "date": "2025-09-10",
+        "granule": "CREC-2025-09-10-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-09-10",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -206,13 +503,16 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 145,
+      "transcriptsUsing": 198,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 2,
         "crec": 34,
         "hearings": 50,
         "house": 23,
-        "nasa": 36
+        "nasa": 36,
+        "nasa2": 25,
+        "nih": 3,
+        "nps": 25
       },
       "shippable": true,
       "source": {
@@ -236,13 +536,16 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 286,
+      "transcriptsUsing": 313,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 7,
         "crec": 3,
         "hearings": 252,
         "house": 5,
         "nasa": 18,
+        "nasa2": 7,
+        "nih": 2,
+        "nps": 18,
         "wpa": 1
       },
       "shippable": true,
@@ -267,10 +570,13 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 10,
+      "transcriptsUsing": 19,
       "bySource": {
         "house": 1,
-        "nasa": 9
+        "nasa": 9,
+        "nasa2": 1,
+        "nih": 1,
+        "nps": 7
       },
       "shippable": true,
       "source": {
@@ -294,16 +600,18 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 7,
       "bySource": {
-        "hearings": 3
+        "hearings": 3,
+        "nasa2": 3,
+        "nps": 1
       },
       "shippable": true,
       "source": {
-        "document": "EXAMINING THE ACTIONS OF DRUG COMPANIES",
-        "date": "2019-01-29",
-        "granule": "CHRG-116hhrg36509",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36509/html/CHRG-116hhrg36509.htm",
+        "document": "Jessica Sunshine oral history (discovery-and-new-frontiers collection)",
+        "date": "2025-02-25",
+        "granule": "discovery-and-new-frontiers-sunshinej-2-25-25",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/sunshinej-2-25-25.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -320,10 +628,11 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 3,
+      "transcriptsUsing": 5,
       "bySource": {
         "house": 2,
-        "nasa": 1
+        "nasa": 1,
+        "nps": 2
       },
       "shippable": true,
       "source": {
@@ -347,12 +656,15 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 25,
+      "transcriptsUsing": 36,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "hearings": 9,
         "house": 6,
-        "nasa": 9
+        "nasa": 9,
+        "nasa2": 4,
+        "nih": 1,
+        "nps": 6
       },
       "shippable": true,
       "source": {
@@ -360,6 +672,33 @@
         "date": "2025-10-28",
         "granule": "CHRG-119shrg62935",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62935/html/CHRG-119shrg62935.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-hearer-react.i-hadnt-heard-that",
+      "move": "blame-hearer-react",
+      "kind": "spoken",
+      "text": "I hadn't heard that.",
+      "uses": [
+        {
+          "move": "blame-hearer-react",
+          "subject": "blame",
+          "role": "hearer",
+          "choice": "react"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "nasa": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA JSC Oral History Project: Jefferson D. Howell (Center Director, NASA Johnson Space Center)",
+        "date": "2015-07-09",
+        "granule": "jsc-howelljd-7-9-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/howelljd-7-9-15.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -376,9 +715,11 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 2,
+      "transcriptsUsing": 4,
       "bySource": {
-        "hearings": 2
+        "hearings": 2,
+        "nasa2": 1,
+        "nps": 1
       },
       "shippable": true,
       "source": {

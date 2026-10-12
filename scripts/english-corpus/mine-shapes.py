@@ -49,6 +49,8 @@ SLOT_PATTERNS = {
     "first": r"[A-Z][a-z]+",
     "other": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
     "who": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?",
+    # Several people present: "Ann and Bob", "Ann, Bob and Carl".
+    "who_many": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?(?:, [A-Z][a-z]+(?: [A-Z][a-z]+)?)*,? and [A-Z][a-z]+(?: [A-Z][a-z]+)?",
     "years": r"(?:\d{1,2}|" + NUMBER_WORD + r"(?:[- ]" + NUMBER_WORD + r")?)",
     "age": r"(?:\d{1,3}|" + NUMBER_WORD + r"(?:[- ]" + NUMBER_WORD + r")?)",
     "times": r"(?:" + NUMBER_WORD + r" times|twice|once)",
@@ -78,7 +80,7 @@ SLOT_PATTERNS = {
 
 # Slots that hold a proper name. A real sentence fills them with a name, never
 # with a title, a vocative, a speaker label in capitals or a common word.
-PROPER_SLOTS = {"first", "employer", "claimed", "my_employer", "place", "my_place", "school", "name", "other", "who", "subject", "whose", "host"}
+PROPER_SLOTS = {"who_many", "first", "employer", "claimed", "my_employer", "place", "my_place", "school", "name", "other", "who", "subject", "whose", "host"}
 NOT_A_NAME = set(
     "mr mrs ms dr miss madam madame chairman chairwoman chair senator representative congressman congresswoman "
     "secretary general admiral director commissioner governor mayor president speaker sir ma'am "

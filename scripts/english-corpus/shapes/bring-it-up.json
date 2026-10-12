@@ -25,7 +25,17 @@
         "They shut down {subject}.",
         "They're closing {subject}.",
         "Did you hear {subject} closed?",
-        "Did you hear about {subject}?"
+        "Did you hear about {subject}?",
+        "{subject} closed its doors.",
+        "{subject} is shutting down.",
+        "{subject} is gone.",
+        "{subject} closed last week.",
+        "{subject} went under.",
+        "{subject} went bankrupt.",
+        "{subject} is out of business.",
+        "{subject} closed down last year.",
+        "They shut {subject} down.",
+        "They closed down {subject}."
       ]
     },
     {
@@ -40,7 +50,13 @@
         "That's on {who}.",
         "{who} did that.",
         "{who} made that decision.",
-        "{who} decided that."
+        "{who} decided that.",
+        "{who} made the decision.",
+        "{who} decided to close it.",
+        "{who} closed it.",
+        "That was {who}.",
+        "{who} is responsible.",
+        "{who} is to blame."
       ]
     },
     {
@@ -55,7 +71,13 @@
         "They say it was {who}.",
         "I was told it was {who}.",
         "Somebody told me it was {who}.",
-        "People are saying it was {who}."
+        "People are saying it was {who}.",
+        "I heard {who} did it.",
+        "Somebody said it was {who}.",
+        "They told me it was {who}.",
+        "Word is it was {who}.",
+        "I was told {who} was behind it.",
+        "Rumor has it it was {who}."
       ]
     },
     {
@@ -71,7 +93,14 @@
         "I think {who} had something to do with it.",
         "I think {who} was behind it.",
         "I blame {who}.",
-        "Blame {who}."
+        "Blame {who}.",
+        "I think it was {who}.",
+        "I'm sure {who} had something to do with it.",
+        "It must have been {who}.",
+        "I'd bet it was {who}.",
+        "It's probably {who}.",
+        "I think {who} is behind it.",
+        "I blame {who} for it."
       ]
     },
     {
@@ -87,7 +116,13 @@
         "I don't know what happened.",
         "Nobody knows what happened.",
         "I don't know who's responsible.",
-        "I don't know who to blame."
+        "I don't know who to blame.",
+        "Nobody knows.",
+        "I have no idea.",
+        "I don't know.",
+        "Who knows?",
+        "I don't know why they closed.",
+        "I don't know what happened there."
       ]
     },
     {
