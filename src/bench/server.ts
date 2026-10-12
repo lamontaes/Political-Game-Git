@@ -479,9 +479,15 @@ const server = createServer(async (request, response) => {
     }
     if (request.method === "GET" && url.pathname === "/api/news") {
       const id = url.searchParams.get("id");
+      // What you heard first, then your town's public record; not every
+      // news event in the world.
+      const heard = id ? heardItems(requireCore(), id) : [];
+      const seen = new Set(heard.map((row) => row.id));
       send(200, [
-        ...(id ? heardItems(requireCore(), id) : []),
-        ...newsItems(requireCore()),
+        ...heard,
+        ...newsItems(requireCore()).filter(
+          (row) => row.visibility === "public" && !seen.has(row.id),
+        ),
       ]);
       return;
     }
