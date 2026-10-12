@@ -104,7 +104,43 @@ export function ownerPanel(api: CoreAPI) {
     owners: rows(api, "business", "owners"),
     draws: rows(api, "business", "draws"),
     foundings: rows(api, "business", "foundings"),
+    // When each business was founded (before the start too).
+    ages: rows(api, "business", "ages"),
+    // Owners handing a business on, closing it by choice (with their reasons), and every closure's cause.
+    successions: rows(api, "business", "successions"),
+    choices: rows(api, "business", "choices"),
+    closures: rows(api, "business", "closures"),
+    // What laws ask of businesses: operating limits and compliance costs.
+    operatingRules: rows(api, "business", "operating"),
   };
+}
+
+/** New homes: each town's housing stock and zoning, every project from start to finish, and households in set-aside units. */
+export function buildingPanel(api: CoreAPI) {
+  return {
+    stock: rows(api, "housing", "stock"),
+    projects: rows(api, "housing", "projects"),
+    affordable: rows(api, "housing", "affordable"),
+  };
+}
+
+/** What the place's laws cost or save: price rules on goods, property tax assessments, and right to counsel by place. */
+export function lawCostsPanel(api: CoreAPI) {
+  return {
+    priceRules: rows(api, "place-prices", "rules"),
+    assessments: rows(api, "housing", "assessments"),
+    counsel: rows(api, "housing", "counsel"),
+  };
+}
+
+/** Unemployment insurance claims: who filed, the weekly benefit, what's been paid, and how each ended. */
+export function benefitsPanel(api: CoreAPI) {
+  return rows(api, "jobs", "claims");
+}
+
+/** The central bank's seats: who holds each, since when, until when, and how they lean. */
+export function boardPanel(api: CoreAPI) {
+  return rows(api, "macro", "members");
 }
 
 /** The town's monthly economic numbers (jobs, unemployment, pay, prices, businesses, rent, mortgages), oldest first. */

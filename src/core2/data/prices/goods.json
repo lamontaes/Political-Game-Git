@@ -1,0 +1,47 @@
+{
+  "source": {
+    "tag": "SOURCED",
+    "asOf": "2026-10-12",
+    "citation": "BLS Consumer Expenditure Survey 2024 (Table 2500); FHWA NHTS 2022 and VM-1 2023; EIA state and federal fuel taxes Jan 2026; NTD 2023 fares and trips; ACS 2024 B28002; Container Recycling Institute; TRIP via ASCE 2025 Report Card; FHWA 2018 road condition. Gathered in data/research/prices/household-prices-2026.json."
+  },
+  "ceIncomeBeforeTaxesMinor": 10420700,
+  "goods": {
+    "electricity": {
+      "ceAnnualMinor": 183289,
+      "elasticityParameter": "pricesElasticityElectricity"
+    },
+    "fuel": {
+      "ceAnnualMinor": 326295,
+      "elasticityParameter": "pricesElasticityFuel"
+    },
+    "transit-fare": {
+      "tripsPerHouseholdYear": 52,
+      "farePerTripMinor": 149,
+      "elasticityParameter": "pricesElasticityTransit"
+    },
+    "vehicle-miles": {
+      "milesPerHouseholdYear": 20833,
+      "milesNote": "FHWA's light-duty miles per household (NHTS captures 71% of them), so fuel-tax money matches what's collected.",
+      "milesPerGallon": 22.6,
+      "fuelTaxCentsPerGallon": 51.7,
+      "elasticityParameter": "pricesElasticityFuel"
+    },
+    "broadband": {
+      "monthlyPriceMinor": 7500,
+      "subscriptionShare": 0.932,
+      "elasticityParameter": "pricesElasticityBroadband"
+    },
+    "beverage-container": {
+      "perPersonYear": 899,
+      "redemptionRate": 0.73,
+      "elasticityParameter": "pricesElasticityBeverages"
+    },
+    "vehicle-repair": {
+      "extraCostPerVehiclePoorRoadsMinor": 72500,
+      "vehiclesPerHousehold": 1.9,
+      "poorShareBase": 0.226,
+      "poorShareOfReferenceRoads": 0.226,
+      "elasticityParameter": "pricesElasticityVehicles"
+    }
+  }
+}

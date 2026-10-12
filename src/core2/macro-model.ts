@@ -338,3 +338,10 @@ export function historicalMortgageRate(
   const first = ROWS[0]!.month;
   return mortgageAt(BY_MONTH, month < first ? first : month, p);
 }
+
+/** A past month's published national figures, as recorded (BLS, Fed H.15, FHFA). */
+export function publishedMonth(
+  month: string,
+): Readonly<HistoryRow> | undefined {
+  return BY_MONTH.get(month);
+}
