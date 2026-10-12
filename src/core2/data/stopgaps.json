@@ -2106,5 +2106,38 @@
     "addedAt": "2026-10-12",
     "replacement": "Each state's vote from its voter groups reacting to the economy, the record and the campaigns; nominees from state-by-state primaries; district electors in Maine and Nebraska.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-price-index",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/housing.ts",
+    "line": 621,
+    "whatItFakes": "Home prices for a purchase move with consumer prices since the opening, the county's median value scaled by the household's rent; the seller is outside the town.",
+    "why": "No house price index is in the data yet, and people don't move in or out of town until M1-09.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "FHFA house price index by state and metro moving each place's values, and sellers who are the town's own owners moving or downsizing (M1-09)."
+  },
+  {
+    "id": "SG-WORLD-credit-island-deposits",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/credit.ts",
+    "line": 106,
+    "whatItFakes": "Where no county deposit row covers a place (American Samoa, the Virgin Islands, places without a county), the town bank's deposits are the territory's FDIC deposits per resident (Guam, Northern Marianas) or the nation's, times the town's people.",
+    "why": "FDIC Summary of Deposits has no rows for American Samoa or the Virgin Islands in the data, and island villages carry no county code.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Each territory's bank branches and deposits from FDIC and territorial banking regulators."
+  },
+  {
+    "id": "SG-WORLD-housing-island-areas",
+    "kind": "assumed-data",
+    "file": "src/core2/modules/housing.ts",
+    "line": 90,
+    "whatItFakes": "Where no ACS tenure or rent table covers a place (American Samoa, Guam, the Northern Marianas, the Virgin Islands), homes are owned in the nation's share and rents and values start at the nation's household-weighted county medians.",
+    "why": "The American Community Survey does not cover the four island areas; their 2020 Census tables are not in the data yet.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Census 2020 Island Areas tenure, gross rent and value tables for each island area."
   }
 ]

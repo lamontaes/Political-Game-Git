@@ -172,8 +172,11 @@ export function openingMortgages(input: {
     const balance = Math.round(balanceAfter(original, r, termMonths, paid));
     if (payment <= 0 || balance <= 0) continue;
     const id = `${MORTGAGE_PREFIX}${owner.id}`;
+    // A full household's standing bill can only pay a recorded local account, so the bank holds those loans.
     const holderId =
-      !input.outsideId || balance <= room ? input.bankId : input.outsideId;
+      !input.outsideId || !owner.counted || balance <= room
+        ? input.bankId
+        : input.outsideId;
     if (holderId === input.bankId) room -= balance;
     terms.push({
       householdId: owner.id,

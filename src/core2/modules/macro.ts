@@ -28,6 +28,7 @@ import {
   checkBands,
   historyMonths,
   monthKey,
+  publishedMonth,
   shiftMonth,
   stepMacroMonth,
   type MacroMonth,
@@ -36,6 +37,7 @@ import {
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
 import { scaleOutsideSales } from "../residents-economy";
+import { coarseSteps, type PreStartModule } from "../pre-start";
 import {
   REGIONAL_PARAMETERS,
   openRegional,
@@ -47,7 +49,6 @@ import type {
   CoreAPI,
   CoreData,
   CoreInput,
-  CoreModule,
   CoreState,
   Source,
 } from "../types";
@@ -191,7 +192,11 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     state.townResidents,
     p,
   );
-  months.put(row as unknown as { id: string });
+  // The town's own income growth, once a year of it is recorded, is what the national step heard from the town.
+  months.put({
+    ...(row as unknown as { id: string }),
+    ...(growth !== null ? { townIncomeGrowthPct: growth } : {}),
+  });
   if (regionalRegistered(api)) stepRegional(api, previous, row);
   const next = { ...state, latestMonth: row.month };
   store(api).table("state").put(next);
@@ -426,8 +431,58 @@ export function linkCreditLineToPrime(
   );
 }
 
-export const MACRO_MODULE: CoreModule = {
+export const MACRO_MODULE: PreStartModule = {
   id: MACRO_MODULE_ID,
+  // History before the start (M1-14): the nation's published months, and each change in the policy rate.
+  preStart: {
+    phase: "economy",
+    run(api, window, history) {
+      let previous: number | undefined;
+      for (const date of coarseSteps(window)) {
+        const month = date.slice(0, "YYYY-MM".length);
+        const row = publishedMonth(month);
+        if (!row) continue;
+        const facts: Record<string, number> = {};
+        for (const key of [
+          "unemploymentPct",
+          "priceIndex",
+          "payrollJobsThousands",
+          "hourlyEarnings",
+          "policyRatePct",
+          "treasury10Pct",
+          "mortgage30Pct",
+        ] as const)
+          if (row[key] !== undefined) facts[key] = row[key]!;
+        const source: Source = {
+          tag: "SOURCED",
+          asOf: api.state.date,
+          citation: MACRO_HISTORY_SOURCE.citation,
+        };
+        history.record({
+          id: `economy.conditions:${month}`,
+          date,
+          kind: "economy.conditions",
+          facts,
+          publicRecord: true,
+          source,
+        });
+        if (
+          row.policyRatePct !== undefined &&
+          previous !== undefined &&
+          row.policyRatePct !== previous
+        )
+          history.record({
+            id: `economy.rate-decision:${month}`,
+            date,
+            kind: "economy.rate-decision",
+            facts: { fromRatePct: previous, toRatePct: row.policyRatePct },
+            publicRecord: true,
+            source,
+          });
+        if (row.policyRatePct !== undefined) previous = row.policyRatePct;
+      }
+    },
+  },
   state: {
     schemaVersion: 1,
     tables: {

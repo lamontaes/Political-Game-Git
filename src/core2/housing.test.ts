@@ -136,3 +136,114 @@ describe("paying within the notice period", () => {
     ).toBe(0);
   });
 });
+
+describe("buying a home", () => {
+  it("a renter whose rent outruns what a mortgage would cost buys with the down payment from savings and a loan from the town bank; the lease ends; money balances", async () => {
+    const { CREDIT_MODULE } = await import("./modules/credit");
+    const { MACRO_MODULE, withCentralBank } = await import("./modules/macro");
+    const base = input("TX");
+    const buyer = {
+      ...base.people[0]!,
+      liquidMinor: 10_000_000,
+      jobId: "job:payer",
+    };
+    const fixture = withCentralBank({
+      ...base,
+      people: [buyer, base.people[1]!],
+      jobs: [
+        {
+          id: "job:payer",
+          personId: "payer",
+          organizationId: "organization:shop",
+          title: "Clerk",
+          hourlyMinor: 1_875,
+          hoursDaily: 8,
+          wageDailyMinor: 15_000,
+          source: src,
+        },
+      ],
+      organizations: [
+        ...base.organizations,
+        {
+          id: "organization:shop",
+          placeId: place,
+          name: "Shop",
+          kind: "employer",
+          liquidMinor: 100_000_000,
+          source: src,
+        },
+        {
+          id: "organization:bank:fixture",
+          placeId: place,
+          name: "Bank",
+          kind: "bank",
+          liquidMinor: 500_000_000,
+          source: src,
+        },
+        {
+          id: "outside-market:fixture",
+          placeId: place,
+          name: "Outside",
+          kind: "outside-market",
+          liquidMinor: 0,
+          outsideFlow: src,
+          source: src,
+        },
+      ],
+      finance: {
+        ...base.finance!,
+        contracts: base.finance!.contracts.map((row) =>
+          row.id === "lease:household:payer"
+            ? { ...row, amountMinor: 200_000 }
+            : row,
+        ),
+      },
+      placeMetadata: { housingState: "TX", housingCounty: "01001" },
+    });
+    const core = createLifeCore(fixture, {
+        data: worldCoreData(),
+        modules: [MACRO_MODULE, CREDIT_MODULE, HOUSING_MODULE],
+        scheduledWork: false,
+      }),
+      api = coreAPI(core);
+    const cash = () =>
+      [...core.people.values(), ...core.organizations.values()].reduce(
+        (n, row) => n + row.liquidMinor,
+        0,
+      );
+    const outsideNet = () =>
+      [...core.cashJournal.externalFlowsByOwner.values()].reduce(
+        (n, row) => n + row.netMinor,
+        0,
+      );
+    const opening = cash();
+    advanceCore(core, "2021-03-10");
+    const purchases = api.moduleState("housing").snapshot().tables
+      .purchases as unknown as {
+      householdId: string;
+      downMinor: number;
+      loanMinor: number;
+    }[];
+    expect(purchases[0]).toMatchObject({ householdId: "household:payer" });
+    expect(purchases[0]!.downMinor).toBeGreaterThan(0);
+    expect(purchases[0]!.loanMinor).toBeGreaterThan(0);
+    expect(
+      core.finance.contracts.get("lease:household:payer")!.endedAt,
+    ).toBeDefined();
+    const loans = api.moduleState("credit").snapshot().tables
+      .loans as unknown as { kind: string; householdId: string }[];
+    expect(
+      loans.some(
+        (row) =>
+          row.kind === "mortgage" && row.householdId === "household:payer",
+      ),
+    ).toBe(true);
+    expect(
+      api
+        .moduleState("housing")
+        .table("dwellings")
+        .get("dwelling:household:payer"),
+    ).toMatchObject({ tenure: "own", basis: "purchase" });
+    expect(cash()).toBe(opening - outsideNet());
+  });
+});

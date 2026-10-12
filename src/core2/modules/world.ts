@@ -8,7 +8,7 @@
  *   const core = createLifeCore(input, { data: worldCoreData(), modules: WORLD_MODULES });
  */
 import { DEFAULT_DATA, extendData } from "../data";
-import type { CoreData, CoreInput } from "../types";
+import type { CoreData, CoreInput, CoreModule } from "../types";
 import { BUSINESS_MODULE, BUSINESS_PARAMETERS } from "./business";
 import { CREDIT_MODULE, CREDIT_PARAMETERS, withTownBank } from "./credit";
 import { HOUSING_MODULE, HOUSING_PARAMETERS, withHousing } from "./housing";
@@ -54,4 +54,21 @@ export function worldCoreData(base: CoreData = DEFAULT_DATA): CoreData {
       ...BUSINESS_PARAMETERS,
     },
   });
+}
+
+/**
+ * Everything newGame and loadGame need to run a game with the whole economy:
+ *
+ *   newGame(recipe, worldGameOptions())
+ */
+export function worldGameOptions(): {
+  input: (input: CoreInput) => CoreInput;
+  data: CoreData;
+  modules: () => readonly CoreModule[];
+} {
+  return {
+    input: withWorldEconomy,
+    data: worldCoreData(),
+    modules: () => [...WORLD_MODULES],
+  };
 }

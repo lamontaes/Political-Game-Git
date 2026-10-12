@@ -118,3 +118,17 @@ export function metricsPanel(api: CoreAPI, placeId: string) {
       ].sort((a, b) => String(a.date).localeCompare(String(b.date)))
     : [];
 }
+
+/** One household's home: owned or rented, its value or rent, who holds its loan, and how it got there. */
+export function homePanel(api: CoreAPI, householdId: string) {
+  if (!has(api, "housing")) return undefined;
+  const housing = api.moduleState("housing");
+  return {
+    dwelling: housing.table("dwellings").get(`dwelling:${householdId}`),
+    mortgage: housing.table("mortgages").get(`mortgage:${householdId}`),
+    purchases: housing
+      .table("purchases")
+      .rows()
+      .filter((row) => row.householdId === householdId),
+  };
+}

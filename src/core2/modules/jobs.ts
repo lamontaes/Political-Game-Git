@@ -984,7 +984,7 @@ function hireCounted(
  * the logistic of their reasons; as many act as the pulls add up to (the
  * remainder carries to next month), and the strongest pulls act.
  */
-function strongestPulls<T extends { id: string; score: number }>(
+export function strongestPulls<T extends { id: string; score: number }>(
   api: CoreAPI,
   key: string,
   rows: readonly T[],
@@ -1279,7 +1279,8 @@ export const JOBS_MODULE: CoreModule = {
         jobId: event.id,
         kind: "closure",
         reasonKey: jobsData.reasons.closure,
-        decidedBy: organizationId,
+        // The owner answers for the closure; a business without one answers as itself.
+        decidedBy: ownerOf(api, organizationId) ?? organizationId,
       });
       startSeeking(api, personId, false, jobsData.reasons.closure, 0);
     }

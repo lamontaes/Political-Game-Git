@@ -186,6 +186,8 @@ export function shiftPurchaseShare(
 ): number {
   const rt = residentsRuntime(core);
   if (!rt || !(share > 0) || share >= 1) return 0;
+  // One entrant flow per payer and kind of spending, however many incumbents it is taken from.
+  const groups = new Map<string, { flow: Flow; amount: number }>();
   let moved = 0;
   for (const flow of [...rt.flows.values()]) {
     if (
@@ -197,8 +199,35 @@ export function shiftPurchaseShare(
     const amount = Math.floor(flow.amountMinor * share);
     if (amount <= 0) continue;
     flow.amountMinor -= amount;
+    // Households' own parts (fill-in takes them back) shrink in proportion.
+    if (flow.amountByContract)
+      flow.amountByContract = Object.fromEntries(
+        Object.entries(flow.amountByContract).map(([id, value]) => [
+          id,
+          Math.floor(value * (1 - share)),
+        ]),
+      );
+    const key = [
+      flow.payerId,
+      flow.kind,
+      flow.financeKind,
+      flow.residentsId,
+      flow.placeId,
+      JSON.stringify(flow.cadence),
+      flow.salesReceipt,
+      flow.marketAdjusted,
+    ].join("|");
+    const group = groups.get(key);
+    if (group) {
+      group.amount += amount;
+      if (flow.nextAt < group.flow.nextAt) group.flow = flow;
+    } else groups.set(key, { flow, amount });
+    moved += perYear(flow, amount);
+  }
+  let n = 0;
+  for (const { flow, amount } of groups.values())
     addResidentFlow(core, {
-      id: `${flow.id}:entrant:${entrantId}`,
+      id: `entrant:${entrantId}:${n++}`,
       kind: flow.kind,
       financeKind: flow.financeKind,
       payerId: flow.payerId,
@@ -212,8 +241,6 @@ export function shiftPurchaseShare(
       marketAdjusted: flow.marketAdjusted,
       source: flow.source,
     });
-    moved += perYear(flow, amount);
-  }
   return Math.round(moved);
 }
 

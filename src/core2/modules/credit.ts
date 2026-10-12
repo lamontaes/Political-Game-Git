@@ -8,9 +8,10 @@
  */
 import countyRows from "../../../data/tables/local-business-counts.json" with { type: "json" };
 import depositRows from "../../../data/tables/town-deposits.json" with { type: "json" };
+import regions from "../data/regional/regions.json" with { type: "json" };
 import { countyPopulationSharesForPlace } from "../../simulation/government-units";
 import { lifePlaceByKey } from "../../simulation/life-places";
-import { addDays, makeIsoDate } from "../../simulation/dates";
+import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import creditData from "../data/credit/credit.json" with { type: "json" };
 import creditParameters from "../data/credit/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
@@ -45,6 +46,35 @@ function table(text: string): Map<string, string> {
 }
 const COUNTY_POPULATION = table(countyRows.COUNTY_BUSINESS_ROWS);
 const COUNTY_DEPOSITS = table(depositRows.FDIC_COUNTY_DEPOSITS);
+const TERRITORY_FIPS: Readonly<Record<string, string>> = {
+  "US-AS": "60",
+  "US-GU": "66",
+  "US-MP": "69",
+  "US-VI": "78",
+};
+const TERRITORY_PEOPLE = new Map(
+  (regions.regions as { stateFips: string; kind: string; population: number }[])
+    .filter((row) => row.kind === "territory")
+    .map((row) => [row.stateFips, row.population]),
+);
+/** Deposits a place's people hold where no county table covers it: its territory's FDIC deposits per resident, else the nation's. */
+function fallbackDeposits(usps: string | undefined): number | undefined {
+  const fips = usps ? TERRITORY_FIPS[usps] : undefined;
+  const sum = (filter: (county: string) => boolean) => {
+    let total = 0;
+    for (const [county, value] of COUNTY_DEPOSITS)
+      if (filter(county)) total += Number(value) || 0;
+    return total;
+  };
+  const people = fips ? TERRITORY_PEOPLE.get(fips) : undefined;
+  const own = fips ? sum((county) => county.startsWith(fips)) : 0;
+  if (own > 0 && people) return own / people;
+  let nationPeople = 0;
+  for (const [county, row] of COUNTY_POPULATION)
+    if (COUNTY_DEPOSITS.has(county))
+      nationPeople += Number(row.split(",")[0]) || 0;
+  return nationPeople > 0 ? sum(() => true) / nationPeople : undefined;
+}
 
 export interface TownBank {
   organizationId: string;
@@ -65,13 +95,31 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
           (a, b) => (b[1] ?? 0) - (a[1] ?? 0),
         )[0]?.[0]
       : geoid;
-  const deposits = county ? Number(COUNTY_DEPOSITS.get(county)) : NaN;
-  const countyPeople = county
+  let deposits = county ? Number(COUNTY_DEPOSITS.get(county)) : NaN;
+  let countyPeople = county
     ? Number(COUNTY_POPULATION.get(county)?.split(",")[0])
     : NaN;
-  const townPeople = Number(input.placeMetadata?.referencePopulation);
-  if (!county || !(deposits > 0) || !(countyPeople > 0) || !(townPeople > 0))
-    return undefined;
+  // The town's recorded population, else the people the opening generated for it.
+  const recorded = Number(input.placeMetadata?.referencePopulation);
+  const townPeople =
+    recorded > 0
+      ? recorded
+      : input.people.length +
+        (input.residents?.households ?? []).reduce(
+          (n, row) => n + row.people.length,
+          0,
+        );
+  if (!(townPeople > 0)) return undefined;
+  if (!(deposits > 0) || !(countyPeople > 0)) {
+    // No county deposit table for this place (most island areas): deposits per resident, estimated.
+    stopgap("SG-WORLD-credit-island-deposits");
+    const perPerson = fallbackDeposits(
+      place?.stateJurisdictionKey ?? undefined,
+    );
+    if (!perPerson) return undefined;
+    deposits = perPerson * townPeople;
+    countyPeople = townPeople;
+  }
   const counts = new Map<string, number>();
   for (const row of input.organizations)
     counts.set(row.placeId, (counts.get(row.placeId) ?? 0) + 1);
@@ -86,7 +134,7 @@ export function townBankFor(input: CoreInput): TownBank | undefined {
   return {
     organizationId: `organization:bank:${placeId}`,
     placeId,
-    county,
+    county: county ?? place?.stateJurisdictionKey ?? "",
     depositsMinor,
     openingEquityMinor: Math.round(
       depositsMinor * p0("creditBankEquityShareOfDeposits"),
@@ -148,8 +196,108 @@ function equity(api: CoreAPI, bankId: string) {
       if (row.active) limits += row.limitMinor;
     }
   }
+  // Loans it made from its cash (household loans, startup loans, mortgages) are owed back to it.
+  for (const row of store(api)
+    .table("loans")
+    .query("open", [true]) as unknown as LoanRow[])
+    if (row.lenderId === bankId) principal += row.balanceMinor;
   const cash = c.organizations.get(bankId)!.liquidMinor;
   return { cash, principal, limits, lost, equity: cash + principal };
+}
+
+/** How willing the town bank is to lend today: falls smoothly as its capital falls below where it opened. */
+export function bankAppetite(api: CoreAPI): number {
+  const bank = bankOf(api);
+  if (!bank) return 0;
+  const p = (key: string) => api.parameter(key);
+  const capitalRoom =
+    equity(api, bank.organizationId).equity / bank.openingEquityMinor;
+  return (
+    p("one") /
+    (p("one") +
+      Math.exp(
+        -p("creditCapitalAppetiteSlope") * (capitalRoom - p("macroHalf")),
+      ))
+  );
+}
+
+/** The bank's yes to a payment against income: falls smoothly past the federal 43 percent reference. */
+export function bankYes(
+  api: CoreAPI,
+  paymentMinor: number,
+  incomeMinor: number,
+): number {
+  const p = (key: string) => api.parameter(key);
+  if (!(incomeMinor > 0)) return 0;
+  const dti = (p("macroHundred") * paymentMinor) / incomeMinor;
+  return (
+    bankAppetite(api) /
+    (1 + Math.exp(p("creditDtiSlope") * (dti - p("creditDtiReferencePct"))))
+  );
+}
+
+/**
+ * A home loan from the town bank: the bank pays the seller the principal and
+ * the household repays monthly like any loan. Zero when the bank has no room.
+ */
+export function lendMortgage(
+  api: CoreAPI,
+  input: {
+    householdId: string;
+    borrowerId: string;
+    sellerId: string;
+    principalMinor: number;
+    annualRate: number;
+    termMonths: number;
+  },
+): number {
+  const bank = bankOf(api);
+  if (!bank) return 0;
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const book = equity(api, bank.organizationId);
+  const room = Math.max(
+    0,
+    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.principal,
+  );
+  const amount = Math.min(input.principalMinor, room);
+  if (amount <= 0) return 0;
+  const id = `mortgage-loan:${input.householdId}:${c.date}`;
+  const lent = transferCash(
+    api,
+    id,
+    bank.organizationId,
+    input.sellerId,
+    amount,
+    {
+      tag: "ESTIMATED",
+      asOf: c.date,
+      citation: creditData.source.citation,
+      estimatedFrom: `A ${input.termMonths}-month home loan at ${(input.annualRate * 100).toFixed(2)}%, paid to the seller.`,
+    },
+  );
+  if (lent <= 0) return 0;
+  store(api)
+    .table("loans")
+    .put({
+      id,
+      isLoan: true,
+      open: true,
+      householdId: input.householdId,
+      borrowerId: input.borrowerId,
+      lenderId: bank.organizationId,
+      kind: "mortgage",
+      principalMinor: lent,
+      balanceMinor: lent,
+      annualRate: input.annualRate,
+      paymentMinor: Math.round(
+        amortizedPayment(lent, input.annualRate, input.termMonths, p),
+      ),
+      openedAt: c.date,
+      pastDueMinor: 0,
+      standing: "current",
+    });
+  return lent;
 }
 
 function review(api: CoreAPI): void {
@@ -326,7 +474,7 @@ interface LoanRow {
   householdId: string;
   borrowerId: string;
   lenderId: string;
-  kind: "personal" | "startup";
+  kind: "personal" | "startup" | "mortgage";
   principalMinor: number;
   balanceMinor: number;
   annualRate: number;
@@ -350,13 +498,28 @@ export function amortizedPayment(
     : principal / months;
 }
 
-function monthlyIncome(api: CoreAPI, memberIds: readonly string[]): number {
+function paidShare(c: CoreState, personId: string, jobId: string): number {
+  for (const id of c.work.commitmentsByPerson.get(personId) ?? []) {
+    if (c.work.commitments.get(id)?.jobId !== jobId) continue;
+    const ledger = c.work.payrollLedgerByCommitment.get(id);
+    if (ledger && ledger.dueRecognizedMinor > 0)
+      return Math.min(1, ledger.paidMinor / ledger.dueRecognizedMinor);
+  }
+  return 1;
+}
+
+/** A household's monthly pay as a lender counts it: wages times the share of due pay actually paid. */
+export function monthlyIncome(
+  api: CoreAPI,
+  memberIds: readonly string[],
+): number {
   const c = core(api),
     members = new Set(memberIds);
   let daily = 0;
   for (const job of c.jobs.values())
     if (job.endsAt === undefined && members.has(job.personId))
-      daily += job.wageDailyMinor;
+      // A lender counts pay that arrives: the job's wage times the share of its due pay actually paid.
+      daily += job.wageDailyMinor * paidShare(c, job.personId, job.id);
   return (
     (daily * api.parameter("jobsDaysPerYear")) /
     api.parameter("macroMonthsPerYear")
@@ -456,6 +619,22 @@ function householdApplications(
       store(api).table("loans").query("open", [true]) as unknown as LoanRow[]
     ).map((row) => row.householdId),
   );
+  // A charge-off stays on the household's credit report for seven years (15 U.S.C. 1681c(a)(4)).
+  const reported = new Set(
+    (
+      store(api).table("loans").rows() as unknown as (LoanRow & {
+        chargedOffAt?: string;
+      })[]
+    )
+      .filter(
+        (row) =>
+          row.standing === "charged-off" &&
+          (!row.chargedOffAt ||
+            daysBetween(makeIsoDate(row.chargedOffAt), makeIsoDate(c.date)) <
+              p("creditReportYears") * p("jobsDaysPerYear")),
+      )
+      .map((row) => row.householdId),
+  );
   for (const household of [...c.households.values()].sort((a, b) =>
     a.id.localeCompare(b.id),
   )) {
@@ -500,9 +679,19 @@ function householdApplications(
       income > 0
         ? (p("macroHundred") * payment) / income
         : Number.POSITIVE_INFINITY;
+    // And as what is left after the household's costs and the payment falls below nothing (residual income).
+    const residualPct =
+      income > 0
+        ? (p("macroHundred") * (income - costs - payment)) / income
+        : -p("macroHundred");
+    const history = reported.has(household.id)
+      ? p("creditChargedOffYesShare")
+      : 1;
     const yes = Number.isFinite(dti)
-      ? appetite /
-        (1 + Math.exp(p("creditDtiSlope") * (dti - p("creditDtiReferencePct"))))
+      ? (history * appetite) /
+        (1 +
+          Math.exp(p("creditDtiSlope") * (dti - p("creditDtiReferencePct")))) /
+        (1 + Math.exp(-p("creditDtiSlope") * residualPct))
       : 0;
     const principal = Math.floor(Math.min(amount * yes, room));
     store(api)
@@ -516,6 +705,7 @@ function householdApplications(
         requestedMinor: Math.round(amount),
         monthlyIncomeMinor: Math.round(income),
         debtToIncomePct: Number.isFinite(dti) ? dti : null,
+        residualIncomePct: residualPct,
         appetite,
         approvedShare: yes,
         limitMinor: principal,
