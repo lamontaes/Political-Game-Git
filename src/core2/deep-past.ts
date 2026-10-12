@@ -11,6 +11,8 @@ import schoolsJson from "./data/opening-schools.json" with { type: "json" };
 import { ageOnDate, daysBetween, makeIsoDate } from "../simulation/dates";
 import { countyGeoidsForPlace } from "../simulation/government-units";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
+import { placeReferencePopulation } from "../simulation/nationwide-world/place-population";
+import { stableHash } from "../simulation/ids";
 import { SeededRng } from "../simulation/rng";
 import { kindergartenYear, onCalendar } from "../simulation/school-calendar";
 import { SCHOOL_NAMES_V3 } from "../simulation/school-names";
@@ -190,6 +192,8 @@ export function buildDeepPast(
   );
   const unresolved = new Map<string, number>();
   const schoolCache = new Map<string, readonly SchoolRow[]>();
+  // Lists read from the county or territory rather than the place itself.
+  const broadLists = new Set<readonly SchoolRow[]>();
   const jobById = new Map(input.jobs.map((job) => [job.id, job]));
 
   const report = (row: DeepPastFieldSource): void => {
@@ -263,8 +267,43 @@ export function buildDeepPast(
       near.length || covered || !state
         ? near
         : teaching(SCHOOLS.bucketsByState[state] ?? []);
+    if (!own.length) broadLists.add(result);
     schoolCache.set(key, result);
     return result;
+  };
+  // A place whose own schools are not recorded sends its children to a few
+  // schools nearby, not to every school in the county or territory: its
+  // catchment is a stable set of the listed schools whose students per grade
+  // cover the place's children per grade (its population times the share in
+  // one year of age).
+  const catchment = (
+    rows: readonly SchoolRow[],
+    placeId: string,
+  ): readonly SchoolRow[] => {
+    const geoid = lifePlaceByJurisdictionId(placeId as EntityId)?.sourceGeoid;
+    const population = geoid
+      ? Number(placeReferencePopulation(geoid)?.value)
+      : Number.NaN;
+    if (!(population > p("zero"))) return rows;
+    const children = population * p("schoolCohortPopulationShare");
+    const order = rows
+      .map((row) => ({
+        row,
+        at: stableHash(`${input.seed}:${placeId}:${row[0]}`),
+      }))
+      .sort((a, b) => a.at.localeCompare(b.at))
+      .map(({ row }) => row);
+    const chosen: SchoolRow[] = [];
+    let seats = p("zero");
+    for (const row of order) {
+      chosen.push(row);
+      const [, , lowest, highest, enrollment] = row;
+      seats +=
+        Math.max(enrollment, p("zero")) /
+        (grade(highest)! - grade(lowest)! + p("one"));
+      if (seats >= children) break;
+    }
+    return chosen;
   };
   // Children who live together share a campus, adults each had their own;
   // each school counts by its students per grade.
@@ -444,9 +483,11 @@ export function buildDeepPast(
         );
         // Only a school the national directory lists by the year this cohort
         // started there (audit 1: no 2015 campus for a 1960s class).
-        const open = schoolRows(placeId, countyId, stage.entryGrade).filter(
-          ([id]) => schoolOpenBy(id, year),
-        );
+        const listed = schoolRows(placeId, countyId, stage.entryGrade);
+        const opened = listed.filter(([id]) => schoolOpenBy(id, year));
+        const open = broadLists.has(listed)
+          ? catchment(opened, placeId)
+          : opened;
         const school = schoolFor(
           open,
           `${data.version}:${ageOnDate(birth, opening) < p("benchmarkAdultMinimumAge") ? person.householdId : person.id}:${placeId}:${stage.id}:campus`,

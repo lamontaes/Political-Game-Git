@@ -1,6 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { buildDeepPast, schoolOpenBy } from "./deep-past";
 import { buildPopulation } from "./population";
+import schoolsJson from "./data/opening-schools.json" with { type: "json" };
+import { stableHash } from "../simulation/ids";
+import {
+  lifePlaceCoverage,
+  lifePlaceSearch,
+  lifePlaceStateIdentities,
+} from "../simulation/life-places";
+
+const SCHOOLS = schoolsJson as { byGeoid: unknown };
 
 // Audit 1 (Oct 12): a person's school must have existed when they started
 // there. A school counts for a cohort only if the NCES directory lists it by
@@ -40,5 +49,67 @@ describe(`schools by era in ${input.placeMetadata?.placeName} (seed ${seed})`, (
   it("checks the rule itself: later schools don't count for earlier years", () => {
     expect(schoolOpenBy("no-such-school", 1970)).toBe(false);
     expect(schoolOpenBy("no-such-school", 2030)).toBe(true);
+  });
+});
+
+// Audit 1 follow-up: a place whose own schools are not listed (a census place
+// inside a large county, or a territory) sends its children to a few schools
+// nearby, so children of one year there have classmates. The place is drawn
+// at random from all such places.
+const unlisted = [...lifePlaceStateIdentities()]
+  .flatMap((identity) => [
+    ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+      stateJurisdictionKey: identity.jurisdictionKey,
+      scope: "locality",
+    }),
+  ])
+  .filter(
+    (place) =>
+      !(SCHOOLS.byGeoid as Record<string, unknown>)[
+        place.sourceGeoid ?? place.key
+      ],
+  )
+  .sort((a, b) => a.key.localeCompare(b.key));
+const drawn =
+  unlisted[
+    parseInt(stableHash(`${seed}:unlisted`).slice(0, 8), 16) % unlisted.length
+  ]!;
+const small = buildDeepPast(
+  buildPopulation({
+    seed,
+    placeKey: drawn.key,
+    startedAt: "2021-01-01",
+    minimumPeople: 800,
+  }),
+);
+
+describe(`classmates in ${drawn.displayName}, whose own schools are not listed (seed ${seed})`, () => {
+  it("gives nearly every child of one year a classmate from the same place", () => {
+    const groups = new Map<string, string[]>();
+    for (const person of small.people)
+      for (const fact of person.pastFacts ?? []) {
+        if (fact.kind !== "school:cohort-estimate") continue;
+        if (fact.facts?.placeId !== person.placeId) continue;
+        if (fact.facts?.institutionSourceKey !== "NCES-CCD") continue;
+        const key = `${fact.facts.stage}:${fact.facts.cohortYear}`;
+        groups.set(key, [
+          ...(groups.get(key) ?? []),
+          fact.facts.institutionSourceId!,
+        ]);
+      }
+    let children = 0;
+    let withClassmate = 0;
+    for (const schools of groups.values()) {
+      if (schools.length < 3) continue;
+      for (const school of schools) {
+        children += 1;
+        if (schools.filter((other) => other === school).length > 1)
+          withClassmate += 1;
+      }
+    }
+    if (!children) return;
+    // Spread over the whole county, about one in five went to school with no
+    // one else of their year from home; nearby, nearly everyone did.
+    expect(withClassmate / children).toBeGreaterThan(0.9);
   });
 });
