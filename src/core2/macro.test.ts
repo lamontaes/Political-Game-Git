@@ -168,3 +168,23 @@ describe("the board", () => {
     if (moved.length) expect(line.annualInterestRate).not.toBe(opened);
   });
 });
+
+describe("history before the start (M1-14, the economy's part)", () => {
+  it("opens a 2026 world with every real month since January 2021", async () => {
+    const history = (
+      await import("./data/macro/history.json", { with: { type: "json" } })
+    ).default;
+    const rows = historyMonths("2026-10-01", p);
+    expect(rows[0]!.month).toBe("2021-01");
+    expect(rows.at(-1)!.month).toBe("2026-09");
+    expect(rows).toHaveLength(69);
+    const real = new Map(history.monthly.map((row) => [row.month, row]));
+    for (const row of rows) {
+      const source = real.get(row.month)!;
+      if (source.unemploymentPct !== undefined)
+        expect(row.unemploymentPct).toBe(source.unemploymentPct);
+      if (source.payrollJobsThousands !== undefined)
+        expect(row.payrollJobsThousands).toBe(source.payrollJobsThousands);
+    }
+  });
+});

@@ -249,7 +249,7 @@ function open(api: CoreAPI): MacroStateRow {
   store(api)
     .table("state")
     .put(state as unknown as { id: string });
-  if (regionalRegistered(api)) openRegional(api, opening, placeIds);
+  if (regionalRegistered(api)) openRegional(api, opening, placeIds, rows);
   if (monthKey(core.date) === shiftMonth(opening.month, p("one"), p))
     runMonth(api, state);
   else

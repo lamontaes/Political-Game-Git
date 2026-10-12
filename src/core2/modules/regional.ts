@@ -54,12 +54,20 @@ export function openRegional(
   api: CoreAPI,
   national: Readonly<MacroMonth>,
   placeIds: readonly string[],
+  history: readonly Readonly<MacroMonth>[] = [],
 ): void {
   const p = (key: string) => api.parameter(key);
   for (const row of REGIONS)
     store(api)
       .table("regions")
       .put({ ...row });
+  // The coarse years' real regional months (M1-14), then the opening month the regions step from.
+  for (const month of history)
+    if (month.month !== national.month)
+      for (const row of openingRegionMonths(month, p))
+        store(api)
+          .table("months")
+          .put({ ...row });
   for (const row of openingRegionMonths(national, p))
     store(api)
       .table("months")

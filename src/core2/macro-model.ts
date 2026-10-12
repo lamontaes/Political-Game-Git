@@ -108,8 +108,16 @@ export function historyMonths(
   let opening = shiftMonth(monthKey(startedAt), -p("one"), p);
   if (opening > last) opening = last;
   const months: MacroMonth[] = [];
+  // The coarse years before the start (M1-14): every real month since the latest full-data year, and at least the year before the opening.
+  const [openingYear, openingPart] = opening.split("-").map(Number) as [
+    number,
+    number,
+  ];
+  const sinceCoarse =
+    (openingYear - p("macroHistoryFirstYear")) * p("macroMonthsPerYear") +
+    openingPart;
   for (
-    let back = p("macroHistoryMonths") - p("one");
+    let back = Math.max(p("macroHistoryMonths"), sinceCoarse) - p("one");
     back >= p("zero");
     back--
   ) {

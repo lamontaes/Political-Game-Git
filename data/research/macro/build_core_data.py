@@ -46,6 +46,7 @@ P = {
     "macroHalf": sourced(0.5, "One half, for medians and midpoints."),
     "macroQuartersPerYear": sourced(4, "Calendar quarters per year."),
     "macroMonthsPerQuarter": sourced(3, "Calendar months per quarter."),
+    "macroHistoryFirstYear": sourced(2021, "M1-history (owner, Oct 10): the years from the latest full-data year, 2021, to the start date are the coarse run."),
     "macroHistoryMonths": sourced(13, "The opening month plus the twelve before it, so every first-year 12-month change has its real base."),
     # Measured from the agency series.
     "macroNaturalUnemploymentPct": tunable(4.5, 4.0, round(u_mean, 2), "percent", f"CBO's noncyclical rate of unemployment, about 4.4 to 4.6 percent in its 2016-2026 Budget and Economic Outlook editions; the 1990-2019 mean unemployment rate, {u_mean:.2f} percent ({BLS}), bounds it from above."),
