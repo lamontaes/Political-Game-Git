@@ -1,0 +1,435 @@
+{
+  "register": "journal",
+  "description": "The 'My life' journal: a first-person life story that names people by relationship and never invents a feeling. Every part is a whole sentence American speakers said about their own lives in public-domain federal transcripts (NASA and U.S. House oral histories, congressional hearing testimony, the Congressional Record), counted also against the Library of Congress WPA life histories, 1936 to 1940. The facts are slots from the person's own records. No part names a feeling. Each group names the journal row (kindPrefix) and field it fills; a sentence that names one particular relative is left out, since the journal says whichever relative the record names.",
+  "slots": {
+    "school": "A school, from the school record.",
+    "employer": "An employer, from the job record.",
+    "other": "A person, by name, from the records.",
+    "relation": "How the writer is related to someone, with the possessive, from the family record.",
+    "place": "A town, from the household or move record.",
+    "wage": "An hourly wage, from the pay record.",
+    "times": "How many times, counted from contact records.",
+    "office": "An office, from the candidate filing record.",
+    "age": "An age, computed from the birth record."
+  },
+  "maxWords": 10,
+  "minDocuments": 2,
+  "groups": [
+    {
+      "move": "school-line-started",
+      "subject": "school",
+      "role": "line",
+      "choice": "started",
+      "candidates": [
+        "I started at {school}.",
+        "I went to {school}.",
+        "I went to school at {school}.",
+        "I attended {school}.",
+        "I graduated from {school}.",
+        "I started school at {school}.",
+        "Then I went to {school}.",
+        "I went on to {school}.",
+        "I enrolled at {school}.",
+        "I was at {school}."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "school:",
+          "field": "line"
+        }
+      ]
+    },
+    {
+      "move": "work-line-started",
+      "subject": "work",
+      "role": "line",
+      "choice": "started",
+      "candidates": [
+        "I started working at {employer}.",
+        "I went to work at {employer}.",
+        "I went to work for {employer}.",
+        "I got a job at {employer}.",
+        "I got a job with {employer}.",
+        "I started at {employer}.",
+        "I started work at {employer}.",
+        "I went to work.",
+        "I got a job.",
+        "I took a job at {employer}.",
+        "I took a job with {employer}.",
+        "I was hired by {employer}.",
+        "I was hired at {employer}.",
+        "I started working for {employer}."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "work:opening",
+          "field": "line"
+        },
+        {
+          "kindPrefix": "job-started",
+          "field": "line"
+        }
+      ]
+    },
+    {
+      "move": "work-line-lost",
+      "subject": "work",
+      "role": "line",
+      "choice": "lost",
+      "candidates": [
+        "I lost my job.",
+        "I lost my job at {employer}.",
+        "I was laid off.",
+        "I got laid off.",
+        "I was let go.",
+        "I got fired.",
+        "I was fired.",
+        "I lost my job there.",
+        "They laid me off.",
+        "They let me go."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "job-ended",
+          "field": "line"
+        }
+      ]
+    },
+    {
+      "move": "work-other-started",
+      "subject": "work",
+      "role": "other",
+      "choice": "started",
+      "candidates": [
+        "{other} started a new job.",
+        "{other} got a job.",
+        "{other} went to work.",
+        "{relation} got a job.",
+        "{relation} went to work."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "job-started",
+          "field": "otherLine"
+        }
+      ]
+    },
+    {
+      "move": "work-other-lost",
+      "subject": "work",
+      "role": "other",
+      "choice": "lost",
+      "candidates": [
+        "{other} lost their job.",
+        "{relation} lost his job.",
+        "{relation} lost her job.",
+        "{relation} was laid off.",
+        "{relation} got laid off.",
+        "{other} was laid off."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "job-ended",
+          "field": "otherLine"
+        }
+      ]
+    },
+    {
+      "move": "family-line-born",
+      "subject": "family",
+      "role": "line",
+      "choice": "born",
+      "candidates": [
+        "{other} was born.",
+        "{relation} was born.",
+        "Then {relation} was born.",
+        "We had a baby."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "family:child",
+          "field": "line"
+        }
+      ]
+    },
+    {
+      "move": "family-line-married",
+      "subject": "family",
+      "role": "line",
+      "choice": "married",
+      "candidates": [
+        "I got married.",
+        "We got married.",
+        "I married {other}.",
+        "We were married.",
+        "We were married in {place}."
+      ],
+      "journal": []
+    },
+    {
+      "move": "home-line-moved",
+      "subject": "home",
+      "role": "line",
+      "choice": "moved",
+      "candidates": [
+        "I moved to {place}.",
+        "We moved to {place}.",
+        "Then we moved to {place}.",
+        "Then I moved to {place}.",
+        "We moved.",
+        "I moved.",
+        "We moved back to {place}.",
+        "I moved back to {place}.",
+        "We came to {place}.",
+        "I came to {place}."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "moved",
+          "field": "line"
+        }
+      ]
+    },
+    {
+      "move": "money-line-short",
+      "subject": "money",
+      "role": "line",
+      "choice": "short",
+      "candidates": [
+        "My pay came up short.",
+        "They didn't pay me.",
+        "I didn't get paid.",
+        "We didn't get paid."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "unpaid-wages",
+          "field": "line"
+        }
+      ]
+    },
+    {
+      "move": "money-line-raise",
+      "subject": "money",
+      "role": "line",
+      "choice": "raise",
+      "candidates": [
+        "My pay went up to {wage} an hour.",
+        "I got a raise.",
+        "I was making {wage} an hour.",
+        "I made {wage} an hour.",
+        "They raised me to {wage} an hour.",
+        "I got {wage} an hour."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "event:pay-raised-to-minimum-wage",
+          "field": "line"
+        }
+      ]
+    },
+    {
+      "move": "contact-line-saw",
+      "subject": "contact",
+      "role": "line",
+      "choice": "saw",
+      "candidates": [
+        "I saw {other}.",
+        "I met {other}.",
+        "I ran into {other}.",
+        "I visited {other}.",
+        "I talked to {other}.",
+        "I went to see {other}."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "contact:",
+          "field": "line"
+        }
+      ]
+    },
+    {
+      "move": "contact-line-saw-often",
+      "subject": "contact",
+      "role": "line",
+      "choice": "saw-often",
+      "candidates": [
+        "I saw {other} {times}.",
+        "I saw {other} a lot.",
+        "I saw a lot of {other}.",
+        "We saw each other a lot.",
+        "I saw {other} often."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "contact:",
+          "field": "repeatLine"
+        }
+      ]
+    },
+    {
+      "move": "death-line-died",
+      "subject": "death",
+      "role": "line",
+      "choice": "died",
+      "candidates": [
+        "{other} died.",
+        "{relation} died.",
+        "{relation} passed away.",
+        "Then {relation} died.",
+        "{relation} died in {place}.",
+        "{relation} passed."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "event:life.death",
+          "field": "line"
+        }
+      ]
+    },
+    {
+      "move": "health-line-ill",
+      "subject": "health",
+      "role": "line",
+      "choice": "ill",
+      "candidates": [
+        "I fell seriously ill.",
+        "I got sick.",
+        "I was sick.",
+        "I got very sick.",
+        "I became ill.",
+        "I was very sick.",
+        "I was in the hospital.",
+        "I went into the hospital.",
+        "I had surgery."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "event:health.serious-illness",
+          "field": "line"
+        }
+      ]
+    },
+    {
+      "move": "health-other-ill",
+      "subject": "health",
+      "role": "other",
+      "choice": "ill",
+      "candidates": [
+        "{other} fell seriously ill.",
+        "{relation} got sick.",
+        "{relation} was sick.",
+        "{relation} got very sick.",
+        "{relation} was very sick.",
+        "{relation} was in the hospital.",
+        "{relation} went into the hospital.",
+        "{relation} became ill."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "event:health.serious-illness",
+          "field": "otherLine"
+        }
+      ]
+    },
+    {
+      "move": "office-line-filed",
+      "subject": "office",
+      "role": "line",
+      "choice": "filed",
+      "candidates": [
+        "I filed to run for {office}.",
+        "I ran for {office}.",
+        "I decided to run for {office}.",
+        "I filed for {office}.",
+        "I ran for office.",
+        "I decided to run.",
+        "I filed."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "event:candidate-filed",
+          "field": "line"
+        }
+      ]
+    },
+    {
+      "move": "office-other-filed",
+      "subject": "office",
+      "role": "other",
+      "choice": "filed",
+      "candidates": [
+        "{other} filed to run for {office}.",
+        "{other} ran for {office}.",
+        "{relation} ran for {office}.",
+        "{other} decided to run."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "event:candidate-filed",
+          "field": "otherLine"
+        }
+      ]
+    },
+    {
+      "move": "office-line-won",
+      "subject": "office",
+      "role": "line",
+      "choice": "won",
+      "candidates": [
+        "I won.",
+        "I was elected.",
+        "I won the election.",
+        "I got elected.",
+        "I was elected to {office}."
+      ],
+      "journal": []
+    },
+    {
+      "move": "office-line-lost",
+      "subject": "office",
+      "role": "line",
+      "choice": "lost",
+      "candidates": [
+        "I lost.",
+        "I lost the election.",
+        "I didn't win.",
+        "I was defeated."
+      ],
+      "journal": []
+    },
+    {
+      "move": "law-backdrop-minimum-wage",
+      "subject": "law",
+      "role": "backdrop",
+      "choice": "minimum-wage",
+      "candidates": [
+        "A new minimum wage took effect.",
+        "The minimum wage went up.",
+        "They raised the minimum wage.",
+        "The minimum wage was raised."
+      ],
+      "journal": [
+        {
+          "kindPrefix": "backdrop:law-took-effect",
+          "field": "line"
+        }
+      ]
+    },
+    {
+      "move": "look-back-line-died",
+      "subject": "look-back",
+      "role": "line",
+      "choice": "died",
+      "candidates": [
+        "I died in {place}, at {age}.",
+        "I was born in {place}.",
+        "I grew up in {place}.",
+        "I was raised in {place}.",
+        "I've lived in {place} all my life."
+      ],
+      "journal": [],
+      "note": "Attests birthplace lines; not the look-back at a death."
+    }
+  ]
+}

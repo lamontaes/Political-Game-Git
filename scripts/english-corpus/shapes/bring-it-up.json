@@ -1,0 +1,148 @@
+{
+  "register": "bring-it-up",
+  "description": "People bringing up a change and who they believe caused it: the change, the blame from the record, from what they were told or assumed, and the hearer's answer. Every part is a whole sentence said in public-domain federal transcripts, counted also against the WPA life histories. The facts are slots from the event and blame records.",
+  "slots": {
+    "subject": "The place or business that changed, from the event record.",
+    "whose": "Who made the change, with the possessive, from the event or blame record.",
+    "who": "Who made the change, by name, from the event or blame record."
+  },
+  "maxWords": 10,
+  "minDocuments": 2,
+  "groups": [
+    {
+      "move": "change-organization.closed-closed",
+      "subject": "change",
+      "role": "organization.closed",
+      "choice": "closed",
+      "candidates": [
+        "{subject} closed.",
+        "{subject} closed down.",
+        "{subject} shut down.",
+        "{subject} is closed.",
+        "{subject} is closing.",
+        "{subject} went out of business.",
+        "They closed {subject}.",
+        "They shut down {subject}.",
+        "They're closing {subject}.",
+        "Did you hear {subject} closed?",
+        "Did you hear about {subject}?",
+        "{subject} closed its doors.",
+        "{subject} is shutting down.",
+        "{subject} is gone.",
+        "{subject} closed last week.",
+        "{subject} went under.",
+        "{subject} went bankrupt.",
+        "{subject} is out of business.",
+        "{subject} closed down last year.",
+        "They shut {subject} down.",
+        "They closed down {subject}."
+      ]
+    },
+    {
+      "move": "blame-record-record",
+      "subject": "blame",
+      "role": "record",
+      "choice": "record",
+      "candidates": [
+        "That was {whose} doing.",
+        "It was {whose} decision.",
+        "It's {whose} fault.",
+        "That's on {who}.",
+        "{who} did that.",
+        "{who} made that decision.",
+        "{who} decided that.",
+        "{who} made the decision.",
+        "{who} decided to close it.",
+        "{who} closed it.",
+        "That was {who}.",
+        "{who} is responsible.",
+        "{who} is to blame."
+      ]
+    },
+    {
+      "move": "blame-told-told",
+      "subject": "blame",
+      "role": "told",
+      "choice": "told",
+      "candidates": [
+        "From what I heard, {who} was behind it.",
+        "I heard {who} was behind it.",
+        "I heard it was {who}.",
+        "They say it was {who}.",
+        "I was told it was {who}.",
+        "Somebody told me it was {who}.",
+        "People are saying it was {who}.",
+        "I heard {who} did it.",
+        "Somebody said it was {who}.",
+        "They told me it was {who}.",
+        "Word is it was {who}.",
+        "I was told {who} was behind it.",
+        "Rumor has it it was {who}."
+      ]
+    },
+    {
+      "move": "blame-assumed-assumed",
+      "subject": "blame",
+      "role": "assumed",
+      "choice": "assumed",
+      "candidates": [
+        "I'd bet {who} had a hand in it.",
+        "I bet {who} had something to do with it.",
+        "I bet it was {who}.",
+        "I'll bet {who} had something to do with it.",
+        "I think {who} had something to do with it.",
+        "I think {who} was behind it.",
+        "I blame {who}.",
+        "Blame {who}.",
+        "I think it was {who}.",
+        "I'm sure {who} had something to do with it.",
+        "It must have been {who}.",
+        "I'd bet it was {who}.",
+        "It's probably {who}.",
+        "I think {who} is behind it.",
+        "I blame {who} for it."
+      ]
+    },
+    {
+      "move": "blame-unknown-unknown",
+      "subject": "blame",
+      "role": "unknown",
+      "choice": "unknown",
+      "candidates": [
+        "I don't know who's behind it.",
+        "I don't know who did it.",
+        "I don't know why.",
+        "Nobody knows why.",
+        "I don't know what happened.",
+        "Nobody knows what happened.",
+        "I don't know who's responsible.",
+        "I don't know who to blame.",
+        "Nobody knows.",
+        "I have no idea.",
+        "I don't know.",
+        "Who knows?",
+        "I don't know why they closed.",
+        "I don't know what happened there."
+      ]
+    },
+    {
+      "move": "blame-hearer-react",
+      "subject": "blame",
+      "role": "hearer",
+      "choice": "react",
+      "candidates": [
+        "Really?",
+        "Is that right?",
+        "That's too bad.",
+        "That's a shame.",
+        "That's terrible.",
+        "I didn't know that.",
+        "I hadn't heard that.",
+        "I heard that too.",
+        "That's what I heard.",
+        "I don't believe it.",
+        "That's not what I heard."
+      ]
+    }
+  ]
+}

@@ -1,0 +1,3708 @@
+{
+  "register": "conversation",
+  "read": {
+    "Federal Election Commission (fec.gov)": 253,
+    "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "U.S. Election Assistance Commission (eac.gov)": 65,
+    "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "crec": 445,
+    "hearings": 1617,
+    "house": 115,
+    "nasa": 317,
+    "nasa2": 330,
+    "nps": 32,
+    "wpa": 38
+  },
+  "notAttested": [
+    {
+      "move": "greet-open-hello",
+      "text": "Hi there.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "greet-open-hello",
+      "text": "Hello there.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "greet-open-hello",
+      "text": "Long time no see.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-open-hello",
+      "text": "Well, look who's here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-open-hello",
+      "text": "How have you been?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-open-hello",
+      "text": "What's new?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "greet-open-hello",
+      "text": "How are things?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "greet-open-hello",
+      "text": "How's everything?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "Fine, thanks.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "Good, thanks.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "I'm doing well.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "I'm doing fine.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "I'm doing good.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "Not too bad.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "Can't complain.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "I can't complain.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "Doing well.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "Doing fine.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "I'm all right.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "Very well, thank you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "Fine, how are you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "Good, how are you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "I'm good, how are you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "I'm fine, how are you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "Pretty good, how are you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "Not bad, how are you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "Fine. And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "Good. And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "I'm fine. And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "greet-answer-fine",
+      "text": "And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "Still at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "Are you still at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "Are you still working at {employer}?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "Are you still working for {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "You still at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "You still working at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "Do you still work at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "Do you still work for {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "How's work?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "How is work?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "How's the job?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "How's work going?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "Are you still with {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "Are you still working there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "You still there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "You still working there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "Do you still work there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "Still working at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "Still working there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "Still there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "Are you still working for them?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "text": "Still with {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-raise-tell",
+      "text": "I'm still at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-raise-tell",
+      "text": "I'm still working at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-raise-tell",
+      "text": "I'm still with {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-raise-tell",
+      "text": "I still work at {employer}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "own-work-raise-tell",
+      "text": "I still work for {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-raise-tell",
+      "text": "I'm working at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-raise-tell",
+      "text": "I'm at {employer} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-raise-tell",
+      "text": "I'm working for {employer}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "own-work-answer-plain",
+      "text": "Yes, still at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-plain",
+      "text": "Yes, I'm still at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-plain",
+      "text": "Yes, I'm still there.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-plain",
+      "text": "Yeah, I'm still there.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-plain",
+      "text": "Still there.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "own-work-answer-plain",
+      "text": "Yes, still there.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-plain",
+      "text": "I still work there.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-plain",
+      "text": "Yes, I still work there.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-plain",
+      "text": "Still at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-since",
+      "text": "I've been there since {since}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-since",
+      "text": "I've been there {years} years.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "own-work-answer-since",
+      "text": "I've been there for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-since",
+      "text": "I have been there since {since}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-since",
+      "text": "I've worked there since {since}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-since",
+      "text": "I've been with them since {since}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-since",
+      "text": "I've been with {employer} since {since}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "own-work-answer-since",
+      "text": "I've worked there for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-since",
+      "text": "{years} years now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-since",
+      "text": "Going on {years} years.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "own-work-answer-since",
+      "text": "About {years} years now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-turn",
+      "text": "And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-turn",
+      "text": "How about yourself?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-turn",
+      "text": "Still there. And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-turn",
+      "text": "Yes. And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-turn",
+      "text": "Where are you working?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-turn",
+      "text": "Where do you work?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-turn",
+      "text": "What are you doing these days?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-brief",
+      "text": "Same as ever.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-brief",
+      "text": "Same old thing.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-brief",
+      "text": "Same as always.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-brief",
+      "text": "Nothing much has changed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-brief",
+      "text": "Nothing's changed.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "own-work-answer-brief",
+      "text": "Still the same.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-brief",
+      "text": "Same old, same old.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-brief",
+      "text": "Busy.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-brief",
+      "text": "It's been busy.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-brief",
+      "text": "Keeping busy.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-answer-brief",
+      "text": "Can't complain.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "own-work-answer-brief",
+      "text": "It keeps me busy.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-lie-left",
+      "text": "No, I'm not at {employer} anymore.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-lie-left",
+      "text": "No, I left {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-lie-left",
+      "text": "I don't work there anymore.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "own-work-lie-left",
+      "text": "No, I don't work there anymore.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-lie-left",
+      "text": "No, not anymore.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-lie-left",
+      "text": "I'm not there anymore.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-lie-elsewhere",
+      "text": "No, I'm at {claimed} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-lie-elsewhere",
+      "text": "I'm at {claimed} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-lie-elsewhere",
+      "text": "I work at {claimed} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-lie-elsewhere",
+      "text": "I'm with {claimed} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-lie-elsewhere",
+      "text": "I'm working at {claimed} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-lie-elsewhere",
+      "text": "I went to work at {claimed}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "own-work-lie-elsewhere",
+      "text": "I work for {claimed} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-ask-where",
+      "text": "Where are you working these days?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-ask-where",
+      "text": "Where are you working now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-ask-where",
+      "text": "Where are you working?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-ask-where",
+      "text": "Where do you work?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-ask-where",
+      "text": "Where do you work now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-ask-where",
+      "text": "What do you do for a living?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-ask-where",
+      "text": "What are you doing these days?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-ask-where",
+      "text": "What kind of work do you do?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-ask-where",
+      "text": "Are you working?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-ask-where",
+      "text": "Are you working now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-answer-plain",
+      "text": "I'm working at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-answer-plain",
+      "text": "I'm working for {employer}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "own-work-new-answer-since",
+      "text": "At {employer}, since {since}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-answer-since",
+      "text": "I've worked at {employer} since {since}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-answer-since",
+      "text": "I've been with {employer} since {since}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "own-work-new-answer-since",
+      "text": "I've worked for {employer} since {since}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-answer-since",
+      "text": "At {employer}. Since {since}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-answer-since",
+      "text": "Since {since}, at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-answer-since",
+      "text": "I've been at {employer} for {years} years.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "own-work-new-lie-none",
+      "text": "I'm not working right now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-lie-none",
+      "text": "I'm not working.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-lie-none",
+      "text": "I'm not working now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-lie-none",
+      "text": "I'm between jobs.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-lie-none",
+      "text": "I'm looking for work.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-lie-none",
+      "text": "I'm out of work.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-lie-none",
+      "text": "I'm unemployed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-lie-none",
+      "text": "I don't have a job right now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-lie-none",
+      "text": "Nothing right now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-lie-none",
+      "text": "I'm not doing anything right now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-lie-none",
+      "text": "I'm retired.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-lie-none",
+      "text": "I'm looking for a job.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "Are you still working?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "Are you working?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "Are you working now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "Where are you working now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "Where are you working these days?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "What are you doing these days?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "What do you do now?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "Where do you work now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "How's work?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "How's the job?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "other-work-reply-at",
+      "text": "I'm working at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "other-work-reply-at",
+      "text": "I'm working for {employer}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "other-work-reply-none",
+      "text": "I'm not working right now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "other-work-reply-none",
+      "text": "I'm not working.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "other-work-reply-none",
+      "text": "Not at the moment.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "other-work-reply-none",
+      "text": "I'm looking for work.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "other-work-reply-none",
+      "text": "I'm between jobs.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "other-work-reply-none",
+      "text": "No, not right now.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "other-work-answer-tenure",
+      "text": "How long have you worked there?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "other-work-answer-tenure",
+      "text": "How long have you been with them?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-tenure-raise-ask",
+      "text": "How long have you worked there?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "their-tenure-raise-ask",
+      "text": "How long have you been with them?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "tenure-reply-reply-since",
+      "text": "Since about {since}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "tenure-reply-reply-since",
+      "text": "I've been there since {since}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "tenure-reply-reply-since",
+      "text": "I've been there {years} years.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "tenure-reply-reply-since",
+      "text": "I've been there for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "tenure-reply-answer-turn",
+      "text": "That's a while.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "tenure-reply-answer-turn",
+      "text": "That's a long time!",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "tenure-reply-answer-turn",
+      "text": "That's quite a while.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "Are you still living in {place}?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "Are you still in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "You still in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "Do you still live in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "You still living in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "Are you still living there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "Do you still live there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "How's {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "How do you like {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "How do you like living in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "Still in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "Still living in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "You still live there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-ask-still-in",
+      "text": "Still living there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-plain",
+      "text": "Yes, still in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-plain",
+      "text": "Yes, I'm still in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-plain",
+      "text": "Yes, I still live there.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-plain",
+      "text": "I still live there.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-plain",
+      "text": "I still live in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-plain",
+      "text": "Still in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-years",
+      "text": "Yes, {years} years now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-years",
+      "text": "{years} years now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-years",
+      "text": "I've been there {years} years.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "home-answer-years",
+      "text": "I've lived there {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-years",
+      "text": "I've lived there for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-years",
+      "text": "I've lived here {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-years",
+      "text": "I've lived here for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-years",
+      "text": "Going on {years} years.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "home-answer-years",
+      "text": "Almost {years} years now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-years",
+      "text": "About {years} years now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-always",
+      "text": "My whole life.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "home-answer-always",
+      "text": "I've lived here all my life.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-always",
+      "text": "I've been here all my life.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-always",
+      "text": "I've lived there all my life.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-always",
+      "text": "I was born here.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-always",
+      "text": "I was born and raised here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-always",
+      "text": "Born and raised.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-turn",
+      "text": "I am. You too?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-turn",
+      "text": "You too?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "home-answer-turn",
+      "text": "And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-brief",
+      "text": "Still here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-answer-brief",
+      "text": "Still there.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "home-answer-brief",
+      "text": "Same place.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-moved",
+      "text": "No, I moved away from {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-moved",
+      "text": "No, I moved.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-moved",
+      "text": "I moved.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-moved",
+      "text": "I moved away.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-moved",
+      "text": "We moved.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-moved",
+      "text": "I don't live there anymore.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-moved",
+      "text": "No, I moved away.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-moved",
+      "text": "I moved out.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-moved",
+      "text": "We moved away.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-moved",
+      "text": "I moved out of {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-moved",
+      "text": "We left {place}.",
+      "documents": 7,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-moved",
+      "text": "I don't live there now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-elsewhere",
+      "text": "No, I live in {claimed} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-elsewhere",
+      "text": "I live in {claimed} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-elsewhere",
+      "text": "I'm in {claimed} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-lie-elsewhere",
+      "text": "I'm living in {claimed} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-ask-where",
+      "text": "Where do you live now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-ask-where",
+      "text": "Where are you living now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-ask-where",
+      "text": "Where are you living?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-ask-where",
+      "text": "Where do you come from?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-ask-where",
+      "text": "Where are you living these days?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-answer-plain",
+      "text": "I'm living in {place}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "home-new-answer-years",
+      "text": "I've lived in {place} for {years} years.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "home-new-answer-years",
+      "text": "I've been in {place} for {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-answer-years",
+      "text": "I've lived in {place} {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-answer-years",
+      "text": "{years} years now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-answer-always",
+      "text": "I was born and raised here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-answer-always",
+      "text": "I've lived here all my life.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-answer-brief",
+      "text": "Right here in {place}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "home-new-lie-none",
+      "text": "Not around here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-lie-none",
+      "text": "Not here.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "home-new-lie-none",
+      "text": "Out of town.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-lie-none",
+      "text": "I'm not from around here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-lie-none",
+      "text": "I'm not from here.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "home-new-lie-none",
+      "text": "Not far.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-lie-none",
+      "text": "Not far from here.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "home-new-lie-none",
+      "text": "A ways from here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-reply-reply-still",
+      "text": "I'm still in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-reply-reply-still",
+      "text": "I still live in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-reply-reply-still",
+      "text": "Still in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-reply-answer-same",
+      "text": "Same with me.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-reply-answer-ack",
+      "text": "Oh, nice.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-ask-remember",
+      "text": "You remember {school}?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-ask-remember",
+      "text": "Do you remember when we were at {school}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-ask-remember",
+      "text": "Remember when we were in school?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-ask-remember",
+      "text": "Do you remember school?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-ask-remember",
+      "text": "Remember high school?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-reply-years",
+      "text": "That's been {years} years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-reply-years",
+      "text": "That was years ago.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-reply-years",
+      "text": "That was a long time ago!",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-answer-plain",
+      "text": "Of course I remember.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-answer-plain",
+      "text": "Yes, I remember.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-answer-plain",
+      "text": "Sure, I remember.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-answer-plain",
+      "text": "Sure I do.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-answer-plain",
+      "text": "How could I forget?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "shared-school-answer-years",
+      "text": "Of course. That was {years} years ago.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-answer-years",
+      "text": "That was years ago.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-answer-turn",
+      "text": "Who could forget?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-ask-remember",
+      "text": "Remember working at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-ask-remember",
+      "text": "Do you remember working at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-ask-remember",
+      "text": "Remember when we worked together?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-ask-remember",
+      "text": "Do you remember when we worked together?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-raise-still",
+      "text": "Are you still at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-raise-still",
+      "text": "Are you still working at {employer}?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-raise-still",
+      "text": "Do you still work at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-raise-still",
+      "text": "You still at {employer}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-raise-still",
+      "text": "Are you still working there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-raise-still",
+      "text": "Do you still work there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-reply-still",
+      "text": "I'm still at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-reply-still",
+      "text": "I still work there.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-reply-still",
+      "text": "I'm still working there.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-reply-still",
+      "text": "Still there.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "shared-work-reply-left",
+      "text": "I'm not there anymore.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-reply-left",
+      "text": "I don't work there anymore.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "shared-work-reply-left",
+      "text": "No, I left.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-answer-own",
+      "text": "I'm still at {my_employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-answer-own",
+      "text": "I'm at {my_employer} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-answer-own",
+      "text": "I work at {my_employer} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-answer-own",
+      "text": "I'm with {my_employer} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "Have you seen {name}?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "Have you seen {name} lately?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "Have you heard from {name}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "Have you talked to {name} lately?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "How's {name}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "How's {name} doing?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "How is {name} doing?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "Do you ever see {name}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "Do you still see {name}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "What's {name} up to?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "Have you seen {name} recently?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "Have you heard from {name} lately?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "Have you seen {name} around?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "How's {name} been?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "Seen {first} lately?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "Have you seen {first} lately?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "Have you seen {first}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "How's {first}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "How's {first} doing?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "mutual-raise-seen",
+      "text": "Have you heard from {first}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "I saw {name} {when}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "I just saw {name}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "I saw {name} the other day.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "I saw {name} last week.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "I talked to {name} the other day.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "I talked to {name} last week.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "I ran into {name} the other day.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "I just talked to {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "I saw {name} yesterday.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "Yes, I saw {name} {when}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "Saw {name} {when}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "I saw {name} {when}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "I talked to {name} {when}.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "I ran into {name} {when}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-saw",
+      "text": "I just saw {name} {when}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "I haven't seen {name} lately.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "I haven't seen {name} in a while.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "I haven't seen {name} in a long time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "I haven't talked to {name} in a while.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "I haven't heard from {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "I haven't heard from {name} in a while.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "I haven't seen him.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "I haven't seen her.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "I haven't seen them.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "Not lately.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "Not in a while.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "Not recently.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "No, not lately.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "No, not in a while.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-reply-not",
+      "text": "I haven't seen {name} in years.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-answer-mine-saw",
+      "text": "I saw {name} {my_when}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "mutual-answer-mine-saw",
+      "text": "I saw {name} the other day.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "mutual-answer-mine-saw",
+      "text": "I just saw {name}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "mutual-answer-mine-saw",
+      "text": "I saw {name} last week.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-answer-mine-saw",
+      "text": "I saw {name} yesterday.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-answer-mine-saw",
+      "text": "I saw {name} recently.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-answer-mine-saw",
+      "text": "I saw {name} {my_when}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "mutual-answer-mine-saw",
+      "text": "I talked to {name} {my_when}.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "mutual-answer-mine-saw",
+      "text": "I ran into {name} {my_when}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-answer-mine-not",
+      "text": "I haven't seen {name} in a while either.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "mutual-answer-mine-not",
+      "text": "I haven't seen {name} either.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-raise-met",
+      "text": "Have you met {relation}, {name}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-raise-met",
+      "text": "Have you met {relation}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-raise-met",
+      "text": "Have you met {name}?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "kin-raise-met",
+      "text": "Did you ever meet {relation}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-raise-met",
+      "text": "You've met {relation}, haven't you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-raise-met",
+      "text": "This is {relation}, {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-raise-met",
+      "text": "I want you to meet {relation}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "kin-raise-met",
+      "text": "Do you know {relation}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-raise-met",
+      "text": "Have you ever met {relation}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-raise-met",
+      "text": "You know {relation}, {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-reply-not",
+      "text": "No, I haven't met {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-reply-not",
+      "text": "I haven't met {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-reply-not",
+      "text": "I don't think I have.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-is",
+      "text": "{name}'s {relation}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-is",
+      "text": "That's {relation}, {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-is",
+      "text": "{name}? That's {relation}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-is",
+      "text": "{name} is my sister.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-is",
+      "text": "{name} is my brother.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-is",
+      "text": "{name} is my son.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-is",
+      "text": "{name} is my daughter.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-is",
+      "text": "{name} is my mother.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-is",
+      "text": "{name} is my father.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-lives",
+      "text": "{name} lives with me.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-lives",
+      "text": "{name} lives with us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-lives",
+      "text": "She lives with me.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-lives",
+      "text": "He lives with me.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-lives",
+      "text": "She lives with us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-lives",
+      "text": "He lives with us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-brief",
+      "text": "You'll meet {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-brief",
+      "text": "You'll like {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-turn",
+      "text": "Maybe one day.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-turn",
+      "text": "Maybe someday.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "kin-answer-turn",
+      "text": "Someday.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-turn",
+      "text": "Maybe sometime.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-turn",
+      "text": "Sometime.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "kin-answer-turn",
+      "text": "Maybe next time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How's your family?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How is your family?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How's the family?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How are your folks?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How are your parents?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How are the kids?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How are your kids?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How's your mother?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How's your mom?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How's your father?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How's your dad?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How's your wife?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How's your husband?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How's {relation}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How is {relation}?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How is {relation} doing?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How's {relation} doing?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How's {name}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How's {name} doing?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How are your children?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How's your sister?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-ask-how",
+      "text": "How's your brother?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-well",
+      "text": "They're fine.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-well",
+      "text": "They're doing fine.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-well",
+      "text": "They're doing well.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "family-answer-well",
+      "text": "They're good.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "family-answer-well",
+      "text": "Everybody's fine.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-well",
+      "text": "Everyone's fine.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-well",
+      "text": "Everybody's doing well.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-well",
+      "text": "She's fine.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-well",
+      "text": "He's fine.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-well",
+      "text": "She's doing fine.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-well",
+      "text": "He's doing fine.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-well",
+      "text": "She's doing well.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-well",
+      "text": "He's doing well.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "family-answer-well",
+      "text": "She's good.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "family-answer-well",
+      "text": "He's good.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-well",
+      "text": "Doing well.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "family-answer-well",
+      "text": "All fine.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-ill",
+      "text": "She's been sick.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-ill",
+      "text": "He's been sick.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-ill",
+      "text": "She's not doing so well.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-ill",
+      "text": "He's not doing so well.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-ill",
+      "text": "Not so good.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-ill",
+      "text": "Not too well.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-ill",
+      "text": "She's in the hospital.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-ill",
+      "text": "He's in the hospital.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-ill",
+      "text": "She's been ill.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-ill",
+      "text": "He's been ill.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-gone",
+      "text": "She passed away.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-gone",
+      "text": "He died.",
+      "documents": 7,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-gone",
+      "text": "She passed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-gone",
+      "text": "He passed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-gone",
+      "text": "My mother passed away.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-gone",
+      "text": "My mother died.",
+      "documents": 11,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-thanks",
+      "text": "Thanks for asking!",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-answer-thanks",
+      "text": "Nice of you to ask.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-ask-how",
+      "text": "How's school?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-ask-how",
+      "text": "How is school?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-ask-how",
+      "text": "How's school going?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-ask-how",
+      "text": "How are your classes?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-ask-how",
+      "text": "How do you like school?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-ask-how",
+      "text": "Where do you go to school?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "school-ask-how",
+      "text": "Where did you go to school?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "school-ask-how",
+      "text": "What school do you go to?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-ask-how",
+      "text": "Are you still in school?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-ask-how",
+      "text": "When do you graduate?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-answer-at",
+      "text": "I'm at {school}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "school-answer-at",
+      "text": "I'm still in school.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-answer-at",
+      "text": "I'm in school.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-answer-fine",
+      "text": "It's going well.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-answer-fine",
+      "text": "It's going okay.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-answer-done",
+      "text": "I'm done with school.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-answer-done",
+      "text": "I finished school.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "school-answer-done",
+      "text": "I'm out of school.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-answer-done",
+      "text": "I graduated last year.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-answer-done",
+      "text": "I just graduated.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-raise-heard",
+      "text": "Have you heard about {topic}?",
+      "documents": 4,
+      "modern": 0
+    },
+    {
+      "move": "news-raise-heard",
+      "text": "Have you heard?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "news-raise-heard",
+      "text": "Did you hear what happened?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-raise-heard",
+      "text": "Did you hear the news?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-raise-heard",
+      "text": "Have you heard the news?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-raise-heard",
+      "text": "Did you see the news?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-raise-heard",
+      "text": "Did you read about {topic}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-raise-heard",
+      "text": "Did you see the paper?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-raise-heard",
+      "text": "Guess what happened.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "news-answer-yes",
+      "text": "I heard.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-answer-yes",
+      "text": "I heard about that.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "news-answer-yes",
+      "text": "I heard about it.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "news-answer-yes",
+      "text": "Yes, I heard.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-answer-yes",
+      "text": "Yeah, I heard.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-answer-yes",
+      "text": "I read about it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-answer-yes",
+      "text": "I read about that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-answer-yes",
+      "text": "I saw it on the news.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-answer-yes",
+      "text": "I saw it in the paper.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-answer-no",
+      "text": "No, what happened?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-answer-no",
+      "text": "No. What happened?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "news-answer-no",
+      "text": "What about it?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "news-ask-think",
+      "text": "What do you think about it?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "news-answer-opinion",
+      "text": "I don't know what to think.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "news-answer-opinion",
+      "text": "I think it's a good thing.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "news-answer-opinion",
+      "text": "I think it's a mistake.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "news-answer-opinion",
+      "text": "I think it's terrible.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Bye now.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "See you.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "See you later.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "See you around.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "See you soon.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Take care of yourself.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Have a good night.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Good night.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "I'll see you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "I'll see you later.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "I'll talk to you later.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Talk to you later.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Talk to you soon.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Good talking to you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Nice talking to you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "It was good to see you.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "It was nice to see you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "It was good talking to you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "It was nice talking to you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "I have to go.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "I'd better go.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "I better go.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "I should go.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "I've got to run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "I gotta go.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Say hello to {name}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Say hi to {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Tell {name} I said hello.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Tell {name} I said hi.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Give my best to {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Say hello to your family.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Say hi to your family.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Give my best to your family.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Tell your family I said hello.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Tell your mother I said hello.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "See you next time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Until next time.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Come see us.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Come back soon.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Don't be a stranger.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Stay in touch.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Keep in touch.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Let's keep in touch.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "Let's get together sometime.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "We should get together.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-leave-bye",
+      "text": "We'll talk.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "farewell-answer-bye",
+      "text": "You too!",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "farewell-answer-bye",
+      "text": "Same to you.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "farewell-answer-bye",
+      "text": "See you.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "farewell-answer-bye",
+      "text": "Okay, bye.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "lie-doubt-question",
+      "text": "Since when?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "lie-doubt-question",
+      "text": "That's not what I heard.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "lie-doubt-question",
+      "text": "That's not what I heard!",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "lie-doubt-question",
+      "text": "I heard different.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "lie-doubt-question",
+      "text": "I thought you were still there.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "lie-doubt-question",
+      "text": "I thought you were still working there.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-raise-still-in",
+      "text": "Are you still in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-raise-still-in",
+      "text": "Are you still living in {place}?",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "home-raise-still-in",
+      "text": "Do you still live in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-raise-still-in",
+      "text": "Still in {place}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-raise-still-in",
+      "text": "Are you still living there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-raise-still-in",
+      "text": "Do you still live there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-raise-remember",
+      "text": "You remember {school}?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-raise-remember",
+      "text": "Remember when we were in school?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-raise-remember",
+      "text": "Do you remember school?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-raise-remember",
+      "text": "Remember high school?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-school-raise-remember",
+      "text": "Do you remember when we were in school?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-answer-turn",
+      "text": "{employer}, sure.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-answer-turn",
+      "text": "Sure, I remember.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "shared-work-answer-turn",
+      "text": "Of course I remember.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "Are you still working?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "Are you working?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "Are you working now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "Are you still working there?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "What are you doing these days?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "What do you do now?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "Where do you work now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "their-work-raise-ask",
+      "text": "Where are you working now?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "other-work-answer-ack-none",
+      "text": "Sorry to hear that.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "other-work-answer-own",
+      "text": "I'm still at {my_employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "other-work-answer-own",
+      "text": "I'm still with {my_employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "other-work-answer-own",
+      "text": "I'm still working at {my_employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "tenure-reply-answer-ack",
+      "text": "Since {since}, right.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "tenure-reply-answer-own",
+      "text": "I've been with {my_employer} since {my_since}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "tenure-reply-answer-own",
+      "text": "I've worked at {my_employer} since {my_since}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "tenure-reply-answer-own",
+      "text": "I've worked for {my_employer} since {my_since}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "tenure-reply-answer-own",
+      "text": "I've been at {my_employer} for {years} years.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "heard-work-answer-since",
+      "text": "Since about {since}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "heard-work-answer-since",
+      "text": "I've been there since {since}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "heard-work-answer-since",
+      "text": "I've been there {years} years.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "heard-work-answer-turn",
+      "text": "Yes. And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "heard-work-answer-turn",
+      "text": "And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "heard-work-answer-turn",
+      "text": "Where do you work?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-reply-answer-own",
+      "text": "I'm still in {my_place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-reply-answer-own",
+      "text": "I still live in {my_place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-reply-answer-own",
+      "text": "I'm in {my_place} now.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-answer-turn",
+      "text": "At {employer}. And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-answer-turn",
+      "text": "I work at {employer}. And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-answer-turn",
+      "text": "And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-answer-turn",
+      "text": "Where do you work?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "own-work-new-lie-elsewhere",
+      "text": "I'm working at {claimed}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-answer-turn",
+      "text": "In {place}. And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-answer-turn",
+      "text": "I live in {place}. And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-new-answer-turn",
+      "text": "And you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-saw",
+      "text": "I saw {name} {my_when}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "asked-mutual-answer-saw",
+      "text": "I talked to {name} {my_when}.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-saw",
+      "text": "I ran into {name} {my_when}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-saw",
+      "text": "I just saw {name} {my_when}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-saw",
+      "text": "Yes, I saw {name} {my_when}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-not",
+      "text": "Not lately.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-not",
+      "text": "Not in a while.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-not",
+      "text": "Not recently.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-not",
+      "text": "No, not lately.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-not",
+      "text": "No, not in a while.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-not",
+      "text": "I haven't seen {name} in a while.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-not",
+      "text": "I haven't seen {name} lately.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-mutual-answer-turn",
+      "text": "Have you seen {name}?",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "asked-kin-answer-no",
+      "text": "No, I haven't met {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-kin-answer-no",
+      "text": "I haven't met {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "asked-kin-answer-not-yet",
+      "text": "Not yet, no.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "asked-kin-answer-name",
+      "text": "{name}? No.",
+      "documents": 0,
+      "modern": 0
+    }
+  ]
+}

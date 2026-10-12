@@ -1,0 +1,211 @@
+{
+  "register": "scene-words",
+  "description": "Scene narration in the second person: where you are, who is there and what led here. Every part is a whole sentence said in public-domain federal transcripts, counted also against the WPA life histories. The facts are slots from the setting, the people present and the moment's cause.",
+  "slots": {
+    "place": "A town, from the household or setting record.",
+    "host": "The host's name with its possessive, from the household record.",
+    "employer": "An employer, from the setting's record.",
+    "school": "A school, from the setting's record.",
+    "who": "The people present, by name, from the scene's binding.",
+    "other": "A person, by name, from the tie record.",
+    "who_many": "The people present, by name, from the scene's binding, joined with \"and\"."
+  },
+  "maxWords": 10,
+  "minDocuments": 2,
+  "groups": [
+    {
+      "move": "setting-home-home",
+      "subject": "setting",
+      "role": "home",
+      "choice": "home",
+      "candidates": [
+        "You're at home.",
+        "You're home.",
+        "You're at home in {place}.",
+        "You are at home.",
+        "You are home.",
+        "You're back home.",
+        "You're at your house.",
+        "You're at the house."
+      ]
+    },
+    {
+      "move": "setting-other-home-their-home",
+      "subject": "setting",
+      "role": "other-home",
+      "choice": "their-home",
+      "candidates": [
+        "You're at {host} house.",
+        "You're at {host} home.",
+        "You're at {host} place.",
+        "You're over at {host} house.",
+        "You're at {host}."
+      ]
+    },
+    {
+      "move": "setting-workplace-work",
+      "subject": "setting",
+      "role": "workplace",
+      "choice": "work",
+      "candidates": [
+        "You're at work.",
+        "You're at {employer}.",
+        "You are at work.",
+        "You're at the office.",
+        "You're at the plant.",
+        "You're on the job.",
+        "You're at {employer} today."
+      ]
+    },
+    {
+      "move": "setting-school-school",
+      "subject": "setting",
+      "role": "school",
+      "choice": "school",
+      "candidates": [
+        "You're at school.",
+        "You're at {school}.",
+        "You are in school.",
+        "You're in class."
+      ]
+    },
+    {
+      "move": "setting-public-out",
+      "subject": "setting",
+      "role": "public",
+      "choice": "out",
+      "candidates": [
+        "You're out in {place}.",
+        "You're in town.",
+        "You're downtown.",
+        "You're in {place}.",
+        "You're out.",
+        "You're out and about."
+      ]
+    },
+    {
+      "move": "setting-phone-phone",
+      "subject": "setting",
+      "role": "phone",
+      "choice": "phone",
+      "candidates": [
+        "The phone rings.",
+        "Your phone rings.",
+        "The phone rang.",
+        "Your phone rang."
+      ]
+    },
+    {
+      "move": "setting-letter-letter",
+      "subject": "setting",
+      "role": "letter",
+      "choice": "letter",
+      "candidates": [
+        "A letter came.",
+        "A letter arrived.",
+        "You got a letter.",
+        "You have a letter.",
+        "You received a letter.",
+        "You get a letter.",
+        "There's a letter for you.",
+        "You have mail.",
+        "You've got mail.",
+        "The mail came."
+      ]
+    },
+    {
+      "move": "present-one-one",
+      "subject": "present",
+      "role": "one",
+      "choice": "one",
+      "candidates": [
+        "{who} is here.",
+        "{who} is there.",
+        "{who} is with you.",
+        "{who} was there.",
+        "{who} was here.",
+        "{who} is there too."
+      ]
+    },
+    {
+      "move": "present-many-many",
+      "subject": "present",
+      "role": "many",
+      "choice": "many",
+      "candidates": [
+        "{who_many} are here.",
+        "{who_many} are there.",
+        "{who_many} are with you.",
+        "{who_many} were there.",
+        "{who_many} were here."
+      ]
+    },
+    {
+      "move": "cause-tie:contact-seeing",
+      "subject": "cause",
+      "role": "tie:contact",
+      "choice": "seeing",
+      "candidates": [
+        "You and {other} have been seeing each other.",
+        "You've been seeing {other}.",
+        "You've been seeing a lot of {other}.",
+        "You and {other} have been spending time together.",
+        "You see {other} a lot.",
+        "You've seen a lot of {other}.",
+        "You and {other} have gotten close.",
+        "You and {other} are friends."
+      ]
+    },
+    {
+      "move": "cause-money:job-ended-lost",
+      "subject": "cause",
+      "role": "money:job-ended",
+      "choice": "lost",
+      "candidates": [
+        "You lost your job.",
+        "You lost your job at {employer}.",
+        "You were laid off.",
+        "You got laid off.",
+        "You've lost your job.",
+        "You were let go.",
+        "You've been laid off.",
+        "You're out of work.",
+        "You lost your job there."
+      ]
+    },
+    {
+      "move": "cause-money:job-started-started",
+      "subject": "cause",
+      "role": "money:job-started",
+      "choice": "started",
+      "candidates": [
+        "You've started at {employer}.",
+        "You started at {employer}.",
+        "You got a job at {employer}.",
+        "You started a new job.",
+        "You got a new job.",
+        "You have a new job.",
+        "You got a job.",
+        "You got the job.",
+        "You went to work for {employer}.",
+        "You went to work at {employer}.",
+        "You're working at {employer} now."
+      ]
+    },
+    {
+      "move": "cause-home:moved-moved",
+      "subject": "cause",
+      "role": "home:moved",
+      "choice": "moved",
+      "candidates": [
+        "You've moved to {place}.",
+        "You moved to {place}.",
+        "You just moved here.",
+        "You just moved to {place}.",
+        "You moved here.",
+        "You've moved.",
+        "You moved."
+      ]
+    }
+  ]
+}

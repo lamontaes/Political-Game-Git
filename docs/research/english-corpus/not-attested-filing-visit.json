@@ -1,0 +1,748 @@
+{
+  "register": "filing-visit",
+  "read": {
+    "Federal Election Commission (fec.gov)": 253,
+    "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "U.S. Election Assistance Commission (eac.gov)": 65,
+    "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "crec": 445,
+    "hearings": 1617,
+    "house": 115,
+    "nasa": 317,
+    "wpa": 38
+  },
+  "notAttested": [
+    {
+      "move": "clerk-greet-which",
+      "text": "Which office are you filing for?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-greet-which",
+      "text": "What office are you filing for?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-greet-which",
+      "text": "What office are you running for?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-greet-which",
+      "text": "What are you running for?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-greet-which",
+      "text": "What office are you seeking?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-greet-which",
+      "text": "Which office are you running for?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-greet-which",
+      "text": "How may I help you?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "player-pick-office",
+      "text": "I'm running for {office}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "player-pick-office",
+      "text": "I want to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "player-pick-office",
+      "text": "I'd like to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "player-pick-office",
+      "text": "I'm filing for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "player-pick-office",
+      "text": "I want to file for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "The filing deadline is {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "The deadline to file is {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "Filings close on {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "The filing period closes on {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "The filing period ends on {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "You have until {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "You have until {deadline} to file.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "The deadline for filing is {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "Filing closes on {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "You must file by {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "You have to file by {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "Qualifying ends at noon on {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "Qualifying ends on {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "The qualifying period ends on {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "The deadline to qualify is {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-deadline",
+      "text": "You have until noon on {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-fee",
+      "text": "The fee is {fee}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-fee",
+      "text": "The filing fee is {fee}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-fee",
+      "text": "There is a {fee} filing fee.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-fee",
+      "text": "There's a {fee} filing fee.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-fee",
+      "text": "It costs {fee} to file.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-fee",
+      "text": "The filing fee is {fee} for that office.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-fee",
+      "text": "The qualifying fee is {fee}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-fee",
+      "text": "The fee is {fee} dollars.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-signatures",
+      "text": "You need {signatures} signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-signatures",
+      "text": "You'll need {signatures} signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-signatures",
+      "text": "You need {signatures} valid signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-signatures",
+      "text": "You have to get {signatures} signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-signatures",
+      "text": "You have to have {signatures} signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-signatures",
+      "text": "You need to get {signatures} signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-signatures",
+      "text": "You must have {signatures} signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-signatures",
+      "text": "That requires {signatures} signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-signatures",
+      "text": "It takes {signatures} signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-either",
+      "text": "You can pay the fee or file a petition.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-either",
+      "text": "You can either pay the fee or collect signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-either",
+      "text": "You can pay the filing fee or file a petition.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-either",
+      "text": "You can pay the fee or gather signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-either",
+      "text": "Or you can file a petition instead.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-either",
+      "text": "Or you can collect signatures instead.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-either",
+      "text": "Or you can file signatures instead.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-either",
+      "text": "You can pay the qualifying fee or file petitions.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-either",
+      "text": "Or you can qualify by petition.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-terms-either",
+      "text": "You can qualify by petition instead.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-late",
+      "text": "The deadline has passed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-late",
+      "text": "The filing deadline has passed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-late",
+      "text": "The filing period is closed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-late",
+      "text": "The filing period has closed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-late",
+      "text": "Filing closed on {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-late",
+      "text": "The deadline was {deadline}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-late",
+      "text": "You missed the deadline.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-late",
+      "text": "It's too late to file.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-filed",
+      "text": "You've already filed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-filed",
+      "text": "You already filed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-filed",
+      "text": "You have already filed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-filed",
+      "text": "You're already on the ballot.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-age",
+      "text": "You have to be {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-age",
+      "text": "You must be at least {age} years old.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-age",
+      "text": "You have to be at least {age} years old.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-age",
+      "text": "You must be {age} years old.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-age",
+      "text": "You need to be at least {age} years old.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-age",
+      "text": "You have to be {age} years old.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-age",
+      "text": "You must be at least {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-age",
+      "text": "You must be {age} by election day.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-age",
+      "text": "You have to be {age} years old by election day.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-live",
+      "text": "You have to live in the district.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-live",
+      "text": "You must live in the district.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-live",
+      "text": "You have to live in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-live",
+      "text": "You must reside in the district.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-live",
+      "text": "You have to be a resident.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-live",
+      "text": "You must be a resident.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-live",
+      "text": "You have to live in the city.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-live",
+      "text": "You have to live in the county.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-live",
+      "text": "You must live in the city.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-register",
+      "text": "You have to be registered to vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-register",
+      "text": "You must be a registered voter.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-register",
+      "text": "You have to be a registered voter.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-register",
+      "text": "You need to be registered to vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-register",
+      "text": "You need to be a registered voter.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-register",
+      "text": "You must be registered to vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-register",
+      "text": "You have to register to vote first.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-register",
+      "text": "You'll need to register first.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-register",
+      "text": "You must be a registered voter in the county.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-register",
+      "text": "You have to be a registered voter in the county.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-register",
+      "text": "You must be registered to vote in the county.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-short-fee",
+      "text": "You don't have enough.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-short-fee",
+      "text": "You're short.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-rule-short-fee",
+      "text": "The fee is {fee}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-close-next",
+      "text": "Please sign here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-close-next",
+      "text": "Sign right here.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-close-next",
+      "text": "Fill this out.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-close-next",
+      "text": "Fill out this form.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-close-next",
+      "text": "Here's the form.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-close-next",
+      "text": "Here are the forms.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-close-next",
+      "text": "Here's your receipt.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-close-next",
+      "text": "You're all set.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-close-next",
+      "text": "Let me know if you have any questions.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-close-next",
+      "text": "Here's the paperwork.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-close-next",
+      "text": "Fill this out and bring it back.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-close-next",
+      "text": "Sign and date it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "clerk-close-next",
+      "text": "You can submit the papers and the fee by hand or by mail.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "player-pay-pay",
+      "text": "I'll pay the fee.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "player-pay-pay",
+      "text": "I'll pay the filing fee.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "player-pay-pay",
+      "text": "I'd like to pay the fee.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "player-pay-pay",
+      "text": "I want to pay the fee.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "player-pay-pay",
+      "text": "I'll pay it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "player-gather-gather",
+      "text": "I'll get the signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "player-gather-gather",
+      "text": "I'll gather the signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "player-gather-gather",
+      "text": "I'll collect the signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "player-gather-gather",
+      "text": "I'll go get the signatures.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "player-gather-gather",
+      "text": "I'll file a petition.",
+      "documents": 0,
+      "modern": 0
+    }
+  ]
+}

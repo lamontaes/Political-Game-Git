@@ -1,0 +1,622 @@
+{
+  "register": "journal",
+  "read": {
+    "Federal Election Commission (fec.gov)": 253,
+    "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "U.S. Election Assistance Commission (eac.gov)": 65,
+    "USAGov (usa.gov), U.S. General Services Administration": 16,
+    "crec": 445,
+    "hearings": 1617,
+    "house": 115,
+    "nasa": 317,
+    "wpa": 38
+  },
+  "notAttested": [
+    {
+      "move": "school-line-started",
+      "text": "I started at {school}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-line-started",
+      "text": "I went to school at {school}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "school-line-started",
+      "text": "I started school at {school}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "school-line-started",
+      "text": "I enrolled at {school}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-started",
+      "text": "I started working at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-started",
+      "text": "I went to work at {employer}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "work-line-started",
+      "text": "I went to work for {employer}.",
+      "documents": 5,
+      "modern": 0
+    },
+    {
+      "move": "work-line-started",
+      "text": "I got a job at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-started",
+      "text": "I got a job with {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-started",
+      "text": "I started at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-started",
+      "text": "I started work at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-started",
+      "text": "I got a job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-started",
+      "text": "I took a job at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-started",
+      "text": "I took a job with {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-started",
+      "text": "I was hired by {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-started",
+      "text": "I was hired at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-started",
+      "text": "I started working for {employer}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "work-line-lost",
+      "text": "I lost my job at {employer}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-lost",
+      "text": "I was laid off.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-lost",
+      "text": "I got laid off.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "work-line-lost",
+      "text": "I was let go.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-lost",
+      "text": "I got fired.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-lost",
+      "text": "I was fired.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-lost",
+      "text": "I lost my job there.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-lost",
+      "text": "They laid me off.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-line-lost",
+      "text": "They let me go.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-other-started",
+      "text": "{other} started a new job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-other-started",
+      "text": "{other} got a job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-other-started",
+      "text": "{other} went to work.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "work-other-started",
+      "text": "{relation} got a job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-other-lost",
+      "text": "{other} lost their job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-other-lost",
+      "text": "{relation} lost his job.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-other-lost",
+      "text": "{relation} lost her job.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "work-other-lost",
+      "text": "{relation} was laid off.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-other-lost",
+      "text": "{relation} got laid off.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "work-other-lost",
+      "text": "{other} was laid off.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-line-born",
+      "text": "Then {relation} was born.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-line-born",
+      "text": "We had a baby.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-line-married",
+      "text": "I married {other}.",
+      "documents": 16,
+      "modern": 0
+    },
+    {
+      "move": "family-line-married",
+      "text": "We were married.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "family-line-married",
+      "text": "We were married in {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-line-moved",
+      "text": "Then we moved to {place}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "home-line-moved",
+      "text": "Then I moved to {place}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "home-line-moved",
+      "text": "We moved.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "home-line-moved",
+      "text": "I moved.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "home-line-moved",
+      "text": "I moved back to {place}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "money-line-short",
+      "text": "My pay came up short.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "money-line-short",
+      "text": "They didn't pay me.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "money-line-short",
+      "text": "I didn't get paid.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "money-line-short",
+      "text": "We didn't get paid.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "money-line-raise",
+      "text": "My pay went up to {wage} an hour.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "money-line-raise",
+      "text": "I got a raise.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "money-line-raise",
+      "text": "I was making {wage} an hour.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "money-line-raise",
+      "text": "I made {wage} an hour.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "money-line-raise",
+      "text": "They raised me to {wage} an hour.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "money-line-raise",
+      "text": "I got {wage} an hour.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "contact-line-saw",
+      "text": "I ran into {other}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "contact-line-saw-often",
+      "text": "I saw {other} {times}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "contact-line-saw-often",
+      "text": "I saw {other} a lot.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "contact-line-saw-often",
+      "text": "I saw a lot of {other}.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "contact-line-saw-often",
+      "text": "We saw each other a lot.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "contact-line-saw-often",
+      "text": "I saw {other} often.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "death-line-died",
+      "text": "Then {relation} died.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "death-line-died",
+      "text": "{relation} died in {place}.",
+      "documents": 2,
+      "modern": 0
+    },
+    {
+      "move": "death-line-died",
+      "text": "{relation} passed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "health-line-ill",
+      "text": "I fell seriously ill.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "health-line-ill",
+      "text": "I got very sick.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "health-line-ill",
+      "text": "I became ill.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "health-line-ill",
+      "text": "I was very sick.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "health-line-ill",
+      "text": "I was in the hospital.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "health-line-ill",
+      "text": "I went into the hospital.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "health-line-ill",
+      "text": "I had surgery.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "health-other-ill",
+      "text": "{other} fell seriously ill.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "health-other-ill",
+      "text": "{relation} got sick.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "health-other-ill",
+      "text": "{relation} got very sick.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "health-other-ill",
+      "text": "{relation} was very sick.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "health-other-ill",
+      "text": "{relation} was in the hospital.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "health-other-ill",
+      "text": "{relation} went into the hospital.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "health-other-ill",
+      "text": "{relation} became ill.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "office-line-filed",
+      "text": "I filed to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "office-line-filed",
+      "text": "I decided to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "office-line-filed",
+      "text": "I filed for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "office-line-filed",
+      "text": "I ran for office.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "office-line-filed",
+      "text": "I decided to run.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "office-line-filed",
+      "text": "I filed.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "office-other-filed",
+      "text": "{other} filed to run for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "office-other-filed",
+      "text": "{other} ran for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "office-other-filed",
+      "text": "{relation} ran for {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "office-other-filed",
+      "text": "{other} decided to run.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "office-line-won",
+      "text": "I won the election.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "office-line-won",
+      "text": "I got elected.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "office-line-won",
+      "text": "I was elected to {office}.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "office-line-lost",
+      "text": "I lost the election.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "office-line-lost",
+      "text": "I didn't win.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "office-line-lost",
+      "text": "I was defeated.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "law-backdrop-minimum-wage",
+      "text": "A new minimum wage took effect.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-backdrop-minimum-wage",
+      "text": "The minimum wage went up.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-backdrop-minimum-wage",
+      "text": "They raised the minimum wage.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "law-backdrop-minimum-wage",
+      "text": "The minimum wage was raised.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "look-back-line-died",
+      "text": "I died in {place}, at {age}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "look-back-line-died",
+      "text": "I've lived in {place} all my life.",
+      "documents": 0,
+      "modern": 0
+    }
+  ]
+}

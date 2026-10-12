@@ -1,0 +1,1232 @@
+{
+  "schema": "english-parts/1",
+  "register": "journal",
+  "description": "The 'My life' journal: a first-person life story that names people by relationship and never invents a feeling. Every part is a whole sentence American speakers said about their own lives in public-domain federal transcripts (NASA and U.S. House oral histories, congressional hearing testimony, the Congressional Record), counted also against the Library of Congress WPA life histories, 1936 to 1940. The facts are slots from the person's own records. No part names a feeling. Each group names the journal row (kindPrefix) and field it fills; a sentence that names one particular relative is left out, since the journal says whichever relative the record names.",
+  "slots": {
+    "school": "A school, from the school record.",
+    "employer": "An employer, from the job record.",
+    "other": "A person, by name, from the records.",
+    "relation": "How the writer is related to someone, with the possessive, from the family record.",
+    "place": "A town, from the household or move record.",
+    "wage": "An hourly wage, from the pay record.",
+    "times": "How many times, counted from contact records.",
+    "office": "An office, from the candidate filing record.",
+    "age": "An age, computed from the birth record."
+  },
+  "maxWords": 10,
+  "mining": {
+    "tool": "scripts/english-corpus/mine-shapes.py",
+    "shapes": "scripts/english-corpus/shapes/journal.json",
+    "read": {
+      "Federal Election Commission (fec.gov)": 253,
+      "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+      "U.S. Election Assistance Commission (eac.gov)": 65,
+      "USAGov (usa.gov), U.S. General Services Administration": 16,
+      "crec": 445,
+      "hearings": 1617,
+      "house": 115,
+      "nasa": 317,
+      "wpa": 38
+    },
+    "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
+    "notAttested": 101
+  },
+  "parts": [
+    {
+      "key": "journal.school-line-started.i-went-to-school",
+      "move": "school-line-started",
+      "kind": "spoken",
+      "text": "I went to {school}.",
+      "uses": [
+        {
+          "move": "school-line-started",
+          "subject": "school",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 94,
+      "bySource": {
+        "crec": 8,
+        "hearings": 18,
+        "house": 21,
+        "nasa": 37,
+        "wpa": 10
+      },
+      "shippable": true,
+      "source": {
+        "document": "FRAUD IN FOCUS: EXPOSING FINANCIAL THREATS TO AMERICAN FAMILIES",
+        "date": "2025-09-18",
+        "granule": "CHRG-119hhrg63431",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg63431/html/CHRG-119hhrg63431.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.school-line-started.i-attended-school",
+      "move": "school-line-started",
+      "kind": "spoken",
+      "text": "I attended {school}.",
+      "uses": [
+        {
+          "move": "school-line-started",
+          "subject": "school",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "hearings": 3,
+        "house": 3,
+        "nasa": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "DREAM DEFERRED: THE URGENT NEED TO PROTECT IMMIGRANT YOUTH",
+        "date": "2024-05-08",
+        "granule": "CHRG-118shrg60168",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60168/html/CHRG-118shrg60168.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.school-line-started.i-graduated-from-school",
+      "move": "school-line-started",
+      "kind": "spoken",
+      "text": "I graduated from {school}.",
+      "uses": [
+        {
+          "move": "school-line-started",
+          "subject": "school",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "hearings": 4,
+        "house": 1,
+        "nasa": 1,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NATIVE AMERICAN EDUCATION: EXAMINING FEDERAL PROGRAMS AT THE U.S. DEPARTMENT OF EDUCATION",
+        "date": "2025-04-02",
+        "granule": "CHRG-119shrg60554",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60554/html/CHRG-119shrg60554.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.school-line-started.then-i-went-to-school",
+      "move": "school-line-started",
+      "kind": "spoken",
+      "text": "Then I went to {school}.",
+      "uses": [
+        {
+          "move": "school-line-started",
+          "subject": "school",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 12,
+      "bySource": {
+        "house": 3,
+        "nasa": 4,
+        "wpa": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House Oral History: Murphy, Ann - Receptionist, Lindy Claiborne Boggs Congressional Women’s Reading Room - 1987–1997",
+        "date": "2023-12-13",
+        "granule": "house-oh-murphy-ann",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/murphy-ann-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.school-line-started.i-went-on-to-school",
+      "move": "school-line-started",
+      "kind": "spoken",
+      "text": "I went on to {school}.",
+      "uses": [
+        {
+          "move": "school-line-started",
+          "subject": "school",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NOMINATIONS OF THE HONORABLE",
+        "date": "2022-03-02",
+        "granule": "CHRG-117shrg50069",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg50069/html/CHRG-117shrg50069.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.school-line-started.i-was-at-school",
+      "move": "school-line-started",
+      "kind": "spoken",
+      "text": "I was at {school}.",
+      "uses": [
+        {
+          "move": "school-line-started",
+          "subject": "school",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 36,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "crec": 1,
+        "hearings": 13,
+        "house": 3,
+        "nasa": 13,
+        "wpa": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.work-line-started.i-went-to-work",
+      "move": "work-line-started",
+      "kind": "spoken",
+      "text": "I went to work.",
+      "uses": [
+        {
+          "move": "work-line-started",
+          "subject": "work",
+          "role": "line",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "work:opening",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-started",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "hearings": 1,
+        "house": 2,
+        "nasa": 3,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House Oral History: Schwartz, Allyson Y. - U.S. Representative of Pennsylvania - 2005–2015",
+        "date": "2017-04-12",
+        "granule": "house-oh-schwartza",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/schwartza-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.work-line-lost.i-lost-my-job",
+      "move": "work-line-lost",
+      "kind": "spoken",
+      "text": "I lost my job.",
+      "uses": [
+        {
+          "move": "work-line-lost",
+          "subject": "work",
+          "role": "line",
+          "choice": "lost",
+          "journal": [
+            {
+              "kindPrefix": "job-ended",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "hearings": 2,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "H.R. 1146,\"Arctic Culture and Coastal Plain Protection Act\"",
+        "date": "2019-03-26",
+        "granule": "CHRG-116hhrg35816",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg35816/html/CHRG-116hhrg35816.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.work-other-started.relation-went-to-work",
+      "move": "work-other-started",
+      "kind": "spoken",
+      "text": "{relation} went to work.",
+      "uses": [
+        {
+          "move": "work-other-started",
+          "subject": "work",
+          "role": "other",
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "job-started",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "house": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House Oral History: Hart, Melissa A. - U.S. Representative of Pennsylvania - 2001–2007",
+        "date": "2019-09-30",
+        "granule": "house-oh-hart",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/hart-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.family-line-born.other-was-born",
+      "move": "family-line-born",
+      "kind": "spoken",
+      "text": "{other} was born.",
+      "uses": [
+        {
+          "move": "family-line-born",
+          "subject": "family",
+          "role": "line",
+          "choice": "born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 25,
+      "bySource": {
+        "crec": 20,
+        "hearings": 1,
+        "nasa": 2,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2025-12-18",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.family-line-born.relation-was-born",
+      "move": "family-line-born",
+      "kind": "spoken",
+      "text": "{relation} was born.",
+      "uses": [
+        {
+          "move": "family-line-born",
+          "subject": "family",
+          "role": "line",
+          "choice": "born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "house": 1,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House Oral History: Johnson, James - House Page - 1959–1961",
+        "date": "2019-10-24",
+        "granule": "house-oh-johnsonj",
+        "url": "https://history.house.gov/Oral-History/Rainey/Rainey-Transcripts/johnsonj-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.family-line-married.i-got-married",
+      "move": "family-line-married",
+      "kind": "spoken",
+      "text": "I got married.",
+      "uses": [
+        {
+          "move": "family-line-married",
+          "subject": "family",
+          "role": "line",
+          "choice": "married",
+          "journal": []
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "hearings": 1,
+        "wpa": 7
+      },
+      "shippable": true,
+      "source": {
+        "document": "THE ASSAULT ON WOMEN'S FREEDOMS: HOW ABORTION BANS HAVE CREATED A HEALTH CARE NIGHTMARE ACROSS AMERICA",
+        "date": "2024-06-04",
+        "granule": "CHRG-118shrg57241",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg57241/html/CHRG-118shrg57241.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.family-line-married.we-got-married",
+      "move": "family-line-married",
+      "kind": "spoken",
+      "text": "We got married.",
+      "uses": [
+        {
+          "move": "family-line-married",
+          "subject": "family",
+          "role": "line",
+          "choice": "married",
+          "journal": []
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "nasa": 2,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA JSC Oral History Project: Dianne Bobko (Wife of Astronaut Karol J. “Bo” Bobko)",
+        "date": "2019-10-17",
+        "granule": "jsc-bobkofd-10-17-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/01/bobkofd-10-17-19.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.home-line-moved.i-moved-to-place",
+      "move": "home-line-moved",
+      "kind": "spoken",
+      "text": "I moved to {place}.",
+      "uses": [
+        {
+          "move": "home-line-moved",
+          "subject": "home",
+          "role": "line",
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "crec": 1,
+        "hearings": 2,
+        "house": 2,
+        "nasa": 1,
+        "wpa": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House Oral History: Hymel, Gary - Administrative Assistant, Representative Hale Boggs of Louisiana and Speaker Thomas P. “Tip” O’Neill Jr. of Massachusetts - 1965–1981",
+        "date": "2022-10-31",
+        "granule": "house-oh-hymel",
+        "url": "https://history.house.gov/Oral-History/Transcripts/hymel-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.home-line-moved.we-moved-to-place",
+      "move": "home-line-moved",
+      "kind": "spoken",
+      "text": "We moved to {place}.",
+      "uses": [
+        {
+          "move": "home-line-moved",
+          "subject": "home",
+          "role": "line",
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "hearings": 2,
+        "house": 2,
+        "nasa": 3,
+        "wpa": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "EXAMINING THE GROWTH OF",
+        "date": "2025-05-07",
+        "granule": "CHRG-119hhrg60446",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60446/html/CHRG-119hhrg60446.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.home-line-moved.we-moved-back-to-place",
+      "move": "home-line-moved",
+      "kind": "spoken",
+      "text": "We moved back to {place}.",
+      "uses": [
+        {
+          "move": "home-line-moved",
+          "subject": "home",
+          "role": "line",
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "PROTECTING VETERAN CHOICE: EXAMINING VA'S COMMUNITY CARE PROGRAM",
+        "date": "2025-01-28",
+        "granule": "CHRG-119shrg58614",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg58614/html/CHRG-119shrg58614.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.home-line-moved.we-came-to-place",
+      "move": "home-line-moved",
+      "kind": "spoken",
+      "text": "We came to {place}.",
+      "uses": [
+        {
+          "move": "home-line-moved",
+          "subject": "home",
+          "role": "line",
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "house": 1,
+        "nasa": 2,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House Oral History: Capps, Lois - U.S. Representative of California - 1998–2017",
+        "date": "2019-07-16",
+        "granule": "house-oh-capps",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/capps-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.home-line-moved.i-came-to-place",
+      "move": "home-line-moved",
+      "kind": "spoken",
+      "text": "I came to {place}.",
+      "uses": [
+        {
+          "move": "home-line-moved",
+          "subject": "home",
+          "role": "line",
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 17,
+      "bySource": {
+        "crec": 3,
+        "hearings": 3,
+        "house": 2,
+        "nasa": 2,
+        "wpa": 7
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2019-05-10",
+        "date": "2019-05-10",
+        "granule": "CREC-2019-05-10-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2019-05-10",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.contact-line-saw.i-saw-other",
+      "move": "contact-line-saw",
+      "kind": "spoken",
+      "text": "I saw {other}.",
+      "uses": [
+        {
+          "move": "contact-line-saw",
+          "subject": "contact",
+          "role": "line",
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "hearings": 1,
+        "nasa": 4,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "OVERSIGHT OF THE BANKRUPTCY CODE, PART 1: CONFRONTING ABUSES OF THE CHAPTER 11 SYSTEM",
+        "date": "2021-07-28",
+        "granule": "CHRG-117hhrg48645",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg48645/html/CHRG-117hhrg48645.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.contact-line-saw.i-met-other",
+      "move": "contact-line-saw",
+      "kind": "spoken",
+      "text": "I met {other}.",
+      "uses": [
+        {
+          "move": "contact-line-saw",
+          "subject": "contact",
+          "role": "line",
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "crec": 5,
+        "hearings": 1,
+        "house": 2,
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2023-09-11",
+        "date": "2023-09-11",
+        "granule": "CREC-2023-09-11-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2023-09-11",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.contact-line-saw.i-visited-other",
+      "move": "contact-line-saw",
+      "kind": "spoken",
+      "text": "I visited {other}.",
+      "uses": [
+        {
+          "move": "contact-line-saw",
+          "subject": "contact",
+          "role": "line",
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 11,
+      "bySource": {
+        "crec": 2,
+        "hearings": 9
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2024-02-27",
+        "date": "2024-02-27",
+        "granule": "CREC-2024-02-27-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2024-02-27",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.contact-line-saw.i-talked-to-other",
+      "move": "contact-line-saw",
+      "kind": "spoken",
+      "text": "I talked to {other}.",
+      "uses": [
+        {
+          "move": "contact-line-saw",
+          "subject": "contact",
+          "role": "line",
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 12,
+      "bySource": {
+        "crec": 2,
+        "hearings": 2,
+        "house": 1,
+        "nasa": 7
+      },
+      "shippable": true,
+      "source": {
+        "document": "METALS, MINERALS, AND MINING: HOW THE CCP FUELS CONFLICT AND EXPLOITATION IN AFRICA",
+        "date": "2025-03-25",
+        "granule": "CHRG-119hhrg60388",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60388/html/CHRG-119hhrg60388.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.contact-line-saw.i-went-to-see-other",
+      "move": "contact-line-saw",
+      "kind": "spoken",
+      "text": "I went to see {other}.",
+      "uses": [
+        {
+          "move": "contact-line-saw",
+          "subject": "contact",
+          "role": "line",
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "house": 3,
+        "nasa": 3,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA JSC Oral History Project: David W. Myers (Gallaudet Eleven human factors subject)",
+        "date": "2020-01-29",
+        "granule": "jsc-larsonh-myersd-1-29-20",
+        "url": "https://www.nasa.gov/wp-content/uploads/2026/05/larsonh-myersd-1-29-20.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.death-line-died.other-died",
+      "move": "death-line-died",
+      "kind": "spoken",
+      "text": "{other} died.",
+      "uses": [
+        {
+          "move": "death-line-died",
+          "subject": "death",
+          "role": "line",
+          "choice": "died",
+          "journal": [
+            {
+              "kindPrefix": "event:life.death",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 14,
+      "bySource": {
+        "crec": 1,
+        "hearings": 2,
+        "wpa": 11
+      },
+      "shippable": true,
+      "source": {
+        "document": "THE BEIJING OLYMPICS AND THE FACES OF REPRESSION",
+        "date": "2022-02-03",
+        "granule": "CHRG-117jhrg46732",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117jhrg46732/html/CHRG-117jhrg46732.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.death-line-died.relation-died",
+      "move": "death-line-died",
+      "kind": "spoken",
+      "text": "{relation} died.",
+      "uses": [
+        {
+          "move": "death-line-died",
+          "subject": "death",
+          "role": "line",
+          "choice": "died",
+          "journal": [
+            {
+              "kindPrefix": "event:life.death",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 24,
+      "bySource": {
+        "crec": 2,
+        "hearings": 1,
+        "house": 3,
+        "wpa": 18
+      },
+      "shippable": true,
+      "source": {
+        "document": "H.R. 897, H.R. 3925, H.R. 5441, AND H.R. 6235",
+        "date": "2024-01-18",
+        "granule": "CHRG-118hhrg54614",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg54614/html/CHRG-118hhrg54614.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.death-line-died.relation-passed-away",
+      "move": "death-line-died",
+      "kind": "spoken",
+      "text": "{relation} passed away.",
+      "uses": [
+        {
+          "move": "death-line-died",
+          "subject": "death",
+          "role": "line",
+          "choice": "died",
+          "journal": [
+            {
+              "kindPrefix": "event:life.death",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "hearings": 2,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "H.R. 897, H.R. 3925, H.R. 5441, AND H.R. 6235",
+        "date": "2024-01-18",
+        "granule": "CHRG-118hhrg54614",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg54614/html/CHRG-118hhrg54614.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.health-line-ill.i-got-sick",
+      "move": "health-line-ill",
+      "kind": "spoken",
+      "text": "I got sick.",
+      "uses": [
+        {
+          "move": "health-line-ill",
+          "subject": "health",
+          "role": "line",
+          "choice": "ill",
+          "journal": [
+            {
+              "kindPrefix": "event:health.serious-illness",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "crec": 1,
+        "nasa": 1,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2019-12-04",
+        "date": "2019-12-04",
+        "granule": "CREC-2019-12-04-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2019-12-04",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.health-line-ill.i-was-sick",
+      "move": "health-line-ill",
+      "kind": "spoken",
+      "text": "I was sick.",
+      "uses": [
+        {
+          "move": "health-line-ill",
+          "subject": "health",
+          "role": "line",
+          "choice": "ill",
+          "journal": [
+            {
+              "kindPrefix": "event:health.serious-illness",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "crec": 2,
+        "wpa": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2021-03-17",
+        "date": "2021-03-17",
+        "granule": "CREC-2021-03-17-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2021-03-17",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.health-other-ill.relation-was-sick",
+      "move": "health-other-ill",
+      "kind": "spoken",
+      "text": "{relation} was sick.",
+      "uses": [
+        {
+          "move": "health-other-ill",
+          "subject": "health",
+          "role": "other",
+          "choice": "ill",
+          "journal": [
+            {
+              "kindPrefix": "event:health.serious-illness",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "nasa": 1,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA JSC Oral History Project: Lisa M. Reed (Training Lead)",
+        "date": "2015-08-07",
+        "granule": "jsc-reedlm-8-7-15",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/reedlm-8-7-15.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.office-line-filed.i-ran-for-office",
+      "move": "office-line-filed",
+      "kind": "spoken",
+      "text": "I ran for {office}.",
+      "uses": [
+        {
+          "move": "office-line-filed",
+          "subject": "office",
+          "role": "line",
+          "choice": "filed",
+          "journal": [
+            {
+              "kindPrefix": "event:candidate-filed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House Oral History: Melconian, Linda - Assistant Counsel and Legislative Assistant, Speaker of the House Thomas P. (Tip) O'Neill, Jr., of Massachusetts - 1971–1981",
+        "date": "2018-06-07",
+        "granule": "house-oh-melconian",
+        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/melconian-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.office-line-won.i-won",
+      "move": "office-line-won",
+      "kind": "spoken",
+      "text": "I won.",
+      "uses": [
+        {
+          "move": "office-line-won",
+          "subject": "office",
+          "role": "line",
+          "choice": "won",
+          "journal": []
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "STATE, FOREIGN OPERATIONS, AND RELATED PROGRAMS APPROPRIATIONS FOR 2022",
+        "date": "2021-03-25",
+        "granule": "CHRG-117hhrg47449",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg47449/html/CHRG-117hhrg47449.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.office-line-won.i-was-elected",
+      "move": "office-line-won",
+      "kind": "spoken",
+      "text": "I was elected.",
+      "uses": [
+        {
+          "move": "office-line-won",
+          "subject": "office",
+          "role": "line",
+          "choice": "won",
+          "journal": []
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "hearings": 1,
+        "house": 4,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NOMINATIONS OF EDWARD FORST, CHARLES ARRINGTON, JOHN CUONG TRUONG, ELANA S. SUTTENBERG, STEPHEN F. RICKARD, WILLIAM KIRK, HON. ANTHONY D'ESPOSITO, AND PLATTE MORING",
+        "date": "2025-10-23",
+        "granule": "CHRG-119shrg62164",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62164/html/CHRG-119shrg62164.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.office-line-lost.i-lost",
+      "move": "office-line-lost",
+      "kind": "spoken",
+      "text": "I lost.",
+      "uses": [
+        {
+          "move": "office-line-lost",
+          "subject": "office",
+          "role": "line",
+          "choice": "lost",
+          "journal": []
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "hearings": 2,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "LESSONS FROM THE MUELLER REPORT: PRESIDENTIAL OBSTRUCTION AND OTHER CRIMES",
+        "date": "2019-06-10",
+        "granule": "CHRG-116hhrg38182",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg38182/html/CHRG-116hhrg38182.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.look-back-line-died.i-was-born-in-place",
+      "move": "look-back-line-died",
+      "kind": "spoken",
+      "text": "I was born in {place}.",
+      "uses": [
+        {
+          "move": "look-back-line-died",
+          "subject": "look-back",
+          "role": "line",
+          "choice": "died",
+          "journal": []
+        }
+      ],
+      "transcriptsUsing": 66,
+      "bySource": {
+        "crec": 4,
+        "hearings": 18,
+        "house": 13,
+        "nasa": 4,
+        "wpa": 27
+      },
+      "shippable": true,
+      "source": {
+        "document": "EDUCATION WITHOUT LIMITS: EXPLORING THE BENEFITS OF SCHOOL CHOICE",
+        "date": "2025-03-11",
+        "granule": "CHRG-119hhrg60916",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60916/html/CHRG-119hhrg60916.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.look-back-line-died.i-grew-up-in-place",
+      "move": "look-back-line-died",
+      "kind": "spoken",
+      "text": "I grew up in {place}.",
+      "uses": [
+        {
+          "move": "look-back-line-died",
+          "subject": "look-back",
+          "role": "line",
+          "choice": "died",
+          "journal": []
+        }
+      ],
+      "transcriptsUsing": 37,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "crec": 4,
+        "hearings": 17,
+        "house": 9,
+        "nasa": 6
+      },
+      "shippable": true,
+      "source": {
+        "document": "SANCTUARY JURISDICTIONS: MAGNET FOR MIGRANTS, COVER FOR CRIMINALS",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg60069",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60069/html/CHRG-119hhrg60069.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.look-back-line-died.i-was-raised-in-place",
+      "move": "look-back-line-died",
+      "kind": "spoken",
+      "text": "I was raised in {place}.",
+      "uses": [
+        {
+          "move": "look-back-line-died",
+          "subject": "look-back",
+          "role": "line",
+          "choice": "died",
+          "journal": []
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "crec": 1,
+        "hearings": 2,
+        "house": 1,
+        "nasa": 1,
+        "wpa": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2018-02-07",
+        "date": "2018-02-07",
+        "granule": "CREC-2018-02-07-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2018-02-07",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    }
+  ]
+}

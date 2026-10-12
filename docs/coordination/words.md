@@ -1,0 +1,66 @@
+# OPUS-WORDS: The English engine's phrase banks
+
+Only OPUS-WORDS writes this file. See "The team" in `AGENTS.md` and `docs/coordination/BOARD.md`.
+
+- **Owns:** The data the English engine composes from: `data/english/parts/**`, `data/english/counts/**`, the corpus tooling in `scripts/english-corpus/**` and the research notes in `docs/research/english-corpus/**`. OPUS-PEOPLE owns the engine itself (`src/presentation/english-*.ts`, the `*-english.ts` writers, `src/director/**`).
+- **Branch:** `opus-words`, from `pool/P15-people-5` with `main` merged in; `pool/P15-people-5` is merged in whenever it moves.
+- **Model:** Opus, high: choosing which real sentences carry each conversation move is judgment work.
+- **Starts from:** The owner's approval, Oct 12 at 10:20 a.m.; PEOPLE's Words item (`docs/coordination/people.md`); the speech corpus research (`docs/research/speech-and-dialogue-corpus-2026-09-28.md`); the existing mined banks in `data/english/parts/`.
+
+## What the owner can play now
+
+- Nothing new on screen yet. The conversation, filing, journal, scene and bring-it-up words still come from PEOPLE's five hand-written template banks (registered stopgaps) until PEOPLE switches each one to the mined banks listed below.
+
+## Checklist
+
+An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items.
+
+- [x] **Conversations for steps 1 and 2** (`conversation.json` stopgap `SG-P15-conversation-banks`): greetings, asking after family, work, school and news, answering, raising a real subject, leaving, and the lie.
+  - First version Oct 12: `data/english/parts/conversation.json`, 226 sentences from 2,500 public-domain transcripts, each with its source, date, address and license. `scripts/english-corpus/conversation-bank.ts` turns it into the director's conversation data, and `conversation-bank.test.ts` runs the director's own `openConversation` and `say` with it in a generated place: every line and choice is a mined sentence filled from records, with its record ids. A conversation now reads: "What are you doing now?" / "I work at Petty Cleaning. What about you?" / "Do you know Kristen Sandoval?"
+  - Grading: `docs/grading/words-batch-3.md` (100 lines from 6 drawn places, one axis: does it fit the line before it), from `data/english/batches/batch-3.json`; the owner's grades go in `data/english/grades/batch-3.json` and fold in with `scripts/dialogue-batch/apply-grades.ts`. The adapter already skips parts the grades hold back.
+  - Still unworded (no record says them twice yet): asking whether someone is still at their work or still in town, raising a past workplace, "I saw {name} on {when}.", and the "lives with me" answer. The director leaves those subjects unasked until the corpus covers them.
+- [x] **The clerk at filing** (`filing-visit.json`, `SG-P15-filing-visit-banks`): how real clerks explain rules, fees, signatures and deadlines.
+  - First version Oct 12: `data/english/parts/filing-visit.json`, mined from hearings, EAC meeting transcripts, FEC pages and Florida's 2026 candidate handbooks (Florida's government works carry no copyright). `scripts/english-corpus/filing-bank.ts` turns it into the visit's words; `filing-bank.test.ts` renders every clerk line through the director's renderer with the visit's record facts. The clerk says "How can I help you?", "The deadline is March 5, 2021.", "You have to be 18 by election day.", "You must be a registered or pre-registered voter in the county in which you want to serve." and "Good luck."
+  - No public-domain record has a clerk saying the fee or the signature count, or a candidate saying "I'll pay the fee": those stay record data and control names on the screen (see Needs).
+- [ ] **The journal** (`journal.json`, `SG-P15-journal-banks`): a first-person life story that names people by relationship and never invents a feeling.
+  - First version Oct 12: `data/english/parts/journal.json` (about 40 sentences people said about their own lives), `scripts/english-corpus/journal-bank.ts` maps each to the director's journal row, and `journal-bank.test.ts` writes a life through `composeJournal` in a generated place: every line mined, every record id resolving, no feeling words. Elwood, Kansas reads: "I was at Riverside Primary School. I went on to Riverside Middle School. I went to Riverside High School." then "My son was born. My daughter was born."
+  - Still unworded: someone else losing a job, short pay, "I saw {name} three times", the minimum-wage raise and the law taking effect, someone else filing to run. The director leaves those moments out of the journal until the corpus covers them.
+- [ ] **Scene narration** (`scene-words.json`), then **people bringing things up** (`bring-it-up.json`), then news headlines and the names of choices, stance questions and actions still shown as record keys.
+  - Scenes and bring-it-up, first version Oct 12: `data/english/parts/scene-words.json` and `bring-it-up.json`; `scripts/english-corpus/scene-bank.ts` turns them into the director's words, and `scene-bank.test.ts` runs the real `composeScene` and `bringItUp` with them in a generated place. People now say "Chen's General Store shut down." then "That was Chen's doing."-style blame from the records: "It was Chen's decision.", "I think it was Mayor Lee.", "I have no idea."
+  - Scenes are thin: second-person narration is rare in transcripts, so only being at work, out in town, the phone ringing and who is here are mined. Home, someone's home, school, a letter and the cause lines are not yet. The blame someone was told ("I heard it was ...") is not yet mined either.
+- [ ] **Speeches and debate** (campaign speeches, floor speeches, public comment), then **interviews** (with GOV's press interviews).
+  - Mined Oct 12: `data/english/parts/address.json`, 148 sentences in the register cards' moves: the House floor ("Madam Speaker, I rise today in support of {bill}.", "I yield back the balance of my time."), the Senate floor, a state floor, committee hearings and witnesses ("I don't recall.", "That's a great question."), public comment ("My name is {name}, and I live in {place}.", "Thank you for your consideration."), the chair ("Is there a second?", "The ayes have it."), campaign remarks ("I grew up in {place}.", "We can do better.", "{opponent} voted against {issue}."), victory ("I am humbled.") and concession ("I congratulate {opponent}."). Not yet wired: the new core has no speech wording yet (GOV's `giveSpeech`).
+- Choice names, mined Oct 12: `data/english/parts/choice-names.json`, 35 sentences naming core actions ("Call {name}.", "Take a break.", "Stand up for {cause}.", "Keep going.") and stance questions with answers ("Do you support {topic}?", "Should {place} {change}?", "It depends."). Imperatives are rare in transcripts, so about half the actions have no mined name yet. The new core has no headline text at all: a news story is its event kind and facts.
+
+## Needs from other sessions
+
+- **OPUS-PEOPLE (closes `SG-P15-conversation-banks`):** read the director's conversation words from `data/english/parts/conversation.json` through `conversationDataFromBank` in `scripts/english-corpus/conversation-bank.ts` (move it under `src/director/` as you like). Three engine changes make it whole:
+  1. An answer choice has several wordings: render each choice from all its variants (the grounded renderer's stable pick) instead of one fixed text. Until then the adapter picks one wording per choice by a stable key.
+  2. Slots: the bank writes `{my_employer}`; the director's renderer reads `{{my-employer}}`. The adapter converts them.
+  3. Skip a part the owner's grades hold back (`heldByGrades(part.key)`), as `composeFromBank` already does.
+- **OPUS-PEOPLE (closes `SG-P15-journal-banks`):** pass `journalDataFromBank()` from `scripts/english-corpus/journal-bank.ts` as the journal's data. No engine change is needed; the relation words, count words and look-back stay the director's own data.
+- **OPUS-PEOPLE (scenes and bring-it-up, `SG-P15-scene-banks`, `SG-P15-bring-it-up-banks`):** pass `sceneWordsFromBank()` to `composeScene` and `bringDataFromBank()` to `bringItUp` (both in `scripts/english-corpus/scene-bank.ts`); no engine change. Until the setting lines are mined, a scene could show its setting's record name as a caption instead of a narration line (your call).
+- **OPUS-GOV (speeches):** `giveSpeech` can compose a speech with the English engine's `composeAddress` from `data/english/parts/address.json`: each part's `uses` names the register (house-floor, senate-floor, state-floor, hearing, public-comment, chair, campaign, victory, concession) and the move. Sentences that open "Mr." or "Madam" need the chair's recorded gender to choose between them. I'll write the adapter to `ComposedLineBank` next; tell me (through the CTO) which moves your speech records carry.
+- **OPUS-PLAY (choice names):** `data/english/parts/choice-names.json` names core actions by their action id (each part's `uses[].role`), and stance questions and answers. The bench can show these instead of the action ids.
+- **OPUS-PEOPLE (old banks):** `bank-english.ts` reads `data/english/parts/notices.json`, whose register is `notice`; the bank test wants the file named after its register. Importing it as `notice.json` (I'll rename the file in the same change) clears two of the five red bank tests. The other three are `newspaper-ledes.json`: structural lede patterns from pre-1929 newspapers, which fail the 2015 era rule; I'll re-mine ledes from federal records.
+- **OPUS-PEOPLE (filing clerk, closes `SG-P15-filing-visit-banks`):** let `openFilingVisit` and `pickContest` take the words (`filingWordsFromBank()` from `scripts/english-corpus/filing-bank.ts`) instead of reading `FILING_VISIT_WORDS` directly, and add GOV's `filedWith` as the fact `filing-office`. No public-domain record has a clerk saying the fee or the signature count, so the clerk states only the deadline and the rules; the screen shows the fee and signatures as the filing record's data, and the office choices and "pay the fee" or "gather signatures" as control names (empty `pick`, `payFee` and `gather` mean "use the control name").
+
+## Questions for the owner
+
+- **San Diego notices.** `data/english/parts/notices.json` ships notice headings from the City of San Diego's public notices. California cities' works are generally treated as public domain, but the project's rule asks for the state's rule on record, and no ruling is recorded yet. Until you rule, I keep them as they are and won't add more city text.
+
+## Log
+
+Newest first: one line per event (what changed, the measured result, what's next).
+
+- Oct 12: mined the speech bank (148 sentences, nine registers) and choice names (35); bank tests: 130 pass, the same 5 old failures. Next: a grading batch for the journal, clerk, scenes and bring-it-up; then the speech adapter.
+
+- Oct 12: scenes (7 sentences) and bring-it-up (23) run through the real `composeScene` and `bringItUp` with mined words; tests pass. Next: news headlines and choice names, while the oral-history corpus grows to fill the gaps.
+
+- Oct 12: the clerk bank renders through the director's renderer with filing facts (test passes); PEOPLE's newer conversation register is merged in, and the conversation bank now also words asking after someone both know, asking after kin, and acknowledgments (248 sentences). Next: scenes and people bringing things up.
+
+- Oct 12: grading batch 3 for the owner (100 conversation lines from Jay, Florida; Ovid and Morrisville, New York; Horatio, Arkansas; Continental Courts, Pennsylvania; Sidney, Montana; 70 distinct mined sentences). Making it fixed two misfits: "Good." after "I haven't seen him", and "Yes, I am." after "Oh, I see." The journal bank now writes whole lives through the director. The Library of Congress blocks the WPA life histories from this cloud (5 of about 2,900 fetched), so everyday talk comes from federal oral histories instead; a helper is adding National Park Service, NIH, FDA, USDA and other NASA centers' oral histories. Next: the clerk through the director, then scenes.
+
+- Oct 12: the conversation bank (226 sentences) and a first clerk bank (18) are mined from 2,850 public-domain documents and pass the bank and era tests; the conversation bank words whole conversations through the director in a generated place. Moved three banks whose sources are not public domain (campaign remarks, court transcripts) to `data/english/patterns/`, and unshipped three Baltimore council parts; the bank tests went from 14 failures to 5 (all in the news-lede and notice banks, which item 4 re-mines). Next: a 100-line grading batch, then the journal.
+
+- Oct 12: started. Branch `opus-words` from `pool/P15-people-5` with `main` merged in. Wrote the shape miner (`scripts/english-corpus/mine-shapes.py`): a candidate sentence with slots is kept when two documents say it whole and one is a public-domain federal record from 2015 on, which becomes its source. Building the raw corpus outside the repo (hearings, the Congressional Record, NASA and House oral histories, the WPA life histories). Next: mine the conversation bank.

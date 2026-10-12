@@ -1,0 +1,1952 @@
+{
+  "register": "conversation",
+  "description": "Everyday conversation for golden-path steps 1 and 2 (meeting people at 18): greetings, asking after work, home, school, family and the news, the answers, raising a real subject, leaving, and the lie. Every part is a whole sentence American speakers said in federal transcripts (public domain: congressional hearings, the Congressional Record, NASA and U.S. House oral histories), counted also against the Library of Congress WPA life histories, 1936 to 1940. Record words are slots the game fills from the speaker's own records. Parts are grouped by the director's subject, role (ask, raise, reply, answer, lie) and choice; a group's parts are variants of one choice, never separate choices.",
+  "slots": {
+    "name": "A person's name from the records: someone both people know, or the listener's given name.",
+    "employer": "The speaker's employer, from their job record.",
+    "claimed": "The employer or town a lie claims instead, from a real record the speaker could name.",
+    "my_employer": "The player's own employer, from their job record.",
+    "place": "The town, as a resident says it, from the household record.",
+    "my_place": "The player's town, from their household record.",
+    "school": "A school, from the school record.",
+    "years": "A count of years, computed from two dated records.",
+    "since": "A month and year from a dated record, as people say it.",
+    "my_since": "The month and year the player started, from their job record.",
+    "when": "When the speaker last saw someone, from a contact record, as the director says it (\"yesterday\", \"on March 3\").",
+    "my_when": "When the player last saw that person, from a contact record, said the same way.",
+    "relation": "How the speaker is related to someone, with the possessive, from the family record.",
+    "topic": "What happened, from a news record the speaker heard.",
+    "first": "The given name of someone both people know, from the person's record."
+  },
+  "maxWords": 10,
+  "minDocuments": 2,
+  "groups": [
+    {
+      "move": "greet-open-hello",
+      "subject": "greet",
+      "role": "open",
+      "choice": "hello",
+      "candidates": [
+        "Hello.",
+        "Hi.",
+        "Hey.",
+        "Hi there.",
+        "Hello there.",
+        "Good morning.",
+        "Good afternoon.",
+        "Good evening.",
+        "Morning.",
+        "Hello, {name}.",
+        "Hi, {name}.",
+        "Hey, {name}.",
+        "Good morning, {name}.",
+        "Good to see you.",
+        "Nice to see you.",
+        "Good to see you, {name}.",
+        "It's good to see you.",
+        "It's nice to see you.",
+        "Long time no see.",
+        "Well, look who's here.",
+        "How are you?",
+        "How are you doing?",
+        "How's it going?",
+        "How have you been?",
+        "How you doing?",
+        "What's new?",
+        "How are things?",
+        "How's everything?",
+        "How are things going?"
+      ]
+    },
+    {
+      "move": "greet-answer-fine",
+      "subject": "greet",
+      "role": "answer",
+      "choice": "fine",
+      "candidates": [
+        "Fine, thank you.",
+        "Fine, thanks.",
+        "Good, thank you.",
+        "Good, thanks.",
+        "I'm fine.",
+        "I'm good.",
+        "I'm doing well.",
+        "I'm doing fine.",
+        "I'm doing good.",
+        "Pretty good.",
+        "Not bad.",
+        "Not too bad.",
+        "Can't complain.",
+        "I can't complain.",
+        "Doing well.",
+        "Doing fine.",
+        "All right.",
+        "Okay.",
+        "I'm all right.",
+        "I'm okay.",
+        "Very well, thank you.",
+        "Fine, how are you?",
+        "Good, how are you?",
+        "I'm good, how are you?",
+        "I'm fine, how are you?",
+        "Pretty good, how are you?",
+        "Not bad, how are you?",
+        "Fine. And you?",
+        "Good. And you?",
+        "I'm fine. And you?",
+        "And you?",
+        "How about you?",
+        "What about you?"
+      ]
+    },
+    {
+      "move": "own-work-ask-still-at",
+      "subject": "own-work",
+      "role": "ask",
+      "choice": "still-at",
+      "candidates": [
+        "Still at {employer}?",
+        "Are you still at {employer}?",
+        "Are you still working at {employer}?",
+        "Are you still working for {employer}?",
+        "You still at {employer}?",
+        "You still working at {employer}?",
+        "Do you still work at {employer}?",
+        "Do you still work for {employer}?",
+        "How are things at {employer}?",
+        "How's {employer}?",
+        "How's work?",
+        "How is work?",
+        "How's the job?",
+        "How's work going?",
+        "Are you still with {employer}?",
+        "Are you still working there?",
+        "Are you still there?",
+        "You still there?",
+        "You still working there?",
+        "Do you still work there?",
+        "Still working at {employer}?",
+        "Still working there?",
+        "Still there?",
+        "Are you still working for them?",
+        "Still with {employer}?"
+      ]
+    },
+    {
+      "move": "own-work-raise-tell",
+      "subject": "own-work",
+      "role": "raise",
+      "choice": "tell",
+      "candidates": [
+        "I'm still at {employer}.",
+        "I'm still working at {employer}.",
+        "I'm still with {employer}.",
+        "I still work at {employer}.",
+        "I still work for {employer}.",
+        "I work at {employer}.",
+        "I work for {employer}.",
+        "I'm working at {employer}.",
+        "I'm with {employer}.",
+        "I'm at {employer} now.",
+        "I'm working for {employer}."
+      ]
+    },
+    {
+      "move": "own-work-answer-plain",
+      "subject": "own-work",
+      "role": "answer",
+      "choice": "plain",
+      "candidates": [
+        "Yes, still at {employer}.",
+        "Yes, I'm still at {employer}.",
+        "Yes, I'm still there.",
+        "Yeah, I'm still there.",
+        "Still there.",
+        "I'm still there.",
+        "Yes, I am.",
+        "Yes, still there.",
+        "I still work there.",
+        "Yes, I still work there.",
+        "Still at {employer}."
+      ]
+    },
+    {
+      "move": "own-work-answer-since",
+      "subject": "own-work",
+      "role": "answer",
+      "choice": "since",
+      "candidates": [
+        "I've been there since {since}.",
+        "I've been there {years} years.",
+        "I've been there for {years} years.",
+        "I have been there since {since}.",
+        "I've worked there since {since}.",
+        "I've been with them since {since}.",
+        "I've been at {employer} since {since}.",
+        "I've been with {employer} since {since}.",
+        "I've worked there for {years} years.",
+        "Since {since}.",
+        "Ever since {since}.",
+        "For {years} years now.",
+        "{years} years now.",
+        "Going on {years} years.",
+        "Almost {years} years.",
+        "About {years} years now."
+      ]
+    },
+    {
+      "move": "own-work-answer-turn",
+      "subject": "own-work",
+      "role": "answer",
+      "choice": "turn",
+      "raises": "their-work",
+      "candidates": [
+        "And you?",
+        "How about you?",
+        "What about you?",
+        "How about yourself?",
+        "Still there. And you?",
+        "Yes. And you?",
+        "Where are you working?",
+        "What are you doing now?",
+        "What do you do?",
+        "Where do you work?",
+        "What are you doing these days?"
+      ]
+    },
+    {
+      "move": "own-work-answer-brief",
+      "subject": "own-work",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": [
+        "Same as ever.",
+        "Same old thing.",
+        "Same as always.",
+        "Nothing much has changed.",
+        "Nothing's changed.",
+        "It's the same.",
+        "Still the same.",
+        "Same old, same old.",
+        "Busy.",
+        "It's been busy.",
+        "Keeping busy.",
+        "Can't complain.",
+        "It keeps me busy."
+      ]
+    },
+    {
+      "move": "own-work-lie-left",
+      "subject": "own-work",
+      "role": "lie",
+      "choice": "left",
+      "stages": ["none"],
+      "candidates": [
+        "No, I'm not at {employer} anymore.",
+        "No, I left {employer}.",
+        "I left {employer}.",
+        "I don't work there anymore.",
+        "No, I don't work there anymore.",
+        "Not anymore.",
+        "No, not anymore.",
+        "I'm not there anymore.",
+        "I quit.",
+        "I left."
+      ]
+    },
+    {
+      "move": "own-work-lie-elsewhere",
+      "subject": "own-work",
+      "role": "lie",
+      "choice": "elsewhere",
+      "stages": ["elsewhere"],
+      "candidates": [
+        "No, I'm at {claimed} now.",
+        "I'm at {claimed} now.",
+        "I work at {claimed} now.",
+        "I'm with {claimed} now.",
+        "I'm working at {claimed} now.",
+        "I went to work for {claimed}.",
+        "I went to work at {claimed}.",
+        "I work for {claimed} now."
+      ]
+    },
+    {
+      "move": "own-work-new-ask-where",
+      "subject": "own-work-new",
+      "role": "ask",
+      "choice": "where",
+      "candidates": [
+        "Where are you working these days?",
+        "Where are you working now?",
+        "Where are you working?",
+        "Where do you work?",
+        "Where do you work now?",
+        "What do you do?",
+        "What do you do for a living?",
+        "What are you doing now?",
+        "What are you doing these days?",
+        "What kind of work do you do?",
+        "Are you working?",
+        "Are you working now?"
+      ]
+    },
+    {
+      "move": "own-work-new-answer-plain",
+      "subject": "own-work-new",
+      "role": "answer",
+      "choice": "plain",
+      "candidates": [
+        "At {employer}.",
+        "I work at {employer}.",
+        "I work for {employer}.",
+        "I'm at {employer}.",
+        "I'm with {employer}.",
+        "I'm working at {employer}.",
+        "I'm working for {employer}."
+      ]
+    },
+    {
+      "move": "own-work-new-answer-since",
+      "subject": "own-work-new",
+      "role": "answer",
+      "choice": "since",
+      "candidates": [
+        "At {employer}, since {since}.",
+        "I've been at {employer} since {since}.",
+        "I've worked at {employer} since {since}.",
+        "I've been with {employer} since {since}.",
+        "I've worked for {employer} since {since}.",
+        "At {employer}. Since {since}.",
+        "Since {since}, at {employer}.",
+        "I've been at {employer} for {years} years."
+      ]
+    },
+    {
+      "move": "own-work-new-answer-brief",
+      "subject": "own-work-new",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": ["{employer}."]
+    },
+    {
+      "move": "own-work-new-lie-none",
+      "subject": "own-work-new",
+      "role": "lie",
+      "choice": "none",
+      "stages": ["none"],
+      "candidates": [
+        "I'm not working right now.",
+        "I'm not working.",
+        "I'm not working now.",
+        "I'm between jobs.",
+        "I'm looking for work.",
+        "I'm out of work.",
+        "I'm unemployed.",
+        "I don't have a job right now.",
+        "Nothing right now.",
+        "I'm not doing anything right now.",
+        "I'm retired.",
+        "I'm looking for a job."
+      ]
+    },
+    {
+      "move": "their-work-raise-ask",
+      "subject": "their-work",
+      "role": "raise",
+      "choice": "ask",
+      "candidates": [
+        "Are you still working?",
+        "Are you working?",
+        "Are you working now?",
+        "Where are you working now?",
+        "Where are you working these days?",
+        "What are you doing now?",
+        "What are you doing these days?",
+        "What do you do now?",
+        "Where do you work now?",
+        "How's work?",
+        "How's the job?"
+      ]
+    },
+    {
+      "move": "other-work-reply-at",
+      "subject": "other-work",
+      "role": "reply",
+      "choice": "at",
+      "stages": ["working"],
+      "candidates": [
+        "I'm at {employer}.",
+        "I work at {employer}.",
+        "I work for {employer}.",
+        "I'm working at {employer}.",
+        "I'm with {employer}.",
+        "I'm working for {employer}.",
+        "At {employer}."
+      ]
+    },
+    {
+      "move": "other-work-reply-none",
+      "subject": "other-work",
+      "role": "reply",
+      "choice": "none",
+      "stages": ["none"],
+      "candidates": [
+        "Not right now.",
+        "I'm not working right now.",
+        "I'm not working.",
+        "Not at the moment.",
+        "I'm looking for work.",
+        "I'm between jobs.",
+        "No, not right now."
+      ]
+    },
+    {
+      "move": "other-work-answer-ack",
+      "subject": "other-work",
+      "role": "answer",
+      "choice": "ack",
+      "stages": ["working"],
+      "candidates": [
+        "{employer}, right.",
+        "Oh, {employer}.",
+        "{employer}?",
+        "Really?",
+        "Oh, really?",
+        "Oh, okay.",
+        "Okay.",
+        "I see.",
+        "Oh, I see.",
+        "Good for you.",
+        "That's great.",
+        "That's good."
+      ]
+    },
+    {
+      "move": "other-work-answer-tenure",
+      "subject": "other-work",
+      "role": "answer",
+      "choice": "tenure",
+      "stages": ["working"],
+      "raises": "their-tenure",
+      "candidates": [
+        "How long have you been there?",
+        "How long have you worked there?",
+        "How long have you been with them?",
+        "How long have you been doing that?",
+        "How long?"
+      ]
+    },
+    {
+      "move": "their-tenure-raise-ask",
+      "subject": "their-tenure",
+      "role": "raise",
+      "choice": "ask",
+      "candidates": [
+        "How long have you been there?",
+        "How long have you worked there?",
+        "How long have you been with them?",
+        "How long have you been doing that?"
+      ]
+    },
+    {
+      "move": "tenure-reply-reply-since",
+      "subject": "tenure-reply",
+      "role": "reply",
+      "choice": "since",
+      "candidates": [
+        "Since {since}.",
+        "Since about {since}.",
+        "I've been there since {since}.",
+        "I've been there {years} years.",
+        "I've been there for {years} years.",
+        "About {years} years.",
+        "{years} years.",
+        "I started in {since}."
+      ]
+    },
+    {
+      "move": "tenure-reply-answer-turn",
+      "subject": "tenure-reply",
+      "role": "answer",
+      "choice": "turn",
+      "raises": "next-2",
+      "candidates": [
+        "That's a while.",
+        "That's a long time.",
+        "That's a long time!",
+        "Wow.",
+        "That's great.",
+        "Good for you.",
+        "That's quite a while."
+      ]
+    },
+    {
+      "move": "home-ask-still-in",
+      "subject": "home",
+      "role": "ask",
+      "choice": "still-in",
+      "candidates": [
+        "Are you still living in {place}?",
+        "Are you still in {place}?",
+        "You still in {place}?",
+        "Do you still live in {place}?",
+        "You still living in {place}?",
+        "Are you still living there?",
+        "Do you still live there?",
+        "How's {place}?",
+        "How do you like {place}?",
+        "How do you like living in {place}?",
+        "Still in {place}?",
+        "Still living in {place}?",
+        "You still live there?",
+        "Still living there?"
+      ]
+    },
+    {
+      "move": "home-answer-plain",
+      "subject": "home",
+      "role": "answer",
+      "choice": "plain",
+      "candidates": [
+        "Yes, still in {place}.",
+        "Yes, I'm still in {place}.",
+        "Yes, I still live there.",
+        "I still live there.",
+        "I still live in {place}.",
+        "Still in {place}.",
+        "Yes, I am."
+      ]
+    },
+    {
+      "move": "home-answer-years",
+      "subject": "home",
+      "role": "answer",
+      "choice": "years",
+      "stages": ["moved"],
+      "candidates": [
+        "Yes, {years} years now.",
+        "{years} years now.",
+        "I've been there {years} years.",
+        "I've lived there {years} years.",
+        "I've lived there for {years} years.",
+        "I've been here {years} years.",
+        "I've lived here {years} years.",
+        "I've lived here for {years} years.",
+        "I've been here for {years} years.",
+        "For {years} years now.",
+        "Going on {years} years.",
+        "Almost {years} years now.",
+        "About {years} years now."
+      ]
+    },
+    {
+      "move": "home-answer-always",
+      "subject": "home",
+      "role": "answer",
+      "choice": "always",
+      "stages": ["born"],
+      "candidates": [
+        "All my life.",
+        "My whole life.",
+        "I've lived here all my life.",
+        "I've been here all my life.",
+        "I've lived there all my life.",
+        "I grew up here.",
+        "I was born here.",
+        "I was born and raised here.",
+        "Born and raised."
+      ]
+    },
+    {
+      "move": "home-answer-turn",
+      "subject": "home",
+      "role": "answer",
+      "choice": "turn",
+      "raises": "home",
+      "candidates": [
+        "I am. You too?",
+        "You too?",
+        "How about you?",
+        "And you?",
+        "What about you?"
+      ]
+    },
+    {
+      "move": "home-answer-brief",
+      "subject": "home",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": [
+        "Still here.",
+        "I'm still here.",
+        "Still there.",
+        "Same place."
+      ]
+    },
+    {
+      "move": "home-lie-moved",
+      "subject": "home",
+      "role": "lie",
+      "choice": "moved",
+      "stages": ["none"],
+      "candidates": [
+        "No, I moved away from {place}.",
+        "No, I moved.",
+        "I moved.",
+        "I moved away.",
+        "We moved.",
+        "I don't live there anymore.",
+        "No, I moved away.",
+        "I left {place}.",
+        "I moved out.",
+        "We moved away.",
+        "I moved out of {place}.",
+        "We left {place}.",
+        "I don't live there now."
+      ]
+    },
+    {
+      "move": "home-lie-elsewhere",
+      "subject": "home",
+      "role": "lie",
+      "choice": "elsewhere",
+      "stages": ["elsewhere"],
+      "candidates": [
+        "No, I live in {claimed} now.",
+        "I live in {claimed} now.",
+        "I moved to {claimed}.",
+        "We moved to {claimed}.",
+        "I'm in {claimed} now.",
+        "I'm living in {claimed} now."
+      ]
+    },
+    {
+      "move": "home-new-ask-where",
+      "subject": "home-new",
+      "role": "ask",
+      "choice": "where",
+      "candidates": [
+        "Where do you live?",
+        "Where do you live now?",
+        "Where are you living now?",
+        "Where are you living?",
+        "Where are you from?",
+        "Where do you come from?",
+        "Where are you living these days?"
+      ]
+    },
+    {
+      "move": "home-new-answer-plain",
+      "subject": "home-new",
+      "role": "answer",
+      "choice": "plain",
+      "candidates": [
+        "In {place}.",
+        "I live in {place}.",
+        "I'm in {place}.",
+        "I'm from {place}.",
+        "{place}.",
+        "I'm living in {place}."
+      ]
+    },
+    {
+      "move": "home-new-answer-years",
+      "subject": "home-new",
+      "role": "answer",
+      "choice": "years",
+      "stages": ["moved"],
+      "candidates": [
+        "I've lived in {place} for {years} years.",
+        "I've been in {place} for {years} years.",
+        "I've lived in {place} {years} years.",
+        "For {years} years now.",
+        "{years} years now.",
+        "I've been here {years} years."
+      ]
+    },
+    {
+      "move": "home-new-answer-always",
+      "subject": "home-new",
+      "role": "answer",
+      "choice": "always",
+      "stages": ["born"],
+      "candidates": [
+        "I grew up here.",
+        "I grew up in {place}.",
+        "I was born in {place}.",
+        "I was born and raised in {place}.",
+        "I was born and raised here.",
+        "I've lived here all my life."
+      ]
+    },
+    {
+      "move": "home-new-answer-brief",
+      "subject": "home-new",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": [
+        "Here in {place}.",
+        "Right here in {place}.",
+        "Right here."
+      ]
+    },
+    {
+      "move": "home-new-lie-none",
+      "subject": "home-new",
+      "role": "lie",
+      "choice": "none",
+      "stages": ["none"],
+      "candidates": [
+        "Not around here.",
+        "Not here.",
+        "Out of town.",
+        "I'm not from around here.",
+        "I'm not from here.",
+        "Not far.",
+        "Not far from here.",
+        "A ways from here."
+      ]
+    },
+    {
+      "move": "home-reply-reply-still",
+      "subject": "home-reply",
+      "role": "reply",
+      "choice": "still",
+      "candidates": [
+        "I'm still in {place}.",
+        "I still live in {place}.",
+        "Still in {place}.",
+        "I live in {place}."
+      ]
+    },
+    {
+      "move": "home-reply-answer-same",
+      "subject": "home-reply",
+      "role": "answer",
+      "choice": "same",
+      "stages": ["same"],
+      "candidates": ["Same here.", "Me too.", "Same with me."]
+    },
+    {
+      "move": "home-reply-answer-ack",
+      "subject": "home-reply",
+      "role": "answer",
+      "choice": "ack",
+      "candidates": [
+        "{place}, right.",
+        "Oh, {place}.",
+        "Oh, okay.",
+        "I see.",
+        "Oh, nice.",
+        "That's nice."
+      ]
+    },
+    {
+      "move": "home-reply-answer-brief",
+      "subject": "home-reply",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": ["Right.", "Okay.", "Sure.", "Oh."]
+    },
+    {
+      "move": "shared-school-ask-remember",
+      "subject": "shared-school",
+      "role": "ask",
+      "choice": "remember",
+      "candidates": [
+        "Do you remember {school}?",
+        "Remember {school}?",
+        "You remember {school}?",
+        "Do you remember when we were at {school}?",
+        "Remember when we were in school?",
+        "Do you remember school?",
+        "Remember high school?"
+      ]
+    },
+    {
+      "move": "shared-school-reply-years",
+      "subject": "shared-school",
+      "role": "reply",
+      "choice": "years",
+      "candidates": [
+        "That was {years} years ago.",
+        "That was a long time ago.",
+        "That's been {years} years.",
+        "That was years ago.",
+        "That was a long time ago!",
+        "It's been {years} years.",
+        "It's been a long time.",
+        "It's been a while.",
+        "That was a while ago."
+      ]
+    },
+    {
+      "move": "shared-school-answer-plain",
+      "subject": "shared-school",
+      "role": "answer",
+      "choice": "plain",
+      "candidates": [
+        "{school}, yes.",
+        "Of course.",
+        "Of course I remember.",
+        "I remember.",
+        "I remember that.",
+        "Yes, I remember.",
+        "Sure, I remember.",
+        "Oh, yes.",
+        "Oh, sure.",
+        "Sure I do.",
+        "How could I forget?",
+        "I'll never forget it."
+      ]
+    },
+    {
+      "move": "shared-school-answer-years",
+      "subject": "shared-school",
+      "role": "answer",
+      "choice": "years",
+      "candidates": [
+        "Of course. That was {years} years ago.",
+        "That was {years} years ago.",
+        "That was a long time ago.",
+        "That was years ago.",
+        "That was a while ago."
+      ]
+    },
+    {
+      "move": "shared-school-answer-turn",
+      "subject": "shared-school",
+      "role": "answer",
+      "choice": "turn",
+      "raises": "mutual",
+      "candidates": [
+        "I do.",
+        "I do remember.",
+        "Yes, I do.",
+        "Who could forget?"
+      ]
+    },
+    {
+      "move": "shared-school-answer-brief",
+      "subject": "shared-school",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": ["Sure.", "Yes.", "Yeah.", "Of course."]
+    },
+    {
+      "move": "shared-work-ask-remember",
+      "subject": "shared-work",
+      "role": "ask",
+      "choice": "remember",
+      "candidates": [
+        "Remember working at {employer}?",
+        "Do you remember working at {employer}?",
+        "Remember {employer}?",
+        "Do you remember {employer}?",
+        "Remember when we worked together?",
+        "Do you remember when we worked together?"
+      ]
+    },
+    {
+      "move": "shared-work-raise-still",
+      "subject": "shared-work",
+      "role": "raise",
+      "choice": "still",
+      "candidates": [
+        "Are you still at {employer}?",
+        "Are you still working at {employer}?",
+        "Do you still work at {employer}?",
+        "You still at {employer}?",
+        "Are you still there?",
+        "Are you still working there?",
+        "Do you still work there?"
+      ]
+    },
+    {
+      "move": "shared-work-reply-still",
+      "subject": "shared-work",
+      "role": "reply",
+      "choice": "still",
+      "stages": ["still"],
+      "candidates": [
+        "I'm still at {employer}.",
+        "I'm still there.",
+        "I still work there.",
+        "I'm still working there.",
+        "Still there."
+      ]
+    },
+    {
+      "move": "shared-work-reply-left",
+      "subject": "shared-work",
+      "role": "reply",
+      "choice": "left",
+      "stages": ["left"],
+      "candidates": [
+        "I left {employer}.",
+        "I left.",
+        "I'm not there anymore.",
+        "I don't work there anymore.",
+        "Not anymore.",
+        "No, I left."
+      ]
+    },
+    {
+      "move": "shared-work-answer-plain",
+      "subject": "shared-work",
+      "role": "answer",
+      "choice": "plain",
+      "candidates": [
+        "{employer}, right.",
+        "Oh, sure.",
+        "Sure.",
+        "I remember.",
+        "Of course."
+      ]
+    },
+    {
+      "move": "shared-work-answer-own",
+      "subject": "shared-work",
+      "role": "answer",
+      "choice": "own",
+      "requiresFacts": ["my_employer"],
+      "candidates": [
+        "I'm still at {my_employer}.",
+        "I'm at {my_employer} now.",
+        "I work at {my_employer} now.",
+        "I'm with {my_employer} now."
+      ]
+    },
+    {
+      "move": "shared-work-answer-brief",
+      "subject": "shared-work",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": ["Right.", "Yeah.", "Yes."]
+    },
+    {
+      "move": "mutual-raise-seen",
+      "subject": "mutual",
+      "role": "raise",
+      "choice": "seen",
+      "candidates": [
+        "Have you seen {name}?",
+        "Have you seen {name} lately?",
+        "Have you heard from {name}?",
+        "Have you talked to {name}?",
+        "Have you talked to {name} lately?",
+        "How's {name}?",
+        "How's {name} doing?",
+        "How is {name}?",
+        "How is {name} doing?",
+        "Do you ever see {name}?",
+        "Do you still see {name}?",
+        "What's {name} up to?",
+        "Have you seen {name} recently?",
+        "Have you heard from {name} lately?",
+        "Have you seen {name} around?",
+        "Do you know {name}?",
+        "You know {name}?",
+        "Do you remember {name}?",
+        "Remember {name}?",
+        "How's {name} been?",
+        "Seen {first} lately?",
+        "Have you seen {first} lately?",
+        "Have you seen {first}?",
+        "How's {first}?",
+        "How's {first} doing?",
+        "Have you talked to {first}?",
+        "Have you heard from {first}?"
+      ]
+    },
+    {
+      "move": "mutual-reply-saw",
+      "subject": "mutual",
+      "role": "reply",
+      "choice": "saw",
+      "stages": ["saw"],
+      "candidates": [
+        "I saw {name} {when}.",
+        "I just saw {name}.",
+        "I saw {name} the other day.",
+        "I saw {name} last week.",
+        "I talked to {name} the other day.",
+        "I talked to {name} last week.",
+        "I ran into {name} the other day.",
+        "I just talked to {name}.",
+        "I saw {name} yesterday.",
+        "Yes, I saw {name} {when}.",
+        "Saw {name} {when}.",
+        "I saw {name} {when}.",
+        "I talked to {name} {when}.",
+        "I ran into {name} {when}.",
+        "I just saw {name} {when}."
+      ]
+    },
+    {
+      "move": "mutual-reply-not",
+      "subject": "mutual",
+      "role": "reply",
+      "choice": "not",
+      "stages": ["not"],
+      "candidates": [
+        "I haven't seen {name} lately.",
+        "I haven't seen {name}.",
+        "I haven't seen {name} in a while.",
+        "I haven't seen {name} in a long time.",
+        "I haven't talked to {name} in a while.",
+        "I haven't heard from {name}.",
+        "I haven't heard from {name} in a while.",
+        "I haven't seen him.",
+        "I haven't seen her.",
+        "I haven't seen them.",
+        "Not lately.",
+        "Not in a while.",
+        "Not recently.",
+        "No, not lately.",
+        "No, not in a while.",
+        "I haven't seen {name} in years."
+      ]
+    },
+    {
+      "move": "mutual-answer-ack",
+      "subject": "mutual",
+      "role": "answer",
+      "choice": "ack",
+      "candidates": [
+        "{name}, right.",
+        "Oh, {name}.",
+        "Oh, okay.",
+        "Okay.",
+        "Really?"
+      ]
+    },
+    {
+      "move": "mutual-answer-mine-saw",
+      "subject": "mutual",
+      "role": "answer",
+      "choice": "mine-saw",
+      "requiresFacts": ["my_when"],
+      "candidates": [
+        "I saw {name} {my_when}.",
+        "I saw {name} the other day.",
+        "I just saw {name}.",
+        "I saw {name} last week.",
+        "I saw {name} yesterday.",
+        "I saw {name} recently.",
+        "I saw {name} {my_when}.",
+        "I talked to {name} {my_when}.",
+        "I ran into {name} {my_when}."
+      ]
+    },
+    {
+      "move": "mutual-answer-mine-not",
+      "subject": "mutual",
+      "role": "answer",
+      "choice": "mine-not",
+      "stages": ["not"],
+      "requiresFacts": ["my_not"],
+      "candidates": [
+        "I haven't seen {name} in a while either.",
+        "I haven't either.",
+        "Neither have I.",
+        "Me neither.",
+        "I haven't seen {name} either."
+      ]
+    },
+    {
+      "move": "mutual-answer-brief",
+      "subject": "mutual",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": ["Okay.", "Right.", "Oh.", "Huh."]
+    },
+    {
+      "move": "kin-raise-met",
+      "subject": "kin",
+      "role": "raise",
+      "choice": "met",
+      "candidates": [
+        "Have you met {relation}, {name}?",
+        "Have you met {relation}?",
+        "Have you met {name}?",
+        "Did you ever meet {relation}?",
+        "You've met {relation}, haven't you?",
+        "This is {relation}, {name}.",
+        "This is {relation}.",
+        "I want you to meet {relation}.",
+        "Do you know {relation}?",
+        "Do you know {name}?",
+        "Have you ever met {relation}?",
+        "You know {relation}, {name}.",
+        "This is {name}."
+      ]
+    },
+    {
+      "move": "kin-reply-not",
+      "subject": "kin",
+      "role": "reply",
+      "choice": "not",
+      "candidates": [
+        "No, I haven't met {name}.",
+        "No, I haven't.",
+        "I haven't met {name}.",
+        "I don't think so.",
+        "I don't think I have.",
+        "No, I don't think so.",
+        "Not yet."
+      ]
+    },
+    {
+      "move": "kin-answer-is",
+      "subject": "kin",
+      "role": "answer",
+      "choice": "is",
+      "candidates": [
+        "{name} is {relation}.",
+        "{name}'s {relation}.",
+        "That's {relation}.",
+        "That's {relation}, {name}.",
+        "{name}? That's {relation}.",
+        "{name} is my sister.",
+        "{name} is my brother.",
+        "{name} is my son.",
+        "{name} is my daughter.",
+        "{name} is my mother.",
+        "{name} is my father."
+      ]
+    },
+    {
+      "move": "kin-answer-lives",
+      "subject": "kin",
+      "role": "answer",
+      "choice": "lives",
+      "requiresFacts": ["housemate"],
+      "candidates": [
+        "{name} lives with me.",
+        "{name} lives with us.",
+        "She lives with me.",
+        "He lives with me.",
+        "She lives with us.",
+        "He lives with us."
+      ]
+    },
+    {
+      "move": "kin-answer-brief",
+      "subject": "kin",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": ["You will.", "You'll meet {name}.", "You'll like {name}."]
+    },
+    {
+      "move": "kin-answer-turn",
+      "subject": "kin",
+      "role": "answer",
+      "choice": "turn",
+      "raises": "next-2",
+      "candidates": [
+        "Maybe one day.",
+        "Maybe someday.",
+        "Someday.",
+        "One of these days.",
+        "Maybe sometime.",
+        "Sometime.",
+        "Maybe next time."
+      ]
+    },
+    {
+      "move": "family-ask-how",
+      "subject": "family",
+      "role": "ask",
+      "choice": "how",
+      "candidates": [
+        "How's your family?",
+        "How is your family?",
+        "How's the family?",
+        "How are your folks?",
+        "How are your parents?",
+        "How are the kids?",
+        "How are your kids?",
+        "How's your mother?",
+        "How's your mom?",
+        "How's your father?",
+        "How's your dad?",
+        "How's your wife?",
+        "How's your husband?",
+        "How's {relation}?",
+        "How is {relation}?",
+        "How is {relation} doing?",
+        "How's {relation} doing?",
+        "How's {name}?",
+        "How's {name} doing?",
+        "How are your children?",
+        "How's your sister?",
+        "How's your brother?"
+      ]
+    },
+    {
+      "move": "family-answer-well",
+      "subject": "family",
+      "role": "answer",
+      "choice": "well",
+      "candidates": [
+        "Fine.",
+        "They're fine.",
+        "They're doing fine.",
+        "They're doing well.",
+        "They're good.",
+        "Everybody's fine.",
+        "Everyone's fine.",
+        "Everybody's doing well.",
+        "She's fine.",
+        "He's fine.",
+        "She's doing fine.",
+        "He's doing fine.",
+        "She's doing well.",
+        "He's doing well.",
+        "She's good.",
+        "He's good.",
+        "Doing well.",
+        "Good.",
+        "All fine."
+      ]
+    },
+    {
+      "move": "family-answer-ill",
+      "subject": "family",
+      "role": "answer",
+      "choice": "ill",
+      "stages": ["ill"],
+      "candidates": [
+        "She's been sick.",
+        "He's been sick.",
+        "She's not doing so well.",
+        "He's not doing so well.",
+        "Not so good.",
+        "Not too well.",
+        "She's in the hospital.",
+        "He's in the hospital.",
+        "She's been ill.",
+        "He's been ill."
+      ]
+    },
+    {
+      "move": "family-answer-gone",
+      "subject": "family",
+      "role": "answer",
+      "choice": "gone",
+      "stages": ["died"],
+      "candidates": [
+        "She passed away.",
+        "He passed away.",
+        "She died.",
+        "He died.",
+        "She passed.",
+        "He passed.",
+        "My mother passed away.",
+        "My father passed away.",
+        "My mother died.",
+        "My father died."
+      ]
+    },
+    {
+      "move": "family-answer-thanks",
+      "subject": "family",
+      "role": "answer",
+      "choice": "thanks",
+      "candidates": [
+        "Thanks for asking.",
+        "Thank you for asking.",
+        "Thanks for asking!",
+        "Nice of you to ask."
+      ]
+    },
+    {
+      "move": "school-ask-how",
+      "subject": "school",
+      "role": "ask",
+      "choice": "how",
+      "candidates": [
+        "How's school?",
+        "How is school?",
+        "How's school going?",
+        "How are your classes?",
+        "How do you like school?",
+        "Where do you go to school?",
+        "Where did you go to school?",
+        "What school do you go to?",
+        "Are you still in school?",
+        "When do you graduate?"
+      ]
+    },
+    {
+      "move": "school-answer-at",
+      "subject": "school",
+      "role": "answer",
+      "choice": "at",
+      "candidates": [
+        "I go to {school}.",
+        "I'm at {school}.",
+        "I'm going to {school}.",
+        "I went to {school}.",
+        "I graduated from {school}.",
+        "I'm still in school.",
+        "I'm in school."
+      ]
+    },
+    {
+      "move": "school-answer-fine",
+      "subject": "school",
+      "role": "answer",
+      "choice": "fine",
+      "candidates": [
+        "It's fine.",
+        "It's good.",
+        "It's going well.",
+        "Good.",
+        "Fine.",
+        "Okay.",
+        "It's okay.",
+        "It's hard.",
+        "It's going okay."
+      ]
+    },
+    {
+      "move": "school-answer-done",
+      "subject": "school",
+      "role": "answer",
+      "choice": "done",
+      "stages": ["graduated"],
+      "candidates": [
+        "I graduated.",
+        "I'm done with school.",
+        "I finished school.",
+        "I'm out of school.",
+        "I graduated last year.",
+        "I just graduated."
+      ]
+    },
+    {
+      "move": "news-raise-heard",
+      "subject": "news",
+      "role": "raise",
+      "choice": "heard",
+      "candidates": [
+        "Did you hear about {topic}?",
+        "Have you heard about {topic}?",
+        "Did you hear?",
+        "Have you heard?",
+        "Did you see that?",
+        "Did you hear what happened?",
+        "Did you hear the news?",
+        "Have you heard the news?",
+        "Did you see the news?",
+        "Did you read about {topic}?",
+        "Did you see the paper?",
+        "Do you know what happened?",
+        "Guess what happened.",
+        "Guess what."
+      ]
+    },
+    {
+      "move": "news-answer-yes",
+      "subject": "news",
+      "role": "answer",
+      "choice": "yes",
+      "stages": ["heard"],
+      "candidates": [
+        "I heard.",
+        "I heard about that.",
+        "I heard about it.",
+        "Yes, I heard.",
+        "Yeah, I heard.",
+        "I saw that.",
+        "I read about it.",
+        "I read about that.",
+        "I saw it on the news.",
+        "I saw it in the paper.",
+        "I know."
+      ]
+    },
+    {
+      "move": "news-answer-no",
+      "subject": "news",
+      "role": "answer",
+      "choice": "no",
+      "stages": ["not-heard"],
+      "candidates": [
+        "No, what happened?",
+        "What happened?",
+        "No. What happened?",
+        "No.",
+        "I didn't hear.",
+        "I haven't heard.",
+        "No, I didn't.",
+        "No, I haven't.",
+        "What?",
+        "What about it?",
+        "Tell me."
+      ]
+    },
+    {
+      "move": "news-answer-react",
+      "subject": "news",
+      "role": "answer",
+      "choice": "react",
+      "candidates": [
+        "Really?",
+        "Oh, no.",
+        "Oh, my.",
+        "That's terrible.",
+        "That's too bad.",
+        "That's a shame.",
+        "That's great.",
+        "That's good news.",
+        "Good for them.",
+        "I can't believe it.",
+        "I didn't know that.",
+        "Wow.",
+        "Huh.",
+        "No kidding.",
+        "You're kidding."
+      ]
+    },
+    {
+      "move": "news-ask-think",
+      "subject": "news",
+      "role": "ask",
+      "choice": "think",
+      "candidates": [
+        "What do you think?",
+        "What do you think about that?",
+        "What do you make of that?",
+        "What do you think of that?",
+        "How do you feel about that?",
+        "What do you think about it?"
+      ]
+    },
+    {
+      "move": "news-answer-opinion",
+      "subject": "news",
+      "role": "answer",
+      "choice": "opinion",
+      "candidates": [
+        "I don't know.",
+        "I don't know what to think.",
+        "I think it's a good thing.",
+        "I think it's a mistake.",
+        "I think it's terrible.",
+        "I think it's great.",
+        "It's about time.",
+        "It's a shame.",
+        "We'll see.",
+        "Time will tell.",
+        "I don't like it.",
+        "I like it.",
+        "I'm not sure."
+      ]
+    },
+    {
+      "move": "farewell-leave-bye",
+      "subject": "farewell",
+      "role": "leave",
+      "choice": "bye",
+      "candidates": [
+        "Goodbye.",
+        "Bye.",
+        "Bye now.",
+        "See you.",
+        "See you later.",
+        "See you around.",
+        "See you soon.",
+        "Take care.",
+        "Take care of yourself.",
+        "Have a good day.",
+        "Have a nice day.",
+        "Have a good night.",
+        "Good night.",
+        "I'll see you.",
+        "I'll see you later.",
+        "I'll talk to you later.",
+        "Talk to you later.",
+        "Talk to you soon.",
+        "Good to see you.",
+        "Nice to see you.",
+        "Good talking to you.",
+        "Nice talking to you.",
+        "It was good to see you.",
+        "It was nice to see you.",
+        "It was good talking to you.",
+        "It was nice talking to you.",
+        "I've got to go.",
+        "I have to go.",
+        "I'd better go.",
+        "I better go.",
+        "I should go.",
+        "I need to go.",
+        "I've got to run.",
+        "I have to run.",
+        "I gotta go.",
+        "Say hello to {name}.",
+        "Say hi to {name}.",
+        "Tell {name} I said hello.",
+        "Tell {name} I said hi.",
+        "Give my best to {name}.",
+        "Say hello to your family.",
+        "Say hi to your family.",
+        "Give my best to your family.",
+        "Tell your family I said hello.",
+        "Tell your mother I said hello.",
+        "See you next time.",
+        "Until next time.",
+        "Come see us.",
+        "Come back soon.",
+        "Don't be a stranger.",
+        "Stay in touch.",
+        "Keep in touch.",
+        "Let's keep in touch.",
+        "Let's get together sometime.",
+        "We should get together.",
+        "We'll talk."
+      ]
+    },
+    {
+      "move": "farewell-answer-bye",
+      "subject": "farewell",
+      "role": "answer",
+      "choice": "bye",
+      "candidates": [
+        "You too.",
+        "You too!",
+        "Same to you.",
+        "Bye.",
+        "See you.",
+        "Take care.",
+        "I will.",
+        "Will do.",
+        "Okay.",
+        "Okay, bye.",
+        "All right.",
+        "Thanks.",
+        "Thank you."
+      ]
+    },
+    {
+      "move": "lie-doubt-question",
+      "subject": "lie",
+      "role": "doubt",
+      "choice": "question",
+      "candidates": [
+        "Really?",
+        "Is that right?",
+        "Is that so?",
+        "Is that true?",
+        "Are you sure?",
+        "Since when?",
+        "Oh, really?",
+        "That's not what I heard.",
+        "That's not what I heard!",
+        "I heard different.",
+        "I didn't know that.",
+        "I thought you were still there.",
+        "I thought you were still working there."
+      ]
+    },
+    {
+      "move": "home-raise-still-in",
+      "subject": "home",
+      "role": "raise",
+      "choice": "still-in",
+      "candidates": [
+        "Are you still in {place}?",
+        "Are you still living in {place}?",
+        "Do you still live in {place}?",
+        "Still in {place}?",
+        "Are you still living there?",
+        "Do you still live there?",
+        "Are you still there?"
+      ]
+    },
+    {
+      "move": "shared-school-raise-remember",
+      "subject": "shared-school",
+      "role": "raise",
+      "choice": "remember",
+      "candidates": [
+        "Do you remember {school}?",
+        "Remember {school}?",
+        "You remember {school}?",
+        "Remember when we were in school?",
+        "Do you remember school?",
+        "Remember high school?",
+        "Do you remember when we were in school?"
+      ]
+    },
+    {
+      "move": "shared-work-answer-turn",
+      "subject": "shared-work",
+      "role": "answer",
+      "choice": "turn",
+      "raises": "their-work",
+      "candidates": [
+        "{employer}, sure.",
+        "Oh, sure.",
+        "Sure, I remember.",
+        "Of course I remember.",
+        "I sure do.",
+        "I do."
+      ]
+    },
+    {
+      "move": "their-work-raise-ask",
+      "subject": "their-work",
+      "role": "raise",
+      "choice": "ask",
+      "candidates": [
+        "Are you still working?",
+        "Are you working?",
+        "Are you working now?",
+        "Are you still working there?",
+        "What are you doing now?",
+        "What are you doing these days?",
+        "What do you do now?",
+        "Where do you work now?",
+        "Where are you working now?",
+        "What are you doing?",
+        "What do you do?"
+      ]
+    },
+    {
+      "move": "other-work-answer-ack-none",
+      "subject": "other-work",
+      "role": "answer",
+      "choice": "ack-none",
+      "stages": ["none"],
+      "candidates": [
+        "I see.",
+        "Oh, I see.",
+        "Oh, okay.",
+        "Okay.",
+        "I'm sorry.",
+        "I'm sorry to hear that.",
+        "Sorry to hear that.",
+        "That's too bad.",
+        "Oh, no."
+      ]
+    },
+    {
+      "move": "other-work-answer-own",
+      "subject": "other-work",
+      "role": "answer",
+      "choice": "own",
+      "candidates": [
+        "I'm still at {my_employer}.",
+        "I work at {my_employer}.",
+        "I work for {my_employer}.",
+        "I'm at {my_employer}.",
+        "I'm with {my_employer}.",
+        "I'm still with {my_employer}.",
+        "I'm still working at {my_employer}."
+      ]
+    },
+    {
+      "move": "other-work-answer-brief",
+      "subject": "other-work",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": ["Right.", "Okay.", "Sure.", "Oh."]
+    },
+    {
+      "move": "tenure-reply-answer-ack",
+      "subject": "tenure-reply",
+      "role": "answer",
+      "choice": "ack",
+      "candidates": [
+        "Since {since}, right.",
+        "Oh, wow.",
+        "Wow.",
+        "That's a long time.",
+        "That's great.",
+        "Good for you."
+      ]
+    },
+    {
+      "move": "tenure-reply-answer-own",
+      "subject": "tenure-reply",
+      "role": "answer",
+      "choice": "own",
+      "candidates": [
+        "I've been at {my_employer} since {my_since}.",
+        "I've been with {my_employer} since {my_since}.",
+        "I've worked at {my_employer} since {my_since}.",
+        "I've worked for {my_employer} since {my_since}.",
+        "I've been at {my_employer} for {years} years."
+      ]
+    },
+    {
+      "move": "tenure-reply-answer-brief",
+      "subject": "tenure-reply",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": ["Right.", "Okay.", "Sure."]
+    },
+    {
+      "move": "heard-work-reply-ok",
+      "subject": "heard-work",
+      "role": "reply",
+      "choice": "ok",
+      "candidates": [
+        "{employer}, right.",
+        "Oh, {employer}.",
+        "Oh, okay.",
+        "Oh, really?",
+        "Really?",
+        "I didn't know that.",
+        "I see.",
+        "Oh, I see.",
+        "Good for you.",
+        "That's great.",
+        "That's good."
+      ]
+    },
+    {
+      "move": "heard-work-answer-yes",
+      "subject": "heard-work",
+      "role": "answer",
+      "choice": "yes",
+      "candidates": ["Yes.", "Yeah.", "That's right.", "Yep.", "Right."]
+    },
+    {
+      "move": "heard-work-answer-since",
+      "subject": "heard-work",
+      "role": "answer",
+      "choice": "since",
+      "candidates": [
+        "Since {since}.",
+        "Since about {since}.",
+        "Ever since {since}.",
+        "I've been there since {since}.",
+        "I've been there {years} years."
+      ]
+    },
+    {
+      "move": "heard-work-answer-turn",
+      "subject": "heard-work",
+      "role": "answer",
+      "choice": "turn",
+      "raises": "their-work",
+      "candidates": [
+        "Yes. And you?",
+        "And you?",
+        "How about you?",
+        "What about you?",
+        "What do you do?",
+        "Where do you work?"
+      ]
+    },
+    {
+      "move": "heard-work-answer-brief",
+      "subject": "heard-work",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": ["That's right.", "That's it.", "Yep.", "Right."]
+    },
+    {
+      "move": "home-reply-answer-own",
+      "subject": "home-reply",
+      "role": "answer",
+      "choice": "own",
+      "candidates": [
+        "I'm still in {my_place}.",
+        "I live in {my_place}.",
+        "I'm in {my_place}.",
+        "I still live in {my_place}.",
+        "I'm in {my_place} now."
+      ]
+    },
+    {
+      "move": "mutual-answer-turn",
+      "subject": "mutual",
+      "role": "answer",
+      "choice": "turn",
+      "raises": "next-2",
+      "candidates": ["Right.", "Okay.", "I see.", "Huh."]
+    },
+    {
+      "move": "own-work-new-answer-turn",
+      "subject": "own-work-new",
+      "role": "answer",
+      "choice": "turn",
+      "raises": "their-work",
+      "candidates": [
+        "At {employer}. And you?",
+        "I work at {employer}. And you?",
+        "How about you?",
+        "And you?",
+        "What about you?",
+        "What do you do?",
+        "Where do you work?"
+      ]
+    },
+    {
+      "move": "own-work-new-answer-brief",
+      "subject": "own-work-new",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": [
+        "At {employer}.",
+        "I'm at {employer}.",
+        "I'm with {employer}.",
+        "With {employer}."
+      ]
+    },
+    {
+      "move": "own-work-new-lie-elsewhere",
+      "subject": "own-work-new",
+      "role": "lie",
+      "choice": "elsewhere",
+      "stages": ["elsewhere"],
+      "candidates": [
+        "At {claimed}.",
+        "I work at {claimed}.",
+        "I work for {claimed}.",
+        "I'm at {claimed}.",
+        "I'm with {claimed}.",
+        "I'm working at {claimed}."
+      ]
+    },
+    {
+      "move": "home-new-answer-turn",
+      "subject": "home-new",
+      "role": "answer",
+      "choice": "turn",
+      "raises": "home",
+      "candidates": [
+        "In {place}. And you?",
+        "I live in {place}. And you?",
+        "And you?",
+        "How about you?",
+        "What about you?",
+        "Where are you from?",
+        "Where do you live?"
+      ]
+    },
+    {
+      "move": "asked-mutual-answer-saw",
+      "subject": "asked-mutual",
+      "role": "answer",
+      "choice": "saw",
+      "requiresFacts": ["my_when"],
+      "candidates": [
+        "I saw {name} {my_when}.",
+        "I talked to {name} {my_when}.",
+        "I ran into {name} {my_when}.",
+        "I just saw {name} {my_when}.",
+        "Yes, I saw {name} {my_when}."
+      ]
+    },
+    {
+      "move": "asked-mutual-answer-not",
+      "subject": "asked-mutual",
+      "role": "answer",
+      "choice": "not",
+      "requiresFacts": ["my_not"],
+      "candidates": [
+        "Not lately.",
+        "Not in a while.",
+        "Not recently.",
+        "No, not lately.",
+        "No, not in a while.",
+        "I haven't seen {name} in a while.",
+        "I haven't seen {name} lately."
+      ]
+    },
+    {
+      "move": "asked-mutual-answer-turn",
+      "subject": "asked-mutual",
+      "role": "answer",
+      "choice": "turn",
+      "candidates": [
+        "Have you?",
+        "Why?",
+        "How about you?",
+        "Have you seen {name}?"
+      ]
+    },
+    {
+      "move": "asked-mutual-answer-brief",
+      "subject": "asked-mutual",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": ["No.", "Nope.", "No, I haven't."]
+    },
+    {
+      "move": "asked-kin-answer-no",
+      "subject": "asked-kin",
+      "role": "answer",
+      "choice": "no",
+      "candidates": [
+        "No, I haven't.",
+        "No, I haven't met {name}.",
+        "I haven't met {name}.",
+        "No, I don't think so.",
+        "I don't think so."
+      ]
+    },
+    {
+      "move": "asked-kin-answer-not-yet",
+      "subject": "asked-kin",
+      "role": "answer",
+      "choice": "not-yet",
+      "candidates": ["Not yet.", "No, not yet.", "Not yet, no."]
+    },
+    {
+      "move": "asked-kin-answer-name",
+      "subject": "asked-kin",
+      "role": "answer",
+      "choice": "name",
+      "candidates": ["{name}? No.", "{name}?", "Who's {name}?"]
+    },
+    {
+      "move": "asked-kin-answer-brief",
+      "subject": "asked-kin",
+      "role": "answer",
+      "choice": "brief",
+      "raises": "next",
+      "candidates": ["No.", "Nope."]
+    },
+    {
+      "move": "ack-reply-right",
+      "subject": "ack",
+      "role": "reply",
+      "choice": "right",
+      "candidates": [
+        "Right.",
+        "Okay.",
+        "Yeah.",
+        "Huh.",
+        "Sure.",
+        "Uh-huh.",
+        "I see.",
+        "Oh.",
+        "All right.",
+        "Got it."
+      ]
+    }
+  ]
+}
