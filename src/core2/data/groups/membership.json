@@ -1,0 +1,77 @@
+{
+  "version": "groups-membership-v1",
+  "closenessKind": "group",
+  "meetCause": "met-in-group",
+  "gatherCause": "group-gathering",
+  "gatheringPeers": "groupsGatheringPeers",
+  "kinds": {
+    "congregation": {
+      "stayOutParameter": "groupsStayOutCongregation",
+      "everyDaysParameter": "daysPerWeek",
+      "hoursParameter": "groupsHoursService",
+      "requires": "faith",
+      "ageCenterParameter": "groupsAgeCenterOlder"
+    },
+    "parent-teacher-group": {
+      "stayOutParameter": "groupsStayOutSchool",
+      "everyDaysParameter": "groupsMonthlyDays",
+      "hoursParameter": "groupsHoursMeeting",
+      "requires": "children-at-home",
+      "ageCenterParameter": "groupsAgeCenterParents"
+    },
+    "neighborhood-association": {
+      "stayOutParameter": "groupsStayOutNeighborhood",
+      "everyDaysParameter": "groupsMonthlyDays",
+      "hoursParameter": "groupsHoursMeeting",
+      "ageCenterParameter": "groupsAgeCenterOlder"
+    },
+    "service-club": {
+      "stayOutParameter": "groupsStayOutService",
+      "everyDaysParameter": "groupsMonthlyDays",
+      "hoursParameter": "groupsHoursMeeting",
+      "ageCenterParameter": "groupsAgeCenterOlder"
+    },
+    "veterans-post": {
+      "stayOutParameter": "groupsStayOutService",
+      "everyDaysParameter": "groupsMonthlyDays",
+      "hoursParameter": "groupsHoursMeeting",
+      "ageCenterParameter": "groupsAgeCenterOlder"
+    },
+    "fraternal-society": {
+      "stayOutParameter": "groupsStayOutService",
+      "everyDaysParameter": "groupsMonthlyDays",
+      "hoursParameter": "groupsHoursMeeting",
+      "ageCenterParameter": "groupsAgeCenterOlder"
+    },
+    "business-association": {
+      "stayOutParameter": "groupsStayOutService",
+      "everyDaysParameter": "groupsMonthlyDays",
+      "hoursParameter": "groupsHoursMeeting",
+      "ageCenterParameter": "groupsAgeCenterMiddle"
+    },
+    "advocacy-group": {
+      "stayOutParameter": "groupsStayOutOther",
+      "everyDaysParameter": "groupsMonthlyDays",
+      "hoursParameter": "groupsHoursMeeting",
+      "ageCenterParameter": "groupsAgeCenterMiddle"
+    },
+    "volunteer-group": {
+      "stayOutParameter": "groupsStayOutOther",
+      "everyDaysParameter": "groupsMonthlyDays",
+      "hoursParameter": "groupsHoursMeeting",
+      "ageCenterParameter": "groupsAgeCenterMiddle"
+    },
+    "sports-league": {
+      "stayOutParameter": "groupsStayOutSports",
+      "everyDaysParameter": "daysPerWeek",
+      "hoursParameter": "groupsHoursMeeting",
+      "ageCenterParameter": "groupsAgeCenterYounger"
+    },
+    "arts-group": {
+      "stayOutParameter": "groupsStayOutOther",
+      "everyDaysParameter": "daysPerWeek",
+      "hoursParameter": "groupsHoursMeeting",
+      "ageCenterParameter": "groupsAgeCenterMiddle"
+    }
+  }
+}

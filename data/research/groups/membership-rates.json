@@ -1,0 +1,46 @@
+{
+  "id": "group-membership-rates",
+  "retrievedAt": "2026-10-12",
+  "about": "How many US adults take part in each kind of group, the check for src/core2/modules/groups.ts. The 2017-2023 Civic Engagement and Volunteering supplements ask only whether a person belonged to any group; the last supplement to ask by group type is November 2013.",
+  "sources": [
+    {
+      "id": "cps-cev-nov-2013",
+      "tag": "SOURCED",
+      "citation": "U.S. Census Bureau, Current Population Survey, November 2013 Civic Engagement Supplement, public-use microdata (nov13pub.dat.gz) and codebook (cpsnov13.pdf, Attachment 7, items PES5a-e, columns 959-968); adults 18 and over (38,601), weighted by PWNRWGT; base is yes plus no answers. OPUS-PEOPLE's tabulation; the school and neighborhood share (13.9%) matches Pew's published 13.7% (Pew Research Center 2018, Appendix D).",
+      "url": "https://www2.census.gov/programs-surveys/cps/datasets/2013/supp/nov13pub.dat.gz",
+      "percentTakingPartInPastYear": {
+        "columns": ["school-or-neighborhood", "service-or-civic", "sports-or-recreation", "religious-beyond-services", "other", "any"],
+        "all": [13.9, 6.8, 9.9, 19.4, 5.0, 36.5],
+        "age 18-29": [9.4, 3.4, 10.3, 12.9, 3.4, 28.3],
+        "age 30-44": [18.6, 5.0, 13.3, 18.0, 3.9, 38.1],
+        "age 45-64": [14.7, 7.9, 9.2, 20.9, 5.6, 37.8],
+        "age 65+": [11.2, 11.0, 6.0, 25.9, 7.3, 40.9],
+        "less than high school": [5.1, 2.2, 3.9, 12.9, 1.2, 20.2],
+        "high school": [7.6, 4.9, 5.0, 15.4, 2.5, 26.8],
+        "some college or associate": [13.8, 6.7, 10.6, 19.3, 4.8, 37.2],
+        "bachelor's": [20.5, 8.9, 14.7, 24.1, 7.3, 47.8],
+        "graduate": [28.5, 13.1, 18.9, 28.7, 12.2, 57.4],
+        "parent of child under 18": [23.8, 5.5, 16.2, 21.1, 3.9, 42.9],
+        "not a parent": [10.1, 7.3, 7.4, 18.7, 5.5, 34.0],
+        "veteran": [12.2, 17.7, 9.4, 21.3, 7.5, 43.5],
+        "non-veteran": [14.0, 5.8, 9.9, 19.2, 4.8, 35.8]
+      },
+      "note": "Parent status (PRCHLD) is defined only for the family reference person or spouse."
+    },
+    {
+      "id": "americorps-cev-2017-2023",
+      "tag": "SOURCED",
+      "citation": "AmeriCorps, 2017-2023 CEV Findings, National Rates (data.americorps.gov/d/rhng-qtzw), Organizational Membership Rate, ages 16+: 27.1% (2017), 27.1% (2019), 23.8% (2021), 24.9% (2023). One direct question about belonging, so lower than 2013's five prompts by type."
+    },
+    {
+      "id": "religion",
+      "tag": "SOURCED",
+      "citation": "Pew Research Center, Religious Landscape Study 2023-24 (Feb 26, 2025): 33% attend in person at least monthly, 25% weekly, 37% members of a congregation. Gallup 2021-23: weekly 21%, almost weekly 9%, about monthly 11%; church membership 45% (Gallup, 'How Religious Are Americans?', Mar 29, 2024)."
+    },
+    {
+      "id": "party-switching",
+      "tag": "SOURCED",
+      "citation": "Pew Research Center, 'Voters Rarely Switch Parties' (Aug 4, 2020), American Trends Panel, 11,077 registered voters, Sept 2018 to July 2020, leaners counted with their party: 9% of 2018 Republicans and 9% of 2018 Democrats had moved to the other party by 2020; about 8 in 10 gave the same answer in all five surveys. No verified one-year rate."
+    }
+  ]
+}

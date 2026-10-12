@@ -16,9 +16,18 @@ import { stableHash } from "../../simulation/ids";
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
 import { PROFILE_FACT_KINDS, profileFor } from "../opening-profile";
+import partyJson from "../data/views/ces-2024-party.json" with { type: "json" };
 import keysJson from "../data/views/ces-2024-views.json" with { type: "json" };
 import viewsJson from "../data/views/views.json" with { type: "json" };
-import type { CoreAPI, CoreModule, PersonId, PersonState } from "../types";
+import { decisionFromScores, scoreOffers } from "../choice";
+import type {
+  ActionDefinition,
+  ActOffer,
+  CoreAPI,
+  CoreModule,
+  PersonId,
+  PersonState,
+} from "../types";
 
 interface CellKey {
   n: number;
@@ -77,6 +86,8 @@ export const VIEWS_SPEECH_LEAN_KEY = "speech:lean";
 
 export interface PersonView {
   id: PersonId;
+  /** Seven-point party identification (CES pid7), e.g. "lean-democrat". */
+  party?: string;
   /** -2 (very liberal) to +2 (very conservative). */
   lean: number;
   /** 0 (hardly follows politics) to 1 (follows it most of the time). */
@@ -112,6 +123,53 @@ function normal(key: string): number {
     Math.sqrt(-v("two") * Math.log(uniform(`${key}:a`))) *
     Math.cos(v("two") * Math.PI * uniform(`${key}:b`))
   );
+}
+
+const PARTY = partyJson as unknown as {
+  parties: readonly string[];
+  byIdeology: Readonly<Record<string, Readonly<Record<string, number>>>>;
+  meanLeanByParty: Readonly<Record<string, number>>;
+};
+
+/**
+ * A person's party at the opening, from the CES shares of each party among
+ * people of their ideology (interpolated between the two nearest points),
+ * read with a draw keyed to their home and to them: who they are, not a
+ * decision. People who do not place themselves read the "not sure" row.
+ */
+function partyFor(
+  lean: number,
+  label: string,
+  seed: string,
+  person: Pick<PersonState, "id" | "householdId">,
+): string {
+  let shares: Record<string, number>;
+  if (label === "not-sure") shares = { ...PARTY.byIdeology["not-sure"]! };
+  else {
+    const low = Math.floor(lean);
+    const high = Math.min(v("leanMax"), low + v("one"));
+    const t = lean - low;
+    const a = PARTY.byIdeology[String(low)]!;
+    const b = PARTY.byIdeology[String(high)]!;
+    shares = Object.fromEntries(
+      PARTY.parties.map((party) => [
+        party,
+        (v("one") - t) * (a[party] ?? v("zero")) + t * (b[party] ?? v("zero")),
+      ]),
+    );
+  }
+  const share = v("partyHouseholdShare");
+  const draw =
+    uniform(`${seed}:views:party:which:${person.id}`) < share
+      ? uniform(`${seed}:views:party:home:${person.householdId}`)
+      : uniform(`${seed}:views:party:person:${person.id}`);
+  const total = Object.values(shares).reduce((sum, x) => sum + x, v("zero"));
+  let cumulative = v("zero");
+  for (const party of PARTY.parties) {
+    cumulative += (shares[party] ?? v("zero")) / total;
+    if (draw < cumulative) return party;
+  }
+  return PARTY.parties.at(-v("one"))!;
 }
 
 function stateOf(person: PersonState): string | null {
@@ -229,6 +287,7 @@ export function viewOf(api: CoreAPI, personId: PersonId): PersonView | null {
       : VIEWS_DATA.labels[Math.round(lean) - v("leanMin")]!;
   const view: PersonView = {
     id: personId,
+    party: partyFor(lean, label, seed, person),
     lean,
     engagement,
     label,
@@ -311,6 +370,132 @@ export const viewsModule: CoreModule = {
         ],
       };
       stancesTable(api).put(stance as unknown as { id: string });
+      if (Number.isFinite(speechLean))
+        driftToward(api, view, speechLean, nearness, event.id);
     }
   },
+  reasonProviders: {
+    "views-party": (api, actor, _offer, binding) => {
+      const held = pendingParty.get(api.state);
+      if (!held || held.personId !== actor.id) return undefined;
+      return {
+        value:
+          binding.arguments?.changing === "true"
+            ? held.pull
+            : v(`partyStickiness:${held.strength}`),
+        sourceIds: [actor.id, held.eventId],
+      };
+    },
+  },
 };
+
+/** How strongly a seven-point party identification holds: its strength word. */
+function strengthOf(party: string): string {
+  return party.split("-")[v("zero")]!;
+}
+
+function partyAction(id: string, changing: boolean): ActionDefinition {
+  return {
+    id,
+    actKinds: ["engage"],
+    goalKinds: [],
+    need: "safety",
+    effortParameter: "zero",
+    effectParameter: "one",
+    targetKind: "party",
+    effect: "identify",
+    reasonBindings: [
+      {
+        id: "party",
+        provider: "views-party",
+        weightParameter: "one",
+        arguments: { changing: String(changing) },
+        stopgapId: VIEWS_DATA.stopgapId,
+      },
+    ],
+  };
+}
+const KEEP_PARTY = partyAction("views-keep-party", false);
+const CHANGE_PARTY = partyAction("views-change-party", true);
+const pendingParty = new WeakMap<
+  object,
+  { personId: PersonId; pull: number; strength: string; eventId: string }
+>();
+
+/**
+ * A speech heard moves the listener's lean a little toward the speaker's, by
+ * how near they already were and how loosely they hold their views; then the
+ * listener weighs moving one step along the party scale toward the point
+ * whose people's average lean is now nearer, against how strongly they hold
+ * their party (CES 2024 means by party; Pew 2020 is the check on totals).
+ */
+function driftToward(
+  api: CoreAPI,
+  view: PersonView,
+  speechLean: number,
+  nearness: number,
+  eventId: string,
+): void {
+  const step =
+    v("speechLeanPull") *
+    nearness *
+    (v("one") - v("tightness") * view.engagement);
+  if (!(step > v("zero"))) return;
+  const lean = Math.min(
+    v("leanMax"),
+    Math.max(v("leanMin"), view.lean + step * (speechLean - view.lean)),
+  );
+  let party = view.party;
+  if (party && party !== "not-sure") {
+    const order = PARTY.parties.filter((row) => row !== "not-sure");
+    const at = order.indexOf(party);
+    const mean = (row: string) => PARTY.meanLeanByParty[row] ?? v("zero");
+    const toward =
+      lean < mean(party) ? order[at - v("one")] : order[at + v("one")];
+    if (toward) {
+      const pull = Math.abs(lean - mean(party)) - Math.abs(lean - mean(toward));
+      pendingParty.set(api.state, {
+        personId: view.id,
+        pull,
+        strength: strengthOf(party),
+        eventId,
+      });
+      const offers: ActOffer[] = [KEEP_PARTY, CHANGE_PARTY].map(
+        (definition) => ({
+          definition,
+          targetId: toward,
+          availableHours: api.parameter("hoursPerDay"),
+        }),
+      );
+      const scored = scoreOffers(api.state, view.id, offers, {
+        needValues: { safety: v("zero") },
+      });
+      const decision = decisionFromScores(api.state, view.id, scored);
+      pendingParty.delete(api.state);
+      if (decision.selected?.definition.id === CHANGE_PARTY.id) {
+        api.emit({
+          id: `views.party-changed:${view.id}:${api.state.date}:${eventId}`,
+          date: api.state.date,
+          kind: "views.party-changed",
+          personIds: [view.id],
+          placeId: api.state.people.get(view.id)!.placeId,
+          publicRecord: false,
+          source: {
+            tag: "ESTIMATED",
+            asOf: api.state.date,
+            citation:
+              "A change of party identification after a speech moved their lean.",
+            estimatedFrom: VIEWS_DATA.stopgapId,
+          },
+          facts: { from: party, to: toward, causeId: eventId },
+        });
+        party = toward;
+      }
+    }
+  }
+  viewsTable(api).put({
+    ...view,
+    lean,
+    ...(party ? { party } : {}),
+  } as unknown as { id: string });
+}

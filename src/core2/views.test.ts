@@ -147,4 +147,37 @@ describe("political views", () => {
     }
     for (const row of others) expect(stancesOf(api, row.id)).toEqual([]);
   });
+
+  it("gives each adult a party from the CES shares at their ideology, shared at home more than by chance", () => {
+    const { views, adults } = towns[0]!;
+    const side = (party?: string) =>
+      party?.endsWith("democrat")
+        ? "D"
+        : party?.endsWith("republican")
+          ? "R"
+          : "I";
+    for (const view of views) expect(view.party).toBeDefined();
+    const left = views.filter((v) => v.label !== "not-sure" && v.lean < -1);
+    const right = views.filter((v) => v.label !== "not-sure" && v.lean > 1);
+    const share = (rows: typeof views, s: string) =>
+      rows.filter((v) => side(v.party) === s).length / Math.max(1, rows.length);
+    // CES 2024: 88% of the very liberal side with Democrats, 90% of the very
+    // conservative with Republicans; a wide band for one town.
+    if (left.length >= 10) expect(share(left, "D")).toBeGreaterThan(0.7);
+    if (right.length >= 10) expect(share(right, "R")).toBeGreaterThan(0.7);
+    // Two adults at home agree on side more often than two adults at random.
+    const byId = new Map(views.map((v) => [v.id, v]));
+    let same = 0;
+    let pairs = 0;
+    for (const a of adults)
+      for (const b of adults)
+        if (a.id < b.id && a.householdId === b.householdId) {
+          pairs += 1;
+          if (side(byId.get(a.id)!.party) === side(byId.get(b.id)!.party))
+            same += 1;
+        }
+    const sides = ["D", "R", "I"].map((s) => share(views, s));
+    const chance = sides.reduce((sum, x) => sum + x * x, 0);
+    if (pairs >= 20) expect(same / pairs).toBeGreaterThan(chance);
+  });
 });

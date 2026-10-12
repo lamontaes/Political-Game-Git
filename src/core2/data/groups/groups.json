@@ -1,0 +1,49 @@
+{
+  "version": "groups-v1",
+  "stopgapId": "SG-P15-group-names",
+  "about": "The kinds of local group a town has (counted from the IRS Exempt Organizations Business Master File, src/core2/data/groups/counts.json), what a resident can do with each, and a stand-in name pattern until each group carries its record's own name.",
+  "affordances": ["known-group", "public-meeting-place"],
+  "kinds": {
+    "service-club": {
+      "name": "{place} Service Club"
+    },
+    "veterans-post": {
+      "name": "{place} Veterans Post"
+    },
+    "parent-teacher-group": {
+      "name": "{place} Parent-Teacher Association"
+    },
+    "neighborhood-association": {
+      "name": "{place} Neighborhood Association"
+    },
+    "sports-league": {
+      "name": "{place} Recreation League"
+    },
+    "volunteer-group": {
+      "name": "{place} Volunteers"
+    },
+    "congregation": {
+      "name": "{place} Community Church"
+    },
+    "fraternal-society": {
+      "name": "{place} Fraternal Lodge"
+    },
+    "business-association": {
+      "name": "{place} Chamber of Commerce"
+    },
+    "advocacy-group": {
+      "name": "{place} Civic League"
+    },
+    "arts-group": {
+      "name": "{place} Community Players"
+    }
+  },
+  "numberPattern": "{name} No. {n}",
+  "islandAreaPopulation2020": {
+    "citation": "U.S. Census Bureau, 2020 Island Areas Censuses: Guam 153,836; U.S. Virgin Islands 87,146; American Samoa 49,710; Commonwealth of the Northern Mariana Islands 47,329 (press release CB22-CN.04 and the 2020 Island Areas Demographic Profile summary files).",
+    "GU": 153836,
+    "VI": 87146,
+    "AS": 49710,
+    "MP": 47329
+  }
+}

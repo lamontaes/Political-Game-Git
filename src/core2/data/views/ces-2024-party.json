@@ -1,0 +1,89 @@
+{
+  "version": "ces-2024-party-v1",
+  "source": {
+    "tag": "SOURCED",
+    "citation": "Cooperative Election Study 2024 Common Content (CC0; Harvard Dataverse doi:10.7910/DVN/X11EP6), 60,000 adults weighted by commonweight: seven-point party identification (pid7) by self-placed ideology (ideo5); leaners are kept as their own points."
+  },
+  "parties": [
+    "strong-democrat",
+    "weak-democrat",
+    "lean-democrat",
+    "independent",
+    "lean-republican",
+    "weak-republican",
+    "strong-republican",
+    "not-sure"
+  ],
+  "byIdeology": {
+    "-2": {
+      "strong-democrat": 0.6632,
+      "weak-democrat": 0.0713,
+      "lean-democrat": 0.1721,
+      "independent": 0.0634,
+      "lean-republican": 0.0025,
+      "weak-republican": 0.0036,
+      "strong-republican": 0.0185,
+      "not-sure": 0.0055
+    },
+    "-1": {
+      "strong-democrat": 0.5454,
+      "weak-democrat": 0.2156,
+      "lean-democrat": 0.1452,
+      "independent": 0.0458,
+      "lean-republican": 0.0073,
+      "weak-republican": 0.0148,
+      "strong-republican": 0.0176,
+      "not-sure": 0.0082
+    },
+    "0": {
+      "strong-democrat": 0.1508,
+      "weak-democrat": 0.1413,
+      "lean-democrat": 0.1438,
+      "independent": 0.2493,
+      "lean-republican": 0.1306,
+      "weak-republican": 0.1048,
+      "strong-republican": 0.0565,
+      "not-sure": 0.0228
+    },
+    "1": {
+      "strong-democrat": 0.033,
+      "weak-democrat": 0.0299,
+      "lean-democrat": 0.0117,
+      "independent": 0.0695,
+      "lean-republican": 0.1845,
+      "weak-republican": 0.2376,
+      "strong-republican": 0.4238,
+      "not-sure": 0.0101
+    },
+    "2": {
+      "strong-democrat": 0.0219,
+      "weak-democrat": 0.011,
+      "lean-democrat": 0.0064,
+      "independent": 0.0516,
+      "lean-republican": 0.1253,
+      "weak-republican": 0.054,
+      "strong-republican": 0.724,
+      "not-sure": 0.0057
+    },
+    "not-sure": {
+      "strong-democrat": 0.0551,
+      "weak-democrat": 0.0841,
+      "lean-democrat": 0.046,
+      "independent": 0.424,
+      "lean-republican": 0.0505,
+      "weak-republican": 0.0575,
+      "strong-republican": 0.0423,
+      "not-sure": 0.2405
+    }
+  },
+  "meanLeanByParty": {
+    "strong-democrat": -1.0001,
+    "weak-democrat": -0.4279,
+    "lean-democrat": -0.6112,
+    "independent": 0.0527,
+    "lean-republican": 0.6896,
+    "weak-republican": 0.638,
+    "strong-republican": 1.2992,
+    "not-sure": 0.0795
+  }
+}

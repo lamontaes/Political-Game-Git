@@ -1,0 +1,196 @@
+{
+  "groupsAdultAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "The youngest age in the survey tabulation of group membership (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json)."
+  },
+  "groupsStayOutCongregation": {
+    "value": 0.62,
+    "tag": "TUNABLE",
+    "citation": "The pull of staying out of a congregation's activities, calibrated over three drawn towns so a town's share lands near the survey's 19.4% taking part in a religious organization beyond services (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": 0,
+      "high": 3
+    }
+  },
+  "groupsStayOutSchool": {
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "The pull of staying out of a school group or neighborhood association, calibrated over three drawn towns toward the survey's 13.9% (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": 0,
+      "high": 3
+    }
+  },
+  "groupsStayOutService": {
+    "value": 1.1,
+    "tag": "TUNABLE",
+    "citation": "The pull of staying out of a service or civic organization (service clubs, veterans' posts, fraternal and business groups), calibrated over three drawn towns toward the survey's 6.8% (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": 0,
+      "high": 3
+    }
+  },
+  "groupsStayOutSports": {
+    "value": 1.0,
+    "tag": "TUNABLE",
+    "citation": "The pull of staying out of a sports or recreation organization, calibrated over three drawn towns toward the survey's 9.9% (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": 0,
+      "high": 3
+    }
+  },
+  "groupsStayOutOther": {
+    "value": 1.1,
+    "tag": "TUNABLE",
+    "citation": "The pull of staying out of other groups (advocacy, volunteer and arts groups), calibrated over three drawn towns toward the survey's 5.0% (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": 0,
+      "high": 3
+    }
+  },
+  "groupsEducationWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How much schooling pulls toward belonging: in the survey, adults with a bachelor's degree took part in some group at 47.8% against 26.8% for high school graduates (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": 0.2,
+      "high": 1
+    }
+  },
+  "groupsSociabilityWeight": {
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "How much sociability pulls toward belonging; a starting value.",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": 0.1,
+      "high": 0.8
+    }
+  },
+  "groupsEngagementWeight": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "How much following public life pulls toward belonging; a starting value.",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": 0.1,
+      "high": 1
+    }
+  },
+  "groupsAgeWeight": {
+    "value": 0.2,
+    "tag": "TUNABLE",
+    "citation": "How much age pulls toward belonging: in the survey, taking part in some group rises from 28.3% at 18-29 to 40.9% at 65 and over (Census Bureau, Current Population Survey Civic Engagement Supplement, November 2013 (the last to ask by group type, items PES5a-e), adults 18+, weighted by PWNRWGT; OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": 0,
+      "high": 0.5
+    }
+  },
+  "groupsAgeSpread": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "Years over which the age pull falls off.",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": 20,
+      "high": 45
+    }
+  },
+  "groupsJobTimeWeight": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "How much a job's hours pull against evenings out; a starting value.",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": 0,
+      "high": 0.4
+    }
+  },
+  "groupsSkipPull": {
+    "value": 0,
+    "tag": "TUNABLE",
+    "citation": "The pull of skipping a gathering against a member's reasons to go, on the same scale.",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": -1,
+      "high": 1
+    }
+  },
+  "groupsGatheringPeers": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "How many fellow members a person spends a gathering with.",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": 2,
+      "high": 6
+    }
+  },
+  "groupsMonthlyDays": {
+    "value": 30,
+    "tag": "ESTIMATED",
+    "citation": "Days between a club's meetings: service clubs, veterans' posts and neighborhood associations commonly meet monthly.",
+    "estimatedFrom": "Common club bylaws; spread 14 to 31",
+    "stopgapId": "SG-P15-group-membership"
+  },
+  "groupsHoursService": {
+    "value": 1.5,
+    "tag": "ESTIMATED",
+    "citation": "Hours of a weekly religious gathering, about a service and the time around it; ATUS 2023 counts about 1.6 hours a day of religious and spiritual activities on the days people do them.",
+    "estimatedFrom": "BLS American Time Use Survey 2023, Table 11; spread 1 to 2.5",
+    "stopgapId": "SG-P15-group-membership"
+  },
+  "groupsHoursMeeting": {
+    "value": 1.5,
+    "tag": "ESTIMATED",
+    "citation": "Hours of a club or league gathering; ATUS 2023 counts about 2 hours a day of volunteer and organizational activities on the days people do them.",
+    "estimatedFrom": "BLS American Time Use Survey 2023, Table 11; spread 1 to 3",
+    "stopgapId": "SG-P15-group-membership"
+  },
+  "groupsAgeCenterOlder": {
+    "value": 65,
+    "tag": "ESTIMATED",
+    "citation": "The age where belonging to a congregation, service club, veterans' post, fraternal society or neighborhood association pulls most: service and civic membership rises from 3.4% at 18-29 to 11.0% at 65 and over, religious from 12.9% to 25.9% (Census CPS Civic Engagement Supplement, November 2013, OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "estimatedFrom": "The survey's highest band for these kinds; spread 60 to 75",
+    "stopgapId": "SG-P15-group-membership"
+  },
+  "groupsAgeCenterParents": {
+    "value": 40,
+    "tag": "ESTIMATED",
+    "citation": "The age where a parent-teacher group pulls most: school and neighborhood groups peak at 18.6% at 30-44 (Census CPS Civic Engagement Supplement, November 2013, OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "estimatedFrom": "The survey's peak band; spread 35 to 45",
+    "stopgapId": "SG-P15-group-membership"
+  },
+  "groupsAgeCenterMiddle": {
+    "value": 50,
+    "tag": "ESTIMATED",
+    "citation": "The age where business, advocacy, volunteer and arts groups pull most: 'other' groups rise from 3.4% at 18-29 to 7.3% at 65 and over, flatter than service groups (Census CPS Civic Engagement Supplement, November 2013, OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "estimatedFrom": "Between the survey's bands; spread 40 to 60",
+    "stopgapId": "SG-P15-group-membership"
+  },
+  "groupsAgeCenterYounger": {
+    "value": 37,
+    "tag": "ESTIMATED",
+    "citation": "The age where sports and recreation organizations pull most: 13.3% at 30-44 against 6.0% at 65 and over (Census CPS Civic Engagement Supplement, November 2013, OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "estimatedFrom": "The survey's peak band; spread 25 to 45",
+    "stopgapId": "SG-P15-group-membership"
+  },
+  "groupsStayOutNeighborhood": {
+    "value": 1.2,
+    "tag": "TUNABLE",
+    "citation": "The pull of staying out of a neighborhood association, calibrated over six drawn towns with parent-teacher groups toward the survey's 13.9% in school or neighborhood groups (Census CPS Civic Engagement Supplement, November 2013, OPUS-PEOPLE's tabulation in data/research/groups/membership-rates.json).",
+    "stopgapId": "SG-P15-group-membership",
+    "spread": {
+      "low": 0,
+      "high": 3
+    }
+  }
+}

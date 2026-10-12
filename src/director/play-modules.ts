@@ -12,6 +12,7 @@ import {
   withDrives,
 } from "../core2/modules/drives";
 import { HEALTH_MODULE } from "../core2/modules/health";
+import { groupsModule } from "../core2/modules/groups";
 import { movesModule } from "../core2/modules/moves";
 import { RENEWAL_MODULE } from "../core2/modules/renewal";
 import { renewalData } from "../core2/births-setup";
@@ -38,6 +39,7 @@ export function peopleModules(): CoreModule[] {
     corruptionModule,
     RENEWAL_MODULE,
     movesModule,
+    groupsModule,
     beliefsModule,
   ];
 }

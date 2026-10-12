@@ -86,4 +86,43 @@ describe(`a speech in ${input.placeMetadata?.placeName} (seed ${seed})`, () => {
     for (const row of adults.filter((r) => !reached.has(r.id)))
       expect(stancesOf(api, row.id)).toEqual([]);
   });
+
+  it("draws listeners' leans toward the speaker's, and a run of speeches moves some along the party scale", () => {
+    const before = new Map(audience.map((id) => [id, { ...viewOf(api, id)! }]));
+    const speakerLean = viewOf(api, speaker.id)!.lean;
+    // A campaign's worth of speeches to the same audience.
+    for (let n = 0; n < 30; n += 1)
+      deliverSpeech(api, {
+        id: `fixture-rally-${n}`,
+        speakerId: speaker.id,
+        placeId: speaker.placeId,
+        topic: `fixture:rally-${n}`,
+        desiredChange: "elect-speaker",
+        audienceIds: audience,
+      });
+    let closer = 0;
+    let changed = 0;
+    for (const id of audience) {
+      const was = before.get(id)!;
+      const now = viewOf(api, id)!;
+      if (Math.abs(now.lean - speakerLean) < Math.abs(was.lean - speakerLean))
+        closer += 1;
+      // Never moved away from the speaker.
+      expect(Math.abs(now.lean - speakerLean)).toBeLessThanOrEqual(
+        Math.abs(was.lean - speakerLean) + 1e-9,
+      );
+      if (now.party !== was.party) {
+        changed += 1;
+        expect(
+          [...core.eventIds].some((e) =>
+            e.startsWith(`views.party-changed:${id}:`),
+          ),
+        ).toBe(true);
+      }
+    }
+    expect(closer).toBeGreaterThan(0);
+    // Party is the stablest attitude: most keep theirs (Pew 2020: about 8 in 10
+    // gave the same answer across five waves over two years).
+    expect(changed / audience.length).toBeLessThan(0.3);
+  });
 });
