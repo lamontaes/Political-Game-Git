@@ -1,3 +1,4 @@
+import type { ResidentsInput } from "./residents";
 import type {
   ModuleStateDefinition,
   ModuleStateStore,
@@ -743,6 +744,8 @@ export interface CoreInput {
   }[];
   husks?: readonly HuskInput[];
   placeMetadata?: Readonly<Record<string, string>>;
+  /** Two-level population: the wider population's records and money flows. */
+  residents?: ResidentsInput;
 }
 
 export interface HuskInput {
