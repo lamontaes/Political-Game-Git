@@ -1186,5 +1186,17 @@
     "addedAt": "2026-10-11",
     "replacement": "OPUS-PEOPLE dated lived pregnancy/resource/medical history, or a finisher/CTO accepted reconstruction with validated first-year calibration.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-candidacy-weights",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/data/candidacy/parameters.json",
+    "line": 1,
+    "whatItFakes": "How much each recorded reason weighs in deciding to run for office, and the pull of staying out.",
+    "why": "The research names the reasons (interest, a personal stake, temperament, money, time, age) but not their sizes in this model.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Weights checked against candidate counts per seat across drawn places once GOV's contests run every cycle (M2-04).",
+    "status": "open"
   }
 ]

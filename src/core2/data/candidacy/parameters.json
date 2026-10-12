@@ -1,0 +1,61 @@
+{
+  "candidacyEngagementWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Political interest is the strongest predictor of considering a run for office (Lawless and Fox 2010, It Still Takes a Candidate, Cambridge University Press, ch. 3). Weight on the person's engagement (0 to 1, from CES newsint). Spread 1 to 3.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyCauseWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "A personal stake in an issue moves people to run (Lawless and Fox 2010, ch. 4; Fox and Lawless 2005, American Journal of Political Science 49(3):642-659). Weight on the person's strongest recorded drive. Spread 1 to 3.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyTemperamentWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Competitiveness, risk-taking and comfort with conflict raise ambition (Lawless and Fox 2010; Dynes, Hassell and Miles 2019, Political Behavior 41:309-336). Weight on the mean of sociability, risk and conflict, each -2 to 2, scaled to -1 to 1. Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyMoneyWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "The cost of running deters candidates with less money (Carnes 2018, The Cash Ceiling, Princeton University Press). Weight on cash on hand against the filing fee, -1 to 1. Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyTimeWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Working-class people run less, partly for lack of time off work (Carnes 2018, ch. 3). Weight on the person's recorded daily work hours over a full shift. Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyFullShiftHours": {
+    "value": 8,
+    "tag": "SOURCED",
+    "citation": "A full-time shift of 8 hours a day (BLS: full-time is 35 or more hours a week)."
+  },
+  "candidacyAgeWeight": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Weight of the age term. Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyAgeCenter": {
+    "value": 55,
+    "tag": "ESTIMATED",
+    "citation": "Local elected officials are older than the adult population; the median age of city council members in the National League of Cities' surveys is in the mid-fifties.",
+    "estimatedFrom": "National League of Cities city council surveys; spread 50 to 60"
+  },
+  "candidacyAgeSpread": {
+    "value": 15,
+    "tag": "TUNABLE",
+    "citation": "How quickly the age term falls away from its center, in years. Spread 10 to 20.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyStayOutPull": {
+    "value": 4.2,
+    "tag": "TUNABLE",
+    "citation": "The pull of staying out, against which running is weighed. Checked so that about half a percent of adults in a town choose to run for a local seat in a cycle: a few candidates for each of a town's handful of council seats (Ballotpedia's local election analyses report most local seats with one or two candidates). Spread 3 to 5.",
+    "stopgapId": "SG-P15-candidacy-weights"
+  }
+}
