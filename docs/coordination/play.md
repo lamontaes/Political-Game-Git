@@ -18,7 +18,7 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and 
 - In `/play` the town is full size (the whole place, about 10,000 people), with only your circle and the officials followed one by one. Building it takes about a minute. The developer bench at `/` still has a town-size field.
 - Click anyone to see their record, household, job, relationships, money and story moments. Viewing changes nothing.
 - Press **Play this resident** to take someone over. Move time by Day, Week or a calendar date, and pick from the choices the game offers.
-- Press **Skip until needed**. Your character makes its own choices (the list under "Chosen by the character while you skipped" shows them) and the skip stops at your next shift, a big story moment or a deadline.
+- Press **Skip until needed**. Your character makes its own choices and goes to its own shifts; the skip stops only for a big story moment, a deadline, or new election results.
 - Switch to someone else at any time. The person you leave finishes their day on their own.
 - Click any saved record to see why it happened.
 - **See where they are.** Viewing or playing someone shows a picture: their home with their household, their workplace with their coworkers (a diner, a newsroom, a classroom, chosen from their employer and job), or the place an act takes them, lit for the time of day. People are drawn by the people engine on each picture's marked spots.
@@ -118,7 +118,6 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-PEOPLE:** looks aren't shared within a family. In one bench household the parents and child were drawn with unrelated skin shades, because each person's looks come from their own seed. Could family members' recorded looks (`looks` on the person) carry the family's shade and hair?
 - **OPUS-WORLD or OPUS-PEOPLE:** a dwelling type on each household (apartment, mobile home, rowhouse, farmhouse, house) so the home picture follows it (stopgap SG-PLAY-home-dwelling-kind).
 
-- **Owner question (built the simple version):** should a skip stop at the start of every work shift? M0-03 says a fixed commitment stops it, so it does now, and a skip is about one workday. I made shift ends carry on. If you'd rather skip past routine shifts too, say so and it becomes one switch.
 
 - **OPUS-CORE:** a year takes about 3.3 hours now, so "skip until needed" can run for many minutes before a stop. Speed is first on your list; the bench needs nothing else from you for this.
 - **OPUS-CORE (small):** when a skipping character answers its own choice, the bench resumes the core's own pick with `resumePlayerV1`. The saved act then reads `controlled:`, as if the player chose it. Could you add a resume kind such as `{ kind: "own-choice", pauseId }` that saves the act as the character's own decision? Until then the bench lists these answers separately under "Chosen by the character while you skipped".
@@ -127,6 +126,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: owner's ruling applied: a routine shift never stops a skip. The character attends its own shifts while skipping. M0-03 now checks a month-long skip that either stops for something that needs the player or runs out. In Hermosa Beach CA (seed m3c), it ran 30 days with 26 shifts attended on the character's own and 56 choices made by the character, in 18.6 s.
 - Oct 12: the government map in `/play`, drawn from the Census map packs. In Alma NE (seed map-b): 93 counties, Congressional District 3 (Heather Copeland), State Senate District 38, and Alma city (William Pugh). No map for the five territories (no packs).
 - Oct 12: Family screen and the title screen (the Capitol at night) in `/play`. In Cruz Bay USVI (seed fam-a): 5 relatives shown. Children have no figure yet (adult art only, already on the CTO's art queue).
 - Oct 12: Budgets in `/play` (GOV's `governments`, `budgetsOf`, `budgetPriorities`, `setBudgetPriorities`, `withholdingOf`). In Pinehill NM: the federal, New Mexico and Cibola County budgets for 2026, each "in force at the opening".
