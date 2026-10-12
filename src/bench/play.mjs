@@ -612,7 +612,10 @@ async function seatRows() {
 // ---- Menus ----
 const sheets = {
   async people() {
+    const family = el("button", { type: "button", textContent: "Family" });
+    family.addEventListener("click", () => openSheet("family"));
     return [
+      family,
       ...(me.scene?.people ?? [])
         .filter((p) => p.personId !== me.id)
         .map((p) => {
@@ -707,6 +710,38 @@ const sheets = {
           : "",
       ),
     );
+  },
+  async family() {
+    const members = await api(`/api/family?id=${encodeURIComponent(me.id)}`);
+    return members
+      .filter((m) => m.name)
+      .map((m) => {
+        const card = el("div", { className: "family-card" });
+        if (m.backdrop) {
+          const pic = el(
+            "div",
+            { className: "family-pic" },
+            el("img", { src: m.backdrop, alt: "" }),
+          );
+          if (m.figureUrl)
+            pic.append(
+              el("img", {
+                className: "family-figure",
+                src: m.figureUrl,
+                alt: m.name,
+              }),
+            );
+          card.append(pic);
+        }
+        card.append(
+          el("b", { textContent: m.name }),
+          el("div", {
+            textContent: `${m.relation} · ${m.age}${m.alive === false ? " · †" : ""}`,
+          }),
+          el("div", { textContent: m.place ? `${m.place} · ${m.doing}` : "" }),
+        );
+        return card;
+      });
   },
   async budgets() {
     const v = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
@@ -966,6 +1001,7 @@ const titles = {
   calendar: "Calendar",
   results: "Election night",
   budgets: "Budgets",
+  family: "Family",
   news: "News",
 };
 async function openSheet(tab) {
@@ -975,7 +1011,10 @@ async function openSheet(tab) {
   $("sheet-title").textContent = titles[tab];
   $("sheet").classList.toggle(
     "wide",
-    tab === "calendar" || tab === "results" || tab === "budgets",
+    tab === "calendar" ||
+      tab === "results" ||
+      tab === "budgets" ||
+      tab === "family",
   );
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.

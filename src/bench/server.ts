@@ -12,6 +12,7 @@ import { economyView, worldPanels } from "./economy";
 import { electionResults } from "./results";
 import { seatAct, seatView } from "./legislature";
 import { budgetView, setPriority } from "./budget";
+import { familyView } from "./family";
 import {
   chooseAtCounter,
   openBenchFilingVisit,
@@ -233,6 +234,10 @@ const server = createServer(async (request, response) => {
           url.searchParams.get("id") ?? "",
         ),
       );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/family") {
+      send(200, familyView(requireCore(), url.searchParams.get("id") ?? ""));
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/budget") {
