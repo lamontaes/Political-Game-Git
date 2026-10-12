@@ -29,6 +29,7 @@ import {
 } from "../housing-mortgages";
 import { endFlowPart } from "../residents-economy";
 import { withoutOutsideShelter } from "../housing-shelter";
+import { ACS_VALUE_DATE, homePriceRatio } from "../housing-prices";
 import { residentsRuntime } from "./residents";
 import type {
   ActOffer,
@@ -267,6 +268,8 @@ export function withHousing(input: CoreInput): CoreInput {
       valueMinor: Math.round(
         medianValue *
           100 *
+          // ACS values are dated mid-2022; the state's house price index moves them to the start.
+          homePriceRatio(town.usps, ACS_VALUE_DATE, input.startedAt) *
           ((row.income + offset) / (medianIncome + offset || 1)) **
             pv("housingRentIncomeElasticity"),
       ),
@@ -279,6 +282,7 @@ export function withHousing(input: CoreInput): CoreInput {
           startedAt: makeIsoDate(input.startedAt),
           dueAt: makeIsoDate(dueAt),
           bankId: bank.id,
+          usps: town.usps,
           // Loans the bank's capital carries, of the residential-mortgage share of community bank loans.
           bankRoomMinor:
             bank.liquidMinor *
@@ -643,10 +647,11 @@ function buyHomes(api: CoreAPI): void {
     const income = monthlyIncome(api, household.memberIds);
     if (income <= 0) continue;
     const cash = members.reduce((n, row) => n + row!.liquidMinor, 0);
-    const prices =
-      (c.finance.conditionsByPlace.get(household.placeId) ?? [])
-        .filter((row) => row.at <= c.date)
-        .at(-1)?.generalPriceFactor ?? 1;
+    const prices = homePriceRatio(
+      c.placeMetadata?.housingState ?? "",
+      ACS_VALUE_DATE,
+      c.date,
+    );
     // The home the household's income would buy at the county's median, as rent scales with income.
     const value =
       town[1] *
@@ -981,10 +986,13 @@ export function ownedHomes(
 ): { householdId: string; placeId: string; valueMinor: number }[] {
   const c = api.state as CoreState;
   if (!c.modules.has(HOUSING_MODULE_ID)) return [];
-  const prices = (placeId: string) =>
-    (c.finance.conditionsByPlace.get(placeId) ?? [])
-      .filter((row) => row.at <= c.date)
-      .at(-1)?.generalPriceFactor ?? 1;
+  const opened =
+    (
+      store(api).table("state").get("housing:state") as
+        { openedAt: string } | undefined
+    )?.openedAt ?? c.date;
+  const prices = () =>
+    homePriceRatio(c.placeMetadata?.housingState ?? "", opened, c.date);
   const out: { householdId: string; placeId: string; valueMinor: number }[] =
     [];
   for (const row of store(api).table("dwellings").rows() as unknown as {
@@ -1003,7 +1011,7 @@ export function ownedHomes(
       householdId: row.householdId,
       placeId,
       valueMinor: Math.round(
-        row.valueMinor * (row.basis === "opening" ? prices(placeId) : 1),
+        row.valueMinor * (row.basis === "opening" ? prices() : 1),
       ),
     });
   }
