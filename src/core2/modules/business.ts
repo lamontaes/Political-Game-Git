@@ -10,11 +10,7 @@ import { addDays, makeIsoDate } from "../../simulation/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import type { ActOffer, CoreAPI, CoreModule, CoreState } from "../types";
-import {
-  WORLD_TRANSFER_KIND,
-  transferCash,
-  worldTransferProvider,
-} from "../world-transfer";
+import { transferCash } from "../world-transfer";
 
 export const BUSINESS_MODULE_ID = "business";
 export const BUSINESS_PARAMETERS = businessParameters as unknown as Readonly<
@@ -228,7 +224,6 @@ export const BUSINESS_MODULE: CoreModule = {
       value: Number(binding.arguments!.value),
     }),
   },
-  journalSourceProviders: { [WORLD_TRANSFER_KIND]: worldTransferProvider },
   onCalendarWork(api, work) {
     if (work.kind !== "business-month") return;
     month(api);

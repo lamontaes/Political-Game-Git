@@ -4,6 +4,7 @@ import { advanceCore, createLifeCore } from "./life";
 import { BUSINESS_MODULE } from "./modules/business";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
+import { WORLD_TRANSFER_MODULE } from "./world-transfer";
 import type { BusinessBooksState } from "./finance-types";
 import type { CoreInput, CoreState, Source } from "./types";
 
@@ -113,7 +114,7 @@ describe("owners draw from profit", () => {
   it("makes the highest-paid worker the owner and moves part of a month's profit to them through the ledger", () => {
     const core = createLifeCore(input(), {
         data: worldCoreData(),
-        modules: [BUSINESS_MODULE],
+        modules: [WORLD_TRANSFER_MODULE, BUSINESS_MODULE],
         scheduledWork: false,
       }),
       api = coreAPI(core),

@@ -6,6 +6,7 @@
 import type { ResolvedCashJournalSource } from "./journal";
 import type {
   CoreAPI,
+  CoreModule,
   CoreState,
   ModuleCashJournalSourceProvider,
   Source,
@@ -73,3 +74,9 @@ export function transferCash(
   });
   return amount;
 }
+
+/** Registers the transfers' journal source once for every economy engine. */
+export const WORLD_TRANSFER_MODULE: CoreModule = {
+  id: "world-transfer",
+  journalSourceProviders: { [WORLD_TRANSFER_KIND]: worldTransferProvider },
+};
