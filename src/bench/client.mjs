@@ -183,6 +183,18 @@ async function renderScene(id) {
     return div;
   });
   box.replaceChildren(backdrop, ...figures);
+  element("talk-people").replaceChildren(
+    ...scene.people
+      .filter((person) => playingId && person.personId !== playingId)
+      .map((person) => {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.textContent = `Talk: ${person.name}`;
+        b.disabled = playingId !== id;
+        b.addEventListener("click", () => talkTo(person.personId));
+        return b;
+      }),
+  );
   element("scene-caption").textContent =
     `${scene.place} (${scene.backdrop.variant}): ${scene.why}. ${scene.people.map((p) => p.name).join(", ")}${scene.unplaced.length ? `; ${scene.unplaced.length} more not drawn (${[...new Set(scene.unplaced.map((u) => u.reason))].join(", ")})` : ""}.`;
 }
@@ -213,6 +225,83 @@ function button(label, onClick) {
     }),
   );
   return b;
+}
+
+let talk;
+function renderTalk(value) {
+  talk = value;
+  element("talk-lines").replaceChildren(
+    ...(value?.lines ?? []).map((line) => {
+      const li = document.createElement("li");
+      li.textContent = `${line.speaker}: ${line.text}`;
+      li.title = line.sourceRecordIds.join(", ");
+      return li;
+    }),
+  );
+  element("talk-choices").replaceChildren(
+    ...(value?.choices ?? []).map((choice) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = choice.text;
+      b.title = choice.sourceRecordIds.join(", ");
+      b.addEventListener("click", () => sayChoice(choice.key));
+      return b;
+    }),
+  );
+  element("talk-lie").disabled = !value?.lie;
+  element("talk-lie").title = value?.lie?.text ?? "";
+  element("talk-leave").disabled = !value;
+}
+async function sayChoice(key) {
+  try {
+    renderTalk(
+      await request(`/api/talk/say?key=${encodeURIComponent(key)}`, {
+        method: "POST",
+      }),
+    );
+  } catch (error) {
+    status.textContent = error.message;
+  }
+}
+element("talk-lie").addEventListener("click", () => {
+  if (talk?.lie) sayChoice(talk.lie.key);
+});
+element("talk-leave").addEventListener("click", async () => {
+  await request("/api/talk/leave", { method: "POST" });
+  renderTalk(undefined);
+});
+async function talkTo(otherId) {
+  try {
+    renderTalk(
+      await request(`/api/talk/open?otherId=${encodeURIComponent(otherId)}`, {
+        method: "POST",
+      }),
+    );
+  } catch (error) {
+    status.textContent = error.message;
+  }
+}
+
+async function renderJournal(id) {
+  const chapters = await request(`/api/journal?id=${encodeURIComponent(id)}`);
+  element("journal").replaceChildren(
+    ...chapters.map((chapter) => {
+      const section = document.createElement("section");
+      const h = document.createElement("h3");
+      h.textContent = chapter.title;
+      const ol = document.createElement("ol");
+      ol.append(
+        ...chapter.lines.map((line) => {
+          const li = document.createElement("li");
+          li.textContent = line.text;
+          li.title = [...line.sourceRecordIds, ...line.momentIds].join(", ");
+          return li;
+        }),
+      );
+      section.append(h, ol);
+      return section;
+    }),
+  );
 }
 
 async function renderGovernment(id) {
@@ -311,6 +400,9 @@ async function inspect(id) {
     renderChoices(value);
     renderScene(id).catch((error) => {
       element("scene-caption").textContent = error.message;
+    });
+    renderJournal(id).catch((error) => {
+      status.textContent = error.message;
     });
     renderGovernment(id).catch((error) => {
       status.textContent = error.message;

@@ -5,6 +5,12 @@ import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
 import { backdropPath, benchScene, figurePng } from "./scene";
 import {
+  openConversation,
+  say,
+  type Conversation,
+} from "../director/conversation";
+import { composeJournal } from "../director/journal";
+import {
   askKnownPeopleToSign,
   fileForOffice,
   governmentView,
@@ -21,6 +27,20 @@ let director: Director | undefined;
 let player: BenchPlayer | undefined;
 let placeId = "";
 let building = false;
+let conversation: Conversation | undefined;
+const talkView = (value: Conversation | undefined) =>
+  value && {
+    otherId: value.otherId,
+    lines: value.lines.map((line) => ({
+      ...line,
+      speaker: (() => {
+        const person = requireCore().people.get(line.speakerId);
+        return person && `${person.givenName} ${person.familyName}`;
+      })(),
+    })),
+    choices: value.choices,
+    lie: value.lie,
+  };
 const assets = new Map([
   ["/", { file: "index.html", type: "text/html; charset=utf-8" }],
   [
@@ -101,6 +121,42 @@ const server = createServer(async (request, response) => {
       );
       return;
     }
+    if (request.method === "POST" && url.pathname === "/api/talk/open") {
+      if (!player?.personId) throw new Error("Choose a resident first.");
+      const otherId = url.searchParams.get("otherId") ?? "";
+      if (!requireCore().people.get(otherId)?.alive)
+        throw new Error("Talk to a living resident.");
+      conversation = openConversation(requireCore(), player.personId, otherId);
+      send(200, talkView(conversation));
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/talk/say") {
+      if (!conversation) throw new Error("No conversation is open.");
+      conversation = say(
+        requireCore(),
+        conversation,
+        url.searchParams.get("key") ?? "",
+      );
+      send(200, talkView(conversation));
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/talk/leave") {
+      conversation = undefined;
+      send(200, {});
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/journal") {
+      if (!director) throw new Error("Generate a town first.");
+      send(
+        200,
+        composeJournal(
+          requireCore(),
+          director,
+          url.searchParams.get("id") ?? "",
+        ),
+      );
+      return;
+    }
     if (request.method === "GET" && url.pathname === "/api/government") {
       send(
         200,
@@ -163,6 +219,7 @@ const server = createServer(async (request, response) => {
     if (request.method === "POST" && url.pathname === "/api/play") {
       if (!player) throw new Error("Generate a town first.");
       player.select(url.searchParams.get("id") ?? "");
+      if (conversation?.playerId !== player.personId) conversation = undefined;
       send(200, {
         personId: player.personId,
         packet: player.packet,
@@ -191,6 +248,7 @@ const server = createServer(async (request, response) => {
         core = next;
         director = nextDirector;
         player = new BenchPlayer(next, nextDirector);
+        conversation = undefined;
         placeId = place.context.jurisdiction.id;
         send(200, {
           seed: core.seed,
