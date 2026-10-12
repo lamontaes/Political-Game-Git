@@ -153,30 +153,35 @@ Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means th
 
 ### M4-01 · Stories from every engine
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M4-words.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-PEOPLE
 - **Does:** The director turns campaigns, votes, laws and money into moments: big ones interrupt, smaller ones wait or become journal lines, and callbacks come through people.
 - **Passes when:** In a random place, a campaign, a vote and a law each produce moments for the people they touched, sized by impact.
 
 ### M4-02 · Conversations
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M4-words.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-PEOPLE
 - **Does:** Every choice names something real, there's a Lie button beside the replies, and every line comes from the English engine, graded by the owner in batches.
 - **Passes when:** Every conversation choice names a real subject, no line is hand-written, and the owner has graded a batch.
 
 ### M4-03 · Scenes and the journal
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M4-words.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-PEOPLE
 - **Does:** Scene narration in second person; "My life" in first person, selective, never inventing a feeling.
 - **Passes when:** A year's journal reads as a story, and every statement traces to a record.
 
 ### M4-04 · Speeches at any moment
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M4-words.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-PEOPLE
 - **Does:** Give a speech anytime; each listener reacts by who they are, and it gets retold to family and friends. Movements come after early access.
 - **Passes when:** A speech changes specific listeners' views, and some retell it.
 
 ### M4-05 · People bring it up (step 10)
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M4-words.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-PEOPLE
 - **Does:** People mention what changed and who did it, in their own words.
 - **Passes when:** After the ordinance, affected people raise it in conversation and know who was responsible.
