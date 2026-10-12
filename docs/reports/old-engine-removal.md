@@ -34,3 +34,11 @@ Method: `node scripts/dead-code/reachable.mjs` walks imports from `src/bench`, `
 - Restored `src/presentation/guide-terms.ts` (and its test): `src/bench/server.ts` now imports it.
 - The reachability script now treats `vite.config.ts` as an entry and counts a test as live only when its own imports resolve. That removed 123 tests that exercised deleted code (119 in `src/presentation` and `src/simulation`, 4 in `education`, `fiscal-authority`, `maps` and `devtools`). Kept on purpose: the art desk in `src/authoring` and its scripts (`vite.config.ts` loads them).
 - No import in `src/core2`, `src/bench`, `src/director`, `src/release`, `src/rules` or the golden-path suite points at a deleted file. `data/research/**` is untouched.
+
+## Oct 12 evening refresh (main at 373ff58)
+
+- Merged main (the `/play` screen, outcome web, history from 2000, traits, phrase banks). Conflicts in core2 data and tests took main's newer versions.
+- Restored two tests of kept code: `src/simulation/traits/act-pulls.test.ts` (main changed it) and `src/presentation/component-masters.test.ts`. The script had read `new URL(".", import.meta.url)` as a missing module; it now skips folder paths.
+- The zero-dice allowlist drops 15 rows for deleted files; `docs/release/changes/old-engine-removal.md` declares no player-facing change.
+- No file reachable from the new game imports a deleted file. 183 old scripts and tests outside `src` (art tooling, dev-lab, e2e fixtures, old nationwide tests) still import deleted files; none is reachable.
+- 120 deleted tests test old files that stay but depend on deleted old fixtures (`opening-life`, `observer-world`, `trait-proof-support`, `time-command`); they go when those old files go.
