@@ -468,7 +468,7 @@
       "golden_path": "9",
       "package": "M3-world-of-governing",
       "test": "In a random place, a bribe or favor is offered or taken only from the people's own traits, money and circumstances; it becomes a crime record with no detection roll and surfaces only through records, a leak or someone who turns; personal, campaign and public money stay separate.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/corruption.test.ts",
       "passes": false
     },
     {
