@@ -456,5 +456,10 @@
     "value": 3,
     "tag": "SOURCED",
     "citation": "The recorded trait scale (traitScale)."
+  },
+  "macroHistoryFirstYear": {
+    "value": 2021,
+    "tag": "SOURCED",
+    "citation": "M1-history (owner, Oct 10): the years from the latest full-data year, 2021, to the start date are the coarse run."
   }
 }

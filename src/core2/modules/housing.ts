@@ -13,6 +13,7 @@ import housingParameters from "../data/housing/parameters.json" with { type: "js
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import type { FinanceContractInput } from "../finance-types";
+import { regionalLevel, regionalRegistered } from "./regional";
 import type {
   CoreAPI,
   CoreInput,
@@ -135,8 +136,19 @@ export function withHousing(input: CoreInput): CoreInput {
       32,
     ).slice(0, "YYYY-MM".length) + "-01";
   const leases: FinanceContractInput[] = [];
+  // Income awards (retirement and the like) count as income too.
+  const awarded = new Set(
+    (input.finance?.contracts ?? [])
+      .filter((row) => row.recipientIncome)
+      .map((row) => row.recipientIncome!.householdId),
+  );
   for (const row of households) {
     if (rank.get(row.row.id)! < owners) continue;
+    // A renter with no recorded income is the wider population, not yet modeled; see the stopgap.
+    if (row.income <= 0 && !awarded.has(row.row.id)) {
+      stopgap("SG-WORLD-housing-unmodeled-renters");
+      continue;
+    }
     const scale =
       ((row.income + offset) / (medianIncome + offset || 1)) **
       pv("housingRentIncomeElasticity");
@@ -219,10 +231,52 @@ function scheduleReview(api: CoreAPI): void {
   schedule(api, `review:${date}`, date, "housing-review", "housing:state");
 }
 
+/** On a lease's anniversary the landlord renews it at the rent moved with the region's pay since the last renewal. */
+function renew(api: CoreAPI): void {
+  const c = core(api);
+  if (!regionalRegistered(api)) return;
+  // The town's vacancy does not yet move rents; see the stopgap.
+  stopgap("SG-WORLD-housing-vacancy");
+  for (const [id, row] of c.finance.contracts) {
+    if (!id.startsWith("lease:") || row.endedAt || !row.householdId) continue;
+    const household = c.households.get(row.householdId);
+    const level = household ? regionalLevel(api, household.placeId) : undefined;
+    if (!level) continue;
+    const last = store(api).table("renewals").get(id) as
+      { id: string; regionPay: number; renewedAt: string } | undefined;
+    if (!last) {
+      store(api).table("renewals").put({
+        id,
+        regionPay: level.hourlyEarnings,
+        renewedAt: c.date,
+        rentMinor: row.amountMinor,
+      });
+      continue;
+    }
+    const months =
+      (Number(c.date.slice(0, 4)) - Number(last.renewedAt.slice(0, 4))) * 12 +
+      Number(c.date.slice(5, 7)) -
+      Number(last.renewedAt.slice(5, 7));
+    if (months < api.parameter("macroMonthsPerYear")) continue;
+    const rent = Math.round(
+      row.amountMinor * (level.hourlyEarnings / last.regionPay),
+    );
+    api.setStandingContractAmount(id, rent);
+    store(api).table("renewals").put({
+      id,
+      regionPay: level.hourlyEarnings,
+      renewedAt: c.date,
+      rentMinor: rent,
+      previousRentMinor: row.amountMinor,
+    });
+  }
+}
+
 /** Rent owed past the grace period starts a case: the landlord serves the notice the law requires. */
 function review(api: CoreAPI): void {
   const c = core(api),
     law = steps(api);
+  renew(api);
   for (const [id, row] of c.finance.contracts) {
     if (
       !id.startsWith("lease:") ||
@@ -350,6 +404,7 @@ export const HOUSING_MODULE: CoreModule = {
     tables: {
       state: {},
       cases: { indexes: { openByLease: { fields: ["leaseId", "open"] } } },
+      renewals: {},
     },
   },
   onCalendarWork(api, work) {

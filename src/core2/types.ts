@@ -1006,6 +1006,8 @@ export interface CoreAPI {
   addFinanceContract(input: FinanceContractInput): void;
   addFinanceCondition(input: FinanceConditionInput): void;
   addCreditFacility(input: CreditFacilityInput): void;
+  /** core2-api-v15: a standing obligation's amount from its next due date. */
+  setStandingContractAmount(contractId: string, amountMinor: number): void;
   /** core2-api-v14: a standing obligation stops billing today; its arrears stay owed. */
   endStandingContract(contractId: string): void;
   /** core2-api-v13: makes an approved line the open business's credit for its bills and payroll. */

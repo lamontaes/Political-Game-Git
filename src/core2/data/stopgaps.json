@@ -1678,5 +1678,29 @@
     "addedAt": "2026-10-12",
     "replacement": "PEOPLE's who-runs decisions file each candidate through fileCandidacy with recorded reasons; incumbents decide the same way.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-vacancy",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 239,
+    "whatItFakes": "Renewal rents follow only the region's pay; the town's own vacancy does not push them up or down.",
+    "why": "Homes are not yet records with occupancy (no dwellings table), so there is no town vacancy to read.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Dwellings as records with occupancy (M1-05's build step 1); renewal rents on a sliding scale of the town's vacancy against the Census Housing Vacancy Survey.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-unmodeled-renters",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 149,
+    "whatItFakes": "Renter households with no recorded income (no current job and no income award) pay no rent and cannot be evicted.",
+    "why": "Most such households stand for people working at employers the opening does not generate; charging them rent evicted 537 of 1,195 renter households in four months in Landrum. The two-level population (OPUS-CORE) will hold them as counts with their real incomes.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The two-level population's household incomes for every renter, with rent and arrears for all of them.",
+    "status": "open"
   }
 ]

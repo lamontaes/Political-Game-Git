@@ -256,5 +256,16 @@
     "value": 0.09241,
     "tag": "SOURCED",
     "citation": "Mean monthly national payroll growth 1990-2019, BLS CES0000000001."
+  },
+  "regionalMigrationPerUnemploymentPoint": {
+    "value": 0.25,
+    "tag": "TUNABLE",
+    "citation": "Net out-migration of about a quarter of a percent of population a year per point of unemployment above the nation's (Blanchard and Katz 1992, BPEA; Dao, Furceri and Loungani 2017, REStat, find migration absorbs a quarter to a half of a local shock).",
+    "spread": {
+      "low": 0.1,
+      "high": 0.5,
+      "unit": "percent of population per year per point",
+      "citation": "Blanchard and Katz 1992; Dao, Furceri and Loungani 2017."
+    }
   }
 }

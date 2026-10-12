@@ -74,5 +74,97 @@
     "value": 100,
     "tag": "SOURCED",
     "citation": "Cents per dollar."
+  },
+  "creditPersonalSpreadPct": {
+    "value": 6,
+    "tag": "TUNABLE",
+    "citation": "Commercial bank 24-month personal loan rates ran about 6 to 9 points over prime, 2015-2024 (Federal Reserve G.19, terms of credit).",
+    "spread": {
+      "low": 3,
+      "high": 10,
+      "unit": "points over prime",
+      "citation": "Commercial bank 24-month personal loan rates ran about 6 to 9 points over prime, 2015-2024 (Federal Reserve G.19, terms of credit)."
+    }
+  },
+  "creditPersonalTermMonths": {
+    "value": 24,
+    "tag": "SOURCED",
+    "citation": "Federal Reserve G.19 reports personal loans at a 24-month term."
+  },
+  "creditDtiReferencePct": {
+    "value": 43,
+    "tag": "SOURCED",
+    "citation": "12 CFR 1026.43(e)(2)(vi) (2014-2021 general qualified mortgage): total debt payments at most 43 percent of monthly income."
+  },
+  "creditDtiSlope": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "A lender's yes falls smoothly as payments approach and pass the reference share of income.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.4,
+      "unit": "per point of debt-to-income",
+      "citation": "A lender's yes falls smoothly as payments approach and pass the reference share of income."
+    }
+  },
+  "creditChargeOffDays": {
+    "value": 120,
+    "tag": "SOURCED",
+    "citation": "FFIEC Uniform Retail Credit Classification and Account Management Policy (65 FR 36903, 2000): closed-end retail loans are charged off at 120 days past due."
+  },
+  "creditBorrowNeedWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "A household with few days of money left wants to borrow.",
+    "spread": {
+      "low": 2,
+      "high": 8,
+      "unit": "score",
+      "citation": "A household with few days of money left wants to borrow."
+    }
+  },
+  "creditBorrowCostWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "The payment against income weighs against borrowing.",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "score per share of monthly income",
+      "citation": "The payment against income weighs against borrowing."
+    }
+  },
+  "creditBorrowBaseline": {
+    "value": -3,
+    "tag": "TUNABLE",
+    "citation": "How far borrowing sits below doing without, before need; checked against G.19 consumer credit growth and SCF borrowing shares.",
+    "spread": {
+      "low": -4,
+      "high": -1,
+      "unit": "score",
+      "citation": "How far borrowing sits below doing without, before need; checked against G.19 consumer credit growth and SCF borrowing shares."
+    }
+  },
+  "creditPersonalMonthsOfCosts": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Personal loans cover a few months of costs (SCF 2022 median unsecured installment balance about 2 to 3 months of median household spending).",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "months of living costs",
+      "citation": "Personal loans cover a few months of costs (SCF 2022 median unsecured installment balance about 2 to 3 months of median household spending)."
+    }
+  },
+  "creditHouseholdMonthlyLendingShare": {
+    "value": 0.02,
+    "tag": "TUNABLE",
+    "citation": "Consumer loans are about 5 to 8 percent of community bank assets (FDIC Quarterly Banking Profile, 2019-2024), turning over in about two years; new household lending per month is a small share of the bank's funds. A first generated-world month without this cap lent all of the town bank's cash to 993 households.",
+    "spread": {
+      "low": 0.005,
+      "high": 0.05,
+      "unit": "share of the bank's cash per month",
+      "citation": "FDIC Quarterly Banking Profile, community banks."
+    }
   }
 }

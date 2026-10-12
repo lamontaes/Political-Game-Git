@@ -11,6 +11,7 @@ import type { Parameter } from "../parameters";
 import {
   COUNTY_REGION,
   REGIONS,
+  REGION_SOURCE,
   openingRegionMonths,
   stepRegionMonth,
   type RegionMonth,
@@ -53,12 +54,20 @@ export function openRegional(
   api: CoreAPI,
   national: Readonly<MacroMonth>,
   placeIds: readonly string[],
+  history: readonly Readonly<MacroMonth>[] = [],
 ): void {
   const p = (key: string) => api.parameter(key);
   for (const row of REGIONS)
     store(api)
       .table("regions")
       .put({ ...row });
+  // The coarse years' real regional months (M1-14), then the opening month the regions step from.
+  for (const month of history)
+    if (month.month !== national.month)
+      for (const row of openingRegionMonths(month, p))
+        store(api)
+          .table("months")
+          .put({ ...row });
   for (const row of openingRegionMonths(national, p))
     store(api)
       .table("months")
@@ -76,12 +85,47 @@ export function stepRegional(
 ): void {
   const p = (key: string) => api.parameter(key);
   const months = store(api).table("months");
+  const stepped: RegionMonth[] = [];
   for (const region of REGIONS) {
     const previous = months.get(
       `${region.id}:${before.month}`,
     ) as unknown as RegionMonth;
-    months.put({
-      ...stepRegionMonth(previous, region, before, now, p),
+    const row = stepRegionMonth(previous, region, before, now, p);
+    stepped.push(row);
+    months.put({ ...row });
+  }
+  // Each state's monthly jobs report is a public record other engines (the news) can read.
+  for (const fips of new Set(stepped.map((row) => row.stateFips))) {
+    const rows = stepped.filter((row) => row.stateFips === fips);
+    const people = rows.reduce((sum, row) => sum + row.population, 0) || 1;
+    const usps = REGION_BY_ID.get(rows[0]!.regionId)!.stateUsps;
+    api.emit({
+      id: `event:economy.state-jobs-report:${usps}:${now.month}`,
+      date: api.state.date,
+      kind: "economy.state-jobs-report",
+      personIds: [],
+      placeId: `state:${usps}`,
+      source: {
+        tag: "ESTIMATED",
+        asOf: api.state.date,
+        citation: REGION_SOURCE.citation,
+        estimatedFrom: `The state's regions in ${now.month}, moved with the nation by their industries.`,
+      },
+      publicRecord: true,
+      facts: {
+        month: now.month,
+        state: usps,
+        unemploymentPct: (
+          rows.reduce(
+            (sum, row) => sum + row.unemploymentPct * row.population,
+            0,
+          ) / people
+        ).toFixed(1),
+        jobsThousands: rows
+          .reduce((sum, row) => sum + row.jobsThousands, 0)
+          .toFixed(1),
+        nationUnemploymentPct: now.unemploymentPct.toFixed(1),
+      },
     });
   }
 }

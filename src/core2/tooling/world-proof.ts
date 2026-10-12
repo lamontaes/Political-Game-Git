@@ -64,6 +64,17 @@ const result = {
   repricings: macro.repricings,
   closures: [...core.finance.businesses.values()].filter((row) => row.closedAt)
     .length,
+  leases: [...core.finance.contracts.values()].filter((row) =>
+    row.id.startsWith("lease:"),
+  ).length,
+  leasesInArrears: [...core.finance.contracts.values()].filter(
+    (row) => row.id.startsWith("lease:") && row.arrearsMinor > 0,
+  ).length,
+  evictionCases: snap("housing").cases,
+  owners: (snap("business").owners as unknown[]).length,
+  draws: snap("business").draws,
+  loans: credit.loans,
+  loanPayments: (credit.payments as unknown[]).length,
 };
 writeFileSync(output, JSON.stringify(result, null, 2) + "\n");
 console.log(
@@ -76,5 +87,11 @@ console.log(
     applications: (credit.applications as unknown[]).length,
     repricings: (macro.repricings as unknown[]).length,
     closures: result.closures,
+    leases: result.leases,
+    leasesInArrears: result.leasesInArrears,
+    evictionCases: (result.evictionCases as unknown[]).length,
+    owners: result.owners,
+    draws: (result.draws as unknown[]).length,
+    householdLoans: (result.loans as unknown[]).length,
   }),
 );

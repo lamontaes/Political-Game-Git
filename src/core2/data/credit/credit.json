@@ -11,5 +11,15 @@
     "approved": "line-approved",
     "applied": "cash-below-cover",
     "chargeOff": "borrower-closed"
+  },
+  "actions": {
+    "wait": {
+      "id": "credit-do-without",
+      "actKinds": ["play-safe", "delay"]
+    },
+    "borrow": {
+      "id": "credit-borrow",
+      "actKinds": ["take-risk", "commit"]
+    }
   }
 }

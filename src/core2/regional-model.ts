@@ -31,6 +31,8 @@ export interface RegionMonth {
   priceLevelPct: number;
   /** Unemployment less the nation's at the opening; wages answer its change. */
   openingGapPct: number;
+  /** People living in the region; moves with net migration from its relative unemployment. */
+  population: number;
 }
 
 type Series = Record<string, Record<string, number>>;
@@ -192,6 +194,7 @@ export function openingRegionMonths(
         hourlyEarnings: statePay * incomeRatio,
         priceLevelPct: row.kind === "metro" ? metroRpp(row) : restRpp,
         openingGapPct: unemploymentPct - national.unemploymentPct,
+        population: row.population,
       });
     }
   }
@@ -240,12 +243,18 @@ export function stepRegionMonth(
     p("regionalUnemploymentGapPersistence") * gapBefore -
     mixCycle / p("macroJobsPerUnemploymentPoint");
   const gapNow = unemploymentPct - nationalNow.unemploymentPct;
+  // People leave where unemployment runs above the nation's and come where it runs below.
+  const migration =
+    (-p("regionalMigrationPerUnemploymentPoint") * gapNow) /
+    hundred /
+    p("macroMonthsPerYear");
   const month = shiftMonth(previous.month, one, p);
   return {
     ...previous,
     id: `${region.id}:${month}`,
     month,
     unemploymentPct,
+    population: previous.population * (one + migration),
     jobsThousands:
       previous.jobsThousands * Math.exp((growth + mixGrowth) / hundred),
     hourlyEarnings:

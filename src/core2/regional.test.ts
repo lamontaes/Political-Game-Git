@@ -137,3 +137,62 @@ describe("state and metro economies", () => {
     expect(region).toMatch(/^region:45:/);
   });
 });
+
+describe("other places, coarser (M1-13, the economy's part)", () => {
+  it("moves people out of regions whose unemployment runs above the nation's", () => {
+    const { opening, months } = year("2021-01-01");
+    const gap = (row: RegionMonth) => row.unemploymentPct;
+    const high = [...opening]
+      .filter((row) => row.population > 0)
+      .sort((a, b) => gap(b) - gap(a))[0]!;
+    const low = [...opening]
+      .filter((row) => row.population > 0)
+      .sort((a, b) => gap(a) - gap(b))[0]!;
+    const after = (id: string) => months.find((row) => row.regionId === id)!;
+    expect(after(high.regionId).population).toBeLessThan(high.population);
+    expect(after(low.regionId).population).toBeGreaterThan(low.population);
+  });
+  it("records a monthly jobs report for every state as a public record", async () => {
+    const { advanceCore } = await import("./life");
+    const { coreAPI, createCore } = await import("./state");
+    const { MACRO_MODULE, withCentralBank } = await import("./modules/macro");
+    const { REGIONAL_MODULE } = await import("./modules/regional");
+    const src = {
+      tag: "ESTIMATED" as const,
+      asOf: "2026-10-01",
+      citation: "fixture",
+      estimatedFrom: "fixture",
+    };
+    const core = createCore(
+      withCentralBank({
+        seed: "regional-report",
+        startedAt: "2026-10-01",
+        people: [],
+        households: [],
+        jobs: [],
+        organizations: [
+          {
+            id: "org:a",
+            name: "a",
+            placeId: "p",
+            kind: "employer",
+            liquidMinor: 0,
+            source: src,
+          },
+        ],
+        finance: { contracts: [], facilities: [], businesses: [], gaps: [] },
+        focusPersonIds: [],
+        focusPlaceIds: [],
+        calendarDates: [],
+        gaps: [],
+      }),
+      { data, modules: [MACRO_MODULE, REGIONAL_MODULE] },
+    );
+    advanceCore(core, "2026-11-02");
+    void coreAPI(core);
+    const reports = [...core.eventIds].filter((id) =>
+      id.startsWith("event:economy.state-jobs-report:"),
+    );
+    expect(reports).toHaveLength(56 * 2);
+  });
+});

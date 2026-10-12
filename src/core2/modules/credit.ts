@@ -23,6 +23,11 @@ import type {
   Source,
 } from "../types";
 import { linkCreditLineToPrime } from "./macro";
+import { chooseAct } from "../choice";
+import { transferCash } from "../world-transfer";
+import type { ActOffer } from "../types";
+
+const CREDIT_PULL = "credit:pull";
 
 export const CREDIT_MODULE_ID = "credit";
 export const CREDIT_PARAMETERS = creditParameters as unknown as Readonly<
@@ -169,6 +174,7 @@ function review(api: CoreAPI): void {
       Math.exp(
         -p("creditCapitalAppetiteSlope") * (capitalRoom - p("macroHalf")),
       ));
+  serviceLoans(api, bank.organizationId);
   let room = Math.max(
     0,
     book.equity * p("creditMaxLimitsPerEquity") - book.limits,
@@ -234,6 +240,16 @@ function review(api: CoreAPI): void {
     api.attachBusinessCredit(id, facilityId);
     room -= limitMinor;
   }
+  householdApplications(
+    api,
+    bank.organizationId,
+    appetite,
+    Math.min(
+      room,
+      c.organizations.get(bank.organizationId)!.liquidMinor *
+        p("creditHouseholdMonthlyLendingShare"),
+    ),
+  );
 }
 
 function scheduleReview(api: CoreAPI): void {
@@ -263,7 +279,19 @@ export const CREDIT_MODULE: CoreModule = {
       banks: {},
       books: {},
       applications: { indexes: { byBorrower: { fields: ["organizationId"] } } },
+      loans: {
+        indexes: {
+          open: { fields: ["open"] },
+          byHousehold: { fields: ["householdId"] },
+        },
+      },
+      payments: { indexes: { byLoan: { fields: ["loanId"] } } },
     },
+  },
+  reasonProviders: {
+    [CREDIT_PULL]: (_api, _actor, _offer, binding) => ({
+      value: Number(binding.arguments!.value),
+    }),
   },
   onCalendarWork(api, work) {
     if (work.kind !== "credit-review") return;
@@ -290,3 +318,275 @@ export const CREDIT_MODULE: CoreModule = {
     }
   },
 };
+
+interface LoanRow {
+  id: string;
+  isLoan: true;
+  open: boolean;
+  householdId: string;
+  borrowerId: string;
+  lenderId: string;
+  kind: "personal";
+  principalMinor: number;
+  balanceMinor: number;
+  annualRate: number;
+  paymentMinor: number;
+  openedAt: string;
+  pastDueMinor: number;
+  firstPastDueAt?: string;
+  standing: "current" | "late" | "charged-off" | "paid";
+}
+
+/** Monthly payment on an amortized loan. */
+export function amortizedPayment(
+  principal: number,
+  annualRate: number,
+  months: number,
+  p: (key: string) => number,
+): number {
+  const r = annualRate / p("macroMonthsPerYear");
+  return r > 0
+    ? (principal * r) / (1 - (1 + r) ** -months)
+    : principal / months;
+}
+
+function monthlyIncome(api: CoreAPI, memberIds: readonly string[]): number {
+  const c = core(api),
+    members = new Set(memberIds);
+  let daily = 0;
+  for (const job of c.jobs.values())
+    if (job.endsAt === undefined && members.has(job.personId))
+      daily += job.wageDailyMinor;
+  return (
+    (daily * api.parameter("jobsDaysPerYear")) /
+    api.parameter("macroMonthsPerYear")
+  );
+}
+
+/** Each open loan's payment: what the borrower can pay of it; late, then charged off at 120 days, from real circumstances. */
+function serviceLoans(api: CoreAPI, bankId: string): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  for (const loan of store(api)
+    .table("loans")
+    .query("open", [true]) as unknown as LoanRow[]) {
+    const interest =
+      (loan.balanceMinor * loan.annualRate) / p("macroMonthsPerYear");
+    const due =
+      Math.min(loan.balanceMinor + interest, loan.paymentMinor) +
+      loan.pastDueMinor;
+    const paid = transferCash(
+      api,
+      `loan-payment:${loan.id}:${c.date}`,
+      loan.borrowerId,
+      bankId,
+      due,
+      {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: creditData.source.citation,
+        estimatedFrom: `Payment on ${loan.id}: the borrower pays what their cash covers.`,
+      },
+    );
+    const towardInterest = Math.min(paid, interest);
+    const balance = Math.max(0, loan.balanceMinor + interest - paid);
+    const pastDue = Math.max(0, due - paid);
+    const lateDays = loan.firstPastDueAt
+      ? (Date.parse(c.date) - Date.parse(loan.firstPastDueAt)) / 86_400_000
+      : 0;
+    const person = c.people.get(loan.borrowerId);
+    let standing: LoanRow["standing"] = pastDue > 0 ? "late" : "current";
+    if (balance <= 0) standing = "paid";
+    else if (pastDue > 0 && lateDays >= p("creditChargeOffDays"))
+      standing = "charged-off";
+    store(api)
+      .table("payments")
+      .put({
+        id: `payment:${loan.id}:${c.date}`,
+        loanId: loan.id,
+        date: c.date,
+        dueMinor: Math.round(due),
+        paidMinor: paid,
+        interestMinor: Math.round(towardInterest),
+        cashBeforeMinor: (person?.liquidMinor ?? 0) + paid,
+        employed: Boolean(person?.jobId),
+        standing,
+      });
+    const { firstPastDueAt: previousPastDueAt, ...rest } = loan;
+    store(api)
+      .table("loans")
+      .put({
+        ...rest,
+        ...(pastDue > 0 ? { firstPastDueAt: previousPastDueAt ?? c.date } : {}),
+        balanceMinor: Math.round(balance),
+        pastDueMinor: Math.round(pastDue),
+        standing,
+        open: standing !== "paid" && standing !== "charged-off",
+        ...(standing === "charged-off"
+          ? {
+              chargedOffAt: c.date,
+              chargeOffCause: person?.jobId
+                ? "payments-beyond-cash"
+                : "income-lost",
+            }
+          : {}),
+      });
+  }
+}
+
+/** Households short of money choose whether to borrow; the bank answers from their income and payments, on a sliding scale. */
+function householdApplications(
+  api: CoreAPI,
+  bankId: string,
+  appetite: number,
+  room: number,
+): number {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const prime = (
+    api.moduleState("macro").table("state").get("macro:state") as
+      { policyRatePct: number } | undefined
+  )?.policyRatePct;
+  if (prime === undefined) return room;
+  const rate =
+    (prime + p("macroPrimeSpreadPct") + p("creditPersonalSpreadPct")) /
+    p("macroHundred");
+  const owing = new Set(
+    (
+      store(api).table("loans").query("open", [true]) as unknown as LoanRow[]
+    ).map((row) => row.householdId),
+  );
+  for (const household of [...c.households.values()].sort((a, b) =>
+    a.id.localeCompare(b.id),
+  )) {
+    if (owing.has(household.id) || room <= 0) continue;
+    const members = household.memberIds
+      .map((id) => c.people.get(id))
+      .filter((row) => row?.alive);
+    const head = [...members].sort(
+      (a, b) =>
+        a!.birthDate.localeCompare(b!.birthDate) || a!.id.localeCompare(b!.id),
+    )[0];
+    if (!head) continue;
+    const cash = members.reduce((s, row) => s + row!.liquidMinor, 0);
+    const costs =
+      members.reduce((s, row) => s + row!.livingCostDailyMinor, 0) *
+      p("businessDaysPerMonth");
+    if (costs <= 0) continue;
+    const income = monthlyIncome(api, household.memberIds);
+    const amount = costs * p("creditPersonalMonthsOfCosts");
+    const payment = amortizedPayment(
+      amount,
+      rate,
+      p("creditPersonalTermMonths"),
+      p,
+    );
+    // Only a real shortfall pulls toward borrowing: cash below a month of costs, by how far below.
+    const need = Math.max(0, 1 - cash / costs);
+    if (need <= 0) continue;
+    const burden = income > 0 ? payment / income : Number.POSITIVE_INFINITY;
+    const choice = chooseAct(c, head.id, [
+      creditOffer("wait", household.id, {}),
+      creditOffer("borrow", household.id, {
+        baseline: p("creditBorrowBaseline"),
+        need: p("creditBorrowNeedWeight") * need,
+        cost: -p("creditBorrowCostWeight") * Math.min(burden, p("two")),
+      }),
+    ]);
+    if (choice.selected!.definition.id !== creditData.actions.borrow.id)
+      continue;
+    // The bank's yes falls smoothly as payments pass the federal 43 percent debt-to-income reference.
+    const dti =
+      income > 0
+        ? (p("macroHundred") * payment) / income
+        : Number.POSITIVE_INFINITY;
+    const yes = Number.isFinite(dti)
+      ? appetite /
+        (1 + Math.exp(p("creditDtiSlope") * (dti - p("creditDtiReferencePct"))))
+      : 0;
+    const principal = Math.floor(Math.min(amount * yes, room));
+    store(api)
+      .table("applications")
+      .put({
+        id: `application:${c.date}:${household.id}`,
+        householdId: household.id,
+        organizationId: null,
+        borrowerId: head.id,
+        date: c.date,
+        requestedMinor: Math.round(amount),
+        monthlyIncomeMinor: Math.round(income),
+        debtToIncomePct: Number.isFinite(dti) ? dti : null,
+        appetite,
+        approvedShare: yes,
+        limitMinor: principal,
+        approved: principal > 0,
+        kind: "personal",
+      });
+    if (principal <= 0) continue;
+    const lent = transferCash(
+      api,
+      `loan:${household.id}:${c.date}`,
+      bankId,
+      head.id,
+      principal,
+      {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: creditData.source.citation,
+        estimatedFrom: `A personal loan at prime plus ${p("creditPersonalSpreadPct")} points, sized from the household's costs and its debt-to-income.`,
+      },
+    );
+    if (lent <= 0) continue;
+    store(api)
+      .table("loans")
+      .put({
+        id: `loan:${household.id}:${c.date}`,
+        isLoan: true,
+        open: true,
+        householdId: household.id,
+        borrowerId: head.id,
+        lenderId: bankId,
+        kind: "personal",
+        principalMinor: lent,
+        balanceMinor: lent,
+        annualRate: rate,
+        paymentMinor: Math.round(
+          amortizedPayment(lent, rate, p("creditPersonalTermMonths"), p),
+        ),
+        openedAt: c.date,
+        pastDueMinor: 0,
+        standing: "current",
+      });
+    room -= lent;
+  }
+  return room;
+}
+
+function creditOffer(
+  kind: "wait" | "borrow",
+  targetId: string,
+  reasons: Record<string, number>,
+): ActOffer {
+  const row = creditData.actions[kind];
+  return {
+    definition: {
+      id: row.id,
+      actKinds: row.actKinds,
+      goalKinds: [],
+      need: "money",
+      effortParameter: "zero",
+      effectParameter: "zero",
+      targetKind: "credit-option",
+      effect: "credit-choice",
+    },
+    targetId,
+    availableHours: 1,
+    effortHours: 0,
+    reasonBindings: Object.entries(reasons).map(([id, value]) => ({
+      id,
+      provider: CREDIT_PULL,
+      weightParameter: "one",
+      arguments: { value: String(value) },
+    })),
+  };
+}
