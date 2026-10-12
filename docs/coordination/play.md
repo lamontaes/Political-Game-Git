@@ -130,6 +130,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: `src/bench/path-check.ts` plays the golden path headless in a drawn place. In Wolcott VT, the 18-year-old filed for Selectboard with the town clerk (gathering signatures) and knocked 23 doors. Election night showed 23 races, and a selectboard member's bill was **enacted 2–1: furthest step 9**. In Hammonton NJ, a council bill failed 2–3 (step 8). Who you are now lists the rights and rules a law in force puts on your record.
 - Oct 12: new-game place picker (search any town; the custom world's first setting, M6-04), letterbox bars on the opening (M6-01), and the handoff when your character dies (M5-03: carry on as someone in their household or circle). The handoff isn't seen in play yet; no death has happened to a played character.
 - Oct 12: owner's ruling applied: a routine shift never stops a skip. The character attends its own shifts while skipping. M0-03 now checks a month-long skip that either stops for something that needs the player or runs out. In Hermosa Beach CA (seed m3c), it ran 30 days with 26 shifts attended on the character's own and 56 choices made by the character, in 18.6 s.
 - Oct 12: the government map in `/play`, drawn from the Census map packs. In Alma NE (seed map-b): 93 counties, Congressional District 3 (Heather Copeland), State Senate District 38, and Alma city (William Pugh). No map for the five territories (no packs).
