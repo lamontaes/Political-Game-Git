@@ -29,6 +29,7 @@ const openingDate = "2021-01-01",
   pensionPayer = "organization:recurring-pension",
   job = "job:recurring-fixture",
   commitment = "commitment:recurring-fixture",
+  payrollCalendar = "payroll:recurring-fixture",
   purchase = "contract:recurring-purchase",
   income = "contract:recurring-income",
   award = "award:recurring-income",
@@ -180,6 +181,7 @@ function opening(
             jobId: job,
             personId: worker,
             organizationId: employer,
+            payrollCalendarId: payrollCalendar,
             startsAt:
               options.commitmentStartsAt ?? options.openingAt ?? openingDate,
             anchorDate: options.anchorAt ?? dueAt,
@@ -195,6 +197,24 @@ function opening(
             hourlyMinor: unit,
             scheduleSource: source,
             paySource: source,
+          },
+        ],
+    workPayrollCalendars: options.noWork
+      ? []
+      : [
+          {
+            id: payrollCalendar,
+            organizationId: employer,
+            workCommitmentIds: [commitment],
+            basisRecordIds: [employer],
+            rule: "fixed-days-after-inclusive-period-end" as const,
+            periodDays: one,
+            firstPeriodStartsAt: openingDate,
+            nonbusinessDayRule: "no-adjustment" as const,
+            firstPaydayAt: openingDate,
+            effectiveFrom: openingDate,
+            arrearsRule: "carry-to-next-recorded-payday" as const,
+            source,
           },
         ],
     finance: {
@@ -467,9 +487,11 @@ describe("generated household recurring income calendar (UNEXECUTED)", () => {
     });
     core.finance.jobsByOrganization.get(employer)!.add(nextJob);
     core.people.get(worker)!.jobId = nextJob;
+    const nextCalendar = `${payrollCalendar}:replacement`;
     const replacement: WorkCommitmentInput = {
       ...old,
       id: nextCommitment,
+      payrollCalendarId: nextCalendar,
       jobId: nextJob,
       endsAt: undefined,
       startsAt: core.date,
@@ -478,6 +500,20 @@ describe("generated household recurring income calendar (UNEXECUTED)", () => {
       paySource: replacementSource,
     };
     coreAPI(core).addWorkCommitment(replacement);
+    coreAPI(core).addWorkPayrollCalendar({
+      id: nextCalendar,
+      organizationId: employer,
+      workCommitmentIds: [nextCommitment],
+      basisRecordIds: [employer],
+      rule: "fixed-days-after-inclusive-period-end",
+      periodDays: one,
+      firstPeriodStartsAt: core.date,
+      nonbusinessDayRule: "no-adjustment",
+      firstPaydayAt: core.date,
+      effectiveFrom: core.date,
+      arrearsRule: "carry-to-next-recorded-payday",
+      source: replacementSource,
+    });
     old.scheduleSource.citation =
       "The historical schedule Source was subsequently superseded.";
     old.paySource.citation =
@@ -490,7 +526,7 @@ describe("generated household recurring income calendar (UNEXECUTED)", () => {
       second.nextHouseholdPurchaseCalendarBasis?.references.map(
         (ref) => ref.id,
       ),
-    ).toEqual([nextJob, nextCommitment]);
+    ).toEqual([nextJob, nextCommitment, nextCalendar]);
     expect(JSON.stringify(first.nextHouseholdPurchaseCalendarBasis)).toBe(
       retained,
     );

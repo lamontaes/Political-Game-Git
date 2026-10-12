@@ -4,8 +4,8 @@ import { drawPlace } from "../../scripts/core2-year/place";
 import { generatedOpening } from "./tooling/generated-world";
 import { collapseToTwoLevels } from "./residents";
 import { advanceCore, createLifeCore } from "./life";
-import { residentCounts } from "./modules/residents";
-import { fillInPerson } from "./state";
+import { residentCounts, residentsRuntime } from "./modules/residents";
+import { coreAPI, fillInPerson } from "./state";
 import type { CoreInput } from "./types";
 
 // One random place from all 56, named with its seed in the test title.
@@ -22,10 +22,31 @@ const monthlyHouseholdPurchases = (input: CoreInput) =>
 
 describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   let full: CoreInput, two: CoreInput;
+  let collapsed: CoreInput;
   beforeAll(() => {
     full = generatedOpening(place);
-    two = collapseToTwoLevels(full);
-  }, 300_000);
+    collapsed = collapseToTwoLevels(full);
+    // The opening the game uses: counted households get light economy terms.
+    two = generatedOpening(place, { twoLevel: true });
+  }, 600_000);
+
+  it("gives counted households the same money as a full opening", () => {
+    const flows = (input: CoreInput) => {
+      const bySeller = new Map<string, number>();
+      for (const row of input.residents!.flows)
+        bySeller.set(
+          `${row.kind}:${row.payerId}:${row.payeeId}`,
+          (bySeller.get(`${row.kind}:${row.payerId}:${row.payeeId}`) ?? 0) +
+            row.amountMinor,
+        );
+      return [...bySeller].sort();
+    };
+    expect(flows(two)).toEqual(flows(collapsed));
+    expect(two.people.map((row) => row.id)).toEqual(
+      collapsed.people.map((row) => row.id),
+    );
+    expect(cash(two)).toBe(cash(collapsed));
+  });
 
   it("keeps every person, dollar and purchase", () => {
     const counted = two.residents!.households.reduce(
@@ -118,6 +139,67 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(atEmployer(after)).toBe(employed);
     // The same person comes back: filling in again changes nothing.
     expect(fillInPerson(core, job.personId)).toBe(person);
+    // Their working life is now their own: shifts, pay and cash.
+    expect(residentsRuntime(core)!.wageFlowByJob.has(job.id)).toBe(false);
+    const opening = cash(two);
     advanceCore(core, "2021-02-01");
+    expect(core.work.lastAttendanceByJob.get(job.id)).toBeDefined();
+    // Their shifts are scheduled; whether they go is their own choice.
+    expect(core.work.totalsByJob.get(job.id)!.plannedMinutes).toBeGreaterThan(
+      0,
+    );
+    let closing = 0,
+      outside = 0;
+    for (const row of core.people.values()) closing += row.liquidMinor;
+    for (const row of core.organizations.values()) closing += row.liquidMinor;
+    for (const row of core.cashJournal.externalFlowsByOwner.values())
+      outside += row.netMinor;
+    expect(closing).toBe(opening - outside);
+  }, 300_000);
+
+  it("re-rates full and counted workers from today", () => {
+    const core = createLifeCore(two),
+      api = coreAPI(core);
+    advanceCore(core, "2021-01-10");
+    const source = {
+      tag: "SOURCED" as const,
+      asOf: core.date,
+      citation: "Test pay change.",
+    };
+    const full = [...core.jobs.values()].find(
+      (job) =>
+        job.endsAt === undefined &&
+        [...(core.work.commitmentsByPerson.get(job.personId) ?? [])].length,
+    )!;
+    const old = core.work.lastAttendanceByJob.get(full.id);
+    const hourly = full.hourlyMinor! + 100;
+    api.rerateJob(full.id, hourly, source);
+    const rt = residentsRuntime(core)!;
+    const flow = [...rt.flows.values()].find(
+      (row) => row.kind === "wages" && row.jobIds?.length,
+    )!;
+    const jobId = flow.jobIds![0]!,
+      counted = rt.jobs.get(jobId)!,
+      before = flow.amountMinor;
+    api.rerateJob(jobId, counted.hourlyMinor! * 2, source);
+    const share = flow.perDayMinorByJob![jobId]! / 2;
+    expect(flow.amountMinor - before).toBe(
+      Math.round(
+        Object.values(flow.perDayMinorByJob!).reduce((n, v) => n + v, 0) *
+          flow.periodFactor!,
+      ) -
+        Math.round(
+          (Object.values(flow.perDayMinorByJob!).reduce((n, v) => n + v, 0) -
+            share) *
+            flow.periodFactor!,
+        ),
+    );
+    advanceCore(core, "2021-01-31");
+    const latest = core.work.lastAttendanceByJob.get(full.id);
+    if (old && latest && latest.attendedMinutes > 0)
+      expect(latest.earnedMinor / (latest.attendedMinutes / 60)).toBeCloseTo(
+        hourly,
+        -1,
+      );
   }, 300_000);
 });

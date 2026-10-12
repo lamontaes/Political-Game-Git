@@ -1,4 +1,5 @@
 import type { ResidentsInput } from "./residents";
+import type { Accounts } from "./accounts";
 import type {
   ModuleStateDefinition,
   ModuleStateStore,
@@ -613,6 +614,11 @@ export interface ActivityTimeTotal {
   source: Source;
 }
 export interface WorkRuntime {
+  /** Dated pay changes by job (core2-api-v12 rerateJob), newest last. */
+  payChanges: Map<
+    string,
+    readonly { date: IsoDate; hourlyMinor: number; source: Source }[]
+  >;
   payrollCalendars: Map<string, WorkPayrollCalendarInput>;
   payrollCalendarByCommitment: Map<string, string>;
   payrollCalendarByJob: Map<string, string>;
@@ -996,6 +1002,8 @@ export interface CoreAPI {
   moduleState(moduleId: string): ModuleStateStore;
   moduleCalendar(moduleId: string): ModuleCalendar;
   voterGroups(): VoterGroups;
+  /** Named accounts, transfers and obligations through the one journal (M0-09). */
+  accounts(): Accounts;
   version: string;
   readonly state: Readonly<CoreState>;
   parameter(key: string): number;
@@ -1131,6 +1139,8 @@ export interface CoreAPI {
       >
     >,
   ): void;
+  /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
+  rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
   addOrganization(input: OrganizationInput): void;
   /** v11: zero-stock newborn admission through the canonical person writer. */
   addBornPersonV1(

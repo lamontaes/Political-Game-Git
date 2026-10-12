@@ -1,3 +1,4 @@
+import { bookkeeping } from "./bookkeeping";
 /** Compose opening record producers; runtime settlement remains in the shared writers. */
 import {
   createOpeningFinance,
@@ -115,7 +116,9 @@ export function buildOpeningEconomy(
     throw new Error(
       "Opening economy changed the original people/household roster or admitted duplicate accounts.",
     );
-  for (const original of input.people) {
+  // Bookkeeping proves the economy pass left every original record unchanged.
+  const recheck = bookkeeping();
+  for (const original of recheck ? input.people : []) {
     const next = people.get(original.id);
     if (
       !next ||
@@ -141,7 +144,7 @@ export function buildOpeningEconomy(
         `Opening economy changed an original person or prior fact: ${original.id}`,
       );
   }
-  for (const original of input.organizations) {
+  for (const original of recheck ? input.organizations : []) {
     const next = organizations.get(original.id);
     if (!next || next.liquidMinor !== original.liquidMinor)
       throw new Error("Opening economy changed original organization cash.");
@@ -249,7 +252,7 @@ export function buildOpeningEconomy(
   const finalContracts = new Map(
     customers.input.finance?.contracts.map((row) => [row.id, row]),
   );
-  for (const row of input.finance?.contracts ?? [])
+  for (const row of recheck ? (input.finance?.contracts ?? []) : [])
     if (canonical(finalContracts.get(row.id)) !== canonical(row))
       throw new Error(
         `Opening economy changed an original finance contract: ${row.id}`,

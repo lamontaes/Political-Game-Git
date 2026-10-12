@@ -32,7 +32,7 @@ export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
 
 export type ResidentFlowKind =
-  "wages" | "retirement" | "purchase" | "outside-sales";
+  "wages" | "retirement" | "purchase" | "outside-sales" | "outside-costs";
 
 export type ResidentCadence =
   | { kind: "days"; every: number }
@@ -59,6 +59,11 @@ export interface ResidentFlowInput {
   organizationId?: string;
   /** Workers this wage flow pays, by job id; shrinks as people are filled in. */
   jobIds?: readonly string[];
+  /** Each counted job's pay per day; amount = round(sum × periodFactor). */
+  perDayMinorByJob?: Readonly<Record<string, number>>;
+  periodFactor?: number;
+  /** Purchase flows: each merged household contract's amount (fill-in takes it back). */
+  amountByContract?: Readonly<Record<string, number>>;
   source: Source;
 }
 
@@ -76,6 +81,8 @@ export interface ResidentsInput {
   accounts: readonly { placeId: PlaceId; accountId: string }[];
   households: readonly ResidentHouseholdRecord[];
   flows: readonly ResidentFlowInput[];
+  /** Employer payday calendars the counted workers were on (fill-in reuses their cadence). */
+  calendars?: readonly WorkPayrollCalendarInput[];
   source: Source;
 }
 
@@ -234,6 +241,7 @@ export function collapseToTwoLevels(
       placeId: PlaceId;
       perDay: number;
       jobIds: string[];
+      perDayByJob: Record<string, number>;
       source: Source;
     }
   >();
@@ -254,10 +262,13 @@ export function collapseToTwoLevels(
         placeId: home.placeId,
         perDay: 0,
         jobIds: [],
+        perDayByJob: {},
         source: row.paySource,
       };
       group.perDay += perDayWageMinor(row);
       group.jobIds.push(row.jobId);
+      group.perDayByJob[row.jobId] =
+        (group.perDayByJob[row.jobId] ?? 0) + perDayWageMinor(row);
       wageGroups.set(key, group);
     }
   for (const [key, group] of wageGroups) {
@@ -273,6 +284,7 @@ export function collapseToTwoLevels(
       marketAdjusted: false,
       organizationId: calendar.organizationId,
       jobIds: group.jobIds,
+      perDayMinorByJob: group.perDayByJob,
       source: group.source,
     };
     const first = makeIsoDate(
@@ -283,6 +295,7 @@ export function collapseToTwoLevels(
         ...base,
         id: `residents:wages:${key}`,
         amountMinor: Math.round(group.perDay * calendar.periodDays),
+        periodFactor: calendar.periodDays,
         firstAt: first,
         cadence: { kind: "days", every: calendar.periodDays },
       });
@@ -299,6 +312,8 @@ export function collapseToTwoLevels(
           ...base,
           id: `residents:wages:${key}:${index}`,
           amountMinor: Math.round((monthly * months) / days.length),
+          periodFactor:
+            (DAYS_PER_YEAR / MONTHS_PER_YEAR) * (months / days.length),
           firstAt: nextMonthDay(first, day),
           cadence: { kind: "months", every: months, day },
         }),
@@ -394,6 +409,9 @@ export function collapseToTwoLevels(
       ...(first.endsAt ? { endsAt: first.endsAt } : {}),
       salesReceipt: !!first.salesReceipt,
       marketAdjusted: !!first.marketAdjusted,
+      amountByContract: Object.fromEntries(
+        group.rows.map((row) => [row.id, row.amountMinor]),
+      ),
       source: first.source,
     });
   }
@@ -569,6 +587,14 @@ export function collapseToTwoLevels(
       households,
       // Flows already recorded (e.g. outside buyers) are kept.
       flows: [...(input.residents?.flows ?? []), ...flows],
+      calendars: [
+        ...new Set(
+          [...commitmentsByPerson.values()]
+            .flat()
+            .map((row) => row.payrollCalendarId)
+            .filter((id): id is string => !!id),
+        ),
+      ].map((id) => calendars.get(id)!),
       source,
     },
   };

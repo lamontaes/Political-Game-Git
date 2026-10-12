@@ -85,6 +85,8 @@ const laterVintageGenerationPriorGap =
   "opening-finance:later-vintage-generation-priors-are-not-date-available-actor-facts";
 
 export interface OpeningFinanceOptions {
+  /** Two-level opening: counted households get light terms (see OpeningCustomerOptions). */
+  countedHouseholdIds?: ReadonlySet<string>;
   data?: OpeningFinanceData;
   books?: BusinessBooksOptions;
   /** Recorded terms, not a request to invent a vendor, loan, or approval. */
@@ -304,7 +306,11 @@ export function createOpeningFinance(
       if (!generatedSourceOwners) {
         const calendarRecords = new Map<
           string,
-          { householdId: string; sources: readonly Source[] }
+          {
+            householdId: string;
+            householdIds?: ReadonlySet<string>;
+            sources: readonly Source[];
+          }
         >();
         const seenRecordIds = new Set<string>();
         const addRecord = (
@@ -341,6 +347,26 @@ export function createOpeningFinance(
             row.householdId ?? row.recipientIncome?.householdId,
             [row.source],
           );
+        // An employer's payday calendar serves every household with a worker on it.
+        for (const calendar of input.workPayrollCalendars ?? []) {
+          if (seenRecordIds.has(calendar.id)) {
+            calendarRecords.delete(calendar.id);
+            continue;
+          }
+          seenRecordIds.add(calendar.id);
+          const commitmentIds = new Set(calendar.workCommitmentIds);
+          const homes = new Set<string>();
+          for (const row of input.workCommitments ?? [])
+            if (commitmentIds.has(row.id)) {
+              const home = people.get(row.personId)?.householdId;
+              if (home) homes.add(home);
+            }
+          calendarRecords.set(calendar.id, {
+            householdId: calendar.organizationId,
+            householdIds: homes,
+            sources: [calendar.source],
+          });
+        }
         generatedSourceOwners = {
           households,
           calendarRecords,
@@ -1026,6 +1052,21 @@ export function createOpeningFinance(
   }
   for (const row of data.categories) stopgap(row.stopgapId);
 
+  const countedSources = new Map<string, Source>();
+  const countedSource = (citation: string): Source => {
+    let source = countedSources.get(citation);
+    if (!source) {
+      source = {
+        tag: "ESTIMATED",
+        asOf: startedAt,
+        citation: `${citation} ${LIVING_COSTS_SOURCE}`,
+        estimatedFrom:
+          "Counted household (two-level population): the same CEX category budget and supplier shares as a simulated household, without per-household evidence; merged into the residents' purchase flows.",
+      };
+      countedSources.set(citation, source);
+    }
+    return source;
+  };
   for (const household of households.values()) {
     const householdCalendar = purchaseCalendar.household(household);
     for (const gap of householdCalendar.gaps) gaps.add(gap);
@@ -1100,8 +1141,33 @@ export function createOpeningFinance(
         );
         continue;
       }
+      const counted = options.countedHouseholdIds?.has(household.id) === true;
       for (const share of allocate(budget.amount, supplierWeights(suppliers))) {
         if (share.amount <= zero) continue;
+        if (counted) {
+          // Same budget and supplier shares; light counted terms, merged later.
+          appendContract({
+            id: JSON.stringify([
+              "opening-household-purchase",
+              household.id,
+              budget.id,
+              share.id,
+            ]),
+            householdId: household.id,
+            payerIds: payers.map((row) => row.id),
+            payeeId: share.id,
+            kind: crosswalk.contractKind,
+            amountMinor: share.amount * periodMonths,
+            dueAt: householdCalendar.dueAt,
+            periodMonths,
+            accruesArrears: false,
+            salesReceipt: true,
+            marketAdjusted: data.marketAdjustedHouseholdBudgets,
+            source: countedSource(crosswalk.citation),
+          });
+          boundMonthly += share.amount;
+          continue;
+        }
         appendContract({
           id: JSON.stringify([
             "opening-household-purchase",

@@ -3,6 +3,8 @@ import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 import {
   countedJob,
+  releaseResidentHousehold,
+  rerateCountedJob,
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
@@ -13,6 +15,7 @@ import {
 } from "./module-state";
 import { moduleCalendar } from "./module-calendar";
 import { voterGroups } from "./voter-groups";
+import { accountsFacade } from "./accounts";
 import {
   emptyWorkRuntime,
   admitWorkCommitment,
@@ -885,6 +888,7 @@ export function coreAPI(core: CoreState): CoreAPI {
     moduleState: (moduleId) => moduleState(core, moduleId),
     moduleCalendar: (moduleId) => moduleCalendar(core, moduleId),
     voterGroups: () => voterGroups(core),
+    accounts: () => accountsFacade(core, api),
     version: core.apiVersion,
     state: core,
     parameter: p,
@@ -1432,6 +1436,43 @@ export function coreAPI(core: CoreState): CoreAPI {
       }
       Object.assign(actor, changes);
     },
+    rerateJob(jobId, hourlyMinor, source) {
+      if (!Number.isSafeInteger(hourlyMinor) || hourlyMinor <= 0)
+        throw new Error("A new hourly rate must be a positive whole amount.");
+      makeIsoDate(source.asOf);
+      if (source.asOf > core.date)
+        throw new Error("A pay change cannot cite a later source.");
+      const job = core.jobs.get(jobId);
+      if (!job) {
+        if (rerateCountedJob(core, jobId, hourlyMinor)) return;
+        throw new Error(`No recorded job to re-rate: ${jobId}`);
+      }
+      if (job.endsAt !== undefined) throw new Error("The job has ended.");
+      const commitments = [
+        ...(core.work.commitmentsByPerson.get(job.personId) ?? []),
+      ]
+        .map((id) => core.work.commitments.get(id)!)
+        .filter((row) => row.jobId === jobId && row.endsAt === undefined);
+      const old = job.hourlyMinor ?? commitments[0]?.hourlyMinor;
+      // The commitment keeps its original pay source (an open pay period cites
+      // it); the change and its source are recorded on the job.
+      for (const row of commitments) row.hourlyMinor = hourlyMinor;
+      core.work.payChanges.set(jobId, [
+        ...(core.work.payChanges.get(jobId) ?? []),
+        { date: core.date, hourlyMinor, source: { ...source } },
+      ]);
+      const ratio = old ? hourlyMinor / old : 1;
+      job.hourlyMinor = hourlyMinor;
+      job.wageDailyMinor = Math.round(job.wageDailyMinor * ratio);
+      if (core.people.has(job.personId))
+        api.observe(job.personId, {
+          key: `job:${job.id}:pay`,
+          value: String(job.wageDailyMinor),
+          learnedAt: core.date,
+          sourceId: job.id,
+          access: "self",
+        });
+    },
     addOrganization(row) {
       if (
         core.organizations.has(row.id) ||
@@ -1639,8 +1680,11 @@ export function inspectPerson(
  * Fill in a person from the wider population (two-level population): their
  * whole household leaves the counts and becomes full people, with the same
  * records the counts held: names, birth dates, past, traits and the job the
- * employer's books count. Their money stays pooled with the residents
- * account (stopgap SG-CORE-fill-in-pooled-money). Returns the person.
+ * employer's books count. Their share of the residents' cash moves to them,
+ * their jobs become scheduled work on the employer's pay cadence, and their
+ * household purchases become their own contracts; the merged flows shrink
+ * by the same amounts. Retirement income stays pooled (stopgap
+ * SG-CORE-fill-in-pooled-money). Returns the person.
  */
 export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const existing = core.people.get(personId);
@@ -1676,8 +1720,14 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const admitted: PersonState[] = [];
   for (const row of record.people) {
     core.husks.delete(row.id);
-    const job = row.jobId ? jobs.get(row.jobId) : undefined;
-    const active = job ? countedJob(core, job.id) !== undefined : false;
+    const recorded = row.jobId ? jobs.get(row.jobId) : undefined;
+    // The counted job as it stands today (pay may have changed since the opening).
+    const job = recorded
+      ? (countedJob(core, recorded.id) ?? recorded)
+      : undefined;
+    const active = recorded
+      ? countedJob(core, recorded.id) !== undefined
+      : false;
     admitted.push(
       admitPerson(core, {
         ...row,
@@ -1689,6 +1739,72 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       core.jobs.set(job.id, { ...job });
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
     }
+  }
+  // Their economic life moves from the merged flows to their own records.
+  const released = releaseResidentHousehold(core, record);
+  if (released.accountId) {
+    const accounts = api.accounts(),
+      from = accounts.main(released.accountId),
+      pool = accounts.balance(from),
+      household = record.people.reduce((n, row) => n + row.liquidMinor, 0);
+    for (const row of record.people) {
+      const amount =
+        household > 0
+          ? Math.floor(
+              (pool * released.cashShare * row.liquidMinor) / household,
+            )
+          : 0;
+      if (amount > 0)
+        accounts.transfer({
+          id: `fill-in:${row.id}:cash`,
+          from,
+          to: accounts.main(row.id),
+          amountMinor: amount,
+          reasonKey: "residents.fill-in.cash",
+          source: row.source,
+        });
+    }
+  }
+  for (const commitment of record.workCommitments) {
+    const job = core.jobs.get(commitment.jobId);
+    const original = commitment.payrollCalendarId
+      ? released.calendars.get(commitment.payrollCalendarId)
+      : undefined;
+    if (!job || job.endsAt !== undefined || !original) continue;
+    const calendarId = `${original.id}:filled:${commitment.id}`;
+    api.addWorkCommitment({
+      ...commitment,
+      startsAt: makeIsoDate(core.date),
+      hourlyMinor: job.hourlyMinor ?? commitment.hourlyMinor,
+      payrollCalendarId: calendarId,
+    });
+    api.addWorkPayrollCalendar({
+      ...original,
+      id: calendarId,
+      workCommitmentIds: [commitment.id],
+      basisRecordIds: [job.organizationId, job.id, commitment.id],
+      effectiveFrom: makeIsoDate(core.date),
+    });
+  }
+  for (const contract of record.contracts) {
+    if (contract.recipientIncome) continue; // retirement stays pooled (stopgap)
+    const day = Number(contract.dueAt.slice(8, 10));
+    let dueAt = makeIsoDate(contract.dueAt);
+    while (dueAt <= core.date) {
+      const next = new Date(`${dueAt}T00:00:00.000Z`);
+      next.setUTCDate(1);
+      next.setUTCMonth(next.getUTCMonth() + contract.periodMonths);
+      const last = new Date(
+        Date.UTC(next.getUTCFullYear(), next.getUTCMonth() + 1, 0),
+      ).getUTCDate();
+      next.setUTCDate(Math.min(day, last));
+      dueAt = makeIsoDate(next.toISOString().slice(0, 10));
+    }
+    api.addFinanceContract({
+      ...contract,
+      dueAt,
+      householdPurchaseCalendar: undefined,
+    });
   }
   for (const actor of admitted) {
     for (const id of [...actor.familyIds, ...actor.knownIds]) husk(id);

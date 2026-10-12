@@ -12,6 +12,7 @@ Import the clock from `src/core2/player-v1.ts`, module stops from `src/core2/pla
 type Moment = { date: string; minuteOfDay: number };
 advancePlayerV1(core, { controlledPersonId, through: Moment });
 resumePlayerV1(core, { kind: "choice", pauseId, offerId });
+resumePlayerV1(core, { kind: "own-choice", pauseId }); // the character chooses for itself; saved as its own act
 resumePlayerV1(core, { kind: "stop", pauseId });
 earliestPlayerStopV1(core, { controlledPersonId, through: Moment });
 resolveSavedTraceV1(core, recordId);

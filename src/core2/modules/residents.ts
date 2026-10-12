@@ -11,9 +11,9 @@ import {
   type ResidentHouseholdRecord,
   type ResidentsInput,
 } from "../residents";
-import type { CashJournalPosting } from "../journal";
+import { transfer } from "../accounts";
 import type { ResidentWageShortfall } from "../finance-types";
-import type { CashJournalSourceSlot } from "../journal-state";
+import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import type {
   CoreAPI,
   CoreModule,
@@ -26,19 +26,26 @@ import type {
 } from "../types";
 
 export const RESIDENTS_MODULE_ID = "core2-residents-v1";
-const SOURCE_KIND = "residents.flow";
-const DUE_KIND = "residents.due";
 // Outside buyers pay first, so a day's receipts can meet that day's payroll.
 const ORDER = {
   "outside-sales": 0,
   wages: 1,
   retirement: 2,
   purchase: 3,
+  // Suppliers are paid after workers, from what is left.
+  "outside-costs": 4,
 } as const;
 
 interface FlowState extends ResidentFlowInput {
   nextAt: IsoDate;
   arrearsMinor: number;
+  /** outside-costs: the firm's receipts and local purchases already counted. */
+  receivedMinor?: number;
+  /** Local operating payments when the flow started (a baseline). */
+  localPaidMinor?: number;
+  accruedCostMinor?: number;
+  accrualHistory?: { date: IsoDate; accrued: number }[];
+  outsidePaidMinor?: number;
   endedAt?: IsoDate;
   endedReason?: string;
 }
@@ -47,11 +54,12 @@ export interface ResidentsRuntime {
   input: ResidentsInput;
   flows: Map<string, FlowState>;
   due: Map<IsoDate, Set<string>>;
-  pending: Map<string, CashJournalSourceSlot>;
   households: Map<string, ResidentHouseholdRecord>;
   householdOfPerson: Map<PersonId, string>;
   jobs: Map<string, JobInput>;
-  /** Households filled in from the counts; their money stays pooled (stopgap). */
+  /** Opening cash of everyone still counted, by place (fill-in takes its share). */
+  openingCashByPlace: Map<PlaceId, number>;
+  /** Households filled in from the counts. */
   filledIn: Map<string, ResidentHouseholdRecord>;
   wageFlowByJob: Map<string, FlowState>;
   /** Today's missed count-worker paydays, the evidence a closure cites. */
@@ -85,12 +93,12 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     input,
     flows: new Map(),
     due: new Map(),
-    pending: new Map(),
     households: new Map(),
     householdOfPerson: new Map(),
     shortfalls: new Map(),
     jobs: new Map(),
     filledIn: new Map(),
+    openingCashByPlace: new Map(),
     wageFlowByJob: new Map(),
   };
   for (const record of input.households) {
@@ -98,6 +106,12 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     for (const person of record.people)
       rt.householdOfPerson.set(person.id, record.household.id);
     for (const job of record.jobs) rt.jobs.set(job.id, job);
+    const placeId = record.household.placeId;
+    rt.openingCashByPlace.set(
+      placeId,
+      (rt.openingCashByPlace.get(placeId) ?? 0) +
+        record.people.reduce((n, row) => n + row.liquidMinor, 0),
+    );
   }
   for (const row of input.flows) {
     if (rt.flows.has(row.id)) throw new Error(`Duplicate flow: ${row.id}`);
@@ -142,6 +156,40 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   if (payerBook?.closedAt) return end(flow, date, "payer-closed");
   if (payeeBook?.closedAt) return end(flow, date, "payee-closed");
   let base = flow.amountMinor;
+  if (flow.kind === "outside-costs" && payerBook) {
+    // Supplies follow sales: the firm accrues its booked cost share of what it
+    // takes in; whatever it hasn't bought from local suppliers (running totals,
+    // so lumpy local orders aren't lost) is bought outside.
+    const received = payerBook.receivedMinor - (flow.receivedMinor ?? 0),
+      share =
+        payerBook.annualDemandMinor > 0
+          ? payerBook.annualOtherCostsMinor / payerBook.annualDemandMinor
+          : 0;
+    flow.receivedMinor = payerBook.receivedMinor;
+    flow.localPaidMinor ??= payerBook.operatingPaidMinor;
+    flow.accruedCostMinor = (flow.accruedCostMinor ?? 0) + received * share;
+    // Net-30 trade terms: this week's bill covers costs accrued a month ago,
+    // after the local orders for that month are known.
+    const history = [
+      ...(flow.accrualHistory ?? []),
+      { date: core.date, accrued: flow.accruedCostMinor },
+    ];
+    const termsStart = makeIsoDate(
+      addDays(makeIsoDate(date), -api.parameter("supplierTradeTermsDays")),
+    );
+    while (history.length > 1 && history[1]!.date <= termsStart)
+      history.shift();
+    flow.accrualHistory = history;
+    const billable = history[0]!.date <= termsStart ? history[0]!.accrued : 0;
+    base = Math.max(
+      0,
+      Math.round(
+        billable -
+          (payerBook.operatingPaidMinor - flow.localPaidMinor) -
+          (flow.outsidePaidMinor ?? 0),
+      ),
+    );
+  }
   if (flow.marketAdjusted && payeeBook && payeeBook.anchorAnnualDemandMinor > 0)
     base = Math.floor(
       (base * payeeBook.annualDemandMinor) / payeeBook.anchorAnnualDemandMinor,
@@ -152,7 +200,9 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   const paid = outside
     ? requested
     : Math.min(requested, spendable(core, flow.payerId));
-  if (paid > 0) post(api, rt, flow, paid, outside);
+  if (paid > 0) post(api, rt, flow, paid);
+  if (flow.kind === "outside-costs")
+    flow.outsidePaidMinor = (flow.outsidePaidMinor ?? 0) + paid;
   const month = date.slice(0, 7);
   if ((flow.kind === "wages" || flow.kind === "retirement") && paid > 0) {
     const key = `${month}:${flow.placeId}`,
@@ -213,54 +263,19 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
 
 function post(
   api: CoreAPI,
-  rt: ResidentsRuntime,
+  _rt: ResidentsRuntime,
   flow: FlowState,
   paid: number,
-  outside: boolean,
 ): void {
-  const core = api.state,
-    date = core.date,
-    id = `${flow.id}@${date}`;
-  const payerAccount = core.cashJournal.residualAccountByOwner.get(
-      flow.payerId,
-    )!,
-    payeeAccount = core.cashJournal.residualAccountByOwner.get(flow.payeeId)!;
-  const postings: CashJournalPosting[] = [
-    { id: `${id}:out`, accountId: payerAccount, deltaMinor: -paid },
-    { id: `${id}:in`, accountId: payeeAccount, deltaMinor: paid },
-  ];
-  const due = { kind: DUE_KIND, id };
-  rt.pending.set(id, {
-    resolved: {
-      kind: SOURCE_KIND,
-      id,
-      date,
-      source: flow.source,
-      expectedPostings: postings,
-      requiredRelatedRefs: outside ? [due] : [],
-      relatedRecords: outside ? [{ ...due, date, source: flow.source }] : [],
-      ...(outside
-        ? {
-            externalFlowAuthorizations: [
-              { accountId: payerAccount, obligation: due },
-            ],
-          }
-        : {}),
-    },
-    marker: {},
-    retainFull: false,
+  const core = api.state;
+  transfer(core, api, {
+    id: `${flow.id}@${core.date}`,
+    from: core.cashJournal.residualAccountByOwner.get(flow.payerId)!,
+    to: core.cashJournal.residualAccountByOwner.get(flow.payeeId)!,
+    amountMinor: paid,
+    reasonKey: flow.financeKind,
+    source: flow.source,
   });
-  try {
-    api.postJournal({
-      id: `journal:${date}:${core.cashJournal.nextSequence}`,
-      date,
-      expectedSequence: core.cashJournal.nextSequence,
-      sourceRef: { kind: SOURCE_KIND, id },
-      postings,
-    });
-  } finally {
-    rt.pending.delete(id);
-  }
 }
 
 function runResidentsDay(api: CoreAPI): void {
@@ -308,6 +323,67 @@ export function residentPerson(
     : undefined;
 }
 
+/**
+ * What a filled-in household takes back from the merged flows: its workers'
+ * share of each wage flow and its own purchase contracts. Returns the
+ * employer calendars its jobs were paid on and its share of the residents'
+ * cash (by opening cash, of everyone still counted in that place).
+ */
+export function releaseResidentHousehold(
+  core: CoreState,
+  record: ResidentHouseholdRecord,
+): {
+  calendars: Map<string, WorkPayrollCalendarInput>;
+  cashShare: number;
+  accountId?: string;
+} {
+  const rt = runtimes.get(core)!;
+  const jobIds = new Set(record.jobs.map((row) => row.id)),
+    contractIds = new Set(record.contracts.map((row) => row.id));
+  for (const flow of rt.flows.values()) {
+    if (flow.kind === "wages" && flow.perDayMinorByJob) {
+      const perDay = { ...flow.perDayMinorByJob };
+      let changed = false;
+      for (const id of jobIds)
+        if (perDay[id] !== undefined) {
+          delete perDay[id];
+          changed = true;
+        }
+      if (!changed) continue;
+      flow.perDayMinorByJob = perDay;
+      flow.jobIds = (flow.jobIds ?? []).filter((id) => !jobIds.has(id));
+      let total = 0;
+      for (const value of Object.values(perDay)) total += value;
+      flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
+    } else if (flow.kind === "purchase" && flow.amountByContract) {
+      const amounts = { ...flow.amountByContract };
+      let removed = 0;
+      for (const id of contractIds)
+        if (amounts[id] !== undefined) {
+          removed += amounts[id]!;
+          delete amounts[id];
+        }
+      if (!removed) continue;
+      flow.amountByContract = amounts;
+      flow.amountMinor -= removed;
+    }
+  }
+  for (const id of jobIds) rt.wageFlowByJob.delete(id);
+  const placeId = record.household.placeId;
+  const own = record.people.reduce((n, row) => n + row.liquidMinor, 0);
+  const remaining = rt.openingCashByPlace.get(placeId) ?? 0;
+  rt.openingCashByPlace.set(placeId, remaining - own);
+  const calendars = new Map(
+    (rt.input.calendars ?? []).map((row) => [row.id, row]),
+  );
+  return {
+    calendars,
+    cashShare: remaining > 0 ? own / remaining : 0,
+    accountId: rt.input.accounts.find((row) => row.placeId === placeId)
+      ?.accountId,
+  };
+}
+
 /** Remove a person's household from the counts, for fill-in. */
 export function takeResidentHousehold(
   core: CoreState,
@@ -323,6 +399,39 @@ export function takeResidentHousehold(
   return record;
 }
 
+/**
+ * A counted worker's new hourly pay from today (e.g. a minimum wage). Their
+ * employer's wage flow changes by exactly their share; the job record follows.
+ */
+export function rerateCountedJob(
+  core: CoreState,
+  jobId: string,
+  hourlyMinor: number,
+): boolean {
+  const rt = runtimes.get(core);
+  const job = rt?.jobs.get(jobId);
+  if (!rt || !job) return false;
+  const flows = [...rt.flows.values()].filter(
+    (flow) => !flow.endedAt && flow.perDayMinorByJob?.[jobId] !== undefined,
+  );
+  if (!flows.length || !job.hourlyMinor) return false;
+  const ratio = hourlyMinor / job.hourlyMinor;
+  for (const flow of flows) {
+    const perDay = { ...flow.perDayMinorByJob! };
+    perDay[jobId] = perDay[jobId]! * ratio;
+    flow.perDayMinorByJob = perDay;
+    let total = 0;
+    for (const value of Object.values(perDay)) total += value;
+    flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
+  }
+  rt.jobs.set(jobId, {
+    ...job,
+    hourlyMinor,
+    wageDailyMinor: Math.round(job.wageDailyMinor * ratio),
+  });
+  return true;
+}
+
 export function residentWageShortfall(
   core: CoreState,
   id: string,
@@ -333,10 +442,6 @@ export function residentWageShortfall(
 export const RESIDENTS_MODULE: CoreModule = {
   id: RESIDENTS_MODULE_ID,
   onDay: runResidentsDay,
-  journalSourceProviders: {
-    [SOURCE_KIND]: (api, reference) =>
-      runtimes.get(api.state as CoreState)?.pending.get(reference.id),
-  },
 };
 
 export interface ResidentCounts {
