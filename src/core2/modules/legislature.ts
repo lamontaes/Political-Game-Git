@@ -48,6 +48,7 @@ import { recordVote } from "./record";
 import { amendBudget } from "./budgets";
 import { partySide } from "../appointments";
 import { stateActEffectiveDate } from "../state-effective-date";
+import partyCounts from "../../../data/research/offices/legislature-party-counts-2026.json" with { type: "json" };
 
 export const LEGISLATURE_MODULE_ID = "core2-legislature-v1";
 
@@ -174,6 +175,7 @@ const seriesQuestion = (
 export function provisionStance(
   api: CoreAPI,
   provision: Provision,
+  level: LawLevel = "city",
 ): { question: string; position: number } | null {
   if (provision.kind === "policy-question" && provision.question)
     return {
@@ -191,19 +193,41 @@ export function provisionStance(
   }
   const map = provision.series ? seriesQuestion[provision.series] : undefined;
   if (!map || !provision.series) return null;
-  const current = currentAmount(api, provision.series);
+  const current = currentAmount(api, provision.series, level);
   const direction = current === null ? 1 : Math.sign(provision.value - current);
   return direction === 0
     ? null
     : { question: map.question, position: direction * map.raiseIs };
 }
 
-/** The amount in force today at the town's own level for a series, or the governing amount. */
-export function currentAmount(api: CoreAPI, series: string): number | null {
+type LawLevel = "federal" | "state" | "city";
+
+/**
+ * The amount a bill at this level changes: its own level's amount in force
+ * (a federal bill against the federal floor, a state bill against the
+ * state's), and for a town, the floor that governs there (a local minimum
+ * wage only matters above it) or its own local rate.
+ */
+export function currentAmount(
+  api: CoreAPI,
+  series: string,
+  level: LawLevel = "city",
+): number | null {
   const answer = lawInForce(api, series);
-  const city =
-    answer.levels.find((l) => l.level === "city")?.row?.value ?? null;
-  return series === "minimum-wage" ? answer.value : (city ?? 0);
+  const at = (name: string) =>
+    answer.levels.find((l) => l.level === name)?.row?.value ?? null;
+  if (level === "federal") return at("federal") ?? 0;
+  if (level === "state") return at("state") ?? at("federal") ?? 0;
+  return series === "minimum-wage" ? answer.value : (at("city") ?? 0);
+}
+
+/** The level a bill legislates at. */
+function billLevel(api: CoreAPI, bill: BillRow): LawLevel {
+  const chambers = chambersOf(api, bill);
+  if (chambers.includes(FEDERAL_HOUSE)) return "federal";
+  return chambers.length > 1 || bill.bodyOfficeId.includes(":legislature-")
+    ? "state"
+    : "city";
 }
 
 /**
@@ -337,7 +361,9 @@ export function draftBill(
 ): BillRow {
   // A state chamber legislates within the state's own power; a town's body
   // within what the state allows it.
-  const stateBody = input.bodyOfficeId.includes(":legislature-");
+  const stateBody = /:(legislature-|us-house|us-senate)/.test(
+    input.bodyOfficeId,
+  );
   const authority = input.provisions.map((p) =>
     stateBody
       ? ({
@@ -366,6 +392,8 @@ export function draftBill(
 
 /** Everyone serving in a body: every seat of the office, the town's or not. */
 function members(api: CoreAPI, officeId: string): readonly TermRow[] {
+  if (officeId === FEDERAL_HOUSE || officeId === FEDERAL_SENATE)
+    return congressMembers(api, officeId);
   const offices = api.moduleState(OFFICES_MODULE_ID);
   return (
     offices.table("seats").query("byOffice", [officeId]) as unknown as {
@@ -377,6 +405,75 @@ function members(api: CoreAPI, officeId: string): readonly TermRow[] {
         .table("terms")
         .query("bySeatStatus", [seat.id, "serving"]) as unknown as TermRow[],
   );
+}
+
+const NON_VOTING = new Set([
+  "US-DC",
+  "US-PR",
+  "US-GU",
+  "US-VI",
+  "US-AS",
+  "US-MP",
+]);
+export const FEDERAL_HOUSE = "federal:us-house";
+export const FEDERAL_SENATE = "federal:us-senate";
+
+/**
+ * Every member of Congress, seat by seat with the party that holds it (public
+ * roster). The town's own members are its named officials (their terms in
+ * the offices module); every other seat is a named official the world hasn't
+ * built yet, voting by its party (SG-GOV-official-identity-only).
+ */
+function congressMembers(api: CoreAPI, chamber: string): readonly TermRow[] {
+  const congress = (
+    partyCounts as unknown as {
+      congress: Record<string, Record<string, string[]>>;
+    }
+  ).congress;
+  const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+  const out: TermRow[] = [];
+  for (const [state, seats] of Object.entries(congress))
+    for (const [seat, parties] of Object.entries(seats)) {
+      const senate = seat === "senate";
+      if (senate !== (chamber === FEDERAL_SENATE)) continue;
+      // Delegates and the Resident Commissioner don't vote on final passage
+      // (House Rule III); a place with no senators has no senate rows.
+      if (!senate && NON_VOTING.has(state)) continue;
+      parties.forEach((party, index) => {
+        const seatId = senate
+          ? `seat:${state}:us-senate:${index}`
+          : `seat:${state}:us-house:${seat.padStart(2, "0")}`;
+        const real = (
+          terms.query("bySeatStatus", [
+            seatId,
+            "serving",
+          ]) as unknown as TermRow[]
+        )[0];
+        out.push(
+          real ??
+            ({
+              id: `congress:${seatId}`,
+              seatId,
+              officeId: chamber,
+              personId: null,
+              identity: {
+                givenName: "",
+                familyName: "",
+                gender: "",
+                birthDate: "",
+                homeState: state,
+              },
+              party,
+              startDate: api.state.date,
+              endDate: null,
+              endEstimated: true,
+              reached: "in office at the opening",
+              status: "serving",
+            } as TermRow),
+        );
+      });
+    }
+  return out;
 }
 
 /** A member's key: their person id, or the named official's id until they're filled in. */
@@ -392,10 +489,16 @@ export function memberKey(term: TermRow): string {
 function leanOf(api: CoreAPI, memberId: string): number {
   const person = api.state.people.get(memberId);
   if (person) return personLean(api.state.people, person, townLean(api));
-  const term = api
-    .moduleState(OFFICES_MODULE_ID)
-    .table("terms")
-    .get(memberId.slice("official:".length)) as unknown as TermRow | undefined;
+  const id = memberId.slice("official:".length);
+  const term =
+    (api.moduleState(OFFICES_MODULE_ID).table("terms").get(id) as unknown as
+      TermRow | undefined) ??
+    (id.startsWith("congress:")
+      ? congressMembers(
+          api,
+          id.includes(":us-senate:") ? FEDERAL_SENATE : FEDERAL_HOUSE,
+        ).find((t) => t.id === id)
+      : undefined);
   return partySide(term?.party) * campaignParameter("identityLeanScale");
 }
 
@@ -424,7 +527,7 @@ export function memberPosition(
   let views = 0;
   let constituents = 0;
   for (const provision of bill.provisions) {
-    const stance = provisionStance(api, provision);
+    const stance = provisionStance(api, provision, billLevel(api, bill));
     if (!stance) continue;
     views += personStance(lean, stance.question) * stance.position;
     constituents += personStance(home, stance.question) * stance.position;
@@ -528,6 +631,10 @@ function chambersOf(api: CoreAPI, bill: BillRow): readonly string[] {
     .table("offices")
     .get(bill.bodyOfficeId) as unknown as
     { kind: string; jurisdiction: string } | undefined;
+  if (office?.kind.startsWith("us-house") || office?.kind === "us-senate")
+    return office.kind === "us-senate"
+      ? [FEDERAL_SENATE, FEDERAL_HOUSE]
+      : [FEDERAL_HOUSE, FEDERAL_SENATE];
   if (!office?.kind.startsWith("legislature-")) return [bill.bodyOfficeId];
   const others = (
     api
@@ -577,7 +684,7 @@ function chamberVote(
       position,
     } as unknown as ModuleRow);
     for (const provision of bill.provisions) {
-      const stance = provisionStance(api, provision);
+      const stance = provisionStance(api, provision, billLevel(api, bill));
       if (stance && vote !== "abstain")
         recordVote(api, {
           personId: key,
@@ -654,17 +761,22 @@ function executiveAction(
   const offices = api.moduleState(OFFICES_MODULE_ID);
   const body = offices.table("offices").get(bill.bodyOfficeId) as unknown as {
     jurisdiction: string;
+    kind: string;
   };
+  const federal = body.kind.startsWith("us-house") || body.kind === "us-senate";
   const executiveOffice = (
     offices
       .table("offices")
-      .query("byJurisdiction", [body.jurisdiction]) as unknown as {
+      .query("byJurisdiction", [
+        federal ? "US" : body.jurisdiction,
+      ]) as unknown as {
       id: string;
       kind: string;
       elected: boolean;
     }[]
   ).find(
-    (o) => o.elected && /^(mayor|governor|county-executive)$/.test(o.kind),
+    (o) =>
+      o.elected && /^(mayor|governor|county-executive|president)$/.test(o.kind),
   );
   const executive = executiveOffice
     ? (
@@ -715,15 +827,21 @@ function executiveAction(
  */
 function enact(api: CoreAPI, bill: BillRow): BillRow {
   const chain = lawChain(api);
-  const state = isState(api, bill);
-  const jurisdiction = state
-    ? chain.stateKey
-    : chain.levels[chain.levels.length - 1]!.jurisdiction;
-  const level = state ? "state" : "city";
+  // A federal act takes effect when it becomes law unless it names a date
+  // (the general rule: Gozlon-Peretz v. United States, 498 U.S. 395 (1991)).
+  const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
+  const state = !federal && isState(api, bill);
+  const jurisdiction = federal
+    ? "US"
+    : state
+      ? chain.stateKey
+      : chain.levels[chain.levels.length - 1]!.jurisdiction;
+  const level = federal ? "federal" : state ? "state" : "city";
   const stateDate = state
     ? stateActEffectiveDate(chain.stateKey, api.state.date)
     : null;
   const defaultDate =
+    (federal ? api.state.date : null) ??
     stateDate?.date ??
     new Date(
       Date.parse(`${api.state.date}T00:00:00Z`) +
@@ -731,9 +849,11 @@ function enact(api: CoreAPI, bill: BillRow): BillRow {
     )
       .toISOString()
       .slice(0, 10);
-  const citation = state
-    ? `Act ${bill.number}${stateDate ? ` (effective by ${stateDate.cite})` : ""}`
-    : `Ordinance ${bill.number}`;
+  const citation = federal
+    ? `Public Law (bill ${bill.number})`
+    : state
+      ? `Act ${bill.number}${stateDate ? ` (effective by ${stateDate.cite})` : ""}`
+      : `Ordinance ${bill.number}`;
   for (const provision of bill.provisions) {
     const effectiveDate = provision.effectiveDate ?? defaultDate;
     if (provision.kind === "law-amount" && provision.series)
