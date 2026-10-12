@@ -105,13 +105,15 @@
     "citation": "ECMAScript Date.getUTCDay: Saturday is index six."
   },
   "marriageReferenceAge": {
-    "value": 24,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-marriageReferenceAge",
+    "value": 25,
+    "tag": "ESTIMATED",
+    "citation": "U.S. Census Bureau, Table MS-2, 'Estimated Median Age at First Marriage, by Sex: 1890 to Present' (CPS ASEC), https://www2.census.gov/programs-surveys/demo/tables/families/time-series/marital/ms2.xls: women's median 20.8 (1970) to 28.6 (2021).",
+    "estimatedFrom": "One flat value for the women's median across the years today's couples married; a per-cohort lookup would be closer for older and newer couples.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
+      "low": 20.8,
+      "high": 28.6,
+      "unit": "years of age at first marriage",
+      "citation": "Census MS-2 women's series, 1970–2021."
     },
     "checkRange": {
       "ref": "P9-GENERATED-PRIOR-PARTNERSHIP-TIMELINE"
@@ -173,30 +175,16 @@
     "citation": "BLS American Time Use Survey 2025, Table 1 and news release; https://www.bls.gov/news.release/atus.t01.htm and https://www.bls.gov/news.release/atus.nr0.htm"
   },
   "careHours": {
-    "value": 0.5,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-careHours",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    "value": 2.23,
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population engaging in each activity, averages per day' (released 2026-06-25), https://www.bls.gov/news.release/atus.t01.htm: caring for and helping household members, 2.23 hours per participant-day (22.0% of people on an average day); nonhousehold members 1.97 hours.",
+    "estimatedFrom": "One completed care act is one participant-day of household care; the 22.0% participation share is the outcome check, not a bound."
   },
   "civicHours": {
-    "value": 1,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-civicHours",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
-    }
+    "value": 2.18,
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population engaging in each activity, averages per day' (released 2026-06-25), https://www.bls.gov/news.release/atus.t01.htm: volunteering (organizational and civic activities), 2.18 hours per participant-day (5.3% of people on an average day); religious and spiritual 1.41 hours.",
+    "estimatedFrom": "One civic act (join, organize, approach) is one participant-day of volunteering; the 5.3% participation share is the outcome check."
   },
   "stressBaseline": {
     "value": 0.25,
@@ -225,13 +213,15 @@
     }
   },
   "moodHalfLifeDays": {
-    "value": 2,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient or duration; tunable. Empirical calibration is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-moodHalfLifeDays",
+    "value": 1,
+    "tag": "ESTIMATED",
+    "citation": "Verduyn & Lavrijsen (2015), 'Which emotions last longest and why', Motivation and Emotion 39:119–127, doi:10.1007/s11031-014-9445-y (median episode 5 hours to full return to baseline; sadness 120 hours); Bolger, DeLongis, Kessler & Schilling (1989), 'Effects of daily stress on negative mood', Journal of Personality and Social Psychology 57:808–818 (habituation by the second day for most daily stressors).",
+    "estimatedFrom": "Exponential decay; treating 'episode over' as about 90% decayed (3.3 half-lives) gives about 1.5 hours for a median emotion and about 1.5 days for sadness. Game events sit at the long end, so 1 day. Neither sample is national.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. ATUS durations, PANAS/PSS scores and recalled episode durations are outcome targets, not bounds on this parameter."
+      "low": 0.06,
+      "high": 1.5,
+      "unit": "days",
+      "citation": "Verduyn & Lavrijsen (2015) median and sadness episode durations converted to half-lives."
     },
     "checkRange": {
       "ref": "P9-OUTCOME-WHOLE-LIFE"
@@ -368,16 +358,15 @@
     }
   },
   "moneyBufferDays": {
-    "value": 30,
-    "tag": "TUNABLE",
-    "citation": "No direct source for this coefficient, duration or prototype limit; tunable. Empirical calibration or owner budget approval is pending and blocks prototype release.",
-    "stopgapId": "SG-P8-param-moneyBufferDays",
+    "value": 19,
+    "tag": "ESTIMATED",
+    "citation": "JPMorgan Chase Institute, Wheat & Eckerd, 'Household cash buffer management from the Great Recession through COVID-19' (July 2023), Figure 1, https://www.jpmorganchase.com/institute/all-topics/household-financial-health/household-cash-buffer-management-from-the-great-recession-through-covid-19: median cash buffer days by income quartile, 2009–January 2020 about 13/16/19/26; July 2021 peak 22/26/32/43. Outcome check: Federal Reserve, Economic Well-Being of U.S. Households in 2020 (May 2021): 64% of adults would cover a $400 emergency with cash or its equivalent.",
+    "estimatedFrom": "Cash buffer days are liquid balances over typical daily outflows, the same unit as daily living cost × days. Households without pay skew to lower income (13–16 days before 2020), and a January 2021 opening sits on the pandemic rise, so the all-income median of 19 is used.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical parameter bounds have been identified. Related outcome statistics or inherited model assumptions do not establish bounds on this parameter."
-    },
-    "checkRange": {
-      "ref": "P9-OUTCOME-WHOLE-LIFE"
+      "low": 13,
+      "high": 43,
+      "unit": "days of household outflows",
+      "citation": "JPMCI 2023 Figure 1, lowest pre-2020 quartile to the highest July 2021 quartile."
     }
   },
   "organizationReserveMonths": {
@@ -474,11 +463,16 @@
     "citation": "Owner October 8 result-only/weekly-compaction ruling and P8 STATE retention policy; durable visible records are exempt."
   },
   "fallbackAnnualWageMinor": {
-    "value": 4576000,
+    "value": 4449120,
     "tag": "ESTIMATED",
-    "citation": "BLS May 2021 OEWS national all-occupations row 00-0000: median hourly wage USD22.00; https://www.bls.gov/oes/2021/may/oes_nat.htm",
-    "estimatedFrom": "USD22.00/hour times the OEWS2080-hour annual conversion in USD minor units. Proxy only for a job with no recorded local or same-occupation rate; not an observed January 2021 contract.",
-    "stopgapId": "SG-P8-param-fallbackAnnualWageMinor"
+    "citation": "BLS OEWS national all-occupations row 00-0000: May 2020 median hourly wage $20.17 (https://www.bls.gov/oes/2020/may/oes_nat.htm) and May 2021 median $22.00 (https://www.bls.gov/oes/2021/may/oes_nat.htm); OEWS 2,080-hour annualization.",
+    "estimatedFrom": "January 2021 interpolated between the May 2020 and May 2021 medians: $21.39/hour × 2,080 hours. Proxy only for a job with no recorded local or same-occupation rate.",
+    "spread": {
+      "low": 4195360,
+      "high": 4576000,
+      "unit": "USD minor units a year",
+      "citation": "May 2020 and May 2021 OEWS national medians × 2,080 hours."
+    }
   },
   "deepPastMiddleSchoolOffsetYears": {
     "value": 6,
@@ -1605,15 +1599,16 @@
     "stopgapId": "SG-P8-opening-retirement-income"
   },
   "openingRetirementClaimAgeYears": {
-    "value": 66,
-    "tag": "TUNABLE",
-    "citation": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943–1954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
-    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
+    "value": 64,
+    "tag": "ESTIMATED",
+    "citation": "SSA Annual Statistical Supplement 2022, Table 6.B5, 'Number and average age of retired-worker awardees, and percentage distribution by age, by sex and year of award action, 1940–2021' (Master Beneficiary Record): average age at award 63.4–65.1 across award years 1985–2021; in 2021 about 25% claimed at 62 and about 8% at 70 or later.",
+    "estimatedFrom": "The opening retiree stock claimed over about 1985–2020, when the average award age was 63.4–65.0; awards at full retirement age include disability conversions the generator doesn't model.",
     "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
+      "low": 62,
+      "high": 70,
+      "unit": "years of age at claim",
+      "citation": "SSA Table 6.B5 (2022) distribution of award ages."
     },
-    "stopgapId": "SG-P8-param-openingRetirementClaimAgeYears",
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     }
@@ -1662,17 +1657,9 @@
   },
   "openingRetirementMinimumCoveredMonths": {
     "value": 120,
-    "tag": "TUNABLE",
-    "citation": "Fictional prototype fund qualification requires this many modeled covered months. This is not reconstructed Social Security credits, public-plan vesting law or an observed individual entitlement.",
-    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementMinimumCoveredMonths",
-    "checkRange": {
-      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
+    "tag": "SOURCED",
+    "citation": "Social Security Act §214(a), 42 U.S.C. 414(a): fully insured status needs 40 quarters of coverage (about 10 years) for workers born after 1928; SSA Publication 05-10072, How You Earn Credits.",
+    "estimatedFrom": "40 quarters = 120 months. Real credits come from earnings (up to 4 a year), so modeled covered months are an analog of the legal threshold."
   },
   "openingRetirementBenefitMonthlyMinor": {
     "value": 154300,
@@ -1683,17 +1670,9 @@
   },
   "openingRetirementBenefitReferenceCoveredMonths": {
     "value": 420,
-    "tag": "TUNABLE",
-    "citation": "Authored normalization of modeled covered-career months for an award amount prior. It does not implement the historical highest-35-years indexed-earnings formula or establish individual earnings.",
-    "estimatedFrom": "Explicit opening-generation prior. No claim of observed individual history, 2021 legal entitlement or parameter-specific empirical bound.",
-    "spread": {
-      "status": "unmeasured",
-      "reason": "No empirical individual dispersion or coefficient interval identified. Contextual person variation is not the source mean standard error."
-    },
-    "stopgapId": "SG-P8-param-openingRetirementBenefitReferenceCoveredMonths",
-    "checkRange": {
-      "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
-    }
+    "tag": "SOURCED",
+    "citation": "Social Security Act §215(b)(2), 42 U.S.C. 415(b)(2): the average indexed monthly earnings use the highest 35 computation years for workers born 1929 or later; SSA Publication 05-10070, Your Retirement Benefit: How It's Figured.",
+    "estimatedFrom": "35 years × 12 = 420 months; dividing covered months by 420 approximates the zero-year penalty, not the earnings level or the bend points."
   },
   "openingRetirementBenefitFactorMinimum": {
     "value": 0.25,
