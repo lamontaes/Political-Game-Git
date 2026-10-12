@@ -94,6 +94,12 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-13 06:00 UTC: Campaign calibration (CTO's notes from PLAY's runs; checks on totals, no dice):
+  - **Doors** now walk the whole town, named and counted households. Who's home comes from each adult's own work schedule at the minute of the knock (an evening shift from 5 p.m., tunable). The most willing one opens: their sociability, half their readiness for conflict and for risk, and their age (older residents answer more). A counted household that opens is filled in (`fillInPerson`, the owner's on-click design). In fresh two-level towns: 49 doors in 3 hours, 18–29% opened, near the field's 25–33%.
+  - **Volunteers:** someone says yes when liking the candidate, closeness, and an outgoing or dutiful temperament outweigh their work hours. One of 4 acquaintances said yes in the runs, against 22 of 24 before.
+  - **Speeches:** agreement is now the listener's own view times the stated position, so people without a view barely move. A speech on the least divisive question moved none of 13–22 listeners much, against 81 of 82 cooled before.
+  - New `src/core2/campaign-calibration.test.ts`. The campaigns, voting, record, parties, two-level and tripwires tests pass.
+
 - 2026-10-13 05:10 UTC: PLAY's filing routes:
   - **Colorado's U.S. Senate route:** it had come out free with no petition. It now needs 1,500 signatures from each of the state's 8 districts (12,000), via the new per-district and "N or X%, whichever is less" forms in `filing-formulas.ts`, with district counts from the 2024 House results.
   - **A Mississippi county office:** it now pays its fee (the research gives "$100 to $300 (estimate)", read as $100 and marked an estimate).

@@ -14,6 +14,8 @@
  * (`campaign-views.ts`, SG-GOV-views-stand-in).
  */
 import { registerElectorate } from "../electorate";
+import { residentsRuntime } from "./residents";
+import { fillInPerson } from "../state";
 import limits from "../../../data/research/campaign-reality/campaign-contribution-limits.json" with { type: "json" };
 import finance from "../../../data/research/campaigns/campaign-finance-2026.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
@@ -196,8 +198,10 @@ function elections(api: CoreAPI, name: string) {
   return api.moduleState(ELECTIONS_MODULE_ID).table(name);
 }
 const clamp = (x: number) => Math.max(-1, Math.min(1, x));
-const ageOn = (person: Readonly<PersonState>, date: string) =>
-  Number(date.slice(0, 4)) - Number(person.birthDate.slice(0, 4));
+const ageOn = (
+  person: Readonly<Pick<PersonState, "birthDate">>,
+  date: string,
+) => Number(date.slice(0, 4)) - Number(person.birthDate.slice(0, 4));
 
 /** A filing's platform: stance strings written "question=+1" or "question=-1". */
 export function parsePlatform(platform: readonly string[]): readonly Stance[] {
@@ -483,28 +487,77 @@ export function knockDoors(
   });
   const done = new Set(campaign.doorsKnocked);
   const town = townRow(api).townPlaceId;
-  const households = [...api.state.households.values()]
-    .filter((h) => h.placeId === town && !done.has(h.id))
+  const core = api.state as CoreState;
+  // The whole town's doors: full households and counted ones alike.
+  const rt = residentsRuntime(core);
+  const homes = [
+    ...[...api.state.households.values()]
+      .filter((h) => h.placeId === town)
+      .map((h) => ({
+        id: h.id,
+        adults: [...h.memberIds]
+          .map((id) => api.state.people.get(id))
+          .filter(
+            (p): p is PersonState =>
+              !!p && p.alive && ageOn(p, api.state.date) >= 18,
+          )
+          .map((p) => ({
+            id: p.id,
+            traits: p.traits,
+            birthDate: p.birthDate,
+            slots: [...(core.work.commitmentsByPerson.get(p.id) ?? [])]
+              .map((c) => core.work.commitments.get(c))
+              .filter((c) => !!c),
+          })),
+      })),
+    ...[...(rt?.households.values() ?? [])]
+      .filter((r) => r.household.placeId === town)
+      .map((r) => ({
+        id: r.household.id,
+        adults: r.people
+          .filter((p) => ageOn(p, api.state.date) >= 18)
+          .map((p) => ({
+            id: p.id,
+            traits: p.traits,
+            birthDate: p.birthDate,
+            slots: r.workCommitments.filter((c) => c.personId === p.id),
+          })),
+      })),
+  ]
+    .filter((h) => !done.has(h.id))
     .sort((a, b) => a.id.localeCompare(b.id))
     .slice(0, doors);
+  const perHour = Math.max(1, doors / Math.max(1, input.hours));
+  const start = campaignParameter("canvassStartHour") * 60;
   const met: CauseRow[] = [];
-  for (const household of households) {
-    done.add(household.id);
-    const adults = [...household.memberIds]
-      .map((id) => api.state.people.get(id))
-      .filter(
-        (p): p is PersonState =>
-          !!p && p.alive && ageOn(p, api.state.date) >= 18,
-      )
-      .sort(
-        (a, b) =>
-          (b.traits["people-mind-v1:sociability"] ?? 0) -
-            (a.traits["people-mind-v1:sociability"] ?? 0) ||
-          a.id.localeCompare(b.id),
-      );
-    const answers = adults.find(
-      (p) => (p.traits["people-mind-v1:sociability"] ?? 0) >= 0,
+  for (const [index, home] of homes.entries()) {
+    done.add(home.id);
+    // Who's home at the minute of the knock: not at a scheduled shift.
+    const minute = start + Math.floor((index * 60) / perHour);
+    const athome = home.adults.filter(
+      (a) => !a.slots.some((c) => atWork(c!, api.state.date, minute)),
     );
+    // The most outgoing one home opens to a stranger if they're willing.
+    // Older residents answer more (contact rates rise with age in field
+    // experiments; Green and Gerber 2019).
+    const willing = (a: {
+      traits: Readonly<Record<string, number>>;
+      birthDate: string;
+    }) =>
+      (a.traits["people-mind-v1:sociability"] ?? 0) +
+      ((a.traits["people-mind-v1:conflict"] ?? 0) +
+        (a.traits["people-mind-v1:risk"] ?? 0)) /
+        2 +
+      (ageOn(a, api.state.date) - campaignParameter("doorAnswerPivotAge")) /
+        campaignParameter("doorAnswerAgeSpan");
+    const opener = athome
+      .sort((a, b) => willing(b) - willing(a) || a.id.localeCompare(b.id))
+      .find((a) => willing(a) > campaignParameter("doorAnswerThreshold"));
+    if (!opener) continue;
+    // A counted household is filled in when its door opens (the owner's
+    // on-click design): the person who answers is a full person from then on.
+    if (!api.state.people.has(opener.id)) fillInPerson(core, opener.id);
+    const answers = api.state.people.get(opener.id);
     if (!answers) continue;
     const cause = reach(
       api,
@@ -529,9 +582,45 @@ export function knockDoors(
   return met;
 }
 
+/** Whether a work commitment has its holder at a shift at this minute of this day. */
+function atWork(
+  commitment: Readonly<{
+    anchorDate: string;
+    periodDays: number;
+    slots: readonly {
+      offsetDays: number;
+      startMinute: number;
+      minutes: number;
+    }[];
+    startsAt: string;
+    endsAt?: string;
+  }>,
+  date: string,
+  minute: number,
+): boolean {
+  if (commitment.startsAt > date) return false;
+  if (commitment.endsAt !== undefined && commitment.endsAt <= date)
+    return false;
+  const days = Math.round(
+    (Date.parse(`${date}T00:00:00Z`) -
+      Date.parse(`${commitment.anchorDate}T00:00:00Z`)) /
+      86_400_000,
+  );
+  const day =
+    ((days % commitment.periodDays) + commitment.periodDays) %
+    commitment.periodDays;
+  return commitment.slots.some(
+    (slot) =>
+      slot.offsetDays === day &&
+      minute >= slot.startMinute &&
+      minute < slot.startMinute + slot.minutes,
+  );
+}
+
 /**
- * Ask someone to volunteer. A family member or friend says yes when they
- * like the candidate; a stranger only when they're warm and outgoing.
+ * Ask someone to volunteer. They say yes when liking the candidate,
+ * closeness, an outgoing or dutiful temperament outweigh the hours their
+ * work already takes.
  */
 export function askToVolunteer(
   api: CoreAPI,
@@ -546,12 +635,25 @@ export function askToVolunteer(
   )
     return false;
   const warmth = impressionOf(api, personId, campaign.candidateId)?.warmth ?? 0;
-  const close =
-    person.familyIds.has(campaign.candidateId) ||
-    person.knownIds.has(campaign.candidateId);
-  const yes = close
-    ? warmth >= 0
-    : warmth > 0 && (person.traits["people-mind-v1:sociability"] ?? 0) > 0;
+  // Whether they give their evenings to it: how much they like the
+  // candidate, how close they are, their temperament (outgoing, dutiful),
+  // against the hours their work already takes.
+  const core = api.state as CoreState;
+  const tie =
+    core.relationships.get([personId, campaign.candidateId].sort().join(":"))
+      ?.level ?? 0;
+  const family = person.familyIds.has(campaign.candidateId) ? 1 : 0;
+  const weeklyWork = [...(core.work.commitmentsByPerson.get(personId) ?? [])]
+    .map((id) => core.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0)
+    .reduce((a, b) => a + b, 0);
+  const drive =
+    warmth +
+    campaignParameter("volunteerClosenessWeight") * (tie + family) +
+    ((person.traits["people-mind-v1:sociability"] ?? 0) +
+      (person.traits["personality-v1:facet-duty-bound"] ?? 0)) /
+      2 -
+    weeklyWork / campaignParameter("turnoutWorkWeekMinutes");
+  const yes = drive > campaignParameter("volunteerThreshold");
   if (yes && !campaign.volunteerIds.includes(personId))
     save(api, {
       ...campaign,

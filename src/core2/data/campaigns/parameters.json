@@ -474,6 +474,42 @@
       "tag": "ESTIMATED",
       "source": "Days from a tied election to the second election between the tied candidates, where the law calls for one: states set special or runoff elections three to six weeks out (e.g. Georgia runoffs four weeks after the general).",
       "spread": [21, 45]
+    },
+    "canvassStartHour": {
+      "value": 17,
+      "tag": "TUNABLE",
+      "source": "When a canvassing shift starts: early evening, when most people are home (Green and Gerber, Get Out the Vote, 2019: weekday evening and weekend canvassing).",
+      "spread": [10, 18]
+    },
+    "doorAnswerThreshold": {
+      "value": 1.25,
+      "tag": "TUNABLE",
+      "source": "How ready the most outgoing adult home must be to open to a canvasser (sociability plus half their readiness for conflict and for risk); checked against field contact rates of about a quarter to a third of doors knocked (Green and Gerber 2019; Arceneaux 2005).",
+      "spread": [0, 1.5]
+    },
+    "volunteerClosenessWeight": {
+      "value": 0.5,
+      "tag": "TUNABLE",
+      "source": "How much closeness to the candidate (relationship level, family) weighs in agreeing to volunteer.",
+      "spread": [0.2, 1]
+    },
+    "volunteerThreshold": {
+      "value": 1.0,
+      "tag": "TUNABLE",
+      "source": "How strong someone's pull to volunteer must be: checked so a small share of a candidate's acquaintances say yes (about 4% of adults worked or volunteered for a campaign in 2020, ANES; a candidate's friends and family volunteer at several times that).",
+      "spread": [0.5, 1.5]
+    },
+    "doorAnswerPivotAge": {
+      "value": 55,
+      "tag": "TUNABLE",
+      "source": "The age around which answering a canvasser's knock neither rises nor falls in a person's readiness.",
+      "spread": [40, 65]
+    },
+    "doorAnswerAgeSpan": {
+      "value": 40,
+      "tag": "TUNABLE",
+      "source": "Years of age that move readiness to answer by one step (older residents answer more; Green and Gerber 2019).",
+      "spread": [20, 80]
     }
   }
 }
