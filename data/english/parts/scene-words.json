@@ -1,0 +1,168 @@
+{
+  "schema": "english-parts/1",
+  "register": "scene-words",
+  "description": "Scene narration in the second person: where you are, who is there and what led here. Every part is a whole sentence said in public-domain federal transcripts, counted also against the WPA life histories. The facts are slots from the setting, the people present and the moment's cause.",
+  "slots": {
+    "place": "A town, from the household or setting record.",
+    "host": "The host's name with its possessive, from the household record.",
+    "employer": "An employer, from the setting's record.",
+    "school": "A school, from the setting's record.",
+    "who": "The people present, by name, from the scene's binding.",
+    "other": "A person, by name, from the tie record."
+  },
+  "maxWords": 10,
+  "mining": {
+    "tool": "scripts/english-corpus/mine-shapes.py",
+    "shapes": "scripts/english-corpus/shapes/scene-words.json",
+    "read": {
+      "Federal Election Commission (fec.gov)": 253,
+      "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+      "U.S. Election Assistance Commission (eac.gov)": 65,
+      "crec": 445,
+      "hearings": 1617,
+      "house": 115,
+      "nasa": 317,
+      "wpa": 38
+    },
+    "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
+    "notAttested": 46
+  },
+  "parts": [
+    {
+      "key": "scene-words.setting-workplace-work.youre-at-employer",
+      "move": "setting-workplace-work",
+      "kind": "spoken",
+      "text": "You're at {employer}.",
+      "uses": [
+        {
+          "move": "setting-workplace-work",
+          "subject": "setting",
+          "role": "workplace",
+          "choice": "work"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "house": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "LABORATORY TESTING IN THE ERA OF PRECISION MEDICINE",
+        "date": "2016-09-20",
+        "granule": "CHRG-114shrg21906",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-114shrg21906/html/CHRG-114shrg21906.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.setting-public-out.youre-in-place",
+      "move": "setting-public-out",
+      "kind": "spoken",
+      "text": "You're in {place}.",
+      "uses": [
+        {
+          "move": "setting-public-out",
+          "subject": "setting",
+          "role": "public",
+          "choice": "out"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "EXAMINING THE POLICIES AND PRIORITIES OF THE U.S. DEPARTMENT OF EDUCATION",
+        "date": "2021-06-24",
+        "granule": "CHRG-117hhrg44859",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg44859/html/CHRG-117hhrg44859.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.setting-phone-phone.the-phone-rang",
+      "move": "setting-phone-phone",
+      "kind": "spoken",
+      "text": "The phone rang.",
+      "uses": [
+        {
+          "move": "setting-phone-phone",
+          "subject": "setting",
+          "role": "phone",
+          "choice": "phone"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "crec": 1,
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2024-02-27",
+        "date": "2024-02-27",
+        "granule": "CREC-2024-02-27-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2024-02-27",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.present-one-one.who-is-here",
+      "move": "present-one-one",
+      "kind": "spoken",
+      "text": "{who} is here.",
+      "uses": [
+        {
+          "move": "present-one-one",
+          "subject": "present",
+          "role": "one",
+          "choice": "one"
+        }
+      ],
+      "transcriptsUsing": 15,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 7,
+        "crec": 1,
+        "hearings": 7
+      },
+      "shippable": true,
+      "source": {
+        "document": "119TH CONGRESS MEMBER DAY",
+        "date": "2025-12-04",
+        "granule": "CHRG-119hhrg62747",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg62747/html/CHRG-119hhrg62747.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "scene-words.present-one-one.who-is-there",
+      "move": "present-one-one",
+      "kind": "spoken",
+      "text": "{who} is there.",
+      "uses": [
+        {
+          "move": "present-one-one",
+          "subject": "present",
+          "role": "one",
+          "choice": "one"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "crec": 2,
+        "hearings": 2,
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2024-06-05",
+        "date": "2024-06-05",
+        "granule": "CREC-2024-06-05-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2024-06-05",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    }
+  ]
+}

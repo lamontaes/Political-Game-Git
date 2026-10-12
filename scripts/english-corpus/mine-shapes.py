@@ -4,7 +4,7 @@
 # replaced by slots the game fills from its own records.
 #
 # Usage:
-#   python3 -I scripts/english-corpus/mine-shapes.py <shapes.json> <corpus-dir> > bank.json
+#   python3 -I scripts/english-corpus/mine-shapes.py <shapes.json> <corpus-dir> [report.json] > bank.json
 #
 # <corpus-dir> holds one subdirectory per source. Each document is <id>.txt
 # (plain text) with <id>.json beside it: {"id", "source", "title", "date",
@@ -18,7 +18,7 @@
 # Older documents (the WPA life histories, 1936 to 1940) count toward the
 # attestation but are never the shipped source, so every part is current
 # American English.
-import json, os, re, sys, collections
+import json, os, re, sys, collections, multiprocessing
 
 ERA_START = "2015-01-01"
 PUBLIC_DOMAIN = re.compile(r"^https://(?:[a-z0-9-]+\.)+gov/")
@@ -32,10 +32,12 @@ RELATION = r"(?:mother|father|mom|dad|sister|brother|son|daughter|wife|husband|g
 
 # What each slot may stand for in a real sentence. A slot's words are dropped
 # when the part is written; only the slot name ships.
+# A workplace is also said by what it is: "the plant", "the bank".
+WORKPLACE = r"(?:the )?" + PROPER + r"|the [a-z]+(?: [a-z]+)?"
 SLOT_PATTERNS = {
-    "employer": r"(?:the )?" + PROPER,
-    "claimed": r"(?:the )?" + PROPER,
-    "my_employer": r"(?:the )?" + PROPER,
+    "employer": WORKPLACE,
+    "claimed": WORKPLACE,
+    "my_employer": WORKPLACE,
     "place": PROPER + r"(?:, " + PROPER + r")?",
     "my_place": PROPER + r"(?:, " + PROPER + r")?",
     "school": r"(?:the )?" + PROPER,
@@ -49,11 +51,15 @@ SLOT_PATTERNS = {
     "my_since": r"(?:" + MONTH + r" (?:of )?)?(?:19|20)\d\d",
     "when": MONTH + r" \d{1,2}(?:st|nd|rd|th)?(?:, (?:19|20)\d\d)?",
     "my_when": MONTH + r" \d{1,2}(?:st|nd|rd|th)?(?:, (?:19|20)\d\d)?",
-    "deadline": MONTH + r" \d{1,2}(?:st|nd|rd|th)?(?:, (?:19|20)\d\d)?",
-    "relation": r"(?:my|your|his|her) " + RELATION,
+    # A deadline as people say one: a date, a weekday, noon on a date.
+    "deadline": r"(?:(?:noon|midnight|\d{1,2}(?::\d\d)? ?[ap]\.?m\.?) (?:on )?)?(?:(?:Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday),? )?(?:"
+    + MONTH
+    + r" \d{1,2}(?:st|nd|rd|th)?(?:, (?:19|20)\d\d)?|Monday|Tuesday|Wednesday|Thursday|Friday|Saturday|Sunday|the \d{1,2}(?:st|nd|rd|th))",
+    "relation": r"(?:[Mm]y|[Yy]our|[Hh]is|[Hh]er|[Oo]ur) " + RELATION,
     "kin": RELATION,
+    "filing_office": r"the [A-Z][A-Za-z]+(?: (?:of|[A-Z][A-Za-z']*))* [Oo]ffice|the (?:[A-Z][a-z]+ )?(?:County |City |Town )?(?:Clerk|Registrar|Board of Elections)(?:'s [Oo]ffice)?",
     "office": r"(?:the )?(?:[A-Z][a-z]+ )?(?:[Cc]ity [Cc]ouncil|[Cc]ouncil|[Mm]ayor|[Ss]chool [Bb]oard|[Cc]ounty [Cc]ommission|[Ss]tate [Ss]enate|[Ss]tate [Hh]ouse|[Ss]heriff|[Gg]overnor|[Cc]ongress|[Ss]elect [Bb]oard|[Bb]oard of [A-Z][a-z]+)(?:,? (?:[Ss]eat|[Dd]istrict|[Ww]ard) \d+)?",
-    "fee": r"\$\d[\d,]*(?:\.\d\d)?",
+    "fee": r"\$\d[\d,]*(?:\.\d\d)?|\d[\d,]* dollars|" + NUMBER_WORD + r"(?: hundred| thousand)? dollars",
     "signatures": r"(?:\d[\d,]*|" + NUMBER_WORD + r"(?: hundred| thousand)?)",
     "required": r"[\w$,.\- ]{1,30}",
     "actual": r"[\w$,.\- ]{1,30}",
@@ -64,6 +70,82 @@ SLOT_PATTERNS = {
     "host": r"[A-Z][a-z]+(?: [A-Z][a-z]+)?'s?",
 }
 
+# Slots that hold a proper name. A real sentence fills them with a name, never
+# with a title, a vocative, a speaker label in capitals or a common word.
+PROPER_SLOTS = {"employer", "claimed", "my_employer", "place", "my_place", "school", "name", "other", "who", "subject", "whose", "host"}
+NOT_A_NAME = set(
+    "mr mrs ms dr miss madam madame chairman chairwoman chair senator representative congressman congresswoman "
+    "secretary general admiral director commissioner governor mayor president speaker sir ma'am "
+    "yes yeah no okay ok well thank thanks sure right good oh so and but now absolutely correct exactly "
+    "i it that this these those we you he she they there here what who why how when where which "
+    "the a an my our your his her their all both not again also indeed certainly agreed great fine "
+    "god jesus christ lord america american americans congress".split()
+)
+
+
+# What "the ..." after "at" or "with" names when it is not a workplace.
+NOT_A_WORKPLACE = set(
+    "time moment end same point beginning top bottom least most first last other way day morning night "
+    "year years week weeks month months process meantime while rest record course hearing committee "
+    "chairman question problem issue answer idea case fact other way thing things one ones".split()
+)
+WORKPLACE_SLOTS = {"employer", "claimed", "my_employer"}
+
+
+def names_a_record(slot, fill):
+    if slot not in PROPER_SLOTS:
+        return True
+    if slot in WORKPLACE_SLOTS and re.fullmatch(r"the [a-z]+(?: [a-z]+)?", fill):
+        return not any(word in NOT_A_WORKPLACE for word in fill.split()[1:])
+    words = re.findall(r"[A-Za-z']+", fill)
+    content = [w for w in words if w.lower() not in ("the", "of", "and", "de", "la", "du", "on", "at")]
+    if not content:
+        return False
+    if content[0].lower().rstrip("'s") in NOT_A_NAME or content[0].lower() in NOT_A_NAME:
+        return False
+    # A speaker label is a surname in capitals; a short acronym (NASA) is a name.
+    if any(len(w) > 5 and w.isupper() for w in content):
+        return False
+    # The fill must name something in this corpus: a short acronym, two
+    # capitalized words, or a word written capitalized inside sentences far
+    # more often than in lower case ("Generally, yes." names nothing).
+    if not content[0][0].isupper():
+        return False
+    capitals = [w for w in content if w[0].isupper()]
+    return (
+        any(w.isupper() for w in capitals)
+        or len(capitals) >= 2
+        or any(PROPER_NOUNS.get(re.sub(r"'s?$", "", w), False) for w in capitals)
+    )
+
+
+PROPER_NOUNS = {}
+
+
+def count_capitals(path):
+    capital, lower = collections.Counter(), collections.Counter()
+    with open(path, encoding="utf-8", errors="replace") as handle:
+        text = handle.read()
+    for match in re.finditer(r"(?<=[a-z,;] )([A-Za-z][a-z']+)", text):
+        word = match.group(1)
+        if word[0].isupper():
+            capital[word] += 1
+        else:
+            lower[word.capitalize()] += 1
+    return capital, lower
+
+
+def learn_proper_nouns(root, pool):
+    capital, lower = collections.Counter(), collections.Counter()
+    paths = [path for path, _ in documents_in(root)]
+    for got_capital, got_lower in pool.imap_unordered(count_capitals, paths, chunksize=16):
+        capital.update(got_capital)
+        lower.update(got_lower)
+    for word, count in capital.items():
+        PROPER_NOUNS[word] = count >= 2 and count >= 2 * lower[word]
+
+
+CLAUSE_BREAK = re.compile(r",? (?:and|but|so|because|when|where|until|after|before) |[,;:] | -- | \[")
 TITLE_ABBREVIATIONS = re.compile(r"\b(Mr|Mrs|Ms|Dr|St|Jr|Sr|Gen|Sen|Rep|Gov|Lt|Col|Capt|Sgt|No|Mt|Ft|Inc|Co|Corp|Bros|U\.S)\.")
 SENTENCE_END = re.compile(r"(?<=[.?!])[\"']?\s+(?=[\"']?[A-Z])")
 SPEAKER_LABEL = re.compile(r"^(?:(?:Mr|Mrs|Ms|Dr|Chairman|Chairwoman|Senator|Representative)\.? )?[A-Z][A-Za-z'\-]+(?: [A-Z][A-Za-z'\-]+)?\s?[.:]\s+")
@@ -74,10 +156,10 @@ def template_regex(text):
     """A candidate's text with slots becomes a whole-sentence pattern."""
     out = []
     pos = 0
-    for match in re.finditer(r"\{(\w+)\}", text):
+    for number, match in enumerate(re.finditer(r"\{(\w+)\}", text)):
         out.append(literal(text[pos : match.start()]))
         slot = match.group(1)
-        out.append("(?:" + SLOT_PATTERNS[slot] + ")")
+        out.append(f"(?P<{slot}__{number}>" + SLOT_PATTERNS[slot] + ")")
         pos = match.end()
     out.append(literal(text[pos:]))
     body = "".join(out)
@@ -115,13 +197,18 @@ def sentences(text):
                 stripped = SPEAKER_LABEL.sub("", sentence, count=1)
                 if stripped != sentence:
                     yield stripped
+                # A sentence's opening clause is also said on its own:
+                # "I went to work for Lockheed, and ..." says "I went to work for Lockheed."
+                clause = CLAUSE_BREAK.split(sentence, maxsplit=1)[0]
+                if clause != sentence and len(clause.split()) >= 3:
+                    yield clause + ("?" if sentence.endswith("?") else ".")
                 # A quoted line inside a sentence may close with a comma: He said, "Still at the mill?"
                 for lead in ("Well, ", "Oh, ", "Yeah, ", "Yes, ", "No, ", "And ", "So "):
                     if sentence.startswith(lead) and len(sentence) > len(lead) + 2:
                         yield sentence[len(lead)].upper() + sentence[len(lead) + 1 :]
 
 
-def load_corpus(root):
+def documents_in(root):
     for source in sorted(os.listdir(root)):
         folder = os.path.join(root, source)
         if not os.path.isdir(folder):
@@ -130,16 +217,49 @@ def load_corpus(root):
             if not name.endswith(".txt"):
                 continue
             meta_path = os.path.join(folder, name[:-4] + ".json")
-            if not os.path.exists(meta_path):
-                continue
-            with open(meta_path, encoding="utf-8") as handle:
-                meta = json.load(handle)
-            with open(os.path.join(folder, name), encoding="utf-8", errors="replace") as handle:
-                yield meta, handle.read()
+            if os.path.exists(meta_path):
+                yield os.path.join(folder, name), meta_path
+
+
+CANDIDATES = []
+BY_FIRST = {}
+
+
+def scan(paths):
+    """The candidates one document says as whole sentences."""
+    text_path, meta_path = paths
+    with open(meta_path, encoding="utf-8") as handle:
+        meta = json.load(handle)
+    with open(text_path, encoding="utf-8", errors="replace") as handle:
+        text = handle.read()
+    found = set()
+    for sentence in set(sentences(text)):
+        if len(sentence) > 160:
+            continue
+        first = re.match(r"[A-Za-z']+", sentence)
+        keys = ["*"] + ([first.group(0).lower()] if first else [])
+        for key in keys:
+            for index in BY_FIRST.get(key, ()):
+                if index in found:
+                    continue
+                match = CANDIDATES[index][3].match(sentence)
+                if match and all(
+                    names_a_record(name.split("__")[0], fill) for name, fill in match.groupdict().items()
+                ):
+                    found.add(index)
+    return meta, found
+
+
+def spoken_in_era(meta):
+    """A hearing is dated by when it was printed; its Congress says when it was held."""
+    congress = re.match(r"CHRG-(\d+)", meta.get("id", ""))
+    return not congress or int(congress.group(1)) >= 114
 
 
 def main():
     shapes_path, corpus_root = sys.argv[1], sys.argv[2]
+    with multiprocessing.get_context("fork").Pool() as pool:
+        learn_proper_nouns(corpus_root, pool)
     with open(shapes_path, encoding="utf-8") as handle:
         spec = json.load(handle)
     minimum = spec.get("minDocuments", 2)
@@ -147,30 +267,24 @@ def main():
     for group in spec["groups"]:
         for candidate in group["candidates"]:
             text = candidate if isinstance(candidate, str) else candidate["text"]
+            # A sentence that is only a slot names a record; it is not speech.
+            if not re.sub(r"\{\w+\}|[\s.,?!]", "", text):
+                continue
             extra = {} if isinstance(candidate, str) else {k: v for k, v in candidate.items() if k != "text"}
             candidates.append((group, text, extra, template_regex(text)))
     # A quick first-word index keeps the scan linear in the corpus.
-    by_first = collections.defaultdict(list)
     for index, (_, text, _, _) in enumerate(candidates):
         first = re.match(r"[A-Za-z']+", text)
-        by_first[(first.group(0).lower() if first and not text.startswith("{") else "*")].append(index)
+        BY_FIRST.setdefault(first.group(0).lower() if first and not text.startswith("{") else "*", []).append(index)
+    CANDIDATES.extend(candidates)
 
     seen = collections.defaultdict(dict)  # candidate index -> doc id -> meta
     documents = collections.Counter()
-    for meta, text in load_corpus(corpus_root):
-        documents[meta.get("source", "?")] += 1
-        doc_id = meta["id"]
-        for sentence in set(sentences(text)):
-            if len(sentence) > 160:
-                continue
-            first = re.match(r"[A-Za-z']+", sentence)
-            keys = ["*"] + ([first.group(0).lower()] if first else [])
-            for key in keys:
-                for index in by_first.get(key, ()):
-                    if doc_id in seen[index]:
-                        continue
-                    if candidates[index][3].match(sentence):
-                        seen[index][doc_id] = meta
+    with multiprocessing.get_context("fork").Pool() as pool:
+        for meta, found in pool.imap_unordered(scan, list(documents_in(corpus_root)), chunksize=8):
+            documents[meta.get("source", "?")] += 1
+            for index in found:
+                seen[index][meta["id"]] = meta
 
     # One part per sentence: a sentence that serves several groups (the same
     # "I'm still at {employer}." raising work and replying about it) is one
@@ -187,7 +301,14 @@ def main():
             continue
         docs = list(seen[index].values())
         modern = sorted(
-            (d for d in docs if d.get("date", "") >= ERA_START and PUBLIC_DOMAIN.match(d.get("url", ""))),
+            (
+                d
+                for d in docs
+                if (d.get("date") or "") >= ERA_START
+                and PUBLIC_DOMAIN.match(d.get("url", ""))
+                and "public domain" in d.get("license", "").lower()
+                and spoken_in_era(d)
+            ),
             key=lambda d: (d["date"], d["id"]),
             reverse=True,
         )
@@ -230,12 +351,17 @@ def main():
             "shapes": shapes_path,
             "read": dict(sorted(documents.items())),
             "rule": f"A shape is kept when at least {minimum} documents say it as a whole sentence and one of them is a public-domain record from {ERA_START[:4]} or later, which is its source.",
-            "notAttested": rejected,
+            "notAttested": len(rejected),
         },
         "parts": parts,
     }
     json.dump(bank, sys.stdout, indent=2, ensure_ascii=False)
     sys.stdout.write("\n")
+    # The shapes no record says twice go to a report beside the research notes.
+    if len(sys.argv) > 3:
+        with open(sys.argv[3], "w", encoding="utf-8") as handle:
+            json.dump({"register": spec["register"], "read": bank["mining"]["read"], "notAttested": rejected}, handle, indent=1)
+            handle.write("\n")
 
 
 def slug(text):

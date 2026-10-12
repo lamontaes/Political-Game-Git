@@ -1,0 +1,249 @@
+{
+  "register": "bring-it-up",
+  "read": {
+    "Federal Election Commission (fec.gov)": 242,
+    "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+    "U.S. Election Assistance Commission (eac.gov)": 61,
+    "crec": 443,
+    "hearings": 1617,
+    "house": 115,
+    "nasa": 317,
+    "wpa": 38
+  },
+  "notAttested": [
+    {
+      "move": "change-organization.closed-closed",
+      "text": "{subject} closed.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "{subject} closed down.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "{subject} is closing.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "{subject} went out of business.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "They closed {subject}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "They shut down {subject}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "They're closing {subject}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "Did you hear {subject} closed?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "change-organization.closed-closed",
+      "text": "Did you hear about {subject}?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-record-record",
+      "text": "That was {whose} doing.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-record-record",
+      "text": "It's {whose} fault.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-record-record",
+      "text": "That's on {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-record-record",
+      "text": "{who} made that decision.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-record-record",
+      "text": "{who} decided that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-told-told",
+      "text": "From what I heard, {who} was behind it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-told-told",
+      "text": "I heard {who} was behind it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-told-told",
+      "text": "I heard it was {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-told-told",
+      "text": "They say it was {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-told-told",
+      "text": "I was told it was {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-told-told",
+      "text": "Somebody told me it was {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-told-told",
+      "text": "People are saying it was {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-assumed-assumed",
+      "text": "I'd bet {who} had a hand in it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-assumed-assumed",
+      "text": "I bet {who} had something to do with it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-assumed-assumed",
+      "text": "I bet it was {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-assumed-assumed",
+      "text": "I'll bet {who} had something to do with it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-assumed-assumed",
+      "text": "I think {who} had something to do with it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-assumed-assumed",
+      "text": "I think {who} was behind it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-assumed-assumed",
+      "text": "I blame {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-assumed-assumed",
+      "text": "Blame {who}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-unknown-unknown",
+      "text": "I don't know who's behind it.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-unknown-unknown",
+      "text": "I don't know who did it.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "blame-unknown-unknown",
+      "text": "Nobody knows why.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-unknown-unknown",
+      "text": "Nobody knows what happened.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-unknown-unknown",
+      "text": "I don't know who's responsible.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-unknown-unknown",
+      "text": "I don't know who to blame.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-hearer-react",
+      "text": "I hadn't heard that.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "blame-hearer-react",
+      "text": "I heard that too.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-hearer-react",
+      "text": "That's what I heard.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "blame-hearer-react",
+      "text": "That's not what I heard.",
+      "documents": 1,
+      "modern": 1
+    }
+  ]
+}

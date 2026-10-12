@@ -1,0 +1,745 @@
+{
+  "schema": "english-parts/1",
+  "register": "filing-visit",
+  "description": "The clerk at the filing office and the person filing (golden-path step 3): asking which office, the deadline, the fee, the signatures, each rule that stops a filing, and the forms. Every part is a whole sentence said in public-domain federal transcripts (congressional hearings on elections, the Congressional Record, federal oral histories), counted also against the WPA life histories. The facts are slots from GOV's filing records. A clerk explains rules few transcripts record, so one public-domain record from 2015 on is enough for this bank.",
+  "slots": {
+    "office": "The office and seat, from the contest record.",
+    "deadline": "The filing deadline, from the contest record, as people say a date.",
+    "fee": "The filing fee in dollars, from the contest record.",
+    "signatures": "The number of petition signatures, from the contest record.",
+    "age": "The minimum age, from the eligibility rule.",
+    "place": "Where a candidate must live, from the eligibility rule.",
+    "filing_office": "The office that takes filings for that contest (clerk, registrar or board of elections), from the place's filing record."
+  },
+  "maxWords": 18,
+  "mining": {
+    "tool": "scripts/english-corpus/mine-shapes.py",
+    "shapes": "scripts/english-corpus/shapes/filing-visit.json",
+    "read": {
+      "Federal Election Commission (fec.gov)": 253,
+      "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+      "U.S. Election Assistance Commission (eac.gov)": 65,
+      "USAGov (usa.gov), U.S. General Services Administration": 16,
+      "crec": 445,
+      "hearings": 1617,
+      "house": 115,
+      "nasa": 317,
+      "wpa": 38
+    },
+    "rule": "A shape is kept when at least 1 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
+    "notAttested": 122
+  },
+  "parts": [
+    {
+      "key": "filing-visit.clerk-greet-which.how-can-i-help-you",
+      "move": "clerk-greet-which",
+      "kind": "spoken",
+      "text": "How can I help you?",
+      "uses": [
+        {
+          "move": "clerk-greet-which",
+          "subject": "clerk",
+          "role": "greet",
+          "choice": "which"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "crec": 1,
+        "hearings": 1,
+        "house": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2023-09-29",
+        "date": "2023-09-29",
+        "granule": "CREC-2023-09-29-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2023-09-29",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-greet-which.what-can-i-do-for-you",
+      "move": "clerk-greet-which",
+      "kind": "spoken",
+      "text": "What can I do for you?",
+      "uses": [
+        {
+          "move": "clerk-greet-which",
+          "subject": "clerk",
+          "role": "greet",
+          "choice": "which"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "house": 1,
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA JSC Oral History Project: Gratia K. Lousma (Wife of Skylab and Space Shuttle Astronaut Jack R. Lousma)",
+        "date": "2019-07-10",
+        "granule": "jsc-lousmagk-7-10-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lousmagk-7-10-19.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-greet-which.can-i-help-you",
+      "move": "clerk-greet-which",
+      "kind": "spoken",
+      "text": "Can I help you?",
+      "uses": [
+        {
+          "move": "clerk-greet-which",
+          "subject": "clerk",
+          "role": "greet",
+          "choice": "which"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "crec": 1,
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2019-01-24",
+        "date": "2019-01-24",
+        "granule": "CREC-2019-01-24-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2019-01-24",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-terms-deadline.the-deadline-is-deadline",
+      "move": "clerk-terms-deadline",
+      "kind": "spoken",
+      "text": "The deadline is {deadline}.",
+      "uses": [
+        {
+          "move": "clerk-terms-deadline",
+          "subject": "clerk",
+          "role": "terms",
+          "choice": "deadline"
+        }
+      ],
+      "transcriptsUsing": 1,
+      "bySource": {
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NOMINATION OF MICHAEL G. WHITAKER, NOMINEE TO BE ADMINISTRATOR, FEDERAL AVIATION ADMINISTRATION",
+        "date": "2023-10-04",
+        "granule": "CHRG-118shrg60397",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60397/html/CHRG-118shrg60397.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-rule-age.you-have-to-be-at-least-age",
+      "move": "clerk-rule-age",
+      "kind": "spoken",
+      "text": "You have to be at least {age}.",
+      "uses": [
+        {
+          "move": "clerk-rule-age",
+          "subject": "clerk",
+          "role": "rule",
+          "choice": "age"
+        }
+      ],
+      "transcriptsUsing": 1,
+      "bySource": {
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "2020 GENERAL ELECTION PREPARATIONS",
+        "date": "2020-07-22",
+        "granule": "CHRG-116shrg41243",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116shrg41243/html/CHRG-116shrg41243.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-rule-age.you-have-to-be-age-by-election-day",
+      "move": "clerk-rule-age",
+      "kind": "spoken",
+      "text": "You have to be {age} by election day.",
+      "uses": [
+        {
+          "move": "clerk-rule-age",
+          "subject": "clerk",
+          "role": "rule",
+          "choice": "age"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "HEARING ON THE JANUARY 6TH INVESTIGATION",
+        "date": "2022-06-21",
+        "granule": "CHRG-117hhrg49352",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117hhrg49352/html/CHRG-117hhrg49352.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-rule-live.you-must-file-your-qualifying-papers-with-filing",
+      "move": "clerk-rule-live",
+      "kind": "spoken",
+      "text": "You must file your qualifying papers with {filing_office} in the county where you reside.",
+      "uses": [
+        {
+          "move": "clerk-rule-live",
+          "subject": "clerk",
+          "role": "rule",
+          "choice": "live"
+        }
+      ],
+      "transcriptsUsing": 1,
+      "bySource": {
+        "Florida Department of State, Division of Elections (dos.fl.gov)": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Candidate and Campaign Treasurer Handbook",
+        "date": "2026-10-02",
+        "granule": "fl-dos-2026-candidate-campaign-treasurer-handbook",
+        "url": "https://dos.fl.gov/media/711203/2026-candidate-campaign-treasurer-handbook.pdf",
+        "license": "Florida government work: no copyright under Florida law (Microdecisions, Inc. v. Skinner, 889 So. 2d 871, Fla. 2d DCA 2004; Fla. Const. art. I, s. 24); public domain"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-rule-register.you-must-be-a-registered-or-pre-registered-voter",
+      "move": "clerk-rule-register",
+      "kind": "spoken",
+      "text": "You must be a registered or pre-registered voter in the county in which you want to serve.",
+      "uses": [
+        {
+          "move": "clerk-rule-register",
+          "subject": "clerk",
+          "role": "rule",
+          "choice": "register"
+        }
+      ],
+      "transcriptsUsing": 1,
+      "bySource": {
+        "Florida Department of State, Division of Elections (dos.fl.gov)": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "voterregvotingguide 2026 election cycle eng updated 20260720",
+        "date": "2026-07-21",
+        "granule": "fl-dos-voterregvotingguide-2026-election-cycle-eng-updated-20260720",
+        "url": "https://dos.fl.gov/media/711211/voterregvotingguide-2026-election-cycle_eng-updated-20260720.pdf",
+        "license": "Florida government work: no copyright under Florida law (Microdecisions, Inc. v. Skinner, 889 So. 2d 871, Fla. 2d DCA 2004; Fla. Const. art. I, s. 24); public domain"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-rule-short-fee.thats-not-enough",
+      "move": "clerk-rule-short-fee",
+      "kind": "spoken",
+      "text": "That's not enough.",
+      "uses": [
+        {
+          "move": "clerk-rule-short-fee",
+          "subject": "clerk",
+          "role": "rule",
+          "choice": "short-fee"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "21ST CENTURY COMMUNITIES: CAPITALIZING ON OPPORTUNITIES IN THE CLEAN ENERGY ECONOMY",
+        "date": "2021-04-22",
+        "granule": "CHRG-117shrg47912",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg47912/html/CHRG-117shrg47912.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-close-next.sign-here",
+      "move": "clerk-close-next",
+      "kind": "spoken",
+      "text": "Sign here.",
+      "uses": [
+        {
+          "move": "clerk-close-next",
+          "subject": "clerk",
+          "role": "close",
+          "choice": "next"
+        }
+      ],
+      "transcriptsUsing": 1,
+      "bySource": {
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "SHORT-TERM, SMALL DOLLAR LENDING: THE CFPB'S ASSAULT ON ACCESS TO CREDIT AND TRAMPLING OF STATE AND TRIBAL SOVEREIGNTY",
+        "date": "2016-02-11",
+        "granule": "CHRG-114hhrg23568",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-114hhrg23568/html/CHRG-114hhrg23568.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-close-next.thats-it",
+      "move": "clerk-close-next",
+      "kind": "spoken",
+      "text": "That's it.",
+      "uses": [
+        {
+          "move": "clerk-close-next",
+          "subject": "clerk",
+          "role": "close",
+          "choice": "next"
+        }
+      ],
+      "transcriptsUsing": 66,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 13,
+        "hearings": 18,
+        "house": 8,
+        "nasa": 27
+      },
+      "shippable": true,
+      "source": {
+        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "date": "2026-04-28",
+        "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
+        "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-close-next.good-luck",
+      "move": "clerk-close-next",
+      "kind": "spoken",
+      "text": "Good luck.",
+      "uses": [
+        {
+          "move": "clerk-close-next",
+          "subject": "clerk",
+          "role": "close",
+          "choice": "next"
+        }
+      ],
+      "transcriptsUsing": 21,
+      "bySource": {
+        "crec": 6,
+        "hearings": 11,
+        "nasa": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-03-04",
+        "date": "2025-03-04",
+        "granule": "CREC-2025-03-04-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-03-04",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-close-next.good-luck-to-you",
+      "move": "clerk-close-next",
+      "kind": "spoken",
+      "text": "Good luck to you.",
+      "uses": [
+        {
+          "move": "clerk-close-next",
+          "subject": "clerk",
+          "role": "close",
+          "choice": "next"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "crec": 1,
+        "hearings": 2,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
+        "date": "2025-05-05",
+        "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
+        "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-close-next.any-questions",
+      "move": "clerk-close-next",
+      "kind": "spoken",
+      "text": "Any questions?",
+      "uses": [
+        {
+          "move": "clerk-close-next",
+          "subject": "clerk",
+          "role": "close",
+          "choice": "next"
+        }
+      ],
+      "transcriptsUsing": 22,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 3,
+        "U.S. Election Assistance Commission (eac.gov)": 14,
+        "hearings": 2,
+        "nasa": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "COMMITTEE ON TRANSPORTATION AND INFRASTRUCTURE MEMBER DAY",
+        "date": "2023-04-18",
+        "granule": "CHRG-118hhrg52632",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg52632/html/CHRG-118hhrg52632.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-close-next.do-you-have-any-questions",
+      "move": "clerk-close-next",
+      "kind": "spoken",
+      "text": "Do you have any questions?",
+      "uses": [
+        {
+          "move": "clerk-close-next",
+          "subject": "clerk",
+          "role": "close",
+          "choice": "next"
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "hearings": 2,
+        "nasa": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "June 27-28, 2018 Public Hearing on Internet Communication Disclaimers and Definition of “Public Communication” — archived live captions",
+        "date": "2018-06-27",
+        "granule": "fec-hearing-2018-06-27-20180627-28-full",
+        "url": "https://www.fec.gov/documents/626/20180627_28_full.txt",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.clerk-close-next.you-can-fill-it-out-onscreen-and-print-the-compl",
+      "move": "clerk-close-next",
+      "kind": "spoken",
+      "text": "You can fill it out onscreen and print the completed form.",
+      "uses": [
+        {
+          "move": "clerk-close-next",
+          "subject": "clerk",
+          "role": "close",
+          "choice": "next"
+        }
+      ],
+      "transcriptsUsing": 1,
+      "bySource": {
+        "USAGov (usa.gov), U.S. General Services Administration": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "How to register to vote",
+        "date": "2026-10-06",
+        "granule": "usagov-register-to-vote",
+        "url": "https://www.usa.gov/register-to-vote",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.player-accept-ok.i-understand",
+      "move": "player-accept-ok",
+      "kind": "spoken",
+      "text": "I understand.",
+      "uses": [
+        {
+          "move": "player-accept-ok",
+          "subject": "player",
+          "role": "accept",
+          "choice": "ok"
+        }
+      ],
+      "transcriptsUsing": 242,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 7,
+        "crec": 10,
+        "hearings": 211,
+        "house": 3,
+        "nasa": 11
+      },
+      "shippable": true,
+      "source": {
+        "document": "IN THEIR CORNER: CREATING MORE OPPORTUNITIES FOR AMERICAN BOXERS",
+        "date": "2025-12-04",
+        "granule": "CHRG-119hhrg64314",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg64314/html/CHRG-119hhrg64314.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.player-accept-ok.okay",
+      "move": "player-accept-ok",
+      "kind": "spoken",
+      "text": "Okay.",
+      "uses": [
+        {
+          "move": "player-accept-ok",
+          "subject": "player",
+          "role": "accept",
+          "choice": "ok"
+        }
+      ],
+      "transcriptsUsing": 1276,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 3,
+        "U.S. Election Assistance Commission (eac.gov)": 54,
+        "crec": 28,
+        "hearings": 901,
+        "house": 75,
+        "nasa": 215
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.player-accept-ok.all-right",
+      "move": "player-accept-ok",
+      "kind": "spoken",
+      "text": "All right.",
+      "uses": [
+        {
+          "move": "player-accept-ok",
+          "subject": "player",
+          "role": "accept",
+          "choice": "ok"
+        }
+      ],
+      "transcriptsUsing": 1114,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 38,
+        "crec": 12,
+        "hearings": 971,
+        "house": 18,
+        "nasa": 73,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.player-accept-ok.got-it",
+      "move": "player-accept-ok",
+      "kind": "spoken",
+      "text": "Got it.",
+      "uses": [
+        {
+          "move": "player-accept-ok",
+          "subject": "player",
+          "role": "accept",
+          "choice": "ok"
+        }
+      ],
+      "transcriptsUsing": 125,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 8,
+        "crec": 1,
+        "hearings": 114,
+        "house": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.player-accept-ok.i-see",
+      "move": "player-accept-ok",
+      "kind": "spoken",
+      "text": "I see.",
+      "uses": [
+        {
+          "move": "player-accept-ok",
+          "subject": "player",
+          "role": "accept",
+          "choice": "ok"
+        }
+      ],
+      "transcriptsUsing": 115,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 5,
+        "crec": 1,
+        "hearings": 100,
+        "house": 6,
+        "nasa": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "date": "2026-04-28",
+        "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
+        "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.player-accept-ok.thank-you",
+      "move": "player-accept-ok",
+      "kind": "spoken",
+      "text": "Thank you.",
+      "uses": [
+        {
+          "move": "player-accept-ok",
+          "subject": "player",
+          "role": "accept",
+          "choice": "ok"
+        }
+      ],
+      "transcriptsUsing": 1929,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 11,
+        "U.S. Election Assistance Commission (eac.gov)": 61,
+        "crec": 92,
+        "hearings": 1592,
+        "house": 70,
+        "nasa": 101,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.player-accept-ok.thanks",
+      "move": "player-accept-ok",
+      "kind": "spoken",
+      "text": "Thanks.",
+      "uses": [
+        {
+          "move": "player-accept-ok",
+          "subject": "player",
+          "role": "accept",
+          "choice": "ok"
+        }
+      ],
+      "transcriptsUsing": 458,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 2,
+        "U.S. Election Assistance Commission (eac.gov)": 36,
+        "crec": 2,
+        "hearings": 391,
+        "house": 11,
+        "nasa": 16
+      },
+      "shippable": true,
+      "source": {
+        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "date": "2026-04-28",
+        "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
+        "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.player-accept-ok.okay-thank-you",
+      "move": "player-accept-ok",
+      "kind": "spoken",
+      "text": "Okay, thank you.",
+      "uses": [
+        {
+          "move": "player-accept-ok",
+          "subject": "player",
+          "role": "accept",
+          "choice": "ok"
+        }
+      ],
+      "transcriptsUsing": 153,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 13,
+        "hearings": 139,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "LEGISLATIVE BRANCH APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60273",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60273/html/CHRG-119shrg60273.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "filing-visit.player-accept-ok.that-makes-sense",
+      "move": "player-accept-ok",
+      "kind": "spoken",
+      "text": "That makes sense.",
+      "uses": [
+        {
+          "move": "player-accept-ok",
+          "subject": "player",
+          "role": "accept",
+          "choice": "ok"
+        }
+      ],
+      "transcriptsUsing": 48,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 2,
+        "crec": 2,
+        "hearings": 27,
+        "house": 1,
+        "nasa": 15
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-12-18",
+        "date": "2025-12-18",
+        "granule": "CREC-2025-12-18-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-18",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    }
+  ]
+}

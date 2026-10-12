@@ -15,7 +15,7 @@
       "kind": "spoken",
       "text": "I have no discretion in this matter.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "United States District Court sentencing transcript quoted in Richardson v. United States",
         "url": "https://ecf.ctd.uscourts.gov/cgi-bin/show_public_doc?1999cr0264-2585="
@@ -27,7 +27,7 @@
       "kind": "spoken",
       "text": "I don't take that responsibility lightly.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "United States District Court sentencing transcript quoted in Richardson v. United States",
         "url": "https://ecf.ctd.uscourts.gov/cgi-bin/show_public_doc?1999cr0264-2585="
@@ -39,7 +39,7 @@
       "kind": "spoken",
       "text": "an opportunity to speak also if you desire.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "United States v. Bowden sentencing transcript, Appendix H to DOJ petition",
         "date": "2006-10-11",
@@ -52,11 +52,12 @@
       "kind": "spoken",
       "text": "This sentence will be firm and final.",
       "timesRecorded": 1,
-      "shippable": true,
+      "shippable": false,
       "source": {
         "document": "United States v. Aponte-Lara sentencing transcript quoted in First Circuit opinion",
         "url": "https://www.ca1.uscourts.gov/sites/ca1/files/opnfiles/09-1964U-01A.pdf"
       }
     }
-  ]
+  ],
+  "patternsOnly": "Patterns and counts only, never shipped word for word: the sources are not public domain (campaign remarks archived by the American Presidency Project; court transcripts before 2015). OPUS-WORDS moved this bank out of data/english/parts on Oct 12, 2026; speeches and court lines are re-mined from the Congressional Record and federal transcripts."
 }

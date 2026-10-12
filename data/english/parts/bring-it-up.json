@@ -1,0 +1,393 @@
+{
+  "schema": "english-parts/1",
+  "register": "bring-it-up",
+  "description": "People bringing up a change and who they believe caused it: the change, the blame from the record, from what they were told or assumed, and the hearer's answer. Every part is a whole sentence said in public-domain federal transcripts, counted also against the WPA life histories. The facts are slots from the event and blame records.",
+  "slots": {
+    "subject": "The place or business that changed, from the event record.",
+    "whose": "Who made the change, with the possessive, from the event or blame record.",
+    "who": "Who made the change, by name, from the event or blame record."
+  },
+  "maxWords": 10,
+  "mining": {
+    "tool": "scripts/english-corpus/mine-shapes.py",
+    "shapes": "scripts/english-corpus/shapes/bring-it-up.json",
+    "read": {
+      "Federal Election Commission (fec.gov)": 242,
+      "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
+      "U.S. Election Assistance Commission (eac.gov)": 61,
+      "crec": 443,
+      "hearings": 1617,
+      "house": 115,
+      "nasa": 317,
+      "wpa": 38
+    },
+    "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
+    "notAttested": 39
+  },
+  "parts": [
+    {
+      "key": "bring-it-up.change-organization.closed-closed.subject-shut-down",
+      "move": "change-organization.closed-closed",
+      "kind": "spoken",
+      "text": "{subject} shut down.",
+      "uses": [
+        {
+          "move": "change-organization.closed-closed",
+          "subject": "change",
+          "role": "organization.closed",
+          "choice": "closed"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "hearings": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "DRILLING DOWN: OVERSIGHT OF THE CHALLENGES AND OPPORTUNITIES FACING U.S. ENERGY PRODUCTION",
+        "date": "2024-04-23",
+        "granule": "CHRG-118hhrg55545",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55545/html/CHRG-118hhrg55545.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.change-organization.closed-closed.subject-is-closed",
+      "move": "change-organization.closed-closed",
+      "kind": "spoken",
+      "text": "{subject} is closed.",
+      "uses": [
+        {
+          "move": "change-organization.closed-closed",
+          "subject": "change",
+          "role": "organization.closed",
+          "choice": "closed"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 1,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "TURBULENCE AHEAD: CONSEQUENCES OF DELAYING A LONG-TERM FAA BILL",
+        "date": "2023-11-30",
+        "granule": "CHRG-118hhrg54742",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg54742/html/CHRG-118hhrg54742.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-record-record.it-was-whose-decision",
+      "move": "blame-record-record",
+      "kind": "spoken",
+      "text": "It was {whose} decision.",
+      "uses": [
+        {
+          "move": "blame-record-record",
+          "subject": "blame",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "THE ECONOMIC OUTLOOK",
+        "date": "2016-11-17",
+        "granule": "CHRG-114jhrg23027",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-114jhrg23027/html/CHRG-114jhrg23027.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-record-record.who-did-that",
+      "move": "blame-record-record",
+      "kind": "spoken",
+      "text": "{who} did that.",
+      "uses": [
+        {
+          "move": "blame-record-record",
+          "subject": "blame",
+          "role": "record",
+          "choice": "record"
+        }
+      ],
+      "transcriptsUsing": 11,
+      "bySource": {
+        "crec": 3,
+        "hearings": 3,
+        "nasa": 4,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "GOLDEN AGE OF AMERICAN INNOVATION:. REFORMING SBIR-STTR FOR THE 21ST CENTURY",
+        "date": "2025-03-05",
+        "granule": "CHRG-119shrg59474",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg59474/html/CHRG-119shrg59474.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-unknown-unknown.i-dont-know-why",
+      "move": "blame-unknown-unknown",
+      "kind": "spoken",
+      "text": "I don't know why.",
+      "uses": [
+        {
+          "move": "blame-unknown-unknown",
+          "subject": "blame",
+          "role": "unknown",
+          "choice": "unknown"
+        }
+      ],
+      "transcriptsUsing": 39,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "crec": 3,
+        "hearings": 7,
+        "house": 9,
+        "nasa": 13,
+        "wpa": 6
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House Oral History: Coelho, Tony - U.S. Representative of California - 1979–1989",
+        "date": "2024-07-22",
+        "granule": "house-oh-coelho",
+        "url": "https://history.house.gov/Oral-History/Transcripts/coelho-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-unknown-unknown.i-dont-know-what-happened",
+      "move": "blame-unknown-unknown",
+      "kind": "spoken",
+      "text": "I don't know what happened.",
+      "uses": [
+        {
+          "move": "blame-unknown-unknown",
+          "subject": "blame",
+          "role": "unknown",
+          "choice": "unknown"
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "hearings": 1,
+        "house": 1,
+        "nasa": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "OVERSIGHT OF THE U.S. DEPARTMENT OF JUSTICE",
+        "date": "2023-09-20",
+        "granule": "CHRG-118hhrg53649",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53649/html/CHRG-118hhrg53649.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-hearer-react.really",
+      "move": "blame-hearer-react",
+      "kind": "spoken",
+      "text": "Really?",
+      "uses": [
+        {
+          "move": "blame-hearer-react",
+          "subject": "blame",
+          "role": "hearer",
+          "choice": "react"
+        }
+      ],
+      "transcriptsUsing": 145,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 2,
+        "crec": 34,
+        "hearings": 50,
+        "house": 23,
+        "nasa": 36
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2025-12-03",
+        "date": "2025-12-03",
+        "granule": "CREC-2025-12-03-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-12-03",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-hearer-react.is-that-right",
+      "move": "blame-hearer-react",
+      "kind": "spoken",
+      "text": "Is that right?",
+      "uses": [
+        {
+          "move": "blame-hearer-react",
+          "subject": "blame",
+          "role": "hearer",
+          "choice": "react"
+        }
+      ],
+      "transcriptsUsing": 286,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 7,
+        "crec": 3,
+        "hearings": 252,
+        "house": 5,
+        "nasa": 18,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "PRESSURE COOKER: COMPETITION ISSUES IN THE SEED AND FERTILIZER INDUSTRIES",
+        "date": "2025-10-28",
+        "granule": "CHRG-119shrg62935",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62935/html/CHRG-119shrg62935.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-hearer-react.thats-too-bad",
+      "move": "blame-hearer-react",
+      "kind": "spoken",
+      "text": "That's too bad.",
+      "uses": [
+        {
+          "move": "blame-hearer-react",
+          "subject": "blame",
+          "role": "hearer",
+          "choice": "react"
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "house": 1,
+        "nasa": 9
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA JSC Oral History Project: David J. Homan (Engineer, Shuttle RMS, MPAD; Manager, Space Station Freedom Level II; Manager, Space Station Level III Functional Area for assembly; Critical Evaluation Task Force (following the Challenger accident); Manager, Manager, Virtual Reality Lab)",
+        "date": "2023-06-29",
+        "granule": "jsc-homand-6-29-23",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/homand-6-29-23.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-hearer-react.thats-a-shame",
+      "move": "blame-hearer-react",
+      "kind": "spoken",
+      "text": "That's a shame.",
+      "uses": [
+        {
+          "move": "blame-hearer-react",
+          "subject": "blame",
+          "role": "hearer",
+          "choice": "react"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "hearings": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "EXAMINING THE ACTIONS OF DRUG COMPANIES",
+        "date": "2019-01-29",
+        "granule": "CHRG-116hhrg36509",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg36509/html/CHRG-116hhrg36509.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-hearer-react.thats-terrible",
+      "move": "blame-hearer-react",
+      "kind": "spoken",
+      "text": "That's terrible.",
+      "uses": [
+        {
+          "move": "blame-hearer-react",
+          "subject": "blame",
+          "role": "hearer",
+          "choice": "react"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "house": 2,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "U.S. House Oral History: Hartzler, Vicky - U.S. Representative of Missouri - 2011–2023",
+        "date": "2022-11-17",
+        "granule": "house-oh-hartzler",
+        "url": "https://history.house.gov/Oral-History/Transcripts/hartzler-transcript/",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-hearer-react.i-didnt-know-that",
+      "move": "blame-hearer-react",
+      "kind": "spoken",
+      "text": "I didn't know that.",
+      "uses": [
+        {
+          "move": "blame-hearer-react",
+          "subject": "blame",
+          "role": "hearer",
+          "choice": "react"
+        }
+      ],
+      "transcriptsUsing": 25,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "hearings": 9,
+        "house": 6,
+        "nasa": 9
+      },
+      "shippable": true,
+      "source": {
+        "document": "PRESSURE COOKER: COMPETITION ISSUES IN THE SEED AND FERTILIZER INDUSTRIES",
+        "date": "2025-10-28",
+        "granule": "CHRG-119shrg62935",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62935/html/CHRG-119shrg62935.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "bring-it-up.blame-hearer-react.i-dont-believe-it",
+      "move": "blame-hearer-react",
+      "kind": "spoken",
+      "text": "I don't believe it.",
+      "uses": [
+        {
+          "move": "blame-hearer-react",
+          "subject": "blame",
+          "role": "hearer",
+          "choice": "react"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "DEPARTMENT OF DEFENSE AUTHORIZATION REQUEST FOR APPROPRIATIONS FOR FISCAL YEAR 2024 AND THE FUTURE YEARS DEFENSE PROGRAM",
+        "date": "2023-05-02",
+        "granule": "CHRG-118shrg60101",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60101/html/CHRG-118shrg60101.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    }
+  ]
+}
