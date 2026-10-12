@@ -280,12 +280,6 @@
       "modern": 0
     },
     {
-      "move": "present-many-many",
-      "text": "{who_many} were here.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
       "move": "cause-tie:contact-seeing",
       "text": "You and {other} have been seeing each other.",
       "documents": 0,

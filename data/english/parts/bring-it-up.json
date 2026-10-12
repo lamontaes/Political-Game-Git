@@ -225,40 +225,6 @@
       }
     },
     {
-      "key": "bring-it-up.blame-record-record.that-was-who",
-      "move": "blame-record-record",
-      "kind": "spoken",
-      "text": "That was {who}.",
-      "uses": [
-        {
-          "move": "blame-record-record",
-          "subject": "blame",
-          "role": "record",
-          "choice": "record"
-        }
-      ],
-      "transcriptsUsing": 107,
-      "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 1,
-        "crec": 16,
-        "hearings": 6,
-        "house": 8,
-        "nasa": 17,
-        "nasa2": 17,
-        "nih": 5,
-        "nps": 36,
-        "wpa": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Congressional Record, Senate section, 2025-07-09",
-        "date": "2025-07-09",
-        "granule": "CREC-2025-07-09-senate",
-        "url": "https://www.govinfo.gov/app/details/CREC-2025-07-09",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
       "key": "bring-it-up.blame-assumed-assumed.i-think-it-was-who",
       "move": "blame-assumed-assumed",
       "kind": "spoken",

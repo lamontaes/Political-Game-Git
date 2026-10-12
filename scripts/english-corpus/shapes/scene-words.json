@@ -79,7 +79,6 @@
         "You're in town.",
         "You're downtown.",
         "You're in {place}.",
-        "You're out.",
         "You're out and about."
       ]
     },
@@ -122,8 +121,6 @@
         "{who} is here.",
         "{who} is there.",
         "{who} is with you.",
-        "{who} was there.",
-        "{who} was here.",
         "{who} is there too."
       ]
     },
@@ -135,9 +132,7 @@
       "candidates": [
         "{who_many} are here.",
         "{who_many} are there.",
-        "{who_many} are with you.",
-        "{who_many} were there.",
-        "{who_many} were here."
+        "{who_many} are with you."
       ]
     },
     {

@@ -30,7 +30,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 80
+    "notAttested": 79
   },
   "parts": [
     {
@@ -85,33 +85,6 @@
         "date": "2024-08-07",
         "granule": "discovery-and-new-frontiers-laurettads-8-7-24",
         "url": "https://www.nasa.gov/wp-content/uploads/2024/10/laurettads-8-7-24.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "scene-words.setting-public-out.youre-out",
-      "move": "setting-public-out",
-      "kind": "spoken",
-      "text": "You're out.",
-      "uses": [
-        {
-          "move": "setting-public-out",
-          "subject": "setting",
-          "role": "public",
-          "choice": "out"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "house": 1,
-        "nps": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "U.S. House Oral History: Kelly, Sue W. - U.S. Representative of New York - 1995–2007",
-        "date": "2016-06-23",
-        "granule": "house-oh-kellys",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/kellys-transcript/",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -228,98 +201,6 @@
         "date": "2024-06-05",
         "granule": "CREC-2024-06-05-senate",
         "url": "https://www.govinfo.gov/app/details/CREC-2024-06-05",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "scene-words.present-one-one.who-was-there",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} was there.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "transcriptsUsing": 70,
-      "bySource": {
-        "crec": 1,
-        "hearings": 1,
-        "house": 14,
-        "nasa": 16,
-        "nasa2": 15,
-        "nih": 4,
-        "nps": 18,
-        "wpa": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Jessica Sunshine oral history (discovery-and-new-frontiers collection)",
-        "date": "2025-02-25",
-        "granule": "discovery-and-new-frontiers-sunshinej-2-25-25",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/07/sunshinej-2-25-25.pdf",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "scene-words.present-one-one.who-was-here",
-      "move": "present-one-one",
-      "kind": "spoken",
-      "text": "{who} was here.",
-      "uses": [
-        {
-          "move": "present-one-one",
-          "subject": "present",
-          "role": "one",
-          "choice": "one"
-        }
-      ],
-      "transcriptsUsing": 11,
-      "bySource": {
-        "crec": 1,
-        "house": 1,
-        "nasa": 1,
-        "nasa2": 1,
-        "nih": 1,
-        "nps": 6
-      },
-      "shippable": true,
-      "source": {
-        "document": "Congressional Record, House section, 2022-09-20",
-        "date": "2022-09-20",
-        "granule": "CREC-2022-09-20-house",
-        "url": "https://www.govinfo.gov/app/details/CREC-2022-09-20",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "scene-words.present-many-many.who-many-were-there",
-      "move": "present-many-many",
-      "kind": "spoken",
-      "text": "{who_many} were there.",
-      "uses": [
-        {
-          "move": "present-many-many",
-          "subject": "present",
-          "role": "many",
-          "choice": "many"
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "house": 1,
-        "nasa2": 2,
-        "nps": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "Shannon W. Lucid Oral History (September 9, 2021)",
-        "date": "2021-09-09",
-        "granule": "shannon-w-lucid-oral-history-lucidsw-9-9-21",
-        "url": "https://www.nasa.gov/wp-content/uploads/2026/09/lucidsw-9-9-21.pdf",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }
