@@ -568,6 +568,28 @@ export function amendBudget(
     adoptedBy: `${budget.adoptedBy}; amended by ${input.measureId}`,
   };
   table(api, "budgets").put(amended as unknown as ModuleRow);
+  // The change reaches whatever that line pays for (law-effects handlers).
+  api.emit({
+    id: `budget-line-changed:${budget.id}:${input.line}:${input.measureId}`,
+    date: api.state.date,
+    kind: "budget-line-changed",
+    personIds: [],
+    placeId: lawChain(api).townPlaceId,
+    source: {
+      tag: "SOURCED",
+      citation: `Budget amended by ${input.measureId}`,
+      asOf: api.state.date,
+    },
+    publicRecord: true,
+    news: false,
+    facts: {
+      governmentId: gov.id,
+      level: gov.level,
+      line: input.line,
+      deltaMinor: String(input.deltaMinor),
+      measureId: input.measureId,
+    },
+  });
   return amended;
 }
 

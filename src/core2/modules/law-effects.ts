@@ -20,6 +20,7 @@ import type {
 } from "../types";
 import type { ModuleRow } from "../module-data";
 import { lawChain, LAWS_MODULE_ID } from "./laws";
+import { registerLawReach } from "../law-reach";
 import type { LawRowInput } from "../laws-starting";
 
 export const LAW_EFFECTS_MODULE_ID = "core2-law-effects-v1";
@@ -67,11 +68,12 @@ export const LAW_EFFECTS_MODULE: CoreModule = {
       },
     },
   },
-  eventKinds: ["law-took-effect"],
+  eventKinds: ["law-took-effect", "budget-line-changed"],
   onEvent: (api, event) => applyLaw(api, event),
 };
 
 export function openLawEffects(core: CoreState): void {
+  registerLawReach();
   if (!core.modules.has(LAW_EFFECTS_MODULE_ID))
     registerModule(core, LAW_EFFECTS_MODULE);
 }
@@ -118,7 +120,67 @@ function inForceHere(api: CoreAPI, question: string): boolean {
   });
 }
 
+/**
+ * What a policy does once it's law, for policies whose effect runs through
+ * an engine (money, services, eligibility checks), not only a record on
+ * people: one handler per policy key (a policy question, a law series, or
+ * "budget-line:<line>"), registered by the law-reach files in
+ * `src/core2/law-reach/`. Called whenever the law in force on that key may
+ * have changed, with whether it's now in force for the town.
+ */
+export type PolicyHandler = (
+  api: CoreAPI,
+  change: {
+    readonly key: string;
+    readonly lawId: string;
+    readonly inForce: boolean;
+    readonly level: string;
+    readonly value: number | null;
+    readonly placeId: string;
+  },
+) => void;
+const handlers = new Map<string, PolicyHandler[]>();
+export function registerPolicyHandler(
+  key: string,
+  handler: PolicyHandler,
+): void {
+  const list = handlers.get(key) ?? [];
+  if (!list.includes(handler)) list.push(handler);
+  handlers.set(key, list);
+}
+export function policyHandlerKeys(): readonly string[] {
+  return [...handlers.keys()].sort();
+}
+
+function runHandlers(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  const facts = event.facts ?? {};
+  const key =
+    event.kind === "budget-line-changed"
+      ? `budget-line:${facts.line}`
+      : (facts.series ?? "");
+  const list = handlers.get(key);
+  if (!list) return;
+  const value = facts.value === undefined ? null : Number(facts.value);
+  const inForce =
+    event.kind === "budget-line-changed"
+      ? true
+      : key.includes(":")
+        ? inForceHere(api, key)
+        : true;
+  for (const handler of list)
+    handler(api, {
+      key,
+      lawId: facts.lawId ?? facts.measureId ?? "",
+      inForce,
+      level: facts.level ?? "",
+      value: Number.isFinite(value) ? value : null,
+      placeId: event.placeId,
+    });
+}
+
 function applyLaw(api: CoreAPI, event: Readonly<CoreEventInput>): void {
+  runHandlers(api, event);
+  if (event.kind !== "law-took-effect") return;
   const lawId = event.facts?.lawId;
   const question = event.facts?.series;
   if (!lawId || !question || !(question in catalog)) return;
