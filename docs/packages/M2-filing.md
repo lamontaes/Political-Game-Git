@@ -2,7 +2,7 @@
 
 **Specs:** M2-02 and M2-03.
 **Built by:** OPUS-GOV, with OPUS-PEOPLE (the people and their words) and OPUS-PLAY (the screens).
-**Systems model:** *The Political Process*, where you pick a platform, file for an office and run. Our version adds the place, the people and the scene.
+**Systems model:** _The Political Process_, where you pick a platform, file for an office and run. Our version adds the place, the people and the scene.
 
 ## What you'll do
 

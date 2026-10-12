@@ -3,20 +3,24 @@
 **Specs:** M2-04 and M2-09.
 **Built by:** OPUS-PEOPLE, with OPUS-GOV (filing and elections) and OPUS-PLAY (the TV and newspaper screens).
 **Systems model:**
-- *The Political Process*'s dynamic world, where hundreds of politicians run, retire and lose primaries, and results come every cycle.
+
+- _The Political Process_'s dynamic world, where hundreds of politicians run, retire and lose primaries, and results come every cycle.
 - In our version, those politicians are the people of the world, deciding from their own lives.
 
 ## What you'll do
 
 **Rivals come from the town.**
+
 - The people who run against you are people from your town: the neighbor who's been angry about the zoning board, the incumbent deciding whether to go again, the challenger who has watched the incumbent's record.
 - You can click any of them and see their life and why they're running.
 
 **Most places stay light.**
+
 - Candidates in places you never look at are short entries.
 - They become full people when you open them, meet them, or they win.
 
 **The news.**
+
 - Local papers and TV report election results, new laws and big events.
 - People hear the news through their own habits (some read the paper, some watch TV, some hear it from family) and pass it on by word of mouth.
 - News from far away arrives later.

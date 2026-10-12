@@ -63,14 +63,14 @@ describe("place backdrops", () => {
     }
   });
 
-  it("has all 307 shared pictures for 82 places, each with a midday picture", () => {
+  it("has all 332 shared pictures for 107 places, each with a midday picture", () => {
     const ownCapitol = /^state-capitol-[a-z]{2}$/;
     expect(
       manifest.backdrops.filter((record) => !ownCapitol.test(record.place)),
-    ).toHaveLength(307);
+    ).toHaveLength(332);
     expect(
       backdropPlaces().filter((place) => !ownCapitol.test(place)),
-    ).toHaveLength(82);
+    ).toHaveLength(107);
     for (const place of backdropPlaces()) expect(hasBackdrop(place)).toBe(true);
   });
 

@@ -37,7 +37,7 @@
       "title": "Time: Day, Week, Calendar, and skip until something needs you",
       "golden_path": "1",
       "package": "M0-bench",
-      "test": "A skip from a random date stops exactly at the earliest of: a moment at or over the 0.50 interrupt line, a fixed commitment, or an offer with a deadline; it says which one; nothing was skipped past.",
+      "test": "A skip from a random date stops exactly at the earliest of: a moment at or over the 0.50 interrupt line, a fixed commitment that needs the player (a routine work shift the character attends on its own never stops a skip; owner, Oct 12), or an offer with a deadline; it says which one; nothing was skipped past.",
       "command": null,
       "passes": false
     },

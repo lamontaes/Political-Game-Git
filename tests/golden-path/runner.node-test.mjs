@@ -2,9 +2,9 @@
 import { Buffer } from "node:buffer";
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { mkdtempSync, readFileSync, existsSync } from "node:fs";
+import { mkdtempSync, readFileSync, existsSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
-import { join } from "node:path";
+import { join, resolve } from "node:path";
 import { runSuite, validateFeatures } from "./runner.mjs";
 import { drawPlace } from "./place.ts";
 import { runCommand } from "../../scripts/core2-guard/process.mjs";
@@ -128,4 +128,44 @@ test("failure logs retain bounded bytes and successful output stays out of recei
     ]),
   ]);
   assert.equal(receipt.results[0].output, "");
+});
+test("plain vitest specs run together in one process and are told apart by file", async () => {
+  const calls = [];
+  const execute = async (command, options) => {
+    calls.push({ command, options });
+    if (typeof command === "string")
+      return { code: 1, timedOut: false, milliseconds: 1, output: "alone" };
+    const out = command.find((x) => x.startsWith("--outputFile=")).slice(13);
+    writeFileSync(
+      out,
+      JSON.stringify({
+        testResults: [
+          { name: resolve("tests/a.test.ts"), status: "passed" },
+          { name: resolve("tests/b.test.ts"), status: "failed" },
+        ],
+      }),
+    );
+    return { code: 1, timedOut: false, milliseconds: 5, output: "b failed" };
+  };
+  const receipt = await suite(
+    [
+      spec("A", true, "npx vitest run tests/a.test.ts"),
+      spec("B", true, ["npx", "vitest", "run", "tests/b.test.ts"]),
+      spec("C", true, "npx vitest run -t slow tests/c.test.ts"),
+    ],
+    { execute },
+  );
+  assert.equal(calls.length, 2);
+  assert.deepEqual(calls[0].command.slice(0, 5), [
+    "npx",
+    "vitest",
+    "run",
+    "tests/a.test.ts",
+    "tests/b.test.ts",
+  ]);
+  const status = Object.fromEntries(
+    receipt.results.map((r) => [r.id, r.status]),
+  );
+  assert.deepEqual(status, { A: "passed", B: "failed", C: "failed" });
+  assert.equal(receipt.regression, true);
 });
