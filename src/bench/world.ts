@@ -34,18 +34,24 @@ export interface BenchWorld {
  * createLifeCore), work and money, then health, drives and the story director.
  * The director registers its own interrupts as core player stops.
  */
-export function buildBenchWorld(seed: string, date: string): BenchWorld {
-  const place = selectBenchPlace(
-    seed,
-    lifePlaceStateIdentities(),
-    realLocalities(),
-  );
+export function buildBenchWorld(
+  seed: string,
+  date: string,
+  options: { placeKey?: string; minimumPeople?: number } = {},
+): BenchWorld {
+  const place = options.placeKey
+    ? realLocalities().find((row) => row.key === options.placeKey)
+    : selectBenchPlace(seed, lifePlaceStateIdentities(), realLocalities());
+  if (!place) throw new Error(`Unknown place key: ${options.placeKey}`);
   const input = enrichCivicInputs(
     buildDeepPast(
       buildPopulation({
         seed,
         startedAt: makeIsoDate(date),
         placeKey: place.key,
+        ...(options.minimumPeople
+          ? { minimumPeople: options.minimumPeople }
+          : {}),
       }),
     ),
   );
