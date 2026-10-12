@@ -118,6 +118,16 @@ export const DEFAULT_DEEP_PAST_DATA: DeepPastData = {
 export interface DeepPastOptions {
   data?: DeepPastData;
   parameters?: Readonly<Record<string, Parameter>>;
+  /**
+   * The two-level population: the records' count of people in a class or
+   * workplace (by circle version and context), so people filled in later
+   * join the same peer groups as in a fully built town.
+   */
+  peerCohortSize?: (
+    circle: string,
+    contextKey: string,
+    present: number,
+  ) => number;
 }
 
 type ReportedInput = CoreInput & {
@@ -605,6 +615,12 @@ export function buildDeepPast(
     withPast = buildOpeningPeerContacts(withPast, {
       personIds: residentIds,
       data: circle,
+      ...(options.peerCohortSize
+        ? {
+            cohortSize: (contextKey: string, present: number) =>
+              options.peerCohortSize!(circle.version, contextKey, present),
+          }
+        : {}),
       ...(circle === OPENING_COWORKER_DATA
         ? { contextValues: jobContext }
         : {}),

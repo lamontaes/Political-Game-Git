@@ -154,5 +154,41 @@
     "addedAt": "2026-10-09",
     "replacement": "Past moments measured from replayed lives once the life-replay harness runs on the new core.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-memory-forgetting",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How long a watched person keeps every moment in full, and how many older moments they keep one by one.",
+    "why": "No study sets either; chosen so memory stays about the same size across a year while the recent season stays whole.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "A calibration against what people bring up in play (M4-05) and the owner's grading of the journal.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-journal-banks",
+    "kind": "hand-written-bank",
+    "file": "src/director/data/journal.json",
+    "line": 1,
+    "whatItFakes": "The journal's line templates, written by hand instead of composed from mined real speech.",
+    "why": "The first new-core journal needs words now; the templates copy only recorded facts and hold no feeling words.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Lines composed from the mined first-person corpus in the speech research, refined by the owner's grades (M4-03).",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-conversation-banks",
+    "kind": "hand-written-bank",
+    "file": "src/director/data/conversation.json",
+    "line": 1,
+    "whatItFakes": "Conversation line templates written by hand instead of composed from mined real speech.",
+    "why": "The first new-core conversations need words now; each template copies only recorded facts.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Lines composed from the mined speech corpus and register cards, refined by the owner's grades (M4-02).",
+    "status": "open"
   }
 ]

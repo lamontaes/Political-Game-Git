@@ -311,6 +311,9 @@ export function createDirector(
       keptFacts: new Map(),
       keptFactsByOther: new Map(),
       backdrop: [],
+      summaries: new Map(),
+      forgottenBroad: new Map(),
+      backdropCounts: new Map(),
       schedule: [],
       belowFloor: new Map(),
       quietDays: zero,
@@ -526,7 +529,11 @@ export function createDirector(
     const fact = book.keptFacts.get(
       `knew-each-other:${[thread.personId, thread.otherId].sort().join(":")}`,
     );
-    const last = thread.lastContact ?? fact?.since;
+    const known = thread.lastContact ?? fact?.since;
+    const last =
+      thread.renewedAt && (!known || thread.renewedAt > known)
+        ? thread.renewedAt
+        : known;
     if (!last) return one;
     const days = Math.max(
       zero,
@@ -536,6 +543,24 @@ export function createDirector(
       ? param("directorKinHalfLifeDays")
       : param("directorFriendHalfLifeDays");
     return one - Math.pow(P.two, -days / halfLife);
+  }
+
+  /** Forgotten broad events that hit both people in the thread. */
+  function forgottenBroadFor(book: PersonLedger, thread: Thread): number {
+    let sum = zero;
+    for (const [eventId, impact] of book.forgottenBroad)
+      if (ledger.hitBy.get(eventId)?.has(thread.otherId)) sum += impact;
+    return sum;
+  }
+
+  /** A moment's impact without its re-entry part. */
+  function historyOf(moment: Moment): number {
+    return (
+      moment.impact -
+      moment.channels
+        .filter((part) => part.channel === "re-entry")
+        .reduce((sum, part) => sum + part.contribution, zero)
+    );
   }
 
   function pairMoments(book: PersonLedger, otherId: PersonId): Moment[] {
@@ -561,13 +586,104 @@ export function createDirector(
   ): number {
     const fading = fadingOf(thread, book, date);
     const discount = one - param("directorFadingDiscount") * fading;
+    const forgotten =
+      (thread.forgotten?.impact ?? zero) + forgottenBroadFor(book, thread);
     return (
       thread.tie +
-      pairHistory(book, thread.otherId).reduce(
+      (pairHistory(book, thread.otherId).reduce(
         (sum, moment) => sum + moment.impact * discount,
         zero,
-      )
+      ) +
+        forgotten * discount)
     );
+  }
+
+  /**
+   * Memories keep what matters and summarize the rest (owner, Oct 11). Moments
+   * older than the recent window fold into a month's summary by label, except
+   * the strongest by hindsight and any scene still waiting. A forgotten
+   * moment's impact stays on its pair's thread, so importance is unchanged.
+   * The player keeps every moment: the journal is theirs.
+   */
+  function forget(core: Readonly<CoreState>, book: PersonLedger): void {
+    if (book.personId === core.playerId) return;
+    const date = makeIsoDate(core.date);
+    const window = param("directorMemoryRecentDays");
+    const old = (at: string) => daysBetween(makeIsoDate(at), date) > window;
+    const waiting = new Set(
+      book.schedule
+        .filter((entry) => entry.outcome === "scene-waiting")
+        .map((entry) => entry.momentId),
+    );
+    const kept = new Set(
+      book.moments
+        .filter((moment) => old(moment.date) && !waiting.has(moment.id))
+        .sort((a, b) => b.hindsight - a.hindsight || a.id.localeCompare(b.id))
+        .slice(param("directorMemoryKeptMoments"))
+        .map((moment) => moment.id),
+    );
+    if (kept.size) {
+      for (const id of kept) {
+        const moment = book.momentsById.get(id)!;
+        const month = moment.date.slice(zero, moment.date.lastIndexOf("-"));
+        const key = `${month}|${moment.label}`;
+        const row = book.summaries.get(key) ?? {
+          month,
+          label: moment.label,
+          count: zero,
+          impact: zero,
+          counterpartIds: [],
+        };
+        row.count += one;
+        row.impact += moment.impact;
+        for (const otherId of moment.counterpartIds)
+          if (!row.counterpartIds.includes(otherId))
+            row.counterpartIds.push(otherId);
+        book.summaries.set(key, row);
+        const broad = moment.broadEventId;
+        if (broad)
+          book.forgottenBroad.set(
+            broad,
+            (book.forgottenBroad.get(broad) ?? zero) + moment.impact,
+          );
+        for (const otherId of moment.counterpartIds) {
+          const list = book.momentsByOther.get(otherId);
+          if (list) {
+            const left = list.filter((entry) => entry !== id);
+            if (left.length) book.momentsByOther.set(otherId, left);
+            else book.momentsByOther.delete(otherId);
+          }
+          const thread = book.threads.get(otherId);
+          if (!thread) continue;
+          thread.momentIds = thread.momentIds.filter((entry) => entry !== id);
+          // A broad event that hit both is already counted by the event.
+          if (broad && ledger.hitBy.get(broad)?.has(otherId)) continue;
+          const sum = thread.forgotten ?? {
+            count: zero,
+            impact: zero,
+            history: zero,
+          };
+          sum.count += one;
+          sum.impact += moment.impact;
+          sum.history += historyOf(moment);
+          thread.forgotten = sum;
+        }
+        book.momentsById.delete(id);
+      }
+      book.moments = book.moments.filter((moment) => !kept.has(moment.id));
+      book.schedule = book.schedule.filter(
+        (entry) => !kept.has(entry.momentId),
+      );
+    }
+    const backdrop = book.backdrop.filter((entry) => old(entry.date));
+    if (backdrop.length) {
+      for (const entry of backdrop)
+        book.backdropCounts.set(
+          entry.kind,
+          (book.backdropCounts.get(entry.kind) ?? zero) + one,
+        );
+      book.backdrop = book.backdrop.filter((entry) => !old(entry.date));
+    }
   }
 
   function rescoreHindsight(
@@ -819,10 +935,14 @@ export function createDirector(
         if (fading < param("directorRenewedFading")) continue;
         renewedToday.add(otherId);
         row.renewals.add(otherId);
+        // The history once: an earlier re-entry's own weight already held
+        // the history before it, so it is left out rather than compounded.
         const importance =
           thread.tie +
+          (thread.forgotten?.history ?? zero) +
+          forgottenBroadFor(book, thread) +
           pairHistory(book, otherId).reduce(
-            (sum, moment) => sum + moment.impact,
+            (sum, moment) => sum + historyOf(moment),
             zero,
           );
         if (importance > zero)
@@ -830,6 +950,7 @@ export function createDirector(
             "re-entry",
             (row.raw.get("re-entry") ?? zero) + importance * fading,
           );
+        thread.renewedAt = date;
         thread.turns.push({
           date,
           turn: "renewed",
@@ -1249,6 +1370,9 @@ export function createDirector(
         throw new Error("The story director was installed but not started.");
       for (const book of ledger.people.values()) measureDay(api.state, book);
       registerInterrupts(api.state);
+      // Once a month, each watched person forgets what no longer matters.
+      if (api.state.date.endsWith("-01"))
+        for (const book of ledger.people.values()) forget(api.state, book);
     },
   };
 

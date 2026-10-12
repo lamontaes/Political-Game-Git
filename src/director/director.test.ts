@@ -1090,4 +1090,105 @@ describe("story director on the new core", () => {
         .pastFacts!.some((fact) => fact.id === school.causeFactId),
     ).toBe(true);
   });
+
+  it("keeps what matters and summarizes the rest, so memory stays about the same size across a year", () => {
+    const place = "place:director-fixture";
+    const base = town(place);
+    const input: CoreInput = {
+      ...base,
+      people: base.people.map((row) =>
+        row.id === "person:worker" || row.id === "person:classmate"
+          ? { ...row, tier: "calendar" }
+          : row,
+      ),
+    };
+    // News about the classmate that the worker sees, every few days for a year.
+    const world: CoreModule = {
+      id: "fixture-memory",
+      onAfterDay(api) {
+        const day = Number(api.state.date.slice(-2));
+        if (day % 3 !== 0) return;
+        api.emit({
+          id: `news:${api.state.date}`,
+          date: api.state.date,
+          kind: "fixture.news",
+          personIds: ["person:classmate"],
+          witnessIds: ["person:worker"],
+          placeId: place,
+          moodImpulse: -0.2 - day / 100,
+          stressImpulse: 0.2,
+          source,
+        });
+      },
+    };
+    const year = (data: DirectorData) => {
+      const director = createDirector({
+        watch: ["person:worker", "person:classmate"],
+        data,
+      });
+      const core = createLifeCore(input, {
+        scheduledWork: false,
+        modules: [world, director.module],
+      });
+      director.start(core);
+      const sizes: number[] = [];
+      for (const through of ["2021-07-01", "2021-10-01", "2022-01-01"]) {
+        advanceCore(core, through);
+        sizes.push(director.ledger.people.get("person:worker")!.moments.length);
+      }
+      return { director, core, sizes };
+    };
+    const forgetting = year(DEFAULT_DIRECTOR_DATA);
+    const keeping = year({
+      ...DEFAULT_DIRECTOR_DATA,
+      parameters: {
+        ...DEFAULT_DIRECTOR_DATA.parameters,
+        directorMemoryKeptMoments: {
+          ...DEFAULT_DIRECTOR_DATA.parameters.directorMemoryKeptMoments!,
+          value: 1e9,
+        },
+      },
+    });
+    const book = forgetting.director.ledger.people.get("person:worker")!;
+    const all = keeping.director.ledger.people.get("person:worker")!;
+    // Without forgetting the record keeps growing; with it, it holds steady.
+    expect(all.moments.length).toBeGreaterThan(keeping.sizes[0]! * 1.5);
+    const [mid, , end] = forgetting.sizes;
+    expect(end!).toBeLessThanOrEqual(mid! * 1.2);
+    expect(end!).toBeLessThan(all.moments.length);
+    // Nothing is lost: the forgotten moments are summarized by month, and the
+    // pair's importance is the same as if every moment were kept.
+    const summarized = [...book.summaries.values()].reduce(
+      (sum, row) => sum + row.count,
+      0,
+    );
+    expect(summarized + book.moments.length).toBe(all.moments.length);
+    expect(
+      forgetting.director.importance(
+        "person:worker",
+        "person:classmate",
+        "2022-01-01",
+      ),
+    ).toBeCloseTo(
+      keeping.director.importance(
+        "person:worker",
+        "person:classmate",
+        "2022-01-01",
+      ),
+      9,
+    );
+    // A tie that keeps coming back never compounds its own history.
+    expect(
+      keeping.director.importance(
+        "person:worker",
+        "person:classmate",
+        "2022-01-01",
+      ),
+    ).toBeLessThan(all.moments.reduce((sum, row) => sum + row.impact, 0) + 1);
+    // The strongest older moments are still held one by one.
+    const strongest = all.moments
+      .filter((row) => row.date < "2021-10-01")
+      .sort((a, b) => b.hindsight - a.hindsight)[0]!;
+    expect(book.momentsById.has(strongest.id)).toBe(true);
+  });
 });

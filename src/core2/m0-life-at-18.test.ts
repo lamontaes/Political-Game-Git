@@ -14,11 +14,19 @@ for (const rows of Object.values(
 ))
   for (const row of rows) schoolIds.add(String(row[0]));
 
-describe.each(["m0-06-a", "m0-06-b", "m0-06-c"])(
+// The golden-path runner draws the place and seed from all 56.
+const drawn = process.env.GOLDEN_PATH_SEED;
+const placeKey = drawn ? process.env.GOLDEN_PATH_PLACE_KEY : undefined;
+describe.each(drawn ? [drawn] : ["m0-06-a", "m0-06-b", "m0-06-c"])(
   "a life at 18 (seed %s)",
   (seed) => {
     const input = buildDeepPast(
-      buildPopulation({ seed, startedAt: "2021-01-01", minimumPeople: 1000 }),
+      buildPopulation({
+        seed,
+        placeKey,
+        startedAt: "2021-01-01",
+        minimumPeople: 1000,
+      }),
     );
     const byId = new Map(input.people.map((person) => [person.id, person]));
     const age = (birthDate: string, on = input.startedAt) =>

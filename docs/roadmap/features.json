@@ -68,7 +68,7 @@
       "golden_path": "1",
       "package": "M0-people",
       "test": "In a random place, the 18-year-old's parents and siblings follow the kin rules; schools are real schools from the place data (real naming patterns where none exists); every fact shown has a record behind it.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/m0-life-at-18.test.ts",
       "passes": false
     },
     {
@@ -78,7 +78,7 @@
       "golden_path": "2",
       "package": "M0-people",
       "test": "Over 91 days in a random place: the player gains new acquaintances through real encounters, at least one grows closer, and visits to parents and siblings fall inside the survey ranges (GSS, ATUS); over years, circle turnover matches a sourced study.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/m0-meeting-people.test.ts",
       "passes": false
     },
     {

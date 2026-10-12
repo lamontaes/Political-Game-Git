@@ -15,10 +15,15 @@ import research from "../../data/research/people/contact-frequency-by-tie.json" 
 // meets new people through real encounters, at least one tie grows closer,
 // and visits to parents and siblings fall inside the survey ranges.
 const DAYS = 91;
+// The golden-path runner draws the place and seed from all 56.
+const SEED = process.env.GOLDEN_PATH_SEED ?? "m0-07-a";
 const input = enrichCivicInputs(
   buildDeepPast(
     buildPopulation({
-      seed: "m0-07-a",
+      seed: SEED,
+      placeKey: process.env.GOLDEN_PATH_SEED
+        ? process.env.GOLDEN_PATH_PLACE_KEY
+        : undefined,
       startedAt: "2021-01-01",
       minimumPeople: 600,
     }),
@@ -91,7 +96,7 @@ advanceCore(core, addDays(makeIsoDate(core.date), DAYS), {
   },
 });
 
-describe(`meeting people over ${DAYS} days in ${input.placeMetadata?.placeName} (seed m0-07-a)`, () => {
+describe(`meeting people over ${DAYS} days in ${input.placeMetadata?.placeName} (seed ${SEED})`, () => {
   const me = core.people.get(player.id)!;
   const met = [...me.knownIds].filter((id) => !knownBefore.has(id));
   const tieWith = (id: string) =>

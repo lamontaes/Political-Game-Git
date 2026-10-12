@@ -86,25 +86,26 @@ function pairLine(seed: string, key: string): number {
  * peer stands for the full group's peers over the generated ones.
  */
 export function peersRepresented(input: CoreInput): Map<string, number> {
-  const members = new Map<string, Set<PersonId>>();
+  // The group's size comes from its records (peerGroupMembers on the fact),
+  // so a pair's chances never depend on who else has been filled in.
+  const members = new Map<string, number>();
   for (const person of input.people)
     for (const fact of person.pastFacts ?? []) {
       const group = fact.facts?.peerGroupId;
+      const recorded = Number(fact.facts?.peerGroupMembers);
       if (!group || !data.pairKinds.includes(fact.kind)) continue;
-      const key = `${fact.kind}|${group}`;
-      const rows = members.get(key) ?? new Set();
-      rows.add(person.id);
-      members.set(key, rows);
+      if (Number.isFinite(recorded) && recorded > p("zero"))
+        members.set(`${fact.kind}|${group}`, recorded);
     }
   const sizes = data.groupSizeParameters as Record<string, string>;
   return new Map(
-    [...members].map(([key, rows]) => {
+    [...members].map(([key, generated]) => {
       const full = p(sizes[key.slice(p("zero"), key.indexOf("|"))]!);
       return [
         key,
         Math.max(
           p("one"),
-          (full - p("one")) / Math.max(p("one"), rows.size - p("one")),
+          (full - p("one")) / Math.max(p("one"), generated - p("one")),
         ),
       ];
     }),

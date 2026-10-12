@@ -252,6 +252,24 @@
       "citation": "Owner answer 5, October 9, 2026: a recorded past fact scores the stress scale's 'Change in financial state' row, 38 life-change units divided by 100 (Holmes and Rahe 1967).",
       "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale",
       "stopgapId": "SG-P13-past-fact-estimates"
+    },
+    "directorMemoryRecentDays": {
+      "value": 91,
+      "tag": "TUNABLE",
+      "citation": "No study sets how long a person keeps every moment in full. A season (91 days) keeps the recent past whole for scenes, callbacks and the journal; older moments keep only the strongest by hindsight. Checked by a watched person's stored moments staying about the same size across a year (P15 two-level population).",
+      "stopgapId": "SG-P15-memory-forgetting",
+      "checkRange": {
+        "ref": "P15-MEMORY-SIZE-FLAT-YEAR"
+      }
+    },
+    "directorMemoryKeptMoments": {
+      "value": 24,
+      "tag": "TUNABLE",
+      "citation": "No study sets how many older moments a person keeps one by one. Two a month over a year, matching the Social Readjustment Rating Scale's twelve-month window (Holmes and Rahe 1967); the rest stay as monthly summaries and as each pair's summed impact. Checked by stored moments staying about the same size across a year.",
+      "stopgapId": "SG-P15-memory-forgetting",
+      "checkRange": {
+        "ref": "P15-MEMORY-SIZE-FLAT-YEAR"
+      }
     }
   },
   "channels": [
@@ -317,7 +335,7 @@
     {
       "id": "lie",
       "endsOn": "contradicting-fact-learned",
-      "producedBy": [],
+      "producedBy": ["conversation.lie"],
       "stopgapId": "SG-P13-kept-fact-producers"
     },
     {

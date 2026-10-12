@@ -120,6 +120,13 @@ export interface Thread {
   lastContact?: IsoDate;
   tone: "rising" | "souring" | "steady";
   momentIds: string[];
+  /**
+   * Moments forgotten from this pair: their count, summed impact, and summed
+   * impact without re-entry, so importance and later re-entries are unchanged.
+   */
+  forgotten?: { count: number; impact: number; history: number };
+  /** The last day this thread came back after fading; it is fresh from then. */
+  renewedAt?: IsoDate;
   turns: ThreadTurn[];
   closedAt?: IsoDate;
 }
@@ -156,6 +163,15 @@ export interface BroadEventRecord {
   reached: { personId: PersonId; reach: string }[];
 }
 
+/** Moments a person no longer holds one by one: a month's count by label. */
+export interface MomentSummary {
+  month: string;
+  label: string;
+  count: number;
+  impact: number;
+  counterpartIds: PersonId[];
+}
+
 export interface PersonLedger {
   personId: PersonId;
   watchedSince: IsoDate;
@@ -166,6 +182,14 @@ export interface PersonLedger {
   keptFacts: Map<string, KeptFact>;
   keptFactsByOther: Map<PersonId, Set<string>>;
   backdrop: BackdropEntry[];
+  /**
+   * What the person keeps only in summary (owner, Oct 11: memories keep what
+   * matters and summarize the rest). Forgotten moments by month and label,
+   * forgotten broad events' impact by event, and old backdrop by kind.
+   */
+  summaries: Map<string, MomentSummary>;
+  forgottenBroad: Map<string, number>;
+  backdropCounts: Map<string, number>;
   /** Changes that moved the person but stayed under the floor, by label. */
   belowFloor: Map<string, number>;
   /** One outcome per stored moment: scene now, scene waiting or journal line. */
