@@ -29,9 +29,11 @@ import type { LawRowInput } from "../laws-starting";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { partySide } from "../appointments";
 import {
+  authorityFor,
   draftBill,
   FEDERAL_HOUSE,
   holdVote,
+  leanOf,
   members,
   POLICY_QUESTIONS,
   type BillRow,
@@ -51,7 +53,7 @@ const sessionRows = (
 export const WORLD_LEGISLATING_MODULE: CoreModule = {
   id: WORLD_LEGISLATING_MODULE_ID,
   state: { schemaVersion: 1, tables: { sessions: {} } },
-  onCalendarWork: (api, work) => endOfSession(api, work),
+  onCalendarWork: (api, work) => onWork(api, work),
 };
 
 /** Register the module and put the state's session ends on the calendar. */
@@ -70,6 +72,9 @@ export function openWorldLegislating(core: CoreState): void {
     asOf: core.date,
     estimatedFrom: "congressAgendaDayOfYear",
   });
+  // The town's council and its county board meet on their own.
+  for (const office of townBodies(api))
+    scheduleMeeting(api, office, "localAgendaMeetingsPerYear");
   for (const session of sessionRows[stateKey] ?? []) {
     const date = agendaDate(session.adjournAt, session.conveneAt);
     if (date <= core.date) continue;
@@ -80,6 +85,18 @@ export function openWorldLegislating(core: CoreState): void {
       asOf: core.date,
     });
   }
+}
+
+function townBodies(api: CoreAPI): readonly string[] {
+  return (
+    api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
+      id: string;
+      kind: string;
+    }[]
+  )
+    .filter((o) => o.kind === "council" || o.kind === "county-board")
+    .map((o) => o.id)
+    .sort();
 }
 
 /** Congress's floor day in a year: the tunable day of the year it brings the majority's agenda. */
@@ -187,8 +204,112 @@ function gap(want: number, now: number | null): number {
   return now === 1 ? -want : 0;
 }
 
+/** Whether a policy is law for the town at any level (the state's recorded starting answer counting until a state act replaces it). */
+function inForceForTown(api: CoreAPI, question: string): boolean {
+  const chain = lawChain(api);
+  return chain.levels.some(({ level, jurisdiction }) =>
+    level === "state"
+      ? answerIn(api, jurisdiction, question) === 1
+      : ownRow(api, jurisdiction, question) === 1,
+  );
+}
+
+function ownRow(
+  api: CoreAPI,
+  jurisdiction: string,
+  question: string,
+): number | null {
+  const row = (
+    api
+      .moduleState(LAWS_MODULE_ID)
+      .table("laws")
+      .query("bySeries", [jurisdiction, question]) as unknown as LawRowInput[]
+  )
+    .filter((r) => r.effectiveDate <= api.state.date)
+    .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0];
+  return row ? (row.value === 1 ? 1 : -1) : null;
+}
+
+interface Body {
+  readonly id: string;
+  readonly members: readonly TermRow[];
+}
+
+/**
+ * The presiding leader brings the body's agenda: the few policies furthest
+ * from what they want that the body may pass, each drafted and voted on.
+ */
+function bringAgenda(
+  api: CoreAPI,
+  input: {
+    readonly key: string;
+    readonly jurisdiction: string;
+    readonly body: Body | null;
+    readonly leader: TermRow | undefined;
+    readonly lean: number;
+    readonly gapFor: (question: string, want: number) => number;
+    readonly allowed: (question: string, value: number) => boolean;
+    readonly bills: number;
+  },
+): void {
+  const leaderKey = input.leader
+    ? (input.leader.personId ?? `official:${input.leader.id}`)
+    : null;
+  const agenda = PLATFORM_QUESTIONS.map((question) => {
+    const want = personStance(input.lean, question);
+    return { question, want, gap: input.gapFor(question, want) };
+  })
+    .filter(
+      (item) =>
+        item.gap > 0 && input.allowed(item.question, Math.sign(item.want)),
+    )
+    .sort((a, b) => b.gap - a.gap || a.question.localeCompare(b.question))
+    .slice(0, input.bills);
+  const bills: BillRow[] = [];
+  for (const item of input.body && leaderKey ? agenda : []) {
+    const bill = draftBill(api, {
+      bodyOfficeId: input.body!.id,
+      sponsorId: leaderKey!,
+      provisions: [
+        {
+          kind: "policy-question",
+          question: item.question,
+          value: Math.sign(item.want),
+        },
+      ],
+    });
+    bills.push(holdVote(api, bill.id));
+  }
+  api
+    .moduleState(WORLD_LEGISLATING_MODULE_ID)
+    .table("sessions")
+    .put({
+      id: input.key,
+      stateKey: input.jurisdiction,
+      bodyOfficeId: input.body?.id ?? null,
+      date: api.state.date,
+      leader: leaderKey,
+      bills: bills.map((b) => ({
+        number: b.number,
+        question: b.provisions[0]!.question,
+        change: b.provisions[0]!.value > 0 ? "enact" : "repeal",
+        status: b.status,
+      })),
+    } as unknown as ModuleRow);
+}
+
+const senior = (members: readonly TermRow[]) =>
+  [...members].sort(
+    (a, b) =>
+      a.startDate.localeCompare(b.startDate) || a.id.localeCompare(b.id),
+  )[0];
+
+function onWork(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  if (work.kind === "session-end") endOfSession(api, work);
+  if (work.kind === "local-meeting") localMeeting(api, work);
+}
+
 function endOfSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
-  if (work.kind !== "session-end") return;
   const jurisdiction = work.sourceRecordIds[0]!;
   // Next year's session ends on the same day until a later calendar is recorded.
   const next = `${Number(api.state.date.slice(0, 4)) + 1}${api.state.date.slice(4)}`;
@@ -207,60 +328,88 @@ function endOfSession(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
   const majority = Math.sign(sides.reduce((a, b) => a + b, 0));
   // The floor leader: the most senior member of the majority (of the whole
   // body where no party holds one).
-  const leader = [...(lower?.members ?? [])]
-    .filter((m) => majority === 0 || partySide(m.party) === majority)
-    .sort(
-      (a, b) =>
-        a.startDate.localeCompare(b.startDate) || a.id.localeCompare(b.id),
-    )[0];
-  const leaderKey = leader
-    ? (leader.personId ?? `official:${leader.id}`)
-    : null;
-  const lean = leader
-    ? partySide(leader.party) * campaignParameter("identityLeanScale")
-    : 0;
-  // The leader's agenda: the policies in force furthest from what they want.
-  const agenda = PLATFORM_QUESTIONS.map((question) => {
-    const want = personStance(lean, question);
-    return {
-      question,
-      want,
-      gap: gap(want, answerIn(api, jurisdiction, question)),
-    };
-  })
-    .filter((item) => item.gap > 0)
-    .sort((a, b) => b.gap - a.gap || a.question.localeCompare(b.question))
-    .slice(0, campaignParameter("sessionAgendaBills"));
-  const bills: BillRow[] = [];
-  for (const item of lower && leaderKey ? agenda : []) {
-    const bill = draftBill(api, {
-      bodyOfficeId: lower!.id,
-      sponsorId: leaderKey!,
-      provisions: [
-        {
-          kind: "policy-question",
-          question: item.question,
-          value: Math.sign(item.want),
-        },
-      ],
-    });
-    bills.push(holdVote(api, bill.id));
-  }
-  api
-    .moduleState(WORLD_LEGISLATING_MODULE_ID)
-    .table("sessions")
-    .put({
-      id: work.key,
-      stateKey: jurisdiction,
-      date: api.state.date,
-      leader: leaderKey,
-      bills: bills.map((b) => ({
-        number: b.number,
-        question: b.provisions[0]!.question,
-        change: b.provisions[0]!.value > 0 ? "enact" : "repeal",
-        status: b.status,
-      })),
-    } as unknown as ModuleRow);
+  const leader = senior(
+    (lower?.members ?? []).filter(
+      (m) => majority === 0 || partySide(m.party) === majority,
+    ),
+  );
+  bringAgenda(api, {
+    key: work.key,
+    jurisdiction,
+    body: lower,
+    leader,
+    lean: leader
+      ? partySide(leader.party) * campaignParameter("identityLeanScale")
+      : 0,
+    gapFor: (question, want) =>
+      gap(want, answerIn(api, jurisdiction, question)),
+    allowed: () => true,
+    bills: campaignParameter("sessionAgendaBills"),
+  });
+}
+
+/**
+ * A town council or county board meeting with legislation on its agenda: the
+ * presiding member (the most senior) brings the local policy they want most
+ * that isn't law for the town at any level, or a local one they want gone,
+ * within what the state lets its places do.
+ */
+function localMeeting(api: CoreAPI, work: Readonly<ModuleCalendarWork>): void {
+  const officeId = work.sourceRecordIds[0]!;
+  scheduleMeeting(api, officeId, work.key);
+  const body: Body = { id: officeId, members: members(api, officeId) };
+  const leader = senior(body.members);
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(officeId) as unknown as { kind: string } | undefined;
+  const chain = lawChain(api);
+  const own =
+    office?.kind === "county-board"
+      ? chain.levels.find((l) => l.level === "county")?.jurisdiction
+      : chain.levels[chain.levels.length - 1]!.jurisdiction;
+  bringAgenda(api, {
+    key: work.key,
+    jurisdiction: own ?? chain.townPlaceId,
+    body,
+    leader,
+    lean: leader ? leanOf(api, leader.personId ?? `official:${leader.id}`) : 0,
+    gapFor: (question, want) =>
+      want > 0
+        ? inForceForTown(api, question)
+          ? 0
+          : want
+        : own && ownRow(api, own, question) === 1
+          ? -want
+          : 0,
+    allowed: (question, value) =>
+      authorityFor(api, { kind: "policy-question", question, value }).allowed,
+    bills: campaignParameter("localAgendaBills"),
+  });
+}
+
+/** The body's next legislative meeting, a tunable interval after today. */
+function scheduleMeeting(api: CoreAPI, officeId: string, from: string): void {
+  const days = Math.round(
+    365 / campaignParameter("localAgendaMeetingsPerYear"),
+  );
+  const date = new Date(
+    Date.parse(`${api.state.date}T00:00:00Z`) + days * 86_400_000,
+  )
+    .toISOString()
+    .slice(0, 10);
+  api.moduleCalendar(WORLD_LEGISLATING_MODULE_ID).schedule({
+    key: `local-meeting:${officeId}:${date}`,
+    date,
+    kind: "local-meeting",
+    source: {
+      tag: "ESTIMATED",
+      citation: "local legislative meetings at the tunable yearly count",
+      asOf: api.state.date,
+      estimatedFrom: from,
+    },
+    sourceRecordIds: [officeId],
+  });
 }
 
 export function sessionsOf(api: CoreAPI): readonly {

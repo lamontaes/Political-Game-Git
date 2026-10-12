@@ -12,7 +12,7 @@ import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
 import { openLaws, LAWS_MODULE_ID } from "./modules/laws";
-import { openOffices } from "./modules/offices";
+import { OFFICES_MODULE_ID, openOffices } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
 import { openRecord } from "./modules/record";
@@ -186,6 +186,67 @@ describe("M3-10 other governments legislate", () => {
         leader: session!.leader,
         bills: session!.bills,
         residentsReached: reached.length,
+      }),
+    );
+  });
+
+  it("the town's council and county board bring their own ordinances on their schedule", () => {
+    const state = pick(states, "local:state");
+    const places = [
+      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        stateJurisdictionKey: state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const key = pick(places, "local:place").key;
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: START,
+        minimumPeople: 200,
+      }),
+    );
+    openLaws(core);
+    openOffices(core, seed);
+    openElections(core);
+    openCampaigns(core);
+    openRecord(core);
+    openLegislature(core);
+    openLawEffects(core);
+    openWorldLegislating(core);
+    const api = coreAPI(core);
+    const bodies = (
+      api.moduleState(OFFICES_MODULE_ID).table("offices").rows() as unknown as {
+        id: string;
+        kind: string;
+      }[]
+    ).filter((o) => o.kind === "council" || o.kind === "county-board");
+    advanceCore(core, "2026-04-15");
+    const meetings = sessionsOf(api).filter((s) =>
+      bodies.some(
+        (b) => b.id === (s as { bodyOfficeId?: string }).bodyOfficeId,
+      ),
+    );
+    // Every body met once by now, each meeting on the record with its bills.
+    expect(meetings.length, `${state} ${key}`).toBe(bodies.length);
+    const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
+    for (const meeting of meetings)
+      for (const bill of meeting.bills.filter((b) =>
+        ["enacted", "signed", "overridden"].includes(b.status),
+      ))
+        expect(
+          laws.query("bySeriesOnly", [bill.question]).length,
+          bill.question,
+        ).toBeGreaterThan(0);
+    govReport(
+      "world-legislating-local",
+      JSON.stringify({
+        seed,
+        state,
+        place: key,
+        bodies: bodies.map((b) => b.kind),
+        meetings,
       }),
     );
   });

@@ -40,6 +40,7 @@ import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import type { ModuleCalendarWork } from "../module-calendar";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
+import { governmentUnitsForPlace } from "../../simulation/government-units";
 import { enactLaw, lawChain, lawInForce, LAWS_MODULE_ID } from "./laws";
 import { localAuthority } from "../laws-in-force";
 import type { LawRowInput } from "../laws-starting";
@@ -591,7 +592,7 @@ export function memberKey(term: TermRow): string {
  * in yet, their seat's party side at the identity scale (stand-in until
  * CORE's fill-in gives them a life: SG-GOV-official-identity-only).
  */
-function leanOf(api: CoreAPI, memberId: string): number {
+export function leanOf(api: CoreAPI, memberId: string): number {
   const person = api.state.people.get(memberId);
   if (person) return personLean(api.state.people, person, townLean(api));
   const id = memberId.slice("official:".length);
@@ -1107,6 +1108,22 @@ function executiveAction(
   return enact(api, next);
 }
 
+/** A county board's ordinances are county law: the county the board governs, in the town's chain. */
+function countyOfBody(api: CoreAPI, bill: BillRow): string | null {
+  const office = api
+    .moduleState(OFFICES_MODULE_ID)
+    .table("offices")
+    .get(bill.bodyOfficeId) as unknown as
+    { kind: string; jurisdiction: string } | undefined;
+  if (office?.kind !== "county-board") return null;
+  const chain = lawChain(api);
+  const unit = governmentUnitsForPlace(
+    chain.levels[chain.levels.length - 1]!.jurisdiction.slice("place:".length),
+  ).find((u) => u.id === office.jurisdiction);
+  const geoid = unit?.countyGeoid ?? chain.countyGeoids[0];
+  return geoid ? `county:${geoid}` : null;
+}
+
 /**
  * Put each provision into law on its effective date: an ordinance thirty days
  * after enactment unless it names a date; a state act by its state's default
@@ -1118,12 +1135,19 @@ function enact(api: CoreAPI, bill: BillRow): BillRow {
   // (the general rule: Gozlon-Peretz v. United States, 498 U.S. 395 (1991)).
   const federal = chambersOf(api, bill).includes(FEDERAL_HOUSE);
   const state = !federal && isState(api, bill);
+  const county = !federal && !state ? countyOfBody(api, bill) : null;
   const jurisdiction = federal
     ? "US"
     : state
       ? chain.stateKey
-      : chain.levels[chain.levels.length - 1]!.jurisdiction;
-  const level = federal ? "federal" : state ? "state" : "city";
+      : (county ?? chain.levels[chain.levels.length - 1]!.jurisdiction);
+  const level = federal
+    ? "federal"
+    : state
+      ? "state"
+      : county
+        ? "county"
+        : "city";
   const stateDate = state
     ? stateActEffectiveDate(chain.stateKey, api.state.date)
     : null;
