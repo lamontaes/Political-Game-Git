@@ -1330,5 +1330,77 @@
     "addedAt": "2026-10-12",
     "replacement": "A dwelling type on each household from OPUS-WORLD housing or OPUS-PEOPLE, read by the bench scene picker.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-wage-floor-rate-write",
+    "kind": "missing-core-api",
+    "file": "src/core2/modules/laws.ts",
+    "line": 189,
+    "whatItFakes": "On a minimum wage's effective date the laws module replaces each underpaid work commitment's hourly rate directly in core work state.",
+    "why": "core2 has no pay-change path: admitWorkCommitment is the only writer and no API ends or re-rates a commitment.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-CORE's work pay-change API (re-rate a commitment from a date with its source), called here instead.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-official-identity-only",
+    "kind": "missing-core-api",
+    "file": "src/core2/modules/offices.ts",
+    "line": 240,
+    "whatItFakes": "A state or federal officeholder outside the town is a stable identity (name, gender, birth date, party) with no core2 person behind it.",
+    "why": "core2 has no fill-in yet: a named person outside the town can't become a full person when clicked.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "CORE's two-level fill-in builds the full person from this identity (seeded from the world and the seat), with kin and a past from PEOPLE.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-term-end-estimate",
+    "kind": "estimated-calendar",
+    "file": "src/core2/modules/offices.ts",
+    "line": 309,
+    "whatItFakes": "The end of each term in progress at the opening: seats staggered evenly across the office's term, ending January 1 after a regular election year.",
+    "why": "Real election calendars and term-start dates for each office are M2's filing and election work.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "Each office's real election dates and term-start rules (M2-02), read from data.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-special-election-appointee",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/offices.ts",
+    "line": 581,
+    "whatItFakes": "On a special election's date the seat goes to the best-suited eligible person instead of the voters' choice.",
+    "why": "M2's election engine hasn't been built on core2 yet.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "The M2 election engine runs the special election and seats its winner.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-voter-registration-assumed",
+    "kind": "missing-record",
+    "file": "src/core2/modules/elections.ts",
+    "line": 460,
+    "whatItFakes": "Every adult resident counts as a registered voter where filing or signing requires registration.",
+    "why": "core2 has no voter registration record yet.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "A registration record per person (registered, where, party where a state records it), written when people register; filing and signing read it.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-signature-decision",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/elections.ts",
+    "line": 674,
+    "whatItFakes": "A stranger asked to sign a petition signs when their own sociability outweighs their wariness of conflict, instead of weighing the candidate's platform.",
+    "why": "PEOPLE's views engine isn't on core2 yet, so a signer can't compare the platform with their own views.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "The signer weighs the stated platform against their own views (PEOPLE's views engine), plus what they know of the candidate.",
+    "status": "open"
   }
 ]
