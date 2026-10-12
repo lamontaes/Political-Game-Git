@@ -15,6 +15,8 @@
  * themselves (`requestSignature`).
  */
 import { registerElectorate } from "../electorate";
+import { campaignParameter } from "../campaign-views";
+import { decisionLean } from "../trait-decisions";
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
@@ -711,16 +713,27 @@ export function requestSignature(
   else if (already) reason = "already-signed";
   else if (age < 18 || signer.placeId !== town(api).townPlaceId)
     reason = "not-eligible-to-sign";
-  else if (signer.knownIds.has(filing.personId)) {
-    signed = true;
-    reason = "knows-the-candidate";
-  } else {
+  else {
+    const knows = signer.knownIds.has(filing.personId);
     // stopgapId: SG-GOV-signature-decision
     api.stopgap("SG-GOV-signature-decision");
     signed =
-      (signer.traits["people-mind-v1:sociability"] ?? 0) >
-      (signer.traits["people-mind-v1:conflict"] ?? 0);
-    reason = signed ? "open-to-the-candidate" : "wary-of-a-stranger";
+      (knows ? campaignParameter("electionsSignKnownPull") : 0) +
+        decisionLean(
+          api.state,
+          signer,
+          "elections.sign-petition",
+          "sign",
+          "refuse",
+        ) >
+      0;
+    reason = knows
+      ? signed
+        ? "knows-the-candidate"
+        : "knows-the-candidate-but-declined"
+      : signed
+        ? "open-to-the-candidate"
+        : "wary-of-a-stranger";
   }
   const row: SignatureRow = {
     id: `signature:${filingId}:${signerId}:${today}`,
