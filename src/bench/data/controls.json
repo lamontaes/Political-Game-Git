@@ -1,0 +1,30 @@
+{
+  "about": "Control names for the play screen: what each choice button does and the label for what ended a skip, named like any other control. They are not lines anyone says; the English engine's words replace them when it has them.",
+  "stopgapId": "SG-PLAY-act-control-names",
+  "actions": {
+    "work-shift": "Go to work",
+    "rest": "Rest",
+    "contact-known-person": "Get in touch",
+    "care-for-relative": "Look after",
+    "join-association": "Join",
+    "organize-meeting": "Hold a meeting",
+    "approach-office": "Visit the office",
+    "look-up-local-institution": "Look up"
+  },
+  "endedBy": {
+    "start": "Shift starts",
+    "end": "Shift ends",
+    "moment": "Something needs you",
+    "choice": "A choice",
+    "results": "Election results",
+    "law": "A law took effect"
+  },
+  "venues": {
+    "rally-courthouse-square": "Courthouse square",
+    "rally-downtown-plaza": "Downtown plaza",
+    "rally-county-fairground": "County fairground",
+    "school-gym-town-hall": "School gym",
+    "rally-union-hall-parking-lot": "Union hall",
+    "rally-stage": "Rally stage"
+  }
+}

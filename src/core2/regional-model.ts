@@ -3,6 +3,9 @@ import regions from "./data/regional/regions.json" with { type: "json" };
 import type { MacroMonth, MacroParameter } from "./macro-model";
 import { shiftMonth } from "./macro-model";
 import { stopgap } from "./stopgaps";
+import territoryData from "./data/regional/territories.json" with { type: "json" };
+
+const TERRITORY = territoryData;
 
 export interface RegionRow {
   id: string;
@@ -126,8 +129,11 @@ export function openingRegionMonths(
   const s = DATA.series;
   for (const [fips, state] of Object.entries(DATA.states)) {
     const rows = REGIONS.filter((row) => row.stateFips === fips);
+    // Island areas have no BLS state series: their own latest published rate, else the nation's.
     const stateU =
-      latest(s.stateUnemploymentPct[fips], month) ?? national.unemploymentPct;
+      latest(s.stateUnemploymentPct[fips], month) ??
+      (TERRITORY.unemploymentPct as Record<string, number>)[fips] ??
+      national.unemploymentPct;
     const stateJobs = latest(s.stateJobsThousands[fips], month);
     const nationalIncome = DATA.nation.perCapitaIncome;
     const stateIncomeRatio =

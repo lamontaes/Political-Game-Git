@@ -371,4 +371,66 @@ describe("owners hand their business on", () => {
     expect(ownerOf(api(core), "diner:a")).toBe("cook");
   });
 });
+describe("a closure names its owner", () => {
+  it("records the closure with the owner who answers for it and emits business.closed naming them", () => {
+    const core = createLifeCore(input(), {
+        data: worldCoreData(),
+        modules: [BUSINESS_MODULE],
+        scheduledWork: false,
+      }),
+      a = coreAPI(core);
+    books(core);
+    advanceCore(core, "2021-01-15");
+    a.emit({
+      id: `employer-closed:2021-01-15:${shop}`,
+      date: "2021-01-15",
+      kind: "organization.closed",
+      placeId: place,
+      personIds: ["clerk"],
+      publicRecord: true,
+      source: { ...src, asOf: "2021-01-15" },
+    });
+    expect(
+      a.moduleState("business").table("closures").get(`closure:${shop}`),
+    ).toMatchObject({
+      ownerId: "owner",
+      workersAffected: 1,
+    });
+    expect(core.eventIds.has(`event:business.closed:${shop}`)).toBe(true);
+  });
+});
 const api = (core: CoreState) => coreAPI(core);
+
+describe("closing by choice", () => {
+  it("an owner whose business has kept 15 months of losses closes it and takes what's left; money balances", () => {
+    const core = createLifeCore(input(), {
+        data: worldCoreData(),
+        modules: [BUSINESS_MODULE],
+        scheduledWork: false,
+      }),
+      api = coreAPI(core),
+      total = money(core);
+    books(core);
+    advanceCore(core, "2021-01-15");
+    const owners = api.moduleState("business").table("owners");
+    const row = owners.get(shop)!;
+    // Losses kept: 15 months of the shop's payroll.
+    owners.put({ ...row, retainedMinor: -15_000_000 });
+    const before = core.people.get("owner")!.liquidMinor;
+    advanceCore(core, "2021-02-02");
+    const choice = api
+      .moduleState("business")
+      .table("choices")
+      .get(`choice:${shop}:2021-02-01`);
+    expect(choice).toMatchObject({
+      reasonKey: "losses-kept",
+      decidedAs: "full",
+    });
+    expect(core.finance.businesses.get(shop)!.closedAt).toBe("2021-02-01");
+    expect(core.people.get("owner")!.liquidMinor).toBeGreaterThan(before);
+    expect(
+      api.moduleState("business").table("closures").get(`closure:${shop}`),
+    ).toMatchObject({ cause: "losses-kept" });
+    expect(money(core)).toBe(total);
+  });
+});
