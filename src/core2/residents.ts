@@ -59,6 +59,9 @@ export interface ResidentFlowInput {
   organizationId?: string;
   /** Workers this wage flow pays, by job id; shrinks as people are filled in. */
   jobIds?: readonly string[];
+  /** Each counted job's pay per day; amount = round(sum × periodFactor). */
+  perDayMinorByJob?: Readonly<Record<string, number>>;
+  periodFactor?: number;
   source: Source;
 }
 
@@ -234,6 +237,7 @@ export function collapseToTwoLevels(
       placeId: PlaceId;
       perDay: number;
       jobIds: string[];
+      perDayByJob: Record<string, number>;
       source: Source;
     }
   >();
@@ -254,10 +258,13 @@ export function collapseToTwoLevels(
         placeId: home.placeId,
         perDay: 0,
         jobIds: [],
+        perDayByJob: {},
         source: row.paySource,
       };
       group.perDay += perDayWageMinor(row);
       group.jobIds.push(row.jobId);
+      group.perDayByJob[row.jobId] =
+        (group.perDayByJob[row.jobId] ?? 0) + perDayWageMinor(row);
       wageGroups.set(key, group);
     }
   for (const [key, group] of wageGroups) {
@@ -273,6 +280,7 @@ export function collapseToTwoLevels(
       marketAdjusted: false,
       organizationId: calendar.organizationId,
       jobIds: group.jobIds,
+      perDayMinorByJob: group.perDayByJob,
       source: group.source,
     };
     const first = makeIsoDate(
@@ -283,6 +291,7 @@ export function collapseToTwoLevels(
         ...base,
         id: `residents:wages:${key}`,
         amountMinor: Math.round(group.perDay * calendar.periodDays),
+        periodFactor: calendar.periodDays,
         firstAt: first,
         cadence: { kind: "days", every: calendar.periodDays },
       });
@@ -299,6 +308,8 @@ export function collapseToTwoLevels(
           ...base,
           id: `residents:wages:${key}:${index}`,
           amountMinor: Math.round((monthly * months) / days.length),
+          periodFactor:
+            (DAYS_PER_YEAR / MONTHS_PER_YEAR) * (months / days.length),
           firstAt: nextMonthDay(first, day),
           cadence: { kind: "months", every: months, day },
         }),

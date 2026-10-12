@@ -291,6 +291,36 @@ describe("controlled player clock contracts", () => {
     retirePlayerV1(core);
     expect(() => advanceCore(core, "2021-01-09")).not.toThrow();
   });
+  it("saves the character's own choice as theirs when the player skips", () => {
+    const core = fresh();
+    let packet = advancePlayerV1(core, {
+        controlledPersonId: "worker",
+        through: minute("2021-01-04", 0),
+      }),
+      steps = 0,
+      own = 0;
+    while (packet.kind !== "complete") {
+      if (packet.kind === "choice") {
+        own++;
+        packet = resumePlayerV1(core, {
+          kind: "own-choice",
+          pauseId: packet.pauseId,
+        });
+      } else packet = answer(core, packet);
+      if (++steps > 200) throw new Error("Clock did not complete");
+    }
+    expect(own).toBeGreaterThan(0);
+    const acts = [...core.durableLog.values()].filter(
+      (record) =>
+        record.personIds.includes("worker") && record.kind === "person.acted",
+    );
+    expect(acts.length).toBeGreaterThan(0);
+    for (const record of acts) {
+      const decision = record.decision as DecisionResult;
+      expect(decision.controlledChoice).toBeUndefined();
+      expect(decision.reasonKey?.startsWith("controlled:")).toBe(false);
+    }
+  });
   it("preserves the zero-duration absence choice while leaving its scheduled consequence unposted until its window ends", () => {
     const core = fresh();
     let packet = advancePlayerV1(core, {

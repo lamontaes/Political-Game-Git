@@ -2,6 +2,7 @@ import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 import {
   countedJob,
+  rerateCountedJob,
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
@@ -1252,6 +1253,43 @@ export function coreAPI(core: CoreState): CoreAPI {
       }
       Object.assign(actor, changes);
     },
+    rerateJob(jobId, hourlyMinor, source) {
+      if (!Number.isSafeInteger(hourlyMinor) || hourlyMinor <= 0)
+        throw new Error("A new hourly rate must be a positive whole amount.");
+      makeIsoDate(source.asOf);
+      if (source.asOf > core.date)
+        throw new Error("A pay change cannot cite a later source.");
+      const job = core.jobs.get(jobId);
+      if (!job) {
+        if (rerateCountedJob(core, jobId, hourlyMinor)) return;
+        throw new Error(`No recorded job to re-rate: ${jobId}`);
+      }
+      if (job.endsAt !== undefined) throw new Error("The job has ended.");
+      const commitments = [
+        ...(core.work.commitmentsByPerson.get(job.personId) ?? []),
+      ]
+        .map((id) => core.work.commitments.get(id)!)
+        .filter((row) => row.jobId === jobId && row.endsAt === undefined);
+      const old = job.hourlyMinor ?? commitments[0]?.hourlyMinor;
+      // The commitment keeps its original pay source (an open pay period cites
+      // it); the change and its source are recorded on the job.
+      for (const row of commitments) row.hourlyMinor = hourlyMinor;
+      core.work.payChanges.set(jobId, [
+        ...(core.work.payChanges.get(jobId) ?? []),
+        { date: core.date, hourlyMinor, source: { ...source } },
+      ]);
+      const ratio = old ? hourlyMinor / old : 1;
+      job.hourlyMinor = hourlyMinor;
+      job.wageDailyMinor = Math.round(job.wageDailyMinor * ratio);
+      if (core.people.has(job.personId))
+        api.observe(job.personId, {
+          key: `job:${job.id}:pay`,
+          value: String(job.wageDailyMinor),
+          learnedAt: core.date,
+          sourceId: job.id,
+          access: "self",
+        });
+    },
     addOrganization(row) {
       if (
         core.organizations.has(row.id) ||
@@ -1496,8 +1534,14 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const admitted: PersonState[] = [];
   for (const row of record.people) {
     core.husks.delete(row.id);
-    const job = row.jobId ? jobs.get(row.jobId) : undefined;
-    const active = job ? countedJob(core, job.id) !== undefined : false;
+    const recorded = row.jobId ? jobs.get(row.jobId) : undefined;
+    // The counted job as it stands today (pay may have changed since the opening).
+    const job = recorded
+      ? (countedJob(core, recorded.id) ?? recorded)
+      : undefined;
+    const active = recorded
+      ? countedJob(core, recorded.id) !== undefined
+      : false;
     admitted.push(
       admitPerson(core, {
         ...row,

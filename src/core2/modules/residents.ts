@@ -323,6 +323,39 @@ export function takeResidentHousehold(
   return record;
 }
 
+/**
+ * A counted worker's new hourly pay from today (e.g. a minimum wage). Their
+ * employer's wage flow changes by exactly their share; the job record follows.
+ */
+export function rerateCountedJob(
+  core: CoreState,
+  jobId: string,
+  hourlyMinor: number,
+): boolean {
+  const rt = runtimes.get(core);
+  const job = rt?.jobs.get(jobId);
+  if (!rt || !job) return false;
+  const flows = [...rt.flows.values()].filter(
+    (flow) => !flow.endedAt && flow.perDayMinorByJob?.[jobId] !== undefined,
+  );
+  if (!flows.length || !job.hourlyMinor) return false;
+  const ratio = hourlyMinor / job.hourlyMinor;
+  for (const flow of flows) {
+    const perDay = { ...flow.perDayMinorByJob! };
+    perDay[jobId] = perDay[jobId]! * ratio;
+    flow.perDayMinorByJob = perDay;
+    let total = 0;
+    for (const value of Object.values(perDay)) total += value;
+    flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
+  }
+  rt.jobs.set(jobId, {
+    ...job,
+    hourlyMinor,
+    wageDailyMinor: Math.round(job.wageDailyMinor * ratio),
+  });
+  return true;
+}
+
 export function residentWageShortfall(
   core: CoreState,
   id: string,
