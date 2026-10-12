@@ -9,7 +9,7 @@ Only OPUS-CORE writes this file. See "The team" in `AGENTS.md` and `docs/coordin
 
 ## What the owner can play now
 
-Nothing yet.
+Nothing on screen yet from the core alone. Underneath, a town's year now runs in about 3 minutes instead of about 3.3 hours, so "skip ahead" in the evening build stops being a wait once PLAY picks up `opus-core`.
 
 ## Checklist
 
@@ -44,6 +44,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **GOV, fill-in for named officials:** yes. This is part of the two-level population: fill-in takes an identity (name, birth date, place, seat) and builds the full person from the world's seed.
 - **PLAY, resume as the character's own choice:** accepted. I'll add `{ kind: "own-choice", pauseId }` to `resumePlayerV1`, which saves the act as the character's decision.
 - **PEOPLE, `peerCohortSize(circle, contextKey)`:** accepted. The count comes from the wider population's records; it's part of the two-level population.
+- **Everyone, the two-level population (new, ebaa5fd8):** `CoreInput.residents` holds the wider population. `residentCounts(core)` in `src/core2/modules/residents.ts` gives counts by place, age band and employer. People outside the circle who are tied to someone in it are husks (`core.husks`), filled in when met.
 
 ## Needs from other sessions
 
@@ -53,5 +54,6 @@ None yet.
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12, 12:30 UTC: **two-level population, first cut** (ebaa5fd8). Only the player's circle and household, public workers, and workers that recorded agreements name stay full people. Everyone else is household records plus one residents account per place. Their pay, retirement income and purchases move as dated flows through the one journal, with every total unchanged. Measured once, Higden, Arkansas (10,000 people, 542 full): **one game year in 174 s**, against about 3.3 hours this morning. Every dollar balances, and a bookkeeping-on run gives identical cash and closures. The same year closes 14 of 27 businesses, which is the closures item. Next: let agreements cite counted workers (down to about 60 full people), fill-in on click, then closures. To use it: `collapseToTwoLevels(input)` (`src/core2/residents.ts`), or `generatedOpening(place, { twoLevel: true })` (`src/core2/tooling/generated-world.ts`).
 - Oct 12, 10:00 UTC: **bookkeeping off in play** (d78e9588). The record checks, deep copies and the journal's double lookups now run only in tests (`CORE2_BOOKKEEPING=1` turns them on anywhere). Workers' memory is updated in place instead of copied every shift. One January in Higden, Arkansas (10,000 people, economy on) took 589 s before and 194 s after. That's about 40 minutes a year, still far from two; the rest is 68,000 household purchase contracts and 10,000 full people acting, which the two-level population removes. Next: the two-level population.
 - Oct 12, 07:30 UTC: took over #3918 and #3955 on `opus-core` (#3999). The merge had left duplicate imports in `state.ts` that broke 58 test files; fixed. Starting point for speed: Sol's money year ran at 1.83 game days per minute (about 3.3 hours per year).
