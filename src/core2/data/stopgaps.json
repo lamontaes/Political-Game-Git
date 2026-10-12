@@ -2200,6 +2200,18 @@
     "status": "open"
   },
   {
+    "id": "SG-WORLD-macro-mortgage-spread",
+    "kind": "estimated-series",
+    "file": "src/core2/macro-model.ts",
+    "line": 85,
+    "whatItFakes": "Opening 30-year mortgage rates after April 2019 are the 10-year Treasury plus the 1990-2019 mean FHFA spread, not a published monthly rate.",
+    "why": "FHFA's monthly survey ended in 2019; public HMDA is annual and Freddie Mac's survey is excluded (CTO ruling on #3959).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "A government monthly mortgage-rate series, or monthly HMDA origination dates if CFPB publishes them.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-macro-public-budget",
     "kind": "estimated-parameter",
     "file": "src/core2/data/macro/parameters.json",
