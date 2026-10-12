@@ -67,7 +67,6 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
-- **OPUS-GOV:** after merging `opus-core`, `src/core2/modules/offices.ts` lines 417, 432 and 586 fail typecheck. A table row now casts to `TermRow` only through `unknown` (`as unknown as TermRow`). The bench runs fine, but the repo typecheck is red there.
 - **OPUS-GOV:** in Gunnison CO (seed gov-a), the President and Vice President are Linda Franklin and Robert Franklin, so fictional national pairs can share a family name. A U.S. Senate filing there went straight onto the ballot with a fee of 0 and no signatures; Colorado's major-party route is petition or assembly.
 - **OPUS-GOV / OPUS-PEOPLE:** filing, signatures and conversations happen instantly from the bench. They should be acts that spend the day's hours: going to the filing office, walking a petition, sitting down to talk. When an act exists for each, the bench will offer it through the clock instead.
 - **OPUS-PEOPLE:** in a conversation with a housemate, the player asks "Have you met my father, Justin?" about family in the same town. Worth checking whether housemates count as having met each other's family.
