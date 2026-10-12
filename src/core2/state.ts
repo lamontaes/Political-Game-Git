@@ -18,6 +18,7 @@ import {
   recordWorkAttendance,
 } from "./work-attendance";
 import { settleWorkPayrollAndNotify } from "./work-payroll-dispatch";
+import { endRecordedJob, startRecordedJob } from "./job-lifecycle";
 import {
   emptyFinanceRuntime,
   financeIndex,
@@ -754,6 +755,12 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     addCreditFacility(row) {
       admitCreditFacility(core, api, row);
+    },
+    startJob(job, commitment, calendar) {
+      startRecordedJob(core, api, job, commitment, calendar);
+    },
+    endJob(id, sourceId) {
+      endRecordedJob(core, api, id, sourceId);
     },
     repriceCreditFacility(id, rate, source) {
       repriceCreditFacility(core, api, id, rate, source);
