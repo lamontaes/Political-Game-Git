@@ -1,7 +1,7 @@
 """Write src/core2/data/housing/{housing,parameters}.json from the housing research.
 
 Eviction steps: each place's recorded statute values; a missing value takes
-the median of the high- and medium-confidence places and is listed in
+the median of the high-confidence places and is listed in
 estimatedFields. Rents and values: ACS 2020-2024 county B25064 and B25077
 (data/source/acs-county-housing-commute). Tenure: ACS B25003.
 """
@@ -9,7 +9,8 @@ import gzip, json, pathlib, statistics
 ROOT = pathlib.Path(__file__).resolve().parents[3]
 HERE = pathlib.Path(__file__).parent
 ev = json.load(open(HERE / "eviction-steps-2026.json"))["places"]
-good = [v for v in ev.values() if v.get("confidence") in ("high", "medium")]
+# Missing values take the median of the places read from statute text (high confidence), not the recalled ones.
+good = [v for v in ev.values() if v.get("confidence") == "high"]
 first = lambda x: x[0] if isinstance(x, list) else x
 def med(key):
     return statistics.median([first(v[key]) for v in good if first(v.get(key)) is not None])

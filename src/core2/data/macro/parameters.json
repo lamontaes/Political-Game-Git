@@ -319,7 +319,7 @@
       "low": -0.5,
       "high": 0.5,
       "unit": "gap points per year",
-      "citation": "CBO fiscal impulse estimates outside recessions."
+      "citation": "Bounds outside recessions; when budgets land, the impulse is the change in real public purchases as a share of output times a multiplier of about 1.2 at one year and 1.5 at two (Monacelli, Perotti and Trigari 2010), below 1 for own-financed state and local spending (Clemens and Miran 2012). CTO stand-in research, data/research/stand-in-figures-2026-10-12.json."
     }
   },
   "macroTaylorInflationResponse": {
