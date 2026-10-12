@@ -70,6 +70,28 @@ From `docs/reports/audit-2026-10-12/`, in BOARD's order.
 - [ ] Councils, legislatures and Congress acting on their own (`world-legislating`). It's built, but off for now: it makes play about 11 times slower after its first session (see Needs).
 - [x] **What changed (first slice).** When a law takes effect while you play, Until needed stops with "A law took effect" and the What changed sheet opens. Day and Week open it too, and it's also in Politics. Each law shows its date and what it was before and after (a wage in dollars an hour), then who in town it reached and what it means for each, including you. In Botsford, Connecticut (seed wl-a), the state minimum wage went from $16.94 to $17.48 an hour on January 1, 2027. A wage amount reaches nobody by name yet: the law-effects records cover catalogued policies, not amounts, so pay rising at each job is the next slice (it needs OPUS-WORLD's `rerateJob` on a wage law).
 
+## Queue from the CTO's relays (Oct 12 afternoon), in order
+
+From the CTO's screens playtest (12:45 p.m., Meridian, Idaho):
+
+- [ ] A law screen: the law in force at each level, from GOV's `lawHere`.
+- [ ] What changed stays empty after a council law is enacted and signed.
+- [ ] The opening's mayor shot is an empty chamber (no figure).
+- [ ] Until needed stopped 7 times in a row on "A choice" (rest, or get in touch) for idle time.
+- [ ] Seed `playtest-0712` hangs New life (9+ minutes, no error).
+- [ ] Internal ids left on screen: Budgets lines (`individualIncomeTax`), News records. The draft dropdown is fixed: law amounts and policies by name. The loading bar has no step text.
+- [ ] Jobs and study is blank; Money and property shows only cash.
+
+From the owner, via the CTO:
+
+- [ ] Loading shows steady progress through every step to the end (no stall at "finalizing your life").
+- [ ] The opening is prepared during loading: every shot's people, looks, drawn figures and picture ready, so nothing pops in.
+- [ ] History before the start (D1): officials' careers and past results in Politics, and the loading screen shows the history passes as they run (once GOV, PEOPLE, WORLD and CORE land them).
+- [ ] Use every painted place in the art library somewhere (meeting rooms, rallies, Go to), best-tagged match.
+- [ ] The bill menu offers all 18 law areas, as GOV's law reach lands.
+- [ ] The new people art (whole-figure cutouts in `art/people-whole/`): pick by record, place on staging spots scaled by depth, face whoever they're with, draw a contact shadow, and fall back to the people engine with a log line.
+- [ ] Old UI to keep (list under Needs for FIXER), and no new imports from the old folders.
+
 ## Later specs (my area, M2 to M7)
 
 - [x] **Homes by dwelling (clears SG-PLAY-home-dwelling-kind).** Home scenes, the family sheet and the opening's family shot now use OPUS-WORLD's `dwellingKind`: a mobile home, rowhouse, apartment or farmhouse shows its own picture. In Gadsden, Tennessee (seed home-a), after the first day, 13 people live in mobile homes, 1 in a rowhouse and 69 in houses. SG-PLAY-bench-town-size is resolved too: `/play` builds the whole place.
