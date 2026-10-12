@@ -218,7 +218,7 @@
       "golden_path": "world",
       "package": "M1-renewal",
       "test": "A year's births and moves in a random place stay within that place's real rates; the town's population changes the way real towns do instead of winding down.",
-      "command": null,
+      "command": "node node_modules/vitest/vitest.mjs run --config src/core2/tooling/vitest.config.ts src/core2/moves.test.ts",
       "passes": false
     },
     {
