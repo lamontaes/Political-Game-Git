@@ -1119,7 +1119,7 @@
     "id": "SG-WORLD-housing-eviction-steps",
     "kind": "estimated-law",
     "file": "src/core2/modules/housing.ts",
-    "line": 190,
+    "line": 201,
     "whatItFakes": "Eviction notice, hearing and stay periods for places whose statute was not read in full; missing values take the median of the better-sourced places.",
     "why": "State code sites refused the research helpers' requests; 51 of 56 places are recalled or summarized, not read (data/research/housing/eviction-steps-2026.json).",
     "addedBy": "OPUS-WORLD",
@@ -1131,7 +1131,7 @@
     "id": "SG-WORLD-housing-hearing-without-judge",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
-    "line": 344,
+    "line": 355,
     "whatItFakes": "An eviction hearing ends in judgment whenever rent is still owed and notice was given, with no judge's discretion, defenses or counsel.",
     "why": "Courts are parked until after early access (owner, Oct 10).",
     "addedBy": "OPUS-WORLD",
@@ -1155,12 +1155,24 @@
     "id": "SG-WORLD-housing-vacancy",
     "kind": "missing-mechanic",
     "file": "src/core2/modules/housing.ts",
-    "line": 228,
+    "line": 239,
     "whatItFakes": "Renewal rents follow only the region's pay; the town's own vacancy does not push them up or down.",
     "why": "Homes are not yet records with occupancy (no dwellings table), so there is no town vacancy to read.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Dwellings as records with occupancy (M1-05's build step 1); renewal rents on a sliding scale of the town's vacancy against the Census Housing Vacancy Survey.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-unmodeled-renters",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 149,
+    "whatItFakes": "Renter households with no recorded income (no current job and no income award) pay no rent and cannot be evicted.",
+    "why": "Most such households stand for people working at employers the opening does not generate; charging them rent evicted 537 of 1,195 renter households in four months in Landrum. The two-level population (OPUS-CORE) will hold them as counts with their real incomes.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The two-level population's household incomes for every renter, with rent and arrears for all of them.",
     "status": "open"
   }
 ]

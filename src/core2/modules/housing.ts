@@ -136,8 +136,19 @@ export function withHousing(input: CoreInput): CoreInput {
       32,
     ).slice(0, "YYYY-MM".length) + "-01";
   const leases: FinanceContractInput[] = [];
+  // Income awards (retirement and the like) count as income too.
+  const awarded = new Set(
+    (input.finance?.contracts ?? [])
+      .filter((row) => row.recipientIncome)
+      .map((row) => row.recipientIncome!.householdId),
+  );
   for (const row of households) {
     if (rank.get(row.row.id)! < owners) continue;
+    // A renter with no recorded income is the wider population, not yet modeled; see the stopgap.
+    if (row.income <= 0 && !awarded.has(row.row.id)) {
+      stopgap("SG-WORLD-housing-unmodeled-renters");
+      continue;
+    }
     const scale =
       ((row.income + offset) / (medianIncome + offset || 1)) **
       pv("housingRentIncomeElasticity");
