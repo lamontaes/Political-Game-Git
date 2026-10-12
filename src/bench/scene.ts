@@ -209,10 +209,12 @@ function recipeFor(
 ): EngineRecipe | null {
   const person = core.people.get(personId)!;
   const gender = person.looks?.gender;
+  const seed = person.looks?.appearanceSeed;
   const base: Person = {
     id: person.id,
     birthDate: person.birthDate,
     ...(gender ? { identity: { gender } } : {}),
+    ...(seed ? { appearance: { seed } } : {}),
   } as unknown as Person;
   const view = spotView(spot);
   const pose = spotPose(spot, undefined, person.id, { view });
@@ -251,9 +253,15 @@ export function benchScene(
     // The player's person takes the hero spot; the others fill the rest,
     // nearest first.
     const hero = stage.spots.find((spot) => spot.hero) ?? stage.spots[0]!;
+    // Others stand behind the player first, nearest first, so the player
+    // stays the largest person in the picture.
     const rest = stage.spots
       .filter((spot) => spot !== hero && spot.pose !== "podium")
-      .sort((a, b) => b.y - a.y);
+      .sort(
+        (a, b) =>
+          Number(a.y > hero.y) - Number(b.y > hero.y) ||
+          (a.y > hero.y ? a.y - b.y : b.y - a.y),
+      );
     const spots = [hero, ...rest];
     for (const [index, id] of ids.entries()) {
       const spot = spots[index];

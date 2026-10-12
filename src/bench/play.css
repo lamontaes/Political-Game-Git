@@ -1,0 +1,337 @@
+/* The owner's approved Kit 12 / Kit 13 look (docs/ui/kit13/APPROVED-2026-10-04.md). */
+@font-face {
+  font-family: "Cinzel";
+  font-weight: 800;
+  src: url("/fonts/kit12/cinzel-800.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Andada Pro";
+  font-weight: 500;
+  src: url("/fonts/kit12/andada-pro-500.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Fira Sans";
+  font-weight: 400;
+  src: url("/fonts/kit12/fira-sans-400.ttf") format("truetype");
+}
+@font-face {
+  font-family: "Fira Sans";
+  font-weight: 600;
+  src: url("/fonts/kit12/fira-sans-600.ttf") format("truetype");
+}
+:root {
+  color-scheme: dark;
+  --glass: linear-gradient(rgba(42, 42, 44, 0.78), rgba(22, 22, 24, 0.86));
+  --brass: #9c8350;
+  --iron: #1c1a18;
+  --gold: #d6bd84;
+  --text: #f2ede4;
+  --text-2: rgba(242, 237, 228, 0.78);
+  --name: "Cinzel", Georgia, serif;
+  --speech: "Andada Pro", Georgia, serif;
+  --ui: "Fira Sans", "Helvetica Neue", sans-serif;
+  --button-face: linear-gradient(170deg, #343436, #222224);
+  --button-line: #686766;
+  --control-shadow:
+    inset 0 1px 0 rgb(242 237 228 / 12%), inset 0 -1px 0 rgb(0 0 0 / 35%),
+    0 2px 3px rgb(0 0 0 / 36%);
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  height: 100%;
+  background: #111;
+  color: var(--text);
+  font: 400 15px/1.4 var(--ui);
+  overflow: hidden;
+}
+#game {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+}
+#stage {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  /* Cover the window at the backdrop's 1672:941 aspect. */
+  width: max(100vw, calc(100vh * 1672 / 941));
+  height: max(100vh, calc(100vw * 941 / 1672));
+  transform: translate(-50%, -50%);
+}
+#backdrop {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+#people .figure {
+  position: absolute;
+  overflow: hidden;
+}
+#people .figure img {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
+.panel {
+  position: absolute;
+  border: 1px solid var(--brass);
+  border-radius: 2px;
+  background: var(--glass);
+  box-shadow:
+    0 0 0 1px var(--iron),
+    inset 0 0 0 1px var(--iron),
+    0 6px 18px rgb(0 0 0 / 24%);
+  backdrop-filter: blur(6px) saturate(0.65);
+  padding: 14px 18px;
+}
+/* Brass corner ornaments inside the frame. */
+.corners::before,
+.corners::after {
+  content: "";
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--brass);
+  pointer-events: none;
+}
+.corners::before {
+  left: 4px;
+  top: 4px;
+  border-right: 0;
+  border-bottom: 0;
+}
+.corners::after {
+  right: 4px;
+  bottom: 4px;
+  border-left: 0;
+  border-top: 0;
+}
+h1,
+h2,
+h3 {
+  font-family: var(--name);
+  font-weight: 800;
+  color: var(--gold);
+  margin: 0 0 8px;
+}
+button {
+  font: 500 14px var(--ui);
+  color: var(--text);
+  background: var(--button-face);
+  border: 1px solid var(--button-line);
+  border-radius: 2px;
+  box-shadow: var(--control-shadow);
+  padding: 7px 14px;
+  cursor: pointer;
+  position: relative;
+}
+button:hover:not(:disabled) {
+  color: #fff;
+  text-shadow: 0 0 2px rgb(214 189 132 / 20%);
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+/* A chevron only on a static button while it is activated. */
+button.primary:active::before,
+button.active::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  border-top: 10px solid var(--gold);
+  border-right: 10px solid transparent;
+}
+input {
+  font: 400 14px var(--ui);
+  color: var(--text);
+  background: #1c1c1e;
+  border: 1px solid var(--button-line);
+  padding: 6px 8px;
+}
+label {
+  display: block;
+  margin: 6px 0;
+  color: var(--text-2);
+}
+#front {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: min(460px, 90vw);
+}
+#front h1 {
+  font-size: 34px;
+}
+.progress {
+  height: 10px;
+  border: 1px solid var(--brass);
+  margin: 10px 0;
+}
+.progress span {
+  display: block;
+  height: 100%;
+  width: 40%;
+  background: linear-gradient(90deg, #96703a, #d6bd84);
+  animation: fill 2s ease-in-out infinite alternate;
+}
+@keyframes fill {
+  from {
+    width: 10%;
+  }
+  to {
+    width: 95%;
+  }
+}
+#tabs {
+  position: absolute;
+  left: 16px;
+  top: 16px;
+  display: flex;
+  gap: 6px;
+}
+#tabs button,
+#stack button {
+  background: rgba(22, 22, 24, 0.7);
+  border-color: transparent;
+  box-shadow: none;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+#tabs button.active,
+#stack button.active {
+  border-color: var(--button-line);
+  background: var(--button-face);
+}
+#stack {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 6px;
+}
+#card {
+  left: 16px;
+  bottom: 16px;
+  width: 320px;
+}
+#card h2 {
+  font-size: 22px;
+}
+#card p {
+  margin: 2px 0;
+  color: var(--text-2);
+}
+#card .time {
+  display: flex;
+  gap: 6px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+#choices {
+  left: 352px;
+  right: 240px;
+  bottom: 16px;
+  max-height: 40vh;
+}
+#choice-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+#talk {
+  left: 352px;
+  right: 240px;
+  bottom: 16px;
+  font-family: var(--speech);
+  font-weight: 500;
+}
+#talk ol {
+  list-style: none;
+  margin: 0 40px 8px 0;
+  padding: 0;
+  max-height: 22vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+#talk li {
+  margin: 3px 0;
+}
+#talk li b {
+  font-family: var(--ui);
+  color: var(--gold);
+  font-weight: 600;
+  margin-right: 6px;
+}
+#talk-choices {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+}
+#talk-choices button {
+  text-align: left;
+  font-family: var(--speech);
+}
+.scales {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  padding: 4px;
+  width: 38px;
+  height: 38px;
+}
+.scales img {
+  width: 100%;
+  height: 100%;
+}
+#sheet {
+  left: 16px;
+  top: 64px;
+  bottom: 220px;
+  width: min(620px, 60vw);
+  overflow: hidden;
+}
+#sheet-body {
+  height: calc(100% - 40px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  gap: 2px 18px;
+  align-content: flex-start;
+}
+#sheet-body .row {
+  max-width: 280px;
+}
+#sheet-body .row b {
+  color: var(--gold);
+  font-weight: 600;
+  display: block;
+}
+#sheet-body .narrative {
+  font-family: var(--speech);
+}
+.close {
+  position: absolute;
+  right: 8px;
+  top: 6px;
+  background: none;
+  border: 0;
+  box-shadow: none;
+  font-size: 22px;
+  color: var(--text-2);
+}

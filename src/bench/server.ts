@@ -48,7 +48,28 @@ const assets = new Map([
     "/client.mjs",
     { file: "client.mjs", type: "text/javascript; charset=utf-8" },
   ],
+  ["/play", { file: "play.html", type: "text/html; charset=utf-8" }],
+  ["/play.mjs", { file: "play.mjs", type: "text/javascript; charset=utf-8" }],
+  ["/play.css", { file: "play.css", type: "text/css; charset=utf-8" }],
 ]);
+// The approved Kit 12/13 fonts and controls, served from public/.
+const PUBLIC = new URL("../../public/", import.meta.url);
+const publicFile =
+  /^\/(fonts\/kit12\/[a-z0-9-]+\.ttf|ui\/kit1[23]\/[a-z0-9-]+\.svg)$/;
+/** Names for the people and places a packet's offers point at. */
+function namesFor(value: unknown): Record<string, string> {
+  const current = requireCore();
+  const out: Record<string, string> = {};
+  const offers =
+    (value as { offers?: { targetId: string }[] } | undefined)?.offers ?? [];
+  for (const { targetId } of offers) {
+    const person = current.people.get(targetId);
+    const org = current.organizations.get(targetId);
+    if (person) out[targetId] = `${person.givenName} ${person.familyName}`;
+    else if (org) out[targetId] = org.name;
+  }
+  return out;
+}
 const serialize = (value: unknown) =>
   JSON.stringify(value, (_key, item) => {
     if (item instanceof Map) return Object.fromEntries(item);
@@ -77,6 +98,49 @@ const server = createServer(async (request, response) => {
       const content = await readFile(new URL(asset.file, import.meta.url));
       response.writeHead(200, { "Content-Type": asset.type });
       response.end(content);
+      return;
+    }
+    const shared = publicFile.exec(url.pathname);
+    if (request.method === "GET" && shared) {
+      const content = await readFile(new URL(shared[1]!, PUBLIC));
+      response.writeHead(200, {
+        "Content-Type": shared[1]!.endsWith(".svg")
+          ? "image/svg+xml"
+          : "font/ttf",
+        "Cache-Control": "max-age=3600",
+      });
+      response.end(content);
+      return;
+    }
+    if (request.method === "POST" && url.pathname === "/api/newlife") {
+      if (building) throw new Error("Opening generation is already running.");
+      building = true;
+      try {
+        const world = buildBenchWorld(
+          url.searchParams.get("seed") ?? "",
+          url.searchParams.get("date") ?? "",
+          { minimumPeople: Number(url.searchParams.get("size")) || 2000 },
+        );
+        core = world.core;
+        director = world.director;
+        player = new BenchPlayer(world.core, world.director);
+        conversation = undefined;
+        placeId = world.placeId;
+        // A new life starts at the golden path's first step: the resident
+        // at or nearest to 18.
+        const entrant = benchProgress(core, placeId).steps[0]?.evidence;
+        if (!entrant) throw new Error("No resident at or near 18 here.");
+        player.select(entrant.personId);
+        send(200, {
+          personId: entrant.personId,
+          placeName: world.place.displayName,
+          date: core.date,
+          packet: player.packet,
+          names: {},
+        });
+      } finally {
+        building = false;
+      }
       return;
     }
     if (
@@ -204,7 +268,11 @@ const server = createServer(async (request, response) => {
         url.searchParams.get("mode") ?? "day",
         url.searchParams.get("date") ?? undefined,
       );
-      send(200, { ...result, progress: benchProgress(requireCore(), placeId) });
+      send(200, {
+        ...result,
+        names: namesFor(result.packet),
+        progress: benchProgress(requireCore(), placeId),
+      });
       return;
     }
     if (request.method === "POST" && url.pathname === "/api/resume") {
@@ -218,7 +286,11 @@ const server = createServer(async (request, response) => {
               offerId: url.searchParams.get("offerId") ?? "",
             })
           : player.resume({ kind: "stop", pauseId });
-      send(200, { ...result, progress: benchProgress(requireCore(), placeId) });
+      send(200, {
+        ...result,
+        names: namesFor(result.packet),
+        progress: benchProgress(requireCore(), placeId),
+      });
       return;
     }
     if (request.method === "POST" && url.pathname === "/api/play") {
