@@ -29,7 +29,7 @@ import conversationJson from "./data/conversation.json" with { type: "json" };
 import { JOURNAL_DATA } from "./journal";
 import { renderLine, type Fact } from "./render";
 import { markWordsStopgap } from "./stopgaps";
-import { properName, spoken, spokenDate, spokenMonth } from "./words";
+import { properName, spoken, spokenMonth, spokenWhen } from "./words";
 
 const zero = P.zero;
 const one = P.one;
@@ -57,6 +57,8 @@ export interface ConversationData {
   minutesPerExchange: number;
   /** The kind a reply is written as, when it differs from the raised one. */
   replyKinds: Readonly<Record<string, string>>;
+  /** What the player answers when the other person raises one of their own subjects. */
+  otherRaises: Readonly<Record<string, { kind: string; stage: string }>>;
   subjects: Readonly<Record<string, SubjectBank>>;
 }
 export const CONVERSATION_DATA =
@@ -259,6 +261,10 @@ export function subjectsBetween(
           text: fullName(core, id),
           sourceRecordIds: [speaker.knownIdSources?.[id]?.sourceFactId ?? id],
         },
+        first: {
+          text: core.people.get(id)!.givenName,
+          sourceRecordIds: [speaker.knownIdSources?.[id]?.sourceFactId ?? id],
+        },
       },
     });
   }
@@ -372,7 +378,7 @@ function replyFacts(
             facts: {
               name,
               when: {
-                text: spokenDate(seen.date, core.date),
+                text: spokenWhen(seen.date, core.date),
                 sourceRecordIds: [seen.tieId],
               },
             },
@@ -437,11 +443,14 @@ function playerFacts(
     const theirs = last.facts.place?.text;
     if (theirs && theirs === facts["my-place"]?.text) stage = "same";
   }
-  if (last.kind === "mutual" && last.subject.aboutId) {
+  if (
+    (last.kind === "mutual" || last.kind === "asked-mutual") &&
+    last.subject.aboutId
+  ) {
     const seen = lastContact(core, playerId, last.subject.aboutId);
     if (seen)
       facts["my-when"] = {
-        text: spokenDate(seen.date, core.date),
+        text: spokenWhen(seen.date, core.date),
         sourceRecordIds: [seen.tieId],
       };
     else facts["my-not"] = { text: "", sourceRecordIds: [playerId] };
@@ -523,7 +532,7 @@ function otherAsks(
     order
       .map((kind) => subjects.find((row) => row.kind === kind))
       .find(Boolean);
-  if (!subject) return false;
+  if (!subject) return otherRaises(core, conversation, data);
   const kind = askedKind(core, data, otherId, playerId, subject);
   const line = words(
     core,
@@ -552,6 +561,61 @@ function otherAsks(
 
 /** Subjects raised only by a move that names them, never as "something else". */
 const EXPLICIT_ONLY = ["their-tenure"];
+/** With nothing left to ask, the other person raises something of their own. */
+function otherRaises(
+  core: Readonly<CoreState>,
+  conversation: Conversation,
+  data: ConversationData,
+): boolean {
+  const { playerId, otherId } = conversation;
+  const theirs = subjectsBetween(core, otherId, playerId).filter(
+    (row) =>
+      data.otherRaises[row.kind] &&
+      !conversation.used.includes(`${otherId}>${row.id}`) &&
+      !conversation.used.includes(row.id),
+  );
+  const subject = theirs[zero];
+  if (!subject) return false;
+  const then = data.otherRaises[subject.kind]!;
+  const line = words(
+    core,
+    data,
+    otherId,
+    subject.kind,
+    "raise",
+    data.subjects[subject.kind]?.raise,
+    subject.facts,
+    `${playerId}:${otherId}:${core.date}:${conversation.lines.length}:${subject.id}:theirs`,
+  );
+  if (!line) return false;
+  conversation.lines.push({
+    speakerId: otherId,
+    subjectId: `${otherId}>${subject.id}`,
+    kind: then.kind,
+    act: subject.kind === "own-work" ? "tell" : "ask",
+    text: line.text,
+    sourceRecordIds: line.sourceRecordIds,
+  });
+  conversation.used.push(`${otherId}>${subject.id}`);
+  // Someone both know is a shared subject: neither raises them again.
+  if (subject.kind === "mutual") conversation.used.push(subject.id);
+  // Theirs, not the player's: no own record the player could lie about.
+  const raised: Subject = {
+    id: `${otherId}>${subject.id}`,
+    kind: subject.kind,
+    facts: subject.facts,
+    ...(subject.aboutId ? { aboutId: subject.aboutId } : {}),
+  };
+  conversation.last = {
+    subject: raised,
+    kind: then.kind,
+    facts: subject.facts,
+    stage: then.stage,
+  };
+  offerChoices(core, conversation, data);
+  return true;
+}
+
 const OPENING_ORDER = ["shared-school", "shared-work", "own-work", "home"];
 const FOLLOW_ORDER = ["own-work", "home", "shared-school", "shared-work"];
 
@@ -860,7 +924,27 @@ export function say(
     (row) => row.id === choice.raises,
   );
   if (!raised) {
-    // Nothing new raised: the other person carries on with something else.
+    // Nothing new raised: the other person takes the answer in, as people do
+    // in small talk, then carries on with something else.
+    const ack = words(
+      core,
+      data,
+      otherId,
+      "ack",
+      "reply",
+      data.subjects.ack?.reply,
+      {},
+      `${playerId}:${otherId}:${conversation.lines.length}:ack`,
+    );
+    if (ack)
+      conversation.lines.push({
+        speakerId: otherId,
+        subjectId: choice.answers,
+        kind: "ack",
+        act: "tell",
+        text: ack.text,
+        sourceRecordIds: [eventId, ...ack.sourceRecordIds],
+      });
     if (!otherAsks(core, conversation, data, FOLLOW_ORDER)) {
       conversation.choices = [];
       conversation.lie = null;

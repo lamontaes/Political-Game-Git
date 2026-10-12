@@ -52,3 +52,20 @@ export function spokenMonth(iso: string): string {
     timeZone: "UTC",
   });
 }
+
+/**
+ * When something happened, as people say it in passing: "today",
+ * "yesterday", or "on March 3" (with the year only when it differs).
+ */
+export function spokenWhen(iso: string, today: string): string {
+  const days = Math.round(
+    (Date.parse(`${today}T00:00:00Z`) - Date.parse(`${iso}T00:00:00Z`)) /
+      (P.hoursPerDay *
+        P.minutesPerHour *
+        P.secondsPerMinute *
+        P.millisecondsPerSecond),
+  );
+  if (days === P.zero) return "today";
+  if (days === P.one) return "yesterday";
+  return `on ${spokenDate(iso, today)}`;
+}
