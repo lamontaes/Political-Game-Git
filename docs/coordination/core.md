@@ -15,7 +15,8 @@ Nothing yet.
 
 An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items.
 
-- [ ] **Take over and publish.** Branch opus-core from pool/M0-core-pieces; confirm the core's tests pass; first push within the hour.
+- [x] **Take over and publish.** Branch opus-core from pool/M0-core-pieces; confirm the core's tests pass; first push within the hour.
+  - Done Oct 12: `opus-core` = pool/M0-core-pieces + pool/P8-part-1 (1690a31e7, which pool/M0-core-pieces did not actually contain) + main; draft PR #3999. Golden path green (M0-10, M0-11). Core tests: 1,481 pass, 63 fail; all 63 also fail on Sol's own head (test fixtures that predate the payday-calendar requirement); fixing them is on my list.
   - Verified by: Core tests and the golden-path suite (M0-10) green on its branch.
 - [ ] **Speed, first thing.** 1) Bookkeeping off in play: recording, checking, copying and freezing every read and write (about half of all time) becomes a switch that's on only in tests and the bench. 2) Stop copying each worker's whole memory every shift (why months get slower). 3) Save "why" reasons only for the player and the people they deal with.
   - Verified by: One measured year in a random place, reported as a number; the automatic speed guard stays green.
@@ -42,3 +43,5 @@ None yet.
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- Oct 12, 07:30 UTC: took over #3918 and #3955 on `opus-core` (#3999). The merge had left duplicate imports in `state.ts` that broke 58 test files; fixed. Starting point for speed: Sol's money year ran at 1.83 game days per minute (about 3.3 hours per year).

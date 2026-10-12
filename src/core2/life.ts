@@ -4,6 +4,8 @@ import { advanceDate, duePeople, catchUpPerson } from "./calendar";
 import { affectAt } from "./emotion";
 import { compactQuietWorkResults } from "./work-state";
 import { chooseAct } from "./choice";
+import { compactOriginalAnswer } from "./compact-choice";
+import { FinanceReadGuard } from "./finance-plan";
 import {
   isExplicitlyControlledPersonV1,
   snapshotExplicitControlV1,
@@ -266,21 +268,49 @@ export function activate(
   const actor = core.people.get(personId)!;
   const api = coreAPI(core);
   refreshNeeds(core, api, actor);
-  const offers = availableActs(core, personId);
-  const decision = chooseAct(core, personId, offers);
+  const offers = availableActs(core, personId).map((offer) =>
+    controller
+      ? {
+          ...offer,
+          effortHours:
+            offer.effortHours ??
+            api.parameter(offer.definition.effortParameter),
+        }
+      : offer,
+  );
+  const decision = chooseAct(core, personId, offers, undefined, !!controller);
+  const retainFullScores =
+    core.observer ||
+    actor.id === core.playerId ||
+    core.focusPersonIds.has(actor.id) ||
+    isExplicitlyControlledPersonV1(core, actor.id);
   if (controller) {
+    const originalReads = new FinanceReadGuard();
+    originalReads.payload(
+      decision,
+      api.parameter("zero"),
+      api.parameter("one"),
+    );
+    originalReads.payload(offers, api.parameter("zero"), api.parameter("one"));
     const requested = controller(decision, offers);
+    originalReads.verify();
     if (requested !== undefined) {
       const chosen = offers.find(
         (offer) => `${offer.definition.id}:${offer.targetId}` === requested,
       );
       if (!chosen) throw new Error("Controller requested an unavailable act.");
-      const forced = chooseAct(core, personId, [chosen]);
+      const index = offers.indexOf(chosen);
+      const scored = decision.scores![index]!;
       decision.selected = chosen;
-      decision.selectedReasons = forced.selectedReasons;
-      decision.reasonKey = `controller:${forced.reasonKey}`;
+      decision.selectedReasons = scored.reasons;
+      decision.selectedReasonTerms = retainFullScores
+        ? scored.reasonTerms
+        : undefined;
+      decision.compactChoice = compactOriginalAnswer(decision, offers, index);
+      decision.reasonKey = `controller:utility:${chosen.definition.need}:${chosen.driveId ?? chosen.definition.effect}`;
     }
   }
+  if (!retainFullScores) decision.scores = undefined;
   const chosen = decision.selected;
   let recordedLastActDate = false;
   if (chosen) {

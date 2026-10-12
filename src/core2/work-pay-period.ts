@@ -2,7 +2,7 @@
 import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import { FinanceReadGuard } from "./finance-plan";
 import type { IsoDate } from "../simulation/types";
-import type { Source } from "./types";
+import type { Source, WorkAttendanceResult } from "./types";
 
 /**
  * One separately recorded employer pay calendar, never the attendance periodDays.
@@ -58,6 +58,8 @@ export interface WorkEarnedPayPeriod extends WorkPayPeriod, WorkPayrollBasis {
   firstEarnedAt: string;
   lastEarnedAt: string;
   lastWorkResultId: string;
+  /** Latest actual attendance, retained with this aggregate after the job advances. */
+  lastAttendanceBasis?: Readonly<Omit<WorkAttendanceResult, "decision">>;
   segmentCount: number;
   plannedMinutes: number;
   attendedMinutes: number;
