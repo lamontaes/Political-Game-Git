@@ -56,6 +56,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-PLAY: four more panels for the bench's `worldPanels`** (`src/core2/modules/world-panels.ts`, record data only): `buildingPanel(api)` (housing stock and zoning by town, projects from start to finish, households in set-aside units), `lawCostsPanel(api)` (price rules a place's laws set, property tax assessments, right to counsel), `benefitsPanel(api)` (unemployment claims with weekly benefit, paid and end), `boardPanel(api)` (central bank seats with holder, term and lean). `ownerPanel` now also has `successions`, `choices` (closures by choice with reasons), `closures` and `operatingRules`.
+
 - **OPUS-CORE, speed after merging `opus-core` (Oct 12, evening):** three years of Absecon, New Jersey with the whole economy went from 46 s to 74 s. The core alone on the same world (`createLifeCore(generatedOpening(..., { twoLevel: true }))`, no economy) now takes 52 s for the three years, so most of the rise is on the core side. One run each, same machine.
 
 - **OPUS-CORE: households moving in.** New apartments and houses now get built, but nobody arrives to live in them, so vacancy only lowers rents (`SG-WORLD-housing-vacancy`, `SG-WORLD-housing-new-home-buyers`). Wanted: counted households arriving in a place at a pace set by its jobs and rents (I can supply the pull: `rentalVacancy(stock, placeId)` and the jobs module's open positions), each taking a vacant unit through my housing engine.
