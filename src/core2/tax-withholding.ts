@@ -73,7 +73,9 @@ export function withholdingFor(input: {
     const schedule = single(row);
     const yearly = schedule
       ? scheduleTax(schedule, annual)
-      : row.unit === "percent-flat"
+      : // A flat rate: a starting row's "percent-flat", or an enacted act's
+        // "percent" with no bracket schedule (audit 3: city tax collected $0).
+        row.unit === "percent-flat" || row.unit === "percent"
         ? (annual * row.value) / 100
         : 0;
     const minor = Math.round((yearly / periods) * 100);

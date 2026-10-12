@@ -12,6 +12,8 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
+import { residentsRuntime } from "./residents";
+import { POLICY_QUESTIONS } from "../policy-answers";
 import {
   lawChainForPlace,
   startingLawRows,
@@ -83,6 +85,27 @@ export function openLaws(core: CoreState): LawChain {
         source: sourceOf(row, row.retrieved > today ? today : row.retrieved),
         sourceRecordIds: [row.id],
       });
+  }
+  // The state's researched answers to the policy questions are its law in
+  // force at the opening (audit 3; BOARD "next" item 4).
+  for (const [question, entry] of Object.entries(POLICY_QUESTIONS)) {
+    const answer = entry.answers[chain.stateKey];
+    if (answer?.answer !== "yes" && answer?.answer !== "no") continue;
+    const row: LawRowInput = {
+      id: `law:${chain.stateKey}:state:${question}:general:starting`,
+      jurisdiction: chain.stateKey,
+      level: "state",
+      series: question,
+      tier: "general",
+      value: answer.answer === "yes" ? 1 : 0,
+      effectiveDate: today,
+      endDate: null,
+      source: entry.source ?? "data/research/laws/starting-law-2026",
+      retrieved: today,
+      estimate: answer.estimated !== undefined,
+    };
+    if (!state.table("laws").get(row.id))
+      state.table("laws").put(row as unknown as ModuleRow);
   }
   return chain;
 }
@@ -161,18 +184,29 @@ export function enactLaw(
     .moduleState(LAWS_MODULE_ID)
     .table("laws")
     .put(row as unknown as ModuleRow);
+  const source = {
+    tag: "SOURCED" as const,
+    citation: input.citation,
+    asOf: api.state.date,
+  };
   if (input.effectiveDate > api.state.date)
     api.moduleCalendar(LAWS_MODULE_ID).schedule({
       key: `effect:${row.id}`,
       date: input.effectiveDate,
       kind: "law-takes-effect",
-      source: {
-        tag: "SOURCED",
-        citation: input.citation,
-        asOf: api.state.date,
-      },
+      source,
       sourceRecordIds: [row.id],
     });
+  // An act in force the day it's enacted (a federal act without a date of
+  // its own) takes effect now (audit 3: federal acts never fired).
+  else
+    lawTookEffect(api, {
+      key: `effect:${row.id}`,
+      date: api.state.date,
+      kind: "law-takes-effect",
+      source,
+      sourceRecordIds: [row.id],
+    } as unknown as ModuleCalendarWork);
   return row;
 }
 
@@ -232,6 +266,21 @@ function raiseToFloor(api: CoreAPI, source: Source): void {
   const core = api.state as CoreState;
   for (const commitment of [...core.work.commitments.values()])
     raiseOne(api, commitment.id, source);
+  // The counted residents' jobs in town rise too (two-level population).
+  const floor = lawInForce(api, "minimum-wage").value;
+  const rt = residentsRuntime(core);
+  if (floor === null || !rt) return;
+  for (const job of rt.jobs.values()) {
+    if (job.endsAt !== undefined || (job.hourlyMinor ?? floor) >= floor)
+      continue;
+    const employer = core.organizations.get(job.organizationId);
+    if (
+      !employer ||
+      (core.visiblePlaceIds.size && !core.visiblePlaceIds.has(employer.placeId))
+    )
+      continue;
+    api.rerateJob(job.id, floor, { ...source, asOf: core.date });
+  }
 }
 
 /**
@@ -256,18 +305,15 @@ export function raiseOne(
     return false;
   const employer = core.organizations.get(commitment.organizationId);
   if (!employer || (town.size && !town.has(employer.placeId))) return false;
-  // stopgapId: SG-GOV-wage-floor-rate-write
-  api.stopgap("SG-GOV-wage-floor-rate-write");
-  core.work.commitments.set(commitment.id, {
-    ...commitment,
-    hourlyMinor: floor,
-  });
+  const from = commitment.hourlyMinor;
+  // The pay change through the core's own job record (core2-api-v12).
+  api.rerateJob(commitment.jobId, floor, { ...source, asOf: core.date });
   raises.put({
     id: `raise:${commitment.id}:${core.date}`,
     personId: commitment.personId,
     jobId: commitment.jobId,
     date: core.date,
-    fromMinor: commitment.hourlyMinor,
+    fromMinor: from,
     toMinor: floor,
     lawId: answer.governing.id,
   });
@@ -280,7 +326,7 @@ export function raiseOne(
     source,
     facts: {
       jobId: commitment.jobId,
-      fromMinor: String(commitment.hourlyMinor),
+      fromMinor: String(from),
       toMinor: String(floor),
       lawId: answer.governing.id,
     },

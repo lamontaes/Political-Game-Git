@@ -42,6 +42,8 @@ export function drawOfficialIdentity(input: {
   readonly role: InventedPersonRole;
   readonly referenceDate: string;
   readonly legalMinimumAge?: number;
+  /** Family names this person mustn't share (an unrelated running mate's or pair's). */
+  readonly avoidFamilyNames?: readonly string[];
 }): OfficialIdentity {
   const rng = new SeededRng(input.worldSeed).fork(`official:${input.seatKey}`);
   const identity = generatePersonIdentity(rng.fork("gender"));
@@ -66,7 +68,10 @@ export function drawOfficialIdentity(input: {
         ? drawCohortGivenName(names, gender, Number(birthDate.slice(0, 4)))
         : null) ?? names.pick(givenNamePoolForCorpus(corpus, gender));
     const familyName = names.pick(corpus.familyNames);
-    if (!isRealOfficeholderName(givenName, familyName))
+    if (
+      !isRealOfficeholderName(givenName, familyName) &&
+      !(input.avoidFamilyNames ?? []).includes(familyName)
+    )
       return {
         givenName,
         familyName,
