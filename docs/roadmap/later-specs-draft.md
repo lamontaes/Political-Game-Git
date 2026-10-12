@@ -102,12 +102,14 @@ Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means th
 
 ### M3-04 · Laws change the world (step 9)
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M3-laws-and-executive.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV
 - **Does:** An enacted law changes records first. Funded work gets paid for, can be delayed or fail, gets delivered, and reaches named people, so the town visibly changes.
 - **Passes when:** In a random place, the passed ordinance changes a record, money moves, and named residents feel the effect at the right time.
 
 ### M3-05 · Executive offices, one engine
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M3-laws-and-executive.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV
 - **Does:** Mayor, county executive, governor and president desks on one engine: sign or veto, orders, appointments, budget priorities with staff advice. Officeholding is a sandbox of choices, not a task list.
 - **Passes when:** In a random place, the mayor acts on the passed ordinance through that place's real powers, with the reasons recorded.

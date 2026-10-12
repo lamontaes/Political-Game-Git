@@ -407,6 +407,26 @@
       "test": "A council, a state chamber and Congress each move bills through committee, amendments, floor votes and executive action under their real rules on one engine; the council meeting plays as a scene with routine items summarized; members' rules votes can change procedure; ties are broken by lot only where the law requires it.",
       "command": null,
       "passes": false
+    },
+    {
+      "id": "M3-04",
+      "milestone": "M3",
+      "title": "Laws change the world",
+      "golden_path": "9",
+      "package": "M3-laws-and-executive",
+      "test": "In a random place, an enacted ordinance changes records on its effective date and reaches specific named people (clickable, on their records), including at least one non-money effect (a rule with an enforcer and penalty, eligibility, a right, a price or a compliance cost); funded work is paid and then delivered, delayed or failed; a linked area moves through the outcome web; a repeal ends the effects.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-05",
+      "milestone": "M3",
+      "title": "Executive offices, one engine",
+      "golden_path": "9",
+      "package": "M3-laws-and-executive",
+      "test": "In a random place, as mayor in that place's real form of government, the player signs one bill and vetoes another with recorded reasons, sets budget priorities that the council adopts by vote (retiring the M1 budget stand-in), and appoints someone they know; the same engine runs a governor's desk, and the president's in the world.",
+      "command": null,
+      "passes": false
     }
   ]
 }
