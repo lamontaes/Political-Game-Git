@@ -1,4 +1,5 @@
 /** Proposed internal payroll arithmetic. This helper never writes cash or grants authority. */
+import { bookkeeping } from "./bookkeeping";
 import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import { FinanceReadGuard } from "./finance-plan";
 import type { IsoDate } from "../simulation/types";
@@ -461,7 +462,34 @@ function periodAtIndex(
   return { index, fromAt, throughAt, dueAt: addDays(throughAt, lag) };
 }
 
+/** Play reuses the period every worker on one calendar resolves on the same day. */
+const lastPeriod = new WeakMap<
+  WorkPayrollCalendarInput,
+  { at: string; u: Units; period: WorkPayPeriod }
+>();
+
 function periodContaining(
+  c: WorkPayrollCalendarInput,
+  at: string,
+  u: Units,
+): WorkPayPeriod {
+  if (bookkeeping()) return computePeriodContaining(c, at, u);
+  const cached = lastPeriod.get(c);
+  if (
+    cached &&
+    cached.at === at &&
+    (cached.u === u ||
+      (cached.u.zero === u.zero &&
+        cached.u.one === u.one &&
+        cached.u.monthsPerYear === u.monthsPerYear))
+  )
+    return cached.period;
+  const period = computePeriodContaining(c, at, u);
+  lastPeriod.set(c, { at, u, period });
+  return period;
+}
+
+function computePeriodContaining(
   c: WorkPayrollCalendarInput,
   at: string,
   u: Units,

@@ -41,3 +41,20 @@ const show = (title, map) => {
 };
 show("Self", selfBy);
 show("Inclusive", inclBy);
+// Optional: node profile-top.mjs file top functionName → that function's direct callees (inclusive).
+const focus = process.argv[4];
+if (focus) {
+  const inclusive = (id) => {
+    let total = self.get(id) ?? 0;
+    for (const child of nodes.get(id).children ?? []) total += inclusive(child);
+    return total;
+  };
+  const callees = new Map();
+  for (const n of profile.nodes)
+    if (n.callFrame.functionName === focus)
+      for (const child of n.children ?? []) {
+        const l = label(nodes.get(child));
+        callees.set(l, (callees.get(l) ?? 0) + inclusive(child));
+      }
+  show(`Callees of ${focus}`, callees);
+}

@@ -222,9 +222,25 @@ export interface EmployerClosure {
   sourceReceiptId: string;
   /** Decision-free actual evidence survives superseded routine receipt compaction. */
   cause:
-    FinanceReceipt | Omit<WorkResult, "decision"> | WorkPayrollJournalReceipt;
+    | FinanceReceipt
+    | Omit<WorkResult, "decision">
+    | WorkPayrollJournalReceipt
+    | ResidentWageShortfall;
   endedJobIds: readonly string[];
   affectedPersonIds: readonly PersonId[];
+  source: Source;
+}
+
+/** A missed count-worker payday (two-level population): wages owed and unpaid. */
+export interface ResidentWageShortfall {
+  kind: "residents.wages";
+  id: string;
+  date: IsoDate;
+  organizationId: string;
+  requestedMinor: number;
+  paidMinor: number;
+  shortfallMinor: number;
+  workerCount: number;
   source: Source;
 }
 

@@ -1,4 +1,11 @@
 import { validateCompactChoice } from "./compact-choice";
+import { bookkeeping } from "./bookkeeping";
+import {
+  countedJob,
+  rerateCountedJob,
+  residentPerson,
+  takeResidentHousehold,
+} from "./modules/residents";
 import {
   prepareModuleState,
   installModuleState,
@@ -84,6 +91,7 @@ import type {
   CoreState,
   KnownFact,
   LogRecord,
+  PersonId,
   PersonInput,
   PersonState,
   Relationship,
@@ -109,6 +117,8 @@ const freezeRelationshipEvidence = Object.freeze,
 
 // Copy original evidence before changing a tie; do not invoke caller getters or retain aliases.
 function copyRelationshipEvidence<T>(value: T, active = new Set<object>()): T {
+  // Play keeps the caller's freshly built evidence; bookkeeping copies and freezes it.
+  if (!bookkeeping()) return value;
   if (
     value === null ||
     value === undefined ||
@@ -1266,6 +1276,43 @@ export function coreAPI(core: CoreState): CoreAPI {
       }
       Object.assign(actor, changes);
     },
+    rerateJob(jobId, hourlyMinor, source) {
+      if (!Number.isSafeInteger(hourlyMinor) || hourlyMinor <= 0)
+        throw new Error("A new hourly rate must be a positive whole amount.");
+      makeIsoDate(source.asOf);
+      if (source.asOf > core.date)
+        throw new Error("A pay change cannot cite a later source.");
+      const job = core.jobs.get(jobId);
+      if (!job) {
+        if (rerateCountedJob(core, jobId, hourlyMinor)) return;
+        throw new Error(`No recorded job to re-rate: ${jobId}`);
+      }
+      if (job.endsAt !== undefined) throw new Error("The job has ended.");
+      const commitments = [
+        ...(core.work.commitmentsByPerson.get(job.personId) ?? []),
+      ]
+        .map((id) => core.work.commitments.get(id)!)
+        .filter((row) => row.jobId === jobId && row.endsAt === undefined);
+      const old = job.hourlyMinor ?? commitments[0]?.hourlyMinor;
+      // The commitment keeps its original pay source (an open pay period cites
+      // it); the change and its source are recorded on the job.
+      for (const row of commitments) row.hourlyMinor = hourlyMinor;
+      core.work.payChanges.set(jobId, [
+        ...(core.work.payChanges.get(jobId) ?? []),
+        { date: core.date, hourlyMinor, source: { ...source } },
+      ]);
+      const ratio = old ? hourlyMinor / old : 1;
+      job.hourlyMinor = hourlyMinor;
+      job.wageDailyMinor = Math.round(job.wageDailyMinor * ratio);
+      if (core.people.has(job.personId))
+        api.observe(job.personId, {
+          key: `job:${job.id}:pay`,
+          value: String(job.wageDailyMinor),
+          learnedAt: core.date,
+          sourceId: job.id,
+          access: "self",
+        });
+    },
     addOrganization(row) {
       if (
         core.organizations.has(row.id) ||
@@ -1469,6 +1516,111 @@ export function inspectPerson(
 }
 
 /** Explicit click-time admission checks every retained identity and family constraint. */
+/**
+ * Fill in a person from the wider population (two-level population): their
+ * whole household leaves the counts and becomes full people, with the same
+ * records the counts held: names, birth dates, past, traits and the job the
+ * employer's books count. Their money stays pooled with the residents
+ * account (stopgap SG-CORE-fill-in-pooled-money). Returns the person.
+ */
+export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
+  const existing = core.people.get(personId);
+  if (existing) return existing;
+  const record = takeResidentHousehold(core, personId);
+  if (!record) throw new Error(`Not in the wider population: ${personId}`);
+  const api = coreAPI(core);
+  api.stopgap("SG-CORE-fill-in-pooled-money");
+  const home = record.household;
+  if (core.households.has(home.id))
+    throw new Error(`Household already present: ${home.id}`);
+  core.households.set(home.id, { ...home, memberIds: [...home.memberIds] });
+  const jobs = new Map(record.jobs.map((row) => [row.id, row]));
+  // Ties to people still counted become husks, met and filled in later.
+  const husk = (id: PersonId) => {
+    if (core.people.has(id) || core.husks.has(id)) return;
+    const other =
+      record.people.find((row) => row.id === id) ?? residentPerson(core, id);
+    if (!other) return;
+    core.husks.set(id, {
+      id,
+      givenName: other.givenName,
+      familyName: other.familyName,
+      placeId: other.placeId,
+      ...(other.countyId ? { countyId: other.countyId } : {}),
+      looks: { ...(other.looks ?? {}) },
+      said: [...(other.said ?? [])],
+      birthDate: other.birthDate,
+      familyIds: [...other.familyIds],
+      source: other.source,
+    });
+  };
+  const admitted: PersonState[] = [];
+  for (const row of record.people) {
+    core.husks.delete(row.id);
+    const recorded = row.jobId ? jobs.get(row.jobId) : undefined;
+    // The counted job as it stands today (pay may have changed since the opening).
+    const job = recorded
+      ? (countedJob(core, recorded.id) ?? recorded)
+      : undefined;
+    const active = recorded
+      ? countedJob(core, recorded.id) !== undefined
+      : false;
+    admitted.push(
+      admitPerson(core, {
+        ...row,
+        liquidMinor: 0,
+        ...(active ? {} : { jobId: undefined }),
+      }),
+    );
+    if (job && active) {
+      core.jobs.set(job.id, { ...job });
+      financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
+    }
+  }
+  for (const actor of admitted) {
+    for (const id of [...actor.familyIds, ...actor.knownIds]) husk(id);
+    for (const id of actor.familyIds)
+      if (core.people.has(id)) {
+        const relationshipId = [actor.id, id].sort().join(":");
+        if (!core.relationships.has(relationshipId))
+          api.relationship(
+            actor.id,
+            id,
+            "family",
+            api.parameter("relationInitial"),
+          );
+      }
+    for (const id of actor.knownIds) {
+      const other = core.people.get(id) ?? core.husks.get(id);
+      if (!other) continue;
+      api.observe(actor.id, {
+        key: `person:${id}:name`,
+        value: `${other.givenName} ${other.familyName}`,
+        ...initialNameProvenance(core, actor, id),
+        access: "perceived",
+      });
+    }
+    const job = actor.jobId ? core.jobs.get(actor.jobId) : undefined;
+    if (job) {
+      api.observe(actor.id, {
+        key: `job:${job.id}:pay`,
+        value: String(job.wageDailyMinor),
+        learnedAt: core.date,
+        sourceId: job.id,
+        access: "self",
+      });
+      api.observe(actor.id, {
+        key: `organization:${job.organizationId}:public`,
+        value: job.organizationId,
+        learnedAt: core.date,
+        sourceId: job.id,
+        access: "perceived",
+      });
+    }
+  }
+  return core.people.get(personId)!;
+}
+
 export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
   const husk = core.husks.get(input.id);
   if (!husk) throw new Error("Promotion requires a recorded husk.");

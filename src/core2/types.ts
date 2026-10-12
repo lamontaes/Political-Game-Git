@@ -1,3 +1,4 @@
+import type { ResidentsInput } from "./residents";
 import type {
   ModuleStateDefinition,
   ModuleStateStore,
@@ -589,6 +590,11 @@ export interface ActivityTimeTotal {
   source: Source;
 }
 export interface WorkRuntime {
+  /** Dated pay changes by job (core2-api-v12 rerateJob), newest last. */
+  payChanges: Map<
+    string,
+    readonly { date: IsoDate; hourlyMinor: number; source: Source }[]
+  >;
   payrollCalendars: Map<string, WorkPayrollCalendarInput>;
   payrollCalendarByCommitment: Map<string, string>;
   payrollCalendarByJob: Map<string, string>;
@@ -722,6 +728,8 @@ export interface CoreInput {
   }[];
   husks?: readonly HuskInput[];
   placeMetadata?: Readonly<Record<string, string>>;
+  /** Two-level population: the wider population's records and money flows. */
+  residents?: ResidentsInput;
 }
 
 export interface HuskInput {
@@ -1097,6 +1105,8 @@ export interface CoreAPI {
       >
     >,
   ): void;
+  /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
+  rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
   addOrganization(input: OrganizationInput): void;
   lookupPublicOrganization(personId: PersonId, organizationId: string): void;
   updateNeeds(

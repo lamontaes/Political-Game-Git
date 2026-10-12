@@ -1,3 +1,4 @@
+import { bookkeeping } from "./bookkeeping";
 /** Generated default household provenance only. It grants no payment authority. */
 import financeCatalog from "./data/opening-finance.json" with { type: "json" };
 import customerCatalog from "./data/opening-customers.json" with { type: "json" };
@@ -171,6 +172,7 @@ export function compactGeneratedHouseholdSource(
   };
 }
 function checkBasis(basis: GeneratedHouseholdSourceBasis): void {
+  if (!bookkeeping()) return;
   const keys = [
     "schema",
     "domain",
