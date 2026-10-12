@@ -191,7 +191,11 @@ function runMonth(api: CoreAPI, state: MacroStateRow): void {
     state.townResidents,
     p,
   );
-  months.put(row as unknown as { id: string });
+  // The town's own income growth, once a year of it is recorded, is what the national step heard from the town.
+  months.put({
+    ...(row as unknown as { id: string }),
+    ...(growth !== null ? { townIncomeGrowthPct: growth } : {}),
+  });
   if (regionalRegistered(api)) stepRegional(api, previous, row);
   const next = { ...state, latestMonth: row.month };
   store(api).table("state").put(next);
