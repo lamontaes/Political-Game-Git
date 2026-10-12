@@ -1,0 +1,78 @@
+{
+  "creditBankEquityShareOfDeposits": {
+    "value": 0.086,
+    "tag": "SOURCED",
+    "citation": "Median of cushion plus other assets less deposits, as a share of deposits, over the 3,194 FDIC-insured banks under $1 billion, June 30, 2026 call reports (data/tables/town-bank-shapes.json).",
+    "spread": {
+      "low": -0.093,
+      "high": 0.259,
+      "unit": "share of deposits",
+      "citation": "10th and 90th percentiles of the same banks."
+    }
+  },
+  "creditLineMonthsOfPayroll": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Small firms seek lines covering a few months of operating costs (Federal Reserve Small Business Credit Survey, 2023 Report on Employer Firms).",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "months of payroll",
+      "citation": "Small firms seek lines covering a few months of operating costs (Federal Reserve Small Business Credit Survey, 2023 Report on Employer Firms)."
+    }
+  },
+  "creditPrimeSpreadPct": {
+    "value": 1.75,
+    "tag": "TUNABLE",
+    "citation": "Small business lines price at prime plus one to three points (Federal Reserve Survey of Terms of Business Lending, 2010-2017; SBA 7(a) maximums).",
+    "spread": {
+      "low": 1,
+      "high": 3,
+      "unit": "percentage points over prime",
+      "citation": "Small business lines price at prime plus one to three points (Federal Reserve Survey of Terms of Business Lending, 2010-2017; SBA 7(a) maximums)."
+    }
+  },
+  "creditRiskSpreadPct": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "A borrower whose sales barely cover its wages pays more (SBA 7(a) spread caps by loan size).",
+    "spread": {
+      "low": 1,
+      "high": 5,
+      "unit": "percentage points at the weakest record",
+      "citation": "A borrower whose sales barely cover its wages pays more (SBA 7(a) spread caps by loan size)."
+    }
+  },
+  "creditCapitalAppetiteSlope": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "A bank lends less as its capital falls below where it opened, on a sliding scale (Federal Reserve Senior Loan Officer Survey: tightening with capital and risk).",
+    "spread": {
+      "low": 2,
+      "high": 8,
+      "unit": "per share of opening capital",
+      "citation": "A bank lends less as its capital falls below where it opened, on a sliding scale (Federal Reserve Senior Loan Officer Survey: tightening with capital and risk)."
+    }
+  },
+  "creditMaxLimitsPerEquity": {
+    "value": 8,
+    "tag": "TUNABLE",
+    "citation": "Small banks hold loans of about eight to twelve times their equity (FDIC Quarterly Banking Profile, community banks).",
+    "spread": {
+      "low": 5,
+      "high": 12,
+      "unit": "line limits per dollar of equity",
+      "citation": "Small banks hold loans of about eight to twelve times their equity (FDIC Quarterly Banking Profile, community banks)."
+    }
+  },
+  "creditDepositsInThousands": {
+    "value": 1000,
+    "tag": "SOURCED",
+    "citation": "FDIC Summary of Deposits reports deposits in thousands of dollars."
+  },
+  "creditMinorPerDollar": {
+    "value": 100,
+    "tag": "SOURCED",
+    "citation": "Cents per dollar."
+  }
+}

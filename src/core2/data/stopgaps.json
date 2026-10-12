@@ -1078,5 +1078,29 @@
     "addedAt": "2026-10-12",
     "replacement": "State unemployment insurance under the law in force, paid through postJournal from the state's fund.",
     "status": "open"
+  },
+  {
+    "id": "SG-WORLD-credit-business-applies",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/credit.ts",
+    "line": 177,
+    "whatItFakes": "A business applies for a line whenever its cash is below a few months of payroll, without an owner deciding.",
+    "why": "Businesses have no recorded owners until businesses growing (M1-08).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The owner chooses to borrow through the shared chooser from the books, their traits and the line's cost.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-credit-bank-equity-only",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/credit.ts",
+    "line": 279,
+    "whatItFakes": "The town bank opens holding only its own equity as cash and lends from that; households' and businesses' money is not on deposit with it.",
+    "why": "Deposits need the core's named accounts (OPUS-CORE's accounts item) so cash can sit in bank accounts without a second book.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Opening deposits moved into bank accounts through postJournal, the bank lending against them, with household loans (M1-06).",
+    "status": "open"
   }
 ]
