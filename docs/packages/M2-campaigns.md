@@ -2,7 +2,7 @@
 
 **Specs:** M2-05 and M2-06.
 **Built by:** OPUS-GOV, with OPUS-PEOPLE (voters, volunteers, donors and their words) and OPUS-PLAY (the screens).
-**Systems model:** *The Political Process*: platform, doors, volunteers, fundraising, rallies, polls and ads, which move name recognition, opinion, enthusiasm and turnout, with resources scaled to the office. Our version adds real people, scenes and a real place.
+**Systems model:** _The Political Process_: platform, doors, volunteers, fundraising, rallies, polls and ads, which move name recognition, opinion, enthusiasm and turnout, with resources scaled to the office. Our version adds real people, scenes and a real place.
 
 ## What you'll do
 
@@ -31,6 +31,7 @@ Between filing and election day, your time is the thing you spend. Each day you 
 ## How you'll know it works
 
 In a random place, after filing:
+
 1. You spend campaign days knocking doors (a montage, with the odd porch scene), recruiting a volunteer, raising money within the limit, giving a speech, running an ad and commissioning a poll.
 2. Each of those changes what specific people know and think, and you can click someone to see why.
 3. Your rival campaigns too.

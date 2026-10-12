@@ -3,7 +3,8 @@
 **Specs:** M3-04 and M3-05.
 **Built by:** OPUS-GOV, with OPUS-PEOPLE (who feels it, and the moments) and OPUS-PLAY (the desk and the budget screen).
 
-**Systems model:** *The Political Process*:
+**Systems model:** _The Political Process_:
+
 - laws move 100+ measures, and cutting a program ripples into others;
 - the executive signs or vetoes;
 - leaders propose a budget, set taxes and fund or cut programs.
@@ -13,6 +14,7 @@ Our version adds real people who feel each change, and a desk with scenes.
 ## What you'll do
 
 **When a law passes, the town changes.**
+
 - On its effective date the rule, program or tax changes.
 - People feel it when it reaches them: the bus route comes back, the clinic hires, the new rent rule applies to a real family, the shop owner pays the new fee.
 - Funded work gets paid for, and it can run late or fail.
@@ -23,6 +25,7 @@ Our version adds real people who feel each change, and a desk with scenes.
 - Repealing a law ends its effects.
 
 **At the mayor's, county executive's or governor's desk:**
+
 - **Sign or veto.** Bills arrive and you decide, with your staff's advice.
 - **The budget.** You set priorities with staff advice, line by line if you want. The council or legislature votes on it, and budget fights are scenes. This replaces the stand-in budget rules from M1.
 - **Appointments.** You pick people you know, or applicants, at the depth you choose. Offices come with patronage jobs.
@@ -56,6 +59,7 @@ The president's desk runs in the world on the same engine. Playing it comes late
 ## How you'll know it works
 
 In a random place:
+
 - An ordinance you passed takes effect on its date and changes something specific people experience. You can click one of them and see it on their record.
 - A linked area moves because of it.
 - As mayor, you sign one bill and veto another, set budget priorities the council adopts, and appoint someone you know.
