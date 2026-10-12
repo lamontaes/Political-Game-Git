@@ -65,6 +65,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: debate added to the speech bank (247 sentences): the moderator ("Next question.", "Let's move on.", "Thank you both.") and a candidate's turn ("May I respond?", "Let me finish.", "The choice is clear."), composed as `debate-moderator` and `debate-candidate`. Golden-path runner exits clean on this branch. A helper is fetching the remaining presidential exchanges and White House press briefings.
+
 - Oct 12: added 3,000 presidential documents (Daily Compilation of Presidential Documents, 2015 to 2026: every State of the Union and inaugural, addresses, remarks); corpus 23,600 documents. Re-mined: conversation 338, address 230 (now with the opening speech's moves: "My fellow Americans.", "{name}, please stand.", "God bless you all, and may God protect our troops.", "So help me God."), interview 68, choice names 52, journal 51, headlines 43, scenes 13. Three conversation gaps closed (asking whether someone still lives in town, "I saw {name} {when}.", answering about someone both know). Real politicians' slogans are kept out even when public domain.
 
 - Oct 12: grading batch 5 (speeches, hearings, public comment, interviews, headlines; 5 drawn places). Making it found ungrounded claims ("I'm a nurse.", "Our economy is booming."): 75 such sentences now require a named record fact. Second-person text added (1,892 park pages and booklets, 452 usa.gov, Fire Administration and weather.gov pages); scenes stay thin.

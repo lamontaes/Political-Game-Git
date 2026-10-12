@@ -78,7 +78,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 202
+    "notAttested": 241
   },
   "parts": [
     {
@@ -1888,6 +1888,12 @@
           "subject": "inaugural",
           "role": "close",
           "choice": "close"
+        },
+        {
+          "move": "debate-moderator",
+          "subject": "debate",
+          "role": "moderator",
+          "choice": "moderator"
         }
       ],
       "transcriptsUsing": 4577,
@@ -2239,6 +2245,12 @@
           "subject": "public-comment",
           "role": "greet",
           "choice": "greet"
+        },
+        {
+          "move": "debate-closing",
+          "subject": "debate",
+          "role": "closing",
+          "choice": "closing"
         }
       ],
       "transcriptsUsing": 44,
@@ -2946,6 +2958,12 @@
           "subject": "public-comment",
           "role": "greet",
           "choice": "greet"
+        },
+        {
+          "move": "debate-moderator",
+          "subject": "debate",
+          "role": "moderator",
+          "choice": "moderator"
         }
       ],
       "transcriptsUsing": 52,
@@ -3454,6 +3472,12 @@
           "subject": "chair",
           "role": "run-meeting",
           "choice": "run-meeting"
+        },
+        {
+          "move": "debate-moderator",
+          "subject": "debate",
+          "role": "moderator",
+          "choice": "moderator"
         }
       ],
       "transcriptsUsing": 11,
@@ -3481,6 +3505,12 @@
           "subject": "chair",
           "role": "run-meeting",
           "choice": "run-meeting"
+        },
+        {
+          "move": "debate-moderator",
+          "subject": "debate",
+          "role": "moderator",
+          "choice": "moderator"
         }
       ],
       "transcriptsUsing": 35,
@@ -5435,6 +5465,12 @@
           "subject": "campaign",
           "role": "close",
           "choice": "close"
+        },
+        {
+          "move": "debate-closing",
+          "subject": "debate",
+          "role": "closing",
+          "choice": "closing"
         }
       ],
       "transcriptsUsing": 5,
@@ -6991,6 +7027,548 @@
         "date": "2022-07-04",
         "granule": "DCPD-202200584",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202200584/html/DCPD-202200584.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-moderator.lets-begin",
+      "move": "debate-moderator",
+      "kind": "spoken",
+      "text": "Let's begin.",
+      "uses": [
+        {
+          "move": "debate-moderator",
+          "subject": "debate",
+          "role": "moderator",
+          "choice": "moderator"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "SWETT AND LACERTE NOMINATIONS",
+        "date": "2025-09-04",
+        "granule": "CHRG-119shrg61930",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg61930/html/CHRG-119shrg61930.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-moderator.lets-get-started",
+      "move": "debate-moderator",
+      "kind": "spoken",
+      "text": "Let's get started.",
+      "uses": [
+        {
+          "move": "debate-moderator",
+          "subject": "debate",
+          "role": "moderator",
+          "choice": "moderator"
+        }
+      ],
+      "transcriptsUsing": 12,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 2,
+        "crec": 1,
+        "hearings": 2,
+        "house": 1,
+        "nasa": 1,
+        "nps": 3,
+        "nps.gov (PDF)": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "MEMBER DAY HEARING ON COVID-19 RESPONSE AND RECOVERY: COMMITTEE ON SMALL BUSINESS",
+        "date": "2020-04-23",
+        "granule": "CHRG-116hhrg41291",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-116hhrg41291/html/CHRG-116hhrg41291.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-moderator.time",
+      "move": "debate-moderator",
+      "kind": "spoken",
+      "text": "Time.",
+      "uses": [
+        {
+          "move": "debate-moderator",
+          "subject": "debate",
+          "role": "moderator",
+          "choice": "moderator"
+        }
+      ],
+      "transcriptsUsing": 45,
+      "bySource": {
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
+        "crec": 1,
+        "dcpd": 3,
+        "hearings": 7,
+        "house": 4,
+        "nasa": 5,
+        "nasa2": 3,
+        "nih": 8,
+        "nps": 8,
+        "nps.gov": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks and a Question-and-Answer Session at the Future Investment Initiative Priority Miami Summit in Miami Beach, Florida",
+        "date": "2026-03-27",
+        "granule": "DCPD-202600213",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600213/html/DCPD-202600213.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-moderator.thirty-seconds",
+      "move": "debate-moderator",
+      "kind": "spoken",
+      "text": "Thirty seconds.",
+      "uses": [
+        {
+          "move": "debate-moderator",
+          "subject": "debate",
+          "role": "moderator",
+          "choice": "moderator"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 1,
+        "hearings": 2,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks to Federal Law Enforcement Officers and National Guard Personnel",
+        "date": "2025-08-21",
+        "granule": "DCPD-202500860",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500860/html/DCPD-202500860.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-moderator.lets-move-on",
+      "move": "debate-moderator",
+      "kind": "spoken",
+      "text": "Let's move on.",
+      "uses": [
+        {
+          "move": "debate-moderator",
+          "subject": "debate",
+          "role": "moderator",
+          "choice": "moderator"
+        }
+      ],
+      "transcriptsUsing": 20,
+      "bySource": {
+        "U.S. Senate Historical Office oral history": 1,
+        "dcpd": 1,
+        "hearings": 15,
+        "nasa": 2,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NOMINATIONS OF EDWARD FORST, CHARLES ARRINGTON, JOHN CUONG TRUONG, ELANA S. SUTTENBERG, STEPHEN F. RICKARD, WILLIAM KIRK, HON. ANTHONY D'ESPOSITO, AND PLATTE MORING",
+        "date": "2025-10-23",
+        "granule": "CHRG-119shrg62164",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62164/html/CHRG-119shrg62164.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-moderator.next-question",
+      "move": "debate-moderator",
+      "kind": "spoken",
+      "text": "Next question.",
+      "uses": [
+        {
+          "move": "debate-moderator",
+          "subject": "debate",
+          "role": "moderator",
+          "choice": "moderator"
+        }
+      ],
+      "transcriptsUsing": 23,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 4,
+        "dcpd": 6,
+        "hearings": 12,
+        "nasa2": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
+        "date": "2025-05-05",
+        "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
+        "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-moderator.thank-you-both",
+      "move": "debate-moderator",
+      "kind": "spoken",
+      "text": "Thank you both.",
+      "uses": [
+        {
+          "move": "debate-moderator",
+          "subject": "debate",
+          "role": "moderator",
+          "choice": "moderator"
+        }
+      ],
+      "transcriptsUsing": 145,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 7,
+        "dcpd": 36,
+        "hearings": 99,
+        "nps": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks During a Roundtable Discussion With the Memphis Safe Task Force in Memphis, Tennessee",
+        "date": "2026-03-23",
+        "granule": "DCPD-202600196",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600196/html/DCPD-202600196.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-rebut.thats-not-true",
+      "move": "debate-rebut",
+      "kind": "spoken",
+      "text": "That's not true.",
+      "uses": [
+        {
+          "move": "debate-rebut",
+          "subject": "debate",
+          "role": "rebut",
+          "choice": "rebut"
+        }
+      ],
+      "transcriptsUsing": 49,
+      "bySource": {
+        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 3,
+        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 1,
+        "U.S. Senate Historical Office oral history": 4,
+        "dcpd": 11,
+        "hearings": 10,
+        "house": 2,
+        "nasa": 4,
+        "nasa2": 4,
+        "nps": 8
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a Telerally for New Jersey Republican Gubernatorial Candidate Jack Ciattarelli",
+        "date": "2025-06-02",
+        "granule": "DCPD-202500654",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500654/html/DCPD-202500654.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-rebut.thats-simply-not-true",
+      "move": "debate-rebut",
+      "kind": "spoken",
+      "text": "That's simply not true.",
+      "uses": [
+        {
+          "move": "debate-rebut",
+          "subject": "debate",
+          "role": "rebut",
+          "choice": "rebut"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "dcpd": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks During a Briefing on Hurricane Milton Preparedness Efforts",
+        "date": "2024-10-09",
+        "granule": "DCPD-202400892",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202400892/html/DCPD-202400892.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-rebut.can-i-respond-to-that",
+      "move": "debate-rebut",
+      "kind": "spoken",
+      "text": "Can I respond to that?",
+      "uses": [
+        {
+          "move": "debate-rebut",
+          "subject": "debate",
+          "role": "rebut",
+          "choice": "rebut"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "hearings": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "\"MOSTLY PEACEFUL\": COUNTERING LEFT-WING ORGANIZED VIOLENCE",
+        "date": "2023-05-16",
+        "granule": "CHRG-118hhrg53781",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg53781/html/CHRG-118hhrg53781.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-rebut.may-i-respond",
+      "move": "debate-rebut",
+      "kind": "spoken",
+      "text": "May I respond?",
+      "uses": [
+        {
+          "move": "debate-rebut",
+          "subject": "debate",
+          "role": "rebut",
+          "choice": "rebut"
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "hearings": 10
+      },
+      "shippable": true,
+      "source": {
+        "document": "RESTORING TRUST IN FDA: ROOTING OUT ILLICIT PRODUCTS",
+        "date": "2025-04-09",
+        "granule": "CHRG-119hhrg60029",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60029/html/CHRG-119hhrg60029.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-rebut.let-me-finish",
+      "move": "debate-rebut",
+      "kind": "spoken",
+      "text": "Let me finish.",
+      "uses": [
+        {
+          "move": "debate-rebut",
+          "subject": "debate",
+          "role": "rebut",
+          "choice": "rebut"
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "dcpd": 4,
+        "hearings": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at an Executive Order Signing Ceremony and an Exchange With Reporters",
+        "date": "2026-06-03",
+        "granule": "DCPD-202600377",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600377/html/DCPD-202600377.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-rebut.let-me-just-finish",
+      "move": "debate-rebut",
+      "kind": "spoken",
+      "text": "Let me just finish.",
+      "uses": [
+        {
+          "move": "debate-rebut",
+          "subject": "debate",
+          "role": "rebut",
+          "choice": "rebut"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 1,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at Turning Point U.S.A.'s Teen Student Action Summit 2019",
+        "date": "2019-07-23",
+        "granule": "DCPD-201900504",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-201900504/html/DCPD-201900504.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-rebut.look-at-the-record",
+      "move": "debate-rebut",
+      "kind": "spoken",
+      "text": "Look at the record.",
+      "uses": [
+        {
+          "move": "debate-rebut",
+          "subject": "debate",
+          "role": "rebut",
+          "choice": "rebut"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "crec": 2,
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on the Nomination of Steven M. Dettelbach To Be Director of the Bureau of Alcohol, Tobacco, Firearms, and Explosives and Efforts To Reduce Gun Violence",
+        "date": "2022-04-11",
+        "granule": "DCPD-202200272",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202200272/html/DCPD-202200272.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-rebut.thats-just-wrong",
+      "move": "debate-rebut",
+      "kind": "spoken",
+      "text": "That's just wrong.",
+      "uses": [
+        {
+          "move": "debate-rebut",
+          "subject": "debate",
+          "role": "rebut",
+          "choice": "rebut"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "dcpd": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in Marietta, Georgia",
+        "date": "2026-07-22",
+        "granule": "DCPD-202600485",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600485/html/DCPD-202600485.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-rebut.i-respectfully-disagree",
+      "move": "debate-rebut",
+      "kind": "spoken",
+      "text": "I respectfully disagree.",
+      "uses": [
+        {
+          "move": "debate-rebut",
+          "subject": "debate",
+          "role": "rebut",
+          "choice": "rebut"
+        }
+      ],
+      "transcriptsUsing": 9,
+      "bySource": {
+        "dcpd": 1,
+        "hearings": 8
+      },
+      "shippable": true,
+      "source": {
+        "document": "OVERSIGHT OF THE U.S. DEPARTMENT OF JUSTICE",
+        "date": "2024-06-04",
+        "granule": "CHRG-118hhrg55952",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55952/html/CHRG-118hhrg55952.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-rebut.heres-the-truth",
+      "move": "debate-rebut",
+      "kind": "spoken",
+      "text": "Here's the truth.",
+      "uses": [
+        {
+          "move": "debate-rebut",
+          "subject": "debate",
+          "role": "rebut",
+          "choice": "rebut"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Efforts To Reduce Gasoline Prices",
+        "date": "2022-06-22",
+        "granule": "DCPD-202200548",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202200548/html/DCPD-202200548.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-closing.the-choice-is-yours",
+      "move": "debate-closing",
+      "kind": "spoken",
+      "text": "The choice is yours.",
+      "uses": [
+        {
+          "move": "debate-closing",
+          "subject": "debate",
+          "role": "closing",
+          "choice": "closing"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 1,
+        "hud": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks as Delivered by Secretary Marcia L. Fudge at the Ohio State University 2023 Summer Commencement",
+        "date": "2023-08-09",
+        "granule": "hud-2023-08-09-remarks-as-delivered-by-secretary-marcia-l-fudge-at-the-ohio-0b012ef2",
+        "url": "https://archives.hud.gov/news/2023/pr23-167.cfm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.debate-closing.the-choice-is-clear",
+      "move": "debate-closing",
+      "kind": "spoken",
+      "text": "The choice is clear.",
+      "uses": [
+        {
+          "move": "debate-closing",
+          "subject": "debate",
+          "role": "closing",
+          "choice": "closing"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "crec": 3,
+        "dcpd": 2,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "HOW MASS DEPORTATIONS WILL SEPARATE AMERICAN FAMILIES, HARM OUR ARMED FORCES, AND DEVASTATE OUR ECONOMY",
+        "date": "2024-12-10",
+        "granule": "CHRG-118shrg60483",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60483/html/CHRG-118shrg60483.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }

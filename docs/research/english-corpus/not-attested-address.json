@@ -1261,6 +1261,240 @@
       "text": "We are one nation.",
       "documents": 1,
       "modern": 1
+    },
+    {
+      "move": "debate-moderator",
+      "text": "Welcome to the debate.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "Good evening, and welcome.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "You have one minute.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "You have two minutes.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "debate-moderator",
+      "text": "You have one minute to respond.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "You have thirty seconds.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "Let's move to the next question.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "The next question goes to {name}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "{name}, the first question goes to you.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "{name}, you have two minutes.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "{name}, your response?",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "Please let {name} finish.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "Let {name} finish.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "Please don't interrupt.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "We'll now hear closing statements.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-moderator",
+      "text": "That concludes our debate.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "That's not accurate.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "debate-rebut",
+      "text": "Let me respond to that.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "debate-rebut",
+      "text": "I want to respond to that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "I'd like to respond to that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "Let me answer the question.",
+      "documents": 1,
+      "modern": 1
+    },
+    {
+      "move": "debate-rebut",
+      "text": "I'm going to answer the question.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "I'll answer the question.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "The facts don't support that.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "Look at my record.",
+      "documents": 1,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "My opponent knows that's not true.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "{opponent} knows that's not true.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "With all due respect, that's not true.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "With all due respect, I disagree.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-rebut",
+      "text": "Here's the difference.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "Thank you for watching.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "Thank you for tuning in.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "I'm asking for your vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "I ask for your vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "I'd be honored to have your vote.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "I'd be honored to be your {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "I would be honored to serve as your {office}.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "I'm ready to serve.",
+      "documents": 0,
+      "modern": 0
+    },
+    {
+      "move": "debate-closing",
+      "text": "I'm ready to go to work.",
+      "documents": 0,
+      "modern": 0
     }
   ]
 }

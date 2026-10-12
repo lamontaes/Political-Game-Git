@@ -171,6 +171,21 @@ export const ADDRESS_REGISTERS: Readonly<
       { move: "close", act: "thank" },
     ],
   },
+  // A candidates' debate: the moderator's lines and a candidate's turn are
+  // separate registers, since each speaker composes their own.
+  "debate-moderator": {
+    from: "debate",
+    register: "town-hall",
+    moves: [{ move: "moderator", act: "request", required: true }],
+  },
+  "debate-candidate": {
+    from: "debate",
+    register: "town-hall",
+    moves: [
+      { move: "rebut", act: "deflect", required: true },
+      { move: "closing", act: "request" },
+    ],
+  },
   // The cinematic opening: a President's State of the Union or inaugural.
   // Stand-in: the engine has no register card for a president's address
   // yet, so these compose under election-night until PEOPLE adds one.
