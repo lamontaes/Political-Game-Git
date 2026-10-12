@@ -462,6 +462,12 @@
       "tag": "ESTIMATED",
       "source": "The term of a local or county office whose own term isn't read: most county and municipal elected offices serve four-year terms (National Association of Counties, County Structure and Elected Officials; ICMA Municipal Form of Government Survey 2023).",
       "spread": [2, 4]
+    },
+    "votedShareOfRegistered": {
+      "value": 0.89,
+      "tag": "SOURCED",
+      "source": "Share of registered voters who voted in November 2024: 65.3% of citizens voted and 73.6% were registered (U.S. Census Bureau, Voting and Registration in the Election of November 2024, CPS), so about 0.89.",
+      "spread": [0.8, 0.92]
     }
   }
 }

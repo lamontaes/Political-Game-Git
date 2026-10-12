@@ -90,6 +90,13 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-13 01:10 UTC: **Audit 6 (independent filing terms, formula fees):**
+  - Filing terms now follow the candidate's side. Filing with no party takes the research's independent route: Texas statewide is $0, 1% of the governor's vote, and a June 25 deadline.
+  - Fees and signature counts written as formulas are worked out from the race (`src/core2/filing-formulas.ts`). A fee comes from the office's salary, so California's governor pays 2% of salary, no longer free. Signatures come from the district's 2024 vote, with caps, floors and "whichever is less"; registered voters are votes ÷ 0.89, from CPS 2024. A range takes its middle and is marked an estimate.
+  - Salaries: new research `data/research/offices/official-salaries-2026.json`, read in `filing-context.ts`. Every row is marked an estimate because the helper's fetches failed; the figures are to be checked against Ballotpedia and NCSL.
+  - You can't file before the filing window opens, and petitions take no signatures after the deadline.
+  - New `filing-formulas.test.ts`; the filing, voting, parties, record, campaigns and tripwires tests pass.
+
 - 2026-10-13 00:30 UTC: **Audit 13 (law breadth), first pass merged:** all 74 catalog policies plus the transit line now reach someone once in force, through `src/core2/law-reach/` (handlers registered by key with `registerPolicyHandler` in `law-effects.ts`; budget-line changes are announced by `amendBudget`).
   - **Full mechanics.** Wage laws and local wage authority. The paid-family-leave premium, journaled from paychecks into the enacting treasury. Police, fire, administration and corrections staffing hiring and laying off from the budget line. Parks funding. Teacher minimum salary and school and health pay through `rerateJob`. Adopting or graduating an income tax collected by withholding. A balanced-budget rule. Pension contributions. A reserve account. Welfare benefits owed and paid from treasury cash. Shifting highway money to transit. Election laws changing each voter's turnout cost.
   - **The rest.** Records on the named people, counted groups and employers reached, with 35 registered stopgaps (`SG-GOV-REACH-A-*`, `SG-GOV-REACH-B-*`), each naming the exact API another session must provide. These are under "Needs".
