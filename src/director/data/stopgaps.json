@@ -154,5 +154,17 @@
     "addedAt": "2026-10-09",
     "replacement": "Past moments measured from replayed lives once the life-replay harness runs on the new core.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-memory-forgetting",
+    "kind": "uncalibrated-tunable",
+    "file": "src/director/data/director.json",
+    "line": 1,
+    "whatItFakes": "How long a watched person keeps every moment in full, and how many older moments they keep one by one.",
+    "why": "No study sets either; chosen so memory stays about the same size across a year while the recent season stays whole.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "A calibration against what people bring up in play (M4-05) and the owner's grading of the journal.",
+    "status": "open"
   }
 ]
