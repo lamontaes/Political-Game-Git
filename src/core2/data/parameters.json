@@ -176,9 +176,9 @@
   },
   "careHours": {
     "value": 2.23,
-    "tag": "ESTIMATED",
-    "citation": "BLS American Time Use Survey 2025, Table 1: caring for and helping household members, 2.23 hours per day among people who did it that day (22.0% of people); https://www.bls.gov/news.release/atus.t01.htm",
-    "estimatedFrom": "The ATUS average for people who gave care that day is used as the length of one act of caring for a relative, inside or outside the home; ATUS counts household members only, and an act stands for a day's caregiving, not one task (CTO, October 10, 2026)."
+    "tag": "SOURCED",
+    "citation": "BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population engaging in each activity, averages per day' (released 2026-06-25), https://www.bls.gov/news.release/atus.t01.htm: caring for and helping household members, 2.23 hours per participant-day (22.0% of people on an average day); nonhousehold members 1.97 hours.",
+    "estimatedFrom": "One completed care act is one participant-day of household care; the 22.0% participation share is the outcome check, not a bound."
   },
   "civicHours": {
     "value": 2.18,
@@ -4286,7 +4286,8 @@
       "high": 2,
       "unit": "multiples of the industry median buffer",
       "citation": "JPMCI 2016 interquartile buffer ranges run about half to double the median."
-    }
+    },
+    "checkedAgainst": "Spread 1 to 3; checked against annual closure rate (BDS establishment exit about 8% a year) and town cash staying near its opening level in a calm year."
   },
   "ownerDistributionLocalShare": {
     "value": 0.6,

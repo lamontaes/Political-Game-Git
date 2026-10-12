@@ -1882,6 +1882,50 @@
       "keyedBy": "data version + place id + school stage",
       "reason": "Picks a landscape feature word for the name of a school with no indexed campus; a name, with no effect on what happens to anyone.",
       "replacement": null
+    },
+    {
+      "file": "src/core2/central-bank-board.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "p(\"macroGovernorMinimumAge\") + rng.next() * p(\"macroGovernorAgeSpan\");",
+      "class": "GENERATION",
+      "keyedBy": "member seed (world seed + seat)",
+      "reason": "A fictional member's age at appointment: who exists, not what they decide.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/central-bank-board.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "const career = rng.pick(board.careers);",
+      "class": "GENERATION",
+      "keyedBy": "member seed (world seed + seat)",
+      "reason": "A fictional member's past career: who exists; their votes come from lived inflation and traits.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/central-bank-board.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "givenName: rng.pick(corpus.givenNames),",
+      "class": "GENERATION",
+      "keyedBy": "member seed (world seed + seat)",
+      "reason": "A fictional member's given name from the Census/SSA corpus.",
+      "replacement": null
+    },
+    {
+      "file": "src/core2/central-bank-board.ts",
+      "kind": "list-pick",
+      "build": null,
+      "count": 1,
+      "code": "familyName: rng.pick(corpus.familyNames),",
+      "class": "GENERATION",
+      "keyedBy": "member seed (world seed + seat)",
+      "reason": "A fictional member's family name from the Census/SSA corpus.",
+      "replacement": null
     }
   ]
 }
