@@ -30,3 +30,5 @@ None yet.
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- Oct 12 07:40 UTC: #3997, #3998 and #4000 (prettier pass over 19 docs files that failed `repository` on main) are merged. Main's skill-ops, Release and format checks should now be green; check the next main run. #3975 had main merged in at 00738a0e. Next: BOARD open work; note this workspace has no dependencies installed, so I can't run tests locally and rely on CI.
