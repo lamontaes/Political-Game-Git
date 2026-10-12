@@ -1,7 +1,7 @@
 /** M1-08 first cut: owners and owner draws from profit, on a recorded fixture. */
 import { describe, expect, it } from "vitest";
 import { advanceCore, createLifeCore } from "./life";
-import { BUSINESS_MODULE } from "./modules/business";
+import { BUSINESS_MODULE, ownerOf } from "./modules/business";
 import { worldCoreData } from "./modules/world";
 import { coreAPI } from "./state";
 import type { BusinessBooksState } from "./finance-types";
@@ -140,7 +140,7 @@ describe("owners draw from profit", () => {
   });
 });
 
-async function foundingCore(owner: boolean) {
+async function foundingCore(owner: boolean, cook = false) {
   const { CREDIT_MODULE } = await import("./modules/credit");
   const { MACRO_MODULE, withCentralBank } = await import("./modules/macro");
   const place2 = "place:founding-fixture",
@@ -173,6 +173,7 @@ async function foundingCore(owner: boolean) {
   const people = [
     person("founder", bold),
     ...(owner ? [person("owner", bold, "job:owner")] : []),
+    ...(cook ? [person("cook", {}, "job:cook")] : []),
   ];
   const base = withCentralBank({
     seed: "founding-fixture",
@@ -191,11 +192,25 @@ async function foundingCore(owner: boolean) {
             personId: "owner",
             organizationId: "diner:a",
             title: "Owner",
-            hourlyMinor: 1,
+            hourlyMinor: 2,
             hoursDaily: 1,
             wageDailyMinor: 1,
             source: s2,
           },
+          ...(cook
+            ? [
+                {
+                  id: "job:cook",
+                  personId: "cook",
+                  organizationId: "diner:a",
+                  title: "Cook",
+                  hourlyMinor: 1,
+                  hoursDaily: 1,
+                  wageDailyMinor: 1,
+                  source: s2,
+                },
+              ]
+            : []),
         ]
       : [],
     organizations: [
@@ -315,6 +330,25 @@ describe("founding a business where a market has room", () => {
       owners.filter((row) => row.ownerId === "owner").length,
     ).toBeGreaterThanOrEqual(2);
     expect(money(core)).toBe(total);
+  });
+});
+describe("owners hand their business on", () => {
+  it("when the owner dies, the business's other worker takes it on and the change is a public event", async () => {
+    const core = await foundingCore(true, true);
+    advanceCore(core, "2026-10-02");
+    core.people.get("owner")!.alive = false;
+    advanceCore(core, "2026-11-02");
+    const t = api(core).moduleState("business").snapshot().tables;
+    expect(t.successions).toEqual([
+      expect.objectContaining({
+        organizationId: "diner:a",
+        fromId: "owner",
+        toId: "cook",
+        basis: "successor",
+        cause: "died",
+      }),
+    ]);
+    expect(ownerOf(api(core), "diner:a")).toBe("cook");
   });
 });
 const api = (core: CoreState) => coreAPI(core);

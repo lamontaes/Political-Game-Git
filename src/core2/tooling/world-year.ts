@@ -95,6 +95,12 @@ console.log(
         ),
       },
       businesses: {
+        successions: (
+          tables("business").successions as unknown as {
+            basis: string;
+            cause: string;
+          }[]
+        ).map((row) => `${row.cause}:${row.basis}`),
         founded: (
           tables("business").foundings as unknown as {
             kindId: string;

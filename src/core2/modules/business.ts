@@ -133,9 +133,115 @@ function scheduleMonth(api: CoreAPI): void {
   });
 }
 
+/** An owner-operator who no longer works at the business, or an owner who has died, hands it on. */
+function stillOwns(c: CoreState, row: OwnerRow): boolean {
+  const owner = c.people.get(row.ownerId);
+  if (!owner?.alive) return false;
+  if (row.basis !== "highest-paid-worker" && row.basis !== "successor")
+    return true;
+  const job = owner.jobId ? c.jobs.get(owner.jobId) : undefined;
+  return job?.organizationId === row.id && job.endsAt === undefined;
+}
+
+/**
+ * The next owner: the business's best-paid, longest-serving full worker,
+ * else an adult in the owner's family who owns nothing yet.
+ */
+function successorOf(
+  api: CoreAPI,
+  row: OwnerRow,
+  owners: ReadonlySet<string>,
+): { personId: string; basis: string } | undefined {
+  const c = core(api);
+  const workers = [...(c.finance.jobsByOrganization.get(row.id) ?? [])]
+    .map((id) => c.jobs.get(id)!)
+    .filter(
+      (job) =>
+        job.endsAt === undefined &&
+        job.personId !== row.ownerId &&
+        c.people.get(job.personId)?.alive &&
+        !owners.has(job.personId),
+    )
+    .sort(
+      (a, b) =>
+        (b.hourlyMinor ?? 0) - (a.hourlyMinor ?? 0) || a.id.localeCompare(b.id),
+    );
+  if (workers[0]) return { personId: workers[0].personId, basis: "successor" };
+  const owner = c.people.get(row.ownerId);
+  const family = [...(owner?.familyIds ?? [])]
+    .map((id) => c.people.get(id))
+    .filter(
+      (person) =>
+        person?.alive &&
+        !owners.has(person.id) &&
+        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+          api.parameter("jobsDaysPerYear") >=
+          api.parameter("businessFounderMinimumAge"),
+    )
+    .sort((a, b) => a!.birthDate.localeCompare(b!.birthDate));
+  return family[0] ? { personId: family[0].id, basis: "heir" } : undefined;
+}
+
+function succeed(api: CoreAPI): void {
+  const c = core(api);
+  const rows = store(api)
+    .table("owners")
+    .query("all", [true]) as unknown as OwnerRow[];
+  const owners = new Set(rows.map((row) => row.ownerId));
+  for (const row of rows) {
+    const book = c.finance.businesses.get(row.id);
+    if (!book || book.closedAt || stillOwns(c, row)) continue;
+    const next = successorOf(api, row, owners);
+    const previous = c.people.get(row.ownerId);
+    store(api)
+      .table("successions")
+      .put({
+        id: `succession:${row.id}:${c.date}`,
+        organizationId: row.id,
+        date: c.date,
+        fromId: row.ownerId,
+        toId: next?.personId ?? "",
+        basis: next?.basis ?? "no-successor",
+        cause: previous?.alive ? "stopped-working" : "died",
+      });
+    if (!next) {
+      // Nobody to hand it to: it runs without a recorded owner until a voluntary closure exists.
+      stopgap("SG-WORLD-business-no-successor");
+      store(api).table("owners").remove(row.id);
+      continue;
+    }
+    owners.delete(row.ownerId);
+    owners.add(next.personId);
+    store(api)
+      .table("owners")
+      .put({
+        ...row,
+        ownerId: next.personId,
+        since: c.date,
+        basis: next.basis,
+      });
+    api.emit({
+      id: `event:organization.owner-changed:${row.id}:${c.date}`,
+      date: c.date,
+      kind: "organization.owner-changed",
+      personIds: [next.personId, ...(previous?.alive ? [previous.id] : [])],
+      placeId: c.organizations.get(row.id)?.placeId ?? "",
+      source: {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: businessData.source.citation,
+        estimatedFrom: `${row.ownerId} ${previous?.alive ? "stopped working at" : "died owning"} ${row.id}; ${next.personId} takes it on as ${next.basis}.`,
+      },
+      publicRecord: true,
+      topic: row.id,
+    });
+  }
+}
+
 function month(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
+  succeed(api);
   for (const row of store(api)
     .table("owners")
     .query("all", [true]) as unknown as OwnerRow[]) {
@@ -544,6 +650,7 @@ export const BUSINESS_MODULE: CoreModule = {
       owners: { indexes: { all: { fields: ["isOwner"] } } },
       draws: { indexes: { byOrganization: { fields: ["organizationId"] } } },
       foundings: {},
+      successions: {},
     },
   },
   reasonProviders: {
