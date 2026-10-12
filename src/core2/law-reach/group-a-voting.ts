@@ -169,7 +169,10 @@ export function lobbyingBarredUntil(
 ): string | null {
   if (!electionLaws(api).has(LOBBYING_BAN)) return null;
   const ended = termsOf(api, personId)
-    .filter((t) => t.status === "ended" && t.endDate)
+    // A term that ended in re-election isn't leaving office.
+    .filter(
+      (t) => t.status === "ended" && t.endDate && t.endedBy !== "re-elected",
+    )
     .map((t) => t.endDate!)
     .sort()
     .pop();

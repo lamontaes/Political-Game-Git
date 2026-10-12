@@ -7,6 +7,8 @@ import { enrichCivicInputs } from "../core2/civic-inputs";
 import { createOpeningFinance } from "../core2/opening-finance";
 import { DEFAULT_DATA } from "../core2/data";
 import { createLifeCore } from "../core2/life";
+import { withDrives, createDrivesModule } from "../core2/modules/drives";
+import { createHealthModule } from "../core2/modules/health";
 import { createDirector, type Director } from "../director/ledger";
 import {
   WORLD_MODULES,
@@ -23,7 +25,9 @@ import { openRecord } from "../core2/modules/record";
 import { openBudgets } from "../core2/modules/budgets";
 import { openLegislature } from "../core2/modules/legislature";
 import { openLawEffects } from "../core2/modules/law-effects";
-import { peopleData, peopleModules } from "../director/play-modules";
+import { viewsModule } from "../core2/modules/views";
+import { newsModule } from "../core2/modules/news";
+import { candidacyModule } from "../core2/modules/candidacy";
 import { RENEWAL_MODULE } from "../core2/modules/renewal";
 import { renewalData } from "../core2/births-setup";
 import { registerModule } from "../core2/state";
@@ -117,64 +121,22 @@ function familyClosure(input: CoreInput): Set<string> {
   return keep;
 }
 
-/** The stages a world builds in, by key; the screen names each (`loading` in controls.json). */
-export type BuildStage =
-  "people" | "past" | "economy" | "core" | "government" | "done";
-type BuildOptions = {
-  placeKey?: string;
-  minimumPeople?: number;
-  /**
-   * The two-level world (OPUS-CORE): the player, their household and
-   * circle and the officials are full people; everyone else is counts,
-   * filled in when met. The player is the resident at or nearest 18.
-   */
-  twoLevel?: boolean;
-  /** A custom world (M6-04): what the player changed from real data. */
-  settings?: WorldSettings;
-};
-type Built = BenchWorld & { playerId?: string };
-
-/** Builds the world in one go (tests and checks). */
 export function buildBenchWorld(
   seed: string,
   date: string,
-  options: BuildOptions = {},
-): Built {
-  const stages = benchWorldStages(seed, date, options);
-  for (;;) {
-    const step = stages.next();
-    if (step.done) return step.value;
-  }
-}
-
-/**
- * Builds the world stage by stage, letting the server answer between stages,
- * so the loading screen can show each step as it happens.
- */
-export async function buildBenchWorldInStages(
-  seed: string,
-  date: string,
-  options: BuildOptions,
-  onStage: (stage: BuildStage) => void,
-): Promise<Built> {
-  const stages = benchWorldStages(seed, date, options);
-  for (;;) {
-    const step = stages.next();
-    if (step.done) {
-      onStage("done");
-      return step.value;
-    }
-    onStage(step.value);
-    await new Promise((resolve) => setImmediate(resolve));
-  }
-}
-
-function* benchWorldStages(
-  seed: string,
-  date: string,
-  options: BuildOptions,
-): Generator<BuildStage, Built> {
-  yield "people";
+  options: {
+    placeKey?: string;
+    minimumPeople?: number;
+    /**
+     * The two-level world (OPUS-CORE): the player, their household and
+     * circle and the officials are full people; everyone else is counts,
+     * filled in when met. The player is the resident at or nearest 18.
+     */
+    twoLevel?: boolean;
+    /** A custom world (M6-04): what the player changed from real data. */
+    settings?: WorldSettings;
+  } = {},
+): BenchWorld & { playerId?: string } {
   const place = options.placeKey
     ? realLocalities().find((row) => row.key === options.placeKey)
     : selectBenchPlace(seed, lifePlaceStateIdentities(), realLocalities());
@@ -182,18 +144,19 @@ function* benchWorldStages(
   const settings = options.settings ?? {};
   checkWorldSettings(settings);
   const minimumPeople = settings.population ?? options.minimumPeople;
-  const population = buildPopulation({
-    seed,
-    startedAt: makeIsoDate(date),
-    placeKey: place.key,
-    ...(minimumPeople ? { minimumPeople } : {}),
-  });
-  yield "past";
   const input = applyWorldSettings(
-    enrichCivicInputs(buildDeepPast(population)),
+    enrichCivicInputs(
+      buildDeepPast(
+        buildPopulation({
+          seed,
+          startedAt: makeIsoDate(date),
+          placeKey: place.key,
+          ...(minimumPeople ? { minimumPeople } : {}),
+        }),
+      ),
+    ),
     settings,
   );
-  yield "economy";
   let opening: CoreInput;
   let playerId: string | undefined;
   if (options.twoLevel) {
@@ -250,20 +213,20 @@ function* benchWorldStages(
       ...input,
       finance: createOpeningFinance(input),
     });
-  yield "core";
   const director = createDirector();
   const core = createLifeCore(opening, {
     observer: false,
-    data: renewalData(worldCoreData(peopleData(DEFAULT_DATA))),
+    data: renewalData(worldCoreData(withDrives(DEFAULT_DATA))),
     modules: [
       ...WORLD_MODULES,
-      // Every people engine a played world installs (OPUS-PEOPLE): health,
-      // drives, views, news, speeches, who runs, corruption and beliefs.
-      ...peopleModules(),
+      createHealthModule(),
+      createDrivesModule(),
+      viewsModule,
+      newsModule,
+      candidacyModule,
       director.module,
     ],
   });
-  yield "government";
   // Government: the place's law in force, its offices and seats, and the
   // next elections with their filing rules (OPUS-GOV).
   openLaws(core);

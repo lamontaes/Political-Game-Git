@@ -74,8 +74,46 @@ export const LAW_EFFECTS_MODULE: CoreModule = {
 
 export function openLawEffects(core: CoreState): void {
   registerLawReach();
+  const first = !core.modules.has(LAW_EFFECTS_MODULE_ID);
   if (!core.modules.has(LAW_EFFECTS_MODULE_ID))
     registerModule(core, LAW_EFFECTS_MODULE);
+  // The policies already law at the opening reach people from the first day.
+  if (first && core.modules.has(LAWS_MODULE_ID)) {
+    const api = coreAPI(core);
+    const town = lawChain(api).townPlaceId;
+    const rows = (
+      api
+        .moduleState(LAWS_MODULE_ID)
+        .table("laws")
+        .rows() as unknown as LawRowInput[]
+    )
+      .filter((r) => r.effectiveDate <= core.date && r.value === 1)
+      .filter(
+        (r) => r.series in catalog || policyHandlerKeys().includes(r.series),
+      )
+      .sort((a, b) => a.id.localeCompare(b.id));
+    for (const row of rows)
+      applyLaw(api, {
+        id: `law-in-force:${row.id}`,
+        date: core.date,
+        kind: "law-took-effect",
+        personIds: [],
+        placeId: town,
+        source: {
+          tag: row.estimate ? "ESTIMATED" : "SOURCED",
+          citation: String(row.source),
+          asOf: core.date,
+          ...(row.estimate ? { estimatedFrom: String(row.source) } : {}),
+        },
+        facts: {
+          lawId: row.id,
+          series: row.series,
+          level: row.level,
+          jurisdiction: row.jurisdiction,
+          value: String(row.value),
+        },
+      } as unknown as CoreEventInput);
+  }
 }
 
 const ageOn = (p: Readonly<PersonState>, date: string) =>
@@ -104,7 +142,7 @@ function reaches(
  * (federal, state, county or city) whose latest row in force says yes. A
  * higher level saying no doesn't undo a lower level's yes.
  */
-function inForceHere(api: CoreAPI, question: string): boolean {
+export function inForceHere(api: CoreAPI, question: string): boolean {
   const date = api.state.date;
   const laws = api.moduleState(LAWS_MODULE_ID).table("laws");
   return lawChain(api).levels.some(({ jurisdiction }) => {

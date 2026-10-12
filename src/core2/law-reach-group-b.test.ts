@@ -8,6 +8,7 @@
 import { createHash } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
 import { govReport } from "./gov-test-report";
+import { repealStartingAnswers } from "./law-test-start";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
@@ -113,6 +114,7 @@ function build(): void {
     openLaws(core);
     openBudgets(core);
     openLawEffects(core);
+    repealStartingAnswers(core);
     api = coreAPI(core);
     place = key;
     town = lawChain(api).townPlaceId;

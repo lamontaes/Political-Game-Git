@@ -25,20 +25,6 @@
     "rally-county-fairground": "County fairground",
     "school-gym-town-hall": "School gym",
     "rally-union-hall-parking-lot": "Union hall",
-    "rally-stage": "Rally stage",
-    "rally-airport-hangar": "Airport hangar",
-    "city-hall-steps-event": "City hall steps",
-    "lodge-hall": "Lodge hall",
-    "church-supper-hall": "Church hall"
-  },
-  "loading": {
-    "people": "Building the town",
-    "past": "Writing everyone's past",
-    "economy": "Opening the economy",
-    "core": "Starting the world",
-    "government": "Seating the government",
-    "opening": "Preparing the opening",
-    "pictures": "Loading the pictures",
-    "done": "Ready"
+    "rally-stage": "Rally stage"
   }
 }

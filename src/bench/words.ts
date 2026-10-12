@@ -67,23 +67,15 @@ export function choiceName(
   };
 }
 
-/** Each policy question's and law amount's name on OPUS-GOV's bill catalog ("Limit groundwater withdrawal", "Minimum wage"). */
+/** Each policy question's name on OPUS-GOV's bill catalog ("Limit groundwater withdrawal"). */
 export function policyNames(): Record<string, string> {
   const names: Record<string, string> = {};
   const walk = (value: unknown): void => {
     if (Array.isArray(value)) value.forEach(walk);
     else if (value && typeof value === "object") {
-      const row = value as {
-        kind?: string;
-        name?: string;
-        question?: string;
-        series?: string;
-      };
+      const row = value as { kind?: string; name?: string; question?: string };
       if (row.kind === "policy-question" && row.name && row.question)
         names[row.question] = row.name[0]!.toUpperCase() + row.name.slice(1);
-      // A law amount (the minimum wage, a tax rate) by its series.
-      if (row.kind === "law-amount" && row.name && row.series)
-        names[row.series] = row.name;
       Object.values(value).forEach(walk);
     }
   };

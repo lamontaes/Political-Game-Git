@@ -23,20 +23,7 @@
 import powers from "../data/legislature/series-powers.json" with { type: "json" };
 import ties from "../../../data/research/elections/tie-rules-2026.json" with { type: "json" };
 import provisionQuestions from "../../../data/research/legislature/provision-questions.json" with { type: "json" };
-import lawAgricultureNaturalResources from "../../../data/research/laws/starting-law-2026/agriculture-natural-resources.json" with { type: "json" };
-import lawBusinessCommerce from "../../../data/research/laws/starting-law-2026/business-commerce.json" with { type: "json" };
-import lawCivilFamilyCommunity from "../../../data/research/laws/starting-law-2026/civil-family-community.json" with { type: "json" };
-import lawEducation from "../../../data/research/laws/starting-law-2026/education.json" with { type: "json" };
-import lawEnvironmentEnergy from "../../../data/research/laws/starting-law-2026/environment-energy.json" with { type: "json" };
-import lawFiscal from "../../../data/research/laws/starting-law-2026/fiscal.json" with { type: "json" };
-import lawGovernmentOperations from "../../../data/research/laws/starting-law-2026/government-operations.json" with { type: "json" };
-import lawHealthHumanServices from "../../../data/research/laws/starting-law-2026/health-human-services.json" with { type: "json" };
-import lawHousingLandUse from "../../../data/research/laws/starting-law-2026/housing-land-use.json" with { type: "json" };
-import lawJusticePublicSafety from "../../../data/research/laws/starting-law-2026/justice-public-safety.json" with { type: "json" };
-import lawLaborCommerce from "../../../data/research/laws/starting-law-2026/labor-commerce.json" with { type: "json" };
-import lawLaborWorkforce from "../../../data/research/laws/starting-law-2026/labor-workforce.json" with { type: "json" };
-import lawTechnologyPrivacy from "../../../data/research/laws/starting-law-2026/technology-privacy.json" with { type: "json" };
-import lawTransportationInfrastructure from "../../../data/research/laws/starting-law-2026/transportation-infrastructure.json" with { type: "json" };
+import { POLICY_QUESTIONS } from "../policy-answers";
 import { registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
@@ -413,32 +400,8 @@ function budgetCarry(
   );
 }
 
-type StartingAnswers = Record<
-  string,
-  { answers: Record<string, { preempts?: boolean; answer?: string }> }
->;
-/** Every recorded starting-law policy question, by key. */
-export const POLICY_QUESTIONS: StartingAnswers = Object.assign(
-  {},
-  ...[
-    lawAgricultureNaturalResources,
-    lawBusinessCommerce,
-    lawCivilFamilyCommunity,
-    lawEducation,
-    lawEnvironmentEnergy,
-    lawFiscal,
-    lawGovernmentOperations,
-    lawHealthHumanServices,
-    lawHousingLandUse,
-    lawJusticePublicSafety,
-    lawLaborCommerce,
-    lawLaborWorkforce,
-    lawTechnologyPrivacy,
-    lawTransportationInfrastructure,
-  ].map(
-    (file) => (file as unknown as { questions: StartingAnswers }).questions,
-  ),
-);
+/** Every recorded starting-law policy question, by key (`policy-answers.ts`). */
+export { POLICY_QUESTIONS };
 
 const seriesQuestion = (
   provisionQuestions as unknown as {
@@ -1259,8 +1222,9 @@ function committeeStage(
   api.stopgap("SG-GOV-committee-structure");
   const ranked = [...all].sort(
     (a, b) =>
-      a.startDate.localeCompare(b.startDate) ||
-      memberKey(a).localeCompare(memberKey(b)),
+      (a.serviceStart ?? a.startDate).localeCompare(
+        b.serviceStart ?? b.startDate,
+      ) || memberKey(a).localeCompare(memberKey(b)),
   );
   const size = Math.max(
     3,
@@ -1291,8 +1255,9 @@ function committeeStage(
     .flatMap(([side, list]) => list.slice(0, seatsFor.get(side)))
     .sort(
       (a, b) =>
-        a.startDate.localeCompare(b.startDate) ||
-        memberKey(a).localeCompare(memberKey(b)),
+        (a.serviceStart ?? a.startDate).localeCompare(
+          b.serviceStart ?? b.startDate,
+        ) || memberKey(a).localeCompare(memberKey(b)),
     );
   const chair =
     roster.find((t) => partySide(t.party) === majority) ?? roster[0]!;

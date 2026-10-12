@@ -1,9 +1,9 @@
 import { coreAPI } from "../core2/state";
 import { townSeats } from "../core2/modules/offices";
 import { lifePlaceByKey } from "../simulation/life-places";
-import { capitolPlaceFor } from "../presentation/place-backdrops";
+import { capitolPlaceFor, homePlaceFor } from "../presentation/place-backdrops";
 import manifest from "../../art/backdrops/manifest.json" with { type: "json" };
-import { backdropFile, stagePeople, homeOf } from "./scene";
+import { backdropFile, stagePeople } from "./scene";
 import shots from "./data/opening-shots.json" with { type: "json" };
 import type { CoreState } from "../core2/types";
 
@@ -37,7 +37,7 @@ export function openingShots(core: CoreState, playerId: string) {
     place === "capitol"
       ? capitolPlaceFor(usps ?? null)
       : place === "@home"
-        ? homeOf(core, playerId)
+        ? homePlaceFor(null)
         : place;
   const out = [];
   for (const shot of shots.shots as Shot[]) {

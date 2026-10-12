@@ -4,7 +4,6 @@
 // night, then a resident officeholder drafts a bill and the body votes.
 // Prints the furthest step reached. Usage: node --import tsx src/bench/path-check.ts
 import { coreAPI } from "../core2/state";
-import { LAWS_MODULE_ID } from "../core2/modules/laws";
 import { buildBenchWorld } from "./world";
 import { BenchPlayer } from "./player";
 import { governmentView } from "./government";
@@ -85,17 +84,10 @@ const contests = coreAPI(w.core)
   .moduleState("core2-elections-v1")
   .table("contests")
   .rows() as unknown as ContestRow[];
-// The player's own race when they filed, else the first election ahead.
-const mine = governmentView(w.core, me).filings[0];
-const ownElection = contests.find(
-  (c) => c.id === mine?.contestId,
-)?.electionDate;
-const firstElection =
-  ownElection ??
-  contests
-    .map((c) => c.electionDate)
-    .filter((d) => d > w.core.date)
-    .sort()[0];
+const firstElection = contests
+  .map((c) => c.electionDate)
+  .filter((d) => d > w.core.date)
+  .sort()[0];
 if (firstElection) {
   liveUntil(firstElection);
   liveUntil(
@@ -153,26 +145,6 @@ if (holder) {
       .toISOString()
       .slice(0, 10),
   );
-  // A law it made takes effect on its own date: live until then (step 9).
-  const effective = (
-    coreAPI(w.core)
-      .moduleState(LAWS_MODULE_ID)
-      .table("laws")
-      .rows() as unknown as {
-      effectiveDate: string;
-      terms?: { enactedBy?: string };
-    }[]
-  )
-    .filter((law) => law.terms?.enactedBy === bill.number)
-    .map((law) => law.effectiveDate)
-    .sort()
-    .at(-1);
-  if (effective)
-    liveUntil(
-      new Date(Date.parse(`${effective}T00:00:00Z`) + 86_400_000)
-        .toISOString()
-        .slice(0, 10),
-    );
   const after = seatView(w.core, holder).bills.find(
     (b) => b.bill.id === bill.id,
   );
