@@ -491,6 +491,7 @@ export function releaseResidentHousehold(
       `household:${record.household.id}`,
     ]);
   let outsideLiving: { amount: number; flow: FlowState } | undefined;
+  const retirees: FlowState[] = [];
   for (const flow of rt.flows.values()) {
     if (flow.kind === "wages" && flow.perDayMinorByJob) {
       const perDay = { ...flow.perDayMinorByJob };
@@ -506,6 +507,25 @@ export function releaseResidentHousehold(
       let total = 0;
       for (const value of Object.values(perDay)) total += value;
       flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
+    } else if (flow.kind === "retirement" && flow.amountByContract) {
+      // Each retiree in the household is now paid their own award directly.
+      const amounts = { ...flow.amountByContract };
+      for (const contract of record.contracts) {
+        const amount = amounts[contract.id];
+        if (amount === undefined || !contract.recipientIncome) continue;
+        delete amounts[contract.id];
+        const own: FlowState = {
+          ...flow,
+          id: `${flow.id}:${contract.recipientIncome.personId}`,
+          payeeId: contract.recipientIncome.personId,
+          amountMinor: amount,
+          amountByContract: { [contract.id]: amount },
+          arrearsMinor: 0,
+        };
+        retirees.push(own);
+      }
+      flow.amountByContract = amounts;
+      flow.amountMinor = Object.values(amounts).reduce((n, v) => n + v, 0);
     } else if (flow.kind === "purchase" && flow.amountByContract) {
       const amounts = { ...flow.amountByContract };
       let removed = 0;
@@ -522,6 +542,11 @@ export function releaseResidentHousehold(
     }
   }
   for (const id of jobIds) rt.wageFlowByJob.delete(id);
+  // Admitted after the scan: the person must be a full person by now.
+  for (const flow of retirees) {
+    rt.flows.set(flow.id, flow);
+    schedule(rt, flow);
+  }
   const placeId = record.household.placeId;
   const own = record.people.reduce((n, row) => n + row.liquidMinor, 0);
   const remaining = rt.openingCashByPlace.get(placeId) ?? 0;

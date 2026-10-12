@@ -1004,8 +1004,8 @@
     "why": "Fill-in v2 moves cash, scheduled work and household purchases onto the person's own records; retirement income is tied to per-person award records funded through the outside payer's single obligation.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "Fill-in re-admits the retiree's income contract and adds it back to the outside funding obligation with its award, and shrinks the merged retirement flow by the same amount.",
-    "status": "open"
+    "replacement": "Done Oct 12: a filled-in retiree is paid their own award by the same outside payer on the same dates (the pooled retirement flow shrinks by exactly that amount). The cash share is an estimate from opening shares, and the job's calendar follows the employer's cadence, both by design.",
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-outside-market",
