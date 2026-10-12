@@ -13,6 +13,7 @@ import {
 } from "./module-state";
 import { moduleCalendar } from "./module-calendar";
 import { voterGroups } from "./voter-groups";
+import { accountsFacade } from "./accounts";
 import {
   emptyWorkRuntime,
   admitWorkCommitment,
@@ -785,6 +786,7 @@ export function coreAPI(core: CoreState): CoreAPI {
     moduleState: (moduleId) => moduleState(core, moduleId),
     moduleCalendar: (moduleId) => moduleCalendar(core, moduleId),
     voterGroups: () => voterGroups(core),
+    accounts: () => accountsFacade(core, api),
     version: core.apiVersion,
     state: core,
     parameter: p,

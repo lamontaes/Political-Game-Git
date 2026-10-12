@@ -11,9 +11,8 @@ import {
   type ResidentHouseholdRecord,
   type ResidentsInput,
 } from "../residents";
-import type { CashJournalPosting } from "../journal";
+import { transfer } from "../accounts";
 import type { ResidentWageShortfall } from "../finance-types";
-import type { CashJournalSourceSlot } from "../journal-state";
 import type {
   CoreAPI,
   CoreModule,
@@ -26,19 +25,26 @@ import type {
 } from "../types";
 
 export const RESIDENTS_MODULE_ID = "core2-residents-v1";
-const SOURCE_KIND = "residents.flow";
-const DUE_KIND = "residents.due";
 // Outside buyers pay first, so a day's receipts can meet that day's payroll.
 const ORDER = {
   "outside-sales": 0,
   wages: 1,
   retirement: 2,
   purchase: 3,
+  // Suppliers are paid after workers, from what is left.
+  "outside-costs": 4,
 } as const;
 
 interface FlowState extends ResidentFlowInput {
   nextAt: IsoDate;
   arrearsMinor: number;
+  /** outside-costs: the firm's receipts and local purchases already counted. */
+  receivedMinor?: number;
+  /** Local operating payments when the flow started (a baseline). */
+  localPaidMinor?: number;
+  accruedCostMinor?: number;
+  accrualHistory?: { date: IsoDate; accrued: number }[];
+  outsidePaidMinor?: number;
   endedAt?: IsoDate;
   endedReason?: string;
 }
@@ -47,7 +53,6 @@ export interface ResidentsRuntime {
   input: ResidentsInput;
   flows: Map<string, FlowState>;
   due: Map<IsoDate, Set<string>>;
-  pending: Map<string, CashJournalSourceSlot>;
   households: Map<string, ResidentHouseholdRecord>;
   householdOfPerson: Map<PersonId, string>;
   jobs: Map<string, JobInput>;
@@ -85,7 +90,6 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     input,
     flows: new Map(),
     due: new Map(),
-    pending: new Map(),
     households: new Map(),
     householdOfPerson: new Map(),
     shortfalls: new Map(),
@@ -142,6 +146,40 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   if (payerBook?.closedAt) return end(flow, date, "payer-closed");
   if (payeeBook?.closedAt) return end(flow, date, "payee-closed");
   let base = flow.amountMinor;
+  if (flow.kind === "outside-costs" && payerBook) {
+    // Supplies follow sales: the firm accrues its booked cost share of what it
+    // takes in; whatever it hasn't bought from local suppliers (running totals,
+    // so lumpy local orders aren't lost) is bought outside.
+    const received = payerBook.receivedMinor - (flow.receivedMinor ?? 0),
+      share =
+        payerBook.annualDemandMinor > 0
+          ? payerBook.annualOtherCostsMinor / payerBook.annualDemandMinor
+          : 0;
+    flow.receivedMinor = payerBook.receivedMinor;
+    flow.localPaidMinor ??= payerBook.operatingPaidMinor;
+    flow.accruedCostMinor = (flow.accruedCostMinor ?? 0) + received * share;
+    // Net-30 trade terms: this week's bill covers costs accrued a month ago,
+    // after the local orders for that month are known.
+    const history = [
+      ...(flow.accrualHistory ?? []),
+      { date: core.date, accrued: flow.accruedCostMinor },
+    ];
+    const termsStart = makeIsoDate(
+      addDays(makeIsoDate(date), -api.parameter("supplierTradeTermsDays")),
+    );
+    while (history.length > 1 && history[1]!.date <= termsStart)
+      history.shift();
+    flow.accrualHistory = history;
+    const billable = history[0]!.date <= termsStart ? history[0]!.accrued : 0;
+    base = Math.max(
+      0,
+      Math.round(
+        billable -
+          (payerBook.operatingPaidMinor - flow.localPaidMinor) -
+          (flow.outsidePaidMinor ?? 0),
+      ),
+    );
+  }
   if (flow.marketAdjusted && payeeBook && payeeBook.anchorAnnualDemandMinor > 0)
     base = Math.floor(
       (base * payeeBook.annualDemandMinor) / payeeBook.anchorAnnualDemandMinor,
@@ -152,7 +190,9 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   const paid = outside
     ? requested
     : Math.min(requested, spendable(core, flow.payerId));
-  if (paid > 0) post(api, rt, flow, paid, outside);
+  if (paid > 0) post(api, rt, flow, paid);
+  if (flow.kind === "outside-costs")
+    flow.outsidePaidMinor = (flow.outsidePaidMinor ?? 0) + paid;
   const month = date.slice(0, 7);
   if ((flow.kind === "wages" || flow.kind === "retirement") && paid > 0) {
     const key = `${month}:${flow.placeId}`,
@@ -213,54 +253,19 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
 
 function post(
   api: CoreAPI,
-  rt: ResidentsRuntime,
+  _rt: ResidentsRuntime,
   flow: FlowState,
   paid: number,
-  outside: boolean,
 ): void {
-  const core = api.state,
-    date = core.date,
-    id = `${flow.id}@${date}`;
-  const payerAccount = core.cashJournal.residualAccountByOwner.get(
-      flow.payerId,
-    )!,
-    payeeAccount = core.cashJournal.residualAccountByOwner.get(flow.payeeId)!;
-  const postings: CashJournalPosting[] = [
-    { id: `${id}:out`, accountId: payerAccount, deltaMinor: -paid },
-    { id: `${id}:in`, accountId: payeeAccount, deltaMinor: paid },
-  ];
-  const due = { kind: DUE_KIND, id };
-  rt.pending.set(id, {
-    resolved: {
-      kind: SOURCE_KIND,
-      id,
-      date,
-      source: flow.source,
-      expectedPostings: postings,
-      requiredRelatedRefs: outside ? [due] : [],
-      relatedRecords: outside ? [{ ...due, date, source: flow.source }] : [],
-      ...(outside
-        ? {
-            externalFlowAuthorizations: [
-              { accountId: payerAccount, obligation: due },
-            ],
-          }
-        : {}),
-    },
-    marker: {},
-    retainFull: false,
+  const core = api.state;
+  transfer(core, api, {
+    id: `${flow.id}@${core.date}`,
+    from: core.cashJournal.residualAccountByOwner.get(flow.payerId)!,
+    to: core.cashJournal.residualAccountByOwner.get(flow.payeeId)!,
+    amountMinor: paid,
+    reasonKey: flow.financeKind,
+    source: flow.source,
   });
-  try {
-    api.postJournal({
-      id: `journal:${date}:${core.cashJournal.nextSequence}`,
-      date,
-      expectedSequence: core.cashJournal.nextSequence,
-      sourceRef: { kind: SOURCE_KIND, id },
-      postings,
-    });
-  } finally {
-    rt.pending.delete(id);
-  }
 }
 
 function runResidentsDay(api: CoreAPI): void {
@@ -366,10 +371,6 @@ export function residentWageShortfall(
 export const RESIDENTS_MODULE: CoreModule = {
   id: RESIDENTS_MODULE_ID,
   onDay: runResidentsDay,
-  journalSourceProviders: {
-    [SOURCE_KIND]: (api, reference) =>
-      runtimes.get(api.state as CoreState)?.pending.get(reference.id),
-  },
 };
 
 export interface ResidentCounts {

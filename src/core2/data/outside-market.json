@@ -3,8 +3,8 @@
   "stopgapId": "SG-CORE-outside-market",
   "weeksPerYear": 52,
   "cadenceDays": 7,
-  "firstOffsetDays": 4,
-  "note": "Share of a small-town establishment's receipts paid by buyers outside the town (nonresident consumers, outside businesses, government programs, insurers, mortgage-funded buyers). Wholesale is omitted: its sales to local firms are already recorded routes. Research: OPUS-CORE helper, Oct 12, 2026.",
+  "firstOffsetDays": 1,
+  "note": "Share of a small-town establishment's receipts paid by buyers outside the town (nonresident consumers, outside businesses, government programs, insurers, mortgage-funded buyers). Wholesale is omitted: its sales to local firms are already recorded routes. Research: OPUS-CORE helper, Oct 12, 2026. Each firm's share is the larger of its industry's share and the economic-base residual (sales its recorded local buyers can't account for).",
   "shares": {
     "farm": {
       "value": 0.99,

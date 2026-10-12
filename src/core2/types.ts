@@ -1,4 +1,5 @@
 import type { ResidentsInput } from "./residents";
+import type { Accounts } from "./accounts";
 import type {
   ModuleStateDefinition,
   ModuleStateStore,
@@ -976,6 +977,8 @@ export interface CoreAPI {
   moduleState(moduleId: string): ModuleStateStore;
   moduleCalendar(moduleId: string): ModuleCalendar;
   voterGroups(): VoterGroups;
+  /** Named accounts, transfers and obligations through the one journal (M0-09). */
+  accounts(): Accounts;
   version: string;
   readonly state: Readonly<CoreState>;
   parameter(key: string): number;

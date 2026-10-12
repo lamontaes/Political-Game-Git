@@ -3387,5 +3387,11 @@
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-PAYROLL-CALENDAR-CONTEXT"
     }
+  },
+  "supplierTradeTermsDays": {
+    "value": 30,
+    "tag": "ESTIMATED",
+    "citation": "Net 30 is the most common U.S. business-to-business invoice term; Federal Reserve Bank of Atlanta / Small Business Credit Survey and trade-credit literature (e.g., Petersen and Rajan 1997, Review of Financial Studies 10(3)) describe 30-day terms as the norm.",
+    "estimatedFrom": "Outside supplier bills for a firm's costs are paid one month after the sales that incur them; spread 10 to 60 days across industries."
   }
 }

@@ -36,6 +36,23 @@ const cashTotal = () =>
     0,
   );
 const openingCash = cashTotal();
+const traceFirm = value("--trace-firm", "");
+const traced = new Map();
+if (traceFirm) {
+  const { coreAPI } = await at("src/core2/state.ts");
+  const api = coreAPI(core);
+  const id = input.organizations.find((o) => o.name === traceFirm)?.id;
+  const account = core.cashJournal.residualAccountByOwner.get(id);
+  const post = api.postJournal.bind(api);
+  api.postJournal = (entry) => {
+    for (const row of entry.postings)
+      if (row.accountId === account) {
+        const key = `${entry.sourceRef.kind}:${entry.sourceRef.id.replace(/[@:].*$/, "")}:${row.deltaMinor < 0 ? "out" : "in"}`;
+        traced.set(key, (traced.get(key) ?? 0) + row.deltaMinor);
+      }
+    return post(entry);
+  };
+}
 const monthly = new Map();
 let cursor = makeIsoDate(input.startedAt);
 const days = Number(value("--days", "365"));
@@ -52,6 +69,9 @@ for (let i = 0; i < days; i++) {
         wagesPaid: b.wagesPaidMinor,
         wagesRequested: b.wagesRequestedMinor,
         operatingPaid: b.operatingPaidMinor,
+        received: b.receivedMinor,
+        demand: b.annualDemandMinor,
+        other: b.annualOtherCostsMinor,
       });
     monthly.set(b.organizationId, row);
   }
@@ -120,3 +140,37 @@ console.table(
 );
 for (const r of rows.filter((r) => r.closedAt))
   console.log(r.name, r.closedAt, "cash by month:", r.cashByMonth$);
+
+const firm = value("--firm", "");
+if (firm) {
+  const id = [...orgs.values()].find((o) => o.name === firm)?.id;
+  const h = monthly.get(id);
+  console.log(`\n${firm}: monthly deltas ($)`);
+  for (let i = 1; i < h.length; i++) {
+    const d = (k) => $(h[i][k] - h[i - 1][k]);
+    const cashDelta = d("cash");
+    console.log(
+      h[i].at,
+      JSON.stringify({
+        received: d("received"),
+        sales: d("sales"),
+        localSupplies: d("operatingPaid"),
+        wages: d("wagesPaid"),
+        cashChange: cashDelta,
+        impliedOutsideCosts: d("received") - d("operatingPaid") - d("wagesPaid") - cashDelta,
+        demandAnnual: $(h[i].demand),
+        otherAnnual: $(h[i].other),
+      }),
+    );
+  }
+}
+if (args.includes("--totals"))
+  console.log(
+    Object.fromEntries(
+      [...core.finance.totalsByKind]
+        .filter(([, t]) => t.paidMinor > 0)
+        .map(([k, t]) => [k, $(t.paidMinor)]),
+    ),
+  );
+if (traceFirm)
+  console.log(Object.fromEntries([...traced].map(([k, v]) => [k, $(v)])));

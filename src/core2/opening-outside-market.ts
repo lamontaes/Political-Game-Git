@@ -42,9 +42,58 @@ export function addOutsideMarket(
   const organizations = new Map(input.organizations.map((o) => [o.id, o]));
   const accounts = new Map<string, OrganizationInput>();
   const flows: ResidentFlowInput[] = [];
+  // Each firm's recorded local sales at the opening, a year's worth.
+  const localAnnual = new Map<string, number>();
+  for (const row of input.finance?.contracts ?? [])
+    if (row.salesReceipt && !row.externalInflow && row.periodMonths > 0)
+      localAnnual.set(
+        row.payeeId,
+        (localAnnual.get(row.payeeId) ?? 0) +
+          (row.amountMinor * 12) / row.periodMonths,
+      );
+  for (const row of input.residents?.flows ?? [])
+    if (row.kind === "purchase" && row.cadence.kind === "months")
+      localAnnual.set(
+        row.payeeId,
+        (localAnnual.get(row.payeeId) ?? 0) +
+          (row.amountMinor * 12) / row.cadence.every,
+      );
   for (const book of input.finance?.businesses ?? []) {
-    const share = data.shares[book.kindId];
-    if (!share || share.value <= 0) continue;
+    const industry = data.shares[book.kindId];
+    // Economic base (location quotient) method: sales the firm's recorded
+    // local buyers can't account for are sold outside the town; the
+    // industry's sourced outside share is the floor.
+    const unexplained =
+      book.annualDemandMinor > 0
+        ? Math.max(
+            0,
+            1 -
+              (localAnnual.get(book.organizationId) ?? 0) /
+                book.annualDemandMinor,
+          )
+        : 0;
+    const value = Math.max(industry?.value ?? 0, unexplained);
+    if (value <= 0) continue;
+    const share: OutsideMarketShare = industry
+      ? {
+          ...industry,
+          value,
+          ...(value > industry.value
+            ? {
+                tag: "ESTIMATED" as const,
+                estimatedFrom: `Economic base (location quotient) residual: recorded local buyers account for ${(100 * (1 - unexplained)).toFixed(1)}% of this firm's projected receipts; industry floor ${industry.value} (${industry.citation}).`,
+              }
+            : {}),
+        }
+      : {
+          value,
+          low: value,
+          high: value,
+          tag: "ESTIMATED",
+          citation:
+            "Economic base (location quotient) residual of the firm's projected receipts (IRS SOI payroll share) over its recorded local buyers.",
+          estimatedFrom: `Recorded local buyers account for ${(100 * (1 - unexplained)).toFixed(1)}% of projected receipts; no industry outside-share row.`,
+        };
     const firm = organizations.get(book.organizationId);
     if (!firm)
       throw new Error(`Business without a record: ${book.organizationId}`);
@@ -86,6 +135,29 @@ export function addOutsideMarket(
     const firstAt = new Date(`${start}T00:00:00.000Z`);
     firstAt.setUTCDate(firstAt.getUTCDate() + data.firstOffsetDays);
     flows.push({
+      id: `outside-costs:${book.organizationId}`,
+      kind: "outside-costs",
+      financeKind: `outside.supplier.${book.kindId}`,
+      payerId: book.organizationId,
+      payeeId: account.id,
+      residentsId: account.id,
+      placeId: firm.placeId,
+      // Set each week from the firm's booked operating costs less its local purchases.
+      amountMinor: 0,
+      firstAt: makeIsoDate(firstAt.toISOString().slice(0, 10)),
+      cadence: { kind: "days", every: data.cadenceDays },
+      salesReceipt: false,
+      marketAdjusted: false,
+      source: {
+        tag: "ESTIMATED",
+        asOf: start,
+        citation:
+          "Operating costs from the firm's books (IRS SOI industry cost shares) not bought from a recorded local supplier are bought outside the town.",
+        estimatedFrom:
+          "BusinessBooksState.annualOtherCostsMinor less operatingPaidMinor.",
+      },
+    });
+    flows.push({
       id: `outside-sales:${book.organizationId}`,
       kind: "outside-sales",
       financeKind: `outside.customer.${book.kindId}`,
@@ -97,7 +169,8 @@ export function addOutsideMarket(
       firstAt: makeIsoDate(firstAt.toISOString().slice(0, 10)),
       cadence: { kind: "days", every: data.cadenceDays },
       salesReceipt: true,
-      marketAdjusted: true,
+      // Outside buyers don't follow the town's income; national demand arrives with WORLD.
+      marketAdjusted: false,
       source,
     });
   }

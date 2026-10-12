@@ -32,7 +32,7 @@ export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
 
 export type ResidentFlowKind =
-  "wages" | "retirement" | "purchase" | "outside-sales";
+  "wages" | "retirement" | "purchase" | "outside-sales" | "outside-costs";
 
 export type ResidentCadence =
   | { kind: "days"; every: number }
