@@ -1,5 +1,7 @@
 import { readGeneratedHouseholdSourceBasis } from "./generated-household-source";
 /** Actual finance source adapters. Arithmetic stays in the read-only planner. */
+import { bookkeeping } from "./bookkeeping";
+import { countedJob } from "./modules/residents";
 import { makeIsoDate } from "../simulation/dates";
 import { cashJournalParameters } from "./cash-host";
 import {
@@ -723,19 +725,23 @@ function visitorProviderRecords(
       "Actual visitor product scope has no unique recorded basis.",
     );
   for (const jobId of jobs) {
-    const job = r.mapGet(r.field(session.core, "jobs"), jobId),
+    // A worker in the wider population holds a counted job (two-level population).
+    const counted = r.mapHas(r.field(session.core, "jobs"), jobId)
+        ? undefined
+        : countedJob(session.core, jobId),
+      job = counted ?? r.mapGet(r.field(session.core, "jobs"), jobId),
       basis = bases.filter(
         (value) => value.kind === "job" && value.recordId === jobId,
       ),
-      person = job
-        ? r.mapGet(r.field(session.core, "people"), r.field(job, "personId"))
-        : undefined;
+      person =
+        job && !counted
+          ? r.mapGet(r.field(session.core, "people"), r.field(job, "personId"))
+          : undefined;
     if (
       !job ||
       r.field(job, "id") !== jobId ||
       r.field(job, "organizationId") !== payeeId ||
-      !person ||
-      r.field(person, "jobId") !== jobId ||
+      (!counted && (!person || r.field(person, "jobId") !== jobId)) ||
       (r.field(job, "endsAt") !== undefined &&
         session.date >= r.field(job, "endsAt")!) ||
       basis.length !== session.one ||
@@ -1387,19 +1393,23 @@ function procurementRecords(
       "Actual public supplier scope has no unique recorded basis.",
     );
   for (const jobId of jobs) {
-    const job = r.mapGet(r.field(session.core, "jobs"), jobId),
+    // A worker in the wider population holds a counted job (two-level population).
+    const counted = r.mapHas(r.field(session.core, "jobs"), jobId)
+        ? undefined
+        : countedJob(session.core, jobId),
+      job = counted ?? r.mapGet(r.field(session.core, "jobs"), jobId),
       basis = bases.filter(
         (value) => value.kind === "job" && value.recordId === jobId,
       );
-    const person = job
-      ? r.mapGet(r.field(session.core, "people"), r.field(job, "personId"))
-      : undefined;
+    const person =
+      job && !counted
+        ? r.mapGet(r.field(session.core, "people"), r.field(job, "personId"))
+        : undefined;
     if (
       !job ||
       r.field(job, "id") !== jobId ||
       r.field(job, "organizationId") !== payeeId ||
-      !person ||
-      r.field(person, "jobId") !== jobId ||
+      (!counted && (!person || r.field(person, "jobId") !== jobId)) ||
       (r.field(job, "endsAt") !== undefined &&
         session.date >= r.field(job, "endsAt")!) ||
       basis.length !== session.one ||
@@ -2271,7 +2281,14 @@ export function financeCashSourceProvider(
   const relations: Relations = { records: [], required: [] };
   let actual: Result,
     credits: CreditReceipt[] = [];
-  if (row.mode === "contract") {
+  // Play mode trusts the plan prepared moments ago in submit(); bookkeeping
+  // re-prepares it independently and requires an identical result.
+  const recheck = bookkeeping();
+  if (row.mode === "contract" && !recheck) {
+    contractAuthority(session, row.contractId!, relations);
+    actual = bundle.plan.result;
+    credits = [...bundle.credits];
+  } else if (row.mode === "contract") {
     contractAuthority(session, row.contractId!, relations);
     actual = prepareFinanceContract(session, row.contractId!);
     if (actual.creditReceiptId) {
@@ -2291,9 +2308,15 @@ export function financeCashSourceProvider(
     if (!row.request)
       throw new Error("Actual current standalone credit request is absent.");
     creditTrigger(session, row.request, relations, row.trigger);
-    actual = prepareFinanceCredit(session, row.request);
+    actual = recheck
+      ? prepareFinanceCredit(session, row.request)
+      : bundle.plan.result;
+    if (!recheck) credits = [...bundle.credits];
   }
-  if (!same(actual, bundle.plan.result) || !same(credits, bundle.credits))
+  if (
+    recheck &&
+    (!same(actual, bundle.plan.result) || !same(credits, bundle.credits))
+  )
     throw new Error(
       "Prepared finance result differs from the actual current occurrence.",
     );
@@ -2303,13 +2326,14 @@ export function financeCashSourceProvider(
   });
   for (const related of secondary.relatedRecords) add(relations, related);
   const retainFull = predictedRequirement(session, actual, row),
-    independentlyPrepared = session.seal(actual);
+    independentlyPrepared = recheck ? session.seal(actual) : bundle.plan;
   if (
-    !same(independentlyPrepared.postings, bundle.plan.postings) ||
-    !same(
-      independentlyPrepared.externalFlowAuthorizations,
-      bundle.plan.externalFlowAuthorizations,
-    )
+    recheck &&
+    (!same(independentlyPrepared.postings, bundle.plan.postings) ||
+      !same(
+        independentlyPrepared.externalFlowAuthorizations,
+        bundle.plan.externalFlowAuthorizations,
+      ))
   )
     throw new Error(
       "Current finance actual postings/outside authorizations changed.",

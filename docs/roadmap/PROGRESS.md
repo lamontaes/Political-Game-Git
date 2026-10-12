@@ -31,6 +31,7 @@ Newest first. One short entry per event: what changed for the player, the measur
 - **SOL-1258, Part 1:** the current payday repair passed 116 controlled tests and strict core type checks. The first month benchmark stopped before any world advanced because parallel imports exposed a work-default initialization cycle; the data-only dependency repair and retiming are next. The CTO approved Part 1 and added Part 1b player-choice, earliest-stop and saved-trace hooks before the judged year. Annual money and playable-path checks remain pending.
 - **SOL-1258, Part 1:** separate payday and scheduler/calendar gates passed 64 and 40 controlled tests. Payday settlement, the profiler's A–D trims and the matched 31-day retiming are in progress; grouped jobs and retained ended-job debt remain under check. The new timing, judged money year and playable player path are pending. Part 1 build/check contract is at the top of #3918 for CTO approval.
 
+Newest first. One short entry per event: what changed for the player, the measured result, what failed and why, and what's next. Every session reads this, the package and the git log before starting, as the repository guide requires.
 
 ## 2026-10-11
 

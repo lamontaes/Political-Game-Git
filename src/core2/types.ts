@@ -1,3 +1,6 @@
+import type { MarketEntry } from "./modules/residents";
+import type { ResidentsInput } from "./residents";
+import type { Accounts } from "./accounts";
 import type {
   ModuleStateDefinition,
   ModuleStateStore,
@@ -101,6 +104,8 @@ export interface PersonInput {
   countyId?: PlaceId;
   householdId: string;
   tier: Tier;
+  /** v13: an explicit developmental capability, independent of observation/cadence. */
+  discretionaryEligibleV1?: boolean;
   traits: Readonly<Record<string, number>>;
   traitSources?: Readonly<Record<string, Source>>;
   /** One complete generated upbringing Source shared by the person's recorded traits. */
@@ -224,6 +229,26 @@ export interface HouseholdInput {
   source: Source;
 }
 
+/** Latest committed tie change; scores exist only when supplied by the actual choice. */
+export interface RelationshipChangeEvidence {
+  version: "core2-relationship-change-v1";
+  date: IsoDate;
+  actorId: PersonId;
+  otherId: PersonId;
+  kind: Relationship["kind"];
+  requestedKind: Relationship["kind"];
+  requestedChange: number;
+  created: boolean;
+  before: Readonly<{ level: number; lastContactDate?: IsoDate }>;
+  after: Readonly<{ level: number; lastContactDate: IsoDate }>;
+  cause: "chosen-act" | "recorded-relationship-update";
+  actionId?: string;
+  /** Existing endpoints. Provider source IDs remain in their original decision terms. */
+  sourceRecordRefs: readonly Readonly<{ kind: "person"; id: PersonId }>[];
+  /** Full only under the existing chooser trace policy; quiet choices retain the compact pair. */
+  decision?: Readonly<DecisionResult>;
+}
+
 export interface Relationship {
   id: string;
   actorId: PersonId;
@@ -232,6 +257,7 @@ export interface Relationship {
   level: number;
   lastContactDate: IsoDate;
   promise?: string;
+  latestChange?: Readonly<RelationshipChangeEvidence>;
 }
 
 export interface ActionDefinition {
@@ -346,7 +372,52 @@ export interface DecisionContext {
   goalRows?: readonly Goal[];
 }
 
+/** Small original-score evidence. It is not a copied actor/offer/config graph or payment authority. */
+export interface CompactChoiceScoreV1 {
+  /** Position in the actual original offered list, including differently qualified offers. */
+  offerIndex: number;
+  actionId: string;
+  targetId: string;
+  availableHours: number;
+  effortHours: number;
+  driveId?: string;
+  score: number;
+  contributions: Readonly<DecisionReason>;
+  reasonTerms?: readonly Readonly<{
+    bindingId: string;
+    provider: string;
+    weightParameter: string;
+    value: number;
+    contribution: number;
+    sourceIds?: readonly string[];
+  }>[];
+}
+export interface CompactChoiceTraceV1 {
+  version: "core2-compact-choice-v1";
+  actorId: PersonId;
+  date: IsoDate;
+  selection: "utility-max" | "controlled-answer";
+  chosen: Readonly<CompactChoiceScoreV1>;
+  runnerUp?: Readonly<CompactChoiceScoreV1>;
+  runnerUpStatus: "saved" | "no-distinct-alternative";
+  /** Actual saved actor; base need/goal/trait/emotion/time values are the saved contributions above. */
+  sourceRecordRefs: readonly Readonly<{ kind: string; id: string }>[];
+}
+
+/** One latest ordinary discretionary selection per outsider, not a full act trace. */
+export interface CompactActSelectionV1 {
+  id: string;
+  actorId: PersonId;
+  date: IsoDate;
+  actionId: string;
+  targetId: string;
+  reasonKey: string;
+  compactChoice: Readonly<CompactChoiceTraceV1>;
+}
+
 export interface DecisionResult {
+  /** Captured from the original evaluation. No query or writer may score again. */
+  compactChoice?: Readonly<CompactChoiceTraceV1>;
   /** Root-issued client answer identity; retained with the original saved controlled trace. */
   controlledChoice?: { readonly pauseId: string; readonly offerId: string };
   actorId: PersonId;
@@ -474,6 +545,7 @@ export type WorkAttendanceInput = Omit<WorkResultInput, "requestedMinor"> & {
   earnedMinor: number;
 };
 export interface WorkAttendanceResult extends WorkAttendanceInput {
+  compactChoice?: Readonly<CompactChoiceTraceV1>;
   sourceActId: string;
   payrollCalendarId: string;
   earnedPayPeriodId: string;
@@ -522,6 +594,11 @@ export interface ActivityTimeTotal {
   source: Source;
 }
 export interface WorkRuntime {
+  /** Dated pay changes by job (core2-api-v12 rerateJob), newest last. */
+  payChanges: Map<
+    string,
+    readonly { date: IsoDate; hourlyMinor: number; source: Source }[]
+  >;
   payrollCalendars: Map<string, WorkPayrollCalendarInput>;
   payrollCalendarByCommitment: Map<string, string>;
   payrollCalendarByJob: Map<string, string>;
@@ -655,6 +732,8 @@ export interface CoreInput {
   }[];
   husks?: readonly HuskInput[];
   placeMetadata?: Readonly<Record<string, string>>;
+  /** Two-level population: the wider population's records and money flows. */
+  residents?: ResidentsInput;
 }
 
 export interface HuskInput {
@@ -705,6 +784,8 @@ export interface CoreState {
   membershipsByPerson: Map<PersonId, Set<string>>;
   pendingCallbacks: Map<string, CoreEventInput>;
   durableLog: Map<string, LogRecord>;
+  quietChoices: Map<string, Readonly<CompactActSelectionV1>>;
+  quietChoiceByPerson: Map<PersonId, string>;
   logByPerson: Map<PersonId, Set<string>>;
   logByKind: Map<string, Set<string>>;
   logByPlace: Map<PlaceId, Set<string>>;
@@ -773,6 +854,8 @@ export interface CoreData {
   needs: readonly NeedDefinition[];
   actions: readonly ActionDefinition[];
   tiers: readonly TierDefinition[];
+  /** v12: capability exclusions before discretionary offer providers, including focused actors. */
+  discretionaryIneligibleTiersV1?: readonly string[];
   actKinds: readonly string[];
   traitPulls: Readonly<
     Record<
@@ -797,6 +880,19 @@ export interface CoreData {
     oneSided: boolean;
     stopgapId?: string;
   }[];
+}
+
+/** One paid sale, for modules' onSalesReceipt (e.g. sales tax). */
+export interface SalesReceiptNotice {
+  id: string;
+  date: IsoDate;
+  sellerId: string;
+  buyerIds: readonly string[];
+  kind: string;
+  paidMinor: number;
+  placeId: PlaceId;
+  /** True when the buyers are the counted wider population. */
+  counted: boolean;
 }
 
 export interface CoreModule {
@@ -825,6 +921,11 @@ export interface CoreModule {
   ) => void;
   /** End-of-day settlement/closure observes all chronological work receipts. */
   onAfterDay?: (api: CoreAPI) => void;
+  /**
+   * Called after every paid sale to a business (finance purchase contracts and
+   * the residents' merged purchases), e.g. to remit sales tax from the seller.
+   */
+  onSalesReceipt?: (api: CoreAPI, sale: SalesReceiptNotice) => void;
   onDay?: (
     api: CoreAPI,
     decide: (
@@ -899,6 +1000,8 @@ export interface CoreAPI {
   moduleState(moduleId: string): ModuleStateStore;
   moduleCalendar(moduleId: string): ModuleCalendar;
   voterGroups(): VoterGroups;
+  /** Named accounts, transfers and obligations through the one journal (M0-09). */
+  accounts(): Accounts;
   version: string;
   readonly state: Readonly<CoreState>;
   parameter(key: string): number;
@@ -913,6 +1016,28 @@ export interface CoreAPI {
   addFinanceContract(input: FinanceContractInput): void;
   addFinanceCondition(input: FinanceConditionInput): void;
   addCreditFacility(input: CreditFacilityInput): void;
+  /** core2-api-v16: reduces recorded arrears by a payment already moved through the ledger. */
+  reduceStandingArrears(contractId: string, paidMinor: number): void;
+  /** core2-api-v15: a standing obligation's amount from its next due date. */
+  setStandingContractAmount(contractId: string, amountMinor: number): void;
+  /** core2-api-v14: a standing obligation stops billing today; its arrears stay owed. */
+  endStandingContract(contractId: string): void;
+  /** core2-api-v13: makes an approved line the open business's credit for its bills and payroll. */
+  attachBusinessCredit(organizationId: string, facilityId: string): void;
+  /** core2-api-v12: admits one job, its commitment and its payroll calendar mid-run. */
+  startJob(
+    job: JobInput,
+    commitment: WorkCommitmentInput,
+    calendar: WorkPayrollCalendarInput,
+  ): void;
+  /** core2-api-v12: ends one current job today; earned wages stay owed for the next payday. */
+  endJob(jobId: string, sourceId: string): void;
+  /** Accrues to today at the old rate, then applies the new annual rate from today on. */
+  repriceCreditFacility(
+    facilityId: string,
+    annualInterestRate: number,
+    source: Source,
+  ): void;
   addBusinessBooks(input: BusinessBooksInput): void;
   settleFinanceContract(contractId: string): FinanceReceipt;
   retireFinanceBudget(contractId: string): void;
@@ -936,6 +1061,16 @@ export interface CoreAPI {
     sourceReceiptId: string,
     reasonKey: string,
   ): EmployerClosure;
+  /**
+   * v20: an owner closes a solvent business by choice; its remaining cash
+   * goes to the owner's account and its jobs, contracts and books end.
+   */
+  closeBusinessByChoice(input: {
+    organizationId: string;
+    ownerAccountId: string;
+    reasonKey: string;
+    source: Source;
+  }): EmployerClosure;
   finishFinanceDay(): void;
   addWorkCommitment(input: WorkCommitmentInput): void;
   addWorkPayrollCalendar(input: WorkPayrollCalendarInput): void;
@@ -955,6 +1090,7 @@ export interface CoreAPI {
     otherId: PersonId,
     kind: Relationship["kind"],
     change: number,
+    decision?: DecisionResult,
   ): void;
   join(personId: PersonId, organizationId: string, driveId?: string): void;
   emit(event: CoreEventInput): void;
@@ -1005,7 +1141,34 @@ export interface CoreAPI {
       >
     >,
   ): void;
+  /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
+  rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
+  /**
+   * v19: a public pay authority draws its wages from a government's cash
+   * (its treasury) on each payday; what the treasury can't cover, the
+   * authority still pays and records as a shortfall.
+   */
+  fundPublicPay(authorityId: string, treasuryId: string, source: Source): void;
+  /** v19: wages a funded authority's treasury couldn't cover, in total. */
+  publicPayShortfallMinor(authorityId: string): number;
+  /**
+   * v18: a business founded mid-run takes its share of the counted
+   * households' purchases (by capacity and price); returns each kind's yearly sales.
+   */
+  enterMarket(
+    entry: MarketEntry,
+  ): { financeKind: string; annualDemandMinor: number }[];
   addOrganization(input: OrganizationInput): void;
+  /** v11: zero-stock newborn admission through the canonical person writer. */
+  addBornPersonV1(
+    input: PersonInput,
+    parents: readonly [PersonId, PersonId],
+    relations: readonly {
+      otherId: PersonId;
+      relation: string;
+      inverse: string;
+    }[],
+  ): PersonState;
   lookupPublicOrganization(personId: PersonId, organizationId: string): void;
   updateNeeds(
     personId: PersonId,

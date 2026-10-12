@@ -4,6 +4,7 @@ import { addDays, daysBetween, makeIsoDate } from "../simulation/dates";
 import { advanceDate, duePeople } from "./calendar";
 import type { DuePerson } from "./calendar";
 import { chooseAct } from "./choice";
+import { compactOriginalAnswer } from "./compact-choice";
 import { FinanceReadGuard } from "./finance-plan";
 import {
   activate,
@@ -548,10 +549,10 @@ function closeDay(core: CoreState, s: Session, day: Day): void {
         actor: Parameters<typeof refreshNeeds>[2],
         ids?: readonly string[],
       ) => {
+        // The controlled person's needs belong to the clock's continuation:
+        // a module may read a projection of them but never refresh them.
         if (actor.id === s.personId)
-          throw new Error(
-            "A module attempted a controlled refresh outside its continuation.",
-          );
+          return ids ? projectWorkNeeds(core, s.api, actor, ids) : undefined;
         if (ids) return projectWorkNeeds(core, s.api, actor, ids);
         refreshNeeds(core, s.api, actor);
         return undefined;
@@ -688,6 +689,8 @@ function resumePlayerV1Impl(
   core: CoreState,
   input: Readonly<
     | { kind: "choice"; pauseId: string; offerId: string }
+    /** Let the character make its own choice; the act is saved as theirs, not the player's. */
+    | { kind: "own-choice"; pauseId: string }
     | { kind: "stop"; pauseId: string }
   >,
 ): PlayerPacketV1 {
@@ -699,7 +702,12 @@ function resumePlayerV1Impl(
       kind = r.field(input, "kind"),
       pauseId = r.field(input, "pauseId"),
       pending = s.pending;
-    if (!pending || pauseId !== pending.packet.pauseId || kind !== pending.kind)
+    const own = kind === "own-choice";
+    if (
+      !pending ||
+      pauseId !== pending.packet.pauseId ||
+      (own ? pending.kind !== "choice" : kind !== pending.kind)
+    )
       throw new Error("Player answer is foreign, stale or unavailable.");
     if (pending.kind === "stop") {
       r.verify();
@@ -716,24 +724,55 @@ function resumePlayerV1Impl(
       s.pending = undefined;
       return drive(core, s);
     }
-    const offerId = r.field(input as { offerId: string }, "offerId"),
+    const ownIndex = own
+        ? pending.offers.findIndex(
+            (offer) =>
+              offer.definition.id ===
+                pending.decision.selected?.definition.id &&
+              offer.targetId === pending.decision.selected?.targetId,
+          )
+        : -1,
+      offerId = own
+        ? pending.packet.offers[ownIndex]?.offerId
+        : r.field(input as { offerId: string }, "offerId"),
       index = pending.packet.offers.findIndex(
         (offer) => offer.offerId === offerId,
       );
     if (index < 0)
-      throw new Error("Player answer selects an unavailable offer.");
+      throw new Error(
+        own
+          ? "The character made no choice of its own here."
+          : "Player answer selects an unavailable offer.",
+      );
     r.verify();
     pending.verify();
     const offer = pending.offers[index]!,
       score = pending.decision.scores![index]!,
-      decision: DecisionResult = {
-        ...pending.decision,
-        controlledChoice: { pauseId, offerId },
-        selected: offer,
-        selectedReasons: score.reasons,
-        selectedReasonTerms: score.reasonTerms,
-        reasonKey: `controlled:${offer.definition.id}:${offer.targetId}`,
-      };
+      decision: DecisionResult = own
+        ? {
+            ...pending.decision,
+            selected: offer,
+            selectedReasons: score.reasons,
+            selectedReasonTerms: score.reasonTerms,
+            compactChoice: compactOriginalAnswer(
+              pending.decision,
+              pending.offers,
+              index,
+            ),
+          }
+        : {
+            ...pending.decision,
+            controlledChoice: { pauseId, offerId: offerId! },
+            selected: offer,
+            selectedReasons: score.reasons,
+            selectedReasonTerms: score.reasonTerms,
+            reasonKey: `controlled:${offer.definition.id}:${offer.targetId}`,
+            compactChoice: compactOriginalAnswer(
+              pending.decision,
+              pending.offers,
+              index,
+            ),
+          };
     const evidence = prepareControlledActTraceV1(
         core,
         s.personId,

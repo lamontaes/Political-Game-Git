@@ -1,5 +1,8 @@
 export interface ShippingPolicy {
   names: string[];
+  federalNames: string[];
+  judgeNames: string[];
+  federalNameAllowedIn: RegExp;
   captures: { path: string; sha256: string }[];
   forbiddenText: string[];
 }
@@ -23,6 +26,7 @@ export function shippingPolicy(root?: string): ShippingPolicy;
 export function inspectShippingBytes(
   bytes: Buffer,
   policy: ShippingPolicy,
+  file?: string,
 ): string[];
 export function scanShippingDirectory(
   directory: string,
