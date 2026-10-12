@@ -549,10 +549,10 @@ function closeDay(core: CoreState, s: Session, day: Day): void {
         actor: Parameters<typeof refreshNeeds>[2],
         ids?: readonly string[],
       ) => {
+        // The controlled person's needs belong to the clock's continuation:
+        // a module may read a projection of them but never refresh them.
         if (actor.id === s.personId)
-          throw new Error(
-            "A module attempted a controlled refresh outside its continuation.",
-          );
+          return ids ? projectWorkNeeds(core, s.api, actor, ids) : undefined;
         if (ids) return projectWorkNeeds(core, s.api, actor, ids);
         refreshNeeds(core, s.api, actor);
         return undefined;

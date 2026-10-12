@@ -159,6 +159,45 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(closing).toBe(opening - outside);
   }, 300_000);
 
+  it("pays a filled-in retiree their own retirement income", () => {
+    const core = createLifeCore(two);
+    advanceCore(core, "2021-01-05");
+    const record = [...residentsRuntime(core)!.households.values()].find(
+      (row) => row.contracts.some((contract) => contract.recipientIncome),
+    );
+    if (!record) return; // No counted retiree in this place.
+    const contract = record.contracts.find((row) => row.recipientIncome)!;
+    const retireeId = contract.recipientIncome!.personId;
+    const outsideNet = () =>
+      [...core.cashJournal.externalFlowsByOwner.values()].reduce(
+        (n, row) => n + row.netMinor,
+        0,
+      );
+    const total = () =>
+      [...core.people.values(), ...core.organizations.values()].reduce(
+        (n, row) => n + row.liquidMinor,
+        0,
+      ) + outsideNet();
+    const pooled = () =>
+      [...residentsRuntime(core)!.flows.values()]
+        .filter((flow) => flow.kind === "retirement" && !flow.endedAt)
+        .reduce((n, flow) => n + flow.amountMinor, 0);
+    const before = pooled(),
+      start = total();
+    fillInPerson(core, retireeId);
+    const own = [...residentsRuntime(core)!.flows.values()].find(
+      (flow) => flow.kind === "retirement" && flow.payeeId === retireeId,
+    )!;
+    expect(own.amountMinor).toBe(contract.amountMinor);
+    // The pooled flows shrink by exactly what moved to the retiree.
+    expect(pooled()).toBe(before);
+    const cashBefore = core.people.get(retireeId)!.liquidMinor;
+    advanceCore(core, "2021-03-05");
+    expect(core.people.get(retireeId)!.liquidMinor).not.toBe(cashBefore);
+    expect(own.arrearsMinor).toBe(0);
+    expect(total()).toBe(start);
+  }, 300_000);
+
   it("re-rates full and counted workers from today", () => {
     const core = createLifeCore(two),
       api = coreAPI(core);

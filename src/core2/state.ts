@@ -1734,9 +1734,9 @@ export function inspectPerson(
  * records the counts held: names, birth dates, past, traits and the job the
  * employer's books count. Their share of the residents' cash moves to them,
  * their jobs become scheduled work on the employer's pay cadence, and their
- * household purchases become their own contracts; the merged flows shrink
- * by the same amounts. Retirement income stays pooled (stopgap
- * SG-CORE-fill-in-pooled-money). Returns the person.
+ * household purchases become their own contracts, and retirees are paid
+ * their own award; the merged flows shrink by the same amounts. Returns the
+ * person.
  */
 export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const existing = core.people.get(personId);
@@ -1744,7 +1744,6 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const record = takeResidentHousehold(core, personId);
   if (!record) throw new Error(`Not in the wider population: ${personId}`);
   const api = coreAPI(core);
-  api.stopgap("SG-CORE-fill-in-pooled-money");
   const home = record.household;
   if (core.households.has(home.id))
     throw new Error(`Household already present: ${home.id}`);
@@ -1850,7 +1849,7 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
     });
   }
   for (const contract of record.contracts) {
-    if (contract.recipientIncome) continue; // retirement stays pooled (stopgap)
+    if (contract.recipientIncome) continue; // paid by the residents engine's own flow
     const day = Number(contract.dueAt.slice(8, 10));
     let dueAt = makeIsoDate(contract.dueAt);
     while (dueAt <= core.date) {

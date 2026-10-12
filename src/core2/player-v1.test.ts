@@ -422,3 +422,39 @@ describe("controlled player clock contracts", () => {
     expect(reads).toBe(0);
   });
 });
+
+describe("modules reading the controlled person during a skip", () => {
+  it("gets a read-only view instead of refreshing the player's needs", () => {
+    let calls = 0;
+    const core = createLifeCore(fixture(), {
+      modules: [
+        {
+          id: "fixture-reader",
+          onDay(api, _decide, refresh) {
+            const actor = api.state.people.get("worker")!;
+            const before = JSON.stringify(actor.needs);
+            refresh(actor);
+            refresh(actor, Object.keys(actor.needs).slice(0, 1));
+            expect(JSON.stringify(actor.needs)).toBe(before);
+            calls++;
+            return undefined;
+          },
+        },
+      ],
+    });
+    let packet = advancePlayerV1(core, {
+      controlledPersonId: "worker",
+      through: minute("2021-01-04", p("zero")),
+    });
+    for (let guard = 0; packet.kind !== "complete" && guard < 50; guard++)
+      packet =
+        packet.kind === "stop"
+          ? resumePlayerV1(core, { kind: "stop", pauseId: packet.pauseId })
+          : resumePlayerV1(core, {
+              kind: "own-choice",
+              pauseId: packet.pauseId,
+            });
+    expect(packet.kind).toBe("complete");
+    expect(calls).toBeGreaterThan(0);
+  });
+});
