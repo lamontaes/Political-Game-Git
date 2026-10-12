@@ -70,6 +70,7 @@ From `docs/reports/audit-2026-10-12/`, in BOARD's order.
 ## Later specs (my area, M2 to M7)
 
 - [x] **M6-04 custom world, the new-game screen (first slice).** On the title screen, **Customize the world** sets town size, wages, household cash, outside demand, lean and turnout. Empty fields keep real data. The settings are checked against the core's bounds and recorded on the world as the player's choice. In Kearny, Arizona (seed set-b), a 3,000-person town has about 30% of the real build's counted households, and doubled wages take counted jobs' mean pay from $88.10 to $183.02 a day. Lean and turnout are recorded, but no engine reads them yet. The bench applies the economy settings with its own copy of the core's arithmetic (stopgap SG-PLAY-world-settings-copy; see Needs). Demographics, ideology and party strength come next, once the engines read them.
+- [x] **M6-03 art fixes, "Congress shown once".** The opening now shows your two senators and your representative together on the House floor, instead of the Senate and the House as two shots (Mount Charleston, Nevada: 7 shots instead of 8). The governor already gets the governor's office. "The whole family" waits on art for children: the family shot places 2 of the 5 Lawsons.
 
 ## Checklist
 
