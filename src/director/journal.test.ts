@@ -249,4 +249,50 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     expect(text.some((line) => /^My \w+ died\.$/.test(line))).toBe(true);
     expect(text).toContain("I filed to run for City Council, Seat 2.");
   });
+
+  it("writes a relative moving away, as the moves engine records it", () => {
+    // A watched person with a relative in town (a grown child moving out, a
+    // sibling across town).
+    const inTown = (id: string) => {
+      const other = core.people.get(id);
+      return !!other?.alive && other.tier !== "husk";
+    };
+    const watcherId = [...director.ledger.people.keys()]
+      .sort()
+      .find(
+        (id) =>
+          inTown(id) &&
+          [...core.people.get(id)!.familyIds].some(
+            (other) => other !== id && inTown(other),
+          ),
+      )!;
+    const watcher = core.people.get(watcherId)!;
+    const relativeId = [...watcher.familyIds].find(
+      (id) => id !== watcherId && inTown(id),
+    )!;
+    const relative = core.people.get(relativeId)!;
+    // The shape src/core2/modules/moves.ts emits when someone leaves town.
+    applyCoreEvent(core, {
+      id: `person.moved-away:${relativeId}:${core.date}`,
+      date: core.date,
+      kind: "person.moved-away",
+      personIds: [relativeId],
+      witnessIds: [watcherId],
+      placeId: relative.placeId,
+      publicRecord: false,
+      topic: relative.countyId ?? relative.placeId,
+      source: {
+        tag: "ESTIMATED",
+        asOf: core.date,
+        citation: "Fixture shaped like the moves engine.",
+        estimatedFrom: "SG-P15-moves-weights",
+      },
+      facts: { [`person:${relativeId}:residence`]: "elsewhere" },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const text = composeJournal(core, director, watcherId).flatMap((row) =>
+      row.lines.map((line) => line.text),
+    );
+    expect(text.some((line) => /^My \w+ moved away\.$/.test(line))).toBe(true);
+  });
 });

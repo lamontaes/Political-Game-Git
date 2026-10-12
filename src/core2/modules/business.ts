@@ -13,7 +13,8 @@ import businessParameters from "../data/business/parameters.json" with { type: "
 import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
-import type { ActOffer, CoreAPI, CoreState } from "../types";
+import { traitLeanBetween } from "../trait-decisions";
+import type { ActOffer, CoreAPI, CoreState, PersonState } from "../types";
 import type {
   HistoryWriter,
   PreStartModule,
@@ -774,15 +775,16 @@ function foundings(api: CoreAPI): void {
         (job.wageDailyMinor * p("jobsDaysPerYear")) / p("macroMonthsPerYear"),
       );
   const incomeOf = (personId: string) => monthlyPay.get(personId) ?? 0;
-  const traits = businessData.traits;
-  const traitPull = (personId: string) => {
-    const person = ownerPerson(c, personId)!.person;
-    return (
-      ((person.traits[traits.enterprising] ?? 0) +
-        (person.traits[traits.risk] ?? 0)) /
-      p("macroTraitScaleBoard")
+  // Every trait's lean toward founding or opening over staying put.
+  const foundLean = (person: Pick<PersonState, "traits">) =>
+    traitLeanBetween(
+      c,
+      person,
+      businessData.actions.found.actKinds,
+      businessData.actions.notFound.actKinds,
     );
-  };
+  const traitPull = (personId: string) =>
+    foundLean(ownerPerson(c, personId)!.person);
   const ownerRows = store(api)
     .table("owners")
     .query("all", [true]) as unknown as OwnerRow[];
@@ -894,10 +896,7 @@ function foundings(api: CoreAPI): void {
         score:
           p("businessCountedFoundBaseline") +
           p("businessFoundRoomWeight") * gaps +
-          p("businessFoundTraitWeight") *
-            (((person.traits[traits.enterprising] ?? 0) +
-              (person.traits[traits.risk] ?? 0)) /
-              p("macroTraitScaleBoard")) +
+          p("businessFoundTraitWeight") * foundLean(person) +
           p("businessFoundUnemployedWeight") *
             (seeker && !seeker.employed ? 1 : 0) +
           p("businessFoundProspectWeight") *
