@@ -1,5 +1,13 @@
 /* global process, console */
-import { readFileSync, writeFileSync, appendFileSync } from "node:fs";
+import {
+  readFileSync,
+  writeFileSync,
+  appendFileSync,
+  mkdtempSync,
+  rmSync,
+} from "node:fs";
+import { tmpdir } from "node:os";
+import { join } from "node:path";
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 import { execFileSync } from "node:child_process";
@@ -31,6 +39,73 @@ export function validateFeatures(document) {
   }
   return document.features;
 }
+/**
+ * A registered command is batchable when it is plain `vitest run <files>`
+ * (optionally through `npx`), with no flags: those run together in one vitest
+ * process, so startup and module loading are paid once. Anything else runs
+ * alone, as before.
+ */
+export function vitestBatch(command) {
+  if (command === null || command === undefined) return null;
+  const tokens =
+    typeof command === "string"
+      ? /^[\w./@:=-]+(\s+[\w./@:=-]+)*$/.test(command.trim())
+        ? command.trim().split(/\s+/)
+        : null
+      : command;
+  if (!tokens) return null;
+  const at = tokens.findIndex((t) => t === "vitest" || t.endsWith("/vitest"));
+  if (at < 0 || at > 1 || (at === 1 && tokens[0] !== "npx")) return null;
+  if (tokens[at + 1] !== "run") return null;
+  const files = tokens.slice(at + 2);
+  if (!files.length || files.some((f) => f.startsWith("-"))) return null;
+  return { prefix: tokens.slice(0, at + 2), files };
+}
+async function runBatch(rows, { cwd, milliseconds, env, execute }) {
+  const directory = mkdtempSync(join(tmpdir(), "golden-vitest-")),
+    outputFile = join(directory, "report.json");
+  try {
+    const first = vitestBatch(rows[0].command),
+      files = [...new Set(rows.flatMap((r) => vitestBatch(r.command).files))];
+    const receipt = await execute(
+      [
+        ...first.prefix,
+        ...files,
+        "--reporter=json",
+        `--outputFile=${outputFile}`,
+      ],
+      { cwd, milliseconds, env },
+    );
+    let report = null;
+    try {
+      report = JSON.parse(readFileSync(outputFile, "utf8"));
+    } catch {
+      /* a crash or timeout leaves no report */
+    }
+    const byFile = new Map(
+      (report?.testResults ?? []).map((r) => [resolve(cwd, r.name), r]),
+    );
+    return new Map(
+      rows.map((row) => {
+        const own = vitestBatch(row.command).files.map((f) =>
+          byFile.get(resolve(cwd, f)),
+        );
+        const passed =
+          receipt.code === 0 || own.every((r) => r?.status === "passed");
+        return [
+          row.id,
+          {
+            ...receipt,
+            code: passed ? 0 : (receipt.code ?? 1),
+            timedOut: !passed && receipt.timedOut,
+          },
+        ];
+      }),
+    );
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
+  }
+}
 export async function runSuite({
   document,
   commit,
@@ -41,27 +116,42 @@ export async function runSuite({
 }) {
   const features = validateFeatures(document),
     started = performance.now(),
-    results = [];
+    results = [],
+    batchRows = features.filter((r) => r.command && vitestBatch(r.command));
+  let batch = null;
   for (const row of [...features].sort(
     (a, b) => Number(b.passes) - Number(a.passes),
   )) {
-    const place = drawPlace(commit, row.id);
+    const batched = batchRows.length > 1 && batchRows.includes(row),
+      place = drawPlace(commit, batched ? "vitest-batch" : row.id);
     let receipt = { code: null, timedOut: false, milliseconds: 0, output: "" },
       status = "missing-command";
     if (row.command) {
       const remaining = budget - (performance.now() - started);
       status = "not-reached";
       if (remaining > 0) {
-        receipt = await execute(row.command, {
-          cwd,
-          milliseconds: remaining,
-          env: {
-            GOLDEN_PATH_SEED: place.seed,
-            GOLDEN_PATH_PLACE_KEY: place.key,
-            GOLDEN_PATH_SPEC_ID: row.id,
-            GOLDEN_PATH_COMMIT: commit,
-          },
-        });
+        const env = {
+          GOLDEN_PATH_SEED: place.seed,
+          GOLDEN_PATH_PLACE_KEY: place.key,
+          GOLDEN_PATH_SPEC_ID: batched
+            ? batchRows.map((r) => r.id).join(",")
+            : row.id,
+          GOLDEN_PATH_COMMIT: commit,
+        };
+        if (batched) {
+          batch ??= await runBatch(batchRows, {
+            cwd,
+            milliseconds: remaining,
+            env,
+            execute,
+          });
+          receipt = batch.get(row.id);
+        } else
+          receipt = await execute(row.command, {
+            cwd,
+            milliseconds: remaining,
+            env,
+          });
         status = receipt.timedOut
           ? "timeout"
           : receipt.code === 0
