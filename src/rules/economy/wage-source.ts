@@ -46,6 +46,13 @@ export function nationalMedianAnnualWage(
 ) {
   return reader(facts).national(occupation);
 }
+export interface TownJobRate {
+  readonly soc: string;
+  readonly area: string;
+  readonly percentile: number;
+  readonly hourlyMinor: number;
+  readonly floored: boolean;
+}
 function compile(facts: WageSourceFacts) {
   const TOWN_PAY_COUNTY_AREAS = facts.countyAreas,
     TOWN_JOB_SOC = facts.occupations,
@@ -169,13 +176,6 @@ function compile(facts: WageSourceFacts) {
       ? wageTable().get(soc)?.get("US")?.[PERCENTILE_POINTS.indexOf(50)]
       : undefined;
     return median ?? null;
-  }
-  interface TownJobRate {
-    readonly soc: string;
-    readonly area: string;
-    readonly percentile: number;
-    readonly hourlyMinor: number;
-    readonly floored: boolean;
   }
   function townJobRate(
     occupation: string | null,
