@@ -368,6 +368,19 @@ export function countedJob(
   return flow && !flow.endedAt ? job : undefined;
 }
 
+/**
+ * The records' count of people in a school class or workgroup, as the full
+ * build saw it, so people filled in later join the same-sized peer group.
+ * Pass as buildDeepPast's peerCohortSize option.
+ */
+export function peerCohortSize(
+  core: CoreState,
+  circle: string,
+  contextKey: string,
+): number | undefined {
+  return runtimes.get(core)?.input.cohortSizes?.[`${circle}|${contextKey}`];
+}
+
 /** The generated record of someone still in the wider population. */
 export function residentPerson(
   core: CoreState,

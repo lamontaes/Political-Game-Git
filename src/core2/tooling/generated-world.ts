@@ -25,7 +25,22 @@ export function generatedOpening(
     openingEmployment: true,
     scheduledWork: true,
   });
-  let input = enrichCivicInputs(buildDeepPast(population));
+  // Record each class and workgroup's size as the full build sees it, so a
+  // person filled in later joins the same-sized peer group (PEOPLE's
+  // peerCohortSize; called once their deep past supports it).
+  const cohortSizes: Record<string, number> = {};
+  const withPast = (
+    buildDeepPast as (
+      input: CoreInput,
+      options?: Record<string, unknown>,
+    ) => CoreInput
+  )(population, {
+    peerCohortSize: (circle: string, contextKey: string, present: number) => {
+      cohortSizes[`${circle}|${contextKey}`] = present;
+      return present;
+    },
+  });
+  let input = enrichCivicInputs(withPast);
   const start = makeIsoDate(input.startedAt);
   const player = input.people
     .filter(
@@ -67,5 +82,7 @@ export function generatedOpening(
         customers: { countedHouseholdIds },
       }).input,
     );
-  return keep ? collapseToTwoLevels(input, { keep }) : input;
+  if (!keep) return input;
+  const two = collapseToTwoLevels(input, { keep });
+  return { ...two, residents: { ...two.residents!, cohortSizes } };
 }
