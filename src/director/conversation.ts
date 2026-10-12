@@ -947,7 +947,7 @@ export function beliefsOf(api: CoreAPI, personId: PersonId): Belief[] {
 export const beliefsModule: CoreModule = {
   id: BELIEFS_MODULE_ID,
   state: {
-    schemaVersion: 1,
+    schemaVersion: one,
     tables: { beliefs: { indexes: { byHearer: { fields: ["hearerId"] } } } },
   },
   relationshipKinds: ["*"],
