@@ -11,7 +11,7 @@ Only OPUS-PLAY writes this file. See "The team" in `AGENTS.md` and `docs/coordin
 
 Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and open port 3000 **at `/play`** for the game screen. The plain page at `/` is the developer bench, with every record and "why".
 
-**Start here: `/play`.** Press **New life**. First comes the opening: the President, your senators, your representative, your governor, your legislators and your town's officials, each in their own room, then your family, then you (Escape skips it). You start as the resident at or nearest 18 in a random town anywhere in the 56 places, at home with your family, in the approved Kit 12/13 look. Your card at bottom left has the clock and Day, Week and Until needed. Choices appear along the bottom. Click anyone in the picture to talk; the conversation runs across the bottom with the scales (Lie) in its corner. **Calendar** (top left) shows the next two months: the November 3 general election, filing deadlines, laws taking effect and family birthdays. **News** lists public records as the world makes them. **Politics** has a button for each office that takes filings: press one to walk into that clerk's office, name the seat, hear the rules in the clerk's words, and file. **Politics** also shows who holds every seat over you and the contests you could file for, with File and Request signatures. **Journal** is your life so far. People, Who you are, Money and property, and Jobs and study are at bottom right.
+**Start here: `/play`.** Press **New life**. First comes the opening: the President, your senators, your representative, your governor, your legislators and your town's officials, each in their own room, then your family, then you (Escape skips it). You start as the resident at or nearest 18 in a random town anywhere in the 56 places, at home with your family, in the approved Kit 12/13 look. Your card at bottom left has the clock and Day, Week and Until needed. Choices appear along the bottom. Click anyone in the picture to talk; the conversation runs across the bottom with the scales (Lie) in its corner. **Calendar** (top left) shows the next two months: the November 3 general election, filing deadlines, laws taking effect and family birthdays. **News** lists public records as the world makes them. Once you're on a ballot, **Politics** shows your campaign: Knock doors, Volunteers, Donations, Endorsements, Ad, Poll, and Speech with a stance For or Against. **Politics** also has a button for each office that takes filings: press one to walk into that clerk's office, name the seat, hear the rules in the clerk's words, and file. **Politics** also shows who holds every seat over you and the contests you could file for, with File and Request signatures. **Journal** is your life so far. People, Who you are, Money and property, and Jobs and study are at bottom right.
 
 **What you can do tonight**
 
@@ -35,7 +35,7 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and 
 - Switching residents works, and skipping no longer stops at every small choice or at the end of each shift.
 - The 25 new place pictures (county clerk offices, registrar, election warehouse, rallies, the convention, homes, schools) have their standing and seating spots.
 
-**Not in yet:** campaigning, election night and everything after them (OPUS-GOV). Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
+**Not in yet:** election night and everything after it (OPUS-GOV). Filing and talking happen instantly for now; they don't spend the day's hours yet. Every home shows the same house interior until homes record what kind of dwelling they are. Children aren't drawn, because the people art is adults only.
 
 ## Checklist
 
@@ -56,7 +56,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [ ] **A build you play every evening.** Each evening, one build with a short note: what you can do tonight and what changed.
   - Verified by: You play it.
   - Needs: All
-- [ ] **Screens for each golden path step.** In progress (Oct 12): day and skip, the place picture, the conversation box with the Lie button, the journal, law here, who governs you and filing are in the bench, all reading engine records. Next: a person card, then campaigning and election night as GOV lands them.
+- [ ] **Screens for each golden path step.** In progress (Oct 12): `/play` now reaches step 4 (filing at the real office, then campaigning). Earlier: day and skip, the place picture, the conversation box with the Lie button, the journal, law here, who governs you and filing are in the bench, all reading engine records. Next: a person card, then campaigning and election night as GOV lands them.
   - Was: Person card, day and skip, conversation box with the Lie button, journal, then the filing office, campaigning and election night as GOV lands them; record data and control names only, engine text only.
   - Verified by: Browser checks of each screen, then you play it.
   - Needs: GOV
@@ -70,6 +70,9 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Needs: GOV, PEOPLE
 
 ## Needs from other sessions
+
+- **OPUS-GOV + OPUS-CORE (two-level world):** `knockDoors` and `commissionPoll` read only full people and households, so in a two-level town doors and poll frames run out. The bench fills in the households a round can reach first (stopgap SG-PLAY-doors-fill-in); the campaign engine should fill in the households it actually reaches, and polls should sample the whole town (counts included).
+- **OPUS-PEOPLE (English engine):** names for the 56 stance questions (`PLATFORM_QUESTIONS`); the speech picker shows their record keys.
 
 - **OPUS-GOV:** in Mississippi, a county Commissioner filing goes on the ballot with no fee and no signatures. Worth checking against the state's qualifying fee.
 - **OPUS-PEOPLE:** in the filing visit, when a seat needs no fee or signatures, the filing choice reads "I understand.", the same as accepting a refusal. A "file" line (for example "I'd like to file.") would make it clear the player is filing.
@@ -104,6 +107,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: campaigning (step 4) in `/play`, on GOV's campaign engine (`openCampaigns`, then each act). In Eastabuchie MS (seed file-a), after filing for Commissioner: 2 hours of doors reached 28 people (18 warmer), 22 of the 24 people William knows agreed to volunteer, no one gave money (all 24 had no warmth yet), a speech for limiting groundwater withdrawal cooled 81 of the 82 who heard it, and a 50-person poll found 47 undecided and 2 for him.
 - Oct 12: the filing office visit (step 3) in `/play`, on OPUS-PEOPLE's `openFilingVisit` and `pickContest` and GOV's `fileCandidacy`. In Eastabuchie MS (seed file-a), William Roberson, 18, went to the circuit clerk (clerk Cory Pennington, the county's real officeholder), named Commissioner (6), heard the August 9, 2027 deadline and went on the ballot (no fee, no signatures). Next: GOV's campaign day.
 - Oct 12: `/play` builds the whole place two-level (OPUS-CORE). Measured in Napoleon ND (seed two-a): 264 full people, the town built in 60 s (population generation), and a played week took 1.3 s. In Vicksburg MI (seed two-b), a worker's first shift filled in 12 coworkers from the counts. Town size no longer needs shrinking in `/play`; the developer bench at `/` keeps its size field.
 - Oct 12: merged main, `opus-core`, `opus-gov`, `opus-world` and `pool/P15-people-5` again. The golden path stays green (M0-01 to M0-06 pass), the bench tests pass, and in Funny River AK (seed art-e) 39 scenes drew 142 figures.
