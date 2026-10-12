@@ -90,6 +90,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-13 01:45 UTC: **Audit 7 (federal acts take effect):** `enactLaw` in `laws.ts` now runs "law took effect" at once for an act in force the day it's enacted (a federal act without a date of its own). It had only scheduled future dates, so such acts never fired. New test in `world-legislating.test.ts`: a federal anti-discrimination act reaches the town's named adults the day it's signed. **Audit 8 (city income tax collects):** `tax-withholding.ts` now withholds an enacted income tax with unit "percent" and no bracket schedule as a flat rate. Group B's income-tax test turns its collection check on by itself and passes. Two group B test checks are now conditional on the world: a raise in an island territory can round below a cent, and a reserve needs a target above zero. Agent B is hardening the rest of its tests across all six territories.
+
 - 2026-10-13 01:10 UTC: **Audit 6 (independent filing terms, formula fees):**
   - Filing terms now follow the candidate's side. Filing with no party takes the research's independent route: Texas statewide is $0, 1% of the governor's vote, and a June 25 deadline.
   - Fees and signature counts written as formulas are worked out from the race (`src/core2/filing-formulas.ts`). A fee comes from the office's salary, so California's governor pays 2% of salary, no longer free. Signatures come from the district's 2024 vote, with caps, floors and "whichever is less"; registered voters are votes ÷ 0.89, from CPS 2024. A range takes its middle and is marked an estimate.

@@ -161,18 +161,29 @@ export function enactLaw(
     .moduleState(LAWS_MODULE_ID)
     .table("laws")
     .put(row as unknown as ModuleRow);
+  const source = {
+    tag: "SOURCED" as const,
+    citation: input.citation,
+    asOf: api.state.date,
+  };
   if (input.effectiveDate > api.state.date)
     api.moduleCalendar(LAWS_MODULE_ID).schedule({
       key: `effect:${row.id}`,
       date: input.effectiveDate,
       kind: "law-takes-effect",
-      source: {
-        tag: "SOURCED",
-        citation: input.citation,
-        asOf: api.state.date,
-      },
+      source,
       sourceRecordIds: [row.id],
     });
+  // An act in force the day it's enacted (a federal act without a date of
+  // its own) takes effect now (audit 3: federal acts never fired).
+  else
+    lawTookEffect(api, {
+      key: `effect:${row.id}`,
+      date: api.state.date,
+      kind: "law-takes-effect",
+      source,
+      sourceRecordIds: [row.id],
+    } as unknown as ModuleCalendarWork);
   return row;
 }
 

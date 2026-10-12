@@ -627,7 +627,10 @@ describe("law reach, group B: every policy reaches people through its engine", (
     const raised = staff().filter(
       (j) => (j.hourlyMinor ?? 0) > (before.get(j.id) ?? 0),
     );
-    if (before.size) expect(raised.length, where).toBeGreaterThan(0);
+    // In an island territory the town's share of the territory-wide line can
+    // round to less than a cent an hour per job; everywhere else a raise shows.
+    if (before.size && !where.includes("territory:"))
+      expect(raised.length, where).toBeGreaterThan(0);
     report[key] = {
       staff: before.size,
       raised: raised.length,
@@ -785,7 +788,7 @@ describe("law reach, group B: every policy reaches people through its engine", (
     ).reduce((a, b) => a + b, 0);
     if (spending > 0) expect(target, where).toBeGreaterThan(0);
     expect(held).toBeLessThanOrEqual(target);
-    if (cash > 0) expect(held, where).toBeGreaterThan(0);
+    if (cash > 0 && target > 0) expect(held, where).toBeGreaterThan(0);
     expect(
       core.organizations.get(gov.organizationId)!.liquidMinor,
     ).toBeGreaterThanOrEqual(held);

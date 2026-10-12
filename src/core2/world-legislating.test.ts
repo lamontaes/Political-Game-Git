@@ -11,7 +11,7 @@ import { govReport } from "./gov-test-report";
 import { buildPopulation } from "./population";
 import { advanceCore, createLifeCore } from "./life";
 import { coreAPI } from "./state";
-import { openLaws, LAWS_MODULE_ID } from "./modules/laws";
+import { enactLaw, openLaws, LAWS_MODULE_ID } from "./modules/laws";
 import { OFFICES_MODULE_ID, openOffices } from "./modules/offices";
 import { openElections } from "./modules/elections";
 import { openCampaigns } from "./modules/campaigns";
@@ -293,5 +293,42 @@ describe("M3-10 other governments legislate", () => {
         adoptedBy: federal!.adoptedBy,
       }),
     );
+  });
+
+  it("a federal act with no date of its own takes effect the day it's signed and reaches the town", () => {
+    const state = pick(states, "federal-now:state");
+    const places = [
+      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        stateJurisdictionKey: state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const key = pick(places, "federal-now:place").key;
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: START,
+        minimumPeople: 120,
+      }),
+    );
+    openLaws(core);
+    openLawEffects(core);
+    const api = coreAPI(core);
+    const question =
+      "us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work";
+    enactLaw(api, {
+      jurisdiction: "US",
+      level: "federal",
+      series: question,
+      value: 1,
+      effectiveDate: api.state.date,
+      measureId: "test-federal-act",
+      citation: "Gozlon-Peretz v. United States, 498 U.S. 395 (1991)",
+    });
+    const reached = [...core.people.keys()].filter((id) =>
+      effectsOn(api, id).some((e) => e.question === question),
+    );
+    expect(reached.length, `${state} ${key}`).toBeGreaterThan(0);
   });
 });
