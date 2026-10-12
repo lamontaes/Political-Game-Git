@@ -447,3 +447,16 @@ select {
 #talk li.narration {
   font-style: italic;
 }
+
+#sheet.wide #sheet-body .row.race {
+  grid-column: auto;
+  margin-bottom: 8px;
+}
+.race .winner {
+  color: var(--gold);
+  font-weight: 600;
+}
+.race .mine {
+  color: var(--text-2);
+  font-style: italic;
+}

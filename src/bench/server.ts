@@ -9,6 +9,7 @@ import { calendarItems, newsItems } from "./calendar";
 import { campaignAct, campaignView } from "./campaign";
 import { storyScene } from "./story";
 import { economyView, worldPanels } from "./economy";
+import { electionResults } from "./results";
 import {
   chooseAtCounter,
   openBenchFilingVisit,
@@ -229,6 +230,13 @@ const server = createServer(async (request, response) => {
           director,
           url.searchParams.get("id") ?? "",
         ),
+      );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/results") {
+      send(
+        200,
+        electionResults(requireCore(), url.searchParams.get("id") ?? ""),
       );
       return;
     }

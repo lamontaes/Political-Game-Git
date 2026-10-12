@@ -19,6 +19,18 @@ import { openLaws } from "../core2/modules/laws";
 import { openOffices } from "../core2/modules/offices";
 import { openElections } from "../core2/modules/elections";
 import { openCampaigns } from "../core2/modules/campaigns";
+import { openParties } from "../core2/modules/parties";
+import { openVoting } from "../core2/modules/voting";
+import { openRecord } from "../core2/modules/record";
+import { openBudgets } from "../core2/modules/budgets";
+import { openLegislature } from "../core2/modules/legislature";
+import { openLawEffects } from "../core2/modules/law-effects";
+import { viewsModule } from "../core2/modules/views";
+import { newsModule } from "../core2/modules/news";
+import { candidacyModule } from "../core2/modules/candidacy";
+import { RENEWAL_MODULE } from "../core2/modules/renewal";
+import { renewalData } from "../core2/births-setup";
+import { registerModule } from "../core2/state";
 import type { CoreInput, CoreState } from "../core2/types";
 import { collapseToTwoLevels, fullPeople } from "../core2/residents";
 import { selectBenchPlace } from "./place-selection.mjs";
@@ -41,8 +53,10 @@ export interface BenchWorld {
 
 /**
  * The full stack the owner plays: the core with people (always loaded by
- * createLifeCore), work and money; the economy (OPUS-WORLD); law, offices
- * and elections (OPUS-GOV); then health, drives and the story director.
+ * createLifeCore), work and money; the economy (OPUS-WORLD); law, offices,
+ * elections, parties, voting, campaigns, the record, budgets, legislatures and
+ * law effects (OPUS-GOV); health, drives, views, news, who runs, births and
+ * deaths, and the story director (OPUS-PEOPLE).
  * The director registers its own interrupts as core player stops.
  */
 // M0's entry age, as in progress.ts: an exhibit choice, not a simulation rule.
@@ -157,6 +171,14 @@ export function buildBenchWorld(
   openOffices(core, seed);
   openElections(core);
   openCampaigns(core);
+  openParties(core);
+  openVoting(core);
+  openRecord(core);
+  openBudgets(core);
+  openLegislature(core);
+  openLawEffects(core);
+  // Births and deaths (OPUS-PEOPLE's renewal), on the same scheduler.
+  registerModule(core, RENEWAL_MODULE);
   director.start(core);
   const placeId = place.context.jurisdiction.id;
   const residents = [...core.people.values()]

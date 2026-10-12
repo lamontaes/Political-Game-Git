@@ -7,6 +7,7 @@ let packet;
 let talk;
 let openTab;
 let busy = false;
+let seenResults = 0;
 
 async function api(path, method = "GET") {
   const response = await fetch(path, { method });
@@ -152,6 +153,13 @@ function renderPacket(value) {
 
 async function refresh() {
   await Promise.all([renderScene(), renderCard()]);
+  // Election night: new results open their sheet.
+  const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
+  if (races.length > seenResults) {
+    seenResults = races.length;
+    await openSheet("results");
+    return;
+  }
   if (openTab) await openSheet(openTab);
 }
 
@@ -196,6 +204,9 @@ $("skip").addEventListener("click", async () => {
       renderPacket(result.packet);
       $("card-clock").textContent = clock(result.packet.at);
       if (result.packet.kind !== "complete") break;
+      // Election day needs you: a skip ends when new results are in.
+      const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
+      if (races.length > seenResults) break;
       await renderScene();
     }
   } catch (error) {
@@ -510,6 +521,39 @@ const sheets = {
       ),
     );
   },
+  async results() {
+    const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
+    seenResults = races.length;
+    const number = (n) => n.toLocaleString("en-US");
+    return races.slice(0, 8).map((race) =>
+      el(
+        "div",
+        { className: "row race" },
+        el("b", { textContent: `${race.title} · ${race.date}` }),
+        ...race.candidates.map((c) =>
+          el("div", {
+            className: c.name === race.winner ? "winner" : "",
+            textContent: `${c.name}${c.party ? ` (${c.party})` : ""} · ${number(c.votes)}`,
+          }),
+        ),
+        el("div", {
+          textContent: `${race.namedTurnout} / ${race.namedEligible} · ${Object.entries(
+            race.exitPoll,
+          )
+            .map(([k, n]) => `${k} ${n}`)
+            .join(" · ")}`,
+        }),
+        race.ballot
+          ? el("div", {
+              className: "mine",
+              textContent: race.ballot.voted
+                ? `${me.card?.name ?? ""}: ${race.ballot.choice ?? ""}`
+                : `${me.card?.name ?? ""}: —`,
+            })
+          : "",
+      ),
+    );
+  },
   async calendar() {
     const { date, items } = await api(
       `/api/calendar?id=${encodeURIComponent(me.id)}`,
@@ -670,7 +714,14 @@ const sheets = {
       b.addEventListener("click", () => openFiling(filedWith));
       return b;
     });
+    const results = (() => {
+      const b = el("button", { type: "button", textContent: "Election night" });
+      b.disabled = seenResults === 0;
+      b.addEventListener("click", () => openSheet("results"));
+      return b;
+    })();
     return [
+      results,
       ...campaigns,
       ...offices,
       ...contests,
@@ -696,6 +747,7 @@ const titles = {
   journal: "Journal",
   politics: "Politics",
   calendar: "Calendar",
+  results: "Election night",
   news: "News",
 };
 async function openSheet(tab) {
@@ -703,7 +755,7 @@ async function openSheet(tab) {
   for (const b of document.querySelectorAll("[data-tab]"))
     b.classList.toggle("active", b.dataset.tab === tab);
   $("sheet-title").textContent = titles[tab];
-  $("sheet").classList.toggle("wide", tab === "calendar");
+  $("sheet").classList.toggle("wide", tab === "calendar" || tab === "results");
   const body = await sheets[tab]();
   // A slower, earlier request must not reopen a sheet closed meanwhile.
   if (openTab !== tab) return;

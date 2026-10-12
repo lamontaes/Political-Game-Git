@@ -1846,5 +1846,17 @@
     "addedAt": "2026-10-12",
     "replacement": "Named local outlets with real audiences and each person's recorded media habits (Pew local news surveys), checked against how fast election results spread.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-challenger-name",
+    "kind": "assumed-data",
+    "file": "src/bench/results.ts",
+    "line": 24,
+    "whatItFakes": "Election night names a drawn challenger by repeating the voting module’s private identity draw (same seed, seat key and role).",
+    "why": "The voting module draws challengers’ identities privately and exports no name reader.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "An OPUS-GOV export that names any candidate id (resident, official term or drawn challenger).",
+    "status": "open"
   }
 ]
