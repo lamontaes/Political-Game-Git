@@ -1820,7 +1820,7 @@
     },
     "wait": {
       "id": "jobs-wait",
-      "actKinds": ["delay"]
+      "actKinds": ["delay", "keep-same", "play-safe"]
     },
     "accept": {
       "id": "jobs-accept",
