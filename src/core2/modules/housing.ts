@@ -108,7 +108,11 @@ export function withHousing(input: CoreInput): CoreInput {
       return { row, income: householdIncome(input, row.memberIds), oldest };
     });
   const owners = Math.round((households.length * tenure[1]) / tenure[0]);
-  const incomes = households.map((row) => row.income).sort((a, b) => a - b);
+  // The median among households with recorded income; the others pay no modeled rent.
+  const incomes = households
+    .map((row) => row.income)
+    .filter((income) => income > 0)
+    .sort((a, b) => a - b);
   const medianIncome = incomes[Math.floor(incomes.length / 2)] ?? 0;
   const rank = new Map(
     [...households]
