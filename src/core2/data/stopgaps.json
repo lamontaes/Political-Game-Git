@@ -994,5 +994,29 @@
     "addedAt": "2026-10-12",
     "replacement": "Wider-population spending timed from the counts' pay dates and income, with absence and turnover rates by industry checked against BLS JOLTS and CPS.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-fill-in-pooled-money",
+    "kind": "pooled-money",
+    "file": "src/core2/state.ts",
+    "line": 1,
+    "whatItFakes": "A person filled in from the wider population keeps their pay, retirement income and purchases pooled in the residents account; their own cash reads zero and their job is not scheduled shift by shift.",
+    "why": "Two-level population, first cut: fill-in gives identity, household, past, ties and the counted job; moving a household's money and work onto individual records is the next step.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "Fill-in moves the household's share of the residents account to its members through the journal, admits their work commitments to the employer's payroll calendar and their purchase contracts, and shrinks the merged flows by the same amounts.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-outside-market",
+    "kind": "outside-demand",
+    "file": "src/core2/opening-outside-market.ts",
+    "line": 1,
+    "whatItFakes": "Buyers outside the town are one account per place paying each firm a fixed weekly share of its projected receipts (adjusted with its demand), not individual outside customers, freight orders, Medicaid claims or guests.",
+    "why": "11 of 14 closures in the first money year were firms with no customer route at all (owner order M0-money-fix); the share of receipts from outside the town is researched per industry.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "Outside demand from the national and regional economy engines (OPUS-WORLD): exports, government programs and visitors as their own dated buyers.",
+    "status": "open"
   }
 ]

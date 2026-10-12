@@ -87,7 +87,10 @@ while (dayIndex < days) {
   const dayStarted = performance.now();
   advanceCore(core, next);
   const dayMs = performance.now() - dayStarted;
-  if (session && dayIndex + 1 >= profileDay + Number(value("--profile-span", "1")) - 1) {
+  if (
+    session &&
+    dayIndex + 1 >= profileDay + Number(value("--profile-span", "1")) - 1
+  ) {
     const profile = await new Promise((r) =>
       session.post("Profiler.stop", (e, p) => r(p.profile)),
     );

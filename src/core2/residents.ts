@@ -31,7 +31,8 @@ import type {
 export const RESIDENTS_STOPGAP = "SG-CORE-residents-cadence";
 export const RESIDENTS_KIND = "residents";
 
-export type ResidentFlowKind = "wages" | "retirement" | "purchase";
+export type ResidentFlowKind =
+  "wages" | "retirement" | "purchase" | "outside-sales";
 
 export type ResidentCadence =
   | { kind: "days"; every: number }
@@ -566,7 +567,8 @@ export function collapseToTwoLevels(
         accountId,
       })),
       households,
-      flows,
+      // Flows already recorded (e.g. outside buyers) are kept.
+      flows: [...(input.residents?.flows ?? []), ...flows],
       source,
     },
   };

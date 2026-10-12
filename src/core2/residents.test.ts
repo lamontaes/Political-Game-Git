@@ -1,9 +1,11 @@
 import { randomBytes } from "node:crypto";
 import { beforeAll, describe, expect, it } from "vitest";
-import { drawPlace, generatedOpening } from "./tooling/generated-world";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { generatedOpening } from "./tooling/generated-world";
 import { collapseToTwoLevels } from "./residents";
 import { advanceCore, createLifeCore } from "./life";
 import { residentCounts } from "./modules/residents";
+import { fillInPerson } from "./state";
 import type { CoreInput } from "./types";
 
 // One random place from all 56, named with its seed in the test title.
@@ -81,5 +83,41 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
       0,
     );
     expect(sales).toBeGreaterThan(0);
+  }, 300_000);
+
+  it("fills in a counted worker who matches the employer's books", () => {
+    const core = createLifeCore(two);
+    advanceCore(core, "2021-01-15");
+    const record = two.residents!.households.find((row) => row.jobs.length)!;
+    const job = record.jobs[0]!;
+    const before = residentCounts(core),
+      people = core.people.size;
+    const counted = (rows: typeof before) =>
+      rows.reduce((n, row) => n + row.people, 0);
+    const atEmployer = (rows: typeof before) =>
+      rows.reduce(
+        (n, row) => n + (row.workersByOrganization[job.organizationId] ?? 0),
+        0,
+      ) +
+      [...core.jobs.values()].filter(
+        (row) => row.organizationId === job.organizationId && !row.endsAt,
+      ).length;
+    const employed = atEmployer(before);
+    const person = fillInPerson(core, job.personId);
+    expect(person.id).toBe(job.personId);
+    expect(person.jobId).toBe(job.id);
+    expect(core.jobs.get(job.id)).toMatchObject({
+      organizationId: job.organizationId,
+      title: job.title,
+      wageDailyMinor: job.wageDailyMinor,
+    });
+    // Moving from the counts to the people keeps every total.
+    const after = residentCounts(core);
+    expect(core.people.size - people).toBe(record.people.length);
+    expect(counted(before) - counted(after)).toBe(record.people.length);
+    expect(atEmployer(after)).toBe(employed);
+    // The same person comes back: filling in again changes nothing.
+    expect(fillInPerson(core, job.personId)).toBe(person);
+    advanceCore(core, "2021-02-01");
   }, 300_000);
 });

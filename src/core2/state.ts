@@ -1,6 +1,11 @@
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 import {
+  countedJob,
+  residentPerson,
+  takeResidentHousehold,
+} from "./modules/residents";
+import {
   prepareModuleState,
   installModuleState,
   moduleState,
@@ -80,6 +85,7 @@ import type {
   CoreState,
   KnownFact,
   LogRecord,
+  PersonId,
   PersonInput,
   PersonState,
   Relationship,
@@ -1449,6 +1455,105 @@ export function inspectPerson(
 }
 
 /** Explicit click-time admission checks every retained identity and family constraint. */
+/**
+ * Fill in a person from the wider population (two-level population): their
+ * whole household leaves the counts and becomes full people, with the same
+ * records the counts held: names, birth dates, past, traits and the job the
+ * employer's books count. Their money stays pooled with the residents
+ * account (stopgap SG-CORE-fill-in-pooled-money). Returns the person.
+ */
+export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
+  const existing = core.people.get(personId);
+  if (existing) return existing;
+  const record = takeResidentHousehold(core, personId);
+  if (!record) throw new Error(`Not in the wider population: ${personId}`);
+  const api = coreAPI(core);
+  api.stopgap("SG-CORE-fill-in-pooled-money");
+  const home = record.household;
+  if (core.households.has(home.id))
+    throw new Error(`Household already present: ${home.id}`);
+  core.households.set(home.id, { ...home, memberIds: [...home.memberIds] });
+  const jobs = new Map(record.jobs.map((row) => [row.id, row]));
+  // Ties to people still counted become husks, met and filled in later.
+  const husk = (id: PersonId) => {
+    if (core.people.has(id) || core.husks.has(id)) return;
+    const other =
+      record.people.find((row) => row.id === id) ?? residentPerson(core, id);
+    if (!other) return;
+    core.husks.set(id, {
+      id,
+      givenName: other.givenName,
+      familyName: other.familyName,
+      placeId: other.placeId,
+      ...(other.countyId ? { countyId: other.countyId } : {}),
+      looks: { ...(other.looks ?? {}) },
+      said: [...(other.said ?? [])],
+      birthDate: other.birthDate,
+      familyIds: [...other.familyIds],
+      source: other.source,
+    });
+  };
+  const admitted: PersonState[] = [];
+  for (const row of record.people) {
+    core.husks.delete(row.id);
+    const job = row.jobId ? jobs.get(row.jobId) : undefined;
+    const active = job ? countedJob(core, job.id) !== undefined : false;
+    admitted.push(
+      admitPerson(core, {
+        ...row,
+        liquidMinor: 0,
+        ...(active ? {} : { jobId: undefined }),
+      }),
+    );
+    if (job && active) {
+      core.jobs.set(job.id, { ...job });
+      financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
+    }
+  }
+  for (const actor of admitted) {
+    for (const id of [...actor.familyIds, ...actor.knownIds]) husk(id);
+    for (const id of actor.familyIds)
+      if (core.people.has(id)) {
+        const relationshipId = [actor.id, id].sort().join(":");
+        if (!core.relationships.has(relationshipId))
+          api.relationship(
+            actor.id,
+            id,
+            "family",
+            api.parameter("relationInitial"),
+          );
+      }
+    for (const id of actor.knownIds) {
+      const other = core.people.get(id) ?? core.husks.get(id);
+      if (!other) continue;
+      api.observe(actor.id, {
+        key: `person:${id}:name`,
+        value: `${other.givenName} ${other.familyName}`,
+        ...initialNameProvenance(core, actor, id),
+        access: "perceived",
+      });
+    }
+    const job = actor.jobId ? core.jobs.get(actor.jobId) : undefined;
+    if (job) {
+      api.observe(actor.id, {
+        key: `job:${job.id}:pay`,
+        value: String(job.wageDailyMinor),
+        learnedAt: core.date,
+        sourceId: job.id,
+        access: "self",
+      });
+      api.observe(actor.id, {
+        key: `organization:${job.organizationId}:public`,
+        value: job.organizationId,
+        learnedAt: core.date,
+        sourceId: job.id,
+        access: "perceived",
+      });
+    }
+  }
+  return core.people.get(personId)!;
+}
+
 export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
   const husk = core.husks.get(input.id);
   if (!husk) throw new Error("Promotion requires a recorded husk.");

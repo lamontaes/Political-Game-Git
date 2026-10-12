@@ -20,6 +20,7 @@ import type {
   CoreState,
   IsoDate,
   JobInput,
+  PersonInput,
   PersonId,
   PlaceId,
 } from "../types";
@@ -27,7 +28,13 @@ import type {
 export const RESIDENTS_MODULE_ID = "core2-residents-v1";
 const SOURCE_KIND = "residents.flow";
 const DUE_KIND = "residents.due";
-const ORDER = { wages: 0, retirement: 1, purchase: 2 } as const;
+// Outside buyers pay first, so a day's receipts can meet that day's payroll.
+const ORDER = {
+  "outside-sales": 0,
+  wages: 1,
+  retirement: 2,
+  purchase: 3,
+} as const;
 
 interface FlowState extends ResidentFlowInput {
   nextAt: IsoDate;
@@ -44,6 +51,8 @@ export interface ResidentsRuntime {
   households: Map<string, ResidentHouseholdRecord>;
   householdOfPerson: Map<PersonId, string>;
   jobs: Map<string, JobInput>;
+  /** Households filled in from the counts; their money stays pooled (stopgap). */
+  filledIn: Map<string, ResidentHouseholdRecord>;
   wageFlowByJob: Map<string, FlowState>;
   /** Today's missed count-worker paydays, the evidence a closure cites. */
   shortfalls: Map<string, ResidentWageShortfall>;
@@ -81,6 +90,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     householdOfPerson: new Map(),
     shortfalls: new Map(),
     jobs: new Map(),
+    filledIn: new Map(),
     wageFlowByJob: new Map(),
   };
   for (const record of input.households) {
@@ -144,7 +154,7 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     : Math.min(requested, spendable(core, flow.payerId));
   if (paid > 0) post(api, rt, flow, paid, outside);
   const month = date.slice(0, 7);
-  if (flow.kind !== "purchase" && paid > 0) {
+  if ((flow.kind === "wages" || flow.kind === "retirement") && paid > 0) {
     const key = `${month}:${flow.placeId}`,
       kindKey = `${key}:${flow.financeKind}`;
     finance.paidIncomeByPlaceMonth.set(
@@ -178,7 +188,11 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
       finance.unfundedBusinessReceipts.set(flow.payerId, { date, id });
     }
   }
-  if (flow.kind === "purchase" && payeeBook && paid > 0) {
+  if (
+    (flow.kind === "purchase" || flow.kind === "outside-sales") &&
+    payeeBook &&
+    paid > 0
+  ) {
     payeeBook.receivedMinor += paid;
     if (flow.salesReceipt) payeeBook.salesReceivedMinor += paid;
   }
@@ -280,6 +294,33 @@ export function countedJob(
   if (!rt || !job) return undefined;
   const flow = rt.wageFlowByJob.get(jobId);
   return flow && !flow.endedAt ? job : undefined;
+}
+
+/** The generated record of someone still in the wider population. */
+export function residentPerson(
+  core: CoreState,
+  personId: PersonId,
+): PersonInput | undefined {
+  const rt = runtimes.get(core);
+  const id = rt?.householdOfPerson.get(personId);
+  return id
+    ? rt!.households.get(id)!.people.find((row) => row.id === personId)
+    : undefined;
+}
+
+/** Remove a person's household from the counts, for fill-in. */
+export function takeResidentHousehold(
+  core: CoreState,
+  personId: PersonId,
+): ResidentHouseholdRecord | undefined {
+  const rt = runtimes.get(core);
+  const id = rt?.householdOfPerson.get(personId);
+  if (!rt || !id) return undefined;
+  const record = rt.households.get(id)!;
+  rt.households.delete(id);
+  for (const person of record.people) rt.householdOfPerson.delete(person.id);
+  rt.filledIn.set(id, record);
+  return record;
 }
 
 export function residentWageShortfall(
