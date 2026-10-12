@@ -483,14 +483,38 @@
         "Nothing much happened.",
         "Nothing happened.",
         "Not much happened.",
-        "It rained.",
-        "It rained all day.",
-        "It snowed.",
-        "It snowed all day.",
-        "It was hot.",
-        "It was cold.",
-        "It was very hot.",
-        "It was very cold.",
+        {
+          "text": "It rained.",
+          "requiresFacts": ["weather-rain"]
+        },
+        {
+          "text": "It rained all day.",
+          "requiresFacts": ["weather-rain"]
+        },
+        {
+          "text": "It snowed.",
+          "requiresFacts": ["weather-snow"]
+        },
+        {
+          "text": "It snowed all day.",
+          "requiresFacts": ["weather-snow"]
+        },
+        {
+          "text": "It was hot.",
+          "requiresFacts": ["weather-hot"]
+        },
+        {
+          "text": "It was cold.",
+          "requiresFacts": ["weather-cold"]
+        },
+        {
+          "text": "It was very hot.",
+          "requiresFacts": ["weather-hot"]
+        },
+        {
+          "text": "It was very cold.",
+          "requiresFacts": ["weather-cold"]
+        },
         "I paid the bills.",
         "I paid the rent.",
         "The rent was due.",
@@ -723,18 +747,6 @@
         "I qualified for the ballot.",
         "I made the ballot.",
         "I was on the ballot.",
-        "I announced.",
-        "I announced that I was running.",
-        "I announced my candidacy.",
-        "I started campaigning.",
-        "We started campaigning.",
-        "I knocked on doors.",
-        "I went door to door.",
-        "We went door to door.",
-        "I gave a speech.",
-        "I made a speech.",
-        "I had a debate.",
-        "We had a debate.",
         "I went to {filing_office}.",
         "I went down to {filing_office}.",
         "I filed at {filing_office}."
@@ -768,6 +780,32 @@
         "I voted against it.",
         "I voted no.",
         "I voted yes."
+      ]
+    },
+    {
+      "move": "campaign-line-campaigned",
+      "subject": "campaign",
+      "role": "line",
+      "choice": "campaigned",
+      "journal": [
+        {
+          "kindPrefix": "event:campaign",
+          "field": "line"
+        }
+      ],
+      "candidates": [
+        "I announced.",
+        "I announced that I was running.",
+        "I announced my candidacy.",
+        "I started campaigning.",
+        "We started campaigning.",
+        "I knocked on doors.",
+        "I went door to door.",
+        "We went door to door.",
+        "I gave a speech.",
+        "I made a speech.",
+        "I had a debate.",
+        "We had a debate."
       ]
     }
   ]

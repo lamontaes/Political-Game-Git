@@ -11,7 +11,12 @@
     "wage": "An hourly wage, from the pay record.",
     "times": "How many times, counted from contact records.",
     "office": "An office, from the candidate filing record.",
-    "age": "An age, computed from the birth record."
+    "age": "An age, computed from the birth record.",
+    "law": "A law or ordinance, as its record names it.",
+    "name": "A person, by name, from the records.",
+    "whose": "A person's name with 's, from the records.",
+    "votes": "A vote margin, from the results record.",
+    "filing_office": "Where the person filed, from the filing record (the clerk, the registrar or the board of elections)."
   },
   "maxWords": 10,
   "mining": {
@@ -68,7 +73,34 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 85
+    "notAttested": 85,
+    "secondRun": {
+      "read": {
+        "chrg": 2500,
+        "dcpd": 17712,
+        "eac": 330,
+        "eisenhower": 15,
+        "fec": 288,
+        "federal-counter": 330,
+        "florida": 420,
+        "house": 300,
+        "nasa": 1388,
+        "news-energy": 1507,
+        "news-epa": 3009,
+        "news-faa": 1383,
+        "news-fda": 1199,
+        "news-justice": 5265,
+        "news-nasa": 1446,
+        "news-noaa": 484,
+        "news-nps": 2506,
+        "news-nws": 3001,
+        "news-treasury": 2052,
+        "senate": 51,
+        "sotu-gutenberg": 222,
+        "usa-gov": 260
+      },
+      "note": "Moves added on the second run (a day, a law taking effect, a funeral, voting, results, filing, campaigning, taking office) were mined against the rebuilt corpus and merged into the first run's parts."
+    }
   },
   "parts": [
     {
@@ -421,6 +453,18 @@
               "field": "line"
             }
           ]
+        },
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 15,
@@ -613,7 +657,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Hart, Melissa A. - U.S. Representative of Pennsylvania - 2001–2007",
+        "document": "U.S. House Oral History: Hart, Melissa A. - U.S. Representative of Pennsylvania - 2001\u20132007",
         "date": "2019-09-30",
         "granule": "house-oh-hart",
         "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/hart-transcript/",
@@ -972,7 +1016,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Secretary Jewell, National Park Service Director Jarvis Hear Community’s Vision and Support for Proposed National Park System Additions in Alabama",
+        "document": "Secretary Jewell, National Park Service Director Jarvis Hear Community\u2019s Vision and Support for Proposed National Park System Additions in Alabama",
         "date": "2016-10-28",
         "granule": "doi-2016-10-28-secretary-jewell-national-park-service-director-jarvis-hear-98df7a13",
         "url": "https://www.doi.gov/pressreleases/secretary-jewell-national-park-service-director-jarvis-hear-communitys-vision-and",
@@ -1618,6 +1662,18 @@
           "role": "line",
           "choice": "won",
           "journal": []
+        },
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 15,
@@ -1933,6 +1989,1545 @@
         "date": "2016-05-31",
         "granule": "CHRG-114shrg21989",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-114shrg21989/html/CHRG-114shrg21989.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.i-stayed-home",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "I stayed home.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Departments Of Labor, Health And Human Services, Education, And Related Agencies Appropriations For 2018",
+        "date": "2017-03-01",
+        "granule": "CHRG-115hhrg27211",
+        "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg27211",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.i-went-to-the-doctor",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "I went to the doctor.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Administration of Donald J. Trump, 2019 Remarks on Signing an Executive Order Protecting and Improving Medicare for Our Nation's Seniors in the Villages, Florida October 3, 2019 The President. Well, t",
+        "date": "2019-10-03",
+        "granule": "DCPD-201900691",
+        "url": "https://www.govinfo.gov/app/details/DCPD-201900691",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.we-had-dinner",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "We had dinner.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 1,
+        "eisenhower": 1,
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks and an Exchange With Reporters in Rehoboth Beach, Delaware",
+        "date": "2022-06-20",
+        "granule": "DCPD-202200544",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202200544",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.i-called-other",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "I called {other}.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 58,
+      "bySource": {
+        "dcpd": 13,
+        "house": 2,
+        "nasa": 35,
+        "senate": 8
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on the Situation in Israel and Lebanon and an Exchange With Reporters",
+        "date": "2026-04-23",
+        "granule": "DCPD-202600281",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600281",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.other-called",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "{other} called.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 14,
+      "bySource": {
+        "dcpd": 3,
+        "house": 1,
+        "nasa": 8,
+        "senate": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in an Exchange With Reporters Aboard Air Force One En Route to Joint Base Andrews, Maryland",
+        "date": "2026-01-11",
+        "granule": "DCPD-202600015",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600015",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.other-called-me",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "{other} called me.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 26,
+      "bySource": {
+        "dcpd": 3,
+        "house": 1,
+        "nasa": 17,
+        "senate": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks During a Board of Trustees Meeting of the John F. Kennedy Center for the Performing Arts and an Exchange With Reporters",
+        "date": "2026-03-16",
+        "granule": "DCPD-202600178",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600178",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.other-came-over",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "{other} came over.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 15,
+      "bySource": {
+        "dcpd": 1,
+        "nasa": 12,
+        "senate": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a Banquet Dinner in Dublin, Ireland",
+        "date": "2023-04-13",
+        "granule": "DCPD-202300299",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202300299",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.we-went-to-place",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "We went to {place}.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 122,
+      "bySource": {
+        "chrg": 12,
+        "dcpd": 23,
+        "house": 1,
+        "nasa": 79,
+        "senate": 7
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a Working Dinner With Leaders of Central Asian Countries and an Exchange With Reporters",
+        "date": "2025-11-06",
+        "granule": "DCPD-202501102",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202501102",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.i-drove-to-place",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "I drove to {place}.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "nasa": 3,
+        "senate": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history interview with Charles R. Lewis",
+        "date": "2022-06-07",
+        "granule": "lewiscr-6-7-22",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/lewiscr-6-7-22.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.i-went-to-place",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "I went to {place}.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 202,
+      "bySource": {
+        "chrg": 28,
+        "dcpd": 41,
+        "eisenhower": 2,
+        "house": 5,
+        "nasa": 113,
+        "senate": 13
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at the Republican National Committee Midterm Convention in Dallas, Texas",
+        "date": "2026-09-09",
+        "granule": "DCPD-202600590",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600590",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.it-was-a-long-day",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "It was a long day.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history interview with Edward L. Shade",
+        "date": "2018-08-22",
+        "granule": "shadeel-8-22-18",
+        "url": "https://www.nasa.gov/wp-content/uploads/2025/08/shadeel-8-22-18.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.nothing-happened",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "Nothing happened.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 20,
+      "bySource": {
+        "chrg": 8,
+        "dcpd": 8,
+        "nasa": 3,
+        "senate": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "The President's News Conference",
+        "date": "2026-04-06",
+        "granule": "DCPD-202600233",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600233",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.it-was-hot",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "It was hot.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ],
+          "requiresFacts": ["weather-hot"]
+        }
+      ],
+      "transcriptsUsing": 12,
+      "bySource": {
+        "chrg": 1,
+        "eisenhower": 1,
+        "nasa": 10
+      },
+      "shippable": true,
+      "source": {
+        "document": "Nominations Of Mindy Brashears, Stella Yvette Herrell, And John Walk",
+        "date": "2025-10-29",
+        "granule": "CHRG-119shrg61814",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119shrg61814",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.it-was-cold",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "It was cold.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ],
+          "requiresFacts": ["weather-cold"]
+        }
+      ],
+      "transcriptsUsing": 25,
+      "bySource": {
+        "chrg": 2,
+        "dcpd": 4,
+        "eisenhower": 2,
+        "nasa": 17
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in Des Moines, Iowa",
+        "date": "2025-07-03",
+        "granule": "DCPD-202500744",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202500744",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.day-line-routine.it-was-very-cold",
+      "move": "day-line-routine",
+      "kind": "spoken",
+      "text": "It was very cold.",
+      "uses": [
+        {
+          "move": "day-line-routine",
+          "subject": "day",
+          "role": "line",
+          "choice": "routine",
+          "journal": [
+            {
+              "kindPrefix": "day:",
+              "field": "line"
+            }
+          ],
+          "requiresFacts": ["weather-cold"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history interview with Mark S. Geyer",
+        "date": "2021-05-26",
+        "granule": "geyerms-5-26-21",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerms-5-26-21.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.law-backdrop-took-effect.the-bill-passed",
+      "move": "law-backdrop-took-effect",
+      "kind": "spoken",
+      "text": "The bill passed.",
+      "uses": [
+        {
+          "move": "law-backdrop-took-effect",
+          "subject": "law",
+          "role": "backdrop",
+          "choice": "took-effect",
+          "journal": [
+            {
+              "kindPrefix": "backdrop:law-took-effect",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "event:law",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 1,
+        "senate": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Senate Budget Committee Mid-Session Hearings Fiscal Year 2016",
+        "date": "2015-05-19",
+        "granule": "CHRG-114shrg97728",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114shrg97728",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.law-backdrop-took-effect.congress-passed-law",
+      "move": "law-backdrop-took-effect",
+      "kind": "spoken",
+      "text": "Congress passed {law}.",
+      "uses": [
+        {
+          "move": "law-backdrop-took-effect",
+          "subject": "law",
+          "role": "backdrop",
+          "choice": "took-effect",
+          "journal": [
+            {
+              "kindPrefix": "backdrop:law-took-effect",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "event:law",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "chrg": 7
+      },
+      "shippable": true,
+      "source": {
+        "document": "Oversight Of The Department Of Justice Antitrust Division",
+        "date": "2023-11-14",
+        "granule": "CHRG-118hhrg54185",
+        "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg54185",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.death-line-funeral.relation-was-age",
+      "move": "death-line-funeral",
+      "kind": "spoken",
+      "text": "{relation} was {age}.",
+      "uses": [
+        {
+          "move": "death-line-funeral",
+          "subject": "death",
+          "role": "line",
+          "choice": "funeral",
+          "journal": [
+            {
+              "kindPrefix": "event:life.death",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 13,
+      "bySource": {
+        "chrg": 2,
+        "nasa": 9,
+        "senate": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Concurrent Receipt Of Survivor",
+        "date": "2015-12-09",
+        "granule": "CHRG-114hhrg98279",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg98279",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.death-line-funeral.other-was-age",
+      "move": "death-line-funeral",
+      "kind": "spoken",
+      "text": "{other} was {age}.",
+      "uses": [
+        {
+          "move": "death-line-funeral",
+          "subject": "death",
+          "role": "line",
+          "choice": "funeral",
+          "journal": [
+            {
+              "kindPrefix": "event:life.death",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 33,
+      "bySource": {
+        "chrg": 6,
+        "dcpd": 5,
+        "house": 4,
+        "nasa": 12,
+        "senate": 6
+      },
+      "shippable": true,
+      "source": {
+        "document": "Commencement Address at the University of Alabama in Tuscaloosa, Alabama",
+        "date": "2025-05-01",
+        "granule": "DCPD-202500550",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202500550",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.death-line-funeral.relation-was-age-years-old",
+      "move": "death-line-funeral",
+      "kind": "spoken",
+      "text": "{relation} was {age} years old.",
+      "uses": [
+        {
+          "move": "death-line-funeral",
+          "subject": "death",
+          "role": "line",
+          "choice": "funeral",
+          "journal": [
+            {
+              "kindPrefix": "event:life.death",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "chrg": 1,
+        "nasa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Departments Of Labor, Health And Human Services, Education, And Related Agencies Appropriations For 2016",
+        "date": "2015-02-25",
+        "granule": "CHRG-114hhrg96204",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg96204",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.death-line-funeral.relation-died-at-age",
+      "move": "death-line-funeral",
+      "kind": "spoken",
+      "text": "{relation} died at {age}.",
+      "uses": [
+        {
+          "move": "death-line-funeral",
+          "subject": "death",
+          "role": "line",
+          "choice": "funeral",
+          "journal": [
+            {
+              "kindPrefix": "event:life.death",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Departments Of Labor, Health And Human Services, Education, And Related Agencies Appropriations For 2020",
+        "date": "2019-03-27",
+        "granule": "CHRG-116hhrg37627",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg37627",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-line-voted.i-voted",
+      "move": "election-line-voted",
+      "kind": "spoken",
+      "text": "I voted.",
+      "uses": [
+        {
+          "move": "election-line-voted",
+          "subject": "election",
+          "role": "line",
+          "choice": "voted",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "vote:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "chrg": 2,
+        "dcpd": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in Las Vegas, Nevada",
+        "date": "2026-08-05",
+        "granule": "DCPD-202600518",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600518",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-line-voted.i-voted-for-other",
+      "move": "election-line-voted",
+      "kind": "spoken",
+      "text": "I voted for {other}.",
+      "uses": [
+        {
+          "move": "election-line-voted",
+          "subject": "election",
+          "role": "line",
+          "choice": "voted",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "vote:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "dcpd": 3,
+        "senate": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on the National Economy in Walton, Kentucky",
+        "date": "2026-03-11",
+        "granule": "DCPD-202600165",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600165",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-line-voted.i-voted-for-name",
+      "move": "election-line-voted",
+      "kind": "spoken",
+      "text": "I voted for {name}.",
+      "uses": [
+        {
+          "move": "election-line-voted",
+          "subject": "election",
+          "role": "line",
+          "choice": "voted",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "vote:",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "dcpd": 3,
+        "senate": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on the National Economy in Walton, Kentucky",
+        "date": "2026-03-11",
+        "granule": "DCPD-202600165",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600165",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-other-result.other-won",
+      "move": "election-other-result",
+      "kind": "spoken",
+      "text": "{other} won.",
+      "uses": [
+        {
+          "move": "election-other-result",
+          "subject": "election",
+          "role": "other",
+          "choice": "result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 3,
+        "senate": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on the Relocation of U.S. Space Command Headquarters to Huntsville, Alabama, and an Exchange With Reporters",
+        "date": "2025-09-02",
+        "granule": "DCPD-202500885",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202500885",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-other-result.other-lost",
+      "move": "election-other-result",
+      "kind": "spoken",
+      "text": "{other} lost.",
+      "uses": [
+        {
+          "move": "election-other-result",
+          "subject": "election",
+          "role": "other",
+          "choice": "result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "dcpd": 5,
+        "news-nws": 1,
+        "senate": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Public Information Statement from the National Weather Service Anchorage AK 625 AM AKDT Fri Oct 9 2026",
+        "date": "2026-10-09",
+        "granule": "PAFC-PNS-6e102237",
+        "url": "https://api.weather.gov/products/6e102237-2c3b-4b84-a4c9-5aad2d8979cd",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-other-result.other-was-elected",
+      "move": "election-other-result",
+      "kind": "spoken",
+      "text": "{other} was elected.",
+      "uses": [
+        {
+          "move": "election-other-result",
+          "subject": "election",
+          "role": "other",
+          "choice": "result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 1,
+        "house": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Department Of Defense Fiscal Year 2021 Budget",
+        "date": "2020-03-10",
+        "granule": "CHRG-116hhrg41368",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg41368",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-other-result.other-got-elected",
+      "move": "election-other-result",
+      "kind": "spoken",
+      "text": "{other} got elected.",
+      "uses": [
+        {
+          "move": "election-other-result",
+          "subject": "election",
+          "role": "other",
+          "choice": "result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "dcpd": 4,
+        "nasa": 1,
+        "senate": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a Campaign Event for Democratic Presidential Nominee Vice President Kamala D. Harris in Pittsburgh, Pennsylvania",
+        "date": "2024-09-02",
+        "granule": "DCPD-202400742",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202400742",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-other-result.name-won",
+      "move": "election-other-result",
+      "kind": "spoken",
+      "text": "{name} won.",
+      "uses": [
+        {
+          "move": "election-other-result",
+          "subject": "election",
+          "role": "other",
+          "choice": "result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 3,
+        "senate": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on the Relocation of U.S. Space Command Headquarters to Huntsville, Alabama, and an Exchange With Reporters",
+        "date": "2025-09-02",
+        "granule": "DCPD-202500885",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202500885",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-other-result.name-lost",
+      "move": "election-other-result",
+      "kind": "spoken",
+      "text": "{name} lost.",
+      "uses": [
+        {
+          "move": "election-other-result",
+          "subject": "election",
+          "role": "other",
+          "choice": "result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "dcpd": 6,
+        "news-nws": 1,
+        "senate": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Public Information Statement from the National Weather Service Anchorage AK 625 AM AKDT Fri Oct 9 2026",
+        "date": "2026-10-09",
+        "granule": "PAFC-PNS-6e102237",
+        "url": "https://api.weather.gov/products/6e102237-2c3b-4b84-a4c9-5aad2d8979cd",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-other-result.name-was-elected",
+      "move": "election-other-result",
+      "kind": "spoken",
+      "text": "{name} was elected.",
+      "uses": [
+        {
+          "move": "election-other-result",
+          "subject": "election",
+          "role": "other",
+          "choice": "result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "otherLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 1,
+        "house": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Department Of Defense Fiscal Year 2021 Budget",
+        "date": "2020-03-10",
+        "granule": "CHRG-116hhrg41368",
+        "url": "https://www.govinfo.gov/app/details/CHRG-116hhrg41368",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.we-won",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "We won.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 49,
+      "bySource": {
+        "chrg": 4,
+        "dcpd": 40,
+        "nasa": 4,
+        "senate": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Affordability in Macungie, Pennsylvania",
+        "date": "2026-06-23",
+        "granule": "DCPD-202600423",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600423",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.we-lost",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "We lost.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "chrg": 2,
+        "dcpd": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks During an Event With Seniors in Middleton, Florida",
+        "date": "2026-05-01",
+        "granule": "DCPD-202600300",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600300",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.i-won-by-votes-votes",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "I won by {votes} votes.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "dcpd": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a Campaign Event in Greenwich, Connecticut",
+        "date": "2024-06-03",
+        "granule": "DCPD-202400486",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202400486",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.it-was-close",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "It was close.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 8,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 4,
+        "nasa": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks Following a Document Signing Ceremony on Semiconductor Supply and Citizenship and Immigration and an Exchange With Reporters",
+        "date": "2026-08-06",
+        "granule": "DCPD-202600519",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600519",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.it-wasnt-close",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "It wasn't close.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at a Document Signing Ceremony and an Exchange With Reporters",
+        "date": "2025-05-05",
+        "granule": "DCPD-202500556",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202500556",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.election-line-own-result.it-was-very-close",
+      "move": "election-line-own-result",
+      "kind": "spoken",
+      "text": "It was very close.",
+      "uses": [
+        {
+          "move": "election-line-own-result",
+          "subject": "election",
+          "role": "line",
+          "choice": "own-result",
+          "journal": [
+            {
+              "kindPrefix": "event:election",
+              "field": "ownLine"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "house": 1,
+        "nasa": 2,
+        "senate": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "NASA oral history interview with Mark S. Geyer",
+        "date": "2019-06-20",
+        "granule": "geyerm-6-20-19",
+        "url": "https://www.nasa.gov/wp-content/uploads/2024/11/geyerm-6-20-19.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.office-line-filing.i-went-to-filing-office",
+      "move": "office-line-filing",
+      "kind": "spoken",
+      "text": "I went to {filing_office}.",
+      "uses": [
+        {
+          "move": "office-line-filing",
+          "subject": "office",
+          "role": "line",
+          "choice": "filing",
+          "journal": [
+            {
+              "kindPrefix": "event:candidate-filed",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "chrg": 1,
+        "house": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "The Family First Prevention Services Act: Successes, Roadblocks, And Opportunities For Improvement",
+        "date": "2015-01-01",
+        "granule": "CHRG-118shrg64369",
+        "url": "https://www.govinfo.gov/app/details/CHRG-118shrg64369",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-introduced-law",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I introduced {law}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:office-taken",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 11,
+      "bySource": {
+        "chrg": 11
+      },
+      "shippable": true,
+      "source": {
+        "document": "Advancing Innovation (Ai): Harnessing Artificial Intelligence To Defend And Secure The Homeland",
+        "date": "2024-02-12",
+        "granule": "CHRG-118hhrg58784",
+        "url": "https://www.govinfo.gov/app/details/CHRG-118hhrg58784",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-voted-for-law",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I voted for {law}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:office-taken",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "news-epa": 2,
+        "senate": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Biden-Harris Administration Announces $43,716,000 for Water Infrastructure in Alabama Through Investing in America Agenda",
+        "date": "2024-10-24",
+        "granule": "biden-harris-administration-announces-43716000-water-infrastructure-alabama-through",
+        "url": "https://www.epa.gov/newsreleases/biden-harris-administration-announces-43716000-water-infrastructure-alabama-through",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-voted-against-law",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I voted against {law}.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:office-taken",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "The National Defense Strategy And The Nuclear Posture Review",
+        "date": "2018-02-06",
+        "granule": "CHRG-115hhrg28970",
+        "url": "https://www.govinfo.gov/app/details/CHRG-115hhrg28970",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-voted-for-it",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I voted for it.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:office-taken",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "chrg": 5,
+        "senate": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Examining Cbo'S Updated 2024-2034 Budget And Economic Outlook",
+        "date": "2024-07-09",
+        "granule": "CHRG-118shrg56441",
+        "url": "https://www.govinfo.gov/app/details/CHRG-118shrg56441",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.office-line-took-office.i-voted-against-it",
+      "move": "office-line-took-office",
+      "kind": "spoken",
+      "text": "I voted against it.",
+      "uses": [
+        {
+          "move": "office-line-took-office",
+          "subject": "office",
+          "role": "line",
+          "choice": "took-office",
+          "journal": [
+            {
+              "kindPrefix": "event:office-taken",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "chrg": 3,
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "American Innovation And The Future Of Digital Assets: From Blueprint To A Functional Framework--Day 1",
+        "date": "2025-06-04",
+        "granule": "CHRG-119hhrg60986",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg60986",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.campaign-line-campaigned.i-gave-a-speech",
+      "move": "campaign-line-campaigned",
+      "kind": "spoken",
+      "text": "I gave a speech.",
+      "uses": [
+        {
+          "move": "campaign-line-campaigned",
+          "subject": "campaign",
+          "role": "line",
+          "choice": "campaigned",
+          "journal": [
+            {
+              "kindPrefix": "event:campaign",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 1,
+        "nasa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Administration of Donald J. Trump, 2018 Remarks at a Roundtable Discussion on Tax Reform in Las Vegas, Nevada June 23, 2018 The President. Please sit down. Audience member. Give that man a hand ! Audi",
+        "date": "2018-06-23",
+        "granule": "DCPD-201800451",
+        "url": "https://www.govinfo.gov/app/details/DCPD-201800451",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "journal.campaign-line-campaigned.i-made-a-speech",
+      "move": "campaign-line-campaigned",
+      "kind": "spoken",
+      "text": "I made a speech.",
+      "uses": [
+        {
+          "move": "campaign-line-campaigned",
+          "subject": "campaign",
+          "role": "line",
+          "choice": "campaigned",
+          "journal": [
+            {
+              "kindPrefix": "event:campaign",
+              "field": "line"
+            }
+          ]
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "dcpd": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
+        "date": "2026-07-23",
+        "granule": "DCPD-202600487",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600487",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }
