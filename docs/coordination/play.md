@@ -18,6 +18,13 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [ ] **The bench on the full stack.** Bring in people, drives and the story director; fix switching residents; while you skip, your character chooses for itself; big moments stop the skip at their own time.
   - Verified by: M0-01 to M0-05 in random places; you play it.
   - Needs: PEOPLE, CORE
+- [ ] **Use the art we already have (owner, Oct 12).** Wire the tagged art library into every scene and screen now:
+  - backdrops by their tags in `art/backdrops/manifest.json`;
+  - people from `art/people-engine/v1` (poses, outfits, expressions);
+  - capitols and campuses.
+  Pick the best-tagged match for each place and moment (a generic government office for a county clerk is fine). Never wait for a perfect painting. Note any place with no fitting art under "Needs from other sessions" for the CTO's art queue.
+  - Verified by: In a random place, every scene you reach shows real art from the library, and none shows a blank or placeholder image.
+  - Needs: CTO (imports of generated art not yet in the repo)
 - [ ] **A build you play every evening.** Each evening, one build with a short note: what you can do tonight and what changed.
   - Verified by: You play it.
   - Needs: All

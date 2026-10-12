@@ -19,7 +19,7 @@ All six start at 3:07 a.m. Monday from one-off routines on the coordinator accou
 
 1. **OPUS-CORE: speed first** (bookkeeping off in play, no copying of worker memory each shift), then the two-level population, then the business closures.
 2. **OPUS-PEOPLE:** steps 1 and 2 (a life at 18, meeting people) ready to play, people in the two-level world with OPUS-CORE, then the English engine on the new core (conversations, scenes, the journal).
-3. **OPUS-PLAY:** the bench on the full stack, and the first evening build.
+3. **OPUS-PLAY:** the bench on the full stack, the tagged art library wired into every scene (owner, Oct 12: use the 1,000+ images we have, best match, no waiting for perfect), and the first evening build.
 4. **OPUS-GOV:** laws in force, then offices and seats, then filing (step 3), campaigning (step 4), and elections (step 5) that read each candidate's record (step 11).
 5. **OPUS-WORLD:** the national economy, then state and metro.
 6. **FIXER:** main's red checks (the release build; the two instruction-file tests from the drifted skill folders; merging main into the speed map, #3975); then open work below whenever no bug is assigned.
@@ -54,6 +54,7 @@ None yet.
 
 - Keep it simple (`AGENTS.md`): two-level population, bookkeeping off in play, one run and one number, build only what the golden path needs, something to play every evening.
 - No session is capped; checklists are an order of work.
+- Owner, Oct 12, 1:55 a.m.: *The Political Process* is the baseline. The game does everything it does, then goes deeper (`docs/roadmap/political-process-baseline.md`). Committee hearings, election-night exit polls and custom world options are added. Use the generated art now.
 - Owner, Oct 12: no stopping. The sessions build the whole game: after their checklists, their area's later-milestone specs, then open work. Nothing waits on another session or on the owner; the only stop is running out of usage.
 - Owner, Oct 12: the English engine (conversations, scenes, the journal, people bringing things up) belongs to OPUS-PEOPLE; campaigning (step 4) and the next election reading the record (step 11) belong to OPUS-GOV.
 - Checks stay light: own tests, the automatic golden-path and speed guards and money balance, the owner plays the evening build.

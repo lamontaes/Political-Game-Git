@@ -327,7 +327,7 @@
       "title": "Elections",
       "golden_path": "5",
       "package": "M2-elections",
-      "test": "In a random place, election day falls on the place's real date; named people vote as themselves and voter groups as groups, each vote from what that person knows and thinks and turnout from their own circumstances, with no roll; filling a person in never adds a ballot; primaries and runoffs follow the place's rules; the winner takes the seat on the real start date.",
+      "test": "In a random place, election day falls on the place's real date; named people vote as themselves and voter groups as groups, each vote from what that person knows and thinks and turnout from their own circumstances, with no roll; filling a person in never adds a ballot; primaries and runoffs follow the place's rules; election night shows exit polls of real voters reporting what they told the pollster; the winner takes the seat on the real start date.",
       "command": null,
       "passes": false
     },
@@ -407,7 +407,7 @@
       "title": "Legislatures, one engine",
       "golden_path": "8",
       "package": "M3-legislating",
-      "test": "A council, a state chamber and Congress each move bills through committee, amendments, floor votes and executive action under their real rules on one engine; the council meeting plays as a scene with routine items summarized; members' rules votes can change procedure; ties are broken by lot only where the law requires it.",
+      "test": "A council, a state chamber and Congress each move bills through committee, amendments, floor votes and executive action under their real rules on one engine; the council meeting plays as a scene with routine items summarized; a committee hearing with witnesses testifying and members questioning them plays where it matters; members' rules votes can change procedure; ties are broken by lot only where the law requires it.",
       "command": null,
       "passes": false
     },
@@ -658,6 +658,16 @@
       "golden_path": "release",
       "package": "M7-early-access",
       "test": "The Steam store page is live (app 5376890, $14.99) with the owner's capsule art and tags, real gameplay screenshots, a short description that promises nothing after early access (no courts), the content survey, the AI disclosure, an owner-approved early-access FAQ, and a trailer with no AI-generated music.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M6-04",
+      "milestone": "M6",
+      "title": "Custom world",
+      "golden_path": "setup",
+      "package": "M6-screens",
+      "test": "A new game can start from real data in a random place (the default) or from a customized world (place, demographics, ideology, turnout, party strength, economy and more); world generation honors every setting, and the world then runs by the same rules.",
       "command": null,
       "passes": false
     }
