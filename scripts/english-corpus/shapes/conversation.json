@@ -1011,8 +1011,6 @@
       "candidates": [
         "{name}, right.",
         "Oh, {name}.",
-        "Oh, good.",
-        "Good.",
         "Oh, okay.",
         "Okay.",
         "Really?"
@@ -1712,14 +1710,7 @@
       "subject": "heard-work",
       "role": "answer",
       "choice": "yes",
-      "candidates": [
-        "Yes.",
-        "Yeah.",
-        "Yes, I am.",
-        "That's right.",
-        "Yep.",
-        "Right."
-      ]
+      "candidates": ["Yes.", "Yeah.", "That's right.", "Yep.", "Right."]
     },
     {
       "move": "heard-work-answer-since",

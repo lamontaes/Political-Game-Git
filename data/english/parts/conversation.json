@@ -23,10 +23,11 @@
     "tool": "scripts/english-corpus/mine-shapes.py",
     "shapes": "scripts/english-corpus/shapes/conversation.json",
     "read": {
-      "Federal Election Commission (fec.gov)": 242,
+      "Federal Election Commission (fec.gov)": 253,
       "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
-      "U.S. Election Assistance Commission (eac.gov)": 61,
-      "crec": 444,
+      "U.S. Election Assistance Commission (eac.gov)": 65,
+      "USAGov (usa.gov), U.S. General Services Administration": 16,
+      "crec": 445,
       "hearings": 1617,
       "house": 115,
       "nasa": 317,
@@ -137,9 +138,10 @@
           "choice": "hello"
         }
       ],
-      "transcriptsUsing": 515,
+      "transcriptsUsing": 519,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 24,
+        "Federal Election Commission (fec.gov)": 2,
+        "U.S. Election Assistance Commission (eac.gov)": 26,
         "hearings": 481,
         "house": 1,
         "nasa": 5,
@@ -167,9 +169,9 @@
           "choice": "hello"
         }
       ],
-      "transcriptsUsing": 184,
+      "transcriptsUsing": 185,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 19,
+        "U.S. Election Assistance Commission (eac.gov)": 20,
         "crec": 2,
         "hearings": 162,
         "nasa": 1
@@ -820,9 +822,10 @@
           "choice": "bye"
         }
       ],
-      "transcriptsUsing": 1112,
+      "transcriptsUsing": 1114,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 37,
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 38,
         "crec": 12,
         "hearings": 971,
         "house": 18,
@@ -918,9 +921,10 @@
           "raises": "next-2"
         }
       ],
-      "transcriptsUsing": 1270,
+      "transcriptsUsing": 1276,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 51,
+        "Federal Election Commission (fec.gov)": 3,
+        "U.S. Election Assistance Commission (eac.gov)": 54,
         "crec": 28,
         "hearings": 901,
         "house": 75,
@@ -1307,12 +1311,6 @@
           "subject": "home",
           "role": "answer",
           "choice": "plain"
-        },
-        {
-          "move": "heard-work-answer-yes",
-          "subject": "heard-work",
-          "role": "answer",
-          "choice": "yes"
         }
       ],
       "transcriptsUsing": 62,
@@ -1765,11 +1763,11 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 544,
+      "transcriptsUsing": 548,
       "bySource": {
-        "Federal Election Commission (fec.gov)": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 13,
-        "crec": 121,
+        "Federal Election Commission (fec.gov)": 2,
+        "U.S. Election Assistance Commission (eac.gov)": 15,
+        "crec": 122,
         "hearings": 359,
         "house": 9,
         "nasa": 35,
@@ -2275,9 +2273,9 @@
           "choice": "ok"
         }
       ],
-      "transcriptsUsing": 117,
+      "transcriptsUsing": 118,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 11,
+        "U.S. Election Assistance Commission (eac.gov)": 12,
         "crec": 1,
         "hearings": 34,
         "house": 16,
@@ -2572,9 +2570,9 @@
           "choice": "ack"
         }
       ],
-      "transcriptsUsing": 227,
+      "transcriptsUsing": 229,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 4,
+        "U.S. Election Assistance Commission (eac.gov)": 6,
         "crec": 13,
         "hearings": 126,
         "house": 23,
@@ -2855,9 +2853,9 @@
           "choice": "plain"
         }
       ],
-      "transcriptsUsing": 552,
+      "transcriptsUsing": 553,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 14,
+        "U.S. Election Assistance Commission (eac.gov)": 15,
         "crec": 136,
         "hearings": 369,
         "house": 10,
@@ -3320,9 +3318,10 @@
           "raises": "next-2"
         }
       ],
-      "transcriptsUsing": 1319,
+      "transcriptsUsing": 1321,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 30,
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 31,
         "crec": 6,
         "hearings": 1086,
         "house": 66,
@@ -3378,9 +3377,10 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 1182,
+      "transcriptsUsing": 1185,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 36,
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 38,
         "crec": 4,
         "hearings": 965,
         "house": 59,
@@ -3932,9 +3932,10 @@
           "raises": "their-work"
         }
       ],
-      "transcriptsUsing": 418,
+      "transcriptsUsing": 420,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 12,
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 13,
         "crec": 12,
         "hearings": 364,
         "house": 16,
@@ -4037,11 +4038,11 @@
           "choice": "yes"
         }
       ],
-      "transcriptsUsing": 1972,
+      "transcriptsUsing": 1976,
       "bySource": {
-        "Federal Election Commission (fec.gov)": 4,
+        "Federal Election Commission (fec.gov)": 5,
         "Florida Department of State, Division of Elections (dos.fl.gov)": 4,
-        "U.S. Election Assistance Commission (eac.gov)": 51,
+        "U.S. Election Assistance Commission (eac.gov)": 54,
         "crec": 50,
         "hearings": 1479,
         "house": 98,
@@ -4084,9 +4085,10 @@
           "choice": "yes"
         }
       ],
-      "transcriptsUsing": 424,
+      "transcriptsUsing": 427,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 29,
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 31,
         "crec": 7,
         "hearings": 329,
         "house": 17,
@@ -4355,78 +4357,6 @@
         "date": "2025-03-04",
         "granule": "CHRG-119hhrg64648",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg64648/html/CHRG-119hhrg64648.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "conversation.mutual-answer-ack.oh-good",
-      "move": "mutual-answer-ack",
-      "kind": "spoken",
-      "text": "Oh, good.",
-      "uses": [
-        {
-          "move": "mutual-answer-ack",
-          "subject": "mutual",
-          "role": "answer",
-          "choice": "ack"
-        }
-      ],
-      "transcriptsUsing": 24,
-      "bySource": {
-        "hearings": 15,
-        "house": 1,
-        "nasa": 7,
-        "wpa": 1
-      },
-      "shippable": true,
-      "source": {
-        "document": "METALS, MINERALS, AND MINING: HOW THE CCP FUELS CONFLICT AND EXPLOITATION IN AFRICA",
-        "date": "2025-03-25",
-        "granule": "CHRG-119hhrg60388",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60388/html/CHRG-119hhrg60388.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "conversation.mutual-answer-ack.good",
-      "move": "mutual-answer-ack",
-      "kind": "spoken",
-      "text": "Good.",
-      "uses": [
-        {
-          "move": "mutual-answer-ack",
-          "subject": "mutual",
-          "role": "answer",
-          "choice": "ack"
-        },
-        {
-          "move": "family-answer-well",
-          "subject": "family",
-          "role": "answer",
-          "choice": "well"
-        },
-        {
-          "move": "school-answer-fine",
-          "subject": "school",
-          "role": "answer",
-          "choice": "fine"
-        }
-      ],
-      "transcriptsUsing": 513,
-      "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 3,
-        "crec": 3,
-        "hearings": 449,
-        "house": 7,
-        "nasa": 49,
-        "wpa": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "LEGISLATIVE BRANCH APPROPRIATIONS FOR FISCAL YEAR 2026",
-        "date": "2026-09-30",
-        "granule": "CHRG-119shrg60273",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60273/html/CHRG-119shrg60273.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -4828,6 +4758,44 @@
       }
     },
     {
+      "key": "conversation.family-answer-well.good",
+      "move": "family-answer-well",
+      "kind": "spoken",
+      "text": "Good.",
+      "uses": [
+        {
+          "move": "family-answer-well",
+          "subject": "family",
+          "role": "answer",
+          "choice": "well"
+        },
+        {
+          "move": "school-answer-fine",
+          "subject": "school",
+          "role": "answer",
+          "choice": "fine"
+        }
+      ],
+      "transcriptsUsing": 515,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 4,
+        "crec": 3,
+        "hearings": 449,
+        "house": 7,
+        "nasa": 49,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "LEGISLATIVE BRANCH APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60273",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60273/html/CHRG-119shrg60273.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
       "key": "conversation.family-answer-gone.he-passed-away",
       "move": "family-answer-gone",
       "kind": "spoken",
@@ -5122,9 +5090,9 @@
           "choice": "fine"
         }
       ],
-      "transcriptsUsing": 7,
+      "transcriptsUsing": 8,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 2,
+        "U.S. Election Assistance Commission (eac.gov)": 3,
         "house": 2,
         "nasa": 3
       },
@@ -5179,18 +5147,19 @@
           "choice": "fine"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 7,
       "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 1,
         "house": 2,
         "nasa": 3
       },
       "shippable": true,
       "source": {
-        "document": "NASA JSC Oral History Project: Charles F. Bolden (Space Shuttle Astronaut, NASA Administrator)",
-        "date": "2016-03-18",
-        "granule": "jsc-boldencf-3-18-16",
-        "url": "https://www.nasa.gov/wp-content/uploads/2025/02/boldencf-3-18-16.pdf",
+        "document": "June 22, 2017 audit hearing — archived live captions",
+        "date": "2017-06-22",
+        "granule": "fec-hearing-2017-06-22-captions-2017-06-22-audit",
+        "url": "https://www.fec.gov/resources/updates/agendas/2017/transcripts/Captions_2017_06_22_Audit.txt",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -5344,8 +5313,9 @@
           "choice": "heard"
         }
       ],
-      "transcriptsUsing": 53,
+      "transcriptsUsing": 54,
       "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 1,
         "crec": 47,
         "hearings": 4,
         "nasa": 2
@@ -5402,9 +5372,9 @@
           "stages": ["heard"]
         }
       ],
-      "transcriptsUsing": 174,
+      "transcriptsUsing": 175,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 7,
+        "U.S. Election Assistance Commission (eac.gov)": 8,
         "crec": 16,
         "hearings": 118,
         "house": 9,
@@ -5466,11 +5436,11 @@
           "stages": ["not-heard"]
         }
       ],
-      "transcriptsUsing": 364,
+      "transcriptsUsing": 367,
       "bySource": {
-        "Federal Election Commission (fec.gov)": 1,
+        "Federal Election Commission (fec.gov)": 3,
         "Florida Department of State, Division of Elections (dos.fl.gov)": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 23,
+        "U.S. Election Assistance Commission (eac.gov)": 24,
         "crec": 14,
         "hearings": 153,
         "house": 50,
@@ -5771,9 +5741,9 @@
           "choice": "react"
         }
       ],
-      "transcriptsUsing": 9,
+      "transcriptsUsing": 10,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 2,
         "hearings": 7,
         "nasa": 1
       },
@@ -6062,9 +6032,10 @@
           "choice": "opinion"
         }
       ],
-      "transcriptsUsing": 535,
+      "transcriptsUsing": 538,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 19,
+        "Federal Election Commission (fec.gov)": 2,
+        "U.S. Election Assistance Commission (eac.gov)": 20,
         "crec": 55,
         "hearings": 216,
         "house": 54,
@@ -6606,9 +6577,10 @@
           "choice": "bye"
         }
       ],
-      "transcriptsUsing": 454,
+      "transcriptsUsing": 458,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 34,
+        "Federal Election Commission (fec.gov)": 2,
+        "U.S. Election Assistance Commission (eac.gov)": 36,
         "crec": 2,
         "hearings": 391,
         "house": 11,
@@ -6636,9 +6608,10 @@
           "choice": "bye"
         }
       ],
-      "transcriptsUsing": 1914,
+      "transcriptsUsing": 1929,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 57,
+        "Federal Election Commission (fec.gov)": 11,
+        "U.S. Election Assistance Commission (eac.gov)": 61,
         "crec": 92,
         "hearings": 1592,
         "house": 70,
@@ -6843,9 +6816,10 @@
           "stages": ["none"]
         }
       ],
-      "transcriptsUsing": 211,
+      "transcriptsUsing": 213,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 26,
+        "Federal Election Commission (fec.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 27,
         "hearings": 152,
         "house": 13,
         "nasa": 20
@@ -7008,9 +6982,9 @@
           "choice": "ack"
         }
       ],
-      "transcriptsUsing": 19,
+      "transcriptsUsing": 20,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 2,
         "hearings": 6,
         "house": 5,
         "nasa": 7
@@ -7071,9 +7045,9 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 231,
+      "transcriptsUsing": 233,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 12,
+        "U.S. Election Assistance Commission (eac.gov)": 14,
         "crec": 2,
         "hearings": 111,
         "house": 21,
@@ -7139,9 +7113,9 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 64,
+      "transcriptsUsing": 66,
       "bySource": {
-        "U.S. Election Assistance Commission (eac.gov)": 11,
+        "U.S. Election Assistance Commission (eac.gov)": 13,
         "hearings": 18,
         "house": 8,
         "nasa": 27
@@ -7226,8 +7200,9 @@
           "raises": "next"
         }
       ],
-      "transcriptsUsing": 305,
+      "transcriptsUsing": 306,
       "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
         "U.S. Election Assistance Commission (eac.gov)": 6,
         "crec": 53,
         "hearings": 192,
@@ -7257,11 +7232,11 @@
           "stages": ["elsewhere"]
         }
       ],
-      "transcriptsUsing": 544,
+      "transcriptsUsing": 548,
       "bySource": {
-        "Federal Election Commission (fec.gov)": 1,
-        "U.S. Election Assistance Commission (eac.gov)": 13,
-        "crec": 121,
+        "Federal Election Commission (fec.gov)": 2,
+        "U.S. Election Assistance Commission (eac.gov)": 15,
+        "crec": 122,
         "hearings": 359,
         "house": 9,
         "nasa": 35,

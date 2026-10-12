@@ -18,6 +18,7 @@
  * OPUS-WORDS owns this file until OPUS-PEOPLE folds it into the director.
  */
 import bankJson from "../../data/english/parts/conversation.json" with { type: "json" };
+import { heldByGrades } from "../../src/presentation/english-grades";
 import {
   CONVERSATION_DATA,
   type ConversationData,
@@ -101,7 +102,8 @@ export function conversationDataFromBank(
     { use: MinedUse; parts: MinedPart[] }
   >();
   for (const part of bank.parts) {
-    if (!part.shippable) continue;
+    // A part the owner graded down and never up is not said.
+    if (!part.shippable || heldByGrades(part.key)) continue;
     for (const use of part.uses) {
       const field = ROLE_FIELD[use.role];
       if (!field) continue;

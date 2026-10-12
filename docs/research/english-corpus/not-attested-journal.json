@@ -1,9 +1,10 @@
 {
   "register": "journal",
   "read": {
-    "Federal Election Commission (fec.gov)": 242,
+    "Federal Election Commission (fec.gov)": 253,
     "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
     "U.S. Election Assistance Commission (eac.gov)": 65,
+    "USAGov (usa.gov), U.S. General Services Administration": 16,
     "crec": 445,
     "hearings": 1617,
     "house": 115,
@@ -157,30 +158,6 @@
     },
     {
       "move": "work-line-lost",
-      "text": "{employer} closed.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "work-line-lost",
-      "text": "The plant closed.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "work-line-lost",
-      "text": "The mill closed.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "work-line-lost",
-      "text": "The company went out of business.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "work-line-lost",
       "text": "They laid me off.",
       "documents": 0,
       "modern": 0
@@ -212,18 +189,6 @@
     {
       "move": "work-other-started",
       "text": "{relation} got a job.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "work-other-started",
-      "text": "{relation} went to work at {employer}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "work-other-started",
-      "text": "{relation} got a job at {employer}.",
       "documents": 0,
       "modern": 0
     },
@@ -265,49 +230,7 @@
     },
     {
       "move": "family-line-born",
-      "text": "Our son was born.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "family-line-born",
-      "text": "Our daughter was born.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "family-line-born",
-      "text": "My son was born.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "family-line-born",
-      "text": "My daughter was born.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "family-line-born",
       "text": "Then {relation} was born.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "family-line-born",
-      "text": "Then our son was born.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "family-line-born",
-      "text": "Then our daughter was born.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "family-line-born",
-      "text": "Our first child was born.",
       "documents": 0,
       "modern": 0
     },
@@ -315,18 +238,6 @@
       "move": "family-line-born",
       "text": "We had a baby.",
       "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "family-line-born",
-      "text": "We had a son.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "family-line-born",
-      "text": "We had a daughter.",
-      "documents": 1,
       "modern": 0
     },
     {
@@ -338,18 +249,6 @@
     {
       "move": "family-line-married",
       "text": "We were married.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "family-line-married",
-      "text": "I married my wife.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "family-line-married",
-      "text": "I married my husband.",
       "documents": 0,
       "modern": 0
     },
@@ -483,36 +382,6 @@
       "move": "contact-line-saw-often",
       "text": "I saw {other} often.",
       "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "death-line-died",
-      "text": "My mother died.",
-      "documents": 11,
-      "modern": 0
-    },
-    {
-      "move": "death-line-died",
-      "text": "My mother passed away.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "death-line-died",
-      "text": "My wife died.",
-      "documents": 5,
-      "modern": 0
-    },
-    {
-      "move": "death-line-died",
-      "text": "My brother died.",
-      "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "death-line-died",
-      "text": "My sister died.",
-      "documents": 1,
       "modern": 0
     },
     {

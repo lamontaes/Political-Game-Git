@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "journal",
-  "description": "The 'My life' journal: a first-person life story that names people by relationship and never invents a feeling. Every part is a whole sentence American speakers said about their own lives in public-domain federal transcripts (NASA and U.S. House oral histories, congressional hearing testimony, the Congressional Record), counted also against the Library of Congress WPA life histories, 1936 to 1940. The facts are slots from the person's own records. No part names a feeling.",
+  "description": "The 'My life' journal: a first-person life story that names people by relationship and never invents a feeling. Every part is a whole sentence American speakers said about their own lives in public-domain federal transcripts (NASA and U.S. House oral histories, congressional hearing testimony, the Congressional Record), counted also against the Library of Congress WPA life histories, 1936 to 1940. The facts are slots from the person's own records. No part names a feeling. Each group names the journal row (kindPrefix) and field it fills; a sentence that names one particular relative is left out, since the journal says whichever relative the record names.",
   "slots": {
     "school": "A school, from the school record.",
     "employer": "An employer, from the job record.",
@@ -18,9 +18,10 @@
     "tool": "scripts/english-corpus/mine-shapes.py",
     "shapes": "scripts/english-corpus/shapes/journal.json",
     "read": {
-      "Federal Election Commission (fec.gov)": 242,
+      "Federal Election Commission (fec.gov)": 253,
       "Florida Department of State, Division of Elections (dos.fl.gov)": 33,
       "U.S. Election Assistance Commission (eac.gov)": 65,
+      "USAGov (usa.gov), U.S. General Services Administration": 16,
       "crec": 445,
       "hearings": 1617,
       "house": 115,
@@ -28,7 +29,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 123
+    "notAttested": 101
   },
   "parts": [
     {
@@ -41,7 +42,13 @@
           "move": "school-line-started",
           "subject": "school",
           "role": "line",
-          "choice": "started"
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 94,
@@ -71,7 +78,13 @@
           "move": "school-line-started",
           "subject": "school",
           "role": "line",
-          "choice": "started"
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 9,
@@ -99,7 +112,13 @@
           "move": "school-line-started",
           "subject": "school",
           "role": "line",
-          "choice": "started"
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 8,
@@ -129,7 +148,13 @@
           "move": "school-line-started",
           "subject": "school",
           "role": "line",
-          "choice": "started"
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 12,
@@ -157,7 +182,13 @@
           "move": "school-line-started",
           "subject": "school",
           "role": "line",
-          "choice": "started"
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 2,
@@ -184,7 +215,13 @@
           "move": "school-line-started",
           "subject": "school",
           "role": "line",
-          "choice": "started"
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "school:",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 36,
@@ -215,7 +252,17 @@
           "move": "work-line-started",
           "subject": "work",
           "role": "line",
-          "choice": "started"
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "work:opening",
+              "field": "line"
+            },
+            {
+              "kindPrefix": "job-started",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 8,
@@ -244,7 +291,13 @@
           "move": "work-line-lost",
           "subject": "work",
           "role": "line",
-          "choice": "lost"
+          "choice": "lost",
+          "journal": [
+            {
+              "kindPrefix": "job-ended",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 3,
@@ -262,32 +315,6 @@
       }
     },
     {
-      "key": "journal.work-line-lost.employer-shut-down",
-      "move": "work-line-lost",
-      "kind": "spoken",
-      "text": "{employer} shut down.",
-      "uses": [
-        {
-          "move": "work-line-lost",
-          "subject": "work",
-          "role": "line",
-          "choice": "lost"
-        }
-      ],
-      "transcriptsUsing": 3,
-      "bySource": {
-        "hearings": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "DRILLING DOWN: OVERSIGHT OF THE CHALLENGES AND OPPORTUNITIES FACING U.S. ENERGY PRODUCTION",
-        "date": "2024-04-23",
-        "granule": "CHRG-118hhrg55545",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg55545/html/CHRG-118hhrg55545.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
       "key": "journal.work-other-started.relation-went-to-work",
       "move": "work-other-started",
       "kind": "spoken",
@@ -297,7 +324,13 @@
           "move": "work-other-started",
           "subject": "work",
           "role": "other",
-          "choice": "started"
+          "choice": "started",
+          "journal": [
+            {
+              "kindPrefix": "job-started",
+              "field": "otherLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 2,
@@ -323,7 +356,13 @@
           "move": "family-line-born",
           "subject": "family",
           "role": "line",
-          "choice": "born"
+          "choice": "born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 25,
@@ -352,7 +391,13 @@
           "move": "family-line-born",
           "subject": "family",
           "role": "line",
-          "choice": "born"
+          "choice": "born",
+          "journal": [
+            {
+              "kindPrefix": "family:child",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 2,
@@ -379,7 +424,8 @@
           "move": "family-line-married",
           "subject": "family",
           "role": "line",
-          "choice": "married"
+          "choice": "married",
+          "journal": []
         }
       ],
       "transcriptsUsing": 8,
@@ -406,7 +452,8 @@
           "move": "family-line-married",
           "subject": "family",
           "role": "line",
-          "choice": "married"
+          "choice": "married",
+          "journal": []
         }
       ],
       "transcriptsUsing": 4,
@@ -433,7 +480,13 @@
           "move": "home-line-moved",
           "subject": "home",
           "role": "line",
-          "choice": "moved"
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 10,
@@ -463,7 +516,13 @@
           "move": "home-line-moved",
           "subject": "home",
           "role": "line",
-          "choice": "moved"
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 10,
@@ -492,7 +551,13 @@
           "move": "home-line-moved",
           "subject": "home",
           "role": "line",
-          "choice": "moved"
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 2,
@@ -519,7 +584,13 @@
           "move": "home-line-moved",
           "subject": "home",
           "role": "line",
-          "choice": "moved"
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 4,
@@ -547,7 +618,13 @@
           "move": "home-line-moved",
           "subject": "home",
           "role": "line",
-          "choice": "moved"
+          "choice": "moved",
+          "journal": [
+            {
+              "kindPrefix": "moved",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 17,
@@ -577,7 +654,13 @@
           "move": "contact-line-saw",
           "subject": "contact",
           "role": "line",
-          "choice": "saw"
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 7,
@@ -605,7 +688,13 @@
           "move": "contact-line-saw",
           "subject": "contact",
           "role": "line",
-          "choice": "saw"
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 10,
@@ -634,7 +723,13 @@
           "move": "contact-line-saw",
           "subject": "contact",
           "role": "line",
-          "choice": "saw"
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 11,
@@ -661,7 +756,13 @@
           "move": "contact-line-saw",
           "subject": "contact",
           "role": "line",
-          "choice": "saw"
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 12,
@@ -690,7 +791,13 @@
           "move": "contact-line-saw",
           "subject": "contact",
           "role": "line",
-          "choice": "saw"
+          "choice": "saw",
+          "journal": [
+            {
+              "kindPrefix": "contact:",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 7,
@@ -718,7 +825,13 @@
           "move": "death-line-died",
           "subject": "death",
           "role": "line",
-          "choice": "died"
+          "choice": "died",
+          "journal": [
+            {
+              "kindPrefix": "event:life.death",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 14,
@@ -746,7 +859,13 @@
           "move": "death-line-died",
           "subject": "death",
           "role": "line",
-          "choice": "died"
+          "choice": "died",
+          "journal": [
+            {
+              "kindPrefix": "event:life.death",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 24,
@@ -775,7 +894,13 @@
           "move": "death-line-died",
           "subject": "death",
           "role": "line",
-          "choice": "died"
+          "choice": "died",
+          "journal": [
+            {
+              "kindPrefix": "event:life.death",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 3,
@@ -793,87 +918,6 @@
       }
     },
     {
-      "key": "journal.death-line-died.my-father-died",
-      "move": "death-line-died",
-      "kind": "spoken",
-      "text": "My father died.",
-      "uses": [
-        {
-          "move": "death-line-died",
-          "subject": "death",
-          "role": "line",
-          "choice": "died"
-        }
-      ],
-      "transcriptsUsing": 12,
-      "bySource": {
-        "crec": 1,
-        "hearings": 1,
-        "wpa": 10
-      },
-      "shippable": true,
-      "source": {
-        "document": "H.R. 897, H.R. 3925, H.R. 5441, AND H.R. 6235",
-        "date": "2024-01-18",
-        "granule": "CHRG-118hhrg54614",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg54614/html/CHRG-118hhrg54614.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "journal.death-line-died.my-father-passed-away",
-      "move": "death-line-died",
-      "kind": "spoken",
-      "text": "My father passed away.",
-      "uses": [
-        {
-          "move": "death-line-died",
-          "subject": "death",
-          "role": "line",
-          "choice": "died"
-        }
-      ],
-      "transcriptsUsing": 2,
-      "bySource": {
-        "hearings": 2
-      },
-      "shippable": true,
-      "source": {
-        "document": "H.R. 897, H.R. 3925, H.R. 5441, AND H.R. 6235",
-        "date": "2024-01-18",
-        "granule": "CHRG-118hhrg54614",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg54614/html/CHRG-118hhrg54614.htm",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
-      "key": "journal.death-line-died.my-husband-died",
-      "move": "death-line-died",
-      "kind": "spoken",
-      "text": "My husband died.",
-      "uses": [
-        {
-          "move": "death-line-died",
-          "subject": "death",
-          "role": "line",
-          "choice": "died"
-        }
-      ],
-      "transcriptsUsing": 4,
-      "bySource": {
-        "house": 1,
-        "wpa": 3
-      },
-      "shippable": true,
-      "source": {
-        "document": "U.S. House Oral History: Murphy, Ann - Receptionist, Lindy Claiborne Boggs Congressional Women’s Reading Room - 1987–1997",
-        "date": "2023-12-13",
-        "granule": "house-oh-murphy-ann",
-        "url": "https://history.house.gov/Oral-History/Women/Women-Transcripts/murphy-ann-transcript/",
-        "license": "U.S. government work, public domain (17 U.S.C. 105)"
-      }
-    },
-    {
       "key": "journal.health-line-ill.i-got-sick",
       "move": "health-line-ill",
       "kind": "spoken",
@@ -883,7 +927,13 @@
           "move": "health-line-ill",
           "subject": "health",
           "role": "line",
-          "choice": "ill"
+          "choice": "ill",
+          "journal": [
+            {
+              "kindPrefix": "event:health.serious-illness",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 4,
@@ -911,7 +961,13 @@
           "move": "health-line-ill",
           "subject": "health",
           "role": "line",
-          "choice": "ill"
+          "choice": "ill",
+          "journal": [
+            {
+              "kindPrefix": "event:health.serious-illness",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 5,
@@ -938,7 +994,13 @@
           "move": "health-other-ill",
           "subject": "health",
           "role": "other",
-          "choice": "ill"
+          "choice": "ill",
+          "journal": [
+            {
+              "kindPrefix": "event:health.serious-illness",
+              "field": "otherLine"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 3,
@@ -965,7 +1027,13 @@
           "move": "office-line-filed",
           "subject": "office",
           "role": "line",
-          "choice": "filed"
+          "choice": "filed",
+          "journal": [
+            {
+              "kindPrefix": "event:candidate-filed",
+              "field": "line"
+            }
+          ]
         }
       ],
       "transcriptsUsing": 2,
@@ -992,7 +1060,8 @@
           "move": "office-line-won",
           "subject": "office",
           "role": "line",
-          "choice": "won"
+          "choice": "won",
+          "journal": []
         }
       ],
       "transcriptsUsing": 2,
@@ -1019,7 +1088,8 @@
           "move": "office-line-won",
           "subject": "office",
           "role": "line",
-          "choice": "won"
+          "choice": "won",
+          "journal": []
         }
       ],
       "transcriptsUsing": 6,
@@ -1047,7 +1117,8 @@
           "move": "office-line-lost",
           "subject": "office",
           "role": "line",
-          "choice": "lost"
+          "choice": "lost",
+          "journal": []
         }
       ],
       "transcriptsUsing": 3,
@@ -1074,7 +1145,8 @@
           "move": "look-back-line-died",
           "subject": "look-back",
           "role": "line",
-          "choice": "died"
+          "choice": "died",
+          "journal": []
         }
       ],
       "transcriptsUsing": 66,
@@ -1104,7 +1176,8 @@
           "move": "look-back-line-died",
           "subject": "look-back",
           "role": "line",
-          "choice": "died"
+          "choice": "died",
+          "journal": []
         }
       ],
       "transcriptsUsing": 37,
@@ -1134,7 +1207,8 @@
           "move": "look-back-line-died",
           "subject": "look-back",
           "role": "line",
-          "choice": "died"
+          "choice": "died",
+          "journal": []
         }
       ],
       "transcriptsUsing": 9,
