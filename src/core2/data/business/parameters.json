@@ -278,5 +278,71 @@
     "value": 10,
     "tag": "SOURCED",
     "citation": "A decade: the span the age weight is read over (ten years)."
+  },
+  "businessBuyerAccountMinor": {
+    "value": 200000000,
+    "tag": "TUNABLE",
+    "citation": "A typical outside buyer's spending with one seller a year; a business's outside sales are split into about this many dollars per account.",
+    "spread": {
+      "low": 5000000,
+      "high": 100000000,
+      "unit": "cents a year",
+      "citation": "A typical outside buyer's spending with one seller a year; a business's outside sales are split into about this many dollars per account."
+    }
+  },
+  "businessBuyerSizeSpread": {
+    "value": 1.2,
+    "tag": "TUNABLE",
+    "citation": "How unequal outside buyers' sizes are (lognormal); a few large buyers carry most sales, as in business-to-business sales.",
+    "spread": {
+      "low": 0.5,
+      "high": 1.5,
+      "unit": "log standard deviation",
+      "citation": "How unequal outside buyers' sizes are (lognormal); a few large buyers carry most sales, as in business-to-business sales."
+    }
+  },
+  "businessBuyerTermMonths": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "How often an outside buyer reconsiders its seller: a yearly contract or order cycle.",
+    "spread": {
+      "low": 6,
+      "high": 36,
+      "unit": "months",
+      "citation": "How often an outside buyer reconsiders its seller: a yearly contract or order cycle."
+    }
+  },
+  "businessBuyerSwitchBaseline": {
+    "value": -1.0,
+    "tag": "TUNABLE",
+    "citation": "The pull to switch seller at a renewal at equal prices and no history: about one buyer in six; checked against JOLTS layoffs and hires.",
+    "spread": {
+      "low": -3.0,
+      "high": -1.0,
+      "unit": "logit",
+      "citation": "The pull to switch seller at a renewal at equal prices and no history: about one buyer in six; checked against JOLTS layoffs and hires."
+    }
+  },
+  "businessBuyerPriceWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "How strongly a buyer weighs a seller's price against the nation's.",
+    "spread": {
+      "low": 1,
+      "high": 8,
+      "unit": "logit per log price",
+      "citation": "How strongly a buyer weighs a seller's price against the nation's."
+    }
+  },
+  "businessBuyerTenureWeight": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "How much each year of dealing with a seller holds a buyer.",
+    "spread": {
+      "low": 0,
+      "high": 0.3,
+      "unit": "logit per year",
+      "citation": "How much each year of dealing with a seller holds a buyer."
+    }
   }
 }

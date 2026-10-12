@@ -25,6 +25,7 @@ import {
   addCountedJob,
   addCountedRetiree,
   countedJobsOf,
+  customerSalesByBusiness,
   endCountedJob,
   rerateCountedJobs,
 } from "../residents-economy";
@@ -76,6 +77,8 @@ interface SeekerRow {
 interface EmployerRow {
   id: string;
   openingStaff: number;
+  /** Its customers' spending a year when its staff was `openingStaff`, over the place's pay index then. */
+  openingRealSalesMinor?: number;
   /** Fractional staffing need carried between reviews: positive hires, negative lays off. */
   need: number;
   /** A new business's template for its first roles. */
@@ -362,8 +365,27 @@ function openCountedSeekers(api: CoreAPI, unemploymentPct: number): void {
     );
 }
 
+/** The place's pay index against the opening (the macro's wage price factor), 1 without one. */
+function payIndex(c: CoreState, placeId: string | undefined): number {
+  if (!placeId) return 1;
+  return (
+    (c.finance.conditionsByPlace.get(placeId) ?? [])
+      .filter((row) => row.at <= c.date)
+      .at(-1)?.wagePriceFactor ?? 1
+  );
+}
+
+/** Each business's customers' spending a year today, over its place's pay index: what its staff can be paid to serve. */
+function realSales(c: CoreState): Map<string, number> {
+  const out = new Map<string, number>();
+  for (const [id, row] of customerSalesByBusiness(c))
+    out.set(id, row.allMinor / payIndex(c, c.organizations.get(id)?.placeId));
+  return out;
+}
+
 function open(api: CoreAPI): void {
   const c = core(api);
+  const sales = realSales(c);
   for (const [id, book] of c.finance.businesses)
     if (!book.closedAt)
       store(api)
@@ -372,6 +394,7 @@ function open(api: CoreAPI): void {
           id,
           isEmployer: true,
           openingStaff: currentJobs(api, id).length,
+          ...(sales.get(id) ? { openingRealSalesMinor: sales.get(id) } : {}),
           need: 0,
         });
   // The nation's opening unemployment when the national economy runs; its long-run rate otherwise.
@@ -458,6 +481,7 @@ function reviewEmployers(api: CoreAPI): void {
       store(api).table("state").get("jobs:state") as
         { openedAt?: string } | undefined
     )?.openedAt ?? c.date;
+  const sales = realSales(c);
   for (const row of store(api)
     .table("employers")
     .query("all", [true]) as unknown as EmployerRow[]) {
@@ -466,12 +490,17 @@ function reviewEmployers(api: CoreAPI): void {
     const jobs = currentJobs(api, row.id),
       positions = [...openPositions(api, row.id)];
     if (!jobs.length && !positions.length && !row.templateFromId) continue;
+    // A business that joined mid-run measures against its first month of sales.
+    const openingSales = row.openingRealSalesMinor ?? sales.get(row.id);
     const target =
-      (book.capacityMinor > 0
-        ? // Real demand: the books' demand in the business's own opening prices.
-          (row.openingStaff * book.annualDemandMinor) /
-          ((book.price / book.anchorPrice || 1) * book.capacityMinor)
-        : row.openingStaff) *
+      (openingSales
+        ? // What its customers spend now against the opening, over pay: the work they bring.
+          (row.openingStaff * (sales.get(row.id) ?? 0)) / openingSales
+        : book.capacityMinor > 0
+          ? // No customers' flows: the books' demand in the business's own opening prices.
+            (row.openingStaff * book.annualDemandMinor) /
+            ((book.price / book.anchorPrice || 1) * book.capacityMinor)
+          : row.openingStaff) *
       // The season: the industry's staffing this month against the opening's (BLS CES seasonal factors).
       seasonalStaffing(book.kindId, c.date, opened);
     const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
@@ -543,7 +572,11 @@ function reviewEmployers(api: CoreAPI): void {
     }
     store(api)
       .table("employers")
-      .put({ ...row, need });
+      .put({
+        ...row,
+        need,
+        ...(openingSales ? { openingRealSalesMinor: openingSales } : {}),
+      });
   }
 }
 
@@ -1563,9 +1596,10 @@ export const JOBS_MODULE: CoreModule = {
     for (const job of rt?.jobs.values() ?? []) {
       if (job.organizationId !== organizationId) continue;
       if (job.endsAt && job.endsAt !== api.state.date) continue;
-      const flow = rt!.wageFlowByJob.get(job.id);
-      if (flow && !flow.endedAt) continue;
       if (store(api).table("countedSeekers").get(job.personId)) continue;
+      // A forced closure ends full people's jobs; a counted job still on the closed payroll ends with it.
+      const flow = rt!.wageFlowByJob.get(job.id);
+      if (flow && !flow.endedAt) endCountedJob(core(api), job.id);
       const person = residentPerson(core(api), job.personId);
       if (!person) continue;
       record(api, {

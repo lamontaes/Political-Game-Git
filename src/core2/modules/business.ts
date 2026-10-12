@@ -30,6 +30,7 @@ import {
   shiftPurchaseShare,
 } from "../residents-economy";
 import { residentPerson, residentsRuntime } from "./residents";
+import { openBuyers, renewBuyers } from "../business-buyers";
 import { lendForFounding } from "./credit";
 import { registerEmployer, strongestPulls } from "./jobs";
 import { transferCash } from "../world-transfer";
@@ -206,7 +207,15 @@ function open(api: CoreAPI): void {
       });
   }
   store(api).table("state").put({ id: "business:state", openedAt: c.date });
+  openBuyers(api, buyerTables(api));
   scheduleMonth(api);
+}
+
+function buyerTables(api: CoreAPI) {
+  return {
+    buyers: store(api).table("buyers"),
+    sellers: store(api).table("sellers"),
+  };
 }
 
 function scheduleMonth(api: CoreAPI): void {
@@ -626,6 +635,7 @@ function month(api: CoreAPI): void {
     p = (key: string) => api.parameter(key);
   succeed(api);
   reviewClosures(api);
+  renewBuyers(api, buyerTables(api));
   membershipPayouts(api);
   payOperatingCosts(api, store(api).table("operating"));
   for (const row of store(api)
@@ -1373,6 +1383,12 @@ export const BUSINESS_MODULE: PreStartModule = {
       ages: {},
       operating: { indexes: { all: { fields: ["isRule"] } } },
       choices: {},
+      buyers: {
+        indexes: {
+          byRenewal: { fields: ["renewsMonth"] },
+        },
+      },
+      sellers: { indexes: { all: { fields: ["isSeller"] } } },
     },
   },
   reasonProviders: {

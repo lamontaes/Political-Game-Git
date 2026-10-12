@@ -224,8 +224,11 @@ const outsideBases = new WeakMap<CoreState, Map<string, number>>();
 const outsideFactors = new WeakMap<CoreState, Map<string, number>>();
 /** A business's own limit on what it can sell outside (an operating limit under law), by organization. */
 const outputLimits = new WeakMap<CoreState, Map<string, number>>();
+/** The share of its opening outside buyers a business still holds (the business module's buyer accounts), by organization. */
+const buyerShares = new WeakMap<CoreState, Map<string, number>>();
 const limitOf = (core: CoreState, organizationId: string) =>
-  outputLimits.get(core)?.get(organizationId) ?? 1;
+  (outputLimits.get(core)?.get(organizationId) ?? 1) *
+  (buyerShares.get(core)?.get(organizationId) ?? 1);
 
 export function shiftPurchaseShare(
   core: CoreState,
@@ -361,12 +364,43 @@ export function limitOutsideSales(
   organizationId: string,
   limit: number,
 ): number {
+  if (!(limit > 0)) return 0;
+  return rescaleOutside(core, organizationId, () => {
+    let limits = outputLimits.get(core);
+    if (!limits) outputLimits.set(core, (limits = new Map()));
+    limits.set(organizationId, limit);
+  });
+}
+
+/**
+ * A business holds `share` of its opening outside buyers (1 is all of
+ * them): its outside buyers' flows are rescaled now and at every month's
+ * scaling. Returns the flows changed.
+ */
+export function setOutsideBuyerShare(
+  core: CoreState,
+  organizationId: string,
+  share: number,
+): number {
+  if (!(share >= 0)) return 0;
+  return rescaleOutside(core, organizationId, () => {
+    let shares = buyerShares.get(core);
+    if (!shares) buyerShares.set(core, (shares = new Map()));
+    shares.set(organizationId, share);
+  });
+}
+
+/** Records each outside flow's base at the business's current multiplier, applies `change`, then rescales to the new one. */
+function rescaleOutside(
+  core: CoreState,
+  organizationId: string,
+  change: () => void,
+): number {
   const rt = residentsRuntime(core);
-  if (!rt || !(limit > 0)) return 0;
-  let limits = outputLimits.get(core);
-  if (!limits) outputLimits.set(core, (limits = new Map()));
+  if (!rt) return 0;
   const before = limitOf(core, organizationId);
-  limits.set(organizationId, limit);
+  change();
+  const after = limitOf(core, organizationId);
   let bases = outsideBases.get(core);
   if (!bases) outsideBases.set(core, (bases = new Map()));
   const placeFactor = (placeId: string) =>
@@ -379,17 +413,34 @@ export function limitOutsideSales(
       flow.payeeId !== organizationId
     )
       continue;
-    if (!bases.has(flow.id))
+    // A flow at a zero multiplier keeps the base it had.
+    if (!bases.has(flow.id) && before > 0)
       bases.set(
         flow.id,
         flow.amountMinor / (placeFactor(flow.placeId) * before),
       );
     flow.amountMinor = Math.round(
-      bases.get(flow.id)! * placeFactor(flow.placeId) * limit,
+      (bases.get(flow.id) ?? 0) * placeFactor(flow.placeId) * after,
     );
     changed += 1;
   }
   return changed;
+}
+
+/** Each business's customers' spending a year, today: from outside the town and in all. */
+export function customerSalesByBusiness(
+  core: CoreState,
+): Map<string, { outsideMinor: number; allMinor: number }> {
+  const out = new Map<string, { outsideMinor: number; allMinor: number }>();
+  for (const flow of residentsRuntime(core)?.flows.values() ?? []) {
+    if (!CUSTOMER_KINDS.has(flow.kind) || flow.endedAt) continue;
+    const row = out.get(flow.payeeId) ?? { outsideMinor: 0, allMinor: 0 };
+    const amount = perYear(flow, flow.amountMinor);
+    row.allMinor += amount;
+    if (flow.kind === "outside-sales") row.outsideMinor += amount;
+    out.set(flow.payeeId, row);
+  }
+  return out;
 }
 
 /**
