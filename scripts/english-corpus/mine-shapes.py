@@ -92,6 +92,10 @@ SLOT_PATTERNS = {
     "action": r"[a-z][\w' ,-]{3,60}",
     "money": r"\$\d[\d,.]*(?: (?:million|billion|thousand))?",
     "purpose": r"[a-z][\w' ,-]{3,50}",
+    "law": r"(?:the )?[A-Z][\w'.-]*(?: [A-Z][\w'.-]*| of| and| for| to)* (?:Act|Law|Rule|Ordinance)(?: of (?:19|20)\d\d)?",
+    "term": r"(?:\d{1,3}|" + NUMBER_WORD + r")(?:[- ](?:and[- ]a[- ]half[- ])?)?(?:Years?|Months?|years?|months?)",
+    "crime": r"[A-Za-z][\w' ,-]{3,60}",
+    "body": r"(?:the )?[A-Z][\w'.-]*(?: [A-Z][\w'.-]*| of)* (?:Council|Board|Commission|Legislature|Assembly|Senate|House)",
     "claim": r"[a-z][\w' ,-]{3,60}",
     "experience": r"[a-z][\w' ,-]{3,60}",
     "cause": r"(?:the |our |your |their )?[a-z][\w' -]{2,40}",
@@ -310,7 +314,10 @@ def main():
             if not re.sub(r"\{\w+\}|[\s.,?!]", "", text):
                 continue
             extra = {} if isinstance(candidate, str) else {k: v for k, v in candidate.items() if k != "text"}
-            candidates.append((group, text, extra, template_regex(text)))
+            pattern = template_regex(text)
+            if spec.get("ignoreCase"):
+                pattern = re.compile(pattern.pattern, re.IGNORECASE)
+            candidates.append((group, text, extra, pattern))
     # A quick first-word index keeps the scan linear in the corpus.
     for index, (_, text, _, _) in enumerate(candidates):
         first = re.match(r"[A-Za-z']+", text)
