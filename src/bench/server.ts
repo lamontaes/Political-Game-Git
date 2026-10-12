@@ -1,5 +1,9 @@
 import { personOrFillIn } from "../core2/state";
 import { bringItUp } from "../director/bring-it-up";
+import {
+  relatedGuideTerms,
+  searchGuideTerms,
+} from "../presentation/guide-terms";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
@@ -350,6 +354,24 @@ const server = createServer(async (request, response) => {
     }
     if (request.method === "GET" && url.pathname === "/api/changes") {
       send(200, lawChanges(requireCore(), url.searchParams.get("id") ?? ""));
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/guide") {
+      // The Guide: researched terms, searched by term first, then definition.
+      send(
+        200,
+        searchGuideTerms(url.searchParams.get("q") ?? "").map(
+          ({ entry, matched }) => ({
+            key: entry.semanticKey,
+            term: entry.term,
+            short: entry.shortDefinition,
+            explanation: entry.explanation,
+            contextNote: entry.contextNote ?? null,
+            related: relatedGuideTerms(entry).map((row) => row.term),
+            matched,
+          }),
+        ),
+      );
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/controls") {

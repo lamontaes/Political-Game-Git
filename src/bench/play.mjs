@@ -30,7 +30,7 @@ function row(label, value) {
   return el(
     "div",
     { className: "row" },
-    el("b", { textContent: label }),
+    termLabel(label),
     String(value ?? ""),
   );
 }
@@ -126,6 +126,27 @@ async function renderCard() {
   $("card-clock").textContent = clock(
     packet?.at ?? { date: me.date, minuteOfDay: 0 },
   );
+}
+
+// The Guide's search, kept so an underlined term opens straight to it.
+let guideQuery = "";
+let guideTerms = new Set();
+api("/api/guide?q=").then((rows) => {
+  guideTerms = new Set(rows.map((row) => row.term.toLowerCase()));
+});
+/**
+ * A label shown on screen, underlined when the whole label is a Guide term
+ * (never a search through prose): clicking it opens the Guide there.
+ */
+function termLabel(text) {
+  if (!guideTerms.has(String(text).trim().toLowerCase()))
+    return el("b", { textContent: text });
+  const b = el("b", { className: "term", textContent: text });
+  b.addEventListener("click", () => {
+    guideQuery = text;
+    openSheet("guide");
+  });
+  return b;
 }
 
 // Control names for the choice buttons, loaded once.
@@ -1195,6 +1216,36 @@ const sheets = {
       ),
     );
   },
+  async guide() {
+    const search = el("input", {
+      type: "search",
+      value: guideQuery,
+      placeholder: "Search",
+    });
+    const list = el("div");
+    const fill = async () => {
+      guideQuery = search.value;
+      const rows = await api(
+        `/api/guide?q=${encodeURIComponent(search.value)}`,
+      );
+      list.replaceChildren(
+        ...rows.map((t) => {
+          const line = el(
+            "details",
+            { className: "row narrative", open: rows.length === 1 },
+            el("summary", {}, el("b", { textContent: t.term }), ` ${t.short}`),
+            el("p", { textContent: t.explanation }),
+          );
+          if (t.contextNote)
+            line.append(el("p", { textContent: t.contextNote }));
+          return line;
+        }),
+      );
+    };
+    search.addEventListener("input", fill);
+    await fill();
+    return [search, list];
+  },
   async options() {
     const rows = [];
     if (skipOpening) {
@@ -1322,6 +1373,7 @@ const titles = {
   family: "Family",
   travel: "Travel",
   options: "Options",
+  guide: "Guide",
   changes: "What changed",
   handoff: "Carry on as",
   map: "Map",
