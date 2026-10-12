@@ -1,0 +1,72 @@
+// "What changed": each law that took effect while you played, and who in town
+// it reached, from the law-effects records. Read-only.
+import { coreAPI } from "../core2/state";
+import {
+  LAW_EFFECTS_MODULE_ID,
+  type AppliedEffect,
+} from "../core2/modules/law-effects";
+import { LAWS_MODULE_ID } from "../core2/modules/laws";
+import type { LawRowInput } from "../core2/laws-starting";
+import type { CoreState } from "../core2/types";
+
+// Engineering page size for the names shown per law, not a model value.
+const NAMED = 4;
+
+export function lawChanges(core: CoreState, personId: string) {
+  const applied = core.modules.has(LAW_EFFECTS_MODULE_ID)
+    ? coreAPI(core).moduleState(LAW_EFFECTS_MODULE_ID).table("applied")
+    : undefined;
+  return [...(core.logByKind.get("law-took-effect") ?? [])]
+    .map((id) => core.durableLog.get(id)!)
+    .filter(Boolean)
+    .reverse()
+    .map((row) => {
+      const facts = (row as { facts?: Record<string, string> }).facts ?? {};
+      const reached = applied
+        ? (
+            applied.query("byQuestion", [
+              facts.series,
+              null,
+            ]) as unknown as AppliedEffect[]
+          ).filter((effect) => effect.lawId === facts.lawId)
+        : [];
+      const names = reached.slice(0, NAMED).map((effect) => {
+        const person = core.people.get(effect.personId);
+        return {
+          personId: effect.personId,
+          name: person
+            ? `${person.givenName} ${person.familyName}`
+            : effect.personId,
+          what: effect.what,
+        };
+      });
+      // An amount (a wage, a tax rate) shows what it was before.
+      const earlier = core.modules.has(LAWS_MODULE_ID)
+        ? (
+            coreAPI(core)
+              .moduleState(LAWS_MODULE_ID)
+              .table("laws")
+              .query("bySeries", [
+                facts.jurisdiction,
+                facts.series,
+              ]) as unknown as LawRowInput[]
+          )
+            .filter((law) => law.effectiveDate < row.date)
+            .sort((a, b) => b.effectiveDate.localeCompare(a.effectiveDate))[0]
+        : undefined;
+      return {
+        id: row.id,
+        was: earlier ? String(earlier.value) : null,
+        unit: earlier?.unit ?? null,
+        date: row.date,
+        series: facts.series ?? "",
+        level: facts.level ?? "",
+        jurisdiction: facts.jurisdiction ?? "",
+        value: facts.value ?? "",
+        reached: reached.length,
+        names,
+        you:
+          reached.find((effect) => effect.personId === personId)?.what ?? null,
+      };
+    });
+}

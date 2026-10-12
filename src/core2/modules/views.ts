@@ -43,6 +43,12 @@ export const VIEWS_KEYS = keysJson as unknown as {
   national: CellKey;
   states: Readonly<Record<string, StateKey>>;
   counties: Readonly<Record<string, CellKey>>;
+  nationalEducationShares: Readonly<
+    Record<string, Readonly<Record<string, number>>>
+  >;
+  nationalFaithShares: Readonly<
+    Record<string, Readonly<Record<string, number>>>
+  >;
   profileShift: Readonly<
     Record<
       string,
@@ -134,19 +140,9 @@ export function viewCell(
   const band = ageBand(age);
   const row = state ? VIEWS_KEYS.states[state] : undefined;
   const national = VIEWS_KEYS.national;
-  if (!row)
-    // Territories and places the survey does not cover: the national spread,
-    // labeled as an estimate.
-    return {
-      cell: national,
-      shares: national.shares!,
-      basis: `ces-2024:national (no state sample):age ${band}`,
-    };
-  const byAge = row.byAge[band];
-  const base =
-    byAge && byAge.n >= v("minimumCellRespondents") ? byAge : (row as CellKey);
   // The person's own education and faith shift the cell by their profile's
-  // national lean, less what the state's mix of profiles at that age averages.
+  // national lean, less what the place's mix of profiles at that age averages
+  // (the state's, or the nation's where the survey has no state sample).
   const fact = (kind: string, key: string) =>
     person.pastFacts?.find((row) => row.kind === kind)?.facts?.[key];
   const profile = profileFor(person, seed, date);
@@ -156,18 +152,34 @@ export function viewCell(
   const shifts = VIEWS_KEYS.profileShift[band];
   const own = educ && faith ? shifts?.[educ]?.[faith]?.shift : undefined;
   let expected = v("zero");
-  const educShares = row.educationShares[band];
-  const faithShares = row.faithShares[band];
+  const educShares = row
+    ? row.educationShares[band]
+    : VIEWS_KEYS.nationalEducationShares[band];
+  const faithShares = row
+    ? row.faithShares[band]
+    : VIEWS_KEYS.nationalFaithShares[band];
   if (own !== undefined && educShares && faithShares)
     for (const [e, pe] of Object.entries(educShares))
       for (const [f, pf] of Object.entries(faithShares))
         expected += pe * pf * (shifts?.[e]?.[f]?.shift ?? v("zero"));
-  const cell =
+  const shifted = (base: CellKey) =>
     own === undefined ? base : { ...base, mean: base.mean + own - expected };
+  const profiled = own === undefined ? "" : `:${educ}:${faith}`;
+  if (!row)
+    // Territories and places the survey does not cover: the national spread,
+    // labeled as an estimate.
+    return {
+      cell: shifted(national),
+      shares: national.shares!,
+      basis: `ces-2024:national (no state sample):age ${band}${profiled}`,
+    };
+  const byAge = row.byAge[band];
+  const base =
+    byAge && byAge.n >= v("minimumCellRespondents") ? byAge : (row as CellKey);
   return {
-    cell,
+    cell: shifted(base),
     shares: row.shares!,
-    basis: `ces-2024:${state}:${base === byAge ? `age ${band}` : "state"}${own === undefined ? "" : `:${educ}:${faith}`}`,
+    basis: `ces-2024:${state}:${base === byAge ? `age ${band}` : "state"}${profiled}`,
   };
 }
 
