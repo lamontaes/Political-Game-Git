@@ -197,6 +197,22 @@
           "text": "I saw {{other}} {{times}}."
         }
       ]
+    },
+    {
+      "kindPrefix": "event:pay-raised-to-minimum-wage",
+      "turn": false,
+      "eventFacts": {
+        "wage": {
+          "fact": "toMinor",
+          "format": "money"
+        }
+      },
+      "line": [
+        {
+          "key": "raise",
+          "text": "My pay went up to {{wage}} an hour."
+        }
+      ]
     }
   ],
   "firstTitle": [
@@ -216,5 +232,18 @@
         "text": "I died in {{place}}, at {{age}}."
       }
     ]
-  }
+  },
+  "backdropLines": [
+    {
+      "kind": "law-took-effect",
+      "stageFact": "series",
+      "line": [
+        {
+          "key": "minimum-wage",
+          "text": "A new minimum wage took effect.",
+          "stages": ["minimum-wage"]
+        }
+      ]
+    }
+  ]
 }

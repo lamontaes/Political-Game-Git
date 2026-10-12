@@ -27,6 +27,8 @@ const one = P.one;
 interface LineRow {
   kindPrefix: string;
   turn: boolean;
+  /** Facts read from the causing event's own record. */
+  eventFacts?: Readonly<Record<string, { fact: string; format: string }>>;
   line: readonly { key: string; text: string }[];
   otherLine?: readonly { key: string; text: string }[];
   repeatLine?: readonly { key: string; text: string }[];
@@ -44,6 +46,12 @@ export interface JournalData {
   lines: readonly LineRow[];
   firstTitle: readonly { key: string; text: string }[];
   lookBack: { died: readonly { key: string; text: string }[] };
+  /** Broad events that reached the person, written as lines in their story. */
+  backdropLines?: readonly {
+    kind: string;
+    stageFact: string;
+    line: readonly { key: string; text: string; stages?: readonly string[] }[];
+  }[];
 }
 
 export const JOURNAL_DATA = journalJson as JournalData;
@@ -73,7 +81,7 @@ type Facts = Record<string, Fact>;
 
 function bank(
   key: string,
-  rows: readonly { key: string; text: string }[],
+  rows: readonly { key: string; text: string; stages?: readonly string[] }[],
   version: string,
 ): AuthoredEnglishBank {
   return {
@@ -183,6 +191,24 @@ export function composeJournal(
       const place = placeName(person.placeId);
       if (place) facts.place = place;
     }
+    const row = data.lines.find((entry) =>
+      moment.causeKind.startsWith(entry.kindPrefix),
+    );
+    const logged = core.durableLog.get(moment.causeId);
+    for (const [key, spec] of Object.entries(row?.eventFacts ?? {})) {
+      const value = logged?.facts?.[spec.fact];
+      if (value === undefined) return null;
+      facts[key] = {
+        text:
+          spec.format === "money"
+            ? new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
+              }).format(Number(value) / P.minorPerDollar)
+            : value,
+        sourceRecordIds: [moment.causeId],
+      };
+    }
     const otherId =
       moment.counterpartIds[zero] ??
       (moment.causeKind === "family:child"
@@ -204,10 +230,13 @@ export function composeJournal(
 
   const render = (
     key: string,
-    rows: readonly { key: string; text: string }[] | undefined,
+    rows:
+      | readonly { key: string; text: string; stages?: readonly string[] }[]
+      | undefined,
     facts: Facts,
     momentKey: string,
     sourceIds: readonly string[],
+    stage = "journal",
   ) => {
     if (!rows?.length || !sourceIds.length) return null;
     // Core record ids stand in for the engine's entity ids.
@@ -222,7 +251,7 @@ export function composeJournal(
         momentKey,
         worldSeed: core.seed,
         bankVersion: data.version,
-        stage: "journal",
+        stage,
         sourceRecordIds: sourceIds,
         facts,
         viewer: { personId, traits: {} },
@@ -333,6 +362,33 @@ export function composeJournal(
     chapter!.lines.push(line);
     chapter!.through = moment.date;
     repeats.set(repeatKey, { line, row, facts, count: one });
+  }
+  // Broad events that reached the person join the chapter they fell in.
+  for (const entry of book.backdrop) {
+    if (entry.date > through) continue;
+    const rule = data.backdropLines?.find((row) => row.kind === entry.kind);
+    const event = rule ? core.durableLog.get(entry.sourceId) : undefined;
+    const stage = rule ? event?.facts?.[rule.stageFact] : undefined;
+    if (!rule || !stage) continue;
+    const rendered = render(
+      `journal-backdrop:${rule.kind}`,
+      rule.line,
+      {},
+      entry.id,
+      [entry.sourceId],
+      stage,
+    );
+    const home = [...chapters].reverse().find((row) => row.from <= entry.date);
+    if (!rendered || !home) continue;
+    home.lines.push({
+      id: entry.id,
+      date: entry.date,
+      text: rendered.text,
+      momentIds: [],
+      sourceRecordIds: rendered.sourceRecordIds,
+    });
+    home.lines.sort((a, b) => a.date.localeCompare(b.date));
+    if (entry.date > home.through) home.through = entry.date;
   }
   return chapters.filter((row) => row.lines.length > zero);
 }

@@ -47,6 +47,16 @@ export interface DirectorData {
   pastNotRecordedValues: readonly string[];
   /** Past-fact kind prefixes that are public background, not personal moments. */
   backdropPastFactPrefixes: readonly string[];
+  /**
+   * Events recorded without an appraised impact, sized from their own facts:
+   * the relative change from one fact to another, on a channel.
+   */
+  eventImpacts?: readonly {
+    eventKind: string;
+    channel: string;
+    fromFact: string;
+    toFact: string;
+  }[];
   /** The reason key and citation on a core player stop for an interrupting moment. */
   interruptStop: { reasonKey: string; citation: string };
 }

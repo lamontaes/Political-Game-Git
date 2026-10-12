@@ -789,6 +789,25 @@ export function createDirector(
         );
     }
 
+    // Events an engine records without an appraised impact (a raise under a
+    // new law) are sized from their own facts by the director's rules.
+    for (const row of today.events) {
+      const rule = data.eventImpacts?.find(
+        (entry) => entry.eventKind === row.event.kind,
+      );
+      if (!rule || !row.event.personIds.includes(book.personId)) continue;
+      const before = Number(row.event.facts?.[rule.fromFact]);
+      const after = Number(row.event.facts?.[rule.toFact]);
+      if (!(before > zero) || !Number.isFinite(after)) continue;
+      change(
+        row.event.id,
+        `event:${row.event.kind}`,
+        rule.channel,
+        Math.abs(after - before) / before,
+        row.event.personIds,
+      );
+    }
+
     // Ties: every change in closeness, read once at the end of the day.
     directorStopgap("SG-P13-tie-day-order", ledger.stopgapHits);
     const fadedBefore = new Map<PersonId, number>();
