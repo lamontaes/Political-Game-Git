@@ -652,6 +652,11 @@ function markValidated(world: World): void {
   lastValidatedWorld = world;
 }
 
+/** Let go of the last checked World (e.g. a generator's temporary World once it's done). */
+export function forgetLastValidatedWorld(): void {
+  lastValidatedWorld = null;
+}
+
 export function assertWorldIntegrity(world: World): void {
   if (VALIDATED_WORLDS.has(world)) return;
   if (integrityDeferredDepth > 0) return;

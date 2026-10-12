@@ -1,4 +1,6 @@
 /** A generated opening in a place drawn from all 56, the same route as the speed guard's month. */
+import { releaseRecentHistory } from "../../simulation/history-index";
+import { forgetLastValidatedWorld } from "../../simulation/world";
 import { ageOnDate, makeIsoDate } from "../../simulation/dates";
 import { buildPopulation } from "../population";
 import { buildDeepPast } from "../deep-past";
@@ -147,6 +149,9 @@ export function generatedOpening(
         }).input,
       ),
     );
+  // The generator's temporary world is done; let its indexes go.
+  releaseRecentHistory();
+  forgetLastValidatedWorld();
   if (!keep) return input;
   const two = withCountedVoterGroups(collapseToTwoLevels(input, { keep }));
   return { ...two, residents: { ...two.residents!, cohortSizes } };
