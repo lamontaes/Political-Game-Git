@@ -656,6 +656,14 @@ const sheets = {
       row("Mood", c.affect?.mood?.toFixed(2)),
       row("Stress", c.affect?.stress?.toFixed(2)),
       ...c.drives.map((d) => row(d.kind, `${d.topic} · ${d.desiredChange}`)),
+      ...c.lawEffects
+        .filter((e) => !e.endedOn)
+        .map((e) =>
+          row(
+            e.question.split(":").pop(),
+            `${e.what} · ${e.enforcer} · ${e.since}`,
+          ),
+        ),
     ];
   },
   async money() {
