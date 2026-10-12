@@ -11,6 +11,7 @@
  * estimate from DOL's state provisions stands in.
  */
 import type { ModuleTable } from "./module-state";
+import { lawInForce, LAWS_MODULE_ID } from "./modules/laws";
 import { stopgap } from "./stopgaps";
 import { residentPerson, residentsRuntime } from "./modules/residents";
 import { transferCash } from "./world-transfer";
@@ -77,11 +78,93 @@ function standIn(api: CoreAPI): UnemploymentTerms {
   };
 }
 
+/** The weekly benefit's share of weekly pay, from the state's fraction and the wages it applies to. */
+function weeklyShareOf(
+  fraction: number,
+  appliesTo: string,
+): number | undefined {
+  const text = appliesTo.toLowerCase();
+  // High-quarter wages are 13 weeks' pay; two quarters 26; a base period's annual wages 52.
+  const weeks = /two highest|2 highest/.test(text)
+    ? 26
+    : /high[- ]?quarter|hqw/.test(text)
+      ? 13
+      : /annual|base[- ]period/.test(text)
+        ? 52
+        : /weekly wage|aww/.test(text)
+          ? 1
+          : undefined;
+  return weeks === undefined ? undefined : fraction * weeks;
+}
+
+/** The state's program as law in force (OPUS-GOV's laws module), where the laws are open in this world. */
+function fromLaw(api: CoreAPI): UnemploymentTerms | undefined {
+  if (!(api.state as CoreState).modules.has(LAWS_MODULE_ID)) return undefined;
+  let program, maximum;
+  try {
+    program = lawInForce(api, "unemployment-insurance");
+    maximum = lawInForce(api, "unemployment-weekly-maximum");
+  } catch {
+    return undefined;
+  }
+  // Before the recorded provisions take effect, the earliest recorded row is the closest record of the state's program.
+  const recorded = program.governing ?? program.pending[0] ?? null;
+  const maximumValue =
+    maximum.value ?? (maximum.pending[0]?.value as number | undefined) ?? null;
+  const row = recorded as
+    | (typeof program.governing & {
+        terms?: {
+          hasProgram?: boolean;
+          weeklyBenefitFraction?: number | null;
+          weeklyBenefitAppliesTo?: string;
+          waitingWeek?: boolean;
+          maxWeeks?: number;
+          baseEarnings?: { minimumBasePeriodWages?: number | null };
+        };
+      })
+    | null;
+  if (!row?.terms) return undefined;
+  const t = row.terms,
+    fallback = standIn(api),
+    cents = api.parameter("macroHundred");
+  if (t.hasProgram === false || row.value === 0)
+    return { ...fallback, hasProgram: false };
+  const share =
+    t.weeklyBenefitFraction != null && t.weeklyBenefitAppliesTo
+      ? weeklyShareOf(t.weeklyBenefitFraction, t.weeklyBenefitAppliesTo)
+      : undefined;
+  return {
+    hasProgram: true,
+    weeklyShare: share ?? fallback.weeklyShare,
+    weeklyMaximumMinor:
+      maximumValue != null
+        ? Math.round(maximumValue * cents)
+        : fallback.weeklyMaximumMinor,
+    maxWeeks: t.maxWeeks ?? fallback.maxWeeks,
+    waitingWeek: t.waitingWeek ?? true,
+    minimumBasePeriodMinor:
+      t.baseEarnings?.minimumBasePeriodWages != null
+        ? Math.round(t.baseEarnings.minimumBasePeriodWages * cents)
+        : fallback.minimumBasePeriodMinor,
+    source: {
+      tag: program.estimate || !program.governing ? "ESTIMATED" : "SOURCED",
+      asOf: api.state.date,
+      citation: String(row.source ?? fallback.source.citation),
+      ...(program.estimate || !program.governing
+        ? {
+            estimatedFrom:
+              "The state's unemployment insurance provisions as recorded in its law in force.",
+          }
+        : {}),
+    } as Source,
+  };
+}
+
 export function unemploymentTerms(
   api: CoreAPI,
   placeId: string,
 ): UnemploymentTerms {
-  return termsSource?.(api, placeId) ?? standIn(api);
+  return termsSource?.(api, placeId) ?? fromLaw(api) ?? standIn(api);
 }
 
 const DAYS_PER_WEEK = 7;

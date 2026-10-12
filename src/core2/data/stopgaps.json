@@ -1827,12 +1827,12 @@
     "id": "SG-WORLD-jobs-benefits-terms",
     "kind": "assumed-data",
     "file": "src/core2/jobs-benefits.ts",
-    "line": 60,
-    "whatItFakes": "Every state's unemployment insurance pays half the lost weekly pay up to $611 a week for 26 weeks after one waiting week, with a $2,775 base-period minimum (the states' medians).",
-    "why": "Each state's own terms are law in force on OPUS-GOV's branch (lawInForce(api, \"unemployment-insurance\")), not yet on this one.",
+    "line": 61,
+    "whatItFakes": "In a world without OPUS-GOV's laws module open (the economy run on its own), unemployment insurance pays the states' medians: half the lost weekly pay up to $611 a week for 26 weeks after a waiting week. With the laws open, each state's own terms from its law in force apply.",
+    "why": "The economy also runs without the government engines (tests, tooling, the bench's economy-only worlds).",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "registerUnemploymentTerms with the state's terms from lawInForce once the laws module is on the same branch.",
+    "replacement": "The laws module always open with the economy, so every world reads its state's program.",
     "status": "open"
   },
   {
