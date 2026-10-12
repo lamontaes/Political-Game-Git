@@ -8,7 +8,8 @@
     "noEmit": true,
     "resolveJsonModule": true,
     "allowArbitraryExtensions": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "types": ["node", "vite/client"]
   },
   "include": ["./*.ts"]
 }

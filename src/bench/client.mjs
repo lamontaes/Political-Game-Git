@@ -154,6 +154,39 @@ function renderSelfChosen(rows) {
     .join("\n");
 }
 
+async function renderScene(id) {
+  const scene = await request(`/api/scene?id=${encodeURIComponent(id)}`);
+  const box = element("scene");
+  const backdrop = document.createElement("img");
+  backdrop.className = "backdrop";
+  backdrop.src = scene.backdrop.url;
+  backdrop.alt = scene.place;
+  const figures = scene.people.map((person) => {
+    const f = person.figure;
+    const bottom = f.clipBelowPercent ?? f.topPercent + f.heightPercent;
+    const visible = Math.max(bottom - f.topPercent, 0.1);
+    const div = document.createElement("div");
+    div.className = "figure";
+    div.title = person.name;
+    Object.assign(div.style, {
+      left: `${f.leftPercent}%`,
+      top: `${f.topPercent}%`,
+      width: `${f.widthPercent}%`,
+      height: `${visible}%`,
+    });
+    const img = document.createElement("img");
+    img.src = person.figureUrl;
+    img.alt = person.name;
+    img.style.height = `${(f.heightPercent / visible) * 100}%`;
+    img.style.width = "100%";
+    div.append(img);
+    return div;
+  });
+  box.replaceChildren(backdrop, ...figures);
+  element("scene-caption").textContent =
+    `${scene.place} (${scene.backdrop.variant}): ${scene.why}. ${scene.people.map((p) => p.name).join(", ")}${scene.unplaced.length ? `; ${scene.unplaced.length} more not drawn (${[...new Set(scene.unplaced.map((u) => u.reason))].join(", ")})` : ""}.`;
+}
+
 function renderChoices(value) {
   element("chosen-resident").textContent =
     `${value.playing ? "Playing" : "Viewing"}: ${value.person.givenName} ${value.person.familyName} (${value.person.id}).`;
@@ -168,6 +201,9 @@ async function inspect(id) {
     if (requestId !== inspectionRequest) return;
     selectedId = id;
     renderChoices(value);
+    renderScene(id).catch((error) => {
+      element("scene-caption").textContent = error.message;
+    });
     setTimeControls();
     element("trace-detail").replaceChildren();
     element("trace-record-id").value = "";

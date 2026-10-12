@@ -1318,5 +1318,17 @@
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE’s two-level population and speed work, after which the bench builds the full place.",
     "status": "open"
+  },
+  {
+    "id": "SG-PLAY-home-dwelling-kind",
+    "kind": "assumed-data",
+    "file": "src/bench/scene.ts",
+    "line": 89,
+    "whatItFakes": "Every home in the bench shows the shared suburban house interior.",
+    "why": "New-core households record no dwelling type (apartment, mobile home, rowhouse, farmhouse), so the picture cannot follow the home.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "A dwelling type on each household from OPUS-WORLD housing or OPUS-PEOPLE, read by the bench scene picker.",
+    "status": "open"
   }
 ]

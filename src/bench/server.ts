@@ -3,6 +3,7 @@ import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import { BenchPlayer } from "./player";
 import { buildBenchWorld } from "./world";
+import { backdropPath, benchScene, figurePng } from "./scene";
 import { availableActs } from "../core2/life";
 import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
@@ -50,6 +51,49 @@ const server = createServer(async (request, response) => {
       const content = await readFile(new URL(asset.file, import.meta.url));
       response.writeHead(200, { "Content-Type": asset.type });
       response.end(content);
+      return;
+    }
+    if (
+      request.method === "GET" &&
+      url.pathname.startsWith("/art/backdrops/")
+    ) {
+      const content = await readFile(
+        backdropPath(url.pathname.slice("/art/backdrops/".length)),
+      );
+      response.writeHead(200, {
+        "Content-Type": "image/jpeg",
+        "Cache-Control": "max-age=3600",
+      });
+      response.end(content);
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/figure") {
+      const png = figurePng(
+        requireCore(),
+        url.searchParams.get("person") ?? "",
+        url.searchParams.get("place") ?? "",
+        url.searchParams.get("spot") ?? "",
+      );
+      response.writeHead(200, {
+        "Content-Type": "image/png",
+        "Cache-Control": "no-store",
+      });
+      response.end(png);
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/scene") {
+      const current = requireCore();
+      const id = url.searchParams.get("id") ?? "";
+      if (!current.people.has(id))
+        throw new Error("Resident does not exist in core records.");
+      send(
+        200,
+        benchScene(
+          current,
+          id,
+          player?.personId === id ? player.packet : undefined,
+        ),
+      );
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/capabilities") {

@@ -1,0 +1,52 @@
+{
+  "note": "Which tagged place picture (art/backdrops/manifest.json) shows what a person is doing in the bench. Keys are core act ids; '@home', '@workplace' and '@target' resolve from the person's records; a list is tried in order until one has a picture. Organization classifications map to data/content/place-kinds.json business kinds when their suffix is not already one.",
+  "actions": {
+    "work-shift": ["@workplace"],
+    "attend-scheduled-work-date-segment": ["@workplace"],
+    "rest": ["@home"],
+    "contact-known-person": ["@home"],
+    "care-for-relative": ["@home"],
+    "join-association": ["@target", "community-room"],
+    "organize-meeting": ["@target", "public-meeting-room"],
+    "approach-office": ["@target", "clerk-counter"],
+    "look-up-local-institution": ["public-library"],
+    "share-cause": ["@home"],
+    "found-cause-group": ["community-room"],
+    "join-cause-group": ["@target", "community-room"],
+    "donate-to-cause": ["@home"],
+    "volunteer-for-cause": ["@target", "community-room"],
+    "confront-grudge-target": ["main-street"],
+    "seek-standing": ["city-hall-hallway"],
+    "testify-at-hearing": ["committee-hearing-room", "public-meeting-room"],
+    "run-for-office": ["county-clerk-office-rural", "clerk-counter"],
+    "lobby-legislator": ["city-hall-hallway"]
+  },
+  "organizationKinds": {
+    "service:municipal-government": "city-hall",
+    "service:county-government": "county-clerk",
+    "sector:local-government-office": "city-hall",
+    "sector:state-government-office": "regional-office",
+    "sector:federal-government-office": "regional-office",
+    "community:organizing-nonprofit": "organizing",
+    "membership:labor-union": "union",
+    "enterprise:political-consulting": "campaign-staff",
+    "enterprise:food-service": "restaurant",
+    "enterprise:transportation": "trucking",
+    "enterprise:professional-services": "professional",
+    "enterprise:telecommunications": "information",
+    "enterprise:lodging": "inn",
+    "enterprise:real-estate": "realty",
+    "enterprise:personal-services": "personal-care",
+    "service:nursing-home": "care-home",
+    "service:public-health": "clinic"
+  },
+  "placesWithoutKind": {
+    "service:fire": "fire-station"
+  },
+  "variantByHour": [
+    { "fromHour": 0, "variant": "night" },
+    { "fromHour": 6, "variant": "morning" },
+    { "fromHour": 11, "variant": "midday" },
+    { "fromHour": 19, "variant": "night" }
+  ]
+}
