@@ -1,0 +1,114 @@
+/** M1-02 proof in a generated world: national figures, every vote's reasons, and a named business's line repriced. */
+import { execFileSync } from "node:child_process";
+import { writeFileSync } from "node:fs";
+import { performance } from "node:perf_hooks";
+// @ts-expect-error The guard script is plain JavaScript.
+import { prepareWorld } from "../../../scripts/core2-guard/month.mjs";
+import { advanceCore, createLifeCore } from "../life";
+import { coreAPI } from "../state";
+import { MACRO_MODULE, macroCoreData, withCentralBank } from "../modules/macro";
+import { standInPrimeLine } from "../credit-stand-in";
+import { buildOpeningEconomy } from "../opening-economy";
+import { checkBands, type MacroMonth } from "../macro-model";
+import { parameter } from "../parameters";
+
+const [seed, placeKey, through, output, mode] = process.argv.slice(2);
+const withMacro = mode !== "--no-macro";
+if (!seed || !placeKey || !through || !output)
+  throw new Error(
+    "Usage: macro-proof <seed> <placeKey> <throughDate> <output>",
+  );
+const prepared = await prepareWorld({ seed, placeKey });
+const { input } = buildOpeningEconomy(prepared.input),
+  place = prepared.place;
+const data = macroCoreData();
+const core = withMacro
+  ? createLifeCore(withCentralBank(input), { data, modules: [MACRO_MODULE] })
+  : createLifeCore(input);
+if (!withMacro) {
+  const started = performance.now();
+  advanceCore(core, through);
+  console.log(
+    JSON.stringify({
+      place: place.name,
+      base: true,
+      ms: performance.now() - started,
+    }),
+  );
+  process.exit(0);
+}
+const api = coreAPI(core);
+const books = [...core.finance.businesses.values()].sort((a, b) =>
+  a.organizationId.localeCompare(b.organizationId),
+);
+const borrower = books.find((row) => !row.closedAt)!;
+const lender = [...core.organizations.values()]
+  .filter((row) => row.id !== borrower.organizationId)
+  .sort(
+    (a, b) =>
+      Number(/bank|credit/i.test(b.name)) -
+        Number(/bank|credit/i.test(a.name)) || a.id.localeCompare(b.id),
+  )[0]!;
+const started = performance.now();
+advanceCore(core, core.date);
+const facilityId = standInPrimeLine(
+  api,
+  borrower.organizationId,
+  lender.id,
+  1_000_000,
+  1.5,
+);
+advanceCore(core, through);
+const milliseconds = performance.now() - started;
+const snap = api.moduleState("macro").snapshot();
+const months = snap.tables.months as unknown as MacroMonth[];
+const p = (key: string) => parameter(key, data.parameters);
+const bands = checkBands(months, p);
+const result = {
+  schema: "macro-proof-v1",
+  head: execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim(),
+  seed,
+  place,
+  startedAt: input.startedAt,
+  through,
+  milliseconds,
+  business: {
+    id: borrower.organizationId,
+    name: core.organizations.get(borrower.organizationId)!.name,
+    lender: lender.name,
+    facilityId,
+    facility: core.finance.facilities.get(facilityId),
+  },
+  repricings: snap.tables.repricings,
+  meetings: snap.tables.meetings,
+  votes: snap.tables.votes,
+  members: snap.tables.members,
+  months: months.map((row) => ({
+    month: row.month,
+    kind: row.kind,
+    unemploymentPct: row.unemploymentPct,
+    inflationPct: row.inflationPct,
+    payrollJobsThousands: row.payrollJobsThousands,
+    policyRatePct: row.policyRatePct,
+    mortgage30Pct: row.mortgage30Pct,
+    townIncomeGrowthPct: row.townIncomeGrowthPct,
+  })),
+  bands: {
+    simulatedBase: bands.filter((row) => !row.baseIsHistory),
+    historyBase: bands.filter((row) => row.baseIsHistory),
+  },
+  conditions: core.finance.conditionsByPlace.get(
+    core.organizations.get(borrower.organizationId)!.placeId,
+  ),
+};
+writeFileSync(output, JSON.stringify(result, null, 2) + "\n");
+console.log(
+  JSON.stringify({
+    place: place.name,
+    ms: milliseconds,
+    meetings: (snap.tables.meetings as unknown[]).length,
+    repricings: (snap.tables.repricings as unknown[]).length,
+    simulatedOutside: result.bands.simulatedBase.filter((row) => !row.inside)
+      .length,
+  }),
+);
