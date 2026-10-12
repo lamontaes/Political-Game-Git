@@ -1,3 +1,4 @@
+import type { PurchaseTaxInput } from "./modules/purchase-tax";
 import type { MarketEntry } from "./modules/residents";
 import type { ResidentsInput } from "./residents";
 import type { Accounts } from "./accounts";
@@ -1086,6 +1087,12 @@ export interface CoreAPI {
    * v20: an owner closes a solvent business by choice; its remaining cash
    * goes to the owner's account and its jobs, contracts and books end.
    */
+  /**
+   * v21: a sales tax in force on a place's sellers; each paid sale remits the
+   * tax inside its price to the treasury (`modules/purchase-tax.ts`).
+   */
+  setPurchaseTax(input: PurchaseTaxInput): void;
+  endPurchaseTax(id: string): void;
   closeBusinessByChoice(input: {
     organizationId: string;
     ownerAccountId: string;

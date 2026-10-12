@@ -3,9 +3,10 @@ import { beforeAll, describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
 import { generatedOpening } from "./tooling/generated-world";
 import { collapseToTwoLevels } from "./residents";
+import { DEFAULT_DEEP_PAST_DATA } from "./deep-past";
 import { advanceCore, createLifeCore } from "./life";
 import { residentCounts, residentsRuntime } from "./modules/residents";
-import { coreAPI, fillInPerson } from "./state";
+import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import type { CoreInput } from "./types";
 
 // One random place from all 56, named with its seed in the test title.
@@ -198,6 +199,57 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(total()).toBe(start);
   }, 300_000);
 
+  it("fills in a clicked counted person, and returns full people as they are", () => {
+    const core = createLifeCore(two);
+    const counted = [...residentsRuntime(core)!.households.values()][0]!
+      .people[0]!;
+    expect(core.people.has(counted.id)).toBe(false);
+    const person = personOrFillIn(core, counted.id)!;
+    expect(person.id).toBe(counted.id);
+    expect(personOrFillIn(core, counted.id)).toBe(person);
+    expect(personOrFillIn(core, core.playerId!)).toBe(
+      core.people.get(core.playerId!),
+    );
+    expect(personOrFillIn(core, "person:nobody")).toBeUndefined();
+  }, 300_000);
+
+  it("keeps no past in the counts and rebuilds it at fill-in, as the opening built it", () => {
+    const core = createLifeCore(two);
+    const records = [...residentsRuntime(core)!.households.values()];
+    expect(
+      records.every((row) =>
+        row.people.every(
+          (person) =>
+            !person.pastFacts?.some((fact) =>
+              fact.id.startsWith(
+                `${person.id}:${DEFAULT_DEEP_PAST_DATA.version}:`,
+              ),
+            ),
+        ),
+      ),
+    ).toBe(true);
+    const fullById = new Map(full.people.map((row) => [row.id, row]));
+    const record = records.find((row) =>
+      row.people.some((person) => fullById.get(person.id)?.pastFacts?.length),
+    )!;
+    const person = record.people.find(
+      (row) => fullById.get(row.id)?.pastFacts?.length,
+    )!;
+    fillInPerson(core, person.id);
+    // Counted households have light customer terms, so a full opening's
+    // where-they-shop facts aren't part of the past being rebuilt.
+    const past = (facts: readonly { id: string }[] | undefined) =>
+      JSON.stringify(
+        (facts ?? []).filter(
+          (fact) => !fact.id.startsWith("p8-opening-customer-builder"),
+        ),
+      );
+    for (const row of record.people)
+      expect(past(core.people.get(row.id)!.pastFacts)).toBe(
+        past(fullById.get(row.id)!.pastFacts),
+      );
+  }, 300_000);
+
   it("re-rates full and counted workers from today", () => {
     const core = createLifeCore(two),
       api = coreAPI(core);
@@ -324,15 +376,23 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   it("gives the counted adults voter groups, and fill-in moves them out", () => {
     const groups = two.voterGroups ?? [];
     const start = Number(two.startedAt.slice(0, 4));
-    const adults = two.residents!.households.reduce(
-      (n, row) =>
-        n +
-        row.people.filter(
-          (person) => start - Number(person.birthDate.slice(0, 4)) >= 18,
-        ).length,
-      0,
-    );
-    expect(groups.reduce((n, row) => n + row.size, 0)).toBe(adults);
+    // Groups are the town's counted adults who are citizens (CPS 2024 share by
+    // state and age band); relatives counted elsewhere vote where they live.
+    const town = two.people.find((row) => row.id === two.playerId)!.placeId;
+    const adults = two
+      .residents!.households.filter((row) => row.household.placeId === town)
+      .reduce(
+        (n, row) =>
+          n +
+          row.people.filter(
+            (person) => start - Number(person.birthDate.slice(0, 4)) >= 18,
+          ).length,
+        0,
+      );
+    const eligible = groups.reduce((n, row) => n + row.size, 0);
+    expect(groups.every((row) => row.placeId === town)).toBe(true);
+    expect(eligible).toBeLessThanOrEqual(adults);
+    expect(eligible).toBeGreaterThan(adults * 0.75);
     for (const row of groups) {
       expect(row.turnout).toBeGreaterThan(0);
       expect(row.turnout).toBeLessThanOrEqual(1);
@@ -344,10 +404,12 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
         (n, row) => n + (coreAPI(core).voterGroups().get(row.id)?.size ?? 0),
         0,
       );
-    const record = two.residents!.households.find((row) =>
-      row.people.some(
-        (person) => start - Number(person.birthDate.slice(0, 4)) >= 25,
-      ),
+    const record = two.residents!.households.find(
+      (row) =>
+        row.household.placeId === town &&
+        row.people.some(
+          (person) => start - Number(person.birthDate.slice(0, 4)) >= 25,
+        ),
     )!;
     const before = total();
     fillInPerson(core, record.people[0]!.id);

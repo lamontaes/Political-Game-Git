@@ -2,6 +2,41 @@
   "schema": "ocd-place-surfaces/v1",
   "note": "Painted surfaces in a place picture that the game draws live content on: screens, boards, posters, notes, papers and brochures. Shared by a place's morning, midday, night, rain and winter versions; 'variants' gives a version its own corners, and 'absentIn' lists versions without the surface. 'quad' is the drawable face in the picture's own pixels (1672 x 941), corners top-left, top-right, bottom-right, bottom-left as seen. 'finish' is what the face is (cork takes pinned cards, whiteboard takes marker writing, panel takes content across the whole face). 'shows' lists what the surface is for, in order: votes, news, candidates, results, plans, bills, programs; an empty list keeps the painted face. Measured from the pictures on Sept. 28, 2026, each quad checked by overlay on every version listed in 'checked'.",
   "places": {
+    "apartment-basement-studio": {
+      "checked": ["apartment-basement-studio__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "apartment-older-walkup": {
+      "checked": ["apartment-older-walkup__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "apartment-public-housing": {
+      "checked": ["apartment-public-housing__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "apartment-student-shared": {
+      "checked": ["apartment-student-shared__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "apartment-suburban-garden": {
+      "checked": ["apartment-suburban-garden__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "appellate-courtroom": {
       "checked": [
         "appellate-courtroom__midday.jpg",
@@ -14,6 +49,13 @@
         "wall panels at the far left and right: molded wainscot panels, not sign boards",
         "curtains behind the bench: curtains",
         "no painted screens, posters, papers or boards"
+      ]
+    },
+    "bank-lobby": {
+      "checked": ["bank-lobby__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
       ]
     },
     "barbershop": {
@@ -128,6 +170,13 @@
         "storefront windows and door: windows"
       ]
     },
+    "cemetery-graveside": {
+      "checked": ["cemetery-graveside__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
+      ]
+    },
     "church-exterior": {
       "checked": [
         "church-exterior__midday.jpg",
@@ -220,7 +269,12 @@
       ]
     },
     "classroom": {
-      "checked": ["classroom__midday.jpg", "classroom__night.jpg"],
+      "checked": [
+        "classroom__midday.jpg",
+        "classroom__morning.jpg",
+        "classroom__night.jpg",
+        "classroom__rain.jpg"
+      ],
       "surfaces": [
         {
           "id": "classroom-whiteboard",
@@ -392,7 +446,12 @@
       ]
     },
     "college-quad": {
-      "checked": ["college-quad__midday.jpg", "college-quad__night.jpg"],
+      "checked": [
+        "college-quad__midday.jpg",
+        "college-quad__morning.jpg",
+        "college-quad__night.jpg",
+        "college-quad__rain.jpg"
+      ],
       "surfaces": [],
       "skipped": [
         "no painted screens, posters, papers or boards; building faces are too distant and carry no sign panels"
@@ -426,7 +485,9 @@
     "construction-site": {
       "checked": [
         "construction-site__midday.jpg",
-        "construction-site__night.jpg"
+        "construction-site__morning.jpg",
+        "construction-site__night.jpg",
+        "construction-site__rain.jpg"
       ],
       "surfaces": [],
       "skipped": [
@@ -484,6 +545,20 @@
         "round seal on the back wall: seal, excluded",
         "nameplates on the dais: under 36 px tall",
         "no painted screens, posters, papers or boards"
+      ]
+    },
+    "county-clerk-office-rural": {
+      "checked": ["county-clerk-office-rural__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "county-clerk-office-urban": {
+      "checked": ["county-clerk-office-urban__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
     "county-commission": {
@@ -709,6 +784,13 @@
         "no painted screens, posters, notes, papers, brochures or boards (exterior street/porch view)"
       ]
     },
+    "doorstep-entrance": {
+      "checked": ["doorstep-entrance__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
+      ]
+    },
     "dorm-room": {
       "checked": [
         "dorm-room__midday.jpg",
@@ -776,8 +858,26 @@
         "no live content is drawn on this place yet"
       ]
     },
+    "election-office-warehouse": {
+      "checked": ["election-office-warehouse__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "elementary-classroom": {
+      "checked": ["elementary-classroom__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "factory-floor": {
-      "checked": ["factory-floor__midday.jpg", "factory-floor__night.jpg"],
+      "checked": [
+        "factory-floor__midday.jpg",
+        "factory-floor__morning.jpg",
+        "factory-floor__night.jpg"
+      ],
       "surfaces": [],
       "skipped": [
         "CNC control-panel screen on the left machine (x 386-409, y 356-397): about 23 px wide, under 36",
@@ -799,6 +899,20 @@
         "no live content is drawn on this place yet"
       ]
     },
+    "federal-district-courtroom": {
+      "checked": ["federal-district-courtroom__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
+      ]
+    },
+    "federal-reserve-boardroom": {
+      "checked": ["federal-reserve-boardroom__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
+      ]
+    },
     "fire-station": {
       "checked": [
         "fire-station__midday.jpg",
@@ -809,6 +923,13 @@
       "surfaces": [],
       "skipped": [
         "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "funeral-home-viewing-room": {
+      "checked": ["funeral-home-viewing-room__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
       ]
     },
     "gas-station-store": {
@@ -852,6 +973,34 @@
         "no live content is drawn on this place yet"
       ]
     },
+    "grocery-store": {
+      "checked": ["grocery-store__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
+      ]
+    },
+    "hardware-store-interior": {
+      "checked": ["hardware-store-interior__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
+      ]
+    },
+    "high-school-cafeteria": {
+      "checked": ["high-school-cafeteria__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "high-school-hallway": {
+      "checked": ["high-school-hallway__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "home-kitchen": {
       "checked": [
         "home-kitchen__midday.jpg",
@@ -865,10 +1014,32 @@
         "no live content is drawn on this place yet"
       ]
     },
+    "hospital-emergency-waiting": {
+      "checked": ["hospital-emergency-waiting__midday.jpg"],
+      "surfaces": [
+        {
+          "id": "hospital-emergency-waiting-notice-board",
+          "kind": "board",
+          "finish": "cork",
+          "what": "gray notice board on the wall beside the reception window",
+          "quad": [
+            [780, 246],
+            [860, 246],
+            [860, 356],
+            [780, 356]
+          ],
+          "perspective": false,
+          "shows": ["news"]
+        }
+      ],
+      "skipped": []
+    },
     "hospital-hallway": {
       "checked": [
         "hospital-hallway__midday.jpg",
-        "hospital-hallway__night.jpg"
+        "hospital-hallway__morning.jpg",
+        "hospital-hallway__night.jpg",
+        "hospital-hallway__rain.jpg"
       ],
       "surfaces": [],
       "skipped": [
@@ -891,6 +1062,26 @@
         "no live content is drawn on this place yet"
       ]
     },
+    "hospital-patient-room": {
+      "checked": ["hospital-patient-room__midday.jpg"],
+      "surfaces": [
+        {
+          "id": "hospital-patient-room-monitor",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "dark monitor on the wheeled stand beside the bed",
+          "quad": [
+            [1160, 306],
+            [1280, 306],
+            [1280, 396],
+            [1160, 396]
+          ],
+          "perspective": false,
+          "shows": []
+        }
+      ],
+      "skipped": []
+    },
     "hotel-ballroom": {
       "checked": [
         "hotel-ballroom__midday.jpg",
@@ -901,6 +1092,41 @@
       "surfaces": [],
       "skipped": [
         "painted screens, boards and notices in this new place are not marked yet (Claude CTO, Sept 28, 2026); mark them before live content uses them"
+      ]
+    },
+    "house-gulf-coast-raised": {
+      "checked": ["house-gulf-coast-raised__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "house-new-england-colonial": {
+      "checked": ["house-new-england-colonial__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "house-northwest-craftsman": {
+      "checked": ["house-northwest-craftsman__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "house-southwest-adobe": {
+      "checked": ["house-southwest-adobe__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "jail-visiting-room": {
+      "checked": ["jail-visiting-room__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
       ]
     },
     "large-house": {
@@ -944,7 +1170,12 @@
       ]
     },
     "main-street": {
-      "checked": ["main-street__midday.jpg", "main-street__night.jpg"],
+      "checked": [
+        "main-street__midday.jpg",
+        "main-street__morning.jpg",
+        "main-street__night.jpg",
+        "main-street__rain.jpg"
+      ],
       "surfaces": [
         {
           "id": "main-street-green-store-sign",
@@ -1036,6 +1267,20 @@
         "books and cable box on the TV stand: not a readable surface"
       ]
     },
+    "national-convention-floor": {
+      "checked": ["national-convention-floor__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "national-convention-stage": {
+      "checked": ["national-convention-stage__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "newsroom": {
       "checked": [
         "newsroom__midday.jpg",
@@ -1049,7 +1294,12 @@
       ]
     },
     "office": {
-      "checked": ["office__midday.jpg", "office__night.jpg"],
+      "checked": [
+        "office__midday.jpg",
+        "office__morning.jpg",
+        "office__night.jpg",
+        "office__rain.jpg"
+      ],
       "surfaces": [
         {
           "id": "office-corkboard",
@@ -1173,7 +1423,12 @@
       ]
     },
     "park": {
-      "checked": ["park__midday.jpg", "park__night.jpg"],
+      "checked": [
+        "park__midday.jpg",
+        "park__morning.jpg",
+        "park__night.jpg",
+        "park__rain.jpg"
+      ],
       "surfaces": [
         {
           "id": "park-notice-board",
@@ -1410,6 +1665,34 @@
         "pale back-wall panel in the control room seen through the window: window glass view, not a sign board"
       ]
     },
+    "rally-airport-hangar": {
+      "checked": ["rally-airport-hangar__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "rally-county-fairground": {
+      "checked": ["rally-county-fairground__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "rally-courthouse-square": {
+      "checked": ["rally-courthouse-square__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "rally-downtown-plaza": {
+      "checked": ["rally-downtown-plaza__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
     "rally-stage": {
       "checked": [
         "rally-stage__midday.jpg",
@@ -1421,6 +1704,20 @@
       "skipped": [
         "basketball backboard: not a sign surface",
         "no painted screens, posters, papers or boards; windows and doors excluded"
+      ]
+    },
+    "rally-union-hall-parking-lot": {
+      "checked": ["rally-union-hall-parking-lot__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "registrar-of-voters-worn": {
+      "checked": ["registrar-of-voters-worn__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
     "rowhouse": {
@@ -1597,213 +1894,6 @@
       "skipped": [
         "no painted screens, posters, notes, papers, brochures or boards",
         "framed landscape picture: picture"
-      ]
-    },
-    "state-legislative-chamber-bicameral": {
-      "checked": [
-        "state-legislative-chamber-bicameral__midday.jpg",
-        "state-legislative-chamber-bicameral__morning.jpg",
-        "state-legislative-chamber-bicameral__night.jpg",
-        "state-legislative-chamber-bicameral__rain.jpg"
-      ],
-      "surfaces": [],
-      "skipped": [
-        "papers on the front desks (left x 40-170, right x 1420-1640, y 600-625): about 25 px tall, under 36",
-        "papers on the second-row desks (x 320-430 and 1235-1365, y 563-578): about 15 px tall, under 36",
-        "papers on the rear desks: tiny, under 36",
-        "recessed wood wall panels: architectural paneling, not sign panels; no screens, posters or boards"
-      ]
-    },
-    "state-legislative-chamber-unicameral": {
-      "checked": [
-        "state-legislative-chamber-unicameral__midday.jpg",
-        "state-legislative-chamber-unicameral__morning.jpg",
-        "state-legislative-chamber-unicameral__night.jpg",
-        "state-legislative-chamber-unicameral__rain.jpg"
-      ],
-      "surfaces": [],
-      "skipped": [
-        "dark gray inset desk pads on the front desks (left x 25-300, right x 1370-1640, y 645-692): desk blotters/leather inlays, not papers or screens (about 45 px tall)",
-        "small gray pads on the rear desks: under 36 px tall",
-        "no painted screens, posters, papers or boards"
-      ]
-    },
-    "store": {
-      "checked": ["store__midday.jpg", "store__night.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "register monitor on the counter: seen from behind",
-        "cooler doors: glass doors with painted stock",
-        "no painted posters, papers or boards",
-        "windows: windows"
-      ]
-    },
-    "suburban-house": {
-      "checked": [
-        "suburban-house__midday.jpg",
-        "suburban-house__morning.jpg",
-        "suburban-house__night.jpg",
-        "suburban-house__rain.jpg"
-      ],
-      "surfaces": [
-        {
-          "id": "suburban-house-tv",
-          "kind": "screen",
-          "finish": "panel",
-          "what": "wall TV at the left edge, angled toward the room and cut off by the frame; plant leaves cover its lower-left corner",
-          "quad": [
-            [0, 279],
-            [123, 290],
-            [123, 436],
-            [0, 447]
-          ],
-          "perspective": true,
-          "shows": ["news"]
-        }
-      ],
-      "skipped": [
-        "closed books on the coffee table: books, not papers",
-        "framed pictures on the walls: pictures, not drawable"
-      ]
-    },
-    "supreme-courtroom": {
-      "checked": [
-        "supreme-courtroom__midday.jpg",
-        "supreme-courtroom__morning.jpg",
-        "supreme-courtroom__night.jpg",
-        "supreme-courtroom__rain.jpg"
-      ],
-      "surfaces": [],
-      "skipped": [
-        "molded wall panels at the far left and right (x 15-120 and 1550-1660, y 40-285): architectural paneling, not sign panels",
-        "bench front panels: carved wood paneling",
-        "no painted screens, posters, papers or boards"
-      ]
-    },
-    "tv-studio": {
-      "checked": [
-        "tv-studio__midday.jpg",
-        "tv-studio__morning.jpg",
-        "tv-studio__night.jpg",
-        "tv-studio__rain.jpg"
-      ],
-      "surfaces": [],
-      "skipped": [
-        "camera viewfinder monitor at left (about 70 x 49 px): angled inside its hood, face edges indistinct against the housing, reads as camera hardware",
-        "blue studio backdrop: plain wall, not a framed panel",
-        "no other painted screens, posters, papers or boards"
-      ]
-    },
-    "union-hall": {
-      "checked": [
-        "union-hall__midday.jpg",
-        "union-hall__morning.jpg",
-        "union-hall__night.jpg",
-        "union-hall__rain.jpg"
-      ],
-      "surfaces": [
-        {
-          "id": "union-hall-corkboard-left",
-          "kind": "board",
-          "finish": "cork",
-          "what": "framed cork board on the left side wall",
-          "quad": [
-            [70, 220],
-            [223, 246],
-            [223, 350],
-            [70, 354]
-          ],
-          "perspective": true,
-          "shows": ["candidates"]
-        },
-        {
-          "id": "union-hall-corkboard-right",
-          "kind": "board",
-          "finish": "cork",
-          "what": "framed cork board on the right side wall",
-          "quad": [
-            [1455, 246],
-            [1613, 218],
-            [1613, 355],
-            [1455, 351]
-          ],
-          "perspective": true,
-          "shows": ["plans"]
-        }
-      ],
-      "skipped": [
-        "no other painted screens, posters, papers or boards; windows and doors excluded"
-      ]
-    },
-    "us-capitol-exterior": {
-      "checked": [
-        "us-capitol-exterior__midday.jpg",
-        "us-capitol-exterior__morning.jpg",
-        "us-capitol-exterior__night.jpg",
-        "us-capitol-exterior__rain.jpg"
-      ],
-      "surfaces": [],
-      "skipped": [
-        "stone plinths flanking the steps and plaza: blank sides are 60-70 px but plinth pedestals, not sign panels",
-        "no painted screens, posters, papers or boards"
-      ]
-    },
-    "us-house-floor": {
-      "checked": [
-        "us-house-floor__midday.jpg",
-        "us-house-floor__morning.jpg",
-        "us-house-floor__night.jpg",
-        "us-house-floor__rain.jpg"
-      ],
-      "surfaces": [],
-      "skipped": [
-        "blue items on the desks (about x 515-545, y 540-550): under 36 px",
-        "wall panels with round medallions and the blank panel behind the rostrum: architectural stone paneling, not sign panels",
-        "no painted screens, posters, papers or boards"
-      ]
-    },
-    "us-senate-floor": {
-      "checked": [
-        "us-senate-floor__midday.jpg",
-        "us-senate-floor__morning.jpg",
-        "us-senate-floor__night.jpg",
-        "us-senate-floor__rain.jpg"
-      ],
-      "surfaces": [
-        {
-          "id": "us-senate-floor-panel-left",
-          "kind": "board",
-          "finish": "panel",
-          "what": "blue panel in a gilt frame on the wall left of the rostrum; the bottom band behind the desk chair is left out; kept as painted, because the real Senate chamber has no vote boards",
-          "quad": [
-            [244, 217],
-            [334, 220],
-            [334, 345],
-            [244, 345]
-          ],
-          "perspective": true,
-          "shows": []
-        },
-        {
-          "id": "us-senate-floor-panel-right",
-          "kind": "board",
-          "finish": "panel",
-          "what": "blue panel in a gilt frame on the wall right of the rostrum; the bottom band behind the desk chair is left out; kept as painted, because the real Senate chamber has no vote boards",
-          "quad": [
-            [1337, 221],
-            [1427, 218],
-            [1427, 345],
-            [1337, 345]
-          ],
-          "perspective": true,
-          "shows": []
-        }
-      ],
-      "skipped": [
-        "desk tops: bare wood, no papers",
-        "no painted screens, posters, papers or boards",
-        "the narrow blue panels beside the rostrum columns: under 50 px wide",
-        "the far blue panels at the picture edges: steep angle, cut by the frame"
       ]
     },
     "state-capitol-ak": {
@@ -2212,165 +2302,48 @@
         "PLACEHOLDER RESEARCH REQUEST: inspect morning, midday, night, rain, and winter pictures; record painted screens, posters, papers, and TVs before live content uses them."
       ]
     },
-    "apartment-basement-studio": {
-      "checked": ["apartment-basement-studio__midday.jpg"],
+    "state-legislative-chamber-bicameral": {
+      "checked": [
+        "state-legislative-chamber-bicameral__midday.jpg",
+        "state-legislative-chamber-bicameral__morning.jpg",
+        "state-legislative-chamber-bicameral__night.jpg",
+        "state-legislative-chamber-bicameral__rain.jpg"
+      ],
       "surfaces": [],
       "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+        "papers on the front desks (left x 40-170, right x 1420-1640, y 600-625): about 25 px tall, under 36",
+        "papers on the second-row desks (x 320-430 and 1235-1365, y 563-578): about 15 px tall, under 36",
+        "papers on the rear desks: tiny, under 36",
+        "recessed wood wall panels: architectural paneling, not sign panels; no screens, posters or boards"
       ]
     },
-    "apartment-older-walkup": {
-      "checked": ["apartment-older-walkup__midday.jpg"],
+    "state-legislative-chamber-unicameral": {
+      "checked": [
+        "state-legislative-chamber-unicameral__midday.jpg",
+        "state-legislative-chamber-unicameral__morning.jpg",
+        "state-legislative-chamber-unicameral__night.jpg",
+        "state-legislative-chamber-unicameral__rain.jpg"
+      ],
       "surfaces": [],
       "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+        "dark gray inset desk pads on the front desks (left x 25-300, right x 1370-1640, y 645-692): desk blotters/leather inlays, not papers or screens (about 45 px tall)",
+        "small gray pads on the rear desks: under 36 px tall",
+        "no painted screens, posters, papers or boards"
       ]
     },
-    "apartment-public-housing": {
-      "checked": ["apartment-public-housing__midday.jpg"],
+    "store": {
+      "checked": [
+        "store__midday.jpg",
+        "store__morning.jpg",
+        "store__night.jpg",
+        "store__rain.jpg"
+      ],
       "surfaces": [],
       "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "apartment-student-shared": {
-      "checked": ["apartment-student-shared__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "apartment-suburban-garden": {
-      "checked": ["apartment-suburban-garden__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "county-clerk-office-rural": {
-      "checked": ["county-clerk-office-rural__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "county-clerk-office-urban": {
-      "checked": ["county-clerk-office-urban__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "election-office-warehouse": {
-      "checked": ["election-office-warehouse__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "elementary-classroom": {
-      "checked": ["elementary-classroom__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "high-school-cafeteria": {
-      "checked": ["high-school-cafeteria__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "high-school-hallway": {
-      "checked": ["high-school-hallway__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "house-gulf-coast-raised": {
-      "checked": ["house-gulf-coast-raised__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "house-new-england-colonial": {
-      "checked": ["house-new-england-colonial__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "house-northwest-craftsman": {
-      "checked": ["house-northwest-craftsman__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "house-southwest-adobe": {
-      "checked": ["house-southwest-adobe__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "national-convention-floor": {
-      "checked": ["national-convention-floor__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "national-convention-stage": {
-      "checked": ["national-convention-stage__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "rally-airport-hangar": {
-      "checked": ["rally-airport-hangar__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "rally-county-fairground": {
-      "checked": ["rally-county-fairground__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "rally-courthouse-square": {
-      "checked": ["rally-courthouse-square__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "rally-downtown-plaza": {
-      "checked": ["rally-downtown-plaza__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "rally-union-hall-parking-lot": {
-      "checked": ["rally-union-hall-parking-lot__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
-      ]
-    },
-    "registrar-of-voters-worn": {
-      "checked": ["registrar-of-voters-worn__midday.jpg"],
-      "surfaces": [],
-      "skipped": [
-        "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+        "register monitor on the counter: seen from behind",
+        "cooler doors: glass doors with painted stock",
+        "no painted posters, papers or boards",
+        "windows: windows"
       ]
     },
     "student-union-lounge": {
@@ -2380,11 +2353,207 @@
         "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
       ]
     },
+    "suburban-house": {
+      "checked": [
+        "suburban-house__midday.jpg",
+        "suburban-house__morning.jpg",
+        "suburban-house__night.jpg",
+        "suburban-house__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "suburban-house-tv",
+          "kind": "screen",
+          "finish": "panel",
+          "what": "wall TV at the left edge, angled toward the room and cut off by the frame; plant leaves cover its lower-left corner",
+          "quad": [
+            [0, 279],
+            [123, 290],
+            [123, 436],
+            [0, 447]
+          ],
+          "perspective": true,
+          "shows": ["news"]
+        }
+      ],
+      "skipped": [
+        "closed books on the coffee table: books, not papers",
+        "framed pictures on the walls: pictures, not drawable"
+      ]
+    },
+    "supreme-court-exterior": {
+      "checked": ["supreme-court-exterior__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
+      ]
+    },
+    "supreme-courtroom": {
+      "checked": [
+        "supreme-courtroom__midday.jpg",
+        "supreme-courtroom__morning.jpg",
+        "supreme-courtroom__night.jpg",
+        "supreme-courtroom__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "molded wall panels at the far left and right (x 15-120 and 1550-1660, y 40-285): architectural paneling, not sign panels",
+        "bench front panels: carved wood paneling",
+        "no painted screens, posters, papers or boards"
+      ]
+    },
+    "tavern": {
+      "checked": ["tavern__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
+      ]
+    },
+    "township-board": {
+      "checked": ["township-board__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
+      ]
+    },
+    "tv-studio": {
+      "checked": [
+        "tv-studio__midday.jpg",
+        "tv-studio__morning.jpg",
+        "tv-studio__night.jpg",
+        "tv-studio__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "camera viewfinder monitor at left (about 70 x 49 px): angled inside its hood, face edges indistinct against the housing, reads as camera hardware",
+        "blue studio backdrop: plain wall, not a framed panel",
+        "no other painted screens, posters, papers or boards"
+      ]
+    },
+    "union-hall": {
+      "checked": [
+        "union-hall__midday.jpg",
+        "union-hall__morning.jpg",
+        "union-hall__night.jpg",
+        "union-hall__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "union-hall-corkboard-left",
+          "kind": "board",
+          "finish": "cork",
+          "what": "framed cork board on the left side wall",
+          "quad": [
+            [70, 220],
+            [223, 246],
+            [223, 350],
+            [70, 354]
+          ],
+          "perspective": true,
+          "shows": ["candidates"]
+        },
+        {
+          "id": "union-hall-corkboard-right",
+          "kind": "board",
+          "finish": "cork",
+          "what": "framed cork board on the right side wall",
+          "quad": [
+            [1455, 246],
+            [1613, 218],
+            [1613, 355],
+            [1455, 351]
+          ],
+          "perspective": true,
+          "shows": ["plans"]
+        }
+      ],
+      "skipped": [
+        "no other painted screens, posters, papers or boards; windows and doors excluded"
+      ]
+    },
     "university-lecture-hall": {
       "checked": ["university-lecture-hall__midday.jpg"],
       "surfaces": [],
       "skipped": [
         "live surfaces not mapped yet: imported Oct 12, 2026 so scenes can use the picture now; the art pipeline maps any painted screens, boards or papers later"
+      ]
+    },
+    "us-capitol-exterior": {
+      "checked": [
+        "us-capitol-exterior__midday.jpg",
+        "us-capitol-exterior__morning.jpg",
+        "us-capitol-exterior__night.jpg",
+        "us-capitol-exterior__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "stone plinths flanking the steps and plaza: blank sides are 60-70 px but plinth pedestals, not sign panels",
+        "no painted screens, posters, papers or boards"
+      ]
+    },
+    "us-house-floor": {
+      "checked": [
+        "us-house-floor__midday.jpg",
+        "us-house-floor__morning.jpg",
+        "us-house-floor__night.jpg",
+        "us-house-floor__rain.jpg"
+      ],
+      "surfaces": [],
+      "skipped": [
+        "blue items on the desks (about x 515-545, y 540-550): under 36 px",
+        "wall panels with round medallions and the blank panel behind the rostrum: architectural stone paneling, not sign panels",
+        "no painted screens, posters, papers or boards"
+      ]
+    },
+    "us-senate-floor": {
+      "checked": [
+        "us-senate-floor__midday.jpg",
+        "us-senate-floor__morning.jpg",
+        "us-senate-floor__night.jpg",
+        "us-senate-floor__rain.jpg"
+      ],
+      "surfaces": [
+        {
+          "id": "us-senate-floor-panel-left",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blue panel in a gilt frame on the wall left of the rostrum; the bottom band behind the desk chair is left out; kept as painted, because the real Senate chamber has no vote boards",
+          "quad": [
+            [244, 217],
+            [334, 220],
+            [334, 345],
+            [244, 345]
+          ],
+          "perspective": true,
+          "shows": []
+        },
+        {
+          "id": "us-senate-floor-panel-right",
+          "kind": "board",
+          "finish": "panel",
+          "what": "blue panel in a gilt frame on the wall right of the rostrum; the bottom band behind the desk chair is left out; kept as painted, because the real Senate chamber has no vote boards",
+          "quad": [
+            [1337, 221],
+            [1427, 218],
+            [1427, 345],
+            [1337, 345]
+          ],
+          "perspective": true,
+          "shows": []
+        }
+      ],
+      "skipped": [
+        "desk tops: bare wood, no papers",
+        "no painted screens, posters, papers or boards",
+        "the narrow blue panels beside the rostrum columns: under 50 px wide",
+        "the far blue panels at the picture edges: steep angle, cut by the frame"
+      ]
+    },
+    "white-house-exterior": {
+      "checked": ["white-house-exterior__midday.jpg"],
+      "surfaces": [],
+      "skipped": [
+        "no painted screens, posters, papers or boards that the game could draw on (checked by eye on the midday picture)"
       ]
     }
   }

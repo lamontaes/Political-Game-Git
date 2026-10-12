@@ -23,8 +23,9 @@ describe(`custom world settings in ${place.name} (seed ${seed})`, () => {
     const counted = (input: typeof base) =>
       input.people.length +
       input.residents!.households.reduce((n, row) => n + row.people.length, 0);
+    // The population builder takes the setting as a minimum: a place larger
+    // than it opens at its own size.
     expect(counted(base)).toBeGreaterThanOrEqual(1500);
-    expect(counted(base)).toBeLessThan(2000);
     const pay = new Map(base.jobs.map((row) => [row.id, row.wageDailyMinor]));
     for (const job of custom.jobs)
       expect(job.wageDailyMinor).toBe(Math.round(pay.get(job.id)! * 2));
@@ -42,6 +43,17 @@ describe(`custom world settings in ${place.name} (seed ${seed})`, () => {
     for (const row of outside(custom))
       if (baseOutside.has(row.id))
         expect(row.amountMinor).toBeGreaterThan(baseOutside.get(row.id)!);
+    // The counted electorate starts from the custom lean.
+    const leanOf = (input: typeof base) =>
+      new Map(
+        (input.voterGroups ?? []).map((row) => [row.id, row.lean] as const),
+      );
+    const baseLean = leanOf(base);
+    for (const [id, lean] of leanOf(custom))
+      expect(lean).toBeCloseTo(
+        Math.max(-1, Math.min(1, baseLean.get(id)! + 0.2)),
+        10,
+      );
   }, 600_000);
 
   it("refuses settings outside their range", () => {

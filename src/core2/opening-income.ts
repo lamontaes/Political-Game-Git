@@ -1,3 +1,4 @@
+import { retirementClaimAgeMonths } from "./retirement-claim";
 import dataJson from "./data/opening-income.json" with { type: "json" };
 import {
   daysBetween,
@@ -8,6 +9,8 @@ import { stableHash } from "../simulation/ids";
 import { lifePlaceByJurisdictionId } from "../simulation/life-places";
 import type { EntityId } from "../simulation/types";
 import { PARAMETERS, parameter, type Parameter } from "./parameters";
+import { DEFAULT_DATA } from "./data";
+import { decisionLean } from "./trait-decisions";
 import { stopgap } from "./stopgaps";
 import { recordedTraitSource } from "./trait-source";
 import type { FinanceContractInput, FinanceInput } from "./finance-types";
@@ -75,6 +78,9 @@ export interface OpeningIncomeData {
     schoolContextYears: string;
     claimAgeYears: string;
     claimTraitPullYears: string;
+    claimAnchorYearsBeforeFull: string;
+    claimNeedPullYears: string;
+    claimFullBufferMonths: string;
     coveredFraction: string;
     coveredTraitPull: string;
     minimumCoveredMonths: string;
@@ -189,6 +195,10 @@ export function buildOpeningRetirementIncome(
 ): OpeningIncomeBuild {
   const data = options.data ?? DEFAULT_OPENING_INCOME_DATA;
   const p = (key: string) => parameter(key, options.parameters ?? PARAMETERS);
+  // The shared trait table, read with this build's parameters.
+  const traitData = {
+    data: { ...DEFAULT_DATA, parameters: options.parameters ?? PARAMETERS },
+  };
   const zero = p("zero"),
     one = p("one"),
     months = p("monthsPerYear");
@@ -607,8 +617,30 @@ export function buildOpeningRetirementIncome(
         throw new Error("Nonfinite retirement context trait.");
       if (traitSource) source(traitSource, `${person.id}:${data.contextTrait}`);
       const trait = traitValue ?? zero;
-      const claimMonths = Math.round(
-        (values.claimAgeYears! + trait * values.claimTraitPullYears!) * months,
+      // Claiming is their own decision inside the law: savings and patience.
+      const dailyCost = person.livingCostDailyMinor;
+      const claimMonths = retirementClaimAgeMonths(
+        {
+          birthYear: Number(person.birthDate.slice(0, 4)),
+          bufferMonths:
+            dailyCost > zero
+              ? person.liquidMinor /
+                ((dailyCost * p("daysPerMeanYear")) / months)
+              : values.claimFullBufferMonths!,
+          patience: decisionLean(
+            traitData,
+            person,
+            "retirement.claim-age",
+            "wait-to-claim",
+            "claim-now",
+          ),
+        },
+        {
+          anchorYearsBeforeFull: values.claimAnchorYearsBeforeFull!,
+          traitPullYears: values.claimTraitPullYears!,
+          needPullYears: values.claimNeedPullYears!,
+          fullBufferMonths: values.claimFullBufferMonths!,
+        },
       );
       const claimAt =
         claim?.date ?? calendarAfterMonths(person.birthDate, claimMonths);

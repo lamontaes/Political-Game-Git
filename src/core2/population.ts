@@ -1436,23 +1436,46 @@ function openingFamilies(input: OpeningFamilyInput): {
     id: string,
     traits: Record<string, number>,
     traitSources: Record<string, Source> | undefined,
+    sharedTraitSource: Source | undefined,
   ) => {
     const core = temperament.get(id) ?? {};
+    // A recorded facet from upbringing outranks the generated estimate; the
+    // five temperament dimensions always come from the temperament model.
+    const recorded = Object.fromEntries(
+      Object.entries(traits).filter(
+        ([key]) => !key.startsWith(`${PEOPLE_MIND_VERSION}:`),
+      ),
+    );
+    // Every generated trait shares one temperament source; recorded facets
+    // keep the source they already had.
     return {
-      traits: { ...traits, ...core },
+      traits: { ...traits, ...core, ...recorded },
       traitSources: {
+        ...(sharedTraitSource
+          ? Object.fromEntries(
+              Object.keys(recorded).map((key) => [key, sharedTraitSource]),
+            )
+          : {}),
         ...(traitSources ?? {}),
         ...Object.fromEntries(
-          Object.keys(core).map((key) => [key, temperamentSource]),
+          Object.keys(core)
+            .filter((key) => key.startsWith(`${PEOPLE_MIND_VERSION}:`))
+            .map((key) => [key, temperamentSource]),
         ),
       },
+      sharedTraitSource: temperamentSource,
     };
   };
   const residents = input.people.map((person) => {
     const facts = familyFacts(person.id);
     return {
       ...person,
-      ...withTemperament(person.id, person.traits, person.traitSources),
+      ...withTemperament(
+        person.id,
+        person.traits,
+        person.traitSources,
+        person.sharedTraitSource,
+      ),
       familyIds: [...new Set([...person.familyIds, ...facts.ids])].sort(),
       knownIds: [...new Set([...person.knownIds, ...facts.ids])],
       ...(facts.ids.length

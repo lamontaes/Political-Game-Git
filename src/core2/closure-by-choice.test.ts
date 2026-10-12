@@ -50,12 +50,14 @@ describe(`an owner closes a solvent business in ${place.name}, ${place.state} (s
       reasonKey: "owner.retired",
       source: core.organizations.get(id)!.source,
     });
-    expect(closure.cause).toMatchObject({
-      kind: "owner.choice",
-      paidOutMinor: left,
-    });
+    // Workers are paid what they've earned first; the owner gets the rest.
+    const paidOut = (closure.cause as { paidOutMinor: number }).paidOutMinor;
+    expect(closure.cause).toMatchObject({ kind: "owner.choice" });
+    expect(paidOut).toBeLessThanOrEqual(left);
     expect(core.finance.businesses.get(id)!.closedAt).toBe(core.date);
-    expect(accounts.balance(accounts.main(owner))).toBe(ownerBefore + left);
+    expect(accounts.balance(accounts.main(owner))).toBeGreaterThanOrEqual(
+      ownerBefore + paidOut,
+    );
     for (const jobId of closure.endedJobIds)
       expect(core.jobs.get(jobId)!.endsAt).toBe(core.date);
     expect(() =>
@@ -72,5 +74,8 @@ describe(`an owner closes a solvent business in ${place.name}, ${place.state} (s
     );
     expect(live).toEqual([]);
     expect(cash(core) + outsideNet(core)).toBe(start);
+    // Full workers' last paycheck came from the cash held back.
+    for (const ledger of core.work.payrollLedgerByCommitment.values())
+      if (ledger.organizationId === id) expect(ledger.arrearsMinor).toBe(0);
   }, 300_000);
 });

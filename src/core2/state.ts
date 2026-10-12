@@ -1,15 +1,18 @@
 import { closenessAfter, openingClosenessHours } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
+import { buildDeepPast } from "./deep-past";
 import { publicPayTreasuries } from "./public-work-pay";
 import {
   countedJob,
+  residentsRuntime,
   enterResidentMarket,
   releaseResidentHousehold,
   rerateCountedJob,
   residentPerson,
   takeResidentHousehold,
 } from "./modules/residents";
+import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
 import {
   prepareModuleState,
   installModuleState,
@@ -988,6 +991,12 @@ export function coreAPI(core: CoreState): CoreAPI {
     closeBusinessByChoice(input) {
       return closeBusinessByChoice(core, api, input);
     },
+    setPurchaseTax(input) {
+      setPurchaseTax(core, input);
+    },
+    endPurchaseTax(id) {
+      endPurchaseTax(core, id);
+    },
     closeEmployer(id, sourceId, reason) {
       return closeEmployer(core, api, id, sourceId, reason);
     },
@@ -1738,11 +1747,72 @@ export function inspectPerson(
  * their own award; the merged flows shrink by the same amounts. Returns the
  * person.
  */
+/**
+ * The person behind an id the player clicked or met: a full person as is, or
+ * someone in the counts (a husk relative included) filled in now. Undefined
+ * only for an id no record holds.
+ */
+export function personOrFillIn(
+  core: CoreState,
+  personId: PersonId,
+): PersonState | undefined {
+  const full = core.people.get(personId);
+  if (full) return full;
+  if (!residentPerson(core, personId)) return undefined;
+  return fillInPerson(core, personId);
+}
+
 export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const existing = core.people.get(personId);
   if (existing) return existing;
-  const record = takeResidentHousehold(core, personId);
-  if (!record) throw new Error(`Not in the wider population: ${personId}`);
+  const taken = takeResidentHousehold(core, personId);
+  if (!taken) throw new Error(`Not in the wider population: ${personId}`);
+  // Their past exists only from now: rebuilt from the world's seed, as the
+  // opening would have built it.
+  const build = residentsRuntime(core)?.input.pastBuild;
+  const rebuild = build
+    ? taken.people.filter((row) => build.deepPastAt[row.id] !== undefined)
+    : [];
+  let record = taken;
+  if (build && rebuild.length) {
+    const before = new Map(
+      rebuild.map((row) => [
+        row.id,
+        {
+          head: (row.pastFacts ?? []).slice(0, build.deepPastAt[row.id]),
+          tail: (row.pastFacts ?? []).slice(build.deepPastAt[row.id]),
+        },
+      ]),
+    );
+    const rebuilt = new Map(
+      buildDeepPast({
+        seed: build.seed,
+        startedAt: build.startedAt,
+        people: rebuild.map((row) => ({
+          ...row,
+          pastFacts: before.get(row.id)!.head,
+        })),
+        households: [taken.household],
+        jobs: taken.jobs,
+        gaps: [],
+      } as unknown as CoreInput).people.map((row) => [row.id, row]),
+    );
+    record = {
+      ...taken,
+      people: taken.people.map((row) => {
+        const built = rebuilt.get(row.id);
+        return built
+          ? {
+              ...row,
+              pastFacts: [
+                ...(built.pastFacts ?? []),
+                ...before.get(row.id)!.tail,
+              ],
+            }
+          : row;
+      }),
+    };
+  }
   const api = coreAPI(core);
   const home = record.household;
   if (core.households.has(home.id))

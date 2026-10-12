@@ -266,6 +266,11 @@ const ALLOWED_PHRASES: readonly {
     pattern: /\bD\.C\. Council redraws ward boundaries\b/g,
     reason: "the District of Columbia is divided into eight wards by D.C. Code",
   },
+  {
+    pattern: /\btown-wards\b/g,
+    reason:
+      "the legacy town-wards.ts module name and its persisted event key (identifiers keep their spelling); player text says the place's recorded seat type",
+  },
 ];
 
 /**
@@ -290,6 +295,11 @@ const ALLOWED_FILES: readonly {
   {
     file: /^src\/simulation\/names-data\.ts$/,
     reason: "Ward is a family name",
+  },
+  {
+    file: /^src\/core2\/gov-rules\/names-data\.ts$/,
+    words: /^ward$/i,
+    reason: "Ward is a family name in the census surname list",
   },
   {
     file: /^src\/simulation\/judiciary\/generated\/federal-courts\.ts$/,
@@ -335,6 +345,12 @@ const ALLOWED_FILES: readonly {
     words: /^wards?$/i,
     reason:
       "cites the ICMA survey, whose category is 'all by ward or district'",
+  },
+  {
+    file: /^data\/research\/(?:elections\/(?:filing-requirements|ballot-measures-2026)|campaigns\/campaign-finance-2026|offices\/state-offices)\.json$/,
+    words: /^wards?$/i,
+    reason:
+      "research facts about real charters and statutes: D.C.'s eight wards, and the municipal filing rules whose recorded seat type is ward; never deleted",
   },
 ];
 

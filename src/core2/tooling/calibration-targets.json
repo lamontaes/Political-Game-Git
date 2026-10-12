@@ -43,7 +43,7 @@
         {
           "activity": "care of household members",
           "hoursPerPersonDay": 0.49,
-          "participationPercent": 22.0,
+          "participationPercent": 22,
           "hoursPerParticipantDay": 2.23
         },
         {
@@ -124,7 +124,7 @@
         },
         {
           "recall": "general",
-          "positiveMean": 35.0,
+          "positiveMean": 35,
           "positiveSD": 6.4,
           "negativeMean": 18.1,
           "negativeSD": 5.9,
@@ -6913,7 +6913,7 @@
           },
           "sourceFile": "data/research/money/opening-customer-cex-2024.json",
           "sourceRefs": ["bls-cex-region-2024"],
-          "observedValue": 978.0,
+          "observedValue": 978,
           "rawPublishedValue": "978.0",
           "uncertainty": "Published aggregate mean and sampling error are not individual dispersion or an identified allocation/cadence coefficient interval."
         }
@@ -7383,7 +7383,7 @@
           "quantity": "financial-activities reported frequency weights",
           "unit": "percent of single-pay-period private businesses",
           "observedCounts": {
-            "weekly": 18.0,
+            "weekly": 18,
             "biweekly": 33.9,
             "semimonthly": 30.5,
             "monthly": 17.6
@@ -7403,8 +7403,8 @@
           "unit": "percent of single-pay-period private businesses",
           "observedCounts": {
             "weekly": 20.4,
-            "biweekly": 36.0,
-            "semimonthly": 28.0,
+            "biweekly": 36,
+            "semimonthly": 28,
             "monthly": 15.6
           },
           "dateWindow": {
@@ -7442,7 +7442,7 @@
           "observedCounts": {
             "weekly": 28.9,
             "biweekly": 46.2,
-            "semimonthly": 17.0,
+            "semimonthly": 17,
             "monthly": 7.9
           },
           "dateWindow": {
@@ -7462,7 +7462,7 @@
             "weekly": 42.5,
             "biweekly": 28.4,
             "semimonthly": 17.1,
-            "monthly": 12.0
+            "monthly": 12
           },
           "dateWindow": {
             "earliest": "2013-03-01",
