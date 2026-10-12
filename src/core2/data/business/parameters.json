@@ -139,5 +139,60 @@
       "unit": "score per unit of cash strength (cash less cushion over cash plus cushion)",
       "citation": "Owners with cash well above their cushion are the ones able to fund a location; thin ones are not (JPMorgan Chase Institute small business cash buffers)."
     }
+  },
+  "businessCountedFoundBaseline": {
+    "value": -13,
+    "tag": "TUNABLE",
+    "citation": "One adult's monthly pull toward founding an employer business, before room, prospect, capital, traits and losing work, summed over the wider population. Set so a steady town's establishments grow about as fast as real net establishment growth while exits are rare (Absecon, 2021-2023: 2 openings among 27 businesses); gross churn needs voluntary closure. Checked against Census BDS 2023 entry and exit rates.",
+    "spread": {
+      "low": -12,
+      "high": -8,
+      "unit": "score",
+      "citation": "One adult's monthly pull toward founding an employer business, before room, prospect, capital, traits and losing work, summed over the wider population. Set so a steady town's establishments grow about as fast as real net establishment growth while exits are rare (Absecon, 2021-2023: 2 openings among 27 businesses); gross churn needs voluntary closure. Checked against Census BDS 2023 entry and exit rates."
+    }
+  },
+  "businessFoundProspectWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "An entrant weighs an equal share of the market's margin against what they earn now, in log terms (owners' business income against wages: Hamilton 2000; Census Annual Business Survey).",
+    "spread": {
+      "low": 0.5,
+      "high": 4,
+      "unit": "score per log of prospect over income",
+      "citation": "An entrant weighs an equal share of the market's margin against what they earn now, in log terms (owners' business income against wages: Hamilton 2000; Census Annual Business Survey)."
+    }
+  },
+  "businessProspectIncomeFloorShare": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "Someone without work weighs a business's prospect against a fraction of the place's median pay, not against nothing.",
+    "spread": {
+      "low": 0.25,
+      "high": 1,
+      "unit": "share of median monthly pay",
+      "citation": "Someone without work weighs a business's prospect against a fraction of the place's median pay, not against nothing."
+    }
+  },
+  "businessFoundCapitalWeight": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "Founders without the money to start weigh against it: most new employer firms start on the owner's savings and small loans (Federal Reserve Small Business Credit Survey, startup report 2023; Census Annual Business Survey, sources of startup capital).",
+    "spread": {
+      "low": 0.5,
+      "high": 3,
+      "unit": "score per log of costs over reach",
+      "citation": "Founders without the money to start weigh against it: most new employer firms start on the owner's savings and small loans (Federal Reserve Small Business Credit Survey, startup report 2023; Census Annual Business Survey, sources of startup capital)."
+    }
+  },
+  "businessFounderLoanIncomeMultiple": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "What lenders will advance a founder, in years of the founder's income (SBA 7(a) and microloan practice ties a startup loan to the owner's income and personal guarantee).",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "years of income",
+      "citation": "What lenders will advance a founder, in years of the founder's income (SBA 7(a) and microloan practice ties a startup loan to the owner's income and personal guarantee)."
+    }
   }
 }

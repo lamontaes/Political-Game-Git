@@ -191,7 +191,7 @@ async function foundingCore(owner: boolean, cook = false) {
     "people-mind-v1:risk": 3,
   };
   const people = [
-    person("founder", bold),
+    { ...person("founder", bold), liquidMinor: 20_000_000 },
     ...(owner ? [person("owner", bold, "job:owner")] : []),
     ...(cook ? [person("cook", {}, "job:cook")] : []),
   ];
@@ -295,7 +295,7 @@ async function foundingCore(owner: boolean, cook = false) {
       ...books(core),
       organizationId: id,
       kindId: "restaurant",
-      annualDemandMinor: 60_000_000,
+      annualDemandMinor: 100_000_000,
       capacityMinor: 40_000_000,
     };
     core.finance.businesses.set(id, book as BusinessBooksState);

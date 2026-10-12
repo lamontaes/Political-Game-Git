@@ -984,7 +984,7 @@ function hireCounted(
  * the logistic of their reasons; as many act as the pulls add up to (the
  * remainder carries to next month), and the strongest pulls act.
  */
-function strongestPulls<T extends { id: string; score: number }>(
+export function strongestPulls<T extends { id: string; score: number }>(
   api: CoreAPI,
   key: string,
   rows: readonly T[],
