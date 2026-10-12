@@ -106,7 +106,12 @@ Newest first: one line per event (what changed, the measured result, what's next
   - **Limits:** nobody first served younger than 21, and service is capped by the state's legislative term limit where it has one. The presidency keeps its real record.
   - **Readers:** seniority (committees, case routing, the majority leader) now reads `serviceStart`. The lobbying ban ignores terms that ended in re-election.
   - **Guam run:** the governor has served since 2019 and is in a second term; the delegate since 2023.
-  - **Tests:** the offices tests pass (4 of 4), including a new careers check. The suites that read terms were still running at this commit.
+  - **Tests:** the offices tests pass (4 of 4), including a new careers check.
+    - Constituent cases, world-legislating, staff, two-level elections, law reach A, interest groups, legislature (8 of 8 on two fresh draws) and recalls pass.
+    - Three test fixes landed after this commit:
+      - The vacancy test now marks the holder dead before the death event (5 of 5 passes).
+      - The filing test expects the ballot only when enough neighbors actually signed.
+      - The recalls test has a 5-minute limit: 33 seconds against 29 before, on one seed; the careers code runs once at the opening.
   - **Bench item:** BOARD item 3 (the bill catalog on the bench) is listed under Needs for PLAY, with the engine calls ready.
   - **Next:** past election results behind each term, then later-milestone specs.
 
