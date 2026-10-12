@@ -6,7 +6,7 @@ After: Engines can register their own versioned tables, schedule keyed instituti
 
 ## Interface
 
-Inferred: The facade additions use `core2-api-v12` (v11 adds `repriceCreditFacility`, a dated credit-line rate; v12 adds `rerateJob`, a dated pay change for full or counted workers); the existing player API remains `core2-part1b-v1`. [Facade version](data.ts#L11), [facade methods](types.ts#L898).
+Inferred: The facade additions use `core2-api-v17` (v11 adds `repriceCreditFacility`, a dated credit-line rate; v12 adds `rerateJob`, a dated pay change for full or counted workers; v13–v16 add WORLD's job start/end, business credit and standing-obligation seams; v17 adds PEOPLE's `addBornPersonV1`); the existing player API remains `core2-part1b-v1`. [Facade version](data.ts#L11), [facade methods](types.ts#L898).
 
 ```ts
 registerModule(core, {

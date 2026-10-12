@@ -4297,5 +4297,17 @@
     "tag": "ESTIMATED",
     "citation": "Losing one's job when the employer closes: the Social Readjustment Rating Scale's 'Fired at work', 47 life-change units divided by 100 (Holmes and Rahe 1967, Journal of Psychosomatic Research 11(2):213-218), the same anchor the story director uses for a lost job.",
     "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.39 to 0.47 (the scale's 'business readjustment' to 'fired at work')"
+  },
+  "ownerDistributionBufferMultiple": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Firms keep this multiple of their industry's median cash buffer days (JPMorgan Chase Institute, Cash Is King, 2016: openingEmployerCashBufferDays*) before paying owners.",
+    "checkedAgainst": "Spread 1 to 3; checked against annual closure rate (BDS establishment exit about 8% a year) and town cash staying near its opening level in a calm year."
+  },
+  "ownerDistributionLocalShare": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "Share of a small-town firm's owner payouts received by owners living in the town; ownership of each firm is not modeled yet.",
+    "checkedAgainst": "Spread 0.3 to 0.9; the rest goes to owners outside the town."
   }
 }

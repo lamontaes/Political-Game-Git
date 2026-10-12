@@ -519,7 +519,7 @@ describe("journal facade and canonical owner accounts", () => {
     expect(core.cashJournal.nextSequence).toBe(P.one);
     expect(core.cashJournal.totals.count).toBe(P.one);
     expect(core.cashJournal.latestByOwner.size).toBe(P.one + P.one);
-    expect(api.version).toBe("core2-api-v12");
+    expect(api.version).toBe("core2-api-v17");
     expect(core.schemaVersion).toBe("core2-schema-v9");
   });
 });

@@ -1,0 +1,66 @@
+import { createHash, randomBytes } from "node:crypto";
+import { describe, expect, it } from "vitest";
+import { drawPlace } from "../../scripts/core2-year/place";
+import { loadGame, newGame, runCommand, saveGame } from "./saves";
+import type { CoreState } from "./types";
+
+const seed = process.env.GOLDEN_PATH_SEED ?? randomBytes(16).toString("hex");
+const place = drawPlace(seed, "core2-saves");
+
+const digest = (core: CoreState) => {
+  const hash = createHash("sha256");
+  hash.update(core.date);
+  for (const [id, row] of core.people) hash.update(`${id}:${row.liquidMinor};`);
+  for (const [id, row] of core.organizations)
+    hash.update(`${id}:${row.liquidMinor};`);
+  hash.update(String(core.cashJournal.nextSequence));
+  return hash.digest("hex");
+};
+
+describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
+  it("loads to the same world after commands and a JSON round trip", () => {
+    const recipe = {
+      place: { seed: place.seed, key: place.key },
+      twoLevel: true,
+      settings: { population: 1500 },
+    };
+    const game = newGame(recipe);
+    runCommand(game, "advance", { through: "2021-01-20" });
+    const counted = game.core.residents?.households.find(
+      (row) => row.people.length,
+    );
+    if (counted)
+      runCommand(game, "fill-in", { personId: counted.people[0]!.id });
+    runCommand(game, "advance", { through: "2021-02-15" });
+    const save = JSON.parse(JSON.stringify(saveGame(game)));
+    const loaded = loadGame(save);
+    expect(loaded.skipped).toEqual([]);
+    expect(loaded.core.date).toBe(game.core.date);
+    expect(digest(loaded.core)).toBe(digest(game.core));
+    expect(loaded.commands.filter((row) => row.kind !== "advance")).toEqual(
+      game.commands.filter((row) => row.kind !== "advance"),
+    );
+  });
+
+  it("skips a command this version no longer knows and keeps loading", () => {
+    const recipe = {
+      place: { seed: place.seed, key: place.key },
+      twoLevel: true,
+      settings: { population: 1500 },
+    };
+    const game = newGame(recipe);
+    runCommand(game, "advance", { through: "2021-01-10" });
+    const save = saveGame(game);
+    const loaded = loadGame({
+      ...save,
+      commands: [
+        ...save.commands,
+        { date: save.savedAt, kind: "retired.command", payload: {} },
+      ],
+    });
+    expect(loaded.skipped.map((row) => row.command.kind)).toEqual([
+      "retired.command",
+    ]);
+    expect(digest(loaded.core)).toBe(digest(game.core));
+  });
+});

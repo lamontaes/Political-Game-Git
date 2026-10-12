@@ -1858,5 +1858,65 @@
     "addedAt": "2026-10-12",
     "replacement": "An OPUS-GOV export that names any candidate id (resident, official term or drawn challenger).",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-owner-distributions",
+    "kind": "business-owners",
+    "file": "src/core2/opening-outside-market.ts",
+    "line": 1,
+    "whatItFakes": "Each firm pays cash above twice its industry's median buffer to owners monthly, a fixed tunable share to the town's residents and the rest outside; no firm has recorded owners, retained-earnings policy, taxes or investment.",
+    "why": "Without payouts, firms kept every dollar of profit and residents ran out of cash within the year (Mill Creek, Oklahoma: firms +$77M, residents $7.7M to $0).",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-WORLD's business engine: recorded owners (local people or outside), payout and investment decisions from the firm's own conditions, and business taxes.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-unplaced-workers-income",
+    "kind": "missing-jobs",
+    "file": "src/core2/residents.ts",
+    "line": 1,
+    "whatItFakes": "Counted residents the opening couldn't place in a town firm (the employment target from ACS/CPS less recorded jobs) earn the town's median recorded wage, paid every two weeks from outside, without employers, commutes or industries.",
+    "why": "The opening's town workplaces cover only part of the county's industry mix (e.g. 34% in Mill Creek, Oklahoma), so most working residents had no income and the residents' account ran dry within months.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "Recorded jobs for every employed resident: town firms in the missing industries (health care, education, government) and commutes to employers in other places (LEHD LODES origin-destination flows), with their own pay.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-outside-living-costs",
+    "kind": "housing-and-leakage",
+    "file": "src/core2/residents.ts",
+    "line": 1,
+    "whatItFakes": "Each household's assigned living cost (CEX basket plus HUD Fair Market Rent) not bought from a recorded local seller is paid to one outside account on the 1st: no landlord, mortgage, utility or outside store.",
+    "why": "Rent and non-local spending were never paid, so household cash grew without limit.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-WORLD's housing engine (rent and mortgages to owners and lenders) and outside-spending model (category location-quotient leakage); turn this off with collapseToTwoLevels(input, { outsideLivingCosts: false }).",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-identity-fill-in-traits",
+    "kind": "neutral-traits",
+    "file": "src/core2/state.ts",
+    "line": 1,
+    "whatItFakes": "A named person filled in from a recorded identity (e.g. a state or federal official) gets neutral traits, no family or acquaintances, no cash and a monthly cadence.",
+    "why": "Traits, kin and past come from the opening's generation world, which a running core doesn't have; GOV needs full officials now (SG-GOV-official-identity-only).",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-13",
+    "replacement": "PEOPLE's trait, kin and past builders seeded from the world seed and the identity (as fill-in of counted residents does), and the official's pay from the public payroll.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-voter-groups-starting-lean",
+    "kind": "aggregate-voters",
+    "file": "src/core2/opening-voter-groups.ts",
+    "line": 1,
+    "whatItFakes": "Counted adults vote as one group per place and age band: every counted adult is treated as an eligible citizen, turnout is the state's CPS 2024 rate for the age band (national where no state row exists), and every group starts with the state's 2024 presidential two-party margin as its lean.",
+    "why": "In a two-level town only about 60 named people vote individually; elections need the counted population to vote from its own records (PLAY's report on GOV's elections).",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-13",
+    "replacement": "Groups split by citizenship (ACS), place-level 2024 results and residents' own views (PEOPLE's views engine) and refined by GOV's elections.",
+    "status": "open"
   }
 ]
