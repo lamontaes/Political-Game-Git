@@ -80,6 +80,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12 (second run): re-mined the first run's banks over the rebuilt corpus and merged what it newly attests (42 sentences): conversation +14 ("How's your wife?", "Not recently.", "Tell {name} I said hello."), speeches +10 ("Those opposed, say no.", "Good morning, Commissioners."), choice names +5 ("Volunteer", "Take care of your family"), headlines +5 ("{subject} Opens", "{body} Honors {name}"), interview +4, scenes +3 ("You're outside.", "You got a job."), news +1. Every bank and composer test passes except the same 5 old failures in two banks PEOPLE's engine imports.
+
 - Oct 12 (second run): hazard warnings for the news, 4 sentences from National Weather Service products ("A {alert} remains in effect until {until} for {place}."); newscast 94 sentences. Next: the scene settings and the bring-it-up blame lines, this area's open gaps.
 
 - Oct 12 (second run): choice names in the bench's control shape (5 checks pass). The CTO's next list is done; next: re-mining the news, journal and counter banks once more over the full rebuilt corpus, then this area's later specs.

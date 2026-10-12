@@ -79,7 +79,34 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 232
+    "notAttested": 232,
+    "secondRun": {
+      "read": {
+        "chrg": 2500,
+        "dcpd": 17712,
+        "eac": 330,
+        "eisenhower": 15,
+        "fec": 288,
+        "federal-counter": 330,
+        "florida": 420,
+        "house": 300,
+        "nasa": 1388,
+        "news-energy": 1507,
+        "news-epa": 3009,
+        "news-faa": 1383,
+        "news-fda": 1199,
+        "news-justice": 5265,
+        "news-nasa": 1446,
+        "news-noaa": 484,
+        "news-nps": 2506,
+        "news-nws": 3072,
+        "news-treasury": 2504,
+        "senate": 51,
+        "sotu-gutenberg": 222,
+        "usa-gov": 260
+      },
+      "note": "Parts the rebuilt corpus attests that the first run's corpus did not, merged into the first run's parts."
+    }
   },
   "parts": [
     {
@@ -1144,7 +1171,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Biden-Harris Administration Approves Mississippi and South Dakota’s “Internet for All” Initial Proposal",
+        "document": "Biden-Harris Administration Approves Mississippi and South Dakota\u2019s \u201cInternet for All\u201d Initial Proposal",
         "date": "2024-08-29",
         "granule": "ntia-2024-08-29-biden-harris-administration-approves-mississippi-and-south-d-b2a8075e",
         "url": "https://www.ntia.gov/press-release/2024/biden-harris-administration-approves-mississippi-and-south-dakota-s-internet-all-initial-proposal",
@@ -1228,7 +1255,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "NCUA Chairman Hood’s Statement on Andrew Olmem’s Departure from the NEC",
+        "document": "NCUA Chairman Hood\u2019s Statement on Andrew Olmem\u2019s Departure from the NEC",
         "date": "2020-06-16",
         "granule": "ncua-2020-06-16-ncua-chairman-hood-s-statement-on-andrew-olmem-s-departure-f-ba172391",
         "url": "https://ncua.gov/newsroom/press-release/2020/ncua-chairman-hoods-statement-andrew-olmems-departure-nec",
@@ -1833,7 +1860,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
@@ -2917,7 +2944,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "The President's News Conference in Évian-les-Bains, France",
+        "document": "The President's News Conference in \u00c9vian-les-Bains, France",
         "date": "2026-06-17",
         "granule": "DCPD-202600410",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600410/html/DCPD-202600410.htm",
@@ -2981,7 +3008,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
@@ -3008,7 +3035,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
+        "document": "2025 EAC Board of Advisors Annual Meeting \u2014 transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
         "date": "2025-05-05",
         "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
         "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
@@ -3040,7 +3067,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
@@ -3707,7 +3734,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2023 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2023_Annual_Meeting_Transcript_508.pdf)",
+        "document": "2023 EAC Board of Advisors Annual Meeting \u2014 transcript (EAC_Board_of_Advisors_2023_Annual_Meeting_Transcript_508.pdf)",
         "date": "2023-04-26",
         "granule": "eac-2023-04-26-eac-board-of-advisors-2023-annual-meeting-transcript-508",
         "url": "https://www.eac.gov/sites/default/files/2023-05/EAC_Board_of_Advisors_2023_Annual_Meeting_Transcript_508.pdf",
@@ -3735,7 +3762,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
@@ -3795,7 +3822,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2022 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_051622_Verbatim_0.pdf)",
+        "document": "2022 EAC Board of Advisors Annual Meeting \u2014 transcript (EAC_Board_of_Advisors_051622_Verbatim_0.pdf)",
         "date": "2022-05-16",
         "granule": "eac-2022-05-16-eac-board-of-advisors-051622-verbatim-0",
         "url": "https://www.eac.gov/sites/default/files/2022-06/EAC_Board_of_Advisors_051622_Verbatim_0.pdf",
@@ -3822,7 +3849,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "EAC Election Audit Standards Hearing — transcript (raw_transcript_2.18.2026_eac_audit_standards_hearing.pdf)",
+        "document": "EAC Election Audit Standards Hearing \u2014 transcript (raw_transcript_2.18.2026_eac_audit_standards_hearing.pdf)",
         "date": "2026-02-18",
         "granule": "eac-2026-02-18-raw-transcript-2-18-2026-eac-audit-standards-hearing",
         "url": "https://www.eac.gov/sites/default/files/2026-02/raw_transcript_2.18.2026_eac_audit_standards_hearing.pdf",
@@ -3849,7 +3876,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
@@ -3902,7 +3929,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
@@ -3929,7 +3956,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2025 EAC Board of Advisors Annual Meeting — transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
+        "document": "2025 EAC Board of Advisors Annual Meeting \u2014 transcript (EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf)",
         "date": "2025-05-05",
         "granule": "eac-2025-05-05-eac-board-of-advisors-2025-annual-meeting-transcript",
         "url": "https://www.eac.gov/sites/default/files/2025-05/EAC_Board_of_Advisors_2025_Annual_Meeting_Transcript.pdf",
@@ -4092,7 +4119,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "document": "2026 EAC Board of Advisors Annual Meeting \u2014 transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
         "date": "2026-04-28",
         "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
         "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
@@ -4389,7 +4416,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "On-the-Record Press Gaggle by NSC Senior Director for Europe Amanda Sloat Previewing the President’s Trip to Northern Ireland",
+        "document": "On-the-Record Press Gaggle by NSC Senior Director for Europe Amanda Sloat Previewing the President\u2019s Trip to Northern Ireland",
         "date": "2023-04-12",
         "granule": "WH-2023-04-12-on-the-record-press-gaggle-by-nsc-senior-director-for-europe-amanda-sl",
         "url": "https://bidenwhitehouse.archives.gov/briefing-room/press-briefings/2023/04/12/on-the-record-press-gaggle-by-nsc-senior-director-for-europe-amanda-sloat-previewing-the-presidents-trip-to-northern-ireland/",
@@ -5370,7 +5397,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "U.S. House Oral History: Coelho, Tony - U.S. Representative of California - 1979–1989",
+        "document": "U.S. House Oral History: Coelho, Tony - U.S. Representative of California - 1979\u20131989",
         "date": "2024-07-22",
         "granule": "house-oh-coelho",
         "url": "https://history.house.gov/Oral-History/Transcripts/coelho-transcript/",
@@ -6012,7 +6039,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Biden-Harris Administration Approves Mississippi and South Dakota’s “Internet for All” Initial Proposal",
+        "document": "Biden-Harris Administration Approves Mississippi and South Dakota\u2019s \u201cInternet for All\u201d Initial Proposal",
         "date": "2024-08-29",
         "granule": "ntia-2024-08-29-biden-harris-administration-approves-mississippi-and-south-d-b2a8075e",
         "url": "https://www.ntia.gov/press-release/2024/biden-harris-administration-approves-mississippi-and-south-dakota-s-internet-all-initial-proposal",
@@ -7726,7 +7753,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "The President's News Conference in Évian-les-Bains, France",
+        "document": "The President's News Conference in \u00c9vian-les-Bains, France",
         "date": "2026-06-17",
         "granule": "DCPD-202600410",
         "url": "https://www.govinfo.gov/content/pkg/DCPD-202600410/html/DCPD-202600410.htm",
@@ -7893,6 +7920,274 @@
         "date": "2024-12-10",
         "granule": "CHRG-118shrg60483",
         "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg60483/html/CHRG-118shrg60483.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.public-comment-name.im-here-today-on-behalf-of-group",
+      "move": "public-comment-name",
+      "kind": "spoken",
+      "text": "I'm here today on behalf of {group}.",
+      "uses": [
+        {
+          "move": "public-comment-name",
+          "subject": "public-comment",
+          "role": "name",
+          "choice": "name"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "chrg": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "In Defense Of Defensive Measures: Reauthorizing Cybersecurity Information-Sharing Activities That Underpin U.S. National Cyber Defense",
+        "date": "2025-05-15",
+        "granule": "CHRG-119hhrg61338",
+        "url": "https://www.govinfo.gov/app/details/CHRG-119hhrg61338",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.public-comment-greet.good-morning-commissioners",
+      "move": "public-comment-greet",
+      "kind": "spoken",
+      "text": "Good morning, Commissioners.",
+      "uses": [
+        {
+          "move": "public-comment-greet",
+          "subject": "public-comment",
+          "role": "greet",
+          "choice": "greet"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "eac": 1,
+        "fec": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Minutes of the Public Meeting",
+        "date": "2021-02-10",
+        "granule": "eac-eac-gov-sites-default-files-2021-02-eac021021-verbatim-vv-gvote-pdf-8b22aa",
+        "url": "https://www.eac.gov/sites/default/files/2021-02/EAC021021_Verbatim_VV_Gvote.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.chair-run-meeting.those-opposed-say-no",
+      "move": "chair-run-meeting",
+      "kind": "spoken",
+      "text": "Those opposed, say no.",
+      "uses": [
+        {
+          "move": "chair-run-meeting",
+          "subject": "chair",
+          "role": "run-meeting",
+          "choice": "run-meeting"
+        }
+      ],
+      "transcriptsUsing": 4,
+      "bySource": {
+        "chrg": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "Markup Of H.R. 391, H.R. 1079, H.R. 1145, H.R. 1500, H.R. 1158, H.R.",
+        "date": "2021-03-25",
+        "granule": "CHRG-117hhrg43863",
+        "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg43863",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.campaign-self.im-a-small-business-owner",
+      "move": "campaign-self",
+      "kind": "spoken",
+      "text": "I'm a small business owner.",
+      "uses": [
+        {
+          "move": "campaign-self",
+          "subject": "campaign",
+          "role": "self",
+          "choice": "self",
+          "requiresFacts": ["owns-business"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Focus On The Farm Economy",
+        "date": "2016-04-14",
+        "granule": "CHRG-114hhrg99853",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114hhrg99853",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.campaign-self.im-a-teacher",
+      "move": "campaign-self",
+      "kind": "spoken",
+      "text": "I'm a teacher.",
+      "uses": [
+        {
+          "move": "campaign-self",
+          "subject": "campaign",
+          "role": "self",
+          "choice": "self",
+          "requiresFacts": ["occupation-teacher"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks at the White House Easter Egg Roll",
+        "date": "2024-04-01",
+        "granule": "DCPD-202400257",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202400257",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.campaign-self.i-know-what-its-like-to-hardship",
+      "move": "campaign-self",
+      "kind": "spoken",
+      "text": "I know what it's like to {hardship}.",
+      "uses": [
+        {
+          "move": "campaign-self",
+          "subject": "campaign",
+          "role": "self",
+          "choice": "self"
+        }
+      ],
+      "transcriptsUsing": 10,
+      "bySource": {
+        "chrg": 3,
+        "dcpd": 6,
+        "sotu-gutenberg": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks on Gun Violence Prevention Efforts in Monterey Park, California",
+        "date": "2023-03-14",
+        "granule": "DCPD-202300194",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202300194",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.campaign-contrast.my-opponent-wants-to-goal",
+      "move": "campaign-contrast",
+      "kind": "spoken",
+      "text": "My opponent wants to {goal}.",
+      "uses": [
+        {
+          "move": "campaign-contrast",
+          "subject": "campaign",
+          "role": "contrast",
+          "choice": "contrast"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "dcpd": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Remarks in Marietta, Georgia",
+        "date": "2026-07-22",
+        "granule": "DCPD-202600485",
+        "url": "https://www.govinfo.gov/app/details/DCPD-202600485",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.concession-concede.the-fight-goes-on",
+      "move": "concession-concede",
+      "kind": "spoken",
+      "text": "The fight goes on.",
+      "uses": [
+        {
+          "move": "concession-concede",
+          "subject": "concession",
+          "role": "concede",
+          "choice": "concede"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Examining Uvalde: The Search For Bipartisan Solutions To Gun Violence",
+        "date": "2022-12-15",
+        "granule": "CHRG-117hhrg50358",
+        "url": "https://www.govinfo.gov/app/details/CHRG-117hhrg50358",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.state-of-the-union-report.unemployment-is-at-a-record-low",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Unemployment is at a record low.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["unemployment-record-low"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 1,
+        "dcpd": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "Administration of Donald J. Trump, 2019 Remarks in a Cabinet Meeting and an Exchange With Reporters January 2, 2019 The President. Okay. Thank you very much. Thank you all for being here and joining t",
+        "date": "2019-01-02",
+        "granule": "DCPD-201900001",
+        "url": "https://www.govinfo.gov/app/details/DCPD-201900001",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.inaugural-moment.we-are-one-nation",
+      "move": "inaugural-moment",
+      "kind": "spoken",
+      "text": "We are one nation.",
+      "uses": [
+        {
+          "move": "inaugural-moment",
+          "subject": "inaugural",
+          "role": "moment",
+          "choice": "moment"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "chrg": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Wildfire: Stakeholder Perspectives On Budgetary Impacts And Threats To Natural Resources On Federal, State, And Private Lands",
+        "date": "2015-11-05",
+        "granule": "CHRG-114shrg98996",
+        "url": "https://www.govinfo.gov/app/details/CHRG-114shrg98996",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }
