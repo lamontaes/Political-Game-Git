@@ -1,602 +1,602 @@
 [
-{
-"quarter":"1989-Q1",
-"realOutput":9771725.0
-},
-{
-"quarter":"1989-Q2",
-"realOutput":9846293.0
-},
-{
-"quarter":"1989-Q3",
-"realOutput":9919228.0
-},
-{
-"quarter":"1989-Q4",
-"realOutput":9938767.0
-},
-{
-"quarter":"1990-Q1",
-"realOutput":10047386.0
-},
-{
-"quarter":"1990-Q2",
-"realOutput":10083855.0
-},
-{
-"quarter":"1990-Q3",
-"realOutput":10090569.0
-},
-{
-"quarter":"1990-Q4",
-"realOutput":9998704.0
-},
-{
-"quarter":"1991-Q1",
-"realOutput":9951916.0
-},
-{
-"quarter":"1991-Q2",
-"realOutput":10029510.0
-},
-{
-"quarter":"1991-Q3",
-"realOutput":10080195.0
-},
-{
-"quarter":"1991-Q4",
-"realOutput":10115329.0
-},
-{
-"quarter":"1992-Q1",
-"realOutput":10236435.0
-},
-{
-"quarter":"1992-Q2",
-"realOutput":10347429.0
-},
-{
-"quarter":"1992-Q3",
-"realOutput":10449673.0
-},
-{
-"quarter":"1992-Q4",
-"realOutput":10558648.0
-},
-{
-"quarter":"1993-Q1",
-"realOutput":10576275.0
-},
-{
-"quarter":"1993-Q2",
-"realOutput":10637847.0
-},
-{
-"quarter":"1993-Q3",
-"realOutput":10688606.0
-},
-{
-"quarter":"1993-Q4",
-"realOutput":10833987.0
-},
-{
-"quarter":"1994-Q1",
-"realOutput":10939116.0
-},
-{
-"quarter":"1994-Q2",
-"realOutput":11087361.0
-},
-{
-"quarter":"1994-Q3",
-"realOutput":11152176.0
-},
-{
-"quarter":"1994-Q4",
-"realOutput":11279932.0
-},
-{
-"quarter":"1995-Q1",
-"realOutput":11319951.0
-},
-{
-"quarter":"1995-Q2",
-"realOutput":11353721.0
-},
-{
-"quarter":"1995-Q3",
-"realOutput":11450310.0
-},
-{
-"quarter":"1995-Q4",
-"realOutput":11528067.0
-},
-{
-"quarter":"1996-Q1",
-"realOutput":11614418.0
-},
-{
-"quarter":"1996-Q2",
-"realOutput":11808140.0
-},
-{
-"quarter":"1996-Q3",
-"realOutput":11914063.0
-},
-{
-"quarter":"1996-Q4",
-"realOutput":12037775.0
-},
-{
-"quarter":"1997-Q1",
-"realOutput":12115472.0
-},
-{
-"quarter":"1997-Q2",
-"realOutput":12317221.0
-},
-{
-"quarter":"1997-Q3",
-"realOutput":12471010.0
-},
-{
-"quarter":"1997-Q4",
-"realOutput":12577495.0
-},
-{
-"quarter":"1998-Q1",
-"realOutput":12703742.0
-},
-{
-"quarter":"1998-Q2",
-"realOutput":12821339.0
-},
-{
-"quarter":"1998-Q3",
-"realOutput":12982752.0
-},
-{
-"quarter":"1998-Q4",
-"realOutput":13191670.0
-},
-{
-"quarter":"1999-Q1",
-"realOutput":13315597.0
-},
-{
-"quarter":"1999-Q2",
-"realOutput":13426748.0
-},
-{
-"quarter":"1999-Q3",
-"realOutput":13604771.0
-},
-{
-"quarter":"1999-Q4",
-"realOutput":13827980.0
-},
-{
-"quarter":"2000-Q1",
-"realOutput":13878147.0
-},
-{
-"quarter":"2000-Q2",
-"realOutput":14130908.0
-},
-{
-"quarter":"2000-Q3",
-"realOutput":14145312.0
-},
-{
-"quarter":"2000-Q4",
-"realOutput":14229765.0
-},
-{
-"quarter":"2001-Q1",
-"realOutput":14183120.0
-},
-{
-"quarter":"2001-Q2",
-"realOutput":14271694.0
-},
-{
-"quarter":"2001-Q3",
-"realOutput":14214516.0
-},
-{
-"quarter":"2001-Q4",
-"realOutput":14253574.0
-},
-{
-"quarter":"2002-Q1",
-"realOutput":14372785.0
-},
-{
-"quarter":"2002-Q2",
-"realOutput":14460848.0
-},
-{
-"quarter":"2002-Q3",
-"realOutput":14519633.0
-},
-{
-"quarter":"2002-Q4",
-"realOutput":14537580.0
-},
-{
-"quarter":"2003-Q1",
-"realOutput":14614141.0
-},
-{
-"quarter":"2003-Q2",
-"realOutput":14743567.0
-},
-{
-"quarter":"2003-Q3",
-"realOutput":14988782.0
-},
-{
-"quarter":"2003-Q4",
-"realOutput":15162760.0
-},
-{
-"quarter":"2004-Q1",
-"realOutput":15248680.0
-},
-{
-"quarter":"2004-Q2",
-"realOutput":15366850.0
-},
-{
-"quarter":"2004-Q3",
-"realOutput":15512619.0
-},
-{
-"quarter":"2004-Q4",
-"realOutput":15670880.0
-},
-{
-"quarter":"2005-Q1",
-"realOutput":15844727.0
-},
-{
-"quarter":"2005-Q2",
-"realOutput":15922782.0
-},
-{
-"quarter":"2005-Q3",
-"realOutput":16047587.0
-},
-{
-"quarter":"2005-Q4",
-"realOutput":16136734.0
-},
-{
-"quarter":"2006-Q1",
-"realOutput":16353835.0
-},
-{
-"quarter":"2006-Q2",
-"realOutput":16396151.0
-},
-{
-"quarter":"2006-Q3",
-"realOutput":16420738.0
-},
-{
-"quarter":"2006-Q4",
-"realOutput":16561866.0
-},
-{
-"quarter":"2007-Q1",
-"realOutput":16611690.0
-},
-{
-"quarter":"2007-Q2",
-"realOutput":16713314.0
-},
-{
-"quarter":"2007-Q3",
-"realOutput":16809587.0
-},
-{
-"quarter":"2007-Q4",
-"realOutput":16915191.0
-},
-{
-"quarter":"2008-Q1",
-"realOutput":16843003.0
-},
-{
-"quarter":"2008-Q2",
-"realOutput":16943291.0
-},
-{
-"quarter":"2008-Q3",
-"realOutput":16854295.0
-},
-{
-"quarter":"2008-Q4",
-"realOutput":16485350.0
-},
-{
-"quarter":"2009-Q1",
-"realOutput":16298262.0
-},
-{
-"quarter":"2009-Q2",
-"realOutput":16269145.0
-},
-{
-"quarter":"2009-Q3",
-"realOutput":16326281.0
-},
-{
-"quarter":"2009-Q4",
-"realOutput":16502754.0
-},
-{
-"quarter":"2010-Q1",
-"realOutput":16582710.0
-},
-{
-"quarter":"2010-Q2",
-"realOutput":16743162.0
-},
-{
-"quarter":"2010-Q3",
-"realOutput":16872266.0
-},
-{
-"quarter":"2010-Q4",
-"realOutput":16960864.0
-},
-{
-"quarter":"2011-Q1",
-"realOutput":16920632.0
-},
-{
-"quarter":"2011-Q2",
-"realOutput":17035114.0
-},
-{
-"quarter":"2011-Q3",
-"realOutput":17031313.0
-},
-{
-"quarter":"2011-Q4",
-"realOutput":17222583.0
-},
-{
-"quarter":"2012-Q1",
-"realOutput":17367010.0
-},
-{
-"quarter":"2012-Q2",
-"realOutput":17444525.0
-},
-{
-"quarter":"2012-Q3",
-"realOutput":17469650.0
-},
-{
-"quarter":"2012-Q4",
-"realOutput":17489852.0
-},
-{
-"quarter":"2013-Q1",
-"realOutput":17662400.0
-},
-{
-"quarter":"2013-Q2",
-"realOutput":17709671.0
-},
-{
-"quarter":"2013-Q3",
-"realOutput":17860450.0
-},
-{
-"quarter":"2013-Q4",
-"realOutput":18016147.0
-},
-{
-"quarter":"2014-Q1",
-"realOutput":17953974.0
-},
-{
-"quarter":"2014-Q2",
-"realOutput":18185911.0
-},
-{
-"quarter":"2014-Q3",
-"realOutput":18406941.0
-},
-{
-"quarter":"2014-Q4",
-"realOutput":18500031.0
-},
-{
-"quarter":"2015-Q1",
-"realOutput":18666621.0
-},
-{
-"quarter":"2015-Q2",
-"realOutput":18782243.0
-},
-{
-"quarter":"2015-Q3",
-"realOutput":18857418.0
-},
-{
-"quarter":"2015-Q4",
-"realOutput":18892206.0
-},
-{
-"quarter":"2016-Q1",
-"realOutput":19001690.0
-},
-{
-"quarter":"2016-Q2",
-"realOutput":19062709.0
-},
-{
-"quarter":"2016-Q3",
-"realOutput":19197938.0
-},
-{
-"quarter":"2016-Q4",
-"realOutput":19304352.0
-},
-{
-"quarter":"2017-Q1",
-"realOutput":19398343.0
-},
-{
-"quarter":"2017-Q2",
-"realOutput":19506949.0
-},
-{
-"quarter":"2017-Q3",
-"realOutput":19660766.0
-},
-{
-"quarter":"2017-Q4",
-"realOutput":19882352.0
-},
-{
-"quarter":"2018-Q1",
-"realOutput":20044077.0
-},
-{
-"quarter":"2018-Q2",
-"realOutput":20150476.0
-},
-{
-"quarter":"2018-Q3",
-"realOutput":20276154.0
-},
-{
-"quarter":"2018-Q4",
-"realOutput":20304874.0
-},
-{
-"quarter":"2019-Q1",
-"realOutput":20431641.0
-},
-{
-"quarter":"2019-Q2",
-"realOutput":20602275.0
-},
-{
-"quarter":"2019-Q3",
-"realOutput":20843322.0
-},
-{
-"quarter":"2019-Q4",
-"realOutput":20985448.0
-},
-{
-"quarter":"2020-Q1",
-"realOutput":20709212.0
-},
-{
-"quarter":"2020-Q2",
-"realOutput":19077992.0
-},
-{
-"quarter":"2020-Q3",
-"realOutput":20558879.0
-},
-{
-"quarter":"2020-Q4",
-"realOutput":20791917.0
-},
-{
-"quarter":"2021-Q1",
-"realOutput":21106619.0
-},
-{
-"quarter":"2021-Q2",
-"realOutput":21474077.0
-},
-{
-"quarter":"2021-Q3",
-"realOutput":21641672.0
-},
-{
-"quarter":"2021-Q4",
-"realOutput":22001640.0
-},
-{
-"quarter":"2022-Q1",
-"realOutput":21945682.0
-},
-{
-"quarter":"2022-Q2",
-"realOutput":21976292.0
-},
-{
-"quarter":"2022-Q3",
-"realOutput":22124384.0
-},
-{
-"quarter":"2022-Q4",
-"realOutput":22272546.0
-},
-{
-"quarter":"2023-Q1",
-"realOutput":22456938.0
-},
-{
-"quarter":"2023-Q2",
-"realOutput":22577556.0
-},
-{
-"quarter":"2023-Q3",
-"realOutput":22828796.0
-},
-{
-"quarter":"2023-Q4",
-"realOutput":23033250.0
-},
-{
-"quarter":"2024-Q1",
-"realOutput":23115975.0
-},
-{
-"quarter":"2024-Q2",
-"realOutput":23320074.0
-},
-{
-"quarter":"2024-Q3",
-"realOutput":23501760.0
-},
-{
-"quarter":"2024-Q4",
-"realOutput":23641759.0
-},
-{
-"quarter":"2025-Q1",
-"realOutput":23650213.0
-},
-{
-"quarter":"2025-Q2",
-"realOutput":23884563.0
-},
-{
-"quarter":"2025-Q3",
-"realOutput":24112966.0
-},
-{
-"quarter":"2025-Q4",
-"realOutput":24125479.0
-},
-{
-"quarter":"2026-Q1",
-"realOutput":24274383.0
-},
-{
-"quarter":"2026-Q2",
-"realOutput":24408011.0
-}
+  {
+    "quarter": "1989-Q1",
+    "realOutput": 9771725.0
+  },
+  {
+    "quarter": "1989-Q2",
+    "realOutput": 9846293.0
+  },
+  {
+    "quarter": "1989-Q3",
+    "realOutput": 9919228.0
+  },
+  {
+    "quarter": "1989-Q4",
+    "realOutput": 9938767.0
+  },
+  {
+    "quarter": "1990-Q1",
+    "realOutput": 10047386.0
+  },
+  {
+    "quarter": "1990-Q2",
+    "realOutput": 10083855.0
+  },
+  {
+    "quarter": "1990-Q3",
+    "realOutput": 10090569.0
+  },
+  {
+    "quarter": "1990-Q4",
+    "realOutput": 9998704.0
+  },
+  {
+    "quarter": "1991-Q1",
+    "realOutput": 9951916.0
+  },
+  {
+    "quarter": "1991-Q2",
+    "realOutput": 10029510.0
+  },
+  {
+    "quarter": "1991-Q3",
+    "realOutput": 10080195.0
+  },
+  {
+    "quarter": "1991-Q4",
+    "realOutput": 10115329.0
+  },
+  {
+    "quarter": "1992-Q1",
+    "realOutput": 10236435.0
+  },
+  {
+    "quarter": "1992-Q2",
+    "realOutput": 10347429.0
+  },
+  {
+    "quarter": "1992-Q3",
+    "realOutput": 10449673.0
+  },
+  {
+    "quarter": "1992-Q4",
+    "realOutput": 10558648.0
+  },
+  {
+    "quarter": "1993-Q1",
+    "realOutput": 10576275.0
+  },
+  {
+    "quarter": "1993-Q2",
+    "realOutput": 10637847.0
+  },
+  {
+    "quarter": "1993-Q3",
+    "realOutput": 10688606.0
+  },
+  {
+    "quarter": "1993-Q4",
+    "realOutput": 10833987.0
+  },
+  {
+    "quarter": "1994-Q1",
+    "realOutput": 10939116.0
+  },
+  {
+    "quarter": "1994-Q2",
+    "realOutput": 11087361.0
+  },
+  {
+    "quarter": "1994-Q3",
+    "realOutput": 11152176.0
+  },
+  {
+    "quarter": "1994-Q4",
+    "realOutput": 11279932.0
+  },
+  {
+    "quarter": "1995-Q1",
+    "realOutput": 11319951.0
+  },
+  {
+    "quarter": "1995-Q2",
+    "realOutput": 11353721.0
+  },
+  {
+    "quarter": "1995-Q3",
+    "realOutput": 11450310.0
+  },
+  {
+    "quarter": "1995-Q4",
+    "realOutput": 11528067.0
+  },
+  {
+    "quarter": "1996-Q1",
+    "realOutput": 11614418.0
+  },
+  {
+    "quarter": "1996-Q2",
+    "realOutput": 11808140.0
+  },
+  {
+    "quarter": "1996-Q3",
+    "realOutput": 11914063.0
+  },
+  {
+    "quarter": "1996-Q4",
+    "realOutput": 12037775.0
+  },
+  {
+    "quarter": "1997-Q1",
+    "realOutput": 12115472.0
+  },
+  {
+    "quarter": "1997-Q2",
+    "realOutput": 12317221.0
+  },
+  {
+    "quarter": "1997-Q3",
+    "realOutput": 12471010.0
+  },
+  {
+    "quarter": "1997-Q4",
+    "realOutput": 12577495.0
+  },
+  {
+    "quarter": "1998-Q1",
+    "realOutput": 12703742.0
+  },
+  {
+    "quarter": "1998-Q2",
+    "realOutput": 12821339.0
+  },
+  {
+    "quarter": "1998-Q3",
+    "realOutput": 12982752.0
+  },
+  {
+    "quarter": "1998-Q4",
+    "realOutput": 13191670.0
+  },
+  {
+    "quarter": "1999-Q1",
+    "realOutput": 13315597.0
+  },
+  {
+    "quarter": "1999-Q2",
+    "realOutput": 13426748.0
+  },
+  {
+    "quarter": "1999-Q3",
+    "realOutput": 13604771.0
+  },
+  {
+    "quarter": "1999-Q4",
+    "realOutput": 13827980.0
+  },
+  {
+    "quarter": "2000-Q1",
+    "realOutput": 13878147.0
+  },
+  {
+    "quarter": "2000-Q2",
+    "realOutput": 14130908.0
+  },
+  {
+    "quarter": "2000-Q3",
+    "realOutput": 14145312.0
+  },
+  {
+    "quarter": "2000-Q4",
+    "realOutput": 14229765.0
+  },
+  {
+    "quarter": "2001-Q1",
+    "realOutput": 14183120.0
+  },
+  {
+    "quarter": "2001-Q2",
+    "realOutput": 14271694.0
+  },
+  {
+    "quarter": "2001-Q3",
+    "realOutput": 14214516.0
+  },
+  {
+    "quarter": "2001-Q4",
+    "realOutput": 14253574.0
+  },
+  {
+    "quarter": "2002-Q1",
+    "realOutput": 14372785.0
+  },
+  {
+    "quarter": "2002-Q2",
+    "realOutput": 14460848.0
+  },
+  {
+    "quarter": "2002-Q3",
+    "realOutput": 14519633.0
+  },
+  {
+    "quarter": "2002-Q4",
+    "realOutput": 14537580.0
+  },
+  {
+    "quarter": "2003-Q1",
+    "realOutput": 14614141.0
+  },
+  {
+    "quarter": "2003-Q2",
+    "realOutput": 14743567.0
+  },
+  {
+    "quarter": "2003-Q3",
+    "realOutput": 14988782.0
+  },
+  {
+    "quarter": "2003-Q4",
+    "realOutput": 15162760.0
+  },
+  {
+    "quarter": "2004-Q1",
+    "realOutput": 15248680.0
+  },
+  {
+    "quarter": "2004-Q2",
+    "realOutput": 15366850.0
+  },
+  {
+    "quarter": "2004-Q3",
+    "realOutput": 15512619.0
+  },
+  {
+    "quarter": "2004-Q4",
+    "realOutput": 15670880.0
+  },
+  {
+    "quarter": "2005-Q1",
+    "realOutput": 15844727.0
+  },
+  {
+    "quarter": "2005-Q2",
+    "realOutput": 15922782.0
+  },
+  {
+    "quarter": "2005-Q3",
+    "realOutput": 16047587.0
+  },
+  {
+    "quarter": "2005-Q4",
+    "realOutput": 16136734.0
+  },
+  {
+    "quarter": "2006-Q1",
+    "realOutput": 16353835.0
+  },
+  {
+    "quarter": "2006-Q2",
+    "realOutput": 16396151.0
+  },
+  {
+    "quarter": "2006-Q3",
+    "realOutput": 16420738.0
+  },
+  {
+    "quarter": "2006-Q4",
+    "realOutput": 16561866.0
+  },
+  {
+    "quarter": "2007-Q1",
+    "realOutput": 16611690.0
+  },
+  {
+    "quarter": "2007-Q2",
+    "realOutput": 16713314.0
+  },
+  {
+    "quarter": "2007-Q3",
+    "realOutput": 16809587.0
+  },
+  {
+    "quarter": "2007-Q4",
+    "realOutput": 16915191.0
+  },
+  {
+    "quarter": "2008-Q1",
+    "realOutput": 16843003.0
+  },
+  {
+    "quarter": "2008-Q2",
+    "realOutput": 16943291.0
+  },
+  {
+    "quarter": "2008-Q3",
+    "realOutput": 16854295.0
+  },
+  {
+    "quarter": "2008-Q4",
+    "realOutput": 16485350.0
+  },
+  {
+    "quarter": "2009-Q1",
+    "realOutput": 16298262.0
+  },
+  {
+    "quarter": "2009-Q2",
+    "realOutput": 16269145.0
+  },
+  {
+    "quarter": "2009-Q3",
+    "realOutput": 16326281.0
+  },
+  {
+    "quarter": "2009-Q4",
+    "realOutput": 16502754.0
+  },
+  {
+    "quarter": "2010-Q1",
+    "realOutput": 16582710.0
+  },
+  {
+    "quarter": "2010-Q2",
+    "realOutput": 16743162.0
+  },
+  {
+    "quarter": "2010-Q3",
+    "realOutput": 16872266.0
+  },
+  {
+    "quarter": "2010-Q4",
+    "realOutput": 16960864.0
+  },
+  {
+    "quarter": "2011-Q1",
+    "realOutput": 16920632.0
+  },
+  {
+    "quarter": "2011-Q2",
+    "realOutput": 17035114.0
+  },
+  {
+    "quarter": "2011-Q3",
+    "realOutput": 17031313.0
+  },
+  {
+    "quarter": "2011-Q4",
+    "realOutput": 17222583.0
+  },
+  {
+    "quarter": "2012-Q1",
+    "realOutput": 17367010.0
+  },
+  {
+    "quarter": "2012-Q2",
+    "realOutput": 17444525.0
+  },
+  {
+    "quarter": "2012-Q3",
+    "realOutput": 17469650.0
+  },
+  {
+    "quarter": "2012-Q4",
+    "realOutput": 17489852.0
+  },
+  {
+    "quarter": "2013-Q1",
+    "realOutput": 17662400.0
+  },
+  {
+    "quarter": "2013-Q2",
+    "realOutput": 17709671.0
+  },
+  {
+    "quarter": "2013-Q3",
+    "realOutput": 17860450.0
+  },
+  {
+    "quarter": "2013-Q4",
+    "realOutput": 18016147.0
+  },
+  {
+    "quarter": "2014-Q1",
+    "realOutput": 17953974.0
+  },
+  {
+    "quarter": "2014-Q2",
+    "realOutput": 18185911.0
+  },
+  {
+    "quarter": "2014-Q3",
+    "realOutput": 18406941.0
+  },
+  {
+    "quarter": "2014-Q4",
+    "realOutput": 18500031.0
+  },
+  {
+    "quarter": "2015-Q1",
+    "realOutput": 18666621.0
+  },
+  {
+    "quarter": "2015-Q2",
+    "realOutput": 18782243.0
+  },
+  {
+    "quarter": "2015-Q3",
+    "realOutput": 18857418.0
+  },
+  {
+    "quarter": "2015-Q4",
+    "realOutput": 18892206.0
+  },
+  {
+    "quarter": "2016-Q1",
+    "realOutput": 19001690.0
+  },
+  {
+    "quarter": "2016-Q2",
+    "realOutput": 19062709.0
+  },
+  {
+    "quarter": "2016-Q3",
+    "realOutput": 19197938.0
+  },
+  {
+    "quarter": "2016-Q4",
+    "realOutput": 19304352.0
+  },
+  {
+    "quarter": "2017-Q1",
+    "realOutput": 19398343.0
+  },
+  {
+    "quarter": "2017-Q2",
+    "realOutput": 19506949.0
+  },
+  {
+    "quarter": "2017-Q3",
+    "realOutput": 19660766.0
+  },
+  {
+    "quarter": "2017-Q4",
+    "realOutput": 19882352.0
+  },
+  {
+    "quarter": "2018-Q1",
+    "realOutput": 20044077.0
+  },
+  {
+    "quarter": "2018-Q2",
+    "realOutput": 20150476.0
+  },
+  {
+    "quarter": "2018-Q3",
+    "realOutput": 20276154.0
+  },
+  {
+    "quarter": "2018-Q4",
+    "realOutput": 20304874.0
+  },
+  {
+    "quarter": "2019-Q1",
+    "realOutput": 20431641.0
+  },
+  {
+    "quarter": "2019-Q2",
+    "realOutput": 20602275.0
+  },
+  {
+    "quarter": "2019-Q3",
+    "realOutput": 20843322.0
+  },
+  {
+    "quarter": "2019-Q4",
+    "realOutput": 20985448.0
+  },
+  {
+    "quarter": "2020-Q1",
+    "realOutput": 20709212.0
+  },
+  {
+    "quarter": "2020-Q2",
+    "realOutput": 19077992.0
+  },
+  {
+    "quarter": "2020-Q3",
+    "realOutput": 20558879.0
+  },
+  {
+    "quarter": "2020-Q4",
+    "realOutput": 20791917.0
+  },
+  {
+    "quarter": "2021-Q1",
+    "realOutput": 21106619.0
+  },
+  {
+    "quarter": "2021-Q2",
+    "realOutput": 21474077.0
+  },
+  {
+    "quarter": "2021-Q3",
+    "realOutput": 21641672.0
+  },
+  {
+    "quarter": "2021-Q4",
+    "realOutput": 22001640.0
+  },
+  {
+    "quarter": "2022-Q1",
+    "realOutput": 21945682.0
+  },
+  {
+    "quarter": "2022-Q2",
+    "realOutput": 21976292.0
+  },
+  {
+    "quarter": "2022-Q3",
+    "realOutput": 22124384.0
+  },
+  {
+    "quarter": "2022-Q4",
+    "realOutput": 22272546.0
+  },
+  {
+    "quarter": "2023-Q1",
+    "realOutput": 22456938.0
+  },
+  {
+    "quarter": "2023-Q2",
+    "realOutput": 22577556.0
+  },
+  {
+    "quarter": "2023-Q3",
+    "realOutput": 22828796.0
+  },
+  {
+    "quarter": "2023-Q4",
+    "realOutput": 23033250.0
+  },
+  {
+    "quarter": "2024-Q1",
+    "realOutput": 23115975.0
+  },
+  {
+    "quarter": "2024-Q2",
+    "realOutput": 23320074.0
+  },
+  {
+    "quarter": "2024-Q3",
+    "realOutput": 23501760.0
+  },
+  {
+    "quarter": "2024-Q4",
+    "realOutput": 23641759.0
+  },
+  {
+    "quarter": "2025-Q1",
+    "realOutput": 23650213.0
+  },
+  {
+    "quarter": "2025-Q2",
+    "realOutput": 23884563.0
+  },
+  {
+    "quarter": "2025-Q3",
+    "realOutput": 24112966.0
+  },
+  {
+    "quarter": "2025-Q4",
+    "realOutput": 24125479.0
+  },
+  {
+    "quarter": "2026-Q1",
+    "realOutput": 24274383.0
+  },
+  {
+    "quarter": "2026-Q2",
+    "realOutput": 24408011.0
+  }
 ]
