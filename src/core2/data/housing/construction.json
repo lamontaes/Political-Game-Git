@@ -1,0 +1,250 @@
+{
+  "source": {
+    "tag": "SOURCED",
+    "asOf": "2026-10-12",
+    "citation": "Census Building Permits Survey 2024 by state (st2024a) over Vintage 2024 population; Census Survey of Construction 2024 (time to complete, new home prices); NAHB 2024 cost shares; CBRE Q4 2024 cap rates; Census HVS 2024 vacancy; Lincoln Institute inclusionary programs; New Buildings Institute 2022; National Zoning Atlas and NYT 2019. Gathered in data/research/housing/construction-2026.json."
+  },
+  "national": {
+    "singlePerThousand": 2.869,
+    "multiPerThousand": 1.447
+  },
+  "byState": {
+    "AL": {
+      "singlePerThousand": 3.378,
+      "multiPerThousand": 0.64
+    },
+    "AK": {
+      "singlePerThousand": 0.603,
+      "multiPerThousand": 0.792
+    },
+    "AZ": {
+      "singlePerThousand": 5.532,
+      "multiPerThousand": 2.331
+    },
+    "AR": {
+      "singlePerThousand": 3.179,
+      "multiPerThousand": 1.251
+    },
+    "CA": {
+      "singlePerThousand": 1.551,
+      "multiPerThousand": 1.025
+    },
+    "CO": {
+      "singlePerThousand": 3.43,
+      "multiPerThousand": 1.972
+    },
+    "CT": {
+      "singlePerThousand": 0.579,
+      "multiPerThousand": 1.033
+    },
+    "DE": {
+      "singlePerThousand": 5.928,
+      "multiPerThousand": 0.86
+    },
+    "DC": {
+      "singlePerThousand": 0.208,
+      "multiPerThousand": 2.266
+    },
+    "FL": {
+      "singlePerThousand": 5.278,
+      "multiPerThousand": 2.138
+    },
+    "GA": {
+      "singlePerThousand": 4.315,
+      "multiPerThousand": 1.8
+    },
+    "HI": {
+      "singlePerThousand": 1.69,
+      "multiPerThousand": 0.992
+    },
+    "ID": {
+      "singlePerThousand": 7.405,
+      "multiPerThousand": 1.403
+    },
+    "IL": {
+      "singlePerThousand": 0.812,
+      "multiPerThousand": 0.787
+    },
+    "IN": {
+      "singlePerThousand": 2.9,
+      "multiPerThousand": 0.946
+    },
+    "IA": {
+      "singlePerThousand": 2.4,
+      "multiPerThousand": 1.47
+    },
+    "KS": {
+      "singlePerThousand": 1.873,
+      "multiPerThousand": 1.178
+    },
+    "KY": {
+      "singlePerThousand": 1.944,
+      "multiPerThousand": 1.601
+    },
+    "LA": {
+      "singlePerThousand": 2.636,
+      "multiPerThousand": 0.476
+    },
+    "ME": {
+      "singlePerThousand": 3.31,
+      "multiPerThousand": 0.985
+    },
+    "MD": {
+      "singlePerThousand": 1.738,
+      "multiPerThousand": 0.948
+    },
+    "MA": {
+      "singlePerThousand": 0.788,
+      "multiPerThousand": 1.221
+    },
+    "MI": {
+      "singlePerThousand": 1.484,
+      "multiPerThousand": 0.661
+    },
+    "MN": {
+      "singlePerThousand": 2.317,
+      "multiPerThousand": 1.293
+    },
+    "MS": {
+      "singlePerThousand": 2.554,
+      "multiPerThousand": 0.124
+    },
+    "MO": {
+      "singlePerThousand": 1.846,
+      "multiPerThousand": 1.111
+    },
+    "MT": {
+      "singlePerThousand": 2.67,
+      "multiPerThousand": 2.05
+    },
+    "NE": {
+      "singlePerThousand": 2.82,
+      "multiPerThousand": 2.405
+    },
+    "NV": {
+      "singlePerThousand": 4.739,
+      "multiPerThousand": 1.38
+    },
+    "NH": {
+      "singlePerThousand": 2.061,
+      "multiPerThousand": 1.463
+    },
+    "NJ": {
+      "singlePerThousand": 1.558,
+      "multiPerThousand": 2.118
+    },
+    "NM": {
+      "singlePerThousand": 3.046,
+      "multiPerThousand": 0.509
+    },
+    "NY": {
+      "singlePerThousand": 0.526,
+      "multiPerThousand": 1.817
+    },
+    "NC": {
+      "singlePerThousand": 6.341,
+      "multiPerThousand": 2.274
+    },
+    "ND": {
+      "singlePerThousand": 2.073,
+      "multiPerThousand": 0.839
+    },
+    "OH": {
+      "singlePerThousand": 1.497,
+      "multiPerThousand": 1.146
+    },
+    "OK": {
+      "singlePerThousand": 2.668,
+      "multiPerThousand": 0.669
+    },
+    "OR": {
+      "singlePerThousand": 2.296,
+      "multiPerThousand": 1.126
+    },
+    "PA": {
+      "singlePerThousand": 1.25,
+      "multiPerThousand": 0.647
+    },
+    "RI": {
+      "singlePerThousand": 0.742,
+      "multiPerThousand": 0.838
+    },
+    "SC": {
+      "singlePerThousand": 7.403,
+      "multiPerThousand": 1.189
+    },
+    "SD": {
+      "singlePerThousand": 3.522,
+      "multiPerThousand": 2.985
+    },
+    "TN": {
+      "singlePerThousand": 4.519,
+      "multiPerThousand": 1.688
+    },
+    "TX": {
+      "singlePerThousand": 5.053,
+      "multiPerThousand": 2.161
+    },
+    "UT": {
+      "singlePerThousand": 5.045,
+      "multiPerThousand": 1.778
+    },
+    "VT": {
+      "singlePerThousand": 2.165,
+      "multiPerThousand": 1.928
+    },
+    "VA": {
+      "singlePerThousand": 2.587,
+      "multiPerThousand": 1.278
+    },
+    "WA": {
+      "singlePerThousand": 2.405,
+      "multiPerThousand": 2.342
+    },
+    "WV": {
+      "singlePerThousand": 1.986,
+      "multiPerThousand": 0.382
+    },
+    "WI": {
+      "singlePerThousand": 2.161,
+      "multiPerThousand": 1.836
+    },
+    "WY": {
+      "singlePerThousand": 2.777,
+      "multiPerThousand": 0.856
+    },
+    "PR": {
+      "singlePerThousand": 0.935,
+      "multiPerThousand": 0.202
+    }
+  },
+  "single": {
+    "constructionCostShare": 0.644,
+    "lotShare": 0.137,
+    "monthsToComplete": 6.3,
+    "allElectricCostChange": -0.018
+  },
+  "multi": {
+    "costPerUnitMinor": 25000000,
+    "landShare": 0.11,
+    "capRate": 0.049,
+    "monthsToComplete": 19.4,
+    "allElectricCostChange": -0.018
+  },
+  "zoning": {
+    "singleFamilyOnlyShare": 0.75,
+    "upzoningPermitEffect": 0.5
+  },
+  "vacancy": {
+    "rental": 0.0675,
+    "natural": 0.07
+  },
+  "inclusionary": {
+    "setAsideShare": 0.12,
+    "amiShare": 0.8,
+    "rentShareOfIncome": 0.3
+  },
+  "farmland": {
+    "developmentShare": 0.62
+  }
+}

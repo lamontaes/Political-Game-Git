@@ -84,5 +84,131 @@
       "unit": "score per log of down payment over cash",
       "citation": "Saving the down payment is the main barrier for first-time buyers (NAR 2025 Profile of Home Buyers and Sellers)."
     }
+  },
+  "housingCounselPlanShareOfPay": {
+    "value": 0.1,
+    "tag": "TUNABLE",
+    "citation": "Repayment stipulations in housing court spread arrears over months the tenant can carry beyond rent; HUD's 30% rent-burden line leaves roughly a tenth of pay for arrears.",
+    "spread": {
+      "low": 0.05,
+      "high": 0.2,
+      "unit": "share of monthly pay",
+      "citation": "Repayment stipulations in housing court spread arrears over months the tenant can carry beyond rent; HUD's 30% rent-burden line leaves roughly a tenth of pay for arrears."
+    }
+  },
+  "housingCounselPlanMaxMonths": {
+    "value": 12,
+    "tag": "TUNABLE",
+    "citation": "Negotiated repayment plans in housing court run a few months to a year; NYC OCJ FY25 report: 83% of fully represented households were allowed to remain.",
+    "spread": {
+      "low": 3,
+      "high": 12,
+      "unit": "months",
+      "citation": "Negotiated repayment plans in housing court run a few months to a year; NYC OCJ FY25 report: 83% of fully represented households were allowed to remain."
+    }
+  },
+  "housingCounselCostPerCaseMinor": {
+    "value": 426000,
+    "tag": "SOURCED",
+    "citation": "NYC Dept. of Social Services, Office of Civil Justice, FY25 Annual Report (Dec 2025): tenant legal services $217.3M over 51,000 households served ($4,260) to 22,700 fully represented ($9,570)."
+  },
+  "housingSupplyElasticity": {
+    "value": 1.5,
+    "tag": "TUNABLE",
+    "citation": "Saiz (2010, QJE): metro housing supply elasticities from about 0.6 (constrained coasts) to over 3, near 1.75 on average.",
+    "spread": {
+      "low": 0.6,
+      "high": 3,
+      "unit": "starts per unit of value over cost",
+      "citation": "Saiz (2010, QJE): metro housing supply elasticities from about 0.6 (constrained coasts) to over 3, near 1.75 on average."
+    }
+  },
+  "housingLandStartsElasticity": {
+    "value": 0.29,
+    "tag": "TUNABLE",
+    "citation": "Auckland's upzoning of about three quarters of residential land raised permits about 50% (Greenaway-McGrevy and Phillips 2023), ln 1.5 / ln 4; critics' 10% gives the low end.",
+    "spread": {
+      "low": 0.07,
+      "high": 0.4,
+      "unit": "starts per share of land where building is allowed",
+      "citation": "Auckland's upzoning of about three quarters of residential land raised permits about 50% (Greenaway-McGrevy and Phillips 2023), ln 1.5 / ln 4; critics' 10% gives the low end."
+    }
+  },
+  "housingUnitsPerBuilding": {
+    "value": 25,
+    "tag": "TUNABLE",
+    "citation": "Census Building Permits Survey 2024: units per permitted building in 5+ unit structures run about 20 to 30 by state.",
+    "spread": {
+      "low": 10,
+      "high": 50,
+      "unit": "units per apartment building",
+      "citation": "Census Building Permits Survey 2024: units per permitted building in 5+ unit structures run about 20 to 30 by state."
+    }
+  },
+  "housingMaterialsShareOfCost": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "NAHB Construction Cost Survey 2024: materials and trades bought by the builder are about half of a new home's construction cost.",
+    "spread": {
+      "low": 0.4,
+      "high": 0.6,
+      "unit": "share of construction cost",
+      "citation": "NAHB Construction Cost Survey 2024: materials and trades bought by the builder are about half of a new home's construction cost."
+    }
+  },
+  "housingRentVacancyElasticity": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "Natural-vacancy rent adjustment (Gabriel and Nothaft 1988, 2001); no readable U.S. estimate, kept small; new 50+ unit buildings lower nearby rents about 6% (Asquith, Mast and Reed 2023).",
+    "spread": {
+      "low": 0.05,
+      "high": 0.4,
+      "unit": "rent change per share change in vacancy",
+      "citation": "Natural-vacancy rent adjustment (Gabriel and Nothaft 1988, 2001); no readable U.S. estimate, kept small; new 50+ unit buildings lower nearby rents about 6% (Asquith, Mast and Reed 2023)."
+    }
+  },
+  "housingNewHomeSupplyMonths": {
+    "value": 9,
+    "tag": "TUNABLE",
+    "citation": "Census New Residential Sales, 2024: new single-family homes for sale ran about 8 to 9 months' supply at the current sales rate.",
+    "spread": {
+      "low": 4,
+      "high": 12,
+      "unit": "months of starts",
+      "citation": "Census New Residential Sales, 2024: new single-family homes for sale ran about 8 to 9 months' supply at the current sales rate."
+    }
+  },
+  "housingNoticeBaseline": {
+    "value": -4,
+    "tag": "TUNABLE",
+    "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json.",
+    "spread": {
+      "low": -5,
+      "high": -3,
+      "unit": "logit of a month's pull to serve notice",
+      "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json."
+    }
+  },
+  "housingNoticeArrearsWeight": {
+    "value": 2.25,
+    "tag": "TUNABLE",
+    "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json.",
+    "spread": {
+      "low": 1.5,
+      "high": 3,
+      "unit": "per month of rent owed",
+      "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json."
+    }
+  },
+  "housingNoticeLateWeight": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json.",
+    "spread": {
+      "low": 0,
+      "high": 1,
+      "unit": "per month since rent first went unpaid",
+      "citation": "Landlords usually wait until a tenant owes two or more months of rent before filing (Humphries, Nelson, Nguyen, van Dijk and Waldinger, NBER w33155, 2024); 14.4% of renters are behind at a time, most by about a month (Census Household Pulse Survey 2024, Housing Tables 1b and 3b). Set so a month's pull is about 0.15 at one month owed and 0.7 at two; checked against Eviction Lab 2018 filing rates (7.8 per 100 renter households nationally). Gathered in data/research/housing/eviction-filings-2026.json."
+    }
   }
 }
