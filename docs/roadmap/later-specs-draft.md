@@ -227,18 +227,21 @@ Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means th
 
 ### M6-01 · The opening
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M6-screens.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-PLAY
 - **Does:** The owner's approved cinematic opening: letterbox bars and the President's speech (inaugural or State of the Union), with cutaways to your representatives, state, town, family and you. Numbers live in an openable ledger.
 - **Passes when:** A new game in a random place opens with that place's officials and family, and the speech's words come from the engine.
 
 ### M6-02 · Every screen, one at a time
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M6-screens.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-PLAY
 - **Does:** In the owner's order, after the opening: panel frame and style, person card (only what you could know), family (the owner's family-screen reference), conversation box (lower third, Lie button), government map, campaigns (no office list; you go to the filing office), calendar and time, journal, news, ledger, bill drafting on paper, desk and budget.
 - **Passes when:** Each screen gets the owner's design approval, then a play-through in a random place.
 
 ### M6-03 · Art fixes
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M6-screens.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-PLAY, with the CTO's art pipeline
 - **Does:** Seated poses that sit, formal clothes by role and place, frame corners, and the rest of the owner's October 8 list.
 - **Passes when:** The owner's October 8 defect list is cleared, judged by him side by side.

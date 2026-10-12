@@ -6,7 +6,8 @@
     "M2": "Running for office (owner-approved piece by piece from Oct 12, 2026)",
     "M4": "Stories and words (owner-approved piece by piece from Oct 12, 2026)",
     "M3": "Governing, and laws that change things (owner-approved piece by piece from Oct 12, 2026)",
-    "M5": "State and federal careers, and the executive role (owner-approved Oct 12, 2026)"
+    "M5": "State and federal careers, and the executive role (owner-approved Oct 12, 2026)",
+    "M6": "The real game screens (owner-approved Oct 12, 2026; each screen also gets the owner's sign-off)"
   },
   "features": [
     {
@@ -566,6 +567,36 @@
       "golden_path": "careers",
       "package": "M5-careers",
       "test": "In a full election cycle, congressional and presidential careers run in the world on the same election, legislature and executive engines with fictional people, and a player can run for president on the same single track as everyone else. Not required for early access.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M6-01",
+      "milestone": "M6",
+      "title": "The opening",
+      "golden_path": "all",
+      "package": "M6-screens",
+      "test": "A new game in a random place opens as a movie carried by the President's speech (the inaugural or the State of the Union, by the calendar) in engine words built from real addresses, cutting to the player's senators and representative, governor, town and family, then the player and day one; nothing is scripted, every number is in the ledger button, the whole opening loads during the loading screen, Escape opens only options and quit, and two new games' openings differ.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M6-02",
+      "milestone": "M6",
+      "title": "Every screen, one at a time",
+      "golden_path": "all",
+      "package": "M6-screens",
+      "test": "Each screen in the approved order runs on the new core with record data, control names and engine text only, in the Kit 12 and Kit 13 look and the Civilization VI menu shell, with no scrolling on main screens; each has the owner's sign-off after a play-through in a random place.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M6-03",
+      "milestone": "M6",
+      "title": "Art fixes",
+      "golden_path": "all",
+      "package": "M6-screens",
+      "test": "Every art item on the owner's Oct 8 defect list (docs/ui/playtest-2026-10-08.md) is cleared, judged by the owner side by side.",
       "command": null,
       "passes": false
     }
