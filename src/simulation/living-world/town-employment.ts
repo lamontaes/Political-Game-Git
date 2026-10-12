@@ -280,11 +280,12 @@ const MORE_NAMES: Readonly<
     ({ county }) => `${county} Feed and Grain`,
     ({ family }) => `${family} Distributing`,
   ],
+  // A general store (cashiers, sales associates, stockers selling food and clothing): named as one.
   retail: [
-    ({ family }) => `${family} Hardware`,
+    ({ family }) => `${family} General Store`,
     ({ county }) => `${county} Market`,
     ({ county }) => `${county} Mercantile`,
-    ({ family }) => `${family}'s Grocery`,
+    ({ family }) => `${family}'s Store`,
   ],
   trucking: [
     ({ county }) => `${county} Freight`,
@@ -307,10 +308,11 @@ const MORE_NAMES: Readonly<
     ({ family }) => `${family} Real Estate`,
     ({ county }) => `${county} Land and Homes`,
   ],
+  // One firm employs accountants, an attorney and an engineer: named for all of them.
   professional: [
-    ({ family }) => `${family} Law Office`,
-    ({ family }) => `${family} Accounting`,
-    ({ county }) => `${county} Tax Service`,
+    ({ family }) => `${family} and Associates`,
+    ({ county }) => `${county} Professional Services`,
+    ({ family }) => `${family} Professional Group`,
   ],
   "building-services": [
     ({ family }) => `${family} Cleaning`,

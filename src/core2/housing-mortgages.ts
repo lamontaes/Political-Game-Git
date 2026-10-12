@@ -11,20 +11,14 @@
  * full household, a residents flow for counted ones.
  */
 import housingData from "./data/housing/housing.json" with { type: "json" };
-import history from "./data/macro/history.json" with { type: "json" };
 import type { FinanceContractInput } from "./finance-types";
 import { historicalMortgageRate, type MacroParameter } from "./macro-model";
 import type { ResidentFlowInput } from "./residents";
+import { homePriceRatio } from "./housing-prices";
 import { stopgap } from "./stopgaps";
 import type { IsoDate, Source } from "./types";
 
 const DATA = housingData.mortgage;
-const CPI = new Map(
-  (history.annualCpi as { year: number; index: number }[]).map((row) => [
-    row.year,
-    row.index,
-  ]),
-);
 export const MORTGAGE_PREFIX = "mortgage:";
 export const MORTGAGE_TERMS_KEY = "housingMortgages";
 export const countedMortgageFlowId = (placeId: string, holderId: string) =>
@@ -54,12 +48,6 @@ export interface MortgageTerms {
   monthsLeft: number;
 }
 
-function cpi(year: number): number {
-  const years = [...CPI.keys()];
-  const at = Math.min(Math.max(year, years[0]!), years.at(-1)!);
-  return CPI.get(at)!;
-}
-
 /** What is left of a loan after `paid` monthly payments. */
 function balanceAfter(
   principal: number,
@@ -78,6 +66,8 @@ export function openingMortgages(input: {
   startedAt: IsoDate;
   dueAt: IsoDate;
   bankId: string;
+  /** The state, for its house price index. */
+  usps: string;
   /** What the town bank's capital lets it hold. */
   bankRoomMinor: number;
   /** Holders outside the town; without one the town bank holds every loan. */
@@ -159,7 +149,10 @@ export function openingMortgages(input: {
       ageThen < firstTimeAge
         ? DATA.downPayment.firstTime
         : DATA.downPayment.repeat;
-    const price = owner.valueMinor * (cpi(boughtYear) / cpi(year - 1));
+    // What the home cost then: today's value moved back by the state's house price index.
+    const price =
+      owner.valueMinor *
+      homePriceRatio(input.usps, input.startedAt, `${boughtYear}-07-01`);
     const original = price * (1 - down);
     const rate =
       historicalMortgageRate(`${boughtYear}-06`, p) / p("macroHundred");

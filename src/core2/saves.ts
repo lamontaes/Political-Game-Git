@@ -19,7 +19,13 @@ import {
   generatedOpening,
   type WorldSettings,
 } from "./tooling/generated-world";
-import type { CoreData, CoreModule, CoreState, IsoDate } from "./types";
+import type {
+  CoreData,
+  CoreInput,
+  CoreModule,
+  CoreState,
+  IsoDate,
+} from "./types";
 
 export const SAVE_FORMAT = "core2-save-v1";
 
@@ -52,6 +58,8 @@ export interface Game {
   commands: SaveCommand[];
   /** Commands a load could not replay under this version, with the reason. */
   skipped: { command: SaveCommand; reason: string }[];
+  /** The core version a loaded save was made under, when it isn't this one. */
+  upgradedFrom?: string;
 }
 
 export interface GameOptions {
@@ -59,6 +67,8 @@ export interface GameOptions {
   modules?: () => readonly CoreModule[];
   data?: CoreData;
   observer?: boolean;
+  /** Adds an engine's records to the opening before the core is built (e.g. withWorldEconomy). */
+  input?: (input: CoreInput) => CoreInput;
   /** Runs once after the core is created (e.g. engines' opening steps). */
   afterCreate?: (core: CoreState) => void;
 }
@@ -96,10 +106,11 @@ registerCommand<Parameters<typeof fillInIdentity>[1]>(
 );
 
 export function newGame(recipe: GameRecipe, options: GameOptions = {}): Game {
-  const input = generatedOpening(recipe.place, {
+  const opening = generatedOpening(recipe.place, {
     twoLevel: recipe.twoLevel,
     ...(recipe.settings ? { settings: recipe.settings } : {}),
   });
+  const input = options.input ? options.input(opening) : opening;
   const core = createLifeCore(input, {
     ...(options.data ? { data: options.data } : {}),
     ...(options.observer !== undefined ? { observer: options.observer } : {}),
@@ -127,9 +138,10 @@ export function runCommand<R = unknown>(
     kind,
     payload: JSON.parse(JSON.stringify(payload ?? null)),
   };
-  const result = handler(game.core, command.payload as never) as R;
+  // Recorded before it runs, so a command that fails is in the save (and a
+  // bug report replays to the failure).
   game.commands.push(command);
-  return result;
+  return handler(game.core, command.payload as never) as R;
 }
 
 export function saveGame(game: Game): SaveV1 {
@@ -147,6 +159,8 @@ export function loadGame(save: SaveV1, options: GameOptions = {}): Game {
   if (save.format !== SAVE_FORMAT)
     throw new Error(`Unknown save format: ${String(save.format)}`);
   const game = newGame(save.recipe, options);
+  if (save.coreApiVersion !== CORE_API_VERSION)
+    game.upgradedFrom = save.coreApiVersion;
   for (const command of save.commands) {
     try {
       if (command.date > game.core.date)

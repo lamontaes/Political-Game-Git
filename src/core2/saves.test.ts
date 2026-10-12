@@ -61,6 +61,9 @@ describe(`saves in ${place.name}, ${place.state} (seed ${seed})`, () => {
     expect(loaded.skipped.map((row) => row.command.kind)).toEqual([
       "retired.command",
     ]);
+    expect(
+      loadGame({ ...save, coreApiVersion: "core2-api-v1" }).upgradedFrom,
+    ).toBe("core2-api-v1");
     expect(digest(loaded.core)).toBe(digest(game.core));
   }, 300_000);
 });
