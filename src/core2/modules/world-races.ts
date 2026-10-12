@@ -29,7 +29,7 @@ import { openNextCycle, resultOf, VOTING_MODULE_ID } from "./voting";
 import electorsData from "../data/elections/electoral-votes.json" with { type: "json" };
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import { drawOfficialIdentity } from "../officials-identity";
-import { novemberGeneralElectionDay } from "../../simulation/nationwide-world/town-election-calendar";
+import { novemberGeneralElectionDay } from "../gov-rules/town-election-calendar";
 
 export const WORLD_RACES_MODULE_ID = "core2-world-races-v1";
 

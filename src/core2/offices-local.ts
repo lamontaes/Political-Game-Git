@@ -11,11 +11,11 @@
 import stateExecutiveGovernments from "../../data/research/local-government/state-executive-governments.json" with { type: "json" };
 import countySchedule from "../../data/research/government/county-election-schedule-by-state.json" with { type: "json" };
 import { lifePlaceByKey } from "../simulation/life-places";
-import { placeLocalGovernmentUnits } from "../simulation/nationwide-world/local-governments";
-import { localGoverningBodyRules } from "../simulation/nationwide-world/local-governing-body-rules";
-import { localChiefExecutiveRules } from "../simulation/nationwide-world/local-chief-executive-rules";
-import { countyElectedRowOffices } from "../simulation/nationwide-world/county-row-offices";
-import { boardGoverningBodyRules } from "../simulation/nationwide-world/township-governing-body-rules";
+import { placeLocalGovernmentUnits } from "./gov-rules/local-governments";
+import { localGoverningBodyRules } from "./gov-rules/local-governing-body-rules";
+import { localChiefExecutiveRules } from "./gov-rules/local-chief-executive-rules";
+import { countyElectedRowOffices } from "./gov-rules/county-row-offices";
+import { boardGoverningBodyRules } from "./gov-rules/township-governing-body-rules";
 import type { GovernmentUnitIdentity } from "../simulation/government-units";
 
 export type OfficeLevel = "federal" | "state" | "county" | "city" | "township";

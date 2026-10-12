@@ -11,18 +11,18 @@
  * name only.
  */
 import { SeededRng } from "../simulation/rng";
-import { generatePersonIdentity } from "../simulation/person-identity";
-import { drawCohortGivenName } from "../simulation/given-name-cohorts";
+import { generatePersonIdentity } from "./gov-rules/person-identity";
+import { drawCohortGivenName } from "./gov-rules/given-name-cohorts";
 import {
   getNameCorpus,
   givenNamePoolForCorpus,
   nameCorpusVersionForPlace,
   PLACE_NAMES_V1_VERSION,
-} from "../simulation/names-data";
+} from "./gov-rules/names-data";
 import {
   inventedPersonBirthDate,
   type InventedPersonRole,
-} from "../simulation/invented-person-age";
+} from "./gov-rules/invented-person-age";
 import { isRealOfficeholderName } from "./officials-names";
 import { makeIsoDate } from "../simulation/dates";
 

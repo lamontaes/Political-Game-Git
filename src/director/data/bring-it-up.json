@@ -5,7 +5,6 @@
   "toldEvent": "conversation.told",
   "heardKey": "heard",
   "blameKey": "blame",
-  "blameAuthorityTrait": "people-mind-v1:conflict",
   "changes": [
     {
       "eventKind": "organization.closed",

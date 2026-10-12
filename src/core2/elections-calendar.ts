@@ -17,14 +17,14 @@
 import nomination from "../../data/research/elections/party-nomination-rules-2026.json" with { type: "json" };
 import { governmentUnit } from "../simulation/government-units";
 import { addDays, makeIsoDate } from "../simulation/dates";
-import { resolveMunicipalElectionTiming } from "../simulation/municipal-ballot-rules";
-import type { MunicipalElectionTiming } from "../simulation/municipal-election-rules";
-import { nextCountyElection } from "../simulation/nationwide-world/county-election-calendar";
+import { resolveMunicipalElectionTiming } from "./gov-rules/municipal-ballot-rules";
+import type { MunicipalElectionTiming } from "./gov-rules/municipal-election-rules";
+import { nextCountyElection } from "./gov-rules/county-election-calendar";
 import {
   FILING_LEAD_DAYS,
   FILING_LEAD_SOURCE,
   novemberGeneralElectionDay,
-} from "../simulation/nationwide-world/town-election-calendar";
+} from "./gov-rules/town-election-calendar";
 import type { OfficeInput } from "./offices-local";
 
 export interface ElectionDates {
