@@ -4456,5 +4456,16 @@
       "unit": "trait lean difference",
       "citation": "Generated-town lean differences between options (OPUS-TRAITS probe, Oct 12, 2026): 99th percentile about 0.5, maximum about 0.7."
     }
+  },
+  "truthDefaultPull": {
+    "value": 0.75,
+    "tag": "TUNABLE",
+    "citation": "How strongly a hearer leans toward believing a claim they cannot check, before traits: truth-default theory (Levine 2014, Journal of Language and Social Psychology 33(4)) finds people judge most statements honest. With traitLeanScale, only hearers whose traits lean hard toward doubt (about the most suspicious tenth) doubt a lie.",
+    "spread": {
+      "low": 0.5,
+      "high": 1,
+      "unit": "scaled trait lean",
+      "citation": "Levine 2014: truth judgments run well above half in deception experiments; the spread keeps believers a clear majority."
+    }
   }
 }
