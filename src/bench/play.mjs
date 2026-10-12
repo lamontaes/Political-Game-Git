@@ -574,15 +574,48 @@ const sheets = {
     ];
   },
   async news() {
+    const e = await api(`/api/economy?id=${encodeURIComponent(me.id)}`);
+    const pct = (value) => (value === undefined ? "" : `${value.toFixed(1)}%`);
+    const economy = e.nation
+      ? [
+          row(
+            `Nation · ${e.nation.month}`,
+            `Unemployment ${pct(e.nation.unemploymentPct)} · Inflation ${pct(e.nation.inflationPct)} · Policy rate ${pct(e.nation.policyRatePct)} · Mortgage ${pct(e.nation.mortgage30Pct)}`,
+          ),
+          ...(e.region
+            ? [
+                row(
+                  `Region · ${e.region.month ?? ""}`,
+                  Object.entries(e.region)
+                    .filter(([, v]) => typeof v === "number")
+                    .slice(0, 4)
+                    .map(([k, v]) => `${k} ${Number(v).toFixed(1)}`)
+                    .join(" · "),
+                ),
+              ]
+            : []),
+          ...(e.jobs
+            ? [
+                row(
+                  "Jobs here",
+                  `${e.jobs.employed} employed · ${e.jobs.seekers} looking · ${e.jobs.openPositions} open`,
+                ),
+              ]
+            : []),
+        ]
+      : [];
     const rows = await api("/api/news");
-    return rows.slice(0, 30).map((r) =>
-      row(
-        `${r.date} · ${r.kind}`,
-        Object.entries(r.facts)
-          .map(([k, v]) => `${k}: ${v}`)
-          .join(" · "),
+    return [
+      ...economy,
+      ...rows.slice(0, 30).map((r) =>
+        row(
+          `${r.date} · ${r.kind}`,
+          Object.entries(r.facts)
+            .map(([k, v]) => `${k}: ${v}`)
+            .join(" · "),
+        ),
       ),
-    );
+    ];
   },
   async politics() {
     const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);

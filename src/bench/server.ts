@@ -8,6 +8,7 @@ import { openingShots } from "./opening";
 import { calendarItems, newsItems } from "./calendar";
 import { campaignAct, campaignView } from "./campaign";
 import { storyScene } from "./story";
+import { economyView, worldPanels } from "./economy";
 import {
   chooseAtCounter,
   openBenchFilingVisit,
@@ -229,6 +230,17 @@ const server = createServer(async (request, response) => {
           url.searchParams.get("id") ?? "",
         ),
       );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/economy") {
+      send(
+        200,
+        economyView(requireCore(), placeId, url.searchParams.get("id") ?? ""),
+      );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/world") {
+      send(200, worldPanels(requireCore(), placeId));
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/story") {

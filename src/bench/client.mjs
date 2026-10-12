@@ -697,3 +697,16 @@ element("resolve-trace").addEventListener("click", () =>
     element("trace-status").textContent = error.message;
   }),
 );
+
+element("world-load").addEventListener("click", async () => {
+  try {
+    const panels = await request("/api/world");
+    element("world-panels").replaceChildren(
+      ...Object.entries(panels).map(([key, value]) =>
+        recordDetails(key, value),
+      ),
+    );
+  } catch (error) {
+    status.textContent = error.message;
+  }
+});
