@@ -2,6 +2,7 @@ import { validateCompactChoice } from "./compact-choice";
 import { bookkeeping } from "./bookkeeping";
 import {
   countedJob,
+  releaseResidentHousehold,
   rerateCountedJob,
   residentPerson,
   takeResidentHousehold,
@@ -1499,8 +1500,11 @@ export function inspectPerson(
  * Fill in a person from the wider population (two-level population): their
  * whole household leaves the counts and becomes full people, with the same
  * records the counts held: names, birth dates, past, traits and the job the
- * employer's books count. Their money stays pooled with the residents
- * account (stopgap SG-CORE-fill-in-pooled-money). Returns the person.
+ * employer's books count. Their share of the residents' cash moves to them,
+ * their jobs become scheduled work on the employer's pay cadence, and their
+ * household purchases become their own contracts; the merged flows shrink
+ * by the same amounts. Retirement income stays pooled (stopgap
+ * SG-CORE-fill-in-pooled-money). Returns the person.
  */
 export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const existing = core.people.get(personId);
@@ -1555,6 +1559,72 @@ export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
       core.jobs.set(job.id, { ...job });
       financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
     }
+  }
+  // Their economic life moves from the merged flows to their own records.
+  const released = releaseResidentHousehold(core, record);
+  if (released.accountId) {
+    const accounts = api.accounts(),
+      from = accounts.main(released.accountId),
+      pool = accounts.balance(from),
+      household = record.people.reduce((n, row) => n + row.liquidMinor, 0);
+    for (const row of record.people) {
+      const amount =
+        household > 0
+          ? Math.floor(
+              (pool * released.cashShare * row.liquidMinor) / household,
+            )
+          : 0;
+      if (amount > 0)
+        accounts.transfer({
+          id: `fill-in:${row.id}:cash`,
+          from,
+          to: accounts.main(row.id),
+          amountMinor: amount,
+          reasonKey: "residents.fill-in.cash",
+          source: row.source,
+        });
+    }
+  }
+  for (const commitment of record.workCommitments) {
+    const job = core.jobs.get(commitment.jobId);
+    const original = commitment.payrollCalendarId
+      ? released.calendars.get(commitment.payrollCalendarId)
+      : undefined;
+    if (!job || job.endsAt !== undefined || !original) continue;
+    const calendarId = `${original.id}:filled:${commitment.id}`;
+    api.addWorkCommitment({
+      ...commitment,
+      startsAt: makeIsoDate(core.date),
+      hourlyMinor: job.hourlyMinor ?? commitment.hourlyMinor,
+      payrollCalendarId: calendarId,
+    });
+    api.addWorkPayrollCalendar({
+      ...original,
+      id: calendarId,
+      workCommitmentIds: [commitment.id],
+      basisRecordIds: [job.organizationId, job.id, commitment.id],
+      effectiveFrom: makeIsoDate(core.date),
+    });
+  }
+  for (const contract of record.contracts) {
+    if (contract.recipientIncome) continue; // retirement stays pooled (stopgap)
+    const day = Number(contract.dueAt.slice(8, 10));
+    let dueAt = makeIsoDate(contract.dueAt);
+    while (dueAt <= core.date) {
+      const next = new Date(`${dueAt}T00:00:00.000Z`);
+      next.setUTCDate(1);
+      next.setUTCMonth(next.getUTCMonth() + contract.periodMonths);
+      const last = new Date(
+        Date.UTC(next.getUTCFullYear(), next.getUTCMonth() + 1, 0),
+      ).getUTCDate();
+      next.setUTCDate(Math.min(day, last));
+      dueAt = makeIsoDate(next.toISOString().slice(0, 10));
+    }
+    api.addFinanceContract({
+      ...contract,
+      dueAt,
+      householdPurchaseCalendar: undefined,
+    });
   }
   for (const actor of admitted) {
     for (const id of [...actor.familyIds, ...actor.knownIds]) husk(id);

@@ -13,6 +13,7 @@ import {
 } from "../residents";
 import { transfer } from "../accounts";
 import type { ResidentWageShortfall } from "../finance-types";
+import type { WorkPayrollCalendarInput } from "../work-pay-period";
 import type {
   CoreAPI,
   CoreModule,
@@ -56,7 +57,9 @@ export interface ResidentsRuntime {
   households: Map<string, ResidentHouseholdRecord>;
   householdOfPerson: Map<PersonId, string>;
   jobs: Map<string, JobInput>;
-  /** Households filled in from the counts; their money stays pooled (stopgap). */
+  /** Opening cash of everyone still counted, by place (fill-in takes its share). */
+  openingCashByPlace: Map<PlaceId, number>;
+  /** Households filled in from the counts. */
   filledIn: Map<string, ResidentHouseholdRecord>;
   wageFlowByJob: Map<string, FlowState>;
   /** Today's missed count-worker paydays, the evidence a closure cites. */
@@ -95,6 +98,7 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     shortfalls: new Map(),
     jobs: new Map(),
     filledIn: new Map(),
+    openingCashByPlace: new Map(),
     wageFlowByJob: new Map(),
   };
   for (const record of input.households) {
@@ -102,6 +106,12 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     for (const person of record.people)
       rt.householdOfPerson.set(person.id, record.household.id);
     for (const job of record.jobs) rt.jobs.set(job.id, job);
+    const placeId = record.household.placeId;
+    rt.openingCashByPlace.set(
+      placeId,
+      (rt.openingCashByPlace.get(placeId) ?? 0) +
+        record.people.reduce((n, row) => n + row.liquidMinor, 0),
+    );
   }
   for (const row of input.flows) {
     if (rt.flows.has(row.id)) throw new Error(`Duplicate flow: ${row.id}`);
@@ -311,6 +321,67 @@ export function residentPerson(
   return id
     ? rt!.households.get(id)!.people.find((row) => row.id === personId)
     : undefined;
+}
+
+/**
+ * What a filled-in household takes back from the merged flows: its workers'
+ * share of each wage flow and its own purchase contracts. Returns the
+ * employer calendars its jobs were paid on and its share of the residents'
+ * cash (by opening cash, of everyone still counted in that place).
+ */
+export function releaseResidentHousehold(
+  core: CoreState,
+  record: ResidentHouseholdRecord,
+): {
+  calendars: Map<string, WorkPayrollCalendarInput>;
+  cashShare: number;
+  accountId?: string;
+} {
+  const rt = runtimes.get(core)!;
+  const jobIds = new Set(record.jobs.map((row) => row.id)),
+    contractIds = new Set(record.contracts.map((row) => row.id));
+  for (const flow of rt.flows.values()) {
+    if (flow.kind === "wages" && flow.perDayMinorByJob) {
+      const perDay = { ...flow.perDayMinorByJob };
+      let changed = false;
+      for (const id of jobIds)
+        if (perDay[id] !== undefined) {
+          delete perDay[id];
+          changed = true;
+        }
+      if (!changed) continue;
+      flow.perDayMinorByJob = perDay;
+      flow.jobIds = (flow.jobIds ?? []).filter((id) => !jobIds.has(id));
+      let total = 0;
+      for (const value of Object.values(perDay)) total += value;
+      flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
+    } else if (flow.kind === "purchase" && flow.amountByContract) {
+      const amounts = { ...flow.amountByContract };
+      let removed = 0;
+      for (const id of contractIds)
+        if (amounts[id] !== undefined) {
+          removed += amounts[id]!;
+          delete amounts[id];
+        }
+      if (!removed) continue;
+      flow.amountByContract = amounts;
+      flow.amountMinor -= removed;
+    }
+  }
+  for (const id of jobIds) rt.wageFlowByJob.delete(id);
+  const placeId = record.household.placeId;
+  const own = record.people.reduce((n, row) => n + row.liquidMinor, 0);
+  const remaining = rt.openingCashByPlace.get(placeId) ?? 0;
+  rt.openingCashByPlace.set(placeId, remaining - own);
+  const calendars = new Map(
+    (rt.input.calendars ?? []).map((row) => [row.id, row]),
+  );
+  return {
+    calendars,
+    cashShare: remaining > 0 ? own / remaining : 0,
+    accountId: rt.input.accounts.find((row) => row.placeId === placeId)
+      ?.accountId,
+  };
 }
 
 /** Remove a person's household from the counts, for fill-in. */

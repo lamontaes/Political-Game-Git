@@ -62,6 +62,8 @@ export interface ResidentFlowInput {
   /** Each counted job's pay per day; amount = round(sum × periodFactor). */
   perDayMinorByJob?: Readonly<Record<string, number>>;
   periodFactor?: number;
+  /** Purchase flows: each merged household contract's amount (fill-in takes it back). */
+  amountByContract?: Readonly<Record<string, number>>;
   source: Source;
 }
 
@@ -79,6 +81,8 @@ export interface ResidentsInput {
   accounts: readonly { placeId: PlaceId; accountId: string }[];
   households: readonly ResidentHouseholdRecord[];
   flows: readonly ResidentFlowInput[];
+  /** Employer payday calendars the counted workers were on (fill-in reuses their cadence). */
+  calendars?: readonly WorkPayrollCalendarInput[];
   source: Source;
 }
 
@@ -405,6 +409,9 @@ export function collapseToTwoLevels(
       ...(first.endsAt ? { endsAt: first.endsAt } : {}),
       salesReceipt: !!first.salesReceipt,
       marketAdjusted: !!first.marketAdjusted,
+      amountByContract: Object.fromEntries(
+        group.rows.map((row) => [row.id, row.amountMinor]),
+      ),
       source: first.source,
     });
   }
@@ -580,6 +587,14 @@ export function collapseToTwoLevels(
       households,
       // Flows already recorded (e.g. outside buyers) are kept.
       flows: [...(input.residents?.flows ?? []), ...flows],
+      calendars: [
+        ...new Set(
+          [...commitmentsByPerson.values()]
+            .flat()
+            .map((row) => row.payrollCalendarId)
+            .filter((id): id is string => !!id),
+        ),
+      ].map((id) => calendars.get(id)!),
       source,
     },
   };
