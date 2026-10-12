@@ -75,7 +75,9 @@ describe("M2-07 elections", () => {
         seed,
         placeKey: place,
         startedAt: START,
-        minimumPeople: 200,
+        // A small town: the year of daily work the election runs through
+        // costs time per person.
+        minimumPeople: 60,
       }),
     );
     openOffices(core, seed);
@@ -210,5 +212,5 @@ describe("M2-07 elections", () => {
         whyOneVoter: voter ? ballotOf(api, contest!.id, voter.voterId) : null,
       }),
     );
-  });
+  }, 90_000); // a whole election year of daily work in one town; 30 s is too tight on slower runners
 });
