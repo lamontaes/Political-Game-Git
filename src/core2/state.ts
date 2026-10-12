@@ -30,6 +30,7 @@ import {
   repriceCreditFacility,
   attachBusinessCredit,
   endStandingContract,
+  setStandingContractAmount,
   admitBusinessBooks,
   admitFinanceCondition,
   settleFinanceContract,
@@ -820,6 +821,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     addCreditFacility(row) {
       admitCreditFacility(core, api, row);
+    },
+    setStandingContractAmount(id, amountMinor) {
+      setStandingContractAmount(core, api, id, amountMinor);
     },
     endStandingContract(id) {
       endStandingContract(core, api, id);

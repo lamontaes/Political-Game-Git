@@ -1107,7 +1107,7 @@
     "id": "SG-WORLD-housing-landlord",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
-    "line": 123,
+    "line": 124,
     "whatItFakes": "All of a town's rentals belong to one landlord business with no owner, and it serves notice as soon as rent is past the grace period.",
     "why": "Landlords as businesses with owners who decide from their own books and patience come with businesses growing (M1-08).",
     "addedBy": "OPUS-WORLD",
@@ -1119,7 +1119,7 @@
     "id": "SG-WORLD-housing-eviction-steps",
     "kind": "estimated-law",
     "file": "src/core2/modules/housing.ts",
-    "line": 189,
+    "line": 190,
     "whatItFakes": "Eviction notice, hearing and stay periods for places whose statute was not read in full; missing values take the median of the better-sourced places.",
     "why": "State code sites refused the research helpers' requests; 51 of 56 places are recalled or summarized, not read (data/research/housing/eviction-steps-2026.json).",
     "addedBy": "OPUS-WORLD",
@@ -1131,7 +1131,7 @@
     "id": "SG-WORLD-housing-hearing-without-judge",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/housing.ts",
-    "line": 301,
+    "line": 344,
     "whatItFakes": "An eviction hearing ends in judgment whenever rent is still owed and notice was given, with no judge's discretion, defenses or counsel.",
     "why": "Courts are parked until after early access (owner, Oct 10).",
     "addedBy": "OPUS-WORLD",
@@ -1149,6 +1149,18 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Opening owners from Census Annual Business Survey owner shares by industry and size, with owners who do not work in the business, and founders recorded at founding.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-housing-vacancy",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/housing.ts",
+    "line": 228,
+    "whatItFakes": "Renewal rents follow only the region's pay; the town's own vacancy does not push them up or down.",
+    "why": "Homes are not yet records with occupancy (no dwellings table), so there is no town vacancy to read.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "Dwellings as records with occupancy (M1-05's build step 1); renewal rents on a sliding scale of the town's vacancy against the Census Housing Vacancy Survey.",
     "status": "open"
   }
 ]

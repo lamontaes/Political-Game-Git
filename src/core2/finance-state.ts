@@ -725,6 +725,22 @@ export function prepareFinanceProcurement(
   }
 }
 
+/** core2-api-v15: a standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
+export function setStandingContractAmount(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  amountMinor: number,
+): void {
+  const row = core.finance.contracts.get(id);
+  if (!row || row.endedAt || row.salesReceiptBudget || row.recipientIncome)
+    throw new Error(
+      "Only a current standing obligation can change its amount.",
+    );
+  minor(api, amountMinor, "standing obligation amount");
+  row.amountMinor = amountMinor;
+}
+
 /** core2-api-v14: a standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
 export function endStandingContract(
   core: CoreState,
