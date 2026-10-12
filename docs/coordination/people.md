@@ -21,6 +21,9 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [ ] **People in the two-level world.** With CORE: filled-in people get kin and a past that match the records; memories keep what matters and summarize the rest.
   - Verified by: CORE's fill-in tests; a person's memory stays roughly the same size across a year.
   - Needs: CORE
+- [ ] **Words: the English engine on the new core (owner, Oct 12).** Bring the English engine (`src/presentation/english-*.ts` and the `*-english.ts` writers) onto the new core, so conversations, scene narration and the journal come from record data: every conversation choice names something real, the Lie button sits beside the replies, and the journal reads as a first-person story that never invents a feeling. No hand-written player text.
+  - Verified by: M4-02 and M4-03 in a random place: the step 1 and 2 conversations and a year's journal trace every statement to a record; a batch of real engine output goes to the owner for grading, and his grades feed the engine.
+  - Needs: PLAY (conversation box and journal screens), GOV (the clerk at filing)
 - [ ] **Political views.** Values and stances formed from each person's life, changing from causes, checked against the CES survey.
   - Verified by: M1-10: two random states' views against the answer keys; one big event shifts only the people it touched.
 - [ ] **Births, then moves.** Births from couples' circumstances (ready for checking); then moves for jobs, family, rent and evictions.

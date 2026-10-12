@@ -24,8 +24,11 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - [ ] **Filing (golden path step 3).** Real election dates and filing rules; you file at that place's real filing office (clerk, registrar or board of elections) in a conversation; the filing, fee and petition become records.
   - Verified by: M2-02 and M2-03 in a random place; then you file in the evening build.
   - Needs: PLAY (the filing screen)
-- [ ] **Elections (step 5).** Ballots from the real voters in your area plus voter groups elsewhere; winners seated on the right dates; party primaries by each place's rules; state and federal races running in the world.
-  - Verified by: M2-07, M2-08 and M2-10 in a random place and a full election year.
+- [ ] **Campaigning (step 4, owner, Oct 12).** Between filing and election day you win support through the people you actually reach: meeting people, door to door, speeches, endorsements, news, ads and party; money raised and spent under real contribution limits; other candidates campaign too. Each act changes what specific voters know and think, through PEOPLE's views; support never moves without a recorded cause; polls read those voters. The simplest version that follows "Keep it simple".
+  - Verified by: M2-05 and M2-06 in a random place; then you campaign in the evening build.
+  - Needs: PEOPLE (views, meeting people), PLAY (the campaign screen)
+- [ ] **Elections (steps 5 and 11).** Ballots from the real voters in your area plus voter groups elsewhere; winners seated on the right dates; party primaries by each place's rules; state and federal races running in the world; the next election reads each candidate's record (votes cast, laws passed, promises kept or broken).
+  - Verified by: M2-07, M2-08 and M2-10 in a random place and a full election year; in the following election, an officeholder's record changes specific votes, each with its reason.
   - Needs: PEOPLE (who runs, M2-04; views), WORLD (economy behind votes)
 - [ ] **Budgets and taxes.** Treasuries, taxes on everyone (zero can be lawful), budgets on real calendars (old budget rules until councils vote), federal and state money reaching people.
   - Verified by: M1-07 in a random place over a year.
