@@ -226,5 +226,17 @@
     "addedAt": "2026-10-12",
     "replacement": "Lines composed from mined speech; blame leaning on views, trust and the person's own experience of each official (M4-05).",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-interview-banks",
+    "kind": "hand-written-bank",
+    "file": "src/director/data/interview.json",
+    "line": 1,
+    "whatItFakes": "A reporter's questions and a candidate's answer templates, written by hand instead of composed from mined real speech.",
+    "why": "Campaign interviews need words now; each template copies only GOV's records of the race and the candidate's recorded stances.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Interview lines composed from mined press-interview speech and refined by the owner's grades (M4-02).",
+    "status": "open"
   }
 ]

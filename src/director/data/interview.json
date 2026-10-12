@@ -1,0 +1,54 @@
+{
+  "version": "p15-interview-v1",
+  "stopgapId": "SG-P15-interview-banks",
+  "about": "A reporter's interview with a candidate (BOARD, Oct 12: the words for campaign interviews; GOV builds the interview). Every question copies GOV's records of the race: the outlet, the office, each issue and what it would change, and the candidate's own recorded stance where there is one. The candidate's answers name only those records.",
+  "greet": [
+    { "key": "outlet", "text": "Thanks for sitting down with {{outlet}}." },
+    {
+      "key": "outlet-race",
+      "text": "Thanks for making time. {{outlet}} is talking to everyone running for {{office}}."
+    }
+  ],
+  "terms": [
+    {
+      "key": "on-record",
+      "text": "This is all on the record.",
+      "stages": ["on-record"]
+    },
+    {
+      "key": "on-background",
+      "text": "We agreed this is on background.",
+      "stages": ["on-background"]
+    },
+    {
+      "key": "off-record",
+      "text": "Nothing today goes in the paper under your name.",
+      "stages": ["off-record"]
+    }
+  ],
+  "ask": [
+    { "key": "stand", "text": "Where do you stand on {{issue}}?" },
+    { "key": "change", "text": "Should {{place}} {{change}}?" }
+  ],
+  "askRecord": [
+    { "key": "said", "text": "You've said you want to {{change}}. Why?" }
+  ],
+  "answers": {
+    "support": [{ "key": "for", "text": "I'm for it. We should {{change}}." }],
+    "oppose": [
+      { "key": "against", "text": "I'm against it. We shouldn't {{change}}." }
+    ],
+    "redirect": [
+      {
+        "key": "real-question",
+        "text": "The bigger question in this race is {{other-issue}}."
+      }
+    ],
+    "decline": [
+      { "key": "not-today", "text": "I'll have more to say on that later." }
+    ]
+  },
+  "close": [
+    { "key": "thanks", "text": "That's all I have. Thanks for your time." }
+  ]
+}
