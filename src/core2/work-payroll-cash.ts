@@ -589,8 +589,22 @@ function validateEarnedBounds(
   identity(r.field(attendance, "sourceActId"));
   source(s, r.field(attendance, "source"), last);
   source(s, r.field(closure, "source"), last);
-  const cause = r.field(closure, "cause") as unknown as Record<string, unknown>,
-    causeId = r.field(cause, "id") as string,
+  const cause = r.field(closure, "cause") as unknown as Record<string, unknown>;
+  // An owner who closed by choice owes the day's work like any other: the
+  // final-day earnings are paid, with no unpaid obligation behind them.
+  if (r.field(cause, "kind") === "owner.choice") {
+    if (
+      r.field(cause, "id") !== r.field(closure, "sourceReceiptId") ||
+      r.field(cause, "date") !== last ||
+      r.field(cause, "organizationId") !== owner.basis.organizationId
+    )
+      throw new Error(
+        "Final-day payroll lacks its owner's actual closing choice.",
+      );
+    source(s, r.field(cause, "source") as Source, last);
+    return;
+  }
+  const causeId = r.field(cause, "id") as string,
     requested = r.field(cause, "requestedMinor") as number,
     paid = r.field(cause, "paidMinor") as number,
     contractId = r.field(cause, "contractId");
