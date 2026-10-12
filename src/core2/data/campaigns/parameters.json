@@ -432,6 +432,42 @@
       "tag": "TUNABLE",
       "source": "How much an incumbent's name on the ballot draws a voter no campaign reached (ballot recognition; incumbents win about 98% of House primaries, Ballotpedia 2024).",
       "spread": [0.05, 0.3]
+    },
+    "midtermShareOfPresidential": {
+      "value": 0.72,
+      "tag": "SOURCED",
+      "source": "Turnout in the 2022 midterm (46.6% of the voting-eligible population) over 2024's presidential turnout (64.1%): 0.72 (U.S. Elections Project, Michael McDonald).",
+      "spread": [0.65, 0.8]
+    },
+    "offCycleShareOfPresidential": {
+      "value": 0.33,
+      "tag": "ESTIMATED",
+      "source": "Turnout in off-cycle municipal elections against a presidential year's: off-cycle city elections average about 20% of registered voters (Hajnal, Kogan and Markarian, 'Who Votes: City Election Timing and Voter Composition,' APSR 2022; Anzia, Timing and Turnout, 2014) against about 60% in presidential years, so about a third.",
+      "spread": [0.2, 0.45]
+    },
+    "midtermTurnoutCost": {
+      "value": 0.6,
+      "tag": "TUNABLE",
+      "source": "What a midterm adds to the cost of voting against a presidential year (less attention and interest), checked so named and counted turnout falls near the midterm's 0.72 of a presidential year's.",
+      "spread": [0.1, 0.6]
+    },
+    "offCycleTurnoutCost": {
+      "value": 0.8,
+      "tag": "TUNABLE",
+      "source": "What an off-cycle election adds to the cost of voting, checked so named and counted turnout falls near a third of a presidential year's.",
+      "spread": [0.4, 1.4]
+    },
+    "officeTermYearsEstimate": {
+      "value": 4,
+      "tag": "ESTIMATED",
+      "source": "The term of a local or county office whose own term isn't read: most county and municipal elected offices serve four-year terms (National Association of Counties, County Structure and Elected Officials; ICMA Municipal Form of Government Survey 2023).",
+      "spread": [2, 4]
+    },
+    "votedShareOfRegistered": {
+      "value": 0.89,
+      "tag": "SOURCED",
+      "source": "Share of registered voters who voted in November 2024: 65.3% of citizens voted and 73.6% were registered (U.S. Census Bureau, Voting and Registration in the Election of November 2024, CPS), so about 0.89.",
+      "spread": [0.8, 0.92]
     }
   }
 }

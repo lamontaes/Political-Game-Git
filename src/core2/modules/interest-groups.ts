@@ -26,6 +26,7 @@ import {
   type BillRow,
 } from "./legislature";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
+import { lobbyingBarredUntil } from "../law-reach/group-a-voting";
 
 export const INTEREST_GROUPS_MODULE_ID = "core2-interest-groups-v1";
 const DUES_KIND = "interest-group-dues";
@@ -271,6 +272,7 @@ function lobbyistFor(
         (c) =>
           c.organizationId === orgId &&
           c.endsAt === undefined &&
+          lobbyingBarredUntil(api, c.personId) === null &&
           api.state.people.get(c.personId)?.placeId === town,
       )
       .sort(

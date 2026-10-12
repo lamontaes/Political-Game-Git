@@ -15,10 +15,13 @@ for row in rows:
     if not row["id"].startswith("SG-GOV-"):
         continue
     lines = (ROOT / row["file"]).read_text().splitlines()
-    marker = re.compile(r'stopgap\("' + re.escape(row["id"]) + r'"\)')
+    # A code marker, or a data row naming it (law-reach effect tables).
+    marker = re.compile(
+        r'stopgap\("' + re.escape(row["id"]) + r'"\)|"stopgapId": "' + re.escape(row["id"]) + r'"'
+    )
     found = [i + 1 for i, line in enumerate(lines) if marker.search(line)]
-    if len(found) != 1:
-        raise SystemExit(f"{row['id']}: expected one marker in {row['file']}, found {len(found)}")
+    if not found:
+        raise SystemExit(f"{row['id']}: no marker in {row['file']}")
     row["line"] = found[0]
 REGISTRY.write_text(json.dumps(rows, indent=2) + "\n")
 print("synced")

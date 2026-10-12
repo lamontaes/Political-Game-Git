@@ -16,6 +16,10 @@
  */
 import federalExecutive from "../../../data/research/offices/federal-executive-2026.json" with { type: "json" };
 import { countedResidents, type CountedVoter } from "../electorate";
+import {
+  electionLawTurnoutCost,
+  felonyDisenfranchisedShare,
+} from "../law-reach/group-a-voting";
 import calibration from "../../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
@@ -325,9 +329,11 @@ export function turnout(
         sum + (state.work.commitments.get(id)?.expectedWeeklyMinutes ?? 0),
       0,
     );
+  // The election laws in force (voter ID, registration, mail voting).
   const cost =
     weeklyWork / campaignParameter("turnoutWorkWeekMinutes") -
-    (voter.traits["people-mind-v1:deliberation"] ?? 0) / 2;
+    (voter.traits["people-mind-v1:deliberation"] ?? 0) / 2 +
+    electionLawTurnoutCost(api, voter, weeklyWork);
   return {
     duty,
     interest,
@@ -646,12 +652,68 @@ function addPrimaryGroups(
       counts[index]! + Math.round((unnamed * counts[index]!) / chose);
 }
 
+const polls = new WeakMap<object, Map<string, ReturnType<typeof turnout>>>();
+
+/**
+ * Whether a voter goes to the polls on an election day: once for the whole
+ * ballot, drawn by the race they feel most strongly about (a voter who turns
+ * out for governor also sees the county races; with no preference in one,
+ * they leave it blank).
+ */
+function atThePolls(
+  api: CoreAPI,
+  voter: Readonly<Pick<PersonState, "id" | "traits">> & {
+    readonly birthDate: string;
+  },
+  date: string,
+  cycleCost: number,
+  recordedWeeklyMinutes?: number,
+): ReturnType<typeof turnout> {
+  const map = polls.get(api.state) ?? new Map();
+  polls.set(api.state, map);
+  const key = `${date}|${voter.id}`;
+  const hit = map.get(key);
+  if (hit) return hit;
+  const named = api.state.people.get(voter.id);
+  const lean = personLean(api.state.people, voter, townLean(api));
+  let strongest = 0;
+  for (const contest of api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .rows() as unknown as ContestRow[]) {
+    if (contest.electionDate !== date) continue;
+    const field = ballot(api, contest.id);
+    if (!field.length) continue;
+    const totals = named
+      ? Object.values(appealFor(api, named, contest, field).appeal).map(
+          (a) => a.total,
+        )
+      : field.map((f) => {
+          const party = candidateFacts(api, f, contest).party;
+          return party ? lean * partySide(party) : 0;
+        });
+    for (const total of totals)
+      strongest = Math.max(strongest, Math.abs(total));
+  }
+  const t = turnout(
+    api,
+    voter,
+    { strongest: { total: strongest } },
+    recordedWeeklyMinutes,
+    cycleCost,
+  );
+  map.set(key, t);
+  return t;
+}
+
 /** Count a contest: named ballots, then the wider electorate's groups. */
 export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const contest = api
     .moduleState(ELECTIONS_MODULE_ID)
     .table("contests")
     .get(contestId) as unknown as ContestRow;
+  // A midterm or off-cycle election draws fewer voters (audit 2, item 5).
+  const cycleCost = cycleTurnout(contest.electionDate).cost;
   const filings = ballot(api, contestId);
   const date = api.state.date;
   const { townPlaceId } = town(api);
@@ -670,7 +732,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       contest,
       filings,
     );
-    const t = turnout(api, voter, appeal);
+    const t = atThePolls(api, voter, contest.electionDate, cycleCost);
     const ranked = Object.entries(appeal).sort(
       (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
     );
@@ -730,7 +792,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       const party = candidateFacts(api, f, contest).party;
       appeal[f.personId] = { total: party ? lean * partySide(party) : 0 };
     }
-    const t = turnout(api, voter, appeal, voter.weeklyMinutes);
+    const t = atThePolls(
+      api,
+      voter,
+      contest.electionDate,
+      cycleCost,
+      voter.weeklyMinutes,
+    );
     if (!t.votes) continue;
     countedVoted += 1;
     const ranked = Object.entries(appeal).sort(
@@ -744,6 +812,13 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     if (choice) countedVotes[choice] = (countedVotes[choice] ?? 0) + 1;
     byLean.push({ lean, heard: new Set(), choice });
   }
+  // Counted adults barred for a felony conviction can't vote (the share a
+  // restoration law in force returns is counted back).
+  const barred = felonyDisenfranchisedShare(api);
+  for (const id of Object.keys(countedVotes))
+    countedVotes[id] = Math.round(countedVotes[id]! * (1 - barred));
+  countedVoted = Math.round(countedVoted * (1 - barred));
+  countedEligible = Math.round(countedEligible * (1 - barred));
   const { groupVotes, electorate } = groupVote(
     api,
     contest,
@@ -845,7 +920,48 @@ const stateVotes = new Map(
 );
 
 /** How many votes the race's whole electorate cast in 2024, where read. */
+/**
+ * Which kind of election a date is: a presidential November, a midterm
+ * November, or an off-cycle date (an odd year, or a spring or summer local
+ * election), whose turnout runs far lower.
+ */
+export function electionCycle(
+  date: string,
+): "presidential" | "midterm" | "off-cycle" {
+  const year = Number(date.slice(0, 4));
+  const november = date.slice(5, 7) === "11";
+  if (!november || year % 2) return "off-cycle";
+  return year % 4 === 0 ? "presidential" : "midterm";
+}
+
+/** The cycle's turnout against a presidential year's, and what it adds to the cost of voting. */
+function cycleTurnout(date: string): { share: number; cost: number } {
+  const cycle = electionCycle(date);
+  if (cycle === "presidential") return { share: 1, cost: 0 };
+  if (cycle === "midterm")
+    return {
+      share: campaignParameter("midtermShareOfPresidential"),
+      cost: campaignParameter("midtermTurnoutCost"),
+    };
+  return {
+    share: campaignParameter("offCycleShareOfPresidential"),
+    cost: campaignParameter("offCycleTurnoutCost"),
+  };
+}
+
 function electorateSize(
+  api: CoreAPI,
+  contest: ContestRow,
+  namedCount: number,
+): number {
+  // The 2024 presidential electorate, scaled to this cycle's turnout.
+  return Math.round(
+    presidentialElectorate(api, contest, namedCount) *
+      cycleTurnout(contest.electionDate).share,
+  );
+}
+
+function presidentialElectorate(
   api: CoreAPI,
   contest: ContestRow,
   namedCount: number,

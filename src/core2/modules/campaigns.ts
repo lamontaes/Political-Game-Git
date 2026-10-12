@@ -887,9 +887,20 @@ export function runAd(
           target.candidateId,
           personLean(api.state.people, p, townRow(api).lean),
           true,
+          true,
         ).reasons.filter((r) => r.effect < 0)
       : null;
     if (attack && !attack.length) continue;
+    // The ad tells them of the broken promises it shows.
+    for (const reason of attack ?? [])
+      if (reason.kind === "broken-promise")
+        api.observe(p.id, {
+          key: reason.itemId,
+          value: "shown-broken",
+          learnedAt: api.state.date,
+          sourceId: `attack-ad:${campaign.candidateId}:${api.state.date}`,
+          access: "public",
+        });
     const cause = reach(
       api,
       target,
