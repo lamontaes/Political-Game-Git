@@ -1,0 +1,20 @@
+{
+  "newsOutletDelayDays": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Days until a local outlet's report reaches someone who follows politics most of the time (engagement 1): a public record is reported the next day. Someone who follows less hears later, in proportion (delay = this / engagement). Spread 0.5 to 2.",
+    "stopgapId": "SG-P15-news-habits"
+  },
+  "newsMaxAgeDays": {
+    "value": 30,
+    "tag": "TUNABLE",
+    "citation": "Days a story stays news: after this no outlet or conversation carries it, so people whose habits would bring it later never hear it. Spread 14 to 60.",
+    "stopgapId": "SG-P15-news-habits"
+  },
+  "newsStoriesPerContact": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Stories one person passes to another at a contact: the newest the listener has not heard. Spread 1 to 3.",
+    "stopgapId": "SG-P15-news-habits"
+  }
+}

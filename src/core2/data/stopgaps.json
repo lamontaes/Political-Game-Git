@@ -1342,5 +1342,17 @@
     "addedAt": "2026-10-09",
     "replacement": "An English-engine naming bank for associations reading topic and place.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-news-habits",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/data/news/parameters.json",
+    "line": 1,
+    "whatItFakes": "How fast outlets reach people by how closely they follow politics, how long a story stays news, and how many stories pass at a contact; one generic local outlet stands for all.",
+    "why": "Basic news (M2-09) needs a first version before outlets and media habits are modeled.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Named local outlets with real audiences and each person's recorded media habits (Pew local news surveys), checked against how fast election results spread.",
+    "status": "open"
   }
 ]
