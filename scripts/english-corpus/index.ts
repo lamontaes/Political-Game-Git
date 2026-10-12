@@ -16,6 +16,7 @@ import { addressMoves, composeTurn } from "./address-bank";
 import { conversationDataFromBank, pickBy } from "./conversation-bank";
 import { filingWordsFromBank } from "./filing-bank";
 import { journalDataFromBank } from "./journal-bank";
+import { benchControlNames, stanceWords } from "./choice-names-bank";
 import { composeCounterVisit } from "./counter-bank";
 import { composeNewsStory } from "./newscast-bank";
 import { composeOpeningSpeech, openingSpeechKind } from "./opening-speech-bank";
@@ -36,4 +37,6 @@ export const MINED_WORDS = {
   news: { composeNewsStory },
   /** A visit to an office counter to pay a fee, pick up a form or ask a question. */
   counter: { composeCounterVisit },
+  /** The decision bench's button names, in its controls.json shape. */
+  choiceNames: { benchControlNames, stanceWords },
 };
