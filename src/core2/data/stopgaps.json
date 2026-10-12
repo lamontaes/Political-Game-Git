@@ -428,7 +428,7 @@
     "why": "The canonical opening population preserves household/family links and dated school proxies but supplies no cross-household named school-peer acquaintance generator. The observed selected opening circle had three actors and all inspected adult/job candidates had at most six.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance. Oct 12 (OPUS-CORE sub-agent): openingPeerGroupSize now 20 (NCES NTPS 2020-21 class size, band 17-22); the stopgap stays open because a class is not a remembered-peer circle.",
+    "replacement": "Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance.",
     "status": "open"
   },
   {
@@ -500,7 +500,7 @@
     "why": "Sleep reserve is planned, not observed; full education/care/consumption/primary-activity diary is absent.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "ATUS age/employment primary activity totals and participant durations using compatible crosswalks and observed individual spreads. Oct 12 (OPUS-CORE sub-agent): workSleepReserveHours now 9.03 (ATUS 2025 sleep mean); the stopgap stays open for workWakingRecoveryHours (stand-in 1, research suggests 5.16 as a different quantity).",
+    "replacement": "ATUS age/employment primary activity totals and participant durations using compatible crosswalks and observed individual spreads.",
     "status": "open"
   },
   {
@@ -644,8 +644,8 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): the claim is now a decision inside Social Security's law bounds; this pull is one of its calibrated weights.",
-    "status": "resolved"
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
+    "status": "open"
   },
   {
     "id": "SG-P8-param-openingRetirementCoveredFraction",
@@ -2251,7 +2251,7 @@
     "id": "SG-WORLD-jobs-opening-seekers",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 277,
+    "line": 280,
     "whatItFakes": "The opening's job seekers are the jobless working-age adults whose money covers the fewest days, as many as the nation's unemployment rate implies against the generated jobs; the other jobless adults sit outside the modeled labor market.",
     "why": "The generated opening employs only part of the town (unsupported workplaces are omitted), so most jobless adults are not really unemployed; the two-level population (OPUS-CORE) will hold the rest as counts.",
     "addedBy": "OPUS-WORLD",
@@ -2263,7 +2263,7 @@
     "id": "SG-WORLD-jobs-layoff-decider",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 588,
+    "line": 601,
     "whatItFakes": "A layoff names the business itself as who decided it.",
     "why": "Businesses have no recorded owners or managers until businesses growing (M1-08).",
     "addedBy": "OPUS-WORLD",
@@ -2347,12 +2347,12 @@
     "id": "SG-WORLD-business-opening-owners",
     "kind": "generated-identity",
     "file": "src/core2/modules/business.ts",
-    "line": 108,
-    "whatItFakes": "Each opening business is owned by its highest-paid current worker, as owner-operator.",
+    "line": 150,
+    "whatItFakes": "The opening's largest businesses (by staff, up to the state's estimated share of jobs in multi-establishment firms) belong to firms based outside the town; every other is owned by its highest-paid current worker, as owner-operator.",
     "why": "The generated opening records no owners; founding by choice (this work order's next piece) gives new businesses their real founders.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Opening owners from Census Annual Business Survey owner shares by industry and size, with owners who do not work in the business, and founders recorded at founding.",
+    "replacement": "Owners from the opening's history (who founded or bought each business, M1-14), with absentee and corporate owners from business ownership records.",
     "status": "open"
   },
   {
@@ -2383,7 +2383,7 @@
     "id": "SG-WORLD-jobs-counted-choices",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 889,
+    "line": 902,
     "whatItFakes": "Counted workers (the wider population) retire by the same reasons as full people but without the shared chooser, apply to every opening in their place and accept the offer they get.",
     "why": "The shared chooser needs a full person; filling in everyone who makes a job decision would undo the two-level population.",
     "addedBy": "OPUS-WORLD",
@@ -2407,7 +2407,7 @@
     "id": "SG-WORLD-jobs-agreement-pinned",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 134,
+    "line": 137,
     "whatItFakes": "A job that a saved visitor agreement names as its provider's qualification is never ended by a layoff, a quit, a retirement or a move to another job.",
     "why": "The core rejects the agreement's next payment once the named job ends (\"Visitor qualification no longer resolves its actual product job\"), seen in year two of Absecon, New Jersey.",
     "addedBy": "OPUS-WORLD",
@@ -2418,7 +2418,7 @@
     "id": "SG-WORLD-business-counted-owner-choice",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/business.ts",
-    "line": 198,
+    "line": 259,
     "whatItFakes": "An owner still in the wider population (not yet filled in) takes the option whose reasons sum highest instead of choosing through the shared chooser, and their draws go to their place's pooled residents account.",
     "why": "Filling in every owner as a full person made a game year about 40% slower (Absecon, New Jersey); owners are filled in when the player meets them.",
     "addedBy": "OPUS-WORLD",
@@ -2585,6 +2585,18 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "The opening's jobs builder makes teacher jobs from the occupation's OEWS pay and a school-day timetable without a template.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-jobs-counted-retiree-income",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1167,
+    "whatItFakes": "A counted worker who retires draws their place's opening retirees' average income (Social Security and pensions from outside the town), not a benefit from their own earnings record and claim age.",
+    "why": "Counted people have no earnings records; Social Security claims and benefit formulas are OPUS-CORE's and OPUS-GOV's.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The core's Social Security claim for counted retirees, with GOV's benefit rules in force.",
     "status": "open"
   },
   {
