@@ -207,6 +207,12 @@ type CustomerExternalInflow =
     };
 
 export interface OpeningCustomerOptions {
+  /**
+   * Two-level opening: households that will be counted, not simulated. They
+   * get the same budgets and seller shares as light terms (no qualification
+   * evidence or past facts); the collapse merges them into the residents' flows.
+   */
+  countedHouseholdIds?: ReadonlySet<string>;
   data?: OpeningCustomerData;
   parameters?: Readonly<Record<string, Parameter>>;
   geography?: OpeningCustomerGeographyProvider;
@@ -1243,6 +1249,21 @@ export function buildOpeningCustomers(
     citation,
     estimatedFrom: `${description} Opening plans and fictional recorded terms only; no paid receipt, delivery, actual historical bill, survival target, or observed individual demand is implied. Each due date retains its own calendar evidence; a source year is no agreement end.`,
   });
+  const countedSources = new Map<string, Source>();
+  const countedSource = (citation: string): Source => {
+    let source = countedSources.get(citation);
+    if (!source) {
+      source = {
+        tag: "ESTIMATED",
+        asOf: at,
+        citation,
+        estimatedFrom:
+          "Counted household (two-level population): the same CEX budget and equal seller shares as a simulated household, without per-household evidence; merged into the residents' purchase flows.",
+      };
+      countedSources.set(citation, source);
+    }
+    return source;
+  };
   const appendContract = (contract: OpeningCustomerContract) => {
     const existing = contractById.get(contract.id);
     if (existing) {
@@ -1703,6 +1724,7 @@ export function buildOpeningCustomers(
       needs.map((row) => ({ id: row.service.key, weight: row.monthly })),
     );
     let bound = zero;
+    const counted = options.countedHouseholdIds?.has(household.id) === true;
     for (const allocation of allocations) {
       if (allocation.amount <= zero) continue;
       const need = needs.find((row) => row.service.key === allocation.id)!;
@@ -1720,6 +1742,33 @@ export function buildOpeningCustomers(
         continue;
       }
       const agreementId = `${ownedPrefix}household:${household.id}:${service.key}`;
+      if (counted) {
+        // Same equal seller shares as bindBudget, as light counted terms.
+        for (const share of apportion(
+          allocation.amount,
+          sellerRows.map((row) => ({ id: row.id, weight: one })),
+        )) {
+          if (share.amount <= zero) continue;
+          contracts.push({
+            id: `${agreementId}:contract:${share.id}`,
+            householdId: household.id,
+            payerIds: payers.map((person) => person.id),
+            payeeId: share.id,
+            kind: service.contractKind,
+            amountMinor: share.amount * periodMonths,
+            dueAt: householdCalendar.dueAt,
+            periodMonths,
+            accruesArrears: false,
+            marketAdjusted: false,
+            salesReceipt: true,
+            salesReceiptBudget: false,
+            settlementPhaseId: data.settlementPhaseIds.householdPurchases,
+            source: countedSource(service.citation),
+          });
+        }
+        bound += allocation.amount;
+        continue;
+      }
       let source = generatedSource(
         service.citation,
         `${service.label} CEX component with ${sizeKey}/${region} parent scaling, original household envelope cap, and equal recorded opening vendor shares. ${service.stopgapId}`,

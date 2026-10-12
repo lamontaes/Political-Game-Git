@@ -85,6 +85,8 @@ const laterVintageGenerationPriorGap =
   "opening-finance:later-vintage-generation-priors-are-not-date-available-actor-facts";
 
 export interface OpeningFinanceOptions {
+  /** Two-level opening: counted households get light terms (see OpeningCustomerOptions). */
+  countedHouseholdIds?: ReadonlySet<string>;
   data?: OpeningFinanceData;
   books?: BusinessBooksOptions;
   /** Recorded terms, not a request to invent a vendor, loan, or approval. */
@@ -1050,6 +1052,21 @@ export function createOpeningFinance(
   }
   for (const row of data.categories) stopgap(row.stopgapId);
 
+  const countedSources = new Map<string, Source>();
+  const countedSource = (citation: string): Source => {
+    let source = countedSources.get(citation);
+    if (!source) {
+      source = {
+        tag: "ESTIMATED",
+        asOf: startedAt,
+        citation: `${citation} ${LIVING_COSTS_SOURCE}`,
+        estimatedFrom:
+          "Counted household (two-level population): the same CEX category budget and supplier shares as a simulated household, without per-household evidence; merged into the residents' purchase flows.",
+      };
+      countedSources.set(citation, source);
+    }
+    return source;
+  };
   for (const household of households.values()) {
     const householdCalendar = purchaseCalendar.household(household);
     for (const gap of householdCalendar.gaps) gaps.add(gap);
@@ -1124,8 +1141,33 @@ export function createOpeningFinance(
         );
         continue;
       }
+      const counted = options.countedHouseholdIds?.has(household.id) === true;
       for (const share of allocate(budget.amount, supplierWeights(suppliers))) {
         if (share.amount <= zero) continue;
+        if (counted) {
+          // Same budget and supplier shares; light counted terms, merged later.
+          appendContract({
+            id: JSON.stringify([
+              "opening-household-purchase",
+              household.id,
+              budget.id,
+              share.id,
+            ]),
+            householdId: household.id,
+            payerIds: payers.map((row) => row.id),
+            payeeId: share.id,
+            kind: crosswalk.contractKind,
+            amountMinor: share.amount * periodMonths,
+            dueAt: householdCalendar.dueAt,
+            periodMonths,
+            accruesArrears: false,
+            salesReceipt: true,
+            marketAdjusted: data.marketAdjustedHouseholdBudgets,
+            source: countedSource(crosswalk.citation),
+          });
+          boundMonthly += share.amount;
+          continue;
+        }
         appendContract({
           id: JSON.stringify([
             "opening-household-purchase",

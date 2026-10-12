@@ -22,10 +22,31 @@ const monthlyHouseholdPurchases = (input: CoreInput) =>
 
 describe(`two-level population in ${place.name} (seed ${seed})`, () => {
   let full: CoreInput, two: CoreInput;
+  let collapsed: CoreInput;
   beforeAll(() => {
     full = generatedOpening(place);
-    two = collapseToTwoLevels(full);
-  }, 300_000);
+    collapsed = collapseToTwoLevels(full);
+    // The opening the game uses: counted households get light economy terms.
+    two = generatedOpening(place, { twoLevel: true });
+  }, 600_000);
+
+  it("gives counted households the same money as a full opening", () => {
+    const flows = (input: CoreInput) => {
+      const bySeller = new Map<string, number>();
+      for (const row of input.residents!.flows)
+        bySeller.set(
+          `${row.kind}:${row.payerId}:${row.payeeId}`,
+          (bySeller.get(`${row.kind}:${row.payerId}:${row.payeeId}`) ?? 0) +
+            row.amountMinor,
+        );
+      return [...bySeller].sort();
+    };
+    expect(flows(two)).toEqual(flows(collapsed));
+    expect(two.people.map((row) => row.id)).toEqual(
+      collapsed.people.map((row) => row.id),
+    );
+    expect(cash(two)).toBe(cash(collapsed));
+  });
 
   it("keeps every person, dollar and purchase", () => {
     const counted = two.residents!.households.reduce(

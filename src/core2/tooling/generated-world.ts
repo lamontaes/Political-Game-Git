@@ -6,7 +6,7 @@ import { enrichCivicInputs } from "../civic-inputs";
 import { buildOpeningPeerContacts } from "../opening-peer-network";
 import { initialFocusPeople } from "../focus";
 import { buildOpeningEconomy } from "../opening-economy";
-import { collapseToTwoLevels } from "../residents";
+import { collapseToTwoLevels, fullPeople } from "../residents";
 import { addOutsideMarket } from "../opening-outside-market";
 import { parameter } from "../parameters";
 import measurement from "../data/measurement.json" with { type: "json" };
@@ -50,7 +50,22 @@ export function generatedOpening(
       ...(player.countyId ? [player.countyId] : []),
     ].sort(),
   };
+  // Two-level: decide who stays a full person first, so counted households
+  // get light economy terms (same amounts, no per-household evidence).
+  const keep = options.twoLevel ? fullPeople(input) : undefined;
+  const countedHouseholdIds = keep
+    ? new Set(
+        input.households
+          .filter((home) => !home.memberIds.some((id) => keep.has(id)))
+          .map((home) => home.id),
+      )
+    : undefined;
   if (options.economy !== false)
-    input = addOutsideMarket(buildOpeningEconomy(input).input);
-  return options.twoLevel ? collapseToTwoLevels(input) : input;
+    input = addOutsideMarket(
+      buildOpeningEconomy(input, {
+        finance: { countedHouseholdIds },
+        customers: { countedHouseholdIds },
+      }).input,
+    );
+  return keep ? collapseToTwoLevels(input, { keep }) : input;
 }
