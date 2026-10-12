@@ -131,15 +131,25 @@ export function personLean(
       (a, b) =>
         personalityLean(b) - personalityLean(a) || a.id.localeCompare(b.id),
     );
+    // Rank each place on its own: the world also holds people elsewhere
+    // (relatives living away), who must not shift where the town's people
+    // stand against the town's vote.
+    const byPlace = new Map<string, typeof ordered>();
+    for (const p of ordered) {
+      const key = (p as { placeId?: string }).placeId ?? "";
+      byPlace.set(key, [...(byPlace.get(key) ?? []), p]);
+    }
     const rightShare = (1 + townLean) / 2;
     map = new Map(
-      ordered.map((p, rank) => [
-        p.id,
-        Math.max(
-          -1,
-          Math.min(1, 2 * (rightShare - (rank + 0.5) / ordered.length)),
-        ),
-      ]),
+      [...byPlace.values()].flatMap((group) =>
+        group.map((p, rank): [string, number] => [
+          p.id,
+          Math.max(
+            -1,
+            Math.min(1, 2 * (rightShare - (rank + 0.5) / group.length)),
+          ),
+        ]),
+      ),
     );
     leans.set(people, map);
   }

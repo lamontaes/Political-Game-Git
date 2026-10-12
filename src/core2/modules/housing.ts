@@ -909,6 +909,8 @@ function review(api: CoreAPI): void {
   build(api);
   landlordPayout(api);
   buyHomes(api);
+  // The landlord weighs each late lease past the grace period: how many months of rent are owed and how long.
+  const late: { id: string; score: number; months: number }[] = [];
   for (const [id, row] of c.finance.contracts) {
     if (
       !id.startsWith("lease:") ||
@@ -919,13 +921,26 @@ function review(api: CoreAPI): void {
       continue;
     if (store(api).table("cases").query("openByLease", [id, true]).length)
       continue;
-    const late = daysBetween(
+    const days = daysBetween(
       makeIsoDate(row.firstUnpaidAt),
       makeIsoDate(c.date),
     );
-    if (late <= law.gracePeriodDays) continue;
-    // Landlords have owners with their own patience once M1-08 lands; until then every landlord serves notice.
-    stopgap("SG-WORLD-housing-landlord");
+    if (days <= law.gracePeriodDays) continue;
+    const owed = row.amountMinor > 0 ? row.arrearsMinor / row.amountMinor : 0;
+    const months = days / daysPerMonth(api);
+    late.push({
+      id,
+      months: owed,
+      score:
+        api.parameter("housingNoticeBaseline") +
+        api.parameter("housingNoticeArrearsWeight") * owed +
+        api.parameter("housingNoticeLateWeight") * months,
+    });
+  }
+  // One ownerless landlord serves notice; its patience is its reasons, not an owner's yet (see the stopgap).
+  stopgap("SG-WORLD-housing-landlord");
+  for (const { id } of landlordPulls(api, late)) {
+    const row = c.finance.contracts.get(id)!;
     const caseId = `eviction:${id}:${c.date}`;
     const cureBy = addDays(makeIsoDate(c.date), law.noticeDays);
     store(api)
@@ -945,6 +960,28 @@ function review(api: CoreAPI): void {
       });
     schedule(api, `cure:${caseId}`, cureBy, "housing-cure-deadline", caseId);
   }
+}
+
+/**
+ * Which late leases the landlord serves notice on this month: as many as
+ * the summed pull of every late lease (each its logistic of its reasons),
+ * carried month to month, strongest first.
+ */
+function landlordPulls<T extends { id: string; score: number }>(
+  api: CoreAPI,
+  rows: readonly T[],
+): T[] {
+  const state = store(api).table("state");
+  const carry =
+    (state.get("pulls:landlord-notice") as { carry: number } | undefined)
+      ?.carry ?? 0;
+  let total = rows.length ? carry : 0;
+  for (const row of rows) total += 1 / (1 + Math.exp(-row.score));
+  const count = Math.floor(total);
+  state.put({ id: "pulls:landlord-notice", carry: total - count });
+  return [...rows]
+    .sort((a, b) => b.score - a.score || a.id.localeCompare(b.id))
+    .slice(0, count);
 }
 
 /** The household's members pay toward the lease's arrears from their cash, largest balance first. */

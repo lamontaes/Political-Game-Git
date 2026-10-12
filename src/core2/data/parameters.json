@@ -4269,17 +4269,29 @@
     "tag": "SOURCED",
     "citation": "Half of the existing stable hash's sixteen hexadecimal digits (64-bit FNV-1a, src/simulation/ids.ts); two 32-bit halves feed the existing fixed-point survival-line helper (src/simulation/crisis/fixed-point.ts). A generation key, not a behavioral draw."
   },
-  "supplierTradeTermsDays": {
-    "value": 30,
-    "tag": "ESTIMATED",
-    "citation": "Net 30 is the most common U.S. business-to-business invoice term; Federal Reserve Bank of Atlanta / Small Business Credit Survey and trade-credit literature (e.g., Petersen and Rajan 1997, Review of Financial Studies 10(3)) describe 30-day terms as the norm.",
-    "estimatedFrom": "Outside supplier bills for a firm's costs are paid one month after the sales that incur them; spread 10 to 60 days across industries."
-  },
   "driveClosureImpulse": {
     "value": 0.47,
     "tag": "ESTIMATED",
     "citation": "Losing one's job, to a closure or a layoff: the Social Readjustment Rating Scale's 'Fired at work', 47 life-change units divided by 100 (Holmes and Rahe 1967, Journal of Psychosomatic Research 11(2):213-218), the same anchor the story director uses for a lost job.",
     "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.39 to 0.47 (the scale's 'business readjustment' to 'fired at work')"
+  },
+  "driveEvictionImpulse": {
+    "value": 0.47,
+    "tag": "ESTIMATED",
+    "citation": "Losing one's home to eviction, sized like losing one's job: the Social Readjustment Rating Scale has no eviction item (its nearest, 'Foreclosure of mortgage or loan', is 30 life-change units; 'Fired at work' is 47; Holmes and Rahe 1967), and Desmond and Kimbro (2015, Social Forces 94(1):295-324) find evicted mothers' depression twice that of matched mothers, so the foreclosure item understates it. At 0.30 no one of 101 evicted residents in a drawn town formed a drive; at 0.47, 6 to 8% hold a grudge against the landlord.",
+    "estimatedFrom": "Holmes and Rahe (1967) and Desmond and Kimbro (2015); spread 0.3 to 0.47"
+  },
+  "schoolCohortPopulationShare": {
+    "value": 0.0129,
+    "tag": "ESTIMATED",
+    "citation": "Share of a place's residents in one year of age at school ages: the 2020 Census counted 42.6 million people aged 5 to 14 of 331.4 million, about 1.29% per single year (U.S. Census Bureau, 2020 Census Demographic and Housing Characteristics, Table P12). Sizes a place's catchment of schools when its own schools are not recorded.",
+    "estimatedFrom": "2020 Census DHC P12, national; spread 0.011 to 0.015 across places (older and younger places)"
+  },
+  "supplierTradeTermsDays": {
+    "value": 30,
+    "tag": "ESTIMATED",
+    "citation": "Net 30 is the most common U.S. business-to-business invoice term; Federal Reserve Bank of Atlanta / Small Business Credit Survey and trade-credit literature (e.g., Petersen and Rajan 1997, Review of Financial Studies 10(3)) describe 30-day terms as the norm.",
+    "estimatedFrom": "Outside supplier bills for a firm's costs are paid one month after the sales that incur them; spread 10 to 60 days across industries."
   },
   "ownerDistributionBufferMultiple": {
     "value": 1,
@@ -4378,18 +4390,6 @@
       "ref": "M0-08"
     }
   },
-  "driveEvictionImpulse": {
-    "value": 0.47,
-    "tag": "ESTIMATED",
-    "citation": "Losing one's home to eviction, sized like losing one's job: the Social Readjustment Rating Scale has no eviction item (its nearest, 'Foreclosure of mortgage or loan', is 30 life-change units; 'Fired at work' is 47; Holmes and Rahe 1967), and Desmond and Kimbro (2015, Social Forces 94(1):295-324) find evicted mothers' depression twice that of matched mothers, so the foreclosure item understates it. At 0.30 no one of 101 evicted residents in a drawn town formed a drive; at 0.47, 6 to 8% hold a grudge against the landlord.",
-    "estimatedFrom": "Holmes and Rahe (1967) and Desmond and Kimbro (2015); spread 0.3 to 0.47"
-  },
-  "schoolCohortPopulationShare": {
-    "value": 0.0129,
-    "tag": "ESTIMATED",
-    "citation": "Share of a place's residents in one year of age at school ages: the 2020 Census counted 42.6 million people aged 5 to 14 of 331.4 million, about 1.29% per single year (U.S. Census Bureau, 2020 Census Demographic and Housing Characteristics, Table P12). Sizes a place's catchment of schools when its own schools are not recorded.",
-    "estimatedFrom": "2020 Census DHC P12, national; spread 0.011 to 0.015 across places (older and younger places)"
-  },
   "sellerCapacityUtilization": {
     "value": 0.796,
     "tag": "ESTIMATED",
@@ -4444,6 +4444,28 @@
     },
     "checkRange": {
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
+    }
+  },
+  "preStartFromYear": {
+    "value": 2000,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling (relayed by the CTO on PR #3999, October 12, 2026): a new game's history runs at coarse steps from 2000 to the start date (M1-14).",
+    "spread": {
+      "low": 1990,
+      "high": 2020,
+      "unit": "calendar year",
+      "citation": "How far back coarse history can reach before its run time outweighs what the player sees; checked against the speed rule."
+    }
+  },
+  "preStartStepMonths": {
+    "value": 3,
+    "tag": "TUNABLE",
+    "citation": "Owner ruling (relayed by the CTO on PR #3999, October 12, 2026): history before the start runs at coarse steps, monthly or quarterly (M1-14).",
+    "spread": {
+      "low": 1,
+      "high": 3,
+      "unit": "months per step",
+      "citation": "The two step sizes the pre-start contract offers (src/core2/pre-start.ts)."
     }
   }
 }

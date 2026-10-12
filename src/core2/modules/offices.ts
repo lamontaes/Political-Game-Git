@@ -40,6 +40,7 @@ import {
   type VacancyRule,
 } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
+import { isRealOfficeholderName } from "../officials-names";
 
 export const OFFICES_MODULE_ID = "core2-offices-v1";
 
@@ -183,6 +184,10 @@ function suitedResidents(
   return [...core.people.values()]
     .filter((person) => {
       if (!person.alive || taken.has(person.id)) return false;
+      // Officeholders are fictional: a resident who happens to share a real
+      // officeholder's full name does not hold a seat.
+      if (isRealOfficeholderName(person.givenName, person.familyName))
+        return false;
       const age = year - Number(person.birthDate.slice(0, 4));
       return age >= 25 && age < 81;
     })

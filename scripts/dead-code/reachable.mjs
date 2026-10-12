@@ -125,7 +125,10 @@ function importsResolve(f) {
   for (const m of text.matchAll(IMPORT_RE)) {
     const spec = m[1];
     if (!spec.startsWith(".")) continue;
-    if (!tryFile(resolve(dirname(f), spec))) return false;
+    const target = resolve(dirname(f), spec);
+    // new URL(".", import.meta.url) names a folder, not a module.
+    if (existsSync(target) && statSync(target).isDirectory()) continue;
+    if (!tryFile(target)) return false;
   }
   return true;
 }

@@ -26,6 +26,7 @@ import type {
 import { linkCreditLineToPrime } from "./macro";
 import { chooseAct } from "../choice";
 import { transferCash } from "../world-transfer";
+import { strongestPulls } from "./jobs";
 import type { ActOffer } from "../types";
 
 const CREDIT_PULL = "credit:pull";
@@ -369,8 +370,19 @@ function review(api: CoreAPI): void {
     0,
     book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.loans,
   );
-  // Owners decide to borrow once businesses have them (M1-08); until then the books decide.
-  stopgap("SG-WORLD-credit-business-applies");
+  // The owner decides whether to borrow; a business with no recorded owner applies when its cash runs short.
+  const owners = c.modules.has("business")
+    ? api.moduleState("business").table("owners")
+    : undefined;
+  const rate =
+    ((
+      api.moduleState("macro").table("state").get("macro:state") as
+        { policyRatePct: number } | undefined
+    )?.policyRatePct ?? p("zero")) /
+      p("macroHundred") +
+    p("creditPrimeSpreadPct") / p("macroHundred");
+  const wanted: { id: string; requested: number }[] = [];
+  const counted: { id: string; requested: number; score: number }[] = [];
   for (const [id, books] of [...c.finance.businesses].sort((a, b) =>
     a[0].localeCompare(b[0]),
   )) {
@@ -381,6 +393,48 @@ function review(api: CoreAPI): void {
     const cash = c.organizations.get(id)!.liquidMinor;
     const requested = Math.max(0, cover - cash);
     if (!requested) continue;
+    const ownerId = (owners?.get(id) as { ownerId?: string } | undefined)
+      ?.ownerId;
+    if (!ownerId) {
+      stopgap("SG-WORLD-credit-business-applies");
+      wanted.push({ id, requested });
+      continue;
+    }
+    const monthlySales = books.annualDemandMinor / p("macroMonthsPerYear");
+    const reasons = {
+      baseline: p("creditBorrowBaseline"),
+      need: p("creditBorrowNeedWeight") * Math.min(p("one"), requested / cover),
+      cost:
+        -p("creditBorrowCostWeight") *
+        Math.min(
+          p("two"),
+          (requested * rate) /
+            p("macroMonthsPerYear") /
+            Math.max(p("one"), monthlySales),
+        ),
+    };
+    if (c.people.has(ownerId)) {
+      const choice = chooseAct(c, ownerId, [
+        creditOffer("wait", id, {}),
+        creditOffer("borrow", id, reasons),
+      ]).selected!;
+      if (choice.definition.id === creditData.actions.borrow.id)
+        wanted.push({ id, requested });
+    } else
+      counted.push({
+        id,
+        requested,
+        score: reasons.baseline + reasons.need + reasons.cost,
+      });
+  }
+  if (counted.length)
+    for (const row of strongestPulls(api, "business-borrow", counted))
+      wanted.push({ id: row.id, requested: row.requested });
+  for (const { id, requested } of wanted.sort((a, b) =>
+    a.id.localeCompare(b.id),
+  )) {
+    const books = c.finance.businesses.get(id)!;
+    const cash = c.organizations.get(id)!.liquidMinor;
     const salesToWages =
       books.wagesPaidMinor > 0
         ? books.salesReceivedMinor / books.wagesPaidMinor
