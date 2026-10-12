@@ -1,0 +1,936 @@
+{
+  "schema": "p8-external-receipt-archive-v1",
+  "localHead": "e9ee1741688f320cc301420590829b050d936304",
+  "publishedHead": "ca2c7fe89c855e564d8c82115ae894ecf81e53db",
+  "trackedReceiptFilesBefore": 112,
+  "trackedReceiptBytesBefore": 40308275,
+  "trackedReceiptFilesRetained": 29,
+  "trackedReceiptBytesRetained": 691271,
+  "archiveRoundTripsVerified": true,
+  "policy": "Keep small summary JSON in the source tree. Preserve exact former tracked bytes outside the checkout and at their immutable published checkpoint. Full new finance captures and logs are outside the source tree.",
+  "historicalReceipts": [
+    {
+      "path": "src/core2/receipts/knowledge-index-v5-harness/current-coreAPI-source.txt",
+      "bytes": 8345,
+      "sha256": "1f9eba869d0d0a0f35c639f74412926c3b7245a0c361cc73b533ab3afa19fdb6",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/knowledge-index-v5-harness/current-coreAPI-source.txt",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/knowledge-index-v5-harness/current-coreAPI-source.txt",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/knowledge-index-v5-harness/frame-analysis.py",
+      "bytes": 6435,
+      "sha256": "8bee4e948a6fed0a19579ac9a2b3391251c1d1351627042010d75a67f4720fb8",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/knowledge-index-v5-harness/frame-analysis.py",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/knowledge-index-v5-harness/frame-analysis.py",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/knowledge-index-v5-harness/input-metadata.json",
+      "bytes": 13916,
+      "sha256": "b5c1bb9385c2d386e152896e727d00c2a0960026d11353bac4bdc5985852fd1b",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/knowledge-index-v5-harness/input-metadata.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/knowledge-index-v5-harness/input-metadata.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/knowledge-index-v5-harness/input-packer-complete.log",
+      "bytes": 2252,
+      "sha256": "0de29ca188ff66e6767bb5648e9d2c2fd465ab55316bcb279b410849b3a87406",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/knowledge-index-v5-harness/input-packer-complete.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/knowledge-index-v5-harness/input-packer-complete.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/knowledge-index-v5-harness/state-transform-cache.json",
+      "bytes": 47627,
+      "sha256": "0e77ffd44b753406865f648a0dd4aa6ef3373e299d3a8c99117a7dcf2aeca3f6",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/knowledge-index-v5-harness/state-transform-cache.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/knowledge-index-v5-harness/state-transform-cache.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/knowledge-index-v5-harness/state-transform-validation.json",
+      "bytes": 549,
+      "sha256": "cbcbc3ac9045a8b471212fa841d2ae8ff68483a04401b7319ea0be12c831facf",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/knowledge-index-v5-harness/state-transform-validation.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/knowledge-index-v5-harness/state-transform-validation.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/knowledge-index-v5-harness/year-observed-exit.json",
+      "bytes": 413,
+      "sha256": "ca291212f6306e8077dc3536779515968c783c224aaff627edb24456d1171f35",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/knowledge-index-v5-harness/year-observed-exit.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/knowledge-index-v5-harness/year-observed-exit.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/normal-year-gates/boundary-recheck.log",
+      "bytes": 1283,
+      "sha256": "5ba7ac76ac3957ad46899c4aad428dbb3c869f36e4f37b521d3c9df0f471c85d",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/normal-year-gates/boundary-recheck.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/normal-year-gates/boundary-recheck.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/normal-year-gates/eslint.log",
+      "bytes": 858,
+      "sha256": "d53cfaf34fdf403d56ad70dc779edbe3600bcb5f4983299f832b2f738107cc3c",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/normal-year-gates/eslint.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/normal-year-gates/eslint.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/normal-year-gates/focused-gate.log",
+      "bytes": 2795,
+      "sha256": "7edafa31ebad5a3ec4a93ff5952f4b6ea948203eb7a87b1519e2d588bf139c55",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/normal-year-gates/focused-gate.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/normal-year-gates/focused-gate.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/normal-year-gates/format-check.log",
+      "bytes": 504,
+      "sha256": "7f0383a10f62028ae2469bf5a9cb35409c9930a33d0db4139bf0f79f4ec6ff6a",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/normal-year-gates/format-check.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/normal-year-gates/format-check.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/normal-year-gates/population-gate.log",
+      "bytes": 1110,
+      "sha256": "05e8c4409c7d8dd8af6c93d2b26528312b8471c911edfa5166ebacdcc994eee4",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/normal-year-gates/population-gate.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/normal-year-gates/population-gate.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/normal-year-gates/release-check.log",
+      "bytes": 510,
+      "sha256": "cb1dd8427588e5429697caf437c171bf6e2f67813eb267e3880e980ea503337f",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/normal-year-gates/release-check.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/normal-year-gates/release-check.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/normal-year-gates/source-audit-final.log",
+      "bytes": 6273,
+      "sha256": "8243c2a93032e1beed2012b3d632e96ed4742516411a0d9e1dd850a9668b1839",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/normal-year-gates/source-audit-final.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/normal-year-gates/source-audit-final.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/normal-year-gates/tripwire-recheck.log",
+      "bytes": 1128,
+      "sha256": "470a8cd72b7fdef1bbd67607b2c56e4d1d251eeb93898638d60b77c7241ce0ff",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/normal-year-gates/tripwire-recheck.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/normal-year-gates/tripwire-recheck.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/normal-year-gates/typecheck-final.log",
+      "bytes": 479,
+      "sha256": "ddaf84f26804c92242f2e057e45a67727b75ab0c632bcf3c0c3e4e3a48ceeb50",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/normal-year-gates/typecheck-final.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/normal-year-gates/typecheck-final.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/normal-year-gates/zero-dice.log",
+      "bytes": 329,
+      "sha256": "29493b5418ee37857f14e618395ea4aa821264a7cad3a4386d8010cd90d95df6",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/normal-year-gates/zero-dice.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/normal-year-gates/zero-dice.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/old-core-baseline.json",
+      "bytes": 2400,
+      "sha256": "b216e9578aa6ee5e1ba2553e02c52b6756c0dd9a34f9e564a9c6ace225743819",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/old-core-baseline.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/old-core-baseline.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/peer-circle-archive-check.log",
+      "bytes": 1597,
+      "sha256": "0d457e1914dc6316fef8e280809ec61286dc510842f2721c565ccd33df6bf17f",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/peer-circle-archive-check.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/peer-circle-archive-check.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/peer-circle-gates/eslint.log",
+      "bytes": 49,
+      "sha256": "07bad48c58e00336395ef1dc484b47507aa7381c9fc1e89e56d462f28b0f5b5f",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/peer-circle-gates/eslint.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/peer-circle-gates/eslint.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/peer-circle-gates/focused-gate.log",
+      "bytes": 1602,
+      "sha256": "463c35c3e28bac274f29ca0823cb533fd44da41de203c9fa3acebc46aa1b388b",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/peer-circle-gates/focused-gate.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/peer-circle-gates/focused-gate.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/peer-circle-gates/format-check.log",
+      "bytes": 66,
+      "sha256": "17aa973d3f004560237d9a95171210b0671deff23d61628eecf7322ff5938f20",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/peer-circle-gates/format-check.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/peer-circle-gates/format-check.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/peer-circle-gates/release-check.log",
+      "bytes": 510,
+      "sha256": "c8524789ffdb3747709b2a9755a332549b9323456b30a680f4823435cf65717c",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/peer-circle-gates/release-check.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/peer-circle-gates/release-check.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/peer-circle-gates/source-audit.log",
+      "bytes": 6195,
+      "sha256": "99012fc3e497c4425401da383450c0be4b5427dcff356c43a8e5653f426ce776",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/peer-circle-gates/source-audit.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/peer-circle-gates/source-audit.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/peer-circle-gates/typecheck.log",
+      "bytes": 49,
+      "sha256": "07bad48c58e00336395ef1dc484b47507aa7381c9fc1e89e56d462f28b0f5b5f",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/peer-circle-gates/typecheck.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/peer-circle-gates/typecheck.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/peer-circle-gates/zero-dice.log",
+      "bytes": 329,
+      "sha256": "29493b5418ee37857f14e618395ea4aa821264a7cad3a4386d8010cd90d95df6",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/peer-circle-gates/zero-dice.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/peer-circle-gates/zero-dice.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/peer-circle-opening-progress.log",
+      "bytes": 2278,
+      "sha256": "e102a0d105d3b7753cffaf7a478970024ad84efc15ddb1ddd757792e3651ca96",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/peer-circle-opening-progress.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/peer-circle-opening-progress.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/peer-circle-steady-harness/input-metadata.json",
+      "bytes": 494910,
+      "sha256": "068ce6a24130d55c17361cb1b9be811eea6680efa89e9c3a14e6bf40299102e7",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/peer-circle-steady-harness/input-metadata.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/peer-circle-steady-harness/input-metadata.json",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/peer-circle-steady-harness/isolated-benchmark-v4.mts",
+      "bytes": 54835,
+      "sha256": "79352a5bd079d2dd065bb83f33954af0f3b0c744580e13a6e7529cee0e71c8c1",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/peer-circle-steady-harness/isolated-benchmark-v4.mts",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/peer-circle-steady-harness/isolated-benchmark-v4.mts",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/peer-circle-steady-harness/pack-benchmark-input-v4.mts",
+      "bytes": 21162,
+      "sha256": "a1adc54152692c09476154f2d4725a5e6e8ea90d24f3d9b443f5d5a24cde2824",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/peer-circle-steady-harness/pack-benchmark-input-v4.mts",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/peer-circle-steady-harness/pack-benchmark-input-v4.mts",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-day-cache.json",
+      "bytes": 58154,
+      "sha256": "b363748c69fcf2d2a37dfba84c41cd7fb341a894235ce6293c9a4bb1fc61240f",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-day-cache.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-day-cache.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-normal-year-affect.csv",
+      "bytes": 2800,
+      "sha256": "201af1fe39bac9ed4ecf8430f6d5d4e5d295624d62d5d71b3875ed32e1ec9cec",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-normal-year-affect.csv",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-normal-year-affect.csv",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-normal-year-affect.png",
+      "bytes": 115674,
+      "sha256": "81964824361f0b31ea1a17502fdb6257ad97dd60fbc065b7182ce990b2397c13",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-normal-year-affect.png",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-normal-year-affect.png",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-normal-year-affect.svg",
+      "bytes": 74501,
+      "sha256": "edab6d51d42f3f4d5a1a99c3619e1d336912025b0e2e421b2a8c2dad9513827b",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-normal-year-affect.svg",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-normal-year-affect.svg",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-normal-year-full.json.gz",
+      "bytes": 3136132,
+      "sha256": "2360d2567b550e084b954e436b48e7f312454cd6886ea54c22e1db490762cb55",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-normal-year-full.json.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-normal-year-full.json.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-normal-year-person-month-actions.csv.gz",
+      "bytes": 1074083,
+      "sha256": "6a5ef7efe24eff82253ce97a2f1fdd5a10ad6557bc804178d86523846235b441",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-normal-year-person-month-actions.csv.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-normal-year-person-month-actions.csv.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-normal-year-source-manifest.json",
+      "bytes": 6833,
+      "sha256": "f500c859185151875eab6859ab426d32282a8c6449112e835d0c1d4ec547e259",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-normal-year-source-manifest.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-normal-year-source-manifest.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-normal-year.json",
+      "bytes": 33341,
+      "sha256": "d8c1d3159370374adad45ba4bb9e68466c12d3200458578d732dc5ce2990a6e3",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-normal-year.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-normal-year.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-normal-year.log",
+      "bytes": 11477,
+      "sha256": "dcf44f6401e0e20cb0671ad5f5bf5c8e335d5c3bef56aea11edf0f57f479cc18",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-normal-year.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-normal-year.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-peer-circle-steady-year-full.json.gz",
+      "bytes": 7355540,
+      "sha256": "45f396fdf8210d01b398b95cf1b32adf9184b9635d95bc29dbec03e5b76f0721",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-peer-circle-steady-year-full.json.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-peer-circle-steady-year-full.json.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-peer-circle-steady-year.json",
+      "bytes": 1681963,
+      "sha256": "a25db3b4326ca77ceba30e6e0f71468121456b56b318f103614641ebf9902aab",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-peer-circle-steady-year.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-peer-circle-steady-year.json",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-peer-circle-steady-year.log",
+      "bytes": 4621,
+      "sha256": "9963d7ebefefb01ed89047c9c60f62771efc065a7b49cba170871b078b552ccd",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-peer-circle-steady-year.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-peer-circle-steady-year.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-peer-circle-year-full.json.gz",
+      "bytes": 3204713,
+      "sha256": "6a2190278461749729ab518d26ff264f04eba9cb663c1b3fcab5caf719b7c023",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-peer-circle-year-full.json.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-peer-circle-year-full.json.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-peer-circle-year-person-month-actions.csv.gz",
+      "bytes": 1085000,
+      "sha256": "127164ae6e135c68c79ae87ef321b081a4c32df64c34f8a2656f0b08ae0d2e59",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-peer-circle-year-person-month-actions.csv.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-peer-circle-year-person-month-actions.csv.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-peer-circle-year-source-manifest.json",
+      "bytes": 6143,
+      "sha256": "f141f7a3e404a1402d0e68807ff696cc8b9ff24a0b4519945256775bd4fe002a",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-peer-circle-year-source-manifest.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-peer-circle-year-source-manifest.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-peer-circle-year.json",
+      "bytes": 115379,
+      "sha256": "571f0430dd732b60c3d1899c1c6163a0d96ebf2ba6dd26158c1efd6924b00531",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-peer-circle-year.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-peer-circle-year.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-peer-circle-year.log",
+      "bytes": 12503,
+      "sha256": "cdcbb216e14a6026d4c092778a52ca752ba8f9cf0942930e39bd81ee5b61cb73",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-peer-circle-year.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-peer-circle-year.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-declarations.json",
+      "bytes": 3344,
+      "sha256": "f9a4394d466ad7cb63d201f9e56ab47d0a37113975e541530c8efa343b6e393f",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-declarations.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-declarations.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-focused-tests.log.gz",
+      "bytes": 705,
+      "sha256": "a6b57ab8493ef1a8af74706ac7c612a29354b72e17ecefa8d2d4eb7c0e9c6b64",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-focused-tests.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-focused-tests.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-guards.log.gz",
+      "bytes": 2014,
+      "sha256": "499ecabc60c540dcc5953927f2176b84c64dc67f9e2bb211e3e5503633cb6ed6",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-guards.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-guards.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-startup-failure.log.gz",
+      "bytes": 1043,
+      "sha256": "c1b9077137988e1434cc4bf7828d37a334fc78e58bc62b933aade076efd6cf4d",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-startup-failure.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-startup-failure.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-style.log.gz",
+      "bytes": 321,
+      "sha256": "f3fd75430d5c22cfc2020c937d8e5a59db07dd9d46ea367eb01b7836a9adf63d",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-style.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-style.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-typecheck.log.gz",
+      "bytes": 331,
+      "sha256": "43753b1631d0506dbcb23043766f784fd1684ce72e2a269549ec9d90fe844e72",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-typecheck.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-gates-20261009-typecheck.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-complete.log.gz",
+      "bytes": 6851,
+      "sha256": "2f547fc788d551ed7b3a90e293f5f8d0e60413bdc54146d3315b475ad2dee212",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-complete.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-complete.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-full.json.gz",
+      "bytes": 4147311,
+      "sha256": "05b4ffca9d098e22e1b56c9e5370febad1fbee799b20c3c327f71a8b82c60251",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-full.json.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-full.json.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-person-month-actions.csv.gz",
+      "bytes": 1358794,
+      "sha256": "166f543ebcdc81b7158b47fbe724de3f84fc4b7dff4630de080739f7f7e1adc5",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-person-month-actions.csv.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-person-month-actions.csv.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-source-life.ts.gz",
+      "bytes": 3256,
+      "sha256": "93f61d9096f4da03e64ff81cba264657b714bd02586a04e3016e909122d1e6fa",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-source-life.ts.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-source-life.ts.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-source-state.ts.gz",
+      "bytes": 8263,
+      "sha256": "3c415b573b812cb1f6c313701ec9a391ae13ba4f002bf2b3548fa7e075f7fa7f",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-source-state.ts.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-after-source-state.ts.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-archiver.py",
+      "bytes": 22262,
+      "sha256": "0818ada1227e64b15c99d630989cec2db88c88c38dd5c432db6f2be7acb9f8e1",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-archiver.py",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-archiver.py",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-complete.log.gz",
+      "bytes": 6831,
+      "sha256": "bfc260bdc855584b2375832431620cd2e21bef6fd22a4e1599152245c5a91e92",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-complete.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-complete.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-full.json.gz",
+      "bytes": 4147277,
+      "sha256": "5c6cca1383d10dd26314a1d92d09c1af606edede8a4ad3837a6961b08dd7f569",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-full.json.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-full.json.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-person-month-actions.csv.gz",
+      "bytes": 1358794,
+      "sha256": "166f543ebcdc81b7158b47fbe724de3f84fc4b7dff4630de080739f7f7e1adc5",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-person-month-actions.csv.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-person-month-actions.csv.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-source-life.ts.gz",
+      "bytes": 3235,
+      "sha256": "11ad22266cd303072fc017070e7f46f6cc896d8ec318ef494c8b09ed43e4af62",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-source-life.ts.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-source-life.ts.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-source-state.ts.gz",
+      "bytes": 7806,
+      "sha256": "77321cd80f388d351b8c58877f8c5a63bcc3d41854e8a15d3a88fb525334c999",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-source-state.ts.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-before-source-state.ts.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-comparison.json",
+      "bytes": 69171,
+      "sha256": "4d39a51e5c704ecca489685bb4370e407f4135f9579c5476278796472789c96c",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-comparison.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-comparison.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-contract.json",
+      "bytes": 1932,
+      "sha256": "0e509f9379f26cd732c347e25e136cd28e3ab3f17075e1b6fe1085ef46cf1416",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-contract.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-contract.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-source-manifests.json",
+      "bytes": 19957,
+      "sha256": "f7a5a7b914fa15709c1411fb24b27d7e9a8542f087a316d66cc1d2c40d5ead9e",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-source-manifests.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-source-manifests.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-knowledge-index-year-20261009-validator.py",
+      "bytes": 55623,
+      "sha256": "8dc3b8e6f565377482117baf531a34e3dd6587b9e0e53be422f30dc0c6fda673",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-validator.py",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-knowledge-index-year-20261009-validator.py",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-archiver.py",
+      "bytes": 55623,
+      "sha256": "8dc3b8e6f565377482117baf531a34e3dd6587b9e0e53be422f30dc0c6fda673",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-archiver.py",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-archiver.py",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-comparison.json",
+      "bytes": 60633,
+      "sha256": "2e44c181526c7f7671ae0271608db0d0cb4bc72ca60ccd85e06234fff98b5322",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-comparison.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-comparison.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-disabled-complete.log.gz",
+      "bytes": 3304,
+      "sha256": "8b5745c816cc8a8343d35195880fe0b3ff0ccd9dba97ba1bb732bf683b9b6d84",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-disabled-complete.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-disabled-complete.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-disabled-full.json.gz",
+      "bytes": 3217549,
+      "sha256": "84282821a785724ceb721b9fa2628d0fb1aa21483a7b94f2cc2ea62873a9cc3c",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-disabled-full.json.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-disabled-full.json.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-disabled-person-month-actions.csv.gz",
+      "bytes": 1085000,
+      "sha256": "127164ae6e135c68c79ae87ef321b081a4c32df64c34f8a2656f0b08ae0d2e59",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-disabled-person-month-actions.csv.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-disabled-person-month-actions.csv.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-enabled-complete.log.gz",
+      "bytes": 6831,
+      "sha256": "bfc260bdc855584b2375832431620cd2e21bef6fd22a4e1599152245c5a91e92",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-enabled-complete.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-enabled-complete.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-enabled-full.json.gz",
+      "bytes": 4147277,
+      "sha256": "5c6cca1383d10dd26314a1d92d09c1af606edede8a4ad3837a6961b08dd7f569",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-enabled-full.json.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-enabled-full.json.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-enabled-person-month-actions.csv.gz",
+      "bytes": 1358794,
+      "sha256": "166f543ebcdc81b7158b47fbe724de3f84fc4b7dff4630de080739f7f7e1adc5",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-enabled-person-month-actions.csv.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-enabled-person-month-actions.csv.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-declarations.json",
+      "bytes": 10990,
+      "sha256": "c4787f14433e4a7be88d1860d57bcb1236564d277fcd14e12a4af2326b37d4bf",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-declarations.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-declarations.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-final-format-and-lint.log.gz",
+      "bytes": 359,
+      "sha256": "dd5ec424c3df4b74591ca037d545d45082f0cbf667693f34a5364e714a722ebd",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-final-format-and-lint.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-final-format-and-lint.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-no-dice-and-release.log.gz",
+      "bytes": 524,
+      "sha256": "7db96a3b1caa691335c70777c5f8beea9cbdee292849a44fb48ac3d6ee72a512",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-no-dice-and-release.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-no-dice-and-release.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-opening-and-calibration-support.log.gz",
+      "bytes": 705,
+      "sha256": "cdde3331d190e16b550c851283171006fc27af830d3f2e93084fac08c045f94a",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-opening-and-calibration-support.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-opening-and-calibration-support.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-repaired-life-choice-tripwires.log.gz",
+      "bytes": 698,
+      "sha256": "212aa4203a75e608c8c20fa08923bd6834c008f61602c62200676e1b0bc04dc8",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-repaired-life-choice-tripwires.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-repaired-life-choice-tripwires.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-source-audit.log.gz",
+      "bytes": 1807,
+      "sha256": "1c2f6114ff20b9316d10094c47d0733b3d5c75f47bcbc001bc374d9ead222434",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-source-audit.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-source-audit.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-strict-types.log.gz",
+      "bytes": 336,
+      "sha256": "b34a130106f24fffaca5bfdfde2c02151e9e1ef08093d321d82bc6b51fa0d309",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-strict-types.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-strict-types.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-superseded-initial-module-count.log.gz",
+      "bytes": 786,
+      "sha256": "ca6bd8cae2552b81e541839edb40df17f04f292cec0795e89b1e75bd99accb47",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-superseded-initial-module-count.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-superseded-initial-module-count.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-work-and-age-observables.log.gz",
+      "bytes": 679,
+      "sha256": "75259e98361a5e4073f7a6b3368a6f06569604944edb4e76a8cf04fb0aa9c74d",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-work-and-age-observables.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-gate-work-and-age-observables.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-paired-work-year-20261009-source-manifest.json",
+      "bytes": 9973,
+      "sha256": "01200f94610346bcf1bf1e3480c4a2dd83e3d151b0372f838b0cd84767b8e3af",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-paired-work-year-20261009-source-manifest.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-paired-work-year-20261009-source-manifest.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-work-busy-day-before-archive.json",
+      "bytes": 3341,
+      "sha256": "055ebbb41c6880c3565c7c819953a28da26c4d14525ed3e2ac205680d72df1aa",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-work-busy-day-before-archive.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-work-busy-day-before-archive.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-work-busy-day-before-complete.log",
+      "bytes": 977,
+      "sha256": "f5ff6386d9d9bbd9d871c5af97e60a10827fe6e5e9fef852f1b35c9833e01d57",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-work-busy-day-before-complete.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-work-busy-day-before-complete.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-work-busy-day-before-frame-analysis-v2.json",
+      "bytes": 25387,
+      "sha256": "8a57032d6910cf41015200c591b4b467b9dd1cb931596570793024c611bb056c",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-work-busy-day-before-frame-analysis-v2.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-work-busy-day-before-frame-analysis-v2.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-work-busy-day-before-summary.json",
+      "bytes": 40290,
+      "sha256": "26bb9a0a9fe0f6b8f02d6a60f15f4f278b330f24c9973500443727f8dc0e08bb",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-work-busy-day-before-summary.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-work-busy-day-before-summary.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-work-busy-day-before.cpuprofile",
+      "bytes": 53037,
+      "sha256": "9aa14e0edb8741563947ee083dfdd500920b6c606eb1e754e7c5e47f21e09b1f",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-work-busy-day-before.cpuprofile",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-work-busy-day-before.cpuprofile",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-archive.json",
+      "bytes": 4448,
+      "sha256": "6f28f510b6a0484c596c1da9e3061b09d67dd5b611eaad2809e6c9308d2f9879",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-archive.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-archive.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-complete.log",
+      "bytes": 991,
+      "sha256": "a43dbd58426c6e9d35c927f122d683554645c1e09dab827b963aaf00debd3c80",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-complete.log",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-complete.log",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-frame-analysis.json",
+      "bytes": 25776,
+      "sha256": "21af9ef13945abad57fc0c620edd091ad92020ab66aa37da97cefa93d2c0fdb2",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-frame-analysis.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-frame-analysis.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-summary.json",
+      "bytes": 40200,
+      "sha256": "043ae30bef0d8a3bd2b2b8878e3da118c1e1a426491b8acd94f2fa43dd58f07d",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-summary.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-summary.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after.cpuprofile",
+      "bytes": 42968,
+      "sha256": "3c211e1837b73a7cf41d8bae65822ce943d4b5e0393c0265f537ce79c010efbe",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after.cpuprofile",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after.cpuprofile",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v6-finance-gate-affectedTests-20261009.log.gz",
+      "bytes": 419,
+      "sha256": "0513dcd261bb82fdb6cf312b6b5c0ceccc6735a9e53a176194dee247eb58a458",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v6-finance-gate-affectedTests-20261009.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v6-finance-gate-affectedTests-20261009.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v6-finance-gate-defaultViteStartupFailure-20261009.log.gz",
+      "bytes": 731,
+      "sha256": "33f45d200135d8ef0c6e4cb563492bd7b5f1c936cd7bbda632ee7a3eb7eee47f",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v6-finance-gate-defaultViteStartupFailure-20261009.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v6-finance-gate-defaultViteStartupFailure-20261009.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v6-finance-gate-eslint-20261009.log.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v6-finance-gate-eslint-20261009.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v6-finance-gate-eslint-20261009.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v6-finance-gate-format-20261009.log.gz",
+      "bytes": 82,
+      "sha256": "710c63d8d40d5688a62c3b08053dd1971c4e4ee87b2297f3f20c2540d22cd94e",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v6-finance-gate-format-20261009.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v6-finance-gate-format-20261009.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v6-finance-gate-sourceGuards-20261009.log.gz",
+      "bytes": 2215,
+      "sha256": "bacf510ee11c1ee3257bd9b2c4fb2dbfc8e45c51163f6293e6bf3b75a82fcaa2",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v6-finance-gate-sourceGuards-20261009.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v6-finance-gate-sourceGuards-20261009.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v6-finance-gate-strictTypes-20261009.log.gz",
+      "bytes": 20,
+      "sha256": "f61f27bd17de546264aa58f40f3aafaac7021e0ef69c17f6b1b4cd7664a037ec",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v6-finance-gate-strictTypes-20261009.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v6-finance-gate-strictTypes-20261009.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v6-finance-gate-strictTypesInitialBrandFailure-20261009.log.gz",
+      "bytes": 169,
+      "sha256": "bf4f4191b99d444970b63dabd59dc1bcaa89ee194f84daee2cbadb617bd372e6",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v6-finance-gate-strictTypesInitialBrandFailure-20261009.log.gz",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v6-finance-gate-strictTypesInitialBrandFailure-20261009.log.gz",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/prototype-v6-finance-gates-20261009.json",
+      "bytes": 12341,
+      "sha256": "10e7f930382dfd67197334c1689229c9fd03ed63d46d7385264ab11cdde72de6",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/prototype-v6-finance-gates-20261009.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/prototype-v6-finance-gates-20261009.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/work-busy-day-v5-harness/frame-analysis-v2.py",
+      "bytes": 5936,
+      "sha256": "2f326cad0bb6b334512a7b5b075dde105a79b6e06114ccfd40bca510cfdfd4e9",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/work-busy-day-v5-harness/frame-analysis-v2.py",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/work-busy-day-v5-harness/frame-analysis-v2.py",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/work-busy-day-v5-harness/input-metadata.json",
+      "bytes": 13857,
+      "sha256": "d3ced6db0f707d5042c79a07b077105b6740d5a2c780c509c2b90b43e5501102",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/work-busy-day-v5-harness/input-metadata.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/work-busy-day-v5-harness/input-metadata.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/work-busy-day-v5-harness/isolated-benchmark-v8.mts",
+      "bytes": 89366,
+      "sha256": "7efdb8f8464185a03fa0743d963429c5b4b617e7b7f95999b99038e3eb678792",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/work-busy-day-v5-harness/isolated-benchmark-v8.mts",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/work-busy-day-v5-harness/isolated-benchmark-v8.mts",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/work-busy-day-v5-harness/pack-benchmark-input-v8.mts",
+      "bytes": 34194,
+      "sha256": "b58d40d39854bb469c9073b1b47cc1bea7e79ec1bb84f4edbd2a015cc9031e9e",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/work-busy-day-v5-harness/pack-benchmark-input-v8.mts",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/work-busy-day-v5-harness/pack-benchmark-input-v8.mts",
+      "keptInSourceTree": false
+    },
+    {
+      "path": "src/core2/receipts/work-busy-day-v5-harness/state-transform-cache.json",
+      "bytes": 45952,
+      "sha256": "8a2f8c8fd7300e727e60e7376c470e707a7e038a907ba7797c5a11e12efcfc01",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/work-busy-day-v5-harness/state-transform-cache.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/work-busy-day-v5-harness/state-transform-cache.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/work-hours-v5-source-audit/archive.json",
+      "bytes": 659,
+      "sha256": "ad8f66b4cb7ae2cccd154bf27b7cb46e669c73f88c33bc2d357bc0943b475675",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/work-hours-v5-source-audit/archive.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/work-hours-v5-source-audit/archive.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/work-hours-v5-source-audit/evidence.json",
+      "bytes": 14905,
+      "sha256": "b11f15bf731083ac5bd883aeb99121255cb760b31dc31f0c6f26872d40f42dad",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/work-hours-v5-source-audit/evidence.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/work-hours-v5-source-audit/evidence.json",
+      "keptInSourceTree": true
+    },
+    {
+      "path": "src/core2/receipts/work-hours-v5-source-audit/manifest.json",
+      "bytes": 3360,
+      "sha256": "3f35815950a0d120f7fce4547d5bc2b8dc8ab50f9c31e6f7a1976054f6a09d47",
+      "externalArchivePath": "/workspace/p8-benchmark-artifacts/receipt-tree-at-ca2c7fe-20261009/src/core2/receipts/work-hours-v5-source-audit/manifest.json",
+      "immutablePublishedUrl": "https://github.com/lamontaes/Political-Game-Git/blob/ca2c7fe89c855e564d8c82115ae894ecf81e53db/src/core2/receipts/work-hours-v5-source-audit/manifest.json",
+      "keptInSourceTree": true
+    }
+  ],
+  "financeRunFiles": [
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-v6-paired-before-20261009-1603.json",
+      "bytes": 56404293,
+      "sha256": "26a1da0d23a27a6f6d24fb150976099b1344223fbec670945dad9edf294d4746"
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-v6-paired-after-20261009-1620.json",
+      "bytes": 56397358,
+      "sha256": "e0d3dc1494bef821e54a622987738fc237759263977133f942a8f71f5be4f85b"
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-v6-paired-after-20261009-1620.json.finance-input.json",
+      "bytes": 84848262,
+      "sha256": "88272302c9bba514a3aa86d21b008e94d5778a13ae6f0d2bdf902933ddad693c"
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-v6-paired-before-20261009-1603.log",
+      "bytes": 10367,
+      "sha256": "8a3dc8c01d0ce6b0d08348d5c0c70edfe5aab96c34fc3f085a747efc79200528"
+    },
+    {
+      "path": "/workspace/p8-benchmark-artifacts/p8-finance-v6-paired-after-20261009-1620.log",
+      "bytes": 10345,
+      "sha256": "5ad99a2acc8a8ccab26ba3d40b461f01b150a2983ac3107db96bb0c48b224e37"
+    }
+  ]
+}

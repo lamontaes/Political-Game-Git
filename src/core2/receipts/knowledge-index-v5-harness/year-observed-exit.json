@@ -1,0 +1,8 @@
+{
+  "sessionId": 34998,
+  "observedExitCode": 0,
+  "rootObservedUtc": "2026-10-09 13:16:59 UTC",
+  "receipt": "/workspace/p8-benchmark-artifacts/p8-normal-year-knowledge-index-enabled-20261009-1259.json",
+  "log": "/workspace/p8-benchmark-artifacts/p8-normal-year-knowledge-index-enabled-20261009-1259.log",
+  "independentArchiveSourceReview": "PASS; two claim-scope labels repaired in v2, no algorithm change"
+}

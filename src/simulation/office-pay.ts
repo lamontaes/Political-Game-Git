@@ -35,16 +35,14 @@ export { OFFICE_PAY_META };
 /**
  * What a state pays for an office, where the game holds it.
  *
- * The Council of State Governments' Book of the States 2023: the governor's
- * annual salary (as of January 1, 2022) and a legislator's annual salary
- * (2023), locked in `data/source/book-of-the-states`. A state that pays its
- * legislators a per diem or a weekly amount instead of one annual salary, or
- * two salaries by chamber, is absent: unknown is unknown, never zero and never
- * a neighbor's figure.
+ * Independently read official government salary facts, with historical
+ * reference periods and citations in `office-pay.generated.ts`. Missing or
+ * non-annual figures are absent; the existing labeled estimate reader uses
+ * official same-office references rather than inventing statutory authority.
  *
- * A judge is paid the state's general trial court salary (table 5.4): the
- * game's judicial office start does not record a court level, so a judge is
- * read as a trial court judge. GAME ASSUMPTION until it does.
+ * A judge is paid the general trial court salary: the game's judicial office
+ * start does not record a court level, so a judge is read as a trial court
+ * judge. GAME ASSUMPTION until it does.
  *
  * A member of Congress is paid the salary Congress has set since January 2009,
  * $174,000 (Congressional Research Service report 97-1011, locked in

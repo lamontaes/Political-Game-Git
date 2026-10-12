@@ -1,0 +1,67 @@
+{
+  "schema": "p8-work-busy-day-before-archive-v1",
+  "rootObservedProfileExitCode": 0,
+  "rawProfileAndSummaryUnchanged": true,
+  "currentCoreSourceSHA256": "b55af648dd79c8456ca3fb2f6accb0493817f290fcbdf242b4f4a02a0b658d20",
+  "files": [
+    {
+      "path": "src/core2/receipts/prototype-v5-work-busy-day-before.cpuprofile",
+      "originalLocation": "/workspace/p8-benchmark-artifacts/p8-work-v5-20210702-before.cpuprofile",
+      "bytes": 53037,
+      "sha256": "9aa14e0edb8741563947ee083dfdd500920b6c606eb1e754e7c5e47f21e09b1f",
+      "exactCopyVerified": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-work-busy-day-before-summary.json",
+      "originalLocation": "/workspace/p8-benchmark-artifacts/p8-work-v5-20210702-before-summary.json",
+      "bytes": 40290,
+      "sha256": "26bb9a0a9fe0f6b8f02d6a60f15f4f278b330f24c9973500443727f8dc0e08bb",
+      "exactCopyVerified": true
+    },
+    {
+      "path": "src/core2/receipts/prototype-v5-work-busy-day-before-complete.log",
+      "originalLocation": "/workspace/p8-benchmark-artifacts/p8-work-v5-20210702-before-profile.log",
+      "bytes": 977,
+      "sha256": "f5ff6386d9d9bbd9d871c5af97e60a10827fe6e5e9fef852f1b35c9833e01d57",
+      "exactCopyVerified": true
+    },
+    {
+      "path": "src/core2/receipts/work-busy-day-v5-harness/isolated-benchmark-v8.mts",
+      "originalLocation": "/tmp/p8-isolated-benchmark-v8-profile-no-prestate-digest.mts",
+      "bytes": 89366,
+      "sha256": "7efdb8f8464185a03fa0743d963429c5b4b617e7b7f95999b99038e3eb678792",
+      "exactCopyVerified": true
+    },
+    {
+      "path": "src/core2/receipts/work-busy-day-v5-harness/pack-benchmark-input-v8.mts",
+      "originalLocation": "/tmp/p8-pack-benchmark-input-v8-dense-tier-root.mts",
+      "bytes": 34194,
+      "sha256": "b58d40d39854bb469c9073b1b47cc1bea7e79ec1bb84f4edbd2a015cc9031e9e",
+      "exactCopyVerified": true
+    },
+    {
+      "path": "src/core2/receipts/work-busy-day-v5-harness/input-metadata.json",
+      "originalLocation": "/workspace/p8-benchmark-artifacts/p8-work-v8-input.meta.json",
+      "bytes": 13857,
+      "sha256": "d3ced6db0f707d5042c79a07b077105b6740d5a2c780c509c2b90b43e5501102",
+      "exactCopyVerified": true
+    },
+    {
+      "path": "src/core2/receipts/work-busy-day-v5-harness/frame-analysis-v2.py",
+      "originalLocation": "/tmp/p8-profile-work-v5-frame-analysis-v2.py",
+      "bytes": 5936,
+      "sha256": "2f326cad0bb6b334512a7b5b075dde105a79b6e06114ccfd40bca510cfdfd4e9",
+      "exactCopyVerified": true
+    },
+    {
+      "path": "src/core2/receipts/work-busy-day-v5-harness/state-transform-cache.json",
+      "originalLocation": "/tmp/tsx-1000/17915-9ab91e546a8a9402c3283252c361433b9eb5e08c",
+      "bytes": 45952,
+      "sha256": "8a2f8c8fd7300e727e60e7376c470e707a7e038a907ba7797c5a11e12efcfc01",
+      "exactCopyVerified": true
+    }
+  ],
+  "derivedFrameAnalysis": "src/core2/receipts/prototype-v5-work-busy-day-before-frame-analysis-v2.json",
+  "excludedOriginalDraft": "prototype-v5-work-busy-day-before-frame-analysis.json is per-node diagnostic; use v2 function-grouped analysis.",
+  "scope": "One actual July2 advance; raw includes inspector setup. Derived v2 includes only advanceCore stack samples; source-mapped state frames use verified current coreAPI transform. This is not an annual timing or GC budget receipt."
+}

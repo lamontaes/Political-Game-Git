@@ -1,0 +1,232 @@
+{
+  "version": "core2-content-v1",
+  "needs": [
+    {
+      "id": "money",
+      "evaluator": "resource-deficit",
+      "goalKind": "earn",
+      "parameters": {
+        "horizon": "moneyBufferDays"
+      },
+      "stopgapId": "SG-P8-life-utility"
+    },
+    {
+      "id": "time",
+      "evaluator": "time-load",
+      "goalKind": "recover",
+      "parameters": {},
+      "stopgapId": "SG-P8-life-utility"
+    },
+    {
+      "id": "health",
+      "evaluator": "affect-load",
+      "goalKind": "care",
+      "parameters": {},
+      "stopgapId": "SG-P8-life-utility"
+    },
+    {
+      "id": "company",
+      "evaluator": "contact-gap",
+      "goalKind": "connect",
+      "parameters": {
+        "horizon": "companyHorizonDays"
+      },
+      "stopgapId": "SG-P8-life-utility"
+    },
+    {
+      "id": "safety",
+      "evaluator": "stress-pressure",
+      "goalKind": "security",
+      "parameters": {},
+      "stopgapId": "SG-P8-life-utility"
+    }
+  ],
+  "actions": [
+    {
+      "id": "work-shift",
+      "actKinds": ["follow-rules", "self-interest", "commit"],
+      "goalKinds": ["earn"],
+      "need": "money",
+      "effortParameter": "workHours",
+      "effectParameter": "one",
+      "targetKind": "job",
+      "effect": "paid-work",
+      "stopgapId": "SG-P8-life-utility",
+      "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "negativeOne"
+      }
+    },
+    {
+      "id": "rest",
+      "actKinds": ["play-safe", "withdraw"],
+      "goalKinds": ["recover"],
+      "need": "time",
+      "effortParameter": "restHours",
+      "effectParameter": "restEffect",
+      "targetKind": "self",
+      "effect": "recover",
+      "stopgapId": "SG-P8-life-utility",
+      "emotion": {
+        "moodMultiplierParameter": "negativeOne",
+        "stressMultiplierParameter": "one"
+      }
+    },
+    {
+      "id": "contact-known-person",
+      "actKinds": ["engage", "cooperate"],
+      "goalKinds": ["connect"],
+      "need": "company",
+      "effortParameter": "socialHours",
+      "effectParameter": "relationContactGain",
+      "targetKind": "known-person",
+      "effect": "contact",
+      "stopgapId": "SG-P8-life-utility",
+      "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "negativeOne"
+      }
+    },
+    {
+      "id": "care-for-relative",
+      "actKinds": ["help-others", "commit"],
+      "goalKinds": ["care"],
+      "need": "health",
+      "effortParameter": "careHours",
+      "effectParameter": "careEffect",
+      "targetKind": "family",
+      "effect": "care",
+      "stopgapId": "SG-P8-life-utility",
+      "emotion": {
+        "moodMultiplierParameter": "negativeOne",
+        "stressMultiplierParameter": "one"
+      }
+    },
+    {
+      "id": "join-association",
+      "actKinds": ["cooperate", "commit", "engage"],
+      "goalKinds": ["change-condition", "connect"],
+      "need": "company",
+      "effortParameter": "civicHours",
+      "effectParameter": "one",
+      "targetKind": "known-group",
+      "effect": "join",
+      "prerequisites": [
+        {
+          "operation": "not-member"
+        }
+      ],
+      "stopgapId": "SG-P8-civic-progress",
+      "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "one"
+      }
+    },
+    {
+      "id": "organize-meeting",
+      "actKinds": ["speak-out", "cooperate", "take-risk"],
+      "goalKinds": ["change-condition"],
+      "need": "safety",
+      "effortParameter": "civicHours",
+      "effectParameter": "one",
+      "targetKind": "public-meeting-place",
+      "effect": "organize",
+      "prerequisites": [
+        {
+          "operation": "has-drive"
+        },
+        {
+          "operation": "not-organized-topic"
+        }
+      ],
+      "stopgapId": "SG-P8-civic-progress",
+      "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "one"
+      }
+    },
+    {
+      "id": "approach-office",
+      "actKinds": ["engage", "speak-out", "follow-rules"],
+      "goalKinds": ["change-condition"],
+      "need": "safety",
+      "effortParameter": "civicHours",
+      "effectParameter": "one",
+      "targetKind": "known-office",
+      "effect": "approach",
+      "prerequisites": [
+        {
+          "operation": "has-drive"
+        },
+        {
+          "operation": "has-organized-topic"
+        }
+      ],
+      "stopgapId": "SG-P8-civic-progress",
+      "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "one"
+      }
+    },
+    {
+      "id": "look-up-local-institution",
+      "actKinds": ["engage", "follow-rules"],
+      "goalKinds": ["change-condition", "connect"],
+      "need": "company",
+      "effortParameter": "lookupHours",
+      "effectParameter": "one",
+      "targetKind": "public-directory",
+      "effect": "public-lookup",
+      "stopgapId": "SG-P8-civic-progress",
+      "emotion": {
+        "moodMultiplierParameter": "one",
+        "stressMultiplierParameter": "one"
+      }
+    }
+  ],
+  "tiers": [
+    {
+      "id": "daily",
+      "cadence": "days",
+      "intervalParameter": "one"
+    },
+    {
+      "id": "weekly",
+      "cadence": "days",
+      "intervalParameter": "daysPerWeek"
+    },
+    {
+      "id": "monthly",
+      "cadence": "months",
+      "intervalParameter": "one"
+    },
+    {
+      "id": "calendar",
+      "cadence": "calendar"
+    },
+    {
+      "id": "husk",
+      "cadence": "inactive"
+    }
+  ],
+  "situations": [],
+  "appraisalTraits": [
+    {
+      "traitId": "personality-v1:concern-for-distress",
+      "weightParameter": "appraisalDistressTraitWeight",
+      "oneSided": false,
+      "stopgapId": "SG-P8-emotion-model"
+    },
+    {
+      "traitId": "personality-v1:facet-brooding",
+      "weightParameter": "appraisalBroodingTraitWeight",
+      "oneSided": true,
+      "stopgapId": "SG-P8-emotion-model"
+    }
+  ],
+  "openingVintageStopgap": "SG-P8-opening-vintage",
+  "openingTier": "weekly",
+  "cashActSourceKind": "life.selected-act",
+  "legacyWorkJournalSourceKind": "life.legacy-work-result",
+  "workCashModuleId": "core2-work-cash"
+}

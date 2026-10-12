@@ -1,0 +1,96 @@
+{
+  "schema": "p8-knowledge-index-busy-day-archive-v1",
+  "rootObservedProfileExitCode": 0,
+  "rootObservedPackerExitCode": 0,
+  "files": [
+    {
+      "original": "/workspace/p8-benchmark-artifacts/p8-work-v5-20210702-knowledge-index-after.cpuprofile",
+      "archive": "src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after.cpuprofile",
+      "bytes": 42968,
+      "sha256": "3c211e1837b73a7cf41d8bae65822ce943d4b5e0393c0265f537ce79c010efbe",
+      "copyRoundTripVerified": true
+    },
+    {
+      "original": "/workspace/p8-benchmark-artifacts/p8-work-v5-20210702-knowledge-index-after-summary.json",
+      "archive": "src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-summary.json",
+      "bytes": 40200,
+      "sha256": "043ae30bef0d8a3bd2b2b8878e3da118c1e1a426491b8acd94f2fa43dd58f07d",
+      "copyRoundTripVerified": true
+    },
+    {
+      "original": "/workspace/p8-benchmark-artifacts/p8-work-v5-20210702-knowledge-index-after-profile.log",
+      "archive": "src/core2/receipts/prototype-v5-work-busy-day-knowledge-index-after-complete.log",
+      "bytes": 991,
+      "sha256": "a43dbd58426c6e9d35c927f122d683554645c1e09dab827b963aaf00debd3c80",
+      "copyRoundTripVerified": true
+    },
+    {
+      "original": "/workspace/p8-benchmark-artifacts/p8-knowledge-index-v8-input.meta.json",
+      "archive": "src/core2/receipts/knowledge-index-v5-harness/input-metadata.json",
+      "bytes": 13916,
+      "sha256": "b5c1bb9385c2d386e152896e727d00c2a0960026d11353bac4bdc5985852fd1b",
+      "copyRoundTripVerified": true
+    },
+    {
+      "original": "/workspace/p8-benchmark-artifacts/p8-knowledge-index-v8-packer.log",
+      "archive": "src/core2/receipts/knowledge-index-v5-harness/input-packer-complete.log",
+      "bytes": 2252,
+      "sha256": "0de29ca188ff66e6767bb5648e9d2c2fd465ab55316bcb279b410849b3a87406",
+      "copyRoundTripVerified": true
+    },
+    {
+      "original": "/tmp/p8-profile-work-v5-knowledge-index-after-frame-analysis.py",
+      "archive": "src/core2/receipts/knowledge-index-v5-harness/frame-analysis.py",
+      "bytes": 6435,
+      "sha256": "8bee4e948a6fed0a19579ac9a2b3391251c1d1351627042010d75a67f4720fb8",
+      "copyRoundTripVerified": true
+    },
+    {
+      "original": "/tmp/p8-knowledge-index-state-transform-validation.json",
+      "archive": "src/core2/receipts/knowledge-index-v5-harness/state-transform-validation.json",
+      "bytes": 549,
+      "sha256": "cbcbc3ac9045a8b471212fa841d2ae8ff68483a04401b7319ea0be12c831facf",
+      "copyRoundTripVerified": true
+    },
+    {
+      "original": "/tmp/p8-knowledge-index-current-coreAPI-source.txt",
+      "archive": "src/core2/receipts/knowledge-index-v5-harness/current-coreAPI-source.txt",
+      "bytes": 8345,
+      "sha256": "1f9eba869d0d0a0f35c639f74412926c3b7245a0c361cc73b533ab3afa19fdb6",
+      "copyRoundTripVerified": true
+    },
+    {
+      "original": "/tmp/tsx-1000/17915-efea0a53da71b9d635384103c621742bbc57ab2e",
+      "archive": "src/core2/receipts/knowledge-index-v5-harness/state-transform-cache.json",
+      "bytes": 47627,
+      "sha256": "0e77ffd44b753406865f648a0dd4aa6ef3373e299d3a8c99117a7dcf2aeca3f6",
+      "copyRoundTripVerified": true
+    },
+    {
+      "original": "/tmp/p8-knowledge-index-year-observed-exit-declaration.json",
+      "archive": "src/core2/receipts/knowledge-index-v5-harness/year-observed-exit.json",
+      "bytes": 413,
+      "sha256": "ca291212f6306e8077dc3536779515968c783c224aaff627edb24456d1171f35",
+      "copyRoundTripVerified": true
+    }
+  ],
+  "comparison": {
+    "profileDate": "2021-07-02",
+    "advance": {
+      "simulatedDays": 1,
+      "decisions": 10797,
+      "acts": 10797
+    },
+    "beforeAdvanceWallMilliseconds": 1586.2546849999926,
+    "afterAdvanceWallMilliseconds": 970.4535030000116,
+    "beforeCpuMilliseconds": 1901.793,
+    "afterCpuMilliseconds": 1235.21,
+    "finalFullStateHashesMatch": true,
+    "finalFullStateSha256": "d829ef8db206ec3328c8ad4e4f97e3dab1951d60b15ada0e7f362fa6f97a316f",
+    "focusAndWorkDecisionDeltasMatch": true,
+    "beforeFullStateDigestAvailable": false,
+    "notAnnualGate": true,
+    "annualGcCoverageEstablished": false
+  },
+  "scope": "One diagnostic day after real chronological warmup. Full-state endpoint equality is for July2 only; no before-day full digest or full-year state parity. Inspector and natural preparation residue remain. The yearly median remains the separately measured over-budget result."
+}

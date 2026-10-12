@@ -2,7 +2,13 @@
   "_about": "Owner-approved specs for the road to early access (docs/ROADMAP.md). Each spec stays passes:false until its test passes in a place drawn at random from all 56 AND the finisher has played it in the test bench. Sessions may change only 'passes' (with evidence in the PR). They may never edit 'test'. The CTO adds 'command' once a spec's automated test exists. M1 to M7 specs are added here when the owner approves them. M2-01 sits under M1 because the owner moved it there (built with M1-12 in M1-officials).",
   "milestones": {
     "M0": "Foundation and the test bench (owner-approved Oct 10, 2026)",
-    "M1": "The world runs (owner-approved Oct 10, 2026)"
+    "M1": "The world runs (owner-approved Oct 10, 2026)",
+    "M2": "Running for office (owner-approved piece by piece from Oct 12, 2026)",
+    "M4": "Stories and words (owner-approved piece by piece from Oct 12, 2026)",
+    "M3": "Governing, and laws that change things (owner-approved piece by piece from Oct 12, 2026)",
+    "M5": "State and federal careers, and the executive role (owner-approved Oct 12, 2026)",
+    "M6": "The real game screens (owner-approved Oct 12, 2026; each screen also gets the owner's sign-off)",
+    "M7": "Early-access ready (owner-approved Oct 12, 2026)"
   },
   "features": [
     {
@@ -31,7 +37,7 @@
       "title": "Time: Day, Week, Calendar, and skip until something needs you",
       "golden_path": "1",
       "package": "M0-bench",
-      "test": "A skip from a random date stops exactly at the earliest of: a moment at or over the 0.50 interrupt line, a fixed commitment, or an offer with a deadline; it says which one; nothing was skipped past.",
+      "test": "A skip from a random date stops exactly at the earliest of: a moment at or over the 0.50 interrupt line, a fixed commitment that needs the player (a routine work shift the character attends on its own never stops a skip; owner, Oct 12), or an offer with a deadline; it says which one; nothing was skipped past.",
       "command": null,
       "passes": false
     },
@@ -272,6 +278,396 @@
       "golden_path": "world",
       "package": "M1-history",
       "test": "A new game in a random place opens on its start date; people have recent life events dated in the years before it; the economy's recent path matches real figures; laws in force show their dated changes before the start; governments show prior years' budgets; the load time and size are measured. (Owner, Oct 10: officials' election records and recent laws with their effects are added with M2 and M3.)",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-02",
+      "milestone": "M2",
+      "title": "Election calendars and filing rules",
+      "golden_path": "3",
+      "package": "M2-filing",
+      "test": "In a random place, the next local, state and federal elections have that place's real dates, and filing requires exactly what that place's rules require (age, residency, registration, a fee or signatures), read from data.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-03",
+      "milestone": "M2",
+      "title": "Filing in person",
+      "golden_path": "3",
+      "package": "M2-filing",
+      "test": "In a random place, the player goes to that place's real filing office, talks to the person there through dialogue choices, picks an office in the filing overlay, states a platform, gathers any required signatures from real people, files once and is on the ballot; an ineligible player is told the rule in words.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-05",
+      "milestone": "M2",
+      "title": "Campaigning",
+      "golden_path": "4",
+      "package": "M2-campaigns",
+      "test": "In a random place, after filing, each campaign activity (doors, volunteers, fundraising within real contribution limits, events and speeches, ads, endorsements, staff) changes what specific people know and think, each change with a recorded cause; support never moves without one; rivals campaign with the same tools.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-06",
+      "milestone": "M2",
+      "title": "Polls",
+      "golden_path": "4",
+      "package": "M2-campaigns",
+      "test": "In a random place, a poll reports what the people it actually contacted told the pollster (including undecided and no opinion), with a computed margin of error; no contacts means no poll; true support is never shown on screen.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-07",
+      "milestone": "M2",
+      "title": "Elections",
+      "golden_path": "5",
+      "package": "M2-elections",
+      "test": "In a random place, election day falls on the place's real date; named people vote as themselves and voter groups as groups, each vote from what that person knows and thinks and turnout from their own circumstances, with no roll; filling a person in never adds a ballot; primaries and runoffs follow the place's rules; election night shows exit polls of real voters reporting what they told the pollster; the winner takes the seat on the real start date.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-08",
+      "milestone": "M2",
+      "title": "Parties",
+      "golden_path": "5",
+      "package": "M2-elections",
+      "test": "In a random place, parties are organizations with members, leaders and rules; each person's party tie comes from their views plus loyalty; no party and independent both exist; nothing assumes exactly two permanent parties.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-10",
+      "milestone": "M2",
+      "title": "State and federal races in the world",
+      "golden_path": "5",
+      "package": "M2-elections",
+      "test": "In a full election year, state legislative, governor, congressional and presidential races run on the same election engine with fictional candidates, and their winners take office on the real dates.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M4-06",
+      "milestone": "M4",
+      "title": "The record follows you",
+      "golden_path": "11",
+      "package": "M2-elections",
+      "test": "In a random place, at the following election an incumbent's record (votes, promises kept or broken, what changed, what surfaced) changes specific voters' choices, each with its reason, and rivals' attack ads draw on it.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-04",
+      "milestone": "M2",
+      "title": "Other candidates choose to run",
+      "golden_path": "3",
+      "package": "M2-candidates-news",
+      "test": "In a random place, every candidate on the ballot filed through their own choice (drives, views, standing, circumstances) with recorded reasons; incumbents decide on another term the same way, with no trait forcing it; an incumbent with a weak record draws a primary challenger.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-09",
+      "milestone": "M2",
+      "title": "Basic news",
+      "golden_path": "10",
+      "package": "M2-candidates-news",
+      "test": "In a random place, local outlets report results, laws and big events in engine-written words with nothing invented; specific people hear each story at different times through their own news habits and word of mouth; news from other places arrives later; a story changes a view only where the person trusts the source.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-01",
+      "milestone": "M3",
+      "title": "Writing a bill",
+      "golden_path": "6",
+      "package": "M3-legislating",
+      "test": "In a random place, the player drafts an ordinance on the bill paper from the accepted catalog (docs/design/legislative-content-menus-v1.md: subject, operation, applicable sections), with amounts starting from the law in force and an optional phase-in; a fiscal note appears at drafting and the bill gets a real bill number; a bill beyond the body's authority gets the city attorney's warning, and a clear higher-level ban blocks it.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-02",
+      "milestone": "M3",
+      "title": "Negotiating",
+      "golden_path": "7",
+      "package": "M3-legislating",
+      "test": "In a random place, the player learns at least two members' stakes through routes the character could use and trades for their votes; each deal changes real terms (bill text, support, favors, endorsements), favors and promises land on the record and in the journal, and every member's vote has recorded reasons.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-03",
+      "milestone": "M3",
+      "title": "Legislatures, one engine",
+      "golden_path": "8",
+      "package": "M3-legislating",
+      "test": "A council, a state chamber and Congress each move bills through committee, amendments, floor votes and executive action under their real rules on one engine; the council meeting plays as a scene with routine items summarized; a committee hearing with witnesses testifying and members questioning them plays where it matters; members' rules votes can change procedure; ties are broken by lot only where the law requires it.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-04",
+      "milestone": "M3",
+      "title": "Laws change the world",
+      "golden_path": "9",
+      "package": "M3-laws-and-executive",
+      "test": "In a random place, an enacted ordinance changes records on its effective date and reaches specific named people (clickable, on their records), including at least one non-money effect (a rule with an enforcer and penalty, eligibility, a right, a price or a compliance cost); funded work is paid and then delivered, delayed or failed; a linked area moves through the outcome web; a repeal ends the effects.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-05",
+      "milestone": "M3",
+      "title": "Executive offices, one engine",
+      "golden_path": "9",
+      "package": "M3-laws-and-executive",
+      "test": "In a random place, as mayor in that place's real form of government, the player signs one bill and vetoes another with recorded reasons, sets budget priorities that the council adopts by vote (retiring the M1 budget stand-in), and appoints someone they know; the same engine runs a governor's desk, and the president's in the world.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-06",
+      "milestone": "M3",
+      "title": "Staff",
+      "golden_path": "7",
+      "package": "M3-world-of-governing",
+      "test": "In a random place, the player hires staff (someone they know or an applicant) whose results come from skill, potential, personality and passion, with no visible potential score; a staffer drafts a bill, prepares an amendment package and briefs the player; delegating carries no hidden penalty.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-07",
+      "milestone": "M3",
+      "title": "Interest groups",
+      "golden_path": "7",
+      "package": "M3-world-of-governing",
+      "test": "In a random place, a group forms against a bill from the people its fiscal note costs, and another forms from a person's drive; their lobbyist is a person who meets the official, donates within the limits and remembers the vote; the groups that exist at the start grew by the same rules over the prior years.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-08",
+      "milestone": "M3",
+      "title": "Constituent cases (simple)",
+      "golden_path": "9",
+      "package": "M3-world-of-governing",
+      "test": "In a random place, residents bring cases drawn from their own records; the office's handling choice (in person or through staff) applies; most cases resolve in the background; helping or not changes those residents' views of the official.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-09",
+      "milestone": "M3",
+      "title": "Basic corruption",
+      "golden_path": "9",
+      "package": "M3-world-of-governing",
+      "test": "In a random place, a bribe or favor is offered or taken only from the people's own traits, money and circumstances; it becomes a crime record with no detection roll and surfaces only through records, a leak or someone who turns; personal, campaign and public money stay separate.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-10",
+      "milestone": "M3",
+      "title": "Other governments legislate",
+      "golden_path": "9",
+      "package": "M3-world-of-governing",
+      "test": "Over a year, other councils meet on their real schedules and state legislatures and Congress pass laws on the same engines; those laws are real records that reach the player's town; ballot measures and recalls happen in the world only where a place's law allows them.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M4-01",
+      "milestone": "M4",
+      "title": "Stories from every engine",
+      "golden_path": "10",
+      "package": "M4-words",
+      "test": "In a random place over a year, the story director turns engine events (a campaign, a vote, a law, a lost job) into moments sized by impact: a big one stops the skip and smaller ones become journal lines; a broad event gives everyone a journal chapter and personal moments to the people it hit; a recorded lie, favor or promise comes back through a person.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M4-02",
+      "milestone": "M4",
+      "title": "Conversations",
+      "golden_path": "10",
+      "package": "M4-words",
+      "test": "In a random place, conversations offer at least four choices, each naming a real subject and answering the last line, with leaving as the screen's control; the scales Lie control sits upper right and dims when nothing false can be said; a lie is recorded with its hearers and can be discovered later; every line is engine output composed from mined real speech, and the owner has graded a batch (grading never blocks a merge).",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M4-03",
+      "milestone": "M4",
+      "title": "Scenes and the journal",
+      "golden_path": "10",
+      "package": "M4-words",
+      "test": "In a random place, scenes occur at transitions when the simulation decides, built from the place, the people present and their records, narrated in second person; a year's 'My life' journal reads as first-person chapters with no year headers, people named by relationship and nothing invented; a death brings a look-back.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M4-04",
+      "milestone": "M4",
+      "title": "Speeches at any moment",
+      "golden_path": "10",
+      "package": "M4-words",
+      "test": "In a random place, the player gives a speech built from structured choices with an exact wording preview; each listener reacts by who they are and retells it; salient speeches are retold over time, remembered more strongly by people aged about 10 to 30 at the time, and passed to children as weaker secondhand knowledge.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M4-05",
+      "milestone": "M4",
+      "title": "People bring it up",
+      "golden_path": "10",
+      "package": "M4-words",
+      "test": "In a random place, people bring up a change and who they believe caused it, in engine-written words; each attribution follows what that person actually heard, and some are wrong.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M5-01",
+      "milestone": "M5",
+      "title": "State legislator career",
+      "golden_path": "careers",
+      "package": "M5-careers",
+      "test": "In a random state, the player picks a real numbered legislative district, files at the state's filing office, campaigns against the actual holder, and on winning replaces the right member at the start of the term; in session they move a bill through committee, amendments, the floor and the governor's action with their staff, choosing capitol or home each week.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M5-02",
+      "milestone": "M5",
+      "title": "Governor and mayor play",
+      "golden_path": "careers",
+      "package": "M5-careers",
+      "test": "In a random state as governor, and in a random place as mayor or county executive under that place's real form of government, the player sets budget priorities with staff advice (line by line optional), appoints within the office's real powers, and signs and vetoes with recorded reasons; later events reflect those choices.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M5-03",
+      "milestone": "M5",
+      "title": "Keep playing as someone else",
+      "golden_path": "careers",
+      "package": "M5-careers",
+      "test": "When the player's character dies or retires, the player continues as an existing connected person (family, protégé, close associate, or anyone eligible by search) who has weaker secondhand family stories, is treated according to the predecessor's favors and grudges, and inherits no friendships, spouse, job or office; a death brings a look-back; earlier saves still load.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M5-04",
+      "milestone": "M5",
+      "title": "Member of Congress and president (parallel)",
+      "golden_path": "careers",
+      "package": "M5-careers",
+      "test": "In a full election cycle, congressional and presidential careers run in the world on the same election, legislature and executive engines with fictional people, and a player can run for president on the same single track as everyone else. Not required for early access.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M6-01",
+      "milestone": "M6",
+      "title": "The opening",
+      "golden_path": "all",
+      "package": "M6-screens",
+      "test": "A new game in a random place opens as a movie carried by the President's speech (the inaugural or the State of the Union, by the calendar) in engine words built from real addresses, cutting to the player's senators and representative, governor, town and family, then the player and day one; nothing is scripted, every number is in the ledger button, the whole opening loads during the loading screen, Escape opens only options and quit, and two new games' openings differ.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M6-02",
+      "milestone": "M6",
+      "title": "Every screen, one at a time",
+      "golden_path": "all",
+      "package": "M6-screens",
+      "test": "Each screen in the approved order runs on the new core with record data, control names and engine text only, in the Kit 12 and Kit 13 look and the Civilization VI menu shell, with no scrolling on main screens; each has the owner's sign-off after a play-through in a random place.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M6-03",
+      "milestone": "M6",
+      "title": "Art fixes",
+      "golden_path": "all",
+      "package": "M6-screens",
+      "test": "Every art item on the owner's Oct 8 defect list (docs/ui/playtest-2026-10-08.md) is cleared, judged by the owner side by side.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M7-01",
+      "milestone": "M7",
+      "title": "Speed and memory",
+      "golden_path": "release",
+      "package": "M7-early-access",
+      "test": "On a minimum-spec PC a town's game year runs in under two minutes and a day advances without visible waiting; a new game loads within two minutes while the loading story plays; install size and save size stay within their recorded budgets; minimum specs are measured and listed.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M7-02",
+      "milestone": "M7",
+      "title": "Saves that last",
+      "golden_path": "release",
+      "package": "M7-early-access",
+      "test": "A save made on one build loads and continues after an update through the single versioned upgrade path, with no wipe.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M7-03",
+      "milestone": "M7",
+      "title": "Zero placeholders",
+      "golden_path": "release",
+      "package": "M7-early-access",
+      "test": "The release build passes with zero open stopgaps; no player-facing surface shows an estimate label, a source, 'unknown' or a hard-coded value; the old core is deleted.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M7-04",
+      "milestone": "M7",
+      "title": "Updates and bug reports",
+      "golden_path": "release",
+      "package": "M7-early-access",
+      "test": "The Steam build is made nightly in the cloud and updates through Steam on Windows and Mac, with the Mac build signed and notarized; 'Report a bug' and the after-crash prompt send a log only when the player presses send; no developer or proof pages are in the shipped build.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M7-05",
+      "milestone": "M7",
+      "title": "Legal check",
+      "golden_path": "release",
+      "package": "M7-early-access",
+      "test": "The legal check finds no real politician's name anywhere and only public-domain historical quotes; every real school, place, bank and business is cleared; every data, photo and art license is recorded; Steam's AI-content disclosure is filled in; required attributions are on a Credits screen under Options.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M7-06",
+      "milestone": "M7",
+      "title": "Steam",
+      "golden_path": "release",
+      "package": "M7-early-access",
+      "test": "The Steam store page is live (app 5376890, $14.99) with the owner's capsule art and tags, real gameplay screenshots, a short description that promises nothing after early access (no courts), the content survey, the AI disclosure, an owner-approved early-access FAQ, and a trailer with no AI-generated music.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M6-04",
+      "milestone": "M6",
+      "title": "Custom world",
+      "golden_path": "setup",
+      "package": "M6-screens",
+      "test": "A new game can start from real data in a random place (the default) or from a customized world (place, demographics, ideology, turnout, party strength, economy and more); world generation honors every setting, and the world then runs by the same rules.",
       "command": null,
       "passes": false
     }
