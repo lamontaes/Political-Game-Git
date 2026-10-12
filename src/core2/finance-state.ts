@@ -725,6 +725,22 @@ export function prepareFinanceProcurement(
   }
 }
 
+/** core2-api-v14: a standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
+export function endStandingContract(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+): void {
+  const row = core.finance.contracts.get(id);
+  if (!row || row.endedAt || row.salesReceiptBudget || row.recipientIncome)
+    throw new Error("Only a current standing obligation can end.");
+  policy(api);
+  row.endedAt = core.date;
+  removeIndex(core.finance.contractsDueAt, row.dueAt, row.id);
+  if (row.endsAt)
+    removeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
+}
+
 export function retireFinanceBudget(
   core: CoreState,
   api: CoreAPI,

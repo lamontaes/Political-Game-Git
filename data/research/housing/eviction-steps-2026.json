@@ -1,0 +1,871 @@
+{
+ "id": "eviction-steps-2026",
+ "retrieved": "2026-10-12",
+ "method": "Two research helpers read official code sites where they could; many state sites and Justia refused the requests, so entries below 'high' come from the helpers' recall of the statute and are unverified. The game treats every non-high entry as an estimate (stopgap SG-WORLD-housing-eviction-steps).",
+ "fields": "noticeDays (pay-or-quit), cureAllowed, gracePeriodDays, answerOrHearingDays, appealOrStayDays, removalBy, statute, sourceUrl, confidence, note",
+ "places": {
+  "US-AK": {
+   "noticeDays": 7,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    7,
+    15
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "court service officer / state trooper",
+   "statute": "AS 34.03.220(b); AS 09.45.090-.120",
+   "sourceUrl": "https://www.akleg.gov/basis/statutes.asp#34.03.220",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; hearing range is a guess."
+  },
+  "US-AL": {
+   "noticeDays": 7,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": null,
+   "appealOrStayDays": 7,
+   "removalBy": "sheriff",
+   "statute": "Ala. Code \u00a7 35-9A-421(b); \u00a7 6-6-310 et seq.",
+   "sourceUrl": "https://alisondb.legislature.state.al.us/alison/CodeOfAlabama/1975/35-9A-421.htm",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 7 days to appeal to circuit court."
+  },
+  "US-AR": {
+   "noticeDays": 3,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": null,
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "Ark. Code \u00a7 18-60-304; \u00a7 18-17-701; \u00a7 18-16-101",
+   "sourceUrl": "https://law.justia.com/codes/arkansas/title-18/",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; unlawful detainer 3-day notice, RLTA termination notice is 14 days, cure under RLTA not confirmed."
+  },
+  "US-AS": {
+   "noticeDays": 7,
+   "noticeDayType": "calendar",
+   "cureAllowed": null,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    null,
+    null
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "High Court marshal/police (unverified)",
+   "statute": "A.S.C.A. 43.1406-43.1407; High Court Summary Repossession Rule 2(b)(3)(B)",
+   "sourceUrl": "https://www.courtrules.net/american_samoa/american-samoa-summary-repossession/rule-2",
+   "confidence": "medium",
+   "note": "Read court rule: default 7 days after service of written demand letter; statute text not read."
+  },
+  "US-AZ": {
+   "noticeDays": 5,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    3,
+    6
+   ],
+   "appealOrStayDays": 5,
+   "removalBy": "constable",
+   "statute": "A.R.S. \u00a7 33-1368(B), \u00a7 33-1377; Rules of Procedure for Eviction Actions",
+   "sourceUrl": "https://www.azleg.gov/ars/33/01368.htm",
+   "confidence": "high",
+   "note": "Notice/cure/calendar days read in statute text; hearing/writ timing from recall; cure after filing needs fees and costs, after judgment landlord's discretion."
+  },
+  "US-CA": {
+   "noticeDays": 3,
+   "noticeDayType": "judicial",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    10,
+    10
+   ],
+   "appealOrStayDays": 5,
+   "removalBy": "sheriff",
+   "statute": "Cal. Code Civ. Proc. \u00a7 1161(2), \u00a7 1167, \u00a7 715.010",
+   "sourceUrl": "https://leginfo.legislature.ca.gov/faces/codes_displaySection.xhtml?lawCode=CCP&sectionNum=1161",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 3 court days excluding weekends and judicial holidays; answer period 10 court days since AB 2347 (2025); sheriff posts 5-day notice to vacate."
+  },
+  "US-CO": {
+   "noticeDays": 10,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 7,
+   "answerOrHearingDays": [
+    7,
+    14
+   ],
+   "appealOrStayDays": 2,
+   "removalBy": "sheriff",
+   "statute": "C.R.S. \u00a7 13-40-104(1)(d), \u00a7 13-40-111, \u00a7 13-40-115, \u00a7 38-12-105",
+   "sourceUrl": "https://leg.colorado.gov/bills/hb19-1118",
+   "confidence": "medium",
+   "note": "10-day demand read in HB19-1118 summary; 5 days for exempt small landlords; other fields from recall; 7-day late-fee grace from HB24-1098 is unverified."
+  },
+  "US-CT": {
+   "noticeDays": 3,
+   "noticeDayType": "calendar",
+   "cureAllowed": false,
+   "gracePeriodDays": 9,
+   "answerOrHearingDays": [
+    3,
+    14
+   ],
+   "appealOrStayDays": 5,
+   "removalBy": "state marshal",
+   "statute": "Conn. Gen. Stat. \u00a7 47a-23, \u00a7 47a-15a, \u00a7 47a-23a, \u00a7 47a-35, \u00a7 47a-42",
+   "sourceUrl": "https://www.cga.ct.gov/current/pub/chap_832.htm",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 3 full-day notice to quit after 9-day grace; tenant can cure only before notice to quit (\u00a7 47a-15); 5-day stay excludes Sundays and holidays; pre-notice requirements added in 2021."
+  },
+  "US-DC": {
+   "noticeDays": 30,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 5,
+   "answerOrHearingDays": null,
+   "appealOrStayDays": null,
+   "removalBy": "marshal",
+   "statute": "D.C. Code \u00a7 42-3505.01(b), \u00a7 16-1501 et seq.",
+   "sourceUrl": "https://code.dccouncil.gov/us/dc/council/code/sections/42-3505.01",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 30-day notice to cure or vacate for nonpayment; late fee not before 5th day of the month; right of redemption until execution."
+  },
+  "US-DE": {
+   "noticeDays": 7,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 5,
+   "answerOrHearingDays": null,
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "25 Del. C. \u00a7 5502, \u00a7 5501(d), \u00a7 5710-5717",
+   "sourceUrl": "https://delcode.delaware.gov/title25/c055/index.html",
+   "confidence": "high",
+   "note": "Read \u00a7 5502: notice not less than 7 days, payment before action bars possession claim; 5-day late-fee grace in \u00a7 5501(d); hearing and writ timing not confirmed."
+  },
+  "US-FL": {
+   "noticeDays": 3,
+   "noticeDayType": "business",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    5,
+    5
+   ],
+   "appealOrStayDays": 1,
+   "removalBy": "sheriff",
+   "statute": "Fla. Stat. \u00a7 83.56(3), \u00a7 83.59, \u00a7 83.60, \u00a7 83.62",
+   "sourceUrl": "https://www.flsenate.gov/Laws/Statutes/2025/83.56",
+   "confidence": "high",
+   "note": "3-day notice excludes weekends and court holidays (read); tenant answer in 5 business days with rent deposited in court registry and sheriff posts 24-hour writ (from recall)."
+  },
+  "US-GA": {
+   "noticeDays": 3,
+   "noticeDayType": "business",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    7,
+    7
+   ],
+   "appealOrStayDays": 7,
+   "removalBy": "sheriff / marshal / constable",
+   "statute": "O.C.G.A. \u00a7 44-7-50, \u00a7 44-7-51, \u00a7 44-7-55",
+   "sourceUrl": "https://law.justia.com/codes/georgia/title-44/chapter-7/article-3/",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 2024 HB 404 added a 3-business-day notice to pay before filing; answer due 7 days after service; writ 7 days after judgment."
+  },
+  "US-GU": {
+   "noticeDays": 5,
+   "noticeDayType": "calendar",
+   "cureAllowed": null,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    null,
+    null
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "Judiciary marshal",
+   "statute": "21 GCA 21103; 21 GCA 48401 (Rental Act)",
+   "sourceUrl": "https://law.justia.com/codes/guam/2022/title-21/division-1/chapter-21/",
+   "confidence": "low",
+   "note": "Only a secondary source gives 5 days for 21 GCA 21103; statute not read (Justia returned 403)."
+  },
+  "US-HI": {
+   "noticeDays": 5,
+   "noticeDayType": "business",
+   "cureAllowed": true,
+   "gracePeriodDays": 5,
+   "answerOrHearingDays": null,
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "HRS \u00a7 521-68, \u00a7 521-21, \u00a7 666-",
+   "sourceUrl": "https://www.capitol.hawaii.gov/hrscurrent/Vol12_Ch0501-0588/HRS0521/HRS_0521-0068.htm",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 5-business-day notice; 5-day late-charge grace."
+  },
+  "US-IA": {
+   "noticeDays": 3,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    3,
+    3
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "Iowa Code \u00a7 562A.27(2), \u00a7 648.5, \u00a7 648.18",
+   "sourceUrl": "https://www.legis.iowa.gov/docs/code/562A.27.pdf",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 3-day notice; original notice served at least 3 days before trial."
+  },
+  "US-ID": {
+   "noticeDays": 3,
+   "noticeDayType": "business",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    5,
+    12
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "Idaho Code \u00a7 6-303(2), \u00a7 6-310, \u00a7 6-316",
+   "sourceUrl": "https://legislature.idaho.gov/statutesrules/idstat/title6/t6ch3/sect6-303/",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 3 days believed to exclude weekends and holidays; hearing range 5-12 days."
+  },
+  "US-IL": {
+   "noticeDays": 5,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    7,
+    40
+   ],
+   "appealOrStayDays": 1,
+   "removalBy": "sheriff",
+   "statute": "735 ILCS 5/9-209, 9-210, 9-107.5, 9-117",
+   "sourceUrl": "https://www.ilga.gov/legislation/ilcs/ilcs4.asp?DocName=073500050HArt%2E+IX&ActID=2017&ChapterID=56",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 5-day notice, enforcement stayed 24 hours after judgment; some home-rule cities add rules."
+  },
+  "US-IN": {
+   "noticeDays": 10,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": null,
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "Ind. Code \u00a7 32-31-1-6, \u00a7 32-31-1-6 et seq.",
+   "sourceUrl": "https://iga.in.gov/laws/2024/ic/titles/32#32-31-1",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 10-day notice to pay or vacate."
+  },
+  "US-KS": {
+   "noticeDays": 3,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    7,
+    14
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "K.S.A. \u00a7 58-2564(b), \u00a7 61-3801 et seq.",
+   "sourceUrl": "https://www.ksrevisor.org/statutes/chapters/ch58/058_025_0064.html",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 3-day notice, tenant cures by paying; answer date set 7-14 days after filing."
+  },
+  "US-KY": {
+   "noticeDays": 7,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": null,
+   "appealOrStayDays": null,
+   "removalBy": "sheriff / constable",
+   "statute": "KRS \u00a7 383.660(2), \u00a7 383.200-.215",
+   "sourceUrl": "https://apps.legislature.ky.gov/law/statutes/statute.aspx?id=",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; URLTA applies only in adopting cities and counties; elsewhere common law with 7-day demand."
+  },
+  "US-LA": {
+   "noticeDays": 5,
+   "noticeDayType": "calendar",
+   "cureAllowed": false,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    3,
+    null
+   ],
+   "appealOrStayDays": 1,
+   "removalBy": "constable / marshal / sheriff",
+   "statute": "La. Code Civ. Proc. art. 4701, 4731-4733",
+   "sourceUrl": "https://legis.la.gov/Legis/Law.aspx?d=111788",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 5-day notice to vacate, trial no earlier than 3rd day after service, 24 hours to vacate after judgment."
+  },
+  "US-MA": {
+   "noticeDays": 14,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 30,
+   "answerOrHearingDays": [
+    7,
+    30
+   ],
+   "appealOrStayDays": 10,
+   "removalBy": "constable / deputy sheriff",
+   "statute": "M.G.L. c. 186 \u00a7 11, \u00a7 15B; c. 239 \u00a7 1-8A",
+   "sourceUrl": "https://malegislature.gov/Laws/GeneralLaws/PartIII/TitleI/Chapter186/Section11",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 14-day notice to quit, 30-day late-fee grace, execution after 10 days; cure by paying before answer date (c. 239 \u00a7 8A)."
+  },
+  "US-MD": {
+   "noticeDays": 10,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 5,
+   "answerOrHearingDays": [
+    5,
+    5
+   ],
+   "appealOrStayDays": 4,
+   "removalBy": "sheriff",
+   "statute": "Md. Code, Real Prop. \u00a7 8-401, \u00a7 8-208(d)",
+   "sourceUrl": "https://mgaleg.maryland.gov/mgawebsite/Laws/StatuteText?article=grp&section=8-401",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 10-day notice of intent to file, tenant right of redemption until execution, 4 days to appeal."
+  },
+  "US-ME": {
+   "noticeDays": 7,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 15,
+   "answerOrHearingDays": [
+    7,
+    7
+   ],
+   "appealOrStayDays": 7,
+   "removalBy": "sheriff",
+   "statute": "14 M.R.S. \u00a7 6002, \u00a7 6004, \u00a7 6008, \u00a7 6028",
+   "sourceUrl": "https://legislature.maine.gov/statutes/14/title14sec6002.html",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 7-day notice to quit, 15-day late-fee grace, writ 7 days after judgment."
+  },
+  "US-MI": {
+   "noticeDays": 7,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    7,
+    10
+   ],
+   "appealOrStayDays": 10,
+   "removalBy": "court officer / bailiff",
+   "statute": "MCL \u00a7 554.134, \u00a7 600.5735, \u00a7 600.5744",
+   "sourceUrl": "https://www.legislature.mi.gov/Laws/MCL?objectName=mcl-554-134",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 7-day demand notice, 10-day wait before writ."
+  },
+  "US-MN": {
+   "noticeDays": 14,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    7,
+    14
+   ],
+   "appealOrStayDays": 1,
+   "removalBy": "sheriff",
+   "statute": "Minn. Stat. \u00a7 504B.321, \u00a7 504B.285, \u00a7 504B.345",
+   "sourceUrl": "https://www.revisor.mn.gov/statutes/cite/504B.321",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 14-day notice of nonpayment required since 2023; 24-hour writ wait."
+  },
+  "US-MO": {
+   "noticeDays": null,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": null,
+   "appealOrStayDays": 10,
+   "removalBy": "sheriff",
+   "statute": "RSMo \u00a7 535.010-.030, \u00a7 441.040",
+   "sourceUrl": "https://revisor.mo.gov/main/OneChapter.aspx?chapter=535",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; no pay-or-quit notice believed required before filing rent-and-possession suit; cure by paying before judgment believed allowed."
+  },
+  "US-MP": {
+   "noticeDays": 3,
+   "noticeDayType": "business",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    5,
+    5
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "officer named in writ (clerk issues writ after judgment)",
+   "statute": "Holdover Tenancy Act, CNMI P.L. 10-67 secs. 6(b), 8(a), 12",
+   "sourceUrl": "https://cnmilaw.gov/docs/public_laws/10/pl10-67.pdf",
+   "confidence": "high",
+   "note": "Read Public Law: 3 days excluding Saturday, Sunday and holidays; answer within 5 days after service; jury allowed; applies to pre-1997 text, check later amendments; cure by paying within notice implied by pay-or-possession demand."
+  },
+  "US-MS": {
+   "noticeDays": 3,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": null,
+   "appealOrStayDays": null,
+   "removalBy": "sheriff / constable",
+   "statute": "Miss. Code \u00a7 89-8-13, \u00a7 89-7-",
+   "sourceUrl": "https://law.justia.com/codes/mississippi/title-89/chapter-8/",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 3 days believed correct for nonpayment under MRLTA (14 days for other breaches)."
+  },
+  "US-MT": {
+   "noticeDays": 3,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": null,
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "MCA \u00a7 70-24-422",
+   "sourceUrl": "https://leg.mt.gov/bills/mca/title_0700/chapter_0240/part_0040/section_0220/0700-0240-0040-0220.html",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 3-day notice for nonpayment."
+  },
+  "US-NC": {
+   "noticeDays": null,
+   "noticeDayType": "calendar",
+   "cureAllowed": false,
+   "gracePeriodDays": 5,
+   "answerOrHearingDays": [
+    7,
+    7
+   ],
+   "appealOrStayDays": 10,
+   "removalBy": "sheriff",
+   "statute": "N.C.G.S. 42-3, 42-26, 42-29, 42-30, 42-34, 42-46",
+   "sourceUrl": "https://law.justia.com/codes/north-carolina/chapter-42/",
+   "confidence": "medium",
+   "note": "No statutory pay-or-quit demand required before filing summary ejectment (lease may require 10-day demand); 5-day grace applies to late fees; hearing within 7 days of summons issuance; 10 days to appeal."
+  },
+  "US-ND": {
+   "noticeDays": 3,
+   "noticeDayType": "calendar",
+   "cureAllowed": false,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    3,
+    15
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "NDCC 47-32-01, 47-32-02, 47-32-03, 47-32-04",
+   "sourceUrl": "https://law.justia.com/codes/north-dakota/title-47/chapter-47-32/",
+   "confidence": "low",
+   "note": "Recalled, not read; 3-day notice to quit; summons returnable roughly 3-15 days."
+  },
+  "US-NE": {
+   "noticeDays": 7,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": null,
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "Neb. Rev. Stat. \u00a7 76-1431(2), \u00a7 76-1445",
+   "sourceUrl": "https://nebraskalegislature.gov/laws/statutes.php?statute=76-1431",
+   "confidence": "low",
+   "note": "from recall of the statute; not fetched or verified this session; 7-day notice to pay or vacate."
+  },
+  "US-NH": {
+   "noticeDays": 7,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    7,
+    14
+   ],
+   "appealOrStayDays": 7,
+   "removalBy": "sheriff",
+   "statute": "RSA 540:3, 540:9, 540:13, 540:13-a",
+   "sourceUrl": "https://law.justia.com/codes/new-hampshire/title-lv/chapter-540/",
+   "confidence": "low",
+   "note": "Recalled, not read; 7-day demand; tenant may cure by paying rent owed before the notice period ends/until hearing (verify); appeal 7 days."
+  },
+  "US-NJ": {
+   "noticeDays": 0,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 5,
+   "answerOrHearingDays": [
+    10,
+    30
+   ],
+   "appealOrStayDays": 3,
+   "removalBy": "court officer (Special Civil Part officer)",
+   "statute": "N.J.S.A. 2A:18-61.1(a), 2A:18-55, 2A:42-6.1, 2A:42-10.16",
+   "sourceUrl": "https://law.justia.com/codes/new-jersey/title-2a/section-2a-18-61-1/",
+   "confidence": "medium",
+   "note": "No pay-or-quit notice for nonpayment; 5-day late-fee grace; tenant may pay all rent plus costs to stop judgment; warrant of removal needs 3 business days notice after service."
+  },
+  "US-NM": {
+   "noticeDays": 3,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    7,
+    14
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "sheriff or constable",
+   "statute": "NMSA 47-8-33, 47-8-47 (UORRA); Rules of Magistrate Court",
+   "sourceUrl": "https://law.justia.com/codes/new-mexico/chapter-47/article-8/",
+   "confidence": "low",
+   "note": "Recalled, not read; 3-day written pay-or-quit under Uniform Owner-Resident Relations Act (check for recent amendments); hearing timing set by magistrate rules."
+  },
+  "US-NV": {
+   "noticeDays": 10,
+   "noticeDayType": "judicial",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    10,
+    10
+   ],
+   "appealOrStayDays": 1,
+   "removalBy": "sheriff or constable",
+   "statute": "NRS 40.253, 40.254, 40.290-40.420",
+   "sourceUrl": "https://law.justia.com/codes/nevada/title-3/chapter-40/",
+   "confidence": "medium",
+   "note": "Recalled from statute, not read this session; 10 judicial days after 2023 AB 340; tenant answer by affidavit within 10 judicial days; 24-hour notice to vacate after eviction order. Verify."
+  },
+  "US-NY": {
+   "noticeDays": 14,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 5,
+   "answerOrHearingDays": [
+    10,
+    17
+   ],
+   "appealOrStayDays": 14,
+   "removalBy": "marshal, sheriff or constable",
+   "statute": "RPAPL 711(2), 732, 733, 749, 751; RPL 238-a",
+   "sourceUrl": "https://law.justia.com/codes/new-york/rpa/article-7/",
+   "confidence": "medium",
+   "note": "Recalled, not read; 14-day written rent demand (HSTPA 2019); petition returnable 10-17 days after service; warrant execution needs 14 days notice; 5-day late-fee grace."
+  },
+  "US-OH": {
+   "noticeDays": 3,
+   "noticeDayType": "calendar",
+   "cureAllowed": null,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    5,
+    15
+   ],
+   "appealOrStayDays": 10,
+   "removalBy": "bailiff",
+   "statute": "ORC 1923.04, 1923.06, 1923.13, 5321.03",
+   "sourceUrl": "https://law.justia.com/codes/ohio/title-19/chapter-1923/",
+   "confidence": "medium",
+   "note": "3-day notice to leave premises; hearing 5-15 days after filing; writ after about 10 days; cure by payment not clearly statutory."
+  },
+  "US-OK": {
+   "noticeDays": 5,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    5,
+    10
+   ],
+   "appealOrStayDays": 10,
+   "removalBy": "sheriff or constable",
+   "statute": "41 O.S. 131; 12 O.S. 1148.1-1148.10",
+   "sourceUrl": "https://law.justia.com/codes/oklahoma/title-41/section-41-131/",
+   "confidence": "medium",
+   "note": "Recalled, not read; 5-day pay-or-quit; summons returnable 5-10 days; 10 days to appeal."
+  },
+  "US-OR": {
+   "noticeDays": 3,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 7,
+   "answerOrHearingDays": [
+    7,
+    15
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "ORS 90.394, 90.427, 105.105-105.168",
+   "sourceUrl": "https://law.justia.com/codes/oregon/volume-03/chapter-90/section-90-394/",
+   "confidence": "medium",
+   "note": "72-hour notice (144-hour alternative) allowed on the 8th day of the rent period; first appearance 7-15 days after filing; recent legislation (SB 611 2023) added limits."
+  },
+  "US-PA": {
+   "noticeDays": 10,
+   "noticeDayType": "calendar",
+   "cureAllowed": null,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    7,
+    15
+   ],
+   "appealOrStayDays": 10,
+   "removalBy": "constable",
+   "statute": "68 P.S. 250.501, 250.502, 250.513; MDJ Rules 510, 519",
+   "sourceUrl": "https://law.justia.com/codes/pennsylvania/title-68/",
+   "confidence": "medium",
+   "note": "10-day notice to quit for nonpayment; MDJ hearing 7-15 days after filing; possession order issued after 10 days; cure by payment not clearly statutory."
+  },
+  "US-PR": {
+   "noticeDays": null,
+   "noticeDayType": "calendar",
+   "cureAllowed": null,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    null,
+    null
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "alguacil del tribunal",
+   "statute": "32 L.P.R.A. 2821 et seq. (Codigo de Enjuiciamiento Civil Arts. 620-634; Ley 140-1974)",
+   "sourceUrl": "https://bvirtualogp.pr.gov/ogp/Bvirtual/leyesreferencia/PDF/",
+   "confidence": "low",
+   "note": "Could not retrieve text; summary desahucio court proceeding; details unresolved."
+  },
+  "US-RI": {
+   "noticeDays": 5,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 15,
+   "answerOrHearingDays": [
+    5,
+    10
+   ],
+   "appealOrStayDays": 5,
+   "removalBy": "sheriff or constable",
+   "statute": "R.I. Gen. Laws 34-18-35, 34-18-36, 34-18-39",
+   "sourceUrl": "https://law.justia.com/codes/rhode-island/title-34/chapter-34-18/",
+   "confidence": "low",
+   "note": "Recalled, not read; 15-day grace before nonpayment counts; 5-day notice; landlord must accept full payment before eviction."
+  },
+  "US-SC": {
+   "noticeDays": 5,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    10,
+    10
+   ],
+   "appealOrStayDays": 5,
+   "removalBy": "sheriff or constable",
+   "statute": "S.C. Code 27-40-710, 27-40-730",
+   "sourceUrl": "https://law.justia.com/codes/south-carolina/title-27/chapter-40/",
+   "confidence": "low",
+   "note": "Recalled, not read; 5-day pay-or-quit; rule to show cause with response in about 10 days."
+  },
+  "US-SD": {
+   "noticeDays": 3,
+   "noticeDayType": "calendar",
+   "cureAllowed": null,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    6,
+    12
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "SDCL 21-16-2, 21-16-4, 21-16-9",
+   "sourceUrl": "https://law.justia.com/codes/south-dakota/title-21/chapter-21-16/",
+   "confidence": "low",
+   "note": "Recalled, not read; 3-day notice; return day roughly 6-12 days (verify)."
+  },
+  "US-TN": {
+   "noticeDays": 14,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 5,
+   "answerOrHearingDays": [
+    3,
+    6
+   ],
+   "appealOrStayDays": 10,
+   "removalBy": "sheriff",
+   "statute": "T.C.A. 66-28-505 (URLTA counties), 29-18-115, 29-18-130",
+   "sourceUrl": "https://law.justia.com/codes/tennessee/title-66/chapter-28/part-5/",
+   "confidence": "medium",
+   "note": "URLTA counties: rent 5 days late, then 14-day notice to cure; non-URLTA counties use common law demand; detainer warrant return 3-6 days; 10 days to appeal."
+  },
+  "US-TX": {
+   "noticeDays": 3,
+   "noticeDayType": "calendar",
+   "cureAllowed": false,
+   "gracePeriodDays": 2,
+   "answerOrHearingDays": [
+    10,
+    21
+   ],
+   "appealOrStayDays": 6,
+   "removalBy": "constable or sheriff",
+   "statute": "Tex. Prop. Code 24.005, 24.0051, 24.0061, 92.019",
+   "sourceUrl": "https://tcss.legis.texas.gov/resources/pr/htm/pr.24.htm",
+   "confidence": "high",
+   "note": "Read statute: 3-day notice unless lease says otherwise; trial 10-21 days after filing and not before 4th day after service; writ not before 6th day after judgment, 24-hour posted warning."
+  },
+  "US-UT": {
+   "noticeDays": 3,
+   "noticeDayType": "business",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    3,
+    10
+   ],
+   "appealOrStayDays": 3,
+   "removalBy": "constable or sheriff",
+   "statute": "Utah Code 78B-6-802, 78B-6-803, 78B-6-811",
+   "sourceUrl": "https://law.justia.com/codes/utah/title-78b/chapter-6/part-8/",
+   "confidence": "medium",
+   "note": "Recalled, not read; 3 business days notice; answer 3 business days after service; hearing within 10 days of request."
+  },
+  "US-VA": {
+   "noticeDays": 5,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 5,
+   "answerOrHearingDays": [
+    null,
+    21
+   ],
+   "appealOrStayDays": 10,
+   "removalBy": "sheriff",
+   "statute": "Va. Code 55.1-1245(C), 55.1-1250, 8.01-124 to 8.01-130, 8.01-470",
+   "sourceUrl": "https://law.justia.com/codes/virginia/title-55-1/chapter-12/",
+   "confidence": "medium",
+   "note": "5-day pay-or-quit; tenant may redeem by paying all before hearing; return date within 21 days; 10 days to appeal; 5-day grace for late fees."
+  },
+  "US-VI": {
+   "noticeDays": 3,
+   "noticeDayType": "calendar",
+   "cureAllowed": null,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    null,
+    null
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "Superior Court marshal",
+   "statute": "28 V.I.C. 781-794",
+   "sourceUrl": "https://www.vicourts.org/",
+   "confidence": "low",
+   "note": "Recalled 3-day notice from statute language; a secondary source said 14 days; unresolved."
+  },
+  "US-VT": {
+   "noticeDays": 14,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    null,
+    null
+   ],
+   "appealOrStayDays": 14,
+   "removalBy": "sheriff",
+   "statute": "9 V.S.A. 4467(a), 12 V.S.A. 4851-4854",
+   "sourceUrl": "https://law.justia.com/codes/vermont/title-9/chapter-137/",
+   "confidence": "low",
+   "note": "Recalled, not read; 14-day notice (tenant may cure by paying full rent); writ issues after 14 days."
+  },
+  "US-WA": {
+   "noticeDays": 14,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    7,
+    30
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "RCW 59.18.057, 59.18.365, 59.18.375, 59.18.410",
+   "sourceUrl": "https://law.justia.com/codes/washington/title-59/chapter-59-18/",
+   "confidence": "medium",
+   "note": "14-day pay-or-vacate (2019 law); show-cause hearing 7-30 days after filing; writ by sheriff; tenant may redeem."
+  },
+  "US-WI": {
+   "noticeDays": 5,
+   "noticeDayType": "calendar",
+   "cureAllowed": true,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    5,
+    25
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "Wis. Stat. 704.17(2), 799.205, 799.44",
+   "sourceUrl": "https://law.justia.com/codes/wisconsin/",
+   "confidence": "medium",
+   "note": "5-day notice for under-1-year leases/month-to-month, 14 days for longer leases; paying in full within the notice voids it."
+  },
+  "US-WV": {
+   "noticeDays": null,
+   "noticeDayType": "calendar",
+   "cureAllowed": null,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    5,
+    20
+   ],
+   "appealOrStayDays": 10,
+   "removalBy": "sheriff",
+   "statute": "W.Va. Code 55-3A-1 to 55-3A-4, 37-6-5",
+   "sourceUrl": "https://law.justia.com/codes/west-virginia/chapter-55/article-3a/",
+   "confidence": "low",
+   "note": "Recalled, not read; magistrate court summons; notice requirement not confirmed."
+  },
+  "US-WY": {
+   "noticeDays": 3,
+   "noticeDayType": "calendar",
+   "cureAllowed": null,
+   "gracePeriodDays": 0,
+   "answerOrHearingDays": [
+    3,
+    12
+   ],
+   "appealOrStayDays": null,
+   "removalBy": "sheriff",
+   "statute": "Wyo. Stat. 1-21-1002 to 1-21-1008",
+   "sourceUrl": "https://law.justia.com/codes/wyoming/title-1/chapter-21/",
+   "confidence": "low",
+   "note": "Recalled, not read; 3-day notice to quit."
+  }
+ }
+}
