@@ -8746,7 +8746,7 @@
           "pose": "sit",
           "facing": "viewer",
           "depth": 52,
-          "seatY": 45,
+          "seatY": 49.4,
           "group": "glass-office-desk",
           "clipBelowY": 45,
           "role": "general",
@@ -20380,6 +20380,1989 @@
           "source": "art/backdrops/surfaces.json"
         }
       ]
+    },
+    "apartment-basement-studio": {
+      "horizonY": 33,
+      "metersPercent": 0.6,
+      "spots": [
+        {
+          "x": 45,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 88,
+          "hero": true,
+          "role": "general",
+          "id": "apartment-basement-studio:spot:0"
+        },
+        {
+          "x": 75,
+          "y": 72,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 72,
+          "role": "general",
+          "id": "apartment-basement-studio:spot:1"
+        },
+        {
+          "x": 67,
+          "y": 68,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 68,
+          "seatY": 56,
+          "group": "stools",
+          "role": "general",
+          "id": "apartment-basement-studio:spot:2"
+        },
+        {
+          "x": 50,
+          "y": 80,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 80,
+          "seatY": 67,
+          "group": "sofabed",
+          "role": "general",
+          "id": "apartment-basement-studio:spot:3"
+        },
+        {
+          "x": 28,
+          "y": 90,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 90,
+          "role": "general",
+          "id": "apartment-basement-studio:spot:4"
+        },
+        {
+          "x": 84,
+          "y": 86,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 86,
+          "role": "general",
+          "id": "apartment-basement-studio:spot:5"
+        }
+      ],
+      "measuredFrom": "kitchenette counter 0.9 m foot 86 top 49 and folding table 0.75 m foot 60 top 44 give horizon ~32-33; sofa-bed mattress 0.45 m foot 78 top 67 (0.53) and stool seat 0.65 m foot 68 top 56 (0.5); settled 33 / 0.6 (standing eye height)",
+      "surfaceSlots": []
+    },
+    "apartment-older-walkup": {
+      "horizonY": 47,
+      "metersPercent": 1.1,
+      "spots": [
+        {
+          "x": 50,
+          "y": 82,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 82,
+          "hero": true,
+          "role": "general",
+          "id": "apartment-older-walkup:spot:0"
+        },
+        {
+          "x": 12,
+          "y": 90,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 90,
+          "seatY": 70,
+          "group": "armchair",
+          "role": "general",
+          "id": "apartment-older-walkup:spot:1"
+        },
+        {
+          "x": 70,
+          "y": 76,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 76,
+          "role": "general",
+          "id": "apartment-older-walkup:spot:2"
+        },
+        {
+          "x": 35,
+          "y": 74,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 74,
+          "role": "general",
+          "id": "apartment-older-walkup:spot:3"
+        },
+        {
+          "x": 88,
+          "y": 76,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 76,
+          "role": "general",
+          "id": "apartment-older-walkup:spot:4"
+        },
+        {
+          "x": 60,
+          "y": 72,
+          "pose": "lean",
+          "facing": "viewer",
+          "depth": 72,
+          "role": "general",
+          "id": "apartment-older-walkup:spot:5"
+        }
+      ],
+      "measuredFrom": "left bedroom doorway 2.1 m foot 72 top 12 (1.19); radiator 0.65 m foot 69 top 54 (1.05); side-wall ceiling/floor lines meet near y 44-54; low camera, 47 / 1.1",
+      "surfaceSlots": []
+    },
+    "apartment-public-housing": {
+      "horizonY": 37,
+      "metersPercent": 0.75,
+      "spots": [
+        {
+          "x": 45,
+          "y": 80,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 80,
+          "hero": true,
+          "role": "general",
+          "id": "apartment-public-housing:spot:0"
+        },
+        {
+          "x": 62,
+          "y": 74,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 74,
+          "role": "general",
+          "id": "apartment-public-housing:spot:1"
+        },
+        {
+          "x": 30,
+          "y": 78,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 78,
+          "role": "general",
+          "id": "apartment-public-housing:spot:2"
+        },
+        {
+          "x": 70,
+          "y": 84,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 84,
+          "role": "general",
+          "id": "apartment-public-housing:spot:3"
+        },
+        {
+          "x": 85,
+          "y": 92,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 92,
+          "seatY": 77,
+          "group": "sofa",
+          "role": "general",
+          "id": "apartment-public-housing:spot:4"
+        }
+      ],
+      "measuredFrom": "kitchen counter 0.9 m foot 68 top 47 and refrigerator 1.75 m foot 75 top 25 solve to horizon 37, 0.75; side table 0.6 m foot 97 top 68 (0.8) agrees",
+      "surfaceSlots": []
+    },
+    "apartment-student-shared": {
+      "horizonY": 32,
+      "metersPercent": 0.78,
+      "spots": [
+        {
+          "x": 50,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 88,
+          "hero": true,
+          "role": "general",
+          "id": "apartment-student-shared:spot:0"
+        },
+        {
+          "x": 25,
+          "y": 86,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 86,
+          "seatY": 67.5,
+          "group": "sofa",
+          "role": "general",
+          "id": "apartment-student-shared:spot:1"
+        },
+        {
+          "x": 31,
+          "y": 80,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 80,
+          "seatY": 63,
+          "group": "sofa",
+          "role": "general",
+          "id": "apartment-student-shared:spot:2"
+        },
+        {
+          "x": 39,
+          "y": 62,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 62,
+          "seatY": 55,
+          "role": "general",
+          "id": "apartment-student-shared:spot:3"
+        },
+        {
+          "x": 60,
+          "y": 63,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 63,
+          "seatY": 57,
+          "group": "beanbag",
+          "role": "general",
+          "id": "apartment-student-shared:spot:4"
+        },
+        {
+          "x": 75,
+          "y": 68,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 68,
+          "role": "general",
+          "id": "apartment-student-shared:spot:5"
+        },
+        {
+          "x": 70,
+          "y": 80,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 80,
+          "role": "general",
+          "id": "apartment-student-shared:spot:6"
+        }
+      ],
+      "measuredFrom": "right-wall ceiling and floor lines meet at y ~32; entry door 2.03 m foot 60 top 12 (0.84), coffee table 0.45 m foot 84 top 66 (0.77), wooden chair seat 0.45 m foot 62 top 53 (0.67); 32 / 0.78",
+      "surfaceSlots": []
+    },
+    "apartment-suburban-garden": {
+      "horizonY": 40,
+      "metersPercent": 0.8,
+      "spots": [
+        {
+          "x": 45,
+          "y": 85,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 85,
+          "hero": true,
+          "role": "general",
+          "id": "apartment-suburban-garden:spot:0"
+        },
+        {
+          "x": 40,
+          "y": 69,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 69,
+          "seatY": 58.8,
+          "group": "armchair",
+          "role": "general",
+          "id": "apartment-suburban-garden:spot:1"
+        },
+        {
+          "x": 66,
+          "y": 73,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 73,
+          "seatY": 61.3,
+          "group": "sofa",
+          "role": "general",
+          "id": "apartment-suburban-garden:spot:2"
+        },
+        {
+          "x": 72,
+          "y": 73,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 73,
+          "seatY": 61.3,
+          "group": "sofa",
+          "role": "general",
+          "id": "apartment-suburban-garden:spot:3"
+        },
+        {
+          "x": 84,
+          "y": 80,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 80,
+          "seatY": 62,
+          "group": "counter",
+          "role": "general",
+          "id": "apartment-suburban-garden:spot:4"
+        },
+        {
+          "x": 22,
+          "y": 82,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 82,
+          "role": "general",
+          "id": "apartment-suburban-garden:spot:5"
+        },
+        {
+          "x": 60,
+          "y": 78,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 78,
+          "role": "general",
+          "id": "apartment-suburban-garden:spot:6"
+        }
+      ],
+      "measuredFrom": "sliding-door frame lines meet at y ~40; slider 2.03 m at x 28 foot 70 top 20 (0.82), coffee table 0.45 m foot 72 top 59 (0.9), bar stools 0.65 m foot 86 top 64 (0.74); 40 / 0.8",
+      "surfaceSlots": []
+    },
+    "county-clerk-office-rural": {
+      "horizonY": 40,
+      "metersPercent": 0.58,
+      "spots": [
+        {
+          "x": 35,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 88,
+          "hero": true,
+          "role": "general",
+          "id": "county-clerk-office-rural:spot:0"
+        },
+        {
+          "x": 76,
+          "y": 70,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 70,
+          "clipBelowY": 66,
+          "role": "general",
+          "id": "county-clerk-office-rural:spot:1"
+        },
+        {
+          "x": 52,
+          "y": 76,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 76,
+          "role": "general",
+          "id": "county-clerk-office-rural:spot:2"
+        },
+        {
+          "x": 40,
+          "y": 72,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 72,
+          "role": "general",
+          "id": "county-clerk-office-rural:spot:3"
+        },
+        {
+          "x": 15,
+          "y": 82,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 82,
+          "seatY": 71,
+          "group": "bench",
+          "role": "general",
+          "id": "county-clerk-office-rural:spot:4"
+        },
+        {
+          "x": 23,
+          "y": 76,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 76,
+          "seatY": 67,
+          "group": "bench",
+          "role": "general",
+          "id": "county-clerk-office-rural:spot:5"
+        }
+      ],
+      "measuredFrom": "service counter 1.0 m foot 67 top 53 and waiting bench seat 0.45 m foot 82 top 72 solve to horizon ~41, 0.54-0.6; door at left reads large (0.72); 40 / 0.58",
+      "surfaceSlots": []
+    },
+    "county-clerk-office-urban": {
+      "horizonY": 46,
+      "metersPercent": 0.69,
+      "spots": [
+        {
+          "x": 50,
+          "y": 85,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 85,
+          "hero": true,
+          "role": "general",
+          "id": "county-clerk-office-urban:spot:0"
+        },
+        {
+          "x": 50,
+          "y": 57,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 57,
+          "clipBelowY": 50,
+          "role": "general",
+          "id": "county-clerk-office-urban:spot:1"
+        },
+        {
+          "x": 33,
+          "y": 57,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 57,
+          "clipBelowY": 50,
+          "role": "general",
+          "id": "county-clerk-office-urban:spot:2"
+        },
+        {
+          "x": 42,
+          "y": 64,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 64,
+          "role": "general",
+          "id": "county-clerk-office-urban:spot:3"
+        },
+        {
+          "x": 22,
+          "y": 72,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 72,
+          "role": "general",
+          "id": "county-clerk-office-urban:spot:4"
+        },
+        {
+          "x": 74,
+          "y": 86,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 86,
+          "seatY": 73.8,
+          "group": "front-row",
+          "role": "general",
+          "id": "county-clerk-office-urban:spot:5"
+        },
+        {
+          "x": 84,
+          "y": 86,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 86,
+          "seatY": 73.8,
+          "group": "front-row",
+          "role": "general",
+          "id": "county-clerk-office-urban:spot:6"
+        },
+        {
+          "x": 94,
+          "y": 86,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 86,
+          "seatY": 73.8,
+          "group": "front-row",
+          "role": "general",
+          "id": "county-clerk-office-urban:spot:7"
+        },
+        {
+          "x": 65,
+          "y": 72,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 72,
+          "seatY": 64,
+          "group": "back-row",
+          "role": "general",
+          "id": "county-clerk-office-urban:spot:8"
+        }
+      ],
+      "measuredFrom": "kiosk 1.6 m foot 75 top 43 and back service counter 1.0 m foot 59 top 50 solve to horizon 46, 0.69; front-row waiting seat 0.45 m foot 88 top 75 (0.69) agrees",
+      "surfaceSlots": []
+    },
+    "election-office-warehouse": {
+      "horizonY": 45,
+      "metersPercent": 0.52,
+      "spots": [
+        {
+          "x": 50,
+          "y": 94,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 94,
+          "hero": true,
+          "role": "general",
+          "id": "election-office-warehouse:spot:0"
+        },
+        {
+          "x": 15,
+          "y": 85,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 85,
+          "role": "general",
+          "id": "election-office-warehouse:spot:1"
+        },
+        {
+          "x": 50,
+          "y": 62,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 62,
+          "role": "general",
+          "id": "election-office-warehouse:spot:2"
+        },
+        {
+          "x": 82,
+          "y": 76,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 76,
+          "role": "general",
+          "id": "election-office-warehouse:spot:3"
+        },
+        {
+          "x": 22,
+          "y": 64,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 64,
+          "role": "general",
+          "id": "election-office-warehouse:spot:4"
+        },
+        {
+          "x": 88,
+          "y": 92,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 92,
+          "role": "general",
+          "id": "election-office-warehouse:spot:5"
+        }
+      ],
+      "measuredFrom": "conveyor and aisle lines meet near y 45; ballot tabulator 1.4 m foot 88 top 58 (0.5), monitor stand 1.6 m foot 74 top 50 (0.52), work table 0.75 m foot 86 top 70 (0.52); 45 / 0.52",
+      "surfaceSlots": []
+    },
+    "registrar-of-voters-worn": {
+      "horizonY": 47,
+      "metersPercent": 0.9,
+      "spots": [
+        {
+          "x": 40,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 88,
+          "hero": true,
+          "role": "general",
+          "id": "registrar-of-voters-worn:spot:0"
+        },
+        {
+          "x": 65,
+          "y": 76,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 76,
+          "role": "general",
+          "id": "registrar-of-voters-worn:spot:1"
+        },
+        {
+          "x": 50,
+          "y": 68,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 68,
+          "role": "general",
+          "id": "registrar-of-voters-worn:spot:2"
+        },
+        {
+          "x": 30,
+          "y": 72,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 72,
+          "role": "general",
+          "id": "registrar-of-voters-worn:spot:3"
+        },
+        {
+          "x": 55,
+          "y": 78,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 78,
+          "role": "general",
+          "id": "registrar-of-voters-worn:spot:4"
+        },
+        {
+          "x": 20,
+          "y": 85,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 85,
+          "role": "general",
+          "id": "registrar-of-voters-worn:spot:5"
+        }
+      ],
+      "measuredFrom": "left-wall ceiling and floor lines meet at y ~47; back table 0.75 m foot 65 top 50 (1.1), copier 1.2 m foot 76 top 49 (0.78); 47 / 0.9",
+      "surfaceSlots": []
+    },
+    "elementary-classroom": {
+      "horizonY": 35,
+      "metersPercent": 0.58,
+      "spots": [
+        {
+          "x": 66,
+          "y": 61,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 61,
+          "role": "general",
+          "id": "elementary-classroom:spot:0"
+        },
+        {
+          "x": 46,
+          "y": 86,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 86,
+          "hero": true,
+          "role": "general",
+          "id": "elementary-classroom:spot:1"
+        },
+        {
+          "x": 31,
+          "y": 73,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 73,
+          "seatY": 63.5,
+          "group": "desks-left",
+          "role": "general",
+          "id": "elementary-classroom:spot:2"
+        },
+        {
+          "x": 44,
+          "y": 70,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 70,
+          "seatY": 61,
+          "group": "desks-center",
+          "role": "general",
+          "id": "elementary-classroom:spot:3"
+        },
+        {
+          "x": 58.5,
+          "y": 70,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 70,
+          "seatY": 61,
+          "group": "desks-center",
+          "role": "general",
+          "id": "elementary-classroom:spot:4"
+        },
+        {
+          "x": 76,
+          "y": 74,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 74,
+          "seatY": 64,
+          "group": "desks-right",
+          "role": "general",
+          "id": "elementary-classroom:spot:5"
+        },
+        {
+          "x": 89,
+          "y": 74,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 74,
+          "seatY": 64,
+          "group": "desks-right",
+          "role": "general",
+          "id": "elementary-classroom:spot:6"
+        },
+        {
+          "x": 80,
+          "y": 82,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 82,
+          "role": "general",
+          "id": "elementary-classroom:spot:7"
+        }
+      ],
+      "measuredFrom": "front-left table 0.75 m: legs foot 75, top 58 (0.57); whiteboard ledge ~0.9 m over back-wall floor 56; heads of standing adults at the horizon",
+      "surfaceSlots": []
+    },
+    "high-school-cafeteria": {
+      "horizonY": 44,
+      "metersPercent": 0.7,
+      "spots": [
+        {
+          "x": 50,
+          "y": 60,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 60,
+          "role": "general",
+          "id": "high-school-cafeteria:spot:0"
+        },
+        {
+          "x": 50,
+          "y": 82,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 82,
+          "hero": true,
+          "role": "general",
+          "id": "high-school-cafeteria:spot:1"
+        },
+        {
+          "x": 32,
+          "y": 84,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 84,
+          "seatY": 75.5,
+          "group": "stools-left",
+          "role": "general",
+          "id": "high-school-cafeteria:spot:2"
+        },
+        {
+          "x": 40,
+          "y": 74,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 74,
+          "seatY": 67.5,
+          "group": "stools-left",
+          "role": "general",
+          "id": "high-school-cafeteria:spot:3"
+        },
+        {
+          "x": 67,
+          "y": 86,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 86,
+          "seatY": 77,
+          "group": "stools-right",
+          "role": "general",
+          "id": "high-school-cafeteria:spot:4"
+        },
+        {
+          "x": 62,
+          "y": 74,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 74,
+          "seatY": 67,
+          "group": "stools-right",
+          "role": "general",
+          "id": "high-school-cafeteria:spot:5"
+        },
+        {
+          "x": 55,
+          "y": 70,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 70,
+          "role": "general",
+          "id": "high-school-cafeteria:spot:6"
+        }
+      ],
+      "measuredFrom": "aisle table edges converge near y 46-48; front table 0.75 m wheels 95 top 73 (0.58), stool seat 0.45 m foot 95 seat 77 (0.78), back doors 2.0 m foot 52 top 38.5 (0.84); compromise 0.70",
+      "surfaceSlots": []
+    },
+    "high-school-hallway": {
+      "horizonY": 42,
+      "metersPercent": 0.8,
+      "spots": [
+        {
+          "x": 60,
+          "y": 54,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 54,
+          "role": "general",
+          "id": "high-school-hallway:spot:0"
+        },
+        {
+          "x": 52,
+          "y": 85,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 85,
+          "hero": true,
+          "role": "general",
+          "id": "high-school-hallway:spot:1"
+        },
+        {
+          "x": 30,
+          "y": 80,
+          "pose": "lean",
+          "facing": "right",
+          "depth": 80,
+          "role": "general",
+          "id": "high-school-hallway:spot:2"
+        },
+        {
+          "x": 45,
+          "y": 72,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 72,
+          "role": "general",
+          "id": "high-school-hallway:spot:3"
+        },
+        {
+          "x": 66,
+          "y": 58,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 58,
+          "role": "general",
+          "id": "high-school-hallway:spot:4"
+        },
+        {
+          "x": 72,
+          "y": 64,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 64,
+          "role": "general",
+          "id": "high-school-hallway:spot:5"
+        },
+        {
+          "x": 80,
+          "y": 76,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 76,
+          "role": "general",
+          "id": "high-school-hallway:spot:6"
+        }
+      ],
+      "measuredFrom": "left classroom door 2.05 m foot 55 top 33 (0.83), end-wall door foot 52 top 38 (0.68), trophy case ~1.9 m foot 69 top 26 (0.84)",
+      "surfaceSlots": []
+    },
+    "student-union-lounge": {
+      "horizonY": 41,
+      "metersPercent": 0.62,
+      "spots": [
+        {
+          "x": 62,
+          "y": 62,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 62,
+          "role": "general",
+          "id": "student-union-lounge:spot:0"
+        },
+        {
+          "x": 58,
+          "y": 86,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 86,
+          "hero": true,
+          "role": "general",
+          "id": "student-union-lounge:spot:1"
+        },
+        {
+          "x": 35,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "clipBelowY": 64,
+          "seatY": 70,
+          "group": "armchair",
+          "role": "general",
+          "id": "student-union-lounge:spot:2"
+        },
+        {
+          "x": 27,
+          "y": 72,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 72,
+          "seatY": 64,
+          "group": "sofa-blue",
+          "role": "general",
+          "id": "student-union-lounge:spot:3"
+        },
+        {
+          "x": 54,
+          "y": 74,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 74,
+          "seatY": 65,
+          "group": "loveseat",
+          "role": "general",
+          "id": "student-union-lounge:spot:4"
+        },
+        {
+          "x": 43,
+          "y": 63,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 63,
+          "seatY": 58,
+          "group": "armchair",
+          "role": "general",
+          "id": "student-union-lounge:spot:5"
+        },
+        {
+          "x": 50,
+          "y": 59,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 59,
+          "clipBelowY": 56,
+          "seatY": 54.5,
+          "group": "sofa-back",
+          "role": "general",
+          "id": "student-union-lounge:spot:6"
+        },
+        {
+          "x": 66,
+          "y": 78,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 78,
+          "role": "general",
+          "id": "student-union-lounge:spot:7"
+        }
+      ],
+      "measuredFrom": "side door 2.1 m foot 62 top 30 (0.73), front end table ~0.55 m foot 81 top 68 (0.59), front armchair back ~0.85 m foot 85 top 62 (0.62); lawn horizon outside at ~41",
+      "surfaceSlots": []
+    },
+    "university-lecture-hall": {
+      "horizonY": 36,
+      "metersPercent": 0.57,
+      "spots": [
+        {
+          "x": 50,
+          "y": 55,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 55,
+          "audience": "viewer",
+          "role": "general",
+          "id": "university-lecture-hall:spot:0"
+        },
+        {
+          "x": 50,
+          "y": 90,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 90,
+          "hero": true,
+          "role": "general",
+          "id": "university-lecture-hall:spot:1"
+        },
+        {
+          "x": 4,
+          "y": 78,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 78,
+          "seatY": 70,
+          "group": "rows-left",
+          "role": "general",
+          "id": "university-lecture-hall:spot:2"
+        },
+        {
+          "x": 15,
+          "y": 72,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 72,
+          "seatY": 64.5,
+          "group": "rows-left",
+          "role": "general",
+          "id": "university-lecture-hall:spot:3"
+        },
+        {
+          "x": 83,
+          "y": 77,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 77,
+          "seatY": 68,
+          "group": "rows-right",
+          "role": "general",
+          "id": "university-lecture-hall:spot:4"
+        },
+        {
+          "x": 95,
+          "y": 81,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 81,
+          "seatY": 71,
+          "group": "rows-right",
+          "role": "general",
+          "id": "university-lecture-hall:spot:5"
+        },
+        {
+          "x": 20,
+          "y": 86,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 86,
+          "role": "general",
+          "id": "university-lecture-hall:spot:6"
+        }
+      ],
+      "measuredFrom": "front-right chair seat 0.45 m foot 82 seat 70 (0.58), front counter 0.75 m foot 79.5 top 62 (0.54), right double door 2.1 m foot 54 top 29 (0.66)",
+      "surfaceSlots": []
+    },
+    "house-gulf-coast-raised": {
+      "horizonY": 50,
+      "metersPercent": 0.85,
+      "spots": [
+        {
+          "x": 66,
+          "y": 72,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 72,
+          "role": "general",
+          "id": "house-gulf-coast-raised:spot:0"
+        },
+        {
+          "x": 50,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 88,
+          "hero": true,
+          "role": "general",
+          "id": "house-gulf-coast-raised:spot:1"
+        },
+        {
+          "x": 30,
+          "y": 73,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 73,
+          "seatY": 64,
+          "role": "general",
+          "id": "house-gulf-coast-raised:spot:2"
+        },
+        {
+          "x": 79,
+          "y": 80,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 80,
+          "role": "general",
+          "id": "house-gulf-coast-raised:spot:3"
+        },
+        {
+          "x": 20,
+          "y": 85,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 85,
+          "role": "general",
+          "id": "house-gulf-coast-raised:spot:4"
+        },
+        {
+          "x": 86,
+          "y": 75,
+          "pose": "lean",
+          "facing": "left",
+          "depth": 75,
+          "role": "general",
+          "id": "house-gulf-coast-raised:spot:5"
+        },
+        {
+          "x": 56,
+          "y": 74,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 74,
+          "role": "general",
+          "id": "house-gulf-coast-raised:spot:6"
+        }
+      ],
+      "measuredFrom": "floorboards converge near y 50; side table 0.75 m foot 71 top 58.5 (0.79), rocker seat 0.45 m foot 73 seat 64 (0.87), screen door 2.05 m foot 69 top 29.5 (1.01); painted as a porch-room interior",
+      "surfaceSlots": []
+    },
+    "house-new-england-colonial": {
+      "horizonY": 33,
+      "metersPercent": 1,
+      "spots": [
+        {
+          "x": 60,
+          "y": 60,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 60,
+          "role": "general",
+          "id": "house-new-england-colonial:spot:0"
+        },
+        {
+          "x": 50,
+          "y": 78,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 78,
+          "hero": true,
+          "role": "general",
+          "id": "house-new-england-colonial:spot:1"
+        },
+        {
+          "x": 83,
+          "y": 59,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 59,
+          "seatY": 47.5,
+          "role": "general",
+          "id": "house-new-england-colonial:spot:2"
+        },
+        {
+          "x": 17,
+          "y": 65,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 65,
+          "seatY": 53,
+          "group": "wing-chairs",
+          "role": "general",
+          "id": "house-new-england-colonial:spot:3"
+        },
+        {
+          "x": 30,
+          "y": 56,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 56,
+          "seatY": 46,
+          "group": "wing-chairs",
+          "role": "general",
+          "id": "house-new-england-colonial:spot:4"
+        },
+        {
+          "x": 72,
+          "y": 70,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 70,
+          "role": "general",
+          "id": "house-new-england-colonial:spot:5"
+        },
+        {
+          "x": 30,
+          "y": 74,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 74,
+          "role": "general",
+          "id": "house-new-england-colonial:spot:6"
+        }
+      ],
+      "measuredFrom": "ladder-back chair seat 0.45 m foot 59 seat 47 (1.03), bench 0.45 m foot 62 top 49 (1.00), mantel ~1.4 m over hearth floor 55 top 24.5 (0.99); low camera, painted as an interior",
+      "surfaceSlots": []
+    },
+    "house-northwest-craftsman": {
+      "horizonY": 47,
+      "metersPercent": 0.8,
+      "spots": [
+        {
+          "x": 80,
+          "y": 74,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 74,
+          "role": "general",
+          "id": "house-northwest-craftsman:spot:0"
+        },
+        {
+          "x": 40,
+          "y": 90,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 90,
+          "hero": true,
+          "role": "general",
+          "id": "house-northwest-craftsman:spot:1"
+        },
+        {
+          "x": 66,
+          "y": 80,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 80,
+          "seatY": 70.5,
+          "role": "general",
+          "id": "house-northwest-craftsman:spot:2"
+        },
+        {
+          "x": 25,
+          "y": 76,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 76,
+          "role": "general",
+          "id": "house-northwest-craftsman:spot:3"
+        },
+        {
+          "x": 35,
+          "y": 70,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 70,
+          "role": "general",
+          "id": "house-northwest-craftsman:spot:4"
+        },
+        {
+          "x": 88,
+          "y": 80,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 80,
+          "role": "general",
+          "id": "house-northwest-craftsman:spot:5"
+        }
+      ],
+      "measuredFrom": "built-in base cabinets ~0.9 m foot 66 top 54 (0.70), coffee table ~0.5 m foot 80 top 65 (0.91), Morris chair seat ~0.4 m foot 80 seat 70 (0.76); painted as an interior",
+      "surfaceSlots": []
+    },
+    "house-southwest-adobe": {
+      "horizonY": 46,
+      "metersPercent": 0.84,
+      "spots": [
+        {
+          "x": 50,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 88,
+          "hero": true,
+          "role": "general",
+          "id": "house-southwest-adobe:spot:0"
+        },
+        {
+          "x": 30,
+          "y": 70,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 70,
+          "role": "general",
+          "id": "house-southwest-adobe:spot:1"
+        },
+        {
+          "x": 75,
+          "y": 82,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 82,
+          "role": "general",
+          "id": "house-southwest-adobe:spot:2"
+        },
+        {
+          "x": 80,
+          "y": 74,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 74,
+          "role": "general",
+          "id": "house-southwest-adobe:spot:3"
+        },
+        {
+          "x": 64,
+          "y": 73.5,
+          "pose": "sit",
+          "facing": "viewer",
+          "depth": 73.5,
+          "seatY": 63.8,
+          "role": "general",
+          "id": "house-southwest-adobe:spot:4"
+        },
+        {
+          "x": 93,
+          "y": 80,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 80,
+          "seatY": 70,
+          "role": "general",
+          "id": "house-southwest-adobe:spot:5"
+        },
+        {
+          "x": 7,
+          "y": 95,
+          "pose": "sit",
+          "facing": "right",
+          "depth": 95,
+          "seatY": 69,
+          "role": "general",
+          "id": "house-southwest-adobe:spot:6"
+        }
+      ],
+      "measuredFrom": "horizon from the console table (0.8 m, foot 65 top 51.9) and armchair (1.0 m, foot 73.9 top 50) solved together -> horizon 45.6, 0.84 %/m; seat heights read from the armchair cushion and both rush benches",
+      "surfaceSlots": []
+    },
+    "national-convention-floor": {
+      "horizonY": 44,
+      "metersPercent": 0.55,
+      "spots": [
+        {
+          "x": 50,
+          "y": 80,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 80,
+          "hero": true,
+          "role": "general",
+          "id": "national-convention-floor:spot:0"
+        },
+        {
+          "x": 45,
+          "y": 66,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 66,
+          "role": "general",
+          "id": "national-convention-floor:spot:1"
+        },
+        {
+          "x": 57,
+          "y": 60,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 60,
+          "role": "general",
+          "id": "national-convention-floor:spot:2"
+        },
+        {
+          "x": 48,
+          "y": 54,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 54,
+          "role": "general",
+          "id": "national-convention-floor:spot:3"
+        },
+        {
+          "x": 60,
+          "y": 90,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 90,
+          "role": "general",
+          "id": "national-convention-floor:spot:4"
+        },
+        {
+          "x": 40,
+          "y": 93,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 93,
+          "role": "general",
+          "id": "national-convention-floor:spot:5"
+        },
+        {
+          "x": 88,
+          "y": 98,
+          "pose": "sit",
+          "facing": "away",
+          "depth": 98,
+          "seatY": 89,
+          "role": "general",
+          "id": "national-convention-floor:spot:6"
+        }
+      ],
+      "measuredFrom": "horizon from the center aisle edges converging at the stage (about row 44); front-left chair back (~0.85 m, foot 95.5 top 72.1) -> 0.53, kept 0.55; the stage is too far for figures so only the aisle and seats are used",
+      "surfaceSlots": []
+    },
+    "national-convention-stage": {
+      "horizonY": 62,
+      "metersPercent": 0.92,
+      "spots": [
+        {
+          "x": 17.5,
+          "y": 99.5,
+          "pose": "podium",
+          "facing": "away",
+          "depth": 99.5,
+          "audience": "away",
+          "role": "general",
+          "id": "national-convention-stage:spot:0"
+        },
+        {
+          "x": 55,
+          "y": 92,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 92,
+          "hero": true,
+          "role": "general",
+          "id": "national-convention-stage:spot:1"
+        },
+        {
+          "x": 40,
+          "y": 86,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 86,
+          "role": "general",
+          "id": "national-convention-stage:spot:2"
+        },
+        {
+          "x": 65,
+          "y": 84,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 84,
+          "role": "general",
+          "id": "national-convention-stage:spot:3"
+        },
+        {
+          "x": 75,
+          "y": 88,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 88,
+          "role": "general",
+          "id": "national-convention-stage:spot:4"
+        },
+        {
+          "x": 88,
+          "y": 95,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 95,
+          "role": "general",
+          "id": "national-convention-stage:spot:5"
+        }
+      ],
+      "measuredFrom": "horizon from the arena floor aisle lines converging near row 62; the foreground lectern (~1.15 m, foot 96.2 top 60) -> 0.92 (low camera on the stage itself); all spots are on the stage deck in front of its edge at row 82",
+      "surfaceSlots": []
+    },
+    "rally-airport-hangar": {
+      "horizonY": 58,
+      "metersPercent": 0.6,
+      "floors": {
+        "stage": 0.88
+      },
+      "spots": [
+        {
+          "x": 37.8,
+          "y": 63.6,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 63.6,
+          "audience": "viewer",
+          "floor": "stage",
+          "clipBelowY": 57.9,
+          "role": "general",
+          "id": "rally-airport-hangar:spot:0"
+        },
+        {
+          "x": 45,
+          "y": 62.6,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 62.6,
+          "floor": "stage",
+          "role": "general",
+          "id": "rally-airport-hangar:spot:1"
+        },
+        {
+          "x": 52,
+          "y": 63.2,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 63.2,
+          "floor": "stage",
+          "role": "general",
+          "id": "rally-airport-hangar:spot:2"
+        },
+        {
+          "x": 42,
+          "y": 86,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 86,
+          "hero": true,
+          "role": "general",
+          "id": "rally-airport-hangar:spot:3"
+        },
+        {
+          "x": 55,
+          "y": 75,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 75,
+          "role": "general",
+          "id": "rally-airport-hangar:spot:4"
+        },
+        {
+          "x": 30,
+          "y": 80,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 80,
+          "role": "general",
+          "id": "rally-airport-hangar:spot:5"
+        },
+        {
+          "x": 65,
+          "y": 88,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 88,
+          "role": "general",
+          "id": "rally-airport-hangar:spot:6"
+        },
+        {
+          "x": 20,
+          "y": 92,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 92,
+          "role": "general",
+          "id": "rally-airport-hangar:spot:7"
+        }
+      ],
+      "measuredFrom": "horizon from the apron ground line outside the hangar door (row 58-60); side door (2.1 m, foot 64.5 top 56.6) -> 0.58-0.60; the center lectern on the stage (1.15 m, foot 64.3 top 57.9) -> stage 0.88",
+      "surfaceSlots": []
+    },
+    "rally-county-fairground": {
+      "horizonY": 40,
+      "metersPercent": 0.57,
+      "floors": {
+        "stage": 1.2
+      },
+      "spots": [
+        {
+          "x": 51.5,
+          "y": 47.5,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 47.5,
+          "audience": "viewer",
+          "floor": "stage",
+          "clipBelowY": 37,
+          "role": "general",
+          "id": "rally-county-fairground:spot:0"
+        },
+        {
+          "x": 38,
+          "y": 47,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 47,
+          "floor": "stage",
+          "role": "general",
+          "id": "rally-county-fairground:spot:1"
+        },
+        {
+          "x": 66,
+          "y": 47.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 47.5,
+          "floor": "stage",
+          "role": "general",
+          "id": "rally-county-fairground:spot:2"
+        },
+        {
+          "x": 45,
+          "y": 80,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 80,
+          "hero": true,
+          "role": "general",
+          "id": "rally-county-fairground:spot:3"
+        },
+        {
+          "x": 25,
+          "y": 70,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 70,
+          "role": "general",
+          "id": "rally-county-fairground:spot:4"
+        },
+        {
+          "x": 65,
+          "y": 68,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 68,
+          "role": "general",
+          "id": "rally-county-fairground:spot:5"
+        },
+        {
+          "x": 55,
+          "y": 62,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 62,
+          "role": "general",
+          "id": "rally-county-fairground:spot:6"
+        },
+        {
+          "x": 80,
+          "y": 85,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 85,
+          "role": "general",
+          "id": "rally-county-fairground:spot:7"
+        },
+        {
+          "x": 15,
+          "y": 90,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 90,
+          "role": "general",
+          "id": "rally-county-fairground:spot:8"
+        }
+      ],
+      "measuredFrom": "horizon from the distant building base line (row 40-41); trailer deck skirt to ground (~1.1 m, 47.8 to 61.1) and hay bale face give 0.53-0.58; lectern on the trailer (1.15 m, foot 48.4 top 36.7) -> stage 1.2",
+      "surfaceSlots": []
+    },
+    "rally-courthouse-square": {
+      "horizonY": 61,
+      "metersPercent": 0.8,
+      "floors": {
+        "stage": 0.89
+      },
+      "spots": [
+        {
+          "x": 26.5,
+          "y": 60,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 60,
+          "audience": "viewer",
+          "floor": "stage",
+          "floorHorizonY": 52,
+          "floorMetersPercent": 0.89,
+          "clipBelowY": 55,
+          "role": "general",
+          "id": "rally-courthouse-square:spot:0"
+        },
+        {
+          "x": 15,
+          "y": 60.5,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 60.5,
+          "floor": "stage",
+          "floorHorizonY": 52,
+          "floorMetersPercent": 0.89,
+          "clipBelowY": 55,
+          "role": "general",
+          "id": "rally-courthouse-square:spot:1"
+        },
+        {
+          "x": 34,
+          "y": 60.5,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 60.5,
+          "floor": "stage",
+          "floorHorizonY": 52,
+          "floorMetersPercent": 0.89,
+          "clipBelowY": 55,
+          "role": "general",
+          "id": "rally-courthouse-square:spot:2"
+        },
+        {
+          "x": 45,
+          "y": 84,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 84,
+          "hero": true,
+          "role": "general",
+          "id": "rally-courthouse-square:spot:3"
+        },
+        {
+          "x": 30,
+          "y": 76,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 76,
+          "role": "general",
+          "id": "rally-courthouse-square:spot:4"
+        },
+        {
+          "x": 55,
+          "y": 70,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 70,
+          "role": "general",
+          "id": "rally-courthouse-square:spot:5"
+        },
+        {
+          "x": 70,
+          "y": 80,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 80,
+          "role": "general",
+          "id": "rally-courthouse-square:spot:6"
+        },
+        {
+          "x": 20,
+          "y": 92,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 92,
+          "role": "general",
+          "id": "rally-courthouse-square:spot:7"
+        },
+        {
+          "x": 85,
+          "y": 93,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 93,
+          "role": "general",
+          "id": "rally-courthouse-square:spot:8"
+        },
+        {
+          "x": 95.7,
+          "y": 85,
+          "pose": "sit",
+          "facing": "left",
+          "depth": 85,
+          "seatY": 76.5,
+          "role": "general",
+          "id": "rally-courthouse-square:spot:9"
+        }
+      ],
+      "measuredFrom": "two park benches (0.85 m: foot 85 top 68.5, foot 71 top 64.3) solved together -> horizon 61.4, 0.82; gazebo base (1 m, 62.7 to 73.3) agrees; gazebo lectern (1.15 m, top 51.8, deck behind the railing about row 60) gives the gazebo floor its own horizon 52 at 0.89",
+      "surfaceSlots": []
+    },
+    "rally-downtown-plaza": {
+      "horizonY": 61,
+      "metersPercent": 0.7,
+      "floors": {
+        "stage": 2.3
+      },
+      "spots": [
+        {
+          "x": 44.5,
+          "y": 65.4,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 65.4,
+          "audience": "viewer",
+          "floor": "stage",
+          "clipBelowY": 53,
+          "role": "general",
+          "id": "rally-downtown-plaza:spot:0"
+        },
+        {
+          "x": 31,
+          "y": 65.5,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 65.5,
+          "floor": "stage",
+          "role": "general",
+          "id": "rally-downtown-plaza:spot:1"
+        },
+        {
+          "x": 55,
+          "y": 65.8,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 65.8,
+          "floor": "stage",
+          "role": "general",
+          "id": "rally-downtown-plaza:spot:2"
+        },
+        {
+          "x": 50,
+          "y": 86,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 86,
+          "hero": true,
+          "role": "general",
+          "id": "rally-downtown-plaza:spot:3"
+        },
+        {
+          "x": 35,
+          "y": 78,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 78,
+          "role": "general",
+          "id": "rally-downtown-plaza:spot:4"
+        },
+        {
+          "x": 65,
+          "y": 76,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 76,
+          "role": "general",
+          "id": "rally-downtown-plaza:spot:5"
+        },
+        {
+          "x": 50,
+          "y": 74,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 74,
+          "role": "general",
+          "id": "rally-downtown-plaza:spot:6"
+        },
+        {
+          "x": 20,
+          "y": 88,
+          "pose": "stand",
+          "facing": "right",
+          "depth": 88,
+          "role": "general",
+          "id": "rally-downtown-plaza:spot:7"
+        },
+        {
+          "x": 78,
+          "y": 90,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 90,
+          "role": "general",
+          "id": "rally-downtown-plaza:spot:8"
+        }
+      ],
+      "measuredFrom": "two crowd barriers (1.1 m: foot 80.8 top 65.7, foot 71 top 63.4) solved together -> horizon 61.1, 0.70; stage skirt reads 0.96 m; lectern on the stage (1.15 m, foot 65.7 top 52.6) -> stage 2.3",
+      "surfaceSlots": []
+    },
+    "rally-union-hall-parking-lot": {
+      "horizonY": 34,
+      "metersPercent": 0.29,
+      "floors": {
+        "stage": 0.38
+      },
+      "spots": [
+        {
+          "x": 24,
+          "y": 63.5,
+          "pose": "podium",
+          "facing": "viewer",
+          "depth": 63.5,
+          "audience": "viewer",
+          "floor": "stage",
+          "clipBelowY": 51.5,
+          "role": "general",
+          "id": "rally-union-hall-parking-lot:spot:0"
+        },
+        {
+          "x": 32,
+          "y": 61,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 61,
+          "floor": "stage",
+          "role": "general",
+          "id": "rally-union-hall-parking-lot:spot:1"
+        },
+        {
+          "x": 17,
+          "y": 64,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 64,
+          "floor": "stage",
+          "role": "general",
+          "id": "rally-union-hall-parking-lot:spot:2"
+        },
+        {
+          "x": 45,
+          "y": 88,
+          "pose": "stand",
+          "facing": "viewer",
+          "depth": 88,
+          "hero": true,
+          "role": "general",
+          "id": "rally-union-hall-parking-lot:spot:3"
+        },
+        {
+          "x": 25,
+          "y": 85,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 85,
+          "role": "general",
+          "id": "rally-union-hall-parking-lot:spot:4"
+        },
+        {
+          "x": 55,
+          "y": 78,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 78,
+          "role": "general",
+          "id": "rally-union-hall-parking-lot:spot:5"
+        },
+        {
+          "x": 65,
+          "y": 92,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 92,
+          "role": "general",
+          "id": "rally-union-hall-parking-lot:spot:6"
+        },
+        {
+          "x": 10,
+          "y": 75,
+          "pose": "stand",
+          "facing": "away",
+          "depth": 75,
+          "role": "general",
+          "id": "rally-union-hall-parking-lot:spot:7"
+        },
+        {
+          "x": 70,
+          "y": 65,
+          "pose": "stand",
+          "facing": "left",
+          "depth": 65,
+          "role": "general",
+          "id": "rally-union-hall-parking-lot:spot:8"
+        }
+      ],
+      "measuredFrom": "two pickups (~1.8 m: foot 80.2 top 57.9 near right, foot 54.7 top 44.6 far) solved together -> horizon 33.6, 0.28 (raised camera), left pickup agrees; lectern on the flatbed (1.15 m, foot 64.5 top 51.5) -> bed 0.38",
+      "surfaceSlots": []
     }
   }
 }
