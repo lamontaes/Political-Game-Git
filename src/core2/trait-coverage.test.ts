@@ -252,10 +252,18 @@ describe(`trait coverage in a generated town: ${place.name}, ${place.state} (see
             ...core,
             people: new Map([[person.id, actor]]),
           } as CoreState;
+          // The same option, or one whose trait lean ties it to rounding
+          // once the chooser adds the reasons every option shares.
+          const chosen = chooseAct(view, person.id, offers(decision)).selected!
+            .definition.actKinds;
+          const best = decision.resolved.find(
+            (option) => option.id === pick(actor, decision),
+          )!.actKinds;
           expect(
-            chooseAct(view, person.id, offers(decision)).selected!.definition
-              .id,
-          ).toBe(pick(actor, decision));
+            Math.abs(
+              traitLean(core, actor, chosen) - traitLean(core, actor, best),
+            ),
+          ).toBeLessThan(1e-9);
         }
     });
   });
