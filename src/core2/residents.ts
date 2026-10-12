@@ -498,15 +498,14 @@ export function collapseToTwoLevels(
       const awards = (inflow.sourceAwardIds ?? []).filter(
         (id) => !removedAwards.has(id),
       );
-      const removedAmount = sum(
-        removedIncome
-          .filter((child) => removed.includes(child.id))
-          .map((child) => child.amountMinor),
-      );
+      const removedHere = new Set(removed);
+      let removedAmount = 0;
       for (const child of removedIncome)
-        if (removed.includes(child.id))
+        if (removedHere.has(child.id)) {
+          removedAmount += child.amountMinor;
           for (const payer of child.payerIds)
             outsideByPayer.set(payer, row.payerIds[0]!);
+        }
       if (!remaining.length) {
         contracts.splice(index, 1);
         index--;

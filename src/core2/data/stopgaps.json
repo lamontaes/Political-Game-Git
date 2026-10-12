@@ -1873,5 +1873,17 @@
     "addedAt": "2026-10-12",
     "replacement": "Counted renter households and arrivals buy new houses through the same choice and mortgage, once fill-in and arrivals land.",
     "status": "open"
+  },
+  {
+    "id": "SG-CORE-social-security-ages-data",
+    "kind": "law-as-data",
+    "file": "src/core2/data/social-security-ages.json",
+    "line": 1,
+    "whatItFakes": "Social Security's earliest claim age, full retirement age by birth year and the age-70 end of delayed credits are read from a core data table, not from the law in force.",
+    "why": "The retirement claim became a decision within the law's bounds before GOV's laws module carries Social Security ages.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "GOV's Social Security ages as law in force (lawInForce), read at the claim date.",
+    "status": "open"
   }
 ]

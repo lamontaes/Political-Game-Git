@@ -6,7 +6,6 @@ import { parameter as p } from "./parameters";
 import { assertCoreIntegrity, coreAPI } from "./state";
 import { ACCOUNTS_MODULE } from "./accounts";
 import { LIFE_MODULE } from "./modules/life";
-import { PEOPLE_MODULE_ID } from "./modules/people";
 import { WORK_MODULE } from "./modules/work";
 import type {
   ActionDefinition,
@@ -246,12 +245,10 @@ describe("shared actor chooser and committed effects", () => {
     const playerAct = lastAct(core, actorId);
     const npcAct = lastAct(core, npcId);
     const work = definition("paid-work");
-    // P15 part 2b: each activation's free hours can hold more than one act.
     expect(result).toEqual({
       simulatedDays: p("one"),
       decisions: p("two"),
-      acts:
-        core.people.get(actorId)!.actCount + core.people.get(npcId)!.actCount,
+      acts: p("two"),
     });
     expect(playerAct.actionId).toBe(work.id);
     expect(npcAct.actionId).toBe(work.id);
@@ -275,8 +272,7 @@ describe("shared actor chooser and committed effects", () => {
     for (const id of [actorId, npcId]) {
       const actor = core.people.get(id)!;
       expect(actor.liquidMinor).toBe(pay);
-      expect(actor.actsByKind.get(work.id)).toBe(p("one"));
-      expect(actor.actsByKind).toEqual(core.people.get(npcId)!.actsByKind);
+      expect(actor.actCount).toBe(p("one"));
       expect(actor.lastActDate).toBe(nextDay);
       expect(actor.lastReason).toBe(playerAct.reasonKey);
       expect(actor.needs[work.need]).toBeGreaterThan(p("zero"));
@@ -304,11 +300,7 @@ describe("shared actor chooser and committed effects", () => {
     expect(actor.needs[definition("paid-work").need]!).toBeLessThan(priorNeed);
     expect(lastAct(core, actorId).actionId).toBe(definition("recover").id);
     expect(actor.affect.stress).toBeLessThan(priorStress);
-    // P15 part 2b: the day's free hours can still hold a shift after the
-    // recovery pick; each shift pays the same daily wage.
-    expect(actor.liquidMinor).toBe(
-      earned * actor.actsByKind.get(definition("paid-work").id)!,
-    );
+    expect(actor.liquidMinor).toBe(earned);
     expect(money(core)).toBe(openingMoney);
     assertCoreIntegrity(core);
   });
@@ -353,9 +345,7 @@ describe("shared actor chooser and committed effects", () => {
     expect(high.people.get(actorId)!.liquidMinor).toBeGreaterThan(
       low.people.get(actorId)!.liquidMinor,
     );
-    // P15 part 2b: the high-effort worker also rests in what is left of the
-    // evening after the shift, so both end the day equally rested.
-    expect(low.people.get(actorId)!.affect.stress).toBe(
+    expect(low.people.get(actorId)!.affect.stress).toBeLessThan(
       high.people.get(actorId)!.affect.stress,
     );
     expect(money(high)).toBe(openingHigh);
@@ -433,23 +423,20 @@ describe("shared actor chooser and committed effects", () => {
     const actor = core.people.get(npcId)!;
     expect(actor.lastChoice).toBe(definition("paid-work").id);
     expect(actor.lastReason).toMatch(/^utility:/);
+    expect(actor.actCount).toBe(p("one"));
     expect(actor.actsByKind.get(actor.lastChoice!)).toBe(p("one"));
     expect(core.durableLog.size).toBe(p("zero"));
     expect(core.eventIds.size).toBe(p("zero"));
-    // P15 part 2b: one compact counter per act kind in the filled free hours.
     const counters = [...core.actCounters.values()];
-    expect(counters).toHaveLength(actor.actsByKind.size);
-    expect(counters.reduce((sum, row) => sum + row.count, p("zero"))).toBe(
-      actor.actCount,
-    );
-    const work = counters.find((row) => row.actionId === actor.lastChoice)!;
-    expect(work).toMatchObject({
+    expect(counters).toHaveLength(p("one"));
+    expect(counters[0]).toMatchObject({
       actorId: npcId,
       actionId: actor.lastChoice,
       count: p("one"),
     });
-    expect(work.needContribution).toBeGreaterThan(p("zero"));
-    expect(work.goalContribution).toBeGreaterThan(p("zero"));
+    expect(counters[0]!.needContribution).toBeGreaterThan(p("zero"));
+    // Its only goal restates its own need, which the need term already counts.
+    expect(counters[0]!.goalContribution).toBe(p("zero"));
     expect(money(core)).toBe(openingMoney);
   });
 
@@ -466,20 +453,17 @@ describe("shared actor chooser and committed effects", () => {
     expect(
       initial.some(
         (offer) =>
-          // P15: the contact act reads people through "contact-candidate".
-          ["known-person", "contact-candidate"].includes(
-            offer.definition.targetKind,
-          ) && offer.targetId === relative,
+          offer.definition.targetKind === "known-person" &&
+          offer.targetId === relative,
       ),
     ).toBe(true);
-    // P15 part 2b: care answers children at home; this relative is an adult
-    // in another home, so no care is offered for them.
     expect(
       initial.some(
         (offer) =>
-          offer.definition.effect === "care" && offer.targetId === relative,
+          offer.definition.targetKind === "family" &&
+          offer.targetId === relative,
       ),
-    ).toBe(false);
+    ).toBe(true);
     expect(initial.some((offer) => offer.definition.targetKind === "job")).toBe(
       false,
     );
@@ -898,16 +882,11 @@ describe("controller boundary and data extension", () => {
       { data },
     );
     const openingMoney = money(core);
-    // createLifeCore always registers life, people, recorded work and the
-    // accounts module; the new action adds no module of its own.
-    expect(core.modules.size).toBe(p("two") + p("two"));
+    // createLifeCore always registers life, recorded work and the accounts module;
+    // the new action adds no module of its own.
+    expect(core.modules.size).toBe(p("two") + p("one"));
     expect([...core.modules.keys()].sort()).toEqual(
-      [
-        LIFE_MODULE.id,
-        PEOPLE_MODULE_ID,
-        WORK_MODULE.id,
-        ACCOUNTS_MODULE.id,
-      ].sort(),
+      [LIFE_MODULE.id, WORK_MODULE.id, ACCOUNTS_MODULE.id].sort(),
     );
     advanceCore(core, nextDay);
     const actor = core.people.get(actorId)!;
@@ -919,15 +898,15 @@ describe("controller boundary and data extension", () => {
       urgency: actor.needs[newNeed],
     });
     expect(chosen.decision!.selectedReasons!.need).toBeGreaterThan(p("zero"));
-    expect(chosen.decision!.selectedReasons!.goal).toBeGreaterThan(p("zero"));
+    // The need's own goal is recorded, but not counted twice in the choice.
+    expect(chosen.decision!.selectedReasons!.goal).toBe(p("zero"));
     expect(chosen.decision!.selectedReasons!.trait).toBeGreaterThan(p("zero"));
     expect(actor.liquidMinor).toBe(core.jobs.get(actor.jobId!)!.wageDailyMinor);
     expect(money(core)).toBe(openingMoney);
-    expect(core.modules.size).toBe(p("two") + p("two") + p("two"));
+    expect(core.modules.size).toBe(p("two") + p("two") + p("one"));
     expect([...core.modules.keys()].sort()).toEqual(
       [
         LIFE_MODULE.id,
-        PEOPLE_MODULE_ID,
         WORK_MODULE.id,
         ACCOUNTS_MODULE.id,
         core.data.workCashModuleId,
