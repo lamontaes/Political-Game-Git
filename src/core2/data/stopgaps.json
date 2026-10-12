@@ -1558,5 +1558,29 @@
     "addedAt": "2026-10-12",
     "replacement": "The courts port: a judge deciding from the record, the tenant's defenses and any right to counsel in the law in force.",
     "status": "open"
+  },
+  {
+    "id": "SG-GOV-views-stand-in",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 227,
+    "whatItFakes": "Each person's political lean is their House district's 2024 vote moved by three personality facets, and their stance on a policy question is that lean along the question's measured left-right axis.",
+    "why": "OPUS-PEOPLE's views engine (values and stances formed from each person's life) isn't on core2 yet.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "Each person's own stances from PEOPLE's views engine, read through the same platformAgreement call.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-ad-reach-media-habits",
+    "kind": "missing-engine",
+    "file": "src/core2/modules/campaigns.ts",
+    "line": 789,
+    "whatItFakes": "An ad reaches the adults with the fewest work hours, as a stand-in for who watches and scrolls most; ad time is bought from a stand-in local media seller.",
+    "why": "People's media habits and the news outlets aren't modeled on core2 yet.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "Each person's media habits and real outlets (PEOPLE and the news engine); ads bought from those outlets.",
+    "status": "open"
   }
 ]
