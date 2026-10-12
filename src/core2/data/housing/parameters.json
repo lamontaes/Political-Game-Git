@@ -51,5 +51,38 @@
       "unit": "share of loans",
       "citation": "Loans secured by one-to-four family homes are about a quarter to a third of community banks' loans (FDIC Community Banking Study 2020 and Quarterly Banking Profile)."
     }
+  },
+  "housingBuyBaseline": {
+    "value": -0.5,
+    "tag": "TUNABLE",
+    "citation": "How far buying sits below renting before cost and the down payment; checked against the ACS owner share and NAR's first-time buyer share of sales (21 percent in 2025).",
+    "spread": {
+      "low": -3,
+      "high": 0,
+      "unit": "score",
+      "citation": "How far buying sits below renting before cost and the down payment; checked against the ACS owner share and NAR's first-time buyer share of sales (21 percent in 2025)."
+    }
+  },
+  "housingBuyCostWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "Owning that costs more each month than renting pulls against buying, by the gap as a share of income.",
+    "spread": {
+      "low": 1,
+      "high": 8,
+      "unit": "score per share of income",
+      "citation": "Owning that costs more each month than renting pulls against buying, by the gap as a share of income."
+    }
+  },
+  "housingBuyDownWeight": {
+    "value": 2,
+    "tag": "TUNABLE",
+    "citation": "Saving the down payment is the main barrier for first-time buyers (NAR 2025 Profile of Home Buyers and Sellers).",
+    "spread": {
+      "low": 1,
+      "high": 4,
+      "unit": "score per log of down payment over cash",
+      "citation": "Saving the down payment is the main barrier for first-time buyers (NAR 2025 Profile of Home Buyers and Sellers)."
+    }
   }
 }

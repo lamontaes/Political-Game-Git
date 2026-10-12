@@ -151,6 +151,16 @@ console.log(
           ),
         };
       })(),
+      purchases: (
+        tables("housing").purchases as unknown as {
+          date: string;
+          priceMinor: number;
+          loanMinor: number;
+        }[]
+      ).map(
+        (row) =>
+          `${row.date} price ${Math.round(row.priceMinor / 100)} loan ${Math.round(row.loanMinor / 100)}`,
+      ),
       residentsCash: [...core.organizations.values()]
         .filter((row) => row.kind === "residents")
         .reduce((n, row) => n + row.liquidMinor, 0),

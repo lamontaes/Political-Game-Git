@@ -148,8 +148,108 @@ function equity(api: CoreAPI, bankId: string) {
       if (row.active) limits += row.limitMinor;
     }
   }
+  // Loans it made from its cash (household loans, startup loans, mortgages) are owed back to it.
+  for (const row of store(api)
+    .table("loans")
+    .query("open", [true]) as unknown as LoanRow[])
+    if (row.lenderId === bankId) principal += row.balanceMinor;
   const cash = c.organizations.get(bankId)!.liquidMinor;
   return { cash, principal, limits, lost, equity: cash + principal };
+}
+
+/** How willing the town bank is to lend today: falls smoothly as its capital falls below where it opened. */
+export function bankAppetite(api: CoreAPI): number {
+  const bank = bankOf(api);
+  if (!bank) return 0;
+  const p = (key: string) => api.parameter(key);
+  const capitalRoom =
+    equity(api, bank.organizationId).equity / bank.openingEquityMinor;
+  return (
+    p("one") /
+    (p("one") +
+      Math.exp(
+        -p("creditCapitalAppetiteSlope") * (capitalRoom - p("macroHalf")),
+      ))
+  );
+}
+
+/** The bank's yes to a payment against income: falls smoothly past the federal 43 percent reference. */
+export function bankYes(
+  api: CoreAPI,
+  paymentMinor: number,
+  incomeMinor: number,
+): number {
+  const p = (key: string) => api.parameter(key);
+  if (!(incomeMinor > 0)) return 0;
+  const dti = (p("macroHundred") * paymentMinor) / incomeMinor;
+  return (
+    bankAppetite(api) /
+    (1 + Math.exp(p("creditDtiSlope") * (dti - p("creditDtiReferencePct"))))
+  );
+}
+
+/**
+ * A home loan from the town bank: the bank pays the seller the principal and
+ * the household repays monthly like any loan. Zero when the bank has no room.
+ */
+export function lendMortgage(
+  api: CoreAPI,
+  input: {
+    householdId: string;
+    borrowerId: string;
+    sellerId: string;
+    principalMinor: number;
+    annualRate: number;
+    termMonths: number;
+  },
+): number {
+  const bank = bankOf(api);
+  if (!bank) return 0;
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  const book = equity(api, bank.organizationId);
+  const room = Math.max(
+    0,
+    book.equity * p("creditMaxLimitsPerEquity") - book.limits - book.principal,
+  );
+  const amount = Math.min(input.principalMinor, room);
+  if (amount <= 0) return 0;
+  const id = `mortgage-loan:${input.householdId}:${c.date}`;
+  const lent = transferCash(
+    api,
+    id,
+    bank.organizationId,
+    input.sellerId,
+    amount,
+    {
+      tag: "ESTIMATED",
+      asOf: c.date,
+      citation: creditData.source.citation,
+      estimatedFrom: `A ${input.termMonths}-month home loan at ${(input.annualRate * 100).toFixed(2)}%, paid to the seller.`,
+    },
+  );
+  if (lent <= 0) return 0;
+  store(api)
+    .table("loans")
+    .put({
+      id,
+      isLoan: true,
+      open: true,
+      householdId: input.householdId,
+      borrowerId: input.borrowerId,
+      lenderId: bank.organizationId,
+      kind: "mortgage",
+      principalMinor: lent,
+      balanceMinor: lent,
+      annualRate: input.annualRate,
+      paymentMinor: Math.round(
+        amortizedPayment(lent, input.annualRate, input.termMonths, p),
+      ),
+      openedAt: c.date,
+      pastDueMinor: 0,
+      standing: "current",
+    });
+  return lent;
 }
 
 function review(api: CoreAPI): void {
@@ -326,7 +426,7 @@ interface LoanRow {
   householdId: string;
   borrowerId: string;
   lenderId: string;
-  kind: "personal" | "startup";
+  kind: "personal" | "startup" | "mortgage";
   principalMinor: number;
   balanceMinor: number;
   annualRate: number;

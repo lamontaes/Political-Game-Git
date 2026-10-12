@@ -17,6 +17,8 @@ import type { FinanceContractInput } from "../finance-types";
 import type { ResidentFlowInput } from "../residents";
 import { regionalLevel, regionalRegistered } from "./regional";
 import { MACRO_PARAMETERS } from "./macro";
+import { bankYes, lendMortgage } from "./credit";
+import { chooseAct } from "../choice";
 import { CREDIT_PARAMETERS } from "./credit";
 import { DEFAULT_DATA } from "../data";
 import {
@@ -29,6 +31,7 @@ import { endFlowPart } from "../residents-economy";
 import { withoutOutsideShelter } from "../housing-shelter";
 import { residentsRuntime } from "./residents";
 import type {
+  ActOffer,
   CoreAPI,
   CoreInput,
   CoreModule,
@@ -336,6 +339,7 @@ export function withHousing(input: CoreInput): CoreInput {
       placeMetadata: {
         ...input.placeMetadata,
         housingState: town.usps,
+        housingCounty: town.county,
         ...(mortgages.terms.length
           ? { [MORTGAGE_TERMS_KEY]: JSON.stringify(mortgages.terms) }
           : {}),
@@ -504,12 +508,192 @@ function landlordPayout(api: CoreAPI): void {
   }
 }
 
+const BUY_PULL = "housing:pull";
+
+function buyOffer(
+  buy: boolean,
+  targetId: string,
+  reasons: Record<string, number>,
+): ActOffer {
+  const row = buy ? housingData.actions.buy : housingData.actions.rent;
+  return {
+    definition: {
+      id: row.id,
+      actKinds: row.actKinds,
+      goalKinds: [],
+      need: "money",
+      effortParameter: "zero",
+      effectParameter: "zero",
+      targetKind: "housing-option",
+      effect: "housing-choice",
+    },
+    targetId,
+    availableHours: 1,
+    effortHours: 0,
+    reasonBindings: Object.entries(reasons).map(([id, value]) => ({
+      id,
+      provider: BUY_PULL,
+      weightParameter: "one",
+      arguments: { value: String(value) },
+    })),
+  };
+}
+
+/**
+ * A full renter household weighs buying a home each month: what owning would
+ * cost against its rent, and the down payment against its cash. A buyer gets
+ * as much home as the town bank will finance on its income (the bank's yes
+ * falls smoothly past the federal 43 percent reference), from a seller
+ * outside the town until people move (M1-09). The lease ends; the loan is
+ * serviced like any of the bank's loans.
+ */
+function buyHomes(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
+  if (!c.modules.has("credit") || !c.modules.has("macro")) return;
+  const latest = api.moduleState("macro").table("state").get("macro:state") as
+    { latestMonth: string } | undefined;
+  const month = latest
+    ? (api
+        .moduleState("macro")
+        .table("months")
+        .get(`macro-month:${latest.latestMonth}`) as
+        { mortgage30Pct: number } | undefined)
+    : undefined;
+  if (!month) return;
+  const rate = month.mortgage30Pct / p("macroHundred"),
+    term = p("housingMortgageTermYears") * p("macroMonthsPerYear"),
+    r = rate / p("macroMonthsPerYear");
+  const factor = (principal: number) =>
+    r > 0 ? (principal * r) / (1 - (1 + r) ** -term) : principal / term;
+  // Home prices follow consumer prices until a house price index is in the data.
+  stopgap("SG-WORLD-housing-price-index");
+  for (const [id, lease] of [...c.finance.contracts].sort((a, b) =>
+    a[0].localeCompare(b[0]),
+  )) {
+    if (!id.startsWith("lease:") || lease.endedAt || !lease.householdId)
+      continue;
+    if (lease.arrearsMinor > 0) continue;
+    const household = c.households.get(lease.householdId);
+    const members = (household?.memberIds ?? [])
+      .map((pid) => c.people.get(pid))
+      .filter((row) => row?.alive);
+    const head = [...members].sort(
+      (a, b) =>
+        a!.birthDate.localeCompare(b!.birthDate) || a!.id.localeCompare(b!.id),
+    )[0];
+    if (!household || !head) continue;
+    const town = RENT_VALUE[c.placeMetadata?.housingCounty ?? ""];
+    const outside = [...c.organizations.values()].find(
+      (row) =>
+        row.placeId === household.placeId && row.outsideFlow !== undefined,
+    );
+    if (!town?.[1] || !outside) continue;
+    const income = members.reduce(
+      (n, row) =>
+        n +
+        (row!.jobId && c.jobs.get(row!.jobId)?.endsAt === undefined
+          ? (c.jobs.get(row!.jobId)!.wageDailyMinor * p("jobsDaysPerYear")) /
+            p("macroMonthsPerYear")
+          : 0),
+      0,
+    );
+    if (income <= 0) continue;
+    const cash = members.reduce((n, row) => n + row!.liquidMinor, 0);
+    const prices =
+      (c.finance.conditionsByPlace.get(household.placeId) ?? [])
+        .filter((row) => row.at <= c.date)
+        .at(-1)?.generalPriceFactor ?? 1;
+    // The home the household's income would buy at the county's median, as rent scales with income.
+    const value =
+      town[1] *
+      100 *
+      prices *
+      (lease.amountMinor / ((town[0] ?? 1) * 100 || 1));
+    const down = value * housingData.mortgage.downPayment.firstTime;
+    const payment = factor(value - down);
+    const result = chooseAct(c, head!.id, [
+      buyOffer(false, household.id, {}),
+      buyOffer(true, household.id, {
+        baseline: p("housingBuyBaseline"),
+        cost:
+          -p("housingBuyCostWeight") * ((payment - lease.amountMinor) / income),
+        down:
+          -p("housingBuyDownWeight") *
+          Math.max(0, Math.log((down + 1) / (cash + 1))),
+      }),
+    ]);
+    if (result.selected!.definition.id !== housingData.actions.buy.id) continue;
+    if (cash < down) continue;
+    // The bank finances its yes's share of the loan; the household buys what that and the down payment pay for.
+    const principal = Math.floor(
+      (value - down) * bankYes(api, payment, income),
+    );
+    if (principal <= 0) continue;
+    const source = {
+      tag: "ESTIMATED" as const,
+      asOf: c.date,
+      citation: housingData.mortgage.source,
+      estimatedFrom: `A home bought for ${Math.round((principal + down) / 100)} dollars with ${Math.round(down / 100)} down at ${(rate * 100).toFixed(2)}%.`,
+    };
+    // The down payment comes from the members' cash, largest balance first.
+    let owed = Math.round(down);
+    for (const member of [...members].sort(
+      (a, b) => b!.liquidMinor - a!.liquidMinor,
+    )) {
+      if (owed <= 0) break;
+      owed -= transferCash(
+        api,
+        `down-payment:${household.id}:${member!.id}:${c.date}`,
+        member!.id,
+        outside.id,
+        owed,
+        source,
+      );
+    }
+    const lent = lendMortgage(api, {
+      householdId: household.id,
+      borrowerId: head!.id,
+      sellerId: outside.id,
+      principalMinor: principal,
+      annualRate: rate,
+      termMonths: term,
+    });
+    api.endStandingContract(id);
+    store(api)
+      .table("purchases")
+      .put({
+        id: `purchase:${household.id}:${c.date}`,
+        householdId: household.id,
+        buyerId: head!.id,
+        date: c.date,
+        priceMinor: Math.round(down) - owed + lent,
+        downMinor: Math.round(down) - owed,
+        loanMinor: lent,
+        rate,
+        rentBeforeMinor: lease.amountMinor,
+        monthlyIncomeMinor: Math.round(income),
+      });
+    api.emit({
+      id: `event:housing.purchase:${household.id}:${c.date}`,
+      date: c.date,
+      kind: "housing.purchase",
+      personIds: members.map((row) => row!.id),
+      placeId: household.placeId,
+      source,
+      publicRecord: true,
+      topic: household.id,
+    });
+  }
+}
+
 function review(api: CoreAPI): void {
   const c = core(api),
     law = steps(api);
   renew(api);
   amortize(api);
   landlordPayout(api);
+  buyHomes(api);
   for (const [id, row] of c.finance.contracts) {
     if (
       !id.startsWith("lease:") ||
@@ -673,7 +857,13 @@ export const HOUSING_MODULE: CoreModule = {
       cases: { indexes: { openByLease: { fields: ["leaseId", "open"] } } },
       renewals: {},
       mortgages: {},
+      purchases: {},
     },
+  },
+  reasonProviders: {
+    [BUY_PULL]: (_api, _actor, _offer, binding) => ({
+      value: Number(binding.arguments!.value),
+    }),
   },
   onCalendarWork(api, work) {
     if (work.kind === "housing-review") {
