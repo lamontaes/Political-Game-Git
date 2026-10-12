@@ -68,7 +68,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Was: Person card, day and skip, conversation box with the Lie button, journal, then the filing office, campaigning and election night as GOV lands them; record data and control names only, engine text only.
   - Verified by: Browser checks of each screen, then you play it.
   - Needs: GOV
-- [ ] **Store page screenshots.** In progress (Oct 12): `src/bench/store-shots.mjs` captures 1920x1080 shots of real play from `/play` in any towns. The first 16, from four towns (home, a day in, a conversation, politics), are sent to you in the session. Before Friday: English names on the choice buttons (OPUS-PEOPLE) and the capsule art (CTO).
+- [ ] **Store page screenshots.** In progress (Oct 12): `src/bench/store-shots.mjs` captures 1920x1080 shots of real play from `/play` in any towns. The second set (17 shots, Hugo CO and Cornwall CT) adds the title screen, the opening (Oval Office, Senate floor), family, map, calendar and election night, and is in the session. Before Friday: English names on the choice buttons (OPUS-PEOPLE) and the capsule art (CTO).
   - Was: Real gameplay screenshots for the Steam page by Friday, with capsule art from the art pipeline.
   - Verified by: Your sign-off.
   - Needs: CTO (art)
