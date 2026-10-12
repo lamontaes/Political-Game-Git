@@ -19,7 +19,7 @@ const normalize = (text) =>
     .replace(/\\?['’]/g, "'")
     .toLowerCase();
 
-// Recent presidents. Real school names honor some of them, so the school catalogs
+// Recent presidents, vice presidents and sitting justices. Real school names honor some of them, so the school catalogs
 // are allowed to carry these names until the owner rules on school names
 // (docs/legal/legal-check-2026-10-12.md).
 const PRESIDENT_NAMES = [
@@ -32,10 +32,25 @@ const PRESIDENT_NAMES = [
   "Donald Trump",
   "Joe Biden",
   "Joseph R. Biden",
+  // Vice presidents and sitting Supreme Court justices: distinctive full names.
+  "JD Vance",
+  "J.D. Vance",
+  "Kamala Harris",
+  "Mike Pence",
+  "Dick Cheney",
+  "Al Gore",
+  "Clarence Thomas",
+  "Samuel Alito",
+  "Sonia Sotomayor",
+  "Elena Kagan",
+  "Neil Gorsuch",
+  "Brett Kavanaugh",
+  "Amy Coney Barrett",
+  "Ketanji Brown Jackson",
 ];
 // The bundles that embed the school catalog carry the same names.
 const FEDERAL_NAME_ALLOWED_IN =
-  /^(education[\\/]catalog-|client[\\/]assets[\\/].*(worker|preload-helper).*\.js$)/;
+  /(^|[\\/])(education[\\/]catalog-|client[\\/]assets[\\/].*(worker|preload-helper).*\.js$)/;
 
 // "Last, First Middle" rows of the Federal Judicial Center service file become "First Last".
 function federalJudgeNames(read) {

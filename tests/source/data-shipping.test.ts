@@ -60,7 +60,7 @@ describe("shipped data regression check", () => {
       inspectShippingBytes(
         Buffer.from('"Barack Obama Charter"'),
         policy,
-        "education/catalog-abc.json",
+        "client/education/catalog-abc.json",
       ),
     ).toEqual([]);
   });
