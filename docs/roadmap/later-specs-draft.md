@@ -1,13 +1,22 @@
-# Later milestones: draft specs (M2 to M7)
+# Later milestones: specs M2 to M7 (all owner-approved Oct 12, 2026)
 
-Drafts by the CTO, Oct 10, 2026. The owner has not approved them yet. Under "No stopping" in `AGENTS.md` (owner, Oct 12), the pillars build from them anyway: the simplest version that follows `AGENTS.md`, every line of player text from the English engine, every test in a place drawn at random from all 56. The owner reviews by playing and may change any of them; when he approves a spec, the CTO moves it into `docs/roadmap/features.json`.
+The owner approved every spec here on Oct 12, 2026, piece by piece. Each spec says which work order in `docs/packages/` to build from:
+- **M2:** M2-filing, M2-campaigns, M2-elections, M2-candidates-news.
+- **M3:** M3-legislating, M3-laws-and-executive, M3-world-of-governing.
+- **M4:** M4-words.
+- **M5:** M5-careers.
+- **M6:** M6-screens.
+- **M7:** M7-early-access.
 
-Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means the first session whose own list is done may take it: write "Taking <ID>" in your status file first, build it in files of its own, and the CTO records it on `docs/coordination/BOARD.md`.
+The specs and their tests are in `docs/roadmap/features.json`. **Where a work order and a draft line below differ, the work order wins.** The draft text below is the Oct 10 original, kept as the index.
+
+**Systems model** (owner, Oct 12): *The Political Process*, plus our people, scenes and visuals. Every test runs in a place drawn at random from all 56, and every word comes from the English engine.
 
 ## M2 · Running for office: Offices and the rules of running
 
 ### M2-01 · Offices and seats, every level
 
+- **Approved (owner, Oct 10):** built in M1 from the work order `docs/packages/M1-officials.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV
 - **Does:** Every office from council and mayor to governor, Congress and president exists from day one, with real numbered seats and districts, fictional holders with full records, terms, term limits and vacancies.
 - **Passes when:** In a random place, every seat that covers the player has a holder with a record and a term; a vacancy is filled the way that office's real rules say.
@@ -250,36 +259,42 @@ Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means th
 
 ### M7-01 · Speed and memory
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M7-early-access.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-CORE
 - **Does:** A town's year in under 2 minutes; the new-game load (including the opening) fits a short loading screen; it runs on a minimum PC.
 - **Passes when:** Measured on a reference minimum-spec machine, with targets set from Steam's hardware survey.
 
 ### M7-02 · Saves that last
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M7-early-access.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-CORE
 - **Does:** A versioned save format; a save can always continue, and updates don't break it.
 - **Passes when:** An old save loads and plays after an update.
 
 ### M7-03 · Zero placeholders
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M7-early-access.md`; the spec and its test are in `features.json`.
 - **Owner:** Every session, in its own area
 - **Does:** Every registered shortcut replaced, or turned into a sourced or marked estimate.
 - **Passes when:** The release build passes with zero open stopgaps.
 
 ### M7-04 · Updates and bug reports
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M7-early-access.md`; the spec and its test are in `features.json`.
 - **Owner:** Anyone free
 - **Does:** Automatic updates, content updates without a reinstall, in-game bug reports with logs, crash reports.
 - **Passes when:** A test update installs itself, and a bug report arrives with its log.
 
 ### M7-05 · Legal check
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M7-early-access.md`; the spec and its test are in `features.json`.
 - **Owner:** Anyone free
 - **Does:** Confirm no real politicians appear (the owner's Sept 26 ruling), and clear real places, schools and institutions, data licenses and photo and art licenses. A research review now; an attorney before release.
 - **Passes when:** The review is done and its fixes are made.
 
 ### M7-06 · Steam
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M7-early-access.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-PLAY, with the CTO
 - **Does:** Store page, trailer, early-access FAQ, minimum specs, price.
 - **Passes when:** The owner signs off.

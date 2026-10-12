@@ -7,7 +7,8 @@
     "M4": "Stories and words (owner-approved piece by piece from Oct 12, 2026)",
     "M3": "Governing, and laws that change things (owner-approved piece by piece from Oct 12, 2026)",
     "M5": "State and federal careers, and the executive role (owner-approved Oct 12, 2026)",
-    "M6": "The real game screens (owner-approved Oct 12, 2026; each screen also gets the owner's sign-off)"
+    "M6": "The real game screens (owner-approved Oct 12, 2026; each screen also gets the owner's sign-off)",
+    "M7": "Early-access ready (owner-approved Oct 12, 2026)"
   },
   "features": [
     {
@@ -597,6 +598,66 @@
       "golden_path": "all",
       "package": "M6-screens",
       "test": "Every art item on the owner's Oct 8 defect list (docs/ui/playtest-2026-10-08.md) is cleared, judged by the owner side by side.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M7-01",
+      "milestone": "M7",
+      "title": "Speed and memory",
+      "golden_path": "release",
+      "package": "M7-early-access",
+      "test": "On a minimum-spec PC a town's game year runs in under two minutes and a day advances without visible waiting; a new game loads within two minutes while the loading story plays; install size and save size stay within their recorded budgets; minimum specs are measured and listed.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M7-02",
+      "milestone": "M7",
+      "title": "Saves that last",
+      "golden_path": "release",
+      "package": "M7-early-access",
+      "test": "A save made on one build loads and continues after an update through the single versioned upgrade path, with no wipe.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M7-03",
+      "milestone": "M7",
+      "title": "Zero placeholders",
+      "golden_path": "release",
+      "package": "M7-early-access",
+      "test": "The release build passes with zero open stopgaps; no player-facing surface shows an estimate label, a source, 'unknown' or a hard-coded value; the old core is deleted.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M7-04",
+      "milestone": "M7",
+      "title": "Updates and bug reports",
+      "golden_path": "release",
+      "package": "M7-early-access",
+      "test": "The Steam build is made nightly in the cloud and updates through Steam on Windows and Mac, with the Mac build signed and notarized; 'Report a bug' and the after-crash prompt send a log only when the player presses send; no developer or proof pages are in the shipped build.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M7-05",
+      "milestone": "M7",
+      "title": "Legal check",
+      "golden_path": "release",
+      "package": "M7-early-access",
+      "test": "The legal check finds no real politician's name anywhere and only public-domain historical quotes; every real school, place, bank and business is cleared; every data, photo and art license is recorded; Steam's AI-content disclosure is filled in; required attributions are on a Credits screen under Options.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M7-06",
+      "milestone": "M7",
+      "title": "Steam",
+      "golden_path": "release",
+      "package": "M7-early-access",
+      "test": "The Steam store page is live (app 5376890, $14.99) with the owner's capsule art and tags, real gameplay screenshots, a short description that promises nothing after early access (no courts), the content survey, the AI disclosure, an owner-approved early-access FAQ, and a trailer with no AI-generated music.",
       "command": null,
       "passes": false
     }
