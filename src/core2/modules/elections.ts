@@ -14,6 +14,7 @@
  * Signatures are gathered from real people: each signer decides for
  * themselves (`requestSignature`).
  */
+import { registerElectorate } from "../electorate";
 import filingTerms from "../../../data/research/elections/candidate-filing-terms.json" with { type: "json" };
 import filingRequirementResearch from "../../../data/research/elections/filing-requirements.json" with { type: "json" };
 import filingOffice from "../../../data/research/elections/filing-office.json" with { type: "json" };
@@ -324,6 +325,7 @@ function localFilingOfficer(usps: string, family: OfficeFamily): string {
 export function openElections(core: CoreState): void {
   if (!core.modules.has(ELECTIONS_MODULE_ID))
     registerModule(core, ELECTIONS_MODULE);
+  registerElectorate(core);
   const api = coreAPI(core);
   const place = lifePlaceByKey(api.state.placeMetadata.placeKey ?? "");
   if (!place?.stateJurisdictionKey) throw new Error("Elections need the town.");

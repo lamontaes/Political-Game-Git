@@ -23,6 +23,7 @@
  * election is put on the calendar (stand-in until M2's elections:
  * SG-GOV-special-election-appointee).
  */
+import { registerElectorate } from "../electorate";
 import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
@@ -297,6 +298,7 @@ function seatResident(
 
 /** Register the module and seat every office covering the town. */
 export function openOffices(core: CoreState, worldSeed: string): void {
+  registerElectorate(core);
   if (!core.modules.has(OFFICES_MODULE_ID))
     registerModule(core, OFFICES_MODULE);
   const api = coreAPI(core);
