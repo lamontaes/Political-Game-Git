@@ -58,8 +58,7 @@ export const AMERICAN_ENGLISH_EXEMPT: readonly {
     reason: "generated from sourced records; fix the generator's input instead",
   },
   {
-    pattern:
-      /^src\/core2\/data\/opening-(schools|public-owners-2017)\.json$/,
+    pattern: /^src\/core2\/data\/opening-(schools|public-owners-2017)\.json$/,
     reason: "real names from federal school and ownership records",
   },
   {
