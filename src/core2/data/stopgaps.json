@@ -428,7 +428,7 @@
     "why": "The canonical opening population preserves household/family links and dated school proxies but supplies no cross-household named school-peer acquaintance generator. The observed selected opening circle had three actors and all inspected adult/job candidates had at most six.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance. Oct 12 (OPUS-CORE sub-agent): openingPeerGroupSize now 20 (NCES NTPS 2020-21 class size, band 17-22); the stopgap stays open because a class is not a remembered-peer circle.",
+    "replacement": "Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance.",
     "status": "open"
   },
   {
@@ -500,7 +500,7 @@
     "why": "Sleep reserve is planned, not observed; full education/care/consumption/primary-activity diary is absent.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "ATUS age/employment primary activity totals and participant durations using compatible crosswalks and observed individual spreads. Oct 12 (OPUS-CORE sub-agent): workSleepReserveHours now 9.03 (ATUS 2025 sleep mean); the stopgap stays open for workWakingRecoveryHours (stand-in 1, research suggests 5.16 as a different quantity).",
+    "replacement": "ATUS age/employment primary activity totals and participant durations using compatible crosswalks and observed individual spreads.",
     "status": "open"
   },
   {
@@ -644,8 +644,8 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): the claim is now a decision inside Social Security's law bounds; this pull is one of its calibrated weights.",
-    "status": "resolved"
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
+    "status": "open"
   },
   {
     "id": "SG-P8-param-openingRetirementCoveredFraction",
@@ -2201,6 +2201,18 @@
     "status": "open"
   },
   {
+    "id": "SG-WORLD-macro-mortgage-spread",
+    "kind": "estimated-series",
+    "file": "src/core2/macro-model.ts",
+    "line": 85,
+    "whatItFakes": "Opening 30-year mortgage rates after April 2019 are the 10-year Treasury plus the 1990-2019 mean FHFA spread, not a published monthly rate.",
+    "why": "FHFA's monthly survey ended in 2019; public HMDA is annual and Freddie Mac's survey is excluded (CTO ruling on #3959).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "A government monthly mortgage-rate series, or monthly HMDA origination dates if CFPB publishes them.",
+    "status": "open"
+  },
+  {
     "id": "SG-WORLD-macro-public-budget",
     "kind": "estimated-parameter",
     "file": "src/core2/data/macro/parameters.json",
@@ -2252,7 +2264,7 @@
     "id": "SG-WORLD-jobs-opening-seekers",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 277,
+    "line": 280,
     "whatItFakes": "The opening's job seekers are the jobless working-age adults whose money covers the fewest days, as many as the nation's unemployment rate implies against the generated jobs; the other jobless adults sit outside the modeled labor market.",
     "why": "The generated opening employs only part of the town (unsupported workplaces are omitted), so most jobless adults are not really unemployed; the two-level population (OPUS-CORE) will hold the rest as counts.",
     "addedBy": "OPUS-WORLD",
@@ -2264,7 +2276,7 @@
     "id": "SG-WORLD-jobs-layoff-decider",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 588,
+    "line": 601,
     "whatItFakes": "A layoff names the business itself as who decided it.",
     "why": "Businesses have no recorded owners or managers until businesses growing (M1-08).",
     "addedBy": "OPUS-WORLD",
@@ -2348,12 +2360,12 @@
     "id": "SG-WORLD-business-opening-owners",
     "kind": "generated-identity",
     "file": "src/core2/modules/business.ts",
-    "line": 108,
-    "whatItFakes": "Each opening business is owned by its highest-paid current worker, as owner-operator.",
+    "line": 150,
+    "whatItFakes": "The opening's largest businesses (by staff, up to the state's estimated share of jobs in multi-establishment firms) belong to firms based outside the town; every other is owned by its highest-paid current worker, as owner-operator.",
     "why": "The generated opening records no owners; founding by choice (this work order's next piece) gives new businesses their real founders.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
-    "replacement": "Opening owners from Census Annual Business Survey owner shares by industry and size, with owners who do not work in the business, and founders recorded at founding.",
+    "replacement": "Owners from the opening's history (who founded or bought each business, M1-14), with absentee and corporate owners from business ownership records.",
     "status": "open"
   },
   {
@@ -2384,7 +2396,7 @@
     "id": "SG-WORLD-jobs-counted-choices",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 889,
+    "line": 902,
     "whatItFakes": "Counted workers (the wider population) retire by the same reasons as full people but without the shared chooser, apply to every opening in their place and accept the offer they get.",
     "why": "The shared chooser needs a full person; filling in everyone who makes a job decision would undo the two-level population.",
     "addedBy": "OPUS-WORLD",
@@ -2408,7 +2420,7 @@
     "id": "SG-WORLD-jobs-agreement-pinned",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/jobs.ts",
-    "line": 134,
+    "line": 137,
     "whatItFakes": "A job that a saved visitor agreement names as its provider's qualification is never ended by a layoff, a quit, a retirement or a move to another job.",
     "why": "The core rejects the agreement's next payment once the named job ends (\"Visitor qualification no longer resolves its actual product job\"), seen in year two of Absecon, New Jersey.",
     "addedBy": "OPUS-WORLD",
@@ -2419,7 +2431,7 @@
     "id": "SG-WORLD-business-counted-owner-choice",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/business.ts",
-    "line": 198,
+    "line": 259,
     "whatItFakes": "An owner still in the wider population (not yet filled in) takes the option whose reasons sum highest instead of choosing through the shared chooser, and their draws go to their place's pooled residents account.",
     "why": "Filling in every owner as a full person made a game year about 40% slower (Absecon, New Jersey); owners are filled in when the player meets them.",
     "addedBy": "OPUS-WORLD",
@@ -2589,6 +2601,18 @@
     "status": "open"
   },
   {
+    "id": "SG-WORLD-jobs-counted-retiree-income",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 1167,
+    "whatItFakes": "A counted worker who retires draws their place's opening retirees' average income (Social Security and pensions from outside the town), not a benefit from their own earnings record and claim age.",
+    "why": "Counted people have no earnings records; Social Security claims and benefit formulas are OPUS-CORE's and OPUS-GOV's.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "The core's Social Security claim for counted retirees, with GOV's benefit rules in force.",
+    "status": "open"
+  },
+  {
     "id": "SG-WEB-outcome-drift",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/outcome-web.ts",
@@ -2646,6 +2670,137 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Agreements re-resolve their qualifying worker when a job ends (WORLD/CORE), and the jobs engine exports its pinned-job lookup; then these holders can move like anyone else.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-skip-own-choice-attribution",
+    "kind": "faked-mechanic",
+    "file": "src/bench/player.ts",
+    "line": 108,
+    "whatItFakes": "While the player skips, the character’s own pick (the core’s chooseAct selection) is resumed as a player answer, so the saved act carries a controlled-choice reason key.",
+    "why": "The core’s player clock has no resume kind that records an act as the character’s own decision. Resolved by OPUS-PLAY (2026-10-12): the bench resumes with OPUS-CORE's own-choice kind (core2-api-v12), so the act is saved as the character's own decision.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "An OPUS-CORE resume kind that saves the act as the character’s own decision while control is held.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-PLAY-bench-town-size",
+    "kind": "faked-mechanic",
+    "file": "src/bench/server.ts",
+    "line": 101,
+    "whatItFakes": "The bench builds a smaller town (2,000 people by default) instead of the full opening cohort.",
+    "why": "A day of the full 40,000-person town takes about 13 seconds, too slow to play. Resolved by OPUS-PLAY (2026-10-12): /play builds the whole place two-level (OPUS-CORE), and a year runs in 39 s; the developer page's size field is a tool, not a stand-in.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-CORE’s two-level population and speed work, after which the bench builds the full place.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-PLAY-home-dwelling-kind",
+    "kind": "assumed-data",
+    "file": "src/bench/scene.ts",
+    "line": 89,
+    "whatItFakes": "Every home in the bench shows the shared suburban house interior.",
+    "why": "New-core households record no dwelling type (apartment, mobile home, rowhouse, farmhouse), so the picture cannot follow the home. Resolved by OPUS-PLAY (2026-10-12): the scene reads OPUS-WORLD's dwellingKind (house, rowhouse, apartment, mobile home, farmhouse) and shows that home's picture.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "A dwelling type on each household from OPUS-WORLD housing or OPUS-PEOPLE, read by the bench scene picker.",
+    "status": "resolved"
+  },
+  {
+    "id": "SG-WORLD-jobs-benefits",
+    "kind": "missing-mechanic",
+    "file": "src/core2/modules/jobs.ts",
+    "line": 166,
+    "whatItFakes": "A spell of unemployment pays no unemployment insurance.",
+    "why": "Benefits are paid from state budgets under each state's law (M1-07, OPUS-GOV).",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "State unemployment insurance under the law in force, paid through postJournal from the state's fund.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-opening-without-speech",
+    "kind": "player-text-gap",
+    "file": "src/bench/opening.ts",
+    "line": 10,
+    "whatItFakes": "The opening cuts from the President to each level of government and then home with only each holder’s title and name; the President’s speech that should carry it is missing.",
+    "why": "The speech’s words must come from the English engine, built from real inaugural and State of the Union addresses, which is not on the new core yet.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-PEOPLE’s speech writer reading the world’s real numbers; the opening plays its lines over these shots.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-doors-fill-in",
+    "kind": "faked-mechanic",
+    "file": "src/bench/campaign.ts",
+    "line": 56,
+    "whatItFakes": "Before a door-knocking round, the bench fills in from the counts as many of the town’s households as the round could reach, so the campaign engine has doors to knock in the two-level world.",
+    "why": "knockDoors walks only the households already in the core; in the two-level world most of the town is counts.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-GOV’s knockDoors (with OPUS-CORE’s fillInPerson) filling in each household it actually reaches.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-challenger-name",
+    "kind": "assumed-data",
+    "file": "src/bench/results.ts",
+    "line": 24,
+    "whatItFakes": "Election night names a drawn challenger by repeating the voting module’s private identity draw (same seed, seat key and role).",
+    "why": "The voting module draws challengers’ identities privately and exports no name reader.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "An OPUS-GOV export that names any candidate id (resident, official term or drawn challenger).",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-business-no-successor",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/business.ts",
+    "line": 287,
+    "whatItFakes": "A business whose owner stops working or dies with no worker or family member to take it on keeps running without a recorded owner.",
+    "why": "The core closes a business only when it can't pay (closeEmployer); there is no voluntary closure for a solvent business yet.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "A core call to wind down a solvent business (end its jobs, contracts and books; the owner keeps what is left), asked of OPUS-CORE; the owner then chooses between closing and selling."
+  },
+  {
+    "id": "SG-PLAY-act-control-names",
+    "kind": "text",
+    "file": "src/bench/data/controls.json",
+    "line": 3,
+    "whatItFakes": "Where OPUS-WORDS' mined bank has no name for an act yet (care for a relative, join an association, hold a meeting, visit an office), the play screen names its choice button from a bench table of control names (“Look after”).",
+    "why": "The mined choice-names bank (data/english/parts/choice-names.json) covers about half the core's acts; a raw action id is not something a player should read.",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "Mined names for every act in OPUS-WORDS' bank, composed by OPUS-PEOPLE's English engine; then this table is removed.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-opening-economy-fallback",
+    "kind": "faked-mechanic",
+    "file": "src/bench/world.ts",
+    "line": 179,
+    "whatItFakes": "A /play town whose opening has a kin move dated after the opening day opens without the core’s opening economy (retirement income, customers) and outside market, on the finance-only route.",
+    "why": "OPUS-PEOPLE’s opening kin moves can be dated after the opening day, which the core’s retirement-income step refuses (“Past fact outside recipient lifetime/opening”).",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "Opening kin moves dated on or before the opening day (OPUS-PEOPLE), so every town takes the closures route; then this fallback is removed.",
+    "status": "open"
+  },
+  {
+    "id": "SG-PLAY-world-settings-copy",
+    "kind": "faked-mechanic",
+    "file": "src/bench/world-settings.ts",
+    "line": 3,
+    "whatItFakes": "The bench applies the custom-world settings (wages, household cash, outside demand) with its own copy of the core's arithmetic; lean and turnout are recorded on the world but nothing reads them yet.",
+    "why": "OPUS-CORE's applyOpeningSettings and scaleOutsideSales aren't exported, and no engine reads the politics settings yet (audit 4).",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-CORE exports its settings step for any opening; OPUS-PEOPLE (views) and OPUS-GOV (turnout, party strength) read placeMetadata.worldSettings.",
     "status": "open"
   }
 ]

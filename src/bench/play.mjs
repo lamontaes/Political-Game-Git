@@ -1,4 +1,4 @@
-/* global document, fetch, URLSearchParams, setTimeout, window */
+/* global document, fetch, URLSearchParams, setTimeout, setInterval, clearInterval, Image, window */
 // The game screen on the new core: one scene, the player card, the menus.
 // Words on screen are record data, engine text and control names only.
 const $ = (id) => document.getElementById(id);
@@ -27,12 +27,7 @@ function el(tag, props = {}, ...children) {
   return node;
 }
 function row(label, value) {
-  return el(
-    "div",
-    { className: "row" },
-    el("b", { textContent: label }),
-    String(value ?? ""),
-  );
+  return el("div", { className: "row" }, termLabel(label), String(value ?? ""));
 }
 function show(id, on) {
   $(id).hidden = !on;
@@ -46,7 +41,10 @@ function drawPeople(people) {
       const visible = Math.max(bottom - f.topPercent, 0.1);
       const img = el("img", { src: person.figureUrl, alt: person.name });
       img.style.height = `${(f.heightPercent / visible) * 100}%`;
+      // A whole figure turns to face the room, with a soft shadow at its feet.
+      if (f.mirrored) img.style.transform = "scaleX(-1)";
       const box = el("div", { className: "figure", title: person.name }, img);
+      if (f.shadow) box.prepend(el("div", { className: "shadow" }));
       Object.assign(box.style, {
         left: `${f.leftPercent}%`,
         top: `${f.topPercent}%`,
@@ -61,8 +59,13 @@ function drawPeople(people) {
 // The opening: each level of government over the player's town, then home.
 const SHOT_MS = 4500;
 let skipOpening;
+// The opening's shots, fetched and their pictures loaded during loading.
+let openingShotsReady;
 async function playOpening() {
-  const shots = await api(`/api/opening?id=${encodeURIComponent(me.id)}`);
+  const shots =
+    openingShotsReady ??
+    (await api(`/api/opening?id=${encodeURIComponent(me.id)}`));
+  openingShotsReady = undefined;
   show("caption", true);
   $("game").classList.add("letterbox");
   for (const shot of shots) {
@@ -101,7 +104,10 @@ async function renderScene() {
       const visible = Math.max(bottom - f.topPercent, 0.1);
       const img = el("img", { src: person.figureUrl, alt: person.name });
       img.style.height = `${(f.heightPercent / visible) * 100}%`;
+      // A whole figure turns to face the room, with a soft shadow at its feet.
+      if (f.mirrored) img.style.transform = "scaleX(-1)";
       const box = el("div", { className: "figure", title: person.name }, img);
+      if (f.shadow) box.prepend(el("div", { className: "shadow" }));
       Object.assign(box.style, {
         left: `${f.leftPercent}%`,
         top: `${f.topPercent}%`,
@@ -128,8 +134,34 @@ async function renderCard() {
   );
 }
 
+// The Guide's search, kept so an underlined term opens straight to it.
+let guideQuery = "";
+let guideTerms = new Set();
+api("/api/guide?q=").then((rows) => {
+  guideTerms = new Set(rows.map((row) => row.term.toLowerCase()));
+});
+/**
+ * A label shown on screen, underlined when the whole label is a Guide term
+ * (never a search through prose): clicking it opens the Guide there.
+ */
+function termLabel(text) {
+  if (!guideTerms.has(String(text).trim().toLowerCase()))
+    return el("b", { textContent: text });
+  const b = el("b", { className: "term", textContent: text });
+  b.addEventListener("click", () => {
+    guideQuery = text;
+    openSheet("guide");
+  });
+  return b;
+}
+
 // Control names for the choice buttons, loaded once.
 let controls = {};
+// Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
+const amount = (value, unit) =>
+  unit?.startsWith("minor")
+    ? `${dollars(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
+    : `${value ?? ""}${unit ? ` ${unit}` : ""}`;
 /** A policy question by its name on the bill catalog, else its key's last part. */
 const policyLabel = (question) =>
   controls.policyNames?.[question] ?? question.split(":").pop();
@@ -189,12 +221,19 @@ async function refresh() {
   const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
   if (races.length > seenResults) {
     seenResults = races.length;
+    // Seen where you watched the returns: the party if you ran, else the polls.
+    const night = await api(
+      `/api/results/scene?id=${encodeURIComponent(me.id)}`,
+    );
+    if (night) {
+      $("backdrop").src = night.backdrop.url;
+      drawPeople(night.people);
+    }
     await openSheet("results");
     return;
   }
   // A law that took effect: what changed in town.
-  const laws = await api(`/api/changes?id=${encodeURIComponent(me.id)}`);
-  if (laws.length > seenChanges) {
+  if (newChanges(await changeCount())) {
     await openSheet("changes");
     return;
   }
@@ -226,7 +265,16 @@ for (const mode of ["day", "week"])
 // it again stops after the current leg. A stop, choice or day's end that
 // needs you ends it at once.
 let skipping = false;
-let seenChanges = 0;
+// Laws enacted and laws taken effect so far: a new one of either opens What changed.
+let seenChanges = { ahead: 0, took: 0 };
+async function changeCount() {
+  const { ahead, took } = await api(
+    `/api/changes?id=${encodeURIComponent(me.id)}`,
+  );
+  return { ahead: ahead.length, took: took.length };
+}
+const newChanges = (now) =>
+  now.took > seenChanges.took || now.ahead > seenChanges.ahead;
 const SKIP_LEG_DAYS = 7;
 const SKIP_MAX_LEGS = 52;
 $("skip").addEventListener("click", async () => {
@@ -250,8 +298,7 @@ $("skip").addEventListener("click", async () => {
         break;
       }
       // A law taking effect is shown too: the town changes.
-      const laws = await api(`/api/changes?id=${encodeURIComponent(me.id)}`);
-      if (laws.length > seenChanges) {
+      if (newChanges(await changeCount())) {
         $("card-why").textContent = controls.endedBy?.law ?? "";
         await openSheet("changes");
         break;
@@ -687,17 +734,33 @@ async function seatRows() {
     const pick = el(
       "select",
       {},
-      ...v.amounts.map((a) =>
-        el("option", {
+      ...v.amounts.map((a) => {
+        const option = el("option", {
           value: `series:${a.series}`,
-          textContent: `${a.series} · ${a.current ?? ""} ${a.unit ?? ""}`,
-        }),
-      ),
-      ...v.questions.map((q) =>
-        el("option", {
-          value: `question:${q}`,
-          textContent: policyLabel(q),
-        }),
+          textContent: `${policyLabel(a.series)} · ${amount(a.current, a.unit)}`,
+        });
+        // Money is typed in dollars and kept in cents.
+        if (a.unit?.startsWith("minor")) option.dataset.cents = "1";
+        return option;
+      }),
+      // Every law area, one group each: its policies and budget lines.
+      ...(v.menus ?? []).map((menu) =>
+        el(
+          "optgroup",
+          { label: menu.name },
+          ...menu.items.map((item) => {
+            const option = el("option", {
+              value: item.question
+                ? `question:${item.question}`
+                : `line:${item.line}`,
+              textContent: item.question
+                ? policyLabel(item.question)
+                : item.name,
+            });
+            if (item.line) option.dataset.cents = "1";
+            return option;
+          }),
+        ),
       ),
     );
     const value = el("input", {
@@ -711,11 +774,18 @@ async function seatRows() {
         pick.value.slice(0, pick.value.indexOf(":")),
         pick.value.slice(pick.value.indexOf(":") + 1),
       ];
+      const cents = pick.selectedOptions[0]?.dataset.cents === "1";
       act({
         kind: "draft",
         officeId: body.officeId,
-        ...(kind === "series" ? { series: key } : { question: key }),
-        value: value.value,
+        ...(kind === "series"
+          ? { series: key }
+          : kind === "line"
+            ? { line: key }
+            : { question: key }),
+        value: cents
+          ? String(Math.round(Number(value.value) * 100))
+          : value.value,
       });
     });
     rows.push(
@@ -853,6 +923,24 @@ const sheets = {
     const b = await api(`/api/budget?id=${encodeURIComponent(me.id)}`);
     return [
       row("Cash", dollars(me.card.liquidMinor)),
+      ...(me.card.dwelling
+        ? [
+            row(
+              me.card.dwelling.tenure === "own" ? "Own" : "Rent",
+              [
+                me.card.dwelling.kind,
+                me.card.dwelling.valueMinor !== undefined
+                  ? dollars(me.card.dwelling.valueMinor)
+                  : null,
+                me.card.dwelling.rentMinor !== undefined
+                  ? `${dollars(me.card.dwelling.rentMinor)} / month`
+                  : null,
+              ]
+                .filter(Boolean)
+                .join(" · "),
+            ),
+          ]
+        : []),
       ...Object.entries(b.withholding?.byLine ?? {}).map(([line, minor]) =>
         row(line, `${dollars(minor)} · ${b.withholding.paychecks}`),
       ),
@@ -860,13 +948,19 @@ const sheets = {
   },
   async jobs() {
     const j = me.card.job;
-    return j
-      ? [
-          row(j.title, j.employer),
-          row("Pay", `${dollars(j.wageDailyMinor)} / day`),
-          row("Hours", `${j.hoursDaily.toFixed(1)} / day`),
-        ]
-      : [];
+    return [
+      ...(j
+        ? [
+            row(j.title, j.employer),
+            row("Pay", `${dollars(j.wageDailyMinor)} / day`),
+            row("Hours", `${j.hoursDaily.toFixed(1)} / day`),
+          ]
+        : []),
+      // Study: the schools on your record, newest first.
+      ...[...(me.card.schools ?? [])]
+        .reverse()
+        .map((school) => row(school.date.slice(0, 4), school.name)),
+    ];
   },
   async journal() {
     const chapters = await api(`/api/journal?id=${encodeURIComponent(me.id)}`);
@@ -894,20 +988,27 @@ const sheets = {
             textContent: `${c.name}${c.party ? ` (${c.party})` : ""} · ${number(c.votes)}`,
           }),
         ),
-        el("div", {
-          textContent: `${race.namedTurnout} / ${race.namedEligible} · ${Object.entries(
-            race.exitPoll,
-          )
+        el(
+          "div",
+          {},
+          el("b", { textContent: "Turnout " }),
+          `${number(race.namedTurnout)} / ${number(race.namedEligible)}`,
+        ),
+        el(
+          "div",
+          {},
+          el("b", { textContent: "Exit poll " }),
+          Object.entries(race.exitPoll)
             .map(([k, n]) => `${k} ${n}`)
-            .join(" · ")}`,
-        }),
+            .join(" · "),
+        ),
         race.ballot
-          ? el("div", {
-              className: "mine",
-              textContent: race.ballot.voted
-                ? `${me.card?.name ?? ""}: ${race.ballot.choice ?? ""}`
-                : `${me.card?.name ?? ""}: —`,
-            })
+          ? el(
+              "div",
+              { className: "mine" },
+              el("b", { textContent: "You " }),
+              race.ballot.voted ? (race.ballot.choice ?? "") : "—",
+            )
           : "",
       ),
     );
@@ -1166,28 +1267,96 @@ const sheets = {
       ),
     ];
   },
+  async law() {
+    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    return v.law.map((law) =>
+      el(
+        "div",
+        { className: "row narrative" },
+        termLabel(policyLabel(law.series)),
+        ` ${law.value === null ? "—" : amount(law.value, law.unit)}${law.estimate ? " (est.)" : ""}`,
+        el(
+          "div",
+          {},
+          ...law.levels
+            .filter((level) => level.row)
+            .map((level) =>
+              el("div", {
+                textContent: `${level.level} · ${level.jurisdiction} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${level.setAside}` : ""}`,
+              }),
+            ),
+          ...law.pending.map((row) =>
+            el("div", {
+              textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
+            }),
+          ),
+        ),
+      ),
+    );
+  },
   async changes() {
-    // Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
-    const amount = (value, unit) =>
-      unit?.startsWith("minor")
-        ? `${dollars(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
-        : `${value}${unit ? ` ${unit}` : ""}`;
-    const laws = await api(`/api/changes?id=${encodeURIComponent(me.id)}`);
-    seenChanges = laws.length;
-    return laws.map((law) =>
+    const { ahead, took } = await api(
+      `/api/changes?id=${encodeURIComponent(me.id)}`,
+    );
+    seenChanges = { ahead: ahead.length, took: took.length };
+    // Enacted, waiting for its date: the measure, what it sets, and when.
+    const coming = ahead.map((law) =>
       el(
         "div",
         { className: "row narrative" },
         el("b", {
-          textContent: `${law.date} · ${policyLabel(law.series)} · ${law.was !== null ? `${amount(law.was, law.unit)} → ` : ""}${amount(law.value, law.unit)}`,
+          textContent: `${law.date} · ${policyLabel(law.series)} · ${amount(law.value, law.unit)}`,
         }),
-        [
-          `${law.jurisdiction} · ${law.reached}`,
-          ...(law.you ? [`${me.card?.name ?? ""}: ${law.you}`] : []),
-          ...law.names.map((n) => `${n.name}: ${n.what}`),
-        ].join(" · "),
+        `${law.measure} · ${law.jurisdiction}`,
       ),
     );
+    return [
+      ...coming,
+      ...took.map((law) =>
+        el(
+          "div",
+          { className: "row narrative" },
+          el("b", {
+            textContent: `${law.date} · ${policyLabel(law.series)} · ${law.was !== null ? `${amount(law.was, law.unit)} → ` : ""}${amount(law.value, law.unit)}`,
+          }),
+          [
+            `${law.jurisdiction} · ${law.reached}`,
+            ...(law.you ? [`${me.card?.name ?? ""}: ${law.you}`] : []),
+            ...law.names.map((n) => `${n.name}: ${n.what}`),
+          ].join(" · "),
+        ),
+      ),
+    ];
+  },
+  async guide() {
+    const search = el("input", {
+      type: "search",
+      value: guideQuery,
+      placeholder: "Search",
+    });
+    const list = el("div");
+    const fill = async () => {
+      guideQuery = search.value;
+      const rows = await api(
+        `/api/guide?q=${encodeURIComponent(search.value)}`,
+      );
+      list.replaceChildren(
+        ...rows.map((t) => {
+          const line = el(
+            "details",
+            { className: "row narrative", open: rows.length === 1 },
+            el("summary", {}, el("b", { textContent: t.term }), ` ${t.short}`),
+            el("p", { textContent: t.explanation }),
+          );
+          if (t.contextNote)
+            line.append(el("p", { textContent: t.contextNote }));
+          return line;
+        }),
+      );
+    };
+    search.addEventListener("input", fill);
+    await fill();
+    return [search, list];
   },
   async options() {
     const rows = [];
@@ -1262,6 +1431,8 @@ const sheets = {
       b.addEventListener("click", () => openSheet("results"));
       return b;
     })();
+    const lawHere = el("button", { type: "button", textContent: "Law here" });
+    lawHere.addEventListener("click", () => openSheet("law"));
     const changes = el("button", {
       type: "button",
       textContent: "What changed",
@@ -1273,6 +1444,7 @@ const sheets = {
     budgets.addEventListener("click", () => openSheet("budgets"));
     return [
       results,
+      lawHere,
       changes,
       budgets,
       map,
@@ -1316,7 +1488,9 @@ const titles = {
   family: "Family",
   travel: "Travel",
   options: "Options",
+  guide: "Guide",
   changes: "What changed",
+  law: "Law here",
   handoff: "Carry on as",
   map: "Map",
   news: "News",
@@ -1403,9 +1577,65 @@ $("new-life").addEventListener("click", async () => {
   try {
     const chosen = placeRows.find((row) => row.name === $("place").value);
     const settings = worldSettings();
-    const life = await post(
-      `/api/newlife?${new URLSearchParams({ seed: $("seed").value, date: $("date").value, ...(chosen ? { placeKey: chosen.key } : {}), ...(settings ? { settings: JSON.stringify(settings) } : {}) })}`,
+    // Real progress through every step, from the server's build.
+    const bar = document.querySelector("#front .progress span");
+    bar.classList.add("steady");
+    const STEPS = [
+      "people",
+      "past",
+      "economy",
+      "core",
+      "government",
+      "opening",
+    ];
+    const poll = setInterval(async () => {
+      const p = await api("/api/newlife/progress").catch(() => undefined);
+      if (!p) return;
+      const at =
+        p.stage === "done" ? STEPS.length : Math.max(STEPS.indexOf(p.stage), 0);
+      const within = p.total ? p.done / p.total : 0;
+      bar.style.width = `${Math.round(((at + within) / (STEPS.length + 1)) * 100)}%`;
+      $("front-status").textContent =
+        `${controls.loading?.[p.stage] ?? ""}${p.total ? ` ${p.done} / ${p.total}` : ""}`;
+    }, 400);
+    let life;
+    try {
+      life = await post(
+        `/api/newlife?${new URLSearchParams({ seed: $("seed").value, date: $("date").value, ...(chosen ? { placeKey: chosen.key } : {}), ...(settings ? { settings: JSON.stringify(settings) } : {}) })}`,
+      );
+    } finally {
+      clearInterval(poll);
+    }
+    // Every picture the opening shows is loaded before it plays.
+    const shots = await api(
+      `/api/opening?id=${encodeURIComponent(life.personId)}`,
     );
+    const urls = [
+      ...new Set(
+        shots.flatMap((shot) => [
+          shot.backdrop.url,
+          ...shot.people.map((person) => person.figureUrl),
+        ]),
+      ),
+    ];
+    let loaded = 0;
+    await Promise.all(
+      urls.map(
+        (src) =>
+          new Promise((resolve) => {
+            const img = new Image();
+            img.onload = img.onerror = () => {
+              loaded++;
+              bar.style.width = `${Math.round(((STEPS.length + loaded / urls.length) / (STEPS.length + 1)) * 100)}%`;
+              $("front-status").textContent =
+                `${controls.loading?.pictures ?? ""} ${loaded} / ${urls.length}`;
+              resolve();
+            };
+            img.src = src;
+          }),
+      ),
+    );
+    openingShotsReady = shots;
     me = {
       id: life.personId,
       placeName: life.placeName,
@@ -1413,8 +1643,7 @@ $("new-life").addEventListener("click", async () => {
       names: life.names,
     };
     // What was already law at the start isn't news; only what changes after.
-    seenChanges = (await api(`/api/changes?id=${encodeURIComponent(me.id)}`))
-      .length;
+    seenChanges = await changeCount();
     show("front", false);
     await playOpening();
     for (const id of ["tabs", "stack", "card"]) show(id, true);

@@ -297,6 +297,11 @@ const ALLOWED_FILES: readonly {
     reason: "Ward is a family name",
   },
   {
+    file: /^src\/core2\/gov-rules\/names-data\.ts$/,
+    words: /^ward$/i,
+    reason: "Ward is a family name in the census surname list",
+  },
+  {
     file: /^src\/simulation\/judiciary\/generated\/federal-courts\.ts$/,
     reason: "federal court division and county names",
   },
