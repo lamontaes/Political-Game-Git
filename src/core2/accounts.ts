@@ -86,6 +86,8 @@ export interface Accounts {
   addObligation(input: ObligationInput): void;
   obligation(id: string): Readonly<ObligationState> | undefined;
   endObligation(id: string): void;
+  /** v21: payments due from now on are this amount (a rent cap, a new benefit level). */
+  setObligationAmount(id: string, amountMinor: number, source: Source): void;
 }
 
 interface Runtime {
@@ -333,6 +335,14 @@ export function accountsFacade(core: CoreState, api: CoreAPI): Accounts {
       if (!row) throw new Error(`Unknown obligation: ${id}`);
       row.endedAt = core.date;
       row.nextDueAt = undefined;
+    },
+    setObligationAmount(id, amountMinor, source) {
+      const row = rt.obligations.get(id);
+      if (!row) throw new Error(`Unknown obligation: ${id}`);
+      if (!Number.isSafeInteger(amountMinor) || amountMinor < 0)
+        throw new Error("An obligation amount is a nonnegative whole amount.");
+      row.amountMinor = amountMinor;
+      row.source = { ...source };
     },
   };
 }

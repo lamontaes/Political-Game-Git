@@ -176,4 +176,26 @@ describe("accounts and postings", () => {
     expect(budget.endedAt).toBe("2026-01-20");
     expect(cash(core)).toBe(before);
   });
+
+  it("pays a changed amount from the next due date on (a rent cap)", () => {
+    const core = world(),
+      accounts = coreAPI(core).accounts();
+    accounts.addObligation({
+      id: "rent",
+      from: accounts.main("city"),
+      to: accounts.main("contractor"),
+      amountMinor: 10_000,
+      firstDueAt: "2026-01-15",
+      cadence: { kind: "months", every: 1 },
+      accruesArrears: true,
+      reasonKey: "housing.rent",
+      source: piecesSource,
+    });
+    advanceCore(core, "2026-01-31");
+    accounts.setObligationAmount("rent", 8_000, piecesSource);
+    advanceCore(core, "2026-03-31");
+    const rent = accounts.obligation("rent")!;
+    expect(rent.paidMinor).toBe(10_000 + 2 * 8_000);
+    expect(rent.amountMinor).toBe(8_000);
+  });
 });

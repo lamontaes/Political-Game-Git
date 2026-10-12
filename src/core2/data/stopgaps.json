@@ -2574,6 +2574,18 @@
     "status": "open"
   },
   {
+    "id": "SG-CORE-public-school-template",
+    "kind": "missing-record",
+    "file": "src/core2/opening-public-schools.ts",
+    "line": 60,
+    "whatItFakes": "A town whose opening has no recorded teacher job to copy (no private school) gets no public school district.",
+    "why": "The district's jobs copy a recorded teacher's job, timetable and pay; the old generator has no public school organization to staff.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "The opening's jobs builder makes teacher jobs from the occupation's OEWS pay and a school-day timetable without a template.",
+    "status": "open"
+  },
+  {
     "id": "SG-WEB-outcome-drift",
     "kind": "faked-mechanic",
     "file": "src/core2/modules/outcome-web.ts",
