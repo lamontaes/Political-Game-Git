@@ -43,7 +43,7 @@
         {
           "activity": "care of household members",
           "hoursPerPersonDay": 0.49,
-          "participationPercent": 22.0,
+          "participationPercent": 22,
           "hoursPerParticipantDay": 2.23
         },
         {
@@ -85,8 +85,8 @@
       "id": "panas-affect-score",
       "title": "PANAS observed positive and negative affect scores",
       "kind": "external empirical observable",
-      "quantity": "Separate positive-affect and negative-affect 10-item scale sums; item range 1\u20135",
-      "unit": "scale points, each subscale 10\u201350",
+      "quantity": "Separate positive-affect and negative-affect 10-item scale sums; item range 1–5",
+      "unit": "scale points, each subscale 10–50",
       "sample": {
         "population": "Mostly undergraduate validation samples in Watson, Clark, and Tellegen (1988)",
         "samples": [
@@ -124,7 +124,7 @@
         },
         {
           "recall": "general",
-          "positiveMean": 35.0,
+          "positiveMean": 35,
           "positiveSD": 6.4,
           "negativeMean": 18.1,
           "negativeSD": 5.9,
@@ -157,8 +157,8 @@
       "id": "pss10-monthly-stress",
       "title": "PSS-10 perceived stress score",
       "kind": "external empirical observable",
-      "quantity": "Ten last-month items, each 0\u20134 with four reverse-scored; sum score",
-      "unit": "scale points, 0\u201340",
+      "quantity": "Ten last-month items, each 0–4 with four reverse-scored; sum score",
+      "unit": "scale points, 0–40",
       "sample": {
         "population": "2009 U.S. survey probability sample",
         "n": 2000,
@@ -176,7 +176,7 @@
             "sd": 7.56
           },
           {
-            "group": "ages 25\u201334",
+            "group": "ages 25–34",
             "n": 433,
             "mean": 17.46,
             "sd": 7.31
@@ -260,7 +260,7 @@
       "calibrationStatus": "pending; raw repeated target data and compatible observations required.",
       "bindingStatus": "supplementary only; no current P8 parameter checkRange points here",
       "routeStatus": "not currently executable against P8 output; instrument/data adapter and output bridge are missing, so this target must not be reported as passed",
-      "requiredTestRouteAfterImplementation": "Use raw event-aligned repeated measures with timestamps and fit/hold out people; the cited paper\u2019s shape finding is not a numeric coefficient test."
+      "requiredTestRouteAfterImplementation": "Use raw event-aligned repeated measures with timestamps and fit/hold out people; the cited paper’s shape finding is not a numeric coefficient test."
     },
     {
       "id": "opening-school-peer-network",
@@ -275,7 +275,7 @@
       ],
       "status": "proposed; not source-retrieved or calibrated",
       "sourceLimitation": "NCES CCD local-institutions data supports recent identity context only. Existing school-calendar proxies and public biography timeline checks supply no empirical social-network or class-size bound.",
-      "acceptanceLimitation": "The owner often20\u201360 ordinary-circle requirement is an acceptance observation to examine, not a forced generator minimum or fabricated empirical spread."
+      "acceptanceLimitation": "The owner often20–60 ordinary-circle requirement is an acceptance observation to examine, not a forced generator minimum or fabricated empirical spread."
     },
     {
       "id": "EMPIRICAL-OPENING-EMPLOYER-CASH-BUFFER-DAYS",
@@ -570,7 +570,7 @@
         }
       ],
       "checkRange": {
-        "quantity": "Observed source-cohort 25th\u201375th percentiles, separated by industry",
+        "quantity": "Observed source-cohort 25th–75th percentiles, separated by industry",
         "unit": "cash buffer days",
         "location": "src/core2/data/opening-employer-cash-reference.json observations[].observedCounts.percentile25 / percentile75",
         "meaning": "Real empirical interquartile check range. Do not force every simulated employer inside it or use it as a survival condition; half of the source cohort is outside its interquartile range."
@@ -1709,7 +1709,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1844,7 +1844,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1876,7 +1876,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1915,7 +1915,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -1947,7 +1947,7 @@
             {
               "id": "aoc-museum",
               "title": "Alexandria Ocasio-Cortez",
-              "publisher": "National Women\u2019s History Museum",
+              "publisher": "National Women’s History Museum",
               "kind": "secondary",
               "url": "https://www.womenshistory.org/education-resources/biographies/alexandria-ocasio-cortez"
             }
@@ -2723,7 +2723,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor\u2019s Office",
+              "publisher": "Maryland Governor’s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -2755,7 +2755,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor\u2019s Office",
+              "publisher": "Maryland Governor’s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -2858,7 +2858,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor\u2019s Office",
+              "publisher": "Maryland Governor’s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -2954,7 +2954,7 @@
             {
               "id": "moore-governor",
               "title": "Governor Wes Moore",
-              "publisher": "Maryland Governor\u2019s Office",
+              "publisher": "Maryland Governor’s Office",
               "kind": "primary",
               "url": "https://governor.maryland.gov/leadership/governor-wes-moore"
             }
@@ -3204,7 +3204,7 @@
         "evaluation": "The run command writes a receipt and evaluation. Score only the 35 decision/outcome steps as model-result targets. For each such step require Evaluation step.reproduced=true, all checks matched, all ranges inside, chainBrokenBy empty, StepReceipt representation=full, and engine-origin observations with nonempty canonical recordIds. Nine event steps are sourced external inputs through ReplayCore.event; they are not predictive passes. Preserve their external provenance, and leave dependent results unmeasured if the evaluator cannot verify continuity through a source-backed event record. A forced selection, initialized fact, stored row without behavior, missing record, or placeholder cannot pass as a model outcome.",
         "routeStatus": "The CLI/evaluator is executable, but no P8 module currently exports the required createReplayCore adapter. Running against the existing old-core adapter does not validate the new P8 engine. Until a real P8 adapter and mechanisms exist, result is blocked/unmeasured; do not convert missing output to success.",
         "parameterInterpretation": "This suite is a joint end-to-end output target for the referenced in-use life parameters. It does not independently identify any single coefficient, supply a numeric range, or establish population realism. An outcome match is a replay check only.",
-        "eventInputRule": "The P9 runner submits each sourced event via ReplayCore.event. Never rewrite an input event as an engine-predicted outcome. For a requires chain to pass, the event must be represented through the contract\u2019s actual source record path; if the current evaluator cannot verify it without relabeling the source, the dependent P9 outcome remains blocked/unmeasured.",
+        "eventInputRule": "The P9 runner submits each sourced event via ReplayCore.event. Never rewrite an input event as an engine-predicted outcome. For a requires chain to pass, the event must be represented through the contract’s actual source record path; if the current evaluator cannot verify it without relabeling the source, the dependent P9 outcome remains blocked/unmeasured.",
         "implementationStatus": "blocked; P8 ReplayCore adapter and model outcome mechanisms are not implemented"
       },
       "adapterGaps": [
@@ -3807,12 +3807,12 @@
       "parameterApplicability": {
         "deepPastMiddleSchoolOffsetYears": {
           "status": "candidate end-to-end chronology check only",
-          "testableQuestion": "Does the independently generated middle-school cohort record occur before the subject\u2019s later sourced education milestones and retain attendance=cohort-estimate and qualification=not-inferred?",
+          "testableQuestion": "Does the independently generated middle-school cohort record occur before the subject’s later sourced education milestones and retain attendance=cohort-estimate and qualification=not-inferred?",
           "coefficientCalibration": "not identified by these outcomes; cohorts and diploma completion are different observables."
         },
         "deepPastHighSchoolOffsetYears": {
           "status": "candidate end-to-end chronology check only",
-          "testableQuestion": "Does the independently generated high-school cohort record occur before the subject\u2019s later sourced high-school/degree milestone, while remaining explicitly an estimate rather than personal attendance?",
+          "testableQuestion": "Does the independently generated high-school cohort record occur before the subject’s later sourced high-school/degree milestone, while remaining explicitly an estimate rather than personal attendance?",
           "coefficientCalibration": "not identified by these outcomes; the P8 cohort offset is not the P9 credential date."
         },
         "openingPeerGroupSize": {
@@ -3899,7 +3899,7 @@
       "parameterApplicability": {
         "marriageReferenceAge": {
           "status": "not-applicable-to-current-generator-output",
-          "testableQuestion": "The cited 1934 marriage is a real individual outcome. Current marriageReferenceAge only backdates synthetic population couple households from adult ages; it does not generate LBJ\u2019s partnership history or the individual marriage decision.",
+          "testableQuestion": "The cited 1934 marriage is a real individual outcome. Current marriageReferenceAge only backdates synthetic population couple households from adult ages; it does not generate LBJ’s partnership history or the individual marriage decision.",
           "coefficientCalibration": "not valid; do not construct a synthetic town around a named LifeFile subject."
         }
       },
@@ -3928,7 +3928,7 @@
         "selection": "purposive sourced public biographies; not a representative sample"
       },
       "title": "Source-linked prior education-finance timeline",
-      "quantity": "LBJ\u2019s 1927 college-enrollment loan range and subsequent Cotulla teaching employment recorded as funding college.",
+      "quantity": "LBJ’s 1927 college-enrollment loan range and subsequent Cotulla teaching employment recorded as funding college.",
       "units": "P9 dated categorical checks and any sourced ranges retained from each original LifeFile step; no coefficient units or numerical bounds are inferred.",
       "observations": [
         {
@@ -6417,7 +6417,7 @@
           },
           "sourceFile": "data/research/money/opening-customer-cex-2024.json",
           "sourceRefs": ["bls-cex-region-2024"],
-          "observedValue": 978.0,
+          "observedValue": 978,
           "rawPublishedValue": "978.0",
           "uncertainty": "Published aggregate mean and sampling error are not individual dispersion or an identified allocation/cadence coefficient interval."
         }
@@ -6724,7 +6724,7 @@
         }
       ],
       "checkRange": {
-        "quantity": "Observed source-cohort 25th\u201375th percentiles, separated by industry",
+        "quantity": "Observed source-cohort 25th–75th percentiles, separated by industry",
         "unit": "cash buffer days",
         "location": "src/core2/data/opening-employer-cash-reference.json observations[].observedCounts.percentile25 / percentile75",
         "meaning": "Real empirical interquartile check range. Do not force every simulated employer inside it or use it as a survival condition; half of the source cohort is outside its interquartile range."
@@ -6887,7 +6887,7 @@
           "quantity": "financial-activities reported frequency weights",
           "unit": "percent of single-pay-period private businesses",
           "observedCounts": {
-            "weekly": 18.0,
+            "weekly": 18,
             "biweekly": 33.9,
             "semimonthly": 30.5,
             "monthly": 17.6
@@ -6907,8 +6907,8 @@
           "unit": "percent of single-pay-period private businesses",
           "observedCounts": {
             "weekly": 20.4,
-            "biweekly": 36.0,
-            "semimonthly": 28.0,
+            "biweekly": 36,
+            "semimonthly": 28,
             "monthly": 15.6
           },
           "dateWindow": {
@@ -6946,7 +6946,7 @@
           "observedCounts": {
             "weekly": 28.9,
             "biweekly": 46.2,
-            "semimonthly": 17.0,
+            "semimonthly": 17,
             "monthly": 7.9
           },
           "dateWindow": {
@@ -6966,7 +6966,7 @@
             "weekly": 42.5,
             "biweekly": 28.4,
             "semimonthly": 17.1,
-            "monthly": 12.0
+            "monthly": 12
           },
           "dateWindow": {
             "earliest": "2013-03-01",
@@ -6992,7 +6992,7 @@
             "precision": "published exact calendar dates"
           },
           "sourceRefs": ["santa-barbara-2021-pay-calendar"],
-          "sourceLocation": "PDFlines1,55\u201365; issuedNovember2020",
+          "sourceLocation": "PDFlines1,55–65; issuedNovember2020",
           "periodStartsAt": "2020-12-14",
           "periodThroughAt": "2020-12-27",
           "paydayAt": "2021-01-07",
@@ -7012,7 +7012,7 @@
             "precision": "published final paycheck dates"
           },
           "sourceRefs": ["american-university-2020-payroll"],
-          "sourceLocation": "MemorandumDecember11,2020, lines118\u2013130",
+          "sourceLocation": "MemorandumDecember11,2020, lines118–130",
           "limit": "Option existence is not1:1 prevalence or national education weighting.",
           "sourceFile": "src/core2/data/opening-payroll-frequency-reference.json"
         }
