@@ -235,6 +235,8 @@ export function availableActs(
 ): readonly ActOffer[] {
   const actor = core.people.get(personId);
   if (!actor?.alive) return [];
+  if (actor.discretionaryEligibleV1 === false) return [];
+  if (core.data.discretionaryIneligibleTiersV1?.includes(actor.tier)) return [];
   const api = coreAPI(core);
   const offers: ActOffer[] = [];
   for (const definition of core.data.actions) {

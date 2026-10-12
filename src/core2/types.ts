@@ -102,6 +102,8 @@ export interface PersonInput {
   countyId?: PlaceId;
   householdId: string;
   tier: Tier;
+  /** v13: an explicit developmental capability, independent of observation/cadence. */
+  discretionaryEligibleV1?: boolean;
   traits: Readonly<Record<string, number>>;
   traitSources?: Readonly<Record<string, Source>>;
   /** One complete generated upbringing Source shared by the person's recorded traits. */
@@ -866,6 +868,8 @@ export interface CoreData {
   needs: readonly NeedDefinition[];
   actions: readonly ActionDefinition[];
   tiers: readonly TierDefinition[];
+  /** v12: capability exclusions before discretionary offer providers, including focused actors. */
+  discretionaryIneligibleTiersV1?: readonly string[];
   actKinds: readonly string[];
   traitPulls: Readonly<
     Record<
@@ -1128,6 +1132,16 @@ export interface CoreAPI {
     >,
   ): void;
   addOrganization(input: OrganizationInput): void;
+  /** v11: zero-stock newborn admission through the canonical person writer. */
+  addBornPersonV1(
+    input: PersonInput,
+    parents: readonly [PersonId, PersonId],
+    relations: readonly {
+      otherId: PersonId;
+      relation: string;
+      inverse: string;
+    }[],
+  ): PersonState;
   lookupPublicOrganization(personId: PersonId, organizationId: string): void;
   updateNeeds(
     personId: PersonId,

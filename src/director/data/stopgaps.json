@@ -202,5 +202,17 @@
     "addedAt": "2026-10-12",
     "replacement": "Narration composed from the mined corpus, refined by the owner's grades (M4-03).",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-filing-visit-banks",
+    "kind": "hand-written-bank",
+    "file": "src/director/data/filing-visit.json",
+    "line": 1,
+    "whatItFakes": "The filing clerk's line templates, written by hand instead of composed from mined real speech.",
+    "why": "Step 3 needs the clerk's words now; each template copies only GOV's filing records.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Clerk lines composed from mined public-counter speech and refined by the owner's grades (M4-02).",
+    "status": "open"
   }
 ]
