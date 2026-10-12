@@ -1,3 +1,4 @@
+import { personOrFillIn } from "../core2/state";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
@@ -223,7 +224,8 @@ const server = createServer(async (request, response) => {
     if (request.method === "GET" && url.pathname === "/api/scene") {
       const current = requireCore();
       const id = url.searchParams.get("id") ?? "";
-      if (!current.people.has(id))
+      // Someone still in the counts is filled in the moment they're looked at.
+      if (!personOrFillIn(current, id))
         throw new Error("Resident does not exist in core records.");
       send(
         200,
@@ -238,7 +240,7 @@ const server = createServer(async (request, response) => {
     if (request.method === "POST" && url.pathname === "/api/talk/open") {
       if (!player?.personId) throw new Error("Choose a resident first.");
       const otherId = url.searchParams.get("otherId") ?? "";
-      if (!requireCore().people.get(otherId)?.alive)
+      if (!personOrFillIn(requireCore(), otherId)?.alive)
         throw new Error("Talk to a living resident.");
       conversation = openConversation(requireCore(), player.personId, otherId);
       send(200, talkView(conversation));
@@ -501,7 +503,8 @@ const server = createServer(async (request, response) => {
         knownCard(
           requireCore(),
           url.searchParams.get("id") ?? "",
-          url.searchParams.get("other") ?? "",
+          personOrFillIn(requireCore(), url.searchParams.get("other") ?? "")
+            ?.id ?? "",
         ),
       );
       return;
@@ -580,7 +583,9 @@ const server = createServer(async (request, response) => {
     }
     if (request.method === "POST" && url.pathname === "/api/play") {
       if (!player) throw new Error("Generate a town first.");
-      player.select(url.searchParams.get("id") ?? "");
+      const id = url.searchParams.get("id") ?? "";
+      personOrFillIn(requireCore(), id);
+      player.select(id);
       if (conversation?.playerId !== player.personId) conversation = undefined;
       send(200, {
         personId: player.personId,
@@ -640,7 +645,7 @@ const server = createServer(async (request, response) => {
     if (request.method === "GET" && url.pathname === "/api/resident") {
       const current = requireCore();
       const id = url.searchParams.get("id") ?? "";
-      const person = current.people.get(id);
+      const person = personOrFillIn(current, id);
       if (!person) throw new Error("Resident does not exist in core records.");
       send(200, {
         playing: player?.personId === id,
