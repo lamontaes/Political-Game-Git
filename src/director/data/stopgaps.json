@@ -214,5 +214,17 @@
     "addedAt": "2026-10-12",
     "replacement": "Clerk lines composed from mined public-counter speech and refined by the owner's grades (M4-02).",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-bring-it-up-banks",
+    "kind": "hand-written-bank",
+    "file": "src/director/data/bring-it-up.json",
+    "line": 1,
+    "whatItFakes": "The templates people use to bring up a change and say who caused it, and the one trait that sends blame toward authority.",
+    "why": "M4-05's first version needs words and a blame lean now; each template copies only what the speaker heard.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Lines composed from mined speech; blame leaning on views, trust and the person's own experience of each official (M4-05).",
+    "status": "open"
   }
 ]
