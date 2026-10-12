@@ -15,6 +15,7 @@ Branch `opus-play` (draft PR #4002). Open a Codespace, run `npm run bench`, and 
 
 **What you can do tonight**
 
+- **Known problem tonight:** in some towns, a skip stops with an error a day or two in, once your character forms a drive (Squaw Lake, Minnesota is one). OPUS-PEOPLE has the fix (see Needs). If it happens, press **New life** for another town.
 - In `/play` the town is full size (the whole place, about 10,000 people), with only your circle and the officials followed one by one. Building it takes about a minute. The developer bench at `/` still has a town-size field.
 - Click anyone to see their record, household, job, relationships, money and story moments. Viewing changes nothing.
 - Press **Play this resident** to take someone over. Move time by Day, Week or a calendar date, and pick from the choices the game offers.
