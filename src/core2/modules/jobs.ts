@@ -694,6 +694,7 @@ function reviewWorkers(api: CoreAPI): void {
   reviewJobless(api);
   reviewCountedRetirements(api);
   reviewCountedLooking(api);
+  reviewCountedEntry(api);
   raisePay(api);
 }
 
@@ -1069,6 +1070,70 @@ function reviewCountedRetirements(api: CoreAPI): void {
 }
 
 /** Counted workers weigh looking around by their pay against the going rate and their traits (stopgap). */
+/**
+ * Counted adults out of work and not looking start looking: young people as
+ * they leave school (the pull rises from 18 to 25), and a few others coming
+ * back to work. By summed pulls, as the other counted choices.
+ */
+function reviewCountedEntry(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key),
+    rt = residentsRuntime(c);
+  if (!rt) return;
+  const [young] = jobsData.workingAge as [number, number];
+  const working = new Set<string>();
+  for (const [jobId, flow] of rt.wageFlowByJob) {
+    const job = rt.jobs.get(jobId);
+    if (job && !job.endsAt && !flow.endedAt) working.add(job.personId);
+  }
+  const seekers = store(api).table("countedSeekers");
+  const youthSpan = p("jobsCountedEntryYouthYears");
+  const rows: { id: string; placeId: string; score: number }[] = [];
+  for (const row of rt.households.values())
+    for (const personId of row.household.memberIds) {
+      if (working.has(personId) || seekers.get(personId)) continue;
+      const person = residentPerson(c, personId);
+      if (!person) continue;
+      const age =
+        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+        p("jobsDaysPerYear");
+      if (age < young || age >= p("jobsEarliestRetirementAge")) continue;
+      // Youth pulls hardest as school ends, rising over the first years after 18.
+      const youth = Math.max(0, Math.min(age - young, youthSpan)) / youthSpan;
+      rows.push({
+        id: personId,
+        placeId: person.placeId,
+        score:
+          p("jobsCountedEntryBaseline") +
+          p("jobsCountedEntryYouthWeight") *
+            (age - young < youthSpan ? youth : 0),
+      });
+    }
+  // Out of work and looking, some stop looking each month (to school, family or retirement).
+  const leaving: { id: string; score: number }[] = [];
+  for (const row of seekers.query("all", [true]) as unknown as SeekerRow[])
+    if (!row.employed)
+      leaving.push({
+        id: row.personId,
+        score: p("jobsCountedStopLookingBaseline"),
+      });
+  for (const row of strongestPulls(api, "counted-stop-looking", leaving)) {
+    seekers.remove(row.id);
+    endClaim(api, store(api).table("claims"), row.id);
+  }
+  for (const row of strongestPulls(api, "counted-enter", rows))
+    seekers.put({
+      id: row.id,
+      isSeeker: true,
+      personId: row.id,
+      placeId: row.placeId,
+      employed: false,
+      since: c.date,
+      reasonKey: jobsData.reasons.startedLooking,
+      referenceHourlyMinor: 0,
+    });
+}
+
 function reviewCountedLooking(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),

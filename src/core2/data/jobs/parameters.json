@@ -263,5 +263,43 @@
       "unit": "cents",
       "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law)."
     }
+  },
+  "jobsCountedEntryBaseline": {
+    "value": -7,
+    "tag": "TUNABLE",
+    "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow.",
+    "spread": {
+      "low": -8,
+      "high": -5.5,
+      "unit": "logit of a month's pull to start looking",
+      "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow."
+    }
+  },
+  "jobsCountedEntryYouthWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow.",
+    "spread": {
+      "low": 2.5,
+      "high": 5,
+      "unit": "added at the peak of school-leaving years",
+      "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow."
+    }
+  },
+  "jobsCountedEntryYouthYears": {
+    "value": 7,
+    "tag": "SOURCED",
+    "citation": "Ages 18 to 25: the BLS CPS school-leaving years (16-24 enrollment and July youth labor force tables)."
+  },
+  "jobsCountedStopLookingBaseline": {
+    "value": -1.4,
+    "tag": "TUNABLE",
+    "citation": "BLS CPS labor force status flows, 2010-2019: about a fifth of the unemployed are out of the labor force the next month (unemployed to not in labor force, LNS17900000 over unemployment).",
+    "spread": {
+      "low": -2,
+      "high": -0.9,
+      "unit": "logit of a month's pull to stop looking",
+      "citation": "BLS CPS labor force status flows, 2010-2019: about a fifth of the unemployed are out of the labor force the next month (unemployed to not in labor force, LNS17900000 over unemployment)."
+    }
   }
 }
