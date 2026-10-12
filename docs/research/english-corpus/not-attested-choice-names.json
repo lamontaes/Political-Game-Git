@@ -23,6 +23,7 @@
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
     "crec": 445,
+    "dcpd": 3000,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -49,12 +50,6 @@
     "wpa": 38
   },
   "notAttested": [
-    {
-      "move": "work-shift",
-      "text": "Go to work.",
-      "documents": 0,
-      "modern": 0
-    },
     {
       "move": "work-shift",
       "text": "Go to work at {employer}.",
@@ -144,12 +139,6 @@
       "text": "Stop by and see {name}.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "care-for-relative",
-      "text": "Take care of {relation}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "care-for-relative",
@@ -375,15 +364,9 @@
     },
     {
       "move": "take-up-cause",
-      "text": "Get involved.",
+      "text": "Speak out.",
       "documents": 1,
       "modern": 1
-    },
-    {
-      "move": "take-up-cause",
-      "text": "Speak out.",
-      "documents": 0,
-      "modern": 0
     },
     {
       "move": "take-up-cause",
@@ -424,8 +407,8 @@
     {
       "move": "guard-family",
       "text": "Take care of your family.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "guard-family",
@@ -454,8 +437,8 @@
     {
       "move": "prove-oneself",
       "text": "Show them.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "prove-oneself",
@@ -526,8 +509,8 @@
     {
       "move": "answer-calling",
       "text": "Volunteer.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "answer-calling",
@@ -543,19 +526,7 @@
     },
     {
       "move": "carry-on",
-      "text": "Move on.",
-      "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "carry-on",
       "text": "Get on with your life.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "carry-on",
-      "text": "Stay the course.",
       "documents": 0,
       "modern": 0
     },
@@ -594,12 +565,6 @@
       "text": "Tell your friends.",
       "documents": 1,
       "modern": 1
-    },
-    {
-      "move": "share-cause",
-      "text": "Spread the word.",
-      "documents": 0,
-      "modern": 0
     },
     {
       "move": "share-cause",
@@ -652,8 +617,8 @@
     {
       "move": "join-cause-group",
       "text": "Join them.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "donate-to-cause",
@@ -676,8 +641,8 @@
     {
       "move": "donate-to-cause",
       "text": "Donate.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "donate-to-cause",
@@ -706,8 +671,8 @@
     {
       "move": "volunteer-for-cause",
       "text": "Volunteer.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "volunteer-for-cause",
@@ -866,12 +831,6 @@
       "modern": 0
     },
     {
-      "move": "run-for-office",
-      "text": "Run.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
       "move": "lobby-legislator",
       "text": "Lobby {name}.",
       "documents": 0,
@@ -886,8 +845,8 @@
     {
       "move": "lobby-legislator",
       "text": "Meet with {name}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "lobby-legislator",
@@ -940,14 +899,8 @@
     {
       "move": "stance-answer",
       "text": "I'm against it.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "stance-answer",
-      "text": "I haven't decided.",
       "documents": 1,
-      "modern": 0
+      "modern": 1
     },
     {
       "move": "stance-answer",
@@ -958,8 +911,8 @@
     {
       "move": "stance-answer",
       "text": "I'm in favor of it.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "stance-answer",

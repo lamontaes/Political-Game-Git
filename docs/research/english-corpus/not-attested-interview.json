@@ -23,6 +23,7 @@
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
     "crec": 445,
+    "dcpd": 3000,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -94,8 +95,8 @@
     {
       "move": "reporter-issue",
       "text": "What would you do about {issue}?",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "reporter-issue",
@@ -201,12 +202,6 @@
     },
     {
       "move": "reporter-opponent",
-      "text": "What's your response?",
-      "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "reporter-opponent",
       "text": "How do you respond?",
       "documents": 1,
       "modern": 1
@@ -260,12 +255,6 @@
       "modern": 1
     },
     {
-      "move": "reporter-press",
-      "text": "Can I follow up on that?",
-      "documents": 1,
-      "modern": 1
-    },
-    {
       "move": "official-commit",
       "text": "I'll fight for it.",
       "documents": 0,
@@ -280,12 +269,6 @@
     {
       "move": "official-commit",
       "text": "That's my commitment.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-commit",
-      "text": "That's a promise.",
       "documents": 0,
       "modern": 0
     },
@@ -375,12 +358,6 @@
     },
     {
       "move": "official-deflect",
-      "text": "I'm focused on {issue}.",
-      "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "official-deflect",
       "text": "I'm focused on the job.",
       "documents": 0,
       "modern": 0
@@ -394,8 +371,8 @@
     {
       "move": "official-deflect",
       "text": "It's too early to say.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "official-deflect",
@@ -406,14 +383,14 @@
     {
       "move": "official-deflect",
       "text": "I haven't made a decision.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "official-deflect",
       "text": "I haven't made that decision yet.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "official-deflect",
@@ -432,12 +409,6 @@
       "text": "The voters will decide.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "official-story",
-      "text": "I know what it's like.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "official-story",
@@ -474,18 +445,6 @@
       "text": "My opponent is wrong.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "official-opponent",
-      "text": "That's simply not true.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "official-opponent",
-      "text": "That's false.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "official-opponent",

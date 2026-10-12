@@ -1,6 +1,6 @@
 {
   "register": "address",
-  "description": "Public address in the register cards' moves: the House and Senate floor, a state floor, committee hearings, public comment at a council or board, the chair running a meeting, and campaign remarks, victory and concession. Every part is a whole sentence said in public-domain federal records (the Congressional Record, hearings, EAC and FEC meetings), with record words as slots. Campaign sources (rallies, ads) give patterns only; their wording ships only when a federal record also says it. A sentence that claims something about the speaker's life or the place names the record fact it needs (requiresFacts); the engine says it only when that fact is in the record.",
+  "description": "Public address in the register cards' moves: the House and Senate floor, a state floor, committee hearings, public comment at a council or board, the chair running a meeting, and campaign remarks, victory and concession. Every part is a whole sentence said in public-domain federal records (the Congressional Record, hearings, EAC and FEC meetings), with record words as slots. Campaign sources (rallies, ads) give patterns only; their wording ships only when a federal record also says it. A sentence that claims something about the speaker's life or the place names the record fact it needs (requiresFacts); the engine says it only when that fact is in the record. A real politician's campaign slogan never ships, even when public domain.",
   "slots": {
     "name": "A person's name from the records (the honoree, the speaker, a member).",
     "bill": "A measure on the floor, as its record names it.",
@@ -846,10 +846,6 @@
           "requiresFacts": ["economy-growing"]
         },
         {
-          "text": "America is back.",
-          "requiresFacts": ["new-administration"]
-        },
-        {
           "text": "Jobs are up.",
           "requiresFacts": ["jobs-up"]
         },
@@ -957,7 +953,6 @@
           "text": "We will rebuild.",
           "requiresFacts": ["rebuilding"]
         },
-        "We will make America {state} again.",
         "We are all Americans."
       ]
     },

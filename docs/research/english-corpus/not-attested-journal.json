@@ -23,6 +23,7 @@
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
     "crec": 445,
+    "dcpd": 3000,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -442,8 +443,8 @@
     {
       "move": "health-other-ill",
       "text": "{relation} was very sick.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "health-other-ill",
@@ -483,12 +484,6 @@
     },
     {
       "move": "office-line-filed",
-      "text": "I ran for office.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "office-line-filed",
       "text": "I decided to run.",
       "documents": 1,
       "modern": 1
@@ -522,18 +517,6 @@
       "text": "{other} decided to run.",
       "documents": 1,
       "modern": 0
-    },
-    {
-      "move": "office-line-won",
-      "text": "I won the election.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "office-line-won",
-      "text": "I got elected.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "office-line-lost",

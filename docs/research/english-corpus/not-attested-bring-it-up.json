@@ -23,6 +23,7 @@
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
     "crec": 445,
+    "dcpd": 3000,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -154,14 +155,8 @@
     {
       "move": "blame-record-record",
       "text": "It's {whose} fault.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "blame-record-record",
-      "text": "That's on {who}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "blame-record-record",
@@ -195,15 +190,9 @@
     },
     {
       "move": "blame-record-record",
-      "text": "{who} is responsible.",
+      "text": "{who} is to blame.",
       "documents": 1,
       "modern": 1
-    },
-    {
-      "move": "blame-record-record",
-      "text": "{who} is to blame.",
-      "documents": 0,
-      "modern": 0
     },
     {
       "move": "blame-told-told",
@@ -232,8 +221,8 @@
     {
       "move": "blame-told-told",
       "text": "I was told it was {who}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "blame-told-told",
@@ -369,18 +358,6 @@
     },
     {
       "move": "blame-unknown-unknown",
-      "text": "I don't know who did it.",
-      "documents": 3,
-      "modern": 0
-    },
-    {
-      "move": "blame-unknown-unknown",
-      "text": "Nobody knows why.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "blame-unknown-unknown",
       "text": "Nobody knows what happened.",
       "documents": 0,
       "modern": 0
@@ -413,12 +390,6 @@
       "move": "blame-hearer-react",
       "text": "I heard that too.",
       "documents": 1,
-      "modern": 0
-    },
-    {
-      "move": "blame-hearer-react",
-      "text": "That's what I heard.",
-      "documents": 5,
       "modern": 0
     },
     {

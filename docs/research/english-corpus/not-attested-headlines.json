@@ -23,6 +23,7 @@
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
     "crec": 445,
+    "dcpd": 3000,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -150,12 +151,6 @@
       "text": "{money} Grant Awarded to {place}",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "grant",
-      "text": "{money} for {purpose} in {place}",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "grant",

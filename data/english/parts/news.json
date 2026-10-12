@@ -49,6 +49,7 @@
       "USAGov (usa.gov), U.S. General Services Administration": 16,
       "blm": 817,
       "crec": 445,
+      "dcpd": 3000,
       "doi": 674,
       "doj": 1621,
       "dol-osha": 501,
@@ -147,9 +148,10 @@
           "choice": "lede"
         }
       ],
-      "transcriptsUsing": 29,
+      "transcriptsUsing": 36,
       "bySource": {
         "crec": 15,
+        "dcpd": 7,
         "doj": 1,
         "hearings": 3,
         "nps": 1,
@@ -157,10 +159,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "NOMINATIONS OF EDWARD FORST, CHARLES ARRINGTON, JOHN CUONG TRUONG, ELANA S. SUTTENBERG, STEPHEN F. RICKARD, WILLIAM KIRK, HON. ANTHONY D'ESPOSITO, AND PLATTE MORING",
-        "date": "2025-10-23",
-        "granule": "CHRG-119shrg62164",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62164/html/CHRG-119shrg62164.htm",
+        "document": "Remarks Honoring the 2025 World Series Champion Los Angeles Dodgers",
+        "date": "2026-07-23",
+        "granule": "DCPD-202600487",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202600487/html/DCPD-202600487.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },
@@ -177,7 +179,7 @@
           "choice": "lede"
         }
       ],
-      "transcriptsUsing": 52,
+      "transcriptsUsing": 55,
       "bySource": {
         "National Archives History Office oral history project": 1,
         "National Archives History Office oral history project (brooks-oral-histories)": 1,
@@ -187,6 +189,7 @@
         "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
         "U.S. Senate Historical Office oral history": 9,
         "crec": 6,
+        "dcpd": 3,
         "hearings": 2,
         "house": 4,
         "nasa": 3,
@@ -198,10 +201,10 @@
       },
       "shippable": true,
       "source": {
-        "document": "EXAMINING THE FEDERAL AVIATION ADMINISTRATION'S OVERSIGHT OF AIRCRAFT CERTIFICATION",
-        "date": "2020-06-17",
-        "granule": "CHRG-116shrg52680",
-        "url": "https://www.govinfo.gov/content/pkg/CHRG-116shrg52680/html/CHRG-116shrg52680.htm",
+        "document": "Commencement Address at the University of Alabama in Tuscaloosa, Alabama",
+        "date": "2025-05-01",
+        "granule": "DCPD-202500550",
+        "url": "https://www.govinfo.gov/content/pkg/DCPD-202500550/html/DCPD-202500550.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     },

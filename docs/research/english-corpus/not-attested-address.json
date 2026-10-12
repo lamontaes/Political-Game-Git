@@ -23,6 +23,7 @@
     "USAGov (usa.gov), U.S. General Services Administration": 16,
     "blm": 817,
     "crec": 445,
+    "dcpd": 3000,
     "doi": 674,
     "doj": 1621,
     "dol-osha": 501,
@@ -114,12 +115,6 @@
       "text": "I ask my colleagues to join me in honoring {name}.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "house-floor-tribute-close",
-      "text": "Please join me in congratulating {name}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "house-floor-tribute-close",
@@ -336,12 +331,6 @@
       "text": "I'm here to speak about {issue}.",
       "documents": 0,
       "modern": 0
-    },
-    {
-      "move": "public-comment-name",
-      "text": "I'm here today to talk about {issue}.",
-      "documents": 1,
-      "modern": 1
     },
     {
       "move": "public-comment-name",
@@ -650,30 +639,6 @@
       "modern": 0
     },
     {
-      "move": "campaign-thanks",
-      "text": "It's great to be back in {place}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-thanks",
-      "text": "It's good to be home.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-thanks",
-      "text": "It's great to be home.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-thanks",
-      "text": "It's good to be back in {place}.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
       "move": "campaign-self",
       "text": "My name is {name}, and I'm running for {office}.",
       "documents": 0,
@@ -718,24 +683,6 @@
     {
       "move": "campaign-self",
       "text": "I'm a teacher.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-self",
-      "text": "I'm a veteran.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "campaign-self",
-      "text": "I'm a mother.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "campaign-self",
-      "text": "I'm a father.",
       "documents": 1,
       "modern": 1
     },
@@ -772,8 +719,8 @@
     {
       "move": "campaign-self",
       "text": "I know what it's like to {hardship}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "campaign-self",
@@ -832,14 +779,8 @@
     {
       "move": "campaign-issue",
       "text": "Taxes are too high.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-issue",
-      "text": "Prices are too high.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "campaign-issue",
@@ -862,12 +803,6 @@
     {
       "move": "campaign-issue",
       "text": "Working families are struggling.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-issue",
-      "text": "This election is about {issue}.",
       "documents": 0,
       "modern": 0
     },
@@ -898,8 +833,8 @@
     {
       "move": "campaign-contrast",
       "text": "My opponent wants to {goal}.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "campaign-contrast",
@@ -952,18 +887,6 @@
     {
       "move": "campaign-ask",
       "text": "Please vote.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-ask",
-      "text": "Go vote.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "campaign-ask",
-      "text": "Get out and vote.",
       "documents": 0,
       "modern": 0
     },
@@ -1022,24 +945,6 @@
       "modern": 0
     },
     {
-      "move": "campaign-close",
-      "text": "Thank you, and God bless.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "campaign-close",
-      "text": "Thank you, and God bless you.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "campaign-close",
-      "text": "God bless you, and God bless America.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
       "move": "victory-claim",
       "text": "Tonight, we won.",
       "documents": 0,
@@ -1066,8 +971,8 @@
     {
       "move": "victory-claim",
       "text": "This is your victory.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "victory-claim",
@@ -1089,12 +994,6 @@
     },
     {
       "move": "victory-claim",
-      "text": "I'm grateful.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "victory-claim",
       "text": "I'm deeply grateful.",
       "documents": 0,
       "modern": 0
@@ -1102,8 +1001,8 @@
     {
       "move": "victory-claim",
       "text": "Now the work begins.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "victory-claim",
@@ -1197,12 +1096,6 @@
     },
     {
       "move": "concession-concede",
-      "text": "We didn't win.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "concession-concede",
       "text": "I'm proud of the campaign we ran.",
       "documents": 0,
       "modern": 0
@@ -1275,21 +1168,9 @@
     },
     {
       "move": "state-of-the-union-report",
-      "text": "Our economy is strong.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "state-of-the-union-report",
-      "text": "Jobs are up.",
+      "text": "Unemployment is at a record low.",
       "documents": 1,
       "modern": 1
-    },
-    {
-      "move": "state-of-the-union-report",
-      "text": "Unemployment is at a record low.",
-      "documents": 0,
-      "modern": 0
     },
     {
       "move": "state-of-the-union-report",
@@ -1305,25 +1186,13 @@
     },
     {
       "move": "state-of-the-union-guest",
-      "text": "{name} is here tonight.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "state-of-the-union-guest",
       "text": "{name} is with us tonight.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "state-of-the-union-guest",
       "text": "{name} is here with us tonight.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "state-of-the-union-guest",
-      "text": "{name}, please stand.",
       "documents": 1,
       "modern": 1
     },
@@ -1336,12 +1205,6 @@
     {
       "move": "state-of-the-union-guest",
       "text": "{name} joins us tonight.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "state-of-the-union-guest",
-      "text": "Please welcome {name}.",
       "documents": 0,
       "modern": 0
     },
@@ -1364,50 +1227,8 @@
       "modern": 0
     },
     {
-      "move": "state-of-the-union-ask",
-      "text": "Pass it.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "state-of-the-union-ask",
-      "text": "Let's finish the job.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "state-of-the-union-close",
-      "text": "God bless you, and may God protect our troops.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "state-of-the-union-close",
-      "text": "God bless you all, and may God protect our troops.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "state-of-the-union-close",
-      "text": "God bless you, and God bless the United States of America.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "state-of-the-union-close",
-      "text": "Thank you, and God bless America.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
       "move": "inaugural-salutation",
       "text": "Chief Justice {name}, Vice President {name}, my fellow citizens.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "inaugural-salutation",
-      "text": "My fellow citizens.",
       "documents": 0,
       "modern": 0
     },
@@ -1426,8 +1247,8 @@
     {
       "move": "inaugural-moment",
       "text": "This is democracy's day.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "inaugural-moment",
@@ -1438,36 +1259,6 @@
     {
       "move": "inaugural-moment",
       "text": "We are one nation.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "inaugural-moment",
-      "text": "The future is ours.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "inaugural-moment",
-      "text": "We will make America {state} again.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "inaugural-close",
-      "text": "God bless you, and God bless America.",
-      "documents": 1,
-      "modern": 1
-    },
-    {
-      "move": "inaugural-close",
-      "text": "Thank you, God bless you, and God bless America.",
-      "documents": 0,
-      "modern": 0
-    },
-    {
-      "move": "inaugural-close",
-      "text": "Thank you, and God bless you.",
       "documents": 1,
       "modern": 1
     }
