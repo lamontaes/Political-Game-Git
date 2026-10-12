@@ -476,9 +476,19 @@ function reviewEmployers(api: CoreAPI): void {
     // Hiring leans on the cash in reach of a few months of payroll; a gap below staff needs no cash to act on.
     const reach =
       cash / (cash + p("jobsCashCoverMonths") * monthlyPayroll || 1);
+    // At or above target, a business no longer needs its open positions: it withdraws them.
+    if (target <= jobs.length)
+      while (positions.length) {
+        const position = positions.pop()!;
+        store(api)
+          .table("positions")
+          .put({ ...position, status: "withdrawn" });
+      }
     const gap = target - jobs.length - positions.length;
+    // Replacements for leavers count only while staff is below target; above it, attrition does the shrinking.
     let need =
-      row.need + p("jobsStaffGapActedPerMonth") * (gap > 0 ? gap * reach : gap);
+      (gap > 0 ? row.need : Math.min(row.need, 0)) +
+      p("jobsStaffGapActedPerMonth") * (gap > 0 ? gap * reach : gap);
     // A new business's first roles come from its template business.
     const from =
       jobs.length || !row.templateFromId ? row.id : row.templateFromId;
