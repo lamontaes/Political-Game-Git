@@ -19,6 +19,8 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, PersonState } from "../types";
 import type { ModuleRow } from "../module-data";
 import { campaignParameter, personLean, personStance } from "../campaign-views";
+import { parameter } from "../parameters";
+import { decisionLean } from "../trait-decisions";
 import { lawChain } from "./laws";
 import {
   LEGISLATURE_MODULE_ID,
@@ -286,7 +288,20 @@ export function staffDecision(
   )[0];
   if (!staffer) return null;
   const q = workQuality(api, staffer, null);
-  const help = q.quality >= campaignParameter("staffCaseFollowThrough");
+  // Ability is the work's quality; whether they see it through also leans on
+  // every trait they have.
+  const person = api.state.people.get(staffer.personId)!;
+  const help =
+    q.quality +
+      parameter("traitDecisionWeight") *
+        decisionLean(
+          api.state,
+          person,
+          "staff.follow-through",
+          "follow-through",
+          "decline",
+        ) >=
+    campaignParameter("staffCaseFollowThrough");
   const work = record(api, staffer, "case", q, { help });
   return { stafferId: staffer.id, help, work };
 }
