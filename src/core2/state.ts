@@ -1663,6 +1663,21 @@ export function inspectPerson(
  * their own award; the merged flows shrink by the same amounts. Returns the
  * person.
  */
+/**
+ * The person behind an id the player clicked or met: a full person as is, or
+ * someone in the counts (a husk relative included) filled in now. Undefined
+ * only for an id no record holds.
+ */
+export function personOrFillIn(
+  core: CoreState,
+  personId: PersonId,
+): PersonState | undefined {
+  const full = core.people.get(personId);
+  if (full) return full;
+  if (!residentPerson(core, personId)) return undefined;
+  return fillInPerson(core, personId);
+}
+
 export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
   const existing = core.people.get(personId);
   if (existing) return existing;

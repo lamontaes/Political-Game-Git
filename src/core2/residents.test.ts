@@ -5,7 +5,7 @@ import { generatedOpening } from "./tooling/generated-world";
 import { collapseToTwoLevels } from "./residents";
 import { advanceCore, createLifeCore } from "./life";
 import { residentCounts, residentsRuntime } from "./modules/residents";
-import { coreAPI, fillInPerson } from "./state";
+import { coreAPI, fillInPerson, personOrFillIn } from "./state";
 import type { CoreInput } from "./types";
 
 // One random place from all 56, named with its seed in the test title.
@@ -196,6 +196,20 @@ describe(`two-level population in ${place.name} (seed ${seed})`, () => {
     expect(core.people.get(retireeId)!.liquidMinor).not.toBe(cashBefore);
     expect(own.arrearsMinor).toBe(0);
     expect(total()).toBe(start);
+  }, 300_000);
+
+  it("fills in a clicked counted person, and returns full people as they are", () => {
+    const core = createLifeCore(two);
+    const counted = [...residentsRuntime(core)!.households.values()][0]!
+      .people[0]!;
+    expect(core.people.has(counted.id)).toBe(false);
+    const person = personOrFillIn(core, counted.id)!;
+    expect(person.id).toBe(counted.id);
+    expect(personOrFillIn(core, counted.id)).toBe(person);
+    expect(personOrFillIn(core, core.playerId!)).toBe(
+      core.people.get(core.playerId!),
+    );
+    expect(personOrFillIn(core, "person:nobody")).toBeUndefined();
   }, 300_000);
 
   it("re-rates full and counted workers from today", () => {
