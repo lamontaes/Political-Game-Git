@@ -1,70 +1,25 @@
 {
   "note": "Which tagged place picture (art/backdrops/manifest.json) shows what a person is doing in the bench. Keys are core act ids; '@home', '@workplace' and '@target' resolve from the person's records; a list is tried in order until one has a picture. Organization classifications map to data/content/place-kinds.json business kinds when their suffix is not already one. filingOffices maps the office GOV names as taking a contest's filings (case-insensitive pattern on its name) to its picture; filingClerkOfficeKinds are the offices whose holder, if they live in town, is the clerk at the counter. sceneSettings maps a story scene's setting kind (OPUS-PEOPLE's composeScene) to its pictures; '@org' is the setting record's organization.",
   "actions": {
-    "work-shift": [
-      "@workplace"
-    ],
-    "attend-scheduled-work-date-segment": [
-      "@workplace"
-    ],
-    "rest": [
-      "@home"
-    ],
-    "contact-known-person": [
-      "@home"
-    ],
-    "care-for-relative": [
-      "@home"
-    ],
-    "join-association": [
-      "@target",
-      "community-room"
-    ],
-    "organize-meeting": [
-      "@target",
-      "public-meeting-room"
-    ],
-    "approach-office": [
-      "@target",
-      "clerk-counter"
-    ],
-    "look-up-local-institution": [
-      "public-library"
-    ],
-    "share-cause": [
-      "@home"
-    ],
-    "found-cause-group": [
-      "community-room"
-    ],
-    "join-cause-group": [
-      "@target",
-      "community-room"
-    ],
-    "donate-to-cause": [
-      "@home"
-    ],
-    "volunteer-for-cause": [
-      "@target",
-      "community-room"
-    ],
-    "confront-grudge-target": [
-      "main-street"
-    ],
-    "seek-standing": [
-      "city-hall-hallway"
-    ],
-    "testify-at-hearing": [
-      "committee-hearing-room",
-      "public-meeting-room"
-    ],
-    "run-for-office": [
-      "county-clerk-office-rural",
-      "clerk-counter"
-    ],
-    "lobby-legislator": [
-      "city-hall-hallway"
-    ]
+    "work-shift": ["@workplace"],
+    "attend-scheduled-work-date-segment": ["@workplace"],
+    "rest": ["@home"],
+    "contact-known-person": ["@home"],
+    "care-for-relative": ["@home"],
+    "join-association": ["@target", "community-room"],
+    "organize-meeting": ["@target", "public-meeting-room"],
+    "approach-office": ["@target", "clerk-counter"],
+    "look-up-local-institution": ["public-library"],
+    "share-cause": ["@home"],
+    "found-cause-group": ["community-room"],
+    "join-cause-group": ["@target", "community-room"],
+    "donate-to-cause": ["@home"],
+    "volunteer-for-cause": ["@target", "community-room"],
+    "confront-grudge-target": ["main-street"],
+    "seek-standing": ["city-hall-hallway"],
+    "testify-at-hearing": ["committee-hearing-room", "public-meeting-room"],
+    "run-for-office": ["county-clerk-office-rural", "clerk-counter"],
+    "lobby-legislator": ["city-hall-hallway"]
   },
   "organizationKinds": {
     "service:municipal-government": "city-hall",
@@ -122,24 +77,15 @@
     },
     {
       "match": "registrar|board of elections|elections",
-      "places": [
-        "registrar-of-voters-worn",
-        "election-office",
-        "clerk-counter"
-      ]
+      "places": ["registrar-of-voters-worn", "election-office", "clerk-counter"]
     },
     {
       "match": "secretary of state",
-      "places": [
-        "clerk-back-office",
-        "clerk-counter"
-      ]
+      "places": ["clerk-back-office", "clerk-counter"]
     },
     {
       "match": "",
-      "places": [
-        "clerk-counter"
-      ]
+      "places": ["clerk-counter"]
     }
   ],
   "filingClerkOfficeKinds": [
@@ -149,34 +95,14 @@
     "election-administrator"
   ],
   "sceneSettings": {
-    "home": [
-      "@home"
-    ],
-    "other-home": [
-      "@home"
-    ],
-    "workplace": [
-      "@org",
-      "office"
-    ],
-    "school": [
-      "high-school-hallway",
-      "classroom"
-    ],
-    "public": [
-      "main-street",
-      "park"
-    ],
-    "venue": [
-      "community-room",
-      "union-hall"
-    ],
-    "phone": [
-      "@home"
-    ],
-    "letter": [
-      "@home"
-    ]
+    "home": ["@home"],
+    "other-home": ["@home"],
+    "workplace": ["@org", "office"],
+    "school": ["high-school-hallway", "classroom"],
+    "public": ["main-street", "park"],
+    "venue": ["community-room", "union-hall"],
+    "phone": ["@home"],
+    "letter": ["@home"]
   },
   "bodyPlaces": {
     "about": "Where each kind of elected body meets, by the office kind on its records; a legislature with no upper chamber meets in the one-house chamber.",
@@ -205,48 +131,21 @@
   ],
   "dwellingPlaces": {
     "about": "The home picture for each kind of dwelling OPUS-WORLD's housing records (dwellingKind). Where a kind has several pictures, each household gets one from its own id, so the same home always looks the same; a state's regional house styles join the list there.",
-    "house": [
-      "suburban-house"
-    ],
-    "rowhouse": [
-      "rowhouse"
-    ],
+    "house": ["suburban-house"],
+    "rowhouse": ["rowhouse"],
     "apartment": [
       "small-apartment",
       "apartment-older-walkup",
       "apartment-suburban-garden"
     ],
-    "mobile-home": [
-      "mobile-home"
-    ],
-    "farmhouse": [
-      "rural-farmhouse"
-    ]
+    "mobile-home": ["mobile-home"],
+    "farmhouse": ["rural-farmhouse"]
   },
   "regionalHouses": {
     "about": "House styles by state (USPS code), added to the house pictures there.",
-    "house-new-england-colonial": [
-      "CT",
-      "ME",
-      "MA",
-      "NH",
-      "RI",
-      "VT"
-    ],
-    "house-gulf-coast-raised": [
-      "LA",
-      "MS",
-      "AL",
-      "FL",
-      "TX"
-    ],
-    "house-southwest-adobe": [
-      "AZ",
-      "NM"
-    ],
-    "house-northwest-craftsman": [
-      "WA",
-      "OR"
-    ]
+    "house-new-england-colonial": ["CT", "ME", "MA", "NH", "RI", "VT"],
+    "house-gulf-coast-raised": ["LA", "MS", "AL", "FL", "TX"],
+    "house-southwest-adobe": ["AZ", "NM"],
+    "house-northwest-craftsman": ["WA", "OR"]
   }
 }
