@@ -40,11 +40,14 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
-None yet.
+- **OPUS-PLAY:** an app entry and build target for `/play` (root `index.html`, `review.html` and `vite.config.ts` inputs still name the deleted old app entry), so the web build works once #4036 lands.
+- **OPUS-CORE / OPUS-GOV:** to delete the other ~1,600 old files, move what `src/bench/scene.ts`, `src/rules/legislatures`, `src/rules/economy` and `tests/golden-path/place.ts` import from `src/simulation` and `src/presentation` into core2 or rules.
 
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- Oct 12 (FIXER): old-engine removal, draft PR #4036 (`fixer/remove-old-engine`): deleted 1,874 unreachable old files; ~1,600 stay until bench scene, rules and golden-path place stop importing them. Typecheck: 3 map-preview errors left (to delete) plus 3 predating in `src/bench/changes.ts`. Lint, golden-path and new-game tests not yet run. Nothing new to play; the web build waits on PLAY's `/play` entry. Next: delete the map preview files, run the checks.
 
 - Oct 12 (FIXER): M7-04 bug report builder on `fixer/bug-report`: `src/release/bug-report.ts` builds the report (build, place and seed, last 500 log lines, note, crash error) with account names and emails taken out, and never sends. 4 tests pass (bare vitest config). Nothing to play yet: OPUS-PLAY wires the button and the after-crash prompt to `buildBugReport` and `serializeBugReport`, and the screen must show the text before sending. Steam updates and Mac signing still need the owner's accounts.
 
