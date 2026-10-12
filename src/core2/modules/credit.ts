@@ -244,7 +244,11 @@ function review(api: CoreAPI): void {
     api,
     bank.organizationId,
     appetite,
-    Math.min(room, c.organizations.get(bank.organizationId)!.liquidMinor),
+    Math.min(
+      room,
+      c.organizations.get(bank.organizationId)!.liquidMinor *
+        p("creditHouseholdMonthlyLendingShare"),
+    ),
   );
 }
 
@@ -477,7 +481,9 @@ function householdApplications(
       p("creditPersonalTermMonths"),
       p,
     );
-    const need = 1 / (1 + cash / costs);
+    // Only a real shortfall pulls toward borrowing: cash below a month of costs, by how far below.
+    const need = Math.max(0, 1 - cash / costs);
+    if (need <= 0) continue;
     const burden = income > 0 ? payment / income : Number.POSITIVE_INFINITY;
     const choice = chooseAct(c, head.id, [
       creditOffer("wait", household.id, {}),

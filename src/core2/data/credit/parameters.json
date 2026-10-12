@@ -135,7 +135,7 @@
     }
   },
   "creditBorrowBaseline": {
-    "value": -2.5,
+    "value": -3,
     "tag": "TUNABLE",
     "citation": "How far borrowing sits below doing without, before need; checked against G.19 consumer credit growth and SCF borrowing shares.",
     "spread": {
@@ -154,6 +154,17 @@
       "high": 4,
       "unit": "months of living costs",
       "citation": "Personal loans cover a few months of costs (SCF 2022 median unsecured installment balance about 2 to 3 months of median household spending)."
+    }
+  },
+  "creditHouseholdMonthlyLendingShare": {
+    "value": 0.02,
+    "tag": "TUNABLE",
+    "citation": "Consumer loans are about 5 to 8 percent of community bank assets (FDIC Quarterly Banking Profile, 2019-2024), turning over in about two years; new household lending per month is a small share of the bank's funds. A first generated-world month without this cap lent all of the town bank's cash to 993 households.",
+    "spread": {
+      "low": 0.005,
+      "high": 0.05,
+      "unit": "share of the bank's cash per month",
+      "citation": "FDIC Quarterly Banking Profile, community banks."
     }
   }
 }
