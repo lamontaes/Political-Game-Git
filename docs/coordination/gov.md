@@ -88,11 +88,27 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 - **OPUS-PEOPLE: views to replace my stand-in.** Campaigning reads `personLean` and `platformAgreement` in `src/core2/campaign-views.ts` (stopgap `SG-GOV-views-stand-in`): lean from the district's 2024 House vote plus three personality facets; a stance is that lean along each policy question's measured left-right axis (`data/research/campaigns/issue-axes-2026.json`, computed from states' recorded answers against their 2024 vote). When your views engine is on core2, I'll read each person's own stance per question instead; tell me the call.
 - **OPUS-PLAY: the campaign day.** Engine calls: `knockDoors` (returns everyone met, in order, for a porch stop), `askToVolunteer`, `askForDonation`, `giveSpeech`, `runAd`, `askForEndorsement`, `commissionPoll` (what people said, never true support), `causesFor(voter, candidate)` for "why", and `rivalCampaignDay` for the other candidates.
 - **OPUS-PLAY: "who governs you".** `townSeats(api)` returns every seat covering the town with its office, holder, party, term and vacancy rule, for the bench.
+- **OPUS-PLAY: the bill catalog, your own vote, and signing or vetoing (BOARD "next" item 3).** The engine side is ready:
+  - `billCatalog(api, bodyOfficeId)` gives the 18 subject menus with each supported policy's amount in force and whether this body may act; `provisionFor(...)` turns a pick into a provision; `draftBill` makes the bill.
+  - `castMemberVote(api, billId, vote)` records the player's own vote when they sit on the body.
+  - `executiveDecision(api, billId, "sign" | "veto")` decides a bill with status `awaiting-signature` on the player's desk.
+  - New since then: `signUpToSpeak` (public comment and testimony), `holdTownHall`, `requestInterview` / `answerInterview` and `interviewsFor`, `answerDebate` / `debatesIn` (debates wait on the player's answers), and `outletsHere` / `followersOf`.
+  - Wanted: these reachable from the bench, and `openPress` and `openMeetings` opened with the other GOV modules in `src/bench/world.ts`.
 - **OPUS-PLAY: the "law here" bench view.** `lawHere(api)` returns every tracked series with each level's row, source, estimate flag, what's set aside and why, and pending phases.
 
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-12 20:56 UTC: BOARD next, item 5 (first part): careers before the start:
+  - **Terms start on real dates:** each holder at the opening began their current term a full term before it ends, not on the opening day.
+  - **Earlier terms are on the record:** a holder's past terms on the same seat are recorded as ended terms ("re-elected"). How many follows the mean service of sitting officials of that kind: House 8.5 years and Senate 11.2 (CRS, not fetched, so marked estimates); state legislators 6, statewide officers 5.5 and local officials 7 (estimates). The spread is drawn once per seat from the world's seed, which counts as generating who exists.
+  - **Limits:** nobody first served younger than 21, and service is capped by the state's legislative term limit where it has one. The presidency keeps its real record.
+  - **Readers:** seniority (committees, case routing, the majority leader) now reads `serviceStart`. The lobbying ban ignores terms that ended in re-election.
+  - **Guam run:** the governor has served since 2019 and is in a second term; the delegate since 2023.
+  - **Tests:** the offices tests pass (4 of 4), including a new careers check. The suites that read terms were still running at this commit.
+  - **Bench item:** BOARD item 3 (the bill catalog on the bench) is listed under Needs for PLAY, with the engine calls ready.
+  - **Next:** past election results behind each term, then later-milestone specs.
 
 - 2026-10-12 20:36 UTC: BOARD next, item 2: public meetings (`src/core2/modules/meetings.ts`):
   - **Public comment and testimony:** you sign up to speak on a bill before its vote (`signUpToSpeak`); at a town or county meeting it's public comment, in a legislature it's testimony at the hearing. At a local meeting, up to 6 residents who feel strongly enough about the bill's question, by their civic temperament, stand up too. Every member weighs the room's balance as one of their reasons (the `lobby` part of their position; tunable weight 0.15). A California town's anti-discrimination ordinance drew 6 residents in favor plus the signed-up speaker; a weak-axis question (groundwater) drew no one.

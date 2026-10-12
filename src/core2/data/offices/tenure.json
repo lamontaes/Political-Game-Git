@@ -1,0 +1,41 @@
+{
+  "about": "How long sitting officeholders have served, for the careers behind the holders at the opening (OPUS-GOV, M1-14 part 2). Mean years in the office among those sitting at a point in time.",
+  "parameters": {
+    "usHouseTenureYears": {
+      "value": 8.5,
+      "tag": "ESTIMATED",
+      "source": "Congressional Research Service profile of the 118th Congress (2023): average length of service about 8.5 years for Representatives at the start of the Congress.",
+      "spread": [7, 10]
+    },
+    "usSenateTenureYears": {
+      "value": 11.2,
+      "tag": "ESTIMATED",
+      "source": "Congressional Research Service profile of the 118th Congress (2023): average length of service about 11.2 years for Senators at the start of the Congress.",
+      "spread": [9, 13]
+    },
+    "stateLegislatorTenureYears": {
+      "value": 6,
+      "tag": "ESTIMATED",
+      "source": "NCSL legislator turnover studies (roughly a quarter of seats turn over each two-year cycle, shorter in term-limited states): mean service near six years.",
+      "spread": [4, 9]
+    },
+    "statewideExecutiveTenureYears": {
+      "value": 5.5,
+      "tag": "ESTIMATED",
+      "source": "Governors and statewide officers commonly serve one or two four-year terms (National Governors Association former governors roster: most serve one or two terms).",
+      "spread": [4, 8]
+    },
+    "localOfficialTenureYears": {
+      "value": 7,
+      "tag": "ESTIMATED",
+      "source": "Estimated from National League of Cities city council member profiles (most members in their first or second term of two to four years); not checked against a fetched table.",
+      "spread": [4, 10]
+    },
+    "minimumAgeAtFirstTerm": {
+      "value": 21,
+      "tag": "ESTIMATED",
+      "source": "The youngest common minimum age for state legislative and local office (21 to 25 in most states; 18 in some localities).",
+      "spread": [18, 25]
+    }
+  }
+}
