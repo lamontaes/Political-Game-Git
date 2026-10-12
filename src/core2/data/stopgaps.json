@@ -628,7 +628,7 @@
     "kind": "uncalibrated-tunable",
     "file": "src/core2/data/parameters.json",
     "line": 1616,
-    "whatItFakes": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943–1954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
+    "whatItFakes": "Prototype fictional retirement-claim timing prior centered on the preserved SSA retirement-age context for cohorts 1943\u20131954. Not a universal legal retirement age or empirically observed claiming-age estimate.",
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
@@ -833,7 +833,7 @@
     "file": "src/core2/deep-past.ts",
     "line": 116,
     "whatItFakes": "Historical acquaintances are seeded for the player alone and carry no dated shared moments keyed to both people. Other residents have no generated acquaintance history for a reunion to read.",
-    "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player’s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here.",
+    "why": "CTO REVIEW 12 reports P13 proof #3929: La Homa has only the player\u2019s twenty faded school acquaintances and no recorded shared moment. This is a P13 finding, not independently rerun here.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
     "replacement": "Generate source-qualified classmates, coworkers, neighbors and congregation acquaintances for everyone, with dated pair-keyed shared moments and realistic network spreads. Preserve genuine supplied shared history.",
@@ -981,6 +981,18 @@
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-10",
     "replacement": "Qualified employer-owned dated compensation/payroll records and government/education policy calendars, actual legal-frequency/holiday/lag treatment, shared household payday source links and empirical startup cohort checks. Public-budget/national modules own actual government funding, not this timing prior.",
+    "status": "open"
+  },
+  {
+    "id": "SG-GOV-wage-floor-rate-write",
+    "kind": "missing-core-api",
+    "file": "src/core2/modules/laws.ts",
+    "line": 189,
+    "whatItFakes": "On a minimum wage's effective date the laws module replaces each underpaid work commitment's hourly rate directly in core work state.",
+    "why": "core2 has no pay-change path: admitWorkCommitment is the only writer and no API ends or re-rates a commitment.",
+    "addedBy": "OPUS-GOV",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-CORE's work pay-change API (re-rate a commitment from a date with its source), called here instead.",
     "status": "open"
   }
 ]

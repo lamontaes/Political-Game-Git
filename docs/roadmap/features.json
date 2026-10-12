@@ -138,7 +138,7 @@
       "golden_path": "world",
       "package": "M1-laws",
       "test": "For a random place, tracked laws (minimum wage; income, sales and property taxes; major benefit amounts) match that place's real starting law at every level; a higher level's override wins where it legally does; a law that hasn't taken effect yet doesn't apply.",
-      "command": null,
+      "command": "npx vitest run src/core2/laws.test.ts --testTimeout=300000",
       "passes": false
     },
     {

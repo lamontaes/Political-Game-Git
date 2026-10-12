@@ -28,18 +28,34 @@ Census API: checked [Terms of Service](https://www.census.gov/data/developers/ab
 
 State and local source terms must be checked individually. No blanket federal-public-domain claim applies to them.
 
-## Research still required before implementation
+## Research status (OPUS-GOV, October 12, 2026)
 
-| Kind | Status |
-| --- | --- |
-| State sales tax, all 56 | Not researched |
-| Local sales tax samples and unsampled spreads | Not researched |
-| County property effective rates; assessment rules and caps | Source route identified; data not acquired |
-| Local income tax | Not researched |
-| Local minimum wage | Existing matrix needs primary-source and coverage check |
-| Married-filer and territory income-tax systems | Not researched |
-| UI bounds, SNAP household tables, Medicaid match | 112 Medicaid phases and 110 SNAP area phases transcribed; UI still open |
-| Default effective dates and emergency clauses | Existing metadata needs statute verification |
+All research is integrated through `scripts/research/build-starting-law.py`, which writes `src/core2/data/laws/starting-law.json` for the laws module (`src/core2/modules/laws.ts`). Rebuild it after any change here.
+
+| File                                                                           | Kind                                             | Coverage                                                                                                                                                                                                                                                                                    |
+| ------------------------------------------------------------------------------ | ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `sales-tax.json`                                                               | State and local sales tax, January 1, 2026       | All 56. State rates from the Tax Foundation January 2026 table, 11 checked against revenue departments; average local rate per state (estimate); 61 sampled cities with Census place codes, 24 from official rate tables; territories' gross-receipts and excise systems; 2026 rate changes |
+| `property-tax-effective.json`                                                  | Effective property tax by county                 | 50 states, D.C. and Puerto Rico, 3,207 counties, ACS 2020-2024 (`scripts/research/export-acs-property-tax.py`); estimates. Guam, USVI, American Samoa and the Northern Marianas not yet researched                                                                                          |
+| `local-income-tax.json`                                                        | Local income taxes                               | 50 states (16 allow them); 155 named jurisdictions: every Indiana and Maryland county, the largest cities elsewhere. Pennsylvania's and Ohio's full municipal tables not yet transcribed                                                                                                    |
+| `local-minimum-wage.json`                                                      | City and county minimum wages                    | 71 cities and counties, 92 dated rows, from the UC Berkeley Labor Center inventory and ordinances                                                                                                                                                                                           |
+| `minimum-wage-regions.json`                                                    | State minimum-wage regions                       | New York and Oregon, by county                                                                                                                                                                                                                                                              |
+| `state-income-tax-married-2026.json`                                           | Married-filing-jointly state income tax          | 50 states and D.C.; the January 1 table is the law in force at the start, later 2026 acts are recorded beside it                                                                                                                                                                            |
+| `territory-income-tax-2026.json`                                               | Territory income tax systems                     | All 5 territories: Puerto Rico's own code, Guam/USVI/Northern Marianas mirror codes, American Samoa's frozen code                                                                                                                                                                           |
+| `state-effective-dates.json`                                                   | Default effective date and emergency-clause rule | All 56; not yet read by the effective-date rules                                                                                                                                                                                                                                            |
+| `snap-maximums.json`, `unemployment-weekly-bounds.json`, `medicaid-match.json` | Benefit amounts                                  | As above; Alaska's rural SNAP areas are separate tiers, a place reads the urban amount until its area is mapped                                                                                                                                                                             |
+
+## Research still required before implementation (original intake)
+
+| Kind                                                       | Status                                                                  |
+| ---------------------------------------------------------- | ----------------------------------------------------------------------- |
+| State sales tax, all 56                                    | Not researched                                                          |
+| Local sales tax samples and unsampled spreads              | Not researched                                                          |
+| County property effective rates; assessment rules and caps | Source route identified; data not acquired                              |
+| Local income tax                                           | Not researched                                                          |
+| Local minimum wage                                         | Existing matrix needs primary-source and coverage check                 |
+| Married-filer and territory income-tax systems             | Not researched                                                          |
+| UI bounds, SNAP household tables, Medicaid match           | 112 Medicaid phases and 110 SNAP area phases transcribed; UI still open |
+| Default effective dates and emergency clauses              | Existing metadata needs statute verification                            |
 
 No missing fact has been entered as zero or permission. Research intake is not shipped starting law, and the feature remains `passes:false`.
 
@@ -63,7 +79,6 @@ A dependency-free Node diagnostic passed exact Medicaid coverage against the exi
 
 Blocked at approximately six minutes of elapsed session work, including environment startup. No finisher send-backs. Owner action: repair the configured cloud proxy and supply a usable registered workspace/dependencies so the required base can be fetched and baseline checks can run. No scope or test change is requested.
 
-
 ## Continuation — 2026-10-11 04:58 UTC
 
 GitHub fetch now succeeds. Reused the existing checkout, selected `pool/M1-laws` at `c4f8d11b402270af556a11a32c33db80be81af8e`, and confirmed its core-pieces base is still `8249aaba6473ea2ca7ac483199d8f55b547bd704`. Read the current M1-laws/M1-common contract from main, PR discussion, saved research, progress and branch log. Startup bench skipped per owner instruction.
@@ -73,13 +88,17 @@ Registered CODEX-LAWS's existing workspace with `OCD_STORAGE_STATE_DIR=/workspac
 Added research-only `unemployment-weekly-bounds.json`: 53 January 2026 DOL jurisdiction rows, primary source, PDF hash/page/excerpt, retrieval date and checked DOL public-domain terms. Dependent-allowance ranges, alternative earnings caps, and the uncapped allowance are distinguished. Three omitted territories remain explicit research gaps; no zero-benefit assumption. The diagnostic passed all-56 coverage partition, bounds and amounts against retained excerpts. Its first attempt rejected amounts followed by the PDF's superscript footnote 6; the diagnostic was corrected to recognize the footnote separately, preserving published values. No feature test changed. Census property API returned HTML titled `Missing Key`, not county data; no such data was incorporated.
 
 The next state-tax source request failed. Command:
+
 ```sh
 curl --fail --show-error --location --max-time 30 https://www.azdor.gov/business/transaction-privilege-tax --output /tmp/M1-laws-state-sales-second-source.html
 ```
+
 Exit code: 22. Exact error:
+
 ```text
 curl: (22) The requested URL returned error: 403
 ```
+
 This is a source HTTP denial, not a recurrence of the old GitHub proxy connection failure. Stopped further research, implementation and validation at this failure as instructed; only preservation and this PR report followed. No live module, generated-world proof, local gate or paired-year result is claimed. M1-01 remains **not ready for its finisher**.
 
 Model/effort/time/send-backs: CODEX-LAWS / Codex, GPT-6 family per session instructions; exact deployment identifier, runtime reasoning setting and usage unavailable. Package-requested effort high because later engines depend on this law read; no runtime setting verification. Helpers none. First captured UTC timestamp `2026-10-11T04:55:58Z`; stop/report timestamp `2026-10-11T04:58:27Z` (2 minutes 29 seconds between them, excluding earlier startup and reads; total elapsed unavailable). Finisher/owner review send-backs this continuation: 0. Infrastructure events: missing storage home resolved with supported workspace state-directory selection; missing npm cache resolved with workspace cache; missing Census API key unresolved; state-source HTTP 403 caused this required stop. Earlier PR startup blockers and send-back reports remain preserved.

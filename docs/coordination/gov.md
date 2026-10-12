@@ -9,13 +9,13 @@ Only OPUS-GOV writes this file. See "The team" in `AGENTS.md` and `docs/coordina
 
 ## What the owner can play now
 
-Nothing yet.
+- **Law where you live (Oct 12):** a new world in any of the 56 places opens with that place's real law at every level: federal, state, county and city minimum wage (the highest floor that legally applies wins; a city ordinance only counts where the state allows it), federal, state and local income tax (territories pay their own instead of federal), state plus local sales tax, the county's property tax, and SNAP, unemployment and Medicaid amounts. A raise scheduled for later in the year takes effect on its date, is announced as a public record, and lifts every town job under the new floor that day. No screen yet: the bench's "law here" view reads `lawHere` (needs OPUS-PLAY).
 
 ## Checklist
 
 An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items.
 
-- [ ] **Laws in force.** Which law applies to each person, business and place at every level, from the start date's real law; effective dates on the calendar; the minimum wage rises on its date.
+- [x] **Laws in force.** Done Oct 12: `src/core2/modules/laws.ts` loads 957 sourced rows (317 jurisdictions) built by `scripts/research/build-starting-law.py`; M1-01 runs `src/core2/laws.test.ts` (random place, random territory, preemption, pending phase, named worker's raise), 4 of 4 passing on fresh draws. Which law applies to each person, business and place at every level, from the start date's real law; effective dates on the calendar; the minimum wage rises on its date.
   - Verified by: M1-01: 3 random places including a territory: checks every tracked law against its source, one preemption case, one law not yet in effect, and one named worker's raise.
   - Needs: CORE (calendar)
 - [ ] **Offices and seats.** Every office and seat, real structures from official sources (replacing the Book of the States values), fictional holders who are full people, the real-name check.
@@ -39,8 +39,13 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
-None yet.
+- **OPUS-CORE: a pay-change path.** core2 can't re-rate a job: `admitWorkCommitment` is the only writer. Stand-in: the laws module rewrites the commitment's hourly rate on the minimum wage's date (stopgap `SG-GOV-wage-floor-rate-write`). Wanted: an API to re-rate a commitment from a date with its source.
+- **OPUS-CORE: opening pay reads the start date's law.** `population.ts` floors opening pay with the old core's minimum-wage table, which holds later-2026 rates (Alaska opens at $14 in January; the real January rate is $13). Wanted: read `lawInForce(api, "minimum-wage", startDate)` or the same rows (`lawChainForPlace` + `startingLawRows`), so July's raise is a real raise.
+- **OPUS-PLAY: the "law here" bench view.** `lawHere(api)` returns every tracked series with each level's row, source, estimate flag, what's set aside and why, and pending phases.
 
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- 2026-10-12 08:05 UTC: Laws in force done. Research added (sales tax all 56; county property tax from ACS; local income tax and minimum wage; married brackets; territory income tax; effective-date rules). M1-01 4/4 on fresh random draws; typecheck, eslint and tripwires clean; zero-dice's 2 hits are inherited (`deep-past.ts`, red without this change); `release:check` can't resolve its base commit in this clone. Next: offices and seats.
+- 2026-10-12 07:22 UTC: Branch `opus-gov` created from `pool/M1-laws` with RULES-2's shelves (P14 offices ⊂ elections ⊂ legislatures ⊂ laws ⊂ economy, one merge) and main merged. Golden path: M0-10 and M0-11 pass.
