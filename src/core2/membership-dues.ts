@@ -1,16 +1,22 @@
 /**
  * Membership organizations live on their members' dues. A labor union
- * local's members are the place's employed at the national union membership
- * rate (BLS), each paying a share of the place's median wage monthly from the
+ * local's members are the place's employed at its state's union membership
+ * rate (BLS, 2025; the nation's where BLS has no row), each paying a share of the place's median wage monthly from the
  * wider population's pooled cash, so the local can pay its own staff.
  */
 import businessParameters from "./data/business/parameters.json" with { type: "json" };
+import unionData from "./data/business/union-membership.json" with { type: "json" };
 import { makeIsoDate } from "../simulation/dates";
 import type { Parameter } from "./parameters";
 import type { ResidentFlowInput } from "./residents";
 import { stopgap } from "./stopgaps";
 import type { CoreInput, Source } from "./types";
 
+const UNION_RATES = (
+  unionData as { states: Record<string, { membersPct: number }> }
+).states;
+const UNION_NATION_PCT = (unionData as { nationMembersPct: number })
+  .nationMembersPct;
 const P = businessParameters as unknown as Readonly<Record<string, Parameter>>;
 const p = (key: string) => P[key]!.value;
 const UNION = "membership:labor-union";
@@ -47,7 +53,11 @@ export function withMembershipDues(input: CoreInput): CoreInput {
     );
     const list = [...(pay.get(union.placeId) ?? [])].sort((a, b) => a - b);
     if (!account || !list.length) continue;
-    const members = Math.round(list.length * p("businessUnionMembershipShare"));
+    // The state's membership rate (BLS, 2025), else the nation's.
+    const rate =
+      UNION_RATES[input.placeMetadata?.housingState ?? ""]?.membersPct ??
+      UNION_NATION_PCT;
+    const members = Math.round((list.length * rate) / 100);
     const medianMonthly =
       (list[Math.floor(list.length / 2)]! * DAYS_PER_YEAR) / MONTHS_PER_YEAR;
     const amount = Math.round(
@@ -57,7 +67,7 @@ export function withMembershipDues(input: CoreInput): CoreInput {
     const source: Source = {
       tag: "ESTIMATED",
       asOf: input.startedAt,
-      citation: P.businessUnionMembershipShare!.citation,
+      citation: (unionData as { table: string }).table,
       estimatedFrom: `${members} members of ${list.length} employed in the place, each paying ${(p("businessUnionDuesShare") * 100).toFixed(1)}% of the median monthly wage.`,
     };
     const first = new Date(`${input.startedAt}T00:00:00.000Z`);

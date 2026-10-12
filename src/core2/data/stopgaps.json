@@ -1388,9 +1388,9 @@
     "id": "SG-WORLD-business-union-members",
     "kind": "assumed-data",
     "file": "src/core2/membership-dues.ts",
-    "line": 42,
-    "whatItFakes": "A union local's members are the place's employed at the national membership rate, paying dues from the wider population's pooled cash; nobody is recorded as a member.",
-    "why": "The opening records no memberships, and state union membership rates are not in the data yet.",
+    "line": 48,
+    "whatItFakes": "A union local's members are the place's employed at its state's 2025 membership rate (the nation's where BLS has no row), paying dues from the wider population's pooled cash; nobody is recorded as a member.",
+    "why": "The opening records no memberships.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Members recorded on people (by industry and state, BLS Union Members tables), each choosing to join or leave from their pay, job and views; dues from their own cash."

@@ -195,11 +195,6 @@
       "citation": "What lenders will advance a founder, in years of the founder's income (SBA 7(a) and microloan practice ties a startup loan to the owner's income and personal guarantee)."
     }
   },
-  "businessUnionMembershipShare": {
-    "value": 0.099,
-    "tag": "SOURCED",
-    "citation": "BLS, Union Members 2024 (news release, January 28, 2025): 9.9 percent of wage and salary workers were members of unions."
-  },
   "businessUnionDuesShare": {
     "value": 0.013,
     "tag": "TUNABLE",
