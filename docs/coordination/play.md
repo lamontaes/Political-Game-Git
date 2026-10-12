@@ -65,7 +65,7 @@ From `docs/reports/audit-2026-10-12/`, in BOARD's order.
 - [x] **Speeches at a venue.** Speech in your campaign now has a venue (courthouse square, downtown plaza, county fairground, school gym, union hall, rally stage). The speech is shown there, with you up front and the people it reached around you, as many as the picture's spots hold. In Harmonyville, Vermont (seed file-b), a speech on the courthouse square reached 39 people, and 9 stand in the picture.
 - [x] **Every town opens, even with a stray kin move.** A town whose kin moves fall after the opening day (Barrigada, Guam, seed k-a) used to crash on the new opening. It now opens on the finance-only route (stopgap SG-PLAY-opening-economy-fallback; see Needs).
 - [ ] Councils, legislatures and Congress acting on their own (`world-legislating`). It's built, but off for now: it makes play about 11 times slower after its first session (see Needs).
-- [ ] The town visibly changing after a law passes.
+- [x] **What changed (first slice).** When a law takes effect while you play, Until needed stops with "A law took effect" and the What changed sheet opens. Day and Week open it too, and it's also in Politics. Each law shows its date and what it was before and after (a wage in dollars an hour), then who in town it reached and what it means for each, including you. In Botsford, Connecticut (seed wl-a), the state minimum wage went from $16.94 to $17.48 an hour on January 1, 2027. A wage amount reaches nobody by name yet: the law-effects records cover catalogued policies, not amounts, so pay rising at each job is the next slice (it needs OPUS-WORLD's `rerateJob` on a wage law).
 
 ## Checklist
 

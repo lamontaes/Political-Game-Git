@@ -183,6 +183,12 @@ async function refresh() {
     await openSheet("results");
     return;
   }
+  // A law that took effect: what changed in town.
+  const laws = await api(`/api/changes?id=${encodeURIComponent(me.id)}`);
+  if (laws.length > seenChanges) {
+    await openSheet("changes");
+    return;
+  }
   if (openTab) await openSheet(openTab);
 }
 
@@ -211,6 +217,7 @@ for (const mode of ["day", "week"])
 // it again stops after the current leg. A stop, choice or day's end that
 // needs you ends it at once.
 let skipping = false;
+let seenChanges = 0;
 const SKIP_LEG_DAYS = 7;
 const SKIP_MAX_LEGS = 52;
 $("skip").addEventListener("click", async () => {
@@ -231,6 +238,13 @@ $("skip").addEventListener("click", async () => {
       const races = await api(`/api/results?id=${encodeURIComponent(me.id)}`);
       if (races.length > seenResults) {
         $("card-why").textContent = controls.endedBy?.results ?? "";
+        break;
+      }
+      // A law taking effect is shown too: the town changes.
+      const laws = await api(`/api/changes?id=${encodeURIComponent(me.id)}`);
+      if (laws.length > seenChanges) {
+        $("card-why").textContent = controls.endedBy?.law ?? "";
+        await openSheet("changes");
         break;
       }
       await renderScene();
@@ -1120,6 +1134,29 @@ const sheets = {
       ),
     ];
   },
+  async changes() {
+    // Money amounts are kept in cents; "minor/hour" reads as dollars an hour.
+    const amount = (value, unit) =>
+      unit?.startsWith("minor")
+        ? `${dollars(Number(value))}${unit.includes("/") ? `/${unit.split("/")[1]}` : ""}`
+        : `${value}${unit ? ` ${unit}` : ""}`;
+    const laws = await api(`/api/changes?id=${encodeURIComponent(me.id)}`);
+    seenChanges = laws.length;
+    return laws.map((law) =>
+      el(
+        "div",
+        { className: "row narrative" },
+        el("b", {
+          textContent: `${law.date} · ${law.series.split(":").pop()} · ${law.was !== null ? `${amount(law.was, law.unit)} → ` : ""}${amount(law.value, law.unit)}`,
+        }),
+        [
+          `${law.jurisdiction} · ${law.reached}`,
+          ...(law.you ? [`${me.card?.name ?? ""}: ${law.you}`] : []),
+          ...law.names.map((n) => `${n.name}: ${n.what}`),
+        ].join(" · "),
+      ),
+    );
+  },
   async travel() {
     const places = await api(`/api/goto?id=${encodeURIComponent(me.id)}`);
     return places.map((p) => {
@@ -1175,12 +1212,18 @@ const sheets = {
       b.addEventListener("click", () => openSheet("results"));
       return b;
     })();
+    const changes = el("button", {
+      type: "button",
+      textContent: "What changed",
+    });
+    changes.addEventListener("click", () => openSheet("changes"));
     const map = el("button", { type: "button", textContent: "Map" });
     map.addEventListener("click", () => openSheet("map"));
     const budgets = el("button", { type: "button", textContent: "Budgets" });
     budgets.addEventListener("click", () => openSheet("budgets"));
     return [
       results,
+      changes,
       budgets,
       map,
       ...campaigns,
@@ -1222,6 +1265,7 @@ const titles = {
   budgets: "Budgets",
   family: "Family",
   travel: "Travel",
+  changes: "What changed",
   handoff: "Carry on as",
   map: "Map",
   news: "News",
@@ -1288,6 +1332,9 @@ $("new-life").addEventListener("click", async () => {
       date: life.date,
       names: life.names,
     };
+    // What was already law at the start isn't news; only what changes after.
+    seenChanges = (await api(`/api/changes?id=${encodeURIComponent(me.id)}`))
+      .length;
     show("front", false);
     await playOpening();
     for (const id of ["tabs", "stack", "card"]) show(id, true);

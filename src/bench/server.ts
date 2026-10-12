@@ -37,6 +37,7 @@ import type { Director } from "../director/ledger";
 import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
+import { lawChanges } from "./changes";
 import controls from "./data/controls.json" with { type: "json" };
 import { playerApiReadiness } from "./api-readiness";
 
@@ -318,6 +319,10 @@ const server = createServer(async (request, response) => {
           player.packet?.at.minuteOfDay ?? 12 * 60,
         ),
       );
+      return;
+    }
+    if (request.method === "GET" && url.pathname === "/api/changes") {
+      send(200, lawChanges(requireCore(), url.searchParams.get("id") ?? ""));
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/controls") {

@@ -16,7 +16,8 @@
     "end": "Shift ends",
     "moment": "Something needs you",
     "choice": "A choice",
-    "results": "Election results"
+    "results": "Election results",
+    "law": "A law took effect"
   },
   "venues": {
     "rally-courthouse-square": "Courthouse square",
