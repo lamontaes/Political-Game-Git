@@ -153,12 +153,23 @@ interface HouseholdPlan {
 
 /** Each [child, parent] member pair of a household: children under 18 with every adult, and a grown child with their parent. */
 function parentChildMembers(plan: HouseholdPlan): [number, number][] {
-  const adults = plan.skeleton.members.flatMap((member, index) =>
-    member.role === "adult" ? [index] : [],
+  // The household's parents: its adults other than grown children living at
+  // home, and old enough to have had the child (a grown sibling is not a
+  // parent of the younger children).
+  const members = plan.skeleton.members;
+  const adults = members.flatMap((member, index) =>
+    member.role === "adult" && !plan.grownChildren?.includes(index)
+      ? [index]
+      : [],
   );
-  const pairs = plan.skeleton.members.flatMap((member, child) =>
+  const pairs = members.flatMap((member, child) =>
     member.role === "child"
-      ? adults.map((parent) => [child, parent] as [number, number])
+      ? adults
+          .filter(
+            (parent) =>
+              members[parent]!.age - member.age >= p("minimumParentAgeAtBirth"),
+          )
+          .map((parent) => [child, parent] as [number, number])
       : [],
   );
   for (const child of plan.grownChildren ?? [])

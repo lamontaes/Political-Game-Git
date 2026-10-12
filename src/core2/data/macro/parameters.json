@@ -212,16 +212,8 @@
   },
   "macroMortgageSpreadOverTreasuryPct": {
     "value": 2.22,
-    "tag": "ESTIMATED",
-    "citation": "Freddie Mac PMMS 30-year fixed less the 10-year Treasury, monthly May 2019 to September 2026: mean 2.22 points (min 1.34, max 2.96; 2025 mean 2.31). The CTO's stand-in research (data/research/stand-in-figures-2026-10-12.json).",
-    "estimatedFrom": "Only months past the published series use the spread.",
-    "stopgapId": "SG-WORLD-macro-mortgage-spread",
-    "spread": {
-      "low": 1.34,
-      "high": 2.96,
-      "unit": "percentage points",
-      "citation": "Freddie Mac PMMS and H.15 GS10, 2019-2026."
-    }
+    "tag": "SOURCED",
+    "citation": "Freddie Mac PMMS 30-year fixed less the 10-year Treasury, monthly May 2019 to September 2026: mean 2.22 points (min 1.34, max 2.96; 2025 mean 2.31). The CTO's stand-in research (data/research/stand-in-figures-2026-10-12.json)."
   },
   "macroPrimeSpreadPct": {
     "value": 3.08,

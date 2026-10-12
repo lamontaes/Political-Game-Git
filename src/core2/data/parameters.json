@@ -4446,6 +4446,17 @@
       "ref": "EMPIRICAL-OPENING-RETIREMENT-INCOME"
     }
   },
+  "traitLeanScale": {
+    "value": 0.6,
+    "tag": "TUNABLE",
+    "citation": "The trait lean difference between two options that counts as a full-strength pull (1) in a formula decision. Starting value: the largest lean difference across generated adults in a 1,200-person drawn town is about 0.6 to 0.7 (OPUS-TRAITS probe, Oct 12, 2026), so the strongest personalities reach about 1, the range of the hand-picked trait sums it replaces.",
+    "spread": {
+      "low": 0.4,
+      "high": 0.9,
+      "unit": "trait lean difference",
+      "citation": "Generated-town lean differences between options (OPUS-TRAITS probe, Oct 12, 2026): 99th percentile about 0.5, maximum about 0.7."
+    }
+  },
   "preStartFromYear": {
     "value": 2000,
     "tag": "TUNABLE",
@@ -4467,5 +4478,10 @@
       "unit": "months per step",
       "citation": "The two step sizes the pre-start contract offers (src/core2/pre-start.ts)."
     }
+  },
+  "minimumParentAgeAtBirth": {
+    "value": 15,
+    "tag": "SOURCED",
+    "citation": "The youngest age at which a household's adult is recorded as a child's parent: the Census Bureau's fertility tables count children ever born from age 15 (U.S. Census Bureau, Table 1. Women's Number of Children Ever Born by Age and Marital Status: June 2018, the source of src/core2/data/opening-kin.json fertilityByAge). A younger adult in the home is a sibling or other relative."
   }
 }

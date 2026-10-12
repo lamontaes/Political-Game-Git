@@ -276,6 +276,12 @@
       "tag": "ESTIMATED",
       "citation": "Filing to run for office, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same scale the director uses for every life event.",
       "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
+    },
+    "directorKinMovedImpact": {
+      "value": 0.29,
+      "tag": "ESTIMATED",
+      "citation": "Someone close moving away, sized as the Social Readjustment Rating Scale's 'Son or daughter leaving home', 29 life-change units divided by 100 (Holmes and Rahe 1967), reaching those tied to the movers by how much they matter to them.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
     }
   },
   "channels": [
@@ -441,6 +447,11 @@
       "eventKind": "candidate-filed",
       "channel": "cause",
       "impactParameter": "directorFilingImpact"
+    },
+    {
+      "eventKind": "person.moved-away",
+      "channel": "feeling",
+      "impactParameter": "directorKinMovedImpact"
     }
   ]
 }

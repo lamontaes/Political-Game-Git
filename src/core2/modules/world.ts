@@ -13,7 +13,12 @@ import { BUSINESS_MODULE, BUSINESS_PARAMETERS } from "./business";
 import { CREDIT_MODULE, CREDIT_PARAMETERS, withTownBank } from "./credit";
 import { HOUSING_MODULE, HOUSING_PARAMETERS, withHousing } from "./housing";
 import { JOBS_MODULE, JOBS_PARAMETERS } from "./jobs";
-import { MACRO_MODULE, MACRO_PARAMETERS, withCentralBank } from "./macro";
+import {
+  CUSTOM_ECONOMY_KEY,
+  MACRO_MODULE,
+  MACRO_PARAMETERS,
+  withCentralBank,
+} from "./macro";
 import { REGIONAL_MODULE, REGIONAL_PARAMETERS } from "./regional";
 import { WORLD_METRICS_MODULE } from "./world-metrics";
 import { PLACE_PRICES_MODULE, PRICES_PARAMETERS } from "./place-prices";
@@ -67,13 +72,31 @@ export function worldCoreData(base: CoreData = DEFAULT_DATA): CoreData {
  *
  *   newGame(recipe, worldGameOptions())
  */
-export function worldGameOptions(): {
+/** A custom world's national economy at the start (M6-04): the opening month's figures the player chose. */
+export interface CustomEconomy {
+  unemploymentPct?: number;
+  inflationPct?: number;
+  policyRatePct?: number;
+}
+
+export function worldGameOptions(custom: { economy?: CustomEconomy } = {}): {
   input: (input: CoreInput) => CoreInput;
   data: CoreData;
   modules: () => readonly CoreModule[];
 } {
   return {
-    input: withWorldEconomy,
+    input: (input) =>
+      withWorldEconomy(
+        custom.economy
+          ? {
+              ...input,
+              placeMetadata: {
+                ...input.placeMetadata,
+                [CUSTOM_ECONOMY_KEY]: JSON.stringify(custom.economy),
+              },
+            }
+          : input,
+      ),
     data: worldCoreData(),
     modules: () => [...WORLD_MODULES],
   };
