@@ -1,6 +1,6 @@
 # M6-screens: the real game screens, the opening and the art fixes
 
-**Specs:** M6-01 to M6-03.
+**Specs:** M6-01 to M6-04.
 **Built by:** OPUS-PLAY, with the CTO's art pipeline for art, and OPUS-PEOPLE for the opening speech's words.
 
 **How it works:** OPUS-PLAY builds each screen right away, in the simplest version that follows your decisions. You go through each redesigned screen before it ships (your Oct 8 rule), one at a time, in the order below. The art fixes start now.
@@ -55,6 +55,12 @@
 - **Loading screen:** up to two minutes, with the journal writing itself, a year counter with headlines, and the map filling in. You see it first.
 - Term underlines that open the glossary, live TV and newspapers, no goal on screen, and the bill paper.
 
+**Custom world** (owner, Oct 12; M6-04).
+- A new game starts from real data in a random place by default.
+- Before starting, you can instead customize the world: the place, demographics, ideology, turnout, party strength, the economy and more, like *The Political Process*'s 80+ advanced options.
+- The world then runs by the same rules.
+- OPUS-PLAY builds the new-game screen; OPUS-CORE makes world generation honor the settings.
+
 **Art fixes** (your Oct 8 list, starting now):
 - Real seated poses.
 - Formal clothes by role and place.
@@ -73,6 +79,8 @@
 - Every screen above on the new core: record data and control names, with engine text only.
 - The opening sequence, its preload, and the ledger.
 - The art fixes, through the art pipeline. Art goes straight into the game, and you curate while playing.
+- **Use the art we have now** (owner, Oct 12). The tagged library (`art/backdrops/manifest.json` with its tags, the people engine's poses and outfits, the capitols and campuses) goes into every scene. Each scene uses the best-tagged match it can find, such as a generic government office for a county clerk. No scene waits for a perfect painting. The CTO keeps importing generated art that isn't in the repo yet.
+- The custom-world screen, and world generation that honors its settings (with OPUS-CORE).
 
 ## How you'll know it works
 

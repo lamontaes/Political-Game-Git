@@ -255,6 +255,13 @@ The specs and their tests are in `docs/roadmap/features.json`. **Where a work or
 - **Does:** Seated poses that sit, formal clothes by role and place, frame corners, and the rest of the owner's October 8 list.
 - **Passes when:** The owner's October 8 defect list is cleared, judged by him side by side.
 
+### M6-04 · Custom world (added Oct 12)
+
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M6-screens.md`; the spec and its test are in `features.json`.
+- **Owner:** OPUS-PLAY (the new-game screen), with OPUS-CORE (world generation)
+- **Does:** A new game starts from real data in a random place, or from a customized world (place, demographics, ideology, turnout, party strength, economy and more), like *The Political Process*'s advanced options.
+- **Passes when:** World generation honors every setting, and the world then runs by the same rules.
+
 ## M7 · Early-access ready
 
 ### M7-01 · Speed and memory

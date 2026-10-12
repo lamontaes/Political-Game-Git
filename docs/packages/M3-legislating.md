@@ -35,6 +35,7 @@ Our version adds members with real lives, real deals and played meetings.
 - The bill goes to committee, then amendments, then a floor vote, then the mayor, governor or president signs or vetoes it, and it takes effect on its date.
 - Each body follows its real rules, and members can vote to change those rules.
 - Meetings are played scenes. The items that matter play out and the rest are summarized.
+- **Committee hearings** (owner, Oct 12): witnesses testify and members question them, played where it matters. Questioning is courteous by default. A hostile turn needs a reason on the record (an opposing official, a scandal, the member's own stake), following the committee card in `docs/research/speech-and-dialogue-corpus-2026-09-28.md`.
 - You vote one item at a time, in batches, or by standing instructions.
 - Committee seats, chairs and leadership are earned through relationships and seniority, not points.
 - The minority can delay, amend or filibuster where the rules allow. Poison pills and riders are possible.
@@ -59,7 +60,7 @@ Our version adds members with real lives, real deals and played meetings.
   - lies;
   - money and corruption as reasons.
 - One legislature engine:
-  - committees, amendments, floor votes and executive action;
+  - committees and their hearings (witnesses testify, members question), amendments, floor votes and executive action;
   - each chamber's real rules from official sources, changeable by vote;
   - seats and leadership earned through relationships and seniority;
   - minority tools;
@@ -104,4 +105,5 @@ In a random place, from your council seat:
 - **Engines:**
   - One legislature engine for all three levels (Sept 30).
   - No points or visible meters (Sept 17). *The Political Process* uses points; you chose relationships and seniority.
+- **Committee hearings:** added Oct 12 from *The Political Process* baseline.
 - **My call (not yours):** while courts are parked, a council bill whose authority is disputed passes and takes effect, as a registered stopgap until courts arrive. A clear state ban still blocks it. This mirrors your eviction call on Oct 10.

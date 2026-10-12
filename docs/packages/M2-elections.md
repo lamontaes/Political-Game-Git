@@ -8,7 +8,7 @@
 
 - **Election day comes on the place's real date.** The people you met and the voter groups everywhere else vote. Each vote comes from what that person knows and thinks, and whether they turn out comes from their own life. Nothing is rolled.
 - **Primaries and runoffs** follow that place's real rules (top-two or ranked-choice only where a place really uses them).
-- **Election night is a scene:** the returns, the people around you, the concession call. Win or lose, the winner takes the seat on the real start date.
+- **Election night is a scene:** the returns, exit polls of real voters leaving the polls (what they told the pollster), the people around you, the concession call. Win or lose, the winner takes the seat on the real start date.
 - **Parties** are real organizations with real people in them. People lean toward a party from their views and stick with it out of loyalty. "No party" and "independent" both exist, and new parties are rare. You can't hold a party post yet; parties run in the world.
 - **State and federal races** run in the world at the same time, with fictional candidates. The presidential race is simulated in depth.
 - **Your record follows you.** At the next election, your votes, your promises kept or broken, what changed in town and anything that surfaced all matter to voters. Rivals and attack ads use them too. The same goes for every incumbent, not just you. A bad record can draw a primary challenger.
@@ -17,7 +17,7 @@
 
 - **One election engine for every race,** from council to president. Named people vote as themselves and voter groups vote as groups. Filling a person in never adds an extra ballot.
 - **Rules from data:** real election dates, primaries, runoffs and counting rules for each place.
-- **Election night:** the vote stays in the engine; the story director stages the moments around it.
+- **Election night:** the vote stays in the engine; the story director stages the moments around it. Exit polls ask real voters as they leave and report what they said (owner, Oct 12).
 - **Parties:** organizations with members, leaders and rules. Party ties come from views plus loyalty.
 - **State and federal races** on the same engine, with fictional candidates.
 - **The record:** each incumbent's votes, statements, promises and outcomes stay on the record, and the next election reads it.
