@@ -166,5 +166,17 @@
     "addedAt": "2026-10-12",
     "replacement": "A calibration against what people bring up in play (M4-05) and the owner's grading of the journal.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-journal-banks",
+    "kind": "hand-written-bank",
+    "file": "src/director/data/journal.json",
+    "line": 1,
+    "whatItFakes": "The journal's line templates, written by hand instead of composed from mined real speech.",
+    "why": "The first new-core journal needs words now; the templates copy only recorded facts and hold no feeling words.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Lines composed from the mined first-person corpus in the speech research, refined by the owner's grades (M4-03).",
+    "status": "open"
   }
 ]

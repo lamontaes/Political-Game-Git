@@ -1,0 +1,208 @@
+{
+  "version": "p15-journal-v1",
+  "stopgapId": "SG-P15-journal-banks",
+  "about": "The words of the 'My life' journal on the new core: which moments it writes, the reviewed templates the English engine fills from records, and the relation words for naming family. Templates copy only recorded facts and carry no feeling words; a moment no line covers is left out.",
+  "relationWords": {
+    "parent": {
+      "female": "my mother",
+      "male": "my father",
+      "other": "my parent"
+    },
+    "other-parent": {
+      "female": "my mother",
+      "male": "my father",
+      "other": "my parent"
+    },
+    "child": {
+      "female": "my daughter",
+      "male": "my son",
+      "other": "my child"
+    },
+    "sibling": {
+      "female": "my sister",
+      "male": "my brother",
+      "other": "my sibling"
+    },
+    "grandparent": {
+      "female": "my grandmother",
+      "male": "my grandfather",
+      "other": "my grandparent"
+    },
+    "grandchild": {
+      "female": "my granddaughter",
+      "male": "my grandson",
+      "other": "my grandchild"
+    },
+    "aunt-or-uncle": {
+      "female": "my aunt",
+      "male": "my uncle",
+      "other": "my relative"
+    },
+    "niece-or-nephew": {
+      "female": "my niece",
+      "male": "my nephew",
+      "other": "my relative"
+    },
+    "partner": {
+      "female": "my partner",
+      "male": "my partner",
+      "other": "my partner"
+    }
+  },
+  "countWords": [
+    "",
+    "once",
+    "twice",
+    "three times",
+    "four times",
+    "five times",
+    "six times",
+    "seven times",
+    "eight times",
+    "nine times",
+    "ten times"
+  ],
+  "manyTimes": "many times",
+  "lines": [
+    {
+      "kindPrefix": "school:",
+      "turn": true,
+      "line": [
+        {
+          "key": "started-school",
+          "text": "I started at {{school}}."
+        }
+      ],
+      "title": [
+        {
+          "key": "school",
+          "text": "{{school}}"
+        }
+      ]
+    },
+    {
+      "kindPrefix": "work:opening",
+      "turn": true,
+      "line": [
+        {
+          "key": "started-work",
+          "text": "I started working at {{employer}}."
+        }
+      ],
+      "title": [
+        {
+          "key": "employer",
+          "text": "{{employer}}"
+        }
+      ]
+    },
+    {
+      "kindPrefix": "job-started",
+      "turn": true,
+      "line": [
+        {
+          "key": "started-work",
+          "text": "I started working at {{employer}}."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-started",
+          "text": "{{other}} started a new job."
+        }
+      ],
+      "title": [
+        {
+          "key": "employer",
+          "text": "{{employer}}"
+        }
+      ]
+    },
+    {
+      "kindPrefix": "job-ended",
+      "turn": true,
+      "line": [
+        {
+          "key": "lost-job",
+          "text": "I lost my job at {{employer}}."
+        }
+      ],
+      "otherLine": [
+        {
+          "key": "other-lost",
+          "text": "{{other}} lost their job."
+        }
+      ],
+      "title": [
+        {
+          "key": "after",
+          "text": "After {{employer}}"
+        }
+      ]
+    },
+    {
+      "kindPrefix": "family:child",
+      "turn": true,
+      "line": [
+        {
+          "key": "born",
+          "text": "{{other}} was born."
+        }
+      ],
+      "title": [
+        {
+          "key": "born",
+          "text": "{{other}}"
+        }
+      ]
+    },
+    {
+      "kindPrefix": "moved",
+      "turn": true,
+      "line": [
+        {
+          "key": "moved",
+          "text": "I moved to {{place}}."
+        }
+      ],
+      "title": [
+        {
+          "key": "place",
+          "text": "{{place}}"
+        }
+      ]
+    },
+    {
+      "kindPrefix": "unpaid-wages",
+      "turn": false,
+      "line": [
+        {
+          "key": "short",
+          "text": "My pay came up short."
+        }
+      ]
+    },
+    {
+      "kindPrefix": "contact:",
+      "turn": false,
+      "line": [
+        {
+          "key": "saw",
+          "text": "I saw {{other}}."
+        }
+      ],
+      "repeatLine": [
+        {
+          "key": "saw-often",
+          "text": "I saw {{other}} {{times}}."
+        }
+      ]
+    }
+  ],
+  "firstTitle": [
+    {
+      "key": "start",
+      "text": "{{place}}"
+    }
+  ]
+}
