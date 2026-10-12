@@ -1,21 +1,28 @@
 {
   "register": "opening-speech",
   "read": {
-    "_held_truman": 424,
     "chrg": 2500,
     "dcpd": 17712,
-    "eac": 26,
+    "eac": 330,
     "eisenhower": 15,
-    "fec": 183,
-    "florida": 348,
+    "fec": 288,
+    "federal-counter": 330,
+    "florida": 420,
     "house": 300,
-    "nasa": 1387,
+    "nasa": 1388,
+    "news-energy": 1507,
     "news-epa": 3009,
+    "news-faa": 1383,
+    "news-fda": 1199,
     "news-justice": 5265,
-    "news-nps": 2425,
-    "news-treasury": 7,
+    "news-nasa": 1446,
+    "news-noaa": 484,
+    "news-nps": 2506,
+    "news-nws": 3072,
+    "news-treasury": 2504,
     "senate": 51,
-    "sotu-gutenberg": 222
+    "sotu-gutenberg": 222,
+    "usa-gov": 260
   },
   "notAttested": [
     {
