@@ -54,8 +54,8 @@
       "ncua": 683,
       "nih": 52,
       "nps": 515,
-      "nps.gov": 1484,
-      "nps.gov (PDF)": 125,
+      "nps.gov": 1728,
+      "nps.gov (PDF)": 164,
       "ntia": 371,
       "sba": 577,
       "usa.gov": 312,
@@ -1710,7 +1710,7 @@
           "journal": []
         }
       ],
-      "transcriptsUsing": 210,
+      "transcriptsUsing": 209,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
@@ -1721,7 +1721,7 @@
         "National Archives History Office oral history project (nyc-oral-histories)": 1,
         "National Archives History Office oral history project (ross-oral-histories)": 1,
         "National Archives History Office oral history project (veterans-oral-histories)": 2,
-        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 37,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 38,
         "U.S. Senate Historical Office oral history": 6,
         "crec": 4,
         "hearings": 18,
@@ -1730,7 +1730,6 @@
         "nasa2": 10,
         "nih": 1,
         "nps": 76,
-        "nps.gov (PDF)": 2,
         "wpa": 27
       },
       "shippable": true,

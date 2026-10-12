@@ -1,6 +1,6 @@
 {
   "register": "address",
-  "description": "Public address in the register cards' moves: the House and Senate floor, a state floor, committee hearings, public comment at a council or board, the chair running a meeting, and campaign remarks, victory and concession. Every part is a whole sentence said in public-domain federal records (the Congressional Record, hearings, EAC and FEC meetings), with record words as slots. Campaign sources (rallies, ads) give patterns only; their wording ships only when a federal record also says it.",
+  "description": "Public address in the register cards' moves: the House and Senate floor, a state floor, committee hearings, public comment at a council or board, the chair running a meeting, and campaign remarks, victory and concession. Every part is a whole sentence said in public-domain federal records (the Congressional Record, hearings, EAC and FEC meetings), with record words as slots. Campaign sources (rallies, ads) give patterns only; their wording ships only when a federal record also says it. A sentence that claims something about the speaker's life or the place names the record fact it needs (requiresFacts); the engine says it only when that fact is in the record.",
   "slots": {
     "name": "A person's name from the records (the honoree, the speaker, a member).",
     "bill": "A measure on the floor, as its record names it.",
@@ -120,9 +120,18 @@
         "{name} was elected {office} in {year}.",
         "{name} graduated from {school}.",
         "{name} worked at {employer} for {years} years.",
-        "{name} is survived by {pronoun} wife.",
-        "{name} is survived by {pronoun} husband.",
-        "{name} is survived by {pronoun} children."
+        {
+          "text": "{name} is survived by {pronoun} wife.",
+          "requiresFacts": ["survived-by-wife"]
+        },
+        {
+          "text": "{name} is survived by {pronoun} husband.",
+          "requiresFacts": ["survived-by-husband"]
+        },
+        {
+          "text": "{name} is survived by {pronoun} children.",
+          "requiresFacts": ["survived-by-children"]
+        }
       ]
     },
     {
@@ -249,12 +258,30 @@
         "I'm a resident of {place}.",
         "I've lived in {place} for {years} years.",
         "I've lived here for {years} years.",
-        "I'm a homeowner in {place}.",
-        "I'm a small business owner in {place}.",
-        "I'm a teacher in {place}.",
-        "I'm a parent.",
-        "I'm a mother of {number}.",
-        "I'm a father of {number}.",
+        {
+          "text": "I'm a homeowner in {place}.",
+          "requiresFacts": ["owns-home"]
+        },
+        {
+          "text": "I'm a small business owner in {place}.",
+          "requiresFacts": ["owns-business"]
+        },
+        {
+          "text": "I'm a teacher in {place}.",
+          "requiresFacts": ["occupation-teacher"]
+        },
+        {
+          "text": "I'm a parent.",
+          "requiresFacts": ["has-children"]
+        },
+        {
+          "text": "I'm a mother of {number}.",
+          "requiresFacts": ["has-children", "is-mother"]
+        },
+        {
+          "text": "I'm a father of {number}.",
+          "requiresFacts": ["has-children", "is-father"]
+        },
         "I'm here on behalf of {group}.",
         "I'm here today on behalf of {group}.",
         "I represent {group}.",
@@ -319,23 +346,74 @@
       "candidates": [
         "We've lived here for {years} years.",
         "My family has lived here for {years} years.",
-        "I grew up here.",
-        "I was born and raised here.",
-        "My kids go to school here.",
-        "My children go to school here.",
-        "I work here.",
-        "I've worked here for {years} years.",
-        "We can't afford it.",
-        "We can't afford to live here.",
-        "My rent went up.",
-        "My taxes went up.",
-        "My property taxes went up.",
-        "Our taxes keep going up.",
-        "I lost my job.",
-        "I had to close my business.",
-        "I'm on a fixed income.",
-        "It's not safe.",
-        "The roads are terrible."
+        {
+          "text": "I grew up here.",
+          "requiresFacts": ["grew-up-here"]
+        },
+        {
+          "text": "I was born and raised here.",
+          "requiresFacts": ["born-here"]
+        },
+        {
+          "text": "My kids go to school here.",
+          "requiresFacts": ["children-in-school"]
+        },
+        {
+          "text": "My children go to school here.",
+          "requiresFacts": ["children-in-school"]
+        },
+        {
+          "text": "I work here.",
+          "requiresFacts": ["works-here"]
+        },
+        {
+          "text": "I've worked here for {years} years.",
+          "requiresFacts": ["works-here"]
+        },
+        {
+          "text": "We can't afford it.",
+          "requiresFacts": ["cannot-afford"]
+        },
+        {
+          "text": "We can't afford to live here.",
+          "requiresFacts": ["cannot-afford"]
+        },
+        {
+          "text": "My rent went up.",
+          "requiresFacts": ["rent-rose"]
+        },
+        {
+          "text": "My taxes went up.",
+          "requiresFacts": ["taxes-rose"]
+        },
+        {
+          "text": "My property taxes went up.",
+          "requiresFacts": ["taxes-rose"]
+        },
+        {
+          "text": "Our taxes keep going up.",
+          "requiresFacts": ["taxes-rose"]
+        },
+        {
+          "text": "I lost my job.",
+          "requiresFacts": ["lost-job"]
+        },
+        {
+          "text": "I had to close my business.",
+          "requiresFacts": ["closed-business"]
+        },
+        {
+          "text": "I'm on a fixed income.",
+          "requiresFacts": ["fixed-income"]
+        },
+        {
+          "text": "It's not safe.",
+          "requiresFacts": ["issue-safety"]
+        },
+        {
+          "text": "The roads are terrible.",
+          "requiresFacts": ["issue-roads"]
+        }
       ]
     },
     {
@@ -430,26 +508,80 @@
         "I'm running for {office} because {reason}.",
         "I grew up in {place}.",
         "I was born and raised in {place}.",
-        "I've lived in {place} my whole life.",
-        "I've lived here my whole life.",
-        "I've spent my whole life here.",
-        "I'm a small business owner.",
-        "I'm a teacher.",
-        "I'm a nurse.",
-        "I'm a farmer.",
-        "I'm a veteran.",
-        "I'm a mother.",
-        "I'm a father.",
-        "I'm a parent.",
-        "My father worked at {employer}.",
-        "My mother worked at {employer}.",
-        "My dad worked at {employer} for {years} years.",
-        "My mom worked at {employer} for {years} years.",
+        {
+          "text": "I've lived in {place} my whole life.",
+          "requiresFacts": ["born-here"]
+        },
+        {
+          "text": "I've lived here my whole life.",
+          "requiresFacts": ["born-here"]
+        },
+        {
+          "text": "I've spent my whole life here.",
+          "requiresFacts": ["born-here"]
+        },
+        {
+          "text": "I'm a small business owner.",
+          "requiresFacts": ["owns-business"]
+        },
+        {
+          "text": "I'm a teacher.",
+          "requiresFacts": ["occupation-teacher"]
+        },
+        {
+          "text": "I'm a nurse.",
+          "requiresFacts": ["occupation-nurse"]
+        },
+        {
+          "text": "I'm a farmer.",
+          "requiresFacts": ["occupation-farmer"]
+        },
+        {
+          "text": "I'm a veteran.",
+          "requiresFacts": ["veteran"]
+        },
+        {
+          "text": "I'm a mother.",
+          "requiresFacts": ["has-children", "is-mother"]
+        },
+        {
+          "text": "I'm a father.",
+          "requiresFacts": ["has-children", "is-father"]
+        },
+        {
+          "text": "I'm a parent.",
+          "requiresFacts": ["has-children"]
+        },
+        {
+          "text": "My father worked at {employer}.",
+          "requiresFacts": ["father-worked-there"]
+        },
+        {
+          "text": "My mother worked at {employer}.",
+          "requiresFacts": ["mother-worked-there"]
+        },
+        {
+          "text": "My dad worked at {employer} for {years} years.",
+          "requiresFacts": ["father-worked-there"]
+        },
+        {
+          "text": "My mom worked at {employer} for {years} years.",
+          "requiresFacts": ["mother-worked-there"]
+        },
         "I worked at {employer} for {years} years.",
         "I know what it's like to {hardship}.",
-        "I know what it's like to struggle.",
-        "I know what it's like to lose a job.",
-        "I know what it's like to raise a family on a tight budget."
+        {
+          "text": "I know what it's like to struggle.",
+          "requiresFacts": ["hardship"]
+        },
+        {
+          "text": "I know what it's like to lose a job.",
+          "requiresFacts": ["lost-job"]
+        },
+        {
+          "text": "I know what it's like to raise a family on a tight budget.",
+          "requiresFacts": ["tight-budget"]
+        }
       ]
     },
     {
@@ -462,27 +594,81 @@
         "We have to {goal}.",
         "We can {goal}.",
         "It's time to {goal}.",
-        "It's time for a change.",
-        "We can do better.",
-        "We deserve better.",
-        "{place} deserves better.",
-        "We need jobs.",
-        "We need good jobs.",
-        "We need better schools.",
-        "We need to fix our roads.",
-        "We need to lower taxes.",
-        "Taxes are too high.",
-        "Prices are too high.",
-        "Rent is too high.",
-        "People are hurting.",
-        "Families are hurting.",
-        "Families are struggling.",
-        "Working families are struggling.",
+        {
+          "text": "It's time for a change.",
+          "requiresFacts": ["challenger"]
+        },
+        {
+          "text": "We can do better.",
+          "requiresFacts": ["challenger"]
+        },
+        {
+          "text": "We deserve better.",
+          "requiresFacts": ["challenger"]
+        },
+        {
+          "text": "{place} deserves better.",
+          "requiresFacts": ["challenger"]
+        },
+        {
+          "text": "We need jobs.",
+          "requiresFacts": ["issue-jobs"]
+        },
+        {
+          "text": "We need good jobs.",
+          "requiresFacts": ["issue-jobs"]
+        },
+        {
+          "text": "We need better schools.",
+          "requiresFacts": ["issue-schools"]
+        },
+        {
+          "text": "We need to fix our roads.",
+          "requiresFacts": ["issue-roads"]
+        },
+        {
+          "text": "We need to lower taxes.",
+          "requiresFacts": ["issue-taxes"]
+        },
+        {
+          "text": "Taxes are too high.",
+          "requiresFacts": ["issue-taxes"]
+        },
+        {
+          "text": "Prices are too high.",
+          "requiresFacts": ["issue-prices"]
+        },
+        {
+          "text": "Rent is too high.",
+          "requiresFacts": ["issue-rent"]
+        },
+        {
+          "text": "People are hurting.",
+          "requiresFacts": ["issue-hardship"]
+        },
+        {
+          "text": "Families are hurting.",
+          "requiresFacts": ["issue-hardship"]
+        },
+        {
+          "text": "Families are struggling.",
+          "requiresFacts": ["issue-hardship"]
+        },
+        {
+          "text": "Working families are struggling.",
+          "requiresFacts": ["issue-hardship"]
+        },
         "This is about {issue}.",
         "This election is about {issue}.",
-        "This is about our children.",
+        {
+          "text": "This is about our children.",
+          "requiresFacts": ["issue-children"]
+        },
         "This is about our future.",
-        "This is about jobs."
+        {
+          "text": "This is about jobs.",
+          "requiresFacts": ["issue-jobs"]
+        }
       ]
     },
     {
@@ -498,10 +684,22 @@
         "My opponent has been in office for {years} years.",
         "{opponent} voted against {issue}.",
         "{opponent} voted for {issue}.",
-        "They had their chance.",
-        "They've had their chance.",
-        "We've tried it their way.",
-        "Enough is enough."
+        {
+          "text": "They had their chance.",
+          "requiresFacts": ["challenger"]
+        },
+        {
+          "text": "They've had their chance.",
+          "requiresFacts": ["challenger"]
+        },
+        {
+          "text": "We've tried it their way.",
+          "requiresFacts": ["challenger"]
+        },
+        {
+          "text": "Enough is enough.",
+          "requiresFacts": ["challenger"]
+        }
       ]
     },
     {
@@ -555,8 +753,14 @@
       "role": "claim",
       "choice": "claim",
       "candidates": [
-        "We won.",
-        "We did it.",
+        {
+          "text": "We won.",
+          "requiresFacts": ["won"]
+        },
+        {
+          "text": "We did it.",
+          "requiresFacts": ["won"]
+        },
         "Tonight, we won.",
         "The people have spoken.",
         "The voters have spoken.",
@@ -633,14 +837,38 @@
         "The state of our union is strong.",
         "Tonight, the state of our Union is strong.",
         "I can report that the state of our Union is strong.",
-        "Our economy is strong.",
-        "Our economy is booming.",
-        "America is back.",
-        "Jobs are up.",
-        "Wages are rising.",
-        "Unemployment is at a record low.",
-        "We've created {number} new jobs.",
-        "We created {number} jobs."
+        {
+          "text": "Our economy is strong.",
+          "requiresFacts": ["economy-growing"]
+        },
+        {
+          "text": "Our economy is booming.",
+          "requiresFacts": ["economy-growing"]
+        },
+        {
+          "text": "America is back.",
+          "requiresFacts": ["new-administration"]
+        },
+        {
+          "text": "Jobs are up.",
+          "requiresFacts": ["jobs-up"]
+        },
+        {
+          "text": "Wages are rising.",
+          "requiresFacts": ["wages-up"]
+        },
+        {
+          "text": "Unemployment is at a record low.",
+          "requiresFacts": ["unemployment-record-low"]
+        },
+        {
+          "text": "We've created {number} new jobs.",
+          "requiresFacts": ["jobs-up"]
+        },
+        {
+          "text": "We created {number} jobs.",
+          "requiresFacts": ["jobs-up"]
+        }
       ]
     },
     {
@@ -725,7 +953,10 @@
         "Together, we will {goal}.",
         "We will not fail.",
         "The future is ours.",
-        "We will rebuild.",
+        {
+          "text": "We will rebuild.",
+          "requiresFacts": ["rebuilding"]
+        },
         "We will make America {state} again.",
         "We are all Americans."
       ]

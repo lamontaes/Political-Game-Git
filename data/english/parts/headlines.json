@@ -65,8 +65,8 @@
       "ncua": 683,
       "nih": 52,
       "nps": 515,
-      "nps.gov": 1484,
-      "nps.gov (PDF)": 125,
+      "nps.gov": 1728,
+      "nps.gov (PDF)": 164,
       "ntia": 371,
       "sba": 577,
       "usa.gov": 312,
@@ -578,7 +578,7 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 230,
+      "transcriptsUsing": 231,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "National Archives History Office oral history project": 1,
@@ -598,6 +598,7 @@
         "nasa2": 3,
         "ncua": 48,
         "nps": 2,
+        "nps.gov": 1,
         "ntia": 15,
         "usa.gov": 2
       },
@@ -623,7 +624,7 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 306,
+      "transcriptsUsing": 313,
       "bySource": {
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 1,
         "National Archives History Office oral history project": 4,
@@ -642,7 +643,7 @@
         "nasa2": 12,
         "nih": 3,
         "nps": 10,
-        "nps.gov": 57,
+        "nps.gov": 64,
         "nps.gov (PDF)": 11,
         "weather.gov": 2,
         "wpa": 22
@@ -1147,7 +1148,7 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 324,
+      "transcriptsUsing": 325,
       "bySource": {
         "National Archives History Office oral history project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 1,
@@ -1165,7 +1166,7 @@
         "ncua": 9,
         "nih": 1,
         "nps": 6,
-        "nps.gov": 4,
+        "nps.gov": 5,
         "ntia": 1,
         "sba": 2,
         "usgs": 6,
@@ -1281,7 +1282,7 @@
           "choice": "headline"
         }
       ],
-      "transcriptsUsing": 2967,
+      "transcriptsUsing": 2969,
       "bySource": {
         "Federal Election Commission (fec.gov)": 9,
         "Florida Department of State, Division of Elections (dos.fl.gov)": 1,
@@ -1314,7 +1315,7 @@
         "ncua": 90,
         "nih": 26,
         "nps": 128,
-        "nps.gov": 7,
+        "nps.gov": 9,
         "nps.gov (PDF)": 1,
         "ntia": 15,
         "sba": 32,

@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "interview",
-  "description": "A one-on-one interview of a candidate or official by a local reporter: the reporter's questions and follow-ups, and the answers, commitments, defenses of a record and deflections. Every part is a whole sentence said in public-domain federal records (hearings, the Congressional Record, FEC and EAC meetings, federal oral histories), with record words as slots.",
+  "description": "A one-on-one interview of a candidate or official by a local reporter: the reporter's questions and follow-ups, and the answers, commitments, defenses of a record and deflections. Every part is a whole sentence said in public-domain federal records (hearings, the Congressional Record, FEC and EAC meetings, federal oral histories), with record words as slots. A sentence that claims something about the speaker's life or the place names the record fact it needs (requiresFacts); the engine says it only when that fact is in the record.",
   "slots": {
     "office": "The office, from the office records.",
     "issue": "What the question is about, from the topic or measure record.",
@@ -54,8 +54,8 @@
       "ncua": 683,
       "nih": 52,
       "nps": 515,
-      "nps.gov": 1484,
-      "nps.gov (PDF)": 125,
+      "nps.gov": 1728,
+      "nps.gov (PDF)": 164,
       "ntia": 371,
       "sba": 577,
       "usa.gov": 312,
@@ -136,14 +136,15 @@
           "choice": "open"
         }
       ],
-      "transcriptsUsing": 57,
+      "transcriptsUsing": 58,
       "bySource": {
         "Richard Nixon Presidential Library (NARA) oral history project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 3,
         "U.S. Senate Historical Office oral history": 2,
         "hearings": 48,
         "house": 2,
-        "nih": 1
+        "nih": 1,
+        "nps.gov": 1
       },
       "shippable": true,
       "source": {
@@ -667,7 +668,7 @@
           "choice": "press"
         }
       ],
-      "transcriptsUsing": 170,
+      "transcriptsUsing": 171,
       "bySource": {
         "National Archives History Office oral history project": 1,
         "Richard Nixon Presidential Library (NARA) oral history project": 3,
@@ -679,7 +680,8 @@
         "house": 3,
         "nasa": 10,
         "nasa2": 9,
-        "nps": 22
+        "nps": 22,
+        "nps.gov": 1
       },
       "shippable": true,
       "source": {
@@ -948,7 +950,7 @@
           "choice": "commit"
         }
       ],
-      "transcriptsUsing": 748,
+      "transcriptsUsing": 747,
       "bySource": {
         "Federal Election Commission (fec.gov)": 1,
         "Jimmy Carter Library (NARA) White House Exit Interview Project": 9,
@@ -970,7 +972,6 @@
         "nasa2": 126,
         "nih": 4,
         "nps": 89,
-        "nps.gov (PDF)": 1,
         "ntia": 2,
         "usgs": 1,
         "va": 5,
@@ -998,7 +999,7 @@
           "choice": "commit"
         }
       ],
-      "transcriptsUsing": 1869,
+      "transcriptsUsing": 1873,
       "bySource": {
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
         "Federal Election Commission (fec.gov)": 3,
@@ -1029,7 +1030,7 @@
         "ncua": 2,
         "nih": 3,
         "nps": 26,
-        "nps.gov": 26,
+        "nps.gov": 30,
         "nps.gov (PDF)": 6,
         "ntia": 11,
         "usa.gov": 1,
@@ -1084,7 +1085,8 @@
           "move": "official-record",
           "subject": "official",
           "role": "record",
-          "choice": "record"
+          "choice": "record",
+          "requiresFacts": ["voted-yes"]
         }
       ],
       "transcriptsUsing": 6,
@@ -1115,7 +1117,8 @@
           "move": "official-record",
           "subject": "official",
           "role": "record",
-          "choice": "record"
+          "choice": "record",
+          "requiresFacts": ["voted-no"]
         }
       ],
       "transcriptsUsing": 4,
@@ -1516,7 +1519,8 @@
           "move": "official-story",
           "subject": "official",
           "role": "story",
-          "choice": "story"
+          "choice": "story",
+          "requiresFacts": ["hardship"]
         }
       ],
       "transcriptsUsing": 26,

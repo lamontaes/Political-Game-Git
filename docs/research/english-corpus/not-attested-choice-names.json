@@ -37,8 +37,8 @@
     "ncua": 683,
     "nih": 52,
     "nps": 515,
-    "nps.gov": 1484,
-    "nps.gov (PDF)": 125,
+    "nps.gov": 1728,
+    "nps.gov (PDF)": 164,
     "ntia": 371,
     "sba": 577,
     "usa.gov": 312,
@@ -592,8 +592,8 @@
     {
       "move": "share-cause",
       "text": "Tell your friends.",
-      "documents": 0,
-      "modern": 0
+      "documents": 1,
+      "modern": 1
     },
     {
       "move": "share-cause",

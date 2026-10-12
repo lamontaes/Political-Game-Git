@@ -1,7 +1,7 @@
 {
   "schema": "english-parts/1",
   "register": "address",
-  "description": "Public address in the register cards' moves: the House and Senate floor, a state floor, committee hearings, public comment at a council or board, the chair running a meeting, and campaign remarks, victory and concession. Every part is a whole sentence said in public-domain federal records (the Congressional Record, hearings, EAC and FEC meetings), with record words as slots. Campaign sources (rallies, ads) give patterns only; their wording ships only when a federal record also says it.",
+  "description": "Public address in the register cards' moves: the House and Senate floor, a state floor, committee hearings, public comment at a council or board, the chair running a meeting, and campaign remarks, victory and concession. Every part is a whole sentence said in public-domain federal records (the Congressional Record, hearings, EAC and FEC meetings), with record words as slots. Campaign sources (rallies, ads) give patterns only; their wording ships only when a federal record also says it. A sentence that claims something about the speaker's life or the place names the record fact it needs (requiresFacts); the engine says it only when that fact is in the record.",
   "slots": {
     "name": "A person's name from the records (the honoree, the speaker, a member).",
     "bill": "A measure on the floor, as its record names it.",
@@ -21,7 +21,8 @@
     "goal": "What the speaker wants done, from their recorded stance.",
     "did": "What the opponent did, from the opponent's record.",
     "opponent": "The other candidate, by name, from the contest record.",
-    "date": "Election day, from the contest record."
+    "date": "Election day, from the contest record.",
+    "state": "What the speaker means to restore, as the record says it."
   },
   "maxWords": 16,
   "mining": {
@@ -64,8 +65,8 @@
       "ncua": 683,
       "nih": 52,
       "nps": 515,
-      "nps.gov": 1484,
-      "nps.gov (PDF)": 125,
+      "nps.gov": 1728,
+      "nps.gov (PDF)": 164,
       "ntia": 371,
       "sba": 577,
       "usa.gov": 312,
@@ -76,7 +77,7 @@
       "wpa": 38
     },
     "rule": "A shape is kept when at least 2 documents say it as a whole sentence and one of them is a public-domain record from 2015 or later, which is its source.",
-    "notAttested": 195
+    "notAttested": 237
   },
   "parts": [
     {
@@ -1132,12 +1133,12 @@
           "choice": "tribute-close"
         }
       ],
-      "transcriptsUsing": 24,
+      "transcriptsUsing": 25,
       "bySource": {
         "U.S. Election Assistance Commission (eac.gov)": 4,
         "crec": 17,
         "hearings": 1,
-        "nps.gov": 2
+        "nps.gov": 3
       },
       "shippable": true,
       "source": {
@@ -1360,7 +1361,8 @@
           "move": "house-floor-tribute-story",
           "subject": "house-floor",
           "role": "tribute-story",
-          "choice": "tribute-story"
+          "choice": "tribute-story",
+          "requiresFacts": ["survived-by-wife"]
         }
       ],
       "transcriptsUsing": 9,
@@ -1386,7 +1388,8 @@
           "move": "house-floor-tribute-story",
           "subject": "house-floor",
           "role": "tribute-story",
-          "choice": "tribute-story"
+          "choice": "tribute-story",
+          "requiresFacts": ["survived-by-husband"]
         }
       ],
       "transcriptsUsing": 2,
@@ -1823,6 +1826,30 @@
           "subject": "campaign",
           "role": "close",
           "choice": "close"
+        },
+        {
+          "move": "state-of-the-union-salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation"
+        },
+        {
+          "move": "state-of-the-union-close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close"
+        },
+        {
+          "move": "inaugural-salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation"
+        },
+        {
+          "move": "inaugural-close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close"
         }
       ],
       "transcriptsUsing": 2390,
@@ -1895,6 +1922,24 @@
           "subject": "campaign",
           "role": "close",
           "choice": "close"
+        },
+        {
+          "move": "state-of-the-union-salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation"
+        },
+        {
+          "move": "state-of-the-union-close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close"
+        },
+        {
+          "move": "inaugural-salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation"
         }
       ],
       "transcriptsUsing": 1710,
@@ -2656,7 +2701,7 @@
           "choice": "self"
         }
       ],
-      "transcriptsUsing": 943,
+      "transcriptsUsing": 946,
       "bySource": {
         "Federal Election Commission (fec.gov)": 2,
         "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
@@ -2678,8 +2723,8 @@
         "nasa2": 3,
         "nih": 2,
         "nps": 67,
-        "nps.gov": 4,
-        "nps.gov (PDF)": 7,
+        "nps.gov": 6,
+        "nps.gov (PDF)": 8,
         "wpa": 20
       },
       "shippable": true,
@@ -3054,7 +3099,8 @@
           "move": "public-comment-story",
           "subject": "public-comment",
           "role": "story",
-          "choice": "story"
+          "choice": "story",
+          "requiresFacts": ["grew-up-here"]
         }
       ],
       "transcriptsUsing": 9,
@@ -3084,7 +3130,8 @@
           "move": "public-comment-story",
           "subject": "public-comment",
           "role": "story",
-          "choice": "story"
+          "choice": "story",
+          "requiresFacts": ["cannot-afford"]
         }
       ],
       "transcriptsUsing": 8,
@@ -3113,7 +3160,8 @@
           "move": "public-comment-story",
           "subject": "public-comment",
           "role": "story",
-          "choice": "story"
+          "choice": "story",
+          "requiresFacts": ["lost-job"]
         }
       ],
       "transcriptsUsing": 3,
@@ -3140,7 +3188,8 @@
           "move": "public-comment-story",
           "subject": "public-comment",
           "role": "story",
-          "choice": "story"
+          "choice": "story",
+          "requiresFacts": ["issue-safety"]
         }
       ],
       "transcriptsUsing": 3,
@@ -4171,7 +4220,8 @@
           "move": "campaign-self",
           "subject": "campaign",
           "role": "self",
-          "choice": "self"
+          "choice": "self",
+          "requiresFacts": ["occupation-nurse"]
         }
       ],
       "transcriptsUsing": 2,
@@ -4198,7 +4248,8 @@
           "move": "campaign-self",
           "subject": "campaign",
           "role": "self",
-          "choice": "self"
+          "choice": "self",
+          "requiresFacts": ["occupation-farmer"]
         }
       ],
       "transcriptsUsing": 3,
@@ -4358,7 +4409,7 @@
           "choice": "issue"
         }
       ],
-      "transcriptsUsing": 1671,
+      "transcriptsUsing": 1672,
       "bySource": {
         "Air Force Historical Research Agency, USAF Oral History Program": 1,
         "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
@@ -4387,7 +4438,7 @@
         "ncua": 2,
         "nih": 9,
         "nps": 83,
-        "nps.gov": 9,
+        "nps.gov": 10,
         "nps.gov (PDF)": 2,
         "ntia": 2,
         "usfa.fema.gov": 1,
@@ -4417,7 +4468,7 @@
           "choice": "issue"
         }
       ],
-      "transcriptsUsing": 79,
+      "transcriptsUsing": 80,
       "bySource": {
         "National Archives History Office oral history project": 1,
         "U.S. Election Assistance Commission (eac.gov)": 1,
@@ -4431,6 +4482,7 @@
         "nasa2": 6,
         "nps": 3,
         "nps.gov": 2,
+        "nps.gov (PDF)": 1,
         "va": 1
       },
       "shippable": true,
@@ -4452,7 +4504,8 @@
           "move": "campaign-issue",
           "subject": "campaign",
           "role": "issue",
-          "choice": "issue"
+          "choice": "issue",
+          "requiresFacts": ["challenger"]
         }
       ],
       "transcriptsUsing": 45,
@@ -4482,7 +4535,8 @@
           "move": "campaign-issue",
           "subject": "campaign",
           "role": "issue",
-          "choice": "issue"
+          "choice": "issue",
+          "requiresFacts": ["challenger"]
         }
       ],
       "transcriptsUsing": 2,
@@ -4508,7 +4562,8 @@
           "move": "campaign-issue",
           "subject": "campaign",
           "role": "issue",
-          "choice": "issue"
+          "choice": "issue",
+          "requiresFacts": ["challenger"]
         }
       ],
       "transcriptsUsing": 3,
@@ -4534,7 +4589,8 @@
           "move": "campaign-issue",
           "subject": "campaign",
           "role": "issue",
-          "choice": "issue"
+          "choice": "issue",
+          "requiresFacts": ["issue-hardship"]
         }
       ],
       "transcriptsUsing": 11,
@@ -4601,7 +4657,8 @@
           "move": "campaign-issue",
           "subject": "campaign",
           "role": "issue",
-          "choice": "issue"
+          "choice": "issue",
+          "requiresFacts": ["issue-children"]
         }
       ],
       "transcriptsUsing": 2,
@@ -4712,7 +4769,8 @@
           "move": "campaign-contrast",
           "subject": "campaign",
           "role": "contrast",
-          "choice": "contrast"
+          "choice": "contrast",
+          "requiresFacts": ["challenger"]
         }
       ],
       "transcriptsUsing": 50,
@@ -4891,6 +4949,18 @@
           "subject": "campaign",
           "role": "ask",
           "choice": "ask"
+        },
+        {
+          "move": "state-of-the-union-close",
+          "subject": "state-of-the-union",
+          "role": "close",
+          "choice": "close"
+        },
+        {
+          "move": "inaugural-close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close"
         }
       ],
       "transcriptsUsing": 11,
@@ -4917,6 +4987,12 @@
         {
           "move": "campaign-close",
           "subject": "campaign",
+          "role": "close",
+          "choice": "close"
+        },
+        {
+          "move": "state-of-the-union-close",
+          "subject": "state-of-the-union",
           "role": "close",
           "choice": "close"
         }
@@ -4949,7 +5025,8 @@
           "move": "victory-claim",
           "subject": "victory",
           "role": "claim",
-          "choice": "claim"
+          "choice": "claim",
+          "requiresFacts": ["won"]
         }
       ],
       "transcriptsUsing": 8,
@@ -4981,7 +5058,8 @@
           "move": "victory-claim",
           "subject": "victory",
           "role": "claim",
-          "choice": "claim"
+          "choice": "claim",
+          "requiresFacts": ["won"]
         }
       ],
       "transcriptsUsing": 69,
@@ -5197,11 +5275,12 @@
           "choice": "concede"
         }
       ],
-      "transcriptsUsing": 6,
+      "transcriptsUsing": 8,
       "bySource": {
         "National Archives History Office oral history project": 1,
         "crec": 4,
-        "hearings": 1
+        "hearings": 1,
+        "nps.gov (PDF)": 2
       },
       "shippable": true,
       "source": {
@@ -5290,6 +5369,701 @@
         "date": "2022-12-14",
         "granule": "CREC-2022-12-14-house",
         "url": "https://www.govinfo.gov/app/details/CREC-2022-12-14",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.state-of-the-union-salutation.my-fellow-americans",
+      "move": "state-of-the-union-salutation",
+      "kind": "spoken",
+      "text": "My fellow Americans.",
+      "uses": [
+        {
+          "move": "state-of-the-union-salutation",
+          "subject": "state-of-the-union",
+          "role": "salutation",
+          "choice": "salutation"
+        },
+        {
+          "move": "inaugural-salutation",
+          "subject": "inaugural",
+          "role": "salutation",
+          "choice": "salutation"
+        }
+      ],
+      "transcriptsUsing": 7,
+      "bySource": {
+        "crec": 7
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, Senate section, 2025-03-04",
+        "date": "2025-03-04",
+        "granule": "CREC-2025-03-04-senate",
+        "url": "https://www.govinfo.gov/app/details/CREC-2025-03-04",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.state-of-the-union-report.our-economy-is-booming",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Our economy is booming.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["economy-growing"]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "crec": 3
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2023-10-26",
+        "date": "2023-10-26",
+        "granule": "CREC-2023-10-26-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2023-10-26",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.state-of-the-union-report.america-is-back",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "America is back.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["new-administration"]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "crec": 1,
+        "hearings": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "ENERGY AND WATER DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR 2025",
+        "date": "2024-03-20",
+        "granule": "CHRG-118hhrg57786",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg57786/html/CHRG-118hhrg57786.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.state-of-the-union-report.wages-are-rising",
+      "move": "state-of-the-union-report",
+      "kind": "spoken",
+      "text": "Wages are rising.",
+      "uses": [
+        {
+          "move": "state-of-the-union-report",
+          "subject": "state-of-the-union",
+          "role": "report",
+          "choice": "report",
+          "requiresFacts": ["wages-up"]
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "crec": 1,
+        "hearings": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "CORPORATE PROFITS ARE SOARING AS PRICES RISE: ARE CORPORATE GREED AND PROFITEERING FUELING INFLATION?",
+        "date": "2022-04-05",
+        "granule": "CHRG-117shrg47315",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg47315/html/CHRG-117shrg47315.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.state-of-the-union-guest.name-thank-you",
+      "move": "state-of-the-union-guest",
+      "kind": "spoken",
+      "text": "{name}, thank you.",
+      "uses": [
+        {
+          "move": "state-of-the-union-guest",
+          "subject": "state-of-the-union",
+          "role": "guest",
+          "choice": "guest"
+        }
+      ],
+      "transcriptsUsing": 114,
+      "bySource": {
+        "National Archives History Office oral history project (nyc-oral-histories)": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 11,
+        "U.S. Election Assistance Commission (eac.gov)": 11,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 2,
+        "U.S. Senate Historical Office oral history": 1,
+        "crec": 12,
+        "hearings": 64,
+        "house": 8,
+        "nasa2": 1,
+        "nih": 1,
+        "nps": 1,
+        "va": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "PRESIDENT TRUMP'S REDESIGNATION OF NIGERIA AS A \"COUNTRY OF PARTICULAR CONCERN--CPC\": A SERIOUS, WELL-FOUNDED WAKE-UP CALL",
+        "date": "2025-11-20",
+        "granule": "CHRG-119hhrg64043",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg64043/html/CHRG-119hhrg64043.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.state-of-the-union-guest.thank-you-name",
+      "move": "state-of-the-union-guest",
+      "kind": "spoken",
+      "text": "Thank you, {name}.",
+      "uses": [
+        {
+          "move": "state-of-the-union-guest",
+          "subject": "state-of-the-union",
+          "role": "guest",
+          "choice": "guest"
+        }
+      ],
+      "transcriptsUsing": 748,
+      "bySource": {
+        "Federal Election Commission (fec.gov)": 1,
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 1,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 2,
+        "National Archives History Office oral history project": 7,
+        "National Archives History Office oral history project (nprc-oral-histories)": 2,
+        "National Archives History Office oral history project (nyc-oral-histories)": 2,
+        "Naval History and Heritage Command, Navy strategy oral histories": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 5,
+        "U.S. Election Assistance Commission (eac.gov)": 42,
+        "U.S. Senate Historical Office oral history": 7,
+        "crec": 50,
+        "doi": 1,
+        "epa": 2,
+        "hearings": 565,
+        "house": 6,
+        "hud": 1,
+        "nasa": 5,
+        "nasa2": 6,
+        "nih": 1,
+        "nps": 34,
+        "sba": 1,
+        "va": 5,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "date": "2026-04-28",
+        "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
+        "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.state-of-the-union-ask.i-ask-congress-to-goal",
+      "move": "state-of-the-union-ask",
+      "kind": "spoken",
+      "text": "I ask Congress to {goal}.",
+      "uses": [
+        {
+          "move": "state-of-the-union-ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 1,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "S. Hrg. 118-006 . UPLIFTING FAMILIES, WORKERS, AND OLDER ADULTS: SUPPORTING COMMUNITIES OF CARE",
+        "date": "2023-03-09",
+        "granule": "CHRG-118shrg51747",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118shrg51747/html/CHRG-118shrg51747.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.state-of-the-union-ask.lets-get-it-done",
+      "move": "state-of-the-union-ask",
+      "kind": "spoken",
+      "text": "Let's get it done.",
+      "uses": [
+        {
+          "move": "state-of-the-union-ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 16,
+      "bySource": {
+        "crec": 12,
+        "hearings": 2,
+        "house": 1,
+        "nps": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "CONFERENCE COMMITTEE MEETING ON BIPARTISAN INNOVATION AND COMPETITION LEGISLATION",
+        "date": "2022-05-12",
+        "granule": "CHRG-117shrg54928",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg54928/html/CHRG-117shrg54928.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.state-of-the-union-ask.lets-goal",
+      "move": "state-of-the-union-ask",
+      "kind": "spoken",
+      "text": "Let's {goal}.",
+      "uses": [
+        {
+          "move": "state-of-the-union-ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 2142,
+      "bySource": {
+        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 3,
+        "Federal Election Commission (fec.gov)": 1,
+        "Jimmy Carter Library (NARA) Carter/Smith Family Oral History Project": 3,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 23,
+        "National Archives History Office oral history project": 22,
+        "National Archives History Office oral history project (brooks-oral-histories)": 3,
+        "National Archives History Office oral history project (nprc-oral-histories)": 2,
+        "National Archives History Office oral history project (nyc-oral-histories)": 3,
+        "National Archives History Office oral history project (ross-oral-histories)": 1,
+        "National Archives History Office oral history project (veterans-oral-histories)": 3,
+        "Naval History and Heritage Command, Navy Department Library oral histories": 2,
+        "Naval History and Heritage Command, Navy strategy oral histories": 2,
+        "Richard Nixon Presidential Library (NARA) oral history project": 51,
+        "U.S. Army Center of Military History": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 48,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 69,
+        "U.S. Senate Historical Office oral history": 109,
+        "crec": 294,
+        "epa": 3,
+        "hearings": 750,
+        "house": 60,
+        "hud": 2,
+        "nasa": 201,
+        "nasa2": 196,
+        "ncua": 1,
+        "nih": 23,
+        "nps": 225,
+        "nps.gov": 9,
+        "nps.gov (PDF)": 17,
+        "va": 5,
+        "wpa": 10
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.state-of-the-union-ask.lets-work-together",
+      "move": "state-of-the-union-ask",
+      "kind": "spoken",
+      "text": "Let's work together.",
+      "uses": [
+        {
+          "move": "state-of-the-union-ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 14,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 2,
+        "crec": 5,
+        "hearings": 7
+      },
+      "shippable": true,
+      "source": {
+        "document": "SELF-DRIVING VEHICLE LEGISLATIVE FRAMEWORK: ENHANCING SAFETY, IMPROVING LIVES AND MOBILITY, AND BEATING CHINA",
+        "date": "2023-07-26",
+        "granule": "CHRG-118hhrg62819",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg62819/html/CHRG-118hhrg62819.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.state-of-the-union-ask.congress-must-goal",
+      "move": "state-of-the-union-ask",
+      "kind": "spoken",
+      "text": "Congress must {goal}.",
+      "uses": [
+        {
+          "move": "state-of-the-union-ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 171,
+      "bySource": {
+        "crec": 67,
+        "hearings": 104
+      },
+      "shippable": true,
+      "source": {
+        "document": "WATER RESOURCES DEVELOPMENT ACT OF 2026: STAKEHOLDER PRIORITIES",
+        "date": "2025-12-17",
+        "granule": "CHRG-119hhrg62963",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg62963/html/CHRG-119hhrg62963.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.state-of-the-union-ask.we-must-goal",
+      "move": "state-of-the-union-ask",
+      "kind": "spoken",
+      "text": "We must {goal}.",
+      "uses": [
+        {
+          "move": "state-of-the-union-ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 1015,
+      "bySource": {
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 3,
+        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 4,
+        "U.S. Election Assistance Commission (eac.gov)": 15,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 8,
+        "U.S. Senate Historical Office oral history": 8,
+        "crec": 233,
+        "doi": 7,
+        "doj": 3,
+        "eeoc": 2,
+        "epa": 6,
+        "hearings": 668,
+        "hud": 8,
+        "nasa": 8,
+        "nasa2": 13,
+        "ncua": 3,
+        "nih": 4,
+        "nps": 9,
+        "nps.gov (PDF)": 1,
+        "ntia": 1,
+        "sba": 1,
+        "va": 7,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.state-of-the-union-ask.i-urge-congress-to-goal",
+      "move": "state-of-the-union-ask",
+      "kind": "spoken",
+      "text": "I urge Congress to {goal}.",
+      "uses": [
+        {
+          "move": "state-of-the-union-ask",
+          "subject": "state-of-the-union",
+          "role": "ask",
+          "choice": "ask"
+        }
+      ],
+      "transcriptsUsing": 25,
+      "bySource": {
+        "crec": 6,
+        "hearings": 19
+      },
+      "shippable": true,
+      "source": {
+        "document": "RENEWING OUR COMMITMENT: HOW THE OLDER AMERICANS ACT UPLIFTS FAMILIES LIVING WITH AGING-RELATED DISEASES",
+        "date": "2025-11-05",
+        "granule": "CHRG-119shrg62490",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg62490/html/CHRG-119shrg62490.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.inaugural-moment.this-is-our-moment",
+      "move": "inaugural-moment",
+      "kind": "spoken",
+      "text": "This is our moment.",
+      "uses": [
+        {
+          "move": "inaugural-moment",
+          "subject": "inaugural",
+          "role": "moment",
+          "choice": "moment"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Congressional Record, House section, 2024-04-20",
+        "date": "2024-04-20",
+        "granule": "CREC-2024-04-20-house",
+        "url": "https://www.govinfo.gov/app/details/CREC-2024-04-20",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.inaugural-moment.we-will-goal",
+      "move": "inaugural-moment",
+      "kind": "spoken",
+      "text": "We will {goal}.",
+      "uses": [
+        {
+          "move": "inaugural-moment",
+          "subject": "inaugural",
+          "role": "moment",
+          "choice": "moment"
+        }
+      ],
+      "transcriptsUsing": 1873,
+      "bySource": {
+        "Dwight D. Eisenhower Presidential Library (NARA) oral history project": 1,
+        "Federal Election Commission (fec.gov)": 3,
+        "Jimmy Carter Library (NARA) White House Exit Interview Project": 7,
+        "National Archives History Office oral history project": 1,
+        "National Archives History Office oral history project (nprc-oral-histories)": 1,
+        "National Archives History Office oral history project (nyc-oral-histories)": 1,
+        "Naval History and Heritage Command, Navy Department Library oral histories": 1,
+        "Naval History and Heritage Command, Navy strategy oral histories": 1,
+        "Richard Nixon Presidential Library (NARA) oral history project": 11,
+        "U.S. Army Center of Military History": 1,
+        "U.S. Election Assistance Commission (eac.gov)": 46,
+        "U.S. Navy Bureau of Medicine and Surgery, Office of Medical History (Navy Medicine oral history collection)": 15,
+        "U.S. Senate Historical Office oral history": 17,
+        "blm": 2,
+        "crec": 250,
+        "doi": 12,
+        "doj": 38,
+        "dol-osha": 3,
+        "eeoc": 6,
+        "epa": 27,
+        "fdic": 3,
+        "hearings": 1237,
+        "house": 11,
+        "hud": 10,
+        "nasa": 32,
+        "nasa2": 32,
+        "ncua": 2,
+        "nih": 3,
+        "nps": 26,
+        "nps.gov": 30,
+        "nps.gov (PDF)": 6,
+        "ntia": 11,
+        "usa.gov": 1,
+        "usfa.fema.gov": 6,
+        "usgs": 1,
+        "va": 16,
+        "wpa": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "TRANSPORTATION, HOUSING AND URBAN DEVELOPMENT, AND RELATED AGENCIES APPROPRIATIONS FOR FISCAL YEAR 2026",
+        "date": "2026-09-30",
+        "granule": "CHRG-119shrg60282",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119shrg60282/html/CHRG-119shrg60282.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.inaugural-moment.together-we-will-goal",
+      "move": "inaugural-moment",
+      "kind": "spoken",
+      "text": "Together, we will {goal}.",
+      "uses": [
+        {
+          "move": "inaugural-moment",
+          "subject": "inaugural",
+          "role": "moment",
+          "choice": "moment"
+        }
+      ],
+      "transcriptsUsing": 14,
+      "bySource": {
+        "crec": 6,
+        "hearings": 2,
+        "hud": 5,
+        "ncua": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "HUD Announces William Spencer as Pacific Regional Administrator",
+        "date": "2025-07-23",
+        "granule": "hud-2025-07-23-hud-announces-william-spencer-as-pacific-regional-administra-08d630ed",
+        "url": "https://www.hud.gov/news/hud-no-25-107",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.inaugural-moment.we-will-not-fail",
+      "move": "inaugural-moment",
+      "kind": "spoken",
+      "text": "We will not fail.",
+      "uses": [
+        {
+          "move": "inaugural-moment",
+          "subject": "inaugural",
+          "role": "moment",
+          "choice": "moment"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "hearings": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "FROM CARTELS TO COASTLINES: AN EXAMINATION OF U.S. FEDERAL EFFORTS TO CONFRONT ILLICIT MARITIME ACTIVITIES IN U.S. WATERS",
+        "date": "2025-06-10",
+        "granule": "CHRG-119hhrg61341",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg61341/html/CHRG-119hhrg61341.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.inaugural-moment.we-will-rebuild",
+      "move": "inaugural-moment",
+      "kind": "spoken",
+      "text": "We will rebuild.",
+      "uses": [
+        {
+          "move": "inaugural-moment",
+          "subject": "inaugural",
+          "role": "moment",
+          "choice": "moment",
+          "requiresFacts": ["rebuilding"]
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "crec": 1,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "LEGISLATIVE HEARING ON H.R. 390, TO AMEND THE HUDSON RIVER VALLEY NATIONAL HERITAGE AREA ACT OF 1996 (PUBLIC LAW 104-333; 54 U.S.C. 320101 NOTE) TO INCLUDE ALL OF SARATOGA AND WASHINGTON COUNTIES IN THE BOUNDARIES OF THE HUDSON RIVER VALLEY NATIONAL HERITAGE AREA, \"MAURICE D. HINCHEY HUDSON RIVER VALLEY NATIONAL HERITAGE AREA ENHANCEMENT ACT\"; H.R. 3971, TO DESIGNATE THE FLATSIDE-BETHUNE WILDERNESS IN THE OUACHITA NATIONAL FOREST, AND FOR OTHER PURPOSES, \"FLATSIDE WILDERNESS ADDITIONS ACT\"; H.R. 6826, TO DESIGNATE THE VISITOR AND EDUCATION CENTER AT FORT MCHENRY NATIONAL MONUMENT AND HISTORIC SHRINE AS THE PAUL S. SARBANES VISITOR AND EDUCATION CENTER; H.R. 6843, TO EXPAND THE BOUNDARIES OF THE ATCHAFALAYA NATIONAL HERITAGE AREA TO INCLUDE LAFOURCHE PARISH, LOUISIANA; H.R. 8206, TO ENSURE THAT BIG CYPRESS NATIONAL PRESERVE MAY NOT BE DESIGNATED AS WILDERNESS OR AS A COMPONENT OF THE NATIONAL WILDERNESS PRESERVATION SYSTEM, AND FOR OTHER PURPOSES; AND H.R. 8219, TO REQUIRE THE SECRETARY OF THE INTERIOR TO CONDUCT A STUDY TO ASSESS THE SUITABILITY AND FEASIBILITY OF DESIGNATING CERTAIN LAND AS THE LAHAINA NATIONAL HERITAGE AREA, AND FOR OTHER PURPOSES, \"LAHAINA NATIONAL HERITAGE AREA ACT\"",
+        "date": "2024-06-27",
+        "granule": "CHRG-118hhrg56168",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-118hhrg56168/html/CHRG-118hhrg56168.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.inaugural-moment.we-are-all-americans",
+      "move": "inaugural-moment",
+      "kind": "spoken",
+      "text": "We are all Americans.",
+      "uses": [
+        {
+          "move": "inaugural-moment",
+          "subject": "inaugural",
+          "role": "moment",
+          "choice": "moment"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "crec": 1,
+        "hearings": 4
+      },
+      "shippable": true,
+      "source": {
+        "document": "EXAMINING THE GROWTH OF",
+        "date": "2025-05-07",
+        "granule": "CHRG-119hhrg60446",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-119hhrg60446/html/CHRG-119hhrg60446.htm",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.inaugural-close.so-help-me-god",
+      "move": "inaugural-close",
+      "kind": "spoken",
+      "text": "So help me God.",
+      "uses": [
+        {
+          "move": "inaugural-close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "U.S. Election Assistance Commission (eac.gov)": 2,
+        "crec": 2,
+        "wpa": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "2026 EAC Board of Advisors Annual Meeting — transcript (board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf)",
+        "date": "2026-04-28",
+        "granule": "eac-2026-04-28-board-of-advisors-2026-annual-meeting-compiled-rough-transcr",
+        "url": "https://www.eac.gov/sites/default/files/2026-05/board_of_advisors_2026_annual_meeting_compiled_rough_transcript.pdf",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "address.inaugural-close.may-god-bless-america",
+      "move": "inaugural-close",
+      "kind": "spoken",
+      "text": "May God bless America.",
+      "uses": [
+        {
+          "move": "inaugural-close",
+          "subject": "inaugural",
+          "role": "close",
+          "choice": "close"
+        }
+      ],
+      "transcriptsUsing": 3,
+      "bySource": {
+        "crec": 2,
+        "hearings": 1
+      },
+      "shippable": true,
+      "source": {
+        "document": "A LEGISLATIVE HEARING ON S. 4244, LEGISLATION TO PROHIBIT THE MANUFACTURE, PROCESSING, AND DISTRIBUTION IN COMMERCE OF ASBESTOS",
+        "date": "2022-06-09",
+        "granule": "CHRG-117shrg49452",
+        "url": "https://www.govinfo.gov/content/pkg/CHRG-117shrg49452/html/CHRG-117shrg49452.htm",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }

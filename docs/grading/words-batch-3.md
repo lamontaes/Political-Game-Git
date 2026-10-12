@@ -1,8 +1,12 @@
 # Conversations in real Americans' words: grading batch batch-3
 
-These 100 lines are what the story director says when its words come from the mined conversation bank instead of hand-written lines. Each sentence was said in a public-domain federal transcript, with the names, employers and towns filled from a generated person's records. They come from conversations in 6 drawn places: Jay, Florida; Ovid, New York; Horatio, Arkansas; Continental Courts, Pennsylvania; Morrisville, New York; Sidney, Montana.
+These 100 lines are what the story director writes when its words come from the mined conversation bank instead of hand-written lines. Each sentence was said in a public-domain federal record, with the names, employers and towns filled from a generated person's records.
 
-Grade one thing per line: does it fit the line before it, the way a person would say it? Write good, rewrite or kill, and a note where it helps. A line you kill is never said again; another real sentence takes its place. Grades never block a merge.
+## How to grade
+
+Grade one thing per line: does it fit the line before it, the way a person would say it? Write good, rewrite or kill, and a note where it helps. A line you kill is never said again; another real sentence takes its place. Grades never block a merge. The lines come from 6 drawn places: Jay, Florida; Ovid, New York; Horatio, Arkansas; Continental Courts, Pennsylvania; Morrisville, New York; Sidney, Montana.
+
+## The lines
 
 | #   | The line before                                         | The line                                                          | Grade | Note |
 | --- | ------------------------------------------------------- | ----------------------------------------------------------------- | ----- | ---- |

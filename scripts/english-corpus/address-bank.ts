@@ -29,7 +29,7 @@ import {
 interface MinedPart {
   key: string;
   text: string;
-  uses: { subject: string; role: string }[];
+  uses: { subject: string; role: string; requiresFacts?: string[] }[];
   shippable: boolean;
 }
 export const ADDRESS_BANK = bankJson as unknown as { parts: MinedPart[] };
@@ -231,11 +231,16 @@ function variantsFor(
         : /\b(?:Madam|Chairwoman)\b/.test(part.text)
           ? ["chair-female"]
           : undefined;
+      // A claim about the speaker's life or the place needs its record fact.
+      const requires = part.uses.find(
+        (use) => use.subject === register && use.role === move,
+      )?.requiresFacts;
       return {
         key: part.key,
         kind: "template" as const,
         text: engineText(part.text),
         ...(chair ? { stages: chair } : {}),
+        ...(requires?.length ? { requiresFacts: requires } : {}),
       };
     });
 }
