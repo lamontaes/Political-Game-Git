@@ -57,5 +57,11 @@
     "tag": "TUNABLE",
     "citation": "The pull of staying out, against which running is weighed. Checked so that about half a percent of adults in a town choose to run for a local seat in a cycle: a few candidates for each of a town's handful of council seats (Ballotpedia's local election analyses report most local seats with one or two candidates). Spread 3 to 5.",
     "stopgapId": "SG-P15-candidacy-weights"
+  },
+  "candidacyIncumbencyWeight": {
+    "value": 3.25,
+    "tag": "TUNABLE",
+    "citation": "The pull of holding the seat already. Calibrated so about 81% of incumbents run again: from 2010 to 2024 an average of 18.8% of state legislative seats were open because the incumbent did not run (Ballotpedia, 'Early filing deadlines show fewer state legislative incumbents retiring than in previous years', May 1, 2024, https://news.ballotpedia.org/2024/05/01/early-filing-deadlines-show-fewer-state-legislative-incumbents-retiring-than-in-previous-years/). In a generated town (seed candidacy-a), 200 residents each holding a seat: 3 gives 73.5% running again, 3.5 gives 88%; 3.25 gives 83%. Spread 3 to 3.5.",
+    "stopgapId": "SG-P15-candidacy-weights"
   }
 }
