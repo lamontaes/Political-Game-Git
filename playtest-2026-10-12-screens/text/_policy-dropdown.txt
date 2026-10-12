@@ -1,0 +1,15 @@
+series:minimum-wage => minimum-wage · 725 minor/hour
+series:income-tax => income-tax · 0 percent-top-rate
+series:sales-tax => sales-tax · 0.03 percent
+series:property-tax => property-tax · 0 percent-of-home-value
+series:snap-maximum => snap-maximum · 0 USD/month
+series:unemployment-weekly-maximum => unemployment-weekly-maximum · 0 USD/week
+series:unemployment-insurance => unemployment-insurance · 0 program
+series:medicaid-match => medicaid-match · 0 percent
+series:social-security-tax => social-security-tax · 0 percent-of-wages
+series:medicare-tax => medicare-tax · 0 percent-of-wages
+question:us-policy-positions:justice-public-safety.raise-handgun-purchase-age => justice-public-safety.raise-handgun-purchase-age
+question:us-policy-positions:civil-family-community.ban-discrimination-in-housing-and-work => civil-family-community.ban-discrimination-in-housing-and-work
+question:us-policy-positions:labor-workforce.paid-family-leave => labor-workforce.paid-family-leave
+question:us-policy-positions:housing-land-use.right-to-counsel-in-eviction => housing-land-use.right-to-counsel-in-eviction
+question:us-policy-positions:environment-energy.bottle-deposit => environment-energy.bottle-deposit

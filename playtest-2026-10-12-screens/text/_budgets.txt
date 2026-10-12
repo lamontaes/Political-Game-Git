@@ -1,0 +1,43 @@
+United States · federal · 2026
+in force at the opening · 2026-10-01
++ individualIncomeTax · $2,656,044,447,275.63
++ payrollTaxes · $1,748,293,811,962.85
++ corporateIncomeTax · $452,089,303,419.78
+− socialSecurity · $1,580,685,783,033.83
+− medicare · $996,719,243,004.76
+− health · $978,877,168,639.95
+− netInterest · $970,358,886,994.32
+− nationalDefense · $916,648,676,662.05
+− incomeSecurity · $701,583,598,129.63
+Idaho · state · 2026
+in force at the opening · 2026-07-01
++ federalAid · $6,238,098,988.67
++ generalSalesTax · $3,393,194,577.28
++ individualIncomeTax · $3,031,475,530.55
+− welfareAndMedicaid · $4,900,295,856.98
+− localAid · $4,121,998,807.11
+− higherEducation · $1,398,811,265.83
+− highways · $912,634,704.24
+− administration · $589,791,357.93
+− otherPrograms · $548,128,951.49
+County Of Ada · county · 2026
+in force at the opening · 2026-07-01
++ intergovernmental · $278,400,895.00
++ chargesAndFees · $166,054,376.62
++ propertyTax · $161,105,318.13
+− healthAndHospitals · $369,074,265.50
+− highways · $151,262,067.22
+− corrections · $49,732,274.87
+− naturalResources · $28,919,561.35
+− welfareAndMedicaid · $8,039,033.90
+City Of Meridian · city · 2026
+in force at the opening · 2026-07-01
++ intergovernmental · $226,765,591.09
++ chargesAndFees · $135,256,098.47
++ propertyTax · $131,224,947.01
+− schools · $243,982,824.88
+− otherPrograms · $87,701,738.70
+− police · $41,809,974.03
+− administration · $40,969,266.65
+− fire · $23,334,154.24
+− higherEducation · $19,856,159.31

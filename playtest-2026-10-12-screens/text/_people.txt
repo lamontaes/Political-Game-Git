@@ -1,0 +1,18 @@
+Family
+Eric Howard
+Eric Howard
+father · 2026-10-12 · opening-family 0.00 → 0.99
+Gregory Howard
+brother · 2026-10-12 · opening-family 0.00 → 0.96
+Cheryl Howard
+aunt · 2026-10-12 · opening-family 0.00 → 0.58
+Mildred Howard
+grandmother · 2026-10-12 · opening-family 0.00 → 0.58
+Leah Solis
+mother · 2026-10-12 · opening-family 0.00 → 0.35
+Mark Howard
+uncle · 2026-10-12 · opening-family 0.00 → 0.35
+Diana Howard
+aunt · 2026-10-12 · opening-family 0.00 → 0.35
+Pamela Howard
+aunt · 2026-10-12 · opening-family 0.00 → 0.35
