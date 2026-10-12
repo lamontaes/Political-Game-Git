@@ -649,9 +649,6 @@ const sheets = {
       row("Mood", c.affect?.mood?.toFixed(2)),
       row("Stress", c.affect?.stress?.toFixed(2)),
       ...c.drives.map((d) => row(d.kind, `${d.topic} · ${d.desiredChange}`)),
-            f.summary,
-          ),
-        ),
     ];
   },
   async money() {
