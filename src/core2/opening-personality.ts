@@ -173,8 +173,7 @@ export function openingTemperaments(
         row.dimension < p("zero") ? p("zero") : scores[row.dimension]!;
       traits[row.id] = level(
         row.loading * shared +
-          Math.sqrt(p("one") - row.loading * row.loading) *
-            normal(ownTraits.fork(row.id)),
+          Math.sqrt(p("one") - row.loading * row.loading) * normal(ownTraits),
       );
     }
     result.set(subject.id, traits);
