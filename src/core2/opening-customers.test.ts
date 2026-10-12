@@ -2199,6 +2199,7 @@ describe("zero-stock public/visitor producer source fixtures", () => {
     const commitments = jobs.map((job, position) => ({
       ...original.workCommitments![p("zero")]!,
       id: `calendar:${job.id}`,
+      payrollCalendarId: `payroll:${job.id}`,
       jobId: job.id,
       personId: job.personId,
       organizationId: job.organizationId,
@@ -2231,6 +2232,21 @@ describe("zero-stock public/visitor producer source fixtures", () => {
       ],
       jobs: [...original.jobs, ...jobs],
       workCommitments: [...original.workCommitments!, ...commitments],
+      // Controlled daily payroll (zero-day lag): the first eligible payday is the work date.
+      workPayrollCalendars: commitments.map((row) => ({
+        id: row.payrollCalendarId,
+        organizationId: row.organizationId,
+        workCommitmentIds: [row.id],
+        basisRecordIds: [row.organizationId],
+        rule: "fixed-days-after-inclusive-period-end" as const,
+        periodDays: p("one"),
+        firstPeriodStartsAt: "2020-01-01",
+        nonbusinessDayRule: "no-adjustment" as const,
+        firstPaydayAt: "2020-01-01",
+        effectiveFrom: "2020-01-01",
+        arrearsRule: "carry-to-next-recorded-payday" as const,
+        source: { ...source, asOf: "2020-01-01" },
+      })),
     };
     const baseline = buildOpeningCustomers(
       { ...input, workCommitments: original.workCommitments },

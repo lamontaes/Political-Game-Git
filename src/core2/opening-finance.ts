@@ -304,7 +304,11 @@ export function createOpeningFinance(
       if (!generatedSourceOwners) {
         const calendarRecords = new Map<
           string,
-          { householdId: string; sources: readonly Source[] }
+          {
+            householdId: string;
+            householdIds?: ReadonlySet<string>;
+            sources: readonly Source[];
+          }
         >();
         const seenRecordIds = new Set<string>();
         const addRecord = (
@@ -341,6 +345,26 @@ export function createOpeningFinance(
             row.householdId ?? row.recipientIncome?.householdId,
             [row.source],
           );
+        // An employer's payday calendar serves every household with a worker on it.
+        for (const calendar of input.workPayrollCalendars ?? []) {
+          if (seenRecordIds.has(calendar.id)) {
+            calendarRecords.delete(calendar.id);
+            continue;
+          }
+          seenRecordIds.add(calendar.id);
+          const commitmentIds = new Set(calendar.workCommitmentIds);
+          const homes = new Set<string>();
+          for (const row of input.workCommitments ?? [])
+            if (commitmentIds.has(row.id)) {
+              const home = people.get(row.personId)?.householdId;
+              if (home) homes.add(home);
+            }
+          calendarRecords.set(calendar.id, {
+            householdId: calendar.organizationId,
+            householdIds: homes,
+            sources: [calendar.source],
+          });
+        }
         generatedSourceOwners = {
           households,
           calendarRecords,

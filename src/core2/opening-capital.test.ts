@@ -60,6 +60,7 @@ function fixture(): CoreInput {
   };
   const commitment: WorkCommitmentInput = {
     id: "capital:commitment",
+    payrollCalendarId: "capital:payroll",
     jobId,
     personId,
     organizationId,
@@ -92,6 +93,23 @@ function fixture(): CoreInput {
     ],
     jobs: [job],
     workCommitments: [commitment],
+    // Controlled daily payroll (zero-day lag): the first eligible payday is the work date.
+    workPayrollCalendars: [
+      {
+        id: "capital:payroll",
+        organizationId,
+        workCommitmentIds: [commitment.id],
+        basisRecordIds: [organizationId],
+        rule: "fixed-days-after-inclusive-period-end",
+        periodDays: p("one"),
+        firstPeriodStartsAt: "2020-01-01",
+        nonbusinessDayRule: "no-adjustment",
+        firstPaydayAt: "2020-01-01",
+        effectiveFrom: "2020-01-01",
+        arrearsRule: "carry-to-next-recorded-payday",
+        source: { ...source, asOf: "2020-01-01" },
+      },
+    ],
     organizations: [
       {
         id: organizationId,
