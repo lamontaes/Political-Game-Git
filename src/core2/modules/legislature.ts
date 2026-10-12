@@ -117,6 +117,8 @@ export interface MemberPosition {
   readonly constituents: number;
   readonly sponsor: number;
   readonly deal: number;
+  /** What organized interests that met the member pressed on them. */
+  readonly lobby: number;
   readonly total: number;
 }
 
@@ -136,6 +138,47 @@ export const LEGISLATURE_MODULE: CoreModule = {
 
 function table(api: CoreAPI, name: string) {
   return api.moduleState(LEGISLATURE_MODULE_ID).table(name);
+}
+
+type PositionTerm = (api: CoreAPI, bill: BillRow, memberId: string) => number;
+const positionTerms: PositionTerm[] = [];
+const beforeVoteHooks: ((api: CoreAPI, billId: string) => void)[] = [];
+/**
+ * Other engines add to a member's reasons (organized interests lobbying) and
+ * act on a bill before its votes (groups forming from its fiscal note).
+ */
+export function registerLegislatureHooks(input: {
+  readonly positionTerm?: PositionTerm;
+  readonly beforeVote?: (api: CoreAPI, billId: string) => void;
+}): void {
+  if (input.positionTerm && !positionTerms.includes(input.positionTerm))
+    positionTerms.push(input.positionTerm);
+  if (input.beforeVote && !beforeVoteHooks.includes(input.beforeVote))
+    beforeVoteHooks.push(input.beforeVote);
+}
+
+/** Each employer's added yearly pay under a minimum-wage provision: the fiscal note, employer by employer. */
+export function employerCosts(
+  api: CoreAPI,
+  bill: BillRow,
+): ReadonlyMap<string, { workers: number; annualMinor: number }> {
+  const wage = bill.provisions.find(
+    (p) => p.kind === "law-amount" && p.series === "minimum-wage",
+  );
+  const out = new Map<string, { workers: number; annualMinor: number }>();
+  if (!wage) return out;
+  for (const c of (api.state as CoreState).work.commitments.values())
+    if (c.endsAt === undefined && c.hourlyMinor < wage.value) {
+      const row = out.get(c.organizationId) ?? { workers: 0, annualMinor: 0 };
+      out.set(c.organizationId, {
+        workers: row.workers + 1,
+        annualMinor: Math.round(
+          row.annualMinor +
+            (wage.value - c.hourlyMinor) * (c.expectedWeeklyMinutes / 60) * 52,
+        ),
+      });
+    }
+  return out;
 }
 
 export function openLegislature(core: CoreState): void {
@@ -717,13 +760,18 @@ export function memberPosition(
     bill.deals.filter((d) => d.memberId === memberId).length *
     campaignParameter("dealWeight");
   const c = campaignParameter("constituentWeight");
+  const lobby = positionTerms.reduce(
+    (sum, term) => sum + term(api, bill, memberId),
+    0,
+  );
   return {
     memberId,
     views,
     constituents: c * constituents,
     sponsor,
     deal,
-    total: views + c * constituents + sponsor + deal,
+    lobby,
+    total: views + c * constituents + sponsor + deal + lobby,
   };
 }
 
@@ -1070,6 +1118,10 @@ export function committeeRecords(
  * fifths of its members vote to end debate. Every vote is on the record.
  */
 export function holdVote(api: CoreAPI, billId: string): BillRow {
+  if (
+    (table(api, "bills").get(billId) as unknown as BillRow).status === "drafted"
+  )
+    for (const hook of beforeVoteHooks) hook(api, billId);
   const bill = table(api, "bills").get(billId) as unknown as BillRow;
   if (bill.status !== "drafted") return bill;
   const tallies: { yes: number; no: number }[] = [];
