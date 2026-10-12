@@ -22,7 +22,9 @@
     "measure": "The measure, as its record names it.",
     "subject": "The business, from the business record.",
     "age": "An age, computed from the birth record.",
-    "years": "A count of years, computed from dated records."
+    "years": "A count of years, computed from dated records.",
+    "alert": "A weather alert from the hazard record, as the Weather Service names it (\"Tornado Watch\").",
+    "until": "When the alert ends, from the hazard record (\"5 PM EDT\")."
   },
   "maxWords": 16,
   "mining": {
@@ -1504,7 +1506,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks on COVID–19 Prevention and Treatment Efforts and an Exchange With Reporters",
+        "document": "Remarks on COVID\u201319 Prevention and Treatment Efforts and an Exchange With Reporters",
         "date": "2022-10-25",
         "granule": "DCPD-202200957",
         "url": "https://www.govinfo.gov/app/details/DCPD-202200957",
@@ -1533,7 +1535,7 @@
       },
       "shippable": true,
       "source": {
-        "document": "Remarks in an Exchange With Reporters Following a Family Photograph With Group of Seven (G–7) Nations Leaders in Kananaskis, Canada",
+        "document": "Remarks in an Exchange With Reporters Following a Family Photograph With Group of Seven (G\u20137) Nations Leaders in Kananaskis, Canada",
         "date": "2025-06-16",
         "granule": "DCPD-202500700",
         "url": "https://www.govinfo.gov/app/details/DCPD-202500700",
@@ -2597,6 +2599,110 @@
         "date": "2026-07-23",
         "granule": "DCPD-202600487",
         "url": "https://www.govinfo.gov/app/details/DCPD-202600487",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "newscast.story-hazard-alert.a-alert-is-in-effect-for-place",
+      "move": "story-hazard-alert",
+      "kind": "spoken",
+      "text": "A {alert} is in effect for {place}.",
+      "uses": [
+        {
+          "move": "story-hazard-alert",
+          "subject": "story",
+          "role": "hazard",
+          "choice": "hazard"
+        }
+      ],
+      "transcriptsUsing": 5,
+      "bySource": {
+        "news-nws": 5
+      },
+      "shippable": true,
+      "source": {
+        "document": "Hazardous Weather Outlook from the National Weather Service Baltimore MD/Washington DC",
+        "date": "2026-10-11",
+        "granule": "KLWX-HWO-eca91c0c",
+        "url": "https://api.weather.gov/products/eca91c0c-ab47-4994-9fb3-e0235977a625",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "newscast.story-hazard-alert.a-alert-remains-in-effect-until-until-for-place",
+      "move": "story-hazard-alert",
+      "kind": "spoken",
+      "text": "A {alert} remains in effect until {until} for {place}.",
+      "uses": [
+        {
+          "move": "story-hazard-alert",
+          "subject": "story",
+          "role": "hazard",
+          "choice": "hazard"
+        }
+      ],
+      "transcriptsUsing": 2,
+      "bySource": {
+        "news-nws": 2
+      },
+      "shippable": true,
+      "source": {
+        "document": "Severe Weather Statement from the National Weather Service Tallahassee FL",
+        "date": "2026-10-10",
+        "granule": "KTAE-SVS-0611230f",
+        "url": "https://api.weather.gov/products/0611230f-1b09-4319-b2f1-8829ec60fe7f",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "newscast.story-hazard-alert.a-alert-is-in-effect",
+      "move": "story-hazard-alert",
+      "kind": "spoken",
+      "text": "A {alert} is in effect.",
+      "uses": [
+        {
+          "move": "story-hazard-alert",
+          "subject": "story",
+          "role": "hazard",
+          "choice": "hazard"
+        }
+      ],
+      "transcriptsUsing": 6,
+      "bySource": {
+        "news-nws": 6
+      },
+      "shippable": true,
+      "source": {
+        "document": "Area Forecast Discussion from the National Weather Service Brownsville TX",
+        "date": "2026-10-12",
+        "granule": "KBRO-AFD-ebea4331",
+        "url": "https://api.weather.gov/products/ebea4331-331e-4afd-aec7-33a2b23c3068",
+        "license": "U.S. government work, public domain (17 U.S.C. 105)"
+      }
+    },
+    {
+      "key": "newscast.story-hazard-alert.a-alert-remains-in-effect",
+      "move": "story-hazard-alert",
+      "kind": "spoken",
+      "text": "A {alert} remains in effect.",
+      "uses": [
+        {
+          "move": "story-hazard-alert",
+          "subject": "story",
+          "role": "hazard",
+          "choice": "hazard"
+        }
+      ],
+      "transcriptsUsing": 83,
+      "bySource": {
+        "news-nws": 83
+      },
+      "shippable": true,
+      "source": {
+        "document": "Area Forecast Discussion from the National Weather Service Flagstaff AZ",
+        "date": "2026-10-12",
+        "granule": "KFGZ-AFD-a45bb3f7",
+        "url": "https://api.weather.gov/products/a45bb3f7-cde5-49f5-9228-e15db7898d97",
         "license": "U.S. government work, public domain (17 U.S.C. 105)"
       }
     }
