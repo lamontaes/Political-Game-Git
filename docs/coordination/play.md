@@ -74,7 +74,8 @@ From `docs/reports/audit-2026-10-12/`, in BOARD's order.
 
 From the CTO's screens playtest (12:45 p.m., Meridian, Idaho):
 
-- [ ] A law screen: the law in force at each level, from GOV's `lawHere`.
+- [x] **A law screen.** Politics → **Law here** lists each law series in force where you live, from GOV's `lawHere`: the combined value (marked if estimated), each level's own value and date (federal, state, county, city), and any later phases. Checked in a North Carolina town (seed law-a): minimum wage $7.25 an hour (federal and state), sales tax 7% (state 4.75%, city 2.25%), property tax 0.584% (county, estimated). One label is misleading: the bill catalog names `income-tax` "Local income tax rate", so the combined federal and state row borrows that name.
+- Sub-agents so far: one read-only Explore helper (Opus) inventoried the old UI to keep and `/play`'s old imports for FIXER.
 - [ ] What changed stays empty after a council law is enacted and signed.
 - [ ] The opening's mayor shot is an empty chamber (no figure).
 - [x] Until needed stopped 7 times in a row on "A choice". Not reproduced on this evening's head: in Melvin Village, New Hampshire (seed skip-a), six week-long skips ran without stopping, the character making 7 choices itself in each.

@@ -1200,6 +1200,33 @@ const sheets = {
       ),
     ];
   },
+  async law() {
+    const v = await api(`/api/government?id=${encodeURIComponent(me.id)}`);
+    return v.law.map((law) =>
+      el(
+        "div",
+        { className: "row narrative" },
+        termLabel(policyLabel(law.series)),
+        ` ${law.value === null ? "—" : amount(law.value, law.unit)}${law.estimate ? " (est.)" : ""}`,
+        el(
+          "div",
+          {},
+          ...law.levels
+            .filter((level) => level.row)
+            .map((level) =>
+              el("div", {
+                textContent: `${level.level} · ${level.jurisdiction} · ${amount(level.row.value, level.row.unit)} · ${level.row.effectiveDate}${level.setAside ? ` · ${level.setAside}` : ""}`,
+              }),
+            ),
+          ...law.pending.map((row) =>
+            el("div", {
+              textContent: `${row.effectiveDate} → ${amount(row.value, row.unit)}`,
+            }),
+          ),
+        ),
+      ),
+    );
+  },
   async changes() {
     const laws = await api(`/api/changes?id=${encodeURIComponent(me.id)}`);
     seenChanges = laws.length;
@@ -1321,6 +1348,8 @@ const sheets = {
       b.addEventListener("click", () => openSheet("results"));
       return b;
     })();
+    const lawHere = el("button", { type: "button", textContent: "Law here" });
+    lawHere.addEventListener("click", () => openSheet("law"));
     const changes = el("button", {
       type: "button",
       textContent: "What changed",
@@ -1332,6 +1361,7 @@ const sheets = {
     budgets.addEventListener("click", () => openSheet("budgets"));
     return [
       results,
+      lawHere,
       changes,
       budgets,
       map,
@@ -1377,6 +1407,7 @@ const titles = {
   options: "Options",
   guide: "Guide",
   changes: "What changed",
+  law: "Law here",
   handoff: "Carry on as",
   map: "Map",
   news: "News",
