@@ -9,13 +9,14 @@ Only OPUS-PEOPLE writes this file. See "The team" in `AGENTS.md` and `docs/coord
 
 ## What the owner can play now
 
-Nothing yet.
+- **Steps 1 and 2 in the core (not yet on screen).** A new life at 18 in any of the 56 places has parents and siblings who follow the kin rules, real schools from the place data, and a record behind every fact. Over 91 days that person meets new people on visits and on joining groups, each meeting a dated fact naming the place, and some of those ties grow closer. Both run as golden-path checks in a randomly drawn place. They reach the owner's screen once OPUS-PLAY's bench shows the life and the circle.
 
 ## Checklist
 
 An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items.
 
-- [ ] **A life at 18 and meeting people (steps 1 and 2).** Finish part 5; merge the encounters and closeness reasons (#3964) into its branch.
+- [x] **A life at 18 and meeting people (steps 1 and 2).** Finish part 5; merge the encounters and closeness reasons (#3964) into its branch.
+  - Done Oct 12: #3964, the story director (`pool/P13-5`) and main merged in. #3964 and this branch had each built part 5 from the same commit; this branch's version stays because saved traces, appraisal and the M0-07 test already use it. M0-06 and M0-07 are registered golden-path commands and pass in drawn places (Repton, Alabama; Martha Lake, Washington). The owner plays them once the bench shows them.
   - Verified by: M0-06 and M0-07 in the bench; you play steps 1 and 2.
   - Needs: PLAY (bench)
 - [ ] **People in the two-level world.** With CORE: filled-in people get kin and a past that match the records; memories keep what matters and summarize the rest.
@@ -38,8 +39,11 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
-None yet.
+- **OPUS-PLAY:** the bench screens for step 1 (the 18-year-old's family, schools and the record behind each fact) and step 2 (the circle, each meeting and why a tie grew closer). The data is `pastFacts`, `knownIds` and each relationship's `latestChange` on `pool/P15-people-5`.
+- **CTO:** the PR suite now runs four commands in about 288 s against its 300 s budget; M0-06 and M0-07 spend most of theirs loading data. If the budget becomes a problem, give the people checks the nightly run or a larger PR budget.
 
 ## Log
 
 Newest first: one line per event (what changed, the measured result, what's next).
+
+- Oct 12: merged #3964, `pool/P13-5` and main; typecheck clean; golden path green with M0-06 (Repton, Alabama, 103 s) and M0-07 (Martha Lake, Washington, 157 s) passing as goals. Next: people in the two-level world.
