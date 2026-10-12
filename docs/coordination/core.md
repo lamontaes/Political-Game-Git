@@ -16,7 +16,7 @@ Nothing on screen yet from the core alone. Underneath, **a town's year now runs 
 An order of work, not a ceiling: when it's done, keep going into this area's next roadmap items.
 
 - [x] **Take over and publish.** Branch opus-core from pool/M0-core-pieces; confirm the core's tests pass; first push within the hour.
-  - Done Oct 12: `opus-core` = pool/M0-core-pieces + pool/P8-part-1 (1690a31e7, which pool/M0-core-pieces did not actually contain) + main; draft PR #3999. Golden path green (M0-10, M0-11). Core tests: 1,481 pass, 63 fail; all 63 also fail on Sol's own head (test fixtures that predate the payday-calendar requirement); fixing them is on my list.
+  - Done Oct 12: `opus-core` = pool/M0-core-pieces + pool/P8-part-1 (1690a31e7, which pool/M0-core-pieces did not actually contain) + main; draft PR #3999. Golden path green (M0-10, M0-11). The core's tests started with 63 failures inherited from Sol's head; all 1,557 pass since fbb549ee.
   - Verified by: Core tests and the golden-path suite (M0-10) green on its branch.
 - [x] **Speed, first thing.** 1) Bookkeeping off in play: recording, checking, copying and freezing every read and write (about half of all time) becomes a switch that's on only in tests and the bench. 2) Stop copying each worker's whole memory every shift (why months get slower). 3) Save "why" reasons only for the player and the people they deal with.
   - Verified by: One measured year in a random place, reported as a number; the automatic speed guard stays green.
@@ -61,6 +61,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12, 21:30 UTC: **core suite green: 1,557 of 1,557** (fbb549ee). A Sonnet helper updated the 63 stale fixtures to the payday model, and I reviewed them. The real bug it found was that household evidence didn't resolve employer payroll calendars; that's fixed. Next: a faster opening (M7-01, a count mode in the opening economy).
 - Oct 12, 20:30 UTC: **fill-in v2** (66a02608). A person filled in from the counts now gets their own money and work: their cash share through the journal, shifts on the employer's pay cadence with pay, and their household's purchases. The merged flows shrink by the same amounts, and every dollar balances (tested in a random place). Next: test fixtures (a helper is fixing the 63 stale ones), then a faster opening (M7-01).
 - Oct 12, 19:30 UTC: **accounts built** (429a33be). The closures fix now balances both ways: firms buy outside what they don't buy locally, on net-30 terms, so profits no longer pile up. M0-08 in two new random places: Ernstville, Maryland, 1 of 27 close (a firm that opened with about three days of cash); Christiansted, U.S. Virgin Islands, 0 of 28. Every dollar balances.
 - Oct 12, 17:30 UTC: answered PLAY (the `own-choice` resume) and GOV (`rerateJob`, core2-api-v12). Both have tests; the golden path is green.
