@@ -1048,11 +1048,11 @@
     "kind": "business-closure",
     "file": "src/core2/finance-state.ts",
     "line": 1,
-    "whatItFakes": "A business closed by its owner's choice ends its jobs the same day without a final paycheck for wages earned since the last payday, and without paying off open supplier or credit balances; the owner takes all remaining cash.",
+    "whatItFakes": "A business closed by its owner's choice pays its workers what they've earned (counted workers at once, full workers on their next payday from cash held back) but doesn't pay off open supplier or credit balances before the owner takes the rest.",
     "why": "WORLD's owners needed a way to close a solvent business; a full wind-down (final pay, settling payables, selling assets) is not built yet.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "A wind-down that settles earned wages and open balances from the business's cash before the owner's distribution.",
+    "replacement": "A wind-down that also settles open supplier balances and credit lines from the business's cash before the owner's distribution.",
     "status": "open"
   },
   {
