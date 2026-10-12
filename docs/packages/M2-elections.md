@@ -2,7 +2,7 @@
 
 **Specs:** M2-07, M2-08, M2-10 and M4-06.
 **Built by:** OPUS-GOV, with OPUS-PEOPLE (voters, candidates, and the moments on election night) and OPUS-PLAY (the screens).
-**Systems model:** *The Political Process*: primaries and generals, a dynamic world of politicians who run, retire and lose primaries, and results each cycle. Our version has real voters, a real calendar and scenes.
+**Systems model:** _The Political Process_: primaries and generals, a dynamic world of politicians who run, retire and lose primaries, and results each cycle. Our version has real voters, a real calendar and scenes.
 
 ## What you'll do
 
@@ -25,6 +25,7 @@
 ## How you'll know it works
 
 In a random place you file, campaign and reach election day:
+
 - the real voters around you and the voter groups elsewhere vote;
 - you win or lose, and can click a voter to see why;
 - the winner takes the seat on the real date;

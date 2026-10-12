@@ -25,6 +25,7 @@
 ## What you'll see
 
 **The opening.**
+
 - It plays like a movie. The President's speech carries it: the inaugural address in an inauguration year, otherwise the State of the Union. It has the world's real numbers in it.
 - As the speech addresses each level, the camera cuts to your senators and representative, your governor, your town, and your family watching at home. Then you, then day one.
 - People are doing natural things wherever they are, and nothing is scripted.
@@ -34,17 +35,20 @@
 - The speech's words come from the engine, built from real inaugural and State of the Union addresses.
 
 **The look.**
+
 - Kit 12's frame and type, and Kit 13's letterpress look (`docs/ui/kit13/APPROVED-2026-10-04.md`).
 - Thicker borders, corner ornaments inside the frame, outlines on unselected buttons.
 - A chevron appears only on an activated button.
 
 **The menu shell** (the Civilization VI concept):
+
 - Tabs at top left: Politics, News, Calendar, Journal, Travel.
 - A stack at bottom right: People, Who you are, Money and property, Jobs and study, Guide, Options.
 - Your player card at bottom left, with the clock and Day, Week and Until needed. The date and time appear only there.
 - No scrolling on main screens.
 
 **The screens.**
+
 - **Conversation box:** smaller and at the bottom, like a lower third, with the scales Lie control in its upper right.
 - **Person card:** a large figure, Skyrim-style, showing only what you could know.
 - **Family:** everyone, each doing something, like your Mountain Glade reference.
@@ -56,12 +60,14 @@
 - Term underlines that open the glossary, live TV and newspapers, no goal on screen, and the bill paper.
 
 **Custom world** (owner, Oct 12; M6-04).
+
 - A new game starts from real data in a random place by default.
-- Before starting, you can instead customize the world: the place, demographics, ideology, turnout, party strength, the economy and more, like *The Political Process*'s 80+ advanced options.
+- Before starting, you can instead customize the world: the place, demographics, ideology, turnout, party strength, the economy and more, like _The Political Process_'s 80+ advanced options.
 - The world then runs by the same rules.
 - OPUS-PLAY builds the new-game screen; OPUS-CORE makes world generation honor the settings.
 
 **Art fixes** (your Oct 8 list, starting now):
+
 - Real seated poses.
 - Formal clothes by role and place.
 - Corner ornaments inside the frame.
