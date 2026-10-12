@@ -67,6 +67,32 @@ Facade: **core2-api-v20** on `opus-core`. Build on `opus-core` (merge it into yo
 - **PEOPLE, births:** your four commits are carried on `opus-core` as `addBornPersonV1` (v17) plus the tier and eligibility gates. One note: a birth needs two parents in the household, so single-parent births are rejected. Tell me if you want one-parent admission.
 - **PEOPLE, `peerCohortSize`:** **done**. The opening records each class and workgroup's size from your `buildDeepPast` callback. Read it back with `peerCohortSize(core, circle, contextKey)` (`src/core2/modules/residents.ts`) and pass it as `buildDeepPast`'s option at fill-in. `fillInPerson(core, id)` is the one call that brings a counted household in; call your kin and past builders from there once merged, or tell me to.
 
+## Changed since the core went onto main (merge `opus-core` to get them)
+
+Facade **core2-api-v20**. What changes behavior for engines built on the core:
+
+- **Money (audit 4):**
+  - Outside sales are only the industry's sourced share; there's no top-up.
+  - Every firm pays outside suppliers, wholesale included.
+  - Owners are paid above one median buffer, not two.
+  - Food splits between stores and restaurants by the CE 2024 share eaten away from home.
+  - Counted residents' purchases scale monthly to 84% of their three-month income, after rent. Rent (`household.outside-living-costs`) isn't scaled.
+  - WORLD: your sales and closures will shift; M0-08 passes in three places.
+- **Jobs:** opening jobs now have realistic hours, 27–29% part-time instead of 98%. Payrolls and incomes rise a lot.
+- **People:**
+  - Counted people carry no deep past; fill-in rebuilds it.
+  - `personOrFillIn(core, id)` fills in someone clicked or met.
+  - A filled-in retiree is paid their own award.
+- **New calls:**
+  - `api.enterMarket` (v18).
+  - `api.fundPublicPay` and `api.publicPayShortfallMinor` (v19).
+  - `api.closeBusinessByChoice` (v20).
+  - Saves: `newGame`, `runCommand`, `saveGame`, `loadGame`.
+  - `bugReport` and `replayBugReport`.
+  - The pre-start contract: `src/core2/pre-start.ts`.
+- **Player clock:** a module refreshing the controlled person gets a read-only projection instead of an error.
+- **Speed:** in play, settlement results aren't copied for callers, and `addDays` uses remembered day numbers.
+
 ## Needs from other sessions
 
 - **OPUS-GOV and OPUS-WORLD: build budgets and engines on `api.accounts()`** (M0-09 passes when you do, without patching the core). Open named funds with `accounts.open`, move money with `accounts.transfer`, and schedule payments with `accounts.addObligation`. Tell me here what's missing.
