@@ -1,0 +1,104 @@
+{
+  "movesLifeStageScale": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Scales the American Community Survey 2024 rate of leaving the county for a person's age band and state (data/research/migration/mover-rates-acs-2024.json) into their monthly pull to leave, so that a town's departures over a year, after each person's own ties hold some back, land on that rate. Calibrated in src/core2/moves.test.ts.",
+    "stopgapId": "SG-P15-moves-weights",
+    "spread": {
+      "low": 0.5,
+      "high": 3
+    }
+  },
+  "movesOwnerHold": {
+    "value": 1.21,
+    "tag": "SOURCED",
+    "citation": "How much owning the home holds a household in place: in the year to March 2023, 1.85% of people in owner-occupied homes moved to a different county against 6.23% of people in rented homes (Census, CPS ASEC 2023, Table 1 'General Mobility in the Past Year, by Tenure', mig_01_2023_1yr.xlsx, rows 66-67, column I); ln(6.23/1.85) = 1.21.",
+    "stopgapId": "SG-P15-moves-weights"
+  },
+  "movesChildrenHold": {
+    "value": 0.4,
+    "tag": "TUNABLE",
+    "citation": "How much school-age children at home hold a household in place. Families with school-age children move less than those without (Census, Current Population Survey ASEC 2023 mobility tables by family type); the size is a starting value.",
+    "stopgapId": "SG-P15-moves-weights",
+    "spread": {
+      "low": 0.2,
+      "high": 0.7
+    }
+  },
+  "movesKinHold": {
+    "value": 0.15,
+    "tag": "TUNABLE",
+    "citation": "How much each close relative living in town holds a person there, up to movesKinHoldCap relatives. People with kin nearby are less likely to leave (Spring, Ackert, Crowder and South 2017, Demography 54(4):1277-1304).",
+    "stopgapId": "SG-P15-moves-weights",
+    "spread": {
+      "low": 0.05,
+      "high": 0.3
+    }
+  },
+  "movesKinHoldCap": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "How many relatives in town count toward holding a person there.",
+    "stopgapId": "SG-P15-moves-weights",
+    "spread": {
+      "low": 2,
+      "high": 6
+    }
+  },
+  "movesJobHold": {
+    "value": 0.48,
+    "tag": "SOURCED",
+    "citation": "How much a job holds a person in place: 3.66% of employed civilians moved to a different county in the year to March 2023 against 5.93% of the unemployed (Census, CPS ASEC 2023, Table 2 'General Mobility by Labor Force Status', mig_02_2023_1yr.xlsx, rows 9 and 11, column I); ln(5.93/3.66) = 0.48. The unemployed sample is small (6.2 million people).",
+    "stopgapId": "SG-P15-moves-weights"
+  },
+  "movesEvictedPull": {
+    "value": 0.35,
+    "tag": "ESTIMATED",
+    "citation": "The push an eviction adds toward leaving town. Most evicted families stay in their city, moving to poorer neighborhoods (Desmond and Shollenberger 2015, Demography 52(5):1751-1772), and 'foreclosure or eviction' is 0.7% of all movers' reasons (Census CPS ASEC 2023, Table 13). A third of the way to leaving.",
+    "estimatedFrom": "Desmond and Shollenberger 2015; spread 0.2 to 0.5",
+    "stopgapId": "SG-P15-moves-weights"
+  },
+  "movesJobLostPull": {
+    "value": 0.2,
+    "tag": "ESTIMATED",
+    "citation": "The push a lost job adds toward leaving town. 'To look for work or lost job' is 1.5% of movers' reasons (Census CPS ASEC 2023, Table 13), and displaced workers move across county lines more than others, but most stay.",
+    "estimatedFrom": "CPS ASEC 2023 Table 13; spread 0.1 to 0.35",
+    "stopgapId": "SG-P15-moves-weights"
+  },
+  "movesKinMovedPull": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "The push a parent, child or sibling moving away adds toward following them. 'Other family reason' is 7.9% of movers' reasons (Census CPS ASEC 2023, Table 13).",
+    "stopgapId": "SG-P15-moves-weights",
+    "spread": {
+      "low": 0.15,
+      "high": 0.5
+    }
+  },
+  "movesStayPull": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "What staying weighs against the built-up pull to leave in the monthly choice; the pull is measured on this scale.",
+    "stopgapId": "SG-P15-moves-weights",
+    "spread": {
+      "low": 1,
+      "high": 1
+    }
+  },
+  "movesMinimumAge": {
+    "value": 18,
+    "tag": "SOURCED",
+    "citation": "The youngest age band in the American Community Survey 2024 departure rates this engine reads (18 and 19); younger people move with their household.",
+    "stopgapId": "SG-P15-moves-weights"
+  },
+  "movesRiskWeight": {
+    "value": 0.3,
+    "tag": "TUNABLE",
+    "citation": "How much a person's taste for risk loosens what holds them in town (caution tightens it). Personality predicts moving within and between US states (Jokela 2009, Journal of Research in Personality 43(1):79-83); the size is a starting value.",
+    "stopgapId": "SG-P15-moves-weights",
+    "spread": {
+      "low": 0.1,
+      "high": 0.6
+    }
+  }
+}

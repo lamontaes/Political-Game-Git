@@ -2150,5 +2150,53 @@
     "addedAt": "2026-10-12",
     "replacement": "Each outcome moved by the engines that cause it (a crime engine, schools, health coverage, elections), with the web's factor on top, and society-wide shifts from recorded causes rather than a monthly chance.",
     "status": "open"
+  },
+  {
+    "id": "SG-P15-moves-weights",
+    "kind": "uncalibrated-tunable",
+    "file": "src/core2/data/moves/parameters.json",
+    "line": 1,
+    "whatItFakes": "How strongly each tie holds a person in town and each event pushes them out, and the scale that turns the ACS rate for their age into a monthly pull.",
+    "why": "The research gives how often people of each age leave a county and the reasons movers give, but not each tie's and event's size in this model.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Weights checked against ACS departures by age and tenure across drawn places in the M1-09 year run, and against the CPS reasons for moving.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-moves-place-kept",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/moves.ts",
+    "line": 1,
+    "whatItFakes": "A person who moved away keeps their town place and household on their record; the inactive tier and the departure record say they left.",
+    "why": "The core has no call to change a person's place or household mid-run.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "A core call (OPUS-CORE) that moves a person to the destination place and out of their household, so counts, voter rolls and screens read the new place.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-moves-owners-stay",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/moves.ts",
+    "line": 1,
+    "whatItFakes": "A household that owns its home with a mortgage never leaves together; only a grown child in it can move out.",
+    "why": "No engine yet sells a home and pays off its mortgage when the owners leave.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "WORLD's housing records a sale (price, payoff, a vacant home for a newcomer), and moves calls it when an owner household leaves.",
+    "status": "open"
+  },
+  {
+    "id": "SG-P15-moves-pinned-jobs",
+    "kind": "faked-mechanic",
+    "file": "src/core2/modules/moves.ts",
+    "line": 1,
+    "whatItFakes": "A person whose job a saved agreement names as its provider's qualification (a visitor's lodging, a public supplier contract) does not move away; moves keeps its own copy of the jobs engine's lookup of those jobs.",
+    "why": "The core rejects such an agreement's next payment once the job ends, and the jobs engine's lookup is not exported.",
+    "addedBy": "OPUS-PEOPLE",
+    "addedAt": "2026-10-12",
+    "replacement": "Agreements re-resolve their qualifying worker when a job ends (WORLD/CORE), and the jobs engine exports its pinned-job lookup; then these holders can move like anyone else.",
+    "status": "open"
   }
 ]

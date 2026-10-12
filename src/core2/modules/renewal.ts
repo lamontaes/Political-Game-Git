@@ -12,6 +12,7 @@ import type { CoreAPI, CoreModule, Source } from "../types";
 import type { ModuleRow } from "../module-data";
 
 export const RENEWAL_MODULE_ID = "core2-renewal-v1";
+const INACTIVE_TIER = "husk";
 const initialized = new WeakSet<object>();
 const source = (api: CoreAPI): Source => ({
   tag: "SOURCED",
@@ -46,8 +47,10 @@ function review(
     api.state.people.get(row.motherId),
     api.state.people.get(row.otherParentId),
   ];
+  // A parent who died or moved away (the inactive tier) ends the couple's
+  // plans here.
   if (
-    parents.some((person) => !person?.alive) ||
+    parents.some((person) => !person?.alive || person.tier === INACTIVE_TIER) ||
     parents[0]!.householdId !== parents[1]!.householdId
   ) {
     table(api, "couples").put({
@@ -145,6 +148,11 @@ function deliver(api: CoreAPI, pregnancyId: string): void {
     otherParentId = String(row.otherParentId);
   const mother = api.state.people.get(motherId)!;
   const father = api.state.people.get(otherParentId)!;
+  // A mother who moved away has her baby where she now lives, outside town.
+  if (mother.tier === INACTIVE_TIER) {
+    table(api, "pregnancies").put({ ...row, status: "moved-away" });
+    return;
+  }
   if (!mother.alive || mother.householdId !== father.householdId) {
     // SG-M1-births-circumstances: postpartum/relocation medicine is outside this prototype.
     table(api, "pregnancies").put({
