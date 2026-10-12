@@ -1323,14 +1323,43 @@ $("place").addEventListener("input", async () => {
     ...placeRows.map((row) => el("option", { value: row.name })),
   );
 });
+/** What the player changed from real data; nothing means a real world. */
+function worldSettings() {
+  const read = (id) => {
+    const text = $(id).value.trim();
+    return text === "" ? undefined : Number(text);
+  };
+  const economy = Object.fromEntries(
+    [
+      ["wages", read("set-wages")],
+      ["householdCash", read("set-cash")],
+      ["outsideDemand", read("set-demand")],
+    ].filter(([, v]) => v !== undefined),
+  );
+  const politics = Object.fromEntries(
+    [
+      ["leanShift", read("set-lean")],
+      ["turnout", read("set-turnout")],
+    ].filter(([, v]) => v !== undefined),
+  );
+  const settings = {
+    ...(read("set-population") !== undefined
+      ? { population: read("set-population") }
+      : {}),
+    ...(Object.keys(economy).length ? { economy } : {}),
+    ...(Object.keys(politics).length ? { politics } : {}),
+  };
+  return Object.keys(settings).length ? settings : undefined;
+}
 $("new-life").addEventListener("click", async () => {
   $("new-life").disabled = true;
   show("front-status", true);
   document.querySelector("#front .progress").hidden = false;
   try {
     const chosen = placeRows.find((row) => row.name === $("place").value);
+    const settings = worldSettings();
     const life = await post(
-      `/api/newlife?${new URLSearchParams({ seed: $("seed").value, date: $("date").value, ...(chosen ? { placeKey: chosen.key } : {}) })}`,
+      `/api/newlife?${new URLSearchParams({ seed: $("seed").value, date: $("date").value, ...(chosen ? { placeKey: chosen.key } : {}), ...(settings ? { settings: JSON.stringify(settings) } : {}) })}`,
     );
     me = {
       id: life.personId,

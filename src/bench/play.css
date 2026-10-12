@@ -582,3 +582,16 @@ select {
 #filing-overlay .row b {
   margin-right: 8px;
 }
+
+#custom {
+  margin: 8px 0;
+}
+#custom label {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  margin: 4px 0;
+}
+#custom input {
+  width: 110px;
+}

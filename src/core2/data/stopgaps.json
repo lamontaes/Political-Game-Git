@@ -2139,5 +2139,17 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "Census 2020 Island Areas tenure, gross rent and value tables for each island area."
+  },
+  {
+    "id": "SG-PLAY-world-settings-copy",
+    "kind": "faked-mechanic",
+    "file": "src/bench/world-settings.ts",
+    "line": 3,
+    "whatItFakes": "The bench applies the custom-world settings (wages, household cash, outside demand) with its own copy of the core's arithmetic; lean and turnout are recorded on the world but nothing reads them yet.",
+    "why": "OPUS-CORE's applyOpeningSettings and scaleOutsideSales aren't exported, and no engine reads the politics settings yet (audit 4).",
+    "addedBy": "OPUS-PLAY",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-CORE exports its settings step for any opening; OPUS-PEOPLE (views) and OPUS-GOV (turnout, party strength) read placeMetadata.worldSettings.",
+    "status": "open"
   }
 ]

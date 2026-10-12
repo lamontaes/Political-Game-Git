@@ -41,6 +41,12 @@ import { withCountedVoterGroups } from "../core2/opening-voter-groups";
 import { releaseRecentHistory } from "../simulation/history-index";
 import { forgetLastValidatedWorld } from "../simulation/world";
 import { selectBenchPlace } from "./place-selection.mjs";
+import {
+  applyWorldSettings,
+  checkWorldSettings,
+  scaleOutsideDemand,
+  type WorldSettings,
+} from "./world-settings";
 
 export interface BenchResident {
   id: string;
@@ -127,23 +133,29 @@ export function buildBenchWorld(
      * filled in when met. The player is the resident at or nearest 18.
      */
     twoLevel?: boolean;
+    /** A custom world (M6-04): what the player changed from real data. */
+    settings?: WorldSettings;
   } = {},
 ): BenchWorld & { playerId?: string } {
   const place = options.placeKey
     ? realLocalities().find((row) => row.key === options.placeKey)
     : selectBenchPlace(seed, lifePlaceStateIdentities(), realLocalities());
   if (!place) throw new Error(`Unknown place key: ${options.placeKey}`);
-  const input = enrichCivicInputs(
-    buildDeepPast(
-      buildPopulation({
-        seed,
-        startedAt: makeIsoDate(date),
-        placeKey: place.key,
-        ...(options.minimumPeople
-          ? { minimumPeople: options.minimumPeople }
-          : {}),
-      }),
+  const settings = options.settings ?? {};
+  checkWorldSettings(settings);
+  const minimumPeople = settings.population ?? options.minimumPeople;
+  const input = applyWorldSettings(
+    enrichCivicInputs(
+      buildDeepPast(
+        buildPopulation({
+          seed,
+          startedAt: makeIsoDate(date),
+          placeKey: place.key,
+          ...(minimumPeople ? { minimumPeople } : {}),
+        }),
+      ),
     ),
+    settings,
   );
   let opening: CoreInput;
   let playerId: string | undefined;
@@ -190,7 +202,10 @@ export function buildBenchWorld(
     const keep = familyClosure(opening);
     for (const row of opening.people)
       if (!generated.has(row.id)) keep.add(row.id);
-    opening = withCountedVoterGroups(collapseToTwoLevels(opening, { keep }));
+    opening = scaleOutsideDemand(
+      withCountedVoterGroups(collapseToTwoLevels(opening, { keep })),
+      settings,
+    );
     releaseRecentHistory();
     forgetLastValidatedWorld();
   } else

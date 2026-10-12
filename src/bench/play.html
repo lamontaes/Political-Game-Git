@@ -26,6 +26,69 @@
           >Place <input id="place" list="places" placeholder="Random"
         /></label>
         <datalist id="places"></datalist>
+        <details id="custom">
+          <summary>Customize the world</summary>
+          <label
+            >Town size
+            <input
+              id="set-population"
+              type="number"
+              min="100"
+              max="50000"
+              step="100"
+              placeholder="Real"
+          /></label>
+          <label
+            >Wages ×
+            <input
+              id="set-wages"
+              type="number"
+              min="0.25"
+              max="4"
+              step="0.05"
+              placeholder="1"
+          /></label>
+          <label
+            >Household cash ×
+            <input
+              id="set-cash"
+              type="number"
+              min="0.25"
+              max="4"
+              step="0.05"
+              placeholder="1"
+          /></label>
+          <label
+            >Outside demand ×
+            <input
+              id="set-demand"
+              type="number"
+              min="0.25"
+              max="4"
+              step="0.05"
+              placeholder="1"
+          /></label>
+          <label
+            >Lean (−1 left, +1 right)
+            <input
+              id="set-lean"
+              type="number"
+              min="-1"
+              max="1"
+              step="0.05"
+              placeholder="0"
+          /></label>
+          <label
+            >Turnout ×
+            <input
+              id="set-turnout"
+              type="number"
+              min="0.25"
+              max="4"
+              step="0.05"
+              placeholder="1"
+          /></label>
+        </details>
         <button id="new-life" class="primary" type="button">New life</button>
         <div class="progress" hidden><span></span></div>
         <p id="front-status" role="status"></p>

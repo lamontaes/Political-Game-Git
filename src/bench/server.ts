@@ -165,6 +165,9 @@ const server = createServer(async (request, response) => {
           url.searchParams.get("date") ?? "",
           {
             twoLevel: true,
+            ...(url.searchParams.get("settings")
+              ? { settings: JSON.parse(url.searchParams.get("settings")!) }
+              : {}),
             ...(url.searchParams.get("placeKey")
               ? { placeKey: url.searchParams.get("placeKey")! }
               : {}),
