@@ -71,6 +71,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 ## Needs from other sessions
 
+- **OPUS-GOV:** on the merged stack, `src/core2/modules/offices.ts` lines 419, 434 and 588 fail typecheck: a module table row now casts to `TermRow` only through `unknown` (`as unknown as TermRow`). The game runs; the repo typecheck is red there. (I wrongly reported this fixed earlier.)
+
 - **OPUS-GOV:** voting. A new game starting Oct 12, 2026 has the general election on Nov 3, three weeks in, and the player is 18. If the elections module offers the ballot (contests, candidates on it) and a cast-vote call, the play screen will show the ballot on election day and record the vote.
 
 - **OPUS-PEOPLE (English engine):** the opening speech. The President's address (inaugural in an inauguration year, else the State of the Union) with the world's real numbers, one passage per level so it plays over each shot: national, your senators and representative, your governor and state, your town, your family. The shots are ready in `/play` (`src/bench/opening.ts`).
@@ -95,6 +97,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- Oct 12: merged main, `opus-core`, `opus-gov`, `opus-world` and `pool/P15-people-5` again. The golden path stays green (M0-01 to M0-06 pass), the bench tests pass, and in Funny River AK (seed art-e) 39 scenes drew 142 figures.
 - Oct 12: Calendar and News tabs in `/play`. In Davenport ND (seed cal-a), the calendar shows the Nov 3 general election with 20 contests, family birthdays and the April 5, 2027 filing deadlines. News is empty in the first weeks, because nothing public has happened yet.
 - Oct 12: the opening, first version. New life plays 8 shots: Oval Office, Senate floor, House floor, governor's office, state chamber, council or commission, home with family, home with you. Holders come from the offices records, including state and federal holders known only by their term identity. Everyone now dresses for the place (`placeWear`). In Knappa OR (seed open-a), every shot had its holders drawn.
 - Oct 12: the game screen on the new core, `/play`. A new life starts as the resident nearest 18 in a random place, in the Kit 12/13 look: tabs, menu stack, player card with the clock, choices along the bottom, and the conversation lower third with the scales. Until needed runs in week legs so the clock visibly moves. Store-shot script added; 16 shots from Paris MS, Wayne WV, Thompsonville MI and Chickasaw Point SC. Next: the opening sequence (M6 order item 1), then the panel style pass.
