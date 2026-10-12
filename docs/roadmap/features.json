@@ -427,6 +427,56 @@
       "test": "In a random place, as mayor in that place's real form of government, the player signs one bill and vetoes another with recorded reasons, sets budget priorities that the council adopts by vote (retiring the M1 budget stand-in), and appoints someone they know; the same engine runs a governor's desk, and the president's in the world.",
       "command": null,
       "passes": false
+    },
+    {
+      "id": "M3-06",
+      "milestone": "M3",
+      "title": "Staff",
+      "golden_path": "7",
+      "package": "M3-world-of-governing",
+      "test": "In a random place, the player hires staff (someone they know or an applicant) whose results come from skill, potential, personality and passion, with no visible potential score; a staffer drafts a bill, prepares an amendment package and briefs the player; delegating carries no hidden penalty.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-07",
+      "milestone": "M3",
+      "title": "Interest groups",
+      "golden_path": "7",
+      "package": "M3-world-of-governing",
+      "test": "In a random place, a group forms against a bill from the people its fiscal note costs, and another forms from a person's drive; their lobbyist is a person who meets the official, donates within the limits and remembers the vote; the groups that exist at the start grew by the same rules over the prior years.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-08",
+      "milestone": "M3",
+      "title": "Constituent cases (simple)",
+      "golden_path": "9",
+      "package": "M3-world-of-governing",
+      "test": "In a random place, residents bring cases drawn from their own records; the office's handling choice (in person or through staff) applies; most cases resolve in the background; helping or not changes those residents' views of the official.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-09",
+      "milestone": "M3",
+      "title": "Basic corruption",
+      "golden_path": "9",
+      "package": "M3-world-of-governing",
+      "test": "In a random place, a bribe or favor is offered or taken only from the people's own traits, money and circumstances; it becomes a crime record with no detection roll and surfaces only through records, a leak or someone who turns; personal, campaign and public money stay separate.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M3-10",
+      "milestone": "M3",
+      "title": "Other governments legislate",
+      "golden_path": "9",
+      "package": "M3-world-of-governing",
+      "test": "Over a year, other councils meet on their real schedules and state legislatures and Congress pass laws on the same engines; those laws are real records that reach the player's town; ballot measures and recalls happen in the world only where a place's law allows them.",
+      "command": null,
+      "passes": false
     }
   ]
 }

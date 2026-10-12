@@ -116,30 +116,35 @@ Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means th
 
 ### M3-06 · Staff
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M3-world-of-governing.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV, or anyone free
 - **Does:** Staff whose results depend on skill, potential, personality and passion; they improve over time. Hire people you know or take applicants; delegate work to them.
 - **Passes when:** A staffer's work quality follows their record and improves with experience; a delegated task's result traces to who did it.
 
 ### M3-07 · Interest groups
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M3-world-of-governing.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV, or anyone free
 - **Does:** Groups form from whoever loses money under a bill's fiscal note; they lobby, donate, advertise and back opponents.
 - **Passes when:** When a bill would cost an industry money, groups from that industry organize and act, with recorded reasons and money that balances.
 
 ### M3-08 · Constituent cases (simple)
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M3-world-of-governing.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV, or anyone free
 - **Does:** Residents bring real problems from their own records to their official, who can help or not.
 - **Passes when:** A resident with a real problem contacts the player's office, and the outcome changes that resident's view of the player.
 
 ### M3-09 · Basic corruption
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M3-world-of-governing.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-PEOPLE
 - **Does:** People can offer or take bribes and favors because of their own traits, money and circumstances. It leaves records that can surface later through people or news. Investigations and prosecutions come after early access.
 - **Passes when:** Over a year, a corrupt act happens only where traits and circumstances support it, leaves a record, and can be learned by others through real routes.
 
 ### M3-10 · Other governments legislate
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M3-world-of-governing.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV, or anyone free
 - **Does:** State legislatures and Congress pass laws; other councils meet on their schedules; ballot measures and recalls happen where a place really allows them. At early access they run in the world only; after early access the player can start, sign and campaign on them.
 - **Passes when:** In one year, a state law and a federal law take effect and change named residents' lives; a ballot measure runs where the law allows one.
