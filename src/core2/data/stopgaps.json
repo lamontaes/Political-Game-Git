@@ -1769,11 +1769,11 @@
     "file": "src/core2/central-bank-appointments.ts",
     "line": 39,
     "whatItFakes": "A seat's new member is the seeded candidate whose lived inflation sits closest to the board's middle, chosen without the president or the Senate.",
-    "why": "OPUS-GOV's nominateAndConfirm (the president's side picks, the real Senate confirms) is on its branch, not yet on this one.",
+    "why": "OPUS-GOV's nominateAndConfirm (the president's side picks, the real Senate confirms) is on its branch, not yet on this one. Resolved by OPUS-WORLD (2026-10-12): the president's party ranks the candidates and the Senate's seats vote, through nominateAndConfirm (src/core2/central-bank-appointments.ts); the candidates' leans are SG-WORLD-board-candidate-lean.",
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "registerBoardAppointer with nominateAndConfirm once the offices and appointments modules are on the same branch.",
-    "status": "open"
+    "status": "resolved"
   },
   {
     "id": "SG-WORLD-credit-line-stand-in",
@@ -2209,6 +2209,18 @@
     "addedBy": "OPUS-PEOPLE",
     "addedAt": "2026-10-12",
     "replacement": "Agreements re-resolve their qualifying worker when a job ends (WORLD/CORE), and the jobs engine exports its pinned-job lookup; then these holders can move like anyone else.",
+    "status": "open"
+  },
+  {
+    "id": "SG-WORLD-board-candidate-lean",
+    "kind": "assumed-data",
+    "file": "src/core2/central-bank-board.ts",
+    "line": 294,
+    "whatItFakes": "A central bank candidate's politics are drawn evenly across the spectrum when the seat opens, not from a career and views of their own.",
+    "why": "Board candidates are filled in only when appointed; the views engine gives leans to people it already holds.",
+    "addedBy": "OPUS-WORLD",
+    "addedAt": "2026-10-12",
+    "replacement": "OPUS-PEOPLE's views engine seeding a filled-in candidate's lean from their career and background.",
     "status": "open"
   }
 ]

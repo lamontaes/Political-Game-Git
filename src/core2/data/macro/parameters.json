@@ -469,5 +469,16 @@
     "value": 65,
     "tag": "SOURCED",
     "citation": "Federal Reserve System policy: a Reserve Bank president retires at 65 (a president first appointed after 55 may serve up to ten years)."
+  },
+  "macroBoardCandidateQualification": {
+    "value": 1,
+    "tag": "TUNABLE",
+    "citation": "Every candidate on a seat's short list meets its bar, so politics decides among them.",
+    "spread": {
+      "low": 0.5,
+      "high": 1,
+      "unit": "share",
+      "citation": "Every candidate on a seat's short list meets its bar, so politics decides among them."
+    }
   }
 }

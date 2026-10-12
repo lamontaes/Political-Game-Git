@@ -3,6 +3,7 @@ import board from "./data/macro/board.json" with { type: "json" };
 import history from "./data/macro/history.json" with { type: "json" };
 import { getNameCorpus } from "../simulation/names-data";
 import { SeededRng } from "../simulation/rng";
+import { stopgap } from "./stopgaps";
 import type { MacroMonth, MacroParameter } from "./macro-model";
 import type {
   ActOffer,
@@ -256,6 +257,8 @@ export interface BoardCandidate {
   };
   readonly career: string;
   readonly experiencedInflationPct: number;
+  /** Left-right lean in [-1, 1]: where the candidate's own politics sit. */
+  readonly politicalLean: number;
 }
 
 /** The next term of a seat whose term ends on `endedAt`: governors 14 years, reserve bank presidents five. */
@@ -286,6 +289,18 @@ export function nextTerm(
 }
 
 /** Seeded generation of who could fill a seat; who is chosen is the appointer's decision. */
+/** Who the candidate is, politically: seeded with the person, spread evenly across the spectrum. */
+function candidateLean(seed: string, id: string): number {
+  stopgap("SG-WORLD-board-candidate-lean");
+  return (
+    new SeededRng(
+      JSON.stringify(["central-bank-candidate-lean-v1", seed, id]),
+    ).next() *
+      2 -
+    1
+  );
+}
+
 export function boardCandidates(
   seed: string,
   vacancy: BoardVacancy,
@@ -326,6 +341,8 @@ export function boardCandidates(
       },
       career: rng.pick(board.careers),
       experiencedInflationPct: experiencedInflationPct(birthYear, year, p),
+      // Drawn on its own stream so the candidates' other facts stay as they were.
+      politicalLean: candidateLean(seed, id),
     };
   });
 }

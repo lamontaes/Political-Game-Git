@@ -4,8 +4,10 @@
  * appointee (a full term can't be renewed, 12 U.S.C. 242); a reserve bank
  * president is reappointed every five years until the System's retirement
  * age. The appointer chooses among seeded candidates: the president with the
- * Senate's consent (OPUS-GOV's `nominateAndConfirm`, registered with
- * `registerBoardAppointer`), or a stand-in until that's on this branch.
+ * Senate's consent (OPUS-GOV's `nominateAndConfirm`): the president ranks
+ * the candidates by how close their politics sit to the president's party
+ * and how qualified they are, and each senator votes by party side. Another
+ * appointer can be registered with `registerBoardAppointer`.
  */
 import {
   boardCandidates,
@@ -17,8 +19,10 @@ import {
 } from "./central-bank-board";
 import type { MacroParameter } from "./macro-model";
 import type { ModuleTable } from "./module-state";
+import { nominateAndConfirm, partySide, senateSides } from "./appointments";
+import federalExecutive from "../../data/research/offices/federal-executive-2026.json" with { type: "json" };
+import { OFFICES_MODULE_ID, type TermRow } from "./modules/offices";
 import { fillInIdentity } from "./state";
-import { stopgap } from "./stopgaps";
 import type { CoreAPI, CoreState, Source } from "./types";
 
 /** Picks one of the candidates and gives its reasons; nothing when no one is confirmed. */
@@ -34,27 +38,48 @@ export function registerBoardAppointer(next: BoardAppointer): void {
   appointer = next;
 }
 
-/** Until the president and Senate appoint: the candidate whose lived inflation sits closest to the board's middle. */
-const standIn: BoardAppointer = (_api, _vacancy, candidates, sitting) => {
-  stopgap("SG-WORLD-board-appointments");
-  const sorted = sitting
-    .map((row) => row.experiencedInflationPct)
-    .sort((a, b) => a - b);
-  const middle = sorted[Math.floor(sorted.length / 2)] ?? 0;
-  let index = 0;
-  candidates.forEach((row, i) => {
-    if (
-      Math.abs(row.experiencedInflationPct - middle) <
-      Math.abs(candidates[index]!.experiencedInflationPct - middle)
-    )
-      index = i;
+/** The sitting president's party: the offices module's serving term where it's open, else the opening record. */
+function presidentParty(api: CoreAPI): string | null {
+  const core = api.state as CoreState;
+  if (core.modules.has(OFFICES_MODULE_ID)) {
+    const term = api
+      .moduleState(OFFICES_MODULE_ID)
+      .table("terms")
+      .query("bySeatStatus", ["seat:US:president", "serving"])[0] as unknown as
+      TermRow | undefined;
+    if (term) return term.party;
+  }
+  return federalExecutive.president.party;
+}
+
+/** The president nominates; the Senate confirms, seat by seat. */
+const presidentAndSenate: BoardAppointer = (api, vacancy, candidates) => {
+  const appointment = nominateAndConfirm({
+    seatKey: vacancy.seatId,
+    appointerSide: partySide(presidentParty(api)),
+    candidates: candidates.map((row) => ({
+      id: row.identity.id,
+      lean: row.politicalLean,
+      // Every candidate on the short list meets the seat's bar.
+      qualification: api.parameter("macroBoardCandidateQualification"),
+      known: false,
+    })),
+    confirmingBody: { name: "United States Senate", sides: senateSides() },
   });
+  if (!appointment.confirmation?.confirmed) return undefined;
+  const index = candidates.findIndex(
+    (row) => row.identity.id === appointment.nomineeId,
+  );
+  const why = appointment.reasons.find(
+    (row) => row.candidateId === appointment.nomineeId,
+  )!;
   return {
     index,
     reasons: {
-      distanceFromBoardMiddle: Math.abs(
-        candidates[index]!.experiencedInflationPct - middle,
-      ),
+      alignment: why.alignment,
+      qualification: why.qualification,
+      senateYes: appointment.confirmation.yes,
+      senateNo: appointment.confirmation.no,
     },
   };
 };
@@ -99,7 +124,12 @@ export function reviewBoardTerms(
     } else {
       const candidates = boardCandidates(core.seed, vacancy, p);
       const others = sitting.filter((row) => row.id !== ended.id);
-      const pick = (appointer ?? standIn)(api, vacancy, candidates, others);
+      const pick = (appointer ?? presidentAndSenate)(
+        api,
+        vacancy,
+        candidates,
+        others,
+      );
       // No one confirmed: the member stays on until a successor is (the Federal Reserve Act's holdover).
       if (!pick) {
         members.put({
