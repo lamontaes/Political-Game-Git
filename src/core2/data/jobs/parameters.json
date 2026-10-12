@@ -301,5 +301,16 @@
       "unit": "logit of a month's pull to stop looking",
       "citation": "BLS CPS labor force status flows, 2010-2019: about a fifth of the unemployed are out of the labor force the next month (unemployed to not in labor force, LNS17900000 over unemployment)."
     }
+  },
+  "jobsQuitToNonemploymentShare": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "About half of quits go straight to another job and half to unemployment or out of the labor force (Fallick and Fleischman 2004, CPS job-to-job flows; BLS CPS gross flows E to U and E to N).",
+    "spread": {
+      "low": 0.35,
+      "high": 0.65,
+      "unit": "share of quits",
+      "citation": "About half of quits go straight to another job and half to unemployment or out of the labor force (Fallick and Fleischman 2004, CPS job-to-job flows; BLS CPS gross flows E to U and E to N)."
+    }
   }
 }

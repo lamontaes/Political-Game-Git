@@ -210,6 +210,15 @@ function record(
     values?: Readonly<Record<string, number>>;
   },
 ): void {
+  // A worker who leaves (a quit or retirement) is replaced: the employer's need grows by one at once.
+  if (row.kind === "quit" || row.kind === "left-work") {
+    const employer = store(api).table("employers").get(row.organizationId) as
+      EmployerRow | undefined;
+    if (employer)
+      store(api)
+        .table("employers")
+        .put({ ...employer, need: employer.need + 1 });
+  }
   store(api)
     .table("changes")
     .put({
@@ -718,6 +727,7 @@ function reviewWorkers(api: CoreAPI): void {
   reviewCountedRetirements(api);
   reviewCountedLooking(api);
   reviewCountedEntry(api);
+  reviewCountedQuits(api);
   raisePay(api);
 }
 
@@ -1155,6 +1165,83 @@ function reviewCountedEntry(api: CoreAPI): void {
       reasonKey: jobsData.reasons.startedLooking,
       referenceHourlyMinor: 0,
     });
+}
+
+/**
+ * Counted workers who leave a job without another: their industry's quit
+ * rate (JOLTS), less the share of quits that go straight to a new job (the
+ * looking-around choice covers those), pulled further by pay below the going
+ * rate. They look for work with no claim (a quit doesn't qualify).
+ */
+function reviewCountedQuits(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key),
+    hundred = p("macroHundred");
+  const going = new Map<string, number>();
+  for (const position of store(api)
+    .table("positions")
+    .query("byStatus", ["open"]) as unknown as PositionRow[])
+    going.set(
+      position.occupation,
+      Math.max(going.get(position.occupation) ?? 0, position.hourlyMinor),
+    );
+  const seekers = store(api).table("countedSeekers");
+  const rows: { id: string; job: JobInput; placeId: string; score: number }[] =
+    [];
+  for (const [organizationId, book] of c.finance.businesses) {
+    if (book.closedAt) continue;
+    const sector =
+      (jobsData.kindSector as Record<string, string>)[book.kindId] ??
+      jobsData.kindSector["*"];
+    const quits = (
+      jobsData.turnover.industries as Record<
+        string,
+        { quits: { mean: number } }
+      >
+    )[sector]?.quits.mean;
+    if (!quits) continue;
+    const share = (quits / hundred) * p("jobsQuitToNonemploymentShare");
+    const base = Math.log(share / (p("one") - share));
+    for (const job of countedJobsOf(c, organizationId)) {
+      if (pinned(c).has(job.id) || seekers.get(job.personId)) continue;
+      if (ownerOf(api, organizationId) === job.personId) continue;
+      const person = residentPerson(c, job.personId);
+      const pay = job.hourlyMinor ?? 0;
+      if (!person || pay <= 0) continue;
+      const payGap = Math.max(
+        0,
+        (going.get(job.occupationClassification ?? job.title) ?? pay) / pay - 1,
+      );
+      rows.push({
+        id: job.id,
+        job,
+        placeId: person.placeId,
+        score: base + p("jobsPayGapWeight") * payGap,
+      });
+    }
+  }
+  for (const { job, placeId } of strongestPulls(api, "counted-quit", rows)) {
+    endCountedJob(c, job.id);
+    record(api, {
+      personId: job.personId,
+      organizationId: job.organizationId,
+      jobId: job.id,
+      kind: "quit",
+      reasonKey: jobsData.reasons.leftJob,
+      decidedBy: job.personId,
+    });
+    seekers.put({
+      id: job.personId,
+      isSeeker: true,
+      personId: job.personId,
+      placeId,
+      employed: false,
+      since: c.date,
+      reasonKey: jobsData.reasons.leftJob,
+      referenceHourlyMinor: job.hourlyMinor ?? 0,
+      lastJob: { ...job },
+    });
+  }
 }
 
 function reviewCountedLooking(api: CoreAPI): void {

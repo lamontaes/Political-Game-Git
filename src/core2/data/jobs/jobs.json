@@ -1846,6 +1846,7 @@
     "opening": "work-beyond-staff",
     "retired": "retired",
     "lookingAround": "looking-around",
-    "startedLooking": "started-looking"
+    "startedLooking": "started-looking",
+    "leftJob": "left-job"
   }
 }
