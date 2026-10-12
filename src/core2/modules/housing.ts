@@ -14,12 +14,14 @@ import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
 import { transferCash } from "../world-transfer";
 import type { FinanceContractInput } from "../finance-types";
+import type { ResidentFlowInput } from "../residents";
 import { regionalLevel, regionalRegistered } from "./regional";
 import type {
   CoreAPI,
   CoreInput,
   CoreModule,
   CoreState,
+  JobInput,
   Source,
 } from "../types";
 
@@ -76,11 +78,11 @@ function townOf(input: CoreInput): Town | undefined {
 
 /** Annual pay of a household's members from their recorded current jobs. */
 function householdIncome(
-  input: CoreInput,
+  jobs: readonly JobInput[],
   memberIds: readonly string[],
 ): number {
   const members = new Set(memberIds);
-  return input.jobs
+  return jobs
     .filter((job) => members.has(job.personId) && job.endsAt === undefined)
     .reduce((sum, job) => sum + job.wageDailyMinor, 0);
 }
@@ -98,16 +100,42 @@ export function withHousing(input: CoreInput): CoreInput {
   const [medianRent] = RENT_VALUE[town.county] ?? [null, null];
   if (!tenure || !medianRent) return input;
   const people = new Map(input.people.map((row) => [row.id, row]));
-  const households = input.households
-    .filter((row) => row.placeId === town.placeId && row.memberIds.length)
-    .map((row) => {
-      const oldest = Math.min(
-        ...row.memberIds.map((id) =>
-          Number(people.get(id)?.birthDate.slice(0, 4) ?? "9999"),
+  // Income awards (retirement and the like) count as income too.
+  const awarded = new Set(
+    [
+      ...(input.finance?.contracts ?? []),
+      ...(input.residents?.households.flatMap((row) => row.contracts) ?? []),
+    ]
+      .filter((row) => row.recipientIncome)
+      .map((row) => row.recipientIncome!.householdId),
+  );
+  const oldestOf = (births: readonly string[]) =>
+    Math.min(...births.map((date) => Number(date.slice(0, 4))));
+  // Full households and the wider population's, ranked together for owning.
+  const households = [
+    ...input.households
+      .filter((row) => row.placeId === town.placeId && row.memberIds.length)
+      .map((row) => ({
+        id: row.id,
+        counted: false,
+        memberIds: row.memberIds,
+        income: householdIncome(input.jobs, row.memberIds),
+        oldest: oldestOf(
+          row.memberIds.map((id) => people.get(id)?.birthDate ?? "9999"),
         ),
-      );
-      return { row, income: householdIncome(input, row.memberIds), oldest };
-    });
+      })),
+    ...(input.residents?.households ?? [])
+      .filter(
+        (row) => row.household.placeId === town.placeId && row.people.length,
+      )
+      .map((row) => ({
+        id: row.household.id,
+        counted: true,
+        memberIds: row.household.memberIds,
+        income: householdIncome(row.jobs, row.household.memberIds),
+        oldest: oldestOf(row.people.map((person) => person.birthDate)),
+      })),
+  ];
   const owners = Math.round((households.length * tenure[1]) / tenure[0]);
   // The median among households with recorded income; the others pay no modeled rent.
   const incomes = households
@@ -121,9 +149,9 @@ export function withHousing(input: CoreInput): CoreInput {
         (a, b) =>
           a.oldest - b.oldest ||
           b.income - a.income ||
-          a.row.id.localeCompare(b.row.id),
+          a.id.localeCompare(b.id),
       )
-      .map((row, i) => [row.row.id, i]),
+      .map((row, i) => [row.id, i]),
   );
   // A landlord until businesses growing (M1-08) gives rentals real owners.
   stopgap("SG-WORLD-housing-landlord");
@@ -140,35 +168,54 @@ export function withHousing(input: CoreInput): CoreInput {
       makeIsoDate(`${input.startedAt.slice(0, "YYYY-MM".length)}-01`),
       32,
     ).slice(0, "YYYY-MM".length) + "-01";
-  const leases: FinanceContractInput[] = [];
-  // Income awards (retirement and the like) count as income too.
-  const awarded = new Set(
-    (input.finance?.contracts ?? [])
-      .filter((row) => row.recipientIncome)
-      .map((row) => row.recipientIncome!.householdId),
+  const account = input.residents?.accounts.find(
+    (row) => row.placeId === town.placeId,
   );
+  const leases: FinanceContractInput[] = [];
+  const flows: ResidentFlowInput[] = [];
   for (const row of households) {
-    if (rank.get(row.row.id)! < owners) continue;
+    if (rank.get(row.id)! < owners) continue;
     // A renter with no recorded income is the wider population, not yet modeled; see the stopgap.
-    if (row.income <= 0 && !awarded.has(row.row.id)) {
+    if (row.income <= 0 && !awarded.has(row.id)) {
       stopgap("SG-WORLD-housing-unmodeled-renters");
       continue;
     }
     const scale =
       ((row.income + offset) / (medianIncome + offset || 1)) **
       pv("housingRentIncomeElasticity");
-    leases.push({
-      id: `lease:${row.row.id}`,
-      householdId: row.row.id,
-      payerIds: [...row.row.memberIds].filter((id) => people.has(id)),
-      payeeId: landlordId,
-      kind: LEASE_KIND,
-      amountMinor: Math.round(medianRent * 100 * scale),
-      dueAt: makeIsoDate(dueAt),
-      periodMonths: 1,
-      accruesArrears: true,
-      source,
-    });
+    const amountMinor = Math.round(medianRent * 100 * scale);
+    if (!row.counted)
+      leases.push({
+        id: `lease:${row.id}`,
+        householdId: row.id,
+        payerIds: [...row.memberIds].filter((id) => people.has(id)),
+        payeeId: landlordId,
+        kind: LEASE_KIND,
+        amountMinor,
+        dueAt: makeIsoDate(dueAt),
+        periodMonths: 1,
+        accruesArrears: true,
+        source,
+      });
+    else if (account) {
+      // The wider population's cash is pooled by place: its rent is paid from the pool, with no per-household arrears (stopgap).
+      stopgap("SG-WORLD-housing-counted-rent");
+      flows.push({
+        id: `rent:${row.id}`,
+        kind: "purchase",
+        financeKind: "household.rent",
+        payerId: account.accountId,
+        payeeId: landlordId,
+        residentsId: account.accountId,
+        placeId: town.placeId,
+        amountMinor,
+        firstAt: makeIsoDate(dueAt),
+        cadence: { kind: "months", every: 1, day: 1 },
+        salesReceipt: false,
+        marketAdjusted: false,
+        source,
+      });
+    }
   }
   return {
     ...input,
@@ -189,6 +236,14 @@ export function withHousing(input: CoreInput): CoreInput {
     finance: input.finance
       ? { ...input.finance, contracts: [...input.finance.contracts, ...leases] }
       : { contracts: leases, facilities: [], businesses: [], gaps: [] },
+    ...(input.residents && flows.length
+      ? {
+          residents: {
+            ...input.residents,
+            flows: [...input.residents.flows, ...flows],
+          },
+        }
+      : {}),
     placeMetadata: { ...input.placeMetadata, housingState: town.usps },
   };
 }
