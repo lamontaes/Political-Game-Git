@@ -295,6 +295,26 @@
       "test": "In a random place, the player goes to that place's real filing office, talks to the person there through dialogue choices, picks an office in the filing overlay, states a platform, gathers any required signatures from real people, files once and is on the ballot; an ineligible player is told the rule in words.",
       "command": null,
       "passes": false
+    },
+    {
+      "id": "M2-05",
+      "milestone": "M2",
+      "title": "Campaigning",
+      "golden_path": "4",
+      "package": "M2-campaigns",
+      "test": "In a random place, after filing, each campaign activity (doors, volunteers, fundraising within real contribution limits, events and speeches, ads, endorsements, staff) changes what specific people know and think, each change with a recorded cause; support never moves without one; rivals campaign with the same tools.",
+      "command": null,
+      "passes": false
+    },
+    {
+      "id": "M2-06",
+      "milestone": "M2",
+      "title": "Polls",
+      "golden_path": "4",
+      "package": "M2-campaigns",
+      "test": "In a random place, a poll reports what the people it actually contacted told the pollster (including undecided and no opinion), with a computed margin of error; no contacts means no poll; true support is never shown on screen.",
+      "command": null,
+      "passes": false
     }
   ]
 }

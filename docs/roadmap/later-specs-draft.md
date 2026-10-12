@@ -36,12 +36,14 @@ Each spec names its owner from "The team" in `AGENTS.md`. "Anyone free" means th
 
 ### M2-05 · Campaigning (step 4)
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M2-campaigns.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV
 - **Does:** Win support through the people you actually reach: meeting people, door to door, speeches, a front porch, endorsements, news, ads and party. Raise and spend money under real contribution limits. Staff and volunteers whose results depend on who they are. Debate preparation as designed.
 - **Passes when:** In a random place, each campaign act changes what specific voters know and think, and support never moves without a recorded cause.
 
 ### M2-06 · Polls
 
+- **Approved (owner, Oct 12):** build from the work order `docs/packages/M2-campaigns.md`; the spec and its test are in `features.json`.
 - **Owner:** OPUS-GOV
 - **Does:** A poll is a real sample of the people it actually contacted, with a computed margin of error. No contacts means no poll.
 - **Passes when:** A poll's reading equals the support among the people it sampled, and its margin follows the sample size.
