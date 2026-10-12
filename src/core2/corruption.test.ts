@@ -110,8 +110,12 @@ describe(`basic corruption in ${input.placeMetadata?.placeName} (seed ${seed})`,
         cause: "fixture-falling-out",
       },
     );
-    const learned = others.filter((row) =>
-      crimesKnownTo(api, row.id).some((r) => r.id === crime!.id),
+    // Whoever they told: anyone but the two, a relative elsewhere included.
+    const learned = [...core.people.values()].filter(
+      (row) =>
+        row.id !== crime!.offererId &&
+        row.id !== crime!.officialId &&
+        crimesKnownTo(api, row.id).some((r) => r.id === crime!.id),
     );
     expect(learned.length).toBeGreaterThan(0);
     expect(learned.length).toBeLessThanOrEqual(2);
