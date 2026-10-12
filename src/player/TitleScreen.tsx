@@ -1,3 +1,4 @@
+import { displayVersion } from "../release/build-identity";
 import { titleEngineHero } from "../presentation/title-engine-hero";
 import { peoplePackAvailable } from "../presentation/appearance-engine/runtime";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
@@ -594,6 +595,9 @@ export function TitleScreen({
         </button>
       ) : null}
       {problem ? <p className="game-problem">{problem}</p> : null}
+      <small className="game-title-version" data-testid="title-version">
+        {displayVersion()}
+      </small>
     </main>
   );
 }
