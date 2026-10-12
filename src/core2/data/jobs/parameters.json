@@ -193,7 +193,7 @@
   "jobsCountedRestlessWeight": {
     "value": 0.5,
     "tag": "TUNABLE",
-    "citation": "How much a counted worker's taste for risk and gain against contentment and duty adds to their pull toward looking around; checked against JOLTS 2001-2019 quits (1.9 percent a month).",
+    "citation": "How much a counted worker's trait lean (every trait through the shared trait table, about -1 to 1; OPUS-TRAITS, Oct 12, 2026) toward looking around over staying, or retiring over staying, adds to that pull; checked against JOLTS 2001-2019 quits (1.9 percent a month).",
     "spread": {
       "low": 0.2,
       "high": 1.5,
@@ -262,6 +262,55 @@
       "high": 600000,
       "unit": "cents",
       "citation": "U.S. Department of Labor, Employment and Training Administration, Significant Provisions of State Unemployment Insurance Laws, January 2026 and July 2026 (53 programs, as gathered in OPUS-GOV's starting law)."
+    }
+  },
+  "jobsCountedEntryBaseline": {
+    "value": -7,
+    "tag": "TUNABLE",
+    "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow.",
+    "spread": {
+      "low": -8,
+      "high": -5.5,
+      "unit": "logit of a month's pull to start looking",
+      "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow."
+    }
+  },
+  "jobsCountedEntryYouthWeight": {
+    "value": 4,
+    "tag": "TUNABLE",
+    "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow.",
+    "spread": {
+      "low": 2.5,
+      "high": 5,
+      "unit": "added at the peak of school-leaving years",
+      "citation": "BLS CPS labor force participation by age, 2024 (about 36% at 16-19, 71% at 20-24, 83% at 25-54): entrants are mostly young people leaving school; set so the counted unemployed settle near the state's unemployment rate with the stop-looking flow."
+    }
+  },
+  "jobsCountedEntryYouthYears": {
+    "value": 7,
+    "tag": "SOURCED",
+    "citation": "Ages 18 to 25: the BLS CPS school-leaving years (16-24 enrollment and July youth labor force tables)."
+  },
+  "jobsCountedStopLookingBaseline": {
+    "value": -1.4,
+    "tag": "TUNABLE",
+    "citation": "BLS CPS labor force status flows, 2010-2019: about a fifth of the unemployed are out of the labor force the next month (unemployed to not in labor force, LNS17900000 over unemployment).",
+    "spread": {
+      "low": -2,
+      "high": -0.9,
+      "unit": "logit of a month's pull to stop looking",
+      "citation": "BLS CPS labor force status flows, 2010-2019: about a fifth of the unemployed are out of the labor force the next month (unemployed to not in labor force, LNS17900000 over unemployment)."
+    }
+  },
+  "jobsQuitToNonemploymentShare": {
+    "value": 0.5,
+    "tag": "TUNABLE",
+    "citation": "About half of quits go straight to another job and half to unemployment or out of the labor force (Fallick and Fleischman 2004, CPS job-to-job flows; BLS CPS gross flows E to U and E to N).",
+    "spread": {
+      "low": 0.35,
+      "high": 0.65,
+      "unit": "share of quits",
+      "citation": "About half of quits go straight to another job and half to unemployment or out of the labor force (Fallick and Fleischman 2004, CPS job-to-job flows; BLS CPS gross flows E to U and E to N)."
     }
   }
 }

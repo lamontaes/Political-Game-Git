@@ -22,6 +22,7 @@ import type {
   PersonId,
   PersonState,
 } from "../types";
+import { decisionKinds, decisionLean } from "../trait-decisions";
 import { viewOf } from "./views";
 
 export const CANDIDACY_MODULE_ID = "candidacy";
@@ -71,14 +72,15 @@ export function candidacyReasons(
   let cause = zero;
   for (const drive of person.drives.values())
     cause = Math.max(cause, Math.min(one, drive.strength));
-  const traits = [
-    "people-mind-v1:sociability",
-    "people-mind-v1:risk",
-    "people-mind-v1:conflict",
-  ];
-  const temperament =
-    traits.reduce((sum, key) => sum + (person.traits[key] ?? zero), zero) /
-    (traits.length * two);
+  // Every trait, through the shared trait table: how much more the person
+  // leans toward running than staying out, about -1..1.
+  const temperament = decisionLean(
+    api.state,
+    person,
+    "candidacy.run",
+    "candidacy-run",
+    "candidacy-stay-out",
+  );
   const fee = contest.feeMinor;
   const money = (person.liquidMinor - fee) / (person.liquidMinor + fee + one);
   const job = person.jobId ? api.state.jobs.get(person.jobId) : undefined;
@@ -110,7 +112,7 @@ export function candidacyReasons(
 function action(id: string, running: boolean): ActionDefinition {
   return {
     id,
-    actKinds: running ? ["commit"] : ["play-safe"],
+    actKinds: decisionKinds("candidacy.run", id),
     goalKinds: [],
     need: "time",
     effortParameter: "zero",

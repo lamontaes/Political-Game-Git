@@ -228,3 +228,39 @@ describe("history before the start (M1-14, the economy's part)", () => {
     expect(Math.max(...leans)).toBeGreaterThan(0);
   });
 });
+
+describe("a custom world's economy (M6-04)", () => {
+  it("opens on the player's chosen national figures and runs by the same rules from there", () => {
+    const base = opening("2021-01-01");
+    const core = createCore(
+        {
+          ...base,
+          placeMetadata: {
+            ...base.placeMetadata,
+            customEconomy: JSON.stringify({
+              unemploymentPct: 9,
+              inflationPct: 4,
+              policyRatePct: 3,
+            }),
+          },
+        },
+        { data, modules: [MACRO_MODULE] },
+      ),
+      api = coreAPI(core);
+    advanceCore(core, "2021-03-15");
+    const months = [...api.moduleState("macro").table("months").rows()].sort(
+      (a, b) => String(a.month).localeCompare(String(b.month)),
+    );
+    const opened = months.find((row) => row.month === "2020-12")!;
+    expect(opened).toMatchObject({
+      unemploymentPct: 9,
+      inflationPct: 4,
+      policyRatePct: 3,
+    });
+    // Okun's law: output sits below trend for unemployment above its natural rate.
+    expect(Number(opened.outputGapPct)).toBeLessThan(0);
+    const latest = months.at(-1)!;
+    expect(latest.kind).toBe("simulated");
+    expect(Number(latest.unemploymentPct)).toBeGreaterThan(8);
+  });
+});

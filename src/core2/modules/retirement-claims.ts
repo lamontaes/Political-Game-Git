@@ -10,6 +10,7 @@ import { addDays, makeIsoDate } from "../../simulation/dates";
 import incomeData from "../data/opening-income.json" with { type: "json" };
 import fundingData from "../data/opening-income-funding.json" with { type: "json" };
 import { retirementClaimAgeMonths } from "../retirement-claim";
+import { decisionLean } from "../trait-decisions";
 import type {
   CoreAPI,
   CoreModule,
@@ -65,9 +66,13 @@ function claimDateOf(api: CoreAPI, personId: PersonId): IsoDate | undefined {
         cost > 0
           ? person.liquidMinor / ((cost * p("daysPerMeanYear")) / 12)
           : p(incomeData.parameters.claimFullBufferMonths),
-      deliberation: person.traits["people-mind-v1:deliberation"],
-      reliability: person.traits["people-mind-v1:reliability"],
-      risk: person.traits["people-mind-v1:risk"],
+      patience: decisionLean(
+        api.state,
+        person,
+        "retirement.claim-age",
+        "wait-to-claim",
+        "claim-now",
+      ),
     },
     {
       anchorYearsBeforeFull: p(

@@ -1,11 +1,13 @@
 import { randomBytes } from "node:crypto";
 import { describe, expect, it } from "vitest";
 import { drawPlace } from "../../scripts/core2-year/place";
+import { DEFAULT_DATA } from "./data";
 import { advanceCore, createLifeCore } from "./life";
 import { retirementClaims } from "./modules/retirement-claims";
 import { PARAMETERS } from "./parameters";
 import { retirementClaimAgeMonths } from "./retirement-claim";
 import { coreAPI } from "./state";
+import { decisionLean } from "./trait-decisions";
 import { generatedOpening } from "./tooling/generated-world";
 import type { CoreState } from "./types";
 
@@ -48,9 +50,13 @@ describe(`retirement claims during play in ${place.name}, ${place.state} (seed $
               ? adult.liquidMinor /
                 ((adult.livingCostDailyMinor * 365.2425) / 12)
               : weights.fullBufferMonths,
-          deliberation: adult.traits["people-mind-v1:deliberation"],
-          reliability: adult.traits["people-mind-v1:reliability"],
-          risk: adult.traits["people-mind-v1:risk"],
+          patience: decisionLean(
+            { data: DEFAULT_DATA },
+            adult,
+            "retirement.claim-age",
+            "wait-to-claim",
+            "claim-now",
+          ),
         },
         weights,
       );

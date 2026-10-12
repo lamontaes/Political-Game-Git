@@ -13,8 +13,11 @@ import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
 import { chooseAct } from "../choice";
 import jobsData from "../data/jobs/jobs.json" with { type: "json" };
 import jobsParameters from "../data/jobs/parameters.json" with { type: "json" };
+import seasonal from "../data/jobs/seasonal.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { traitLean } from "../choice";
+import { traitLeanBetween } from "../trait-decisions";
 import { ownerOf } from "./business";
 import { residentPerson, residentsRuntime } from "./residents";
 import { endClaim, fileClaim, payClaims } from "../jobs-benefits";
@@ -209,6 +212,15 @@ function record(
     values?: Readonly<Record<string, number>>;
   },
 ): void {
+  // A worker who leaves (a quit or retirement) is replaced: the employer's need grows by one at once.
+  if (row.kind === "quit" || row.kind === "left-work") {
+    const employer = store(api).table("employers").get(row.organizationId) as
+      EmployerRow | undefined;
+    if (employer)
+      store(api)
+        .table("employers")
+        .put({ ...employer, need: employer.need + 1 });
+  }
   store(api)
     .table("changes")
     .put({
@@ -422,9 +434,29 @@ function openPositions(api: CoreAPI, organizationId: string): PositionRow[] {
 }
 
 /** Each open business: the staff its demand calls for against the staff it has. */
+/** An industry's employment this month against the opening month's, from BLS CES seasonal factors; 1 for kinds with no series. */
+export function seasonalStaffing(
+  kindId: string,
+  date: string,
+  openedAt: string,
+): number {
+  const code = (seasonal.kinds as Record<string, string>)[kindId];
+  const factors = code
+    ? (seasonal.factors as Record<string, number[]>)[code]
+    : undefined;
+  if (!factors) return 1;
+  const month = (iso: string) => Number(iso.slice(5, 7)) - 1;
+  return factors[month(date)]! / factors[month(openedAt)]!;
+}
+
 function reviewEmployers(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key);
+  const opened =
+    (
+      store(api).table("state").get("jobs:state") as
+        { openedAt?: string } | undefined
+    )?.openedAt ?? c.date;
   for (const row of store(api)
     .table("employers")
     .query("all", [true]) as unknown as EmployerRow[]) {
@@ -434,11 +466,13 @@ function reviewEmployers(api: CoreAPI): void {
       positions = [...openPositions(api, row.id)];
     if (!jobs.length && !positions.length && !row.templateFromId) continue;
     const target =
-      book.capacityMinor > 0
+      (book.capacityMinor > 0
         ? // Real demand: the books' demand in the business's own opening prices.
           (row.openingStaff * book.annualDemandMinor) /
           ((book.price / book.anchorPrice || 1) * book.capacityMinor)
-        : row.openingStaff;
+        : row.openingStaff) *
+      // The season: the industry's staffing this month against the opening's (BLS CES seasonal factors).
+      seasonalStaffing(book.kindId, c.date, opened);
     const monthlyPayroll = book.annualPayrollMinor / p("macroMonthsPerYear");
     const cash = c.organizations.get(row.id)!.liquidMinor;
     // Hiring leans on the cash in reach of a few months of payroll; a gap below staff needs no cash to act on.
@@ -694,6 +728,8 @@ function reviewWorkers(api: CoreAPI): void {
   reviewJobless(api);
   reviewCountedRetirements(api);
   reviewCountedLooking(api);
+  reviewCountedEntry(api);
+  reviewCountedQuits(api);
   raisePay(api);
 }
 
@@ -853,14 +889,26 @@ function runWeek(api: CoreAPI): void {
     .table("countedSeekers")
     .query("all", [true]) as unknown as SeekerRow[];
   if (counted.length) stopgap("SG-WORLD-jobs-counted-choices");
-  for (const seeker of counted)
+  for (const seeker of counted) {
+    // The same reasons a full person weighs: pay against their reference,
+    // the need for work, and every trait's lean toward applying or waiting.
+    const person = { traits: traitsOf(api, seeker.personId) };
+    const traitTerm =
+      p("traitWeight") *
+      (traitLean(c, person, jobsData.actions.apply.actKinds) -
+        traitLean(c, person, jobsData.actions.wait.actKinds));
+    const reference = seeker.referenceHourlyMinor;
     for (const position of byPlace.get(seeker.placeId) ?? [])
-      // Someone with work moves only for better pay.
       if (
-        !seeker.employed ||
-        position.hourlyMinor > seeker.referenceHourlyMinor
+        p("jobsRateWeight") *
+          (p("jobsApplyPayWeight") *
+            (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
+            (seeker.employed ? 0 : p("jobsUnemployedNeedWeight"))) +
+          traitTerm >
+        0
       )
         apply(position.id, seeker);
+  }
   // Each seeker's fit for an occupation, worked out once a week.
   const fits = new Map<string, number>();
   for (const position of positions) {
@@ -898,7 +946,21 @@ function runWeek(api: CoreAPI): void {
     let pool = [...applicants];
     let best = pick(pool);
     while (isCounted(api, best.personId)) {
-      if (hireCounted(api, position, best, fit(best))) {
+      // A counted seeker answers the offer by the same reasons a full person
+      // weighs, every trait included.
+      const person = { traits: traitsOf(api, best.personId) };
+      const reference = best.referenceHourlyMinor;
+      const accepts =
+        p("jobsRateWeight") *
+          (p("jobsAcceptBaseline") +
+            p("jobsApplyPayWeight") *
+              (reference > 0 ? position.hourlyMinor / reference - 1 : 0) +
+            (best.employed ? 0 : p("jobsUnemployedNeedWeight"))) +
+          p("traitWeight") *
+            (traitLean(c, person, jobsData.actions.accept.actKinds) -
+              traitLean(c, person, jobsData.actions.decline.actKinds)) >
+        0;
+      if (accepts && hireCounted(api, position, best, fit(best))) {
         for (const row of applications.values())
           for (let i = row.length - 1; i >= 0; i--)
             if (row[i]!.personId === best.personId) row.splice(i, 1);
@@ -1050,7 +1112,16 @@ function reviewCountedRetirements(api: CoreAPI): void {
         id: job.id,
         job,
         age,
-        score: p("jobsRetireBaseline") + p("jobsRetireAgeWeight") * past,
+        score:
+          p("jobsRetireBaseline") +
+          p("jobsRetireAgeWeight") * past +
+          p("jobsCountedRestlessWeight") *
+            traitLeanBetween(
+              c,
+              person,
+              jobsData.actions.leave.actKinds,
+              jobsData.actions.stay.actKinds,
+            ),
       });
     }
   }
@@ -1069,10 +1140,150 @@ function reviewCountedRetirements(api: CoreAPI): void {
 }
 
 /** Counted workers weigh looking around by their pay against the going rate and their traits (stopgap). */
-function reviewCountedLooking(api: CoreAPI): void {
+/**
+ * Counted adults out of work and not looking start looking: young people as
+ * they leave school (the pull rises from 18 to 25), and a few others coming
+ * back to work. By summed pulls, as the other counted choices.
+ */
+function reviewCountedEntry(api: CoreAPI): void {
   const c = core(api),
     p = (key: string) => api.parameter(key),
-    t = jobsData.traits;
+    rt = residentsRuntime(c);
+  if (!rt) return;
+  const [young] = jobsData.workingAge as [number, number];
+  const working = new Set<string>();
+  for (const [jobId, flow] of rt.wageFlowByJob) {
+    const job = rt.jobs.get(jobId);
+    if (job && !job.endsAt && !flow.endedAt) working.add(job.personId);
+  }
+  const seekers = store(api).table("countedSeekers");
+  const youthSpan = p("jobsCountedEntryYouthYears");
+  const rows: { id: string; placeId: string; score: number }[] = [];
+  for (const row of rt.households.values())
+    for (const personId of row.household.memberIds) {
+      if (working.has(personId) || seekers.get(personId)) continue;
+      const person = residentPerson(c, personId);
+      if (!person) continue;
+      const age =
+        daysBetween(makeIsoDate(person.birthDate), makeIsoDate(c.date)) /
+        p("jobsDaysPerYear");
+      if (age < young || age >= p("jobsEarliestRetirementAge")) continue;
+      // Youth pulls hardest as school ends, rising over the first years after 18.
+      const youth = Math.max(0, Math.min(age - young, youthSpan)) / youthSpan;
+      rows.push({
+        id: personId,
+        placeId: person.placeId,
+        score:
+          p("jobsCountedEntryBaseline") +
+          p("jobsCountedEntryYouthWeight") *
+            (age - young < youthSpan ? youth : 0),
+      });
+    }
+  // Out of work and looking, some stop looking each month (to school, family or retirement).
+  const leaving: { id: string; score: number }[] = [];
+  for (const row of seekers.query("all", [true]) as unknown as SeekerRow[])
+    if (!row.employed)
+      leaving.push({
+        id: row.personId,
+        score: p("jobsCountedStopLookingBaseline"),
+      });
+  for (const row of strongestPulls(api, "counted-stop-looking", leaving)) {
+    seekers.remove(row.id);
+    endClaim(api, store(api).table("claims"), row.id);
+  }
+  for (const row of strongestPulls(api, "counted-enter", rows))
+    seekers.put({
+      id: row.id,
+      isSeeker: true,
+      personId: row.id,
+      placeId: row.placeId,
+      employed: false,
+      since: c.date,
+      reasonKey: jobsData.reasons.startedLooking,
+      referenceHourlyMinor: 0,
+    });
+}
+
+/**
+ * Counted workers who leave a job without another: their industry's quit
+ * rate (JOLTS), less the share of quits that go straight to a new job (the
+ * looking-around choice covers those), pulled further by pay below the going
+ * rate. They look for work with no claim (a quit doesn't qualify).
+ */
+function reviewCountedQuits(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key),
+    hundred = p("macroHundred");
+  const going = new Map<string, number>();
+  for (const position of store(api)
+    .table("positions")
+    .query("byStatus", ["open"]) as unknown as PositionRow[])
+    going.set(
+      position.occupation,
+      Math.max(going.get(position.occupation) ?? 0, position.hourlyMinor),
+    );
+  const seekers = store(api).table("countedSeekers");
+  const rows: { id: string; job: JobInput; placeId: string; score: number }[] =
+    [];
+  for (const [organizationId, book] of c.finance.businesses) {
+    if (book.closedAt) continue;
+    const sector =
+      (jobsData.kindSector as Record<string, string>)[book.kindId] ??
+      jobsData.kindSector["*"];
+    const quits = (
+      jobsData.turnover.industries as Record<
+        string,
+        { quits: { mean: number } }
+      >
+    )[sector]?.quits.mean;
+    if (!quits) continue;
+    const share = (quits / hundred) * p("jobsQuitToNonemploymentShare");
+    const base = Math.log(share / (p("one") - share));
+    for (const job of countedJobsOf(c, organizationId)) {
+      if (pinned(c).has(job.id) || seekers.get(job.personId)) continue;
+      if (ownerOf(api, organizationId) === job.personId) continue;
+      const person = residentPerson(c, job.personId);
+      const pay = job.hourlyMinor ?? 0;
+      if (!person || pay <= 0) continue;
+      const payGap = Math.max(
+        0,
+        (going.get(job.occupationClassification ?? job.title) ?? pay) / pay - 1,
+      );
+      rows.push({
+        id: job.id,
+        job,
+        placeId: person.placeId,
+        score: base + p("jobsPayGapWeight") * payGap,
+      });
+    }
+  }
+  for (const { job, placeId } of strongestPulls(api, "counted-quit", rows)) {
+    endCountedJob(c, job.id);
+    record(api, {
+      personId: job.personId,
+      organizationId: job.organizationId,
+      jobId: job.id,
+      kind: "quit",
+      reasonKey: jobsData.reasons.leftJob,
+      decidedBy: job.personId,
+    });
+    seekers.put({
+      id: job.personId,
+      isSeeker: true,
+      personId: job.personId,
+      placeId,
+      employed: false,
+      since: c.date,
+      reasonKey: jobsData.reasons.leftJob,
+      referenceHourlyMinor: job.hourlyMinor ?? 0,
+      lastJob: { ...job },
+    });
+  }
+}
+
+function reviewCountedLooking(api: CoreAPI): void {
+  const c = core(api),
+    p = (key: string) => api.parameter(key);
   const going = new Map<string, number>();
   for (const position of store(api)
     .table("positions")
@@ -1105,12 +1316,13 @@ function reviewCountedLooking(api: CoreAPI): void {
         0,
         (going.get(job.occupationClassification ?? job.title) ?? pay) / pay - 1,
       );
-      const traits = person.traits;
-      const restless =
-        (traits[t.risk] ?? 0) +
-        (traits[t.acquisitive] ?? 0) -
-        (traits[t.contented] ?? 0) -
-        (traits[t.dutyBound] ?? 0);
+      // Every trait's lean toward looking around over staying put.
+      const restless = traitLeanBetween(
+        c,
+        person,
+        jobsData.actions.look.actKinds,
+        jobsData.actions.stay.actKinds,
+      );
       rows.push({
         id: job.id,
         job,
