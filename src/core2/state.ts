@@ -13,6 +13,7 @@ import {
   takeResidentHousehold,
 } from "./modules/residents";
 import { endPurchaseTax, setPurchaseTax } from "./modules/purchase-tax";
+import { openingTemperaments } from "./opening-personality";
 import {
   prepareModuleState,
   installModuleState,
@@ -2027,8 +2028,21 @@ export function fillInIdentity(
   if (existing) return existing;
   if (takeResidentHousehold(core, identity.id))
     throw new Error("A counted resident is filled in with fillInPerson.");
-  coreAPI(core).stopgap("SG-CORE-identity-fill-in-traits");
   makeIsoDate(identity.birthDate);
+  // Seeded by the world and the person, matched to real norms by age and sex,
+  // as the opening gives everyone theirs: the same person every time.
+  const traits =
+    openingTemperaments(
+      [
+        {
+          id: identity.id,
+          birthDate: makeIsoDate(identity.birthDate),
+          ...(identity.gender ? { gender: identity.gender } : {}),
+          parents: [],
+        },
+      ],
+      { seed: core.seed, startedAt: makeIsoDate(core.startedAt) },
+    ).get(identity.id) ?? {};
   const householdId = `household:${identity.id}`;
   if (core.households.has(householdId))
     throw new Error(`Identity household already present: ${householdId}`);
@@ -2074,7 +2088,7 @@ export function fillInIdentity(
     ...(identity.countyId ? { countyId: identity.countyId } : {}),
     householdId,
     tier: "monthly",
-    traits: {},
+    traits,
     liquidMinor: 0,
     livingCostDailyMinor: 0,
     source: identity.source,

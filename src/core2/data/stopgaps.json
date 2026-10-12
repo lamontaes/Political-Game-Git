@@ -1736,8 +1736,8 @@
     "why": "Traits, kin and past come from the opening's generation world, which a running core doesn't have; GOV needs full officials now (SG-GOV-official-identity-only).",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "PEOPLE's trait, kin and past builders seeded from the world seed and the identity (as fill-in of counted residents does), and the official's pay from the public payroll.",
-    "status": "open"
+    "replacement": "PEOPLE's trait, kin and past builders seeded from the world seed and the identity (as fill-in of counted residents does), and the official's pay from the public payroll. Done Oct 12 (OPUS-CORE): fillInIdentity gives traits from PEOPLE's openingTemperaments, seeded by the world and the person.",
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-voter-groups-starting-lean",
@@ -2161,6 +2161,18 @@
     "addedBy": "OPUS-WEB",
     "addedAt": "2026-10-12",
     "replacement": "Each outcome moved by the engines that cause it (a crime engine, schools, health coverage, elections), with the web's factor on top, and society-wide shifts from recorded causes rather than a monthly chance.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-territory-places",
+    "kind": "recorded-list",
+    "file": "src/core2/data/places/territory-places.json",
+    "line": 1,
+    "whatItFakes": "The villages of Guam, the U.S. Virgin Islands, American Samoa and the Northern Mariana Islands come from the game's existing recorded list (carried over from the old place module), not from Census identities.",
+    "why": "The Census Gazetteer corpus covers the states, D.C. and Puerto Rico only; the island areas need their own identities.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "Census 2020 Island Areas place identities (the research request territory-place-identities), read into the same listing.",
     "status": "open"
   }
 ]
