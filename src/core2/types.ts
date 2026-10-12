@@ -1,3 +1,4 @@
+import type { MarketEntry } from "./modules/residents";
 import type { ResidentsInput } from "./residents";
 import type { Accounts } from "./accounts";
 import type {
@@ -1060,6 +1061,16 @@ export interface CoreAPI {
     sourceReceiptId: string,
     reasonKey: string,
   ): EmployerClosure;
+  /**
+   * v20: an owner closes a solvent business by choice; its remaining cash
+   * goes to the owner's account and its jobs, contracts and books end.
+   */
+  closeBusinessByChoice(input: {
+    organizationId: string;
+    ownerAccountId: string;
+    reasonKey: string;
+    source: Source;
+  }): EmployerClosure;
   finishFinanceDay(): void;
   addWorkCommitment(input: WorkCommitmentInput): void;
   addWorkPayrollCalendar(input: WorkPayrollCalendarInput): void;
@@ -1132,6 +1143,21 @@ export interface CoreAPI {
   ): void;
   /** New hourly pay from today for a full or counted worker (e.g. a wage law). */
   rerateJob(jobId: string, hourlyMinor: number, source: Source): void;
+  /**
+   * v19: a public pay authority draws its wages from a government's cash
+   * (its treasury) on each payday; what the treasury can't cover, the
+   * authority still pays and records as a shortfall.
+   */
+  fundPublicPay(authorityId: string, treasuryId: string, source: Source): void;
+  /** v19: wages a funded authority's treasury couldn't cover, in total. */
+  publicPayShortfallMinor(authorityId: string): number;
+  /**
+   * v18: a business founded mid-run takes its share of the counted
+   * households' purchases (by capacity and price); returns each kind's yearly sales.
+   */
+  enterMarket(
+    entry: MarketEntry,
+  ): { financeKind: string; annualDemandMinor: number }[];
   addOrganization(input: OrganizationInput): void;
   /** v11: zero-stock newborn admission through the canonical person writer. */
   addBornPersonV1(

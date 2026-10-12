@@ -12,6 +12,7 @@ import {
   type ResidentsInput,
 } from "../residents";
 import { transfer } from "../accounts";
+import { splitMarketDemand } from "../business-books";
 import { notifySalesReceipt } from "./finance";
 import type { ResidentWageShortfall } from "../finance-types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
@@ -150,6 +151,67 @@ function end(flow: FlowState, date: IsoDate, reason: string): void {
   flow.endedReason = reason;
 }
 
+/**
+ * A seller closed: its counted customers buy the same things from the
+ * place's other open sellers of that kind, in proportion to what each already
+ * sells them, contract by contract. With no other seller, the demand ends.
+ */
+export function shiftToOpenSellers(
+  core: CoreState,
+  rt: ResidentsRuntime,
+  closed: FlowState,
+): void {
+  if (!closed.amountByContract || closed.amountMinor <= 0) return;
+  const targets = [...rt.flows.values()]
+    .filter(
+      (flow) =>
+        flow.kind === "purchase" &&
+        !flow.endedAt &&
+        flow.id !== closed.id &&
+        flow.residentsId === closed.residentsId &&
+        flow.financeKind === closed.financeKind &&
+        flow.payeeId !== closed.payeeId &&
+        flow.amountMinor > 0 &&
+        flow.amountByContract &&
+        !core.finance.businesses.get(flow.payeeId)?.closedAt,
+    )
+    .sort((a, b) => a.id.localeCompare(b.id));
+  const total = targets.reduce(
+    (n, flow) => n + flow.amountMinor * perYear(flow),
+    0,
+  );
+  if (!total) return;
+  const weights = targets.map(
+    (flow) => (flow.amountMinor * perYear(flow)) / total,
+  );
+  const added = targets.map(() => ({}) as Record<string, number>);
+  // Each contract's amount is split across the sellers by weight; the cents
+  // left by rounding go to the largest share, so a same-cadence move is exact.
+  const largest = weights.indexOf(Math.max(...weights));
+  for (const [id, amount] of Object.entries(closed.amountByContract)) {
+    let given = 0;
+    targets.forEach((flow, index) => {
+      if (index === largest) return;
+      const add = Math.round(amount * weights[index]!);
+      given += add;
+      added[index]![id] = add;
+    });
+    added[largest]![id] = amount - given;
+  }
+  targets.forEach((flow, index) => {
+    const scale = perYear(closed) / perYear(flow);
+    const amounts = { ...flow.amountByContract! };
+    for (const [id, add] of Object.entries(added[index]!)) {
+      const value = scale === 1 ? add : Math.round(add * scale);
+      if (value) amounts[id] = (amounts[id] ?? 0) + value;
+    }
+    flow.amountByContract = amounts;
+    flow.amountMinor = Object.values(amounts).reduce((n, v) => n + v, 0);
+  });
+  closed.amountByContract = {};
+  closed.amountMinor = 0;
+}
+
 /** Cash above the firm's buffer goes to its owners: part local, the rest outside. */
 function distribute(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   const core = api.state,
@@ -212,7 +274,10 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
   const payerBook = finance.businesses.get(flow.payerId),
     payeeBook = finance.businesses.get(flow.payeeId);
   if (payerBook?.closedAt) return end(flow, date, "payer-closed");
-  if (payeeBook?.closedAt) return end(flow, date, "payee-closed");
+  if (payeeBook?.closedAt) {
+    if (flow.kind === "purchase") shiftToOpenSellers(core, rt, flow);
+    return end(flow, date, "payee-closed");
+  }
   let base = flow.amountMinor;
   if (flow.kind === "outside-costs" && payerBook) {
     // Supplies follow sales: the firm accrues its booked cost share of what it
@@ -426,6 +491,7 @@ export function releaseResidentHousehold(
       `household:${record.household.id}`,
     ]);
   let outsideLiving: { amount: number; flow: FlowState } | undefined;
+  const retirees: FlowState[] = [];
   for (const flow of rt.flows.values()) {
     if (flow.kind === "wages" && flow.perDayMinorByJob) {
       const perDay = { ...flow.perDayMinorByJob };
@@ -441,6 +507,25 @@ export function releaseResidentHousehold(
       let total = 0;
       for (const value of Object.values(perDay)) total += value;
       flow.amountMinor = Math.round(total * (flow.periodFactor ?? 1));
+    } else if (flow.kind === "retirement" && flow.amountByContract) {
+      // Each retiree in the household is now paid their own award directly.
+      const amounts = { ...flow.amountByContract };
+      for (const contract of record.contracts) {
+        const amount = amounts[contract.id];
+        if (amount === undefined || !contract.recipientIncome) continue;
+        delete amounts[contract.id];
+        const own: FlowState = {
+          ...flow,
+          id: `${flow.id}:${contract.recipientIncome.personId}`,
+          payeeId: contract.recipientIncome.personId,
+          amountMinor: amount,
+          amountByContract: { [contract.id]: amount },
+          arrearsMinor: 0,
+        };
+        retirees.push(own);
+      }
+      flow.amountByContract = amounts;
+      flow.amountMinor = Object.values(amounts).reduce((n, v) => n + v, 0);
     } else if (flow.kind === "purchase" && flow.amountByContract) {
       const amounts = { ...flow.amountByContract };
       let removed = 0;
@@ -457,6 +542,11 @@ export function releaseResidentHousehold(
     }
   }
   for (const id of jobIds) rt.wageFlowByJob.delete(id);
+  // Admitted after the scan: the person must be a full person by now.
+  for (const flow of retirees) {
+    rt.flows.set(flow.id, flow);
+    schedule(rt, flow);
+  }
   const placeId = record.household.placeId;
   const own = record.people.reduce((n, row) => n + row.liquidMinor, 0);
   const remaining = rt.openingCashByPlace.get(placeId) ?? 0;
@@ -604,4 +694,132 @@ export function residentCounts(core: CoreState): ResidentCounts[] {
     }
   }
   return [...byPlace.values()];
+}
+
+export interface MarketEntry {
+  organizationId: string;
+  placeId: PlaceId;
+  /** Purchase kinds it sells (e.g. household.food); or copy a rival's. */
+  financeKinds?: readonly string[];
+  like?: string;
+  /** Yearly sales it can serve, from its own books. */
+  capacityMinor: number;
+  /** Its price against the market's (1 = the same). */
+  relativePrice?: number;
+}
+
+const perYear = (flow: FlowState) =>
+  flow.cadence.kind === "months"
+    ? 12 / flow.cadence.every
+    : DAYS_PER_YEAR / flow.cadence.every;
+
+/**
+ * A business founded mid-run enters its kinds' market: the counted
+ * households' purchases are split again among the sellers by capacity and
+ * price (`splitMarketDemand`), each incumbent at its current sales. The
+ * entrant's flows take exactly what the incumbents' flows give up, contract
+ * by contract, so filling a household in later still takes back its own.
+ * Full households keep their own contracts and stores.
+ */
+export function enterResidentMarket(
+  core: CoreState,
+  entry: MarketEntry,
+): { financeKind: string; annualDemandMinor: number }[] {
+  const rt = runtimes.get(core);
+  if (!rt) return [];
+  if (!core.organizations.has(entry.organizationId))
+    throw new Error(`No recorded business: ${entry.organizationId}`);
+  const live = [...rt.flows.values()].filter(
+    (flow) =>
+      flow.kind === "purchase" &&
+      !flow.endedAt &&
+      flow.placeId === entry.placeId,
+  );
+  const kinds = new Set(
+    entry.financeKinds ??
+      live
+        .filter((flow) => flow.payeeId === entry.like)
+        .map((flow) => flow.financeKind),
+  );
+  if (!kinds.size)
+    throw new Error(
+      `No purchase kinds to enter for ${entry.organizationId} (give financeKinds or a rival).`,
+    );
+  if (live.some((flow) => flow.payeeId === entry.organizationId))
+    throw new Error(`Already in this market: ${entry.organizationId}`);
+  const result: { financeKind: string; annualDemandMinor: number }[] = [];
+  for (const kind of [...kinds].sort()) {
+    const flows = live
+      .filter((flow) => flow.financeKind === kind && flow.amountByContract)
+      .sort((a, b) => a.id.localeCompare(b.id));
+    if (!flows.length) continue;
+    const bySeller = new Map<string, number>();
+    for (const flow of flows)
+      bySeller.set(
+        flow.payeeId,
+        (bySeller.get(flow.payeeId) ?? 0) + flow.amountMinor * perYear(flow),
+      );
+    const total = [...bySeller.values()].reduce((n, v) => n + v, 0);
+    const split = splitMarketDemand(total, [
+      ...[...bySeller].map(([organizationId, current]) => ({
+        organizationId,
+        capacityMinor: current,
+        relativePrice: 1,
+      })),
+      {
+        organizationId: entry.organizationId,
+        capacityMinor: entry.capacityMinor,
+        relativePrice: entry.relativePrice ?? 1,
+      },
+    ]);
+    const keep = new Map(
+      split.allocations.map((row) => [
+        row.organizationId,
+        total > 0 ? row.annualDemandMinor / total : 0,
+      ]),
+    );
+    const share = keep.get(entry.organizationId) ?? 0;
+    // One entrant flow per residents account, on the largest incumbent's dates.
+    const byAccount = new Map<string, FlowState[]>();
+    for (const flow of flows)
+      byAccount.set(flow.residentsId, [
+        ...(byAccount.get(flow.residentsId) ?? []),
+        flow,
+      ]);
+    let annual = 0;
+    for (const [residentsId, group] of byAccount) {
+      const taken: Record<string, number> = {};
+      for (const flow of group) {
+        const amounts = { ...flow.amountByContract! };
+        for (const [id, amount] of Object.entries(amounts)) {
+          const give = Math.round(amount * share);
+          if (!give) continue;
+          amounts[id] = amount - give;
+          taken[id] = (taken[id] ?? 0) + give;
+        }
+        flow.amountByContract = amounts;
+        flow.amountMinor = Object.values(amounts).reduce((n, v) => n + v, 0);
+      }
+      const amount = Object.values(taken).reduce((n, v) => n + v, 0);
+      if (!amount) continue;
+      const model = [...group].sort(
+        (a, b) => b.amountMinor - a.amountMinor || a.id.localeCompare(b.id),
+      )[0]!;
+      const flow: FlowState = {
+        ...model,
+        id: `residents:purchase:${residentsId}:${kind}:${entry.organizationId}`,
+        payeeId: entry.organizationId,
+        amountMinor: amount,
+        amountByContract: taken,
+        arrearsMinor: 0,
+        firstAt: model.nextAt,
+        nextAt: model.nextAt,
+      };
+      rt.flows.set(flow.id, flow);
+      schedule(rt, flow);
+      annual += amount * perYear(flow);
+    }
+    result.push({ financeKind: kind, annualDemandMinor: Math.round(annual) });
+  }
+  return result;
 }

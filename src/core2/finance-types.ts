@@ -225,9 +225,21 @@ export interface EmployerClosure {
     | FinanceReceipt
     | Omit<WorkResult, "decision">
     | WorkPayrollJournalReceipt
-    | ResidentWageShortfall;
+    | ResidentWageShortfall
+    | OwnerClosureChoice;
   endedJobIds: readonly string[];
   affectedPersonIds: readonly PersonId[];
+  source: Source;
+}
+
+/** An owner's choice to close a solvent business, and what they took out. */
+export interface OwnerClosureChoice {
+  kind: "owner.choice";
+  id: string;
+  date: IsoDate;
+  organizationId: string;
+  ownerAccountId: string;
+  paidOutMinor: number;
   source: Source;
 }
 

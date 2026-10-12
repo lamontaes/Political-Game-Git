@@ -768,8 +768,10 @@ describe("one conserving retained-commitment payroll group (SOURCE_ONLY, UNEXECU
       );
     expect(closure.cause).toEqual(missed);
     expect(closure.sourceReceiptId).toBe(missed.id);
-    expect(closure.cause.requestedMinor).toBe(unit * p("two"));
-    expect(closure.cause.paidMinor).toBe(p("zero"));
+    expect(closure.cause).toMatchObject({
+      requestedMinor: unit * p("two"),
+      paidMinor: p("zero"),
+    });
     expect(closure.endedJobIds).toContain(jobB);
     expect(f.core.work.payrollLedgerByCommitment.get(a)!.arrearsMinor).toBe(
       unit,

@@ -74,7 +74,7 @@ export interface ResidentFlowInput {
   /** owner-distribution: the firm's buffer in days of outflows; payee is the local owners' account. */
   bufferDays?: number;
   outsideId?: string;
-  /** Purchase flows: each merged household contract's amount (fill-in takes it back). */
+  /** Purchase and retirement flows: each merged household contract's amount (fill-in takes it back). */
   amountByContract?: Readonly<Record<string, number>>;
   source: Source;
 }
@@ -517,6 +517,7 @@ export function collapseToTwoLevels(
         row: FinanceContractInput;
         residentsId: string;
         placeId: PlaceId;
+        byContract: Record<string, number>;
       }
     >();
     for (const row of removedIncome) {
@@ -529,8 +530,10 @@ export function collapseToTwoLevels(
         row: { ...row, payerIds: [payer] },
         residentsId,
         placeId: home.placeId,
+        byContract: {},
       };
       group.amount += row.amountMinor;
+      group.byContract[row.id] = row.amountMinor;
       retirementGroups.set(key, group);
     }
     for (const [key, group] of retirementGroups)
@@ -551,6 +554,7 @@ export function collapseToTwoLevels(
         },
         salesReceipt: false,
         marketAdjusted: false,
+        amountByContract: group.byContract,
         source: group.row.source,
       });
   }

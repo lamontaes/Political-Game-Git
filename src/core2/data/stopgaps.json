@@ -44,8 +44,8 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "replacement": "A sourced value or tested empirical calibration for the same quantity. Done Oct 12 (OPUS-CORE): marriageReferenceAge = 25, ESTIMATED from U.S. Census Bureau, Table MS-2, 'Estimated Median Age at First Marriage, by Sex: 1890 to Present' (CPS ASEC), https://ww…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-careHours",
@@ -56,8 +56,8 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): careHours = 2.23, SOURCED from BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population eng…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-civicHours",
@@ -68,8 +68,8 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): civicHours = 2.18, SOURCED from BLS American Time Use Survey 2025, Table 1, 'Time spent in primary activities and percent of the civilian population eng…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-stressBaseline",
@@ -104,8 +104,8 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome.",
-    "status": "open"
+    "replacement": "An identified empirical range checked by an instrument-matched or activity-plan-matched calibration test; no parameter bound inferred from an unrelated outcome. Done Oct 12 (OPUS-CORE): moodHalfLifeDays = 1, ESTIMATED from Verduyn & Lavrijsen (2015), 'Which emotions last longest and why', Motivation and Emotion 39:119–127, doi:10.1007/s11031…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-stressHalfLifeDays",
@@ -236,8 +236,8 @@
     "why": "A prototype starting value is required. Its magnitude is a guess; no empirical parameter interval has been established.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "A sourced value or tested empirical calibration for the same quantity.",
-    "status": "open"
+    "replacement": "A sourced value or tested empirical calibration for the same quantity. Done Oct 12 (OPUS-CORE): moneyBufferDays = 19, ESTIMATED from JPMorgan Chase Institute 2023 cash buffer days (spread 13–43).",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-organizationReserveMonths",
@@ -368,8 +368,8 @@
     "why": "Retain a real generated job while its occupation/local wage record is absent.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Source the same occupation and place wage for the relevant era.",
-    "status": "open"
+    "replacement": "Source the same occupation and place wage for the relevant era. Done Oct 12 (OPUS-CORE): fallbackAnnualWageMinor = 4449120, ESTIMATED from BLS OEWS national all-occupations row 00-0000: May 2020 median hourly wage $20.17 (https://www.bls.gov/oes/2020/may/oes_…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-deep-past",
@@ -632,8 +632,8 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementClaimAgeYears = 64, ESTIMATED from SSA Annual Statistical Supplement 2022, Table 6.B5, 'Number and average age of retired-worker awardees, and percentage d…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementClaimTraitPullYears",
@@ -680,8 +680,8 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementMinimumCoveredMonths = 120, SOURCED from Social Security Act §214(a), 42 U.S.C. 414(a): fully insured status needs 40 quarters of coverage (about 10 years) for w…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementBenefitReferenceCoveredMonths",
@@ -692,8 +692,8 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): openingRetirementBenefitReferenceCoveredMonths = 420, SOURCED from Social Security Act §215(b)(2), 42 U.S.C. 415(b)(2): the average indexed monthly earnings use the highest 35 computation…",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementBenefitFactorMinimum",
@@ -1004,8 +1004,8 @@
     "why": "Fill-in v2 moves cash, scheduled work and household purchases onto the person's own records; retirement income is tied to per-person award records funded through the outside payer's single obligation.",
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
-    "replacement": "Fill-in re-admits the retiree's income contract and adds it back to the outside funding obligation with its award, and shrinks the merged retirement flow by the same amount.",
-    "status": "open"
+    "replacement": "Done Oct 12: a filled-in retiree is paid their own award by the same outside payer on the same dates (the pooled retirement flow shrinks by exactly that amount). The cash share is an estimate from opening shares, and the job's calendar follows the employer's cadence, both by design.",
+    "status": "resolved"
   },
   {
     "id": "SG-CORE-outside-market",
@@ -1041,6 +1041,18 @@
     "addedBy": "OPUS-CORE",
     "addedAt": "2026-10-12",
     "replacement": "Recorded jobs for every employed resident: town firms in the missing industries (health care, education, government) and commutes to employers in other places (LEHD LODES origin-destination flows), with their own pay.",
+    "status": "open"
+  },
+  {
+    "id": "SG-CORE-voluntary-closure-final-pay",
+    "kind": "business-closure",
+    "file": "src/core2/finance-state.ts",
+    "line": 1,
+    "whatItFakes": "A business closed by its owner's choice ends its jobs the same day without a final paycheck for wages earned since the last payday, and without paying off open supplier or credit balances; the owner takes all remaining cash.",
+    "why": "WORLD's owners needed a way to close a solvent business; a full wind-down (final pay, settling payables, selling assets) is not built yet.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "A wind-down that settles earned wages and open balances from the business's cash before the owner's distribution.",
     "status": "open"
   },
   {

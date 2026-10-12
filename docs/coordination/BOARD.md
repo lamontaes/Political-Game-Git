@@ -67,6 +67,11 @@ The CTO lists every registered stand-in here, by session, at each check-in (owne
 
 - Keep it simple (`AGENTS.md`): two-level population, bookkeeping off in play, one run and one number, build only what the golden path needs, something to play every evening.
 - No session is capped; checklists are an order of work.
+- Owner, Oct 12, 8:49 a.m.:
+  - The new core (#3999) is approved to merge onto main.
+  - A skip never stops for a routine work shift the character attends on its own (M0-03 updated).
+  - Real school names that honor presidents stay.
+  - There is no attorney on the project; the legal check is our own review.
 - Main is green as of Oct 12, 4:20 a.m. (1a1870742).
 - Owner, Oct 12, 1:55 a.m.: _The Political Process_ is the baseline. The game does everything it does, then goes deeper (`docs/roadmap/political-process-baseline.md`). Committee hearings, election-night exit polls and custom world options are added. Use the generated art now.
 - Owner, Oct 12: no stopping. The sessions build the whole game: after their checklists, their area's later-milestone specs, then open work. Nothing waits on another session or on the owner; the only stop is running out of usage.
