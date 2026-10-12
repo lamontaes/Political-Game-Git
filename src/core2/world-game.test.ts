@@ -1,7 +1,9 @@
 /** The whole economy through newGame, the path /play and saves use, with history before the start. */
 import { describe, expect, it } from "vitest";
 import { advanceCore } from "./life";
+import { ownedHomes } from "./modules/housing";
 import { worldGameOptions } from "./modules/world";
+import { coreAPI } from "./state";
 import { preStartHistory } from "./pre-start";
 import { newGame } from "./saves";
 import { drawPlace } from "../../tests/golden-path/place";
@@ -36,6 +38,7 @@ describe("a new game with the world economy", () => {
       );
     const opening = cash();
     advanceCore(core, "2021-02-01");
+    expect(ownedHomes(coreAPI(core)).length).toBeGreaterThan(0);
     let outside = 0;
     for (const row of core.cashJournal.externalFlowsByOwner.values())
       outside += row.netMinor;

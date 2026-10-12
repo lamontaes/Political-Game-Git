@@ -974,3 +974,38 @@ export const HOUSING_MODULE: CoreModule = {
     scheduleReview(api);
   },
 };
+
+/** Owned homes for property tax (OPUS-GOV): each owner household's place and the home's value today. */
+export function ownedHomes(
+  api: CoreAPI,
+): { householdId: string; placeId: string; valueMinor: number }[] {
+  const c = api.state as CoreState;
+  if (!c.modules.has(HOUSING_MODULE_ID)) return [];
+  const prices = (placeId: string) =>
+    (c.finance.conditionsByPlace.get(placeId) ?? [])
+      .filter((row) => row.at <= c.date)
+      .at(-1)?.generalPriceFactor ?? 1;
+  const out: { householdId: string; placeId: string; valueMinor: number }[] =
+    [];
+  for (const row of store(api).table("dwellings").rows() as unknown as {
+    householdId: string;
+    tenure: string;
+    valueMinor?: number;
+    basis: string;
+  }[]) {
+    if (row.tenure !== "own" || !row.valueMinor) continue;
+    const placeId =
+      c.households.get(row.householdId)?.placeId ??
+      residentsRuntime(c)?.households.get(row.householdId)?.household.placeId;
+    if (!placeId) continue;
+    // Opening values move with prices since the opening; a purchase is valued at its price.
+    out.push({
+      householdId: row.householdId,
+      placeId,
+      valueMinor: Math.round(
+        row.valueMinor * (row.basis === "opening" ? prices(placeId) : 1),
+      ),
+    });
+  }
+  return out;
+}
