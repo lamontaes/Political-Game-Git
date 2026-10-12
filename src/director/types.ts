@@ -54,8 +54,11 @@ export interface DirectorData {
   eventImpacts?: readonly {
     eventKind: string;
     channel: string;
-    fromFact: string;
-    toFact: string;
+    /** The relative change from one fact to another (a raise). */
+    fromFact?: string;
+    toFact?: string;
+    /** Or a sourced impact for the event itself (filing for office). */
+    impactParameter?: string;
   }[];
   /** The reason key and citation on a core player stop for an interrupting moment. */
   interruptStop: { reasonKey: string; citation: string };

@@ -270,6 +270,12 @@
       "checkRange": {
         "ref": "P15-MEMORY-SIZE-FLAT-YEAR"
       }
+    },
+    "directorFilingImpact": {
+      "value": 0.28,
+      "tag": "ESTIMATED",
+      "citation": "Filing to run for office, sized as the Social Readjustment Rating Scale's 'Outstanding personal achievement', 28 life-change units divided by 100 (Holmes and Rahe 1967), the same scale the director uses for every life event.",
+      "estimatedFrom": "Holmes and Rahe (1967); spread 0.2 to 0.35"
     }
   },
   "channels": [
@@ -430,6 +436,11 @@
       "channel": "money",
       "fromFact": "fromMinor",
       "toFact": "toMinor"
+    },
+    {
+      "eventKind": "candidate-filed",
+      "channel": "cause",
+      "impactParameter": "directorFilingImpact"
     }
   ]
 }

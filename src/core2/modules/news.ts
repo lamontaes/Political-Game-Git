@@ -12,6 +12,7 @@
  * date, so no day scans the whole town.
  */
 import { addDays, daysBetween, makeIsoDate } from "../../simulation/dates";
+import { lifePlaceByJurisdictionId } from "../../simulation/life-places";
 import rows from "../data/news/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import type { CoreAPI, CoreModule, KnownFact, PersonId } from "../types";
@@ -29,6 +30,8 @@ const n = (api: CoreAPI, key: string) => {
 export interface Story {
   id: string;
   kind: string;
+  /** The outlet that carried it: the place's local outlet record. */
+  outletId: string;
   date: string;
   placeId: string;
   facts: Readonly<Record<string, string>>;
@@ -39,6 +42,45 @@ const stories = (api: CoreAPI) =>
 const deliveries = (api: CoreAPI) =>
   api.moduleState(NEWS_MODULE_ID).table("deliveries");
 const heard = (api: CoreAPI) => api.moduleState(NEWS_MODULE_ID).table("heard");
+const outlets = (api: CoreAPI) =>
+  api.moduleState(NEWS_MODULE_ID).table("outlets");
+
+/**
+ * Trust in the media from a person's lean, interpolated between Gallup's
+ * shares for Democrats (lean -1), independents (0) and Republicans (+1).
+ */
+export function trustOf(api: CoreAPI, lean: number): number {
+  const x = Math.max(
+    -api.parameter("one"),
+    Math.min(api.parameter("one"), lean),
+  );
+  const center = n(api, "newsTrustModerate");
+  return x < api.parameter("zero")
+    ? center + (n(api, "newsTrustLiberal") - center) * -x
+    : center + (n(api, "newsTrustConservative") - center) * x;
+}
+
+/**
+ * Who reads a story recorded for a place: its residents, and for a county or
+ * state, the residents of the places inside it.
+ */
+function readersOf(api: CoreAPI, placeId: string): PersonId[] {
+  const direct = api.state.peopleByPlace.get(placeId);
+  if (direct?.size) return [...direct];
+  const out: PersonId[] = [];
+  const state = lifePlaceByJurisdictionId(placeId as never);
+  for (const [place, people] of api.state.peopleByPlace) {
+    const row = lifePlaceByJurisdictionId(place as never);
+    const inside =
+      [...people].some(
+        (id) => api.state.people.get(id)?.countyId === placeId,
+      ) ||
+      (state?.scope === "state" &&
+        row?.stateJurisdictionKey === state.stateJurisdictionKey);
+    if (inside) out.push(...people);
+  }
+  return out;
+}
 
 export function newsKey(storyId: string): string {
   return `news:${storyId}`;
@@ -97,6 +139,7 @@ function hear(
       access,
     });
   learned(newsKey(story.id), story.kind);
+  learned(`${newsKey(story.id)}:outlet`, story.outletId);
   for (const [key, value] of Object.entries(story.facts)) learned(key, value);
   return true;
 }
@@ -107,6 +150,7 @@ export const newsModule: CoreModule = {
     schemaVersion: 1,
     tables: {
       stories: {},
+      outlets: {},
       deliveries: { indexes: { byDate: { fields: ["date"] } } },
       heard: { indexes: { byPerson: { fields: ["personId"] } } },
     },
@@ -114,8 +158,14 @@ export const newsModule: CoreModule = {
   eventKinds: ["*"],
   onEvent(api, event, learnedBy) {
     if (!event.publicRecord || stories(api).get(event.id)) return;
+    const outletId = `outlet:${event.placeId}`;
+    if (!outlets(api).get(outletId))
+      // One local outlet per place stands for its newspapers, stations and
+      // sites until real outlets are records (stopgap SG-P15-news-habits).
+      outlets(api).put({ id: outletId, placeId: event.placeId, kind: "local" });
     const story: Story = {
       id: event.id,
+      outletId,
       kind: event.kind,
       date: event.date,
       placeId: event.placeId,
@@ -125,12 +175,15 @@ export const newsModule: CoreModule = {
     // The people the event itself reached already know it.
     for (const id of learnedBy) hear(api, id, story, "perceived", event.id);
     const maxAge = n(api, "newsMaxAgeDays");
-    for (const personId of api.state.peopleByPlace.get(event.placeId) ?? []) {
+    for (const personId of readersOf(api, event.placeId)) {
       if (learnedBy.includes(personId)) continue;
-      const engagement =
-        viewOf(api, personId)?.engagement ?? api.parameter("zero");
+      const view = viewOf(api, personId);
+      const engagement = view?.engagement ?? api.parameter("zero");
       if (engagement <= api.parameter("zero")) continue;
-      const delay = Math.ceil(n(api, "newsOutletDelayDays") / engagement);
+      // People who trust the media less check it less, and hear later.
+      const reach =
+        engagement * (trustOf(api, view!.lean) / n(api, "newsTrustAverage"));
+      const delay = Math.ceil(n(api, "newsOutletDelayDays") / reach);
       if (delay > maxAge) continue;
       deliveries(api).put({
         id: `${story.id}:${personId}`,

@@ -10,6 +10,7 @@ import { P } from "../core2/parameters";
 import type { CoreState, PersonId } from "../core2/types";
 import visitJson from "./data/filing-visit.json" with { type: "json" };
 import { renderLine, type Fact, type Variant } from "./render";
+import { markWordsStopgap } from "./stopgaps";
 
 interface VisitWords {
   version: string;
@@ -92,6 +93,7 @@ function say(
   facts: Record<string, Fact>,
   stage?: string,
 ) {
+  markWordsStopgap(FILING_VISIT_WORDS.stopgapId);
   return renderLine({
     seed: core.seed,
     surface: "dialogue",

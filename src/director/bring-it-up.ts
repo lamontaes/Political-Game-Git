@@ -12,6 +12,7 @@ import { applyCoreEvent } from "../core2/state";
 import type { CoreState, PersonId, Source } from "../core2/types";
 import bringJson from "./data/bring-it-up.json" with { type: "json" };
 import { renderLine, type Variant } from "./render";
+import { markWordsStopgap } from "./stopgaps";
 import { possessive, properName } from "./words";
 
 interface BringData {
@@ -169,6 +170,7 @@ export function bringItUp(
   const change = changesKnownTo(core, speakerId, data)[P.zero];
   const subject = change ? nameOf(core, change.institutionId) : null;
   if (!change || !subject) return null;
+  markWordsStopgap(data.stopgapId);
   const attribution = believedCause(core, speakerId, change, data);
   const words = data.changes.find((row) => row.eventKind === change.kind)!;
   const say = (
