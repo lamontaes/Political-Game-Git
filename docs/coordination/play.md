@@ -22,7 +22,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - backdrops by their tags in `art/backdrops/manifest.json`;
   - people from `art/people-engine/v1` (poses, outfits, expressions);
   - capitols and campuses.
-  Pick the best-tagged match for each place and moment (a generic government office for a county clerk is fine). Never wait for a perfect painting. Note any place with no fitting art under "Needs from other sessions" for the CTO's art queue.
+  - First: merge `origin/art/places-batch2` (draft PR #3994, 25 new places: county clerk offices, a registrar, an election warehouse, rally sites, the convention, homes, schools) into your branch, and add their staging spots (where people stand and sit) to `art/backdrops/staging.json` by looking at each picture. Follow the rules in `src/presentation/backdrop-anchors.test.ts`. Say in your status file when it's green so the CTO can merge #3994.
+    Pick the best-tagged match for each place and moment (a generic government office for a county clerk is fine). Never wait for a perfect painting. Note any place with no fitting art under "Needs from other sessions" for the CTO's art queue.
   - Verified by: In a random place, every scene you reach shows real art from the library, and none shows a blank or placeholder image.
   - Needs: CTO (imports of generated art not yet in the repo)
 - [ ] **A build you play every evening.** Each evening, one build with a short note: what you can do tonight and what changed.

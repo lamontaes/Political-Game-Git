@@ -42,19 +42,32 @@ The whole game gets built, not just tonight's list (owner, Oct 12; "No stopping"
 
 ## Open stand-ins
 
-The CTO lists every registered stand-in here, by session, at each check-in (owner, Oct 12): what it fakes and which session's work replaces it.
+The CTO lists every registered stand-in here, by session, at each check-in (owner, Oct 12): what it fakes and which session's work replaces it. As of Oct 12, 4:25 a.m.:
 
-None yet.
+- **OPUS-GOV, waiting on OPUS-CORE:**
+  - `SG-GOV-wage-floor-rate-write`: the laws module rewrites underpaid jobs' hourly rates on the minimum wage's date, until CORE has a pay-change API.
+  - `SG-GOV-official-identity-only`: state and federal officials are identities only, until CORE's fill-in builds them.
+- **OPUS-WORLD, waiting on OPUS-GOV:** `SG-WORLD-board-appointments`: central bank seats are filled at the opening, until GOV's appointments (nominate and confirm).
+- **Own later items (no wait on others):**
+  - GOV: `SG-GOV-special-election-appointee` until elections; `SG-GOV-term-end-estimate`.
+  - WORLD: `SG-WORLD-credit-line-stand-in` until banks; `SG-WORLD-macro-*` estimates.
+  - PEOPLE: journal templates until composed from mined speech; `SG-P15-school-assignment` until homes have locations.
 
 ## Open requests between sessions
 
-None yet.
+- **Core requests (4:22 a.m.):** seven requests to OPUS-CORE collected on #3999 (WORLD's api v11/v12, GOV's pay-change API and opening pay from the start date's law, fill-in for named officials, PEOPLE's `peerCohortSize`, PLAY's own-choice resume, speed numbers).
+- **Bench screens (4:23 a.m.):** six ready-to-wire screens for OPUS-PLAY on #4002 (steps 1 and 2, My life, who governs you, law here, the national economy).
+- **PEOPLE ↔ GOV:** GOV wants officials' stances with reasons from PEOPLE's views engine (on #3956).
+- **OPUS-PEOPLE → OPUS-PLAY (Oct 12, 3:36 a.m.):** bench screens for step 1 (the 18-year-old's family, schools and the record behind each fact) and step 2 (the circle, each meeting, why a tie grew closer). The data is `pastFacts`, `knownIds` and each relationship's `latestChange` on `pool/P15-people-5`. PLAY's bench item already brings that branch in.
+- **OPUS-PEOPLE → CTO, answered (3:40 a.m.):** the PR suite is at about 288 s of its 300 s budget. Keep M0-06 and M0-07 in the PR suite; it's the check that protects steps 1 and 2. Load each place's data once per suite run instead of once per check. If the suite still passes 300 s, raise the PR budget to 450 s in the same PR and say so; don't move the checks to nightly.
+- **OPUS-PLAY:** staging spots for the 25 new places on draft PR #3994 (`art/places-batch2`). This is the first step of PLAY's art item. The CTO merges #3994 once its anchors test is green.
 
 ## Owner decisions in force
 
 - Keep it simple (`AGENTS.md`): two-level population, bookkeeping off in play, one run and one number, build only what the golden path needs, something to play every evening.
 - No session is capped; checklists are an order of work.
-- Owner, Oct 12, 1:55 a.m.: *The Political Process* is the baseline. The game does everything it does, then goes deeper (`docs/roadmap/political-process-baseline.md`). Committee hearings, election-night exit polls and custom world options are added. Use the generated art now.
+- Main is green as of Oct 12, 4:20 a.m. (1a1870742).
+- Owner, Oct 12, 1:55 a.m.: _The Political Process_ is the baseline. The game does everything it does, then goes deeper (`docs/roadmap/political-process-baseline.md`). Committee hearings, election-night exit polls and custom world options are added. Use the generated art now.
 - Owner, Oct 12: no stopping. The sessions build the whole game: after their checklists, their area's later-milestone specs, then open work. Nothing waits on another session or on the owner; the only stop is running out of usage.
 - Owner, Oct 12: the English engine (conversations, scenes, the journal, people bringing things up) belongs to OPUS-PEOPLE; campaigning (step 4) and the next election reading the record (step 11) belong to OPUS-GOV.
 - Checks stay light: own tests, the automatic golden-path and speed guards and money balance, the owner plays the evening build.
