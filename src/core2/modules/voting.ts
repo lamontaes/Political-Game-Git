@@ -646,6 +646,60 @@ function addPrimaryGroups(
       counts[index]! + Math.round((unnamed * counts[index]!) / chose);
 }
 
+const polls = new WeakMap<object, Map<string, ReturnType<typeof turnout>>>();
+
+/**
+ * Whether a voter goes to the polls on an election day: once for the whole
+ * ballot, drawn by the race they feel most strongly about (a voter who turns
+ * out for governor also sees the county races; with no preference in one,
+ * they leave it blank).
+ */
+function atThePolls(
+  api: CoreAPI,
+  voter: Readonly<Pick<PersonState, "id" | "traits">> & {
+    readonly birthDate: string;
+  },
+  date: string,
+  cycleCost: number,
+  recordedWeeklyMinutes?: number,
+): ReturnType<typeof turnout> {
+  const map = polls.get(api.state) ?? new Map();
+  polls.set(api.state, map);
+  const key = `${date}|${voter.id}`;
+  const hit = map.get(key);
+  if (hit) return hit;
+  const named = api.state.people.get(voter.id);
+  const lean = personLean(api.state.people, voter, townLean(api));
+  let strongest = 0;
+  for (const contest of api
+    .moduleState(ELECTIONS_MODULE_ID)
+    .table("contests")
+    .rows() as unknown as ContestRow[]) {
+    if (contest.electionDate !== date) continue;
+    const field = ballot(api, contest.id);
+    if (!field.length) continue;
+    const totals = named
+      ? Object.values(appealFor(api, named, contest, field).appeal).map(
+          (a) => a.total,
+        )
+      : field.map((f) => {
+          const party = candidateFacts(api, f, contest).party;
+          return party ? lean * partySide(party) : 0;
+        });
+    for (const total of totals)
+      strongest = Math.max(strongest, Math.abs(total));
+  }
+  const t = turnout(
+    api,
+    voter,
+    { strongest: { total: strongest } },
+    recordedWeeklyMinutes,
+    cycleCost,
+  );
+  map.set(key, t);
+  return t;
+}
+
 /** Count a contest: named ballots, then the wider electorate's groups. */
 export function holdElection(api: CoreAPI, contestId: string): ResultRow {
   const contest = api
@@ -672,7 +726,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       contest,
       filings,
     );
-    const t = turnout(api, voter, appeal, undefined, cycleCost);
+    const t = atThePolls(api, voter, date, cycleCost);
     const ranked = Object.entries(appeal).sort(
       (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
     );
@@ -732,7 +786,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       const party = candidateFacts(api, f, contest).party;
       appeal[f.personId] = { total: party ? lean * partySide(party) : 0 };
     }
-    const t = turnout(api, voter, appeal, voter.weeklyMinutes, cycleCost);
+    const t = atThePolls(api, voter, date, cycleCost, voter.weeklyMinutes);
     if (!t.votes) continue;
     countedVoted += 1;
     const ranked = Object.entries(appeal).sort(
