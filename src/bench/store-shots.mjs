@@ -23,15 +23,6 @@ const settle = async () => {
   );
   await page.waitForTimeout(400);
 };
-const ready = () =>
-  page.waitForFunction(
-    () =>
-      !document.querySelector("#day").disabled ||
-      !document.querySelector("#continue").hidden ||
-      !document.querySelector("#choices").hidden,
-    null,
-    { timeout: 300000 },
-  );
 let n = 0;
 const shot = async (name) => {
   await settle();
@@ -39,23 +30,34 @@ const shot = async (name) => {
   await page.screenshot({ path: file });
   console.log(file, "|", (await page.textContent("#card-place")) ?? "");
 };
-for (const seed of seeds.length ? seeds : ["store-a", "store-b", "store-c"]) {
+const sheet = async (tab, name, from = "#tabs") => {
+  await page.click(`${from} [data-tab=${tab}]`);
+  await page.waitForTimeout(2500);
+  await shot(name);
+  await page.click("#sheet-close");
+};
+const button = async (label) => {
+  const b = await page.$(`#sheet-body button:text-is("${label}")`);
+  if (b) await b.click();
+  return Boolean(b);
+};
+
+for (const seed of seeds.length ? seeds : ["store-a", "store-b"]) {
   await page.goto(url);
+  await page.waitForTimeout(1500);
+  if (n === 0) await shot("title");
   await page.fill("#seed", seed);
   await page.click("#new-life");
-  await page.waitForSelector("#card:not([hidden])", { timeout: 300000 });
+  // The opening: the President, then the Senate.
+  await page.waitForSelector("#caption:not([hidden])", { timeout: 300000 });
+  await page.waitForTimeout(1500);
+  await shot(`${seed}-opening-president`);
+  await page.waitForTimeout(4500);
+  await shot(`${seed}-opening-senate`);
+  await page.keyboard.press("Escape");
+  await page.waitForSelector("#card:not([hidden])", { timeout: 60000 });
+  await page.waitForTimeout(2500);
   await shot(`${seed}-home`);
-  // Live a little: a week, answering what comes up with the first choice.
-  await page.click("#week");
-  for (let i = 0; i < 40; i++) {
-    await page.waitForTimeout(600);
-    await ready();
-    if (!(await page.isHidden("#continue"))) await page.click("#continue");
-    else if (!(await page.isHidden("#choices")))
-      await page.click("#choice-list button");
-    else break;
-  }
-  await shot(`${seed}-day`);
   const other = await page.$("#people .figure[style*='pointer']");
   if (other) {
     await other.evaluate((e) => e.click());
@@ -63,9 +65,36 @@ for (const seed of seeds.length ? seeds : ["store-a", "store-b", "store-c"]) {
     await shot(`${seed}-talk`);
     await page.click("#talk-leave");
   }
-  await page.click("#tabs [data-tab=politics]");
+  await page.click("#stack [data-tab=people]");
   await page.waitForTimeout(1500);
-  await shot(`${seed}-politics`);
+  if (await button("Family")) {
+    await page.waitForTimeout(2500);
+    await shot(`${seed}-family`);
+  }
+  await page.click("#sheet-close");
   await page.click("#tabs [data-tab=politics]");
+  await page.waitForTimeout(2000);
+  if (await button("Map")) {
+    await page.waitForTimeout(2000);
+    await shot(`${seed}-map`);
+  }
+  await page.click("#sheet-close");
+  await sheet("calendar", `${seed}-calendar`);
+  // Until needed, to election night.
+  for (let i = 0; i < 60; i++) {
+    if (
+      !(await page.isHidden("#sheet")) &&
+      (await page.textContent("#sheet-title")) === "Election night"
+    )
+      break;
+    if (!(await page.isHidden("#continue"))) await page.click("#continue");
+    else if (
+      !(await page.isDisabled("#skip")) &&
+      !(await page.$eval("#skip", (b) => b.classList.contains("active")))
+    )
+      await page.click("#skip");
+    await page.waitForTimeout(1500);
+  }
+  if (!(await page.isHidden("#sheet"))) await shot(`${seed}-election-night`);
 }
 await browser.close();
