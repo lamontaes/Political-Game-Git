@@ -25,6 +25,7 @@ import type { CoreState, PersonState } from "../core2/types";
 import { coreAPI, fillInPerson } from "../core2/state";
 import { residentsRuntime } from "../core2/modules/residents";
 import { dwellingKind } from "../core2/modules/housing";
+import { realLocalities } from "../core2/places";
 import type { PlayerPacketV1 } from "../core2/player-v1";
 import scenePlaces from "./data/scene-places.json" with { type: "json" };
 
@@ -94,13 +95,43 @@ function workplaceOf(core: CoreState, person: PersonState): string {
 }
 
 /** The person's home picture, from the kind of dwelling their household lives in (OPUS-WORLD housing). */
+const states = new Map<string, string>();
+/** The place's state (USPS code), from the core's place records. */
+function stateOf(placeKey: string): string {
+  let usps = states.get(placeKey);
+  if (usps === undefined) {
+    usps =
+      realLocalities()
+        .find((row) => row.key === placeKey)
+        ?.stateJurisdictionKey?.slice("US-".length) ?? "";
+    states.set(placeKey, usps);
+  }
+  return usps;
+}
+
 export function homeOf(core: CoreState, personId: string): string {
-  const household = core.people.get(personId)?.householdId;
-  const kind = household ? dwellingKind(coreAPI(core), household) : undefined;
-  const place = kind
-    ? (scenePlaces.dwellingPlaces as Record<string, string>)[kind]
-    : undefined;
-  return place && hasBackdrop(place) ? place : homePlaceFor(null);
+  const household = core.people.get(personId)?.householdId ?? "";
+  // A household without a dwelling record reads as a house.
+  const kind = (household && dwellingKind(coreAPI(core), household)) || "house";
+  const places = scenePlaces.dwellingPlaces as unknown as Record<
+    string,
+    readonly string[]
+  >;
+  const state = stateOf(core.placeMetadata?.placeKey ?? "");
+  const regional = Object.entries(
+    scenePlaces.regionalHouses as unknown as Record<string, readonly string[]>,
+  )
+    .filter(([place, states]) => place !== "about" && states.includes(state))
+    .map(([place]) => place);
+  const options = [
+    ...(places[kind] ?? []),
+    ...(kind === "house" ? regional : []),
+  ].filter(hasBackdrop);
+  if (!options.length) return homePlaceFor(null);
+  // The same home always looks the same: chosen from the household's own id.
+  let hash = 0;
+  for (const char of household) hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  return options[hash % options.length]!;
 }
 
 /** What the person is doing right now, from the open pause or their last act. */
