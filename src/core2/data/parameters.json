@@ -3469,5 +3469,17 @@
     "checkRange": {
       "ref": "M0-08"
     }
+  },
+  "sellerCapacityUtilization": {
+    "value": 0.796,
+    "tag": "ESTIMATED",
+    "citation": "Board of Governors of the Federal Reserve System, G.17 Industrial Production and Capacity Utilization: total industry capacity utilization averaged 79.6% over 1972–2023; https://www.federalreserve.gov/releases/g17/current/",
+    "estimatedFrom": "A seller's monthly capacity is its projected sales divided by this rate; spending beyond it buys the same thing outside the town (residents travel to the next town). Industrial utilization stands in for retail and service capacity.",
+    "spread": {
+      "low": 0.7,
+      "high": 0.85,
+      "unit": "share of capacity in use",
+      "citation": "G.17 range over business cycles, 1972–2023."
+    }
   }
 }

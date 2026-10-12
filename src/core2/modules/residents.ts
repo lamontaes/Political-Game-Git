@@ -13,6 +13,7 @@ import {
 } from "../residents";
 import { transfer } from "../accounts";
 import { splitMarketDemand } from "../business-books";
+import { OUTSIDE_MARKET_KIND } from "../opening-outside-market";
 import { notifySalesReceipt } from "./finance";
 import type { ResidentWageShortfall } from "../finance-types";
 import type { WorkPayrollCalendarInput } from "../work-pay-period";
@@ -79,6 +80,9 @@ export interface ResidentsRuntime {
   incomeWindow: number;
   incomeHistory: Map<string, number[]>;
   openingMonth: string;
+  /** Each seller's receipts from the residents this month (capacity). */
+  sellerMonth: Map<string, { month: string; receivedMinor: number }>;
+  outsideByPlace: Map<PlaceId, string>;
 }
 
 interface ResidentMonth {
@@ -132,6 +136,8 @@ export function admitResidents(core: CoreState, input: ResidentsInput): void {
     incomeWindow: 1,
     incomeHistory: new Map(),
     openingMonth: core.date.slice(0, 7),
+    sellerMonth: new Map(),
+    outsideByPlace: new Map(),
   };
   for (const record of input.households) {
     rt.households.set(record.household.id, record);
@@ -374,12 +380,38 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     flow.financeKind !== FIXED_SPENDING
   )
     base = Math.round(base * (rt.spendScale.get(flow.residentsId) ?? 1));
-  const requested = base + (flow.kind === "wages" ? flow.arrearsMinor : 0);
+  let requested = base + (flow.kind === "wages" ? flow.arrearsMinor : 0);
   const payer = core.organizations.get(flow.payerId);
   const outside = payer?.outsideFlow !== undefined;
-  const paid = outside
+  let paid = outside
     ? requested
     : Math.min(requested, spendable(core, flow.payerId));
+  // A seller serves only what it can: spending beyond its capacity buys the
+  // same thing outside the town.
+  if (
+    flow.kind === "purchase" &&
+    flow.payerId === flow.residentsId &&
+    flow.financeKind !== FIXED_SPENDING &&
+    payeeBook &&
+    paid > 0
+  ) {
+    const elsewhere = overCapacity(api, rt, flow, payeeBook, paid);
+    if (elsewhere > 0) {
+      transfer(core, api, {
+        id: `${flow.id}@${date}:elsewhere`,
+        from: core.cashJournal.residualAccountByOwner.get(flow.payerId)!,
+        to: core.cashJournal.residualAccountByOwner.get(
+          outsideMarketFor(core, rt, flow.placeId),
+        )!,
+        amountMinor: elsewhere,
+        reasonKey: flow.financeKind,
+        source: flow.source,
+      });
+      monthOf(rt, flow.residentsId, date).scaledMinor += elsewhere;
+      paid -= elsewhere;
+      requested -= elsewhere;
+    }
+  }
   if (paid > 0) post(api, rt, flow, paid);
   if (flow.kind === "outside-costs")
     flow.outsidePaidMinor = (flow.outsidePaidMinor ?? 0) + paid;
@@ -479,6 +511,47 @@ function post(
     reasonKey: flow.financeKind,
     source: flow.source,
   });
+}
+
+/** How much of a payment exceeds the seller's capacity this month. */
+function overCapacity(
+  api: CoreAPI,
+  rt: ResidentsRuntime,
+  flow: FlowState,
+  book: { annualDemandMinor: number },
+  paid: number,
+): number {
+  const month = api.state.date.slice(0, 7);
+  let row = rt.sellerMonth.get(flow.payeeId);
+  if (!row || row.month !== month) {
+    row = { month, receivedMinor: 0 };
+    rt.sellerMonth.set(flow.payeeId, row);
+  }
+  const capacity =
+    book.annualDemandMinor /
+    api.parameter("sellerCapacityUtilization") /
+    api.parameter("monthsPerYear");
+  const room = Math.max(0, Math.floor(capacity - row.receivedMinor));
+  const toSeller = Math.min(paid, room);
+  row.receivedMinor += toSeller;
+  return paid - toSeller;
+}
+
+/** The place's outside-market account (buyers and sellers outside the town). */
+function outsideMarketFor(
+  core: CoreState,
+  rt: ResidentsRuntime,
+  placeId: PlaceId,
+): string {
+  let id = rt.outsideByPlace.get(placeId);
+  if (!id) {
+    id = [...core.organizations.values()].find(
+      (row) => row.kind === OUTSIDE_MARKET_KIND && row.placeId === placeId,
+    )?.id;
+    if (!id) throw new Error(`No outside market recorded for ${placeId}`);
+    rt.outsideByPlace.set(placeId, id);
+  }
+  return id;
 }
 
 function monthOf(
