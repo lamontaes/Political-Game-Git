@@ -1,6 +1,6 @@
 # Legal check (M7-05), research review, Oct 12, 2026
 
-A research review for the owner, not legal advice. An attorney reviews all of this before release. It lists what the repository records today and where the record is missing. Nothing here was changed in the data or art.
+A research review for the owner, not legal advice. There is no attorney on the project (owner, Oct 12); this review is the legal check, and an outside legal review before launch is optional. It lists what the repository records today and where the record is missing. Nothing here was changed in the data or art.
 
 ## What this means for early access
 
@@ -49,14 +49,14 @@ No real logos, trademarks or audio files were found.
 5. Fill in the missing rights fields on the data locks.
 6. Confirm the build excludes Book of the States and the research folders.
 7. Add a top-level license and an asset-rights register.
-8. Attorney review.
+8. Optional: a one-time outside legal review before early access (owner's choice; not required).
 
 ## Real politicians
 
 Result of a name search (about 90 prominent names, plus all 50 governors from the 2024 calibration data). The list is not exhaustive and no build was run.
 
 - **No sitting or former officeholder appears as a person in shipped player-visible data.**
-- **School names honoring presidents are shipped.** The real NCES school catalog (`public/education/catalog-*.json`) and the local-institutions corpus carry names such as "Ronald Reagan Fundamental School" and "Barack Obama Charter". The generator's honoree list (`src/simulation/school-name-patterns.json`) uses only historical figures (Lincoln, Washington, Kennedy). These are real institutions' names, not officeholder characters. Decide whether that fits the owner's Sept 26 ruling; an attorney should confirm.
+- **School names honoring presidents are shipped.** The real NCES school catalog (`public/education/catalog-*.json`) and the local-institutions corpus carry names such as "Ronald Reagan Fundamental School" and "Barack Obama Charter". The generator's honoree list (`src/simulation/school-name-patterns.json`) uses only historical figures (Lincoln, Washington, Kennedy). These are real institutions' names, not officeholder characters. **Owner, Oct 12: keep them.**
 - **Real governor names are in research data only** (`data/source/electoral-calibration-2024`). Nothing in `src` reads them, and the build step `check-data-shipping.mjs` fails if they reach `dist`. That guard covers only the 50 governors plus two senators; add federal judges' names and presidents if those files ever get closer to the build.
 - **Federal judges' records** (`data/source/judiciary-calibration/raw/fjc-*.csv`) are research only.
 - **One case citation:** `data/english/parts/sentencing.json` cites "People v. Trump" as a source. Nothing imports the file today; remove the citation before it is ever loaded.
