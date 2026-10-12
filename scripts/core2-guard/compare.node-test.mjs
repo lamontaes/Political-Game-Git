@@ -9,7 +9,7 @@ const rows = (milliseconds, extra = {}) =>
     placeKey: "fixture",
     inputHash: "fixture",
     startedAt: "fixture",
-    days: 31,
+    days: 365,
     settings: { fixture: true },
     host: { fixture: true },
     opening: { budget: { passed: true } },

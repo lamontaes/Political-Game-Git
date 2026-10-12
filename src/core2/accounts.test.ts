@@ -123,6 +123,23 @@ describe("accounts and postings", () => {
     expect(before - outsideNet(core)).toBe(cash(core));
   });
 
+  it("pays a fee into an outside account as a reported outside flow", () => {
+    const core = world(),
+      accounts = coreAPI(core).accounts();
+    const before = cash(core);
+    const paid = accounts.transfer({
+      id: "fee:filing",
+      from: accounts.main("city"),
+      to: accounts.main("state-aid"),
+      amountMinor: 2_500,
+      reasonKey: "filing.fee",
+      source: piecesSource,
+    });
+    expect(paid.paidMinor).toBe(2_500);
+    expect(cash(core)).toBe(before - 2_500);
+    expect(before - outsideNet(core)).toBe(cash(core));
+  });
+
   it("settles obligations on their dates and carries arrears when owed", () => {
     const core = world(),
       accounts = coreAPI(core).accounts();

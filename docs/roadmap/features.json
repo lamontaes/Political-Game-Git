@@ -88,7 +88,7 @@
       "golden_path": "core",
       "package": "M0-core",
       "test": "A full year in a random place: under 10% of businesses close; sales pay more than half of all wages; every dollar balances; outside money is reported next to real public spending and Social Security per resident; national conditions flat and labeled until M1.",
-      "command": null,
+      "command": "CORE2_BOOKKEEPING=0 node --import tsx scripts/core2-year/closures.mjs",
       "passes": false
     },
     {

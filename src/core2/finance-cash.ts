@@ -2541,7 +2541,8 @@ function submit(
       admitted.push(core.finance.cashSources.get(credit.id)!);
     const previousIds = stageReceiptLinks(session, row, result, credits),
       plan = session.seal(result),
-      callerResult = structuredClone(plan.result);
+      // A defensive copy for callers is bookkeeping: tests and the bench only.
+      callerResult = bookkeeping() ? structuredClone(plan.result) : plan.result;
     const bundle: Pending = { plan, credits };
     pending.set(row, bundle);
     if (plan.postings.length)
