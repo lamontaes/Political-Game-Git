@@ -48,6 +48,7 @@ import {
 } from "./campaigns";
 import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import type { SeatInput } from "../offices-state";
+import { drawOfficialIdentity } from "../officials-identity";
 export { candidateIdentity } from "../candidate-identity";
 import { partiesHere, partyTie } from "./parties";
 import { recordAppeal, type RecordReason } from "./record";
