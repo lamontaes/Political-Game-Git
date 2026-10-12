@@ -84,10 +84,17 @@ const contests = coreAPI(w.core)
   .moduleState("core2-elections-v1")
   .table("contests")
   .rows() as unknown as ContestRow[];
-const firstElection = contests
-  .map((c) => c.electionDate)
-  .filter((d) => d > w.core.date)
-  .sort()[0];
+// The player's own race when they filed, else the first election ahead.
+const mine = governmentView(w.core, me).filings[0];
+const ownElection = contests.find(
+  (c) => c.id === mine?.contestId,
+)?.electionDate;
+const firstElection =
+  ownElection ??
+  contests
+    .map((c) => c.electionDate)
+    .filter((d) => d > w.core.date)
+    .sort()[0];
 if (firstElection) {
   liveUntil(firstElection);
   liveUntil(
