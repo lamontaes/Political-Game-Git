@@ -10,6 +10,7 @@
  * (`data/research/campaigns/issue-axes-2026.json`).
  */
 import axes from "../../data/research/campaigns/issue-axes-2026.json" with { type: "json" };
+import support from "../../data/research/campaigns/policy-support-2026.json" with { type: "json" };
 import calibration from "../../data/source/electoral-calibration-2024/corpus.json" with { type: "json" };
 import delegates from "../../data/research/elections/house-delegates-2024.json" with { type: "json" };
 import parameters from "./data/campaigns/parameters.json" with { type: "json" };
@@ -124,6 +125,32 @@ export function personLean(
 /** How strongly a person supports a question's "yes", in [-1, 1]. */
 export function personStance(lean: number, question: string): number {
   return lean * (axisOf[question]?.axis ?? 0);
+}
+
+const supportOf = (
+  support as unknown as { questions: Record<string, { support: number }> }
+).questions;
+
+/**
+ * How strongly a person supports a question's "yes" as a voter deciding it
+ * directly (a ballot measure, a recall over it), in [-2, 2]: their own lean
+ * on the question plus how popular the policy is across the country, set so
+ * that a country spread evenly from left to right favors it in the polled
+ * share (`data/research/campaigns/policy-support-2026.json`).
+ */
+export function publicSupport(lean: number, question: string): number {
+  const axis = axisOf[question]?.axis ?? 0;
+  const share = supportOf[question]?.support ?? 0.5;
+  return lean * axis + publicOffset(question, axis, share);
+}
+
+/** The popularity term alone: |axis| × (2 × polled share − 1). */
+export function publicOffset(
+  question: string,
+  axis = axisOf[question]?.axis ?? 0,
+  share = supportOf[question]?.support ?? 0.5,
+): number {
+  return Math.abs(axis) * (2 * share - 1);
 }
 
 /**
