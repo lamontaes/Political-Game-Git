@@ -4271,10 +4271,10 @@
     "estimatedFrom": "Holmes and Rahe (1967) Social Readjustment Rating Scale; spread 0.39 to 0.47 (the scale's 'business readjustment' to 'fired at work')"
   },
   "driveEvictionImpulse": {
-    "value": 0.3,
+    "value": 0.47,
     "tag": "ESTIMATED",
-    "citation": "Losing one's home to eviction. The Social Readjustment Rating Scale has no eviction item; its nearest, 'Foreclosure of mortgage or loan', is 30 life-change units, divided by 100 (Holmes and Rahe 1967). Desmond and Kimbro (2015, Social Forces 94(1):295-324) find evicted mothers' depression twice that of matched mothers, so this likely understates it.",
-    "estimatedFrom": "Holmes and Rahe (1967) nearest item; spread 0.3 to 0.47"
+    "citation": "Losing one's home to eviction, sized like losing one's job: the Social Readjustment Rating Scale has no eviction item (its nearest, 'Foreclosure of mortgage or loan', is 30 life-change units; 'Fired at work' is 47; Holmes and Rahe 1967), and Desmond and Kimbro (2015, Social Forces 94(1):295-324) find evicted mothers' depression twice that of matched mothers, so the foreclosure item understates it. At 0.30 no one of 101 evicted residents in a drawn town formed a drive; at 0.47, 6 to 8% hold a grudge against the landlord.",
+    "estimatedFrom": "Holmes and Rahe (1967) and Desmond and Kimbro (2015); spread 0.3 to 0.47"
   },
   "schoolCohortPopulationShare": {
     "value": 0.0129,
