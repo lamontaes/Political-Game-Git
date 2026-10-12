@@ -2,7 +2,8 @@
 
 **Specs:** M3-01, M3-02 and M3-03.
 **Built by:** OPUS-GOV, with OPUS-PEOPLE (members' lives, stakes and words) and OPUS-PLAY (the bill paper and meeting screens).
-**Systems model:** *The Political Process*:
+**Systems model:** _The Political Process_:
+
 - 80+ kinds of legislation;
 - committee hearings, amendments and floor votes, with members voting by ideology;
 - the executive signs or vetoes;
@@ -13,6 +14,7 @@ Our version adds members with real lives, real deals and played meetings.
 ## What you'll do
 
 **Write a bill on paper.**
+
 - Pick a subject from your accepted bill catalog: the 18 subject menus, each with its topics and deeper branches. Then pick what to do: raise, lower, expand, restrict, replace or repeal.
 - The bill then shows only the sections that apply: current rules and programs, who's covered, the benefit or rate, funding, who runs it, enforcement and appeals, reporting, and timing.
 - Set the real amounts, starting from the law in force, and phase them in if you want. You can also have your staff draft from a goal you give them.
@@ -21,6 +23,7 @@ Our version adds members with real lives, real deals and played meetings.
 - What you can pass depends on your level's real powers. A council can't pass what only a state can, and the city attorney warns you when the authority is disputed.
 
 **Negotiate.**
+
 - Each member's position comes from their own life and stakes. You only learn a stake the way your character could: a conversation, a staffer, the news or their voting record.
 - Everything is tradeable:
   - changing the bill;
@@ -32,6 +35,7 @@ Our version adds members with real lives, real deals and played meetings.
 - Favors and promises are remembered and show up in your journal. There's no "you owe her" menu, and not every favor gets repaid. You can lie.
 
 **The body votes.**
+
 - The bill goes to committee, then amendments, then a floor vote, then the mayor, governor or president signs or vetoes it, and it takes effect on its date.
 - Each body follows its real rules, and members can vote to change those rules.
 - Meetings are played scenes. The items that matter play out and the rest are summarized.
@@ -70,6 +74,7 @@ Our version adds members with real lives, real deals and played meetings.
 ## How you'll know it works
 
 In a random place, from your council seat:
+
 1. You write an ordinance with real amounts.
 2. You learn two members' stakes and trade for their votes.
 3. The council meets in a played scene and votes, each member for recorded reasons.
@@ -104,6 +109,6 @@ In a random place, from your council seat:
   - Lotteries only where the law requires (Oct 9).
 - **Engines:**
   - One legislature engine for all three levels (Sept 30).
-  - No points or visible meters (Sept 17). *The Political Process* uses points; you chose relationships and seniority.
-- **Committee hearings:** added Oct 12 from *The Political Process* baseline.
+  - No points or visible meters (Sept 17). _The Political Process_ uses points; you chose relationships and seniority.
+- **Committee hearings:** added Oct 12 from _The Political Process_ baseline.
 - **My call (not yours):** while courts are parked, a council bill whose authority is disputed passes and takes effect, as a registered stopgap until courts arrive. A clear state ban still blocks it. This mirrors your eviction call on Oct 10.

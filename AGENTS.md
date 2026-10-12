@@ -1,12 +1,12 @@
 # Our Civic Duty — repository guide
 
-A political and government RPG with a full life simulation underneath. Every Claude and Codex session follows this file. Keep it short: rules that must never be skipped are automatic checks, and detailed how-tos live in `.claude/skills/` and `.agents/rules/`.
+A political and government RPG with a full life simulation underneath. Every Claude and Codex session follows this file. Keep it short: rules that must never be skipped are automatic checks, and detailed how-tos live in `.agents/skills/`, `.agents/rules/standing-skills/` and `.agents/rules/`.
 
 ## Where the game is going (owner, Oct 10, 2026)
 
 - **The new core (`src/core2`) is the engine.** Build onto it through modules and data rows. Never start a parallel engine, writer, scheduler or system. The old core runs only until each piece is ported (`docs/design/core2-porting-plan.md`); add no new features to it.
 - **Progress is the golden path with the world running.** The player's path: turn 18 → meet people → file for office where that place files (clerk, registrar or board of elections, from its records) → campaign → win or lose → propose an ordinance → negotiate → pass or fail → the town visibly changes → people bring it up → the next election uses the record. Around it the whole time: the national economy, state and federal governments acting through the same engines as local government, and other places at a coarser level. Report the furthest step a player reaches, never an audit percentage.
-- **The Political Process is the baseline (owner, Oct 12).** The game does everything *The Political Process* (Verlumino Studios) does, then goes deeper from the owner's decisions and the design record. `docs/roadmap/political-process-baseline.md` maps each of its systems to our specs.
+- **The Political Process is the baseline (owner, Oct 12).** The game does everything _The Political Process_ (Verlumino Studios) does, then goes deeper from the owner's decisions and the design record. `docs/roadmap/political-process-baseline.md` maps each of its systems to our specs.
 - **Early access:** local and state offices playable (council, mayor, county, state legislature, governor), including the executive role. Federal is built in parallel on the same engines; playing as president is a goal that early access doesn't wait for. Courts come after early access.
 - **The roadmap is `docs/ROADMAP.md`.** Work is tracked on the GitHub Project. Owner ideas go into its "Next" list and get scheduled at the weekly reschedule; work in progress finishes unless the owner says stop.
 
@@ -56,6 +56,12 @@ Every package names its model and effort with a one-line reason. Balance usage a
 - **The Claude engineering account builds with Sonnet at high** by default, and **Opus at high** for judgment-heavy design.
 - **Checkers run on Sonnet at high** when needed: playing the evening build and investigating a disputed result. **Opus at high** only for a judgment-heavy dispute. **Max** only after high has failed at a named task. Medium is fine for small, clear fixes.
 - **Helpers:** none by default. At most two for Codex (the repository setting) and three for Claude, and only when the work splits cleanly: independent research, reading many files, or a fresh-context review. Each gets a clear objective, an output format, allowed paths and tools, and is read-only unless the package says otherwise.
+- **Pillars may build with sub-agents (owner, Oct 12, 2026, 10:30 a.m.).** Each pillar session may run its own Sonnet or Opus sub-agents that write code, choosing what fits: a Sonnet sub-agent fixing bugs while an Opus one builds the next roadmap step, two Opus sub-agents splitting a big build to finish it faster, or Sonnet only when the work doesn't need Opus. The rules:
+  - each sub-agent works on its own files or in its own worktree, inside the pillar's own area, so two never edit the same file;
+  - the pillar gives each a clear task, its allowed paths and its check (a test in a random place), then reviews and merges the result into its branch;
+  - sub-agents follow every rule here (no hand-written player text, registered stopgaps, the guards) and never edit another session's area;
+  - the pillar's status file says which sub-agents ran, on what model, and what they finished.
+  - onto main, and for every fixer PR into a pillar branch, only the CTO merges, and reports each merge in the owner's chat. The CTO's look before merging is a quick check that the work is real and breaks none of these rules (owner, Oct 12, 10:35 a.m.), not a line-by-line review; the automatic checks and the owner's playtests carry the rest.
 - **One package per session**, then a fresh session. The pillars are the exception: they're long-lived, automatic compaction carries their context, and their status file carries their state. Stop and report instead of escalating when something keeps failing.
 - **Track what each choice costs.** Every hand-off records the model and effort, how long it took, usage if visible, and how many times the finisher sent it back (and why). The CTO keeps `docs/roadmap/model-log.md` and adjusts defaults from it: a cheaper, faster setup that needs a few more send-backs is fine (owner, Oct 10).
 
@@ -75,7 +81,7 @@ Every package names its model and effort with a one-line reason. Balance usage a
 
 ## Standing owner rules
 
-Detail and self-checks are in the matching `.claude/skills/<name>/SKILL.md`.
+Detail and self-checks are in the matching `.agents/rules/standing-skills/<name>/SKILL.md`.
 
 - **No dice.** No seeded roll or fixed percentage decides what a person, business, official or body does; their traits, principles, relationships, money, health, the law in force and the place's conditions decide. Real rates check totals; they never pick one actor's outcome. Seeded generation of who exists is allowed. See `no-dice`.
 - **Sliding scales and causes.** Nothing flips at a threshold. World events happen from causes (a hazard record, a health record, a law, a price change), never a monthly chance.

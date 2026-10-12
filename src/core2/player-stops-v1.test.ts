@@ -143,7 +143,7 @@ describe("module-owned exact player stops", () => {
     expect(core.modules.get("actual-director")).not.toBe(owner);
   });
 
-  it("rejects unowned acknowledgement getters without running them or releasing the genuine interrupt", () => {
+  it("rejects unowned acknowledgment getters without running them or releasing the genuine interrupt", () => {
     const core = fixture();
     registerModuleStopV1(core, input());
     const rows = query(core);
@@ -411,7 +411,7 @@ describe("private owned module stop clock", () => {
     expect(() => clock.setFrontier(moment(600.5))).toThrow(/monotonic/);
     expect(snapshot(core)).toEqual(before);
   });
-  it("keeps a one-shot stop blocking until canonical acknowledgement consumes it", () => {
+  it("keeps a one-shot stop blocking until canonical acknowledgment consumes it", () => {
     const core = fixture(),
       clock = bindModuleStopClockV1(core, {
         controlledPersonId: "actual-person",

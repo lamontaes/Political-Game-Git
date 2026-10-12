@@ -4,6 +4,7 @@ import { DEFAULT_DATA, extendData } from "./data";
 import { advanceCore, availableActs, chooseAct, createLifeCore } from "./life";
 import { parameter as p } from "./parameters";
 import { assertCoreIntegrity, coreAPI } from "./state";
+import { ACCOUNTS_MODULE } from "./accounts";
 import { LIFE_MODULE } from "./modules/life";
 import { PEOPLE_MODULE_ID } from "./modules/people";
 import { WORK_MODULE } from "./modules/work";
@@ -97,6 +98,10 @@ function workers(
     }),
   );
   return input(people, {
+    // These tests exercise the shared chooser's discretionary paid-work act. A
+    // scheduled commitment is earned through attendance instead, and the data
+    // excludes discretionary paid work for it, so the fixtures record none.
+    workCommitments: [],
     jobs: people.map((actor) => ({
       id: actor.jobId!,
       personId: actor.id,
@@ -893,9 +898,16 @@ describe("controller boundary and data extension", () => {
       { data },
     );
     const openingMoney = money(core);
-    expect(core.modules.size).toBe(p("two") + p("one"));
+    // createLifeCore always registers life, people, recorded work and the
+    // accounts module; the new action adds no module of its own.
+    expect(core.modules.size).toBe(p("two") + p("two"));
     expect([...core.modules.keys()].sort()).toEqual(
-      [LIFE_MODULE.id, PEOPLE_MODULE_ID, WORK_MODULE.id].sort(),
+      [
+        LIFE_MODULE.id,
+        PEOPLE_MODULE_ID,
+        WORK_MODULE.id,
+        ACCOUNTS_MODULE.id,
+      ].sort(),
     );
     advanceCore(core, nextDay);
     const actor = core.people.get(actorId)!;
@@ -911,12 +923,13 @@ describe("controller boundary and data extension", () => {
     expect(chosen.decision!.selectedReasons!.trait).toBeGreaterThan(p("zero"));
     expect(actor.liquidMinor).toBe(core.jobs.get(actor.jobId!)!.wageDailyMinor);
     expect(money(core)).toBe(openingMoney);
-    expect(core.modules.size).toBe(p("two") + p("two") + p("one"));
+    expect(core.modules.size).toBe(p("two") + p("two") + p("two"));
     expect([...core.modules.keys()].sort()).toEqual(
       [
         LIFE_MODULE.id,
         PEOPLE_MODULE_ID,
         WORK_MODULE.id,
+        ACCOUNTS_MODULE.id,
         core.data.workCashModuleId,
         core.data.finance!.cashJournal.moduleId,
       ].sort(),

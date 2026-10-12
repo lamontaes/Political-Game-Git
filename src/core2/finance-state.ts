@@ -1,7 +1,8 @@
 import { verifyCurrentWorkPayrollGroup } from "./work-payroll-cash";
+import { residentWageShortfall } from "./modules/residents";
 import { validateHouseholdPurchaseCalendarAdmission } from "./household-purchase-calendar";
 /** Conserving finance writers. Estimates never credit the authoritative cash ledger. */
-import { makeIsoDate } from "../simulation/dates";
+import { daysBetween, makeIsoDate } from "../simulation/dates";
 import { projectSalesReceiptBudgetPool } from "./finance-sales-budgets";
 import {
   settleFinanceContractJournal,
@@ -23,6 +24,7 @@ import type {
   FinanceReceipt,
   FinanceRuntime,
   FinanceInput,
+  OwnerClosureChoice,
   SalesReceiptBudgetPool,
   SalesReceiptPendingBudget,
 } from "./finance-types";
@@ -725,6 +727,53 @@ export function prepareFinanceProcurement(
   }
 }
 
+/** core2-api-v16: a payment made between due dates (through the ledger) reduces a standing obligation's recorded arrears. */
+export function reduceStandingArrears(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  paidMinor: number,
+): void {
+  const row = core.finance.contracts.get(id);
+  minor(api, paidMinor, "arrears payment");
+  if (!row || !row.accruesArrears || paidMinor > row.arrearsMinor)
+    throw new Error("An arrears payment cannot exceed what is owed.");
+  row.arrearsMinor -= paidMinor;
+  if (row.arrearsMinor === api.parameter("zero")) delete row.firstUnpaidAt;
+}
+
+/** core2-api-v15: a standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
+export function setStandingContractAmount(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  amountMinor: number,
+): void {
+  const row = core.finance.contracts.get(id);
+  if (!row || row.endedAt || row.salesReceiptBudget || row.recipientIncome)
+    throw new Error(
+      "Only a current standing obligation can change its amount.",
+    );
+  minor(api, amountMinor, "standing obligation amount");
+  row.amountMinor = amountMinor;
+}
+
+/** core2-api-v14: a standing obligation (a lease) stops billing today; arrears already owed stay on the record. */
+export function endStandingContract(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+): void {
+  const row = core.finance.contracts.get(id);
+  if (!row || row.endedAt || row.salesReceiptBudget || row.recipientIncome)
+    throw new Error("Only a current standing obligation can end.");
+  policy(api);
+  row.endedAt = core.date;
+  removeIndex(core.finance.contractsDueAt, row.dueAt, row.id);
+  if (row.endsAt)
+    removeIndex(core.finance.contractsEndingAt, row.endsAt, row.id);
+}
+
 export function retireFinanceBudget(
   core: CoreState,
   api: CoreAPI,
@@ -816,6 +865,55 @@ export function admitCreditFacility(
     interestFacilityId: input.id,
     source: input.source,
   });
+}
+
+/** core2-api-v13: a line a bank approved mid-run becomes the business's credit for its bills and payroll. */
+export function attachBusinessCredit(
+  core: CoreState,
+  api: CoreAPI,
+  organizationId: string,
+  facilityId: string,
+): void {
+  const book = core.finance.businesses.get(organizationId),
+    facility = core.finance.facilities.get(facilityId);
+  if (
+    !book ||
+    book.closedAt ||
+    !facility ||
+    !facility.active ||
+    facility.borrowerId !== organizationId
+  )
+    throw new Error("Business credit must be the open firm's own active line.");
+  policy(api);
+  book.creditFacilityId = facilityId;
+}
+
+/** core2-api-v11: a dated rate change; interest before today stays at the old rate. */
+export function repriceCreditFacility(
+  core: CoreState,
+  api: CoreAPI,
+  facilityId: string,
+  annualInterestRate: number,
+  source: Source,
+): void {
+  const row = core.finance.facilities.get(facilityId);
+  if (!row) throw new Error("Repricing requires a recorded credit facility.");
+  currentSource(source, core.date);
+  amount(api, annualInterestRate, "repriced annual interest rate");
+  const elapsed = daysBetween(
+    makeIsoDate(row.lastAccruedAt),
+    makeIsoDate(core.date),
+  );
+  const oldRate =
+    row.annualInterestRate ?? api.parameter(row.annualInterestParameter);
+  const days = api.parameter(
+    row.interestDayCountParameter ?? policy(api).interestDayCountParameter,
+  );
+  row.unbilledInterestMinor += (row.principalMinor * elapsed * oldRate) / days;
+  row.lastAccruedAt = core.date;
+  row.annualInterestRate = annualInterestRate;
+  row.ratedAt = core.date;
+  row.rateSource = { ...source };
 }
 
 export function admitBusinessBooks(
@@ -974,7 +1072,8 @@ export function reviewBusiness(
       currentTownIncomeMinor: income,
       anchorTownIncomeMinor: book.openingTownIncomeMinor,
       anchorAnnualDemandMinor: book.anchorAnnualDemandMinor,
-      relativePriceToAnchor: book.price / book.anchorPrice,
+      // Against the general price level: inflation alone moves no customer away.
+      relativePriceToAnchor: book.price / book.anchorPrice / generalPrice,
       macroDemandFactor: condition?.macroDemandFactor ?? p("one"),
       kindId: book.kindId,
       source: actualSource(
@@ -1004,6 +1103,7 @@ export function reviewBusiness(
       generalPriceFactor: generalPrice / book.lastGeneralPriceFactor,
       annualDemandMinor: demand,
       capacityMinor: book.capacityMinor,
+      priceLevel: book.price / book.anchorPrice,
     },
     options,
   );
@@ -1138,7 +1238,6 @@ export function closeEmployer(
       cause = structuredClone(row);
     }
   }
-  const retiredProcurementPayers = new Set<string>();
   for (const id of core.finance.contractsByBusiness.get(organizationId) ?? []) {
     const row = core.finance.latestReceiptsByContract.get(id);
     if (
@@ -1154,10 +1253,42 @@ export function closeEmployer(
         source: { ...row.source },
       };
   }
+  const counted = residentWageShortfall(core, sourceReceiptId);
+  if (
+    counted &&
+    counted.organizationId === organizationId &&
+    counted.date === core.date &&
+    counted.shortfallMinor > api.parameter("zero")
+  )
+    cause = { ...counted, source: { ...counted.source } };
   if (!cause)
     throw new Error(
       "Closure requires an actual current unfunded obligation receipt.",
     );
+  return windDownEmployer(
+    core,
+    api,
+    organizationId,
+    sourceReceiptId,
+    reasonKey,
+    cause,
+    "Actual prototype closure after a recorded obligation could not be funded by existing cash or recorded finite credit; closure policy remains an open model assumption.",
+  );
+}
+
+/** Ends a closing firm's jobs, contracts and books, and records the closure. */
+function windDownEmployer(
+  core: CoreState,
+  api: CoreAPI,
+  organizationId: string,
+  sourceReceiptId: string,
+  reasonKey: string,
+  cause: EmployerClosure["cause"],
+  sourceText: string,
+): EmployerClosure {
+  const book = core.finance.businesses.get(organizationId)!,
+    employer = core.organizations.get(organizationId)!;
+  const retiredProcurementPayers = new Set<string>();
   const eventId = `employer-closed:${core.date}:${organizationId}`;
   if (core.eventIds.has(eventId))
     throw new Error("Closure event already exists.");
@@ -1181,10 +1312,7 @@ export function closeEmployer(
     cause,
     endedJobIds,
     affectedPersonIds,
-    source: actualSource(
-      api,
-      "Actual prototype closure after a recorded obligation could not be funded by existing cash or recorded finite credit; closure policy remains an open model assumption.",
-    ),
+    source: actualSource(api, sourceText),
   };
   book.closedAt = core.date;
   book.closingReasonKey = reasonKey;
@@ -1287,6 +1415,62 @@ export function closeEmployer(
     },
   });
   return closure;
+}
+
+/**
+ * An owner closes a solvent business by choice (no successor, retiring): its
+ * remaining cash goes to the owner's account in one balanced entry, then its
+ * jobs, contracts and books end exactly as in a forced closure. The decision
+ * is the caller's (an owner's own reasons); this only carries it out.
+ */
+export function closeBusinessByChoice(
+  core: CoreState,
+  api: CoreAPI,
+  input: {
+    organizationId: string;
+    ownerAccountId: string;
+    reasonKey: string;
+    source: Source;
+  },
+): EmployerClosure {
+  const { organizationId, ownerAccountId, reasonKey, source } = input;
+  const book = core.finance.businesses.get(organizationId),
+    employer = core.organizations.get(organizationId);
+  if (!book || !employer || book.closedAt || !reasonKey)
+    throw new Error("A closure by choice needs an open recorded business.");
+  api.stopgap("SG-CORE-voluntary-closure-final-pay");
+  const accounts = api.accounts(),
+    id = `owner-closed:${core.date}:${organizationId}`;
+  const left = accounts.balance(accounts.main(organizationId));
+  const paid =
+    left > 0
+      ? accounts.transfer({
+          id,
+          from: accounts.main(organizationId),
+          to: ownerAccountId,
+          amountMinor: left,
+          reasonKey: "business.closing-distribution",
+          source,
+        }).paidMinor
+      : 0;
+  const cause: OwnerClosureChoice = {
+    kind: "owner.choice",
+    id,
+    date: core.date,
+    organizationId,
+    ownerAccountId,
+    paidOutMinor: paid,
+    source: { ...source },
+  };
+  return windDownEmployer(
+    core,
+    api,
+    organizationId,
+    id,
+    reasonKey,
+    cause,
+    `The owner closed the business by choice and took its remaining cash (${paid} minor units). ${source.citation}`,
+  );
 }
 
 export function finishFinanceDay(core: CoreState, api: CoreAPI): void {

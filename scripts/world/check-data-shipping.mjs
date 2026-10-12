@@ -19,8 +19,60 @@ const normalize = (text) =>
     .replace(/\\?['’]/g, "'")
     .toLowerCase();
 
+// Recent presidents, vice presidents and sitting justices. Real school names honor some of them, so the school catalogs
+// are allowed to carry these names until the owner rules on school names
+// (docs/legal/legal-check-2026-10-12.md).
+const PRESIDENT_NAMES = [
+  "Jimmy Carter",
+  "Ronald Reagan",
+  "George H. W. Bush",
+  "George W. Bush",
+  "Bill Clinton",
+  "Barack Obama",
+  "Donald Trump",
+  "Joe Biden",
+  "Joseph R. Biden",
+  // Vice presidents and sitting Supreme Court justices: distinctive full names.
+  "JD Vance",
+  "J.D. Vance",
+  "Kamala Harris",
+  "Mike Pence",
+  "Dick Cheney",
+  "Al Gore",
+  "Clarence Thomas",
+  "Samuel Alito",
+  "Sonia Sotomayor",
+  "Elena Kagan",
+  "Neil Gorsuch",
+  "Brett Kavanaugh",
+  "Amy Coney Barrett",
+  "Ketanji Brown Jackson",
+];
+// The bundles that embed the school catalog carry the same names.
+const FEDERAL_NAME_ALLOWED_IN =
+  /(^|[\\/])(education[\\/]catalog-|client[\\/]assets[\\/].*(worker|preload-helper).*\.js$)/;
+
+// "Last, First Middle" rows of the Federal Judicial Center service file become "First Last".
+function federalJudgeNames(read) {
+  const names = new Set();
+  const lines = readFileSync(
+    resolve(read.root, "data/source/judiciary-calibration/raw/fjc-service.csv"),
+    "utf8",
+  ).split("\n");
+  for (const line of lines.slice(1)) {
+    const match = line.match(/^"[^"]*","[^"]*","([^"]*)"/);
+    if (!match) continue;
+    const [last, rest] = match[1].split(/,\s*/);
+    const first = rest?.split(" ")[0];
+    if (!last || !first || first.length < 3) continue;
+    names.add(`${first} ${last.replace(/ (Jr\.|Sr\.|II|III|IV)$/, "")}`);
+  }
+  return [...names];
+}
+
 export function shippingPolicy(root = process.cwd()) {
   const read = (path) => JSON.parse(readFileSync(resolve(root, path), "utf8"));
+  read.root = root;
   const corpusPath = "data/source/electoral-calibration-2024/corpus.json";
   const corpus = read(corpusPath);
   const names = [
@@ -51,6 +103,11 @@ export function shippingPolicy(root = process.cwd()) {
   ];
   return {
     names,
+    federalNames: PRESIDENT_NAMES,
+    // Full-name matches for 3,996 judges collide with ordinary names (school
+    // catalogs, bundled data), so judges are checked in authored text only.
+    judgeNames: federalJudgeNames(read),
+    federalNameAllowedIn: FEDERAL_NAME_ALLOWED_IN,
     captures,
     forbiddenText: [
       ...electoral.artifacts
@@ -68,11 +125,51 @@ export function shippingPolicy(root = process.cwd()) {
   };
 }
 
-export function inspectShippingBytes(bytes, policy) {
+// One pass over the words: a name matches when its words appear in order,
+// each separated by a single space, as the substring search it replaces.
+const federalIndexes = new WeakMap();
+function federalIndex(policy) {
+  let index = federalIndexes.get(policy);
+  if (!index) {
+    const originals = new Map();
+    let maxWords = 1;
+    for (const name of policy.federalNames) {
+      const key = normalize(name);
+      if (!originals.has(key)) originals.set(key, name);
+      maxWords = Math.max(maxWords, key.split(" ").length);
+    }
+    index = { originals, maxWords };
+    federalIndexes.set(policy, index);
+  }
+  return index;
+}
+function findFederalNames(text, policy) {
+  const { originals, maxWords } = federalIndex(policy);
+  const words = [...text.matchAll(/[^\s"',;:()[\]{}<>/\\]+/g)];
+  const found = new Set();
+  for (let i = 0; i < words.length; i++) {
+    let phrase = words[i][0];
+    for (let n = 1; n <= maxWords; n++) {
+      const trimmed = phrase.replace(/[.!?]+$/, "");
+      if (originals.has(phrase)) found.add(originals.get(phrase));
+      else if (originals.has(trimmed)) found.add(originals.get(trimmed));
+      const next = words[i + n];
+      if (!next) break;
+      const end = words[i + n - 1].index + words[i + n - 1][0].length;
+      if (next.index - end !== 1 || text[end] !== " ") break;
+      phrase += " " + next[0];
+    }
+  }
+  return [...found].map((name) => `real-name:${name}`);
+}
+
+export function inspectShippingBytes(bytes, policy, file = "") {
   const text = normalize(bytes.toString("utf8"));
   const failures = [];
   for (const name of policy.names)
     if (text.includes(normalize(name))) failures.push(`real-name:${name}`);
+  if (policy.federalNames && !policy.federalNameAllowedIn.test(file))
+    failures.push(...findFederalNames(text, policy));
   for (const token of policy.forbiddenText)
     if (text.includes(normalize(token)))
       failures.push(`research-or-salary-token:${token}`);
@@ -97,7 +194,11 @@ export function scanShippingDirectory(directory, policy) {
           file: relative(directory, target),
           bytes: bytes.length,
           sha256: sha256(bytes),
-          failures: inspectShippingBytes(bytes, policy),
+          failures: inspectShippingBytes(
+            bytes,
+            policy,
+            relative(directory, target),
+          ),
         });
       } else throw new Error(`Unexpected shipped filesystem entry: ${target}`);
     }

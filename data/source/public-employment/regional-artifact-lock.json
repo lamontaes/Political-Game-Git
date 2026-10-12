@@ -48,7 +48,12 @@
       ],
       "sha256": "3ef0e42fab1b42a7dac8a3a9b3e7024f5d7a07eff308bff5fc91808061ec08e1",
       "url": "https://www.bls.gov/oes/special-requests/oesm25in4.zip",
-      "vintage": "May 2025"
+      "vintage": "May 2025",
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      }
     },
     {
       "length": 15670838,
@@ -57,7 +62,12 @@
       "members": [],
       "sha256": "82e8eb29e93060d12bbf5a80261ea5059ab597ad5bf3c8a55a21e2edee6fc46d",
       "url": "https://www.bls.gov/oes/special-requests/oes_research_2025_state_ownership.xlsx",
-      "vintage": "May 2025 research"
+      "vintage": "May 2025 research",
+      "rights": {
+        "attributionRequired": false,
+        "declaredLicense": null,
+        "status": "public-domain-us-government"
+      }
     }
   ],
   "asOf": "2026-09-26"

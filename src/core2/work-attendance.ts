@@ -1,4 +1,5 @@
 import { validateCompactChoice } from "./compact-choice";
+import { bookkeeping } from "./bookkeeping";
 /** Attendance and earned wages only. Cash settlement belongs to the recorded payday. */
 import { ageOnDate, makeIsoDate } from "../simulation/dates";
 import { FinanceReadGuard } from "./finance-plan";
@@ -256,6 +257,8 @@ function detached<T>(
   raw: T,
   active = new Set<object>(),
 ): T {
+  // Play stores the freshly built result itself; bookkeeping detaches and freezes it.
+  if (!bookkeeping()) return raw;
   if (typeof raw === "function" || typeof raw === "symbol")
     throw new Error("Attendance payload cannot contain executable values.");
   if (raw === null || typeof raw !== "object") return raw;
@@ -571,7 +574,9 @@ export function recordWorkAttendance(
   ordinaryRow(row);
   ordinaryRow(job);
   if (previous) ordinaryRow(previous);
-  const actorView = shallow(r, actor),
+  // Play updates the worker's own row in place; bookkeeping stages a copy.
+  const live = !bookkeeping(),
+    actorView = live ? actor : shallow(r, actor),
     commitment = {
       id: r.field(row, "id"),
       jobId: r.field(row, "jobId"),
@@ -855,7 +860,9 @@ export function recordWorkAttendance(
   nextActor.actCount = after;
   const actualKinds = r.field(actor, "actsByKind");
   r.payload(actualKinds, zero, one);
-  const kinds = new Map<string, number>(nativeEntries.call(actualKinds));
+  const kinds = live
+    ? actualKinds
+    : new Map<string, number>(nativeEntries.call(actualKinds));
   kinds.set(
     selectedId,
     addMinor(
@@ -1033,11 +1040,15 @@ export function recordWorkAttendance(
   );
   const periodIndexes = r.field(work, "earnedPayPeriodByCommitmentIndex"),
     priorIndex = r.mapGet(periodIndexes, commitment.id),
-    nextIndex = new Map<number, string>(
-      priorIndex
-        ? (r.payload(priorIndex, zero, one), nativeEntries.call(priorIndex))
-        : [],
-    );
+    nextIndex =
+      live && priorIndex
+        ? priorIndex
+        : new Map<number, string>(
+            priorIndex
+              ? (r.payload(priorIndex, zero, one),
+                nativeEntries.call(priorIndex))
+              : [],
+          );
   if (
     r.mapGet(priorIndex ?? new Map<number, string>(), resolved.index) !==
     (originalPeriod ? periodId : undefined)
@@ -1083,7 +1094,9 @@ export function recordWorkAttendance(
     if (!known) throw new Error("Missing watched worker knowledge index.");
     // Replace the owned inner map; never mutate an injected map/property callback.
     r.payload(known, zero, one);
-    const nextKnown = new Map<string, KnownFact>(nativeEntries.call(known)),
+    const nextKnown = live
+        ? known
+        : new Map<string, KnownFact>(nativeEntries.call(known)),
       key = "job:" + input.jobId + ":latest-work-attendance";
     nextKnown.set(key, {
       key,

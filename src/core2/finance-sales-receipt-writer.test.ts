@@ -5,6 +5,7 @@ import { chooseAct } from "./choice";
 import { preflightOpeningSalesBudgets } from "./finance-state";
 import { FINANCE_MODULE } from "./modules/finance";
 import { runScheduledWork } from "./modules/work";
+import { runWorkPayrollDay } from "./work-payroll-dispatch";
 import { LIFE_MODULE } from "./modules/life";
 import { parameter as p } from "./parameters";
 import { coreAPI, createCore } from "./state";
@@ -163,6 +164,7 @@ function input(
             jobId: "fixture:job",
             personId: worker,
             organizationId: buyer,
+            payrollCalendarId: "fixture:payroll",
             startsAt: opening,
             anchorDate: opening,
             periodDays: p("daysPerWeek"),
@@ -177,6 +179,25 @@ function input(
             ],
             scheduleSource: source,
             paySource: source,
+          },
+        ]
+      : [],
+    // Controlled daily payroll (zero-day lag): payday is the work date.
+    workPayrollCalendars: options.ownedWork
+      ? [
+          {
+            id: "fixture:payroll",
+            organizationId: buyer,
+            workCommitmentIds: ["fixture:commitment"],
+            basisRecordIds: [buyer],
+            rule: "fixed-days-after-inclusive-period-end" as const,
+            periodDays: p("one"),
+            firstPeriodStartsAt: opening,
+            nonbusinessDayRule: "no-adjustment" as const,
+            firstPaydayAt: opening,
+            effectiveFrom: opening,
+            arrearsRule: "carry-to-next-recorded-payday" as const,
+            source,
           },
         ]
       : [],
@@ -671,7 +692,9 @@ describe("receipt-linked procurement through the conserving API", () => {
       (id, offers, context) => chooseAct(world, id, offers, context),
       () => undefined,
     );
-    const result = world.work.lastResultByJob.get("fixture:job")!;
+    // Attendance only accrues wages; the missed payroll is the completed payday.
+    runWorkPayrollDay(api);
+    const result = world.work.latestPayrollByJob.get("fixture:job")!;
     expect(result.shortfallMinor).toBeGreaterThan(p("zero"));
     api.finishFinanceDay();
     expect(world.finance.closures.get(buyer)!.sourceReceiptId).toBe(result.id);
@@ -695,7 +718,9 @@ describe("receipt-linked procurement through the conserving API", () => {
       (id, offers, context) => chooseAct(world, id, offers, context),
       () => undefined,
     );
-    const result = world.work.lastResultByJob.get("fixture:job")!;
+    // Attendance only accrues wages; the missed payroll is the completed payday.
+    runWorkPayrollDay(api);
+    const result = world.work.latestPayrollByJob.get("fixture:job")!;
     expect(result.requestedMinor).toBeGreaterThan(p("zero"));
     expect(result.paidMinor).toBe(p("zero"));
     api.finishFinanceDay();
@@ -703,9 +728,9 @@ describe("receipt-linked procurement through the conserving API", () => {
     expect(closure.sourceReceiptId).toBe(result.id);
     expect(closure.endedJobIds).toContain("fixture:job");
     expect(world.jobs.get("fixture:job")!.endsAt).toBe(opening);
-    expect(world.work.lastResultByJob.get("fixture:job")!.shortfallMinor).toBe(
-      result.requestedMinor,
-    );
+    expect(
+      world.work.latestPayrollByJob.get("fixture:job")!.shortfallMinor,
+    ).toBe(result.requestedMinor);
     expect(world.finance.salesPendingBudgetByContract.size).toBe(p("zero"));
     expect(world.finance.salesBudgetPoolsByPayer.has(buyer)).toBe(false);
     expect(world.finance.salesReceivedThroughByPayer.has(buyer)).toBe(false);

@@ -1,0 +1,111 @@
+{
+  "sectorBetas": {
+    "mining-logging": {
+      "trendMonthlyPct": -0.13386710732130355,
+      "intercept": -0.13386710732130355,
+      "beta": 1.175145035813194,
+      "seIntercept": 0.046528778618888475,
+      "seBeta": 0.2552040564269474,
+      "months": 360
+    },
+    "construction": {
+      "trendMonthlyPct": -0.18739415937905882,
+      "intercept": -0.18739415937905882,
+      "beta": 3.0771472254982744,
+      "seIntercept": 0.0230473035557705,
+      "seBeta": 0.12641134222139508,
+      "months": 360
+    },
+    "manufacturing": {
+      "trendMonthlyPct": -0.24546505495941856,
+      "intercept": -0.24546505495941856,
+      "beta": 1.6419598579560657,
+      "seIntercept": 0.013074084875108022,
+      "seBeta": 0.07170958691022425,
+      "months": 360
+    },
+    "trade-transport-utilities": {
+      "trendMonthlyPct": -0.04185687991042988,
+      "intercept": -0.04185687991042988,
+      "beta": 1.0837978301399993,
+      "seIntercept": 0.006748779097193192,
+      "seBeta": 0.03701614039002339,
+      "months": 360
+    },
+    "information": {
+      "trendMonthlyPct": -0.10392664712765501,
+      "intercept": -0.10392664712765501,
+      "beta": 1.350164329920836,
+      "seIntercept": 0.023183865233995425,
+      "seBeta": 0.12716036455273397,
+      "months": 360
+    },
+    "financial": {
+      "trendMonthlyPct": 0.017988208892024418,
+      "intercept": 0.017988208892024425,
+      "beta": 0.6844271517953416,
+      "seIntercept": 0.009045096916745656,
+      "seBeta": 0.04961113299009503,
+      "months": 360
+    },
+    "professional-business": {
+      "trendMonthlyPct": 0.03871816388530372,
+      "intercept": 0.038718163885303726,
+      "beta": 1.6560077107526183,
+      "seIntercept": 0.010059804087807324,
+      "seBeta": 0.055176664556301366,
+      "months": 360
+    },
+    "education-health": {
+      "trendMonthlyPct": 0.21900475894753893,
+      "intercept": 0.21900475894753893,
+      "beta": 0.07956931288875903,
+      "seIntercept": 0.007041042614280791,
+      "seBeta": 0.03861916624456588,
+      "months": 360
+    },
+    "leisure-hospitality": {
+      "trendMonthlyPct": 0.08087787230142197,
+      "intercept": 0.08087787230142197,
+      "beta": 0.9120090902299993,
+      "seIntercept": 0.011372601751417227,
+      "seBeta": 0.062377182149192995,
+      "months": 360
+    },
+    "other-services": {
+      "trendMonthlyPct": 0.041379494127492845,
+      "intercept": 0.041379494127492845,
+      "beta": 0.5889224904899374,
+      "seIntercept": 0.009233519179500703,
+      "seBeta": 0.05064460361201055,
+      "months": 360
+    },
+    "government": {
+      "trendMonthlyPct": 0.027230856372083938,
+      "intercept": 0.027230856372083945,
+      "beta": 0.39361529346545526,
+      "seIntercept": 0.014305200139978744,
+      "seBeta": 0.0784620875958236,
+      "months": 360
+    }
+  },
+  "nationalMeanMonthlyJobGrowthPct": 0.09241171567871641,
+  "stateUnemploymentGapPersistence": {
+    "rho": 0.9940774059512323,
+    "se": 0.0009214531144197277,
+    "months": 12480,
+    "window": "2000-01 to 2019-12, LAUS seasonally adjusted state rate less the national rate"
+  },
+  "stateOneYearJobGrowthPct": {
+    "p05": -4.303640844672249,
+    "p95": 3.573472062507926,
+    "n": 1378,
+    "window": "December over December, 2000-2025, CES state total nonfarm (SA)"
+  },
+  "stateOneYearPayGrowthPct": {
+    "p05": -0.8784142557632744,
+    "p95": 6.914922202087108,
+    "n": 930,
+    "window": "December over December, 2008-2025, CES state total private average hourly earnings (NSA)"
+  }
+}

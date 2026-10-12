@@ -1,5 +1,6 @@
 /** Synchronous CASH writer. No caller-supplied source authority or second cash stock. */
 import { makeIsoDate } from "../simulation/dates";
+import { bookkeeping } from "./bookkeeping";
 import { P } from "./parameters";
 import { projectCashJournal } from "./journal";
 import { snapshotExplicitControlV1 } from "./player-control-state-v1";
@@ -40,7 +41,7 @@ export interface CashJournalPostedMarker {
   completedAt?: IsoDate;
 }
 
-/** Detached acknowledgement only; the journal runtime retains no noncash receipt. */
+/** Detached acknowledgment only; the journal runtime retains no noncash receipt. */
 export interface CashJournalSourceCompletion {
   sourceRef: CashJournalSourceRef;
   completedAt: IsoDate;
@@ -1424,18 +1425,21 @@ export function postCashJournal(
     );
     const combinedWrites = [...moduleWrites, ...journalWrites];
     // This is the last external/module call. It must precede every stale-row check.
-    const currentSlot = provider(request.sourceRef);
+    // Bookkeeping re-resolves the source to prove nothing moved; play reuses it.
+    const recheck = bookkeeping(),
+      currentSlot = recheck ? provider(request.sourceRef) : sourceSlot;
     if (
-      !currentSlot ||
-      currentSlot.marker !== marker ||
-      !sameSecondaryMarkers(secondary, currentSlot) ||
-      (currentSlot.retainFull === true) !== required ||
-      !sameResolved(resolved, slotSource(currentSlot)) ||
-      (currentSlot.metadata ?? []).length !== moduleWrites.length ||
-      !moduleWrites.every((write, i) => {
-        const other = currentSlot.metadata?.[i];
-        return other !== undefined && sameMetadata(write, other);
-      })
+      recheck &&
+      (!currentSlot ||
+        currentSlot.marker !== marker ||
+        !sameSecondaryMarkers(secondary, currentSlot) ||
+        (currentSlot.retainFull === true) !== required ||
+        !sameResolved(resolved, slotSource(currentSlot)) ||
+        (currentSlot.metadata ?? []).length !== moduleWrites.length ||
+        !moduleWrites.every((write, i) => {
+          const other = currentSlot.metadata?.[i];
+          return other !== undefined && sameMetadata(write, other);
+        }))
     )
       throw new Error(
         "Canonical journal source or its staged metadata changed before commit.",
@@ -1724,18 +1728,20 @@ export function completeCashJournalSource(
       completedAt: date,
     };
     // Last module call. No callback, lookup or validation occurs after the first write.
-    const currentSlot = provider(request);
+    const recheck = bookkeeping(),
+      currentSlot = recheck ? provider(request) : sourceSlot;
     if (
-      !currentSlot ||
-      currentSlot.marker !== marker ||
-      currentSlot.retainFull !== retainFull ||
-      !sameSecondaryMarkers(secondary, currentSlot) ||
-      !sameResolved(resolved, slotSource(currentSlot)) ||
-      (currentSlot.metadata ?? []).length !== moduleWrites.length ||
-      !moduleWrites.every((write, i) => {
-        const other = currentSlot.metadata?.[i];
-        return other !== undefined && sameMetadata(write, other);
-      })
+      recheck &&
+      (!currentSlot ||
+        currentSlot.marker !== marker ||
+        currentSlot.retainFull !== retainFull ||
+        !sameSecondaryMarkers(secondary, currentSlot) ||
+        !sameResolved(resolved, slotSource(currentSlot)) ||
+        (currentSlot.metadata ?? []).length !== moduleWrites.length ||
+        !moduleWrites.every((write, i) => {
+          const other = currentSlot.metadata?.[i];
+          return other !== undefined && sameMetadata(write, other);
+        }))
     )
       throw new Error(
         "Canonical noncash source or its staged metadata changed before commit.",

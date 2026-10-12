@@ -25,9 +25,37 @@
     {
       "source": "The partial answer to new-member-transition-and-orientation (2026-09-22, 7:15 p.m. Eastern)",
       "whatItDidNotSettle": "Covers Congress's Members' Representational Allowance as an operating allowance and orientation programs; does not give a staff count or titles for state legislators, governors or councils."
+    },
+    {
+      "source": "https://uscode.house.gov/view.xhtml?edition=prelim&num=0&req=granuleid%3AUSC-prelim-title2-section5321",
+      "whatItDidNotSettle": "State/local/council/governor office headcounts, titles, role-specific pay, turnover and time-to-fill remain open."
+    },
+    {
+      "source": "https://ethics.house.gov/manual/general-employment-and-compensation-provisions/",
+      "whatItDidNotSettle": "State/local/council/governor office headcounts, titles, role-specific pay, turnover and time-to-fill remain open."
+    },
+    {
+      "source": "https://www.bls.gov/news.release/ecec.t01.htm",
+      "whatItDidNotSettle": "State/local/council/governor office headcounts, titles, role-specific pay, turnover and time-to-fill remain open."
+    },
+    {
+      "source": "https://www.bls.gov/jlt/",
+      "whatItDidNotSettle": "State/local/council/governor office headcounts, titles, role-specific pay, turnover and time-to-fill remain open."
     }
   ],
   "title": "What staff an elected official actually gets, by office and place",
   "usableAnswer": "For each level, the number of staff positions an ordinary officeholder has and their titles, with a note of the big variations (full-time versus citizen legislatures, large versus small cities), each cited or marked UNKNOWN. A few representative states per pattern is enough for legislators.",
-  "whyItMatters": "The owner asked for hiring office staff when the player is elected (2026-09-22, 11:24 p.m. Eastern), and earlier decided that staff are playable after a win. Today only a governor gets a staffing table: three positions (Chief of Staff, Legislative Director, Caseworker) that the game itself labels an authored profile. Legislators, members of Congress and council members get none, so an office's choice to let staff handle casework has nobody to hand it to."
+  "whyItMatters": "The owner asked for hiring office staff when the player is elected (2026-09-22, 11:24 p.m. Eastern), and earlier decided that staff are playable after a win. Today only a governor gets a staffing table: three positions (Chief of Staff, Legislative Director, Caseworker) that the game itself labels an authored profile. Legislators, members of Congress and council members get none, so an office's choice to let staff handle casework has nobody to hand it to.",
+  "answer": {
+    "summary": "Federal House members may employ up to18 permanent employees plus up to4 additional employees in specified categories under2USC5321; this is a ceiling, not a measured typical headcount/FTE. Personal offices, committees and chamber support have separate budgets and populations. BLS ECEC provides public-workforce wage/benefit averages, and JOLTS monthly hire/separation flows; neither provides elected-office role salaries or hiring times.",
+    "sources": [
+      "https://uscode.house.gov/view.xhtml?edition=prelim&num=0&req=granuleid%3AUSC-prelim-title2-section5321",
+      "https://ethics.house.gov/manual/general-employment-and-compensation-provisions/",
+      "https://www.bls.gov/news.release/ecec.t01.htm",
+      "https://www.bls.gov/jlt/"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:09:58.166348+00:00",
+    "stillOpen": "State/local/council/governor office headcounts, titles, role-specific pay, turnover and time-to-fill remain open."
+  }
 }

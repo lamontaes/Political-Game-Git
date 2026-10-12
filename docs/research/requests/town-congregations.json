@@ -35,9 +35,33 @@
     {
       "source": "docs/research in this repository",
       "whatItDidNotSettle": "Congregations appear only as open questions about where people meet; no counts, shares or names exist."
+    },
+    {
+      "source": "AmeriCorps/Census CPS CEV2023 state findings",
+      "url": "https://data.americorps.gov/resource/4r6x-re58.json?$limit=5000",
+      "whatItSettled": "State contact/help/member incidence, not per-tie survival or invitation calendar."
+    },
+    {
+      "source": "Pew Research Center2025 social connections; probability survey6204 US adults",
+      "url": "https://www.pewresearch.org/social-trends/2025/01/16/where-men-and-women-turn-for-emotional-support-and-social-connection/",
+      "whatItSettled": "Weekly friend contact benchmark with mode and denominator; Pew notices/disclaimer retained."
+    },
+    {
+      "source": "ASARB Religion Census FAQ terms",
+      "url": "https://www.usreligioncensus.org/faq",
+      "whatItDidNotSettle": "Redistribution/game derivative table grant not established; no data extracted."
     }
   ],
   "title": "Which congregations a town has",
   "usableAnswer": "A CSV of county FIPS, religious tradition, congregations and adherents from the 2020 U.S. Religion Census, plus national membership and attendance shares with their sources, plus a short list of naming patterns by tradition.",
-  "whyItMatters": "A congregation is one of the main places Americans meet friends. The town now has two placeholder congregations; which faiths are present and how many people belong is invented."
+  "whyItMatters": "A congregation is one of the main places Americans meet friends. The town now has two placeholder congregations; which faiths are present and how many people belong is invented.",
+  "answer": {
+    "status": "answered-with-gaps",
+    "answeredAt": "2026-10-11",
+    "answeredBy": "CODEX-RESEARCH (Priorities0-1)",
+    "findings": {
+      "findings": "ASARB FAQ bars redistribution without permission; no county denomination/adherent table adopted. Census CBP2023 reports186,801 employer religious establishments nationally, an organizational proxy covering paid religious organizations, not congregation count or attendance.",
+      "gaps": "No all56 county religious-tradition/adherent count, membership/attendance rate or licensed name-template distribution established. Do not present employer establishments as religion census or derive residents’ religion from organization counts."
+    }
+  }
 }

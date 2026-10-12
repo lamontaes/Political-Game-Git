@@ -24,6 +24,24 @@
     {
       "source": "src/simulation/campaign-opponents.ts",
       "whatItDidNotSettle": "Reuses the player's formula for rivals so the two are comparable; says nothing about the right size."
+    },
+    {
+      "source": "https://clerk.house.gov/member_info/electionInfo/2024/statistics2024.pdf",
+      "whatItDidNotSettle": "Activity-by-race causal coefficients, reach/hour, endorsement effects and support-dependent curves remain open after source-terms checks."
+    },
+    {
+      "source": "https://dataverse.yale.edu/dataset.xhtml?persistentId=doi%3A10.60600%2FYU%2FB9TZNZ",
+      "whatItDidNotSettle": "Activity-by-race causal coefficients, reach/hour, endorsement effects and support-dependent curves remain open after source-terms checks."
     }
-  ]
+  ],
+  "answer": {
+    "summary": "Local six-site randomized canvassing archive supports a turnout channel from face-to-face contact. Persuasion, mobilization and reach must be separate; one contacted voter is not one converted vote. No measured support-dependent diminishing-return curve at 50/60/70 percent was verified. See roadmap-r16-effects-and-observed-margins.json for measured federal larger-major-party-share quantiles and denominator cautions. Observed margins are outcomes, not causal campaign effects.",
+    "sources": [
+      "https://clerk.house.gov/member_info/electionInfo/2024/statistics2024.pdf",
+      "https://dataverse.yale.edu/dataset.xhtml?persistentId=doi%3A10.60600%2FYU%2FB9TZNZ"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T04:59:48.586807+00:00",
+    "stillOpen": "Activity-by-race causal coefficients, reach/hour, endorsement effects and support-dependent curves remain open after source-terms checks."
+  }
 }

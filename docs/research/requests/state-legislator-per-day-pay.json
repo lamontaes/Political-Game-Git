@@ -14,9 +14,22 @@
     {
       "source": "The Council of State Governments, The Book of the States 2023, table 3.9 (saved in data/source/book-of-the-states)",
       "whatItDidNotSettle": "Gives one annual salary for 40 states; for Utah, Vermont, Virginia and New Mexico it gives a per-day, weekly, per-chamber amount or none, and not the days a legislature sits."
+    },
+    {
+      "source": "https://salaries.wa.gov/sites/default/files/public/2025%202026%20Final%20Salary%20Schedule.pdf",
+      "whatItDidNotSettle": "All56 office pay, state/local orientation/ceremony programs, per-diem attendance, time demands, employment restrictions and in-term pay-change rules remain incomplete."
     }
   ],
   "title": "What states pay legislators by the day, the week or the chamber",
   "usableAnswer": "A table by state naming the pay unit, the amount, the number of paid days or weeks a year, and the resulting annual pay, each with a named public source (state statute or the legislature's own pay schedule) and its year.",
-  "whyItMatters": "Four states cannot be paid a legislator's published salary because no single annual figure exists; their legislators are paid the national placeholder instead."
+  "whyItMatters": "Four states cannot be paid a legislator's published salary because no single annual figure exists; their legislators are paid the national placeholder instead.",
+  "answer": {
+    "summary": "Washington official schedule establishes annual salary, not typical attendance, weekly/per-diem wages, annual council workload or meeting-item proportions. No representative council calendar or nonannual-pay inventory inferred.",
+    "sources": [
+      "https://salaries.wa.gov/sites/default/files/public/2025%202026%20Final%20Salary%20Schedule.pdf"
+    ],
+    "answeredBy": "CODEX-RESEARCH-2",
+    "answeredAt": "2026-10-11T05:20:24.386693+00:00",
+    "stillOpen": "All56 office pay, state/local orientation/ceremony programs, per-diem attendance, time demands, employment restrictions and in-term pay-change rules remain incomplete."
+  }
 }

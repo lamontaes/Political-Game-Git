@@ -1,5 +1,15 @@
 import { closenessAfter, openingClosenessHours } from "./closeness";
 import { validateCompactChoice } from "./compact-choice";
+import { bookkeeping } from "./bookkeeping";
+import { publicPayTreasuries } from "./public-work-pay";
+import {
+  countedJob,
+  enterResidentMarket,
+  releaseResidentHousehold,
+  rerateCountedJob,
+  residentPerson,
+  takeResidentHousehold,
+} from "./modules/residents";
 import {
   prepareModuleState,
   installModuleState,
@@ -7,6 +17,8 @@ import {
 } from "./module-state";
 import { moduleCalendar } from "./module-calendar";
 import { voterGroups } from "./voter-groups";
+import { accountsFacade } from "./accounts";
+import { countedVoterGroupId } from "./opening-voter-groups";
 import {
   emptyWorkRuntime,
   admitWorkCommitment,
@@ -20,6 +32,7 @@ import {
   recordWorkAttendance,
 } from "./work-attendance";
 import { settleWorkPayrollAndNotify } from "./work-payroll-dispatch";
+import { endRecordedJob, startRecordedJob } from "./job-lifecycle";
 import {
   emptyFinanceRuntime,
   financeIndex,
@@ -27,12 +40,18 @@ import {
   preflightOpeningSalesBudgets,
   prepareFinanceProcurement,
   admitCreditFacility,
+  repriceCreditFacility,
+  attachBusinessCredit,
+  endStandingContract,
+  setStandingContractAmount,
+  reduceStandingArrears,
   admitBusinessBooks,
   admitFinanceCondition,
   settleFinanceContract,
   retireFinanceBudget,
   transferCredit,
   reviewBusiness,
+  closeBusinessByChoice,
   closeEmployer,
   finishFinanceDay,
 } from "./finance-state";
@@ -79,12 +98,15 @@ import type {
   CoreState,
   KnownFact,
   LogRecord,
+  PersonId,
   PersonInput,
   PersonState,
   Relationship,
   RelationshipChangeEvidence,
   RelationshipMeasureChange,
   Source,
+  IsoDate,
+  PlaceId,
 } from "./types";
 
 // Exact successful factory identity, private to this module. No caller can admit a host.
@@ -104,6 +126,8 @@ const freezeRelationshipEvidence = Object.freeze,
 
 // Copy original evidence before changing a tie; do not invoke caller getters or retain aliases.
 function copyRelationshipEvidence<T>(value: T, active = new Set<object>()): T {
+  // Play keeps the caller's freshly built evidence; bookkeeping copies and freezes it.
+  if (!bookkeeping()) return value;
   if (
     value === null ||
     value === undefined ||
@@ -407,7 +431,11 @@ export function createCore(
     if (!core.households.get(actor.householdId)?.memberIds.includes(actor.id))
       throw new Error(`Person has no consistent household: ${actor.id}`);
     for (const id of actor.familyIds) {
-      if (!core.people.has(id)) throw new Error(`Absent family member: ${id}`);
+      // Relatives in the counts are husks until met (two-level population).
+      if (!core.people.has(id)) {
+        if (core.husks.has(id)) continue;
+        throw new Error(`Absent family member: ${id}`);
+      }
       const relationshipId = [actor.id, id].sort().join(":");
       if (!core.relationships.has(relationshipId))
         api.relationship(
@@ -871,6 +899,7 @@ export function coreAPI(core: CoreState): CoreAPI {
     moduleState: (moduleId) => moduleState(core, moduleId),
     moduleCalendar: (moduleId) => moduleCalendar(core, moduleId),
     voterGroups: () => voterGroups(core),
+    accounts: () => accountsFacade(core, api),
     version: core.apiVersion,
     state: core,
     parameter: p,
@@ -914,6 +943,27 @@ export function coreAPI(core: CoreState): CoreAPI {
     addCreditFacility(row) {
       admitCreditFacility(core, api, row);
     },
+    reduceStandingArrears(id, paidMinor) {
+      reduceStandingArrears(core, api, id, paidMinor);
+    },
+    setStandingContractAmount(id, amountMinor) {
+      setStandingContractAmount(core, api, id, amountMinor);
+    },
+    endStandingContract(id) {
+      endStandingContract(core, api, id);
+    },
+    attachBusinessCredit(id, facilityId) {
+      attachBusinessCredit(core, api, id, facilityId);
+    },
+    startJob(job, commitment, calendar) {
+      startRecordedJob(core, api, job, commitment, calendar);
+    },
+    endJob(id, sourceId) {
+      endRecordedJob(core, api, id, sourceId);
+    },
+    repriceCreditFacility(id, rate, source) {
+      repriceCreditFacility(core, api, id, rate, source);
+    },
     addBusinessBooks(row) {
       admitBusinessBooks(core, api, row);
     },
@@ -934,6 +984,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     reviewBusiness(id) {
       reviewBusiness(core, api, id);
+    },
+    closeBusinessByChoice(input) {
+      return closeBusinessByChoice(core, api, input);
     },
     closeEmployer(id, sourceId, reason) {
       return closeEmployer(core, api, id, sourceId, reason);
@@ -1400,6 +1453,78 @@ export function coreAPI(core: CoreState): CoreAPI {
       }
       Object.assign(actor, changes);
     },
+    fundPublicPay(authorityId, treasuryId, source) {
+      makeIsoDate(source.asOf);
+      if (source.asOf > core.date)
+        throw new Error("Treasury funding cannot cite a later source.");
+      const authority = [...core.organizations.values()].find(
+        (row) => row.publicPayAuthority?.id === authorityId,
+      )?.publicPayAuthority;
+      if (!authority)
+        throw new Error(`No recorded public pay authority: ${authorityId}`);
+      const treasury = core.organizations.get(treasuryId);
+      if (!treasury || treasury.outsideFlow || treasury.kind !== "government")
+        throw new Error(
+          `A treasury must be a recorded government with its own cash: ${treasuryId}`,
+        );
+      const links = publicPayTreasuries(core),
+        prior = links.get(authorityId);
+      links.set(authorityId, {
+        treasuryId,
+        source: { ...source },
+        shortfalls: prior?.shortfalls ?? new Map(),
+      });
+    },
+    publicPayShortfallMinor(authorityId) {
+      let total = 0;
+      for (const row of publicPayTreasuries(core)
+        .get(authorityId)
+        ?.shortfalls.values() ?? [])
+        total += row.amountMinor;
+      return total;
+    },
+    enterMarket(entry) {
+      if (!Number.isFinite(entry.capacityMinor) || entry.capacityMinor < 0)
+        throw new Error("Market capacity must be a nonnegative amount.");
+      return enterResidentMarket(core, entry);
+    },
+    rerateJob(jobId, hourlyMinor, source) {
+      if (!Number.isSafeInteger(hourlyMinor) || hourlyMinor <= 0)
+        throw new Error("A new hourly rate must be a positive whole amount.");
+      makeIsoDate(source.asOf);
+      if (source.asOf > core.date)
+        throw new Error("A pay change cannot cite a later source.");
+      const job = core.jobs.get(jobId);
+      if (!job) {
+        if (rerateCountedJob(core, jobId, hourlyMinor)) return;
+        throw new Error(`No recorded job to re-rate: ${jobId}`);
+      }
+      if (job.endsAt !== undefined) throw new Error("The job has ended.");
+      const commitments = [
+        ...(core.work.commitmentsByPerson.get(job.personId) ?? []),
+      ]
+        .map((id) => core.work.commitments.get(id)!)
+        .filter((row) => row.jobId === jobId && row.endsAt === undefined);
+      const old = job.hourlyMinor ?? commitments[0]?.hourlyMinor;
+      // The commitment keeps its original pay source (an open pay period cites
+      // it); the change and its source are recorded on the job.
+      for (const row of commitments) row.hourlyMinor = hourlyMinor;
+      core.work.payChanges.set(jobId, [
+        ...(core.work.payChanges.get(jobId) ?? []),
+        { date: core.date, hourlyMinor, source: { ...source } },
+      ]);
+      const ratio = old ? hourlyMinor / old : 1;
+      job.hourlyMinor = hourlyMinor;
+      job.wageDailyMinor = Math.round(job.wageDailyMinor * ratio);
+      if (core.people.has(job.personId))
+        api.observe(job.personId, {
+          key: `job:${job.id}:pay`,
+          value: String(job.wageDailyMinor),
+          learnedAt: core.date,
+          sourceId: job.id,
+          access: "self",
+        });
+    },
     addOrganization(row) {
       if (
         core.organizations.has(row.id) ||
@@ -1603,6 +1728,293 @@ export function inspectPerson(
 }
 
 /** Explicit click-time admission checks every retained identity and family constraint. */
+/**
+ * Fill in a person from the wider population (two-level population): their
+ * whole household leaves the counts and becomes full people, with the same
+ * records the counts held: names, birth dates, past, traits and the job the
+ * employer's books count. Their share of the residents' cash moves to them,
+ * their jobs become scheduled work on the employer's pay cadence, and their
+ * household purchases become their own contracts, and retirees are paid
+ * their own award; the merged flows shrink by the same amounts. Returns the
+ * person.
+ */
+export function fillInPerson(core: CoreState, personId: PersonId): PersonState {
+  const existing = core.people.get(personId);
+  if (existing) return existing;
+  const record = takeResidentHousehold(core, personId);
+  if (!record) throw new Error(`Not in the wider population: ${personId}`);
+  const api = coreAPI(core);
+  const home = record.household;
+  if (core.households.has(home.id))
+    throw new Error(`Household already present: ${home.id}`);
+  core.households.set(home.id, { ...home, memberIds: [...home.memberIds] });
+  const jobs = new Map(record.jobs.map((row) => [row.id, row]));
+  // Ties to people still counted become husks, met and filled in later.
+  const husk = (id: PersonId) => {
+    if (core.people.has(id) || core.husks.has(id)) return;
+    const other =
+      record.people.find((row) => row.id === id) ?? residentPerson(core, id);
+    if (!other) return;
+    core.husks.set(id, {
+      id,
+      givenName: other.givenName,
+      familyName: other.familyName,
+      placeId: other.placeId,
+      ...(other.countyId ? { countyId: other.countyId } : {}),
+      looks: { ...(other.looks ?? {}) },
+      said: [...(other.said ?? [])],
+      birthDate: other.birthDate,
+      familyIds: [...other.familyIds],
+      source: other.source,
+    });
+  };
+  const admitted: PersonState[] = [];
+  for (const row of record.people) {
+    core.husks.delete(row.id);
+    const recorded = row.jobId ? jobs.get(row.jobId) : undefined;
+    // The counted job as it stands today (pay may have changed since the opening).
+    const job = recorded
+      ? (countedJob(core, recorded.id) ?? recorded)
+      : undefined;
+    const active = recorded
+      ? countedJob(core, recorded.id) !== undefined
+      : false;
+    admitted.push(
+      admitPerson(core, {
+        ...row,
+        liquidMinor: 0,
+        ...(active ? {} : { jobId: undefined }),
+      }),
+    );
+    if (job && active) {
+      core.jobs.set(job.id, { ...job });
+      financeIndex(core.finance.jobsByOrganization, job.organizationId, job.id);
+    }
+  }
+  // Adults leave their counted voter group; they now vote by name.
+  const groups = voterGroups(core);
+  for (const row of record.people) {
+    const id = countedVoterGroupId(
+      record.household.placeId,
+      row.birthDate,
+      core.date,
+    );
+    const group = id ? groups.get(id) : undefined;
+    if (group && group.size > 0) groups.put({ ...group, size: group.size - 1 });
+  }
+  // Their economic life moves from the merged flows to their own records.
+  const released = releaseResidentHousehold(core, record);
+  if (released.accountId) {
+    const accounts = api.accounts(),
+      from = accounts.main(released.accountId),
+      pool = accounts.balance(from),
+      household = record.people.reduce((n, row) => n + row.liquidMinor, 0);
+    for (const row of record.people) {
+      const amount =
+        household > 0
+          ? Math.floor(
+              (pool * released.cashShare * row.liquidMinor) / household,
+            )
+          : 0;
+      if (amount > 0)
+        accounts.transfer({
+          id: `fill-in:${row.id}:cash`,
+          from,
+          to: accounts.main(row.id),
+          amountMinor: amount,
+          reasonKey: "residents.fill-in.cash",
+          source: row.source,
+        });
+    }
+  }
+  for (const commitment of record.workCommitments) {
+    const job = core.jobs.get(commitment.jobId);
+    const original = commitment.payrollCalendarId
+      ? released.calendars.get(commitment.payrollCalendarId)
+      : undefined;
+    if (!job || job.endsAt !== undefined || !original) continue;
+    const calendarId = `${original.id}:filled:${commitment.id}`;
+    api.addWorkCommitment({
+      ...commitment,
+      startsAt: makeIsoDate(core.date),
+      hourlyMinor: job.hourlyMinor ?? commitment.hourlyMinor,
+      payrollCalendarId: calendarId,
+    });
+    api.addWorkPayrollCalendar({
+      ...original,
+      id: calendarId,
+      workCommitmentIds: [commitment.id],
+      basisRecordIds: [job.organizationId, job.id, commitment.id],
+      effectiveFrom: makeIsoDate(core.date),
+    });
+  }
+  for (const contract of record.contracts) {
+    if (contract.recipientIncome) continue; // paid by the residents engine's own flow
+    const day = Number(contract.dueAt.slice(8, 10));
+    let dueAt = makeIsoDate(contract.dueAt);
+    while (dueAt <= core.date) {
+      const next = new Date(`${dueAt}T00:00:00.000Z`);
+      next.setUTCDate(1);
+      next.setUTCMonth(next.getUTCMonth() + contract.periodMonths);
+      const last = new Date(
+        Date.UTC(next.getUTCFullYear(), next.getUTCMonth() + 1, 0),
+      ).getUTCDate();
+      next.setUTCDate(Math.min(day, last));
+      dueAt = makeIsoDate(next.toISOString().slice(0, 10));
+    }
+    api.addFinanceContract({
+      ...contract,
+      dueAt,
+      householdPurchaseCalendar: undefined,
+    });
+  }
+  // Full people who already name a newcomer as family (it was their husk).
+  const newcomers = new Set(admitted.map((actor) => actor.id));
+  for (const other of core.people.values())
+    if (!newcomers.has(other.id))
+      for (const id of other.familyIds)
+        if (newcomers.has(id)) {
+          core.people.get(id)!.familyIds.add(other.id);
+          const relationshipId = [other.id, id].sort().join(":");
+          if (!core.relationships.has(relationshipId))
+            api.relationship(
+              other.id,
+              id,
+              "family",
+              api.parameter("relationInitial"),
+            );
+        }
+  for (const actor of admitted) {
+    for (const id of [...actor.familyIds, ...actor.knownIds]) husk(id);
+    for (const id of actor.familyIds)
+      if (core.people.has(id)) {
+        const relationshipId = [actor.id, id].sort().join(":");
+        if (!core.relationships.has(relationshipId))
+          api.relationship(
+            actor.id,
+            id,
+            "family",
+            api.parameter("relationInitial"),
+          );
+      }
+    for (const id of actor.knownIds) {
+      const other = core.people.get(id) ?? core.husks.get(id);
+      if (!other) continue;
+      api.observe(actor.id, {
+        key: `person:${id}:name`,
+        value: `${other.givenName} ${other.familyName}`,
+        ...initialNameProvenance(core, actor, id),
+        access: "perceived",
+      });
+    }
+    const job = actor.jobId ? core.jobs.get(actor.jobId) : undefined;
+    if (job) {
+      api.observe(actor.id, {
+        key: `job:${job.id}:pay`,
+        value: String(job.wageDailyMinor),
+        learnedAt: core.date,
+        sourceId: job.id,
+        access: "self",
+      });
+      api.observe(actor.id, {
+        key: `organization:${job.organizationId}:public`,
+        value: job.organizationId,
+        learnedAt: core.date,
+        sourceId: job.id,
+        access: "perceived",
+      });
+    }
+  }
+  return core.people.get(personId)!;
+}
+
+/** A recorded identity from another engine (e.g. an officeholder in GOV's offices table). */
+export interface RecordedIdentity {
+  id: PersonId;
+  givenName: string;
+  familyName: string;
+  birthDate: IsoDate;
+  placeId: PlaceId;
+  countyId?: PlaceId;
+  gender?: string;
+  party?: string;
+  seatKey?: string;
+  source: Source;
+}
+
+/**
+ * Fill in a named person who exists only as a recorded identity (state and
+ * federal officials): a full person in their own household at their place,
+ * with their identity, party and seat as past facts. Traits stay neutral until
+ * PEOPLE's builder supplies them (stopgap SG-CORE-identity-fill-in-traits).
+ * Returns the existing person if already full.
+ */
+export function fillInIdentity(
+  core: CoreState,
+  identity: RecordedIdentity,
+): PersonState {
+  const existing = core.people.get(identity.id);
+  if (existing) return existing;
+  if (takeResidentHousehold(core, identity.id))
+    throw new Error("A counted resident is filled in with fillInPerson.");
+  coreAPI(core).stopgap("SG-CORE-identity-fill-in-traits");
+  makeIsoDate(identity.birthDate);
+  const householdId = `household:${identity.id}`;
+  if (core.households.has(householdId))
+    throw new Error(`Identity household already present: ${householdId}`);
+  core.households.set(householdId, {
+    id: householdId,
+    placeId: identity.placeId,
+    memberIds: [identity.id],
+    source: identity.source,
+  });
+  core.husks.delete(identity.id);
+  const facts: NonNullable<PersonInput["pastFacts"]>[number][] = [
+    ...(identity.party
+      ? [
+          {
+            id: `${identity.id}:party`,
+            date: core.date,
+            kind: "identity:party",
+            summary: identity.party,
+            source: identity.source,
+            facts: { party: identity.party },
+          },
+        ]
+      : []),
+    ...(identity.seatKey
+      ? [
+          {
+            id: `${identity.id}:seat`,
+            date: core.date,
+            kind: "identity:seat",
+            summary: identity.seatKey,
+            source: identity.source,
+            facts: { seatKey: identity.seatKey },
+          },
+        ]
+      : []),
+  ];
+  return admitPerson(core, {
+    id: identity.id,
+    givenName: identity.givenName,
+    familyName: identity.familyName,
+    birthDate: identity.birthDate,
+    placeId: identity.placeId,
+    ...(identity.countyId ? { countyId: identity.countyId } : {}),
+    householdId,
+    tier: "monthly",
+    traits: {},
+    liquidMinor: 0,
+    livingCostDailyMinor: 0,
+    source: identity.source,
+    familyIds: [],
+    knownIds: [],
+    ...(identity.gender ? { looks: { gender: identity.gender } } : {}),
+    pastFacts: facts,
+  });
+}
+
 export function promoteHusk(core: CoreState, input: PersonInput): PersonState {
   const husk = core.husks.get(input.id);
   if (!husk) throw new Error("Promotion requires a recorded husk.");

@@ -111,12 +111,25 @@ function adoptFromPrefix<V>(
   return null;
 }
 
+// Every recent list, so a finished build can let go of the arrays they hold.
+const RECENT_LISTS = new Set<(readonly unknown[])[]>();
+
 function remember(
   recent: (readonly unknown[])[],
   records: readonly unknown[],
 ): void {
+  RECENT_LISTS.add(recent);
   recent.push(records);
   if (recent.length > RECENT_LIMIT) recent.shift();
+}
+
+/**
+ * Forget the recently indexed arrays. They only let a later build extend an
+ * index instead of rebuilding it; holding them after a world is built keeps
+ * that whole (temporary) world alive.
+ */
+export function releaseRecentHistory(): void {
+  for (const recent of RECENT_LISTS) recent.length = 0;
 }
 
 /**

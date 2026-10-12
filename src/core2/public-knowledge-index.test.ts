@@ -19,6 +19,7 @@ const source: Source = {
   asOf: date,
   citation:
     "Small authored knowledge/order boundary fixture; no observed person or institution.",
+  estimatedFrom: "Authored fixture terms only; no observed record.",
 };
 
 function fixture(samePlace = false): CoreInput {
