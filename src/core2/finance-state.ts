@@ -725,6 +725,21 @@ export function prepareFinanceProcurement(
   }
 }
 
+/** core2-api-v16: a payment made between due dates (through the ledger) reduces a standing obligation's recorded arrears. */
+export function reduceStandingArrears(
+  core: CoreState,
+  api: CoreAPI,
+  id: string,
+  paidMinor: number,
+): void {
+  const row = core.finance.contracts.get(id);
+  minor(api, paidMinor, "arrears payment");
+  if (!row || !row.accruesArrears || paidMinor > row.arrearsMinor)
+    throw new Error("An arrears payment cannot exceed what is owed.");
+  row.arrearsMinor -= paidMinor;
+  if (row.arrearsMinor === api.parameter("zero")) delete row.firstUnpaidAt;
+}
+
 /** core2-api-v15: a standing obligation's amount changes from its next due date (a lease renewal); past bills and arrears stay. */
 export function setStandingContractAmount(
   core: CoreState,

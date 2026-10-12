@@ -12,6 +12,7 @@ import housingData from "../data/housing/housing.json" with { type: "json" };
 import housingParameters from "../data/housing/parameters.json" with { type: "json" };
 import type { Parameter } from "../parameters";
 import { stopgap } from "../stopgaps";
+import { transferCash } from "../world-transfer";
 import type { FinanceContractInput } from "../finance-types";
 import { regionalLevel, regionalRegistered } from "./regional";
 import type {
@@ -319,6 +320,34 @@ function review(api: CoreAPI): void {
   }
 }
 
+/** The household's members pay toward the lease's arrears from their cash, largest balance first. */
+function payArrears(api: CoreAPI, leaseId: string, owed: number): number {
+  const c = core(api),
+    lease = c.finance.contracts.get(leaseId)!;
+  let paid = 0;
+  for (const id of [...lease.payerIds].sort(
+    (a, b) =>
+      (c.people.get(b)?.liquidMinor ?? 0) - (c.people.get(a)?.liquidMinor ?? 0),
+  )) {
+    if (paid >= owed) break;
+    paid += transferCash(
+      api,
+      `arrears:${leaseId}:${c.date}:${id}`,
+      id,
+      lease.payeeId,
+      owed - paid,
+      {
+        tag: "ESTIMATED",
+        asOf: c.date,
+        citation: housingData.source.citation,
+        estimatedFrom: `Rent owed on ${leaseId}, paid within the notice period.`,
+      },
+    );
+  }
+  if (paid > 0) api.reduceStandingArrears(leaseId, paid);
+  return paid;
+}
+
 function step(api: CoreAPI, caseId: string, kind: string): void {
   const c = core(api);
   const row = store(api).table("cases").get(caseId) as unknown as {
@@ -338,7 +367,10 @@ function step(api: CoreAPI, caseId: string, kind: string): void {
       .table("cases")
       .put({ ...row, ...changes });
   if (kind === "housing-cure-deadline") {
-    if (owed <= 0 && row.law.cureAllowed)
+    // The household pays what it can of what it owes before the deadline (after its payday), through the ledger.
+    const paid = row.law.cureAllowed ? payArrears(api, row.leaseId, owed) : 0;
+    const remaining = owed - paid;
+    if (remaining <= 0 && row.law.cureAllowed)
       return put({
         open: false,
         stage: "cured",

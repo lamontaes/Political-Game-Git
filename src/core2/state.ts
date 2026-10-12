@@ -31,6 +31,7 @@ import {
   attachBusinessCredit,
   endStandingContract,
   setStandingContractAmount,
+  reduceStandingArrears,
   admitBusinessBooks,
   admitFinanceCondition,
   settleFinanceContract,
@@ -821,6 +822,9 @@ export function coreAPI(core: CoreState): CoreAPI {
     },
     addCreditFacility(row) {
       admitCreditFacility(core, api, row);
+    },
+    reduceStandingArrears(id, paidMinor) {
+      reduceStandingArrears(core, api, id, paidMinor);
     },
     setStandingContractAmount(id, amountMinor) {
       setStandingContractAmount(core, api, id, amountMinor);

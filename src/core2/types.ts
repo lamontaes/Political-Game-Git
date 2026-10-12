@@ -982,6 +982,8 @@ export interface CoreAPI {
   addFinanceContract(input: FinanceContractInput): void;
   addFinanceCondition(input: FinanceConditionInput): void;
   addCreditFacility(input: CreditFacilityInput): void;
+  /** core2-api-v16: reduces recorded arrears by a payment already moved through the ledger. */
+  reduceStandingArrears(contractId: string, paidMinor: number): void;
   /** core2-api-v15: a standing obligation's amount from its next due date. */
   setStandingContractAmount(contractId: string, amountMinor: number): void;
   /** core2-api-v14: a standing obligation stops billing today; its arrears stay owed. */
