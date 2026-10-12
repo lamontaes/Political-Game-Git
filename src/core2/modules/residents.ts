@@ -335,6 +335,16 @@ function settle(api: CoreAPI, rt: ResidentsRuntime, flow: FlowState): void {
     return end(flow, date, "payee-closed");
   }
   let base = flow.amountMinor;
+  const earnedDays = flow.earnedDaysByDue?.[date];
+  if (earnedDays !== undefined && flow.perDayMinorByJob) {
+    // A payday at the opening pays only the days worked since it.
+    let perDay = 0;
+    for (const value of Object.values(flow.perDayMinorByJob)) perDay += value;
+    base = Math.round(perDay * earnedDays);
+    const rest = { ...flow.earnedDaysByDue };
+    delete rest[date];
+    flow.earnedDaysByDue = rest;
+  }
   if (flow.kind === "outside-costs" && payerBook) {
     // Supplies follow sales: the firm accrues its booked cost share of what it
     // takes in; whatever it hasn't bought from local suppliers (running totals,
