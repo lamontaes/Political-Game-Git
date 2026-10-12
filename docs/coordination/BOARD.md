@@ -40,6 +40,12 @@ The whole game gets built, not just tonight's list (owner, Oct 12; "No stopping"
 - **M7-05 Legal check:** no real politicians anywhere; real places, schools and institutions, data, photo and art licenses checked and listed.
 - **Specs marked "anyone free"** in `docs/roadmap/later-specs-draft.md` (staff, interest groups, constituent cases, other governments legislating, Congress and president), when their owner hasn't started them: check the owner's status file on its branch first.
 
+## Open stand-ins
+
+The CTO lists every registered stand-in here, by session, at each check-in (owner, Oct 12): what it fakes and which session's work replaces it.
+
+None yet.
+
 ## Open requests between sessions
 
 None yet.
