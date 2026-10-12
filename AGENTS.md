@@ -56,6 +56,11 @@ Every package names its model and effort with a one-line reason. Balance usage a
 - **The Claude engineering account builds with Sonnet at high** by default, and **Opus at high** for judgment-heavy design.
 - **Checkers run on Sonnet at high** when needed: playing the evening build and investigating a disputed result. **Opus at high** only for a judgment-heavy dispute. **Max** only after high has failed at a named task. Medium is fine for small, clear fixes.
 - **Helpers:** none by default. At most two for Codex (the repository setting) and three for Claude, and only when the work splits cleanly: independent research, reading many files, or a fresh-context review. Each gets a clear objective, an output format, allowed paths and tools, and is read-only unless the package says otherwise.
+- **Pillars may build with sub-agents (owner, Oct 12, 2026, 10:30 a.m.).** Each pillar session may run its own Sonnet or Opus sub-agents that write code, choosing what fits: a Sonnet sub-agent fixing bugs while an Opus one builds the next roadmap step, two Opus sub-agents splitting a big build to finish it faster, or Sonnet only when the work doesn't need Opus. The rules:
+  - each sub-agent works on its own files or in its own worktree, inside the pillar's own area, so two never edit the same file;
+  - the pillar gives each a clear task, its allowed paths and its check (a test in a random place), then reviews and merges the result into its branch;
+  - sub-agents follow every rule here (no hand-written player text, registered stopgaps, the guards) and never edit another session's area;
+  - the pillar's status file says which sub-agents ran, on what model, and what they finished.
 - **One package per session**, then a fresh session. The pillars are the exception: they're long-lived, automatic compaction carries their context, and their status file carries their state. Stop and report instead of escalating when something keeps failing.
 - **Track what each choice costs.** Every hand-off records the model and effort, how long it took, usage if visible, and how many times the finisher sent it back (and why). The CTO keeps `docs/roadmap/model-log.md` and adjusts defaults from it: a cheaper, faster setup that needs a few more send-backs is fine (owner, Oct 10).
 
