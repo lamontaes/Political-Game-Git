@@ -48,6 +48,18 @@ function input(): CoreInput {
     person(id, 1_000 * (i + 1), i * 2),
   );
   const people = [...workers, ...seekers];
+  const pastJobs = seekers.map((w) => ({
+    id: `job:past:${w.id}`,
+    personId: w.id,
+    organizationId: employer,
+    title: "Clerk",
+    occupationClassification: "trade:clerk",
+    hourlyMinor: 1_400,
+    hoursDaily: 8,
+    wageDailyMinor: 11_200,
+    endsAt: "2020-11-30",
+    source: src(),
+  }));
   const jobs = workers.map((w) => ({
     id: `job:${w.id}`,
     personId: w.id,
@@ -72,7 +84,7 @@ function input(): CoreInput {
       memberIds: [row.id],
       source: src(),
     })),
-    jobs,
+    jobs: [...jobs, ...pastJobs],
     organizations: [
       {
         id: employer,
