@@ -127,6 +127,9 @@ async function renderCard() {
 
 // Control names for the choice buttons, loaded once.
 let controls = {};
+/** A policy question by its name on the bill catalog, else its key's last part. */
+const policyLabel = (question) =>
+  controls.policyNames?.[question] ?? question.split(":").pop();
 api("/api/controls").then((value) => (controls = value));
 
 function renderPacket(value) {
@@ -417,7 +420,7 @@ function renderFilingOverlay(value) {
       el(
         "div",
         { className: "row" },
-        el("b", { textContent: question.split(":").pop() }),
+        el("b", { textContent: policyLabel(question) }),
         el(
           "select",
           { name: question },
@@ -479,7 +482,7 @@ async function campaignRows() {
       "select",
       {},
       ...v.questions.map((q) =>
-        el("option", { value: q, textContent: q.split(":").pop() }),
+        el("option", { value: q, textContent: policyLabel(q) }),
       ),
     );
     const side = el(
@@ -667,7 +670,7 @@ async function seatRows() {
       ...v.questions.map((q) =>
         el("option", {
           value: `question:${q}`,
-          textContent: q.split(":").pop(),
+          textContent: policyLabel(q),
         }),
       ),
     );
@@ -711,7 +714,7 @@ async function seatRows() {
         bill.provisions
           .map(
             (p) =>
-              `${p.series ?? p.question?.split(":").pop() ?? p.line} ${p.value}`,
+              `${p.series ?? (p.question && policyLabel(p.question)) ?? p.line} ${p.value}`,
           )
           .join("; "),
         bill.costEstimate
@@ -814,7 +817,7 @@ const sheets = {
         .filter((e) => !e.endedOn)
         .map((e) =>
           row(
-            e.question.split(":").pop(),
+            policyLabel(e.question),
             `${e.what} · ${e.enforcer} · ${e.since}`,
           ),
         ),
@@ -1150,7 +1153,7 @@ const sheets = {
         "div",
         { className: "row narrative" },
         el("b", {
-          textContent: `${law.date} · ${law.series.split(":").pop()} · ${law.was !== null ? `${amount(law.was, law.unit)} → ` : ""}${amount(law.value, law.unit)}`,
+          textContent: `${law.date} · ${policyLabel(law.series)} · ${law.was !== null ? `${amount(law.was, law.unit)} → ` : ""}${amount(law.value, law.unit)}`,
         }),
         [
           `${law.jurisdiction} · ${law.reached}`,

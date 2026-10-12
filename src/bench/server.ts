@@ -38,7 +38,7 @@ import type { CoreState } from "../core2/types";
 import { benchProgress } from "./progress";
 import { townPlaces, visitPlace } from "./places";
 import { lawChanges } from "./changes";
-import { choiceName } from "./words";
+import { choiceName, policyNames } from "./words";
 import controls from "./data/controls.json" with { type: "json" };
 import { playerApiReadiness } from "./api-readiness";
 
@@ -334,7 +334,7 @@ const server = createServer(async (request, response) => {
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/controls") {
-      send(200, controls);
+      send(200, { ...controls, policyNames: policyNames() });
       return;
     }
     if (request.method === "GET" && url.pathname === "/api/progress") {

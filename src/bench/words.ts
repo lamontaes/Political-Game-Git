@@ -2,6 +2,7 @@
 import { JOURNAL_DATA } from "../director/journal";
 import { properName } from "../director/words";
 import type { CoreState } from "../core2/types";
+import billCatalog from "../core2/data/legislature/bill-catalog.json" with { type: "json" };
 import choiceBank from "../../data/english/parts/choice-names.json" with { type: "json" };
 
 /** "aunt", "brother": the English engine's relation word for a kin key and the other person's look. */
@@ -64,4 +65,20 @@ export function choiceName(
     key: part.key,
     text: part.text.replace(SLOT, () => targetName ?? ""),
   };
+}
+
+/** Each policy question's name on OPUS-GOV's bill catalog ("Limit groundwater withdrawal"). */
+export function policyNames(): Record<string, string> {
+  const names: Record<string, string> = {};
+  const walk = (value: unknown): void => {
+    if (Array.isArray(value)) value.forEach(walk);
+    else if (value && typeof value === "object") {
+      const row = value as { kind?: string; name?: string; question?: string };
+      if (row.kind === "policy-question" && row.name && row.question)
+        names[row.question] = row.name[0]!.toUpperCase() + row.name.slice(1);
+      Object.values(value).forEach(walk);
+    }
+  };
+  walk(billCatalog);
+  return names;
 }
