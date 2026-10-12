@@ -33,6 +33,7 @@ import {
   platformAgreement,
   type Stance,
 } from "../campaign-views";
+import { recordAppeal } from "./record";
 import {
   ELECTIONS_MODULE_ID,
   type ContestRow,
@@ -811,16 +812,32 @@ export function runAd(
     : campaign;
   const causes: CauseRow[] = [];
   for (const { p } of viewers) {
+    // An attack ad shows the viewer the rival's record at its worst for them:
+    // the votes they disagree with and the promises broken. A clean record
+    // gives it nothing to show.
+    const attack = input.attackFilingId
+      ? recordAppeal(
+          api,
+          p,
+          target.candidateId,
+          personLean(api.state.people, p, townRow(api).lean),
+          true,
+        ).reasons.filter((r) => r.effect < 0)
+      : null;
+    if (attack && !attack.length) continue;
     const cause = reach(
       api,
       target,
       p.id,
-      input.attackFilingId ? "attack-ad" : "ad",
+      attack ? "attack-ad" : "ad",
       campaign.candidateId,
       {
-        carriesPlatform: true,
+        carriesPlatform: !attack,
         weight: campaignParameter("adWarmthWeight"),
         rapport: 0,
+        ...(attack
+          ? { target: clamp(attack.reduce((sum, r) => sum + r.effect, 0)) }
+          : {}),
       },
     );
     if (cause) causes.push(cause);

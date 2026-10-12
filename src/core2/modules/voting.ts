@@ -42,6 +42,7 @@ import { OFFICES_MODULE_ID, type TermRow } from "./offices";
 import type { SeatInput } from "../offices-state";
 import { drawOfficialIdentity } from "../officials-identity";
 import { partiesHere, partyTie } from "./parties";
+import { recordAppeal, type RecordReason } from "./record";
 
 const slug = (name: string) => name.toLowerCase().replace(/[^a-z]+/g, "-");
 
@@ -76,6 +77,8 @@ export interface BallotRow {
   >;
   /** What they told the exit pollster. */
   readonly toldPollster: string | null;
+  /** Each incumbent's record as this voter weighed it, by candidate. */
+  readonly recordReasons?: Readonly<Record<string, readonly RecordReason[]>>;
 }
 
 export interface ResultRow {
@@ -245,6 +248,7 @@ function appealFor(
   filings: readonly FilingRow[],
 ) {
   const lean = personLean(api.state.people, voter, townLean(api));
+  const recordReasons: Record<string, readonly RecordReason[]> = {};
   const appeal: Record<
     string,
     {
@@ -268,9 +272,15 @@ function appealFor(
         ? campaignParameter("partyLoyaltyWeight")
         : 0;
     const party = (facts.party ? lean * partySide(facts.party) : 0) + loyal;
-    // The incumbent's record (votes, promises kept or broken) is read by the
-    // record engine, golden path step 11; until then it adds nothing.
-    const record = 0;
+    // The incumbent's record (votes, promises kept or broken), weighed by a
+    // voter who knows the officeholder (golden path step 11).
+    const knows =
+      voter.knownIds.has(filing.personId) || (impression?.heardOf ?? false);
+    const weighed = facts.isIncumbent
+      ? recordAppeal(api, voter, filing.personId, lean, knows)
+      : { total: 0, reasons: [] };
+    const record = weighed.total;
+    recordReasons[filing.personId] = weighed.reasons;
     appeal[filing.personId] = {
       total: warmth + (agreement ?? 0) + party + record,
       warmth,
@@ -279,7 +289,7 @@ function appealFor(
       record,
     };
   }
-  return { appeal, lean };
+  return { appeal, lean, recordReasons };
 }
 
 /** Whether a named adult votes: their sense of duty and interest in this race against what it costs them that day. */
@@ -500,7 +510,12 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
     [];
   let voted = 0;
   for (const voter of named) {
-    const { appeal, lean } = appealFor(api, voter, contest, filings);
+    const { appeal, lean, recordReasons } = appealFor(
+      api,
+      voter,
+      contest,
+      filings,
+    );
     const t = turnout(api, voter, appeal);
     const ranked = Object.entries(appeal).sort(
       (a, b) => b[1].total - a[1].total || a[0].localeCompare(b[0]),
@@ -542,6 +557,7 @@ export function holdElection(api: CoreAPI, contestId: string): ResultRow {
       choice,
       appeal,
       toldPollster: told,
+      recordReasons,
     } as unknown as ModuleRow);
   }
   const { groupVotes, electorate } = groupVote(

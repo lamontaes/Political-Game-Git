@@ -143,6 +143,24 @@
       "tag": "TUNABLE",
       "source": "How much a voter's own party tie adds to its candidate's appeal, beside their lean. Checked against party-line voting: about 95% of party identifiers voted for their party's presidential nominee in 2024 (Pew validated voters).",
       "spread": [0.2, 1]
+    },
+    "recordVoteWeight": {
+      "value": 0.3,
+      "tag": "TUNABLE",
+      "source": "How much each vote on the record moves a voter who knows the officeholder, toward or away by how close the vote sits to their own view. Checked against roll-call accountability studies (Canes-Wrone, Brady and Cogan 2002: members out of step with their districts lose a few points of vote share).",
+      "spread": [0.1, 0.5]
+    },
+    "keptPromiseWeight": {
+      "value": 0.2,
+      "tag": "TUNABLE",
+      "source": "How much a kept promise the voter agreed with adds. Checked against promise-keeping experiments (Bonilla 2022: voters reward kept promises modestly).",
+      "spread": [0.05, 0.4]
+    },
+    "brokenPromiseWeight": {
+      "value": -0.4,
+      "tag": "TUNABLE",
+      "source": "How much a broken promise the voter agreed with takes away; larger than a kept one (negativity bias: Soroka 2014; Bonilla 2022).",
+      "spread": [-0.8, -0.1]
     }
   }
 }
