@@ -144,3 +144,34 @@ export function shiftPurchaseShare(
   }
   return moved;
 }
+
+const outsideBases = new WeakMap<CoreState, Map<string, number>>();
+
+/**
+ * Buyers outside the town follow the nation and region: each place's
+ * `outside-sales` flow is its opening amount times `factor` (prices times
+ * real demand against the opening month). Returns the flows changed.
+ */
+export function scaleOutsideSales(
+  core: CoreState,
+  placeId: string,
+  factor: number,
+): number {
+  const rt = residentsRuntime(core);
+  if (!rt || !(factor > 0)) return 0;
+  let bases = outsideBases.get(core);
+  if (!bases) outsideBases.set(core, (bases = new Map()));
+  let changed = 0;
+  for (const flow of rt.flows.values()) {
+    if (
+      flow.kind !== "outside-sales" ||
+      flow.endedAt ||
+      flow.placeId !== placeId
+    )
+      continue;
+    if (!bases.has(flow.id)) bases.set(flow.id, flow.amountMinor);
+    flow.amountMinor = Math.round(bases.get(flow.id)! * factor);
+    changed += 1;
+  }
+  return changed;
+}

@@ -1,6 +1,7 @@
 /** One year of the whole economy on the two-level world in a drawn place: the numbers each M1 economy spec checks. */
 import { performance } from "node:perf_hooks";
 import { advanceCore, createLifeCore } from "../life";
+import { residentsRuntime } from "../modules/residents";
 import { checkBands, type MacroMonth } from "../macro-model";
 import {
   WORLD_MODULES,
@@ -27,6 +28,11 @@ const cashNow = () =>
     0,
   );
 const opening = cashNow();
+const outsideSales = () =>
+  [...(residentsRuntime(core)?.flows.values() ?? [])]
+    .filter((flow) => flow.kind === "outside-sales" && !flow.endedAt)
+    .reduce((n, flow) => n + flow.amountMinor, 0);
+const outsideSalesOpening = outsideSales();
 const t1 = performance.now();
 const end = new Date(`${input.startedAt}T00:00:00Z`);
 end.setUTCFullYear(end.getUTCFullYear() + 1);
@@ -65,6 +71,10 @@ console.log(
       yearSeconds: Math.round((performance.now() - t1) / 1000),
       everyDollarBalances: cashNow() === opening - outsideNet,
       townCash: { opening, closing: cashNow(), outsideNet },
+      outsideBuyersWeekly: {
+        opening: outsideSalesOpening,
+        closing: outsideSales(),
+      },
       national: {
         bandRows: bands.length,
         outside: bands.filter((row) => !row.inside).length,

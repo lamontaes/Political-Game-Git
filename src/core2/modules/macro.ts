@@ -35,6 +35,7 @@ import {
 } from "../macro-model";
 import type { Parameter } from "../parameters";
 import { JOBS_PARAMETERS } from "./jobs";
+import { scaleOutsideSales } from "../residents-economy";
 import {
   REGIONAL_PARAMETERS,
   openRegional,
@@ -144,18 +145,22 @@ function publishConditions(
     const region = regional
       ? regionalFactors(api, placeId, opening, row)
       : { wage: one, demand: one };
+    const prices = row.priceIndex / opening.priceIndex,
+      demand =
+        ((one + row.outputGapPct / hundred) /
+          (one + opening.outputGapPct / hundred)) *
+        region.demand;
+    // Buyers outside the town spend with the nation's prices and the region's demand.
+    scaleOutsideSales(api.state as CoreState, placeId, prices * demand);
     api.addFinanceCondition({
       id: `macro-condition:${placeId}:${api.state.date}`,
       placeId,
       at: api.state.date,
-      generalPriceFactor: row.priceIndex / opening.priceIndex,
+      generalPriceFactor: prices,
       wagePriceFactor:
         (row.hourlyEarnings / opening.hourlyEarnings) * region.wage,
       // Demand outside the town: national output against its trend, relative to the opening month.
-      macroDemandFactor:
-        ((one + row.outputGapPct / hundred) /
-          (one + opening.outputGapPct / hundred)) *
-        region.demand,
+      macroDemandFactor: demand,
       source: dated(
         api,
         `National ${row.month}: prices, average hourly pay and output against trend, relative to ${state.openingMonth}${regional ? ", with the place's region's pay and jobs against the nation's" : ""}.`,
