@@ -152,7 +152,9 @@ describe("transition-aware release declarations", { timeout: 120_000 }, () => {
     const fixture = historyFixture();
     try {
       fixture.run("checkout", "-q", "-b", "status", fixture.rollout);
-      mkdirSync(join(fixture.root, "docs", "coordination"), { recursive: true });
+      mkdirSync(join(fixture.root, "docs", "coordination"), {
+        recursive: true,
+      });
       writeFileSync(
         join(fixture.root, "docs", "coordination", "BOARD.md"),
         "# Board\n",
