@@ -428,7 +428,7 @@
     "why": "The canonical opening population preserves household/family links and dated school proxies but supplies no cross-household named school-peer acquaintance generator. The observed selected opening circle had three actors and all inspected adult/job candidates had at most six.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance.",
+    "replacement": "Admit sourced personal acquaintance histories where available; otherwise calibrate explicit generated school/community social priors and recognition persistence against appropriate network/cohort observables, retaining source uncertainty and named provenance. Oct 12 (OPUS-CORE sub-agent): openingPeerGroupSize now 20 (NCES NTPS 2020-21 class size, band 17-22); the stopgap stays open because a class is not a remembered-peer circle.",
     "status": "open"
   },
   {
@@ -500,7 +500,7 @@
     "why": "Sleep reserve is planned, not observed; full education/care/consumption/primary-activity diary is absent.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "ATUS age/employment primary activity totals and participant durations using compatible crosswalks and observed individual spreads.",
+    "replacement": "ATUS age/employment primary activity totals and participant durations using compatible crosswalks and observed individual spreads. Oct 12 (OPUS-CORE sub-agent): workSleepReserveHours now 9.03 (ATUS 2025 sleep mean); the stopgap stays open for workWakingRecoveryHours (stand-in 1, research suggests 5.16 as a different quantity).",
     "status": "open"
   },
   {
@@ -644,8 +644,8 @@
     "why": "An explicit opening generation prior is required. The linked population outcome cannot identify a parameter interval. No matching calibration has been executed.",
     "addedBy": "SOL-1258",
     "addedAt": "2026-10-09",
-    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting.",
-    "status": "open"
+    "replacement": "Matched external retirement/covered-work/claim/individual-award/liquid-stock observables with explicit population denominators and actual calibrated output; preserve finite accounting. Done Oct 12 (OPUS-CORE): the claim is now a decision inside Social Security's law bounds; this pull is one of its calibrated weights.",
+    "status": "resolved"
   },
   {
     "id": "SG-P8-param-openingRetirementCoveredFraction",
@@ -1361,5 +1361,17 @@
     "addedBy": "OPUS-WORLD",
     "addedAt": "2026-10-12",
     "replacement": "FHFA house price index by state and metro moving each place's values, and sellers who are the town's own owners moving or downsizing (M1-09)."
+  },
+  {
+    "id": "SG-CORE-social-security-ages-data",
+    "kind": "law-as-data",
+    "file": "src/core2/data/social-security-ages.json",
+    "line": 1,
+    "whatItFakes": "Social Security's earliest claim age, full retirement age by birth year and the age-70 end of delayed credits are read from a core data table, not from the law in force.",
+    "why": "The retirement claim became a decision within the law's bounds before GOV's laws module carries Social Security ages.",
+    "addedBy": "OPUS-CORE",
+    "addedAt": "2026-10-12",
+    "replacement": "GOV's Social Security ages as law in force (lawInForce), read at the claim date.",
+    "status": "open"
   }
 ]
