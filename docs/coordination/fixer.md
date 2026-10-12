@@ -24,6 +24,7 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
   - Verified by: A test that fails before the fix and passes after.
   - Needs: The owning pillar
 - [ ] **When no bug is assigned:** take open work from `BOARD.md` (write "Taking <item>" here first).
+  - Taking M7-05 Legal check (Oct 12): a listed audit of real people, places, schools, data and art licenses, in `docs/legal/`.
   - Verified by: That item's own test.
 
 ## Needs from other sessions
