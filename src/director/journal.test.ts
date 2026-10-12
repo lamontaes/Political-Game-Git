@@ -4,6 +4,7 @@ import { enrichCivicInputs } from "../core2/civic-inputs";
 import { buildDeepPast } from "../core2/deep-past";
 import { initialFocusPeople } from "../core2/focus";
 import { advanceCore, createLifeCore } from "../core2/life";
+import { applyCoreEvent } from "../core2/state";
 import { buildPopulation } from "../core2/population";
 import type { CoreState } from "../core2/types";
 import { composeJournal, composeLookBack, JOURNAL_DATA } from "./journal";
@@ -157,5 +158,47 @@ describe(`the journal in ${base.placeMetadata?.placeName} (seed ${seed})`, () =>
     } finally {
       person.alive = true;
     }
+  });
+
+  it("turns a law and the raise it brings into a moment and journal lines (M4-01)", () => {
+    const me = core.people.get(player.id)!;
+    const source = {
+      tag: "SOURCED" as const,
+      citation: "Fixture shaped like GOV's laws module.",
+      asOf: core.date,
+    };
+    // As GOV's laws module records them: the law for the town, the raise for the worker.
+    applyCoreEvent(core, {
+      id: "fixture-law-took-effect",
+      date: core.date,
+      kind: "law-took-effect",
+      personIds: [],
+      placeId: me.placeId,
+      publicRecord: true,
+      news: true,
+      source,
+      facts: { series: "minimum-wage", value: "15" },
+    });
+    applyCoreEvent(core, {
+      id: "fixture-raise",
+      date: core.date,
+      kind: "pay-raised-to-minimum-wage",
+      personIds: [player.id],
+      placeId: me.placeId,
+      source,
+      facts: { fromMinor: "1200", toMinor: "1500" },
+    });
+    advanceCore(core, addDays(makeIsoDate(core.date), 1));
+    const raise = director.ledger.people
+      .get(player.id)!
+      .moments.find((row) => row.causeId === "fixture-raise")!;
+    expect(
+      raise.channels.find((row) => row.channel === "money")!.raw,
+    ).toBeCloseTo(0.25);
+    const text = composeJournal(core, director, player.id).flatMap((row) =>
+      row.lines.map((line) => line.text),
+    );
+    expect(text).toContain("My pay went up to $15.00 an hour.");
+    expect(text).toContain("A new minimum wage took effect.");
   });
 });
