@@ -1,0 +1,148 @@
+/**
+ * M2-10 (first slice): in an election year every state and federal race
+ * resolves: the town's own races with named voters (voting.ts) and every
+ * other seat at the coarse level from its electorate's lean, the national
+ * environment and incumbency. Winners are seated on the real dates.
+ */
+import { createHash } from "node:crypto";
+import { describe, expect, it } from "vitest";
+import { govReport } from "./gov-test-report";
+import { buildPopulation } from "./population";
+import { advanceCore, createLifeCore } from "./life";
+import { coreAPI } from "./state";
+import { openLaws } from "./modules/laws";
+import { OFFICES_MODULE_ID, openOffices } from "./modules/offices";
+import { openElections } from "./modules/elections";
+import { openCampaigns } from "./modules/campaigns";
+import { openParties } from "./modules/parties";
+import { openVoting } from "./modules/voting";
+import {
+  FEDERAL_HOUSE,
+  FEDERAL_SENATE,
+  members,
+  openLegislature,
+} from "./modules/legislature";
+import { openWorldRaces, racesOf } from "./modules/world-races";
+import { partySide } from "./appointments";
+import {
+  lifePlaceCoverage,
+  lifePlaceSearch,
+  lifePlaceStateIdentities,
+} from "../simulation/life-places";
+
+const START = "2026-10-20";
+const seed =
+  process.env.GOLDEN_PATH_SEED ??
+  createHash("sha256").update(`world-races:${Date.now()}`).digest("hex");
+function pick<T>(list: readonly T[], salt: string): T {
+  const hash = createHash("sha256").update(`${seed}:${salt}`).digest("hex");
+  return list[parseInt(hash.slice(0, 8), 16) % list.length]!;
+}
+const states = [...lifePlaceStateIdentities()]
+  .map((s) => s.jurisdictionKey)
+  .sort();
+// Independents in Congress caucus with the Democrats.
+const sideOf = (party: string | null) =>
+  partySide(party) || (/independent/i.test(party ?? "") ? -1 : 0);
+const count = (rows: readonly { party: string | null }[]) => {
+  const out = { R: 0, D: 0, other: 0 };
+  for (const r of rows) {
+    const side = sideOf(r.party);
+    if (side > 0) out.R += 1;
+    else if (side < 0) out.D += 1;
+    else out.other += 1;
+  }
+  return out;
+};
+
+describe("M2-10 state and federal races in the world", () => {
+  it("every race this November resolves, and winners take their seats on the real dates", () => {
+    const state = pick(states, "state");
+    const places = [
+      ...lifePlaceSearch("", lifePlaceCoverage().placeCount, {
+        stateJurisdictionKey: state,
+        scope: "locality",
+      }),
+    ].sort((a, b) => a.key.localeCompare(b.key));
+    const key = pick(places, "place").key;
+    const core = createLifeCore(
+      buildPopulation({
+        seed,
+        placeKey: key,
+        startedAt: START,
+        minimumPeople: 120,
+      }),
+    );
+    openLaws(core);
+    openOffices(core, seed);
+    openElections(core);
+    openCampaigns(core);
+    openParties(core);
+    openVoting(core);
+    openLegislature(core);
+    openWorldRaces(core);
+    const api = coreAPI(core);
+    const houseBefore = count(members(api, FEDERAL_HOUSE));
+    const senateBefore = count(members(api, FEDERAL_SENATE));
+    advanceCore(core, "2026-11-04");
+    const races = racesOf(api);
+    // Every House seat outside the town's own district, and the Senate class up.
+    const house = races.filter((r) => r.office === "us-house");
+    const senate = races.filter((r) => r.office === "us-senate");
+    expect(house.length, `${state} ${key}`).toBeGreaterThanOrEqual(430);
+    expect(senate.length).toBeGreaterThanOrEqual(30);
+    for (const r of races) {
+      expect(r.date).toBe("2026-11-03");
+      expect(r.republicanShare).toBeCloseTo(
+        r.lean + r.environment + r.incumbency,
+        9,
+      );
+      if (r.republicanShare !== 0.5)
+        expect(sideOf(r.winnerParty)).toBe(r.republicanShare > 0.5 ? 1 : -1);
+    }
+    // Congress is seated January 3.
+    advanceCore(core, "2027-01-02");
+    const houseEve = count(members(api, FEDERAL_HOUSE));
+    expect(houseEve).toEqual(houseBefore);
+    advanceCore(core, "2027-01-04");
+    const houseAfter = count(members(api, FEDERAL_HOUSE));
+    const senateAfter = count(members(api, FEDERAL_SENATE));
+    // State legislative seats the town doesn't vote for were elected and seated.
+    const legislative = races.filter((r) =>
+      r.office.startsWith("legislature-"),
+    );
+    const terms = api.moduleState(OFFICES_MODULE_ID).table("terms");
+    for (const r of legislative.filter((x) => x.seatedOn <= "2027-01-04")) {
+      const serving = terms.query("bySeatStatus", [
+        r.seatId,
+        "serving",
+      ]) as unknown as { party: string; startDate: string }[];
+      expect(serving[0]?.party, r.seatId).toBe(r.winnerParty);
+    }
+    const flips = races.filter(
+      (r) => sideOf(r.winnerParty) !== sideOf(r.incumbentParty),
+    );
+    govReport(
+      "world-races",
+      JSON.stringify({
+        seed,
+        state,
+        place: key,
+        races: races.length,
+        house: house.length,
+        senate: senate.length,
+        legislative: legislative.length,
+        houseBefore,
+        houseAfter,
+        senateBefore,
+        senateAfter,
+        flips: flips
+          .map(
+            (r) =>
+              `${r.seatId}:${r.incumbentParty}->${r.winnerParty}:${r.republicanShare.toFixed(3)}`,
+          )
+          .slice(0, 25),
+      }),
+    );
+  });
+});

@@ -390,6 +390,24 @@
       "tag": "TUNABLE",
       "source": "How long after bringing a problem to an official a resident waits before bringing one again.",
       "spread": [60, 365]
+    },
+    "midtermSwing": {
+      "value": 0.025,
+      "tag": "ESTIMATED",
+      "source": "How far the president's party's two-party House share falls in a midterm: about 2 to 3 points on average since 1946 (the president's party lost House seats in 18 of 20 midterms; Gallup and the Brookings Vital Statistics on Congress).",
+      "spread": [0.01, 0.05]
+    },
+    "incumbencyShare": {
+      "value": 0.02,
+      "tag": "ESTIMATED",
+      "source": "The two-party vote share an incumbent's party gains from holding the seat: about 2 to 3 points in recent House elections, down from 6 to 8 in the 1980s (Jacobson, The Politics of Congressional Elections, 2020 edition).",
+      "spread": [0.01, 0.04]
+    },
+    "legislativeSeatMargin": {
+      "value": 0.12,
+      "tag": "ESTIMATED",
+      "source": "How far a state legislative district without a read result leans to its holder's party, in two-party share: the median state legislative general election margin is about 25 points (Ballotpedia, 'Margin of victory analysis for the 2024 state legislative elections'), so about 0.12 of share.",
+      "spread": [0.05, 0.2]
     }
   }
 }
