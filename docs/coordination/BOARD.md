@@ -12,6 +12,9 @@ Only the CTO writes this file. Each session keeps its own status file in this fo
 | OPUS-PLAY   | `play.md`   | `opus-play`, from `pool/M0-bench`                      | Opus, medium | Mon Oct 12, 3 a.m. |
 | OPUS-WORLD  | `world.md`  | `opus-world`, from `pool/M1-macro`                     | Opus, medium | Mon Oct 12, 3 a.m. |
 | FIXER       | `fixer.md`  | `fixer/<bug>`, one per bug                             | Sonnet, high | Mon Oct 12, 3 a.m. |
+| OPUS-TRAITS | `traits.md` | `opus-traits`, from `pool/P15-people-5` + `main`       | Opus, high   | Mon Oct 12         |
+
+OPUS-TRAITS owns data/content/trait-act-pulls.json and trait coverage (from Oct 12).
 
 All six start at 3:07 a.m. Monday from one-off routines on the coordinator account.
 
