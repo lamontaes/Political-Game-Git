@@ -12,6 +12,7 @@ import { coreAPI, registerModule } from "../state";
 import type { CoreAPI, CoreModule, CoreState, Source } from "../types";
 import type { ModuleCalendarWork } from "../module-calendar";
 import type { ModuleRow } from "../module-data";
+import { residentsRuntime } from "./residents";
 import {
   lawChainForPlace,
   startingLawRows,
@@ -243,6 +244,21 @@ function raiseToFloor(api: CoreAPI, source: Source): void {
   const core = api.state as CoreState;
   for (const commitment of [...core.work.commitments.values()])
     raiseOne(api, commitment.id, source);
+  // The counted residents' jobs in town rise too (two-level population).
+  const floor = lawInForce(api, "minimum-wage").value;
+  const rt = residentsRuntime(core);
+  if (floor === null || !rt) return;
+  for (const job of rt.jobs.values()) {
+    if (job.endsAt !== undefined || (job.hourlyMinor ?? floor) >= floor)
+      continue;
+    const employer = core.organizations.get(job.organizationId);
+    if (
+      !employer ||
+      (core.visiblePlaceIds.size && !core.visiblePlaceIds.has(employer.placeId))
+    )
+      continue;
+    api.rerateJob(job.id, floor, { ...source, asOf: core.date });
+  }
 }
 
 /**
@@ -267,18 +283,15 @@ export function raiseOne(
     return false;
   const employer = core.organizations.get(commitment.organizationId);
   if (!employer || (town.size && !town.has(employer.placeId))) return false;
-  // stopgapId: SG-GOV-wage-floor-rate-write
-  api.stopgap("SG-GOV-wage-floor-rate-write");
-  core.work.commitments.set(commitment.id, {
-    ...commitment,
-    hourlyMinor: floor,
-  });
+  const from = commitment.hourlyMinor;
+  // The pay change through the core's own job record (core2-api-v12).
+  api.rerateJob(commitment.jobId, floor, { ...source, asOf: core.date });
   raises.put({
     id: `raise:${commitment.id}:${core.date}`,
     personId: commitment.personId,
     jobId: commitment.jobId,
     date: core.date,
-    fromMinor: commitment.hourlyMinor,
+    fromMinor: from,
     toMinor: floor,
     lawId: answer.governing.id,
   });
@@ -291,7 +304,7 @@ export function raiseOne(
     source,
     facts: {
       jobId: commitment.jobId,
-      fromMinor: String(commitment.hourlyMinor),
+      fromMinor: String(from),
       toMinor: String(floor),
       lawId: answer.governing.id,
     },

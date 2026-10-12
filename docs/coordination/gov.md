@@ -94,6 +94,8 @@ An order of work, not a ceiling: when it's done, keep going into this area's nex
 
 Newest first: one line per event (what changed, the measured result, what's next).
 
+- 2026-10-13 04:20 UTC: Retired `SG-GOV-wage-floor-rate-write` (marked resolved and kept in the registry). A minimum-wage raise now goes through OPUS-CORE's `rerateJob` (core2-api-v12), and when a wage law takes effect the town's counted residents' jobs under the floor rise too, not only the named people's. The laws, legislature, cases, group A and tripwires tests pass (68 of 68).
+
 - 2026-10-13 03:55 UTC: **Audit 12 (the player votes and decides):** the engine never votes for the player.
   - `castBallot(api, voterId, contestId, candidateId | null)` in `voting.ts` records a ballot. Election day counts it as that voter's choice; a player who casts none didn't vote.
   - `castMemberVote(api, billId, memberId, vote)` in `legislature.ts` does the same in a body's vote; a player who casts none abstains.

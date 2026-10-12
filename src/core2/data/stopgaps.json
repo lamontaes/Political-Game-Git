@@ -993,7 +993,9 @@
     "addedBy": "OPUS-GOV",
     "addedAt": "2026-10-12",
     "replacement": "OPUS-CORE's work pay-change API (re-rate a commitment from a date with its source), called here instead.",
-    "status": "open"
+    "status": "resolved",
+    "resolvedAt": "2026-10-13",
+    "resolution": "Replaced by OPUS-CORE's rerateJob (core2-api-v12) in laws.ts raiseOne and raiseToFloor; counted residents' jobs rise too."
   },
   {
     "id": "SG-GOV-official-identity-only",
