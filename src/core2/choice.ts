@@ -12,9 +12,10 @@ import type {
   PersonState,
   WeightedReason,
 } from "./types";
-/** Per person: each act kind's summed trait pull. */
+/** Per person: each act kind's summed trait pull, and the pulls one kind gets on average. */
 interface KindLean {
   sum: Map<string, number>;
+  perKind: number;
 }
 const kindLeans = new WeakMap<PersonState, KindLean>();
 
@@ -51,7 +52,7 @@ function kindLean(
   const cached = kindLeans.get(actor as PersonState);
   if (cached) return cached;
   const p = (key: string) => parameter(key, core.data.parameters);
-  const lean: KindLean = { sum: new Map() };
+  const lean: KindLean = { sum: new Map(), perKind: p("zero") };
   const add = (kind: string, value: number) =>
     lean.sum.set(kind, (lean.sum.get(kind) ?? p("zero")) + value);
   for (const [id, raw] of Object.entries(actor.traits)) {
@@ -62,6 +63,9 @@ function kindLean(
     const weight = Math.min(p("one"), Math.abs(raw) / p("traitScale"));
     for (const kind of side.toward ?? []) add(kind, weight);
     for (const kind of side.away ?? []) add(kind, -weight);
+    lean.perKind +=
+      ((side.toward?.length ?? p("zero")) + (side.away?.length ?? p("zero"))) /
+      core.data.actKinds.length;
   }
   kindLeans.set(actor as PersonState, lean);
   return lean;
@@ -70,9 +74,11 @@ function kindLean(
 /**
  * How a person's traits lean toward an option that expresses these act kinds:
  * every matching trait pull summed, over the option's act kinds times the
- * typical number of pulls on one kind (`traitPullsPerKind`). A pull toward an
- * option always raises it and a pull away always lowers it, whatever else the
- * person carries. The chooser's trait reason, and the one trait term every
+ * number of pulls one kind gets on average from everything the person
+ * carries, held within -1..1. That norm is the same for all of a person's
+ * options, so a pull toward an option always raises it against the others
+ * and a pull away always lowers it (until it reaches the bound, which only a
+ * person with very few traits does). The chooser's trait reason, and the one trait term every
  * formula decision uses.
  */
 export function traitLean(
@@ -84,8 +90,11 @@ export function traitLean(
   const lean = kindLean(core, actor);
   let sum = p("zero");
   for (const kind of actKinds) sum += lean.sum.get(kind) ?? p("zero");
-  return actKinds.length
-    ? sum / (actKinds.length * p("traitPullsPerKind"))
+  return actKinds.length && lean.perKind > p("zero")
+    ? Math.max(
+        p("negativeOne"),
+        Math.min(p("one"), sum / (actKinds.length * lean.perKind)),
+      )
     : p("zero");
 }
 
